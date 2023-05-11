@@ -1282,7 +1282,9 @@
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewGNG.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewJAL.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewJPR.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewKTA.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMPWiseMilkCollectionAtPoolingPoint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessFarmer.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptPaymentProcessFarmerPredefineFormate.rpt" />
