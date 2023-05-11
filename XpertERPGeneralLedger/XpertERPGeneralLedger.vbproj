@@ -1,0 +1,656 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1BD27254-3B5A-40FA-B774-B2B64C2DF0A3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>XpertERPGeneralLedger</RootNamespace>
+    <AssemblyName>XpertERPGeneralLedger</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPGeneralLedger.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>XpertERPGeneralLedger.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel">
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XpertCommon">
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngine">
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine, Version=5.2.8.44, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Telerik.WinControls" />
+    <Import Include="Telerik.WinControls.Data" />
+    <Import Include="Telerik.WinControls.UI" />
+    <Import Include="Telerik.WinControls.UI.Export" />
+    <Import Include="XpertERPEngine" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
+      <Link>SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Master\frmAccountGroup.Designer.vb">
+      <DependentUpon>frmAccountGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmAccountGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmAccountMainGLAccount.Designer.vb">
+      <DependentUpon>frmAccountMainGLAccount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmAccountMainGLAccount.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmAccountMainGroup.Designer.vb">
+      <DependentUpon>frmAccountMainGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmAccountMainGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmAccountSubGroup.Designer.vb">
+      <DependentUpon>frmAccountSubGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmAccountSubGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmBalanceSheetPerforma1.Designer.vb">
+      <DependentUpon>frmBalanceSheetPerforma1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBalanceSheetPerforma1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmBalanceSheetPerformaFormula.Designer.vb">
+      <DependentUpon>frmBalanceSheetPerformaFormula.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBalanceSheetPerformaFormula.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmCashFlowPerforma.Designer.vb">
+      <DependentUpon>frmCashFlowPerforma.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmCashFlowPerforma.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmChangePrntOrdr_ACGroup.Designer.vb">
+      <DependentUpon>frmChangePrntOrdr_ACGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmChangePrntOrdr_ACGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmCostCentreFinancial.Designer.vb">
+      <DependentUpon>frmCostCentreFinancial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmCostCentreFinancial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmCreateAccountNew.Designer.vb">
+      <DependentUpon>frmCreateAccountNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmCreateAccountNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmcreateaccountpreview.Designer.vb">
+      <DependentUpon>frmcreateaccountpreview.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmcreateaccountpreview.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmFinancialYearMaster.Designer.vb">
+      <DependentUpon>frmFinancialYearMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmFinancialYearMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmGLAccount.designer.vb">
+      <DependentUpon>frmGLAccount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmGLAccount.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmGLControlAccountMapping.designer.vb">
+      <DependentUpon>frmGLControlAccountMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmGLControlAccountMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmgloption.Designer.vb">
+      <DependentUpon>frmgloption.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmgloption.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmglsecurity.Designer.vb">
+      <DependentUpon>frmglsecurity.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmglsecurity.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmGLStructure.Designer.vb">
+      <DependentUpon>frmGLStructure.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmGLStructure.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmGL_account_excluded.Designer.vb">
+      <DependentUpon>frmGL_account_excluded.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmGL_account_excluded.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmMapLedgerAccToTally.Designer.vb">
+      <DependentUpon>frmMapLedgerAccToTally.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmMapLedgerAccToTally.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmPostAllGLToTally.Designer.vb">
+      <DependentUpon>frmPostAllGLToTally.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmPostAllGLToTally.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmProfitAndLossPerforma.Designer.vb">
+      <DependentUpon>frmProfitAndLossPerforma.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmProfitAndLossPerforma.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmRollUpSequence.Designer.vb">
+      <DependentUpon>frmRollUpSequence.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmRollUpSequence.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmSelectSegment.Designer.vb">
+      <DependentUpon>frmSelectSegment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmSelectSegment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmSourceCode.Designer.vb">
+      <DependentUpon>frmSourceCode.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmSourceCode.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frm_Account_Mapping.Designer.vb">
+      <DependentUpon>frm_Account_Mapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frm_Account_Mapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Reports\frmBankBookDayWise.Designer.vb">
+      <DependentUpon>frmBankBookDayWise.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmBankBookDayWise.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmConversionBillDebitNote.Designer.vb">
+      <DependentUpon>FrmConversionBillDebitNote.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmConversionBillDebitNote.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmCostCenterAnalysisRpt.Designer.vb">
+      <DependentUpon>frmCostCenterAnalysisRpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmCostCenterAnalysisRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmGLSummary.Designer.vb">
+      <DependentUpon>frmGLSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmGLSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmRptBalanceSheet.Designer.vb">
+      <DependentUpon>frmRptBalanceSheet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmRptBalanceSheet.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmRptBalanceSheetFormula.Designer.vb">
+      <DependentUpon>frmRptBalanceSheetFormula.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmRptBalanceSheetFormula.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmRptCashFlow.Designer.vb">
+      <DependentUpon>frmRptCashFlow.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmRptCashFlow.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmRptDayWiseJournalBook.Designer.vb">
+      <DependentUpon>frmRptDayWiseJournalBook.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmRptDayWiseJournalBook.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmRptProfitAndLoss.Designer.vb">
+      <DependentUpon>frmRptProfitAndLoss.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmRptProfitAndLoss.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmRptTrialBalanceNew.Designer.vb">
+      <DependentUpon>frmRptTrialBalanceNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmRptTrialBalanceNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmRptTrialBalanceVC.Designer.vb">
+      <DependentUpon>frmRptTrialBalanceVC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmRptTrialBalanceVC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\FrmUnpostedJV.Designer.vb">
+      <DependentUpon>FrmUnpostedJV.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmUnpostedJV.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\GL-Voucher Report.Designer.vb">
+      <DependentUpon>GL-Voucher Report.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\GL-Voucher Report.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\GLTransReport.Designer.vb">
+      <DependentUpon>GLTransReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\GLTransReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptChartOfAccount.Designer.vb">
+      <DependentUpon>rptChartOfAccount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptChartOfAccount.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptCostCenterReport.Designer.vb">
+      <DependentUpon>rptCostCenterReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptCostCenterReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptJECheck.Designer.vb">
+      <DependentUpon>rptJECheck.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptJECheck.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmJEReverse.Designer.vb">
+      <DependentUpon>frmJEReverse.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmJEReverse.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmJournalEntry.Designer.vb">
+      <DependentUpon>frmJournalEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmJournalEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmRevaluationEntry.Designer.vb">
+      <DependentUpon>frmRevaluationEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmRevaluationEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmVCGLEntry.Designer.vb">
+      <DependentUpon>frmVCGLEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmVCGLEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Master\frmAccountGroup.resx">
+      <DependentUpon>frmAccountGroup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmAccountMainGLAccount.resx">
+      <DependentUpon>frmAccountMainGLAccount.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmAccountMainGroup.resx">
+      <DependentUpon>frmAccountMainGroup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmAccountSubGroup.resx">
+      <DependentUpon>frmAccountSubGroup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBalanceSheetPerforma1.resx">
+      <DependentUpon>frmBalanceSheetPerforma1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBalanceSheetPerformaFormula.resx">
+      <DependentUpon>frmBalanceSheetPerformaFormula.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmCashFlowPerforma.resx">
+      <DependentUpon>frmCashFlowPerforma.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmChangePrntOrdr_ACGroup.resx">
+      <DependentUpon>frmChangePrntOrdr_ACGroup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmCostCentreFinancial.resx">
+      <DependentUpon>frmCostCentreFinancial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmCreateAccountNew.resx">
+      <DependentUpon>frmCreateAccountNew.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmcreateaccountpreview.resx">
+      <DependentUpon>frmcreateaccountpreview.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmFinancialYearMaster.resx">
+      <DependentUpon>frmFinancialYearMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmGLAccount.resx">
+      <DependentUpon>frmGLAccount.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmGLControlAccountMapping.resx">
+      <DependentUpon>frmGLControlAccountMapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmgloption.resx">
+      <DependentUpon>frmgloption.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmglsecurity.resx">
+      <DependentUpon>frmglsecurity.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmGLStructure.resx">
+      <DependentUpon>frmGLStructure.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmGL_account_excluded.resx">
+      <DependentUpon>frmGL_account_excluded.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmMapLedgerAccToTally.resx">
+      <DependentUpon>frmMapLedgerAccToTally.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmPostAllGLToTally.resx">
+      <DependentUpon>frmPostAllGLToTally.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmProfitAndLossPerforma.resx">
+      <DependentUpon>frmProfitAndLossPerforma.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmRollUpSequence.resx">
+      <DependentUpon>frmRollUpSequence.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmSelectSegment.resx">
+      <DependentUpon>frmSelectSegment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmSourceCode.resx">
+      <DependentUpon>frmSourceCode.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frm_Account_Mapping.resx">
+      <DependentUpon>frm_Account_Mapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmBankBookDayWise.resx">
+      <DependentUpon>frmBankBookDayWise.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmConversionBillDebitNote.resx">
+      <DependentUpon>FrmConversionBillDebitNote.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmCostCenterAnalysisRpt.resx">
+      <DependentUpon>frmCostCenterAnalysisRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmGLSummary.resx">
+      <DependentUpon>frmGLSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmRptBalanceSheet.resx">
+      <DependentUpon>frmRptBalanceSheet.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmRptBalanceSheetFormula.resx">
+      <DependentUpon>frmRptBalanceSheetFormula.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmRptCashFlow.resx">
+      <DependentUpon>frmRptCashFlow.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmRptDayWiseJournalBook.resx">
+      <DependentUpon>frmRptDayWiseJournalBook.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmRptProfitAndLoss.resx">
+      <DependentUpon>frmRptProfitAndLoss.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmRptTrialBalanceNew.resx">
+      <DependentUpon>frmRptTrialBalanceNew.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmRptTrialBalanceVC.resx">
+      <DependentUpon>frmRptTrialBalanceVC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmUnpostedJV.resx">
+      <DependentUpon>FrmUnpostedJV.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\GL-Voucher Report.resx">
+      <DependentUpon>GL-Voucher Report.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\GLTransReport.resx">
+      <DependentUpon>GLTransReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptChartOfAccount.resx">
+      <DependentUpon>rptChartOfAccount.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptCostCenterReport.resx">
+      <DependentUpon>rptCostCenterReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptJECheck.resx">
+      <DependentUpon>rptJECheck.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmJEReverse.resx">
+      <DependentUpon>frmJEReverse.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmJournalEntry.resx">
+      <DependentUpon>frmJournalEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmRevaluationEntry.resx">
+      <DependentUpon>frmRevaluationEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmVCGLEntry.resx">
+      <DependentUpon>frmVCGLEntry.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\globe.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\globe1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSE1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PIE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search41.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

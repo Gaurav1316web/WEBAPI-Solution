@@ -1,0 +1,570 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5CC85B58-F1D1-467C-8089-BDF692BB49D7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>XpertERPTDS</RootNamespace>
+    <AssemblyName>XpertERPTDS</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPTDS.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>XpertERPTDS.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Comm64">
+      <HintPath>..\XpertERP\bin\Debug\Comm64.DLL</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\XpertERP\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetroBlue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroTouch, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetroTouch.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Dark, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.VisualStudio2012Dark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Light, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.VisualStudio2012Light.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows7, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Windows7.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows8, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Windows8.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XpertCommon, Version=2.0.6.25, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngine, Version=5.1.5.27, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine">
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
+      <Link>SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\globalFunc.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources1.Designer.vb" />
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="TDS Module\Report\frmEmployeeTDSRpt.Designer.vb">
+      <DependentUpon>frmEmployeeTDSRpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS Module\Report\frmEmployeeTDSRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmHouseRentDeclaration.Designer.vb">
+      <DependentUpon>frmHouseRentDeclaration.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmHouseRentDeclaration.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmHRAExemptionRule.Designer.vb">
+      <DependentUpon>frmHRAExemptionRule.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmHRAExemptionRule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmIncomeTaxSlab.Designer.vb">
+      <DependentUpon>frmIncomeTaxSlab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmIncomeTaxSlab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmInvestmentDeclaration.Designer.vb">
+      <DependentUpon>frmInvestmentDeclaration.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmInvestmentDeclaration.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmInvestmentType.Designer.vb">
+      <DependentUpon>frmInvestmentType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmInvestmentType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmITSection.Designer.vb">
+      <DependentUpon>frmITSection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS Module\Setup\frmITSection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Master\frmBranchDetails.Designer.vb">
+      <DependentUpon>frmBranchDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Master\frmBranchDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Master\frmFinancialYear.Designer.vb">
+      <DependentUpon>frmFinancialYear.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Master\frmFinancialYear.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Master\frmNatureOfDeduction.Designer.vb">
+      <DependentUpon>frmNatureOfDeduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Master\frmNatureOfDeduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Master\frmPartyDetails.Designer.vb">
+      <DependentUpon>frmPartyDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Master\frmPartyDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Master\frmResponsiblePerson.Designer.vb">
+      <DependentUpon>frmResponsiblePerson.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Master\frmResponsiblePerson.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Master\frmStateCode.Designer.vb">
+      <DependentUpon>frmStateCode.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Master\frmStateCode.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Master\frmTDSSection.Designer.vb">
+      <DependentUpon>frmTDSSection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Master\frmTDSSection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Report\form26Q27Q.Designer.vb">
+      <DependentUpon>form26Q27Q.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Report\form26Q27Q.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Report\frmForm16A.Designer.vb">
+      <DependentUpon>frmForm16A.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Report\frmForm16A.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Report\frmrptTDSLedger.Designer.vb">
+      <DependentUpon>frmrptTDSLedger.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Report\frmrptTDSLedger.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Report\frmTDSsectionSummary.Designer.vb">
+      <DependentUpon>frmTDSsectionSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Report\frmTDSsectionSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Transaction\frmAPInvoiceEntryTDS.Designer.vb">
+      <DependentUpon>frmAPInvoiceEntryTDS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Transaction\frmAPInvoiceEntryTDS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Transaction\frmCreateRemittance1.Designer.vb">
+      <DependentUpon>frmCreateRemittance1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Transaction\frmCreateRemittance1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Transaction\frmremittanceentry.Designer.vb">
+      <DependentUpon>frmremittanceentry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Transaction\frmremittanceentry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Transaction\frmShowAllDrNote.Designer.vb">
+      <DependentUpon>frmShowAllDrNote.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Transaction\frmShowAllDrNote.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDS\Transaction\FrmTDSPayment.Designer.vb">
+      <DependentUpon>FrmTDSPayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="TDS\Transaction\FrmTDSPayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS Module\Report\frmEmployeeTDSRpt.resx">
+      <DependentUpon>frmEmployeeTDSRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS Module\Setup\frmHouseRentDeclaration.resx">
+      <DependentUpon>frmHouseRentDeclaration.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS Module\Setup\frmHRAExemptionRule.resx">
+      <DependentUpon>frmHRAExemptionRule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS Module\Setup\frmIncomeTaxSlab.resx">
+      <DependentUpon>frmIncomeTaxSlab.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS Module\Setup\frmInvestmentDeclaration.resx">
+      <DependentUpon>frmInvestmentDeclaration.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS Module\Setup\frmInvestmentType.resx">
+      <DependentUpon>frmInvestmentType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS Module\Setup\frmITSection.resx">
+      <DependentUpon>frmITSection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Master\frmBranchDetails.resx">
+      <DependentUpon>frmBranchDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Master\frmFinancialYear.resx">
+      <DependentUpon>frmFinancialYear.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Master\frmNatureOfDeduction.resx">
+      <DependentUpon>frmNatureOfDeduction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Master\frmPartyDetails.resx">
+      <DependentUpon>frmPartyDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Master\frmResponsiblePerson.resx">
+      <DependentUpon>frmResponsiblePerson.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Master\frmStateCode.resx">
+      <DependentUpon>frmStateCode.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Master\frmTDSSection.resx">
+      <DependentUpon>frmTDSSection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Report\form26Q27Q.resx">
+      <DependentUpon>form26Q27Q.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Report\frmForm16A.resx">
+      <DependentUpon>frmForm16A.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Report\frmrptTDSLedger.resx">
+      <DependentUpon>frmrptTDSLedger.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Report\frmTDSsectionSummary.resx">
+      <DependentUpon>frmTDSsectionSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Transaction\frmAPInvoiceEntryTDS.resx">
+      <DependentUpon>frmAPInvoiceEntryTDS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Transaction\frmCreateRemittance1.resx">
+      <DependentUpon>frmCreateRemittance1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Transaction\frmremittanceentry.resx">
+      <DependentUpon>frmremittanceentry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Transaction\frmShowAllDrNote.resx">
+      <DependentUpon>frmShowAllDrNote.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDS\Transaction\FrmTDSPayment.resx">
+      <DependentUpon>FrmTDSPayment.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TDS Module\Transaction\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\administrator.png" />
+    <Content Include="Resources\administrator1.png" />
+    <Content Include="Resources\B1.png" />
+    <Content Include="Resources\B11.png" />
+    <Content Include="Resources\BackImage1.jpg" />
+    <Content Include="Resources\BackImage11.jpg" />
+    <Content Include="Resources\BackImage111.jpg" />
+    <Content Include="Resources\BackImage12.jpg" />
+    <Content Include="Resources\BackImageNew.jpg" />
+    <Content Include="Resources\BackImageNew1.jpg" />
+    <Content Include="Resources\BackImageXpertERP.jpg" />
+    <Content Include="Resources\BackImageXpertERP1.jpg" />
+    <Content Include="Resources\BackImageXpertERPFMCGN.jpg" />
+    <Content Include="Resources\BackImageXpertERPFMCGN1.jpg" />
+    <Content Include="Resources\bg.jpg" />
+    <Content Include="Resources\bg1.jpg" />
+    <Content Include="Resources\BI1.jpg" />
+    <Content Include="Resources\BI11.jpg" />
+    <Content Include="Resources\BUSINESS INTELLIGENCE.jpg" />
+    <Content Include="Resources\BUSINESS INTELLIGENCE1.jpg" />
+    <Content Include="Resources\C5.png" />
+    <Content Include="Resources\C51.png" />
+    <Content Include="Resources\Chart-Bar-Big-icon.png" />
+    <Content Include="Resources\Chart-Bar-Big-icon1.png" />
+    <Content Include="Resources\CloseBox.png" />
+    <Content Include="Resources\CloseBox1.png" />
+    <Content Include="Resources\comService.png" />
+    <Content Include="Resources\comService1.png" />
+    <Content Include="Resources\Detail.png" />
+    <Content Include="Resources\Detail1.png" />
+    <Content Include="Resources\Detail11.png" />
+    <Content Include="Resources\Detail2.png" />
+    <Content Include="Resources\Detail_Vertical.png" />
+    <Content Include="Resources\Detail_Vertical1.png" />
+    <Content Include="Resources\Donut.png" />
+    <Content Include="Resources\Donut1.png" />
+    <Content Include="Resources\final-white2.png" />
+    <Content Include="Resources\final-white21.png" />
+    <Content Include="Resources\FIXED ASSET.jpg" />
+    <Content Include="Resources\FIXED ASSET1.jpg" />
+    <Content Include="Resources\Folder-Blue-Doc-icon.png" />
+    <Content Include="Resources\Folder-Blue-Doc-icon1.png" />
+    <Content Include="Resources\GENERAL LEDGERS.jpg" />
+    <Content Include="Resources\GENERAL LEDGERS1.jpg" />
+    <Content Include="Resources\globe.jpg" />
+    <Content Include="Resources\globe1.jpg" />
+    <Content Include="Resources\growth-chart.jpg" />
+    <Content Include="Resources\growth-chart1.jpg" />
+    <Content Include="Resources\HR AND PAYROLL.jpg" />
+    <Content Include="Resources\HR AND PAYROLL1.jpg" />
+    <Content Include="Resources\images.jpg" />
+    <Content Include="Resources\images1.jpg" />
+    <Content Include="Resources\INVENTORY.jpg" />
+    <Content Include="Resources\INVENTORY1.jpg" />
+    <Content Include="Resources\kiwi_fruit-5503.jpg" />
+    <Content Include="Resources\kiwi_fruit-55031.jpg" />
+    <Content Include="Resources\knight-rider-shelby-mustang-500-gtr-02.jpg" />
+    <Content Include="Resources\knight-rider-shelby-mustang-500-gtr-021.jpg" />
+    <Content Include="Resources\Line.png" />
+    <Content Include="Resources\Line1.png" />
+    <Content Include="Resources\LineArea.png" />
+    <Content Include="Resources\LineArea1.png" />
+    <Content Include="Resources\MSE.png" />
+    <Content Include="Resources\MSE1.png" />
+    <Content Include="Resources\new.bmp" />
+    <Content Include="Resources\new1.bmp" />
+    <Content Include="Resources\open-book-vector-icon_small.jpg" />
+    <Content Include="Resources\open-book-vector-icon_small1.jpg" />
+    <Content Include="Resources\OpenBox.png" />
+    <Content Include="Resources\OpenBox1.png" />
+    <Content Include="Resources\PAYMENT.jpg" />
+    <Content Include="Resources\PAYMENT1.jpg" />
+    <Content Include="Resources\pdf.png" />
+    <Content Include="Resources\pdf1.png" />
+    <Content Include="Resources\PIE.png" />
+    <Content Include="Resources\PIE1.png" />
+    <Content Include="Resources\pre2.png" />
+    <Content Include="Resources\pre21.png" />
+    <Content Include="Resources\PRODUCTION.jpg" />
+    <Content Include="Resources\PRODUCTION1.jpg" />
+    <Content Include="Resources\PURCHASE.jpg" />
+    <Content Include="Resources\PURCHASE1.jpg" />
+    <Content Include="Resources\RECEIVABLES.jpg" />
+    <Content Include="Resources\RECEIVABLES1.jpg" />
+    <Content Include="Resources\SALE.jpg" />
+    <Content Include="Resources\SALE1.jpg" />
+    <Content Include="Resources\search4.png" />
+    <Content Include="Resources\search41.png" />
+    <Content Include="Resources\tax.png.png" />
+    <Content Include="Resources\tax.png1.png" />
+    <Content Include="Resources\Utility.png" />
+    <Content Include="Resources\Utility1.png" />
+    <Content Include="Resources\VPFBG11.jpg" />
+    <Content Include="Resources\VPFBG111.jpg" />
+    <Content Include="Resources\VPFBG2.jpg" />
+    <Content Include="Resources\VPFBG21.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

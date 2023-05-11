@@ -1,0 +1,711 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{64334626-CD11-4809-AB44-AA00874EB099}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>XpertERPJobWorkOutward</RootNamespace>
+    <AssemblyName>XpertERPJobWorkOutward</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPJobWorkOutward.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>XpertERPJobWorkOutward.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ActiveDatabaseSoftware.ActiveQueryBuilder2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.ActiveQueryBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.ExpressionEditor2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.ExpressionEditor2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.MSSQLMetadataProvider2, Version=2.9.6.720, Culture=neutral, PublicKeyToken=3cbcbcc9bf57ecde, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.MSSQLMetadataProvider2.dll</HintPath>
+    </Reference>
+    <Reference Include="Comm64, Version=6.4.0.30, Culture=neutral, PublicKeyToken=dd445fe4659af8f3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Comm64.DLL</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.1.271, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="msmdvbanet, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\msmdvbanet.dll</HintPath>
+    </Reference>
+    <Reference Include="New TallyModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\New TallyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="OrgChartGenerator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\OrgChartGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Aqua, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Aqua.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Breeze, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Breeze.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Desert, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Desert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2007Black, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2007Black.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2007Silver, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2007Silver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Black, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2010Black.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Blue, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2010Blue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Silver, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2010Silver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2013Dark, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2013Dark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2013Light, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2013Light.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetro, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetroBlue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroTouch, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetroTouch.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Dark, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.VisualStudio2012Dark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Light, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.VisualStudio2012Light.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows7, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Windows7.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows8, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Windows8.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XpertCommon, Version=2.0.6.25, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngine, Version=5.2.1.46, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine, Version=5.2.8.44, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Telerik.WinControls" />
+    <Import Include="Telerik.WinControls.UI" />
+    <Import Include="XpertERPEngine" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
+      <Link>SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPendingRequisitionQty.Designer.vb">
+      <DependentUpon>FrmPendingRequisitionQty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPendingRequisitionQty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Master\frmJWFormulaMaster.designer.vb">
+      <DependentUpon>frmJWFormulaMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Master\frmJWFormulaMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Master\frmJWIItemPriceMaster.Designer.vb">
+      <DependentUpon>frmJWIItemPriceMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Master\frmJWIItemPriceMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Master\frmJWParameterMaster.designer.vb">
+      <DependentUpon>frmJWParameterMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Master\frmJWParameterMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Report\rptJWDispatchReport.Designer.vb">
+      <DependentUpon>rptJWDispatchReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Report\rptJWDispatchReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Report\rptJWTankerStatusReport.Designer.vb">
+      <DependentUpon>rptJWTankerStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Report\rptJWTankerStatusReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Transaction\frmSRNJobWorkEstimate.Designer.vb">
+      <DependentUpon>frmSRNJobWorkEstimate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Transaction\frmSRNJobWorkEstimate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Master\frmVendorFormulaMapping.Designer.vb">
+      <DependentUpon>frmVendorFormulaMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Master\frmVendorFormulaMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Report\rptJobworkBilling.Designer.vb">
+      <DependentUpon>rptJobworkBilling.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Report\rptJobworkBilling.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Report\rptJobworkMilkReceipt.Designer.vb">
+      <DependentUpon>rptJobworkMilkReceipt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Report\rptJobworkMilkReceipt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Report\rptJobworkProductionReport.Designer.vb">
+      <DependentUpon>rptJobworkProductionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Report\rptJobworkProductionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Inward\Transaction\frmJobWorkBilling.designer.vb">
+      <DependentUpon>frmJobWorkBilling.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Inward\Transaction\frmJobWorkBilling.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Master\frmJWOFormulaMaster.designer.vb">
+      <DependentUpon>frmJWOFormulaMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Master\frmJWOFormulaMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Master\frmJWOVendorFormulaMapping.Designer.vb">
+      <DependentUpon>frmJWOVendorFormulaMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Master\frmJWOVendorFormulaMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Master\frmJWPriceCodeMaster.Designer.vb">
+      <DependentUpon>frmJWPriceCodeMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Master\frmJWPriceCodeMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Master\frmVendorItemChargeMaster.Designer.vb">
+      <DependentUpon>frmVendorItemChargeMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Master\frmVendorItemChargeMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\frmJobworkChargesReport.Designer.vb">
+      <DependentUpon>frmJobworkChargesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\frmJobworkChargesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\frmJobworkItemInStatusReport.Designer.vb">
+      <DependentUpon>frmJobworkItemInStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\frmJobworkItemInStatusReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\frmJobworkSRNReceiptReport.Designer.vb">
+      <DependentUpon>frmJobworkSRNReceiptReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\frmJobworkSRNReceiptReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\frmJobworkTransfer.Designer.vb">
+      <DependentUpon>frmJobworkTransfer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\frmJobworkTransfer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\RptJobWorkRegister.Designer.vb">
+      <DependentUpon>RptJobWorkRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\RptJobWorkRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\RptJobWorktPurchaseRegisterReport.Designer.vb">
+      <DependentUpon>RptJobWorktPurchaseRegisterReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Report\RptJobWorktPurchaseRegisterReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmJobWorkConsumption.Designer.vb">
+      <DependentUpon>frmJobWorkConsumption.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmJobWorkConsumption.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmJWOEstimate.Designer.vb">
+      <DependentUpon>frmJWOEstimate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmJWOEstimate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmJWOGateEntry.Designer.vb">
+      <DependentUpon>frmJWOGateEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmJWOGateEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\FrmJWOSRN.Designer.vb">
+      <DependentUpon>FrmJWOSRN.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\FrmJWOSRN.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\FrmJWOSRNReturn.Designer.vb">
+      <DependentUpon>FrmJWOSRNReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\FrmJWOSRNReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmJWOTransferOther.Designer.vb">
+      <DependentUpon>frmJWOTransferOther.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmJWOTransferOther.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmJWOTransferOtherReturn.Designer.vb">
+      <DependentUpon>frmJWOTransferOtherReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmJWOTransferOtherReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmMilkJobWorkTransfer.Designer.vb">
+      <DependentUpon>frmMilkJobWorkTransfer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmMilkJobWorkTransfer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmMilkJobWorkTransferReturn.Designer.vb">
+      <DependentUpon>frmMilkJobWorkTransferReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\frmMilkJobWorkTransferReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\FrmMilkQualityCheck_JWO.Designer.vb">
+      <DependentUpon>FrmMilkQualityCheck_JWO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\FrmMilkQualityCheck_JWO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\FrmMilkUnloading_JWO.Designer.vb">
+      <DependentUpon>FrmMilkUnloading_JWO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\FrmMilkUnloading_JWO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\FrmMilkWeighment_JWO.Designer.vb">
+      <DependentUpon>FrmMilkWeighment_JWO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Job Work Outward\Transaction\FrmMilkWeighment_JWO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Jobwork\Reports\RptJobWorkStatus.Designer.vb">
+      <DependentUpon>RptJobWorkStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Jobwork\Reports\RptJobWorkStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\FrmJobMilkQualityCheck.Designer.vb">
+      <DependentUpon>FrmJobMilkQualityCheck.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\FrmJobMilkQualityCheck.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\FrmJobMilkSRN.Designer.vb">
+      <DependentUpon>FrmJobMilkSRN.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\FrmJobMilkSRN.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\FrmMilkGateEntry.Designer.vb">
+      <DependentUpon>FrmMilkGateEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\FrmMilkGateEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\frmMilkRGP.Designer.vb">
+      <DependentUpon>frmMilkRGP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\frmMilkRGP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\FrmMilkUnloading.Designer.vb">
+      <DependentUpon>FrmMilkUnloading.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\FrmMilkUnloading.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\FrmMilkWeighment.Designer.vb">
+      <DependentUpon>FrmMilkWeighment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Jobwork\Transaction\FrmMilkWeighment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FrmPendingRequisitionQty.resx">
+      <DependentUpon>FrmPendingRequisitionQty.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Master\frmJWFormulaMaster.resx">
+      <DependentUpon>frmJWFormulaMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Master\frmJWIItemPriceMaster.resx">
+      <DependentUpon>frmJWIItemPriceMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Master\frmJWParameterMaster.resx">
+      <DependentUpon>frmJWParameterMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Report\rptJWDispatchReport.resx">
+      <DependentUpon>rptJWDispatchReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Report\rptJWTankerStatusReport.resx">
+      <DependentUpon>rptJWTankerStatusReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Transaction\frmSRNJobWorkEstimate.resx">
+      <DependentUpon>frmSRNJobWorkEstimate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Master\frmVendorFormulaMapping.resx">
+      <DependentUpon>frmVendorFormulaMapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Report\rptJobworkBilling.resx">
+      <DependentUpon>rptJobworkBilling.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Report\rptJobworkMilkReceipt.resx">
+      <DependentUpon>rptJobworkMilkReceipt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Report\rptJobworkProductionReport.resx">
+      <DependentUpon>rptJobworkProductionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Inward\Transaction\frmJobWorkBilling.resx">
+      <DependentUpon>frmJobWorkBilling.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Master\frmJWOFormulaMaster.resx">
+      <DependentUpon>frmJWOFormulaMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Master\frmJWOVendorFormulaMapping.resx">
+      <DependentUpon>frmJWOVendorFormulaMapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Master\frmJWPriceCodeMaster.resx">
+      <DependentUpon>frmJWPriceCodeMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Master\frmVendorItemChargeMaster.resx">
+      <DependentUpon>frmVendorItemChargeMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Report\frmJobworkChargesReport.resx">
+      <DependentUpon>frmJobworkChargesReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Report\frmJobworkItemInStatusReport.resx">
+      <DependentUpon>frmJobworkItemInStatusReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Report\frmJobworkSRNReceiptReport.resx">
+      <DependentUpon>frmJobworkSRNReceiptReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Report\frmJobworkTransfer.resx">
+      <DependentUpon>frmJobworkTransfer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Report\RptJobWorkRegister.resx">
+      <DependentUpon>RptJobWorkRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Report\RptJobWorktPurchaseRegisterReport.resx">
+      <DependentUpon>RptJobWorktPurchaseRegisterReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Report\rptPurchaseRegisterReport.resx" />
+    <EmbeddedResource Include="Job Work Outward\Transaction\frmJobWorkConsumption.resx">
+      <DependentUpon>frmJobWorkConsumption.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\frmJWOEstimate.resx">
+      <DependentUpon>frmJWOEstimate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\frmJWOGateEntry.resx">
+      <DependentUpon>frmJWOGateEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\FrmJWOSRN.resx">
+      <DependentUpon>FrmJWOSRN.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\FrmJWOSRNReturn.resx">
+      <DependentUpon>FrmJWOSRNReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\frmJWOTransferOther.resx">
+      <DependentUpon>frmJWOTransferOther.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\frmJWOTransferOtherReturn.resx">
+      <DependentUpon>frmJWOTransferOtherReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\frmMilkJobWorkTransfer.resx">
+      <DependentUpon>frmMilkJobWorkTransfer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\frmMilkJobWorkTransferReturn.resx">
+      <DependentUpon>frmMilkJobWorkTransferReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\FrmMilkQualityCheck_JWO.resx">
+      <DependentUpon>FrmMilkQualityCheck_JWO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\FrmMilkUnloading_JWO.resx">
+      <DependentUpon>FrmMilkUnloading_JWO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Job Work Outward\Transaction\FrmMilkWeighment_JWO.resx">
+      <DependentUpon>FrmMilkWeighment_JWO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Jobwork\Reports\RptJobWorkStatus.resx">
+      <DependentUpon>RptJobWorkStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Jobwork\Transaction\FrmJobMilkQualityCheck.resx">
+      <DependentUpon>FrmJobMilkQualityCheck.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Jobwork\Transaction\FrmJobMilkSRN.resx">
+      <DependentUpon>FrmJobMilkSRN.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Jobwork\Transaction\FrmMilkGateEntry.resx">
+      <DependentUpon>FrmMilkGateEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Jobwork\Transaction\frmMilkRGP.resx">
+      <DependentUpon>frmMilkRGP.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Jobwork\Transaction\FrmMilkUnloading.resx">
+      <DependentUpon>FrmMilkUnloading.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Jobwork\Transaction\FrmMilkWeighment.resx">
+      <DependentUpon>FrmMilkWeighment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

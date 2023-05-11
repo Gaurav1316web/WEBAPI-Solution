@@ -1,0 +1,380 @@
+﻿Imports System
+Imports System.Data.SqlClient
+Imports common
+'Developed by Abhishek Kumar
+' started Date : 22/2/2012
+' End Date : 22/2/2012
+'--preeti gupta-ticket no.[BM00000003133]
+
+Public Class FrmDiscountCategoryMaster
+    Inherits FrmMainTranScreen
+
+
+    Dim dt As New DataTable()
+    Dim obj As New clsAdditionalCharge()
+    Dim ButtonToolTip As ToolTip = New ToolTip()
+    Private isNewEntry As Boolean = False
+    Dim QRY As String
+
+    Const colSelect As String = "SELECT"
+    Const colCompCode As String = "COMPCODE"
+    Const colCompName As String = "COMPNAME"
+    Const colDataBaseName As String = "DATABASE"
+
+    Dim userCode, companyCode As String
+    Private isInsideLoadData As Boolean = False
+
+
+
+    Public Sub New(ByVal user As String, ByVal company As String)
+        InitializeComponent()
+        userCode = user
+        companyCode = company
+    End Sub
+    Public Sub SetLength()
+        fndCode.MyMaxLength = 12
+        txtdesc.MaxLength = 50
+
+    End Sub
+    Private Sub FrmDiscountCategoryMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetLength()
+        SetUserMgmtNew()
+        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
+        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete ")
+        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        ButtonToolTip.SetToolTip(btnreset, "Press Alt+N Adding New ")
+        fndCode.MyReadOnly = True
+        fndCode.MyMaxLength = 12
+        btnDelete.Enabled = False
+        txtdesc.MaxLength = 50
+        SetDataBaseGrid()
+        AddNew()
+        'If objCommonVar.CurrentUserCode <> "ADMIN" Then
+        '    If funSetUserAccess() = False Then Exit Sub
+        'End If
+
+    End Sub
+    Private Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmDiscountCategoryMaster)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+            Me.Close()
+            Exit Sub
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        ' btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+    End Sub
+
+    '---------------------Added By -----Pankaj Kumar-------------on--29/03/2012-------------
+    'This will check the authorization of user to access the screen.If authorize then it will allow user to access the screen.
+    'Private Function funSetUserAccess() As Boolean
+    '    Try
+    '        Dim strRights As String
+    '        Dim strTemp() As String
+    '        Dim strProgCode = "DIS-CAT-MST"
+    '        strRights = enuUserRights.enuRead & "," & enuUserRights.enuModify & "," & enuUserRights.enuDelete
+    '        strRights = modUserMgt.funGetPermissions(strRights, strProgCode)
+    '        strTemp = Split(strRights, ",")
+    '        If strTemp(0) = "0" Then
+    '            MsgBox("Permission Denied", MsgBoxStyle.Critical, Me.Text)
+    '            funSetUserAccess = False
+    '            blnRead = False
+    '            Me.Close()
+    '            Exit Function
+    '        Else
+    '            blnRead = True
+    '        End If
+    '        If strTemp(1) = "0" Then 'Grant modify access
+    '            btnSave.Enabled = False
+    '        End If
+    '        If strTemp(2) = "0" Then 'Grant modify access
+    '            btnDelete.Enabled = False
+    '        End If
+    '        funSetUserAccess = True
+    '    Catch er As Exception
+    '        myMessages.myExceptions(er)
+    '    End Try
+    '    '-----------------------------------Code Ends Here-------------------------------
+    'End Function
+    Sub BlankAllControls()
+        fndCode.Value = Nothing
+        txtdesc.Text = ""
+
+    End Sub
+    Function AllowToSave() As Boolean
+        If clsCommon.myLen(fndCode.Value) <= 0 Then
+            common.clsCommon.MyMessageBoxShow("Please Enter Code")
+            fndCode.Focus()
+            Return False
+        End If
+
+        Return True
+    End Function
+    Sub SaveData()
+        Try
+            If (AllowToSave()) Then
+                Dim obj As New clsDiscountCategoryCode()
+                obj.Code = (fndCode.Value).ToString
+                obj.desc = clsCommon.myCstr(txtdesc.Text)
+                If (obj.SaveData(obj, isNewEntry, GetReplecateCompaniesDataBase())) Then
+                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    LoadData(obj.Code, NavigatorType.Current)
+                    btnDelete.Enabled = True
+                Else
+                    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
+                End If
+            End If
+
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
+        SaveData()
+    End Sub
+
+    Private Function GetReplecateCompaniesDataBase() As List(Of String)
+        Dim arrDBName As New List(Of String)
+        arrDBName.Add(objCommonVar.CurrDatabase)
+        For ii As Integer = 0 To gvDB.Rows.Count - 1
+            If (clsCommon.myCBool(gvDB.Rows(ii).Cells(colSelect).Value)) Then
+                arrDBName.Add(clsCommon.myCstr(gvDB.Rows(ii).Cells(colDataBaseName).Value))
+            End If
+        Next
+        Return arrDBName
+    End Function
+    Sub SetDataBaseGrid()
+        gvDB.Rows.Clear()
+        gvDB.Columns.Clear()
+
+        Dim repoSelect As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoSelect.FormatString = ""
+        repoSelect.HeaderText = "Select"
+        repoSelect.Name = colSelect
+        repoSelect.Width = 50
+        repoSelect.ReadOnly = False
+        repoSelect.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDB.MasterTemplate.Columns.Add(repoSelect)
+
+        Dim repoCompCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoCompCode.FormatString = ""
+        repoCompCode.HeaderText = "Company Code"
+        repoCompCode.Name = colCompCode
+        repoCompCode.Width = 150
+        repoCompCode.ReadOnly = True
+        gvDB.MasterTemplate.Columns.Add(repoCompCode)
+
+        Dim repoCompName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoCompName.FormatString = ""
+        repoCompName.HeaderText = "Company Name"
+        repoCompName.Name = colCompName
+        repoCompName.Width = 150
+        repoCompName.ReadOnly = True
+        gvDB.MasterTemplate.Columns.Add(repoCompName)
+
+        Dim repoDB As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoDB.FormatString = ""
+        repoDB.HeaderText = "Database Name"
+        repoDB.Name = colDataBaseName
+        repoDB.IsVisible = False
+        repoDB.ReadOnly = True
+        gvDB.MasterTemplate.Columns.Add(repoDB)
+
+        Dim qry As String = "SELECT Comp_Code,Comp_Name,DataBase_Name from TSPL_COMPANY_MASTER where len(isnull(DataBase_Name,''))>0 and Comp_Code not in ('" + objCommonVar.CurrentCompanyCode + "')"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            For Each dr As DataRow In dt.Rows
+                gvDB.Rows.AddNew()
+                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colSelect).Value = False
+                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colCompCode).Value = clsCommon.myCstr(dr("Comp_Code"))
+                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colCompName).Value = clsCommon.myCstr(dr("Comp_Name"))
+                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colDataBaseName).Value = clsCommon.myCstr(dr("DataBase_Name"))
+            Next
+        End If
+    End Sub
+
+
+
+
+    Sub LoadData(ByVal Code As String, ByVal navType As common.NavigatorType)
+        Try
+            btnSave.Enabled = True
+            btnDelete.Enabled = True
+            isInsideLoadData = True
+            isNewEntry = False
+            ' btnSave.Text = "Update"
+            BlankAllControls()
+            fndCode.MyReadOnly = True
+            Dim obj As New clsDiscountCategoryCode()
+            obj = clsDiscountCategoryCode.GetData(Code, navType)
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
+                fndCode.Value = obj.Code
+                txtdesc.Text = obj.desc
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        Finally
+            isInsideLoadData = False
+        End Try
+    End Sub
+    Sub DeleteData()
+        Try
+            If clsCommon.myLen(fndCode.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+                Exit Sub
+            End If
+            If (myMessages.deleteConfirm()) Then
+                If (clsDiscountCategoryCode.DeleteData(fndCode.Value)) Then
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully")
+                    AddNew()
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+    Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
+        DeleteData()
+    End Sub
+    Sub CloseForm()
+        Me.Close()
+    End Sub
+    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        CloseForm()
+    End Sub
+    Private Sub btnreset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnreset.Click
+        AddNew()
+    End Sub
+    Sub AddNew()
+        BlankAllControls()
+        fndCode.Focus()
+        fndCode.MyReadOnly = False
+        isNewEntry = True
+        btnSave.Text = "Save"
+        btnSave.Enabled = True
+        btnDelete.Enabled = False
+        txtdesc.MaxLength = 49
+        SetDataBaseGrid()
+    End Sub
+    Private Sub fndCode__MYValidating_1(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCode._MYValidating
+        Dim str As String = "select count(*) from TSPL_Discount_Category_Master where code ='" + fndCode.Value + "' "
+        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+        If no = 0 AndAlso isButtonClicked = False Then
+            fndCode.MyReadOnly = False
+            'txtCode.Value = ""
+            'common.clsCommon.MyMessageBoxShow("Value doesn't exist ")
+        Else
+            fndCode.MyReadOnly = True
+        End If
+        If fndCode.MyReadOnly Or isButtonClicked Then
+            Dim qry As String = "select Code as Code,description as Description  from TSPL_Discount_Category_Master  "
+            fndCode.Value = clsCommon.ShowSelectForm("DiscontCategFND", qry, "Code", "", fndCode.Value, "Code", isButtonClicked)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select description from TSPL_Discount_Category_Master  where code='" + fndCode.Value + "'")
+            For Each row As DataRow In dt.Rows
+                isNewEntry = False
+                txtdesc.Text = row("Description").ToString()
+            Next
+            btnDelete.Enabled = True
+        End If
+    End Sub
+    Private Sub fndCode__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndCode._MYNavigator
+        Try
+            LoadData(fndCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub txtdesc_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        txtdesc.MaxLength = 100
+    End Sub
+    Private Sub fndCode_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles fndCode.KeyPress
+        If (e.KeyChar = Chr(39)) Then
+            e.Handled = True
+        End If
+    End Sub
+    ' For Import Data Excel Sheet to Database table
+    Public Sub Import()
+        Dim gv As New RadGridView()
+        Me.Controls.Add(gv)
+        Dim currentdate As Date = Date.Today
+        If transportSql.importExcel(gv, "Code", "Description") Then
+            Dim trans As SqlTransaction = Nothing
+            Try
+                trans = clsDBFuncationality.GetTransactin()
+                clsCommon.ProgressBarShow()
+                For Each grow As GridViewRowInfo In gv.Rows
+                    Dim Code As String = clsCommon.myCstr(grow.Cells("Code").Value)
+                    Dim Desc As String = clsCommon.myCstr(grow.Cells("Description").Value)
+
+                    If (String.IsNullOrEmpty(Code)) Or clsCommon.myLen(Code) > 12 Then
+                        Throw New Exception("Code can not be blank or greather than 12 length")
+                    End If
+
+                    If (String.IsNullOrEmpty(Desc)) Or clsCommon.myLen(Desc) > 50 Then
+                        Throw New Exception(" Description can not be blank or greather than 50 length")
+                    End If
+
+                    Dim sql1 As String = "select count(*) from TSPL_Discount_Category_Master  where Code='" + Code + "'"
+                    Dim i As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sql1, trans))
+                    If (i = 0) Then
+                        QRY = "INSERT Into TSPL_Discount_Category_Master  values('" + Code + "','" + Desc + "','" + userCode + "','" + connectSql.serverDate(trans) + "','" + userCode + "','" + connectSql.serverDate(trans) + "','" + companyCode + "', '')"
+                        connectSql.RunSqlTransaction(trans, QRY)
+                        'connectSql.RunSpTransaction(trans, "sp_DesignationMaster_insert", New SqlParameter("@Category Code", strCtgryCode), New SqlParameter("@Category Name", strCtgryName), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+                    Else
+                        QRY = "UPDATE TSPL_Discount_Category_Master  set Code='" + Code + "', description='" + Desc + "',Modified_By='" + userCode + "', Modified_Date='" + connectSql.serverDate(trans) + "', Comp_Code='" + companyCode + "' WHERE Code='" + Code + "'"
+                        connectSql.RunSqlTransaction(trans, QRY)
+                        'connectSql.RunSpTransaction(trans, "sp_DesignationMaster_update", New SqlParameter("@CAtegory Code", strCtgryCode), New SqlParameter("@Category Name", strCtgryName), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+
+                    End If
+                Next
+                trans.Commit()
+                clsCommon.ProgressBarHide()
+                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+            Catch ex As Exception
+                trans.Rollback()
+                clsCommon.ProgressBarHide()
+                myMessages.myExceptions(ex)
+
+            End Try
+
+        End If
+        Me.Controls.Remove(gv)
+    End Sub
+    Public Sub Export()
+        Dim str As String
+        str = "select Code As [Code],description as [Description] from TSPL_Discount_Category_Master "
+        transportSql.ExporttoExcel(str, Me)
+    End Sub
+
+
+    Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click
+        Export()
+    End Sub
+
+    Private Sub RadMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem3.Click
+        Import()
+    End Sub
+
+    Private Sub RadMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem4.Click
+        Me.Close()
+    End Sub
+
+    
+    Private Sub FrmDiscountCategoryMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
+            SaveData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag Then
+            'PostData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
+            DeleteData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
+            Close()
+        ElseIf e.Alt And e.KeyCode = Keys.N Then
+            AddNew()
+        End If
+    End Sub
+
+End Class

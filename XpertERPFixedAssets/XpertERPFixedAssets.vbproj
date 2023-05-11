@@ -1,0 +1,657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3A4383C1-9242-4FE0-90AA-9AF743991104}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>XpertERPFixedAssets</RootNamespace>
+    <AssemblyName>XpertERPFixedAssets</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPFixedAssets.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>XpertERPFixedAssets.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ActiveDatabaseSoftware.ActiveQueryBuilder2">
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.ActiveQueryBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.ExpressionEditor2">
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.ExpressionEditor2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.MSSQLMetadataProvider2">
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.MSSQLMetadataProvider2.dll</HintPath>
+    </Reference>
+    <Reference Include="Comm64">
+      <HintPath>..\XpertERP\bin\Debug\Comm64.DLL</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\XpertERP\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="msmdvbanet">
+      <HintPath>..\XpertERP\bin\Debug\msmdvbanet.dll</HintPath>
+    </Reference>
+    <Reference Include="New TallyModule">
+      <HintPath>..\XpertERP\bin\Debug\New TallyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="OrgChartGenerator">
+      <HintPath>..\XpertERP\bin\Debug\OrgChartGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XpertCommon, Version=2.0.6.63, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPBlankTableScript">
+      <HintPath>..\XpertERP\bin\Debug\XpertERPBlankTableScript.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngine, Version=5.1.7.14, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine">
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
+      <Link>SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmAMAcquisitionCode.Designer.vb">
+      <DependentUpon>frmAMAcquisitionCode.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmAMAcquisitionCode.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmAssetBookMaster.designer.vb">
+      <DependentUpon>frmAssetBookMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmAssetBookMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmAssetSegment.Designer.vb">
+      <DependentUpon>frmAssetSegment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmAssetSegment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmCategories.Designer.vb">
+      <DependentUpon>frmCategories.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmCategories.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\FrmDepAccountSet.Designer.vb">
+      <DependentUpon>FrmDepAccountSet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\FrmDepAccountSet.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmDepreciationField.Designer.vb">
+      <DependentUpon>frmDepreciationField.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmDepreciationField.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmDepreciationMethod.Designer.vb">
+      <DependentUpon>frmDepreciationMethod.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmDepreciationMethod.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\FrmDepreciationPeriods.Designer.vb">
+      <DependentUpon>FrmDepreciationPeriods.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\FrmDepreciationPeriods.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmFACostCenter.Designer.vb">
+      <DependentUpon>frmFACostCenter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmFACostCenter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmFixedSetting.Designer.vb">
+      <DependentUpon>frmFixedSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmFixedSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmGroups.Designer.vb">
+      <DependentUpon>frmGroups.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmGroups.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmSecondaryCustomer.Designer.vb">
+      <DependentUpon>frmSecondaryCustomer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmSecondaryCustomer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmTemplateMaster.Designer.vb">
+      <DependentUpon>frmTemplateMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\frmTemplateMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\FixedAsset_ReportViewer.Designer.vb">
+      <DependentUpon>FixedAsset_ReportViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\FixedAsset_ReportViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmAssetDetail.Designer.vb">
+      <DependentUpon>frmAssetDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmAssetDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmAssetRegister.Designer.vb">
+      <DependentUpon>frmAssetRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmAssetRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmAsset_Issue_Return_Report.Designer.vb">
+      <DependentUpon>frmAsset_Issue_Return_Report.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmAsset_Issue_Return_Report.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmDisposalDetail.Designer.vb">
+      <DependentUpon>frmDisposalDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmDisposalDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmDistributor_VS_SecondaryCustomer_Sale.Designer.vb">
+      <DependentUpon>frmDistributor_VS_SecondaryCustomer_Sale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmDistributor_VS_SecondaryCustomer_Sale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmVisi_Install_Pullout_Report.Designer.vb">
+      <DependentUpon>frmVisi_Install_Pullout_Report.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\frmVisi_Install_Pullout_Report.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptALCRReport.Designer.vb">
+      <DependentUpon>rptALCRReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptALCRReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptAssetDispatchRetailer.designer.vb">
+      <DependentUpon>rptAssetDispatchRetailer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptAssetDispatchRetailer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptCapexBudgetRevHis.Designer.vb">
+      <DependentUpon>rptCapexBudgetRevHis.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptCapexBudgetRevHis.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptCapexConsumptionReport.Designer.vb">
+      <DependentUpon>rptCapexConsumptionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptCapexConsumptionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptCWIPReport.Designer.vb">
+      <DependentUpon>rptCWIPReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptCWIPReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptFAFARReport.Designer.vb">
+      <DependentUpon>rptFAFARReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Report\rptFAFARReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAcquisionEntry.Designer.vb">
+      <DependentUpon>frmAcquisionEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAcquisionEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAcquisitionEntryDetail.Designer.vb">
+      <DependentUpon>frmAcquisitionEntryDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAcquisitionEntryDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetAccountChange.Designer.vb">
+      <DependentUpon>frmAssetAccountChange.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetAccountChange.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetDepreciation.Designer.vb">
+      <DependentUpon>frmAssetDepreciation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetDepreciation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetDispatchRetailer.Designer.vb">
+      <DependentUpon>frmAssetDispatchRetailer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetDispatchRetailer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetRequisition.Designer.vb">
+      <DependentUpon>frmAssetRequisition.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetRequisition.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetScrapSale.designer.vb">
+      <DependentUpon>frmAssetScrapSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetScrapSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetStoreRequistion.Designer.vb">
+      <DependentUpon>frmAssetStoreRequistion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetStoreRequistion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetWork.designer.vb">
+      <DependentUpon>frmAssetWork.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAssetWork.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAsset_Issue_Return.Designer.vb">
+      <DependentUpon>frmAsset_Issue_Return.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmAsset_Issue_Return.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmFAMergeAsset.Designer.vb">
+      <DependentUpon>frmFAMergeAsset.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmFAMergeAsset.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmItemIssueToAssembledAsset.Designer.vb">
+      <DependentUpon>frmItemIssueToAssembledAsset.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmItemIssueToAssembledAsset.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmPendingSRNForAsset.Designer.vb">
+      <DependentUpon>frmPendingSRNForAsset.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmPendingSRNForAsset.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmSecondaryCustomerSale.Designer.vb">
+      <DependentUpon>frmSecondaryCustomerSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmSecondaryCustomerSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmVisi_Install_Pullout.Designer.vb">
+      <DependentUpon>frmVisi_Install_Pullout.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Transaction\frmVisi_Install_Pullout.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPendingRequisitionQty.Designer.vb">
+      <DependentUpon>FrmPendingRequisitionQty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPendingRequisitionQty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPOItemTaxDetails.Designer.vb">
+      <DependentUpon>frmPOItemTaxDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPOItemTaxDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSerializeItemOutCheckBox.Designer.vb">
+      <DependentUpon>frmSerializeItemOutCheckBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSerializeItemOutCheckBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Fixed Assets\Master\frmAMAcquisitionCode.resx">
+      <DependentUpon>frmAMAcquisitionCode.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\frmAssetBookMaster.resx">
+      <DependentUpon>frmAssetBookMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\frmAssetSegment.resx">
+      <DependentUpon>frmAssetSegment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\frmCategories.resx">
+      <DependentUpon>frmCategories.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\FrmDepAccountSet.resx">
+      <DependentUpon>FrmDepAccountSet.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\frmDepreciationField.resx">
+      <DependentUpon>frmDepreciationField.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\frmDepreciationMethod.resx">
+      <DependentUpon>frmDepreciationMethod.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\FrmDepreciationPeriods.resx">
+      <DependentUpon>FrmDepreciationPeriods.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\frmFACostCenter.resx">
+      <DependentUpon>frmFACostCenter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\frmFixedSetting.resx">
+      <DependentUpon>frmFixedSetting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\frmGroups.resx">
+      <DependentUpon>frmGroups.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\frmSecondaryCustomer.resx">
+      <DependentUpon>frmSecondaryCustomer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\frmTemplateMaster.resx">
+      <DependentUpon>frmTemplateMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\FixedAsset_ReportViewer.resx">
+      <DependentUpon>FixedAsset_ReportViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\frmAssetDetail.resx">
+      <DependentUpon>frmAssetDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\frmAssetRegister.resx">
+      <DependentUpon>frmAssetRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\frmAsset_Issue_Return_Report.resx">
+      <DependentUpon>frmAsset_Issue_Return_Report.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\frmDisposalDetail.resx">
+      <DependentUpon>frmDisposalDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\frmDistributor_VS_SecondaryCustomer_Sale.resx">
+      <DependentUpon>frmDistributor_VS_SecondaryCustomer_Sale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\frmVisi_Install_Pullout_Report.resx">
+      <DependentUpon>frmVisi_Install_Pullout_Report.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\rptALCRReport.resx">
+      <DependentUpon>rptALCRReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\rptAssetDispatchRetailer.resx">
+      <DependentUpon>rptAssetDispatchRetailer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\rptCapexBudgetRevHis.resx">
+      <DependentUpon>rptCapexBudgetRevHis.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\rptCapexConsumptionReport.resx">
+      <DependentUpon>rptCapexConsumptionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\rptCWIPReport.resx">
+      <DependentUpon>rptCWIPReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Report\rptFAFARReport.resx">
+      <DependentUpon>rptFAFARReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmAcquisionEntry.resx">
+      <DependentUpon>frmAcquisionEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmAcquisitionEntryDetail.resx">
+      <DependentUpon>frmAcquisitionEntryDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmAssetAccountChange.resx">
+      <DependentUpon>frmAssetAccountChange.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmAssetDepreciation.resx">
+      <DependentUpon>frmAssetDepreciation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmAssetDispatchRetailer.resx">
+      <DependentUpon>frmAssetDispatchRetailer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmAssetRequisition.resx">
+      <DependentUpon>frmAssetRequisition.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmAssetScrapSale.resx">
+      <DependentUpon>frmAssetScrapSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmAssetStoreRequistion.resx">
+      <DependentUpon>frmAssetStoreRequistion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmAssetWork.resx">
+      <DependentUpon>frmAssetWork.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmAsset_Issue_Return.resx">
+      <DependentUpon>frmAsset_Issue_Return.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmFAMergeAsset.resx">
+      <DependentUpon>frmFAMergeAsset.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmItemIssueToAssembledAsset.resx">
+      <DependentUpon>frmItemIssueToAssembledAsset.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmPendingSRNForAsset.resx">
+      <DependentUpon>frmPendingSRNForAsset.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmSecondaryCustomerSale.resx">
+      <DependentUpon>frmSecondaryCustomerSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Transaction\frmVisi_Install_Pullout.resx">
+      <DependentUpon>frmVisi_Install_Pullout.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPendingRequisitionQty.resx">
+      <DependentUpon>FrmPendingRequisitionQty.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPOItemTaxDetails.resx">
+      <DependentUpon>frmPOItemTaxDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSerializeItemOutCheckBox.resx">
+      <DependentUpon>frmSerializeItemOutCheckBox.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search4.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,7 @@
+﻿Public Class clsProcessProductionStandardizationSecondQCHead
+
+End Class
+
+Public Class clsProcessProductionStandardizationSecondQCDetail
+
+End Class

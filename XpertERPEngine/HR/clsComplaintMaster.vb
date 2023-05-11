@@ -1,0 +1,93 @@
+﻿
+Imports common
+Imports System.Data.SqlClient
+
+Public Class clsComplaintMaster
+#Region "veriables"
+    Public complaint_code As String = Nothing
+    Public description As String = Nothing
+
+#End Region
+    '----------------Code For Get Finder--------------------------------------------------------------------'
+    Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+        Dim str As String = ""
+        Dim qry As String = " select TSPL_COMPLAINT_MASTER.COMPLAINT_CODE as [Code] ,TSPL_COMPLAINT_MASTER.DESCRIPTION as [Description] ,TSPL_COMPLAINT_MASTER.Created_By as [Created By] ,TSPL_COMPLAINT_MASTER.Created_Date as [Created Date] ,TSPL_COMPLAINT_MASTER.Modified_By as [Modified By] ,TSPL_COMPLAINT_MASTER.Modified_Date as [Modified Date]  From TSPL_COMPLAINT_MASTER  "
+        str = clsCommon.ShowSelectForm("CMPLNMST", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        Return str
+    End Function
+    '----------------End of Code For Get Finder--------------------------------------------------------------'
+    '' This Code For Retriving Data from TSPL_COMPLAINT_MASTER
+
+
+    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsComplaintMaster
+        Dim obj As clsComplaintMaster = Nothing
+        Dim qst As String = "select  COMPLAINT_CODE , description   from  TSPL_COMPLAINT_MASTER "
+        Select Case NavType
+            Case NavigatorType.Current
+                qst += " where  complaint_code ='" & strCode & "' "
+            Case NavigatorType.Next
+                qst += " where  complaint_code in (select min(t.complaint_Code ) from TSPL_COMPLAINT_MASTER  as t where t.complaint_Code  >'" + strCode + "')"
+            Case NavigatorType.First
+                qst += " where  complaint_code in (select min(t.complaint_Code ) from TSPL_COMPLAINT_MASTER  as t)"
+            Case NavigatorType.Last
+                qst += " where  complaint_code in (select max(t.complaint_Code ) from TSPL_COMPLAINT_MASTER  as t)"
+            Case NavigatorType.Previous
+                qst += " where  complaint_code in (select max(t.complaint_Code ) from TSPL_COMPLAINT_MASTER  as t where t.complaint_Code  <'" + strCode + "')"
+        End Select
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qst)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            obj = New clsComplaintMaster
+            obj.complaint_code = clsCommon.myCstr(dt.Rows(0)("Complaint_Code"))
+            obj.description = clsCommon.myCstr(dt.Rows(0)("Description"))
+        End If
+        Return obj
+    End Function
+    '' For Delete of Data in TSPL_COMPLAINT_MASTER
+    Public Shared Function DeleteData(ByVal strCode As String) As Boolean
+        Dim qry As String = "Delete from TSPL_COMPLAINT_MASTER where Complaint_Code='" + strCode + "'"
+        Return clsDBFuncationality.ExecuteNonQuery(qry)
+    End Function
+    '' For Save Data in TSPL_COMPLAINT_MASTER
+    Public Function SaveData(ByVal obj As clsComplaintMaster, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Dim isSaved As Boolean = True
+        Try
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
+            clsCommon.AddColumnsForChange(coll, "Complaint_code", obj.complaint_code)
+            clsCommon.AddColumnsForChange(coll, "Description", obj.description)
+            clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
+            If isNewEntry Then
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
+                If clsCommon.myLen(obj.complaint_code) = 0 Then
+                    Throw New Exception("Please fill Code")
+                End If
+                Dim qry As String = "SELECT Count(*) FROM TSPL_COMPLAINT_MASTER where Complaint_Code = '" & obj.complaint_code & "'"
+                Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
+                If check = 0 Then
+                    isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_COMPLAINT_MASTER", OMInsertOrUpdate.Insert, "", trans)
+                Else
+                    Throw New Exception("This Code Is Already Exist")
+                End If
+            Else
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_COMPLAINT_MASTER ", OMInsertOrUpdate.Update, " Complaint_Code='" + obj.complaint_code + "'", trans)
+            End If
+        Catch err As Exception
+            Throw New Exception(err.Message)
+        End Try
+        Return isSaved
+    End Function
+
+    Public Shared Function CheckNewEntry(ByVal Code As String, Optional ByVal trans As SqlTransaction = Nothing) As String
+        Dim qry As String = "select complaint_code from TSPL_COMPLAINT_MASTER where COMPLAINT_CODE ='" + Code + "'   "
+        Dim dt As DataTable
+        dt = clsDBFuncationality.GetDataTable(qry)
+        If dt.Rows.Count > 0 Then
+            Return False
+        Else
+            Return True
+        End If
+
+    End Function
+End Class

@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "XpertERPEngineeringAndPlantManagement", "XpertERPEngineeringAndPlantManagement.vbproj", "{EA659C6F-9315-43D5-BE96-534D400F6BC4}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 1
+		SccProjectUniqueName0 = XpertERPEngineeringAndPlantManagement.vbproj
+		SccProjectName0 = \u0022$/ERP.root/ERP/XpertERPEngineeringAndPlantManagement\u0022,\u0020NCSBAAAA
+		SccLocalPath0 = .
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA659C6F-9315-43D5-BE96-534D400F6BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA659C6F-9315-43D5-BE96-534D400F6BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA659C6F-9315-43D5-BE96-534D400F6BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA659C6F-9315-43D5-BE96-534D400F6BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

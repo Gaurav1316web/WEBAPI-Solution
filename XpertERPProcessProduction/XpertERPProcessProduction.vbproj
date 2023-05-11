@@ -1,0 +1,466 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0EC6CEB2-31BF-49B9-B9D5-DCE0DC4148AC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>XpertERPProcessProduction</RootNamespace>
+    <AssemblyName>XpertERPProcessProduction</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPProcessProduction.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>XpertERPProcessProduction.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Comm64">
+      <HintPath>..\XpertERP\bin\Debug\Comm64.DLL</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XpertCommon">
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngine">
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine">
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Telerik.Data" />
+    <Import Include="Telerik.Data.Expressions" />
+    <Import Include="Telerik.Pdf" />
+    <Import Include="Telerik.WinControls" />
+    <Import Include="Telerik.WinControls.Analytics" />
+    <Import Include="Telerik.WinControls.CodedUI" />
+    <Import Include="Telerik.WinControls.Commands" />
+    <Import Include="Telerik.WinControls.Containers" />
+    <Import Include="Telerik.WinControls.Data" />
+    <Import Include="Telerik.WinControls.Design" />
+    <Import Include="Telerik.WinControls.Design.Designers.Gauges.LinearGauges.UI" />
+    <Import Include="Telerik.WinControls.Design.Designers.Gauges.RadialGauges.UI" />
+    <Import Include="Telerik.WinControls.Drawing" />
+    <Import Include="Telerik.WinControls.Elements" />
+    <Import Include="Telerik.WinControls.UI" />
+    <Import Include="XpertERPEngine" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
+      <Link>My Project\SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Master\frmBreakDownMaster.Designer.vb">
+      <DependentUpon>frmBreakDownMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBreakDownMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmLineMaster.Designer.vb">
+      <DependentUpon>frmLineMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmLineMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmPPLogSheetMaster.Designer.vb">
+      <DependentUpon>frmPPLogSheetMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmPPLogSheetMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmProcessProductionLogSheet.Designer.vb">
+      <DependentUpon>frmProcessProductionLogSheet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmProcessProductionLogSheet.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmStanderdProductionEntry.designer.vb">
+      <DependentUpon>frmStanderdProductionEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmStanderdProductionEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Reports\FrmProductionAndSaleReport.Designer.vb">
+      <DependentUpon>FrmProductionAndSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\FrmProductionAndSaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmProductionUtilityCost.Designer.vb">
+      <DependentUpon>frmProductionUtilityCost.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmProductionUtilityCost.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptAvailableQtyForProduction.designer.vb">
+      <DependentUpon>rptAvailableQtyForProduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptAvailableQtyForProduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptBatchStatusReport.Designer.vb">
+      <DependentUpon>rptBatchStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptBatchStatusReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptIssueWIPConsumptionReport.Designer.vb">
+      <DependentUpon>rptIssueWIPConsumptionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptIssueWIPConsumptionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptItemConsumptionReport.Designer.vb">
+      <DependentUpon>rptItemConsumptionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptItemConsumptionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptJobWorkProduction.Designer.vb">
+      <DependentUpon>rptJobWorkProduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptJobWorkProduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptProcessGainLossReport.designer.vb">
+      <DependentUpon>rptProcessGainLossReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptProcessGainLossReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptproductionEntryReport.Designer.vb">
+      <DependentUpon>rptproductionEntryReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptproductionEntryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptProductionIssueStatus.Designer.vb">
+      <DependentUpon>rptProductionIssueStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptProductionIssueStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\RptProductionQCReport.Designer.vb">
+      <DependentUpon>RptProductionQCReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptProductionQCReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptProductionStatusReport.designer.vb">
+      <DependentUpon>rptProductionStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptProductionStatusReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptProductionWiseStockReco.designer.vb">
+      <DependentUpon>rptProductionWiseStockReco.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptProductionWiseStockReco.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptSectionWiseStockReport.Designer.vb">
+      <DependentUpon>rptSectionWiseStockReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptSectionWiseStockReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptSPItemConsumptionReport.Designer.vb">
+      <DependentUpon>rptSPItemConsumptionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptSPItemConsumptionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\RptStandardActualConsumption.designer.vb">
+      <DependentUpon>RptStandardActualConsumption.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptStandardActualConsumption.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\RptStandardQCReport.designer.vb">
+      <DependentUpon>RptStandardQCReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptStandardQCReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptWIPReport.Designer.vb">
+      <DependentUpon>rptWIPReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptWIPReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\RptWreckageReport.Designer.vb">
+      <DependentUpon>RptWreckageReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\RptWreckageReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmBreakDownEntry.Designer.vb">
+      <DependentUpon>frmBreakDownEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmBreakDownEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Master\frmBreakDownMaster.resx">
+      <DependentUpon>frmBreakDownMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmLineMaster.resx">
+      <DependentUpon>frmLineMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmPPLogSheetMaster.resx">
+      <DependentUpon>frmPPLogSheetMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmProcessProductionLogSheet.resx">
+      <DependentUpon>frmProcessProductionLogSheet.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmStanderdProductionEntry.resx">
+      <DependentUpon>frmStanderdProductionEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\FrmProductionAndSaleReport.resx">
+      <DependentUpon>FrmProductionAndSaleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmProductionUtilityCost.resx">
+      <DependentUpon>frmProductionUtilityCost.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptAvailableQtyForProduction.resx">
+      <DependentUpon>rptAvailableQtyForProduction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptBatchStatusReport.resx">
+      <DependentUpon>rptBatchStatusReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptIssueWIPConsumptionReport.resx">
+      <DependentUpon>rptIssueWIPConsumptionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptItemConsumptionReport.resx">
+      <DependentUpon>rptItemConsumptionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptJobWorkProduction.resx">
+      <DependentUpon>rptJobWorkProduction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptProcessGainLossReport.resx">
+      <DependentUpon>rptProcessGainLossReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptproductionEntryReport.resx">
+      <DependentUpon>rptproductionEntryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptProductionIssueStatus.resx">
+      <DependentUpon>rptProductionIssueStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptProductionQCReport.resx">
+      <DependentUpon>RptProductionQCReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptProductionStatusReport.resx">
+      <DependentUpon>rptProductionStatusReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptProductionWiseStockReco.resx">
+      <DependentUpon>rptProductionWiseStockReco.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptSectionWiseStockReport.resx">
+      <DependentUpon>rptSectionWiseStockReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptSPItemConsumptionReport.resx">
+      <DependentUpon>rptSPItemConsumptionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptStandardActualConsumption.resx">
+      <DependentUpon>RptStandardActualConsumption.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptStandardQCReport.resx">
+      <DependentUpon>RptStandardQCReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptWIPReport.resx">
+      <DependentUpon>rptWIPReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\RptWreckageReport.resx">
+      <DependentUpon>RptWreckageReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmBreakDownEntry.resx">
+      <DependentUpon>frmBreakDownEntry.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\globe.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PIE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search4.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

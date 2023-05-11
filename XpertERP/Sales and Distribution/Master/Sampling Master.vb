@@ -1,0 +1,319 @@
+﻿'--preeti gupta-ticket no.[BM00000003133]
+Imports common
+Imports System.Data.SqlClient
+Public Class Sampling_Master
+    Inherits FrmMainTranScreen
+    Dim ButtonToolTip As ToolTip = New ToolTip()
+
+
+#Region "Variable"
+    Private isNewEntry As Boolean = False
+    Private isInsideLoadData As Boolean = False
+    Dim Qry As String
+
+#End Region
+    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
+        Save()
+    End Sub
+    Function AllowToSave() As Boolean
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            myMessages.blankValue("Sampling Code")
+            txtCode.Focus()
+            Return False
+        ElseIf clsCommon.myLen(txtGLAccount.Value) <= 0 Then
+            myMessages.blankValue("Account")
+            txtGLAccount.Focus()
+            Return False
+
+        End If
+        Return True
+    End Function
+
+    Sub Save()
+        If AllowToSave() Then
+            Dim obj As New clsSampling_Master()
+            obj.Code = txtCode.Value
+            obj.Description = txtDescription.Text
+            obj.Account_Code = txtGLAccount.Value
+            obj.Account_Description = txtGlAccDesc.Text
+
+            If (obj.SaveData(obj, isNewEntry)) Then
+                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                LoadData(obj.Code, NavigatorType.Current)
+                'Else
+                '    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
+            End If
+
+        End If
+    End Sub
+    Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+        txtCode.MyReadOnly = True
+        btnSave.Enabled = True
+        btnDelete.Enabled = True
+        isNewEntry = False
+        Dim obj As New clsSampling_Master()
+        obj = clsSampling_Master.GetData(strCode, NavTyep)
+        If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
+            txtCode.Value = obj.Code
+            txtDescription.Text = obj.Description
+            txtGLAccount.Value = obj.Account_Code
+            txtGlAccDesc.Text = obj.Account_Description
+        End If
+
+    End Sub
+    Sub funDelete()
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+                Exit Sub
+            End If
+            If (myMessages.deleteConfirm()) Then
+                If (clsSampling_Master.DeleteData(txtCode.Value)) Then
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    funReset()
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+
+    End Sub
+
+    Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
+        funDelete()
+    End Sub
+
+    Sub funReset()
+        isNewEntry = True
+        txtCode.MyReadOnly = False
+        txtCode.Value = Nothing
+        txtCode.Focus()
+        txtDescription.Text = ""
+        txtGLAccount.Value = Nothing
+        txtGlAccDesc.Text = ""
+        btnSave.Text = "Save"
+        btnSave.Enabled = True
+        btnDelete.Enabled = True
+    End Sub
+
+    Private Sub txtGLAccount__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtGLAccount._MYValidating
+        Dim qry As String = "select Account_Code as [Account],Description from tspl_gl_accounts"
+        txtGLAccount.Value = clsCommon.ShowSelectForm("AditilChrgAcnt", qry, "Account", "", txtGLAccount.Value, "Account", isButtonClicked)
+        ''lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorNo.Value + "'"))
+        qry = "select Description from tspl_gl_accounts where Account_Code ='" + txtGLAccount.Value + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            txtGlAccDesc.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
+        Else
+            txtGlAccDesc.Text = ""
+        End If
+    End Sub
+
+    Private Sub Sampling_Master_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnNew.Enabled Then
+            funReset()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
+            Save()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
+            funDelete()
+        ElseIf e.Alt And e.KeyCode = Keys.C Then
+            funClose()
+        ElseIf e.Alt And e.KeyCode = Keys.N Then
+            funReset()
+        End If
+    End Sub
+
+    Public Sub SetLength()
+        txtCode.MyMaxLength = 12
+        txtDescription.MaxLength = 50
+        txtGlAccDesc.MaxLength = 100
+    End Sub
+    Private Sub Sampling_Master_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
+        isNewEntry = True
+        'If objCommonVar.CurrentUserCode <> "ADMIN" Then
+        '    If funSetUserAccess() = False Then Exit Sub
+        'End If
+        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
+        ' ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
+        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
+        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
+        '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
+
+    End Sub
+    Private Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.Sampling_Master)
+        'If Not (MyBase.isReadFlag) Then
+        '    Throw New Exception("Permission Denied")
+        '    Me.Close()
+        '    Exit Sub
+        'End If
+        'btnSave.Visible = MyBase.isModifyFlag
+        'btnPost.Visible = MyBase.isPostFlag
+        'btnDelete.Visible = MyBase.isDeleteFlag
+    End Sub
+
+
+    '---------------------Added By -----Pankaj Kumar-------------on--29/03/2012-------------
+    'This will check the authorization of user to access the screen.If authorize then it will allow user to access the screen.
+    'Private Function funSetUserAccess() As Boolean
+    '    Try
+    '        Dim strRights As String
+    '        Dim strTemp() As String
+    '        Dim strProgCode = "SMPL-MAST"
+    '        strRights = enuUserRights.enuRead & "," & enuUserRights.enuModify & "," & enuUserRights.enuDelete
+    '        strRights = modUserMgt.funGetPermissions(strRights, strProgCode)
+    '        strTemp = Split(strRights, ",")
+    '        If strTemp(0) = "0" Then
+    '            MsgBox("Permission Denied", MsgBoxStyle.Critical, Me.Text)
+    '            funSetUserAccess = False
+    '            blnRead = False
+    '            Me.Close()
+    '            Exit Function
+    '        Else
+    '            blnRead = True
+    '        End If
+    '        If strTemp(1) = "0" Then 'Grant modify access
+    '            btnSave.Enabled = False
+    '        End If
+    '        If strTemp(2) = "0" Then 'Grant modify access
+    '            btnDelete.Enabled = False
+    '        End If
+
+    '        funSetUserAccess = True
+    '    Catch er As Exception
+    '        myMessages.myExceptions(er)
+    '    End Try
+    '    '-----------------------------------Code Ends Here-------------------------------
+    'End Function
+    Sub funClose()
+        Me.Close()
+    End Sub
+
+    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        funClose()
+    End Sub
+
+    Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
+        funReset()
+    End Sub
+
+    Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
+        Dim str As String = "select count(*) from tspl_sampling_master where Sampling_Code ='" + txtCode.Value + "' "
+        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+        If no = 0 AndAlso isButtonClicked = False Then
+            txtCode.MyReadOnly = False
+            'txtCode.Value = ""
+            'common.clsCommon.MyMessageBoxShow("Value doesn't exist ")
+        Else
+            txtCode.MyReadOnly = True
+        End If
+        If txtCode.MyReadOnly OrElse isButtonClicked Then
+            Dim qry As String = "select Sampling_Code as Code ,Description from tspl_sampling_master"
+            txtCode.Value = clsCommon.ShowSelectForm("DiscoMasterFND", qry, "Code", "", txtCode.Value, "Code", isButtonClicked)
+            qry = "SELECT Description,Account_Code,Account_Description  FROM tspl_sampling_master   where Sampling_Code='" + txtCode.Value + "'"
+            Dim dt As New DataTable()
+            dt = clsDBFuncationality.GetDataTable(qry)
+            For Each row As DataRow In dt.Rows
+                isNewEntry = False
+                txtDescription.Text = row("Description").ToString()
+                txtGLAccount.Value = row("Account_Code").ToString()
+                txtGlAccDesc.Text = row("Account_Description").ToString()
+            Next
+        End If
+    End Sub
+
+    Private Sub txtCode__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
+        Try
+            LoadData(txtCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+
+    Private Sub menuExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuExport.Click
+        funExport()
+    End Sub
+    Sub funExport()
+        Dim str As String
+        str = "select Sampling_Code ,Description,Account_Code,Account_Description  from tspl_sampling_master"
+        transportSql.ExporttoExcel(str, Me)
+    End Sub
+
+    Private Sub menuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuImport.Click
+        funImport()
+    End Sub
+    Sub funImport()
+        Dim gv As New RadGridView()
+        Me.Controls.Add(gv)
+        Dim currentdate As Date = Date.Today
+        If transportSql.importExcel(gv, "Sampling_Code", "Description", "Account_Code", "Account_Description") Then
+            Dim trans As SqlTransaction = Nothing
+            Try
+                connectSql.OpenConnection()
+                trans = clsDBFuncationality.GetTransactin()
+                clsCommon.ProgressBarShow()
+                For Each grow As GridViewRowInfo In gv.Rows
+                    Dim strCode As String = clsCommon.myCstr(grow.Cells("Sampling_Code").Value)
+                    Dim strDescription As String = clsCommon.myCstr(grow.Cells("Description").Value)
+                    Dim Account As String = clsCommon.myCstr(grow.Cells("Account_Code").Value)
+                    Dim AccountDesc As String = clsCommon.myCstr(grow.Cells("Account_Description").Value)
+                    Dim qry As String = "select Description from tspl_gl_accounts where Account_Code='" + Account + "'"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dt.Rows.Count <= 0 Then
+                        Throw New Exception("Account does not exist")
+                    Else
+                        For Each row As DataRow In dt.Rows
+                            If (AccountDesc <> row("Description").ToString()) Then
+                                Throw New Exception("Account description not exist for this account")
+                            End If
+                        Next
+                    End If
+
+                    If (String.IsNullOrEmpty(strCode)) Or clsCommon.myLen(strCode) > 12 Then
+                        Throw New Exception("Sampling Code can not be blank or greather 12 length")
+                    End If
+
+                    If (String.IsNullOrEmpty(strDescription)) Or clsCommon.myLen(strDescription) > 50 Then
+                        Throw New Exception("Description can not be blank or greather than 50 length")
+                    End If
+                    If (String.IsNullOrEmpty(Account)) Or clsCommon.myLen(Account) > 50 Then
+                        Throw New Exception("Account can not be blank or greather than 50 length")
+                    End If
+
+                    If (String.IsNullOrEmpty(AccountDesc)) Or clsCommon.myLen(AccountDesc) > 100 Then
+                        Throw New Exception("Account Description can not be blank or greather than 100 length")
+                    End If
+
+                    Dim sql1 As String = "select count(*) from tspl_sampling_master where Sampling_Code='" + strCode + "'"
+                    Dim i As Integer = CInt(connectSql.RunScalar(trans, sql1))
+                    If (i = 0) Then
+                        Qry = "INSERT Into tspl_sampling_master (Sampling_Code ,Description ,Created_By ,Created_Date ,Modified_By ,Modified_Date ,Comp_Code ,Account_Code ,Account_Description ) values('" + strCode.ToUpper() + "','" + strDescription + "','" + objCommonVar.CurrentUserCode + "','" + connectSql.serverDate(trans) + "','" + objCommonVar.CurrentUserCode + "','" + connectSql.serverDate(trans) + "','" + objCommonVar.CurrentCompanyCode + "','" + Account + "','" + AccountDesc + "')"
+                        connectSql.RunSqlTransaction(trans, Qry)
+                        'connectSql.RunSpTransaction(trans, "sp_DesignationMaster_insert", New SqlParameter("@Category Code", strCtgryCode), New SqlParameter("@Category Name", strCtgryName), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+                    Else
+                        Qry = "UPDATE tspl_sampling_master set Sampling_Code='" + strCode + "', Description='" + strDescription + "',Account_Code='" + Account + "',Account_Description='" + AccountDesc + "' ,Modified_By='" + objCommonVar.CurrentUserCode + "', Modified_Date='" + connectSql.serverDate(trans) + "', Comp_Code='" + objCommonVar.CurrentCompanyCode + "' WHERE Sampling_Code='" + strCode + "'"
+                        connectSql.RunSqlTransaction(trans, Qry)
+                        'connectSql.RunSpTransaction(trans, "sp_DesignationMaster_update", New SqlParameter("@CAtegory Code", strCtgryCode), New SqlParameter("@Category Name", strCtgryName), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+
+                    End If
+                Next
+                trans.Commit()
+                clsCommon.ProgressBarHide()
+                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+            Catch ex As Exception
+                trans.Rollback()
+                clsCommon.ProgressBarHide()
+                myMessages.myExceptions(ex)
+
+            End Try
+
+        End If
+        Me.Controls.Remove(gv)
+    End Sub
+
+
+   
+End Class

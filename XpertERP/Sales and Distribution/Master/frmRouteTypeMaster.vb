@@ -1,0 +1,378 @@
+﻿'Created By---> Mayank
+'Created Date--->25/may/2011
+'Modified By--> mayank
+'Last Modify Date-->03/june/2011
+'Tables Used-->TSPL_GL_SEGMENT_CODE ,TSPL_VEHICLE_MASTER
+Imports Microsoft.VisualBasic
+Imports System
+Imports System.Collections.Generic
+Imports System.ComponentModel
+Imports System.Data
+Imports System.Data.OleDb
+Imports System.Drawing
+Imports System.IO
+Imports System.Data.SqlClient
+Imports Telerik.WinControls.UI
+Imports Telerik.WinControls.Data
+Imports Telerik.Data
+Imports Telerik.WinControls.Enumerations
+Imports Telerik.WinControls
+Imports System.Text.RegularExpressions
+Imports Telerik.WinControls.UI.Export
+Imports Telerik.WinControls.UI.Export.ExportToExcelML
+Imports Excel = Microsoft.Office.Interop.Excel
+Imports System.Globalization
+Imports common
+
+Imports System.Threading
+Public Class FrmRouteTypeMaster
+    Inherits FrmMainTranScreen
+    Dim ButtonToolTip As ToolTip = New ToolTip()
+    Dim userCode, companyCode As String
+    Dim IsNewEntry As Boolean = False
+    Public Sub New(ByVal user As String, ByVal company As String)
+        InitializeComponent()
+        userCode = user
+        companyCode = company
+    End Sub
+    Private Sub FrmRouteTypeMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        fndRouteTypeID.MyMaxLength = 12
+        txtDescription.MaxLength = 50
+        SetUserMgmtNew()
+        fndRouteTypeID_TextChanged()
+        ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update ")
+        ' ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
+        ButtonToolTip.SetToolTip(rbtnDelete, "Press Alt+D  for Delete ")
+        ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
+        ButtonToolTip.SetToolTip(rbtnReset, "Press Alt+N Adding New ")
+        '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
+
+        'globalFunc.mandatoryText(fndRouteTypeID.txtValue)
+        'AddHandler fndRouteTypeID.ValueChanged, AddressOf fndRouteTypeID_TextChanged
+        'AddHandler fndRouteTypeID.txtValue.KeyPress, AddressOf fndRouteTypeID_KeyPress
+        rbtnDelete.Enabled = False
+        'If userCode <> "ADMIN" Then
+        '    If funSetUserAccess() = False Then Exit Sub
+        'End If
+    End Sub
+
+    Private Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.routetypemaster)
+        If Not (MyBase.isReadFlag) Then
+            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            Me.Close()
+            Exit Sub
+        End If
+        rbtnSave.Visible = MyBase.isModifyFlag
+        '--------richa Ticket no. BM00000003014 03/07/2014 to enable/disable import/export option acc. to user mgmt setting -----------
+        If rbtnSave.Visible = True Then
+            rmImport.Enabled = True
+            rmExport.Enabled = True
+        Else
+            rmImport.Enabled = False
+            rmExport.Enabled = False
+        End If
+        '--------------------------------------------------
+        'btnPost.Visible = MyBase.isPostFlag
+        rbtnDelete.Visible = MyBase.isDeleteFlag
+    End Sub
+
+    Private Sub rbtnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnSave.Click
+        SaveData()
+    End Sub
+    Sub SaveData()
+        If fndRouteTypeID.Value = "" Then
+            myMessages.blankValue("Route Type Id")
+            fndRouteTypeID.Focus()
+        ElseIf rbtnSave.Text = "Save" Then
+            funinsert()
+        Else
+            funUpdate()
+        End If
+    End Sub
+    'This is Insert Function Used To Insert Values In Table.
+    Private Sub funinsert()
+        Try
+            connectSql.RunSp("SP_TSPL_ROUTE_TYPE_INSERT", New SqlParameter("@Route_Type_Id", fndRouteTypeID.Value), New SqlParameter("@Route_Type_Desc", txtDescription.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
+            myMessages.insert()
+            rbtnSave.Text = "Update"
+            rbtnDelete.Enabled = True
+            'If userCode <> "ADMIN" Then
+            '    If funSetUserAccess() = False Then Exit Sub
+            'End If
+
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+
+    End Sub
+    'This is Update Function Used To Update the records In Table.
+    Private Sub funUpdate()
+        Try
+            connectSql.RunSp("SP_TSPL_ROUTE_TYPE_UPDATE", New SqlParameter("@Route_Type_Id", fndRouteTypeID.Value), New SqlParameter("@Route_Type_Desc", txtDescription.Text), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
+            myMessages.update()
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+    'It Is Used To Delete The Record From table
+    Private Sub rbtnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnDelete.Click
+
+        DeleteData()
+    End Sub
+    Sub DeleteData()
+        If fndRouteTypeID.Value = "" Then
+            common.clsCommon.MyMessageBoxShow("Plz enter the value of Routeb Type Id")
+        ElseIf myMessages.deleteConfirm() Then
+            funDelete()
+            rbtnSave.Text = "Save"
+            rbtnDelete.Enabled = False
+
+        End If
+
+        'If userCode <> "ADMIN" Then
+        '    If funSetUserAccess() = False Then Exit Sub
+        'End If
+    End Sub
+    'This is Delete Function Used To Delete Records From tABLE
+    Private Sub funDelete()
+        Try
+            connectSql.RunSp("SP_TSPL_ROUTE_TYPE_DELETE", New SqlParameter("@Route_Type_Id", fndRouteTypeID.Value))
+            myMessages.delete()
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+    'It Is Used To Fill The route Type Id in finder fndRouteTypeID
+    Private Sub fndRouteTypeID_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        'fndRouteTypeID.ConnectionString = connectSql.SqlCon()
+        'fndRouteTypeID.Query = "select Route_Type_Id as [Route Type Id],Route_Type_Desc as [Route Type Desc] from TSPL_ROUTE_TYPE "
+        'fndRouteTypeID.ValueToSelect = "Route Type Id"
+        'fndRouteTypeID.Caption = "Route Type"
+        'fndRouteTypeID.ValueToSelect1 = "Route Type Desc"
+        'fndRouteTypeID.txtValue.MaxLength = 12
+    End Sub
+    'It Is Used To Fill Or Clear All Fields of Current Windows Form Bassed On Route Type Id(fndRouteTypeID) From TSPL_ROUTE_TYPE
+    Sub fndRouteTypeID_TextChanged()
+        Dim v_id As String = "select Route_Type_Id from TSPL_ROUTE_TYPE where Route_Type_Id='" + fndRouteTypeID.Value + "'"
+        Dim dr As DataTable = Nothing
+        Dim strvalue As String = ""
+        dr = clsDBFuncationality.GetDataTable(v_id)
+
+        If dr IsNot Nothing AndAlso dr.Rows.Count > 0 Then
+            strvalue = dr.Rows(0)(0).ToString()
+        End If
+
+        
+        If strvalue <> "" Then
+            funfill()
+        Else
+            txtDescription.Text = ""
+            rbtnSave.Text = "Save"
+            rbtnDelete.Enabled = False
+        End If
+
+    End Sub
+    'This is Funfill Function Used To Fill All Fields of Current Windows Form.
+    Private Sub funfill()
+        Try
+            Dim query As String = "select Route_Type_Desc from TSPL_ROUTE_TYPE where Route_Type_Id='" + fndRouteTypeID.Value + "'"
+            'Dim type As String
+            Dim dr As DataTable = clsDBFuncationality.GetDataTable(query)
+            If dr IsNot Nothing AndAlso dr.Rows.Count > 0 Then
+                txtDescription.Text = dr.Rows(0)(0).ToString()
+                rbtnSave.Text = "Update"
+                rbtnDelete.Enabled = True
+                'If userCode <> "ADMIN" Then
+                '    If funSetUserAccess() = False Then Exit Sub
+                'End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+
+    End Sub
+    Private Sub fndRouteTypeID_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
+        Try
+
+            If Microsoft.VisualBasic.Asc(e.KeyChar) = 39 Then
+                e.Handled = True
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+    'It Is Used To Close The Current Windows Form
+    Private Sub rbtnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnClose.Click
+        Me.Close()
+    End Sub
+    'It is Used To Clear All Fields Of Current Windows Form
+    Private Sub rbtnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnReset.Click
+        funReset()
+    End Sub
+    Private Sub funReset()
+        Try
+            fndRouteTypeID.Value = ""
+            fndRouteTypeID.MyReadOnly = False
+            txtDescription.Text = ""
+            rbtnSave.Text = "Save"
+            rbtnDelete.Enabled = False
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+
+    End Sub
+    'It Is Used To Give The Authority To User,To Access This Form (Vehicle Master) Or Not.(It Is Bassed On Mapping)
+    'Private Function funSetUserAccess() As Boolean
+    '    Try
+    '        Dim strRights As String
+    '        Dim strTemp() As String
+    '        Dim strProgCode = "ROUTE-TYPE"
+    '        strRights = enuUserRights.enuRead & "," & enuUserRights.enuModify & "," & enuUserRights.enuDelete
+    '        strRights = modUserMgt.funGetPermissions(strRights, strProgCode)
+    '        strTemp = Split(strRights, ",")
+    '        If strTemp(0) = "0" Then
+    '            MsgBox("Permission Denied", MsgBoxStyle.Critical, Me.Text)
+    '            funSetUserAccess = False
+    '            blnRead = False
+    '            Me.Close()
+    '            Exit Function
+    '        Else
+    '            blnRead = True
+    '        End If
+    '        If strTemp(1) = "0" Then 'Grant modify access
+    '            rbtnSave.Enabled = False
+    '        End If
+    '        If strTemp(2) = "0" Then 'Grant modify access
+    '            rbtnDelete.Enabled = False
+    '        End If
+
+    '        funSetUserAccess = True
+    '    Catch er As Exception
+
+    '    End Try
+    'End Function
+
+    Private Sub FrmRouteTypeMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso rbtnSave.Enabled Then
+            SaveData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag Then
+            'PostData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso rbtnDelete.Enabled Then
+            DeleteData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
+            Close()
+        ElseIf e.Alt And e.KeyCode = Keys.N Then
+            funReset()
+        End If
+    End Sub
+
+    Private Sub fndRouteTypeID__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndRouteTypeID._MYValidating
+
+        Dim str As String = "select count(*) from TSPL_ROUTE_TYPE where Route_Type_Id ='" + fndRouteTypeID.Value + "' "
+        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+        If no = 0 Then
+            fndRouteTypeID.MyReadOnly = False
+        Else
+            fndRouteTypeID.MyReadOnly = True
+        End If
+
+        If fndRouteTypeID.MyReadOnly OrElse isButtonClicked Then
+            'Dim           qry As String = "select Route_Type_Id as [RouteTypeId],Route_Type_Desc as [Route Type Desc] from TSPL_ROUTE_TYPE  "
+            'fndRouteTypeID.Value = clsCommon.ShowSelectForm("RouteMastrIDFND", qry, "RouteTypeId", "", fndRouteTypeID.Value, "", isButtonClicked)
+            fndRouteTypeID.Value = clsRouteTypeMaster.getFinder("", fndRouteTypeID.Value, isButtonClicked)
+            txtDescription.Text = clsDBFuncationality.getSingleValue("Select Route_Type_Desc from TSPL_ROUTE_TYPE where Route_Type_Id='" + fndRouteTypeID.Value + "'")
+            If fndRouteTypeID.Value IsNot Nothing Then
+                rbtnDelete.Enabled = True
+            Else
+                rbtnDelete.Enabled = False
+            End If
+            fndRouteTypeID_TextChanged()
+
+        End If
+    End Sub
+
+    Private Sub fndRouteTypeID__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavigatorType As common.NavigatorType) Handles fndRouteTypeID._MYNavigator
+        Dim qst As String = "select Route_Type_Id as [Route Type Id],Route_Type_Desc as [Route Type Desc] from TSPL_ROUTE_TYPE   where  2=2 "
+        Select Case NavigatorType
+            Case NavigatorType.Current
+                '  qst += "and assign_to='" + txtassign.Value + "' "
+                ' qst += "and job_code in ('" + txtcode1.Value + "')"
+            Case NavigatorType.Next
+                qst += "and Route_Type_Id in (select min(Route_Type_Id) from TSPL_ROUTE_TYPE where Route_Type_Id>'" + fndRouteTypeID.Value + "'   ) "
+            Case NavigatorType.First
+                qst += "and Route_Type_Id in (select MIN(Route_Type_Id) from TSPL_ROUTE_TYPE  )"
+            Case NavigatorType.Last
+                qst += "and Route_Type_Id in (select Max(Route_Type_Id) from TSPL_ROUTE_TYPE  )"
+            Case NavigatorType.Previous
+                qst += "and Route_Type_Id in (select max(Route_Type_Id) from TSPL_ROUTE_TYPE where Route_Type_Id<'" + fndRouteTypeID.Value + "'   )"
+        End Select
+        ' fun_gridfill()
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qst)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            fndRouteTypeID.Value = clsCommon.myCstr(dt.Rows(0)("Route Type Id"))
+            txtDescription.Text = clsCommon.myCstr(dt.Rows(0)("Route Type Desc"))
+        End If
+        'TextChanged()
+        If fndRouteTypeID.Value IsNot Nothing Then
+            rbtnDelete.Enabled = True
+        Else
+            rbtnDelete.Enabled = False
+
+        End If
+        fndRouteTypeID_TextChanged()
+    End Sub
+    '' Anubhooti 20-June-2014
+    Private Sub rmImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmImport.Click
+        Dim gv As New RadGridView()
+        Me.Controls.Add(gv)
+        Dim currentdate As Date = Date.Today
+        If transportSql.importExcel(gv, "Route Type Id", "Route Type Desc") Then
+            Dim linno As Integer = 0
+            Try
+                connectSql.OpenConnection()
+                clsCommon.ProgressBarShow()
+                For Each grow As GridViewRowInfo In gv.Rows
+                    Dim trans As SqlTransaction
+                    trans = clsDBFuncationality.GetTransactin()
+                    Dim obj As New clsRouteTypeMaster()
+
+                    linno += 1
+                    Dim strcode As String = clsCommon.myCstr(grow.Cells("Route Type Id").Value)
+                    If (String.IsNullOrEmpty(strcode)) Or clsCommon.myLen(strcode) > 12 Then
+                        Throw New Exception("Length of Route Type Id should be max. 12 character At Line No. " + clsCommon.myCstr(linno) + ".")
+                    End If
+                    obj.Route_Type_Id = strcode
+
+                    Dim strname As String = clsCommon.myCstr(grow.Cells("Route Type Desc").Value)
+                    If (String.IsNullOrEmpty(strname)) Or clsCommon.myLen(strname) > 50 Then
+                        Throw New Exception("Length of Route Type Desc should be max. 50 character At Line No. " + clsCommon.myCstr(linno) + ".")
+                    End If
+                    obj.Route_Type_Desc = strname
+                    If clsCommon.myLen(strcode) > 0 AndAlso clsDBFuncationality.getSingleValue("Select count(*) from TSPL_ROUTE_TYPE where Route_Type_Id='" + strcode + "' ", trans) > 0 Then
+                        IsNewEntry = False
+                    Else
+                        IsNewEntry = True
+
+                    End If
+                    obj.save_data(obj, IsNewEntry, trans)
+                Next
+                clsCommon.ProgressBarHide()
+                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+            Catch ex As Exception
+
+                clsCommon.ProgressBarHide()
+                myMessages.myExceptions(ex)
+            End Try
+        End If
+        Me.Controls.Remove(gv)
+    End Sub
+    '' Anubhooti 20-June-2014
+    Private Sub rmExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmExport.Click
+        Dim str As String
+        str = "Select Route_Type_Id As [Route Type Id],Route_Type_Desc As [Route Type Desc] From TSPL_ROUTE_TYPE"
+        transportSql.ExporttoExcel(str, Me)
+    End Sub
+End Class
+
+

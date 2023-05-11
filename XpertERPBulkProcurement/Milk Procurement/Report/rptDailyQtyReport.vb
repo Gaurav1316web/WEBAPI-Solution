@@ -1,0 +1,677 @@
+﻿Imports CrystalDecisions.CrystalReports.Engine
+Imports CrystalDecisions.Shared
+Imports CrystalDecisions.Windows.Forms
+Imports common
+Imports System.IO
+Imports XpertERPEngine
+Imports Telerik.WinControls.UI
+
+Public Class rptDailyQtyReport
+    Inherits FrmMainTranScreen
+    Dim ButtonToolTip As ToolTip = New ToolTip()
+    Dim btnReferesh As Boolean = False
+
+
+    Private Sub SetUserMgmtNew()
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+
+    End Sub
+
+    Sub Reset()
+        Gv1.DataSource = Nothing
+        Gv1.Rows.Clear()
+        Gv1.Columns.Clear()
+        RadPageView1.SelectedPage = RadPageViewPage1
+        btnGo.Enabled = True
+        'LoadShiftName()
+        txtMCC.arrValueMember = Nothing
+        ControlEnableDisable(True)
+    End Sub
+    Sub ControlEnableDisable(ByVal isEnable As Boolean)
+        txtMCC.Enabled = isEnable
+        fromDate.Enabled = isEnable
+        ToDate.Enabled = isEnable
+        dtpToDate.Enabled = isEnable
+        cboItemType.Enabled = isEnable
+        RadGroupBox1.Enabled = isEnable
+        txtMCC_Code.Enabled = isEnable
+    End Sub
+
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        Try
+            If rdbSummary.Checked = True Then
+                PageSetupReport_ID = MyBase.Form_ID + "_S"
+            End If
+            PageSetupReport_ID = MyBase.Form_ID
+            TemplateGridview = Gv1
+            Dim BaseQry As String = ""
+            Dim qry As String = ""
+            Dim dt As New DataTable
+            Dim whre As String = ""
+
+
+            'qry = " select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No , TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code, TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo ,TSPL_MILK_COLLECTION_MCC.Route_Code  ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME ,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No
+            '       ,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCC_Qty , ROUND(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,1,0) as MCC_FAT,round (TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,1,0) as MCC_SNF,round (TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,0,0) as MCC_FATKG , round (TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG,0,0) as MCC_SNFKG,
+            '       isnull(XXXDCS.qty,0) as DCS_Qty,isnull(XXXDCS.FAT,0) as DCS_FAT , isnull(XXXDCS.SNF,0) as DCS_SNF, isnull(XXXDCS.FATKG,0) as DCS_FATKG, isnull(XXXDCS.SNFKG,0) as DCS_SNFKG, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty - isnull(XXXDCS.qty,0) as Diff_Qty, ROUND(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,1,0) - isnull(XXXDCS.FAT,0)  as Diff_FAT, round (TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,1,0) - isnull(XXXDCS.SNF,0)  as Diff_SNF, round (TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,0,0) - isnull(XXXDCS.FATKG,0)  as Diff_FATKG, round (TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG,0,0) - isnull(XXXDCS.SNFKG,0)  as Diff_SNFKG
+            '       from TSPL_MILK_COLLECTION_MCC_DETAIL
+            '       left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+            '       left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+            '       left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
+            '       left outer join (  
+            '       select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail, sum (qty ) as qty  , round( sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG), 0,0) as FATKG ,  round( sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG), 0,0) as SNFKG ,
+            '       ROUND(((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100),1,0) as FAT , ROUND(((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100),1,0) as SNF 
+            '       from TSPL_MILK_COLLECTION_DCS_DETAIL 
+            '       left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
+            '       left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+            '       where convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) = convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and TSPL_MILK_COLLECTION_DCS.Status = 1
+            '       group by TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail ) XXXDCS on XXXDCS.Against_Milk_Collection_MCC_Detail = TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+            '       where convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) = convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and TSPL_MILK_COLLECTION_MCC.Status = 1"
+            Dim strMilkCollectionMCCStatus As String = ""
+            Dim strMilkcollectionDCSStatus As String = ""
+            If rbtnDock.Checked = False Then
+                If clsCommon.CompairString(cboItemType.SelectedValue, "Posted") = CompairStringResult.Equal Then
+                    strMilkCollectionMCCStatus = " and TSPL_MILK_COLLECTION_MCC.Status = 1 "
+                    strMilkcollectionDCSStatus = " and TSPL_MILK_COLLECTION_DCS.Status = 1 "
+                ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "Unposted") = CompairStringResult.Equal Then
+                    strMilkCollectionMCCStatus = " and TSPL_MILK_COLLECTION_MCC.Status = 0 "
+                    strMilkcollectionDCSStatus = " and TSPL_MILK_COLLECTION_DCS.Status = 0 "
+                End If
+            End If
+            qry = " select TSPL_MILK_COLLECTION_MCC.Entered_Qty, TSPL_MILK_COLLECTION_MCC.Entered_FATKg , TSPL_MILK_COLLECTION_MCC.Entered_SNFKg, TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No ,convert (varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as  Document_Date ,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code, TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo ,TSPL_MILK_COLLECTION_MCC.Route_Code  ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME ,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No
+                   ,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCC_Qty , TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCC_FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCC_SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCC_FATKG , TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCC_SNFKG,
+                   isnull(XXXDCS.qty,0) as DCS_Qty,isnull(XXXDCS.FAT,0) as DCS_FAT , isnull(XXXDCS.SNF,0) as DCS_SNF, isnull(XXXDCS.FATKG,0) as DCS_FATKG, isnull(XXXDCS.SNFKG,0) as DCS_SNFKG, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty - isnull(XXXDCS.qty,0) as Diff_Qty, TSPL_MILK_COLLECTION_MCC_DETAIL.FAT - isnull(XXXDCS.FAT,0)  as Diff_FAT, TSPL_MILK_COLLECTION_MCC_DETAIL.SNF - isnull(XXXDCS.SNF,0)  as Diff_SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG - isnull(XXXDCS.FATKG,0)  as Diff_FATKG, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG - isnull(XXXDCS.SNFKG,0)  as Diff_SNFKG
+                   from TSPL_MILK_COLLECTION_MCC_DETAIL
+                   left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+                   left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+                   left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
+                   left outer join (  
+                   select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail, sum (qty ) as qty  ,  sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG ,   sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,
+                   ((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100) as FAT , ((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100) as SNF 
+                   from TSPL_MILK_COLLECTION_DCS_DETAIL 
+                   left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
+                   left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+                   where convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) >= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) " + strMilkcollectionDCSStatus + "
+                   group by TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail ) XXXDCS on XXXDCS.Against_Milk_Collection_MCC_Detail = TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+                   where convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)  " + strMilkCollectionMCCStatus + " "
+
+            If rdbSummary.Checked = True Then
+                qry = " select XXXFinal.Document_No, max(XXXFinal.Document_Date) as Document_Date ,max( XXXFinal.Route_Code) as Route_Code, max(XXXFinal.ROUTE_NAME) as ROUTE_NAME , max(XXXFinal.Tanker_No ) as Tanker_No, max(XXXFinal.Vehicle_No) as Vehicle_No, max(Entered_Qty) as Entered_Qty,((max (Entered_FATKg) / nullif (max (Entered_Qty),0)) * 100) as Entered_FAT, ((max (Entered_SNFKg) / nullif (max (Entered_Qty),0)) * 100) as Entered_SNF , max(Entered_FATKg) as Entered_FATKg,max(Entered_SNFKg) as Entered_SNFKg , sum( XXXFinal.MCC_Qty) as  MCC_Qty, ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_FAT, ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_SNF, sum (MCC_FATKG) as MCC_FATKG , sum (MCC_SNFKG) as MCC_SNFKG , sum (DCS_Qty) as DCS_Qty , ROUND(((sum (DCS_FATKG) / nullif( sum (DCS_Qty),0)) * 100),1,0) as DCS_FAT, ROUND(((sum (DCS_SNFKG) / nullif (sum (DCS_Qty),0)) * 100),1,0) as DCS_SNF , sum(DCS_FATKG) as DCS_FATKG , sum(DCS_SNFKG) as DCS_SNFKG,   sum (Diff_Qty) as Diff_Qty , ROUND(((sum (Diff_FATKG) / nullif (sum (Diff_Qty),0)) * 100),1,0) as Diff_FAT, ROUND(((sum (Diff_SNFKG) / nullif (sum (Diff_Qty),0)) * 100),1,0) as Diff_SNF, sum(Diff_FATKG) as Diff_FATKG, sum(Diff_SNFKG) as Diff_SNFKG,  max(Entered_Qty) - sum( XXXFinal.MCC_Qty)  as DiffEnteredVsMCC_Qty , ( max(Entered_FATKg) -  sum (MCC_FATKG)) *100 / nullif ((max(Entered_Qty) - sum( XXXFinal.MCC_Qty)),0)  as DiffEnteredVsMCC_FAT , ( max(Entered_SNFKg) -  sum (MCC_SNFKG)) *100 / nullif ((max(Entered_Qty) - sum( XXXFinal.MCC_Qty)),0) as DiffEnteredVsMCC_SNF ,   max(Entered_FATKg) -  sum (MCC_FATKG)  as DiffEnteredVsMCC_FATKG , max(Entered_SNFKg) - sum (MCC_SNFKG) as DiffEnteredVsMCC_SNFKG from ( " + qry + " ) XXXFinal group by XXXFinal.Document_No order by convert (datetime, max(XXXFinal.Document_Date),103) asc "
+            ElseIf rdbDetails.Checked = True Then
+                'qry = qry + " order by TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No asc "
+            ElseIf rbtnDock.Checked = True Then
+                qry = ""
+                Dim strFilterQry As String = ""
+                Dim strQryStatus1 As String = ""
+                Dim strQryStatus2 As String = ""
+                If txtMCC_Code.Value.Length > 0 Then
+                    strFilterQry = " and TSPL_MCC_MASTER.MCC_Code in ('" + txtMCC_Code.Value + "') "
+                End If
+
+                If clsCommon.CompairString(cboItemType.SelectedValue, "Posted") = CompairStringResult.Equal Then
+                    strQryStatus1 = "where TSPL_MILK_SHIFT_UPLOADER_HEAD.Status=1"
+                    strQryStatus2 = "where TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status=1"
+                ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "Unposted") = CompairStringResult.Equal Then
+                    strQryStatus1 = "where TSPL_MILK_SHIFT_UPLOADER_HEAD.Status=0"
+                    strQryStatus2 = "where TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Status=0"
+                End If
+
+
+                qry = "Select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SNo,tmp.Shift_Date As SDate ,tmp.Shift As Shift,No_Of_Cans As Qty,Milk_Weight As Milk_Wtd,FAT as FAT,SNF as SNF,((Milk_Weight*FAT)/100) As Fat_KG,((Milk_Weight*SNF)/100) As SNF_KG,'' As Rate,'' As Amt,tmp.VLC_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As DCS_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Code As DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Name  As DCS_Name
+                        ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader  As BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_Code As BMC_Code,TSPL_MCC_MASTER.MCC_NAME As BMC_Name
+                        from(
+                        Select Shift_Date,Shift,No_Of_Cans,Milk_Weight,FAT,SNF,VLC_Code  from TSPL_MILK_SHIFT_UPLOADER_DETAIL
+                        Left Outer Join TSPL_MILK_SHIFT_UPLOADER_HEAD ON TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+	                    " + strQryStatus1 + "
+                        Union All
+                        Select Shift_Date,Shift,No_Of_Cans,Milk_Weight,FAT,SNF,VLC_Code from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+	                    Left Outer Join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD ON TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
+	                    " + strQryStatus2 + ")tmp
+                        Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code=tmp.VLC_Code
+                        Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+                        where convert (date,Shift_Date,103) >= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,Shift_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)" + strFilterQry
+            End If
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterView.Refresh()
+
+            If dt Is Nothing OrElse dt.Rows.Count > 0 Then
+                Gv1.DataSource = dt
+                If rbtnDock.Checked = True Then
+                    SetGridFormationOFGV1Dock()
+                Else
+                    SetGridFormationOFGV1()
+                End If
+
+                For ii As Integer = 0 To Gv1.Columns.Count - 1
+                    Gv1.Columns(ii).ReadOnly = True
+                Next
+                RadPageView1.SelectedPage = RadPageViewPage2
+                Gv1.BestFitColumns()
+                Gv1.EnableFiltering = True
+                Dim summaryRowItem As New GridViewSummaryRowItem()
+
+                If rdbSummary.Checked = True Then
+                    '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
+                    ' DiffEnteredVsMCC_Qty, DiffEnteredVsMCC_FAT,DiffEnteredVsMCC_SNF,DiffEnteredVsMCC_FATKG,DiffEnteredVsMCC_SNFKG
+                    Dim EnteredQty As New GridViewSummaryItem("Entered_Qty", "{0:F2}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(EnteredQty)
+                    Dim EnteredFatKg As New GridViewSummaryItem("Entered_FATKg", "{0:F2}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(EnteredFatKg)
+                    Dim EnteredSnfKg As New GridViewSummaryItem("Entered_SNFKg", "{0:F2}", GridAggregateFunction.Sum)
+                    summaryRowItem.Add(EnteredSnfKg)
+                End If
+                Dim MCCQty As New GridViewSummaryItem("MCC_Qty", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(MCCQty)
+                Dim MCCFatKg As New GridViewSummaryItem("MCC_FATKG", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(MCCFatKg)
+                Dim MCCSnfKg As New GridViewSummaryItem("MCC_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(MCCSnfKg)
+
+                Dim DCSQty As New GridViewSummaryItem("DCS_Qty", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(DCSQty)
+                Dim DCSFatKg As New GridViewSummaryItem("DCS_FATKG", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(DCSFatKg)
+                Dim DCSSnfKg As New GridViewSummaryItem("DCS_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(DCSSnfKg)
+
+                Dim DiffQty As New GridViewSummaryItem("Diff_Qty", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(DiffQty)
+                Dim DiffFatKg As New GridViewSummaryItem("Diff_FATKG", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(DiffFatKg)
+                Dim DiffSnfKg As New GridViewSummaryItem("Diff_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(DiffSnfKg)
+                If rbtnDock.Checked = False Then
+                    If rdbSummary.Checked = True Then
+                        '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
+                        ' DiffEnteredVsMCC_Qty, DiffEnteredVsMCC_FAT,DiffEnteredVsMCC_SNF,DiffEnteredVsMCC_FATKG,DiffEnteredVsMCC_SNFKG
+                        Dim DiffEnteredVsMCCQty As New GridViewSummaryItem("DiffEnteredVsMCC_Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(DiffEnteredVsMCCQty)
+                        Dim DiffEnteredVsMCCFatKg As New GridViewSummaryItem("DiffEnteredVsMCC_FATKG", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(DiffEnteredVsMCCFatKg)
+                        Dim DiffEnteredVsMCCSnfKg As New GridViewSummaryItem("DiffEnteredVsMCC_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(DiffEnteredVsMCCSnfKg)
+                    End If
+                    Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                End If
+                ControlEnableDisable(False)
+
+                '=========================
+
+
+                'Gv1.GroupDescriptors.Add(New GridGroupByExpression("[Document_Date] as [Document Date] format ""{0}: {1}"" Group By [Document_Date]"))
+                'Gv1.AutoExpandGroups = True
+                '    Gv1.ShowGroupPanel = False
+                '    Gv1.ShowRowHeaderColumn = False
+                '    Gv1.AllowAddNewRow = False
+                '    Gv1.AllowDeleteRow = False
+                '    Gv1.EnableFiltering = True
+                '    Gv1.ShowFilteringRow = True
+
+
+
+                '==========================
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                Exit Sub
+            End If
+            ReStoreGridLayout()
+            If rbtnDock.Checked = False Then
+                View()
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+    Sub SetGridFormationOFGV1()
+        Gv1.TableElement.TableHeaderHeight = 40
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = True
+
+            'PK_Id,Document_No,MCC_Code,MCC_NAME,
+            'UploaderNo,Route_Code,ROUTE_NAME,Tanker_No,Vehicle_No,MCC_Qty,MCC_FAT,MCC_FATKG,MCC_SNF,MCC_SNFKG,
+            'DCS_Qty,DCS_FAT,DCS_SNF,DCS_FATKG,DCS_SNF_KG
+            If rdbDetails.Checked = True Then
+                Gv1.Columns("PK_Id").HeaderText = "PK Id"
+                Gv1.Columns("PK_Id").IsVisible = False
+            End If
+
+            Gv1.Columns("Document_No").HeaderText = "Document No"
+            Gv1.Columns("Document_Date").HeaderText = "Document Date"
+            If rdbDetails.Checked = True Then
+                Gv1.Columns("MCC_Code").HeaderText = "MCC Code"
+                Gv1.Columns("MCC_NAME").HeaderText = "MCC Name"
+                Gv1.Columns("UploaderNo").HeaderText = "UploaderNo"
+            End If
+
+            Gv1.Columns("Route_Code").HeaderText = "Route Code"
+            Gv1.Columns("ROUTE_NAME").HeaderText = "Route Name"
+
+            Gv1.Columns("Tanker_No").HeaderText = "Tanker No"
+            Gv1.Columns("Vehicle_No").HeaderText = "Vehicle No"
+
+            If rdbSummary.Checked = True Then
+                '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
+                Gv1.Columns("Entered_Qty").HeaderText = "Qty"
+                Gv1.Columns("Entered_Qty").FormatString = "{0:n3}"
+
+
+                Gv1.Columns("Entered_FAT").HeaderText = "FAT %"
+                Gv1.Columns("Entered_FAT").FormatString = "{0:n2}"
+
+                Gv1.Columns("Entered_SNF").HeaderText = "SNF %"
+                Gv1.Columns("Entered_SNF").FormatString = "{0:n2}"
+
+                Gv1.Columns("Entered_FATKg").HeaderText = "FAT KG"
+                Gv1.Columns("Entered_FATKg").FormatString = "{0:n3}"
+
+                Gv1.Columns("Entered_SNFKg").HeaderText = "SNF KG"
+                Gv1.Columns("Entered_SNFKg").FormatString = "{0:n3}"
+            Else
+                Gv1.Columns("Entered_Qty").HeaderText = "Qty"
+                'Gv1.Columns("Entered_FAT").HeaderText = "FAT %"
+                'Gv1.Columns("Entered_SNF").HeaderText = "SNF %"
+                Gv1.Columns("Entered_FATKg").HeaderText = "FAT KG"
+                Gv1.Columns("Entered_SNFKg").HeaderText = "SNF KG" 'IsVisible = False
+
+                Gv1.Columns("Entered_Qty").IsVisible = False
+                'Gv1.Columns("Entered_FAT").IsVisible = False
+                'Gv1.Columns("Entered_SNF").IsVisible = False
+                Gv1.Columns("Entered_FATKg").IsVisible = False
+                Gv1.Columns("Entered_SNFKg").IsVisible = False
+            End If
+
+            Gv1.Columns("MCC_Qty").HeaderText = "Qty"
+            Gv1.Columns("MCC_Qty").FormatString = "{0:n3}"
+            Gv1.Columns("MCC_FAT").HeaderText = "FAT %"
+            Gv1.Columns("MCC_FAT").FormatString = "{0:n2}"
+            Gv1.Columns("MCC_SNF").HeaderText = "SNF %"
+            Gv1.Columns("MCC_SNF").FormatString = "{0:n2}"
+            Gv1.Columns("MCC_FATKG").HeaderText = "FAT KG"
+            Gv1.Columns("MCC_FATKG").FormatString = "{0:n3}"
+            Gv1.Columns("MCC_SNFKG").HeaderText = "SNF KG"
+            Gv1.Columns("MCC_SNFKG").FormatString = "{0:n3}"
+
+            Gv1.Columns("DCS_Qty").HeaderText = "Qty"
+            Gv1.Columns("DCS_Qty").FormatString = "{0:n3}"
+            Gv1.Columns("DCS_FAT").HeaderText = "FAT %"
+            Gv1.Columns("DCS_FAT").FormatString = "{0:n2}"
+            Gv1.Columns("DCS_SNF").HeaderText = "SNF %"
+            Gv1.Columns("DCS_SNF").FormatString = "{0:n2}"
+            Gv1.Columns("DCS_FATKG").HeaderText = "FAT KG"
+            Gv1.Columns("DCS_FATKG").FormatString = "{0:n3}"
+            Gv1.Columns("DCS_SNFKG").HeaderText = "SNF KG"
+            Gv1.Columns("DCS_SNFKG").FormatString = "{0:n3}"
+            'Diff
+            Gv1.Columns("Diff_Qty").HeaderText = "Qty"
+            Gv1.Columns("Diff_Qty").FormatString = "{0:n3}"
+            Gv1.Columns("Diff_FAT").HeaderText = "FAT %"
+            Gv1.Columns("Diff_FAT").FormatString = "{0:n2}"
+            Gv1.Columns("Diff_SNF").HeaderText = "SNF %"
+            Gv1.Columns("Diff_SNF").FormatString = "{0:n2}"
+            Gv1.Columns("Diff_FATKG").HeaderText = "FAT KG"
+            Gv1.Columns("Diff_FATKG").FormatString = "{0:n3}"
+            Gv1.Columns("Diff_SNFKG").HeaderText = "SNF KG"
+            Gv1.Columns("Diff_SNFKG").FormatString = "{0:n3}"
+            If rdbSummary.Checked = True Then
+                Gv1.Columns("DiffEnteredVsMCC_Qty").HeaderText = "Qty"
+                Gv1.Columns("DiffEnteredVsMCC_Qty").FormatString = "{0:n3}"
+                Gv1.Columns("DiffEnteredVsMCC_FAT").HeaderText = "FAT %"
+                Gv1.Columns("DiffEnteredVsMCC_FAT").FormatString = "{0:n2}"
+                Gv1.Columns("DiffEnteredVsMCC_SNF").HeaderText = "SNF %"
+                Gv1.Columns("DiffEnteredVsMCC_SNF").FormatString = "{0:n2}"
+                Gv1.Columns("DiffEnteredVsMCC_FATKG").HeaderText = "FAT KG"
+                Gv1.Columns("DiffEnteredVsMCC_FATKG").FormatString = "{0:n3}"
+                Gv1.Columns("DiffEnteredVsMCC_SNFKG").HeaderText = "SNF KG"
+                Gv1.Columns("DiffEnteredVsMCC_SNFKG").FormatString = "{0:n3}"
+
+
+            End If
+            '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
+            ' DiffEnteredVsMCC_Qty, DiffEnteredVsMCC_FAT,DiffEnteredVsMCC_SNF,DiffEnteredVsMCC_FATKG,DiffEnteredVsMCC_SNFKG
+
+            Gv1.Columns(ii).BestFit()
+        Next
+
+    End Sub
+
+    Sub SetGridFormationOFGV1Dock()
+        Gv1.TableElement.TableHeaderHeight = 40
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = True
+
+            Gv1.Columns("SNo").HeaderText = "S.No."
+            Gv1.Columns("SDate").HeaderText = "Date"
+
+            Gv1.Columns("Shift").HeaderText = "Shift"
+            Gv1.Columns("Milk_Wtd").HeaderText = "QTY"
+
+            Gv1.Columns("BMC_Uploader_Code").HeaderText = "BMC Uploader Code"
+            Gv1.Columns("BMC_Code").HeaderText = "BMC Code"
+            Gv1.Columns("BMC_Code").IsVisible = False
+
+            Gv1.Columns("BMC_Name").HeaderText = "BMC Name"
+            Gv1.Columns("BMC_Name").IsVisible = False
+
+            Gv1.Columns("DCS_Uploader_Code").HeaderText = "DCS Uploader Code"
+            Gv1.Columns("DCS_Code").HeaderText = "DCS Code"
+            Gv1.Columns("DCS_Code").IsVisible = False
+
+            Gv1.Columns("DCS_Name").HeaderText = "DCS Name"
+            Gv1.Columns("DCS_Name").IsVisible = False
+
+
+            Gv1.Columns("Qty").HeaderText = "Can"
+            Gv1.Columns("Qty").FormatString = "{0:n3}"
+            Gv1.Columns("FAT").HeaderText = "FAT %"
+            Gv1.Columns("FAT").FormatString = "{0:n2}"
+            Gv1.Columns("SNF").HeaderText = "SNF %"
+            Gv1.Columns("SNF").FormatString = "{0:n2}"
+            Gv1.Columns("FAT_KG").HeaderText = "FAT KG"
+            Gv1.Columns("FAT_KG").FormatString = "{0:n3}"
+            Gv1.Columns("SNF_KG").HeaderText = "SNF KG"
+            Gv1.Columns("SNF_KG").FormatString = "{0:n3}"
+
+            Gv1.Columns("RATE").HeaderText = "RATE"
+            Gv1.Columns("RATE").FormatString = "{0:n3}"
+            Gv1.Columns("RATE").IsVisible = False
+
+            Gv1.Columns("Amt").HeaderText = "Amt"
+            Gv1.Columns("Amt").FormatString = "{0:n3}"
+            Gv1.Columns("Amt").IsVisible = False
+
+            Gv1.Columns(ii).BestFit()
+        Next
+    End Sub
+
+
+    Sub View()
+
+        If Gv1.Rows.Count > 0 Then
+            Dim view As New ColumnGroupsViewDefinition()
+
+            view.ColumnGroups.Add(New GridViewColumnGroup(" "))
+            view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Document_No").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Document_Date").Name)
+            If rdbDetails.Checked = True Then
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_Code").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_NAME").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("UploaderNo").Name)
+            End If
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Route_Code").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("ROUTE_NAME").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Tanker_No").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Vehicle_No").Name)
+
+            '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
+            ' DiffEnteredVsMCC_Qty, DiffEnteredVsMCC_FAT,DiffEnteredVsMCC_SNF,DiffEnteredVsMCC_FATKG,DiffEnteredVsMCC_SNFKG
+            If rdbSummary.Checked = True Then
+                view.ColumnGroups.Add(New GridViewColumnGroup("Entered Data"))
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_Qty").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_FAT").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_SNF").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_FATKg").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_SNFKg").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("BMC Data"))
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_Qty").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_FAT").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_SNF").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_FATKG").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_SNFKG").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("DCS Data"))
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_Qty").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_FAT").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_SNF").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_FATKG").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_SNFKG").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Difference Data (BMC-DCS)"))
+                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Diff_Qty").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Diff_FAT").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Diff_SNF").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Diff_FATKG").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("Diff_SNFKG").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Difference Data(Entered - BMC)"))
+                view.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsMCC_Qty").Name)
+                view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsMCC_FAT").Name)
+                view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsMCC_SNF").Name)
+                view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsMCC_FATKG").Name)
+                view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsMCC_SNFKG").Name)
+
+            Else
+                view.ColumnGroups.Add(New GridViewColumnGroup("BMC Data"))
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_Qty").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_FAT").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_SNF").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_FATKG").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_SNFKG").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("DCS Data"))
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_Qty").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_FAT").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_SNF").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_FATKG").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_SNFKG").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Difference Data (BMC-DCS)"))
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Diff_Qty").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Diff_FAT").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Diff_SNF").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Diff_FATKG").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Diff_SNFKG").Name)
+            End If
+            Gv1.ViewDefinition = view
+        End If
+    End Sub
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        Reset()
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
+    End Sub
+    Private Sub ReStoreGridLayout()
+        Try
+            If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+                Dim obj As clsGridLayout = New clsGridLayout()
+                obj = CType(obj.GetData(PageSetupReport_ID, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                If Not obj Is Nothing AndAlso obj.GridColumns >= Gv1.ColumnCount Then
+                    Dim ii As Integer
+                    For ii = 0 To Gv1.Columns.Count - 1 Step ii + 1
+                        Gv1.Columns(ii).IsVisible = False
+                        Gv1.Columns(ii).VisibleInColumnChooser = True
+                    Next
+                    Gv1.LoadLayout(obj.GridLayout)
+                    obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+                End If
+            End If
+        Catch err As Exception
+            common.clsCommon.MyMessageBoxShow(err.Message)
+        End Try
+    End Sub
+
+    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+        Try
+            If Gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDailyQtyReport & "'"))
+                arrHeader.Add("Date : " & clsCommon.myCstr(fromDate.Text) + "  To " + clsCommon.myCstr(dtpToDate.Text))
+                If rdbSummary.Checked = True Then
+                    arrHeader.Add("Report Type : " & "Summary")
+                End If
+                If rdbDetails.Checked = True Then
+                    arrHeader.Add("Report Type : " & "Details")
+                End If
+                If clsCommon.CompairString(cboItemType.SelectedValue, "Posted") = CompairStringResult.Equal Then
+                    arrHeader.Add("Document Status : " & "Posted")
+                ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "Unposted") = CompairStringResult.Equal Then
+                    arrHeader.Add("Document Status : " & "Unposted")
+                Else
+                    arrHeader.Add("Document Status : " & "All")
+                End If
+
+                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                'transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
+                transportSql.exportdata(Gv1, "", Me.Text, , arrHeader, False, False, True)
+                'clsCommon.MyExportToExcelGrid(Me.Text, Gv1, arrHeader, Me.Text, True)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
+        Try
+            If Gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDailyQtyReport & "'"))
+                arrHeader.Add("Date : " & clsCommon.myCstr(fromDate.Text) + "  To " + clsCommon.myCstr(dtpToDate.Text))
+                If rdbSummary.Checked = True Then
+                    arrHeader.Add("Report Type : " & "Summary")
+                End If
+                If rdbDetails.Checked = True Then
+                    arrHeader.Add("Report Type : " & "Details")
+                End If
+                If clsCommon.CompairString(cboItemType.SelectedValue, "Posted") = CompairStringResult.Equal Then
+                    arrHeader.Add("Document Status : " & "Posted")
+                ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "Unposted") = CompairStringResult.Equal Then
+                    arrHeader.Add("Document Status : " & "Unposted")
+                Else
+                    arrHeader.Add("Document Status : " & "All")
+                End If
+                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
+        If clsCommon.myLen(PageSetupReport_ID) > 0 Then
+            Gv1.MasterTemplate.FilterDescriptors.Clear()
+            Dim obj As New clsGridLayout()
+            obj.ReportID = PageSetupReport_ID
+            obj.UserID = objCommonVar.CurrentUserCode
+            obj.GridLayout = New MemoryStream()
+            Gv1.SaveLayout(obj.GridLayout)
+            obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
+            obj.GridColumns = Gv1.ColumnCount
+            If obj.SaveData() Then
+                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+            End If
+            obj.GridLayout.Close()
+            obj.GridLayout.Dispose()
+        End If
+    End Sub
+
+    Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
+        clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
+    End Sub
+
+    Private Sub rptMccCollectionDetails_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ToDate.Value = clsCommon.GETSERVERDATE()
+        dtpToDate.Value = clsCommon.GETSERVERDATE()
+        fromDate.Value = clsCommon.GETSERVERDATE() 'ToDate.Value.AddMonths(-1)
+        LoadShiftName()
+        Reset()
+
+    End Sub
+    Sub LoadShiftName()
+        cboItemType.DataSource = LoadShift()
+        cboItemType.ValueMember = "Code"
+        cboItemType.DisplayMember = "Name"
+        cboItemType.SelectedIndex = 0
+    End Sub
+    Public Function LoadShift() As DataTable
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "All"
+        dr("Name") = "ALL"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Posted"
+        dr("Name") = "Posted"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "Unposted"
+        dr("Name") = "Unposted"
+        dt.Rows.Add(dr)
+        Return dt
+    End Function
+
+    Private Sub txtMCC__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
+        Dim qry As String = " select TSPL_MCC_MASTER.MCC_Code as Code , TSPL_MCC_MASTER.MCC_NAME as Name from TSPL_MCC_MASTER "
+        txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSelMCC@MCCCollectionRPT", qry, "Code", "Code", txtMCC.arrValueMember, txtMCC.arrDispalyMember)
+    End Sub
+
+    Private Sub rbtnDock_Click(sender As Object, e As EventArgs) Handles rbtnDock.Click
+        MyLabel4.Visible = True
+        txtMCC_Code.Visible = True
+    End Sub
+
+    Private Sub txtMCC_Code__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC_Code._MYValidating
+        Try
+            Dim qry As String = "select MCC_Code as Code,MCC_NAME as Name from TSPL_MCC_MASTER"
+            txtMCC_Code.Value = clsCommon.ShowSelectForm("vbaMccm", qry, "Code", "", txtMCC_Code.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
+        End Try
+    End Sub
+
+    Private Sub rdbDetails_Click(sender As Object, e As EventArgs) Handles rdbDetails.Click
+        MyLabel4.Visible = False
+        txtMCC_Code.Visible = False
+    End Sub
+
+    Private Sub rdbSummary_Click(sender As Object, e As EventArgs) Handles rdbSummary.Click
+        MyLabel4.Visible = False
+        txtMCC_Code.Visible = False
+    End Sub
+
+    'Sub LoadStatus()
+    '    cboItemType.DataSource = Nothing
+    '    cboItemType.DataSource = getStatus()
+    '    cboItemType.ValueMember = "Code"
+    '    cboItemType.DisplayMember = "Name"
+    'End Sub
+    'Public Shared Function getStatus() As DataTable
+    '    Dim dt As DataTable = New DataTable()
+    '    Dim qry As String = " SELECT '' AS Code,'All' as Name 
+    '                          union
+    '                          Select 'Unpost' AS Code,'Unpost' as Name 
+    '                          Union
+    '                          Select 'Post' AS Code,'Post' as Name  "
+    '    dt = clsDBFuncationality.GetDataTable(qry)
+    '    Return dt
+    'End Function
+End Class

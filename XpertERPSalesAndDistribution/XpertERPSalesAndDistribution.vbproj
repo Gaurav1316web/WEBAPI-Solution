@@ -1,0 +1,2734 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C87C04D1-6DD3-4B0A-B741-0A9154469A78}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>XpertERPSalesAndDistribution</RootNamespace>
+    <AssemblyName>XpertERPSalesAndDistribution</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPSalesAndDistribution.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>XpertERPSalesAndDistribution.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ActiveDatabaseSoftware.ActiveQueryBuilder2">
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.ActiveQueryBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.ExpressionEditor2">
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.ExpressionEditor2.dll</HintPath>
+    </Reference>
+    <Reference Include="ActiveDatabaseSoftware.MSSQLMetadataProvider2">
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.MSSQLMetadataProvider2.dll</HintPath>
+    </Reference>
+    <Reference Include="Comm64, Version=6.4.0.30, Culture=neutral, PublicKeyToken=dd445fe4659af8f3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Comm64.DLL</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\XpertERP\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="LinkShell">
+      <HintPath>..\XpertERP\bin\Debug\LinkShell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="msmdvbanet">
+      <HintPath>..\XpertERP\bin\Debug\msmdvbanet.dll</HintPath>
+    </Reference>
+    <Reference Include="New TallyModule">
+      <HintPath>..\XpertERP\bin\Debug\New TallyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="OrgChartGenerator">
+      <HintPath>..\XpertERP\bin\Debug\OrgChartGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="RadControlSpy, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\RadControlSpy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Aqua, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Aqua.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Breeze, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Breeze.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Desert, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Desert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2007Black, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2007Black.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2007Silver, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2007Silver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Black, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2010Black.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Blue, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2010Blue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2010Silver, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2010Silver.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2013Dark, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2013Dark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Office2013Light, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Office2013Light.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetro, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroBlue, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetroBlue.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroTouch, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetroTouch.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Dark, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.VisualStudio2012Dark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Light, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.VisualStudio2012Light.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows7, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Windows7.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows8, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Windows8.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xDirectory">
+      <HintPath>..\XpertERP\bin\Debug\xDirectory.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertCommon, Version=2.0.6.25, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngine">
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine">
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Telerik.WinControls" />
+    <Import Include="Telerik.WinControls.Data" />
+    <Import Include="Telerik.WinControls.UI" />
+    <Import Include="Telerik.WinControls.UI.Data" />
+    <Import Include="Telerik.WinControls.UI.Export" />
+    <Import Include="XpertERPEngine" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
+      <Link>SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="AppCode\BAL\BALLoadOut.vb" />
+    <Compile Include="AppCode\BAL\BALPrice.vb" />
+    <Compile Include="AppCode\BAL\BALPriceComponant.vb" />
+    <Compile Include="AppCode\BAL\BALScheme.vb" />
+    <Compile Include="AppCode\DAL\DALLoadOut.vb" />
+    <Compile Include="AppCode\DAL\DALPrice.vb" />
+    <Compile Include="AppCode\DAL\DALPriceComponant.vb" />
+    <Compile Include="AppCode\DAL\DALScheme.vb" />
+    <Compile Include="Bulk Sale\Master\frmBulkSalePriceChart.Designer.vb">
+      <DependentUpon>frmBulkSalePriceChart.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\frmBulkSalePriceChart.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\FrmBulkSaleSettings.Designer.vb">
+      <DependentUpon>FrmBulkSaleSettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\FrmBulkSaleSettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\frmCreditLimitApprovalMaster.Designer.vb">
+      <DependentUpon>frmCreditLimitApprovalMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\frmCreditLimitApprovalMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\frmExpiryDate.Designer.vb">
+      <DependentUpon>frmExpiryDate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\frmExpiryDate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\FrmLoadingTanker.Designer.vb">
+      <DependentUpon>FrmLoadingTanker.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\FrmLoadingTanker.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\FrmPrintBulkInvoiceStatement.Designer.vb">
+      <DependentUpon>FrmPrintBulkInvoiceStatement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\FrmPrintBulkInvoiceStatement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\FrmQualityCheckBulkSale.Designer.vb">
+      <DependentUpon>FrmQualityCheckBulkSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\FrmQualityCheckBulkSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\FrmTankerOut.Designer.vb">
+      <DependentUpon>FrmTankerOut.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\FrmTankerOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\frmWeighmentEntry.Designer.vb">
+      <DependentUpon>frmWeighmentEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Master\frmWeighmentEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Report\RptBulkMultipleDispatch.Designer.vb">
+      <DependentUpon>RptBulkMultipleDispatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Report\RptBulkMultipleDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Report\RptBulkSaleRegister.Designer.vb">
+      <DependentUpon>RptBulkSaleRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Report\RptBulkSaleRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmBulkDispatchReturnSale.Designer.vb">
+      <DependentUpon>FrmBulkDispatchReturnSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmBulkDispatchReturnSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmBulkSaleReturn.Designer.vb">
+      <DependentUpon>FrmBulkSaleReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmBulkSaleReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmBulkTradeSRN.Designer.vb">
+      <DependentUpon>FrmBulkTradeSRN.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmBulkTradeSRN.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmCanReceived.Designer.vb">
+      <DependentUpon>frmCanReceived.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmCanReceived.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmCanSale.Designer.vb">
+      <DependentUpon>FrmCanSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmCanSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmCanSaleUploader.Designer.vb">
+      <DependentUpon>FrmCanSaleUploader.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmCanSaleUploader.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmCreateAutoInvoiceBS.Designer.vb">
+      <DependentUpon>FrmCreateAutoInvoiceBS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmCreateAutoInvoiceBS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmDispatchBulkSale.Designer.vb">
+      <DependentUpon>FrmDispatchBulkSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmDispatchBulkSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmDispatchBulkSaleTrade.Designer.vb">
+      <DependentUpon>FrmDispatchBulkSaleTrade.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmDispatchBulkSaleTrade.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmDispatchBulkSaleTradeReturn.Designer.vb">
+      <DependentUpon>FrmDispatchBulkSaleTradeReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmDispatchBulkSaleTradeReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmGateEntrySale.Designer.vb">
+      <DependentUpon>frmGateEntrySale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmGateEntrySale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmInvoiceBulkSale.Designer.vb">
+      <DependentUpon>FrmInvoiceBulkSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmInvoiceBulkSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmPendingDispatch.Designer.vb">
+      <DependentUpon>frmPendingDispatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmPendingDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmPendingDispatchTrade.Designer.vb">
+      <DependentUpon>frmPendingDispatchTrade.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmPendingDispatchTrade.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmSalesOrderBS_Pavitra.Designer.vb">
+      <DependentUpon>FrmSalesOrderBS_Pavitra.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\FrmSalesOrderBS_Pavitra.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CrystalClases\dsRptChequeMultiple.Designer.vb">
+      <DependentUpon>dsRptChequeMultiple.xsd</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="CrystalClases\rptCheque.vb">
+      <DependentUpon>rptCheque.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="CrystalClases\rptChequeMultiple.vb">
+      <DependentUpon>rptChequeMultiple.rpt</DependentUpon>
+      <SubType>Component</SubType>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Export Sale\Report\frmCancelledTransactions_Exportsale.Designer.vb">
+      <DependentUpon>frmCancelledTransactions_Exportsale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Report\frmCancelledTransactions_Exportsale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Report\frmPaymentRealization.Designer.vb">
+      <DependentUpon>frmPaymentRealization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Report\frmPaymentRealization.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Report\rptDateOfArrivalOfCon.Designer.vb">
+      <DependentUpon>rptDateOfArrivalOfCon.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Report\rptDateOfArrivalOfCon.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Report\rptDutyDrawback.Designer.vb">
+      <DependentUpon>rptDutyDrawback.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Report\rptDutyDrawback.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Report\rptExportExepences.Designer.vb">
+      <DependentUpon>rptExportExepences.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Report\rptExportExepences.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Export Sale\Report\RptExportSaleRegister.Designer.vb">
+      <DependentUpon>RptExportSaleRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Export Sale\Report\RptExportSaleRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPendingRequisitionQty.Designer.vb">
+      <DependentUpon>FrmPendingRequisitionQty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPendingRequisitionQty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Master\FrmFixedDeposit.Designer.vb">
+      <DependentUpon>FrmFixedDeposit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Master\FrmFixedDeposit.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Master\FrmMerchantPaymentTerms.Designer.vb">
+      <DependentUpon>FrmMerchantPaymentTerms.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Master\FrmMerchantPaymentTerms.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Master\FrmMerchantPaymentTermsGroup.Designer.vb">
+      <DependentUpon>FrmMerchantPaymentTermsGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Master\FrmMerchantPaymentTermsGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Master\FrmMTReportContextFormat.Designer.vb">
+      <DependentUpon>FrmMTReportContextFormat.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Master\FrmMTReportContextFormat.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Report\frmCancelledTransactions_MerchantSale.Designer.vb">
+      <DependentUpon>frmCancelledTransactions_MerchantSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Report\frmCancelledTransactions_MerchantSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Report\RptCashAgainstDocs.Designer.vb">
+      <DependentUpon>RptCashAgainstDocs.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Report\RptCashAgainstDocs.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Report\RptMTPIInHead.Designer.vb">
+      <DependentUpon>RptMTPIInHead.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Report\RptMTPIInHead.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Report\rptMTProductWiseDetailReport.Designer.vb">
+      <DependentUpon>rptMTProductWiseDetailReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Report\rptMTProductWiseDetailReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Transaction\FrmDocumentAcceptance.Designer.vb">
+      <DependentUpon>FrmDocumentAcceptance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Transaction\FrmDocumentAcceptance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Transaction\FrmLCCreation.Designer.vb">
+      <DependentUpon>FrmLCCreation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Transaction\FrmLCCreation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Transaction\FrmLCRequest.Designer.vb">
+      <DependentUpon>FrmLCRequest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Transaction\FrmLCRequest.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MerchantTrade\Transaction\frmPendingPurchaseOrder.Designer.vb">
+      <DependentUpon>frmPendingPurchaseOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MerchantTrade\Transaction\frmPendingPurchaseOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\globalFunc.vb" />
+    <Compile Include="Modules\modForms.vb" />
+    <Compile Include="Modules\modUserMgt.vb" />
+    <Compile Include="Modules\TabSchemeProvider.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Product Sale\Master\frmDispatchChecklist.Designer.vb">
+      <DependentUpon>frmDispatchChecklist.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Master\frmDispatchChecklist.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Master\FrmDistanceMappingMaster.Designer.vb">
+      <DependentUpon>FrmDistanceMappingMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Master\FrmDistanceMappingMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Master\FrmPrintProductInvoiceStatement.Designer.vb">
+      <DependentUpon>FrmPrintProductInvoiceStatement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Master\FrmPrintProductInvoiceStatement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Master\frmSchemeMasterDairy.Designer.vb">
+      <DependentUpon>frmSchemeMasterDairy.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Master\frmSchemeMasterDairy.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Master\frmTragetMaster.Designer.vb">
+      <DependentUpon>frmTragetMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Master\frmTragetMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\FrmCategoryAnalysisReport.Designer.vb">
+      <DependentUpon>FrmCategoryAnalysisReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\FrmCategoryAnalysisReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\FrmCustomerGroupOutstanding.Designer.vb">
+      <DependentUpon>FrmCustomerGroupOutstanding.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\FrmCustomerGroupOutstanding.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\FrmDailySaleReport.designer.vb">
+      <DependentUpon>FrmDailySaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\FrmDailySaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\FrmMonthlySaleReport.designer.vb">
+      <DependentUpon>FrmMonthlySaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\FrmMonthlySaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptFlavouredMilk.Designer.vb">
+      <DependentUpon>RptFlavouredMilk.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptFlavouredMilk.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptGPDetail.Designer.vb">
+      <DependentUpon>rptGPDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptGPDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptPartyWiseSale.Designer.vb">
+      <DependentUpon>RptPartyWiseSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptPartyWiseSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptPrmoptMsgRelatedToPendencyDoc.Designer.vb">
+      <DependentUpon>rptPrmoptMsgRelatedToPendencyDoc.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptPrmoptMsgRelatedToPendencyDoc.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptProductBookingStatus.Designer.vb">
+      <DependentUpon>RptProductBookingStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptProductBookingStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptProductDispatchStatus.Designer.vb">
+      <DependentUpon>RptProductDispatchStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptProductDispatchStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptProductDOStatus.Designer.vb">
+      <DependentUpon>RptProductDOStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptProductDOStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptProductSaleOrderStatus.Designer.vb">
+      <DependentUpon>RptProductSaleOrderStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptProductSaleOrderStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptProductSaleRegister1.Designer.vb">
+      <DependentUpon>RptProductSaleRegister1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\RptProductSaleRegister1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSaleRegisterReport.Designer.vb">
+      <DependentUpon>rptSaleRegisterReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSaleRegisterReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSaleRegisterReportForAdv.designer.vb">
+      <DependentUpon>rptSaleRegisterReportForAdv.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSaleRegisterReportForAdv.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePatti.Designer.vb">
+      <DependentUpon>rptSaleRegisterReportWithCSASalePatti.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePatti.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePattiProductLocationWise.Designer.vb">
+      <DependentUpon>rptSaleRegisterReportWithCSASalePattiProductLocationWise.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePattiProductLocationWise.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePattiProductPackWise.Designer.vb">
+      <DependentUpon>rptSaleRegisterReportWithCSASalePattiProductPackWise.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePattiProductPackWise.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSKUWiseSale.Designer.vb">
+      <DependentUpon>rptSKUWiseSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSKUWiseSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptTCSLedger.Designer.vb">
+      <DependentUpon>rptTCSLedger.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptTCSLedger.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmAbateMentMaster.Designer.vb">
+      <DependentUpon>frmAbateMentMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmAbateMentMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmBreakagehead.Designer.vb">
+      <DependentUpon>frmBreakagehead.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmBreakagehead.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmchannelCategory.Designer.vb">
+      <DependentUpon>frmchannelCategory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmchannelCategory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmChannelMaster.Designer.vb">
+      <DependentUpon>frmChannelMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmChannelMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmClaimMaster.Designer.vb">
+      <DependentUpon>frmClaimMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmClaimMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCommissionMaster.Designer.vb">
+      <DependentUpon>frmCommissionMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCommissionMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCompetitorMaster.Designer.vb">
+      <DependentUpon>frmCompetitorMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCompetitorMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmConsumerMaster.Designer.vb">
+      <DependentUpon>frmConsumerMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmConsumerMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerAccountSet.Designer.vb">
+      <DependentUpon>frmCustomerAccountSet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerAccountSet.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerCategory.Designer.vb">
+      <DependentUpon>frmCustomerCategory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerCategory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerGroup.Designer.vb">
+      <DependentUpon>frmCustomerGroup.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\FrmCustomerLocationMapping.Designer.vb">
+      <DependentUpon>FrmCustomerLocationMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\FrmCustomerLocationMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerSelector.Designer.vb">
+      <DependentUpon>frmCustomerSelector.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerSelector.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerTargetFixing.Designer.vb">
+      <DependentUpon>frmCustomerTargetFixing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerTargetFixing.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerType.Designer.vb">
+      <DependentUpon>frmCustomerType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmCustomerType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\FrmCustomerVendorMapping.Designer.vb">
+      <DependentUpon>FrmCustomerVendorMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\FrmCustomerVendorMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmDayWiseLoadOutEntered.Designer.vb">
+      <DependentUpon>frmDayWiseLoadOutEntered.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmDayWiseLoadOutEntered.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmDCSforSale.Designer.vb">
+      <DependentUpon>frmDCSforSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmDCSforSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmDiscountCategoryMaster.Designer.vb">
+      <DependentUpon>frmDiscountCategoryMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmDiscountCategoryMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmDiscountMaster.Designer.vb">
+      <DependentUpon>frmDiscountMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmDiscountMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmItemSelector2.Designer.vb">
+      <DependentUpon>frmItemSelector2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmItemSelector2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmPriceComponantMapping.Designer.vb">
+      <DependentUpon>frmPriceComponantMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmPriceComponantMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmPriceComponantMaster.Designer.vb">
+      <DependentUpon>frmPriceComponantMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmPriceComponantMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmPriceGroupMapping.Designer.vb">
+      <DependentUpon>frmPriceGroupMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmPriceGroupMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmRoute Shifting.Designer.vb">
+      <DependentUpon>frmRoute Shifting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmRoute Shifting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmRouteGroupMaster.Designer.vb">
+      <DependentUpon>frmRouteGroupMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmRouteGroupMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmRouteMaster.Designer.vb">
+      <DependentUpon>frmRouteMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmRouteMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmRouteTypeMaster.Designer.vb">
+      <DependentUpon>frmRouteTypeMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmRouteTypeMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmSchmeMaster.Designer.vb">
+      <DependentUpon>frmSchmeMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmSchmeMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmSecondaryCustomerMaster.Designer.vb">
+      <DependentUpon>frmSecondaryCustomerMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmSecondaryCustomerMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmSettlementMaster.Designer.vb">
+      <DependentUpon>frmSettlementMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmSettlementMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmStandardRateItem.Designer.vb">
+      <DependentUpon>frmStandardRateItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmStandardRateItem.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmStandardscheme.Designer.vb">
+      <DependentUpon>frmStandardscheme.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmStandardscheme.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\FrmTargetMaster.Designer.vb">
+      <DependentUpon>FrmTargetMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\FrmTargetMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmTemplateCreation.Designer.vb">
+      <DependentUpon>frmTemplateCreation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmTemplateCreation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmTemplateExport3.Designer.vb">
+      <DependentUpon>frmTemplateExport3.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmTemplateExport3.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmTransportMaster.Designer.vb">
+      <DependentUpon>frmTransportMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmTransportMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmTransportType.Designer.vb">
+      <DependentUpon>frmTransportType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmTransportType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmVehicleMaster.designer.vb">
+      <DependentUpon>frmVehicleMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmVehicleMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmViewPunchingInvoice.Designer.vb">
+      <DependentUpon>frmViewPunchingInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmViewPunchingInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmVisiMaster.Designer.vb">
+      <DependentUpon>frmVisiMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmVisiMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\Sampling Master.Designer.vb">
+      <DependentUpon>Sampling Master.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\Sampling Master.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\TDMwiseTarget.Designer.vb">
+      <DependentUpon>TDMwiseTarget.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\TDMwiseTarget.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\Cash Register Details4.Designer.vb">
+      <DependentUpon>Cash Register Details4.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\Cash Register Details4.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\crptRG1Detail.Designer.vb">
+      <DependentUpon>crptRG1Detail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\crptRG1Detail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\EmptyReportDetail.Designer.vb">
+      <DependentUpon>EmptyReportDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\EmptyReportDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\ExciseChaperHeadWise.Designer.vb">
+      <DependentUpon>ExciseChaperHeadWise.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\ExciseChaperHeadWise.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCanceledSaleInvoice1.Designer.vb">
+      <DependentUpon>frmCanceledSaleInvoice1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCanceledSaleInvoice1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCashDiscountNew.Designer.vb">
+      <DependentUpon>frmCashDiscountNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCashDiscountNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCashDiscountReport.Designer.vb">
+      <DependentUpon>frmCashDiscountReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCashDiscountReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmCEAllocationRpt.Designer.vb">
+      <DependentUpon>FrmCEAllocationRpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmCEAllocationRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmChannelwiseCustomer1.Designer.vb">
+      <DependentUpon>frmChannelwiseCustomer1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmChannelwiseCustomer1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerAgeingNew.Designer.vb">
+      <DependentUpon>frmCustomerAgeingNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerAgeingNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerAgeingReport.Designer.vb">
+      <DependentUpon>frmCustomerAgeingReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerAgeingReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerAgingDEMO.Designer.vb">
+      <DependentUpon>frmCustomerAgingDEMO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerAgingDEMO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerBillWiseDetail.Designer.vb">
+      <DependentUpon>frmCustomerBillWiseDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerBillWiseDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerBillWiseDuesSummary.Designer.vb">
+      <DependentUpon>frmCustomerBillWiseDuesSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerBillWiseDuesSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerEmptyTrial2.Designer.vb">
+      <DependentUpon>frmCustomerEmptyTrial2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerEmptyTrial2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerGroupReport.Designer.vb">
+      <DependentUpon>frmCustomerGroupReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerGroupReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerLedgerVsAgeing.Designer.vb">
+      <DependentUpon>frmCustomerLedgerVsAgeing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerLedgerVsAgeing.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerMasterReport.Designer.vb">
+      <DependentUpon>frmCustomerMasterReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerMasterReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerOutstanding.Designer.vb">
+      <DependentUpon>frmCustomerOutstanding.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerOutstanding.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerRankingReport1.Designer.vb">
+      <DependentUpon>frmCustomerRankingReport1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerRankingReport1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerTargetReport.Designer.vb">
+      <DependentUpon>frmCustomerTargetReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmCustomerTargetReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmDailySettlement.Designer.vb">
+      <DependentUpon>frmDailySettlement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmDailySettlement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmDailySettlementActualAndProvisionalReport.Designer.vb">
+      <DependentUpon>FrmDailySettlementActualAndProvisionalReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmDailySettlementActualAndProvisionalReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmDailyStockAccountRpt.Designer.vb">
+      <DependentUpon>FrmDailyStockAccountRpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmDailyStockAccountRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmDayReportDirectSale.Designer.vb">
+      <DependentUpon>FrmDayReportDirectSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmDayReportDirectSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmDetailOfForm2A.Designer.vb">
+      <DependentUpon>FrmDetailOfForm2A.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmDetailOfForm2A.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmDetailsOfForm2B.Designer.vb">
+      <DependentUpon>FrmDetailsOfForm2B.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmDetailsOfForm2B.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmDiscountAnalysis.Designer.vb">
+      <DependentUpon>frmDiscountAnalysis.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmDiscountAnalysis.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmDiscountReport.Designer.vb">
+      <DependentUpon>frmDiscountReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmDiscountReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmDistrbutorSaleTarget.Designer.vb">
+      <DependentUpon>frmDistrbutorSaleTarget.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmDistrbutorSaleTarget.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmDistribuorDiscount.Designer.vb">
+      <DependentUpon>frmDistribuorDiscount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmDistribuorDiscount.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmEmptyInwardRpt.Designer.vb">
+      <DependentUpon>frmEmptyInwardRpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmEmptyInwardRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmExciseSummaryReport.Designer.vb">
+      <DependentUpon>frmExciseSummaryReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmExciseSummaryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmExciseSummary_DEMO.Designer.vb">
+      <DependentUpon>frmExciseSummary_DEMO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmExciseSummary_DEMO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmFilledOutWard.Designer.vb">
+      <DependentUpon>FrmFilledOutWard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmFilledOutWard.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmFilledOutwardRegister.Designer.vb">
+      <DependentUpon>frmFilledOutwardRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmFilledOutwardRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmInvoiceswithoutreceipt.Designer.vb">
+      <DependentUpon>frmInvoiceswithoutreceipt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmInvoiceswithoutreceipt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmInwardRegister.designer.vb">
+      <DependentUpon>frmInwardRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmInwardRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmItemCommissionReport.Designer.vb">
+      <DependentUpon>frmItemCommissionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmItemCommissionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmItemCommissionSummary.Designer.vb">
+      <DependentUpon>FrmItemCommissionSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmItemCommissionSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmItemDiscountReport.Designer.vb">
+      <DependentUpon>frmItemDiscountReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmItemDiscountReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmKeyvalueReport.Designer.vb">
+      <DependentUpon>frmKeyvalueReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmKeyvalueReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmKPIReport.Designer.vb">
+      <DependentUpon>FrmKPIReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmKPIReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmLeakageBreakage.Designer.vb">
+      <DependentUpon>frmLeakageBreakage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmLeakageBreakage.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmLoadOutInvoiceRecoReport.Designer.vb">
+      <DependentUpon>frmLoadOutInvoiceRecoReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmLoadOutInvoiceRecoReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmLoadOutStatusreport.Designer.vb">
+      <DependentUpon>frmLoadOutStatusreport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmLoadOutStatusreport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmloadoutVSvechileCapacity2.Designer.vb">
+      <DependentUpon>frmloadoutVSvechileCapacity2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmloadoutVSvechileCapacity2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmLoadReport.Designer.vb">
+      <DependentUpon>FrmLoadReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmLoadReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmMCDiscReport.Designer.vb">
+      <DependentUpon>frmMCDiscReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmMCDiscReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmMismatchCashMemo.Designer.vb">
+      <DependentUpon>frmMismatchCashMemo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmMismatchCashMemo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmMismatchRpt.Designer.vb">
+      <DependentUpon>frmMismatchRpt.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmMismatchRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmMismatchSettlement.Designer.vb">
+      <DependentUpon>frmMismatchSettlement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmMismatchSettlement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmNetSaleReport1.Designer.vb">
+      <DependentUpon>frmNetSaleReport1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmNetSaleReport1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmOtherPartySale1.Designer.vb">
+      <DependentUpon>frmOtherPartySale1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmOtherPartySale1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmOutletEmptyReport1.Designer.vb">
+      <DependentUpon>frmOutletEmptyReport1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmOutletEmptyReport1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmOverallDiscountReport.Designer.vb">
+      <DependentUpon>frmOverallDiscountReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmOverallDiscountReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmPendingLoadIn%28Transfer Type%29.Designer.vb">
+      <DependentUpon>frmPendingLoadIn%28Transfer Type%29.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmPendingLoadIn%28Transfer Type%29.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmPrimarySalesReport.designer.vb">
+      <DependentUpon>frmPrimarySalesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmPrimarySalesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmProvionalSalesReport.Designer.vb">
+      <DependentUpon>frmProvionalSalesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmProvionalSalesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmProvisionalSalesRoutewise.designer.vb">
+      <DependentUpon>frmProvisionalSalesRoutewise.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmProvisionalSalesRoutewise.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmProvSaleExcel.Designer.vb">
+      <DependentUpon>frmProvSaleExcel.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmProvSaleExcel.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmQuickSettlementHead.Designer.vb">
+      <DependentUpon>frmQuickSettlementHead.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmQuickSettlementHead.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRECEIPTSAGAINSTSALES%28FILLED%29.Designer.vb">
+      <DependentUpon>frmRECEIPTSAGAINSTSALES%28FILLED%29.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRECEIPTSAGAINSTSALES%28FILLED%29.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmreceiptvoucher2.Designer.vb">
+      <DependentUpon>frmreceiptvoucher2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmreceiptvoucher2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmreceiptvoucherviewer1.Designer.vb">
+      <DependentUpon>frmreceiptvoucherviewer1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmreceiptvoucherviewer1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmReverseSettlement.Designer.vb">
+      <DependentUpon>frmReverseSettlement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmReverseSettlement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRGP_Register NRGP2.Designer.vb">
+      <DependentUpon>frmRGP_Register NRGP2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRGP_Register NRGP2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmRoutewiseSaleReport.Designer.vb">
+      <DependentUpon>FrmRoutewiseSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmRoutewiseSaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptCreditSales.Designer.vb">
+      <DependentUpon>frmRptCreditSales.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptCreditSales.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptCustomerLedgerDemo.Designer.vb">
+      <DependentUpon>frmRptCustomerLedgerDemo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptCustomerLedgerDemo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptCustomerLedgerZoneAreaWise.Designer.vb">
+      <DependentUpon>frmRptCustomerLedgerZoneAreaWise.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptCustomerLedgerZoneAreaWise.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptCustomerRouteHistory.Designer.vb">
+      <DependentUpon>frmRptCustomerRouteHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptCustomerRouteHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmRptCustomerTransHistory.Designer.vb">
+      <DependentUpon>FrmRptCustomerTransHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmRptCustomerTransHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmRptCustomerTransList.Designer.vb">
+      <DependentUpon>FrmRptCustomerTransList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmRptCustomerTransList.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmRptEmptyTransaction.Designer.vb">
+      <DependentUpon>FrmRptEmptyTransaction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmRptEmptyTransaction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptNoSales.Designer.vb">
+      <DependentUpon>frmRptNoSales.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptNoSales.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptPenetration.Designer.vb">
+      <DependentUpon>frmRptPenetration.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptPenetration.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptSales.Designer.vb">
+      <DependentUpon>frmRptSales.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptSales.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptSalesManReport.Designer.vb">
+      <DependentUpon>frmRptSalesManReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptSalesManReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptSalesReturn.Designer.vb">
+      <DependentUpon>frmRptSalesReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmRptSalesReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmRpt_OutStnd_Items_RGP.Designer.vb">
+      <DependentUpon>FrmRpt_OutStnd_Items_RGP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmRpt_OutStnd_Items_RGP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleAccountBreakageReport.designer.vb">
+      <DependentUpon>frmSaleAccountBreakageReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleAccountBreakageReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleAccountBreakOrCashDisc.Designer.vb">
+      <DependentUpon>frmSaleAccountBreakOrCashDisc.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleAccountBreakOrCashDisc.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleDiscount1.Designer.vb">
+      <DependentUpon>frmSaleDiscount1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleDiscount1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmSalemanSaleOrder.Designer.vb">
+      <DependentUpon>FrmSalemanSaleOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmSalemanSaleOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleOrderSummary.designer.vb">
+      <DependentUpon>frmSaleOrderSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleOrderSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSalesCollection.Designer.vb">
+      <DependentUpon>frmSalesCollection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSalesCollection.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleSummaryAgainstPO.Designer.vb">
+      <DependentUpon>frmSaleSummaryAgainstPO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleSummaryAgainstPO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleVolumeTracker.Designer.vb">
+      <DependentUpon>frmSaleVolumeTracker.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSaleVolumeTracker.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSecondarySales.Designer.vb">
+      <DependentUpon>frmSecondarySales.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSecondarySales.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSettlementReport.designer.vb">
+      <DependentUpon>frmSettlementReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSettlementReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmSettlementSheetReconcilationReport.designer.vb">
+      <DependentUpon>FrmSettlementSheetReconcilationReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmSettlementSheetReconcilationReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSettlement_CashMemoStatus.Designer.vb">
+      <DependentUpon>frmSettlement_CashMemoStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSettlement_CashMemoStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmTargetReport1.Designer.vb">
+      <DependentUpon>FrmTargetReport1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmTargetReport1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmTDMReport.Designer.vb">
+      <DependentUpon>frmTDMReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmTDMReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmTDMSaleReport.Designer.vb">
+      <DependentUpon>FrmTDMSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\FrmTDMSaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmTransitBreakageReport2.Designer.vb">
+      <DependentUpon>frmTransitBreakageReport2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmTransitBreakageReport2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmTrialBalanceReport.Designer.vb">
+      <DependentUpon>frmTrialBalanceReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmTrialBalanceReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmVehiclewiseSale.Designer.vb">
+      <DependentUpon>frmVehiclewiseSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmVehiclewiseSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmVendorGroupWiseSaleReport.Designer.vb">
+      <DependentUpon>frmVendorGroupWiseSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmVendorGroupWiseSaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmVisiVPOReport.Designer.vb">
+      <DependentUpon>frmVisiVPOReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmVisiVPOReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\LoadOut.Designer.vb">
+      <DependentUpon>LoadOut.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\LoadOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\PendingSaleOrderReport.Designer.vb">
+      <DependentUpon>PendingSaleOrderReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\PendingSaleOrderReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\RouteSaleReport.Designer.vb">
+      <DependentUpon>RouteSaleReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\RouteSaleReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptCashDiscountReport.Designer.vb">
+      <DependentUpon>rptCashDiscountReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptCashDiscountReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptClaimMaster.Designer.vb">
+      <DependentUpon>rptClaimMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptClaimMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptGatePassVSActual.Designer.vb">
+      <DependentUpon>rptGatePassVSActual.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptGatePassVSActual.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptInvoiceAgainstInward.Designer.vb">
+      <DependentUpon>rptInvoiceAgainstInward.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptInvoiceAgainstInward.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\RptCustomerAccount.Designer.vb">
+      <DependentUpon>RptCustomerAccount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\RptCustomerAccount.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\RptPendingSettlement.Designer.vb">
+      <DependentUpon>RptPendingSettlement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\RptPendingSettlement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptSaleAccountSummary.Designer.vb">
+      <DependentUpon>rptSaleAccountSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\rptSaleAccountSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\RptTransfer_IncompleteReport.Designer.vb">
+      <DependentUpon>RptTransfer_IncompleteReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\RptTransfer_IncompleteReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\TransferRegister.Designer.vb">
+      <DependentUpon>TransferRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\TransferRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\Vehicle Details Report.Designer.vb">
+      <DependentUpon>Vehicle Details Report.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\Vehicle Details Report.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\VisiDetail.Designer.vb">
+      <DependentUpon>VisiDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\VisiDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmChangeInvoiceSalesman.Designer.vb">
+      <DependentUpon>frmChangeInvoiceSalesman.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmChangeInvoiceSalesman.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmCheckSlipEntry.Designer.vb">
+      <DependentUpon>frmCheckSlipEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmCheckSlipEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmCompleteLoadout.Designer.vb">
+      <DependentUpon>frmCompleteLoadout.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmCompleteLoadout.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmGatePassENtry1.Designer.vb">
+      <DependentUpon>frmGatePassENtry1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmGatePassENtry1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmReverseEntry.Designer.vb">
+      <DependentUpon>frmReverseEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmReverseEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmSaleOrder.Designer.vb">
+      <DependentUpon>frmSaleOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmSaleOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmSalesReturnNew.Designer.vb">
+      <DependentUpon>frmSalesReturnNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmSalesReturnNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmScrapSaleGateOut.Designer.vb">
+      <DependentUpon>frmScrapSaleGateOut.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmScrapSaleGateOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmSettlementEntry.Designer.vb">
+      <DependentUpon>frmSettlementEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmSettlementEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmSkipExciseInvoice.Designer.vb">
+      <DependentUpon>frmSkipExciseInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmSkipExciseInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmTaxDetails.Designer.vb">
+      <DependentUpon>frmTaxDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmTaxDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmTransferIncompleteRemarks1.Designer.vb">
+      <DependentUpon>frmTransferIncompleteRemarks1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmTransferIncompleteRemarks1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Controls\frmBalanceQty.Designer.vb">
+      <DependentUpon>frmBalanceQty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\frmBalanceQty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Controls\frmLableSetting.Designer.vb">
+      <DependentUpon>frmLableSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\frmLableSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Controls\ucCheckSetting.Designer.vb">
+      <DependentUpon>ucCheckSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\ucCheckSetting.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User Controls\ucCustomFields.Designer.vb">
+      <DependentUpon>ucCustomFields.vb</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\ucCustomFields.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User Controls\ucMilkAnalyzer.Designer.vb">
+      <DependentUpon>ucMilkAnalyzer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\ucMilkAnalyzer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User Controls\ucRequisitionDetail.Designer.vb">
+      <DependentUpon>ucRequisitionDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\ucRequisitionDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User Controls\ucVendorItemDetail.Designer.vb">
+      <DependentUpon>ucVendorItemDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\ucVendorItemDetail.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Bulk Sale\Master\frmBulkSalePriceChart.resx">
+      <DependentUpon>frmBulkSalePriceChart.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Master\FrmBulkSaleSettings.resx">
+      <DependentUpon>FrmBulkSaleSettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Master\frmCreditLimitApprovalMaster.resx">
+      <DependentUpon>frmCreditLimitApprovalMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Master\frmExpiryDate.resx">
+      <DependentUpon>frmExpiryDate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Master\FrmLoadingTanker.resx">
+      <DependentUpon>FrmLoadingTanker.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Master\FrmPrintBulkInvoiceStatement.resx">
+      <DependentUpon>FrmPrintBulkInvoiceStatement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Master\FrmQualityCheckBulkSale.resx">
+      <DependentUpon>FrmQualityCheckBulkSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Master\FrmTankerOut.resx">
+      <DependentUpon>FrmTankerOut.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Master\frmWeighmentEntry.resx">
+      <DependentUpon>frmWeighmentEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Report\RptBulkMultipleDispatch.resx">
+      <DependentUpon>RptBulkMultipleDispatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Report\RptBulkSaleRegister.resx">
+      <DependentUpon>RptBulkSaleRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmBulkDispatchReturnSale.resx">
+      <DependentUpon>FrmBulkDispatchReturnSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmBulkSaleReturn.resx">
+      <DependentUpon>FrmBulkSaleReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmBulkTradeSRN.resx">
+      <DependentUpon>FrmBulkTradeSRN.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\frmCanReceived.resx">
+      <DependentUpon>frmCanReceived.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmCanSale.resx">
+      <DependentUpon>FrmCanSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmCanSaleUploader.resx">
+      <DependentUpon>FrmCanSaleUploader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmCreateAutoInvoiceBS.resx">
+      <DependentUpon>FrmCreateAutoInvoiceBS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmDispatchBulkSale.resx">
+      <DependentUpon>FrmDispatchBulkSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmDispatchBulkSaleTrade.resx">
+      <DependentUpon>FrmDispatchBulkSaleTrade.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmDispatchBulkSaleTradeReturn.resx">
+      <DependentUpon>FrmDispatchBulkSaleTradeReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\frmGateEntrySale.resx">
+      <DependentUpon>frmGateEntrySale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmInvoiceBulkSale.resx">
+      <DependentUpon>FrmInvoiceBulkSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\frmPendingDispatch.resx">
+      <DependentUpon>frmPendingDispatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\frmPendingDispatchTrade.resx">
+      <DependentUpon>frmPendingDispatchTrade.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\FrmSalesOrderBS_Pavitra.resx">
+      <DependentUpon>FrmSalesOrderBS_Pavitra.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalClases\rptCheque.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptCheque.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalClases\rptChequeMultiple.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>rptChequeMultiple.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Report\frmCancelledTransactions_Exportsale.resx">
+      <DependentUpon>frmCancelledTransactions_Exportsale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Report\frmPaymentRealization.resx">
+      <DependentUpon>frmPaymentRealization.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Report\rptDateOfArrivalOfCon.resx">
+      <DependentUpon>rptDateOfArrivalOfCon.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Report\rptDutyDrawback.resx">
+      <DependentUpon>rptDutyDrawback.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Report\rptExportExepences.resx">
+      <DependentUpon>rptExportExepences.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Export Sale\Report\RptExportSaleRegister.resx">
+      <DependentUpon>RptExportSaleRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPendingRequisitionQty.resx">
+      <DependentUpon>FrmPendingRequisitionQty.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Master\FrmFixedDeposit.resx">
+      <DependentUpon>FrmFixedDeposit.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Master\FrmMerchantPaymentTerms.resx">
+      <DependentUpon>FrmMerchantPaymentTerms.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Master\FrmMerchantPaymentTermsGroup.resx">
+      <DependentUpon>FrmMerchantPaymentTermsGroup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Master\FrmMTReportContextFormat.resx">
+      <DependentUpon>FrmMTReportContextFormat.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Report\frmCancelledTransactions_MerchantSale.resx">
+      <DependentUpon>frmCancelledTransactions_MerchantSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Report\RptCashAgainstDocs.resx">
+      <DependentUpon>RptCashAgainstDocs.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Report\RptMTPIInHead.resx">
+      <DependentUpon>RptMTPIInHead.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Report\rptMTProductWiseDetailReport.resx">
+      <DependentUpon>rptMTProductWiseDetailReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Transaction\FrmDocumentAcceptance.resx">
+      <DependentUpon>FrmDocumentAcceptance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Transaction\FrmLCCreation.resx">
+      <DependentUpon>FrmLCCreation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Transaction\FrmLCRequest.resx">
+      <DependentUpon>FrmLCRequest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MerchantTrade\Transaction\frmPendingPurchaseOrder.resx">
+      <DependentUpon>frmPendingPurchaseOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\TabSchemeProvider.resx">
+      <DependentUpon>TabSchemeProvider.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Master\frmDispatchChecklist.resx">
+      <DependentUpon>frmDispatchChecklist.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Master\FrmDistanceMappingMaster.resx">
+      <DependentUpon>FrmDistanceMappingMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Master\FrmPrintProductInvoiceStatement.resx">
+      <DependentUpon>FrmPrintProductInvoiceStatement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Master\frmSchemeMasterDairy.resx">
+      <DependentUpon>frmSchemeMasterDairy.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Master\frmTragetMaster.resx">
+      <DependentUpon>frmTragetMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\FrmCategoryAnalysisReport.resx">
+      <DependentUpon>FrmCategoryAnalysisReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\FrmCustomerGroupOutstanding.resx">
+      <DependentUpon>FrmCustomerGroupOutstanding.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\FrmDailySaleReport.resx">
+      <DependentUpon>FrmDailySaleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\FrmMonthlySaleReport.resx">
+      <DependentUpon>FrmMonthlySaleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\RptFlavouredMilk.resx">
+      <DependentUpon>RptFlavouredMilk.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptGPDetail.resx">
+      <DependentUpon>rptGPDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\RptPartyWiseSale.resx">
+      <DependentUpon>RptPartyWiseSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptPrmoptMsgRelatedToPendencyDoc.resx">
+      <DependentUpon>rptPrmoptMsgRelatedToPendencyDoc.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\RptProductBookingStatus.resx">
+      <DependentUpon>RptProductBookingStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\RptProductDispatchStatus.resx">
+      <DependentUpon>RptProductDispatchStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\RptProductDOStatus.resx">
+      <DependentUpon>RptProductDOStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\RptProductSaleOrderStatus.resx">
+      <DependentUpon>RptProductSaleOrderStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\RptProductSaleRegister1.resx">
+      <DependentUpon>RptProductSaleRegister1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptSaleRegisterReport.resx">
+      <DependentUpon>rptSaleRegisterReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptSaleRegisterReportForAdv.resx">
+      <DependentUpon>rptSaleRegisterReportForAdv.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePatti.resx">
+      <DependentUpon>rptSaleRegisterReportWithCSASalePatti.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePattiProductLocationWise.resx">
+      <DependentUpon>rptSaleRegisterReportWithCSASalePattiProductLocationWise.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePattiProductPackWise.resx">
+      <DependentUpon>rptSaleRegisterReportWithCSASalePattiProductPackWise.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptSKUWiseSale.resx">
+      <DependentUpon>rptSKUWiseSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptTCSLedger.resx">
+      <DependentUpon>rptTCSLedger.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmAbateMentMaster.resx">
+      <DependentUpon>frmAbateMentMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmBreakagehead.resx">
+      <DependentUpon>frmBreakagehead.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmchannelCategory.resx">
+      <DependentUpon>frmchannelCategory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmChannelMaster.resx">
+      <DependentUpon>frmChannelMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmClaimMaster.resx">
+      <DependentUpon>frmClaimMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmCommissionMaster.resx">
+      <DependentUpon>frmCommissionMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmCompetitorMaster.resx">
+      <DependentUpon>frmCompetitorMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmConsumerMaster.resx">
+      <DependentUpon>frmConsumerMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmCustomerAccountSet.resx">
+      <DependentUpon>frmCustomerAccountSet.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmCustomerCategory.resx">
+      <DependentUpon>frmCustomerCategory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmCustomerGroup.resx">
+      <DependentUpon>frmCustomerGroup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\FrmCustomerLocationMapping.resx">
+      <DependentUpon>FrmCustomerLocationMapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmCustomerSelector.resx">
+      <DependentUpon>frmCustomerSelector.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmCustomerTargetFixing.resx">
+      <DependentUpon>frmCustomerTargetFixing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmCustomerType.resx">
+      <DependentUpon>frmCustomerType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\FrmCustomerVendorMapping.resx">
+      <DependentUpon>FrmCustomerVendorMapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmDayWiseLoadOutEntered.resx">
+      <DependentUpon>frmDayWiseLoadOutEntered.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmDCSForSale.resx">
+      <DependentUpon>frmDCSforSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmDiscountCategoryMaster.resx">
+      <DependentUpon>frmDiscountCategoryMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmDiscountMaster.resx">
+      <DependentUpon>frmDiscountMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmItemSelector2.resx">
+      <DependentUpon>frmItemSelector2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmPriceComponantMapping.resx">
+      <DependentUpon>frmPriceComponantMapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmPriceComponantMaster.resx">
+      <DependentUpon>frmPriceComponantMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmPriceGroupMapping.resx">
+      <DependentUpon>frmPriceGroupMapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmRoute Shifting.resx">
+      <DependentUpon>frmRoute Shifting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmRouteGroupMaster.resx">
+      <DependentUpon>frmRouteGroupMaster.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmRouteMaster.resx">
+      <DependentUpon>frmRouteMaster.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmRouteTypeMaster.resx">
+      <DependentUpon>frmRouteTypeMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmSchmeMaster.resx">
+      <DependentUpon>frmSchmeMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmSecondaryCustomerMaster.resx">
+      <DependentUpon>frmSecondaryCustomerMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmSettlementMaster.resx">
+      <DependentUpon>frmSettlementMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmStandardRateItem.resx">
+      <DependentUpon>frmStandardRateItem.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmStandardscheme.resx">
+      <DependentUpon>frmStandardscheme.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\FrmTargetMaster.resx">
+      <DependentUpon>FrmTargetMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmTemplateCreation.resx">
+      <DependentUpon>frmTemplateCreation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmTemplateExport3.resx">
+      <DependentUpon>frmTemplateExport3.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmTransportMaster.resx">
+      <DependentUpon>frmTransportMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmTransportType.resx">
+      <DependentUpon>frmTransportType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmVehicleMaster.resx">
+      <DependentUpon>frmVehicleMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmViewPunchingInvoice.resx">
+      <DependentUpon>frmViewPunchingInvoice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmVisiMaster.resx">
+      <DependentUpon>frmVisiMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\Sampling Master.resx">
+      <DependentUpon>Sampling Master.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\TDMwiseTarget.resx">
+      <DependentUpon>TDMwiseTarget.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\Cash Register Details4.resx">
+      <DependentUpon>Cash Register Details4.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\crptRG1Detail.resx">
+      <DependentUpon>crptRG1Detail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\EmptyReportDetail.resx">
+      <DependentUpon>EmptyReportDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\ExciseChaperHeadWise.resx">
+      <DependentUpon>ExciseChaperHeadWise.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCanceledSaleInvoice1.resx">
+      <DependentUpon>frmCanceledSaleInvoice1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCashDiscountNew.resx">
+      <DependentUpon>frmCashDiscountNew.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCashDiscountReport.resx">
+      <DependentUpon>frmCashDiscountReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmCEAllocationRpt.resx">
+      <DependentUpon>FrmCEAllocationRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmChannelwiseCustomer1.resx">
+      <DependentUpon>frmChannelwiseCustomer1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerAgeingNew.resx">
+      <DependentUpon>frmCustomerAgeingNew.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerAgeingReport.resx">
+      <DependentUpon>frmCustomerAgeingReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerAgingDEMO.resx">
+      <DependentUpon>frmCustomerAgingDEMO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerBillWiseDetail.resx">
+      <DependentUpon>frmCustomerBillWiseDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerBillWiseDuesSummary.resx">
+      <DependentUpon>frmCustomerBillWiseDuesSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerEmptyTrial2.resx">
+      <DependentUpon>frmCustomerEmptyTrial2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerGroupReport.resx">
+      <DependentUpon>frmCustomerGroupReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerLedgerVsAgeing.resx">
+      <DependentUpon>frmCustomerLedgerVsAgeing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerMasterReport.resx">
+      <DependentUpon>frmCustomerMasterReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerOutstanding.resx">
+      <DependentUpon>frmCustomerOutstanding.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerRankingReport1.resx">
+      <DependentUpon>frmCustomerRankingReport1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmCustomerTargetReport.resx">
+      <DependentUpon>frmCustomerTargetReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmDailySettlement.resx">
+      <DependentUpon>frmDailySettlement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmDailySettlementActualAndProvisionalReport.resx">
+      <DependentUpon>FrmDailySettlementActualAndProvisionalReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmDailyStockAccountRpt.resx">
+      <DependentUpon>FrmDailyStockAccountRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmDayReportDirectSale.resx">
+      <DependentUpon>FrmDayReportDirectSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmDetailOfForm2A.resx">
+      <DependentUpon>FrmDetailOfForm2A.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmDetailsOfForm2B.resx">
+      <DependentUpon>FrmDetailsOfForm2B.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmDiscountAnalysis.resx">
+      <DependentUpon>frmDiscountAnalysis.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmDiscountReport.resx">
+      <DependentUpon>frmDiscountReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmDistrbutorSaleTarget.resx">
+      <DependentUpon>frmDistrbutorSaleTarget.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmDistribuorDiscount.resx">
+      <DependentUpon>frmDistribuorDiscount.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmEmptyInwardRpt.resx">
+      <DependentUpon>frmEmptyInwardRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmExciseSummaryReport.resx">
+      <DependentUpon>frmExciseSummaryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmExciseSummary_DEMO.resx">
+      <DependentUpon>frmExciseSummary_DEMO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmFilledOutWard.resx">
+      <DependentUpon>FrmFilledOutWard.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmFilledOutwardRegister.resx">
+      <DependentUpon>frmFilledOutwardRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmInvoiceswithoutreceipt.resx">
+      <DependentUpon>frmInvoiceswithoutreceipt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmInwardRegister.resx">
+      <DependentUpon>frmInwardRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmItemCommissionReport.resx">
+      <DependentUpon>frmItemCommissionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmItemCommissionSummary.resx">
+      <DependentUpon>FrmItemCommissionSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmItemDiscountReport.resx">
+      <DependentUpon>frmItemDiscountReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmKeyvalueReport.resx">
+      <DependentUpon>frmKeyvalueReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmKPIReport.resx">
+      <DependentUpon>FrmKPIReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmLeakageBreakage.resx">
+      <DependentUpon>frmLeakageBreakage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmLoadOutInvoiceRecoReport.resx">
+      <DependentUpon>frmLoadOutInvoiceRecoReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmLoadOutStatusreport.resx">
+      <DependentUpon>frmLoadOutStatusreport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmloadoutVSvechileCapacity2.resx">
+      <DependentUpon>frmloadoutVSvechileCapacity2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmLoadReport.resx">
+      <DependentUpon>FrmLoadReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmMCDiscReport.resx">
+      <DependentUpon>frmMCDiscReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmMismatchCashMemo.resx">
+      <DependentUpon>frmMismatchCashMemo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmMismatchRpt.resx">
+      <DependentUpon>frmMismatchRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmMismatchSettlement.resx">
+      <DependentUpon>frmMismatchSettlement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmNetSaleReport1.resx">
+      <DependentUpon>frmNetSaleReport1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmOtherPartySale1.resx">
+      <DependentUpon>frmOtherPartySale1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmOutletEmptyReport1.resx">
+      <DependentUpon>frmOutletEmptyReport1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmOverallDiscountReport.resx">
+      <DependentUpon>frmOverallDiscountReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmPendingLoadIn%28Transfer Type%29.resx">
+      <DependentUpon>frmPendingLoadIn%28Transfer Type%29.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmPrimarySalesReport.resx">
+      <DependentUpon>frmPrimarySalesReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmProvionalSalesReport.resx">
+      <DependentUpon>frmProvionalSalesReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmProvisionalSalesRoutewise.resx">
+      <DependentUpon>frmProvisionalSalesRoutewise.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmProvSaleExcel.resx">
+      <DependentUpon>frmProvSaleExcel.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmQuickSettlementHead.resx">
+      <DependentUpon>frmQuickSettlementHead.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRECEIPTSAGAINSTSALES%28FILLED%29.resx">
+      <DependentUpon>frmRECEIPTSAGAINSTSALES%28FILLED%29.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmreceiptvoucher2.resx">
+      <DependentUpon>frmreceiptvoucher2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmreceiptvoucherviewer1.resx">
+      <DependentUpon>frmreceiptvoucherviewer1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmReverseSettlement.resx">
+      <DependentUpon>frmReverseSettlement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRGP_Register NRGP2.resx">
+      <DependentUpon>frmRGP_Register NRGP2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmRoutewiseSaleReport.resx">
+      <DependentUpon>FrmRoutewiseSaleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRptCreditSales.resx">
+      <DependentUpon>frmRptCreditSales.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRptCustomerLedgerDemo.resx">
+      <DependentUpon>frmRptCustomerLedgerDemo.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRptCustomerLedgerZoneAreaWise.resx">
+      <DependentUpon>frmRptCustomerLedgerZoneAreaWise.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRptCustomerRouteHistory.resx">
+      <DependentUpon>frmRptCustomerRouteHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmRptCustomerTransHistory.resx">
+      <DependentUpon>FrmRptCustomerTransHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmRptCustomerTransList.resx">
+      <DependentUpon>FrmRptCustomerTransList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmRptEmptyTransaction.resx">
+      <DependentUpon>FrmRptEmptyTransaction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRptNoSales.resx">
+      <DependentUpon>frmRptNoSales.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRptPenetration.resx">
+      <DependentUpon>frmRptPenetration.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRptSales.resx">
+      <DependentUpon>frmRptSales.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRptSalesManReport.resx">
+      <DependentUpon>frmRptSalesManReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmRptSalesReturn.resx">
+      <DependentUpon>frmRptSalesReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmRpt_OutStnd_Items_RGP.resx">
+      <DependentUpon>FrmRpt_OutStnd_Items_RGP.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSaleAccountBreakageReport.resx">
+      <DependentUpon>frmSaleAccountBreakageReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSaleAccountBreakOrCashDisc.resx">
+      <DependentUpon>frmSaleAccountBreakOrCashDisc.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSaleDiscount1.resx">
+      <DependentUpon>frmSaleDiscount1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmSalemanSaleOrder.resx">
+      <DependentUpon>FrmSalemanSaleOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSaleOrderSummary.resx">
+      <DependentUpon>frmSaleOrderSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSalesCollection.resx">
+      <DependentUpon>frmSalesCollection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSaleSummaryAgainstPO.resx">
+      <DependentUpon>frmSaleSummaryAgainstPO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSaleVolumeTracker.resx">
+      <DependentUpon>frmSaleVolumeTracker.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSecondarySales.resx">
+      <DependentUpon>frmSecondarySales.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSettlementReport.resx">
+      <DependentUpon>frmSettlementReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmSettlementSheetReconcilationReport.resx">
+      <DependentUpon>FrmSettlementSheetReconcilationReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSettlement_CashMemoStatus.resx">
+      <DependentUpon>frmSettlement_CashMemoStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmTargetReport1.resx">
+      <DependentUpon>FrmTargetReport1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmTDMReport.resx">
+      <DependentUpon>frmTDMReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\FrmTDMSaleReport.resx">
+      <DependentUpon>FrmTDMSaleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmTransitBreakageReport2.resx">
+      <DependentUpon>frmTransitBreakageReport2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmTrialBalanceReport.resx">
+      <DependentUpon>frmTrialBalanceReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmVehiclewiseSale.resx">
+      <DependentUpon>frmVehiclewiseSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmVendorGroupWiseSaleReport.resx">
+      <DependentUpon>frmVendorGroupWiseSaleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmVisiVPOReport.resx">
+      <DependentUpon>frmVisiVPOReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\LoadOut.resx">
+      <DependentUpon>LoadOut.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\PendingSaleOrderReport.resx">
+      <DependentUpon>PendingSaleOrderReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\RouteSaleReport.resx">
+      <DependentUpon>RouteSaleReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\rptCashDiscountReport.resx">
+      <DependentUpon>rptCashDiscountReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\rptClaimMaster.resx">
+      <DependentUpon>rptClaimMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\rptGatePassVSActual.resx">
+      <DependentUpon>rptGatePassVSActual.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\rptInvoiceAgainstInward.resx">
+      <DependentUpon>rptInvoiceAgainstInward.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\RptCustomerAccount.resx">
+      <DependentUpon>RptCustomerAccount.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\RptPendingSettlement.resx">
+      <DependentUpon>RptPendingSettlement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\rptSaleAccountSummary.resx">
+      <DependentUpon>rptSaleAccountSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\RptTransfer_IncompleteReport.resx">
+      <DependentUpon>RptTransfer_IncompleteReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\TransferRegister.resx">
+      <DependentUpon>TransferRegister.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\Vehicle Details Report.resx">
+      <DependentUpon>Vehicle Details Report.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\VisiDetail.resx">
+      <DependentUpon>VisiDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmChangeInvoiceSalesman.resx">
+      <DependentUpon>frmChangeInvoiceSalesman.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmCheckSlipEntry.resx">
+      <DependentUpon>frmCheckSlipEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmCompleteLoadout.resx">
+      <DependentUpon>frmCompleteLoadout.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmGatePassENtry1.resx">
+      <DependentUpon>frmGatePassENtry1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmReverseEntry.resx">
+      <DependentUpon>frmReverseEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmSaleOrder.resx">
+      <DependentUpon>frmSaleOrder.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmSalesReturnNew.resx">
+      <DependentUpon>frmSalesReturnNew.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmScrapSaleGateOut.resx">
+      <DependentUpon>frmScrapSaleGateOut.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmSettlementEntry.resx">
+      <DependentUpon>frmSettlementEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmSkipExciseInvoice.resx">
+      <DependentUpon>frmSkipExciseInvoice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmTaxDetails.resx">
+      <DependentUpon>frmTaxDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmTransferIncompleteRemarks1.resx">
+      <DependentUpon>frmTransferIncompleteRemarks1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Controls\frmBalanceQty.resx">
+      <DependentUpon>frmBalanceQty.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Controls\frmLableSetting.resx">
+      <DependentUpon>frmLableSetting.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Controls\ucCheckSetting.resx">
+      <DependentUpon>ucCheckSetting.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Controls\ucCustomFields.resx">
+      <DependentUpon>ucCustomFields.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Controls\ucMilkAnalyzer.resx">
+      <DependentUpon>ucMilkAnalyzer.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Controls\ucRequisitionDetail.resx">
+      <DependentUpon>ucRequisitionDetail.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Controls\ucVendorItemDetail.resx">
+      <DependentUpon>ucVendorItemDetail.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CrystalClases\dsRptChequeMultiple.xsc">
+      <DependentUpon>dsRptChequeMultiple.xsd</DependentUpon>
+    </None>
+    <None Include="CrystalClases\dsRptChequeMultiple.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsRptChequeMultiple.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="CrystalClases\dsRptChequeMultiple.xss">
+      <DependentUpon>dsRptChequeMultiple.xsd</DependentUpon>
+    </None>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\kiwi_fruit-5503.jpg" />
+    <None Include="Resources\INVENTORY.jpg" />
+    <None Include="Resources\images.jpg" />
+    <None Include="Resources\HR AND PAYROLL.jpg" />
+    <None Include="Resources\growth-chart.jpg" />
+    <None Include="Resources\globe.jpg" />
+    <None Include="Resources\GENERAL LEDGERS.jpg" />
+    <None Include="Resources\Folder-Blue-Doc-icon.png" />
+    <None Include="Resources\FIXED ASSET.jpg" />
+    <None Include="Resources\final-white2.png" />
+    <None Include="Resources\Donut.png" />
+    <None Include="Resources\Detail1.png" />
+    <None Include="Resources\Detail_Vertical.png" />
+    <None Include="Resources\Detail.png" />
+    <None Include="Resources\comService.png" />
+    <None Include="Resources\CloseBox.png" />
+    <None Include="Resources\Chart-Bar-Big-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\knight-rider-shelby-mustang-500-gtr-02.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Line.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LineArea.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open-book-vector-icon_small.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PAYMENT.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PIE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pre2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PRODUCTION.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PURCHASE.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RECEIVABLES.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SALE.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tax.png.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Utility.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VPFBG2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VPFBG11.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\administrator.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\B1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackImage1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackImage11.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackImageNew.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackImageXpertERP.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BackImageXpertERPFMCGN.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BI1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUSINESS INTELLIGENCE.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\C5.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

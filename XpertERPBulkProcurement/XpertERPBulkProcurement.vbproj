@@ -1,0 +1,874 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0F8BAE09-AA89-485D-A1A6-BBB28ADC9154}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>XpertERPBulkProcurement</RootNamespace>
+    <AssemblyName>XpertERPBulkProcurement</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPBulkProcurement.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>XpertERPBulkProcurement.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\14.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XpertCommon, Version=2.0.6.50, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngine">
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine, Version=5.2.8.45, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Telerik.WinControls" />
+    <Import Include="Telerik.WinControls.Data" />
+    <Import Include="Telerik.WinControls.UI" />
+    <Import Include="XpertERPEngine" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
+      <Link>SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Bulk Procurement\Master\frmTankerCleaningItem.Designer.vb">
+      <DependentUpon>frmTankerCleaningItem.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Master\frmTankerCleaningItem.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\FrmOwnBmcExpanse.Designer.vb">
+      <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\FrmOwnBmcExpanse.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmOwnBMCGainLossRate.Designer.vb">
+      <DependentUpon>frmOwnBMCGainLossRate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmOwnBMCGainLossRate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmFATSNFDiffReport.Designer.vb">
+      <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmFATSNFDiffReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTemporaryPaymentDeductionSummary.Designer.vb">
+      <DependentUpon>rptTemporaryPaymentDeductionSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTemporaryPaymentDeductionSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.Designer.vb">
+      <DependentUpon>rptTruckSheetDailySummaryReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkCollectionMCCQC.Designer.vb">
+      <DependentUpon>frmMilkCollectionMCCQC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkCollectionMCCQC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmDCSAdditionDeduction.Designer.vb">
+      <DependentUpon>frmDCSAdditionDeduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmDCSAdditionDeduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmGazeReading.Designer.vb">
+      <DependentUpon>frmGazeReading.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmGazeReading.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterJPR.Designer.vb">
+      <DependentUpon>frmPriceChartPlanMasterJPR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterJPR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterTSDDCFDeduction.Designer.vb">
+      <DependentUpon>frmPriceChartPlanMasterTSDDCFDeduction.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterTSDDCFDeduction.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmAutoAdditionDeductionReport.Designer.vb">
+      <DependentUpon>frmAutoAdditionDeductionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmAutoAdditionDeductionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmDBTRecoVsIncentiveReport.Designer.vb">
+      <DependentUpon>frmDBTRecoVsIncentiveReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmDBTRecoVsIncentiveReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptDailyQtyReport.designer.vb">
+      <DependentUpon>rptDailyQtyReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptDailyQtyReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptPaymentCycleWiseReport.Designer.vb">
+      <DependentUpon>rptPaymentCycleWiseReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptPaymentCycleWiseReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTempTruckSheetCollectionReport.designer.vb">
+      <DependentUpon>rptTempTruckSheetCollectionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTempTruckSheetCollectionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkCollectionDCS.Designer.vb">
+      <DependentUpon>frmMilkCollectionDCS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkCollectionDCS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkCollectionMCC.Designer.vb">
+      <DependentUpon>frmMilkCollectionMCC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkCollectionMCC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmCappingMaster.Designer.vb">
+      <DependentUpon>frmCappingMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmCappingMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmDCSFinancialHead.Designer.vb">
+      <DependentUpon>frmDCSFinancialHead.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmDCSFinancialHead.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmGeneratePaymentCycle.Designer.vb">
+      <DependentUpon>frmGeneratePaymentCycle.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmGeneratePaymentCycle.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmMakeTempleteImportMP.designer.vb">
+      <DependentUpon>frmMakeTempleteImportMP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmMakeTempleteImportMP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmMPIncetiveSlab.Designer.vb">
+      <DependentUpon>frmMPIncetiveSlab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmMPIncetiveSlab.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterRCDF.Designer.vb">
+      <DependentUpon>frmPriceChartPlanMasterRCDF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartPlanMasterRCDF.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmTempleteImportMP.Designer.vb">
+      <DependentUpon>frmTempleteImportMP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmTempleteImportMP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmVerifyMPIFSC.Designer.vb">
+      <DependentUpon>frmVerifyMPIFSC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmVerifyMPIFSC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmFailBDF.Designer.vb">
+      <DependentUpon>frmFailBDF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmFailBDF.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmMPIncetiveEntryReport.Designer.vb">
+      <DependentUpon>frmMPIncetiveEntryReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmMPIncetiveEntryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmVendorBankAdvice.Designer.vb">
+      <DependentUpon>frmVendorBankAdvice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmVendorBankAdvice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmVLCProgressReportReport.Designer.vb">
+      <DependentUpon>frmVLCProgressReportReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmVLCProgressReportReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptDCSFinancial.Designer.vb">
+      <DependentUpon>rptDCSFinancial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptDCSFinancial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptLiabilityReport.Designer.vb">
+      <DependentUpon>rptLiabilityReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptLiabilityReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMilkAnalysis.Designer.vb">
+      <DependentUpon>rptMilkAnalysis.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMilkAnalysis.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMilkBillProcurementSummary.Designer.vb">
+      <DependentUpon>rptMilkBillProcurementSummary.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMilkBillProcurementSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMilkCostReport.Designer.vb">
+      <DependentUpon>rptMilkCostReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMilkCostReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptPaymentProcessReportBMCSocietyWise.designer.vb">
+      <DependentUpon>rptPaymentProcessReportBMCSocietyWise.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptPaymentProcessReportBMCSocietyWise.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptPaymentProcessRouteReport.designer.vb">
+      <DependentUpon>rptPaymentProcessRouteReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptPaymentProcessRouteReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptSocietyLedgerReport.Designer.vb">
+      <DependentUpon>rptSocietyLedgerReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptSocietyLedgerReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTruckSheetReport.Designer.vb">
+      <DependentUpon>rptTruckSheetReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptTruckSheetReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\FrmApplyCapping.Designer.vb">
+      <DependentUpon>FrmApplyCapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\FrmApplyCapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDBTNEFTReject.Designer.vb">
+      <DependentUpon>frmDBTNEFTReject.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDBTNEFTReject.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDBTNEFTUploader.Designer.vb">
+      <DependentUpon>frmDBTNEFTUploader.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDBTNEFTUploader.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDCSFinancialEntry.Designer.vb">
+      <DependentUpon>frmDCSFinancialEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmDCSFinancialEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkShiftUploader.Designer.vb">
+      <DependentUpon>frmMilkShiftUploader.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkShiftUploader.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkShiftUploaderRaj.Designer.vb">
+      <DependentUpon>frmMilkShiftUploaderRaj.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkShiftUploaderRaj.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkShiftUploaderUCDF.Designer.vb">
+      <DependentUpon>frmMilkShiftUploaderUCDF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkShiftUploaderUCDF.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMPDCSIncentiveReco.Designer.vb">
+      <DependentUpon>frmMPDCSIncentiveReco.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMPDCSIncentiveReco.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMPIncentiveEntrty.Designer.vb">
+      <DependentUpon>frmMPIncentiveEntrty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMPIncentiveEntrty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Visual Report\VisualReportProcurement.Designer.vb">
+      <DependentUpon>VisualReportProcurement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Visual Report\VisualReportProcurement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Visual Report\VisualTopProcurement.Designer.vb">
+      <DependentUpon>VisualTopProcurement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Visual Report\VisualTopProcurement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Bulk Procurement\Report\rptTankerStatusReport.Designer.vb">
+      <DependentUpon>rptTankerStatusReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Report\rptTankerStatusReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmBulkMilkPurchaseInvoiceMultiple.Designer.vb">
+      <DependentUpon>frmBulkMilkPurchaseInvoiceMultiple.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmBulkMilkPurchaseInvoiceMultiple.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmBulkMilkSRN.Designer.vb">
+      <DependentUpon>frmBulkMilkSRN.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmBulkMilkSRN.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmBulkMilkSRNReturn.Designer.vb">
+      <DependentUpon>frmBulkMilkSRNReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmBulkMilkSRNReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmBulkPurchaseUploader.Designer.vb">
+      <DependentUpon>frmBulkPurchaseUploader.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmBulkPurchaseUploader.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmCleaning.Designer.vb">
+      <DependentUpon>frmCleaning.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmCleaning.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmGateEntry.Designer.vb">
+      <DependentUpon>frmGateEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmGateEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmGateOut.Designer.vb">
+      <DependentUpon>frmGateOut.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmGateOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmJobWorkDebitNote.Designer.vb">
+      <DependentUpon>frmJobWorkDebitNote.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmJobWorkDebitNote.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmMilkPurchaseInvoice.Designer.vb">
+      <DependentUpon>frmMilkPurchaseInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmMilkPurchaseInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmMilkPurchaseReturn.Designer.vb">
+      <DependentUpon>frmMilkPurchaseReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmMilkPurchaseReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmMilkTransferIn.Designer.vb">
+      <DependentUpon>frmMilkTransferIn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmMilkTransferIn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmMilkTransferInReturn.Designer.vb">
+      <DependentUpon>frmMilkTransferInReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmMilkTransferInReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmProvisionEntry.Designer.vb">
+      <DependentUpon>frmProvisionEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmProvisionEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmQCSeparation.Designer.vb">
+      <DependentUpon>frmQCSeparation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmQCSeparation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmQualityCheck.Designer.vb">
+      <DependentUpon>frmQualityCheck.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmQualityCheck.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\FrmSecondarySettingForQC.Designer.vb">
+      <DependentUpon>FrmSecondarySettingForQC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\FrmSecondarySettingForQC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmTankerProvision.Designer.vb">
+      <DependentUpon>frmTankerProvision.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmTankerProvision.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmUnloading.Designer.vb">
+      <DependentUpon>frmUnloading.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmUnloading.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmWeighment.Designer.vb">
+      <DependentUpon>frmWeighment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Transaction\frmWeighment.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Bulk Procurement\Master\frmTankerCleaningItem.resx">
+      <DependentUpon>frmTankerCleaningItem.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\FrmOwnBmcExpanse.resx">
+      <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmOwnBMCGainLossRate.resx">
+      <DependentUpon>frmOwnBMCGainLossRate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
+      <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptTemporaryPaymentDeductionSummary.resx">
+      <DependentUpon>rptTemporaryPaymentDeductionSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.resx">
+      <DependentUpon>rptTruckSheetDailySummaryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionMCCQC.resx">
+      <DependentUpon>frmMilkCollectionMCCQC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmDCSAdditionDeduction.resx">
+      <DependentUpon>frmDCSAdditionDeduction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmGazeReading.resx">
+      <DependentUpon>frmGazeReading.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartPlanMasterJPR.resx">
+      <DependentUpon>frmPriceChartPlanMasterJPR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartPlanMasterTSDDCFDeduction.resx">
+      <DependentUpon>frmPriceChartPlanMasterTSDDCFDeduction.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmAutoAdditionDeductionReport.resx">
+      <DependentUpon>frmAutoAdditionDeductionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmDBTRecoVsIncentiveReport.resx">
+      <DependentUpon>frmDBTRecoVsIncentiveReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptDailyQtyReport.resx">
+      <DependentUpon>rptDailyQtyReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptPaymentCycleWiseReport.resx">
+      <DependentUpon>rptPaymentCycleWiseReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptTempTruckSheetCollectionReport.resx">
+      <DependentUpon>rptTempTruckSheetCollectionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionDCS.resx">
+      <DependentUpon>frmMilkCollectionDCS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionMCC.resx">
+      <DependentUpon>frmMilkCollectionMCC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmCappingMaster.resx">
+      <DependentUpon>frmCappingMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmDCSFinancialHead.resx">
+      <DependentUpon>frmDCSFinancialHead.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmGeneratePaymentCycle.resx">
+      <DependentUpon>frmGeneratePaymentCycle.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmMakeTempleteImportMP.resx">
+      <DependentUpon>frmMakeTempleteImportMP.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmMPIncetiveSlab.resx">
+      <DependentUpon>frmMPIncetiveSlab.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartPlanMasterRCDF.resx">
+      <DependentUpon>frmPriceChartPlanMasterRCDF.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmTempleteImportMP.resx">
+      <DependentUpon>frmTempleteImportMP.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmVerifyMPIFSC.resx">
+      <DependentUpon>frmVerifyMPIFSC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmFailBDF.resx">
+      <DependentUpon>frmFailBDF.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmMPIncetiveEntryReport.resx">
+      <DependentUpon>frmMPIncetiveEntryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmVendorBankAdvice.resx">
+      <DependentUpon>frmVendorBankAdvice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmVLCProgressReportReport.resx">
+      <DependentUpon>frmVLCProgressReportReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptDCSFinancial.resx">
+      <DependentUpon>rptDCSFinancial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptLiabilityReport.resx">
+      <DependentUpon>rptLiabilityReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptMilkAnalysis.resx">
+      <DependentUpon>rptMilkAnalysis.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptMilkBillProcurementSummary.resx">
+      <DependentUpon>rptMilkBillProcurementSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptMilkCostReport.resx">
+      <DependentUpon>rptMilkCostReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptPaymentProcessReportBMCSocietyWise.resx">
+      <DependentUpon>rptPaymentProcessReportBMCSocietyWise.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptPaymentProcessRouteReport.resx">
+      <DependentUpon>rptPaymentProcessRouteReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptSocietyLedgerReport.resx">
+      <DependentUpon>rptSocietyLedgerReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptTruckSheetReport.resx">
+      <DependentUpon>rptTruckSheetReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\FrmApplyCapping.resx">
+      <DependentUpon>FrmApplyCapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmDBTNEFTReject.resx">
+      <DependentUpon>frmDBTNEFTReject.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmDBTNEFTUploader.resx">
+      <DependentUpon>frmDBTNEFTUploader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmDCSFinancialEntry.resx">
+      <DependentUpon>frmDCSFinancialEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkShiftUploader.resx">
+      <DependentUpon>frmMilkShiftUploader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkShiftUploaderRaj.resx">
+      <DependentUpon>frmMilkShiftUploaderRaj.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkShiftUploaderUCDF.resx">
+      <DependentUpon>frmMilkShiftUploaderUCDF.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMPDCSIncentiveReco.resx">
+      <DependentUpon>frmMPDCSIncentiveReco.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMPIncentiveEntrty.resx">
+      <DependentUpon>frmMPIncentiveEntrty.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Visual Report\VisualReportProcurement.resx">
+      <DependentUpon>VisualReportProcurement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Visual Report\VisualTopProcurement.resx">
+      <DependentUpon>VisualTopProcurement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Report\rptTankerStatusReport.resx">
+      <DependentUpon>rptTankerStatusReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmBulkMilkPurchaseInvoiceMultiple.resx">
+      <DependentUpon>frmBulkMilkPurchaseInvoiceMultiple.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmBulkMilkSRN.resx">
+      <DependentUpon>frmBulkMilkSRN.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmBulkMilkSRNReturn.resx">
+      <DependentUpon>frmBulkMilkSRNReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmBulkPurchaseUploader.resx">
+      <DependentUpon>frmBulkPurchaseUploader.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmCleaning.resx">
+      <DependentUpon>frmCleaning.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmGateEntry.resx">
+      <DependentUpon>frmGateEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmGateOut.resx">
+      <DependentUpon>frmGateOut.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmJobWorkDebitNote.resx">
+      <DependentUpon>frmJobWorkDebitNote.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmMilkPurchaseInvoice.resx">
+      <DependentUpon>frmMilkPurchaseInvoice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmMilkPurchaseReturn.resx">
+      <DependentUpon>frmMilkPurchaseReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmMilkTransferIn.resx">
+      <DependentUpon>frmMilkTransferIn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmMilkTransferInReturn.resx">
+      <DependentUpon>frmMilkTransferInReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmProvisionEntry.resx">
+      <DependentUpon>frmProvisionEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmQCSeparation.resx">
+      <DependentUpon>frmQCSeparation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmQualityCheck.resx">
+      <DependentUpon>frmQualityCheck.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\FrmSecondarySettingForQC.resx">
+      <DependentUpon>FrmSecondarySettingForQC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmTankerProvision.resx">
+      <DependentUpon>frmTankerProvision.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmUnloading.resx">
+      <DependentUpon>frmUnloading.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Transaction\frmWeighment.resx">
+      <DependentUpon>frmWeighment.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\globe.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\globe1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSE1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PIE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search41.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

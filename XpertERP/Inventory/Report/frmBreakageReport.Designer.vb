@@ -1,0 +1,468 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class FrmBreakageReport
+    Inherits FrmMainTranScreen
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
+        Me.cbgLocation = New common.MyCheckBoxGrid
+        Me.Panel1 = New System.Windows.Forms.Panel
+        Me.chkLocSelect = New common.Controls.MyRadioButton
+        Me.chkLocAll = New common.Controls.MyRadioButton
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox
+        Me.cbgtype = New common.MyCheckBoxGrid
+        Me.Panel4 = New System.Windows.Forms.Panel
+        Me.chktypeSelect = New common.Controls.MyRadioButton
+        Me.chktypeAll = New common.Controls.MyRadioButton
+        Me.RadioBtnSummary = New Telerik.WinControls.UI.RadRadioButton
+        Me.RadioBtnDetail = New Telerik.WinControls.UI.RadRadioButton
+        Me.txtBreakageType = New common.UserControls.txtFinder
+        Me.dtpendtime = New Telerik.WinControls.UI.RadDateTimePicker
+        Me.RadLabel1 = New common.Controls.MyLabel
+        Me.dtpStarttime = New Telerik.WinControls.UI.RadDateTimePicker
+        Me.RadLabel2 = New common.Controls.MyLabel
+        Me.lblBreakageType = New common.Controls.MyLabel
+        Me.dtpend = New Telerik.WinControls.UI.RadDateTimePicker
+        Me.RadLabel7 = New common.Controls.MyLabel
+        Me.dtpstart = New Telerik.WinControls.UI.RadDateTimePicker
+        Me.RadLabel8 = New common.Controls.MyLabel
+        Me.btnclose = New Telerik.WinControls.UI.RadButton
+        Me.btnreset = New Telerik.WinControls.UI.RadButton
+        Me.btnprint = New Telerik.WinControls.UI.RadButton
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        Me.Panel1.SuspendLayout()
+        CType(Me.chkLocSelect, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkLocAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        Me.Panel4.SuspendLayout()
+        CType(Me.chktypeSelect, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chktypeAll, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadioBtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadioBtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpendtime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpStarttime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBreakageType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpend, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpstart, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.RadGroupBox1)
+        Me.RadGroupBox5.Controls.Add(Me.RadGroupBox6)
+        Me.RadGroupBox5.Controls.Add(Me.RadioBtnSummary)
+        Me.RadGroupBox5.Controls.Add(Me.RadioBtnDetail)
+        Me.RadGroupBox5.Controls.Add(Me.txtBreakageType)
+        Me.RadGroupBox5.Controls.Add(Me.dtpendtime)
+        Me.RadGroupBox5.Controls.Add(Me.RadLabel1)
+        Me.RadGroupBox5.Controls.Add(Me.dtpStarttime)
+        Me.RadGroupBox5.Controls.Add(Me.RadLabel2)
+        Me.RadGroupBox5.Controls.Add(Me.lblBreakageType)
+        Me.RadGroupBox5.Controls.Add(Me.dtpend)
+        Me.RadGroupBox5.Controls.Add(Me.RadLabel7)
+        Me.RadGroupBox5.Controls.Add(Me.dtpstart)
+        Me.RadGroupBox5.Controls.Add(Me.RadLabel8)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(15, 17)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox5.Size = New System.Drawing.Size(526, 483)
+        Me.RadGroupBox5.TabIndex = 3
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.cbgLocation)
+        Me.RadGroupBox1.Controls.Add(Me.Panel1)
+        Me.RadGroupBox1.HeaderText = "Location Segment"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(13, 275)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(489, 189)
+        Me.RadGroupBox1.TabIndex = 34
+        Me.RadGroupBox1.Text = "Location Segment"
+        '
+        'cbgLocation
+        '
+        Me.cbgLocation.CheckedValue = Nothing
+        Me.cbgLocation.DataSource = Nothing
+        Me.cbgLocation.DisplayMember = "Name"
+        Me.cbgLocation.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.cbgLocation.Location = New System.Drawing.Point(10, 40)
+        Me.cbgLocation.MyAutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
+        Me.cbgLocation.MyShowHeadrText = False
+        Me.cbgLocation.Name = "cbgLocation"
+        Me.cbgLocation.Size = New System.Drawing.Size(469, 139)
+        Me.cbgLocation.TabIndex = 1
+        Me.cbgLocation.ValueMember = "Code"
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.chkLocSelect)
+        Me.Panel1.Controls.Add(Me.chkLocAll)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel1.Location = New System.Drawing.Point(10, 20)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(469, 20)
+        Me.Panel1.TabIndex = 0
+        '
+        'chkLocSelect
+        '
+        Me.chkLocSelect.Location = New System.Drawing.Point(247, 1)
+        Me.chkLocSelect.MyLinkLable1 = Nothing
+        Me.chkLocSelect.MyLinkLable2 = Nothing
+        Me.chkLocSelect.Name = "chkLocSelect"
+        Me.chkLocSelect.Size = New System.Drawing.Size(50, 18)
+        Me.chkLocSelect.TabIndex = 1
+        Me.chkLocSelect.Text = "Select"
+        '
+        'chkLocAll
+        '
+        Me.chkLocAll.Location = New System.Drawing.Point(196, 1)
+        Me.chkLocAll.MyLinkLable1 = Nothing
+        Me.chkLocAll.MyLinkLable2 = Nothing
+        Me.chkLocAll.Name = "chkLocAll"
+        Me.chkLocAll.Size = New System.Drawing.Size(33, 18)
+        Me.chkLocAll.TabIndex = 0
+        Me.chkLocAll.Text = "All"
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.cbgtype)
+        Me.RadGroupBox6.Controls.Add(Me.Panel4)
+        Me.RadGroupBox6.HeaderText = "Type"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(13, 84)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox6.Size = New System.Drawing.Size(489, 189)
+        Me.RadGroupBox6.TabIndex = 33
+        Me.RadGroupBox6.Text = "Type"
+        '
+        'cbgtype
+        '
+        Me.cbgtype.CheckedValue = Nothing
+        Me.cbgtype.DataSource = Nothing
+        Me.cbgtype.DisplayMember = "Name"
+        Me.cbgtype.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.cbgtype.Location = New System.Drawing.Point(10, 40)
+        Me.cbgtype.MyAutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
+        Me.cbgtype.MyShowHeadrText = False
+        Me.cbgtype.Name = "cbgtype"
+        Me.cbgtype.Size = New System.Drawing.Size(469, 139)
+        Me.cbgtype.TabIndex = 1
+        Me.cbgtype.ValueMember = "Code"
+        '
+        'Panel4
+        '
+        Me.Panel4.Controls.Add(Me.chktypeSelect)
+        Me.Panel4.Controls.Add(Me.chktypeAll)
+        Me.Panel4.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel4.Location = New System.Drawing.Point(10, 20)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(469, 20)
+        Me.Panel4.TabIndex = 0
+        '
+        'chktypeSelect
+        '
+        Me.chktypeSelect.Location = New System.Drawing.Point(247, 1)
+        Me.chktypeSelect.MyLinkLable1 = Nothing
+        Me.chktypeSelect.MyLinkLable2 = Nothing
+        Me.chktypeSelect.Name = "chktypeSelect"
+        Me.chktypeSelect.Size = New System.Drawing.Size(50, 18)
+        Me.chktypeSelect.TabIndex = 1
+        Me.chktypeSelect.Text = "Select"
+        '
+        'chktypeAll
+        '
+        Me.chktypeAll.Location = New System.Drawing.Point(196, 1)
+        Me.chktypeAll.MyLinkLable1 = Nothing
+        Me.chktypeAll.MyLinkLable2 = Nothing
+        Me.chktypeAll.Name = "chktypeAll"
+        Me.chktypeAll.Size = New System.Drawing.Size(33, 18)
+        Me.chktypeAll.TabIndex = 0
+        Me.chktypeAll.Text = "All"
+        '
+        'RadioBtnSummary
+        '
+        Me.RadioBtnSummary.Location = New System.Drawing.Point(13, 56)
+        Me.RadioBtnSummary.Name = "RadioBtnSummary"
+        Me.RadioBtnSummary.Size = New System.Drawing.Size(67, 18)
+        Me.RadioBtnSummary.TabIndex = 28
+        Me.RadioBtnSummary.Text = "Summary"
+        '
+        'RadioBtnDetail
+        '
+        Me.RadioBtnDetail.Location = New System.Drawing.Point(96, 56)
+        Me.RadioBtnDetail.Name = "RadioBtnDetail"
+        Me.RadioBtnDetail.Size = New System.Drawing.Size(49, 18)
+        Me.RadioBtnDetail.TabIndex = 27
+        Me.RadioBtnDetail.Text = "Detail"
+        '
+        'txtBreakageType
+        '
+        Me.txtBreakageType.Location = New System.Drawing.Point(366, 56)
+        Me.txtBreakageType.MendatroryField = True
+        Me.txtBreakageType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBreakageType.MyLinkLable1 = Nothing
+        Me.txtBreakageType.MyLinkLable2 = Nothing
+        Me.txtBreakageType.MyReadOnly = False
+        Me.txtBreakageType.Name = "txtBreakageType"
+        Me.txtBreakageType.Size = New System.Drawing.Size(132, 18)
+        Me.txtBreakageType.TabIndex = 4
+        Me.txtBreakageType.Value = ""
+        '
+        'dtpendtime
+        '
+        Me.dtpendtime.CustomFormat = "HH:mm tt"
+        Me.dtpendtime.Location = New System.Drawing.Point(364, 28)
+        Me.dtpendtime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpendtime.Name = "dtpendtime"
+        Me.dtpendtime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpendtime.Size = New System.Drawing.Size(134, 20)
+        Me.dtpendtime.TabIndex = 3
+        Me.dtpendtime.TabStop = False
+        Me.dtpendtime.Text = "Tuesday, September 03, 2013"
+        Me.dtpendtime.Value = New Date(2013, 9, 3, 23, 59, 0, 0)
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.Location = New System.Drawing.Point(10, 30)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(57, 18)
+        Me.RadLabel1.TabIndex = 25
+        Me.RadLabel1.Text = "Start Time"
+        '
+        'dtpStarttime
+        '
+        Me.dtpStarttime.CustomFormat = "HH:mm tt"
+        Me.dtpStarttime.Location = New System.Drawing.Point(118, 30)
+        Me.dtpStarttime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpStarttime.Name = "dtpStarttime"
+        Me.dtpStarttime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpStarttime.Size = New System.Drawing.Size(134, 20)
+        Me.dtpStarttime.TabIndex = 2
+        Me.dtpStarttime.TabStop = False
+        Me.dtpStarttime.Text = "Tuesday, September 03, 2013"
+        Me.dtpStarttime.Value = New Date(2013, 9, 3, 0, 0, 0, 0)
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.Location = New System.Drawing.Point(278, 28)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(52, 18)
+        Me.RadLabel2.TabIndex = 26
+        Me.RadLabel2.Text = "End Time"
+        '
+        'lblBreakageType
+        '
+        Me.lblBreakageType.Location = New System.Drawing.Point(278, 56)
+        Me.lblBreakageType.Name = "lblBreakageType"
+        Me.lblBreakageType.Size = New System.Drawing.Size(82, 18)
+        Me.lblBreakageType.TabIndex = 20
+        Me.lblBreakageType.Text = "Breakage  Type"
+        '
+        'dtpend
+        '
+        Me.dtpend.CustomFormat = "dd/MM/yyyy"
+        Me.dtpend.Location = New System.Drawing.Point(364, 4)
+        Me.dtpend.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpend.Name = "dtpend"
+        Me.dtpend.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpend.Size = New System.Drawing.Size(134, 20)
+        Me.dtpend.TabIndex = 1
+        Me.dtpend.TabStop = False
+        Me.dtpend.Text = "Wednesday, November 16, 2011"
+        Me.dtpend.Value = New Date(2011, 11, 16, 11, 21, 56, 285)
+        '
+        'RadLabel7
+        '
+        Me.RadLabel7.Location = New System.Drawing.Point(10, 6)
+        Me.RadLabel7.Name = "RadLabel7"
+        Me.RadLabel7.Size = New System.Drawing.Size(56, 18)
+        Me.RadLabel7.TabIndex = 11
+        Me.RadLabel7.Text = "Start Date"
+        '
+        'dtpstart
+        '
+        Me.dtpstart.CustomFormat = "dd/MM/yyyy"
+        Me.dtpstart.Location = New System.Drawing.Point(118, 6)
+        Me.dtpstart.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpstart.Name = "dtpstart"
+        Me.dtpstart.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpstart.Size = New System.Drawing.Size(134, 20)
+        Me.dtpstart.TabIndex = 0
+        Me.dtpstart.TabStop = False
+        Me.dtpstart.Text = "Wednesday, November 16, 2011"
+        Me.dtpstart.Value = New Date(2011, 11, 16, 11, 21, 56, 285)
+        '
+        'RadLabel8
+        '
+        Me.RadLabel8.Location = New System.Drawing.Point(278, 6)
+        Me.RadLabel8.Name = "RadLabel8"
+        Me.RadLabel8.Size = New System.Drawing.Size(52, 18)
+        Me.RadLabel8.TabIndex = 12
+        Me.RadLabel8.Text = "End Date"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Location = New System.Drawing.Point(473, 3)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(68, 18)
+        Me.btnclose.TabIndex = 7
+        Me.btnclose.Text = "Close"
+        '
+        'btnreset
+        '
+        Me.btnreset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnreset.Location = New System.Drawing.Point(3, 3)
+        Me.btnreset.Name = "btnreset"
+        Me.btnreset.Size = New System.Drawing.Size(68, 18)
+        Me.btnreset.TabIndex = 6
+        Me.btnreset.Text = "Reset"
+        '
+        'btnprint
+        '
+        Me.btnprint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnprint.Location = New System.Drawing.Point(77, 3)
+        Me.btnprint.Name = "btnprint"
+        Me.btnprint.Size = New System.Drawing.Size(68, 18)
+        Me.btnprint.TabIndex = 5
+        Me.btnprint.Text = "Print"
+        '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer1.Panel1
+        '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox5)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnprint)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnreset)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
+        Me.SplitContainer1.Size = New System.Drawing.Size(555, 541)
+        Me.SplitContainer1.SplitterDistance = 506
+        Me.SplitContainer1.TabIndex = 4
+        '
+        'FrmBreakageReport
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(555, 541)
+        Me.Controls.Add(Me.SplitContainer1)
+        Me.Name = "FrmBreakageReport"
+        '
+        '
+        '
+        Me.RootElement.ApplyShapeToControl = True
+        Me.Text = "Breakage Report"
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        CType(Me.chkLocSelect, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkLocAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.Panel4.ResumeLayout(False)
+        Me.Panel4.PerformLayout()
+        CType(Me.chktypeSelect, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chktypeAll, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadioBtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadioBtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpendtime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpStarttime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBreakageType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpend, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpstart, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.ResumeLayout(False)
+        CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents RadGroupBox5 As Telerik.WinControls.UI.RadGroupBox
+    Friend WithEvents dtpendtime As Telerik.WinControls.UI.RadDateTimePicker
+    Friend WithEvents dtpStarttime As Telerik.WinControls.UI.RadDateTimePicker
+    Friend WithEvents btnclose As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnreset As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnprint As Telerik.WinControls.UI.RadButton
+    Friend WithEvents dtpend As Telerik.WinControls.UI.RadDateTimePicker
+    Friend WithEvents dtpstart As Telerik.WinControls.UI.RadDateTimePicker
+    Friend WithEvents txtBreakageType As common.UserControls.txtFinder
+    Friend WithEvents RadioBtnSummary As Telerik.WinControls.UI.RadRadioButton
+    Friend WithEvents RadioBtnDetail As Telerik.WinControls.UI.RadRadioButton
+    Friend WithEvents RadGroupBox6 As Telerik.WinControls.UI.RadGroupBox
+    Friend WithEvents cbgtype As common.MyCheckBoxGrid
+    Friend WithEvents Panel4 As System.Windows.Forms.Panel
+    Friend WithEvents chktypeSelect As common.Controls.MyRadioButton
+    Friend WithEvents chktypeAll As common.Controls.MyRadioButton
+    Friend WithEvents RadLabel1 As common.Controls.MyLabel
+    Friend WithEvents RadLabel2 As common.Controls.MyLabel
+    Friend WithEvents lblBreakageType As common.Controls.MyLabel
+    Friend WithEvents RadLabel7 As common.Controls.MyLabel
+    Friend WithEvents RadLabel8 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
+    Friend WithEvents cbgLocation As common.MyCheckBoxGrid
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents chkLocSelect As common.Controls.MyRadioButton
+    Friend WithEvents chkLocAll As common.Controls.MyRadioButton
+    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
+End Class
+

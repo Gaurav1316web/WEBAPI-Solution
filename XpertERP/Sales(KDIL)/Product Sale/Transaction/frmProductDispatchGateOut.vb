@@ -1,0 +1,208 @@
+﻿Imports common
+Imports System.Data.SqlClient
+Public Class FrmProductDispatchGateOut
+    Inherits FrmMainTranScreen
+    Public isLoadData As Boolean = False
+    Dim obj As clsProductDispatchGateOut = Nothing
+
+    Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        If allowToSave() Then SaveData()
+    End Sub
+
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        If myMessages.deleteConfirm() Then
+            deleteData()
+        End If
+    End Sub
+    Function allowToSave() As Boolean
+        Try
+            If AllowFutureDateTransaction(txtGateOutDate.Value, Nothing) = False Then
+                txtGateOutDate.Select()
+                Return False
+            End If
+            If clsCommon.myLen(fndDispatchNo.Value) <= 0 Then
+                Throw New Exception("Transfer No. Can't left blank")
+            End If
+            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") <> CompairStringResult.Equal Then
+                If clsCommon.myLen(txtVehicleNo.Text) <= 0 Then
+                    Throw New Exception("Gate Out Not Allow because Vehicle No. is not Available.")
+                End If
+            End If
+
+            Return True
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Function
+
+    Sub SaveData()
+        Try
+            Dim trans As SqlTransaction = Nothing
+            obj = New clsProductDispatchGateOut
+            If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
+                obj.isNewEntry = True
+            Else
+                obj.isNewEntry = False
+            End If
+            trans = clsDBFuncationality.GetTransactin()
+            Dim dt As Date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy")
+            obj.Document_No = clsCommon.myCstr(fndDocNo.Value)
+            obj.Gate_Out_Date = clsCommon.GetPrintDate(txtGateOutDate.Value, "dd/MMM/yyyy")
+            obj.Dispatch_No = clsCommon.myCstr(fndDispatchNo.Value)
+            obj.Dispatch_Date = clsCommon.GetPrintDate(txtDispatchDate.Text, "dd/MMM/yyyy")
+            obj.Vehicle_Mannual_No = clsCommon.myCstr(txtVehicleNo.Text)
+            obj.From_Location = clsCommon.myCstr(txtFromLoc.Text)
+            obj.To_Location = clsCommon.myCstr(txtToLoc.Text)
+            obj.Customer_Code = clsCommon.myCstr(txtCustomerCode.Text)
+            obj.Transport_Id = clsCommon.myCstr(txtTransportId.Text)
+            obj.Modify_By = objCommonVar.CurrentUserCode
+            obj.Modify_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyy")
+            obj.Comp_Code = objCommonVar.CurrentCompanyCode
+            If obj.isNewEntry Then
+                obj.Created_By = objCommonVar.CurrentUserCode
+                obj.Created_Date = clsCommon.GetPrintDate(dt, "dd/MMM/yyyy")
+            End If
+
+            If clsProductDispatchGateOut.saveData(obj, trans) Then
+                trans.Commit()
+                If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
+                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                Else
+                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                End If
+
+
+                loadGateoutData(obj.Document_No, NavigatorType.Current)
+                btnSave.Text = "Update"
+                fndDocNo.MyReadOnly = True
+                btnDelete.Enabled = True
+
+                Exit Sub
+            End If
+            clsCommon.MyMessageBoxShow("Data Not Saved ")
+            btnSave.Text = "Update"
+            btnDelete.Enabled = False
+
+            fndDocNo.MyReadOnly = False
+            trans.Rollback()
+
+        Catch ex As Exception
+
+            clsCommon.MyMessageBoxShow(ex.Message)
+
+        End Try
+    End Sub
+    Sub loadGateoutData(ByVal str As String, ByVal navtype As NavigatorType)
+        obj = clsProductDispatchGateOut.getGateOutData(str, navtype)
+        If obj IsNot Nothing Then
+            Reset()
+            isLoadData = True
+            fndDocNo.Value = obj.Document_No
+            txtGateOutDate.Text = obj.Gate_Out_Date
+            fndDispatchNo.Value = obj.Dispatch_No
+            txtDispatchDate.Text = obj.Dispatch_Date
+            txtVehicleId.Text = obj.Vehicle_Id
+            txtVehicleNo.Text = obj.Vehicle_Mannual_No
+            txtFromLoc.Text = obj.From_Location
+            lblFromLoc.Text = obj.From_Location_Desc
+            txtToLoc.Text = obj.To_Location
+            lblToLoc.Text = obj.To_Location_Desc
+            txtCustomerCode.Text = obj.Customer_Code
+            txtCustomerName.Text = obj.Customer_Name
+            txtTransportId.Text = obj.Transport_Id
+            lblTransportName.Text = obj.Transporter_Name
+        End If
+        isLoadData = False
+        btnSave.Text = "Update"
+
+    End Sub
+
+    Sub deleteData()
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If clsCommon.myLen(fndDocNo.Value) > 0 Then
+
+                If clsProductDispatchGateOut.deleteData(fndDocNo.Value, trans) Then
+                    myMessages.delete()
+                    trans.Commit()
+                    Reset()
+                Else
+                    clsCommon.MyMessageBoxShow("Can't delete the record")
+                    trans.Rollback()
+                End If
+            Else
+
+                clsCommon.MyMessageBoxShow("Please Select a document to delete")
+                trans.Rollback()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+            trans.Rollback()
+        End Try
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
+    End Sub
+    Sub Reset()
+        fndDocNo.Value = ""
+        txtDispatchDate.Text = ""
+        txtGateOutDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
+        txtToLoc.Text = ""
+        txtFromLoc.Text = ""
+        txtVehicleId.Text = ""
+        txtVehicleNo.Text = ""
+        fndDispatchNo.Value = Nothing
+        txtDispatchDate.Text = ""
+        lblFromLoc.Text = ""
+        lblToLoc.Text = ""
+        txtCustomerCode.Text = ""
+        txtCustomerName.Text = ""
+        txtTransportId.Text = ""
+        lblTransportName.Text = ""
+        btnSave.Text = "Save"
+    End Sub
+
+    Private Sub FrmProductDispatchGateOut_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Reset()
+    End Sub
+
+    Private Sub fndDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles fndDocNo._MYNavigator
+        loadGateoutData(fndDocNo.Value, NavType)
+    End Sub
+
+    Private Sub fndDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDocNo._MYValidating
+        fndDocNo.Value = clsProductDispatchGateOut.getGateOutFinder("", fndDocNo.Value, isButtonClicked)
+        loadGateoutData(fndDocNo.Value, NavigatorType.Current)
+    End Sub
+
+    Private Sub fndDispatchNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDispatchNo._MYValidating
+        fndDispatchNo.Value = clsProductDispatchGateOut.getDispatchFinder("", fndDispatchNo.Value, isButtonClicked)
+        loadDispatchData(fndDispatchNo.Value, NavigatorType.Current)
+    End Sub
+    Sub loadDispatchData(ByVal str As String, ByVal navtype As NavigatorType)
+        obj = clsProductDispatchGateOut.getDispatchData(str, navtype)
+        If obj IsNot Nothing Then
+            Reset()
+            isLoadData = True
+            fndDispatchNo.Value = obj.Dispatch_No
+            txtDispatchDate.Text = obj.Dispatch_Date
+            txtVehicleId.Text = obj.Vehicle_Id
+            txtVehicleNo.Text = obj.Vehicle_Mannual_No
+            txtFromLoc.Text = obj.From_Location
+            lblFromLoc.Text = obj.From_Location_Desc
+            txtToLoc.Text = obj.To_Location
+            lblToLoc.Text = obj.To_Location_Desc
+            txtCustomerCode.Text = obj.Customer_Code
+            txtCustomerName.Text = obj.Customer_Name
+            txtTransportId.Text = obj.Transport_Id
+            lblTransportName.Text = obj.Transporter_Name
+        End If
+        isLoadData = False
+        btnSave.Text = "Save"
+    End Sub
+
+    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+        Reset()
+    End Sub
+End Class

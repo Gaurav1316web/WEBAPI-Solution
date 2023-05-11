@@ -1,0 +1,128 @@
+﻿'--------Created By Richa 20/08/2014 Against Ticket No BM00000003438
+
+Imports common
+Imports System.Data.SqlClient
+Public Class ClsReceivablePaymentTerms
+#Region "variables"
+    Public Terms_Code As String = Nothing
+    Public Terms_Desc As String = Nothing
+    Public No_Days As Integer = 0
+    Public SaleType As String = Nothing
+    'Public Comp_Code As String = Nothing
+    'Public Created_By As String = Nothing
+    'Public Created_Date As String = Nothing
+    'Public Modified_By As String = Nothing
+    'Public Modified_Date As String = Nothing
+#End Region
+
+    '----------------Code For Get Finder--------------------------------------------------------------------'
+    Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+        Dim str As String = ""
+        Dim qry As String = " select TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code as [Code] ,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc as [Terms Description],TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.No_Days as [No of Days],CASE WHEN TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='E' THEN 'EXPORT' WHEN TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='B' THEN 'BULK' WHEN TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='F' THEN 'FRESH' WHEN TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='P' THEN 'PRODUCT' WHEN TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='O' THEN 'OTHER' ELSE '' END AS [Sale Type], TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Created_By as [Created By] ,convert(varchar,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Created_Date,103) as [Created Date],TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Modified_By as [Modified By],convert(Varchar,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Modified_Date,103) as [Modified Date] ,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Comp_Code as [Comp Code]  From TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER   "
+        str = clsCommon.ShowSelectForm("PaymentTerms", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        Return str
+
+    End Function
+
+    Public Shared Function getFinderWithSaleType(ByVal curcode As String, ByVal SaleType As String, ByVal isButtonClicked As Boolean) As String
+        Dim whrcls As String = ""
+        Dim qry As String = " select TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code as [Code] ,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc as [Terms Description],TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.No_Days as [No of Days],CASE WHEN TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='E' THEN 'EXPORT' WHEN TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='B' THEN 'BULK' WHEN TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='F' THEN 'FRESH' WHEN TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='P' THEN 'PRODUCT' WHEN TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='O' THEN 'OTHER' ELSE '' END AS [Sale Type], TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Created_By as [Created By] ,convert(varchar,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Created_Date,103) as [Created Date],TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Modified_By as [Modified By],convert(Varchar,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Modified_Date,103) as [Modified Date] ,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Comp_Code as [Comp Code]  From TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER   "
+        If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowToShowSaleTypeinPaymentTermsReceivable, clsFixedParameterCode.AllowToShowSaleTypeinPaymentTermsReceivable, Nothing)) > 0 Then
+            whrcls = " TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType='" + SaleType + "'"
+        End If
+        Dim whrclas As String = ""
+        Return clsCommon.ShowSelectForm("RecPayTerms", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+    End Function
+
+    Public Shared Function GetName(ByVal strCode As String) As String
+        Dim qry As String = " select  TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc  From TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER   where TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code ='" + strCode + "'"
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+    End Function
+
+
+    Public Shared Function SaveData(ByVal obj As ClsReceivablePaymentTerms, ByVal isNewEntry As Boolean) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
+        Try
+
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Terms_Desc", obj.Terms_Desc)
+            clsCommon.AddColumnsForChange(coll, "No_Days", obj.No_Days)
+            clsCommon.AddColumnsForChange(coll, "SaleType", obj.SaleType, True)
+            clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
+            clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+            If isNewEntry Then
+                If (IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowAutoGenerateDocNoInMaster, clsFixedParameterCode.AllowAutoGenerateDocNoInMaster, trans)) = "1", True, False)) Then
+                    Dim ChkNewEntry As String = clsDBFuncationality.getSingleValue("Select count(*) from TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER where Terms_Code='" & obj.Terms_Code & "'", trans)
+                    If ChkNewEntry = 0 Then
+                        obj.Terms_Code = clsERPFuncationality.GetNextCode(trans, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"), clsDocType.ReceivablePaymentTerms, "", "")
+                        If clsCommon.myLen(obj.Terms_Code) <= 0 Then
+                            Throw New Exception("Error in Code Generation")
+                        End If
+                    End If
+                End If
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Terms_Code", obj.Terms_Code)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER", OMInsertOrUpdate.Insert, "", trans)
+            Else
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER", OMInsertOrUpdate.Update, "TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code='" + obj.Terms_Code + "'", trans)
+            End If
+            trans.Commit()
+        Catch err As Exception
+            trans.Rollback()
+            Throw New Exception(err.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As ClsReceivablePaymentTerms
+        Return GetData(strCode, NavType, Nothing)
+    End Function
+    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As ClsReceivablePaymentTerms
+        Dim obj As ClsReceivablePaymentTerms = Nothing
+        Dim Arr As List(Of ClsReceivablePaymentTerms) = Nothing
+        Dim qry As String = "select TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.No_Days,TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.SaleType from TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER where 2=2 "
+        Dim whrclas As String = ""
+        Select Case NavType
+            Case NavigatorType.First
+                qry += " and TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code = (select MIN(Terms_Code) from TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER WHERE 1=1 " + whrclas + " )"
+            Case NavigatorType.Last
+                qry += " and TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code = (select Max(Terms_Code) from TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER WHERE 1=1 " + whrclas + " )"
+            Case NavigatorType.Current
+                qry += " and TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code = '" + strCode + "' "
+            Case NavigatorType.Next
+                qry += " and TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code = (select Min(Terms_Code) from TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER where Terms_Code>'" + strCode + "' " + whrclas + ")"
+            Case NavigatorType.Previous
+                qry += " and TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code = (select Max(Terms_Code) from TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER where Terms_Code<'" + strCode + "' " + whrclas + ")"
+        End Select
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            obj = New ClsReceivablePaymentTerms()
+            obj.Terms_Code = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
+            obj.Terms_Desc = clsCommon.myCstr(dt.Rows(0)("Terms_Desc"))
+            obj.No_Days = clsCommon.myCdbl(dt.Rows(0)("No_Days"))
+            obj.SaleType = clsCommon.myCstr(dt.Rows(0)("SaleType"))
+           
+        End If
+        Return obj
+    End Function
+    Public Shared Function DeleteData(ByVal strDocNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim isSaved As Boolean = False
+        If (clsCommon.myLen(strDocNo) <= 0) Then
+            Throw New Exception("Document No not found to Delete")
+        End If
+        Try
+            Dim qry As String = "delete from TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER where Terms_Code='" + strDocNo + "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+
+        Return isSaved
+    End Function
+End Class

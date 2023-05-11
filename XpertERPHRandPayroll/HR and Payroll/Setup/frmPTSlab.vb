@@ -1,0 +1,337 @@
+﻿'--09/05/2018--form Add By- Panch Raj against ticket : ERO/17/04/18-000087---------
+Imports common
+Imports System.Data
+Imports System.Data.SqlClient
+Imports XpertERPEngine
+Imports Telerik.WinControls.UI
+
+Public Class frmPTSlab
+    Inherits FrmMainTranScreen
+    Dim ButtonToolTip As ToolTip = New ToolTip()
+    Dim userCode, companyCode As String
+    Dim DtDetail As New DataTable
+#Region "Variable"
+    Private isNewEntry As Boolean = False
+    Private isInsideLoadData As Boolean = False
+    Dim Qry As String
+    'Const colLineNo As String = "LineNo"
+    Const colPT_CODE As String = "colPT_CODE"
+    Const colAPPLY_ON_BASIC As String = "colAPPLY_ON_BASIC"
+    'Const colCRITERIA_TYPE As String = "colCRITERIA_TYPE"
+    Const col_FROM As String = "col_FROM"
+    Const col_TO As String = "col_TO"
+    Const colPT_AMOUNT As String = "colPT_AMOUNT"
+    'Const colRATE_TYPE As String = "colRATE_TYPE"
+
+#End Region
+
+    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
+        Save()
+    End Sub
+    Public Sub New(ByVal user As String, ByVal company As String)
+        InitializeComponent()
+        userCode = user
+        companyCode = company
+    End Sub
+    Private Sub Save()
+        If AllowToSave() Then
+            If MyBase.isModifyonPasswordFlag Then
+                If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmOTSlab, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                Else
+                    Return
+                End If
+            End If
+            Dim arr As New List(Of clsPTSlab)
+            Dim obj As New clsPTSlab()
+            obj.PT_CODE = txtCode.Value
+            obj.PT_NAME = Me.txtDescription.Text
+            obj.APPLICABLE_FROM = dtpApplicableFrom.Value
+            obj.STATE_CODE = fndState.Value
+            obj.ObjList = New List(Of clsPTSlabDetails)
+            For Each grow As GridViewRowInfo In gvOTSlab.Rows
+                'If clsCommon.myLen(grow.Cells(colCRITERIA_TYPE).Value) <= 0 Then
+                '    Continue For
+                'End If
+                '' check blank row
+                If clsCommon.myCdbl(grow.Cells(col_FROM).Value) <= 0 AndAlso clsCommon.myCdbl(grow.Cells(col_TO).Value) <= 0 AndAlso clsCommon.myCdbl(grow.Cells(colPT_AMOUNT).Value) <= 0 Then
+                    Continue For
+                End If
+                Dim objTr As New clsPTSlabDetails()
+                objTr.PT_CODE = clsCommon.myCstr(Me.txtCode.Value)
+                'objTr.CRITERIA_TYPE = clsCommon.myCstr(grow.Cells(colCRITERIA_TYPE).Value)
+                objTr._FROM = clsCommon.myCdbl(grow.Cells(col_FROM).Value)
+                objTr._TO = clsCommon.myCdbl(grow.Cells(col_TO).Value)
+                objTr.PT_AMOUNT = clsCommon.myCdbl(grow.Cells(colPT_AMOUNT).Value)
+                'objTr.RATE_TYPE = clsCommon.myCstr(grow.Cells(colRATE_TYPE).Value)
+                obj.ObjList.Add(objTr)
+            Next
+            arr.Add(obj)
+            'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+            If (clsPTSlab.SaveData(obj, isNewEntry)) Then
+                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                LoadData(obj.PT_CODE, NavigatorType.Current)
+            End If
+        End If
+    End Sub
+
+    Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+        txtCode.MyReadOnly = True
+        btnsave.Enabled = True
+        btndelete.Enabled = True
+        Dim obj As New clsPTSlab()
+        obj = clsPTSlab.GetData(strCode, NavTyep)
+        If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.PT_CODE) > 0) Then
+            funReset()
+            isNewEntry = False
+            btnsave.Text = "Update"
+            txtCode.MyReadOnly = True
+            txtCode.Value = obj.PT_CODE
+            txtDescription.Text = obj.PT_NAME
+            dtpApplicableFrom.Value = obj.APPLICABLE_FROM
+            fndState.Value = obj.STATE_CODE
+            lblStateDesc.Text = clsStateMaster.GetName(fndState.Value)
+            txtCode.MyReadOnly = True
+            Dim ii As Int16 = 0
+            If obj.ObjList IsNot Nothing AndAlso obj.ObjList.Count > 0 Then
+                LoadGridColumns()
+                For Each objTr As clsPTSlabDetails In obj.ObjList
+                    gvOTSlab.Rows.AddNew()
+                    ii = ii + 1
+                    gvOTSlab.Rows(gvOTSlab.Rows.Count - 1).Cells(col_FROM).Value = objTr._FROM
+                    gvOTSlab.Rows(gvOTSlab.Rows.Count - 1).Cells(col_TO).Value = objTr._TO
+                    gvOTSlab.Rows(gvOTSlab.Rows.Count - 1).Cells(colPT_AMOUNT).Value = objTr.PT_AMOUNT                    
+                Next
+            End If
+        Else
+            isNewEntry = True
+            Me.gvOTSlab.Rows.Clear()
+            Me.gvOTSlab.Rows.AddNew()
+        End If
+    End Sub
+
+    Function AllowToSave() As Boolean
+
+        If (IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowAutoGenerateDocNoInMaster, clsFixedParameterCode.AllowAutoGenerateDocNoInMaster, Nothing)) = "1", True, False) = False) AndAlso clsCommon.myLen(txtCode.Value) <= 0 Then
+            myMessages.blankValue("Code")
+            txtCode.Focus()
+            Return False
+        ElseIf clsCommon.myLen(txtDescription.Text) <= 0 Then
+            myMessages.blankValue("Description")
+            txtDescription.Focus()
+            Return False
+
+        End If
+        Dim totalSlab As Integer = 0
+        For Each grow As GridViewRowInfo In gvOTSlab.Rows
+            '' check blank row
+            If clsCommon.myCdbl(grow.Cells(col_FROM).Value) <= 0 AndAlso clsCommon.myCdbl(grow.Cells(col_TO).Value) <= 0 AndAlso clsCommon.myCdbl(grow.Cells(colPT_AMOUNT).Value) <= 0 Then
+                Continue For
+            End If
+            'If clsCommon.myCdbl(grow.Cells(col_FROM).Value) <= 0 Then
+            '    clsCommon.MyMessageBoxShow("From Value must be greater than Zero at line no-" & (grow.Index + 1) & "")
+            '    Return False
+            'End If
+            If clsCommon.myCdbl(grow.Cells(col_TO).Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("To Value must be greater than Zero at line no-" & (grow.Index + 1) & "")
+                Return False
+            End If
+            If clsCommon.myCdbl(grow.Cells(col_TO).Value) < clsCommon.myCdbl(grow.Cells(col_FROM).Value) Then
+                clsCommon.MyMessageBoxShow("To Value must be greater than From Value at line no-" & (grow.Index + 1) & "")
+                Return False
+            End If
+
+            If clsCommon.myCdbl(grow.Cells(colPT_AMOUNT).Value) <= 0 Then
+                clsCommon.MyMessageBoxShow("PT Amount must be greater than Zero at line no-" & (grow.Index + 1) & "")
+                Return False
+            End If
+            totalSlab = totalSlab + 1
+        Next
+        If totalSlab <= 0 Then
+            clsCommon.MyMessageBoxShow("Enter at least one PT Slab")
+            Return False
+        End If
+        Return True
+    End Function
+
+    Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
+        DeleteData()
+    End Sub
+
+    Sub DeleteData()
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            Exit Sub
+        End If
+
+        funDelete()
+    End Sub
+
+    Sub funDelete()
+        Try
+            If (myMessages.deleteConfirm()) Then
+                If (clsPTSlab.DeleteData(txtCode.Value)) Then
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    funReset()
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+
+    End Sub
+
+    Private Sub txtCode_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtCode.KeyPress
+        If (e.KeyChar = Chr(39)) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub frmPTSlab_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
+        LoadGridColumns()
+        isNewEntry = True
+        ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update ")
+        ' ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
+        ButtonToolTip.SetToolTip(btndelete, "Press Alt+D  for Delete ")
+        ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
+        ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
+        '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
+        funReset()
+    End Sub
+
+    Private Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmPTSlab)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+            'Me.Close()
+            'Exit Function
+        End If
+        btnsave.Visible = MyBase.isModifyFlag       
+        btndelete.Visible = MyBase.isDeleteFlag
+    End Sub
+
+    Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
+        funReset()
+    End Sub
+
+    Sub funReset()
+        isNewEntry = True
+        txtCode.MyReadOnly = False
+        txtCode.Value = Nothing
+        txtCode.Focus()
+        txtDescription.Text = ""
+        fndState.Value = Nothing
+        lblStateDesc.Text = ""
+        dtpApplicableFrom.Value = clsCommon.GETSERVERDATE()
+        'txtCategoryLevel.Text = ""
+        Me.gvOTSlab.Rows.Clear()
+        Me.gvOTSlab.Rows.AddNew()
+
+        btnsave.Text = "Save"
+        btnsave.Enabled = True
+        btndelete.Enabled = True
+    End Sub
+
+    Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
+        funClose()
+
+    End Sub
+
+    Sub funClose()
+        Me.Close()
+    End Sub
+
+    Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
+        If txtCode.MyReadOnly OrElse isButtonClicked Then
+            txtCode.Value = clsPTSlab.getFinder("", txtCode.Value, isButtonClicked)
+            If clsCommon.myLen(txtCode.Value) > 0 Then
+                Dim objOT As clsPTSlab
+                objOT = clsPTSlab.GetData(txtCode.Value, NavigatorType.Current)
+                If Not objOT Is Nothing Then
+                    txtDescription.Text = objOT.PT_NAME                    
+                    LoadData(txtCode.Value, NavigatorType.Current)
+                End If
+            Else
+                funReset()
+            End If
+        End If
+    End Sub
+
+    Private Sub txtCode__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
+        Try
+            LoadData(txtCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub frmPTSlab_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnNew.Enabled Then
+            funReset()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnsave.Enabled Then
+            Save()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btndelete.Enabled Then
+            DeleteData()
+        ElseIf e.Alt And e.KeyCode = Keys.C Then
+            funClose()
+        ElseIf e.Alt And e.KeyCode = Keys.N Then
+            funReset()
+        End If
+    End Sub
+
+    Sub LoadGridColumns()
+        gvOTSlab.DataSource = Nothing
+        gvOTSlab.Rows.Clear()
+        gvOTSlab.Columns.Clear()
+
+        gvOTSlab.ReadOnly = False
+        
+        Dim _FROM As New GridViewDecimalColumn
+        Dim _TO As New GridViewDecimalColumn
+        Dim PT_AMOUNT As New GridViewDecimalColumn
+        
+        _FROM.FormatString = ""
+        _FROM.HeaderText = "From"
+        _FROM.Name = col_FROM
+        _FROM.Width = 100
+        _FROM.ReadOnly = False
+        _FROM.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvOTSlab.Columns.Add(_FROM)
+
+        _TO.FormatString = ""
+        _TO.HeaderText = "To"
+        _TO.Name = col_TO
+        _TO.Width = 100
+        _TO.ReadOnly = False
+        _TO.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvOTSlab.Columns.Add(_TO)
+
+        PT_AMOUNT.FormatString = ""
+        PT_AMOUNT.HeaderText = "PT Amount"
+        PT_AMOUNT.Name = colPT_AMOUNT
+        PT_AMOUNT.Width = 100
+        PT_AMOUNT.ReadOnly = False
+        PT_AMOUNT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvOTSlab.Columns.Add(PT_AMOUNT)
+
+    End Sub
+
+    Private Sub gvCategoryValues_CurrentColumnChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gvOTSlab.CurrentColumnChanged
+        If gvOTSlab.RowCount > 0 Then
+            Dim intCurrRow As Integer = gvOTSlab.CurrentRow.Index            
+            If intCurrRow = gvOTSlab.Rows.Count - 1 Then
+                gvOTSlab.Rows.AddNew()                
+                gvOTSlab.CurrentRow = gvOTSlab.Rows(intCurrRow)
+            End If
+        End If
+    End Sub
+
+    Private Sub fndState__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndState._MYValidating
+        Try
+            fndState.Value = clsStateMaster.getFinder("", fndState.Value, isButtonClicked)
+            lblStateDesc.Text = clsStateMaster.GetName(fndState.Value)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+End Class

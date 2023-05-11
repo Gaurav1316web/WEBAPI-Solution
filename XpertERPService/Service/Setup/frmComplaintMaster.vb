@@ -1,0 +1,274 @@
+﻿
+'Created By---> Pankaj Jha
+'Created Date--->27/mar/2014
+
+Imports Microsoft.VisualBasic
+Imports System
+Imports System.Collections.Generic
+Imports System.ComponentModel
+Imports System.Data
+Imports System.Data.OleDb
+Imports System.Drawing
+Imports System.IO
+Imports System.Data.SqlClient
+Imports Telerik.WinControls.UI
+Imports Telerik.WinControls.Data
+Imports Telerik.Data
+Imports Telerik.WinControls.Enumerations
+Imports Telerik.WinControls
+Imports System.Text.RegularExpressions
+Imports Telerik.WinControls.UI.Export
+Imports Telerik.WinControls.UI.Export.ExportToExcelML
+Imports Excel = Microsoft.Office.Interop.Excel
+Imports System.Globalization
+Imports common
+
+Imports System.Threading
+Imports XpertERPEngine
+
+Public Class frmComplaintMaster
+    Inherits FrmMainTranScreen
+    Dim ButtonToolTip As ToolTip = New ToolTip()
+    Dim CompCode, Description As String
+    Dim obj As New clsComplaintMaster
+    Private Sub frmComplaintMaster_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
+        Try
+            If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso rbtnSave.Enabled Then
+                saveData()
+
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso rbtnDelete.Enabled Then
+                deleteData()
+            ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
+                Close()
+            ElseIf e.Alt And e.KeyCode = Keys.N Then
+                Reset()
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+
+    Private Sub frmComplaintMaster_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Try
+            fndComplaintID.MyMaxLength = 30
+            txtDescription.MaxLength = 500
+            ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update ")
+            ButtonToolTip.SetToolTip(rbtnDelete, "Press Alt+D  for Delete ")
+            ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
+            Reset()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+    Private Sub Reset()
+        Try
+            fndComplaintID.Value = ""
+            txtDescription.Text = ""
+            rbtnDelete.Enabled = False
+            fndComplaintID.Focus()
+            rbtnSave.Text = "Save"
+            fndComplaintID.MyReadOnly = False
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+    Private Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmComplaintMaster)
+        If Not (MyBase.isReadFlag) Then
+            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            Me.Close()
+        End If
+        rbtnSave.Visible = MyBase.isModifyFlag
+        rbtnDelete.Visible = MyBase.isDeleteFlag
+    End Sub
+
+
+    Private Sub rbtnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnClose.Click
+        Me.Close()
+    End Sub
+
+    Private Sub rbtnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnSave.Click
+        If AllowToSave() Then saveData()
+    End Sub
+    Public Function AllowToSave() As Boolean
+        Try
+            If clsCommon.myLen(fndComplaintID.Value) = 0 Then
+                common.clsCommon.MyMessageBoxShow("Please Enter Complaint Code")
+                Return False
+            End If
+            If clsCommon.myLen(txtDescription.Text) = 0 Then
+                common.clsCommon.MyMessageBoxShow("Please Enter Description")
+                Return False
+            End If
+            'Return True
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
+        End Try
+        Return True
+    End Function
+    Sub saveData()
+        Try
+            obj = New clsComplaintMaster()
+            obj.complaint_code = fndComplaintID.Value
+            obj.description = txtDescription.Text.Trim
+
+            Dim isSaved As Boolean = obj.SaveData(obj, IIf(rbtnSave.Text = "Save", True, False), Nothing)
+            If isSaved Then
+                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                rbtnSave.Text = "Update"
+                rbtnDelete.Enabled = True
+            Else
+                rbtnSave.Text = "Save"
+                rbtnDelete.Enabled = False
+                common.clsCommon.MyMessageBoxShow("Data Could Not Saved")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+
+    End Sub
+    Sub deleteData()
+        Try
+            If clsCommon.myLen(fndComplaintID.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("No Code found to Delete", Me.Name)
+                'Return False
+            ElseIf Not (common.clsCommon.MyMessageBoxShow("Delete the Complaint Code " + fndComplaintID.Value + Environment.NewLine + " Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+                'Return False
+            End If
+            If (clsComplaintMaster.DeleteData(fndComplaintID.Value)) Then
+                common.clsCommon.MyMessageBoxShow("Data Deleted Sucessfully", Me.Name)
+                Reset()
+                'Return True
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+
+    End Sub
+    Private Sub loadData()
+        Try
+            obj = New clsComplaintMaster()
+            obj = clsComplaintMaster.GetData(fndComplaintID.Value, NavigatorType.Current)
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.complaint_code) > 0 Then
+                fndComplaintID.Value = obj.complaint_code
+                txtDescription.Text = obj.description
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub fndComplaintID__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndComplaintID._MYNavigator
+        Try
+            obj = New clsComplaintMaster()
+            obj = clsComplaintMaster.GetData(fndComplaintID.Value, NavType)
+            If obj IsNot Nothing Then
+                fndComplaintID.Value = obj.complaint_code
+                txtDescription.Text = obj.description
+                rbtnSave.Text = "Update"
+                rbtnDelete.Enabled = True
+                fndComplaintID.MyReadOnly = True
+
+            End If
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+
+    End Sub
+
+    Private Sub fndComplaintID__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndComplaintID._MYValidating
+        Try
+            Dim str As String = "select count(*) from TSPL_COMPLAINT_MASTER where complaint_code ='" + fndComplaintID.Value + "' "
+            Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+            If no = 0 Then
+                fndComplaintID.MyReadOnly = False
+            Else
+                fndComplaintID.MyReadOnly = True
+            End If
+            If fndComplaintID.MyReadOnly OrElse isButtonClicked Then
+
+                'Dim qry As String = "select Complaint_Code as 'Code',Description from   TSPL_COMPLAINT_MASTER "
+                'fndComplaintID.Value = clsCommon.ShowSelectForm("COMPLNTIDFND", qry, "Code", "", fndComplaintID.Value, "", isButtonClicked)
+                fndComplaintID.Value = clsComplaintMaster.getFinder("", fndComplaintID.Value, isButtonClicked)
+                txtDescription.Text = clsDBFuncationality.getSingleValue("Select description from TSPL_COMPLAINT_MASTER where complaint_Code='" + fndComplaintID.Value + "'")
+                If clsCommon.myLen(fndComplaintID.Value) > 0 Then
+                    rbtnDelete.Enabled = True
+                    rbtnSave.Text = "Update"
+                    fndComplaintID.MyReadOnly = True
+                Else
+                    rbtnSave.Text = "Save"
+                    rbtnDelete.Enabled = False
+                    fndComplaintID.MyReadOnly = False
+                End If
+
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub rbtnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnDelete.Click
+        deleteData()
+    End Sub
+
+    Private Sub rbtnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnReset.Click
+        Reset()
+    End Sub
+
+
+    Private Sub rdmenuexit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdmenuexit.Click
+        Me.Close()
+    End Sub
+
+    Private Sub rdmenuexport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdmenuexport.Click
+        Try
+            Dim str As String
+            str = "select Complaint_Code as 'Complaint Code' ,description as 'Complaint Description' from   TSPL_COMPLAINT_MASTER "
+            transportSql.ExporttoExcel(str, Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub rdmenuimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdmenuimport.Click
+        Dim gv As New RadGridView()
+        Me.Controls.Add(gv)
+        Dim currentdate As Date = Date.Today
+        If transportSql.importExcel(gv, "Complaint Code", "Complaint Description") Then
+            'Dim trans As SqlTransaction
+            Try
+                'connectSql.OpenConnection()
+                'trans = clsDBFuncationality.GetTransactin()
+                clsCommon.ProgressBarShow()
+                For Each grow As GridViewRowInfo In gv.Rows
+                    Dim obj As New clsComplaintMaster()
+
+                    Dim strCode As String = clsCommon.myCstr(grow.Cells(0).Value)
+                    If strCode.Length > 30 Or (String.IsNullOrEmpty(strCode)) Then
+                        Throw New Exception("Code can not be blank or incorrect.")
+                    End If
+                    obj.complaint_code = strCode
+
+                    Dim strDec As String = clsCommon.myCstr(grow.Cells(1).Value)
+
+                    obj.description = strDec
+
+
+                    obj.SaveData(obj, clsComplaintMaster.CheckNewEntry(obj.complaint_code), Nothing)
+                Next
+                clsCommon.ProgressBarHide()
+                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+            Catch ex As Exception
+                clsCommon.ProgressBarHide()
+                myMessages.myExceptions(ex)
+            End Try
+
+        End If
+        Me.Controls.Remove(gv)
+    End Sub
+End Class

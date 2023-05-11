@@ -1,0 +1,1330 @@
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class frmDairyGatePass
+    Inherits FrmMainTranScreen
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.lblSalesman = New common.Controls.MyLabel()
+        Me.lblpaymentno = New common.Controls.MyLabel()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnEvening = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnMorning = New Telerik.WinControls.UI.RadRadioButton()
+        Me.btnMultiGPReverse = New Telerik.WinControls.UI.RadButton()
+        Me.TxtMultiDairyGPassReverse = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel34 = New common.Controls.MyLabel()
+        Me.lblTollAmount = New common.Controls.MyLabel()
+        Me.txtTollAmount = New common.MyNumBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.FndTransferNo = New common.UserControls.txtFinder()
+        Me.chkAgainstTransfer = New Telerik.WinControls.UI.RadCheckBox()
+        Me.txtSalesman = New common.Controls.MyTextBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.UsLock1 = New common.usLock()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.lblClosingDate = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.lblOpKM = New common.Controls.MyLabel()
+        Me.btnClKM = New Telerik.WinControls.UI.RadButton()
+        Me.txtOpKM = New common.MyNumBox()
+        Me.txtClKM = New common.MyNumBox()
+        Me.lblClKM = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.txtmultiBooking = New common.UserControls.txtMultiSelectFinder()
+        Me.lblTotalCan = New common.Controls.MyLabel()
+        Me.txtCrateQty = New common.Controls.MyTextBox()
+        Me.txtRouteName = New common.Controls.MyTextBox()
+        Me.txtCanQty = New common.Controls.MyTextBox()
+        Me.lblRoute = New common.Controls.MyLabel()
+        Me.fndRouteNo = New common.UserControls.txtFinder()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.txtLocDesc = New common.Controls.MyTextBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtLocCode = New common.UserControls.txtFinder()
+        Me.txtComments = New common.Controls.MyTextBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtRemarks = New common.Controls.MyTextBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtTransporter = New common.Controls.MyTextBox()
+        Me.lblVehicleDesc = New common.Controls.MyTextBox()
+        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.lblpaymentpostdate = New common.Controls.MyLabel()
+        Me.cmbitemtype = New common.Controls.MyComboBox()
+        Me.lblfullempty = New common.Controls.MyLabel()
+        Me.txtVehicle = New common.UserControls.txtFinder()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnSelect = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnMultiGPReverse, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTollAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTollAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAgainstTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel2.SuspendLayout()
+        CType(Me.lblClosingDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblOpKM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClKM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtOpKM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtClKM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblClKM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalCan, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRouteName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCanQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLocDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtComments, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTransporter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVehicleDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblpaymentpostdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbitemtype, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblfullempty, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
+        '
+        'Gv1
+        '
+        Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Gv1.Location = New System.Drawing.Point(0, 173)
+        '
+        'Gv1
+        '
+        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.Name = "Gv1"
+        Me.Gv1.ShowHeaderCellButtons = True
+        Me.Gv1.Size = New System.Drawing.Size(1031, 196)
+        Me.Gv1.TabIndex = 1
+        Me.Gv1.Text = "RadGridView1"
+        '
+        'lblSalesman
+        '
+        Me.lblSalesman.FieldName = Nothing
+        Me.lblSalesman.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSalesman.Location = New System.Drawing.Point(4, 52)
+        Me.lblSalesman.Name = "lblSalesman"
+        Me.lblSalesman.Size = New System.Drawing.Size(61, 16)
+        Me.lblSalesman.TabIndex = 26
+        Me.lblSalesman.Text = "Vehicle No"
+        '
+        'lblpaymentno
+        '
+        Me.lblpaymentno.FieldName = Nothing
+        Me.lblpaymentno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblpaymentno.Location = New System.Drawing.Point(4, 9)
+        Me.lblpaymentno.Name = "lblpaymentno"
+        Me.lblpaymentno.Size = New System.Drawing.Size(77, 16)
+        Me.lblpaymentno.TabIndex = 28
+        Me.lblpaymentno.Text = "Gate Pass No"
+        '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSave.Location = New System.Drawing.Point(6, 4)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(68, 24)
+        Me.btnSave.TabIndex = 0
+        Me.btnSave.Text = "Save"
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(961, 3)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(68, 24)
+        Me.btnClose.TabIndex = 5
+        Me.btnClose.Text = "Close"
+        '
+        'btnNew
+        '
+        Me.btnNew.BackgroundImage = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.btnNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(317, 7)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(19, 21)
+        Me.btnNew.TabIndex = 13
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.RadGroupBox3)
+        Me.Panel1.Controls.Add(Me.btnMultiGPReverse)
+        Me.Panel1.Controls.Add(Me.TxtMultiDairyGPassReverse)
+        Me.Panel1.Controls.Add(Me.MyLabel34)
+        Me.Panel1.Controls.Add(Me.lblTollAmount)
+        Me.Panel1.Controls.Add(Me.txtTollAmount)
+        Me.Panel1.Controls.Add(Me.MyLabel9)
+        Me.Panel1.Controls.Add(Me.FndTransferNo)
+        Me.Panel1.Controls.Add(Me.chkAgainstTransfer)
+        Me.Panel1.Controls.Add(Me.txtSalesman)
+        Me.Panel1.Controls.Add(Me.MyLabel7)
+        Me.Panel1.Controls.Add(Me.UsLock1)
+        Me.Panel1.Controls.Add(Me.Panel2)
+        Me.Panel1.Controls.Add(Me.MyLabel6)
+        Me.Panel1.Controls.Add(Me.MyLabel5)
+        Me.Panel1.Controls.Add(Me.txtmultiBooking)
+        Me.Panel1.Controls.Add(Me.lblTotalCan)
+        Me.Panel1.Controls.Add(Me.txtCrateQty)
+        Me.Panel1.Controls.Add(Me.txtRouteName)
+        Me.Panel1.Controls.Add(Me.txtCanQty)
+        Me.Panel1.Controls.Add(Me.lblRoute)
+        Me.Panel1.Controls.Add(Me.fndRouteNo)
+        Me.Panel1.Controls.Add(Me.btnGo)
+        Me.Panel1.Controls.Add(Me.txtLocDesc)
+        Me.Panel1.Controls.Add(Me.MyLabel4)
+        Me.Panel1.Controls.Add(Me.txtLocCode)
+        Me.Panel1.Controls.Add(Me.txtComments)
+        Me.Panel1.Controls.Add(Me.txtRemarks)
+        Me.Panel1.Controls.Add(Me.txtTransporter)
+        Me.Panel1.Controls.Add(Me.lblVehicleDesc)
+        Me.Panel1.Controls.Add(Me.MyLabel2)
+        Me.Panel1.Controls.Add(Me.MyLabel3)
+        Me.Panel1.Controls.Add(Me.MyLabel1)
+        Me.Panel1.Controls.Add(Me.txtDate)
+        Me.Panel1.Controls.Add(Me.cmbitemtype)
+        Me.Panel1.Controls.Add(Me.lblSalesman)
+        Me.Panel1.Controls.Add(Me.lblfullempty)
+        Me.Panel1.Controls.Add(Me.lblpaymentno)
+        Me.Panel1.Controls.Add(Me.btnNew)
+        Me.Panel1.Controls.Add(Me.txtVehicle)
+        Me.Panel1.Controls.Add(Me.txtCode)
+        Me.Panel1.Controls.Add(Me.lblpaymentpostdate)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel1.Location = New System.Drawing.Point(0, 0)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(1031, 173)
+        Me.Panel1.TabIndex = 0
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.rbtnEvening)
+        Me.RadGroupBox3.Controls.Add(Me.rbtnMorning)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(956, 108)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Size = New System.Drawing.Size(73, 55)
+        Me.RadGroupBox3.TabIndex = 1033
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.Location = New System.Drawing.Point(4, 24)
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.rbtnEvening.TabIndex = 1
+        Me.rbtnEvening.TabStop = False
+        Me.rbtnEvening.Text = "Evening"
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMorning.Location = New System.Drawing.Point(4, 4)
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnMorning.TabIndex = 0
+        Me.rbtnMorning.TabStop = False
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'btnMultiGPReverse
+        '
+        Me.btnMultiGPReverse.Location = New System.Drawing.Point(481, 151)
+        Me.btnMultiGPReverse.Name = "btnMultiGPReverse"
+        Me.btnMultiGPReverse.Size = New System.Drawing.Size(22, 19)
+        Me.btnMultiGPReverse.TabIndex = 1032
+        Me.btnMultiGPReverse.Text = ">>"
+        '
+        'TxtMultiDairyGPassReverse
+        '
+        Me.TxtMultiDairyGPassReverse.arrDispalyMember = Nothing
+        Me.TxtMultiDairyGPassReverse.arrValueMember = Nothing
+        Me.TxtMultiDairyGPassReverse.Location = New System.Drawing.Point(93, 151)
+        Me.TxtMultiDairyGPassReverse.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiDairyGPassReverse.MyLinkLable1 = Nothing
+        Me.TxtMultiDairyGPassReverse.MyLinkLable2 = Nothing
+        Me.TxtMultiDairyGPassReverse.MyNullText = "All"
+        Me.TxtMultiDairyGPassReverse.Name = "TxtMultiDairyGPassReverse"
+        Me.TxtMultiDairyGPassReverse.Size = New System.Drawing.Size(382, 19)
+        Me.TxtMultiDairyGPassReverse.TabIndex = 1031
+        '
+        'MyLabel34
+        '
+        Me.MyLabel34.FieldName = Nothing
+        Me.MyLabel34.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel34.Location = New System.Drawing.Point(4, 150)
+        Me.MyLabel34.Name = "MyLabel34"
+        Me.MyLabel34.Size = New System.Drawing.Size(89, 18)
+        Me.MyLabel34.TabIndex = 1030
+        Me.MyLabel34.Text = "Multiple Reverse"
+        '
+        'lblTollAmount
+        '
+        Me.lblTollAmount.FieldName = Nothing
+        Me.lblTollAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTollAmount.Location = New System.Drawing.Point(715, 88)
+        Me.lblTollAmount.Name = "lblTollAmount"
+        Me.lblTollAmount.Size = New System.Drawing.Size(67, 16)
+        Me.lblTollAmount.TabIndex = 89
+        Me.lblTollAmount.Text = "Toll Amount"
+        '
+        'txtTollAmount
+        '
+        Me.txtTollAmount.BackColor = System.Drawing.Color.White
+        Me.txtTollAmount.CalculationExpression = Nothing
+        Me.txtTollAmount.DecimalPlaces = 0
+        Me.txtTollAmount.FieldCode = Nothing
+        Me.txtTollAmount.FieldDesc = Nothing
+        Me.txtTollAmount.FieldMaxLength = 5
+        Me.txtTollAmount.FieldName = Nothing
+        Me.txtTollAmount.isCalculatedField = False
+        Me.txtTollAmount.IsSourceFromTable = False
+        Me.txtTollAmount.IsSourceFromValueList = False
+        Me.txtTollAmount.IsUnique = False
+        Me.txtTollAmount.Location = New System.Drawing.Point(790, 86)
+        Me.txtTollAmount.MendatroryField = False
+        Me.txtTollAmount.MyLinkLable1 = Me.lblTollAmount
+        Me.txtTollAmount.MyLinkLable2 = Nothing
+        Me.txtTollAmount.Name = "txtTollAmount"
+        Me.txtTollAmount.ReferenceFieldDesc = Nothing
+        Me.txtTollAmount.ReferenceFieldName = Nothing
+        Me.txtTollAmount.ReferenceTableName = Nothing
+        Me.txtTollAmount.Size = New System.Drawing.Size(88, 20)
+        Me.txtTollAmount.TabIndex = 88
+        Me.txtTollAmount.Text = "0"
+        Me.txtTollAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTollAmount.Value = 0R
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(713, 52)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(66, 16)
+        Me.MyLabel9.TabIndex = 87
+        Me.MyLabel9.Text = "Transfer No"
+        '
+        'FndTransferNo
+        '
+        Me.FndTransferNo.CalculationExpression = Nothing
+        Me.FndTransferNo.FieldCode = Nothing
+        Me.FndTransferNo.FieldDesc = Nothing
+        Me.FndTransferNo.FieldMaxLength = 0
+        Me.FndTransferNo.FieldName = Nothing
+        Me.FndTransferNo.isCalculatedField = False
+        Me.FndTransferNo.IsSourceFromTable = False
+        Me.FndTransferNo.IsSourceFromValueList = False
+        Me.FndTransferNo.IsUnique = False
+        Me.FndTransferNo.Location = New System.Drawing.Point(785, 50)
+        Me.FndTransferNo.MendatroryField = False
+        Me.FndTransferNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FndTransferNo.MyLinkLable1 = Me.MyLabel9
+        Me.FndTransferNo.MyLinkLable2 = Nothing
+        Me.FndTransferNo.MyReadOnly = False
+        Me.FndTransferNo.MyShowMasterFormButton = False
+        Me.FndTransferNo.Name = "FndTransferNo"
+        Me.FndTransferNo.ReferenceFieldDesc = Nothing
+        Me.FndTransferNo.ReferenceFieldName = Nothing
+        Me.FndTransferNo.ReferenceTableName = Nothing
+        Me.FndTransferNo.Size = New System.Drawing.Size(233, 20)
+        Me.FndTransferNo.TabIndex = 86
+        Me.FndTransferNo.Value = ""
+        '
+        'chkAgainstTransfer
+        '
+        Me.chkAgainstTransfer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkAgainstTransfer.Location = New System.Drawing.Point(719, 32)
+        Me.chkAgainstTransfer.Name = "chkAgainstTransfer"
+        Me.chkAgainstTransfer.Size = New System.Drawing.Size(103, 16)
+        Me.chkAgainstTransfer.TabIndex = 85
+        Me.chkAgainstTransfer.Text = "Against Transfer"
+        '
+        'txtSalesman
+        '
+        Me.txtSalesman.CalculationExpression = Nothing
+        Me.txtSalesman.FieldCode = Nothing
+        Me.txtSalesman.FieldDesc = Nothing
+        Me.txtSalesman.FieldMaxLength = 0
+        Me.txtSalesman.FieldName = Nothing
+        Me.txtSalesman.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSalesman.isCalculatedField = False
+        Me.txtSalesman.IsSourceFromTable = False
+        Me.txtSalesman.IsSourceFromValueList = False
+        Me.txtSalesman.IsUnique = False
+        Me.txtSalesman.Location = New System.Drawing.Point(576, 91)
+        Me.txtSalesman.MaxLength = 200
+        Me.txtSalesman.MendatroryField = False
+        Me.txtSalesman.MyLinkLable1 = Me.MyLabel1
+        Me.txtSalesman.MyLinkLable2 = Nothing
+        Me.txtSalesman.Name = "txtSalesman"
+        Me.txtSalesman.ReferenceFieldDesc = Nothing
+        Me.txtSalesman.ReferenceFieldName = Nothing
+        Me.txtSalesman.ReferenceTableName = Nothing
+        Me.txtSalesman.Size = New System.Drawing.Size(137, 18)
+        Me.txtSalesman.TabIndex = 84
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(507, 73)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel1.TabIndex = 19
+        Me.MyLabel1.Text = "Transporter"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(507, 92)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel7.TabIndex = 83
+        Me.MyLabel7.Text = "Salesman"
+        '
+        'UsLock1
+        '
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(715, 7)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(91, 20)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 82
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.lblClosingDate)
+        Me.Panel2.Controls.Add(Me.MyLabel8)
+        Me.Panel2.Controls.Add(Me.lblOpKM)
+        Me.Panel2.Controls.Add(Me.btnClKM)
+        Me.Panel2.Controls.Add(Me.txtOpKM)
+        Me.Panel2.Controls.Add(Me.txtClKM)
+        Me.Panel2.Controls.Add(Me.lblClKM)
+        Me.Panel2.Location = New System.Drawing.Point(337, 108)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(616, 24)
+        Me.Panel2.TabIndex = 81
+        Me.Panel2.Visible = False
+        '
+        'lblClosingDate
+        '
+        Me.lblClosingDate.AutoSize = False
+        Me.lblClosingDate.BorderVisible = True
+        Me.lblClosingDate.FieldName = Nothing
+        Me.lblClosingDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblClosingDate.Location = New System.Drawing.Point(506, 2)
+        Me.lblClosingDate.Name = "lblClosingDate"
+        Me.lblClosingDate.Size = New System.Drawing.Size(107, 18)
+        Me.lblClosingDate.TabIndex = 138
+        Me.lblClosingDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblClosingDate.TextWrap = False
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(475, 3)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(30, 16)
+        Me.MyLabel8.TabIndex = 81
+        Me.MyLabel8.Text = "Date"
+        '
+        'lblOpKM
+        '
+        Me.lblOpKM.FieldName = Nothing
+        Me.lblOpKM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblOpKM.Location = New System.Drawing.Point(3, 4)
+        Me.lblOpKM.Name = "lblOpKM"
+        Me.lblOpKM.Size = New System.Drawing.Size(69, 16)
+        Me.lblOpKM.TabIndex = 77
+        Me.lblOpKM.Text = "Opening KM"
+        '
+        'btnClKM
+        '
+        Me.btnClKM.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClKM.Location = New System.Drawing.Point(378, 1)
+        Me.btnClKM.Name = "btnClKM"
+        Me.btnClKM.Size = New System.Drawing.Size(91, 20)
+        Me.btnClKM.TabIndex = 80
+        Me.btnClKM.Text = "Set Closing KM"
+        '
+        'txtOpKM
+        '
+        Me.txtOpKM.BackColor = System.Drawing.Color.White
+        Me.txtOpKM.CalculationExpression = Nothing
+        Me.txtOpKM.DecimalPlaces = 0
+        Me.txtOpKM.FieldCode = Nothing
+        Me.txtOpKM.FieldDesc = Nothing
+        Me.txtOpKM.FieldMaxLength = 5
+        Me.txtOpKM.FieldName = Nothing
+        Me.txtOpKM.isCalculatedField = False
+        Me.txtOpKM.IsSourceFromTable = False
+        Me.txtOpKM.IsSourceFromValueList = False
+        Me.txtOpKM.IsUnique = False
+        Me.txtOpKM.Location = New System.Drawing.Point(78, 2)
+        Me.txtOpKM.MendatroryField = False
+        Me.txtOpKM.MyLinkLable1 = Me.lblOpKM
+        Me.txtOpKM.MyLinkLable2 = Nothing
+        Me.txtOpKM.Name = "txtOpKM"
+        Me.txtOpKM.ReferenceFieldDesc = Nothing
+        Me.txtOpKM.ReferenceFieldName = Nothing
+        Me.txtOpKM.ReferenceTableName = Nothing
+        Me.txtOpKM.Size = New System.Drawing.Size(88, 20)
+        Me.txtOpKM.TabIndex = 76
+        Me.txtOpKM.Text = "0"
+        Me.txtOpKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtOpKM.Value = 0R
+        '
+        'txtClKM
+        '
+        Me.txtClKM.BackColor = System.Drawing.Color.White
+        Me.txtClKM.CalculationExpression = Nothing
+        Me.txtClKM.DecimalPlaces = 0
+        Me.txtClKM.FieldCode = Nothing
+        Me.txtClKM.FieldDesc = Nothing
+        Me.txtClKM.FieldMaxLength = 5
+        Me.txtClKM.FieldName = Nothing
+        Me.txtClKM.isCalculatedField = False
+        Me.txtClKM.IsSourceFromTable = False
+        Me.txtClKM.IsSourceFromValueList = False
+        Me.txtClKM.IsUnique = False
+        Me.txtClKM.Location = New System.Drawing.Point(239, 2)
+        Me.txtClKM.MendatroryField = False
+        Me.txtClKM.MyLinkLable1 = Me.lblClKM
+        Me.txtClKM.MyLinkLable2 = Nothing
+        Me.txtClKM.Name = "txtClKM"
+        Me.txtClKM.ReferenceFieldDesc = Nothing
+        Me.txtClKM.ReferenceFieldName = Nothing
+        Me.txtClKM.ReferenceTableName = Nothing
+        Me.txtClKM.Size = New System.Drawing.Size(137, 20)
+        Me.txtClKM.TabIndex = 78
+        Me.txtClKM.Text = "0"
+        Me.txtClKM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtClKM.Value = 0R
+        '
+        'lblClKM
+        '
+        Me.lblClKM.FieldName = Nothing
+        Me.lblClKM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblClKM.Location = New System.Drawing.Point(170, 4)
+        Me.lblClKM.Name = "lblClKM"
+        Me.lblClKM.Size = New System.Drawing.Size(64, 16)
+        Me.lblClKM.TabIndex = 79
+        Me.lblClKM.Text = "Closing KM"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(507, 132)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(62, 16)
+        Me.MyLabel6.TabIndex = 21
+        Me.MyLabel6.Text = "Total Crate"
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(4, 131)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(54, 16)
+        Me.MyLabel5.TabIndex = 22
+        Me.MyLabel5.Text = "Shipment"
+        '
+        'txtmultiBooking
+        '
+        Me.txtmultiBooking.arrDispalyMember = Nothing
+        Me.txtmultiBooking.arrValueMember = Nothing
+        Me.txtmultiBooking.Location = New System.Drawing.Point(83, 130)
+        Me.txtmultiBooking.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtmultiBooking.MyLinkLable1 = Nothing
+        Me.txtmultiBooking.MyLinkLable2 = Nothing
+        Me.txtmultiBooking.MyNullText = ""
+        Me.txtmultiBooking.Name = "txtmultiBooking"
+        Me.txtmultiBooking.Size = New System.Drawing.Size(253, 19)
+        Me.txtmultiBooking.TabIndex = 8
+        '
+        'lblTotalCan
+        '
+        Me.lblTotalCan.FieldName = Nothing
+        Me.lblTotalCan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalCan.Location = New System.Drawing.Point(340, 132)
+        Me.lblTotalCan.Name = "lblTotalCan"
+        Me.lblTotalCan.Size = New System.Drawing.Size(55, 16)
+        Me.lblTotalCan.TabIndex = 20
+        Me.lblTotalCan.Text = "Total Can"
+        '
+        'txtCrateQty
+        '
+        Me.txtCrateQty.CalculationExpression = Nothing
+        Me.txtCrateQty.FieldCode = Nothing
+        Me.txtCrateQty.FieldDesc = Nothing
+        Me.txtCrateQty.FieldMaxLength = 0
+        Me.txtCrateQty.FieldName = Nothing
+        Me.txtCrateQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCrateQty.isCalculatedField = False
+        Me.txtCrateQty.IsSourceFromTable = False
+        Me.txtCrateQty.IsSourceFromValueList = False
+        Me.txtCrateQty.IsUnique = False
+        Me.txtCrateQty.Location = New System.Drawing.Point(576, 131)
+        Me.txtCrateQty.MaxLength = 200
+        Me.txtCrateQty.MendatroryField = False
+        Me.txtCrateQty.MyLinkLable1 = Me.MyLabel1
+        Me.txtCrateQty.MyLinkLable2 = Nothing
+        Me.txtCrateQty.Name = "txtCrateQty"
+        Me.txtCrateQty.ReadOnly = True
+        Me.txtCrateQty.ReferenceFieldDesc = Nothing
+        Me.txtCrateQty.ReferenceFieldName = Nothing
+        Me.txtCrateQty.ReferenceTableName = Nothing
+        Me.txtCrateQty.Size = New System.Drawing.Size(137, 18)
+        Me.txtCrateQty.TabIndex = 10
+        Me.txtCrateQty.WordWrap = False
+        '
+        'txtRouteName
+        '
+        Me.txtRouteName.CalculationExpression = Nothing
+        Me.txtRouteName.FieldCode = Nothing
+        Me.txtRouteName.FieldDesc = Nothing
+        Me.txtRouteName.FieldMaxLength = 0
+        Me.txtRouteName.FieldName = Nothing
+        Me.txtRouteName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRouteName.isCalculatedField = False
+        Me.txtRouteName.IsSourceFromTable = False
+        Me.txtRouteName.IsSourceFromValueList = False
+        Me.txtRouteName.IsUnique = False
+        Me.txtRouteName.Location = New System.Drawing.Point(337, 72)
+        Me.txtRouteName.MaxLength = 200
+        Me.txtRouteName.MendatroryField = False
+        Me.txtRouteName.MyLinkLable1 = Me.lblSalesman
+        Me.txtRouteName.MyLinkLable2 = Nothing
+        Me.txtRouteName.Name = "txtRouteName"
+        Me.txtRouteName.ReferenceFieldDesc = Nothing
+        Me.txtRouteName.ReferenceFieldName = Nothing
+        Me.txtRouteName.ReferenceTableName = Nothing
+        Me.txtRouteName.Size = New System.Drawing.Size(166, 18)
+        Me.txtRouteName.TabIndex = 18
+        '
+        'txtCanQty
+        '
+        Me.txtCanQty.CalculationExpression = Nothing
+        Me.txtCanQty.FieldCode = Nothing
+        Me.txtCanQty.FieldDesc = Nothing
+        Me.txtCanQty.FieldMaxLength = 0
+        Me.txtCanQty.FieldName = Nothing
+        Me.txtCanQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCanQty.isCalculatedField = False
+        Me.txtCanQty.IsSourceFromTable = False
+        Me.txtCanQty.IsSourceFromValueList = False
+        Me.txtCanQty.IsUnique = False
+        Me.txtCanQty.Location = New System.Drawing.Point(415, 131)
+        Me.txtCanQty.MaxLength = 200
+        Me.txtCanQty.MendatroryField = False
+        Me.txtCanQty.MyLinkLable1 = Me.MyLabel1
+        Me.txtCanQty.MyLinkLable2 = Nothing
+        Me.txtCanQty.Name = "txtCanQty"
+        Me.txtCanQty.ReadOnly = True
+        Me.txtCanQty.ReferenceFieldDesc = Nothing
+        Me.txtCanQty.ReferenceFieldName = Nothing
+        Me.txtCanQty.ReferenceTableName = Nothing
+        Me.txtCanQty.Size = New System.Drawing.Size(88, 18)
+        Me.txtCanQty.TabIndex = 9
+        Me.txtCanQty.WordWrap = False
+        '
+        'lblRoute
+        '
+        Me.lblRoute.FieldName = Nothing
+        Me.lblRoute.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRoute.Location = New System.Drawing.Point(4, 73)
+        Me.lblRoute.Name = "lblRoute"
+        Me.lblRoute.Size = New System.Drawing.Size(54, 16)
+        Me.lblRoute.TabIndex = 25
+        Me.lblRoute.Text = "Route No"
+        '
+        'fndRouteNo
+        '
+        Me.fndRouteNo.CalculationExpression = Nothing
+        Me.fndRouteNo.FieldCode = Nothing
+        Me.fndRouteNo.FieldDesc = Nothing
+        Me.fndRouteNo.FieldMaxLength = 0
+        Me.fndRouteNo.FieldName = Nothing
+        Me.fndRouteNo.isCalculatedField = False
+        Me.fndRouteNo.IsSourceFromTable = False
+        Me.fndRouteNo.IsSourceFromValueList = False
+        Me.fndRouteNo.IsUnique = False
+        Me.fndRouteNo.Location = New System.Drawing.Point(83, 71)
+        Me.fndRouteNo.MendatroryField = False
+        Me.fndRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndRouteNo.MyLinkLable1 = Me.lblRoute
+        Me.fndRouteNo.MyLinkLable2 = Nothing
+        Me.fndRouteNo.MyReadOnly = False
+        Me.fndRouteNo.MyShowMasterFormButton = False
+        Me.fndRouteNo.Name = "fndRouteNo"
+        Me.fndRouteNo.ReferenceFieldDesc = Nothing
+        Me.fndRouteNo.ReferenceFieldName = Nothing
+        Me.fndRouteNo.ReferenceTableName = Nothing
+        Me.fndRouteNo.Size = New System.Drawing.Size(253, 20)
+        Me.fndRouteNo.TabIndex = 4
+        Me.fndRouteNo.Value = ""
+        '
+        'btnGo
+        '
+        Me.btnGo.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Bold)
+        Me.btnGo.Location = New System.Drawing.Point(715, 131)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(91, 18)
+        Me.btnGo.TabIndex = 11
+        Me.btnGo.Text = ">>"
+        '
+        'txtLocDesc
+        '
+        Me.txtLocDesc.CalculationExpression = Nothing
+        Me.txtLocDesc.FieldCode = Nothing
+        Me.txtLocDesc.FieldDesc = Nothing
+        Me.txtLocDesc.FieldMaxLength = 0
+        Me.txtLocDesc.FieldName = Nothing
+        Me.txtLocDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocDesc.isCalculatedField = False
+        Me.txtLocDesc.IsSourceFromTable = False
+        Me.txtLocDesc.IsSourceFromValueList = False
+        Me.txtLocDesc.IsUnique = False
+        Me.txtLocDesc.Location = New System.Drawing.Point(337, 30)
+        Me.txtLocDesc.MaxLength = 200
+        Me.txtLocDesc.MendatroryField = False
+        Me.txtLocDesc.MyLinkLable1 = Me.MyLabel4
+        Me.txtLocDesc.MyLinkLable2 = Nothing
+        Me.txtLocDesc.Name = "txtLocDesc"
+        Me.txtLocDesc.ReferenceFieldDesc = Nothing
+        Me.txtLocDesc.ReferenceFieldName = Nothing
+        Me.txtLocDesc.ReferenceTableName = Nothing
+        Me.txtLocDesc.Size = New System.Drawing.Size(376, 18)
+        Me.txtLocDesc.TabIndex = 16
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(4, 31)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel4.TabIndex = 27
+        Me.MyLabel4.Text = "Location"
+        '
+        'txtLocCode
+        '
+        Me.txtLocCode.CalculationExpression = Nothing
+        Me.txtLocCode.FieldCode = Nothing
+        Me.txtLocCode.FieldDesc = Nothing
+        Me.txtLocCode.FieldMaxLength = 0
+        Me.txtLocCode.FieldName = Nothing
+        Me.txtLocCode.isCalculatedField = False
+        Me.txtLocCode.IsSourceFromTable = False
+        Me.txtLocCode.IsSourceFromValueList = False
+        Me.txtLocCode.IsUnique = False
+        Me.txtLocCode.Location = New System.Drawing.Point(83, 29)
+        Me.txtLocCode.MendatroryField = True
+        Me.txtLocCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocCode.MyLinkLable1 = Me.MyLabel4
+        Me.txtLocCode.MyLinkLable2 = Nothing
+        Me.txtLocCode.MyReadOnly = False
+        Me.txtLocCode.MyShowMasterFormButton = False
+        Me.txtLocCode.Name = "txtLocCode"
+        Me.txtLocCode.ReferenceFieldDesc = Nothing
+        Me.txtLocCode.ReferenceFieldName = Nothing
+        Me.txtLocCode.ReferenceTableName = Nothing
+        Me.txtLocCode.Size = New System.Drawing.Size(253, 20)
+        Me.txtLocCode.TabIndex = 2
+        Me.txtLocCode.Value = ""
+        '
+        'txtComments
+        '
+        Me.txtComments.CalculationExpression = Nothing
+        Me.txtComments.FieldCode = Nothing
+        Me.txtComments.FieldDesc = Nothing
+        Me.txtComments.FieldMaxLength = 0
+        Me.txtComments.FieldName = Nothing
+        Me.txtComments.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtComments.isCalculatedField = False
+        Me.txtComments.IsSourceFromTable = False
+        Me.txtComments.IsSourceFromValueList = False
+        Me.txtComments.IsUnique = False
+        Me.txtComments.Location = New System.Drawing.Point(83, 111)
+        Me.txtComments.MaxLength = 200
+        Me.txtComments.MendatroryField = False
+        Me.txtComments.MyLinkLable1 = Me.MyLabel2
+        Me.txtComments.MyLinkLable2 = Nothing
+        Me.txtComments.Name = "txtComments"
+        Me.txtComments.ReferenceFieldDesc = Nothing
+        Me.txtComments.ReferenceFieldName = Nothing
+        Me.txtComments.ReferenceTableName = Nothing
+        Me.txtComments.Size = New System.Drawing.Size(253, 18)
+        Me.txtComments.TabIndex = 7
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(4, 112)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(61, 16)
+        Me.MyLabel2.TabIndex = 23
+        Me.MyLabel2.Text = "Comments"
+        '
+        'txtRemarks
+        '
+        Me.txtRemarks.CalculationExpression = Nothing
+        Me.txtRemarks.FieldCode = Nothing
+        Me.txtRemarks.FieldDesc = Nothing
+        Me.txtRemarks.FieldMaxLength = 0
+        Me.txtRemarks.FieldName = Nothing
+        Me.txtRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRemarks.isCalculatedField = False
+        Me.txtRemarks.IsSourceFromTable = False
+        Me.txtRemarks.IsSourceFromValueList = False
+        Me.txtRemarks.IsUnique = False
+        Me.txtRemarks.Location = New System.Drawing.Point(83, 92)
+        Me.txtRemarks.MaxLength = 200
+        Me.txtRemarks.MendatroryField = False
+        Me.txtRemarks.MyLinkLable1 = Me.MyLabel3
+        Me.txtRemarks.MyLinkLable2 = Nothing
+        Me.txtRemarks.Name = "txtRemarks"
+        Me.txtRemarks.ReferenceFieldDesc = Nothing
+        Me.txtRemarks.ReferenceFieldName = Nothing
+        Me.txtRemarks.ReferenceTableName = Nothing
+        Me.txtRemarks.Size = New System.Drawing.Size(420, 18)
+        Me.txtRemarks.TabIndex = 6
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(4, 93)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel3.TabIndex = 24
+        Me.MyLabel3.Text = "Remarks"
+        '
+        'txtTransporter
+        '
+        Me.txtTransporter.CalculationExpression = Nothing
+        Me.txtTransporter.FieldCode = Nothing
+        Me.txtTransporter.FieldDesc = Nothing
+        Me.txtTransporter.FieldMaxLength = 0
+        Me.txtTransporter.FieldName = Nothing
+        Me.txtTransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTransporter.isCalculatedField = False
+        Me.txtTransporter.IsSourceFromTable = False
+        Me.txtTransporter.IsSourceFromValueList = False
+        Me.txtTransporter.IsUnique = False
+        Me.txtTransporter.Location = New System.Drawing.Point(576, 72)
+        Me.txtTransporter.MaxLength = 200
+        Me.txtTransporter.MendatroryField = False
+        Me.txtTransporter.MyLinkLable1 = Me.MyLabel1
+        Me.txtTransporter.MyLinkLable2 = Nothing
+        Me.txtTransporter.Name = "txtTransporter"
+        Me.txtTransporter.ReferenceFieldDesc = Nothing
+        Me.txtTransporter.ReferenceFieldName = Nothing
+        Me.txtTransporter.ReferenceTableName = Nothing
+        Me.txtTransporter.Size = New System.Drawing.Size(137, 18)
+        Me.txtTransporter.TabIndex = 5
+        '
+        'lblVehicleDesc
+        '
+        Me.lblVehicleDesc.CalculationExpression = Nothing
+        Me.lblVehicleDesc.FieldCode = Nothing
+        Me.lblVehicleDesc.FieldDesc = Nothing
+        Me.lblVehicleDesc.FieldMaxLength = 0
+        Me.lblVehicleDesc.FieldName = Nothing
+        Me.lblVehicleDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVehicleDesc.isCalculatedField = False
+        Me.lblVehicleDesc.IsSourceFromTable = False
+        Me.lblVehicleDesc.IsSourceFromValueList = False
+        Me.lblVehicleDesc.IsUnique = False
+        Me.lblVehicleDesc.Location = New System.Drawing.Point(337, 51)
+        Me.lblVehicleDesc.MaxLength = 200
+        Me.lblVehicleDesc.MendatroryField = False
+        Me.lblVehicleDesc.MyLinkLable1 = Me.lblSalesman
+        Me.lblVehicleDesc.MyLinkLable2 = Nothing
+        Me.lblVehicleDesc.Name = "lblVehicleDesc"
+        Me.lblVehicleDesc.ReferenceFieldDesc = Nothing
+        Me.lblVehicleDesc.ReferenceFieldName = Nothing
+        Me.lblVehicleDesc.ReferenceTableName = Nothing
+        Me.lblVehicleDesc.Size = New System.Drawing.Size(376, 18)
+        Me.lblVehicleDesc.TabIndex = 17
+        '
+        'txtDate
+        '
+        Me.txtDate.CalculationExpression = Nothing
+        Me.txtDate.CustomFormat = "dd/MM/yyyy  hh:mm tt"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
+        Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
+        Me.txtDate.Location = New System.Drawing.Point(372, 7)
+        Me.txtDate.MendatroryField = False
+        Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.MyLinkLable1 = Me.lblpaymentpostdate
+        Me.txtDate.MyLinkLable2 = Nothing
+        Me.txtDate.Name = "txtDate"
+        Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
+        Me.txtDate.Size = New System.Drawing.Size(131, 20)
+        Me.txtDate.TabIndex = 0
+        Me.txtDate.TabStop = False
+        Me.txtDate.Text = "10/06/2011  11:51 AM"
+        Me.txtDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
+        'lblpaymentpostdate
+        '
+        Me.lblpaymentpostdate.FieldName = Nothing
+        Me.lblpaymentpostdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblpaymentpostdate.Location = New System.Drawing.Point(338, 9)
+        Me.lblpaymentpostdate.Name = "lblpaymentpostdate"
+        Me.lblpaymentpostdate.Size = New System.Drawing.Size(30, 16)
+        Me.lblpaymentpostdate.TabIndex = 14
+        Me.lblpaymentpostdate.Text = "Date"
+        '
+        'cmbitemtype
+        '
+        Me.cmbitemtype.AutoCompleteDisplayMember = Nothing
+        Me.cmbitemtype.AutoCompleteValueMember = Nothing
+        Me.cmbitemtype.CalculationExpression = Nothing
+        Me.cmbitemtype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbitemtype.FieldCode = Nothing
+        Me.cmbitemtype.FieldDesc = Nothing
+        Me.cmbitemtype.FieldMaxLength = 0
+        Me.cmbitemtype.FieldName = Nothing
+        Me.cmbitemtype.isCalculatedField = False
+        Me.cmbitemtype.IsSourceFromTable = False
+        Me.cmbitemtype.IsSourceFromValueList = False
+        Me.cmbitemtype.IsUnique = False
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Full"
+        RadListDataItem3.Text = "Empty"
+        Me.cmbitemtype.Items.Add(RadListDataItem1)
+        Me.cmbitemtype.Items.Add(RadListDataItem2)
+        Me.cmbitemtype.Items.Add(RadListDataItem3)
+        Me.cmbitemtype.Location = New System.Drawing.Point(576, 7)
+        Me.cmbitemtype.MendatroryField = False
+        Me.cmbitemtype.MyLinkLable1 = Me.lblfullempty
+        Me.cmbitemtype.MyLinkLable2 = Nothing
+        Me.cmbitemtype.Name = "cmbitemtype"
+        Me.cmbitemtype.ReferenceFieldDesc = Nothing
+        Me.cmbitemtype.ReferenceFieldName = Nothing
+        Me.cmbitemtype.ReferenceTableName = Nothing
+        Me.cmbitemtype.Size = New System.Drawing.Size(137, 20)
+        Me.cmbitemtype.TabIndex = 1
+        Me.cmbitemtype.Visible = False
+        '
+        'lblfullempty
+        '
+        Me.lblfullempty.FieldName = Nothing
+        Me.lblfullempty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblfullempty.Location = New System.Drawing.Point(507, 9)
+        Me.lblfullempty.Name = "lblfullempty"
+        Me.lblfullempty.Size = New System.Drawing.Size(57, 16)
+        Me.lblfullempty.TabIndex = 15
+        Me.lblfullempty.Text = "Item Type"
+        Me.lblfullempty.Visible = False
+        '
+        'txtVehicle
+        '
+        Me.txtVehicle.CalculationExpression = Nothing
+        Me.txtVehicle.FieldCode = Nothing
+        Me.txtVehicle.FieldDesc = Nothing
+        Me.txtVehicle.FieldMaxLength = 0
+        Me.txtVehicle.FieldName = Nothing
+        Me.txtVehicle.isCalculatedField = False
+        Me.txtVehicle.IsSourceFromTable = False
+        Me.txtVehicle.IsSourceFromValueList = False
+        Me.txtVehicle.IsUnique = False
+        Me.txtVehicle.Location = New System.Drawing.Point(83, 50)
+        Me.txtVehicle.MendatroryField = True
+        Me.txtVehicle.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVehicle.MyLinkLable1 = Me.lblSalesman
+        Me.txtVehicle.MyLinkLable2 = Nothing
+        Me.txtVehicle.MyReadOnly = False
+        Me.txtVehicle.MyShowMasterFormButton = False
+        Me.txtVehicle.Name = "txtVehicle"
+        Me.txtVehicle.ReferenceFieldDesc = Nothing
+        Me.txtVehicle.ReferenceFieldName = Nothing
+        Me.txtVehicle.ReferenceTableName = Nothing
+        Me.txtVehicle.Size = New System.Drawing.Size(253, 20)
+        Me.txtVehicle.TabIndex = 3
+        Me.txtVehicle.Value = ""
+        '
+        'txtCode
+        '
+        Me.txtCode.FieldName = Nothing
+        Me.txtCode.Location = New System.Drawing.Point(83, 7)
+        Me.txtCode.MendatroryField = True
+        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCode.MyLinkLable1 = Me.lblpaymentno
+        Me.txtCode.MyLinkLable2 = Nothing
+        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyReadOnly = False
+        Me.txtCode.Name = "txtCode"
+        Me.txtCode.Size = New System.Drawing.Size(234, 21)
+        Me.txtCode.TabIndex = 12
+        Me.txtCode.Value = ""
+        '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer1.Panel1
+        '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Gv1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Panel1)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.MyLabel10)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSelect)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1031, 404)
+        Me.SplitContainer1.SplitterDistance = 369
+        Me.SplitContainer1.TabIndex = 3
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel10.Location = New System.Drawing.Point(703, 7)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(251, 16)
+        Me.MyLabel10.TabIndex = 1033
+        Me.MyLabel10.Text = "Press Ctrl+Alt+Shift+F11 for Multiple Reverse"
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(434, 4)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(69, 24)
+        Me.btnReverse.TabIndex = 7
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
+        '
+        'btnDelete
+        '
+        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDelete.Location = New System.Drawing.Point(146, 4)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(68, 24)
+        Me.btnDelete.TabIndex = 6
+        Me.btnDelete.Text = "Delete"
+        Me.btnDelete.Visible = False
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(216, 4)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(68, 24)
+        Me.btnPrint.TabIndex = 1
+        Me.btnPrint.Text = "Print"
+        '
+        'RadSplitButton1
+        '
+        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(352, 4)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(80, 23)
+        Me.RadSplitButton1.TabIndex = 3
+        Me.RadSplitButton1.Text = "Print"
+        Me.RadSplitButton1.Visible = False
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.AccessibleDescription = "PrePrinted"
+        Me.RadMenuItem1.AccessibleName = "PrePrinted"
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "PrePrinted"
+        '
+        'RadMenuItem2
+        '
+        Me.RadMenuItem2.AccessibleDescription = "Print"
+        Me.RadMenuItem2.AccessibleName = "Print"
+        Me.RadMenuItem2.Name = "RadMenuItem2"
+        Me.RadMenuItem2.Text = "Print"
+        '
+        'btnPost
+        '
+        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPost.Location = New System.Drawing.Point(76, 4)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(68, 24)
+        Me.btnPost.TabIndex = 4
+        Me.btnPost.Text = "Post"
+        Me.btnPost.Visible = False
+        '
+        'btnSelect
+        '
+        Me.btnSelect.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSelect.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSelect.Location = New System.Drawing.Point(286, 4)
+        Me.btnSelect.Name = "btnSelect"
+        Me.btnSelect.Size = New System.Drawing.Size(64, 24)
+        Me.btnSelect.TabIndex = 2
+        Me.btnSelect.Text = "Select All"
+        Me.btnSelect.Visible = False
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(1031, 20)
+        Me.RadMenu1.TabIndex = 0
+        Me.RadMenu1.Text = "RadMenu1"
+        '
+        'frmDairyGatePass
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(1031, 424)
+        Me.Controls.Add(Me.SplitContainer1)
+        Me.Controls.Add(Me.RadMenu1)
+        Me.Name = "frmDairyGatePass"
+        '
+        '
+        '
+        Me.RootElement.ApplyShapeToControl = True
+        Me.Text = "GatePass Entry"
+        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnMultiGPReverse, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTollAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTollAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAgainstTransfer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSalesman, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel2.ResumeLayout(False)
+        Me.Panel2.PerformLayout()
+        CType(Me.lblClosingDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblOpKM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClKM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtOpKM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtClKM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblClKM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalCan, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRouteName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCanQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLocDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtComments, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTransporter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVehicleDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblpaymentpostdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbitemtype, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblfullempty, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
+        Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+    Friend WithEvents Gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents lblSalesman As common.Controls.MyLabel
+    Friend WithEvents lblpaymentno As common.Controls.MyLabel
+    Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnNew As Telerik.WinControls.UI.RadButton
+    Friend WithEvents Panel1 As System.Windows.Forms.Panel
+    Friend WithEvents txtVehicle As common.UserControls.txtFinder
+    Friend WithEvents lblpaymentpostdate As common.Controls.MyLabel
+    Friend WithEvents txtCode As common.UserControls.txtNavigator
+    Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
+    Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
+    Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
+    Friend WithEvents cmbitemtype As common.Controls.MyComboBox
+    Friend WithEvents lblfullempty As common.Controls.MyLabel
+    Friend WithEvents RadSplitButton1 As Telerik.WinControls.UI.RadSplitButton
+    Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents txtDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtComments As common.Controls.MyTextBox
+    Friend WithEvents txtRemarks As common.Controls.MyTextBox
+    Friend WithEvents txtTransporter As common.Controls.MyTextBox
+    Friend WithEvents lblVehicleDesc As common.Controls.MyTextBox
+    Friend WithEvents btnSelect As Telerik.WinControls.UI.RadButton
+    Friend WithEvents txtLocDesc As common.Controls.MyTextBox
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtLocCode As common.UserControls.txtFinder
+    Friend WithEvents btnGo As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
+    Friend WithEvents lblRoute As common.Controls.MyLabel
+    Friend WithEvents fndRouteNo As common.UserControls.txtFinder
+    Friend WithEvents txtRouteName As common.Controls.MyTextBox
+    Friend WithEvents txtCrateQty As common.Controls.MyTextBox
+    Friend WithEvents txtCanQty As common.Controls.MyTextBox
+    Friend WithEvents txtmultiBooking As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents lblTotalCan As common.Controls.MyLabel
+    Friend WithEvents txtClKM As common.MyNumBox
+    Friend WithEvents lblClKM As common.Controls.MyLabel
+    Friend WithEvents txtOpKM As common.MyNumBox
+    Friend WithEvents lblOpKM As common.Controls.MyLabel
+    Friend WithEvents btnClKM As Telerik.WinControls.UI.RadButton
+    Friend WithEvents Panel2 As System.Windows.Forms.Panel
+    Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
+    Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents txtSalesman As common.Controls.MyTextBox
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents lblClosingDate As common.Controls.MyLabel
+    Friend WithEvents chkAgainstTransfer As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents FndTransferNo As common.UserControls.txtFinder
+    Friend WithEvents lblTollAmount As common.Controls.MyLabel
+    Friend WithEvents txtTollAmount As common.MyNumBox
+    Friend WithEvents MyLabel34 As common.Controls.MyLabel
+    Friend WithEvents TxtMultiDairyGPassReverse As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnMultiGPReverse As RadButton
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents rbtnEvening As RadRadioButton
+    Friend WithEvents rbtnMorning As RadRadioButton
+End Class
+

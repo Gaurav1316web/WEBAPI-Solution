@@ -1,0 +1,466 @@
+﻿Imports Telerik.WinControls.UI
+Imports Telerik.WinControls
+Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Windows.Forms
+Imports System.Configuration
+Imports Telerik.Collections.Generic
+Imports Excel = Microsoft.Office.Interop.Excel
+Imports common
+'Start date =18/5/2011
+'End date =20/5/2011
+'Last modify date = 30/5/2011
+'Database =TSPLERP
+' Tables=Tspl_channel_Master
+'End Date -'--preeti gupta-ticket no.[BM00000003133]
+
+Public Class frmChannelMaster
+    Inherits FrmMainTranScreen
+    Dim userCode, companyCode As String
+    Dim ButtonToolTip As ToolTip = New ToolTip()
+    'This Cunstructer is used to send usercode and compcode data in table.
+    Public Sub New(ByVal user As String, ByVal company As String)
+        InitializeComponent()
+        userCode = user
+        companyCode = company
+    End Sub
+    Dim dr As DataTable
+
+    Private Sub frmChannelMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        fndID.MyMaxLength = 12
+        rdtxtname.MaxLength = 50
+        text_changed()
+        fndID_Leave()
+        channelcategory_leave()
+        SetUserMgmtNew()
+        fndID.Enabled = True
+        fndcategory.Enabled = True
+        rdtxtname.Enabled = True
+        rdbtnsave.Enabled = True
+        rdbtndelete.Enabled = False
+        rdbtnclose.Enabled = True
+        'globalFunc.mandatoryText(fndID.txtValue)
+        ButtonToolTip.SetToolTip(rdbtnsave, "Press Alt+S for Save/Update ")
+        ' ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
+        ButtonToolTip.SetToolTip(rdbtndelete, "Press Alt+D  for Delete ")
+        ButtonToolTip.SetToolTip(rdbtnclose, "Press Alt+C Close the Window")
+        ButtonToolTip.SetToolTip(rdbtnreset, "Press Alt+N Adding New ")
+        'ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
+        ' AddHandler fndID.ValueChanged, AddressOf text_changed
+        '  AddHandler fndID.txtValue.Leave, AddressOf fndID_Leave
+        fndcategory.BackColor = Color.White
+        fndID.BackColor = Color.White
+
+        '  AddHandler fndcategory.txtValue.KeyPress, AddressOf fndcategory_KeyPress
+        '  AddHandler fndcategory.txtValue.Leave, AddressOf channelcategory_leave
+        fndID.TabIndex = 0
+        fndcategory.TabIndex = 1
+        rdtxtname.TabIndex = 2
+        rdtxtname.MaxLength = 50
+        'If userCode <> "ADMIN" Then
+        '    If funSetUserAccess() = False Then Exit Sub
+        'End If
+    End Sub
+    Private Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.channelMaster)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+            Me.Close()
+            Exit Sub
+        End If
+        rdbtnsave.Visible = MyBase.isModifyFlag
+        ' btnPost.Visible = MyBase.isPostFlag
+        rdbtndelete.Visible = MyBase.isDeleteFlag
+    End Sub
+    Sub text_changed()
+        Try
+            Dim str As String = "Select Channel_id from tspl_channel_master where channel_id ='" + fndID.Value.Trim() + "'"
+            dr = clsDBFuncationality.GetDataTable(str)
+            Dim value As String = ""
+            If dr IsNot Nothing AndAlso dr.Rows.Count > 0 Then
+                value = dr.Rows(0)(0).ToString()
+            End If
+        
+            If (value <> "") Then
+                funfill()
+                rdbtnsave.Text = "Update"
+                rdbtnsave.Enabled = True
+                rdbtndelete.Enabled = True
+                fndcategory.Enabled = True
+                rdtxtname.Enabled = True
+            Else
+                rdbtndelete.Enabled = False
+                rdbtnsave.Text = "Save"
+                rdbtnsave.Enabled = True
+                rdtxtname.Text = ""
+                rdtxtname.Enabled = True
+            End If
+            'If userCode <> "ADMIN" Then
+            '    If funSetUserAccess() = False Then Exit Sub
+            'End If
+        Catch ex As Exception
+
+            myMessages.myExceptions(ex)
+        End Try
+
+    End Sub
+    Public Sub text_changed(ByVal sender As System.Object, ByVal e As System.EventArgs)
+       
+    End Sub
+    'This function is used for Insert data
+    Public Sub funinsert()
+        Try
+            'connectSql.RunSp("Sp_Channelmaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value), New SqlParameter("@channelname", rdtxtname.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+            clsDBFuncationality.UpdateInAllDatabase("Sp_Channelmaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value), New SqlParameter("@channelname", rdtxtname.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+            myMessages.insert()
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+    'This  function is used for update data
+    Public Sub funupdate()
+        Try
+            clsDBFuncationality.UpdateInAllDatabase("Sp_Channelmaster", New SqlParameter("@type", rdbtnsave.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value), New SqlParameter("@channelname", rdtxtname.Text), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+            myMessages.update()
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+    'This function is used to delete Data
+    Public Sub fundelete()
+        Try
+            clsDBFuncationality.UpdateInAllDatabase("sp_Channelmaster", New SqlParameter("@type", rdbtndelete.Text), New SqlParameter("@channel_id", fndID.Value), New SqlParameter("@channelcategory", fndcategory.Value()), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifyby", userCode), New SqlParameter("@modifydate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+    'This function is used to reset All Controls
+    Public Sub funreset()
+        fndID.Value = ""
+        fndID.MyReadOnly = False
+        fndID.Enabled = True
+        rdbtnsave.Text = "Save"
+        rdtxtname.Text = ""
+        rdtxtname.Enabled = True
+        fndcategory.Value = ""
+        fndcategory.Enabled = True
+        rdbtnsave.Enabled = True
+        rdbtndelete.Enabled = False
+        rdbtnclose.Enabled = True
+
+    End Sub
+
+    Private Sub fndcategory_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        'fndcategory.Query = "Select channel_category_id as [Category ID], Channel_category_name as [Category Name] from tspl_channel_category_master"
+        'fndcategory.ConnectionString = connectSql.SqlCon()
+        'fndcategory.Caption = "Category Name"
+        'fndcategory.ValueToSelect = "Category ID"
+        'fndcategory.ValueToSelect1 = "Category Name"
+    End Sub
+    Private Sub rdbtnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtnsave.Click
+        SaveData()
+    End Sub
+    Sub SaveData()
+        If fndID.Value = "" Then
+            myMessages.blankValue("Channel ID")
+            fndID.Focus()
+        ElseIf (fndcategory.Value = "") Then
+            myMessages.blankValue("Channel Category")
+            fndcategory.Focus()
+        ElseIf (rdtxtname.Text = "") Then
+            myMessages.blankValue("Channel Name")
+            rdtxtname.Focus()
+        Else
+            If rdbtnsave.Text = "Save" Then
+                funinsert()
+                funfill()
+            ElseIf (rdbtnsave.Text = "Update") Then
+                funupdate()
+            End If
+        End If
+
+    End Sub
+
+    Private Sub rdbtndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtndelete.Click
+        DeleteData()
+    End Sub
+    Sub DeleteData()
+
+
+
+        If clsCommon.myLen(fndID.Value) <= 0 Then
+            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            Exit Sub
+        End If
+        If myMessages.deleteConfirm() Then
+            fundelete()
+            myMessages.delete()
+            rdbtnsave.Enabled = True
+            rdbtndelete.Enabled = False
+            rdbtnsave.Text = "Save"
+        End If
+
+    End Sub
+
+    Private Sub rdbtnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtnclose.Click
+        Me.Close()
+    End Sub
+
+    Private Sub rdbtnreset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtnreset.Click
+        funreset()
+    End Sub
+
+    Private Sub fndID_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        'fndID.Query = "Select Channel_Id As[Channel Id],Channel_category as [Channel Category],channel_name as [Channel Name]from Tspl_Channel_Master"
+        'fndID.ConnectionString = connectSql.SqlCon()
+        'fndID.Caption = "Channel Category"
+        'fndID.ValueToSelect = "Channel Id"
+        'fndID.ValueToSelect1 = "Channel Id"
+    End Sub
+    'This function is used to retrive all data from table to controls  
+    Public Sub funfill()
+        Try
+            Dim query As String = "Select * from Tspl_channel_Master where Channel_id ='" + fndID.Value.Trim + "'"
+            dr = clsDBFuncationality.GetDataTable(query)
+
+            If dr IsNot Nothing AndAlso dr.Rows.Count > 0 Then
+                fndID.Value = dr.Rows(0)(0).ToString().Trim()
+                fndcategory.Value = dr.Rows(0)(1).ToString().Trim()
+                rdtxtname.Text = dr.Rows(0)(2).ToString().Trim()
+                rdbtndelete.Enabled = True
+                rdbtnsave.Text = "Update"
+            End If
+
+            'If userCode <> "ADMIN" Then
+            '    If funSetUserAccess() = False Then Exit Sub
+            'End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+    Sub fndID_Leave()
+        If fndID.Value <> "" Then
+            fndcategory.Enabled = True
+            rdtxtname.Enabled = True
+            rdbtnsave.Enabled = True
+            rdbtndelete.Enabled = True
+            rdbtnclose.Enabled = True
+        End If
+    End Sub
+    Private Sub fndID_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+
+    Private Sub fndID_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
+        If e.KeyChar = Chr(39) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub fndcategory_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
+        If e.KeyChar = Chr(39) Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub rdmenuexit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdmenuexit.Click
+        Me.Close()
+    End Sub
+
+    Private Sub rdmenuexport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdmenuexport.Click
+        Dim query As String = "select channel_id as 'Channel Id',channel_category as 'Channel Category',channel_name as 'Channel Name' from tspl_channel_master"
+        transportSql.ExporttoExcel(query, Me)
+    End Sub
+
+    Private Sub rdmenuimport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdmenuimport.Click
+        Dim dgv As New RadGridView
+        Me.Controls.Add(dgv)
+        If transportSql.importExcel(dgv, "Channel Id", "Channel Category", "Channel Name") Then
+            Dim trans As SqlTransaction = Nothing
+            Try
+                connectSql.OpenConnection()
+                trans = clsDBFuncationality.GetTransactin()
+                clsCommon.ProgressBarShow()
+                For Each dgrv As GridViewRowInfo In dgv.Rows
+
+                    Dim strchannelid As String = clsCommon.myCstr(dgrv.Cells(0).Value)
+                    If clsCommon.myLen(strchannelid) > 12 Then
+                        Throw New Exception("Check the length of Channel id")
+                    End If
+
+                    Dim strchannelcategory As String = clsCommon.myCstr(dgrv.Cells(1).Value)
+                    If clsCommon.myLen(strchannelcategory) > 12 Or strchannelcategory = "" Then
+                        Throw New Exception("Check the length of Channel category /Blank")
+                    End If
+
+                    Dim strchannelname As String = clsCommon.myCstr(dgrv.Cells(2).Value)
+                    If clsCommon.myLen(strchannelname) > 50 Then
+                        Throw New Exception("Check the length of Channel name")
+                    End If
+
+                    If String.IsNullOrEmpty(strchannelid) And clsCommon.myLen(strchannelid) > 12 Then
+                        Throw New Exception("Channel Id has some incorrect values")
+                    End If
+
+                    Dim sql1 As String = "select count(*)from tspl_channel_master where channel_id='" + strchannelid + "'"
+                    Dim i As Integer = CInt(connectSql.RunScalar(trans, sql1))
+                    If (i = 0) Then
+                        Dim query As String = "insert into tspl_channel_master values('" + strchannelid + "','" + strchannelcategory + "','" + strchannelname + "','" + userCode + "','" + connectSql.serverDate(trans) + "','" + userCode + "','" + connectSql.serverDate(trans) + "','" + companyCode + "')"
+                        connectSql.RunSqlTransaction(trans, query)
+                    Else
+                        Dim query1 As String = "update tspl_channel_master set channel_category ='" + strchannelcategory + "',channel_name ='" + strchannelname + "' where channel_id ='" + strchannelid + "'"
+                        connectSql.RunSqlTransaction(trans, query1)
+                    End If
+                Next
+                trans.Commit()
+                clsCommon.ProgressBarHide()
+                common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+            Catch ex As Exception
+                trans.Rollback()
+                clsCommon.ProgressBarHide()
+
+                myMessages.myExceptions(ex)
+            End Try
+        End If
+        Me.Controls.Remove(dgv)
+    End Sub
+    Sub channelcategory_leave()
+        If fndcategory.Value = "" Then
+
+        Else
+            Try
+                Dim query As String = "Select channel_category_id as [Category ID], Channel_category_name as [Category Name] from tspl_channel_category_master where Channel_category_id ='" + fndcategory.Value + "'"
+                Dim dr As DataTable
+                Dim strvalue As String = ""
+
+                dr = clsDBFuncationality.GetDataTable(query)
+
+                If dr IsNot Nothing AndAlso dr.Rows.Count > 0 Then
+                    strvalue = dr.Rows(0)(0).ToString()
+                End If
+
+                If strvalue <> "" Then
+
+                Else : query = ""
+                    rdtxtname.Text = ""
+                    common.clsCommon.MyMessageBoxShow("This Channel Category  does not exist")
+                    fndcategory.Value = ""
+                End If
+
+
+            Catch ex As Exception
+                myMessages.myExceptions(ex)
+            End Try
+        End If
+    End Sub
+   
+    'priti added on 01-06-2011 --- To implement the access control
+    'Private Function funSetUserAccess() As Boolean
+    '    Try
+    '        'if funCheckLoginStatus() = False Then Exit Function
+    '        Dim strRights As String
+    '        Dim strTemp() As String
+    '        Dim strProgCode = "CHANNEL-M"
+    '        strRights = enuUserRights.enuRead & "," & enuUserRights.enuModify & "," & enuUserRights.enuDelete
+    '        strRights = modUserMgt.funGetPermissions(strRights, strProgCode)
+    '        strTemp = Split(strRights, ",")
+    '        If strTemp(0) = "0" Then
+    '            MsgBox("Permission Denied", MsgBoxStyle.Critical, Me.Text)
+    '            funSetUserAccess = False
+    '            blnRead = False
+    '            Me.Close()
+    '            Exit Function
+    '        Else
+    '            blnRead = True
+    '        End If
+    '        If strTemp(1) = "0" Then 'Grant modify access
+    '            'rdbtnsave.Enabled = False
+    '        End If
+    '        If strTemp(2) = "0" Then 'Grant modify access
+    '            'rdbtndelete.Enabled = False
+    '        End If
+
+    '        funSetUserAccess = True
+    '    Catch er As Exception
+
+    '    End Try
+    'End Function
+
+    Private Sub frmChannelMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso rdbtnsave.Enabled Then
+            SaveData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag Then
+            'PostData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso rdbtndelete.Enabled Then
+            DeleteData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
+            Close()
+        ElseIf e.Alt And e.KeyCode = Keys.N Then
+            funreset()
+        End If
+    End Sub
+
+    Private Sub fndID__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndID._MYValidating
+
+        Dim str As String = "select count(*) from Tspl_Channel_Master where Channel_Id ='" + fndID.Value + "' "
+        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+        If no = 0 Then
+            fndID.MyReadOnly = False
+        Else
+            fndID.MyReadOnly = True
+        End If
+        If fndID.MyReadOnly OrElse isButtonClicked Then
+            Dim           qry As String = "Select Channel_Id As[Channel],Channel_category as [Channel Category],channel_name as [Channel Name]from Tspl_Channel_Master "
+            fndID.Value = clsCommon.ShowSelectForm("POProjectfnd", qry, "Channel", "", fndID.Value, "", isButtonClicked)
+            ' rdtxtgroupdesc.Text = clsDBFuncationality.getSingleValue("Select group_desc from tspl_vendor_group where ven_group_code='" + fndID.Value + "'")
+            If fndID.Value IsNot Nothing Then
+                rdbtndelete.Enabled = True
+            Else
+                rdbtndelete.Enabled = False
+            End If
+            text_changed()
+            fndID_Leave()
+
+        End If
+    End Sub
+
+    Private Sub fndID__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavigatorType As common.NavigatorType) Handles fndID._MYNavigator
+        Dim qst As String = "Select Channel_Id As[Channel Id],Channel_category as [Channel Category],channel_name as [Channel Name]from Tspl_Channel_Master    where  2=2 "
+        Select Case NavigatorType
+            Case NavigatorType.Current
+                '  qst += "and assign_to='" + txtassign.Value + "' "
+                ' qst += "and job_code in ('" + txtcode1.Value + "')"
+            Case NavigatorType.Next
+                qst += "and Channel_Id in (select min(Channel_Id) from Tspl_Channel_Master where Channel_Id>'" + fndID.Value + "'   ) "
+            Case NavigatorType.First
+                qst += "and Channel_Id in (select MIN(Channel_Id) from Tspl_Channel_Master  )"
+            Case NavigatorType.Last
+                qst += "and Channel_Id in (select Max(Channel_Id) from Tspl_Channel_Master  )"
+            Case NavigatorType.Previous
+                qst += "and Channel_Id in (select max(Channel_Id) from Tspl_Channel_Master where Channel_Id<'" + fndID.Value + "'   )"
+        End Select
+        ' fun_gridfill()
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qst)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            fndID.Value = clsCommon.myCstr(dt.Rows(0)("Channel Id"))
+            ' rdtxtgroupdesc.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
+        End If
+        'TextChanged()
+        If fndID.Value IsNot Nothing Then
+            rdbtndelete.Enabled = True
+        Else
+            rdbtndelete.Enabled = False
+
+        End If
+        text_changed()
+        fndID_Leave()
+    End Sub
+
+    Private Sub fndcategory__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndcategory._MYValidating
+        Dim qry As String = "Select channel_category_id as [CategoryID], Channel_category_name as [Category Name] from tspl_channel_category_master  "
+        fndcategory.Value = clsCommon.ShowSelectForm("POProject1", qry, "CategoryID", "", fndcategory.Value, "", isButtonClicked)
+        'rdtxtaccountset.Text = clsDBFuncationality.getSingleValue("Select acct_set_desc from tspl_vendor_account_set where acct_set_code='" + fndcategory.Value + "'")
+        channelcategory_leave()
+    End Sub
+End Class

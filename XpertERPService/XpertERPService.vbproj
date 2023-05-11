@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{43F2046D-D644-4095-A161-CC68B3567589}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>XpertERPService</RootNamespace>
+    <AssemblyName>XpertERPService</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPService.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>XpertERPService.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Comm64">
+      <HintPath>..\XpertERP\bin\Debug\Comm64.DLL</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.ReportSource, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.ReportSource.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.TelerikMetroTouch, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.TelerikMetroTouch.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Dark, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.VisualStudio2012Dark.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.VisualStudio2012Light, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.VisualStudio2012Light.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.Windows8, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.Windows8.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XpertCommon, Version=2.0.6.25, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngine, Version=5.1.5.27, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine">
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\globalFunc.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="My Project\SharedAssemblyInfo.vb" />
+    <Compile Include="ServiceAndWarranty\FrmActivityType.Designer.vb">
+      <DependentUpon>FrmActivityType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmActivityType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmCallType.Designer.vb">
+      <DependentUpon>FrmCallType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmCallType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmFaultCategory.Designer.vb">
+      <DependentUpon>FrmFaultCategory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmFaultCategory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmFaultMaster.Designer.vb">
+      <DependentUpon>FrmFaultMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmFaultMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmProblemType.Designer.vb">
+      <DependentUpon>FrmProblemType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmProblemType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmServiceAllocation.Designer.vb">
+      <DependentUpon>FrmServiceAllocation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmServiceAllocation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmServiceCall.Designer.vb">
+      <DependentUpon>FrmServiceCall.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmServiceCall.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmServiceChargeMaster.Designer.vb">
+      <DependentUpon>FrmServiceChargeMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmServiceChargeMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmServiceEnquiry.Designer.vb">
+      <DependentUpon>FrmServiceEnquiry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmServiceEnquiry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmServiceVisitDetails.Designer.vb">
+      <DependentUpon>FrmServiceVisitDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmServiceVisitDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmSolutionKnowledgeBase.Designer.vb">
+      <DependentUpon>FrmSolutionKnowledgeBase.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceAndWarranty\FrmSolutionKnowledgeBase.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Report\frmAssetDetailReport.Designer.vb">
+      <DependentUpon>frmAssetDetailReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Report\frmAssetDetailReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Report\frmClaimRport.Designer.vb">
+      <DependentUpon>frmClaimRport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Report\frmClaimRport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Report\FrmCustomersListReport.Designer.vb">
+      <DependentUpon>FrmCustomersListReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Report\FrmCustomersListReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Report\frmDaywisePendingComplaint.Designer.vb">
+      <DependentUpon>frmDaywisePendingComplaint.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Report\frmDaywisePendingComplaint.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Report\frmFranchiseChargesReport.Designer.vb">
+      <DependentUpon>frmFranchiseChargesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Report\frmFranchiseChargesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Report\frmPullOutRedeployReport.Designer.vb">
+      <DependentUpon>frmPullOutRedeployReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Report\frmPullOutRedeployReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Report\frmspareStockReport2.Designer.vb">
+      <DependentUpon>frmspareStockReport2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Report\frmspareStockReport2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Report\frmVendorBillDetails.Designer.vb">
+      <DependentUpon>frmVendorBillDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Report\frmVendorBillDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Setup\frmAssetServiceMaster.Designer.vb">
+      <DependentUpon>frmAssetServiceMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Setup\frmAssetServiceMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Setup\frmComplaintGroupMaster.Designer.vb">
+      <DependentUpon>frmComplaintGroupMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Setup\frmComplaintGroupMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Setup\frmComplaintMaster.Designer.vb">
+      <DependentUpon>frmComplaintMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Setup\frmComplaintMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Setup\frmItemChargeCategoryMaster.Designer.vb">
+      <DependentUpon>frmItemChargeCategoryMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Setup\frmItemChargeCategoryMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Setup\frmItemChargeFranchiseMappingMaster.Designer.vb">
+      <DependentUpon>frmItemChargeFranchiseMappingMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Setup\frmItemChargeFranchiseMappingMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Setup\frmPendingReasonMaster.Designer.vb">
+      <DependentUpon>frmPendingReasonMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Setup\frmPendingReasonMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Setup\frmPrimaryReasonMaster.Designer.vb">
+      <DependentUpon>frmPrimaryReasonMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Setup\frmPrimaryReasonMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Transaction\clsCartMaintenanceEntry.vb" />
+    <Compile Include="Service\Transaction\clscomplaintdetail.vb" />
+    <Compile Include="Service\Transaction\frmAssetAgreement.Designer.vb">
+      <DependentUpon>frmAssetAgreement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Transaction\frmAssetAgreement.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Transaction\frmAssetInstallPullOut.Designer.vb">
+      <DependentUpon>frmAssetInstallPullOut.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Transaction\frmAssetInstallPullOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Transaction\frmCartMaintenanceEntry.Designer.vb">
+      <DependentUpon>frmCartMaintenanceEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Transaction\frmCartMaintenanceEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Transaction\frmComplaintDetailEntry.Designer.vb">
+      <DependentUpon>frmComplaintDetailEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Transaction\frmComplaintDetailEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Transaction\frmDispatch.Designer.vb">
+      <DependentUpon>frmDispatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Transaction\frmDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Transaction\FrmPendingComplaintDetail.Designer.vb">
+      <DependentUpon>FrmPendingComplaintDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Transaction\FrmPendingComplaintDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\Transaction\FrmQuickComplaintDetailEntry.Designer.vb">
+      <DependentUpon>FrmQuickComplaintDetailEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Transaction\FrmQuickComplaintDetailEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User Controls\ucCustomFields.Designer.vb">
+      <DependentUpon>ucCustomFields.vb</DependentUpon>
+    </Compile>
+    <Compile Include="User Controls\ucCustomFields.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmActivityType.resx">
+      <DependentUpon>FrmActivityType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmCallType.resx">
+      <DependentUpon>FrmCallType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmFaultCategory.resx">
+      <DependentUpon>FrmFaultCategory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmFaultMaster.resx">
+      <DependentUpon>FrmFaultMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmProblemType.resx">
+      <DependentUpon>FrmProblemType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmServiceAllocation.resx">
+      <DependentUpon>FrmServiceAllocation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmServiceCall.resx">
+      <DependentUpon>FrmServiceCall.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmServiceChargeMaster.resx">
+      <DependentUpon>FrmServiceChargeMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmServiceEnquiry.resx">
+      <DependentUpon>FrmServiceEnquiry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmServiceVisitDetails.resx">
+      <DependentUpon>FrmServiceVisitDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServiceAndWarranty\FrmSolutionKnowledgeBase.resx">
+      <DependentUpon>FrmSolutionKnowledgeBase.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Report\frmAssetDetailReport.resx">
+      <DependentUpon>frmAssetDetailReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Report\frmClaimRport.resx">
+      <DependentUpon>frmClaimRport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Report\FrmCustomersListReport.resx">
+      <DependentUpon>FrmCustomersListReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Report\frmDaywisePendingComplaint.resx">
+      <DependentUpon>frmDaywisePendingComplaint.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Report\frmFranchiseChargesReport.resx">
+      <DependentUpon>frmFranchiseChargesReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Report\frmPullOutRedeployReport.resx">
+      <DependentUpon>frmPullOutRedeployReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Report\frmspareStockReport2.resx">
+      <DependentUpon>frmspareStockReport2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Report\frmVendorBillDetails.resx">
+      <DependentUpon>frmVendorBillDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Setup\frmAssetServiceMaster.resx">
+      <DependentUpon>frmAssetServiceMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Setup\frmComplaintGroupMaster.resx">
+      <DependentUpon>frmComplaintGroupMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Setup\frmComplaintMaster.resx">
+      <DependentUpon>frmComplaintMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Setup\frmItemChargeCategoryMaster.resx">
+      <DependentUpon>frmItemChargeCategoryMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Setup\frmItemChargeFranchiseMappingMaster.resx">
+      <DependentUpon>frmItemChargeFranchiseMappingMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Setup\frmPendingReasonMaster.resx">
+      <DependentUpon>frmPendingReasonMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Setup\frmPrimaryReasonMaster.resx">
+      <DependentUpon>frmPrimaryReasonMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Transaction\frmAssetAgreement.resx">
+      <DependentUpon>frmAssetAgreement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Transaction\frmAssetInstallPullOut.resx">
+      <DependentUpon>frmAssetInstallPullOut.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Transaction\frmCartMaintenanceEntry.resx">
+      <DependentUpon>frmCartMaintenanceEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Transaction\frmComplaintDetailEntry.resx">
+      <DependentUpon>frmComplaintDetailEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Transaction\frmDispatch.resx">
+      <DependentUpon>frmDispatch.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Transaction\FrmPendingComplaintDetail.resx">
+      <DependentUpon>FrmPendingComplaintDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Service\Transaction\FrmQuickComplaintDetailEntry.resx">
+      <DependentUpon>FrmQuickComplaintDetailEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User Controls\ucCustomFields.resx">
+      <DependentUpon>ucCustomFields.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\globe.jpg" />
+    <Content Include="Resources\globe1.jpg" />
+    <Content Include="Resources\images.jpg" />
+    <Content Include="Resources\images1.jpg" />
+    <Content Include="Resources\MSE.png" />
+    <Content Include="Resources\MSE1.png" />
+    <Content Include="Resources\new.bmp" />
+    <Content Include="Resources\new1.bmp" />
+    <Content Include="Resources\pdf.png" />
+    <Content Include="Resources\pdf1.png" />
+    <Content Include="Resources\PIE.png" />
+    <Content Include="Resources\search4.png" />
+    <Content Include="Resources\search41.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

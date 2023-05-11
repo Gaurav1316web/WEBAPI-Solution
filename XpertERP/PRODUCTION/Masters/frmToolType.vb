@@ -1,0 +1,244 @@
+﻿Imports System.Collections.Generic
+Imports System.ComponentModel
+Imports System.Data
+Imports System.Drawing
+Imports System.Data.SqlClient
+Imports Telerik.WinControls.UI
+Imports Telerik.WinControls
+Imports Telerik.WinControls.Data
+Imports System.Text.RegularExpressions
+Imports common
+''''''''''''''''''''''''''''''''''''''''''Ticket No:BM00000000474''''''''''''''''''''''''''''''''''''''''''''''''Created by Shipra on 17/09/13''''''
+
+Public Class FrmToolType
+    Inherits FrmMainTranScreen
+    Dim isNewEntry As Boolean = False
+    Dim ButtonToolTip As ToolTip = New ToolTip()
+#Region "Functions"
+    Private Sub SetUserMgmtNew()
+        ''MyBase.SetUserMgmt(clsUserMgtCode.TOOLTYPE)
+        If Not (MyBase.isReadFlag) Then
+            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            Me.Close()
+            Exit Sub
+        End If
+        rdbtnsave.Visible = MyBase.isModifyFlag
+        'btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+    End Sub
+
+
+    Private Function GetCboStatusDataTable() As DataTable
+        Dim dt As New DataTable
+        dt.Columns.Add("CODE", GetType(String))
+        dt.Columns.Add("Value", GetType(String))
+
+        Dim dr As DataRow
+        dr = dt.NewRow()
+        dr("CODE") = "Active"
+        dr("Value") = "Active"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("CODE") = "Inactive"
+        dr("Value") = "Inactive"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("CODE") = "Discontinued"
+        dr("Value") = "Discontinued"
+        dt.Rows.Add(dr)
+
+        dt.AcceptChanges()
+        Return dt
+    End Function
+
+    Sub funDelete()
+        Try
+            If (myMessages.deleteConfirm()) Then
+                If (ClsMFToolType.DeleteData(fndToolCode.Value)) Then
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    Reset()
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+
+    End Sub
+
+
+    Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+        Dim obj As ClsMFToolType = ClsMFToolType.GetData(strCode, NavTyep)
+        If obj IsNot Nothing Then
+            isNewEntry = False
+            fndToolCode.Value = obj.TOOL_TYPE_CODE
+            txtdescription.Text = obj.DESCRIPTION
+          fnduom.Value = obj.UNIT_CODE
+            txtCost.Text = obj.COST_PER_UNIT
+      txtLastMaitainDate.Value = obj.INACTIVE_DATE
+          txtComments.Text = obj.COMMENTS
+            cboStatus.SelectedValue = obj.STATUS
+            'txtToolType.Text = clsDBFuncationality.getSingleValue("select description from TSPL_MF_TOOL_TYPE where TOOL_TYPE_CODE='" + fndToolType.Value + "' ")
+            txtuom.Text = clsDBFuncationality.getSingleValue("select Unit_Desc from TSPL_UNIT_MASTER where Unit_Code='" + fnduom.Value + "' ")
+            fndToolCode.MyReadOnly = True
+        End If
+    End Sub
+    Sub Reset()
+      
+        fndToolCode.Value = ""
+        fndToolCode.MyReadOnly = False
+        txtdescription.Text = ""
+       fnduom.Value = ""
+        fnduom.MyReadOnly = True
+        txtCost.Text = ""
+        txtComments.Text = ""
+      txtLastMaitainDate.Value = clsCommon.GETSERVERDATE()
+     txtuom.Text = ""
+        cboStatus.DataSource = GetCboStatusDataTable()
+        cboStatus.ValueMember = "CODE"
+        cboStatus.DisplayMember = "Value"
+        txtComments.Text = ""
+    End Sub
+    Sub SaveData()
+        If AllowToSave() Then
+            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+            Try
+                Dim obj As New ClsMFToolType()
+                obj.TOOL_TYPE_CODE = fndToolCode.Value
+                obj.DESCRIPTION = txtdescription.Text
+                obj.UNIT_CODE = fnduom.Value
+                obj.COST_PER_UNIT = txtCost.Text
+                obj.INACTIVE_DATE = txtLastMaitainDate.Value
+
+                obj.COMMENTS = txtComments.Text
+                obj.STATUS = cboStatus.SelectedValue
+                Dim qry As Integer = clsDBFuncationality.getSingleValue("select count(TOOL_TYPE_CODE) from TSPL_MF_tool_type where TOOL_TYPE_CODE='" + obj.TOOL_TYPE_CODE + "'", trans)
+                If (qry = 0) Then
+                    isNewEntry = True
+                Else
+                    isNewEntry = False
+                End If
+                If (ClsMFToolType.SaveData(obj, isNewEntry, trans)) Then
+                    trans.Commit()
+                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    LoadData(obj.TOOL_TYPE_CODE, NavigatorType.Current)
+
+                End If
+        Catch ex As Exception
+            trans.Rollback()
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            End Try
+        End If
+    End Sub
+    Private Function AllowToSave() As Boolean
+        If (IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowAutoGenerateDocNoInMaster, clsFixedParameterCode.AllowAutoGenerateDocNoInMaster, Nothing)) = "1", True, False) = False) Then
+            If clsCommon.myLen(clsCommon.myCstr(fndToolCode.Value)) <= 0 Then
+                fndToolCode.Focus()
+                Throw New Exception("Please Fill  Code")
+            End If
+        End If
+        If clsCommon.myLen(clsCommon.myCstr(txtdescription.Text)) <= 0 Then
+            txtdescription.Focus()
+            Throw New Exception("Please Fill Description")
+        End If
+
+        If clsCommon.myLen(clsCommon.myCstr(fnduom.Value)) <= 0 Then
+            fnduom.Focus()
+            Throw New Exception("Please Fill UOM")
+        End If
+        If clsCommon.myLen(clsCommon.myCstr(txtCost.Text)) <= 0 Then
+            txtCost.Focus()
+            Throw New Exception("Please Fill Cost per unit")
+        End If
+
+        Return True
+    End Function
+#End Region
+
+#Region "Finders"
+
+    Private Sub fnduom__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fnduom._MYValidating
+        Dim qry As String = " Select Unit_Code  as Code,Unit_Desc  as Description from TSPL_UNIT_MASTER  "
+        fnduom.Value = clsCommon.ShowSelectForm("REC_CONfnd2", qry, "Code", "", fnduom.Value, "", isButtonClicked)
+        txtuom.Text = clsDBFuncationality.getSingleValue("select Unit_Desc from TSPL_UNIT_MASTER where Unit_Code='" + fnduom.Value + "' ")
+
+    End Sub
+
+    Private Sub fndToolCode__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndToolCode._MYNavigator
+        Try
+            LoadData(fndToolCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub fndToolCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndToolCode._MYValidating
+        Try
+            Dim str As String = "select count(*) from TSPL_MF_tool_type where TOOL_TYPE_CODE ='" + fndToolCode.Value + "' "
+            Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+            If no = 0 AndAlso isButtonClicked = False Then
+                fndToolCode.MyReadOnly = False
+            Else
+                fndToolCode.MyReadOnly = True
+            End If
+            If fndToolCode.MyReadOnly OrElse isButtonClicked Then
+
+                'Dim qry As String = " Select TOOL_TYPE_CODE  as Code,DESCRIPTION from TSPL_MF_tool_type    "
+                'fndToolCode.Value = clsCommon.ShowSelectForm("TSPL_MF_tool_type", qry, "Code", "", fndToolCode.Value, "", isButtonClicked)
+                fndToolCode.Value = clsToolType.getFinder("", fndToolCode.Value, isButtonClicked)
+                If fndToolCode.Value <> "" Then
+                    LoadData(fndToolCode.Value, NavigatorType.Current)
+                Else
+                    Reset()
+                End If
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message())
+        End Try
+    End Sub
+#End Region
+#Region "Events"
+    Private Sub FrmToolType_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
+        Reset()
+        ButtonToolTip.SetToolTip(rdbtnsave, "Press Alt+S for Save/Update ")
+        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete ")
+        ButtonToolTip.SetToolTip(rdbtnclose, "Press Alt+C Close the Window")
+        ButtonToolTip.SetToolTip(rdbtnnew, "Press Alt+N Adding New ")
+    End Sub
+
+    Private Sub rdbtnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtnsave.Click
+        SaveData()
+    End Sub
+    Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
+        funDelete()
+    End Sub
+
+    Private Sub rdbtnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtnclose.Click
+        Me.Close()
+    End Sub
+
+    Private Sub rdbtnnew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtnnew.Click
+        Reset()
+    End Sub
+
+    Private Sub FrmToolType_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso rdbtnsave.Enabled Then
+            SaveData()
+            'ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag Then
+            '    PostData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
+            funDelete()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
+            Me.Close()
+        ElseIf e.Alt And e.KeyCode = Keys.N Then
+            Reset()
+        End If
+    End Sub
+
+#End Region
+
+
+End Class

@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0108008E-34AE-4444-84A6-A3326AECBEE9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <StartupObject>
+    </StartupObject>
+    <RootNamespace>XpertERPProjectManagement</RootNamespace>
+    <AssemblyName>XpertERPProjectManagement</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPProjectManagement.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>XpertERPProjectManagement.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XpertCommon, Version=2.0.6.63, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPBlankTableScript">
+      <HintPath>..\XpertERP\bin\Debug\XpertERPBlankTableScript.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngine">
+      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine">
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Telerik.WinControls" />
+    <Import Include="Telerik.WinControls.UI" />
+    <Import Include="XpertERPEngine" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
+      <Link>SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Reports\frmPjcDrilldown.Designer.vb">
+      <DependentUpon>frmPjcDrilldown.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmPjcDrilldown.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmProjectDetails.Designer.vb">
+      <DependentUpon>frmProjectDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmProjectDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmProjectListReport.Designer.vb">
+      <DependentUpon>frmProjectListReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmProjectListReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\frmProjectProfitReport.Designer.vb">
+      <DependentUpon>frmProjectProfitReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\frmProjectProfitReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmBudgetMaintenance.Designer.vb">
+      <DependentUpon>frmBudgetMaintenance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmBudgetMaintenance.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmCostType.Designer.vb">
+      <DependentUpon>frmCostType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmCostType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmExpenseType.Designer.vb">
+      <DependentUpon>frmExpenseType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmExpenseType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmJobMaster.Designer.vb">
+      <DependentUpon>frmJobMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmJobMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmPJCAccountSetting.Designer.vb">
+      <DependentUpon>frmPJCAccountSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmPJCAccountSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmPJCEmployeeMaster.Designer.vb">
+      <DependentUpon>frmPJCEmployeeMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmPJCEmployeeMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmPJCSettings.Designer.vb">
+      <DependentUpon>frmPJCSettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmPJCSettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmProjectMaster.Designer.vb">
+      <DependentUpon>frmProjectMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmProjectMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmProjectStatus.Designer.vb">
+      <DependentUpon>frmProjectStatus.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmProjectStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmTaskMaster.Designer.vb">
+      <DependentUpon>frmTaskMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmTaskMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Setup\frmUserApproval.Designer.vb">
+      <DependentUpon>frmUserApproval.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Setup\frmUserApproval.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmAssemblies.Designer.vb">
+      <DependentUpon>frmAssemblies.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmAssemblies.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmPJCExpense.Designer.vb">
+      <DependentUpon>frmPJCExpense.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmPJCExpense.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmTimesheet.Designer.vb">
+      <DependentUpon>frmTimesheet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmTimesheet.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transaction\frmUserLog.Designer.vb">
+      <DependentUpon>frmUserLog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmUserLog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmPjcDrilldown.resx">
+      <DependentUpon>frmPjcDrilldown.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmProjectDetails.resx">
+      <DependentUpon>frmProjectDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmProjectListReport.resx">
+      <DependentUpon>frmProjectListReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\frmProjectProfitReport.resx">
+      <DependentUpon>frmProjectProfitReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmBudgetMaintenance.resx">
+      <DependentUpon>frmBudgetMaintenance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmCostType.resx">
+      <DependentUpon>frmCostType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmExpenseType.resx">
+      <DependentUpon>frmExpenseType.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmJobMaster.resx">
+      <DependentUpon>frmJobMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmPJCAccountSetting.resx">
+      <DependentUpon>frmPJCAccountSetting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmPJCEmployeeMaster.resx">
+      <DependentUpon>frmPJCEmployeeMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmPJCSettings.resx">
+      <DependentUpon>frmPJCSettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmProjectMaster.resx">
+      <DependentUpon>frmProjectMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmProjectStatus.resx">
+      <DependentUpon>frmProjectStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmTaskMaster.resx">
+      <DependentUpon>frmTaskMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setup\frmUserApproval.resx">
+      <DependentUpon>frmUserApproval.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmAssemblies.resx">
+      <DependentUpon>frmAssemblies.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmPJCExpense.resx">
+      <DependentUpon>frmPJCExpense.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmTimesheet.resx">
+      <DependentUpon>frmTimesheet.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmUserLog.resx">
+      <DependentUpon>frmUserLog.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\globe.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\globe1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\images1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSE1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pdf1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PIE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search41.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

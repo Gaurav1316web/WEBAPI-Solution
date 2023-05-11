@@ -1,0 +1,1602 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FA619D1E-C09F-4D15-9DFA-63C256017D35}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>XpertERPEngine</RootNamespace>
+    <AssemblyName>XpertERPEngine</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPEngine.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>XpertERPEngine.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ActiveDatabaseSoftware.ActiveQueryBuilder2">
+      <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.ActiveQueryBuilder2.dll</HintPath>
+    </Reference>
+    <Reference Include="CgtFpAccessCSD200Dotnet">
+      <HintPath>..\XpertERP\bin\Debug\CgtFpAccessCSD200Dotnet.dll</HintPath>
+    </Reference>
+    <Reference Include="Comm64, Version=6.4.0.30, Culture=neutral, PublicKeyToken=dd445fe4659af8f3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Comm64.DLL</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.CrystalReports.Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Shared, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=10.5.3700.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CrystalDecisions.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\packages\Newtonsoft.Json.12.0.3\lib\net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.PivotGrid, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.PivotGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadDock, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMap, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMap.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.RadMarkupEditor, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadMarkupEditor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Scheduler, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Scheduler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.Themes.HighContrastBlack, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.Themes.HighContrastBlack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XpertCommon">
+      <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPBlankTableScript">
+      <HintPath>..\XpertERP\bin\Debug\XpertERPBlankTableScript.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPEngineFine">
+      <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\XpertERP\packages\ZXing.Net.0.16.6\lib\net35\zxing.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="common" />
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Telerik.WinControls" />
+    <Import Include="Telerik.WinControls.Enumerations" />
+    <Import Include="Telerik.WinControls.UI" />
+    <Import Include="Telerik.WinControls.UI.Data" />
+    <Import Include="XpertERPEngineFine" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
+      <Link>SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="AdminServices\clsSendSMSEmailSetting.vb" />
+    <Compile Include="Business Intelligence\clsCreateBIFilter.vb" />
+    <Compile Include="Business Intelligence\clsCreateBIReport.vb" />
+    <Compile Include="Business Intelligence\clsCreateDashboard.vb" />
+    <Compile Include="clsAllEnum.vb" />
+    <Compile Include="clscomplaintdetail.vb" />
+    <Compile Include="API\ClsEInvoiceOFAPIs.vb" />
+    <Compile Include="clsfrmNotificationScreen.vb" />
+    <Compile Include="clsRcptEntryHeader.vb" />
+    <Compile Include="Common\clsAdditionalCharge.vb" />
+    <Compile Include="Common\clsAllStoreProcedure.vb" />
+    <Compile Include="Common\clsApprovalScreen.vb" />
+    <Compile Include="Common\clsApproverCreation.vb" />
+    <Compile Include="Common\clsBackUp.vb" />
+    <Compile Include="Common\clsBankGuaranteeMaster.vb" />
+    <Compile Include="Common\clsBankReco.vb" />
+    <Compile Include="Common\clsBankTrasnferNew.vb" />
+    <Compile Include="Common\clsBranchMaster.vb" />
+    <Compile Include="Common\ClsCancelAfterPosting.vb" />
+    <Compile Include="Common\clsCancelLog.vb" />
+    <Compile Include="Common\ClsCardSale.vb" />
+    <Compile Include="Common\ClsCatalogMaster.vb" />
+    <Compile Include="Common\clsCHAChargeMaster.vb" />
+    <Compile Include="Common\clsCityMaster.vb" />
+    <Compile Include="Common\clsClaimDetails.vb" />
+    <Compile Include="Common\clsClientFormLableDetails.vb" />
+    <Compile Include="Common\clsCompanyMaster.vb" />
+    <Compile Include="Common\ClsCostCenter.vb" />
+    <Compile Include="Common\clsCountryMaster.vb" />
+    <Compile Include="Common\clsCrptFooterSetting.vb" />
+    <Compile Include="Common\clsCurrencyConversion.vb" />
+    <Compile Include="Common\clsCurrencyMaster.vb" />
+    <Compile Include="Common\ClsDeductionMaster.vb" />
+    <Compile Include="Common\clsDepartmentMaster.vb" />
+    <Compile Include="Common\ClsDeprAccountSet.vb" />
+    <Compile Include="Common\clsDevisionMaster.vb" />
+    <Compile Include="Common\clsDocPrefix.vb" />
+    <Compile Include="Common\clsDocType.vb" />
+    <Compile Include="Common\clsEmailAndSMSConfig.vb" />
+    <Compile Include="Common\clsEmailSMSSettingNew.vb" />
+    <Compile Include="Common\clsERPFuncationality.vb" />
+    <Compile Include="Common\clsExpiryDate.vb" />
+    <Compile Include="Common\clsExportTemplate.vb" />
+    <Compile Include="Common\clsFinder.vb" />
+    <Compile Include="Common\clsFormIssuehead.vb" />
+    <Compile Include="Common\clsFormSerialNoMaster.vb" />
+    <Compile Include="Common\clsGardeMaster.vb" />
+    <Compile Include="Common\clsGLSegment.vb" />
+    <Compile Include="Common\clsGrampanchayatMaster.vb" />
+    <Compile Include="Common\ClsGroupOfDeduction1.vb" />
+    <Compile Include="Common\clsItemTaxRate.vb" />
+    <Compile Include="Common\clsItemWiseTax.vb" />
+    <Compile Include="Common\clsLoanEntry.vb" />
+    <Compile Include="Common\clsLoanInstallmentEntry.vb" />
+    <Compile Include="Common\clsLocationDistanceMapping.vb" />
+    <Compile Include="Common\clsLockTransactionLocationwise.vb" />
+    <Compile Include="Common\clsMailViaOutlook.vb" />
+    <Compile Include="Common\clsMyPrintDocument.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Common\clsPanchayatSamitiMaster.vb" />
+    <Compile Include="Common\clsPOSGroupMaster.vb" />
+    <Compile Include="Common\clspromptMsg.vb" />
+    <Compile Include="Common\clsReportDataMemory.vb" />
+    <Compile Include="Common\clsRequestMaster.vb" />
+    <Compile Include="Common\clsRevaluationEntry.vb" />
+    <Compile Include="Common\clsRevenueVillageMaster.vb" />
+    <Compile Include="Common\ClsSACMaster.vb" />
+    <Compile Include="Common\clsSaveUpdateMasterPwdBased.vb" />
+    <Compile Include="Common\clsTemplateExpImp.vb" />
+    <Compile Include="Common\clsTimeTable.vb" />
+    <Compile Include="Common\clsUnclearedDocument.vb" />
+    <Compile Include="Common\clsUtility.vb" />
+    <Compile Include="Common\clsVidhanSabhaMaster.vb" />
+    <Compile Include="Common\ClsVPFSettings.vb" />
+    <Compile Include="Common\ControlDesigner.vb" />
+    <Compile Include="Common\EvalFunctions.vb" />
+    <Compile Include="Common\Evaluator.vb" />
+    <Compile Include="Common\clsJWParameterMaster.vb" />
+    <Compile Include="Common\RefeshLocationsAndGLAccount.vb" />
+    <Compile Include="Common\UserControl\clsGatePassPS.vb" />
+    <Compile Include="CustomerComplaint\clsCustomerComplain.vb" />
+    <Compile Include="CustomerComplaint\clsCustomerComplaintMaster.vb" />
+    <Compile Include="Electrical\clsDailyElectricalEntry.vb" />
+    <Compile Include="Electrical\clsDGMaster.vb" />
+    <Compile Include="Electrical\clsSlotMaster.vb" />
+    <Compile Include="EngAndPlantManagement\clsEngLogSheet.vb" />
+    <Compile Include="EngAndPlantManagement\clsEngSection.vb" />
+    <Compile Include="EngAndPlantManagement\clsWorkEstimationHead.vb" />
+    <Compile Include="Finance\clsCashFlowPerforma.vb" />
+    <Compile Include="Finance\ClsGLControlAccountMapping.vb" />
+    <Compile Include="Fixed Asset\clsAssetBookMaster.vb" />
+    <Compile Include="Fixed Asset\clsAssetDispatchRetailerHead.vb" />
+    <Compile Include="frmCreateTemplate.designer.vb">
+      <DependentUpon>frmCreateTemplate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCreateTemplate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCrptFooter.Designer.vb">
+      <DependentUpon>frmCrptFooter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmCrptFooter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmExportTemplate.designer.vb">
+      <DependentUpon>frmExportTemplate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmExportTemplate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFreeGrid.Designer.vb">
+      <DependentUpon>frmFreeGrid.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmFreeGrid.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFreeImage.Designer.vb">
+      <DependentUpon>frmFreeImage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmFreeImage.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmItemMasterRMOther.Designer.vb">
+      <DependentUpon>frmItemMasterRMOther.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmItemMasterRMOther.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPaymentDetail.Designer.vb">
+      <DependentUpon>frmPaymentDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPaymentDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPendingSaleInvoiceDS.Designer.vb">
+      <DependentUpon>frmPendingSaleInvoiceDS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPendingSaleInvoiceDS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPendingSaleOrderPS.Designer.vb">
+      <DependentUpon>frmPendingSaleOrderPS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPendingSaleOrderPS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPendingShipmentPS.Designer.vb">
+      <DependentUpon>frmPendingShipmentPS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPendingShipmentPS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPOItemTaxDetails.Designer.vb">
+      <DependentUpon>frmPOItemTaxDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmPOItemTaxDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPrintFreshInvoice.Designer.vb">
+      <DependentUpon>FrmPrintFreshInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPrintFreshInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSaleHistory.Designer.vb">
+      <DependentUpon>frmSaleHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSaleHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSaleInvoiceProductSale.Designer.vb">
+      <DependentUpon>frmSaleInvoiceProductSale.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSaleInvoiceProductSale.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmStockDetail.Designer.vb">
+      <DependentUpon>frmStockDetail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmStockDetail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTemplateExpImp.designer.vb">
+      <DependentUpon>frmTemplateExpImp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTemplateExpImp.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUserMaster.Designer.vb">
+      <DependentUpon>frmUserMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmUserMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\ClsAdjustmentsQCC.vb" />
+    <Compile Include="Inventory\clsBatchInventoryNew.vb" />
+    <Compile Include="Inventory\clsWeightUomMaster.vb" />
+    <Compile Include="Inventory\frmBatchItemOutNew.Designer.vb">
+      <DependentUpon>frmBatchItemOutNew.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\frmBatchItemOutNew.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobWork Outward\ClsJobWorkBilling.vb" />
+    <Compile Include="JobWork Outward\clsJWEStimate.vb" />
+    <Compile Include="JobWork Outward\clsJWFormula.vb" />
+    <Compile Include="JobWork Outward\clsJWOEstimate.vb" />
+    <Compile Include="JobWork Outward\clsJWOFormula.vb" />
+    <Compile Include="Milk JobWork\clsJWIItemPriceMaster.vb" />
+    <Compile Include="Milk Procurement\clsAcknowledgementEntry.vb" />
+    <Compile Include="Milk Procurement\clsCapping.vb" />
+    <Compile Include="Milk Procurement\clsDBTNEFT.vb" />
+    <Compile Include="Milk Procurement\clsDBTNEFTReject.vb" />
+    <Compile Include="Milk Procurement\clsDCSAdditionDeduction.vb" />
+    <Compile Include="Milk Procurement\clsDCSFinancialEntry.vb" />
+    <Compile Include="Milk Procurement\clsDCSFinancialHead.vb" />
+    <Compile Include="Milk Procurement\clsFarmerProMaster.vb" />
+    <Compile Include="Milk Procurement\clsfrmCustomerRouteShiftMaster.vb" />
+    <Compile Include="Milk Procurement\clsGazeReading.vb" />
+    <Compile Include="Milk Procurement\ClsGeneralWeighment.vb" />
+    <Compile Include="Milk Procurement\clsIncentiveEntry.vb" />
+    <Compile Include="Milk Procurement\clsIncentiveEntryBySRN.vb" />
+    <Compile Include="Milk Procurement\clsMCCPaymentCycleLockForScheduler.vb" />
+    <Compile Include="Milk Procurement\clsMccScrapGatePass.vb" />
+    <Compile Include="Milk Procurement\clsMilkCollectionDCS.vb" />
+    <Compile Include="Milk Procurement\clsMilkCollectionMCC.vb" />
+    <Compile Include="Milk Procurement\clsMilkPurchaseInvoiceProvision.vb" />
+    <Compile Include="Milk Procurement\clsMilkShiftUploader.vb" />
+    <Compile Include="Milk Procurement\clsMPDCSInsentiveReco.vb" />
+    <Compile Include="Milk Procurement\clsMPIncentiveEntry.vb" />
+    <Compile Include="Milk Procurement\clsMPIncetiveSlab.vb" />
+    <Compile Include="Milk Procurement\clsQualityCheckSeparation.vb" />
+    <Compile Include="Milk Procurement\clsTankerCleaningItem.vb" />
+    <Compile Include="Milk Procurement\clsVSPCommission.vb" />
+    <Compile Include="Milk Procurement\clsVSPDeduction.vb" />
+    <Compile Include="Milk Procurement\clsVSPMapping.vb" />
+    <Compile Include="Milk Procurement\clsVSSDayWiseIncentive.vb" />
+    <Compile Include="Payable\clsEmployeeSavingsMapping.vb" />
+    <Compile Include="Payable\clsMulitpleProcDeductionHead.vb" />
+    <Compile Include="Payable\clsPaymentProcess.vb" />
+    <Compile Include="Payable\clsSavingMaster.vb" />
+    <Compile Include="Payable\clsSectionAllowanceMaster.vb" />
+    <Compile Include="Payroll\clsBiometricAttendance.vb" />
+    <Compile Include="Payroll\clsIncomeTaxTDSCalculation.vb" />
+    <Compile Include="Payroll\clsIncomeTaxTDSSlab.vb" />
+    <Compile Include="Production\ClsBreakDownMaster.vb" />
+    <Compile Include="Production\clsDairyProductionUploader.vb" />
+    <Compile Include="Production\clsProcessProductionStandardizationFinalQC.vb" />
+    <Compile Include="Production\clsProductionBreakDown.vb" />
+    <Compile Include="Production\clsProductionEntryFinalQC.vb" />
+    <Compile Include="Production\clsProductionMRP.vb" />
+    <Compile Include="Production\clsProductionRequistionHead.vb" />
+    <Compile Include="Production\ClsSiloMilkTransfer.vb" />
+    <Compile Include="Production\clsStanderdProductionEntry.vb" />
+    <Compile Include="Purchase\clsRMDemandApproval.vb" />
+    <Compile Include="Purchase\clsSetPOSchedule.vb" />
+    <Compile Include="Purchase\clsTenderHead.vb" />
+    <Compile Include="Purchase\clsTenderShortPenalty.vb" />
+    <Compile Include="Receivables\ClsBankBook.vb" />
+    <Compile Include="Receivables\ClsCompetitorMaster.vb" />
+    <Compile Include="Receivables\clsCustomerOutstanding.vb" />
+    <Compile Include="Sale\clsSaleIncentiveMaster.vb" />
+    <Compile Include="Sale\ClsScrapSaleInvoice.vb" />
+    <Compile Include="Sale\ClsScrapSaleReturn.vb" />
+    <Compile Include="Sale\DairySale\clsAcknowledgementOfGRN.vb" />
+    <Compile Include="Sale\DairySale\clsCustomerDeduction.vb" />
+    <Compile Include="Sale\DairySale\clsCustomerIncentiveEntry.vb" />
+    <Compile Include="Sale\DairySale\clsDemandBookingSale.vb" />
+    <Compile Include="Sale\DairySale\clsItemProjection.vb" />
+    <Compile Include="Sale\DairySale\clsCustCategoryWiseDefaultItemUomMaster.vb" />
+    <Compile Include="Sale\DairySale\clsTransporterDeduction.vb" />
+    <Compile Include="Sale\DairySale\clsTranspoterDeductionMaster.vb" />
+    <Compile Include="Sale\DairySale\clsItemSublocationMapping.vb" />
+    <Compile Include="Shared Form\frmPendingBulkMilkSrn.Designer.vb">
+      <DependentUpon>frmPendingBulkMilkSrn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Form\frmPendingBulkMilkSrn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Shared Form\frmPendingPO.Designer.vb">
+      <DependentUpon>frmPendingPO.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Form\frmPendingPO.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Shared Form\frmPendingPOSchedule.Designer.vb">
+      <DependentUpon>frmPendingPOSchedule.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Form\frmPendingPOSchedule.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Shared Form\frmPPIssueChildScrren.Designer.vb">
+      <DependentUpon>frmPPIssueChildScrren.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Form\frmPPIssueChildScrren.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Shared Form\frmPPQCCheckHistory.Designer.vb">
+      <DependentUpon>frmPPQCCheckHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Form\frmPPQCCheckHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.Designer.vb">
+      <DependentUpon>RptBulkMilkMultiplePurchaseInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserControl\ucCustomFields.Designer.vb">
+      <DependentUpon>ucCustomFields.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\ucCustomFields.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl\UcMilkPendingSRN.Designer.vb">
+      <DependentUpon>UcMilkPendingSRN.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\UcMilkPendingSRN.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl\ucPaymentProcess.Designer.vb">
+      <DependentUpon>ucPaymentProcess.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\ucPaymentProcess.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmCrystalReportViewer.Designer.vb">
+      <DependentUpon>frmCrystalReportViewer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmCrystalReportViewer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMailSMSSettingNew2.Designer.vb">
+      <DependentUpon>frmMailSMSSettingNew2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMailSMSSettingNew2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRptAPInvoice.Designer.vb">
+      <DependentUpon>frmRptAPInvoice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmRptAPInvoice.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTransactionHistory.Designer.vb">
+      <DependentUpon>frmTransactionHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmTransactionHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Finance\Accountsegment.vb" />
+    <Compile Include="Finance\ClsCostCentreFinancial.vb" />
+    <Compile Include="Finance\clsFiscalYear.vb" />
+    <Compile Include="Finance\clsGLAccount.vb" />
+    <Compile Include="Fixed Asset\clsDepreciationField.vb" />
+    <Compile Include="Fixed Asset\clsDepreciationMethod.vb" />
+    <Compile Include="Fixed Asset\clsDepreciationPeriods.vb" />
+    <Compile Include="Fixed Asset\clsFAMergeAsset.vb" />
+    <Compile Include="frmMasterHistory.Designer.vb">
+      <DependentUpon>frmMasterHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMasterHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmViewTDS.Designer.vb">
+      <DependentUpon>frmViewTDS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmViewTDS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HR\clsComplaintGroup.vb" />
+    <Compile Include="Common\clsCreateAllTables.vb" />
+    <Compile Include="Common\clsCustomFieldHead.vb" />
+    <Compile Include="Common\clsPostCreateTable.vb" />
+    <Compile Include="Common\clsScreenNotificationSchedule.vb" />
+    <Compile Include="Common\clsSendToTally.vb" />
+    <Compile Include="Common\clsTaxGroupMaster.vb" />
+    <Compile Include="Common\ClsTransactionApproval.vb" />
+    <Compile Include="Common\clsCancelTableClass.vb" />
+    <Compile Include="Common\connectSql.vb" />
+    <Compile Include="Common\myMessages.vb" />
+    <Compile Include="Common\TabOrderManager.vb" />
+    <Compile Include="Fixed Asset\clsAcquisitionCodes.vb" />
+    <Compile Include="Fixed Asset\clsAcquisitionHead.vb" />
+    <Compile Include="Fixed Asset\clsAssetAgreementHead.vb" />
+    <Compile Include="Fixed Asset\clsAssetDepreciation.vb" />
+    <Compile Include="Fixed Asset\ClsAssetDetails.vb" />
+    <Compile Include="Fixed Asset\clsAssetGroups.vb" />
+    <Compile Include="Fixed Asset\clsAssetInstallPullOut.vb" />
+    <Compile Include="Fixed Asset\clsAssetRequisition.vb" />
+    <Compile Include="Fixed Asset\clsAssetScrapSaleHead.vb" />
+    <Compile Include="Fixed Asset\clsAssetSegment.vb" />
+    <Compile Include="Fixed Asset\clsAssetServiceMaster.vb" />
+    <Compile Include="Fixed Asset\clsAssetsIssueReturn.vb" />
+    <Compile Include="Fixed Asset\ClsAssetSubCategory.vb" />
+    <Compile Include="Fixed Asset\ClsAssetType.vb" />
+    <Compile Include="Fixed Asset\clsAssetWorkHead.vb" />
+    <Compile Include="Common\clsAttachDocument.vb" />
+    <Compile Include="Fixed Asset\clsCategories.vb" />
+    <Compile Include="Finance\ClsAccountMainGroup.vb" />
+    <Compile Include="Finance\ClsAccountSubGroup.vb" />
+    <Compile Include="Finance\ClsAccount_Mapping.vb" />
+    <Compile Include="Finance\clsAdjustmentVoucher.vb" />
+    <Compile Include="Finance\clsBalanceSheetPerforma.vb" />
+    <Compile Include="Finance\clsBankBranchMaster.vb" />
+    <Compile Include="Finance\clsBankOpeningReco.vb" />
+    <Compile Include="Finance\clsBankPermission.vb" />
+    <Compile Include="Finance\clsBankTransfer.vb" />
+    <Compile Include="Finance\ClsBranchAccountMapping.vb" />
+    <Compile Include="Finance\clsBudgetMaintenace.vb" />
+    <Compile Include="Finance\clsModuleCurrencyMapping.vb" />
+    <Compile Include="Finance\transportSql.vb" />
+    <Compile Include="HR\ClsApplicantEntry.vb" />
+    <Compile Include="HR\ClsAppointmentLetterHR.vb" />
+    <Compile Include="HR\clsCheckList.vb" />
+    <Compile Include="HR\clsComplaintMaster.vb" />
+    <Compile Include="HR\clsCourseMaster.vb" />
+    <Compile Include="HR\ClsDamageMaster.vb" />
+    <Compile Include="HR\ClsDocumentAcceptance.vb" />
+    <Compile Include="HR\clsDocumentMaster.vb" />
+    <Compile Include="HR\clsEmployeeGratuity.vb" />
+    <Compile Include="Inventory\ClsAdjustments.vb" />
+    <Compile Include="Inventory\ClsAlternateitemDetail.vb" />
+    <Compile Include="Inventory\clsAssemblies.vb" />
+    <Compile Include="Inventory\clsBarCodeGenerator.vb" />
+    <Compile Include="Inventory\clsBatchInventory.vb" />
+    <Compile Include="Inventory\clsBatchOrder.vb" />
+    <Compile Include="Inventory\clsBillOfMaterial.vb" />
+    <Compile Include="Inventory\clsBOM.vb" />
+    <Compile Include="Inventory\clsBreakageHead.vb" />
+    <Compile Include="Inventory\ClsCostCentreGroupStores.vb" />
+    <Compile Include="Inventory\ClsDayWiseLoadOutEntered.vb" />
+    <Compile Include="Inventory\clsGateEntryReturnTransfer.vb" />
+    <Compile Include="Inventory\ClsGatePassTransfer.vb" />
+    <Compile Include="Inventory\clsInventoryMovement.vb" />
+    <Compile Include="Inventory\clsInventorySourceCode.vb" />
+    <Compile Include="Inventory\clsItemCostMapping.vb" />
+    <Compile Include="Inventory\clsItemMaster.vb" />
+    <Compile Include="Inventory\clsItemSubCategory.vb" />
+    <Compile Include="Inventory\clsItemType.vb" />
+    <Compile Include="Inventory\ClsJobWorkRMConsum.vb" />
+    <Compile Include="Inventory\clsLocation.vb" />
+    <Compile Include="Inventory\clsManufacturingOrder.vb" />
+    <Compile Include="Inventory\clsOverheadCost.vb" />
+    <Compile Include="Inventory\clsOverheadCostGroup.vb" />
+    <Compile Include="Inventory\clsSerializeInvenotry.vb" />
+    <Compile Include="Inventory\clsTransferCrateReceivedHead.vb" />
+    <Compile Include="Inventory\clsTransferGateOut.vb" />
+    <Compile Include="Inventory\clsTransferReturn.vb" />
+    <Compile Include="Inventory\clsTransferDCC.vb" />
+    <Compile Include="Inventory\clsInventoryAging.vb" />
+    <Compile Include="Inventory\frmBatchItemIn.Designer.vb">
+      <DependentUpon>frmBatchItemIn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\frmBatchItemIn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\frmBatchItemOut.Designer.vb">
+      <DependentUpon>frmBatchItemOut.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\frmBatchItemOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\frmCategorySelect.Designer.vb">
+      <DependentUpon>frmCategorySelect.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\frmCategorySelect.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\frmSerializeItemIn.Designer.vb">
+      <DependentUpon>frmSerializeItemIn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\frmSerializeItemIn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventory\frmSerializeItemOut.Designer.vb">
+      <DependentUpon>frmSerializeItemOut.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory\frmSerializeItemOut.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JobWork Outward\clsJobWorkOutward.vb" />
+    <Compile Include="JobWork Outward\clsJWOSRN.vb" />
+    <Compile Include="JobWork Outward\clsJWOSRNRetrun.vb" />
+    <Compile Include="JobWork Outward\clsJWOTransferOther.vb" />
+    <Compile Include="JobWork Outward\clsJWOTransferOtherReturn.vb" />
+    <Compile Include="JobWork Outward\clsMilkGateEntry_JOW.vb" />
+    <Compile Include="JobWork Outward\clsMilkQualityCheck_JOW.vb" />
+    <Compile Include="JobWork Outward\clsMilkUnloading_JOW.vb" />
+    <Compile Include="JobWork Outward\clsMilkWeighment_JOW.vb" />
+    <Compile Include="JobWork Outward\clsMilkJWOTransferReturn.vb" />
+    <Compile Include="Milk JobWork\clsJobMilkSRN.vb" />
+    <Compile Include="Milk JobWork\clsMilkCleaning.vb" />
+    <Compile Include="Milk JobWork\clsMilkGateEntry.vb" />
+    <Compile Include="Milk JobWork\clsMilkRGPHead.vb" />
+    <Compile Include="Milk JobWork\clsMilkQualityCheck.vb" />
+    <Compile Include="Milk JobWork\clsMilkWeighment.vb" />
+    <Compile Include="Milk JobWork\clsMilkUnloading.vb" />
+    <Compile Include="Milk Procurement\clsBulkMilkSRN.vb" />
+    <Compile Include="Milk Procurement\clsBulkRoutMaster.vb" />
+    <Compile Include="Milk Procurement\clsCanMaster.vb" />
+    <Compile Include="Milk Procurement\clsCleaning.vb" />
+    <Compile Include="Milk Procurement\clsContractTankerHead.vb" />
+    <Compile Include="Milk Procurement\clsDeductionMapping.vb" />
+    <Compile Include="Milk Procurement\clsDivertedContractor.vb" />
+    <Compile Include="Milk Procurement\clsFreightChargesMaster.vb" />
+    <Compile Include="Milk Procurement\clsFrmMilkRecurringScheduler.vb" />
+    <Compile Include="Milk Procurement\clsfrmMilkRouteMaster.vb" />
+    <Compile Include="Milk Procurement\clsfrmParameterRangeMaster.vb" />
+    <Compile Include="Milk Procurement\clsfrmVLCMaster.vb" />
+    <Compile Include="Milk Procurement\clsfrmVLCRouteShiftMaster.vb" />
+    <Compile Include="Milk Procurement\clsGateEntry.vb" />
+    <Compile Include="Milk Procurement\clsGateOut.vb" />
+    <Compile Include="Milk Procurement\clsGatePassEntry.vb" />
+    <Compile Include="Milk Procurement\clsIntimation.vb" />
+    <Compile Include="Milk Procurement\ClsLoadingTanker.vb" />
+    <Compile Include="Milk Procurement\clsLockMPPaymentCycle.vb" />
+    <Compile Include="Milk Procurement\clsMCCCodes.vb" />
+    <Compile Include="Milk Procurement\clsMccDispatch.vb" />
+    <Compile Include="Milk Procurement\clsMccDispatchReturn.vb" />
+    <Compile Include="Milk Procurement\clsMCCGateEntry.vb" />
+    <Compile Include="Milk Procurement\clsMccMaster.vb" />
+    <Compile Include="Milk Procurement\clsMCCSampleQCHead.vb" />
+    <Compile Include="Milk Procurement\clsMCCTankerGateOut.vb" />
+    <Compile Include="Milk Procurement\clsMCCWeighment.vb" />
+    <Compile Include="Milk Procurement\clsMilkGateEntryIn.vb" />
+    <Compile Include="Milk Procurement\clsMilkGateEntryOut.vb" />
+    <Compile Include="Milk Procurement\clsMilkGateEntryWeighment.vb" />
+    <Compile Include="Milk Procurement\clsMilkGradeMaster.vb" />
+    <Compile Include="Milk Procurement\clsMilkJobworkTransfer.vb" />
+    <Compile Include="Milk Procurement\clsMilkProcurementUploader.vb" />
+    <Compile Include="Milk Procurement\clsMilkPurchaseReturn.vb" />
+    <Compile Include="Milk Procurement\clsMilkReject.vb" />
+    <Compile Include="Milk Procurement\clsMilkRejectType.vb" />
+    <Compile Include="Milk Procurement\clsMilkTransferIn.vb" />
+    <Compile Include="Milk Procurement\clsMilkTypeMaster.vb" />
+    <Compile Include="Milk Procurement\clsPOBulkProc.vb" />
+    <Compile Include="Milk Procurement\clsPriceChartPlanning.vb" />
+    <Compile Include="Milk Procurement\clsQualityCheck.vb" />
+    <Compile Include="Milk Procurement\ClsSecondarySettingForQC.vb" />
+    <Compile Include="Milk Procurement\clsSerialPort.vb" />
+    <Compile Include="Milk Procurement\clsSupplierMaster.vb" />
+    <Compile Include="Milk Procurement\clsTankerDispatchPriceMaster.vb" />
+    <Compile Include="Milk Procurement\clsTankerMasterSaleHead.vb" />
+    <Compile Include="Milk Procurement\clsUnloading.vb" />
+    <Compile Include="Milk Procurement\clsVendorPriceChartMappingDocNoWise.vb" />
+    <Compile Include="Milk Procurement\clsVLCMappingForMPMilkAmount.vb" />
+    <Compile Include="Milk Procurement\clsVLCMappingForMP_PaymentProcess.vb" />
+    <Compile Include="Milk Procurement\clsWeighment.vb" />
+    <Compile Include="Milk Procurement\ClsWeighmentEntry.vb" />
+    <Compile Include="Milk Procurement\clsJobWorkDebitNote.vb" />
+    <Compile Include="Milk Procurement\clsMilkTransferInReturn.vb" />
+    <Compile Include="Milk Procurement\clsDairyGatePass.vb" />
+    <Compile Include="Milk Procurement\frmMccDispatch.Designer.vb">
+      <DependentUpon>frmMccDispatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\frmMccDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Modules\globalFunc.vb" />
+    <Compile Include="Modules\modForms.vb" />
+    <Compile Include="Modules\modUserMgt.vb" />
+    <Compile Include="Modules\TabSchemeProvider.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Paravet\clsBredType.vb" />
+    <Compile Include="Paravet\clsBullMaster.vb" />
+    <Compile Include="Paravet\clsCattleColor.vb" />
+    <Compile Include="Paravet\clsCattleMaster.vb" />
+    <Compile Include="Paravet\clsCattleType.vb" />
+    <Compile Include="Paravet\clsFarmerServiceOrderWithRate.vb" />
+    <Compile Include="Paravet\clsNDDBMaster.vb" />
+    <Compile Include="Paravet\clsServiceGroup.vb" />
+    <Compile Include="Paravet\clsServiceMaster.vb" />
+    <Compile Include="Paravet\clsServiceName.vb" />
+    <Compile Include="Payable\clsAllowanceDetails.vb" />
+    <Compile Include="Payable\clsAttendanceMaster.vb" />
+    <Compile Include="Payable\clsFarmerPaymentAdjustmentEntry.vb" />
+    <Compile Include="Payable\clsFarmerPaymentHeader.vb" />
+    <Compile Include="Payable\clsPaymentHeader.vb" />
+    <Compile Include="Payable\clsPaymentProcessFarmer.vb" />
+    <Compile Include="Payable\clsProvisionEntry.vb" />
+    <Compile Include="Payable\clsVedorInvoiceHead.vb" />
+    <Compile Include="Payroll\clsApplyLoan.vb" />
+    <Compile Include="Payroll\clsBonus.vb" />
+    <Compile Include="Payroll\clsBonusMaster.vb" />
+    <Compile Include="Payroll\clsCastCategoryMaster.vb" />
+    <Compile Include="Payroll\clsConveyanceClaim.vb" />
+    <Compile Include="Payroll\clsConveyanceRateMaster.vb" />
+    <Compile Include="Payroll\clsDailyAttendance.vb" />
+    <Compile Include="Payroll\clsDeductionDetails.vb" />
+    <Compile Include="Payroll\clsDeductionGroup.vb" />
+    <Compile Include="Payroll\clsEmpASMZMDetails.vb" />
+    <Compile Include="Payroll\ClsEmpIncrement.vb" />
+    <Compile Include="Payroll\clsEmployeeBandMaster.vb" />
+    <Compile Include="Payroll\clsEmployeeMaster.vb" />
+    <Compile Include="Payroll\clsEmployeeSalary.vb" />
+    <Compile Include="Payroll\clsEmployeeShiftChange.vb" />
+    <Compile Include="Payroll\clsEmployeeStatus.vb" />
+    <Compile Include="Payroll\ClsEmployeeTransfer.vb" />
+    <Compile Include="Payroll\clsEmployeeTypeMaster.vb" />
+    <Compile Include="Payroll\clsESIRulesMaster.vb" />
+    <Compile Include="Payroll\clsExpenseType.vb" />
+    <Compile Include="Payroll\clsFFSettlement.vb" />
+    <Compile Include="Payroll\clsfrmSalaryAccountSetting.vb" />
+    <Compile Include="Payroll\clsLeaveAllotment.vb" />
+    <Compile Include="Payroll\clsLeaveMaster.vb" />
+    <Compile Include="Payroll\clsLeaveOpeningBalance.vb" />
+    <Compile Include="Payroll\clsLeaveSetting.vb" />
+    <Compile Include="Payroll\clsMonthAttendance.vb" />
+    <Compile Include="Payroll\clsPayPeriodMaster.vb" />
+    <Compile Include="Payroll\clsPayrollPaymentMode.vb" />
+    <Compile Include="Payroll\clsPayrollSetting.vb" />
+    <Compile Include="Payroll\clsPTSlab.vb" />
+    <Compile Include="Payroll\ClsSentMailSlip.vb" />
+    <Compile Include="PJC\clsCostType.vb" />
+    <Compile Include="Production\CllsProductionLine.vb" />
+    <Compile Include="Production\clsAssembliesDis.vb" />
+    <Compile Include="Production\ClsCostMaintainance.vb" />
+    <Compile Include="Production\clsDemoProdPlan.vb" />
+    <Compile Include="Production\ClsExpense.vb" />
+    <Compile Include="Production\clsfrmProductionReceiptDemo.vb" />
+    <Compile Include="Production\clsLineMaster.vb" />
+    <Compile Include="Production\clsProcessProductionReturn.vb" />
+    <Compile Include="Production\clsProductionEntryWithoutBatch.vb" />
+    <Compile Include="Production\ClsProfitCenterMaster.vb" />
+    <Compile Include="Production\clsWreckageBooking.vb" />
+    <Compile Include="Purchase\clsCapexBudget.vb" />
+    <Compile Include="Purchase\clsCapexMaster.vb" />
+    <Compile Include="Purchase\clsCForm.vb" />
+    <Compile Include="Purchase\clsCostCenterTypeMaster.vb" />
+    <Compile Include="Purchase\ClsMaterialQuotationHead.vb" />
+    <Compile Include="Purchase\clsNRGPBooking.vb" />
+    <Compile Include="Purchase\clsGRNHead.vb" />
+    <Compile Include="Purchase\clsMRNHead.vb" />
+    <Compile Include="Purchase\clsPJVHead.vb" />
+    <Compile Include="Purchase\clsPOUnloading.vb" />
+    <Compile Include="Purchase\clsPOWeighment.vb" />
+    <Compile Include="Purchase\clsProcessCharge.vb" />
+    <Compile Include="Purchase\clsPurchaseInvoiceHead.vb" />
+    <Compile Include="Purchase\clsPurchaseOrderHead.vb" />
+    <Compile Include="Purchase\clsPurchaseSchedule.vb" />
+    <Compile Include="Purchase\clsPurchasReturnHead.vb" />
+    <Compile Include="Purchase\clsRGPHead.vb" />
+    <Compile Include="Purchase\clsSRNHead.vb" />
+    <Compile Include="Purchase\clsSRNReturn.vb" />
+    <Compile Include="Purchase\clsUnitMaster.vb" />
+    <Compile Include="Purchase\clsVendorReg.vb" />
+    <Compile Include="Purchase\clsPurchasJobWork.vb" />
+    <Compile Include="Receivables\clsAdjustmentEntryReceivables.vb" />
+    <Compile Include="Receivables\clsCrateReceivedHead.vb" />
+    <Compile Include="Receivables\clsCustomerInfo.vb" />
+    <Compile Include="Receivables\clsCustomerInvoiceHead.vb" />
+    <Compile Include="Receivables\clsCustomeritemDetails.vb" />
+    <Compile Include="Receivables\clsCustomeritemMapping.vb" />
+    <Compile Include="Receivables\ClsCustomerPermission.vb" />
+    <Compile Include="Receivables\clsCustomerTargetFixing.vb" />
+    <Compile Include="Receivables\clsReceiptInvoiceHead.vb" />
+    <Compile Include="Receivables\clsSecondaryCustomerMasterInfo.vb" />
+    <Compile Include="Sale\BulkSale\ClsBulkSalePriceChart.vb" />
+    <Compile Include="Sale\BulkSale\ClsBulkSaleReturn.vb" />
+    <Compile Include="Sale\BulkSale\ClsCanSale.vb" />
+    <Compile Include="Sale\BulkSale\ClsDispatchBulkSale.vb" />
+    <Compile Include="Sale\BulkSale\ClsDispatchBulkSaleTrade.vb" />
+    <Compile Include="Sale\BulkSale\ClsDispatchBulkSaleTradeReturn.vb" />
+    <Compile Include="Sale\BulkSale\clsGateEntrySale.vb" />
+    <Compile Include="Sale\BulkSale\ClsInvoiceBulkSale.vb" />
+    <Compile Include="Sale\BulkSale\ClsQualityCheckBulkSale.vb" />
+    <Compile Include="Sale\BulkSale\ClsSalesOrderBulkSale_Pavitra.vb" />
+    <Compile Include="Sale\ClsAgencyMaster.vb" />
+    <Compile Include="Sale\clsBookingEntry.vb" />
+    <Compile Include="Sale\clsConsumerMaster.vb" />
+    <Compile Include="Sale\clsCreditLimitApprovalHead.vb" />
+    <Compile Include="Sale\clsDesignationHierarcy.vb" />
+    <Compile Include="Sale\clsDiscountCategoryCode.vb" />
+    <Compile Include="Sale\clsDiscountMaster.vb" />
+    <Compile Include="Sale\clsDispatchHead.vb" />
+    <Compile Include="Sale\clsDispatchTransfer.vb" />
+    <Compile Include="Sale\clsDSSalesReturnHead.vb" />
+    <Compile Include="Sale\clsfrmItemChrgFranMapMaster.vb" />
+    <Compile Include="Sale\clsfrmPriceChartMaster.vb" />
+    <Compile Include="Sale\clsfrmPrimaryTransporterVehicalMaster.vb" />
+    <Compile Include="Sale\clsGateEntryReturnCSA.vb" />
+    <Compile Include="Sale\clsGateEntryReturnPS.vb" />
+    <Compile Include="Sale\clsItemBasicPrice.vb" />
+    <Compile Include="Sale\clsMCCMaterialSale.vb" />
+    <Compile Include="Sale\clsMCCMaterialSaleFarmer.vb" />
+    <Compile Include="Sale\clsMccMaterialSaleReturn.vb" />
+    <Compile Include="Sale\clsMccMaterialSaleReturnFarmer.vb" />
+    <Compile Include="Sale\clsPricePlanMaster.vb" />
+    <Compile Include="Sale\clsProductDispatchGateOut.vb" />
+    <Compile Include="Sale\clsPSInvoiceHead.vb" />
+    <Compile Include="Sale\clsPSSalesOrder.vb" />
+    <Compile Include="Sale\clsPSSalesReturnHead.vb" />
+    <Compile Include="Sale\clsPSShipmentHead.vb" />
+    <Compile Include="Sale\clsRequistionHead.vb" />
+    <Compile Include="Sale\clsSaleHead.vb" />
+    <Compile Include="Sale\clsSaleRegisterDetail.vb" />
+    <Compile Include="Sale\clsSalesRegisterForAutoComp.vb" />
+    <Compile Include="Sale\ClsScrapInvoiceHead.vb" />
+    <Compile Include="Sale\clsScrapSaleGateOut.vb" />
+    <Compile Include="Sale\clsShipmentMaster.vb" />
+    <Compile Include="Sale\clsSNInvoice.vb" />
+    <Compile Include="Sale\clsSNPOSHead.vb" />
+    <Compile Include="Sale\clsSNSalesOrder.vb" />
+    <Compile Include="Sale\clsSNSalesReturnHead.vb" />
+    <Compile Include="Sale\clsSNShipmentHead.vb" />
+    <Compile Include="Sale\CSA\clsCSAAccountSet.vb" />
+    <Compile Include="Sale\CSA\clsCSABooking.vb" />
+    <Compile Include="Sale\CSA\clsCSADeliveryOrder.vb" />
+    <Compile Include="Sale\CSA\clsCSAPriceMaster.vb" />
+    <Compile Include="Sale\CSA\clsCSASaleInvoice.vb" />
+    <Compile Include="Sale\CSA\clsCSASalePattiReturn.vb" />
+    <Compile Include="Sale\CSA\clsCSATransfer.vb" />
+    <Compile Include="Sale\CSA\clsCSATransferGateOut.vb" />
+    <Compile Include="Sale\CSA\clsCSATransferReturn.vb" />
+    <Compile Include="Sale\DairySale\clsBookingEntryDairySale.vb" />
+    <Compile Include="Sale\DairySale\clsBulkPostingDairySale.vb" />
+    <Compile Include="Sale\DairySale\clsDeliveryNoteDairySale.vb" />
+    <Compile Include="Sale\DairySale\clsBookingEntryDistributor.vb" />
+    <Compile Include="Sale\DairySale\clsPOSBookingEntryDistributor.vb" />
+    <Compile Include="Sale\DairySale\clsBookingProformaInvoice.vb" />
+    <Compile Include="Sale\ExportSale\clsEnquiryMaster.vb" />
+    <Compile Include="Sale\ExportSale\clsEXCommercialInvoiceHead.vb" />
+    <Compile Include="Sale\ExportSale\clsExIncentiveMasterHead.vb" />
+    <Compile Include="Sale\ExportSale\clsEXPorformaInvoiceHead.vb" />
+    <Compile Include="Sale\ExportSale\clsEXSaleInvoiceHead.vb" />
+    <Compile Include="Sale\ExportSale\clsEXSalesOrder.vb" />
+    <Compile Include="Sale\ExportSale\clsEXSalesQuotation.vb" />
+    <Compile Include="Sale\ExportSale\clsEXSalesReturnHead.vb" />
+    <Compile Include="Sale\FreshSale\clsDeliveryNoteFreshSale.vb" />
+    <Compile Include="Sale\FreshSale\clsDispatchFreshSale.vb" />
+    <Compile Include="Sale\FreshSale\clsDispatchNoteFreshSale.vb" />
+    <Compile Include="Sale\DairySale\clsGatePassDairySale.vb" />
+    <Compile Include="Sale\FreshSale\clsInvoiceCrateLinerHead.vb" />
+    <Compile Include="Sale\FreshSale\clsSaleInvoiceFreshSale.vb" />
+    <Compile Include="Sale\FreshSale\clssaleReturnGateEntry.vb" />
+    <Compile Include="Sale\FreshSale\clsSalesReturnFreshSale.vb" />
+    <Compile Include="Sale\MT\ClsFixedDeposit.vb" />
+    <Compile Include="Sale\ProductSale\clsBookingMasterProductSale.vb" />
+    <Compile Include="Sale\ProductSale\clsDispatchChecklist.vb" />
+    <Compile Include="Sale\ProductSale\clsPSDispatchAdvice.vb" />
+    <Compile Include="Sale\ProductSale\ClsUDLSalesQuery.vb" />
+    <Compile Include="ServiceAndWarranty\ClsActivityType.vb" />
+    <Compile Include="ServiceAndWarranty\ClsCallType.vb" />
+    <Compile Include="ServiceAndWarranty\ClsFaultCategory.vb" />
+    <Compile Include="ServiceAndWarranty\ClsFaultMaster.vb" />
+    <Compile Include="ServiceAndWarranty\ClsProblemType.vb" />
+    <Compile Include="ServiceAndWarranty\ClsServiceAllocation.vb" />
+    <Compile Include="ServiceAndWarranty\ClsServiceCall.vb" />
+    <Compile Include="ServiceAndWarranty\ClsServiceChargeMaster.vb" />
+    <Compile Include="ServiceAndWarranty\ClsServiceEnquiry.vb" />
+    <Compile Include="ServiceAndWarranty\ClsServiceVisitDetails.vb" />
+    <Compile Include="ServiceAndWarranty\ClsSolutionKnowledgeBase.vb" />
+    <Compile Include="Silage Production\clsSilageEnterPre.vb" />
+    <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
+    <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
+    <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
+    <Compile Include="Silage Production\clsSilageCriteriaMaster.vb" />
+    <Compile Include="TDS Module\ClsHouseRentDeclaration.vb" />
+    <Compile Include="TDS Module\ClsHRAExemptionRule.vb" />
+    <Compile Include="TDS Module\ClsIncomeTaxSlab.vb" />
+    <Compile Include="TDS Module\ClsInvestmentDeclaration.vb" />
+    <Compile Include="TDS Module\clsInvestmentType.vb" />
+    <Compile Include="TDS Module\clsITSection.vb" />
+    <Compile Include="TDS\clsRemitanceEntry.vb" />
+    <Compile Include="TDS\clsRemittance.vb" />
+    <Compile Include="Payroll\clsGeneralHolidays.vb" />
+    <Compile Include="Finance\clsGLEntry.vb" />
+    <Compile Include="Finance\ClsGlTrialAccountExcluded.vb" />
+    <Compile Include="HR\ClsGrievanceAllocation.vb" />
+    <Compile Include="HR\clsGrievanceLogging.vb" />
+    <Compile Include="HR\clsGrievanceResolution.vb" />
+    <Compile Include="HR\ClsHireEmployee.vb" />
+    <Compile Include="HR\ClsHirerachyLevelMaster.vb" />
+    <Compile Include="Common\clsHostSettings.vb" />
+    <Compile Include="Payroll\clsHourlyAttendance.vb" />
+    <Compile Include="HR\ClsHRBudgeting.vb" />
+    <Compile Include="HR\ClsHRDamageDetail.vb" />
+    <Compile Include="HR\clsHREMExitInterview.vb" />
+    <Compile Include="HR\clsHREMInterviewQuestion.vb" />
+    <Compile Include="HR\clsHREXTerminationLetter.vb" />
+    <Compile Include="HR\ClsHRHotelRatingMaster.vb" />
+    <Compile Include="HR\ClsHRIndustryType.vb" />
+    <Compile Include="HR\clsHrOfferCheckList.vb" />
+    <Compile Include="HR\ClsHRParameterMaster.vb" />
+    <Compile Include="HR\ClsHRPerformanceCategory.vb" />
+    <Compile Include="HR\ClsHRPerformanceGroup.vb" />
+    <Compile Include="HR\ClsHRPerformanceMaster.vb" />
+    <Compile Include="HR\ClsHRRaiseTravelRequisition.vb" />
+    <Compile Include="HR\ClsHRSettings.vb" />
+    <Compile Include="HR\ClsHRTravelBookedForMaster.vb" />
+    <Compile Include="HR\ClsHRTravelCarTypeMaster.vb" />
+    <Compile Include="HR\ClsHRTravelCategoryMaster.vb" />
+    <Compile Include="HR\ClsHRTravelCityMaster.vb" />
+    <Compile Include="HR\ClsHRTravelClassTypeMaster.vb" />
+    <Compile Include="HR\ClsHRTravelExpenseApproval.vb" />
+    <Compile Include="HR\ClsHRTravelModeTypeMaster.vb" />
+    <Compile Include="HR\ClsHRTravelPurposeMaster.vb" />
+    <Compile Include="HR\ClsHRTravelReimbursementExpense.vb" />
+    <Compile Include="HR\ClsHRTravelRoomTypeMaster.vb" />
+    <Compile Include="HR\ClsHRVerticalMaster.vb" />
+    <Compile Include="Payroll\clsIncentiveMaster.vb" />
+    <Compile Include="Purchase\clsIndent.vb" />
+    <Compile Include="HR\ClsInterviewFeedback.vb" />
+    <Compile Include="HR\ClsInterviewSchedule.vb" />
+    <Compile Include="Sale\clsInvoicePirceComp.vb" />
+    <Compile Include="Inventory\clsIssueReturn.vb" />
+    <Compile Include="Inventory\ClsItemCategory.vb" />
+    <Compile Include="Production\ClsItemCategoryForproduction.vb" />
+    <Compile Include="Inventory\clsItemCategoryLevel.vb" />
+    <Compile Include="Inventory\clsItemCategoryStructure.vb" />
+    <Compile Include="Inventory\clsItemchargecategorymaster.vb" />
+    <Compile Include="Inventory\clsItemConversion.vb" />
+    <Compile Include="Inventory\clsItemInfo.vb" />
+    <Compile Include="Production\clsItemIssueToAssembledAsset.vb" />
+    <Compile Include="Inventory\clsItemLoc.vb" />
+    <Compile Include="Inventory\ClsItemMcMapping.vb" />
+    <Compile Include="Sale\clsItemPriceListLevel3.vb" />
+    <Compile Include="Inventory\ClsItemReorderLevel.vb" />
+    <Compile Include="Inventory\clsItemStockConveriosn.vb" />
+    <Compile Include="Inventory\clsItemToItemStockConversion.vb" />
+    <Compile Include="Purchase\clsJobMaster.vb" />
+    <Compile Include="Purchase\ClsJobTitle.vb" />
+    <Compile Include="HR\clsJoiningCheckList.vb" />
+    <Compile Include="Finance\clsJournalEntry.vb" />
+    <Compile Include="Payroll\clsLabour.vb" />
+    <Compile Include="HR\clsLanguageMaster.vb" />
+    <Compile Include="Sale\MT\ClsLCRequest.vb" />
+    <Compile Include="Payroll\clsLeaveAdjustment.vb" />
+    <Compile Include="Payroll\clsLeaveApplication.vb" />
+    <Compile Include="Payroll\clsLeaveStartingDateSetting.vb" />
+    <Compile Include="Payroll\clsLoanAdjustment.vb" />
+    <Compile Include="Payroll\clsLoanGeneration.vb" />
+    <Compile Include="Common\clsLocationDistanceMaster.vb" />
+    <Compile Include="Inventory\clsLocationSetting.vb" />
+    <Compile Include="Common\clsLoginInfo.vb" />
+    <Compile Include="Inventory\clsLostDefectSealNo.vb" />
+    <Compile Include="Payroll\clsLTAClaim.vb" />
+    <Compile Include="Finance\clsMainGLAccount.vb" />
+    <Compile Include="Sale\clsMapPayHeadsToSalaStructure.vb" />
+    <Compile Include="Milk Procurement\clsMCCIssueReturnHead.vb" />
+    <Compile Include="Milk Procurement\clsMccMilkTransferPrice.vb" />
+    <Compile Include="Milk Procurement\ClsMCCSMSSetting.vb" />
+    <Compile Include="Milk Procurement\clsMCCTransportInvoice.vb" />
+    <Compile Include="Payroll\clsMediclaimEntry.vb" />
+    <Compile Include="Sale\MT\ClsMerchantPaymentTerms.vb" />
+    <Compile Include="Sale\MT\ClsMerchantPaymentTermsGroup.vb" />
+    <Compile Include="Production\ClsMFAccountSet.vb" />
+    <Compile Include="Production\ClsMFSeetings.vb" />
+    <Compile Include="Production\ClsMFToolMaster.vb" />
+    <Compile Include="Production\ClsMFToolType.vb" />
+    <Compile Include="Milk Procurement\clsMilkCollectionCenters.vb" />
+    <Compile Include="Milk Procurement\clsMilkCollectionLevels.vb" />
+    <Compile Include="Milk Procurement\clsMilkPurchaseInvoice.vb" />
+    <Compile Include="Milk Procurement\clsMilkPurchaseInvoiceMCC.vb" />
+    <Compile Include="Milk Procurement\clsMilkReceiptMCC.vb" />
+    <Compile Include="Milk Procurement\clsMilkSampleMCC.vb" />
+    <Compile Include="Milk Procurement\clsMilkShiftClosingMCC.vb" />
+    <Compile Include="Milk Procurement\clsMilkShiftEndMCC.vb" />
+    <Compile Include="Milk Procurement\clsMilkTransporterInvoiceMCC.vb" />
+    <Compile Include="Milk Procurement\clsMilkTruckSheet.vb" />
+    <Compile Include="Common\clsModuleScreenDetails.vb" />
+    <Compile Include="Milk Procurement\clsMpMaster.vb" />
+    <Compile Include="Sale\clsMRP.vb" />
+    <Compile Include="Sale\clsMRPAutoMobile.vb" />
+    <Compile Include="Common\clsNotifiedPartyMaster.vb" />
+    <Compile Include="Common\clsOccupationMaster.vb" />
+    <Compile Include="Payroll\clsODMaster.vb" />
+    <Compile Include="Payroll\clsODSheet.vb" />
+    <Compile Include="HR\clsOfferChkList.vb" />
+    <Compile Include="HR\ClsOfferLetterHR.vb" />
+    <Compile Include="Milk Procurement\ClsOpenMCCShift.vb" />
+    <Compile Include="Production\clsOperationMaster.vb" />
+    <Compile Include="Payroll\clsOTMaster.vb" />
+    <Compile Include="Payroll\clsOTSheet.vb" />
+    <Compile Include="Payroll\clsOTSlab.vb" />
+    <Compile Include="Milk Procurement\clsParameterRangerMasterForQC.vb" />
+    <Compile Include="Milk Procurement\clsParameterValueMaster.vb" />
+    <Compile Include="Production\clsPartNoMaster.vb" />
+    <Compile Include="Payable\clsPayHeadDefinitions.vb" />
+    <Compile Include="Payable\clsPayment.vb" />
+    <Compile Include="Payable\clsPaymentAdjustmentEntry.vb" />
+    <Compile Include="Payable\clsPaymentCycleMaster.vb" />
+    <Compile Include="Common\clsPendingReasonMaster.vb" />
+    <Compile Include="HR\ClsPerformanceGroupMapping.vb" />
+    <Compile Include="HR\clsPerformanceRating.vb" />
+    <Compile Include="Payroll\clsPFRulesMaster.vb" />
+    <Compile Include="PJC\clsPJCAccountSet.vb" />
+    <Compile Include="PJC\clsPJCExpense.vb" />
+    <Compile Include="PJC\clsPJCSettings.vb" />
+    <Compile Include="Production\clsPPLogSheetMaster.vb" />
+    <Compile Include="Milk Procurement\clsPriceChartBulkProc.vb" />
+    <Compile Include="Sale\clsPriceGroupMapping.vb" />
+    <Compile Include="Sale\clsPriceMaster.vb" />
+    <Compile Include="Common\clsPrimaryReasonMaster.vb" />
+    <Compile Include="Finance\clsPrintCheck.vb" />
+    <Compile Include="Production\clsProcessBatchOrder.vb" />
+    <Compile Include="Production\clsProcessMaster.vb" />
+    <Compile Include="Production\clsProcessProductionIssueEntry.vb" />
+    <Compile Include="Production\clsProcessProductionLogSheet.vb" />
+    <Compile Include="Production\clsProcessProductionPlanning.vb" />
+    <Compile Include="Production\clsProcessProductionStageProcess.vb" />
+    <Compile Include="Production\clsProcessProductionStandardization.vb" />
+    <Compile Include="Production\clsProductionEntry.vb" />
+    <Compile Include="Production\clsProductionIssue.vb" />
+    <Compile Include="Production\clsProductionItemSerialReplace.vb" />
+    <Compile Include="Production\clsProductionPlanning.vb" />
+    <Compile Include="Production\clsProductionReceipt.vb" />
+    <Compile Include="Production\clsProductionRequisition.vb" />
+    <Compile Include="Production\clsProductionReturn.vb" />
+    <Compile Include="HR\ClsProfileMaster.vb" />
+    <Compile Include="Finance\clsProfitAndLossPerforma.vb" />
+    <Compile Include="Common\ClsProgramMapping.vb" />
+    <Compile Include="PJC\clsProjectMaster.vb" />
+    <Compile Include="PJC\clsProjectStatus.vb" />
+    <Compile Include="Sale\clsProspectDetail.vb" />
+    <Compile Include="Sale\ProductSale\clsPSDeliveryOrder.vb" />
+    <Compile Include="Purchase\clsPurchaseSettings.vb" />
+    <Compile Include="HR\ClsQualificationMaster.vb" />
+    <Compile Include="Milk Procurement\clsQualityCheckApprovalForSRN.vb" />
+    <Compile Include="Milk Procurement\clsQualityCheckForSRN.vb" />
+    <Compile Include="Inventory\ClsQuickSettlement.vb" />
+    <Compile Include="Inventory\clsQuickSettlementItemDetails.vb" />
+    <Compile Include="Inventory\ClsQuickSettlementMaster.vb" />
+    <Compile Include="Receivables\clsReceiptChallan.vb" />
+    <Compile Include="Receivables\ClsReceivablePaymentTerms.vb" />
+    <Compile Include="Common\clsReconciliationSetting.vb" />
+    <Compile Include="Payable\clsRecurringPayableInvoice.vb" />
+    <Compile Include="HR\ClsReferenceCheck.vb" />
+    <Compile Include="Payroll\clsReimbursementDetails.vb" />
+    <Compile Include="Payroll\ClsReimbursementTypeMaster.vb" />
+    <Compile Include="HR\ClsRelationMaster.vb" />
+    <Compile Include="HR\clsReligionMaster.vb" />
+    <Compile Include="HR\ClsRemarkMaster.vb" />
+    <Compile Include="Sale\ClsReportContextFormatMT.vb" />
+    <Compile Include="HR\clsRequesitionEntry.vb" />
+    <Compile Include="HR\ClsRequestForTrainingMaster.vb" />
+    <Compile Include="HR\clsRequisitionApproval.vb" />
+    <Compile Include="HR\ClsRequisitSubTypeMaster.vb" />
+    <Compile Include="HR\clsResignationLetter.vb" />
+    <Compile Include="Production\clsResourceMaster.vb" />
+    <Compile Include="Purchase\clsRFQ.vb" />
+    <Compile Include="Purchase\ClsRFQHead.vb" />
+    <Compile Include="Rice\clsRiceBOM.vb" />
+    <Compile Include="Rice\clsRiceMixingEntry.vb" />
+    <Compile Include="Rice\clsRiceProcessingEntry.vb" />
+    <Compile Include="HR\ClsRoundMaster.vb" />
+    <Compile Include="Milk Procurement\ClsRouteFreightDetails.vb" />
+    <Compile Include="Milk Procurement\clsRouteSifting.vb" />
+    <Compile Include="Payroll\ClsSalaryFitment.vb" />
+    <Compile Include="Payroll\clsSalaryGeneration.vb" />
+    <Compile Include="Payroll\clsSalaryStructure.vb" />
+    <Compile Include="Sale\ClsSaleLevelHierarchy.vb" />
+    <Compile Include="Sale\clsSaleOrder.vb" />
+    <Compile Include="Sale\clsSaleReturnInterCompany.vb" />
+    <Compile Include="Sale\clsSalesHierarchy.vb" />
+    <Compile Include="Sale\clsSalesHierarchyMapping.vb" />
+    <Compile Include="Sale\clsSalesmanTarget.vb" />
+    <Compile Include="Sale\clsSalesOrder.vb" />
+    <Compile Include="Sale\clsSalesQuotations.vb" />
+    <Compile Include="Sale\clsSalesReturn.vb" />
+    <Compile Include="Sale\clsSampling_Master.vb" />
+    <Compile Include="HR\clsScheduleForTraining.vb" />
+    <Compile Include="Sale\clsSchemeMaster.vb" />
+    <Compile Include="Sale\clsSchemeMasterDairy.vb" />
+    <Compile Include="Sale\ClsScrapSale.vb" />
+    <Compile Include="Sale\ClsSectionMaster.vb" />
+    <Compile Include="Sale\ClsSectionStageMapping.vb" />
+    <Compile Include="Milk Procurement\clsShiftMaster.vb" />
+    <Compile Include="HR\ClsShortlist.vb" />
+    <Compile Include="HR\clsSkillMaster.vb" />
+    <Compile Include="Payroll\clsSlabRangeDetail.vb" />
+    <Compile Include="Sale\clsSNSalesQuotation.vb" />
+    <Compile Include="Finance\ClsSourceTypeDetail.vb" />
+    <Compile Include="Finance\ClsSourceTypeMaster.vb" />
+    <Compile Include="Production\ClsStageMaster.vb" />
+    <Compile Include="Sale\clsStandardRateItem.vb" />
+    <Compile Include="Sale\clsStandardScheme.vb" />
+    <Compile Include="Common\clsStateMaster.vb" />
+    <Compile Include="Common\clsSubDepartmentMaster.vb" />
+    <Compile Include="Common\clsSubLocation.vb" />
+    <Compile Include="Purchase\ClsSupplierRegistration.vb" />
+    <Compile Include="Sale\clsTargetMaster.vb" />
+    <Compile Include="HR\clsTaskMaster.vb" />
+    <Compile Include="Sale\clsTDMWiseTarget.vb" />
+    <Compile Include="Sale\ClsTemplateMaster.vb" />
+    <Compile Include="HR\clsTimeSheet.vb" />
+    <Compile Include="Sale\clsTmplateCreation.vb" />
+    <Compile Include="Sale\ProductSale\clsTragetMasterProductSale.vb" />
+    <Compile Include="HR\clsTrainerfeedback.vb" />
+    <Compile Include="HR\clsTrainerMaster.vb" />
+    <Compile Include="HR\clsTrainingAttendance.vb" />
+    <Compile Include="HR\clsTrainingMaster.vb" />
+    <Compile Include="Inventory\clsTransfer.vb" />
+    <Compile Include="Inventory\ClsTransferIncompleteRemarks.vb" />
+    <Compile Include="Inventory\clsTransferPost.vb" />
+    <Compile Include="Common\clsUserApproval.vb" />
+    <Compile Include="Receivables\ClsUserCustomerSettings.vb" />
+    <Compile Include="Finance\clsVCGL.vb" />
+    <Compile Include="Common\ClsVehicleMaster.vb" />
+    <Compile Include="Payable\clsVendorBankMaster.vb" />
+    <Compile Include="Payable\clsVendorItemDetail.vb" />
+    <Compile Include="Payable\clsVendorItemQCMapping.vb" />
+    <Compile Include="Payable\ClsVendorPermission.vb" />
+    <Compile Include="Payable\clsVendorPriceChartMapping.vb" />
+    <Compile Include="Sale\ClsViewPunchingInvoice.vb" />
+    <Compile Include="Milk Procurement\clsVisiMaster.vb" />
+    <Compile Include="Milk Procurement\clsVlcDataUploader.vb" />
+    <Compile Include="Milk Procurement\ClsVLCDataUploaderManual.vb" />
+    <Compile Include="Milk Procurement\ClsVlcTargetMaster.vb" />
+    <Compile Include="Milk Procurement\clsVSPIncentiveTagging.vb" />
+    <Compile Include="Milk Procurement\clsVSPItemIssue.vb" />
+    <Compile Include="Inventory\clsWarehouseBreakage.vb" />
+    <Compile Include="Sale\clsWarranty.vb" />
+    <Compile Include="Payroll\clsWeeklyHolidays.vb" />
+    <Compile Include="Common\clsWorkCenterMaster.vb" />
+    <Compile Include="Common\ClsZoneMaster.vb" />
+    <Compile Include="Common\SnDUtility.vb" />
+    <Compile Include="TDS\ClsTDSPayment.vb" />
+    <Compile Include="UserControl\frmBalanceQty.designer.vb">
+      <DependentUpon>frmBalanceQty.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\frmBalanceQty.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserControl\ucAttachment.Designer.vb">
+      <DependentUpon>ucAttachment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\ucAttachment.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl\ucCamControl.Designer.vb">
+      <DependentUpon>ucCamControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\ucCamControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl\ucItemBalance.Designer.vb">
+      <DependentUpon>ucItemBalance.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\ucItemBalance.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControl\ucWeighing.Designer.vb">
+      <DependentUpon>ucWeighing.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl\ucWeighing.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Web References\BSWS\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmCheckBoxGrid.Designer.vb">
+      <DependentUpon>frmCheckBoxGrid.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmCheckBoxGrid.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmClientFormLableDetails.Designer.vb">
+      <DependentUpon>frmClientFormLableDetails.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmClientFormLableDetails.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmEMailAndSMSSetting.Designer.vb">
+      <DependentUpon>frmEMailAndSMSSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmEMailAndSMSSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmFilterColumnsToExport.designer.vb">
+      <DependentUpon>frmFilterColumnsToExport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmFilterColumnsToExport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmFilterToExport.designer.vb">
+      <DependentUpon>frmFilterToExport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmFilterToExport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmFreeComboBox.Designer.vb">
+      <DependentUpon>frmFreeComboBox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmFreeComboBox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmFreeTxtBox1.Designer.vb">
+      <DependentUpon>frmFreeTxtBox1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmFreeTxtBox1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmMainTranScreen.Designer.vb">
+      <DependentUpon>frmMainTranScreen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmMainTranScreen.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmPWD.Designer.vb">
+      <DependentUpon>frmPWD.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmPWD.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmPWDHighSecrity.Designer.vb">
+      <DependentUpon>frmPWDHighSecrity.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmPWDHighSecrity.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmScreenControlDescriptionMapping.Designer.vb">
+      <DependentUpon>frmScreenControlDescriptionMapping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmScreenControlDescriptionMapping.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmScreenControlMappingMultiple.Designer.vb">
+      <DependentUpon>frmScreenControlMappingMultiple.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmScreenControlMappingMultiple.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmSetting.Designer.vb">
+      <DependentUpon>frmSetting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WinForm\frmTakePicFromCamera.Designer.vb">
+      <DependentUpon>frmTakePicFromCamera.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmTakePicFromCamera.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmCreateTemplate.resx">
+      <DependentUpon>frmCreateTemplate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCrptFooter.resx">
+      <DependentUpon>frmCrptFooter.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmExportTemplate.resx">
+      <DependentUpon>frmExportTemplate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFreeGrid.resx">
+      <DependentUpon>frmFreeGrid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmFreeImage.resx">
+      <DependentUpon>frmFreeImage.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmItemMasterRMOther.resx">
+      <DependentUpon>frmItemMasterRMOther.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPaymentDetail.resx">
+      <DependentUpon>frmPaymentDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPendingSaleInvoiceDS.resx">
+      <DependentUpon>frmPendingSaleInvoiceDS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPendingSaleOrderPS.resx">
+      <DependentUpon>frmPendingSaleOrderPS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPendingShipmentPS.resx">
+      <DependentUpon>frmPendingShipmentPS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPOItemTaxDetails.resx">
+      <DependentUpon>frmPOItemTaxDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPrintFreshInvoice.resx">
+      <DependentUpon>FrmPrintFreshInvoice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSaleHistory.resx">
+      <DependentUpon>frmSaleHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSaleInvoiceProductSale.resx">
+      <DependentUpon>frmSaleInvoiceProductSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmStockDetail.resx">
+      <DependentUpon>frmStockDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTemplateExpImp.resx">
+      <DependentUpon>frmTemplateExpImp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUserMaster.resx">
+      <DependentUpon>frmUserMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\frmBatchItemOutNew.resx">
+      <DependentUpon>frmBatchItemOutNew.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Form\frmPendingBulkMilkSrn.resx">
+      <DependentUpon>frmPendingBulkMilkSrn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Form\frmPendingPO.resx">
+      <DependentUpon>frmPendingPO.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Form\frmPendingPOSchedule.resx">
+      <DependentUpon>frmPendingPOSchedule.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Form\frmPPIssueChildScrren.resx">
+      <DependentUpon>frmPPIssueChildScrren.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Form\frmPPQCCheckHistory.resx">
+      <DependentUpon>frmPPQCCheckHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.resx">
+      <DependentUpon>RptBulkMilkMultiplePurchaseInvoice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\ucCustomFields.resx">
+      <DependentUpon>ucCustomFields.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\UcMilkPendingSRN.resx">
+      <DependentUpon>UcMilkPendingSRN.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\ucPaymentProcess.resx">
+      <DependentUpon>ucPaymentProcess.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmCrystalReportViewer.resx">
+      <DependentUpon>frmCrystalReportViewer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMailSMSSettingNew2.resx">
+      <DependentUpon>frmMailSMSSettingNew2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRptAPInvoice.resx">
+      <DependentUpon>frmRptAPInvoice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTransactionHistory.resx">
+      <DependentUpon>frmTransactionHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMasterHistory.resx">
+      <DependentUpon>frmMasterHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmViewTDS.resx">
+      <DependentUpon>frmViewTDS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\frmBatchItemIn.resx">
+      <DependentUpon>frmBatchItemIn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\frmBatchItemOut.resx">
+      <DependentUpon>frmBatchItemOut.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\frmCategorySelect.resx">
+      <DependentUpon>frmCategorySelect.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\frmSerializeItemIn.resx">
+      <DependentUpon>frmSerializeItemIn.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventory\frmSerializeItemOut.resx">
+      <DependentUpon>frmSerializeItemOut.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\frmMccDispatch.resx">
+      <DependentUpon>frmMccDispatch.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Modules\TabSchemeProvider.resx">
+      <DependentUpon>TabSchemeProvider.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\licenses.licx" />
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\frmBalanceQty.resx">
+      <DependentUpon>frmBalanceQty.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\ucAttachment.resx">
+      <DependentUpon>ucAttachment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\ucCamControl.resx">
+      <DependentUpon>ucCamControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\ucItemBalance.resx">
+      <DependentUpon>ucItemBalance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl\ucWeighing.resx">
+      <DependentUpon>ucWeighing.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmCheckBoxGrid.resx">
+      <DependentUpon>frmCheckBoxGrid.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmClientFormLableDetails.resx">
+      <DependentUpon>frmClientFormLableDetails.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmEMailAndSMSSetting.resx">
+      <DependentUpon>frmEMailAndSMSSetting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmFilterColumnsToExport.resx">
+      <DependentUpon>frmFilterColumnsToExport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmFilterToExport.resx">
+      <DependentUpon>frmFilterToExport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmFreeComboBox.resx">
+      <DependentUpon>frmFreeComboBox.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmFreeTxtBox1.resx">
+      <DependentUpon>frmFreeTxtBox1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmMainTranScreen.resx">
+      <DependentUpon>frmMainTranScreen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmPWD.resx">
+      <DependentUpon>frmPWD.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmPWDHighSecrity.resx">
+      <DependentUpon>frmPWDHighSecrity.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmScreenControlDescriptionMapping.resx">
+      <DependentUpon>frmScreenControlDescriptionMapping.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmScreenControlMappingMultiple.resx">
+      <DependentUpon>frmScreenControlMappingMultiple.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmSetting.resx">
+      <DependentUpon>frmSetting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmTakePicFromCamera.resx">
+      <DependentUpon>frmTakePicFromCamera.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Web References\BSWS\BSWS.wsdl" />
+    <None Include="Web References\BSWS\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://www.businesssms.co.in/WebService/BSWS.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\BSWS\</RelPath>
+      <UpdateFromURL>http://www.businesssms.co.in/WebService/BSWS.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>XpertERPEngine_BSWS_BSWS</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\BSWS\BSWS.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
