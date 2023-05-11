@@ -41,6 +41,9 @@ Partial Class frmDCSforSale
         Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
+        Me.txtLocation = New common.UserControls.txtFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.lblLocation = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -55,8 +58,10 @@ Partial Class frmDCSforSale
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -70,6 +75,9 @@ Partial Class frmDCSforSale
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel4)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtLocation)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtZone)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtUpload)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtName)
@@ -85,7 +93,7 @@ Partial Class frmDCSforSale
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(453, 200)
+        Me.SplitContainer1.Size = New System.Drawing.Size(597, 200)
         Me.SplitContainer1.SplitterDistance = 151
         Me.SplitContainer1.TabIndex = 0
         '
@@ -249,7 +257,7 @@ Partial Class frmDCSforSale
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(373, 15)
+        Me.btnClose.Location = New System.Drawing.Point(517, 15)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 24)
         Me.btnClose.TabIndex = 7
@@ -296,19 +304,67 @@ Partial Class frmDCSforSale
         Me.rdmenuexport.Text = "Export"
         Me.rdmenuexport.UseCompatibleTextRendering = False
         '
-        'frmDCSforSale
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(453, 220)
-        '
         'rdmenufile
         '
         Me.rdmenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenufile1})
         Me.rdmenufile.Location = New System.Drawing.Point(0, 0)
         Me.rdmenufile.Name = "rdmenufile"
-        Me.rdmenufile.Size = New System.Drawing.Size(453, 20)
+        Me.rdmenufile.Size = New System.Drawing.Size(597, 20)
         Me.rdmenufile.TabIndex = 8
+        '
+        'txtLocation
+        '
+        Me.txtLocation.CalculationExpression = Nothing
+        Me.txtLocation.FieldCode = Nothing
+        Me.txtLocation.FieldDesc = Nothing
+        Me.txtLocation.FieldMaxLength = 0
+        Me.txtLocation.FieldName = Nothing
+        Me.txtLocation.isCalculatedField = False
+        Me.txtLocation.IsSourceFromTable = False
+        Me.txtLocation.IsSourceFromValueList = False
+        Me.txtLocation.IsUnique = False
+        Me.txtLocation.Location = New System.Drawing.Point(108, 97)
+        Me.txtLocation.MendatroryField = True
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Me.MyLabel4
+        Me.txtLocation.MyLinkLable2 = Nothing
+        Me.txtLocation.MyReadOnly = False
+        Me.txtLocation.MyShowMasterFormButton = False
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.ReferenceFieldDesc = Nothing
+        Me.txtLocation.ReferenceFieldName = Nothing
+        Me.txtLocation.ReferenceTableName = Nothing
+        Me.txtLocation.Size = New System.Drawing.Size(220, 19)
+        Me.txtLocation.TabIndex = 17
+        Me.txtLocation.Value = ""
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(12, 100)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel4.TabIndex = 18
+        Me.MyLabel4.Text = "Location"
+        '
+        'lblLocation
+        '
+        Me.lblLocation.AutoSize = False
+        Me.lblLocation.BorderVisible = True
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(329, 97)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(242, 18)
+        Me.lblLocation.TabIndex = 24
+        Me.lblLocation.TextWrap = False
+        '
+        'frmDCSforSale
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(597, 220)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.rdmenufile)
         Me.Name = "frmDCSforSale"
@@ -333,6 +389,8 @@ Partial Class frmDCSforSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -356,4 +414,7 @@ Partial Class frmDCSforSale
     Friend WithEvents rdmenuimport As RadMenuItem
     Friend WithEvents rdmenuexport As RadMenuItem
     Friend WithEvents rdmenufile As RadMenu
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtLocation As common.UserControls.txtFinder
+    Friend WithEvents lblLocation As common.Controls.MyLabel
 End Class

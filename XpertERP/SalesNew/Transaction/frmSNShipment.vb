@@ -8793,7 +8793,7 @@ a:          End If
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
                     If e.Column Is gvDCS.Columns(colDCSCode) Then
-                        Dim obj As ClsDCSforSale = ClsDCSforSale.GetFinder(clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSCode).Value), False)
+                        Dim obj As ClsDCSforSale = ClsDCSforSale.getFinderObeject(clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSCode).Value), False)
                         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                             gvDCS.CurrentRow.Cells(colDCSCode).Value = obj.Code
                             gvDCS.CurrentRow.Cells(colDCSUploaderNo).Value = obj.Uploader_No
