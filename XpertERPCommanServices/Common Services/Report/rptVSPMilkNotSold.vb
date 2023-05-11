@@ -22,6 +22,17 @@ Public Class rptVSPMilkNotSold
 
     Private Sub RptInventoryMovement_Load(sender As Object, e As EventArgs) Handles Me.Load
         isLoad = True
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            Dim qry As String = "Select  Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim arr As New ArrayList
+                For Each dr As DataRow In dt.Rows
+                    arr.Add(clsCommon.myCstr(dr("Code")))
+                Next
+                txtMultiDeduction.arrValueMember = arr
+            End If
+        End If
         dtpToDate.Value = clsCommon.GETSERVERDATE()
         dtpFromDate.Value = dtpToDate.Value.AddMonths(-1)
         isLoad = False
@@ -62,12 +73,13 @@ Public Class rptVSPMilkNotSold
             Dim tDedAmt As String = Nothing
             Dim dtDedName As DataTable = Nothing
             Dim CodeValue As String = clsCommon.GetMulcallString(txtMultiDeduction.arrValueMember)
+            Dim strwhrcls As String = Nothing
+            If txtMultiDeduction.arrValueMember.Count > 0 Then
+                strwhrcls = " Where TSPL_DEDUCTION_MASTER.Code In(" + CodeValue + ")"
+            End If
             If chkDeduction.Checked Then
-                If clsCommon.myLen(txtMultiDeduction.arrValueMember) > 0 Then
-
-                    dedQry = "Select Distinct Code,Description from TSPL_DEDUCTION_MASTER 
-                                                Left Outer Join TSPL_PAYMENT_PROCESS_DEDUCTION ON  TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
-                                                Where TSPL_DEDUCTION_MASTER.Code In(" + CodeValue + ")"
+                If txtMultiDeduction.arrValueMember.Count > 0 Then
+                    dedQry = "Select Code,Description from TSPL_DEDUCTION_MASTER " + strwhrcls
                     dtDedName = clsDBFuncationality.GetDataTable(dedQry)
                     If dtDedName.Rows.Count > 0 Then
                         For i As Integer = 0 To dtDedName.Rows.Count - 1
@@ -88,7 +100,7 @@ Public Class rptVSPMilkNotSold
                     End If
 
                 End If
-                qry = "Select *,(" + tDedAmt + ") As Total from (Select Max([VLC Uploader Code]) As [VLC Uploader Code],max([VSP Name]) As [VSP Name],Max(MCC) As MCC,Max([MCC Name]) As [MCC Name]" + DedName + "
+                qry = "Select *,(" + tDedAmt + ") As Total from (Select Max([VLC Uploader Code]) As [VLC Uploader Code],max([VSP Name]) As [VSP Name],Max([MCC Name]) As [MCC Name]" + DedName + "
                          from ( 
                          select TSPL_VLC_MASTER_HEAD.VSP_Code as [VSP Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VLC_MASTER_HEAD.MCC ,
                          TSPL_Location_MASTER.Location_Desc as [MCC Name] ,TSPL_Location_MASTER.Loc_Segment_Code as [SegmentCode],
