@@ -32,6 +32,9 @@ Public Class rptTemporaryPaymentDeductionSummary
     Private Sub EnableDisableControl(ByVal val As Boolean)
         RadGroupBox2.Enabled = val
         RadGroupBox3.Enabled = val
+        txtDeduction.Enabled = val
+        txtMCC.Enabled = val
+        chkDCSWise.Enabled = val
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -61,13 +64,13 @@ Public Class rptTemporaryPaymentDeductionSummary
             Dim subQry As String = Nothing
             Dim subDCSQry As String = Nothing
             If chkDCSWise.Checked = True Then
-                subDCSQry = ",Max(Vendor_NAME) As DCS_Name"
+                subDCSQry = ",Max(VSP_Uploader_Code) as DCSCode,Max(Vendor_NAME) As DCS_Name"
                 subQry = ",Final.Vendor_CODE"
             End If
 
             If rdbOldOutstanding.Checked Then ''1
                 qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type,Max(Ded_Desc) as DeductionName
-,Max(VSP_Uploader_Code) as DCSCode" + subDCSQry + ", sum(Amount) as [Amount] from ( 
+" + subDCSQry + ", sum(Amount) as [Amount] from ( 
 Select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc 
 ,isnull(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0) as Amount
 from TSPL_PAYMENT_PROCESS_DEDUCTION 
@@ -88,7 +91,7 @@ and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)
 
             ElseIf rdbOldCurrent.Checked Then ''2
                 qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
-                       ,Max(Ded_Desc) as DeductionName ,Max(VSP_Uploader_Code) as DCSCode" + subDCSQry + ", sum(Amount) as [Amount],sum(Amount-ReDedctAmt) As 'Amt Deducted',Sum(ReDedctAmt) As 'Balance Amount' from ( 
+                       ,Max(Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount) as [Amount],sum(Amount-ReDedctAmt) As 'Amt Deducted',Sum(ReDedctAmt) As 'Balance Amount' from ( 
 select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
 ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
 ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
@@ -120,7 +123,7 @@ where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in ('" + strDocNo + "') and TSPL_
 
             ElseIf rdbCurrentStanding.Checked = True Then  ''3
                 qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
-                       ,Max(Ded_Desc) as DeductionName ,Max(VSP_Uploader_Code) as DCSCode" + subDCSQry + ", sum(Amount * RI) as [Amount] from (
+                       ,Max(Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount * RI) as [Amount] from (
 select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
 ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
 ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
@@ -158,7 +161,7 @@ where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in ('" + strDocNo + "') and TSPL_
 
             ElseIf chkWithOpening.Checked = True Then ''4
                 qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
-                       ,Max(Ded_Desc) as DeductionName ,Max(VSP_Uploader_Code) as DCSCode" + subDCSQry + ", sum(Amount) as [Amount] from ( 
+                       ,Max(Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount) as [Amount] from ( 
 select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
 ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
 ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
@@ -173,7 +176,7 @@ and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)
 
             ElseIf chkORD_CD.Checked = True Then ''5
                 qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type,Max(Ded_Desc) as DeductionName
-,Max(VSP_Uploader_Code) as DCSCode" + subDCSQry + ", sum(Amount) as [Amount] from ( 
+" + subDCSQry + ", sum(Amount) as [Amount] from ( 
 Select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt as Amount 
 from TSPL_PAYMENT_PROCESS_DEDUCTION 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
