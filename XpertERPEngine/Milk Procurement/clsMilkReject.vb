@@ -568,12 +568,16 @@ Public Class clsMilkRejectHead
                         Throw New Exception("EMP Type is Not a valid ")
                     End If
                     obj1.Service_Charge_Type = clsCommon.myCstr(dtVendor.Rows(0)("Service_Charge_Type"))
-                    If clsCommon.CompairString(clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
-                        obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate, 2)
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
+                    Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
 
-                        obj1.Head_Load_Amount = Math.Round(objtr.ACC_WEIGHT_LTR * obj1.Head_Load_Rate, 2)
-                        'obj1.Head_Load_Amount = Math.Round(obj1.MILK_Qty * obj1.Head_Load_Rate, 2)
+                    If clsCommon.CompairString(clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
+                        If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
+                            obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate, 2)
+                        End If
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
+                        If objtr.ACC_WEIGHT_LTR >= MinimumQtyForHeadLoad Then
+                            obj1.Head_Load_Amount = Math.Round(objtr.ACC_WEIGHT_LTR * obj1.Head_Load_Rate, 2)
+                        End If
                     End If
                     obj1.Head_Load_Type = clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Head_Load"))
                     If clsCommon.CompairString(clsCommon.myCstr(dtVendor.Rows(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then

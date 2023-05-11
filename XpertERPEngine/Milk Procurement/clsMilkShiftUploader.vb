@@ -1015,15 +1015,19 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
 
                             objMilkSRNDetail.Service_Charge_Type = clsCommon.myCstr(dtVLC.Rows(0)("Service_Charge_Type"))
                             '==================Head Load==========================
+                            Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
                             Dim dclDistanceKM As Decimal = clsCommon.myCdbl(dtVLC.Rows(0)("DistanceKM_Head_Load"))
                             If dclDistanceKM = 0 Then
                                 dclDistanceKM = 1
                             End If
                             If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
-                                objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.Head_Load_Rate * dclDistanceKM, 2)
+                                If objMilkSRNDetail.ACC_Qty >= MinimumQtyForHeadLoad Then
+                                    objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.Head_Load_Rate * dclDistanceKM, 2)
+                                End If
                             ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
-                                'objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.MILK_Qty * objMilkSRNDetail.Head_Load_Rate * dclDistanceKM, 2)
-                                objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkReceiptDetail.LTR_WEIGHT * objMilkSRNDetail.Head_Load_Rate * dclDistanceKM, 2)
+                                If objMilkReceiptDetail.LTR_WEIGHT >= MinimumQtyForHeadLoad Then
+                                    objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkReceiptDetail.LTR_WEIGHT * objMilkSRNDetail.Head_Load_Rate * dclDistanceKM, 2)
+                                End If
                             ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Basis_Head_Load")), "W") = CompairStringResult.Equal Then
                                 qry = "select Ratio,SNF_Ratio,FAT_Pers,SNF_Pers from TSPL_MILK_PRICE_MASTER where Price_Code=(select top 1 Price_Code from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + objMilkSRNDetail.Price_Code + "')"
                                 Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
