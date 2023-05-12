@@ -164,12 +164,6 @@ Public Class FrmPaymentProcess
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'Dim coll As New Dictionary(Of String, String)()
-        'coll.Add("Compulsory_Amount", "Decimal(18,2) null")
-        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
-
-
-
         SetUserMgmtNew()
         SettVSPHoldPaymentNotCompanyBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, Nothing)) = 1)
         IsRoundOffPaiseAmount = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1)
@@ -1649,7 +1643,7 @@ Public Class FrmPaymentProcess
                 " left outer join TSPL_Vendor_Bank_MASTER as jointBank on jointBank.Bank_Code =TSPL_VENDOR_MASTER .Joint_Bank_Code  " + Environment.NewLine +
                 " left outer join TSPL_Vendor_Bank_MASTER as SelfBank on SelfBank .Bank_Code =TSPL_VENDOR_MASTER.Bank_Name " _
                 & " left outer join TSPL_MP_MASTER mp on mp.MP_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_Code left outer join TSPL_VLC_MASTER_HEAD mp_vlc on mp_vlc.Vlc_Code=mp.VLC_Code Left join tspl_vendor_master Mp_V on mp_V.Vendor_Code=mp.MP_Code  left outer join TSPL_Vendor_Bank_MASTER as jointBank_Mp on jointBank_Mp.Bank_Code =Mp_V .Joint_Bank_Code   left outer join TSPL_Vendor_Bank_MASTER as SelfBank_Mp on SelfBank .Bank_Code =Mp_V.Bank_Name   " _
-                & "  where TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and TSPL_VENDOR_INVOICE_HEAD.document_type='I' and TSPL_VENDOR_INVOICE_HEAD.Invoice_Type='AP' and TSPL_VENDOR_INVOICE_HEAD.REFDocType='MI-PI' and ISNULL(TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No,'')<>''   " +
+                & "  where ((TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0) or (TSPL_VENDOR_INVOICE_HEAD.Balance_Amt=0 and TSPL_VENDOR_INVOICE_HEAD.Posting_Date='" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") + "' ) ) and TSPL_VENDOR_INVOICE_HEAD.document_type='I' and TSPL_VENDOR_INVOICE_HEAD.Invoice_Type='AP' and TSPL_VENDOR_INVOICE_HEAD.REFDocType='MI-PI' and ISNULL(TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No,'')<>''   " +
                 " and not exists(select 1 from TSPL_PAYMENT_PROCESS_INVOICE  where TSPL_PAYMENT_PROCESS_INVOICE.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_PAYMENT_PROCESS_INVOICE.Doc_No not in ('" + fndDocNo.Value + "')) " +
                 " ) xxx where  1=1 "
             Dim whrCls As String = ""
@@ -4954,8 +4948,6 @@ Public Class FrmPaymentProcess
 
         Dim strMCCcode = ""
         If MultipleFinderFillAuto Then
-            'strMCCcode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ")"))
-            'strMCCcode = " location_code in ( " + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + " )  "
             strMCCcode = "Loc_Segment_Code in (select distinct Loc_Segment_Code from TSPL_LOCATION_MASTER where location_code in (" + clsCommon.GetMulcallString(mfndMcc.arrValueMember) + ") ) "
         Else
             strMCCcode = "Loc_Segment_Code = '" & fndLoc.Value & "' "

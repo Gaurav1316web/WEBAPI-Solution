@@ -1698,14 +1698,19 @@ Public Class clsMilkSRNMCC
 
             clsMilkSRNMCC.ObjList(0).Service_Charge_Type = clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Charge_Type"))
             '==================Head Load==========================
+            Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, Trans))
             Dim dclDistanceKM As Decimal = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("DistanceKM_Head_Load"))
             If dclDistanceKM = 0 Then
                 dclDistanceKM = 1
             End If
             If clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
-                clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).Head_Load_Rate * dclDistanceKM, 2)
+                If clsMilkSRNMCC.ObjList(0).ACC_Qty >= MinimumQtyForHeadLoad Then
+                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).Head_Load_Rate * dclDistanceKM, 2)
+                End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
-                clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("ACC_WEIGHT_LTR")) * clsMilkSRNMCC.ObjList(0).Head_Load_Rate * dclDistanceKM, 2)
+                If clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
+                    clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsCommon.myCDecimal(DtMilkReceipt.Rows(0)("ACC_WEIGHT_LTR")) * clsMilkSRNMCC.ObjList(0).Head_Load_Rate * dclDistanceKM, 2)
+                End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load")), "W") = CompairStringResult.Equal Then
                 qry = "select Ratio,SNF_Ratio,FAT_Pers,SNF_Pers from TSPL_MILK_PRICE_MASTER where Price_Code=(select top 1 Price_Code from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + clsMilkSRNMCC.ObjList(0).Price_Code + "')"
                 Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry, Trans)

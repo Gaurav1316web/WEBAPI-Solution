@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 
 
 Public Class clsFixedParameterType
+    Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
     Public Const StopSetting As String = "Stop Setting"
     Public Const PickBulkRoute As String = "Pick Bulk Route"
     Public Const ShowMultipleLegers As String = "Show Multiple Legers"
@@ -1281,6 +1282,7 @@ End Class
 
 
 Public Class clsFixedParameterCode
+    Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
     Public Const JournalEntry As String = "Journal Entry"
     Public Const Inventory As String = "Inventory"
     Public Const InventoryNew As String = "Inventory New"
@@ -2743,6 +2745,7 @@ Public Class clsFixedParameter
     End Function
 
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, "0", "Minimum Qty To Apply For Head Load")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, "0", "0:OFF:1 Stop Jouranl Entry")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopSetting, clsFixedParameterCode.Inventory, "0", "0:OFF:1 Stop Inventory Movement")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopSetting, clsFixedParameterCode.InventoryNew, "0", "0:OFF:1 Stop Inventory Movement New(Milk)")
@@ -4345,6 +4348,8 @@ Public Class clsFixedParameterProgramMapping
 
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+
+        InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, EnumControlType.NumericBox)
 
         InsertDefaultValue(clsUserMgtCode.rptTrialBalance, clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.stockRecoNew, clsFixedParameterType.StopSetting, clsFixedParameterCode.Inventory, EnumControlType.CheckBox)

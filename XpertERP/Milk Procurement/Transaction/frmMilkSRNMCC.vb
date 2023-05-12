@@ -322,15 +322,19 @@ Public Class frmMilkSRNMCC
                 End If
                 obj1.Service_Charge_Type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
                 '==================Head Load==========================
+                Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, Trans))
                 Dim dclDistanceKM As Decimal = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("DistanceKM_Head_Load"))
                 If dclDistanceKM = 0 Then
                     dclDistanceKM = 1
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
-                    obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate * dclDistanceKM, 2)
+                    If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
+                        obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate * dclDistanceKM, 2)
+                    End If
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
-                    'obj1.Head_Load_Amount = Math.Round(obj1.MILK_Qty * obj1.Head_Load_Rate * dclDistanceKM, 2)
-                    obj1.Head_Load_Amount = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * obj1.Head_Load_Rate * dclDistanceKM, 2)
+                    If clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
+                        obj1.Head_Load_Amount = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * obj1.Head_Load_Rate * dclDistanceKM, 2)
+                    End If
                 End If
                 obj1.Head_Load_Type = clsCommon.myCstr(dr(0)("Service_Basis_Head_Load"))
                 '============================================
@@ -1855,14 +1859,19 @@ Public Class frmMilkSRNMCC
                 End If
                 obj1.Service_Charge_Type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
                 '==================Head Load==========================
+                Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, Trans))
                 Dim dclDistanceKM As Decimal = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("DistanceKM_Head_Load"))
                 If dclDistanceKM = 0 Then
                     dclDistanceKM = 1
                 End If
                 If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
-                    obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate * dclDistanceKM, 2)
+                    If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
+                        obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate * dclDistanceKM, 2)
+                    End If
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
-                    obj1.Head_Load_Amount = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * obj1.Head_Load_Rate * dclDistanceKM, 2)
+                    If clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
+                        obj1.Head_Load_Amount = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * obj1.Head_Load_Rate * dclDistanceKM, 2)
+                    End If
                 End If
                 obj1.Head_Load_Type = clsCommon.myCstr(dr(0)("Service_Basis_Head_Load"))
                 '============================================

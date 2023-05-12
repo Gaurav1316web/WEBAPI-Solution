@@ -7,6 +7,7 @@ Public Class ClsDCSforSale
     Public Code As String = Nothing
     Public Name As String = Nothing
     Public Uploader_No As String = Nothing
+    'Public Location As String = Nothing
     Public Zone As String = Nothing
     Public CurrentUserCode As String = Nothing
 
@@ -57,6 +58,10 @@ Public Class ClsDCSforSale
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As common.NavigatorType, ByVal trans As SqlTransaction) As ClsDCSforSale
         Dim obj As ClsDCSforSale = Nothing
         Dim qry As String = "SELECT TSPL_DCS_FOR_SALE.* FROM TSPL_DCS_FOR_SALE where  2=2"
+        'Dim whrCls As String = ""
+        'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+        '    whrCls = " AND Location in (" + objCommonVar.strCurrUserLocations + ")"
+        'End If
 
         Select Case NavType
             Case NavigatorType.First
@@ -122,16 +127,29 @@ Public Class ClsDCSforSale
 
     End Function
 
-    Public Shared Function GetFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean) As ClsDCSforSale
+    Public Shared Function GetFinder(ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+        'Dim obj As ClsDCSforSale = Nothing
+        'Dim qry As String = "select Code,Name,Uploader_No,Zone from TSPL_DCS_FOR_SALE"
+        'strCode = clsCommon.ShowSelectForm("DCSFSFnd", qry, "Code", "", strCode, "Code", isButtonClicked)
+        'If clsCommon.myLen(strCode) > 0 Then
+        '    obj = ClsDCSforSale.GetData(strCode, NavigatorType.Current)
+        'End If
+        'Return obj
+
+        Dim str As String = ""
+        Dim qry As String = "select Code as [Code],Name as [Name],Zone as [Zone],Uploader_No as [Uploader No],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date] from TSPL_DCS_FOR_SALE  "
+        str = clsCommon.ShowSelectForm("DCSFSFnd", qry, "Code", "", curcode, "Code", isButtonClicked)
+        Return str
+
+    End Function
+
+    Public Shared Function getFinderObeject(ByVal curcode As String, ByVal isButtonClicked As Boolean) As ClsDCSforSale
         Dim obj As ClsDCSforSale = Nothing
-        Dim qry As String = "select Code,Name,Uploader_No,Zone from TSPL_DCS_FOR_SALE"
-        strCode = clsCommon.ShowSelectForm("DCSFSFnd", qry, "Code", "", strCode, "Code", isButtonClicked)
+        Dim strCode As String = GetFinder(curcode, isButtonClicked)
         If clsCommon.myLen(strCode) > 0 Then
-            obj = ClsDCSforSale.GetData(strCode, NavigatorType.Current)
+            obj = GetData(strCode, NavigatorType.Current)
         End If
         Return obj
     End Function
-
-
 
 End Class

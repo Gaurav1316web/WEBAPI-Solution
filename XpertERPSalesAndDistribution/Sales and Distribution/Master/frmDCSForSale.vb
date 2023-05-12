@@ -123,6 +123,8 @@ Public Class frmDCSforSale
         txtUpload.Text = ""
         txtZone.Text = ""
         btnSave.Text = "Save"
+        txtLocation.Value = ""
+        lblLocation.Text = ""
         btnSave.Enabled = True
         btnDelete.Enabled = True
     End Sub
@@ -211,20 +213,37 @@ Public Class frmDCSforSale
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
-        Dim qst As String = "select count(*) from TSPL_DCS_FOR_SALE where Code='" + txtCode.Value + "'"
-        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
-        If count = 0 Then
+        'Dim qst As String = "select count(*) from TSPL_DCS_FOR_SALE where Code='" + txtCode.Value + "'"
+        'Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+        'If count = 0 Then
+        '    txtCode.MyReadOnly = False
+        'Else
+        '    txtCode.MyReadOnly = True
+        'End If
+        'If txtCode.MyReadOnly OrElse isButtonClicked Then
+        '    Dim whrClas As String = ""
+        '    Dim qry As String = " select Code as [Code],Name as [Name],Zone as [Zone],Uploader_No as [Uploader No],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date] from TSPL_DCS_FOR_SALE  "
+        '    txtCode.Value = clsCommon.ShowSelectForm("RPTBDMST", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked)
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '    LoadData(txtCode.Value, NavigatorType.Current)
+        'End If
+
+        Dim str As String = "select count(*) from TSPL_DCS_FOR_SALE where Code ='" + txtCode.Value + "' "
+        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+        If no = 0 AndAlso isButtonClicked = False Then
             txtCode.MyReadOnly = False
         Else
             txtCode.MyReadOnly = True
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
-            Dim whrClas As String = ""
-            Dim qry As String = " select Code as [Code],Name as [Name],Zone as [Zone],Uploader_No as [Uploader No],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date] from TSPL_DCS_FOR_SALE  "
-            txtCode.Value = clsCommon.ShowSelectForm("RPTBDMST", qry, "Code", whrClas, txtCode.Value, "Code", isButtonClicked)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            LoadData(txtCode.Value, NavigatorType.Current)
+            txtCode.Value = ClsDCSforSale.GetFinder(txtCode.Value, isButtonClicked)
+            If txtCode.Value <> "" Then
+                LoadData(txtCode.Value, NavigatorType.Current)
+            Else
+                funreset()
+            End If
         End If
+
     End Sub
 
     Private Sub txtCode__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
@@ -357,6 +376,17 @@ Public Class frmDCSforSale
     Private Sub btnClose_Click_1(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+
+    'Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
+    '    Dim qry As String = " select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+    '    Dim whrcls As String = " Location_Type='Physical'  "
+    '    If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+    '        whrcls += " and Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+    '    End If
+
+    '    txtLocation.Value = clsCommon.ShowSelectForm("Location_MasterFD", qry, "Code", whrcls, txtLocation.Value, "Code", isButtonClicked)
+    '    lbllocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code= '" + txtLocation.Value + "' "))
+    'End Sub
 
 
 #End Region
