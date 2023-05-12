@@ -374,5 +374,67 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DED
         TxtItem.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemDMulSel", qry, "Code", "Description", TxtItem.arrValueMember, TxtItem.arrDispalyMember)
     End Sub
 
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            Dim strQry As String = Nothing
+            '' Dim subqry As String = Nothing
+            Dim strQry1 As String = Nothing
 
+            Dim strQry2 As String = Nothing
+            Dim strQry3 As String = Nothing
+
+
+            If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
+                strQry1 += " and TSPL_VLC_MASTER_HEAD.MCC  in (" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")"
+            End If
+            If txtMultiVSP.arrValueMember IsNot Nothing AndAlso txtMultiVSP.arrValueMember.Count > 0 Then
+                strQry2 += " and TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code in(" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
+            End If
+
+            If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
+                strQry3 += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
+            End If
+
+
+            strQry = "  SELECT row_number() over(order by(select 1)) as SNo, FINAL2.company_name,FINAL2.[Vendor Code],FINAL2.[Vendor Name],FINAL2.[VLC Uploader Code],FINAL2.MCC_Name,FINAL2.[Document Date],FINAL2.[Document No],FINAL2.Type,FINAL2.Addition,FINAL2.Deduction,FINAL2.[Deduction Code],FINAL2.Regn_No,FINAL2.[Deduction Desc],FINAL2.ACC_WEIGHT,FINAL2.Phone,SUM(TSPL_MILK_SRN_DETAIL.AMOUNT) AS SRN_AMOUNT,final2.FromDate, final2.ToDate  FROM (
+ select FINAL1.company_name,FINAL1.[Vendor Code],FINAL1.[Vendor Name],FINAL1.[VLC Uploader Code],FINAL1.Regn_No,FINAL1.MCC_Name,FINAL1.[Document Date],FINAL1.[Document No],FINAL1.Type,FINAL1.Addition,FINAL1.Deduction,FINAL1.[Deduction Code],FINAL1.Phone,FINAL1.[Deduction Desc],FINAL1.FromDate, final1.ToDate, SUM(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT) AS ACC_WEIGHT FROM (
+ Select  max(Final.company_name) as company_name,final.Vendor_Code as [Vendor Code] ,max(final.Vendor_Name) as [Vendor Name],max(final.[VLC Uploader Code]) as [VLC Uploader Code],max(final.MCC_Name) as MCC_Name,max(final.Regn_No) as Regn_No,max(final.Phone1) as Phone, max(final.Type) as Type,final.Document_No as [Document No],final.Document_Date as [Document Date],sum(final.Addition) as Addition,sum(final.Deduction) as Deduction,final.DeductionCode as [Deduction Code] ,max(final.Deduction_Desc) as [Deduction Desc],'" + fromDate.Value + "' As FromDate,'" + ToDate.Value + "' As ToDate
+ From ( select TSPL_COMPANY_MASTER.Comp_Name as company_name,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code],TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Name,TSPL_COMPANY_MASTER.Regn_No,TSPL_COMPANY_MASTER.Phone1 from TSPL_MULTIPLE_DEDUCTION_HEAD 
+ left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_MULTIPLE_DEDUCTION_HEAD.Comp_Code
+LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
+left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC  from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + ToDate.Value + "'),103)  " + strQry3 + strQry1 + " )Final 
+group by final.company_name,final.Document_No,final.Document_Date , final.Vendor_Code ,final.DeductionCode  
+) FINAL1
+LEFT OUTER JOIN TSPL_MILK_RECEIPT_DETAIL ON TSPL_MILK_RECEIPT_DETAIL.VSP_CODE=FINAL1.[Vendor Code]
+WHERE convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103) <= convert(date,('" + ToDate.Value + "'),103)
+GROUP BY 
+final1.company_name,FINAL1.[Vendor Code],FINAL1.[Vendor Name],FINAL1.[VLC Uploader Code],final1.MCC_Name
+,FINAL1.[Document Date],FINAL1.[Document No],FINAL1.Type,FINAL1.Addition,FINAL1.Deduction,FINAL1.[Deduction Code],FINAL1.Regn_No,FINAL1.[Deduction Desc],FINAL1.Phone,FINAL1.FromDate,FINAL1.ToDate
+) FINAL2 
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.VSP_CODE=FINAL2.[Vendor Code]
+left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+WHERE convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,('" + ToDate.Value + "'),103)
+GROUP BY 
+FINAL2.company_name,FINAL2.[Vendor Code],FINAL2.[Vendor Name],FINAL2.[VLC Uploader Code],FINAL2.MCC_Name,FINAL2.[Document Date],FINAL2.[Document No],FINAL2.Type,FINAL2.Addition,FINAL2.Deduction,FINAL2.[Deduction Code],FINAL2.Regn_No,FINAL2.[Deduction Desc],FINAL2.ACC_WEIGHT,FINAL2.Phone,FINAL2.FromDate,FINAL2.ToDate
+
+"
+
+
+
+            ' strQry += ")tmp group by tmp.VLC_CODE_VLC_Uploader"
+
+
+
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt1.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptMultpleDeductionNewGNG", "MD Print")
+                frmCRV = Nothing
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+
+    End Sub
 End Class
