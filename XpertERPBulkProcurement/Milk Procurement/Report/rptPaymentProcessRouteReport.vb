@@ -3266,7 +3266,7 @@ select * from CTE left outer join
                             AVGSNF = 0
                         End If
 
-                        dt.Rows.Add(clsCommon.myCstr(i + 1), clsCommon.myCstr(dtMCCHead.Rows(i).Item("Document_Date")), DBNull.Value, DBNull.Value, "Total", Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), DBNull.Value, DBNull.Value, Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), "Total", SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, VariationQty, VariationFATKG, VariationSNFKG)
+                        dt.Rows.Add(clsCommon.myCstr(i + 1), clsCommon.myCstr(dtMCCHead.Rows(i).Item("Document_Date")), DBNull.Value, DBNull.Value, "Total", Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), DBNull.Value, DBNull.Value, Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), "Total", SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, DBNull.Value, VariationQty, VariationFATKG, VariationSNFKG)
 
                     End If
                 Next
@@ -3299,7 +3299,7 @@ select * from CTE left outer join
                 GVariationFATKG = Math.Round(GSumFATKGHead - GSumFATKGDetail, 2)
                 GVariationSNFKG = Math.Round(GSumSNFKGHead - GSumSNFKGDetail, 2)
 
-                dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "G.Total", GSumQtyHead, GAVGFATHead, GAVGSNFHead, GSumFATKGHead, GSumSNFKGHead, "Total", GSumQtyDetail, GAVGFATDetail, GAVGSNFDetail, GSumFATKGDetail, GSumSNFKGDetail, GVariationQty, GVariationFATKG, GVariationSNFKG)
+                dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "G.Total", GSumQtyHead, GAVGFATHead, GAVGSNFHead, GSumFATKGHead, GSumSNFKGHead, "Total", GSumQtyDetail, GAVGFATDetail, GAVGSNFDetail, GSumFATKGDetail, GSumSNFKGDetail, DBNull.Value, GVariationQty, GVariationFATKG, GVariationSNFKG)
             End If
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
