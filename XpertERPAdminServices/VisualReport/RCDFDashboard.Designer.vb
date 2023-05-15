@@ -85,6 +85,8 @@ Partial Class RCDFDashboard
         Me.chkItemTypeWise = New common.Controls.MyCheckBox()
         Me.chkZoneWise = New common.Controls.MyCheckBox()
         Me.MyCheckBox1 = New common.Controls.MyCheckBox()
+        Me.RadLabel15 = New common.Controls.MyLabel()
+        Me.txtLocation = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -160,6 +162,7 @@ Partial Class RCDFDashboard
         CType(Me.chkItemTypeWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkZoneWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyCheckBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -174,6 +177,8 @@ Partial Class RCDFDashboard
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel15)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtLocation)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblfromDate)
@@ -192,7 +197,7 @@ Partial Class RCDFDashboard
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(348, 5)
+        Me.btnReset.Location = New System.Drawing.Point(386, 5)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(55, 22)
         Me.btnReset.TabIndex = 31
@@ -201,7 +206,7 @@ Partial Class RCDFDashboard
         'RadButton1
         '
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(290, 5)
+        Me.RadButton1.Location = New System.Drawing.Point(328, 5)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(54, 22)
         Me.RadButton1.TabIndex = 30
@@ -210,11 +215,12 @@ Partial Class RCDFDashboard
         'lblfromDate
         '
         Me.lblfromDate.FieldName = Nothing
-        Me.lblfromDate.Location = New System.Drawing.Point(6, 7)
+        Me.lblfromDate.Location = New System.Drawing.Point(449, 9)
         Me.lblfromDate.Name = "lblfromDate"
         Me.lblfromDate.Size = New System.Drawing.Size(59, 18)
         Me.lblfromDate.TabIndex = 13
         Me.lblfromDate.Text = "From Date"
+        Me.lblfromDate.Visible = False
         '
         'btnclose
         '
@@ -239,7 +245,7 @@ Partial Class RCDFDashboard
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(69, 6)
+        Me.txtFromDate.Location = New System.Drawing.Point(512, 8)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -255,15 +261,16 @@ Partial Class RCDFDashboard
         Me.txtFromDate.TabStop = False
         Me.txtFromDate.Text = "17-12-2011"
         Me.txtFromDate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
+        Me.txtFromDate.Visible = False
         '
         'lblToDate
         '
         Me.lblToDate.FieldName = Nothing
-        Me.lblToDate.Location = New System.Drawing.Point(155, 7)
+        Me.lblToDate.Location = New System.Drawing.Point(6, 7)
         Me.lblToDate.Name = "lblToDate"
-        Me.lblToDate.Size = New System.Drawing.Size(45, 18)
+        Me.lblToDate.Size = New System.Drawing.Size(30, 18)
         Me.lblToDate.TabIndex = 14
-        Me.lblToDate.Text = "To Date"
+        Me.lblToDate.Text = "Date"
         '
         'txtToDate
         '
@@ -278,7 +285,7 @@ Partial Class RCDFDashboard
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(204, 6)
+        Me.txtToDate.Location = New System.Drawing.Point(41, 6)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Nothing
@@ -305,42 +312,47 @@ Partial Class RCDFDashboard
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.PageBackColor = System.Drawing.Color.Transparent
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(859, 498)
         Me.RadPageView1.TabIndex = 1
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Left
+        Me.RadPageView1.ViewMode = Telerik.WinControls.UI.PageViewMode.Backstage
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewBackstageElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Center
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewBackstageElement).ItemFitMode = Telerik.WinControls.UI.StripViewItemFitMode.Shrink
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewBackstageElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewBackstageElement).ItemSizeMode = Telerik.WinControls.UI.PageViewItemSizeMode.EqualHeight
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewBackstageElement).ItemContentOrientation = Telerik.WinControls.UI.PageViewContentOrientation.Horizontal
         '
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(26.0!, 102.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(35, 10)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(101.0!, 45.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(5, 60)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(813, 477)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(850, 434)
         Me.RadPageViewPage1.Text = "RAW MATERIAL"
         '
         'Attachments
         '
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(26.0!, 99.0!)
-        Me.Attachments.Location = New System.Drawing.Point(35, 10)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(97.0!, 45.0!)
+        Me.Attachments.Location = New System.Drawing.Point(5, 60)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(813, 477)
+        Me.Attachments.Size = New System.Drawing.Size(850, 434)
         Me.Attachments.Text = "FINISH GOODS"
         '
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(26.0!, 92.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(35, 10)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(91.0!, 45.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(5, 60)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(813, 477)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(850, 434)
         Me.RadPageViewPage2.Text = "PRODUCTION"
         '
         'SplitContainer2
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -352,8 +364,8 @@ Partial Class RCDFDashboard
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.cvProdution)
-        Me.SplitContainer2.Size = New System.Drawing.Size(813, 477)
-        Me.SplitContainer2.SplitterDistance = 327
+        Me.SplitContainer2.Size = New System.Drawing.Size(850, 434)
+        Me.SplitContainer2.SplitterDistance = 279
         Me.SplitContainer2.TabIndex = 0
         '
         'gvProdution
@@ -365,7 +377,7 @@ Partial Class RCDFDashboard
         '
         Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvProdution.Name = "gvProdution"
-        Me.gvProdution.Size = New System.Drawing.Size(813, 327)
+        Me.gvProdution.Size = New System.Drawing.Size(850, 279)
         Me.gvProdution.TabIndex = 6
         '
         'cvProdution
@@ -376,24 +388,24 @@ Partial Class RCDFDashboard
         Me.cvProdution.Name = "cvProdution"
         Me.cvProdution.ShowDrillNavigation = True
         Me.cvProdution.ShowGrid = False
-        Me.cvProdution.Size = New System.Drawing.Size(813, 146)
+        Me.cvProdution.Size = New System.Drawing.Size(850, 151)
         Me.cvProdution.TabIndex = 5
         '
         'RadPageViewPage3
         '
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(26.0!, 65.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(35, 10)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(63.0!, 45.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(5, 60)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(813, 477)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(850, 434)
         Me.RadPageViewPage3.Text = "QUALITY"
         '
         'RadPageViewPage4
         '
         Me.RadPageViewPage4.Controls.Add(Me.RadScrollablePanel2)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(26.0!, 72.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(35, 10)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(71.0!, 45.0!)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(5, 60)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(813, 477)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(850, 434)
         Me.RadPageViewPage4.Text = "ACCOUNT"
         '
         'RadScrollablePanel2
@@ -800,6 +812,42 @@ Partial Class RCDFDashboard
         Me.MyCheckBox1.Tag1 = Nothing
         Me.MyCheckBox1.Text = "All"
         '
+        'RadLabel15
+        '
+        Me.RadLabel15.FieldName = Nothing
+        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel15.Location = New System.Drawing.Point(127, 8)
+        Me.RadLabel15.Name = "RadLabel15"
+        Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
+        Me.RadLabel15.TabIndex = 33
+        Me.RadLabel15.Text = "Location"
+        '
+        'txtLocation
+        '
+        Me.txtLocation.CalculationExpression = Nothing
+        Me.txtLocation.FieldCode = Nothing
+        Me.txtLocation.FieldDesc = Nothing
+        Me.txtLocation.FieldMaxLength = 0
+        Me.txtLocation.FieldName = Nothing
+        Me.txtLocation.isCalculatedField = False
+        Me.txtLocation.IsSourceFromTable = False
+        Me.txtLocation.IsSourceFromValueList = False
+        Me.txtLocation.IsUnique = False
+        Me.txtLocation.Location = New System.Drawing.Point(181, 7)
+        Me.txtLocation.MendatroryField = False
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Me.RadLabel15
+        Me.txtLocation.MyLinkLable2 = Nothing
+        Me.txtLocation.MyReadOnly = False
+        Me.txtLocation.MyShowMasterFormButton = False
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.ReferenceFieldDesc = Nothing
+        Me.txtLocation.ReferenceFieldName = Nothing
+        Me.txtLocation.ReferenceTableName = Nothing
+        Me.txtLocation.Size = New System.Drawing.Size(143, 19)
+        Me.txtLocation.TabIndex = 32
+        Me.txtLocation.Value = ""
+        '
         'RCDFDashboard
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -889,6 +937,7 @@ Partial Class RCDFDashboard
         CType(Me.chkItemTypeWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkZoneWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyCheckBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -942,5 +991,7 @@ Partial Class RCDFDashboard
     Friend WithEvents cvProdution As RadChartView
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents RadPageViewPage4 As RadPageViewPage
+    Friend WithEvents RadLabel15 As common.Controls.MyLabel
+    Friend WithEvents txtLocation As common.UserControls.txtFinder
 End Class
 
