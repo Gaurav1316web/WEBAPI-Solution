@@ -2432,6 +2432,7 @@ Public Class clsUserMgtCode
     Public Const frmMRPForProduction As String = "PP_MRP"
     Public Const frmPriceMasterPS As String = "PRC-MST-PS"
     Public Const rptDeleteHistoryReport As String = "DEL-HIST"
+    Public Const RCDFDashboard As String = "RCDF-DSB"
     Public Const CardSale As String = "CRD_SALE"
 
     'Eng. And Plant Management
