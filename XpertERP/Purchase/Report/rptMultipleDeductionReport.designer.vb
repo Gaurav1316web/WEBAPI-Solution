@@ -52,6 +52,7 @@ Partial Class rptMultipleDeductionReport
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -81,6 +82,7 @@ Partial Class rptMultipleDeductionReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -127,6 +129,7 @@ Partial Class rptMultipleDeductionReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
@@ -407,11 +410,19 @@ Partial Class rptMultipleDeductionReport
         Me.Gv1.Size = New System.Drawing.Size(764, 292)
         Me.Gv1.TabIndex = 0
         '
+        'btnPrint
+        '
+        Me.btnPrint.Location = New System.Drawing.Point(203, 6)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(95, 27)
+        Me.btnPrint.TabIndex = 0
+        Me.btnPrint.Text = "Print"
+        '
         'RadSplitExp
         '
         Me.RadSplitExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadSplitExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.RadSplitExp.Location = New System.Drawing.Point(209, 6)
+        Me.RadSplitExp.Location = New System.Drawing.Point(301, 6)
         Me.RadSplitExp.Margin = New System.Windows.Forms.Padding(4)
         Me.RadSplitExp.Name = "RadSplitExp"
         Me.RadSplitExp.Size = New System.Drawing.Size(127, 27)
@@ -501,6 +512,7 @@ Partial Class rptMultipleDeductionReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -541,5 +553,6 @@ Partial Class rptMultipleDeductionReport
     Friend WithEvents chkItemWise As RadCheckBox
     Friend WithEvents TxtItem As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents btnPrint As RadButton
 End Class
 

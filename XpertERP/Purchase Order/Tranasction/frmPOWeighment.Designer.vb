@@ -22,12 +22,19 @@ Partial Class frmPOWeighment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.IsAutoWeighment = New System.Windows.Forms.CheckBox()
         Me.lblCode = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RGBUpdate = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtNetWeight = New common.MyNumBox()
+        Me.txtExtraWeight = New common.MyNumBox()
+        Me.lblExtraWeight = New common.Controls.MyLabel()
+        Me.lblNetWeight = New common.Controls.MyLabel()
+        Me.btnUpdateToSRN = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdateWeighment = New Telerik.WinControls.UI.RadButton()
         Me.txtGRNDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.lblGDShipToLocationName = New common.Controls.MyLabel()
@@ -60,13 +67,6 @@ Partial Class frmPOWeighment
         Me.BtnPost = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.UcWeighing1 = New XpertERPEngine.ucWeighing()
-        Me.RGBUpdate = New Telerik.WinControls.UI.RadGroupBox()
-        Me.btnUpdateWeighment = New Telerik.WinControls.UI.RadButton()
-        Me.btnUpdateToSRN = New Telerik.WinControls.UI.RadButton()
-        Me.lblNetWeight = New common.Controls.MyLabel()
-        Me.lblExtraWeight = New common.Controls.MyLabel()
-        Me.txtExtraWeight = New common.MyNumBox()
-        Me.txtNetWeight = New common.MyNumBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -76,6 +76,14 @@ Partial Class frmPOWeighment
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RGBUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RGBUpdate.SuspendLayout()
+        CType(Me.txtNetWeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtExtraWeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblExtraWeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblNetWeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdateToSRN, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdateWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGRNDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblGDShipToLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -106,14 +114,6 @@ Partial Class frmPOWeighment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RGBUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RGBUpdate.SuspendLayout()
-        CType(Me.btnUpdateWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdateToSRN, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblNetWeight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblExtraWeight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtExtraWeight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtNetWeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -152,6 +152,7 @@ Partial Class frmPOWeighment
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.RGBUpdate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.IsAutoWeighment)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblCode)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadGroupBox1)
@@ -196,7 +197,6 @@ Partial Class frmPOWeighment
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.RGBUpdate)
         Me.RadGroupBox1.Controls.Add(Me.txtGRNDate)
         Me.RadGroupBox1.Controls.Add(Me.lblGDShipToLocationName)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel12)
@@ -218,6 +218,117 @@ Partial Class frmPOWeighment
         Me.RadGroupBox1.Size = New System.Drawing.Size(546, 134)
         Me.RadGroupBox1.TabIndex = 5
         Me.RadGroupBox1.Text = "GRN Details"
+        '
+        'RGBUpdate
+        '
+        Me.RGBUpdate.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RGBUpdate.Controls.Add(Me.txtNetWeight)
+        Me.RGBUpdate.Controls.Add(Me.txtExtraWeight)
+        Me.RGBUpdate.Controls.Add(Me.lblExtraWeight)
+        Me.RGBUpdate.Controls.Add(Me.lblNetWeight)
+        Me.RGBUpdate.Controls.Add(Me.btnUpdateToSRN)
+        Me.RGBUpdate.Controls.Add(Me.btnUpdateWeighment)
+        Me.RGBUpdate.HeaderText = "Update"
+        Me.RGBUpdate.Location = New System.Drawing.Point(300, 3)
+        Me.RGBUpdate.Name = "RGBUpdate"
+        Me.RGBUpdate.Size = New System.Drawing.Size(252, 131)
+        Me.RGBUpdate.TabIndex = 1041
+        Me.RGBUpdate.Text = "Update"
+        Me.RGBUpdate.Visible = False
+        '
+        'txtNetWeight
+        '
+        Me.txtNetWeight.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtNetWeight.CalculationExpression = Nothing
+        Me.txtNetWeight.DecimalPlaces = 3
+        Me.txtNetWeight.FieldCode = Nothing
+        Me.txtNetWeight.FieldDesc = Nothing
+        Me.txtNetWeight.FieldMaxLength = 0
+        Me.txtNetWeight.FieldName = Nothing
+        Me.txtNetWeight.isCalculatedField = False
+        Me.txtNetWeight.IsSourceFromTable = False
+        Me.txtNetWeight.IsSourceFromValueList = False
+        Me.txtNetWeight.IsUnique = False
+        Me.txtNetWeight.Location = New System.Drawing.Point(90, 58)
+        Me.txtNetWeight.MendatroryField = True
+        Me.txtNetWeight.MyLinkLable1 = Nothing
+        Me.txtNetWeight.MyLinkLable2 = Nothing
+        Me.txtNetWeight.Name = "txtNetWeight"
+        Me.txtNetWeight.ReferenceFieldDesc = Nothing
+        Me.txtNetWeight.ReferenceFieldName = Nothing
+        Me.txtNetWeight.ReferenceTableName = Nothing
+        Me.txtNetWeight.Size = New System.Drawing.Size(146, 20)
+        Me.txtNetWeight.TabIndex = 13
+        Me.txtNetWeight.Text = "0"
+        Me.txtNetWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtNetWeight.Value = 0R
+        '
+        'txtExtraWeight
+        '
+        Me.txtExtraWeight.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtExtraWeight.CalculationExpression = Nothing
+        Me.txtExtraWeight.DecimalPlaces = 3
+        Me.txtExtraWeight.FieldCode = Nothing
+        Me.txtExtraWeight.FieldDesc = Nothing
+        Me.txtExtraWeight.FieldMaxLength = 0
+        Me.txtExtraWeight.FieldName = Nothing
+        Me.txtExtraWeight.isCalculatedField = False
+        Me.txtExtraWeight.IsSourceFromTable = False
+        Me.txtExtraWeight.IsSourceFromValueList = False
+        Me.txtExtraWeight.IsUnique = False
+        Me.txtExtraWeight.Location = New System.Drawing.Point(90, 35)
+        Me.txtExtraWeight.MendatroryField = True
+        Me.txtExtraWeight.MyLinkLable1 = Nothing
+        Me.txtExtraWeight.MyLinkLable2 = Nothing
+        Me.txtExtraWeight.Name = "txtExtraWeight"
+        Me.txtExtraWeight.ReferenceFieldDesc = Nothing
+        Me.txtExtraWeight.ReferenceFieldName = Nothing
+        Me.txtExtraWeight.ReferenceTableName = Nothing
+        Me.txtExtraWeight.Size = New System.Drawing.Size(146, 20)
+        Me.txtExtraWeight.TabIndex = 12
+        Me.txtExtraWeight.Text = "0"
+        Me.txtExtraWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtExtraWeight.Value = 0R
+        '
+        'lblExtraWeight
+        '
+        Me.lblExtraWeight.FieldName = Nothing
+        Me.lblExtraWeight.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblExtraWeight.Location = New System.Drawing.Point(18, 35)
+        Me.lblExtraWeight.Name = "lblExtraWeight"
+        Me.lblExtraWeight.Size = New System.Drawing.Size(71, 16)
+        Me.lblExtraWeight.TabIndex = 11
+        Me.lblExtraWeight.Text = "Extra Weight"
+        '
+        'lblNetWeight
+        '
+        Me.lblNetWeight.FieldName = Nothing
+        Me.lblNetWeight.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblNetWeight.Location = New System.Drawing.Point(18, 61)
+        Me.lblNetWeight.Name = "lblNetWeight"
+        Me.lblNetWeight.Size = New System.Drawing.Size(62, 16)
+        Me.lblNetWeight.TabIndex = 10
+        Me.lblNetWeight.Text = "Net Weight"
+        '
+        'btnUpdateToSRN
+        '
+        Me.btnUpdateToSRN.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdateToSRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateToSRN.Location = New System.Drawing.Point(136, 94)
+        Me.btnUpdateToSRN.Name = "btnUpdateToSRN"
+        Me.btnUpdateToSRN.Size = New System.Drawing.Size(100, 21)
+        Me.btnUpdateToSRN.TabIndex = 2
+        Me.btnUpdateToSRN.Text = "Update To SRN"
+        '
+        'btnUpdateWeighment
+        '
+        Me.btnUpdateWeighment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdateWeighment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateWeighment.Location = New System.Drawing.Point(18, 94)
+        Me.btnUpdateWeighment.Name = "btnUpdateWeighment"
+        Me.btnUpdateWeighment.Size = New System.Drawing.Size(100, 21)
+        Me.btnUpdateWeighment.TabIndex = 1
+        Me.btnUpdateWeighment.Text = "Update"
         '
         'txtGRNDate
         '
@@ -574,7 +685,7 @@ Partial Class frmPOWeighment
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -645,117 +756,6 @@ Partial Class frmPOWeighment
         Me.UcWeighing1.Size = New System.Drawing.Size(922, 64)
         Me.UcWeighing1.TabIndex = 1
         '
-        'RGBUpdate
-        '
-        Me.RGBUpdate.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RGBUpdate.Controls.Add(Me.txtNetWeight)
-        Me.RGBUpdate.Controls.Add(Me.txtExtraWeight)
-        Me.RGBUpdate.Controls.Add(Me.lblExtraWeight)
-        Me.RGBUpdate.Controls.Add(Me.lblNetWeight)
-        Me.RGBUpdate.Controls.Add(Me.btnUpdateToSRN)
-        Me.RGBUpdate.Controls.Add(Me.btnUpdateWeighment)
-        Me.RGBUpdate.HeaderText = "Update"
-        Me.RGBUpdate.Location = New System.Drawing.Point(298, 3)
-        Me.RGBUpdate.Name = "RGBUpdate"
-        Me.RGBUpdate.Size = New System.Drawing.Size(252, 131)
-        Me.RGBUpdate.TabIndex = 1041
-        Me.RGBUpdate.Text = "Update"
-        Me.RGBUpdate.Visible = False
-        '
-        'btnUpdateWeighment
-        '
-        Me.btnUpdateWeighment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateWeighment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateWeighment.Location = New System.Drawing.Point(18, 94)
-        Me.btnUpdateWeighment.Name = "btnUpdateWeighment"
-        Me.btnUpdateWeighment.Size = New System.Drawing.Size(100, 21)
-        Me.btnUpdateWeighment.TabIndex = 1
-        Me.btnUpdateWeighment.Text = "Update"
-        '
-        'btnUpdateToSRN
-        '
-        Me.btnUpdateToSRN.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateToSRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateToSRN.Location = New System.Drawing.Point(136, 94)
-        Me.btnUpdateToSRN.Name = "btnUpdateToSRN"
-        Me.btnUpdateToSRN.Size = New System.Drawing.Size(100, 21)
-        Me.btnUpdateToSRN.TabIndex = 2
-        Me.btnUpdateToSRN.Text = "Update To SRN"
-        '
-        'lblNetWeight
-        '
-        Me.lblNetWeight.FieldName = Nothing
-        Me.lblNetWeight.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblNetWeight.Location = New System.Drawing.Point(18, 61)
-        Me.lblNetWeight.Name = "lblNetWeight"
-        Me.lblNetWeight.Size = New System.Drawing.Size(62, 16)
-        Me.lblNetWeight.TabIndex = 10
-        Me.lblNetWeight.Text = "Net Weight"
-        '
-        'lblExtraWeight
-        '
-        Me.lblExtraWeight.FieldName = Nothing
-        Me.lblExtraWeight.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblExtraWeight.Location = New System.Drawing.Point(18, 35)
-        Me.lblExtraWeight.Name = "lblExtraWeight"
-        Me.lblExtraWeight.Size = New System.Drawing.Size(71, 16)
-        Me.lblExtraWeight.TabIndex = 11
-        Me.lblExtraWeight.Text = "Extra Weight"
-        '
-        'txtExtraWeight
-        '
-        Me.txtExtraWeight.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtExtraWeight.CalculationExpression = Nothing
-        Me.txtExtraWeight.DecimalPlaces = 3
-        Me.txtExtraWeight.FieldCode = Nothing
-        Me.txtExtraWeight.FieldDesc = Nothing
-        Me.txtExtraWeight.FieldMaxLength = 0
-        Me.txtExtraWeight.FieldName = Nothing
-        Me.txtExtraWeight.isCalculatedField = False
-        Me.txtExtraWeight.IsSourceFromTable = False
-        Me.txtExtraWeight.IsSourceFromValueList = False
-        Me.txtExtraWeight.IsUnique = False
-        Me.txtExtraWeight.Location = New System.Drawing.Point(90, 35)
-        Me.txtExtraWeight.MendatroryField = True
-        Me.txtExtraWeight.MyLinkLable1 = Nothing
-        Me.txtExtraWeight.MyLinkLable2 = Nothing
-        Me.txtExtraWeight.Name = "txtExtraWeight"
-        Me.txtExtraWeight.ReferenceFieldDesc = Nothing
-        Me.txtExtraWeight.ReferenceFieldName = Nothing
-        Me.txtExtraWeight.ReferenceTableName = Nothing
-        Me.txtExtraWeight.Size = New System.Drawing.Size(146, 20)
-        Me.txtExtraWeight.TabIndex = 12
-        Me.txtExtraWeight.Text = "0"
-        Me.txtExtraWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtExtraWeight.Value = 0R
-        '
-        'txtNetWeight
-        '
-        Me.txtNetWeight.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtNetWeight.CalculationExpression = Nothing
-        Me.txtNetWeight.DecimalPlaces = 3
-        Me.txtNetWeight.FieldCode = Nothing
-        Me.txtNetWeight.FieldDesc = Nothing
-        Me.txtNetWeight.FieldMaxLength = 0
-        Me.txtNetWeight.FieldName = Nothing
-        Me.txtNetWeight.isCalculatedField = False
-        Me.txtNetWeight.IsSourceFromTable = False
-        Me.txtNetWeight.IsSourceFromValueList = False
-        Me.txtNetWeight.IsUnique = False
-        Me.txtNetWeight.Location = New System.Drawing.Point(90, 58)
-        Me.txtNetWeight.MendatroryField = True
-        Me.txtNetWeight.MyLinkLable1 = Nothing
-        Me.txtNetWeight.MyLinkLable2 = Nothing
-        Me.txtNetWeight.Name = "txtNetWeight"
-        Me.txtNetWeight.ReferenceFieldDesc = Nothing
-        Me.txtNetWeight.ReferenceFieldName = Nothing
-        Me.txtNetWeight.ReferenceTableName = Nothing
-        Me.txtNetWeight.Size = New System.Drawing.Size(146, 20)
-        Me.txtNetWeight.TabIndex = 13
-        Me.txtNetWeight.Text = "0"
-        Me.txtNetWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNetWeight.Value = 0R
-        '
         'frmPOWeighment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -780,6 +780,15 @@ Partial Class frmPOWeighment
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.RGBUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RGBUpdate.ResumeLayout(False)
+        Me.RGBUpdate.PerformLayout()
+        CType(Me.txtNetWeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtExtraWeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblExtraWeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblNetWeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdateToSRN, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdateWeighment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGRNDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblGDShipToLocationName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -810,15 +819,6 @@ Partial Class frmPOWeighment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RGBUpdate, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RGBUpdate.ResumeLayout(False)
-        Me.RGBUpdate.PerformLayout()
-        CType(Me.btnUpdateWeighment, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdateToSRN, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblNetWeight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblExtraWeight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtExtraWeight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtNetWeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
