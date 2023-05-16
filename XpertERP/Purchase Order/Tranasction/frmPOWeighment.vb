@@ -728,10 +728,10 @@ Public Class frmPOWeighment
                             ,(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then sum(TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight) else max(TSPL_PO_WEIGHTMENT_HEAD.Out_Gross_Weight) end) as Gross_Weight 
                             ,(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then sum(TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight) else max(TSPL_PO_WEIGHTMENT_HEAD.Out_Tare_Weight) end) AS Tare_Weight 
                             ,(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then sum(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) else max(TSPL_PO_WEIGHTMENT_HEAD.Out_Net_Weight) end) as Net_Weight
-                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then  FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Weight_Date,'dd/MMM/yyyy')  end) as In_Date 
-                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,'hh:mm:ss tt')  else FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Weight_Date,'hh:mm:ss tt') end) as In_Time 
-                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Out_Tare_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Out_Gross_Date,'dd/MMM/yyyy')  end) as Out_Date 
-                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Out_Tare_Date,'hh:mm:ss tt')  else FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Out_Gross_Date,'hh:mm:ss tt')  end) as Out_Time 
+                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then  FORMAT(TSPL_GRN_HEAD.GRN_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_GRN_HEAD.GRN_Date,'dd/mmm/yyyy')  end) as In_Date 
+                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_GRN_HEAD.GRN_Date,'hh:mm:ss tt')  else FORMAT(TSPL_GRN_HEAD.GRN_Date,'hh:mm:ss tt') end) as In_Time  
+                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'dd/MMM/yyyy')  end) as Out_Date 
+                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'hh:mm:ss tt')  else FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'hh:mm:ss tt')  end) as Out_Time 
                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then TSPL_GRN_HEAD.Vendor_Code else TSPL_PO_WEIGHTMENT_HEAD.Out_Party end) as Vendor_Code 
                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then TSPL_GRN_HEAD.Vendor_Name else TSPL_PO_WEIGHTMENT_HEAD.Out_Party end) as Vendor_Name 
                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then TSPL_GRN_HEAD.VehicleNo else TSPL_PO_WEIGHTMENT_HEAD.Out_VehicleNo end) as VehicleNo 
