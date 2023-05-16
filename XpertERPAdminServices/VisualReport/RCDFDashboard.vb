@@ -401,7 +401,7 @@ where TSPL_ITEM_MASTER.ITEM_CODE in ('FG0002','FG0003','FG0001')
         Try
             If dtFinishGoods Is Nothing OrElse dtFinishGoods.Rows.Count <= 0 Then
                 Dim sQuery As String = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(GrpName) as GrpName,Sum(Quantity)/1000 As Quantity from (
-select Document_Date as GrpMonth,price_CodeNon as GrpCode,price_CodeNon as GrpName,Qty as Quantity   from (
+select  convert(date, Document_Date,103) as GrpMonth,price_CodeNon as GrpCode,price_CodeNon as GrpName,Qty as Quantity   from (
 select TSPL_SD_SALE_INVOICE_HEAD.Document_Date,
 CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION','GOVTCR','GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon else 'OTHER' end as price_CodeNon,
 (TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Qty
@@ -416,7 +416,7 @@ WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >='" + clsCommon.GetPrintDate(cls
                     sQuery += " and TSPL_SD_SALE_INVOICE_DETAIL.Location='" + txtLocation.Value + "' "
                 End If
                 sQuery += " union
-select convert(date, thedate,103) as PROD_DATE,TSPL_CUSTOMER_MASTER.price_CodeNon,0 as Qty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),(select price_CodeNon from TSPL_CUSTOMER_MASTER where len(price_CodeNon)>0 group by price_CodeNon) as TSPL_CUSTOMER_MASTER
+select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION','GOVTCR','GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon else 'OTHER' end as price_CodeNon,0 as Qty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),(select price_CodeNon from TSPL_CUSTOMER_MASTER where len(price_CodeNon)>0 group by price_CodeNon) as TSPL_CUSTOMER_MASTER
 )x 
 )xxxxx Group by GrpMonth,GrpCode order by GrpMonth "
                 dtFinishGoods = clsDBFuncationality.GetDataTable(sQuery)
