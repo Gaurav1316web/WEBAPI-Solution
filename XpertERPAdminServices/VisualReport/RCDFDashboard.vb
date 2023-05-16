@@ -6,6 +6,8 @@ Public Class RCDFDashboard
 #Region "Varibales"
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim btnReferesh As Boolean = False
+
+    Dim dtFinishGoods As DataTable = Nothing
     Dim dtProduction As DataTable = Nothing
 #End Region
 
@@ -25,6 +27,9 @@ Public Class RCDFDashboard
         AddHandler cvProdution.ChartElement.LegendElement.VisualItemCreating, AddressOf LegendElement_VisualItemCreating
         gvProdution.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
 
+        AddHandler cvFinishGoods.ChartElement.LegendElement.VisualItemCreating, AddressOf LegendElement_VisualItemCreating
+        gvFinishGoods.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
+
         'cvZone.Views.AddNew()
         'Dim controllerZone As New DrillDownController()
         'cvZone.Controllers.Add(controllerZone)
@@ -38,15 +43,31 @@ Public Class RCDFDashboard
     Private Sub SetFromData()
         txtFromDate.Value = txtToDate.Value.AddDays(-9)
     End Sub
+    Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
+        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+        Dim WhrCls As String = " Location_Type='Physical'  "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
+        txtLocation.Value = clsCommon.ShowSelectForm("VMasterFND", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
+
+    End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub
     Sub Reset()
+        dtFinishGoods = Nothing
+        gvFinishGoods.DataSource = Nothing
+        gvFinishGoods.Rows.Clear()
+        gvFinishGoods.Columns.Clear()
+        cvFinishGoods.Series.Clear()
+
         dtProduction = Nothing
         gvProdution.DataSource = Nothing
         gvProdution.Rows.Clear()
         gvProdution.Columns.Clear()
         cvProdution.Series.Clear()
+
         EnableDisableCntrl(True)
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
@@ -59,7 +80,7 @@ Public Class RCDFDashboard
 
             ii += 1
             clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (Total)), "Loading  FINISH GOODS Data..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Total) & "")
-            Load_Report_FinishGoods()
+            Load_Report_Finish_Goods()
 
             ii += 1
             clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (Total)), "Loading PRODUCTION Data..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Total) & "")
@@ -164,6 +185,7 @@ Public Class RCDFDashboard
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
     Public Sub Load_Report_PRODUCTION()
         Try
             If dtProduction Is Nothing OrElse dtProduction.Rows.Count <= 0 Then
@@ -238,15 +260,6 @@ where TSPL_ITEM_MASTER.ITEM_CODE in ('FG0002','FG0003','FG0001')
                 smartLabelsController.Strategy = strategy
                 cvProdution.ChartElement.BackColor = System.Drawing.Color.FromArgb(0, 67, 138)
 
-                'cvProdution.ChartElement.LegendElement.TitleElement.ForeColor = Color.WhiteSmoke
-                'cvProdution.ChartElement.LegendElement.ForeColor = Color.WhiteSmoke
-                ''cvProdution.ChartElement.LegendElement.ForeColor = Color.WhiteSmoke
-                'cvProdution.ChartElement.LegendElement.DrawBorder = True
-                'cvProdution.ChartElement.LegendElement.LegendTitle = "Legend"
-
-
-
-
 
                 gvProdution.DataSource = Nothing
                 gvProdution.Columns.Clear()
@@ -321,20 +334,14 @@ where TSPL_ITEM_MASTER.ITEM_CODE in ('FG0002','FG0003','FG0001')
                 For ii As Integer = 0 To gvProdution.Columns.Count - 1
                     gvProdution.Columns(ii).ReadOnly = True
                     gvProdution.Columns(ii).IsVisible = True
+                    gvProdution.Columns(ii).Width = 150
                 Next
-
-
-                '
-                gvProdution.BestFitColumns()
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
 
     End Sub
-
-
-
     Private Sub gvProdution_RowFormatting(sender As Object, e As RowFormattingEventArgs) Handles gvProdution.RowFormatting
         Try
             e.RowElement.DrawFill = True
@@ -344,7 +351,6 @@ where TSPL_ITEM_MASTER.ITEM_CODE in ('FG0002','FG0003','FG0001')
         Catch ex As Exception
         End Try
     End Sub
-
     Private Sub gvProdution_ViewCellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gvProdution.ViewCellFormatting
         Try
             e.CellElement.DrawFill = True
@@ -390,15 +396,191 @@ where TSPL_ITEM_MASTER.ITEM_CODE in ('FG0002','FG0003','FG0001')
             End If
         Next
     End Sub
-    Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = " Location_Type='Physical'  "
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-        End If
-        txtLocation.Value = clsCommon.ShowSelectForm("VMasterFND", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
+
+    Public Sub Load_Report_Finish_Goods()
+        Try
+            If dtFinishGoods Is Nothing OrElse dtFinishGoods.Rows.Count <= 0 Then
+                Dim sQuery As String = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(GrpName) as GrpName,Sum(Quantity)/1000 As Quantity from (
+select Document_Date as GrpMonth,price_CodeNon as GrpCode,price_CodeNon as GrpName,Qty as Quantity   from (
+select TSPL_SD_SALE_INVOICE_HEAD.Document_Date,
+CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION','GOVTCR','GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon else 'OTHER' end as price_CodeNon,
+(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Qty
+from TSPL_SD_SALE_INVOICE_DETAIL
+left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
+left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code
+LEFT JOIN  TSPL_ITEM_UOM_DETAIL ON  TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code 
+AND TSPL_ITEM_UOM_DETAIL.UOM_Code= TSPL_SD_SALE_INVOICE_DETAIL.Unit_code
+WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
+                    sQuery += " and TSPL_SD_SALE_INVOICE_DETAIL.Location='" + txtLocation.Value + "' "
+                End If
+                sQuery += " union
+select convert(date, thedate,103) as PROD_DATE,TSPL_CUSTOMER_MASTER.price_CodeNon,0 as Qty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),(select price_CodeNon from TSPL_CUSTOMER_MASTER where len(price_CodeNon)>0 group by price_CodeNon) as TSPL_CUSTOMER_MASTER
+)x 
+)xxxxx Group by GrpMonth,GrpCode order by GrpMonth "
+                dtFinishGoods = clsDBFuncationality.GetDataTable(sQuery)
+            End If
+
+            If dtFinishGoods IsNot Nothing AndAlso dtFinishGoods.Rows.Count > 0 Then
+                cvFinishGoods.Area.View.Palette = New CustomPalette()
+                Dim CartesianArea1 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+                cvFinishGoods.AreaDesign = CartesianArea1
+                cvFinishGoods.Series.Clear()
+                Dim strValue As String = "Quantity"
+
+                Dim ds As DataSet = New DataSet
+                Dim arrLegend As New List(Of String)
+                For ii As Integer = 0 To dtFinishGoods.Rows.Count - 1
+                    If Not arrLegend.Contains(clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpCode"))) Then
+                        Dim dtNew As New DataTable
+                        dtNew.TableName = clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpName"))
+                        dtNew.Columns.Add("Name", GetType(String))
+                        dtNew.Columns.Add("Value", GetType(Decimal))
+                        arrLegend.Add(clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpCode")))
+                        ds.Tables.Add(dtNew)
+                    End If
+
+                    Dim drTS As DataRow = ds.Tables(clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpName"))).NewRow()
+                    drTS("Name") = dtFinishGoods.Rows(ii)("GrpMonth")
+                    drTS("Value") = dtFinishGoods.Rows(ii)(strValue)
+                    ds.Tables(clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpName"))).Rows.Add(drTS)
+                Next
+
+                cvFinishGoods.ShowTitle = True
+                cvFinishGoods.ChartElement.TitlePosition = TitlePosition.Top
+                cvFinishGoods.ChartElement.TitleElement.TextAlignment = ContentAlignment.MiddleCenter
+                cvFinishGoods.ChartElement.TitleElement.ForeColor = Color.WhiteSmoke
+
+                cvFinishGoods.Title = "PRODUCTION CHART"
+
+                Dim smartLabelsController As New SmartLabelsController()
+                cvFinishGoods.Controllers.Add(smartLabelsController)
+                cvFinishGoods.ShowSmartLabels = True
+
+                Dim strategy As SmartLabelsStrategyBase = Nothing
+                cvFinishGoods.AreaType = ChartAreaType.Cartesian
+                strategy = New VerticalAdjusmentLabelsStrategy()
+
+                cvFinishGoods.DataSource = ds
+
+                For ii As Integer = 0 To ds.Tables.Count - 1
+                    Dim barSeries As New BarSeries("Value", "Name")
+                    barSeries.DataMember = ds.Tables(ii).TableName
+                    barSeries.LegendTitle = ds.Tables(ii).TableName
+                    cvFinishGoods.Series.Add(barSeries)
+                Next
+                cvFinishGoods.ShowLegend = True
+                setOrientation(cvFinishGoods, "Vertical", 0)
+                smartLabelsController.Strategy = strategy
+                cvFinishGoods.ChartElement.BackColor = System.Drawing.Color.FromArgb(0, 67, 138)
+
+
+                gvFinishGoods.DataSource = Nothing
+                gvFinishGoods.Columns.Clear()
+                gvFinishGoods.Rows.Clear()
+                gvFinishGoods.GroupDescriptors.Clear()
+                gvFinishGoods.MasterTemplate.SummaryRowsBottom.Clear()
+                gvFinishGoods.ShowGroupPanel = False
+                gvFinishGoods.EnableFiltering = False
+                gvFinishGoods.AllowAddNewRow = False
+
+                gvFinishGoods.GroupDescriptors.Clear()
+                gvFinishGoods.TableElement.TableHeaderHeight = 40
+                gvFinishGoods.MasterTemplate.ShowRowHeaderColumn = False
+
+
+
+
+                Dim repoComplete As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+                repoComplete.FormatString = ""
+                repoComplete.HeaderText = ""
+                'repoComplete.Width = 70
+                repoComplete.Name = "GrpCode"
+                repoComplete.ReadOnly = True
+                repoComplete.IsVisible = False
+                gvFinishGoods.MasterTemplate.Columns.Add(repoComplete)
+                Dim arrColumn As New Dictionary(Of String, Integer)
+                Dim arrRow As New Dictionary(Of String, Integer)
+
+                Dim repoRate As GridViewDecimalColumn
+                For ii As Integer = 0 To dtFinishGoods.Rows.Count - 1
+                    If Not arrColumn.ContainsKey(clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpCode"))) Then
+                        repoRate = New GridViewDecimalColumn()
+                        repoRate.FormatString = ""
+                        repoRate.HeaderText = clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpName"))
+                        repoRate.Name = clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpCode"))
+                        'repoRate.Width = 80
+                        repoRate.Minimum = 0
+                        repoRate.FormatString = "{0:n2}"
+                        repoRate.DecimalPlaces = 2
+                        repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                        gvFinishGoods.MasterTemplate.Columns.Add(repoRate)
+
+                        arrColumn.Add(clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpCode")), gvFinishGoods.Columns.Count - 1)
+                    End If
+
+
+                    If Not arrRow.ContainsKey(clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpMonth"))) Then
+                        gvFinishGoods.Rows.AddNew()
+                        gvFinishGoods.Rows(gvFinishGoods.Rows.Count - 1).Cells("GrpCode").Value = clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpMonth"))
+                        arrRow.Add(clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpMonth")), gvFinishGoods.Rows.Count - 1)
+                    End If
+                    gvFinishGoods.Rows(arrRow.Item(clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpMonth")))).Cells(arrColumn.Item(clsCommon.myCstr(dtFinishGoods.Rows(ii)("GrpCode")))).Value = clsCommon.myCdbl(dtFinishGoods.Rows(ii)(strValue))
+                Next
+
+                repoRate = New GridViewDecimalColumn()
+                repoRate.FormatString = ""
+                repoRate.HeaderText = "Total"
+                repoRate.Name = "Total"
+                repoRate.Width = 100
+                repoRate.Minimum = 0
+                repoRate.FormatString = "{0:n2}"
+                'repoRate.DecimalPlaces = 2
+                repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                gvFinishGoods.MasterTemplate.Columns.Add(repoRate)
+
+                For jj As Integer = 0 To gvFinishGoods.Rows.Count - 1
+                    For ii As Integer = 1 To gvFinishGoods.Columns.Count - 2
+                        gvFinishGoods.Rows(jj).Cells("Total").Value = clsCommon.myCDecimal(gvFinishGoods.Rows(jj).Cells("Total").Value) + clsCommon.myCDecimal(gvFinishGoods.Rows(jj).Cells(ii).Value)
+                    Next
+                Next
+
+                For ii As Integer = 0 To gvFinishGoods.Columns.Count - 1
+                    gvFinishGoods.Columns(ii).ReadOnly = True
+                    gvFinishGoods.Columns(ii).IsVisible = True
+                    gvFinishGoods.Columns(ii).Width = 150
+                Next
+
+
+                '
+                'gvFinishGoods.BestFitColumns()
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
 
     End Sub
+
+    Private Sub gvFinishGoods_RowFormatting(sender As Object, e As RowFormattingEventArgs) Handles gvFinishGoods.RowFormatting
+        Try
+            e.RowElement.DrawFill = True
+            e.RowElement.GradientStyle = GradientStyles.Solid
+            e.RowElement.BackColor = System.Drawing.Color.FromArgb(0, 67, 138)
+            e.RowElement.ForeColor = Color.MintCream
+        Catch ex As Exception
+        End Try
+    End Sub
+    Private Sub gvFinishGoods_ViewCellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gvFinishGoods.ViewCellFormatting
+        Try
+            e.CellElement.DrawFill = True
+            e.CellElement.GradientStyle = GradientStyles.Solid
+            e.CellElement.BackColor = System.Drawing.Color.FromArgb(0, 67, 138)
+            e.CellElement.ForeColor = Color.MintCream
+        Catch ex As Exception
+        End Try
+    End Sub
+
 
     Public Class CustomLegendItemElement
         Inherits LegendItemElement
@@ -417,175 +599,6 @@ where TSPL_ITEM_MASTER.ITEM_CODE in ('FG0002','FG0003','FG0001')
     End Class
     Private Sub LegendElement_VisualItemCreating(sender As Object, e As LegendItemElementCreatingEventArgs)
         e.ItemElement = New CustomLegendItemElement(e.LegendItem)
-    End Sub
-
-    Public Sub Load_Report_Finish_Goods()
-        Try
-            If dtProduction Is Nothing OrElse dtProduction.Rows.Count <= 0 Then
-                Dim sQuery As String = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(GrpName) as GrpName,Sum(Quantity)/1000 As Quantity from ( 
-select PROD_DATE as GrpMonth,ITEM_CODE as GrpCode,Short_Description as GrpName,FINAL_PRODUCTION_QTY as Quantity   from (
-SELECT   TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,TSPL_ITEM_MASTER.Short_Description,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY
-FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL
-LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-left outer join TSPL_ITEM_MASTER on  TSPL_ITEM_MASTER.item_code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-WHERE CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  and TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE in ('FG0002','FG0003','FG0001')"
-                If clsCommon.myLen(txtLocation.Value) > 0 Then
-                    sQuery += " and TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE='" + txtLocation.Value + "' "
-                End If
-                sQuery += " union
-                select convert(date, thedate,103) as PROD_DATE,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Short_Description,0 as FINAL_PRODUCTION_QTY from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),TSPL_ITEM_MASTER
-where TSPL_ITEM_MASTER.ITEM_CODE in ('FG0002','FG0003','FG0001')
-                )x
-)xxxxx Group by GrpMonth,GrpCode order by GrpMonth"
-                dtProduction = clsDBFuncationality.GetDataTable(sQuery)
-            End If
-
-            If dtProduction IsNot Nothing AndAlso dtProduction.Rows.Count > 0 Then
-                cvProdution.Area.View.Palette = New CustomPalette()
-                Dim CartesianArea1 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-                cvProdution.AreaDesign = CartesianArea1
-                cvProdution.Series.Clear()
-                Dim strValue As String = "Quantity"
-
-                Dim ds As DataSet = New DataSet
-                Dim arrLegend As New List(Of String)
-                For ii As Integer = 0 To dtProduction.Rows.Count - 1
-                    If Not arrLegend.Contains(clsCommon.myCstr(dtProduction.Rows(ii)("GrpCode"))) Then
-                        Dim dtNew As New DataTable
-                        dtNew.TableName = clsCommon.myCstr(dtProduction.Rows(ii)("GrpName"))
-                        dtNew.Columns.Add("Name", GetType(String))
-                        dtNew.Columns.Add("Value", GetType(Decimal))
-                        arrLegend.Add(clsCommon.myCstr(dtProduction.Rows(ii)("GrpCode")))
-                        ds.Tables.Add(dtNew)
-                    End If
-
-                    Dim drTS As DataRow = ds.Tables(clsCommon.myCstr(dtProduction.Rows(ii)("GrpName"))).NewRow()
-                    drTS("Name") = dtProduction.Rows(ii)("GrpMonth")
-                    drTS("Value") = dtProduction.Rows(ii)(strValue)
-                    ds.Tables(clsCommon.myCstr(dtProduction.Rows(ii)("GrpName"))).Rows.Add(drTS)
-                Next
-
-                cvProdution.ShowTitle = True
-                cvProdution.ChartElement.TitlePosition = TitlePosition.Top
-                cvProdution.ChartElement.TitleElement.TextAlignment = ContentAlignment.MiddleCenter
-                cvProdution.ChartElement.TitleElement.ForeColor = Color.WhiteSmoke
-
-                cvProdution.Title = "PRODUCTION CHART"
-
-                Dim smartLabelsController As New SmartLabelsController()
-                cvProdution.Controllers.Add(smartLabelsController)
-                cvProdution.ShowSmartLabels = True
-
-                Dim strategy As SmartLabelsStrategyBase = Nothing
-                cvProdution.AreaType = ChartAreaType.Cartesian
-                strategy = New VerticalAdjusmentLabelsStrategy()
-
-                cvProdution.DataSource = ds
-
-                For ii As Integer = 0 To ds.Tables.Count - 1
-                    Dim barSeries As New BarSeries("Value", "Name")
-                    barSeries.DataMember = ds.Tables(ii).TableName
-                    barSeries.LegendTitle = ds.Tables(ii).TableName
-                    cvProdution.Series.Add(barSeries)
-                Next
-                cvProdution.ShowLegend = True
-                setOrientation(cvProdution, "Vertical", 0)
-                smartLabelsController.Strategy = strategy
-                cvProdution.ChartElement.BackColor = System.Drawing.Color.FromArgb(0, 67, 138)
-
-                'cvProdution.ChartElement.LegendElement.TitleElement.ForeColor = Color.WhiteSmoke
-                'cvProdution.ChartElement.LegendElement.ForeColor = Color.WhiteSmoke
-                ''cvProdution.ChartElement.LegendElement.ForeColor = Color.WhiteSmoke
-                'cvProdution.ChartElement.LegendElement.DrawBorder = True
-                'cvProdution.ChartElement.LegendElement.LegendTitle = "Legend"
-
-
-
-
-
-                gvProdution.DataSource = Nothing
-                gvProdution.Columns.Clear()
-                gvProdution.Rows.Clear()
-                gvProdution.GroupDescriptors.Clear()
-                gvProdution.MasterTemplate.SummaryRowsBottom.Clear()
-                gvProdution.ShowGroupPanel = False
-                gvProdution.EnableFiltering = False
-                gvProdution.AllowAddNewRow = False
-
-                gvProdution.GroupDescriptors.Clear()
-                gvProdution.TableElement.TableHeaderHeight = 40
-                gvProdution.MasterTemplate.ShowRowHeaderColumn = False
-
-
-
-
-                Dim repoComplete As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-                repoComplete.FormatString = ""
-                repoComplete.HeaderText = ""
-                'repoComplete.Width = 70
-                repoComplete.Name = "GrpCode"
-                repoComplete.ReadOnly = True
-                repoComplete.IsVisible = False
-                gvProdution.MasterTemplate.Columns.Add(repoComplete)
-                Dim arrColumn As New Dictionary(Of String, Integer)
-                Dim arrRow As New Dictionary(Of String, Integer)
-
-                Dim repoRate As GridViewDecimalColumn
-                For ii As Integer = 0 To dtProduction.Rows.Count - 1
-                    If Not arrColumn.ContainsKey(clsCommon.myCstr(dtProduction.Rows(ii)("GrpCode"))) Then
-                        repoRate = New GridViewDecimalColumn()
-                        repoRate.FormatString = ""
-                        repoRate.HeaderText = clsCommon.myCstr(dtProduction.Rows(ii)("GrpName"))
-                        repoRate.Name = clsCommon.myCstr(dtProduction.Rows(ii)("GrpCode"))
-                        'repoRate.Width = 80
-                        repoRate.Minimum = 0
-                        repoRate.FormatString = "{0:n2}"
-                        repoRate.DecimalPlaces = 2
-                        repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-                        gvProdution.MasterTemplate.Columns.Add(repoRate)
-
-                        arrColumn.Add(clsCommon.myCstr(dtProduction.Rows(ii)("GrpCode")), gvProdution.Columns.Count - 1)
-                    End If
-
-
-                    If Not arrRow.ContainsKey(clsCommon.myCstr(dtProduction.Rows(ii)("GrpMonth"))) Then
-                        gvProdution.Rows.AddNew()
-                        gvProdution.Rows(gvProdution.Rows.Count - 1).Cells("GrpCode").Value = clsCommon.myCstr(dtProduction.Rows(ii)("GrpMonth"))
-                        arrRow.Add(clsCommon.myCstr(dtProduction.Rows(ii)("GrpMonth")), gvProdution.Rows.Count - 1)
-                    End If
-                    gvProdution.Rows(arrRow.Item(clsCommon.myCstr(dtProduction.Rows(ii)("GrpMonth")))).Cells(arrColumn.Item(clsCommon.myCstr(dtProduction.Rows(ii)("GrpCode")))).Value = clsCommon.myCdbl(dtProduction.Rows(ii)(strValue))
-                Next
-
-                repoRate = New GridViewDecimalColumn()
-                repoRate.FormatString = ""
-                repoRate.HeaderText = "Total"
-                repoRate.Name = "Total"
-                repoRate.Width = 100
-                repoRate.Minimum = 0
-                repoRate.FormatString = "{0:n2}"
-                'repoRate.DecimalPlaces = 2
-                repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-                gvProdution.MasterTemplate.Columns.Add(repoRate)
-
-                For jj As Integer = 0 To gvProdution.Rows.Count - 1
-                    For ii As Integer = 1 To gvProdution.Columns.Count - 2
-                        gvProdution.Rows(jj).Cells("Total").Value = clsCommon.myCDecimal(gvProdution.Rows(jj).Cells("Total").Value) + clsCommon.myCDecimal(gvProdution.Rows(jj).Cells(ii).Value)
-                    Next
-                Next
-
-                For ii As Integer = 0 To gvProdution.Columns.Count - 1
-                    gvProdution.Columns(ii).ReadOnly = True
-                    gvProdution.Columns(ii).IsVisible = True
-                Next
-
-
-                '
-                gvProdution.BestFitColumns()
-            End If
-        Catch ex As Exception
-            Throw New Exception(ex.Message)
-        End Try
-
     End Sub
 End Class
 
