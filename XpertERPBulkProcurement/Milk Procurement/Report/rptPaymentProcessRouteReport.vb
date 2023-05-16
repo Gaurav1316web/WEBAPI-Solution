@@ -3188,6 +3188,7 @@ select * from CTE left outer join
             dt.Columns.Add(New DataColumn("DetailSNF", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailFATKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailSNFKG", System.Type.GetType("System.Decimal")))
+            dt.Columns.Add(New DataColumn("BMC Temp", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DiffWeight", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DiffFATKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DiffSNFKG", System.Type.GetType("System.Decimal")))
@@ -3245,9 +3246,9 @@ select * from CTE left outer join
                     If dr1 IsNot Nothing AndAlso dr1.Length > 0 Then
                         TempdtMCCDetail = dr1.CopyToDataTable()
 
-                        dt.Rows.Add(DBNull.Value, DBNull.Value, dtMCCHead.Rows(i).Item("Document_No"), dtMCCHead.Rows(i).Item("Temp"), dtMCCHead.Rows(i).Item("Vehicle_No"), Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), Math.Round(dtMCCHead.Rows(i).Item("FAT"), 2), Math.Round(dtMCCHead.Rows(i).Item("SNF"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), TempdtMCCDetail.Rows(0).Item("MCC_NAME"), TempdtMCCDetail.Rows(0).Item("Qty"), TempdtMCCDetail.Rows(0).Item("FAT"), TempdtMCCDetail.Rows(0).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(0).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(0).Item("SNFKG"), 2), DBNull.Value, DBNull.Value, DBNull.Value)
+                        dt.Rows.Add(DBNull.Value, DBNull.Value, dtMCCHead.Rows(i).Item("Document_No"), dtMCCHead.Rows(i).Item("Temp"), dtMCCHead.Rows(i).Item("Vehicle_No"), Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), Math.Round(dtMCCHead.Rows(i).Item("FAT"), 2), Math.Round(dtMCCHead.Rows(i).Item("SNF"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), TempdtMCCDetail.Rows(0).Item("MCC_NAME"), TempdtMCCDetail.Rows(0).Item("Qty"), TempdtMCCDetail.Rows(0).Item("FAT"), TempdtMCCDetail.Rows(0).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(0).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(0).Item("SNFKG"), 2), Math.Round(TempdtMCCDetail.Rows(0).Item("Temp"), 2), DBNull.Value, DBNull.Value)
                         For j As Integer = 1 To TempdtMCCDetail.Rows.Count - 1
-                            dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, TempdtMCCDetail.Rows(j).Item("MCC_NAME"), TempdtMCCDetail.Rows(j).Item("Qty"), TempdtMCCDetail.Rows(j).Item("FAT"), TempdtMCCDetail.Rows(j).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(j).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(j).Item("SNFKG"), 2), DBNull.Value, DBNull.Value, DBNull.Value)
+                            dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, TempdtMCCDetail.Rows(j).Item("MCC_NAME"), TempdtMCCDetail.Rows(j).Item("Qty"), TempdtMCCDetail.Rows(j).Item("FAT"), TempdtMCCDetail.Rows(j).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(j).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(j).Item("SNFKG"), 2), Math.Round(TempdtMCCDetail.Rows(j).Item("Temp"), 2), DBNull.Value, DBNull.Value)
                         Next
 
                         SumQty = Math.Round(clsCommon.myCdbl(TempdtMCCDetail.Compute("SUM([Qty])", " [Qty] is not null")), 2)
@@ -3265,7 +3266,7 @@ select * from CTE left outer join
                             AVGSNF = 0
                         End If
 
-                        dt.Rows.Add(clsCommon.myCstr(i + 1), clsCommon.myCstr(dtMCCHead.Rows(i).Item("Document_Date")), DBNull.Value, DBNull.Value, "Total", Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), DBNull.Value, DBNull.Value, Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), "Total", SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, VariationQty, VariationFATKG, VariationSNFKG)
+                        dt.Rows.Add(clsCommon.myCstr(i + 1), clsCommon.myCstr(dtMCCHead.Rows(i).Item("Document_Date")), DBNull.Value, DBNull.Value, "Total", Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), DBNull.Value, DBNull.Value, Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), "Total", SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, DBNull.Value, VariationQty, VariationFATKG, VariationSNFKG)
 
                     End If
                 Next
@@ -3298,7 +3299,7 @@ select * from CTE left outer join
                 GVariationFATKG = Math.Round(GSumFATKGHead - GSumFATKGDetail, 2)
                 GVariationSNFKG = Math.Round(GSumSNFKGHead - GSumSNFKGDetail, 2)
 
-                dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "G.Total", GSumQtyHead, GAVGFATHead, GAVGSNFHead, GSumFATKGHead, GSumSNFKGHead, "Total", GSumQtyDetail, GAVGFATDetail, GAVGSNFDetail, GSumFATKGDetail, GSumSNFKGDetail, GVariationQty, GVariationFATKG, GVariationSNFKG)
+                dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "G.Total", GSumQtyHead, GAVGFATHead, GAVGSNFHead, GSumFATKGHead, GSumSNFKGHead, "Total", GSumQtyDetail, GAVGFATDetail, GAVGSNFDetail, GSumFATKGDetail, GSumSNFKGDetail, DBNull.Value, GVariationQty, GVariationFATKG, GVariationSNFKG)
             End If
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
@@ -3509,4 +3510,5 @@ select * from CTE left outer join
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
 End Class
