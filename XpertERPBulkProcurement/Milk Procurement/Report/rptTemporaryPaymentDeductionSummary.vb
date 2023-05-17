@@ -58,7 +58,13 @@ Public Class rptTemporaryPaymentDeductionSummary
                 strDocNo = clsCommon.GetMulcallString(arr)
             End If
 
-            Dim strOldDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TOP 1 Doc_No  from TSPL_PAYMENT_PROCESS_head where convert(date,To_Date,103)<=convert(date,('" + ToDate.Value + "'),103) AND TSPL_PAYMENT_PROCESS_head.Doc_No in(" + strDocNo + ") ORDER BY From_Date DESC"))
+            Dim strOldDocNo As String = Nothing
+            If clsCommon.myLen(strDocNo) > 0 Then
+                strOldDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TOP 1 Doc_No  from TSPL_PAYMENT_PROCESS_head where convert(date,To_Date,103)<=convert(date,('" + ToDate.Value + "'),103) AND TSPL_PAYMENT_PROCESS_head.Doc_No in (" + strDocNo + ") ORDER BY From_Date DESC"))
+            Else
+                strDocNo = "''"
+                strOldDocNo = "''"
+            End If
 
             Dim subMCCQry1 As String = Nothing
             Dim subMCCQry2 As String = Nothing
@@ -75,7 +81,7 @@ Public Class rptTemporaryPaymentDeductionSummary
             Dim subQry As String = Nothing
             Dim subDCSQry As String = Nothing
             If chkDCSWise.Checked = True Then
-                subDCSQry = ",Max(VSP_Uploader_Code) as DCSCode,Max(Vendor_NAME) As DCS_Name"
+                subDCSQry = ",Max(VSP_Uploader_Code) as DCSCode,Max(Vendor_NAME) As 'DCS Name'"
                 subQry = ",Final.Vendor_CODE"
             End If
 
@@ -114,7 +120,6 @@ left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_H
 where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 " + subMCCQry1 + "
 and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)<=convert(date,('" + ToDate.Value + "'),103) 
 union all  
-
 select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc
 ,isnull(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,0) as Amount,IsNull(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0) As ReDedctAmt from TSPL_PAYMENT_PROCESS_DEDUCTION 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
