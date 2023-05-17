@@ -49,6 +49,7 @@ Public Class FrmMainTranScreen
     Public ListImpExpColumnsMandatory As List(Of String)
     Public ListImpExpColumnsSuperMandatory As List(Of String)
 
+
 #End Region
     '''' <summary>
 

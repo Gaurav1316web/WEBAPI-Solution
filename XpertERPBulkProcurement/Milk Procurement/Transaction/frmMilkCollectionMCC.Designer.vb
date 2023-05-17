@@ -22,14 +22,15 @@ Partial Class frmMilkCollectionMCC
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.btnAddMissing = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
@@ -86,8 +87,8 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gvParam = New Telerik.WinControls.UI.RadGridView()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.Panel2.SuspendLayout()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddMissing, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -147,7 +148,6 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer2.SuspendLayout()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -169,6 +169,17 @@ Partial Class frmMilkCollectionMCC
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(1093, 31)
         Me.Panel2.TabIndex = 1
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(803, 5)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(125, 22)
+        Me.btnReverse.TabIndex = 42
+        Me.btnReverse.Text = "Reverse and Unpost"
+        Me.btnReverse.Visible = False
         '
         'RadButton2
         '
@@ -283,7 +294,7 @@ Partial Class frmMilkCollectionMCC
         '
         Me.gvTotal.MasterTemplate.AllowDeleteRow = False
         Me.gvTotal.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvTotal.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvTotal.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvTotal.Name = "gvTotal"
         Me.gvTotal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTotal.ShowGroupPanel = False
@@ -546,10 +557,10 @@ Partial Class frmMilkCollectionMCC
         Me.cboFATSNFType.IsSourceFromTable = False
         Me.cboFATSNFType.IsSourceFromValueList = False
         Me.cboFATSNFType.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboFATSNFType.Items.Add(RadListDataItem3)
-        Me.cboFATSNFType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboFATSNFType.Items.Add(RadListDataItem5)
+        Me.cboFATSNFType.Items.Add(RadListDataItem6)
         Me.cboFATSNFType.Location = New System.Drawing.Point(720, 29)
         Me.cboFATSNFType.MendatroryField = True
         Me.cboFATSNFType.MyLinkLable1 = Me.MyLabel1
@@ -634,10 +645,10 @@ Partial Class frmMilkCollectionMCC
         Me.cboLate.IsSourceFromTable = False
         Me.cboLate.IsSourceFromValueList = False
         Me.cboLate.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboLate.Items.Add(RadListDataItem5)
-        Me.cboLate.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboLate.Items.Add(RadListDataItem1)
+        Me.cboLate.Items.Add(RadListDataItem2)
         Me.cboLate.Location = New System.Drawing.Point(525, 27)
         Me.cboLate.MendatroryField = True
         Me.cboLate.MyLinkLable1 = Me.MyLabel2
@@ -1014,7 +1025,7 @@ Partial Class frmMilkCollectionMCC
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1074,24 +1085,13 @@ Partial Class frmMilkCollectionMCC
         '
         Me.gvParam.MasterTemplate.AllowDeleteRow = False
         Me.gvParam.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvParam.Name = "gvParam"
         Me.gvParam.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvParam.ShowGroupPanel = False
         Me.gvParam.Size = New System.Drawing.Size(869, 98)
         Me.gvParam.TabIndex = 3
         Me.gvParam.TabStop = False
-        '
-        'btnReverse
-        '
-        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(803, 5)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(125, 22)
-        Me.btnReverse.TabIndex = 42
-        Me.btnReverse.Text = "Reverse and Unpost"
-        Me.btnReverse.Visible = False
         '
         'frmMilkCollectionMCC
         '
@@ -1110,6 +1110,7 @@ Partial Class frmMilkCollectionMCC
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "MCC Milk Collection"
         Me.Panel2.ResumeLayout(False)
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddMissing, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1170,7 +1171,6 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

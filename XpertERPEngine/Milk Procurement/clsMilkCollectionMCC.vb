@@ -25,6 +25,8 @@ Public Class clsMilkCollectionMCC
     Public Age As Decimal
     Public ALCOB As String
     Public Acidity As Decimal
+    Public txtDate As String
+
 
 
 
