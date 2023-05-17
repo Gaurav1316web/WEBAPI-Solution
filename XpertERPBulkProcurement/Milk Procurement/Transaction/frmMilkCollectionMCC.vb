@@ -2528,5 +2528,37 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
             common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+    Dim intCountDB As Integer = 0
+    Private Sub RadLabel4_DoubleClick(sender As Object, e As EventArgs) Handles RadLabel4.DoubleClick
+        If clsCommon.myLen(txtDocNo.Value) > 0 AndAlso UsLock1.Status = ERPTransactionStatus.Pending Then
+            txtDate.Enabled = True
+            intCountDB += 1
+            If intCountDB = 3 Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    'If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                    '' REASON FOR DELETE 
+                    Dim Reason As String = ""
+                    Dim frm1 As New frmMyDateTimePicker2
+                    frm1.Text = "Update The Date"
+                    frm1.RetValue = Me.txtDate.Value
+
+                    frm1.ShowDialog()
+                    'If clsCommon.myLen(frm1.strRmks) <= 0 Then
+                    '    Exit Sub
+                    'Else
+                    '    Reason = frm1.strRmks
+                    txtDate.Value = frm1.RetValue
+                    frm1.Dispose()
+                    'End If
+
+                End If
+                intCountDB = 0
+            End If
+        End If
+    End Sub
 End Class
 

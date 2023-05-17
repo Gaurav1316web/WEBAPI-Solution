@@ -1312,6 +1312,12 @@
     <Compile Include="WinForm\frmMainTranScreen.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WinForm\frmMyDateTimePicker2.Designer.vb">
+      <DependentUpon>frmMyDateTimePicker2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\frmMyDateTimePicker2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="WinForm\frmPWD.Designer.vb">
       <DependentUpon>frmPWD.vb</DependentUpon>
     </Compile>
@@ -1523,6 +1529,9 @@
     <EmbeddedResource Include="WinForm\frmMainTranScreen.resx">
       <DependentUpon>frmMainTranScreen.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\frmMyDateTimePicker2.resx">
+      <DependentUpon>frmMyDateTimePicker2.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinForm\frmPWD.resx">
       <DependentUpon>frmPWD.vb</DependentUpon>
     </EmbeddedResource>
@@ -1559,6 +1568,7 @@
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.vb</LastGenOutput>
     </None>
+    <None Include="WinForm\Form3.Designer.vbfrmMyDateTimePicker2" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\search4.png" />
