@@ -22,8 +22,8 @@ Partial Class FrmQualityCheckForSRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmQualityCheckForSRN))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -76,6 +76,9 @@ Partial Class FrmQualityCheckForSRN
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.btnRejected = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiEnglish = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiHindi = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnAnalysisPrintVertical = New Telerik.WinControls.UI.RadButton()
         Me.btnAnalysisPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
@@ -138,6 +141,7 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAnalysisPrintVertical, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAnalysisPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -167,6 +171,7 @@ Partial Class FrmQualityCheckForSRN
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnRejected)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnAnalysisPrintVertical)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnAnalysisPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -255,7 +260,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv_MRN.MasterTemplate.AllowDeleteRow = False
         Me.gv_MRN.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_MRN.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv_MRN.Name = "gv_MRN"
         Me.gv_MRN.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_MRN.ShowGroupPanel = False
@@ -293,7 +298,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -985,10 +990,32 @@ Partial Class FrmQualityCheckForSRN
         Me.fromDate.Text = "24/10/2011"
         Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
+        'btnRejected
+        '
+        Me.btnRejected.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRejected.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiEnglish, Me.rmiHindi})
+        Me.btnRejected.Location = New System.Drawing.Point(642, 5)
+        Me.btnRejected.Name = "btnRejected"
+        Me.btnRejected.Size = New System.Drawing.Size(83, 22)
+        Me.btnRejected.TabIndex = 158
+        Me.btnRejected.Text = "Rejected Analysis Print"
+        '
+        'rmiEnglish
+        '
+        Me.rmiEnglish.Name = "rmiEnglish"
+        Me.rmiEnglish.Text = "English"
+        Me.rmiEnglish.UseCompatibleTextRendering = False
+        '
+        'rmiHindi
+        '
+        Me.rmiHindi.Name = "rmiHindi"
+        Me.rmiHindi.Text = "Hindi"
+        Me.rmiHindi.UseCompatibleTextRendering = False
+        '
         'btnAnalysisPrintVertical
         '
         Me.btnAnalysisPrintVertical.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAnalysisPrintVertical.Location = New System.Drawing.Point(549, 5)
+        Me.btnAnalysisPrintVertical.Location = New System.Drawing.Point(524, 5)
         Me.btnAnalysisPrintVertical.Name = "btnAnalysisPrintVertical"
         Me.btnAnalysisPrintVertical.Size = New System.Drawing.Size(116, 22)
         Me.btnAnalysisPrintVertical.TabIndex = 9
@@ -997,7 +1024,7 @@ Partial Class FrmQualityCheckForSRN
         'btnAnalysisPrint
         '
         Me.btnAnalysisPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAnalysisPrint.Location = New System.Drawing.Point(460, 5)
+        Me.btnAnalysisPrint.Location = New System.Drawing.Point(439, 5)
         Me.btnAnalysisPrint.Name = "btnAnalysisPrint"
         Me.btnAnalysisPrint.Size = New System.Drawing.Size(83, 22)
         Me.btnAnalysisPrint.TabIndex = 8
@@ -1006,7 +1033,7 @@ Partial Class FrmQualityCheckForSRN
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(416, 5)
+        Me.btnPrint.Location = New System.Drawing.Point(398, 5)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(39, 22)
         Me.btnPrint.TabIndex = 7
@@ -1015,7 +1042,7 @@ Partial Class FrmQualityCheckForSRN
         'btnSendEmail
         '
         Me.btnSendEmail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSendEmail.Location = New System.Drawing.Point(330, 5)
+        Me.btnSendEmail.Location = New System.Drawing.Point(316, 5)
         Me.btnSendEmail.Name = "btnSendEmail"
         Me.btnSendEmail.Size = New System.Drawing.Size(80, 22)
         Me.btnSendEmail.TabIndex = 6
@@ -1024,7 +1051,7 @@ Partial Class FrmQualityCheckForSRN
         'btnreverse
         '
         Me.btnreverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnreverse.Location = New System.Drawing.Point(671, 4)
+        Me.btnreverse.Location = New System.Drawing.Point(731, 4)
         Me.btnreverse.Name = "btnreverse"
         Me.btnreverse.Size = New System.Drawing.Size(53, 22)
         Me.btnreverse.TabIndex = 5
@@ -1034,7 +1061,7 @@ Partial Class FrmQualityCheckForSRN
         'btnTemplates
         '
         Me.btnTemplates.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnTemplates.Location = New System.Drawing.Point(244, 4)
+        Me.btnTemplates.Location = New System.Drawing.Point(234, 4)
         Me.btnTemplates.Name = "btnTemplates"
         Me.btnTemplates.Size = New System.Drawing.Size(80, 22)
         Me.btnTemplates.TabIndex = 4
@@ -1043,7 +1070,7 @@ Partial Class FrmQualityCheckForSRN
         'btnpost
         '
         Me.btnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnpost.Location = New System.Drawing.Point(163, 4)
+        Me.btnpost.Location = New System.Drawing.Point(157, 4)
         Me.btnpost.Name = "btnpost"
         Me.btnpost.Size = New System.Drawing.Size(75, 22)
         Me.btnpost.TabIndex = 2
@@ -1061,7 +1088,7 @@ Partial Class FrmQualityCheckForSRN
         'btndelete
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Location = New System.Drawing.Point(82, 4)
+        Me.btndelete.Location = New System.Drawing.Point(80, 4)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(75, 22)
         Me.btndelete.TabIndex = 1
@@ -1143,6 +1170,7 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAnalysisPrintVertical, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAnalysisPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1218,5 +1246,8 @@ Partial Class FrmQualityCheckForSRN
     Friend WithEvents btnAnalysisPrintVertical As RadButton
     Friend WithEvents txtRALNo As common.Controls.MyTextBox
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents btnRejected As RadSplitButton
+    Friend WithEvents rmiEnglish As RadMenuItem
+    Friend WithEvents rmiHindi As RadMenuItem
 End Class
 

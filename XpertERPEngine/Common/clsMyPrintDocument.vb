@@ -64,6 +64,10 @@
         args.Graphics.DrawString(Me.LeftLowerText, Me.LeftLowerFont, Brushes.Black, New Rectangle(headerRect.X, headerRect.Y + (headerRect.Height) * 2 / 3, headerRect.Width / 3, headerRect.Height / 3), stringFormat)
         args.Graphics.DrawLine(New Pen(Brushes.Black), headerRect.Location, New Point(headerRect.Location.X + headerRect.Width, headerRect.Location.Y))
     End Sub
+
+    Public Function ContentContainer() As Object
+        Throw New NotImplementedException()
+    End Function
 End Class
 
 
