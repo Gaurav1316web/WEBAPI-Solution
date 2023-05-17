@@ -22,10 +22,12 @@ Partial Class RCDFDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim CartesianArea2 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim CartesianArea3 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim CartesianArea1 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
@@ -39,15 +41,19 @@ Partial Class RCDFDashboard
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.gvFinishGoods = New Telerik.WinControls.UI.RadGridView()
+        Me.cvFinishGoods = New Telerik.WinControls.UI.RadChartView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gvProdution = New Telerik.WinControls.UI.RadGridView()
         Me.cvProdution = New Telerik.WinControls.UI.RadChartView()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
+        Me.gvQuality = New Telerik.WinControls.UI.RadGridView()
+        Me.gvQualitySummary = New Telerik.WinControls.UI.RadGridView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
-        Me.gvFinishGoods = New Telerik.WinControls.UI.RadGridView()
-        Me.cvFinishGoods = New Telerik.WinControls.UI.RadChartView()
+        Me.lblQuality = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -62,6 +68,12 @@ Partial Class RCDFDashboard
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.Attachments.SuspendLayout()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
+        CType(Me.gvFinishGoods, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvFinishGoods.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cvFinishGoods, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
@@ -69,12 +81,15 @@ Partial Class RCDFDashboard
         CType(Me.gvProdution, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvProdution.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cvProdution, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer3.Panel1.SuspendLayout()
-        Me.SplitContainer3.Panel2.SuspendLayout()
-        Me.SplitContainer3.SuspendLayout()
-        CType(Me.gvFinishGoods, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvFinishGoods.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cvFinishGoods, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        Me.SplitContainer4.Panel1.SuspendLayout()
+        Me.SplitContainer4.Panel2.SuspendLayout()
+        Me.SplitContainer4.SuspendLayout()
+        CType(Me.gvQuality, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvQuality.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvQualitySummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvQualitySummary.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblQuality, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -265,7 +280,7 @@ Partial Class RCDFDashboard
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.PageBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(67, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.RadPageView1.SelectedPage = Me.Attachments
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(859, 498)
         Me.RadPageView1.TabIndex = 1
         Me.RadPageView1.ViewMode = Telerik.WinControls.UI.PageViewMode.Backstage
@@ -294,6 +309,47 @@ Partial Class RCDFDashboard
         Me.Attachments.Size = New System.Drawing.Size(850, 434)
         Me.Attachments.Text = "FINISH GOODS"
         Me.Attachments.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.gvFinishGoods)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.cvFinishGoods)
+        Me.SplitContainer3.Size = New System.Drawing.Size(850, 434)
+        Me.SplitContainer3.SplitterDistance = 271
+        Me.SplitContainer3.TabIndex = 1
+        '
+        'gvFinishGoods
+        '
+        Me.gvFinishGoods.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvFinishGoods.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvFinishGoods.Name = "gvFinishGoods"
+        Me.gvFinishGoods.Size = New System.Drawing.Size(850, 271)
+        Me.gvFinishGoods.TabIndex = 6
+        '
+        'cvFinishGoods
+        '
+        Me.cvFinishGoods.AreaDesign = CartesianArea3
+        Me.cvFinishGoods.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.cvFinishGoods.Location = New System.Drawing.Point(0, 0)
+        Me.cvFinishGoods.Name = "cvFinishGoods"
+        Me.cvFinishGoods.ShowGrid = False
+        Me.cvFinishGoods.Size = New System.Drawing.Size(850, 159)
+        Me.cvFinishGoods.TabIndex = 5
         '
         'RadPageViewPage2
         '
@@ -334,14 +390,14 @@ Partial Class RCDFDashboard
         '
         '
         '
-        Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvProdution.Name = "gvProdution"
         Me.gvProdution.Size = New System.Drawing.Size(846, 271)
         Me.gvProdution.TabIndex = 6
         '
         'cvProdution
         '
-        Me.cvProdution.AreaDesign = CartesianArea2
+        Me.cvProdution.AreaDesign = CartesianArea1
         Me.cvProdution.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvProdution.Location = New System.Drawing.Point(0, 0)
         Me.cvProdution.Name = "cvProdution"
@@ -351,12 +407,57 @@ Partial Class RCDFDashboard
         '
         'RadPageViewPage3
         '
+        Me.RadPageViewPage3.Controls.Add(Me.SplitContainer4)
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(145.0!, 45.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(5, 60)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(850, 434)
         Me.RadPageViewPage3.Text = "QUALITY"
         Me.RadPageViewPage3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'SplitContainer4
+        '
+        Me.SplitContainer4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer4.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer4.Name = "SplitContainer4"
+        Me.SplitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer4.Panel1
+        '
+        Me.SplitContainer4.Panel1.Controls.Add(Me.gvQuality)
+        Me.SplitContainer4.Panel1.Controls.Add(Me.lblQuality)
+        '
+        'SplitContainer4.Panel2
+        '
+        Me.SplitContainer4.Panel2.Controls.Add(Me.gvQualitySummary)
+        Me.SplitContainer4.Size = New System.Drawing.Size(850, 434)
+        Me.SplitContainer4.SplitterDistance = 271
+        Me.SplitContainer4.TabIndex = 1
+        '
+        'gvQuality
+        '
+        Me.gvQuality.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvQuality.Location = New System.Drawing.Point(0, 22)
+        '
+        '
+        '
+        Me.gvQuality.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvQuality.Name = "gvQuality"
+        Me.gvQuality.Size = New System.Drawing.Size(850, 249)
+        Me.gvQuality.TabIndex = 6
+        '
+        'gvQualitySummary
+        '
+        Me.gvQualitySummary.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvQualitySummary.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvQualitySummary.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvQualitySummary.Name = "gvQualitySummary"
+        Me.gvQualitySummary.Size = New System.Drawing.Size(850, 159)
+        Me.gvQualitySummary.TabIndex = 7
         '
         'RadPageViewPage4
         '
@@ -367,46 +468,18 @@ Partial Class RCDFDashboard
         Me.RadPageViewPage4.Text = "ACCOUNT"
         Me.RadPageViewPage4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'SplitContainer3
+        'lblQuality
         '
-        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer3.Name = "SplitContainer3"
-        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer3.Panel1
-        '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.gvFinishGoods)
-        '
-        'SplitContainer3.Panel2
-        '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.cvFinishGoods)
-        Me.SplitContainer3.Size = New System.Drawing.Size(850, 434)
-        Me.SplitContainer3.SplitterDistance = 271
-        Me.SplitContainer3.TabIndex = 1
-        '
-        'gvFinishGoods
-        '
-        Me.gvFinishGoods.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvFinishGoods.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gvFinishGoods.Name = "gvFinishGoods"
-        Me.gvFinishGoods.Size = New System.Drawing.Size(850, 271)
-        Me.gvFinishGoods.TabIndex = 6
-        '
-        'cvFinishGoods
-        '
-        Me.cvFinishGoods.AreaDesign = CartesianArea1
-        Me.cvFinishGoods.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.cvFinishGoods.Location = New System.Drawing.Point(0, 0)
-        Me.cvFinishGoods.Name = "cvFinishGoods"
-        Me.cvFinishGoods.ShowGrid = False
-        Me.cvFinishGoods.Size = New System.Drawing.Size(850, 159)
-        Me.cvFinishGoods.TabIndex = 5
+        Me.lblQuality.AutoSize = False
+        Me.lblQuality.Dock = System.Windows.Forms.DockStyle.Top
+        Me.lblQuality.FieldName = Nothing
+        Me.lblQuality.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.lblQuality.Location = New System.Drawing.Point(0, 0)
+        Me.lblQuality.Name = "lblQuality"
+        Me.lblQuality.Size = New System.Drawing.Size(850, 22)
+        Me.lblQuality.TabIndex = 14
+        Me.lblQuality.TextAlignment = System.Drawing.ContentAlignment.TopCenter
+        Me.lblQuality.Visible = False
         '
         'RCDFDashboard
         '
@@ -435,6 +508,12 @@ Partial Class RCDFDashboard
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.Attachments.ResumeLayout(False)
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.gvFinishGoods.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvFinishGoods, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cvFinishGoods, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
@@ -442,12 +521,15 @@ Partial Class RCDFDashboard
         CType(Me.gvProdution.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvProdution, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cvProdution, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer3.Panel1.ResumeLayout(False)
-        Me.SplitContainer3.Panel2.ResumeLayout(False)
-        Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.gvFinishGoods.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvFinishGoods, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cvFinishGoods, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        Me.SplitContainer4.Panel1.ResumeLayout(False)
+        Me.SplitContainer4.Panel2.ResumeLayout(False)
+        Me.SplitContainer4.ResumeLayout(False)
+        CType(Me.gvQuality.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvQuality, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvQualitySummary.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvQualitySummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblQuality, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -474,5 +556,9 @@ Partial Class RCDFDashboard
     Friend WithEvents SplitContainer3 As SplitContainer
     Friend WithEvents gvFinishGoods As RadGridView
     Friend WithEvents cvFinishGoods As RadChartView
+    Friend WithEvents SplitContainer4 As SplitContainer
+    Friend WithEvents gvQuality As RadGridView
+    Friend WithEvents gvQualitySummary As RadGridView
+    Friend WithEvents lblQuality As common.Controls.MyLabel
 End Class
 
