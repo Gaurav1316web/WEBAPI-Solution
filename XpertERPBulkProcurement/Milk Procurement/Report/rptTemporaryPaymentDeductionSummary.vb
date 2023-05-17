@@ -307,6 +307,17 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") " + subMCCQry
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                 ' clsCommon.MyExportToPDF(StrReportName, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
 
+                Dim style As New GridPrintStyle()
+                'style.FitWidthMode = PrintFitWidthMode.FitPageWidth
+                'style.PrintGrouping = True
+                style.HeaderCellBackColor = Color.White
+                style.GroupRowBackColor = Color.White
+                style.SummaryCellBackColor = Color.White
+                'style.PrintSummaries = False
+                'style.PrintHeaderOnEachPage = True
+                'style.PrintHiddenColumns = False
+                Gv1.PrintStyle = style
+
                 Dim doc As New clsMyPrintDocument()
 
                 doc.Margins.Top = 50
