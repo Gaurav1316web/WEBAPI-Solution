@@ -728,21 +728,39 @@ Public Class frmPOWeighment
                             ,(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then sum(TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight) else max(TSPL_PO_WEIGHTMENT_HEAD.Out_Gross_Weight) end) as Gross_Weight 
                             ,(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then sum(TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight) else max(TSPL_PO_WEIGHTMENT_HEAD.Out_Tare_Weight) end) AS Tare_Weight 
                             ,(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then sum(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) else max(TSPL_PO_WEIGHTMENT_HEAD.Out_Net_Weight) end) as Net_Weight
-                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then  FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Weight_Date,'dd/MMM/yyyy')  end) as In_Date 
-                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,'hh:mm:ss tt')  else FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Weight_Date,'hh:mm:ss tt') end) as In_Time 
-                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Out_Tare_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Out_Gross_Date,'dd/MMM/yyyy')  end) as Out_Date 
-                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Out_Tare_Date,'hh:mm:ss tt')  else FORMAT(TSPL_PO_WEIGHTMENT_HEAD.Out_Gross_Date,'hh:mm:ss tt')  end) as Out_Time 
+                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then  FORMAT(TSPL_GRN_HEAD.GRN_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_GRN_HEAD.GRN_Date,'dd/mmm/yyyy')  end) as In_Date 
+                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_GRN_HEAD.GRN_Date,'hh:mm:ss tt')  else FORMAT(TSPL_GRN_HEAD.GRN_Date,'hh:mm:ss tt') end) as In_Time  
+                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'dd/MMM/yyyy')  else FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'dd/MMM/yyyy')  end) as Out_Date 
+                            ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'hh:mm:ss tt')  else FORMAT(TSPL_PO_WEIGHTMENT_DETAIL.Unload_Date,'hh:mm:ss tt')  end) as Out_Time 
                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then TSPL_GRN_HEAD.Vendor_Code else TSPL_PO_WEIGHTMENT_HEAD.Out_Party end) as Vendor_Code 
                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then TSPL_GRN_HEAD.Vendor_Name else TSPL_PO_WEIGHTMENT_HEAD.Out_Party end) as Vendor_Name 
                             ,max(case when TSPL_PO_WEIGHTMENT_HEAD.Type='IN' Then TSPL_GRN_HEAD.VehicleNo else TSPL_PO_WEIGHTMENT_HEAD.Out_VehicleNo end) as VehicleNo 
-                            ,TSPL_PO_WEIGHTMENT_HEAD.Type,max(TSPL_PO_WEIGHTMENT_HEAD.Driver_Name) as Driver_Name,max(TSPL_PO_WEIGHTMENT_HEAD.Driver_MobileNo) as Driver_MobileNo 
+                            ,TSPL_PO_WEIGHTMENT_HEAD.Type,max(TSPL_PO_WEIGHTMENT_HEAD.Driver_Name) as Driver_Name,
+							max(TSPL_PO_WEIGHTMENT_HEAD.Driver_MobileNo) as Driver_MobileNo ,
+							max(TSPL_GRN_HEAD.Ref_No) as RALNo, max(TSPL_GRN_HEAD.GRN_No) as GRNNO,
+							max(convert(date,TSPL_GRN_HEAD.GRN_Date,103)) as GRNDate,
+							max(convert(date,TSPL_GRN_HEAD.Invoice_Date,103)) as BillDate,
+							max(TSPL_GRN_HEAD.[Invoice/Challan_No]) as BillNo,
+							max(convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103)) as WeighDate,
+							max(TSPL_PO_WEIGHTMENT_detail.Unload_Date) as OutDateTime,
+							max(TSPL_PO_WEIGHTMENT_DETAIL.EXTRA_WEIGHT) AS EXTRA_WEIGHT,
+							max(TSPL_GRN_DETAIL.GRN_QTY) as challan_qty,
+							max(TSPL_PO_WEIGHTMENT_DETAIL.ITEM_CODE) AS ITEM_CODE,
+							MAX(TSPL_ITEM_MASTER.Item_Desc) AS ITEM_NAME,
+							MAX(TSPL_PO_WEIGHTMENT_GUNNY.QTY) AS BAG_QTY
                             from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code  
                             left join TSPL_GRN_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No  
                             left join TSPL_COMPANY_MASTER on TSPL_GRN_HEAD.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code  
                             left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GRN_HEAD.Bill_To_Location				
-                            LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_STATE_MASTER.STATE_CODE  =TSPL_LOCATION_MASTER.State 					 
-                            where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code= '" + StrCode + "'  
-                            group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type"
+                            LEFT OUTER JOIN TSPL_STATE_MASTER ON TSPL_STATE_MASTER.STATE_CODE  =TSPL_LOCATION_MASTER.State 	
+							LEFT OUTER JOIN TSPL_GRN_DETAIL ON TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
+							LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.ITEM_CODE
+							LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_GUNNY ON TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
+                            where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code = '" + StrCode + "'  
+                            group by TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Type
+
+
+"
             Else
                 strQuery = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar(13),TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date ,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No,convert(varchar(13),TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date," &
                  "TSPL_GRN_HEAD.Against_PO,TSPL_GRN_HEAD.Vendor_Code,TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo from TSPL_PO_WEIGHTMENT_HEAD left join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code " &

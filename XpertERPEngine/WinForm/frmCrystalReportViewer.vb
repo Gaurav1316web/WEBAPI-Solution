@@ -55,7 +55,7 @@ Public Class frmCrystalReportViewer
             End If
             strpath += "\Xpert Crystal Reports\" + strCompCode
         End If
-            Dim strReportPath As String = ""
+        Dim strReportPath As String = ""
         If crpfolder = CrystalReportFolder.CommonServices Then
             strReportPath = strpath + "\Crystal Reports" + strGST + "\Common Services\" & strReportName & ".rpt"
         ElseIf crpfolder = CrystalReportFolder.FixedAssets Then

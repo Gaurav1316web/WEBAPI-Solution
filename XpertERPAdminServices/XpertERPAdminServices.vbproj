@@ -397,6 +397,12 @@
     <Compile Include="Report\rptDeleteHistoryReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="VisualReport\RCDFDashboard.Designer.vb">
+      <DependentUpon>RCDFDashboard.vb</DependentUpon>
+    </Compile>
+    <Compile Include="VisualReport\RCDFDashboard.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Administrative Services\frmApprovalScreen.resx">
@@ -467,6 +473,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDeleteHistoryReport.resx">
       <DependentUpon>rptDeleteHistoryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VisualReport\RCDFDashboard.resx">
+      <DependentUpon>RCDFDashboard.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

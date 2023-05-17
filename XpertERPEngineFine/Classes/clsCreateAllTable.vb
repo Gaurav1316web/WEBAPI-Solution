@@ -13005,6 +13005,7 @@ Public Class clsCreateAllTable
             coll.Add("GRAMPANCHAYAT_CODE", "Varchar(30) null references TSPL_GRAMPANCHAYAT_MASTER (GRAMPANCHAYAT_CODE)")
             coll.Add("PANCHAYAT_SAMITI_CODE", "Varchar(30) null references TSPL_PANCHAYAT_SAMITI_MASTER (PANCHAYAT_SAMITI_CODE)")
             coll.Add("VIDHAN_SABHA_CODE", "Varchar(30) null references TSPL_VIDHAN_SABHA_MASTER (VIDHAN_SABHA_CODE)")
+            coll.Add("Jan_Aadhar_No_Verified", " integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MP_MASTER", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()

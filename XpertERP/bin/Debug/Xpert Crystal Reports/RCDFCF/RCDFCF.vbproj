@@ -1469,6 +1469,8 @@
     <None Include="Crystal Reports\Purchase Order\rptPJVwrong.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptPurchaseInvoicePrint.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptPurchaseInvoicePrintNew.rpt" />
+    <None Include="Crystal Reports\Purchase Order\rptQCAnalysisReportRejectionEnglish.rpt" />
+    <None Include="Crystal Reports\Purchase Order\rptQCAnalysisReportRejectionHindi.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptreturn.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptReturnNewV.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptRGP.rpt" />
