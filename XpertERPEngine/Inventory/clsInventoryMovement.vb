@@ -995,24 +995,24 @@ Public Class clsInventoryMovement
     End Function
 
 
-    Public Shared Function GetCost(ByVal CostMethod As EnumCostingMethod, ByVal strICode As String, ByVal strLocation As String, ByVal dblqty As Double, ByVal dtDocumentDate As DateTime, ByVal dtPostingDate As DateTime, ByVal isApplyCostOnPostDate As Boolean, ByVal trans As SqlTransaction) As Double
+    Public Shared Function GetCost(ByVal CostMethod As EnumCostingMethod, ByVal strICode As String, ByVal strLocation As String, ByVal dblqty As Double, ByVal dtDocumentDate As DateTime, ByVal dtPostingDate As DateTime, ByVal isApplyCostOnPostDate As Boolean, ByVal trans As SqlTransaction) As Decimal
         Return GetCost(CostMethod, strICode, strLocation, dblqty, dtDocumentDate, dtPostingDate, isApplyCostOnPostDate, trans, "TSPL_INVENTORY_MOVEMENT")
     End Function
 
-    Public Shared Function GetCost(ByVal CostMethod As EnumCostingMethod, ByVal strICode As String, ByVal strLocation As String, ByVal dblqty As Double, ByVal dtDocumentDate As DateTime, ByVal dtPostingDate As DateTime, ByVal isApplyCostOnPostDate As Boolean, ByVal trans As SqlTransaction, ByVal tableName As String) As Double
+    Public Shared Function GetCost(ByVal CostMethod As EnumCostingMethod, ByVal strICode As String, ByVal strLocation As String, ByVal dblqty As Double, ByVal dtDocumentDate As DateTime, ByVal dtPostingDate As DateTime, ByVal isApplyCostOnPostDate As Boolean, ByVal trans As SqlTransaction, ByVal tableName As String) As Decimal
         Return GetCost(CostMethod, strICode, strLocation, dblqty, dtDocumentDate, dtPostingDate, isApplyCostOnPostDate, trans, tableName, "")
     End Function
-    Public Shared Function GetCost(ByVal CostMethod As EnumCostingMethod, ByVal strICode As String, ByVal strLocation As String, ByVal dblqty As Double, ByVal dtDocumentDate As DateTime, ByVal dtPostingDate As DateTime, ByVal isApplyCostOnPostDate As Boolean, ByVal trans As SqlTransaction, ByVal tableName As String, ByVal strUOMCode As String) As Double
+    Public Shared Function GetCost(ByVal CostMethod As EnumCostingMethod, ByVal strICode As String, ByVal strLocation As String, ByVal dblqty As Double, ByVal dtDocumentDate As DateTime, ByVal dtPostingDate As DateTime, ByVal isApplyCostOnPostDate As Boolean, ByVal trans As SqlTransaction, ByVal tableName As String, ByVal strUOMCode As String) As Decimal
         Return GetCost(CostMethod, strICode, strLocation, dblqty, dtDocumentDate, dtPostingDate, isApplyCostOnPostDate, trans, tableName, strUOMCode, "")
     End Function
-    Public Shared Function GetCost(ByVal CostMethod As EnumCostingMethod, ByVal strICode As String, ByVal strLocation As String, ByVal dblqty As Double, ByVal dtDocumentDate As DateTime, ByVal dtPostingDate As DateTime, ByVal isApplyCostOnPostDate As Boolean, ByVal trans As SqlTransaction, ByVal tableName As String, ByVal strUOMCode As String, ByVal ExtrWhrl As String) As Double
+    Public Shared Function GetCost(ByVal CostMethod As EnumCostingMethod, ByVal strICode As String, ByVal strLocation As String, ByVal dblqty As Double, ByVal dtDocumentDate As DateTime, ByVal dtPostingDate As DateTime, ByVal isApplyCostOnPostDate As Boolean, ByVal trans As SqlTransaction, ByVal tableName As String, ByVal strUOMCode As String, ByVal ExtrWhrl As String) As Decimal
         Return GetCost(CostMethod, strICode, strLocation, dblqty, dtDocumentDate, dtPostingDate, isApplyCostOnPostDate, trans, tableName, strUOMCode, ExtrWhrl, Nothing)
     End Function
 
-    Public Shared Function GetCost(ByVal CostMethod As EnumCostingMethod, ByVal strICode As String, ByVal strLocation As String, ByVal dblqty As Double, ByVal dtDocumentDate As DateTime, ByVal dtPostingDate As DateTime, ByVal isApplyCostOnPostDate As Boolean, ByVal trans As SqlTransaction, ByVal tableName As String, ByVal strUOMCode As String, ByVal ExtrWhrl As String, ByVal FromDateForAvg As Date?) As Double
+    Public Shared Function GetCost(ByVal CostMethod As EnumCostingMethod, ByVal strICode As String, ByVal strLocation As String, ByVal dblqty As Double, ByVal dtDocumentDate As DateTime, ByVal dtPostingDate As DateTime, ByVal isApplyCostOnPostDate As Boolean, ByVal trans As SqlTransaction, ByVal tableName As String, ByVal strUOMCode As String, ByVal ExtrWhrl As String, ByVal FromDateForAvg As Date?) As Decimal
         Dim settPickProductCostFromItemUOMDetail As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickProductCostFromItemUOMDetail, clsFixedParameterCode.PickProductCostFromItemUOMDetail, trans)) > 0)
         Dim flag As Boolean = True 'Added by preeti gupta Against ticket no[ERO08/08/04/19-000550]
-        Dim dblRetCost As Double = 0
+        Dim dblRetCost As Decimal = 0
         If Not CostMethod = EnumCostingMethod.NA AndAlso dblqty > 0 Then
             Dim strSymbolCost As String = " >= "
             Dim strSymbolTrans As String = " > "

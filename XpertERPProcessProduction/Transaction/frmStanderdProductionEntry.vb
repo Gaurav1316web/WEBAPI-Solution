@@ -1,6 +1,5 @@
 ﻿
 Imports common
-Imports Microsoft.Office.Interop
 
 Public Class frmStanderdProductionEntry
     Inherits FrmMainTranScreen
@@ -73,7 +72,6 @@ Public Class frmStanderdProductionEntry
     Dim isCellValueChanged As Boolean = False
     Dim Import As Boolean = False
 #End Region
-
     Private Sub LOCATIONRIGTHS()
         Try
             Dim obj As New clsMCCCodes()
@@ -91,7 +89,6 @@ Public Class frmStanderdProductionEntry
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmProductionEntryWithoutBatch)
         If Not (MyBase.isReadFlag) Then
@@ -103,7 +100,6 @@ Public Class frmStanderdProductionEntry
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
     End Sub
-
     Private Sub frmProductionEntryWithoutBatch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)()
@@ -163,14 +159,11 @@ Public Class frmStanderdProductionEntry
         End If
 
     End Sub
-
     Sub SetLength()
         txtCode.MyMaxLength = 30
         txtDesc.MaxLength = 200
         txtComment.MaxLength = 200
     End Sub
-
-
     Sub BlankAllControls()
         txtCode.Value = ""
         txtDesc.Text = ""
@@ -203,7 +196,6 @@ Public Class frmStanderdProductionEntry
         UcAttachment1.Form_ID = MyBase.Form_ID
         UcAttachment1.BlankAllControls()
     End Sub
-
     Sub LoadShift()
         Dim qry As String = "select shift_code as Code,shift_name as Name from tspl_shift_master"
         Dim stShift As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -1001,7 +993,6 @@ Public Class frmStanderdProductionEntry
 
         gvProductionCost.EnableFiltering = False
     End Sub
-
     Public Shared Function GetARType() As DataTable
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))
@@ -1028,7 +1019,6 @@ Public Class frmStanderdProductionEntry
 
         Return dt
     End Function
-
     Public Shared Function GetQCType() As DataTable
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))
@@ -1080,7 +1070,6 @@ Public Class frmStanderdProductionEntry
             End If
         End If
     End Sub
-
     Sub funReset()
 
         ' '' get mo setting
@@ -1119,7 +1108,6 @@ Public Class frmStanderdProductionEntry
         gvBatch.Rows.Clear()
         gvBatch.Rows.AddNew()
     End Sub
-
     Function AllowToSave(Optional ByVal isPost As Boolean = False) As Boolean
 
         If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
@@ -1282,12 +1270,9 @@ Public Class frmStanderdProductionEntry
         End If
         Return True
     End Function
-
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SaveData(False)
     End Sub
-
-
     Function SaveData(ByVal ChekBtnPost As Boolean) As Boolean
         Try
             If ClickGo = True Then
@@ -1472,7 +1457,6 @@ Public Class frmStanderdProductionEntry
 
         End Try
     End Function
-
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         funReset()
         txtCode.MyReadOnly = True
@@ -1481,10 +1465,10 @@ Public Class frmStanderdProductionEntry
         isInsideLoadData = True
         obj = clsStanderdProductionEntry.GetData(strCode, arrLoc, NavTyep)
         If obj IsNot Nothing Then
-
             isNewEntry = False
             btnSave.Text = "Update"
-            btnGo.Enabled = False
+            btnGo.Enabled = btnunpost.Visible
+
             If obj.POSTED Then
                 btnSave.Enabled = False
                 btnPost.Enabled = False
@@ -1511,7 +1495,7 @@ Public Class frmStanderdProductionEntry
             Me.txtBatchNo.Text = obj.Batch_Code_Manual
             fndItemCategory.Value = obj.Structure_Code
             TxtCategory.Text = obj.Structure_Desc
-            CboShift.SelectedValue = obj.Shift_code
+            CboShift.SelectedValue = obj.Shift_Code
             gvBatch.Tag = obj.Section_Stage_Map_Code
             txtConsmLocMilk.Value = obj.CONSM_LOCATION_CODE
             lblConsmLocMilkDesc.Text = clsLocation.GetName(txtConsmLocMilk.Value, Nothing)
@@ -1663,19 +1647,15 @@ Public Class frmStanderdProductionEntry
         isInsideLoadData = False
 
     End Sub
-
     Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         CloseForm()
     End Sub
-
     Sub CloseForm()
         Me.Close()
     End Sub
-
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
         PostData()
     End Sub
-
     Sub PostData()
         Try
             If (myMessages.postConfirm()) Then
@@ -1694,12 +1674,9 @@ Public Class frmStanderdProductionEntry
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
-
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         DeleteData()
     End Sub
-
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
             common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
@@ -1741,8 +1718,6 @@ Public Class frmStanderdProductionEntry
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
-
-
     Private Sub txtDocNo__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
         Try
             LoadData(txtCode.Value, NavType)
@@ -1750,7 +1725,6 @@ Public Class frmStanderdProductionEntry
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
 
         Dim check As Boolean = False
@@ -1769,7 +1743,6 @@ Public Class frmStanderdProductionEntry
             funReset()
         End If
     End Sub
-
     Private Sub txtLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtLocation._MYValidating
         Try
             Dim WhrCls As String = " Location_Type='Physical'  "
@@ -1785,7 +1758,6 @@ Public Class frmStanderdProductionEntry
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
     Private Sub frmProductionEntryWithoutBatch_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gvBatch.CurrentCell IsNot Nothing Then
 
@@ -1839,11 +1811,9 @@ Public Class frmStanderdProductionEntry
             RadPageView1.SelectedPage = pageBatchProduction
         End If
     End Sub
-
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         funPrint()
     End Sub
-
     Private Sub funPrint()
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
@@ -1880,80 +1850,10 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
-
-    'Private Sub txtBatchNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean)
-    '    Try
-    '        'and Quantity >[Production Quantity] 
-    '        Me.txtBatchNo.Value = clsProductionEntryWithoutBatch.GetBatchFinder("Posted='1' and Quantity>coalesce([Production Quantity],0) and [Manual Closed]=0  and [Location Code] in (" + arrLoc + ")", Me.txtBatchNo.Value, isButtonClicked)
-    '        If clsCommon.myLen(Me.txtBatchNo.Value) > 0 Then
-    '            Dim objBatch As clsProcessBatchOrder = clsProcessBatchOrder.GetData(Me.txtBatchNo.Value, arrLoc, NavigatorType.Current)
-    '            If Not objBatch Is Nothing Then
-    '                dtpBatchDate.Value = objBatch.Batchdate
-    '                Me.txtLocation.Value = objBatch.locationcode
-    '                Me.lblLocation.Text = objBatch.locationname
-    '                lblConsmSectionLocCode.Text = clsProductionEntryWithoutBatch.GetBatchConsumptionSection(txtLocation.Value, txtBatchNo.Value)
-    '                If clsCommon.myLen(lblConsmSectionLocCode.Text) <= 0 Then
-    '                    lblConsmSectionCode.Text = ""
-    '                    clsCommon.MyMessageBoxShow("Consumption Location not found for batch " & txtBatchNo.Text & "")
-    '                    Exit Sub
-    '                Else
-    '                    lblConsmSectionCode.Text = clsLocation.GetSectionCode(lblConsmSectionLocCode.Text, Nothing)
-    '                End If
-    '                InitialLoadAllGrid(objBatch)
-    '            End If
-    '        End If
-    '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
-    '    End Try
-    '    'and TSPL_PP_BATCH_ORDER_HEAD.location_code in (" + arrLoc + ")
-    'End Sub
-
-    'Sub ShowBatchItems(ByVal BOM_Code As String)
-    '    If isNewEntry = False Then
-    '        Exit Sub
-    '    End If
-    '    gvBatch.Rows.Clear()
-    '    For Each obj As clsProcessBatchOrder In objBOM.ObjListBOM
-    '        Me.gvBatch.Rows.AddNew()
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colLineNo).Value = gvBatch.Rows.Count
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colShiftCode).Value = obj.shiftcode
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSectionCode).Value = obj.sectioncode
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colBOMCode).Value = obj.bomcode
-
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colItemCode).Value = obj.icode
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colItemDesc).Value = obj.iname
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colBatchQty).Value = obj.qty
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPrevProdQty).Value = clsProductionEntryWithoutBatch.GetPrevProductionQty(objBatch.Batchcode, txtCode.Value, obj.icode, Nothing)
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPendingBatchQty).Value = obj.qty - clsCommon.myCdbl(Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPrevProdQty).Value)
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colUOM).Value = obj.UOM
-
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSP_Loaction_Code).Value = txtLocation.Value
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSP_Loaction_Desc).Value = lblLocation.Text
-
-    '        ' Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFAT_Per).Value = clsProductionEntryWithoutBatch.GetLastStageParameterValue(Me.txtBatchNo.Value, "FAT")
-    '        'Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSNF_Per).Value = clsProductionEntryWithoutBatch.GetLastStageParameterValue(Me.txtBatchNo.Value, "SNF")
-
-    '        'Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFAT_KG).Value = Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFAT_Per).Value * Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value / 100
-    '        'Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSNF_KG).Value = Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSNF_Per).Value * Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value / 100
-
-    '        'Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colItemCode).Value, Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colUOM).Value, Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value, Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFAT_Per).Value, Nothing)
-    '        'Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colItemCode).Value, Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colUOM).Value, Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value, Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFAT_Per).Value, Nothing)
-
-
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colIsPickAutoSrNo).Value = False
-    '        Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colIsSerialseItem).Value = False
-
-    '    Next
-
-    'End Sub
-
     Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
         funReset()
         txtImportTemplate.arrValueMember = Nothing
     End Sub
-
     Private Sub gv1_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvBatch.CellValueChanged
 
         Try
@@ -2229,7 +2129,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             'gv.CurrentRow.Cells(colShiftDesc).Value = ""
         End If
     End Sub
-
     Private Sub gvBatch_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvBatch.CurrentColumnChanged
         If gvBatch.RowCount > 0 Then
             Dim intCurrRow As Integer = gvBatch.CurrentRow.Index
@@ -2268,9 +2167,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             OpenSerialItem()
         End If
     End Sub
-
-
-
     Sub InitialLoadAllGrid(ByVal objBOM As clsBOM)
         Try
             'If clsCommon.myLen(txtBatchNo.Text) <= 0 Then
@@ -2289,8 +2185,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
-
     Sub UpdateBatchFatSNF(ByVal Item_Code As String, ByVal Value As Decimal, ByVal Type As String, ByVal QC_Type As String)
         If clsCommon.CompairString(QC_Type, "Batch Order") = CompairStringResult.Equal Then
             For Each grow As GridViewRowInfo In gvBatch.Rows
@@ -2340,7 +2234,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         'End If ''end cond.
 
     End Sub
-
     Private Sub btnunpost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnunpost.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
@@ -2393,7 +2286,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
                         common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
-                        btnunpost.Visible = False
+                        'btnunpost.Visible = False
                         LoadData(txtCode.Value, NavigatorType.Current)
                     End If
                     '-----------------------------
@@ -2535,7 +2428,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         Next
 
     End Sub
-
     Sub FillHeader(ByVal import As Boolean)
         Dim qry As String
         Try
@@ -2557,21 +2449,12 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         End Try
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        'If ClickGo = True Then
-        '    clsCommon.MyMessageBoxShow("Please click Go Button.")
-        '    btnGo.Focus()
-        '    Exit Sub
-        'End If
+
         Try
             If txtImportTemplate.Enabled AndAlso txtImportTemplate.arrValueMember.Count > 0 Then
                 Import = True
                 automateImport()
-                'FillHeader(True)
-                'FillBatchTab(True)
-                'FillRawItemGridFromBOM(True)
-                'FillCostGridFromBOM(True)
             Else
-                'FillBatchTab(False)
                 FillRawItemGridFromBOM(False)
                 FillCostGridFromBOM(False)
                 FillCostDetails()
@@ -2584,7 +2467,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         ClickGo = False
         RadPageView1.SelectedPage = pageConsumption
     End Sub
-
     Private Sub fndItemCategory__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndItemCategory._MYValidating
         Try
             Dim qry As String = "select Structure_Code as Code,Structure_Descq as Description,Item_Structure as Structure,Total_Length as [Length],Default_Struct as [Default Structure] from TSPL_STRUCTURE_MASTER"
@@ -2597,24 +2479,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
-    'Private Sub fndSection__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean)
-    '    Try
-    '        Dim qry As String = "select Section_Code as Code,Description as Name from TSPL_SECTION_MASTER"
-    '        fndSection.Value = clsCommon.ShowSelectForm("PPlanSECFND", qry, "Code", " ", fndSection.Value, "", isButtonClicked)
-    '        TxtSection.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Description from TSPL_SECTION_MASTER where Section_Code='" + fndSection.Value + "'"))
-    '        lblConsmSectionCode.Text = fndSection.Value
-    '        lblConsmSectionLocCode.Text = clsProductionEntryWithoutBatch.GetBatchConsumptionSection(txtLocation.Value, fndSection.Value)
-    '        For Each grow As GridViewRowInfo In gvBatch.Rows
-    '            grow.Cells(colSectionCode).Value = fndSection.Value
-    '        Next
-    '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
-    '    End Try
-    'End Sub
-
     Private Sub gvConsumption_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvConsumption.CellValueChanged
-
         Try
             If Not isInsideLoadData Then
                 If Not isCellValueChanged Then
@@ -2626,8 +2491,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                         gvConsumption.CurrentRow.Cells(colProductType).Value = clsItemMaster.GetItemProductType(gvConsumption.CurrentRow.Cells(colItemCode).Value, Nothing)
                         gvConsumption.CurrentRow.Cells(colSP_Loaction_Code).Value = txtConsmLocOther.Value
                         gvConsumption.CurrentRow.Cells(colSP_Loaction_Desc).Value = lblConsmLocOtherDesc.Text
-
-                        'updateConsumptionCost()
                         setCost(gvConsumption.CurrentRow.Index)
                         FillCostDetails()
                         isCellValueChanged = False
@@ -2635,76 +2498,44 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                     If e.Column Is gvConsumption.Columns(colUOM) Then
                         isCellValueChanged = True
                         OpenUOMRM(False)
-                        'updateConsumptionCost()
-                        'setCost(gvConsumption.Rows.Count - 1)
                         setCost(gvConsumption.CurrentRow.Index)
                         FillCostDetails()
                         isCellValueChanged = False
                     End If
                     If e.Column Is gvConsumption.Columns(colFINAL_PROD_Qty) Or e.Column Is gvConsumption.Columns(colAVG_Cost) Or e.Column Is gvConsumption.Columns(colSNF_Per) Then
                         isCellValueChanged = True
-                        'Me.gvConsumption.Rows(e.RowIndex).Cells(colFAT_KG).Value = Me.gvConsumption.Rows(e.RowIndex).Cells(colFAT_Per).Value * Me.gvConsumption.Rows(e.RowIndex).Cells(colFINAL_PROD_Qty).Value / 100
-                        'Me.gvConsumption.Rows(e.RowIndex).Cells(colSNF_KG).Value = Me.gvConsumption.Rows(e.RowIndex).Cells(colSNF_Per).Value * Me.gvConsumption.Rows(e.RowIndex).Cells(colFINAL_PROD_Qty).Value / 100
-
-                        Me.gvConsumption.Rows(e.RowIndex).Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Me.gvConsumption.Rows(e.RowIndex).Cells(colItemCode).Value, Me.gvConsumption.Rows(e.RowIndex).Cells(colUOM).Value, Me.gvConsumption.Rows(e.RowIndex).Cells(colFINAL_PROD_Qty).Value, Me.gvConsumption.Rows(e.RowIndex).Cells(colFAT_Per).Value, Nothing)
-                        Me.gvConsumption.Rows(e.RowIndex).Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Me.gvConsumption.Rows(e.RowIndex).Cells(colItemCode).Value, Me.gvConsumption.Rows(e.RowIndex).Cells(colUOM).Value, Me.gvConsumption.Rows(e.RowIndex).Cells(colFINAL_PROD_Qty).Value, Me.gvConsumption.Rows(e.RowIndex).Cells(colSNF_Per).Value, Nothing)
-
-                        Me.gvConsumption.Rows(e.RowIndex).Cells(colFat_Amt).Value = Me.gvConsumption.Rows(e.RowIndex).Cells(colFAT_KG).Value * Me.gvConsumption.Rows(e.RowIndex).Cells(colFat_Rate).Value
-                        Me.gvConsumption.Rows(e.RowIndex).Cells(colSNF_Amt).Value = Me.gvConsumption.Rows(e.RowIndex).Cells(colSNF_KG).Value * Me.gvConsumption.Rows(e.RowIndex).Cells(colSNF_Rate).Value
-                        Me.gvConsumption.Rows(e.RowIndex).Cells(colAVG_Cost).Value = Me.gvConsumption.Rows(e.RowIndex).Cells(colFat_Amt).Value + Me.gvConsumption.Rows(e.RowIndex).Cells(colSNF_Amt).Value
-                        Me.gvConsumption.Rows(e.RowIndex).Cells(colFIFO_Cost).Value = Me.gvConsumption.Rows(e.RowIndex).Cells(colAVG_Cost).Value
-                        Me.gvConsumption.Rows(e.RowIndex).Cells(colLIFO_Cost).Value = Me.gvConsumption.Rows(e.RowIndex).Cells(colAVG_Cost).Value
-
-                        '' cost details
-                        'updateConsumptionCost()
-                        'setCost(e.RowIndex)
+                        gvConsumption.Rows(e.RowIndex).Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvConsumption.Rows(e.RowIndex).Cells(colItemCode).Value, gvConsumption.Rows(e.RowIndex).Cells(colUOM).Value, gvConsumption.Rows(e.RowIndex).Cells(colFINAL_PROD_Qty).Value, gvConsumption.Rows(e.RowIndex).Cells(colFAT_Per).Value, Nothing)
+                        gvConsumption.Rows(e.RowIndex).Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvConsumption.Rows(e.RowIndex).Cells(colItemCode).Value, gvConsumption.Rows(e.RowIndex).Cells(colUOM).Value, gvConsumption.Rows(e.RowIndex).Cells(colFINAL_PROD_Qty).Value, gvConsumption.Rows(e.RowIndex).Cells(colSNF_Per).Value, Nothing)
+                        gvConsumption.Rows(e.RowIndex).Cells(colFat_Amt).Value = gvConsumption.Rows(e.RowIndex).Cells(colFAT_KG).Value * gvConsumption.Rows(e.RowIndex).Cells(colFat_Rate).Value
+                        gvConsumption.Rows(e.RowIndex).Cells(colSNF_Amt).Value = gvConsumption.Rows(e.RowIndex).Cells(colSNF_KG).Value * gvConsumption.Rows(e.RowIndex).Cells(colSNF_Rate).Value
+                        gvConsumption.Rows(e.RowIndex).Cells(colAVG_Cost).Value = gvConsumption.Rows(e.RowIndex).Cells(colFat_Amt).Value + gvConsumption.Rows(e.RowIndex).Cells(colSNF_Amt).Value
+                        gvConsumption.Rows(e.RowIndex).Cells(colFIFO_Cost).Value = gvConsumption.Rows(e.RowIndex).Cells(colAVG_Cost).Value
+                        gvConsumption.Rows(e.RowIndex).Cells(colLIFO_Cost).Value = gvConsumption.Rows(e.RowIndex).Cells(colAVG_Cost).Value
                         setCost(gvConsumption.CurrentRow.Index)
                         FillCostDetails()
                         isCellValueChanged = False
-                        'ClickGo = True
                     End If
-
-                    'If (e.Column Is gvConsumption.Columns(colRejQty)) Then
-                    '    isCellValueChanged = True
-                    '    gvConsumption.CurrentRow.Cells(colFINAL_PROD_Qty).Value = gvConsumption.CurrentRow.Cells(colReceiptQty).Value - gvConsumption.CurrentRow.Cells(colRejQty).Value
-                    '    isCellValueChanged = False
-                    'End If
                     If e.Column Is gvConsumption.Columns(colSP_Loaction_Code) Then
                         isCellValueChanged = True
-                        Dim WhrCls As String = "" '" Location_Type='Physical' "
-                        'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                        Dim WhrCls As String = ""
                         Dim productType As String = gvConsumption.CurrentRow.Cells(colProductType).Value
                         If clsCommon.CompairString(productType, "MI") = CompairStringResult.Equal Then
                             WhrCls += "(((Is_Section='Y' or Is_Sub_Location='Y') and Main_Location_Code='" & txtLocation.Value & "') )"
                         Else
                             WhrCls += " location_type='Physical'"
                         End If
-
-                        'End If
-                        'Dim qry As String = clsProcessProductionStandardization.GetMilkAndALLItemStockBalance_With_FATSNFKG(clsCommon.myCstr(gvConsumption.CurrentRow.Cells(colItemCode).Value), txtLocation.Text, clsCommon.myCstr(gvConsumption.CurrentRow.Cells(colSP_Loaction_Code).Value), dtpDate.Value, Nothing, clsCommon.myCstr(gvConsumption.CurrentRow.Cells(colUOM).Value), False)
-                        'gvConsumption.CurrentRow.Cells(colSP_Loaction_Desc).Value = clsCommon.ShowSelectForm("LOCSUBLOCSTCKFND", qry, "Code", " [Type] in ('Section','Sub Location') and [Stock Qty]>=0 ", clsCommon.myCstr(gvConsumption.CurrentRow.Cells(colSP_Loaction_Code).Value), "Code", False) '
                         gvConsumption.CurrentRow.Cells(colSP_Loaction_Code).Value = clsLocation.getFinder(WhrCls, gvConsumption.CurrentRow.Cells(colSP_Loaction_Code).Value, False)
                         gvConsumption.CurrentRow.Cells(colSP_Loaction_Desc).Value = clsLocation.GetName(gvConsumption.CurrentRow.Cells(colSP_Loaction_Code).Value, Nothing)
-
-                        '' cost details
-                        'updateConsumptionCost()
-                        'setCost(gvConsumption.Rows.Count - 1)
                         setCost(gvConsumption.CurrentRow.Index)
                         FillCostDetails()
                         isCellValueChanged = False
-                        'ClickGo = True
                     End If
-
                 End If
             End If
         Catch ex As Exception
             isCellValueChanged = False
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
-        'If (e.Column Is gv1.Columns(colReceiptQty) AndAlso Not clsCommon.myCBool(gv1.CurrentRow.Cells(colIsPickAutoSrNo).Value)) Then
-        '    OpenSerialItem()
-        'End If
-
     End Sub
     Sub updateConsumptionCost()
         '' cost details
@@ -2722,7 +2553,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFIFO_Cost).Value = Math.Round(objCost.FAT_Cost, 2) + Math.Round(objCost.SNF_Cost, 2)
         gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colLIFO_Cost).Value = Math.Round(objCost.FAT_Cost, 2) + Math.Round(objCost.SNF_Cost, 2)
     End Sub
-
     Private Sub txtConsmLocMilk__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtConsmLocMilk._MYValidating
         Dim WhrCls As String = "" '" Location_Type='Physical' "       
         WhrCls += "(((Is_Section='Y' or Is_Sub_Location='Y') and Main_Location_Code='" & txtLocation.Value & "') )"
@@ -2730,7 +2560,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         lblConsmLocMilkDesc.Text = clsLocation.GetName(txtConsmLocMilk.Value, Nothing)
 
     End Sub
-
     Private Sub txtConsmLocOther__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtConsmLocOther._MYValidating
         'Dim WhrCls As String = "" '" Location_Type='Physical' "      
         'WhrCls += "(((Is_Section='Y' or Is_Sub_Location='Y') and Main_Location_Code='" & txtLocation.Value & "') or Location_Code='" & txtLocation.Value & "' )"
@@ -2871,8 +2700,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         '    AllBomCode = AllBomCode.Replace(oldbomcode, "")
         'End If
     End Sub
-
-
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         Try
             Dim qryExport As String
@@ -2882,7 +2709,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Blank Sheet Export for Production")
         End Try
     End Sub
-
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
         '' done by panch raj against ticket No: BM00000008191,BM00000008189
         Dim gv As New RadGridView()
@@ -3036,22 +2862,19 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             Import = False
         End If
     End Sub
-
     Private Sub txtImportTemplate__My_Click(sender As Object, e As EventArgs) Handles txtImportTemplate._My_Click
         Dim qry As String = " select MAX(Import_Id) as Import_Id, Prod_Date,Location_Code,Category,Consm_Loc_Milk,Consm_Loc_Other  from TSPL_SPP_PRODUCTION_IMPORT " &
                             " where Import_Status='N' group by Prod_Date,Location_Code,Category,Consm_Loc_Milk,Consm_Loc_Other "
         txtImportTemplate.arrValueMember = clsCommon.ShowMultipleSelectForm("ProdImport", qry, "Import_Id", "Prod_Date", txtImportTemplate.arrValueMember, txtImportTemplate.arrDispalyMember)
     End Sub
-
     Sub setCost(ByVal index As Integer)
         Dim dblCostMethod As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Costing_Method as Costing_Method from TSPL_ITEM_MASTER left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Item_Code='" & clsCommon.myCstr(gvConsumption.Rows(index).Cells(colItemCode).Value) & "' "))
         If dblCostMethod <> 0 Then
-            gvConsumption.Rows(index).Cells(colAVG_Cost).Value = clsInventoryMovement.GetCost(dblCostMethod, clsCommon.myCstr(gvConsumption.Rows(index).Cells(colItemCode).Value), txtConsmLocOther.Value, 1, dtpDate.Value, dtpDate.Value, False, Nothing, "TSPL_INVENTORY_MOVEMENT", clsCommon.myCstr(gvConsumption.Rows(index).Cells(colUOM).Value))
+            gvConsumption.Rows(index).Cells(colAVG_Cost).Value = clsInventoryMovement.GetCost(dblCostMethod, clsCommon.myCstr(gvConsumption.Rows(index).Cells(colItemCode).Value), txtConsmLocOther.Value, clsCommon.myCDecimal(gvConsumption.Rows(index).Cells(colFINAL_PROD_Qty).Value), dtpDate.Value, dtpDate.Value, False, Nothing, "TSPL_INVENTORY_MOVEMENT", clsCommon.myCstr(gvConsumption.Rows(index).Cells(colUOM).Value))
         Else
             gvConsumption.Rows(index).Cells(colAVG_Cost).Value = 0
         End If
     End Sub
-
     Sub FillCostDetails()
         gvProductionCost.Rows.Clear()
         For Each grow As GridViewRowInfo In gvBatch.Rows
@@ -3073,12 +2896,10 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                 gvProductionCost.Rows(gvProductionCost.Rows.Count - 1).Cells(colMainUOM).Value = strMainItemUOM
                 gvProductionCost.Rows(gvProductionCost.Rows.Count - 1).Cells(colMainUOMDesc).Value = clsUOMInfo.GetUnitDesc(strMainItemUOM, Nothing)
 
-                'gvProductionCost.Rows(gvProductionCost.Rows.Count - 1).Cells(colItemCode).Value = objtr.COST_CODE
-                'gvProductionCost.Rows(gvProductionCost.Rows.Count - 1).Cells(colItemDesc).Value = objtr.COST_DESC
                 Dim dblAmount As Decimal = 0.0
                 For Each growCons As GridViewRowInfo In gvConsumption.Rows
                     If clsCommon.CompairString(strMainItemCode, clsCommon.myCstr(growCons.Cells(colMainItemCode).Value)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strBomCode, clsCommon.myCstr(growCons.Cells(colBOMCode).Value)) = CompairStringResult.Equal Then
-                        dblAmount += clsCommon.myCdbl(growCons.Cells(colFINAL_PROD_Qty).Value) * clsCommon.myCdbl(growCons.Cells(colAVG_Cost).Value)
+                        dblAmount += clsCommon.myCdbl(growCons.Cells(colAVG_Cost).Value)
                     End If
                 Next
                 gvProductionCost.Rows(gvProductionCost.Rows.Count - 1).Cells(colAVG_Cost).Value = Math.Round(dblAmount, 2)
@@ -3087,28 +2908,20 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         Next
 
     End Sub
-
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
-
             If (myMessages.ReCreateJEConfirm()) Then
-                'If AllowToSave(True) And SaveData(True) Then
                 If FrmMainTranScreen.ValidateTransactionAccToFinYear("Production Entry", dtpDate.Value) = False Then
-                        Exit Sub
-                    End If
-                    clsStanderdProductionEntry.ReCreateJE(Form_ID, txtCode.Value, arrLoc, True)
-                    common.clsCommon.MyMessageBoxShow("Successfully JE Recreate")
-                'LoadData(txtCode.Value, NavigatorType.Current)
-                'RadButton1.Visible = False
-                'End If
+                    Exit Sub
+                End If
+                clsStanderdProductionEntry.ReCreateJE(Form_ID, txtCode.Value, arrLoc, True)
+                common.clsCommon.MyMessageBoxShow("Successfully JE Recreate")
             End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
-    'Private Sub gvBatch_CellEndEdit(sender As Object, e As GridViewCellEventArgs) Handles gvBatch.CellEndEdit
-
-    'End Sub
+    Private Sub btnShowInventory_Click(sender As Object, e As EventArgs) Handles btnShowInventory.Click
+        clsOpenInventory.ShowInventoryDatails(txtCode.Value)
+    End Sub
 End Class

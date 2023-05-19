@@ -23,16 +23,16 @@ Partial Class FrmUtility
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.btnCreateAdjustment = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -782,6 +782,9 @@ Partial Class FrmUtility
         Me.RadButton213 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.RadButton349 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel66 = New common.Controls.MyLabel()
+        Me.TxtMultiSelectFinder18 = New common.UserControls.txtMultiSelectFinder()
         CType(Me.btnCreateAdjustment, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadGroupBox1.SuspendLayout
@@ -1513,6 +1516,8 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.SuspendLayout
         Me.SplitContainer2.Panel2.SuspendLayout
         Me.SplitContainer2.SuspendLayout
+        CType(Me.RadButton349, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel66, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -1621,7 +1626,7 @@ Partial Class FrmUtility
         '
         '
         '
-        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvShipment.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvShipment.Name = "gvShipment"
         Me.gvShipment.Size = New System.Drawing.Size(307, 119)
         Me.gvShipment.TabIndex = 25
@@ -1904,7 +1909,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView1.Size = New System.Drawing.Size(1103, 602)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -5956,12 +5961,12 @@ Partial Class FrmUtility
         Me.cmbDepartmnt.IsSourceFromTable = False
         Me.cmbDepartmnt.IsSourceFromValueList = False
         Me.cmbDepartmnt.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "LMS"
-        RadListDataItem3.Text = "Marketing"
-        Me.cmbDepartmnt.Items.Add(RadListDataItem1)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem2)
-        Me.cmbDepartmnt.Items.Add(RadListDataItem3)
+        RadListDataItem7.Text = "Select"
+        RadListDataItem8.Text = "LMS"
+        RadListDataItem9.Text = "Marketing"
+        Me.cmbDepartmnt.Items.Add(RadListDataItem7)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem8)
+        Me.cmbDepartmnt.Items.Add(RadListDataItem9)
         Me.cmbDepartmnt.Location = New System.Drawing.Point(68, 16)
         Me.cmbDepartmnt.MendatroryField = False
         Me.cmbDepartmnt.MyLinkLable1 = Nothing
@@ -6181,12 +6186,12 @@ Partial Class FrmUtility
         Me.cmbDEpt.IsSourceFromTable = False
         Me.cmbDEpt.IsSourceFromValueList = False
         Me.cmbDEpt.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "LMS"
-        RadListDataItem6.Text = "Marketing"
-        Me.cmbDEpt.Items.Add(RadListDataItem4)
-        Me.cmbDEpt.Items.Add(RadListDataItem5)
-        Me.cmbDEpt.Items.Add(RadListDataItem6)
+        RadListDataItem10.Text = "Select"
+        RadListDataItem11.Text = "LMS"
+        RadListDataItem12.Text = "Marketing"
+        Me.cmbDEpt.Items.Add(RadListDataItem10)
+        Me.cmbDEpt.Items.Add(RadListDataItem11)
+        Me.cmbDEpt.Items.Add(RadListDataItem12)
         Me.cmbDEpt.Location = New System.Drawing.Point(70, 16)
         Me.cmbDEpt.MendatroryField = False
         Me.cmbDEpt.MyLinkLable1 = Nothing
@@ -6282,12 +6287,12 @@ Partial Class FrmUtility
         Me.cmbDepartment.IsSourceFromTable = False
         Me.cmbDepartment.IsSourceFromValueList = False
         Me.cmbDepartment.IsUnique = False
-        RadListDataItem7.Text = "Select"
-        RadListDataItem8.Text = "LMS"
-        RadListDataItem9.Text = "Marketing"
-        Me.cmbDepartment.Items.Add(RadListDataItem7)
-        Me.cmbDepartment.Items.Add(RadListDataItem8)
-        Me.cmbDepartment.Items.Add(RadListDataItem9)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "LMS"
+        RadListDataItem3.Text = "Marketing"
+        Me.cmbDepartment.Items.Add(RadListDataItem1)
+        Me.cmbDepartment.Items.Add(RadListDataItem2)
+        Me.cmbDepartment.Items.Add(RadListDataItem3)
         Me.cmbDepartment.Location = New System.Drawing.Point(70, 16)
         Me.cmbDepartment.MendatroryField = False
         Me.cmbDepartment.MyLinkLable1 = Nothing
@@ -7126,6 +7131,9 @@ Partial Class FrmUtility
         '
         'RadPageViewPage7
         '
+        Me.RadPageViewPage7.Controls.Add(Me.RadButton349)
+        Me.RadPageViewPage7.Controls.Add(Me.MyLabel66)
+        Me.RadPageViewPage7.Controls.Add(Me.TxtMultiSelectFinder18)
         Me.RadPageViewPage7.Controls.Add(Me.RadButton344)
         Me.RadPageViewPage7.Controls.Add(Me.MyLabel65)
         Me.RadPageViewPage7.Controls.Add(Me.TxtMultiSelectFinder17)
@@ -7157,7 +7165,7 @@ Partial Class FrmUtility
         '
         'RadButton344
         '
-        Me.RadButton344.Location = New System.Drawing.Point(796, 519)
+        Me.RadButton344.Location = New System.Drawing.Point(796, 516)
         Me.RadButton344.Name = "RadButton344"
         Me.RadButton344.Size = New System.Drawing.Size(22, 19)
         Me.RadButton344.TabIndex = 369
@@ -7167,7 +7175,7 @@ Partial Class FrmUtility
         '
         Me.MyLabel65.FieldName = Nothing
         Me.MyLabel65.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel65.Location = New System.Drawing.Point(269, 519)
+        Me.MyLabel65.Location = New System.Drawing.Point(269, 516)
         Me.MyLabel65.Name = "MyLabel65"
         Me.MyLabel65.Size = New System.Drawing.Size(210, 18)
         Me.MyLabel65.TabIndex = 368
@@ -7177,7 +7185,7 @@ Partial Class FrmUtility
         '
         Me.TxtMultiSelectFinder17.arrDispalyMember = Nothing
         Me.TxtMultiSelectFinder17.arrValueMember = Nothing
-        Me.TxtMultiSelectFinder17.Location = New System.Drawing.Point(485, 519)
+        Me.TxtMultiSelectFinder17.Location = New System.Drawing.Point(485, 516)
         Me.TxtMultiSelectFinder17.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMultiSelectFinder17.MyLinkLable1 = Nothing
         Me.TxtMultiSelectFinder17.MyLinkLable2 = Nothing
@@ -9662,6 +9670,37 @@ Partial Class FrmUtility
         '
         Me.Timer3.Interval = 50000
         '
+        'RadButton349
+        '
+        Me.RadButton349.Location = New System.Drawing.Point(797, 536)
+        Me.RadButton349.Name = "RadButton349"
+        Me.RadButton349.Size = New System.Drawing.Size(22, 19)
+        Me.RadButton349.TabIndex = 372
+        Me.RadButton349.Text = ">>"
+        '
+        'MyLabel66
+        '
+        Me.MyLabel66.FieldName = Nothing
+        Me.MyLabel66.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel66.Location = New System.Drawing.Point(270, 536)
+        Me.MyLabel66.Name = "MyLabel66"
+        Me.MyLabel66.Size = New System.Drawing.Size(149, 18)
+        Me.MyLabel66.TabIndex = 371
+        Me.MyLabel66.Text = "Cattle Feed Production Entry"
+        '
+        'TxtMultiSelectFinder18
+        '
+        Me.TxtMultiSelectFinder18.arrDispalyMember = Nothing
+        Me.TxtMultiSelectFinder18.arrValueMember = Nothing
+        Me.TxtMultiSelectFinder18.Location = New System.Drawing.Point(486, 536)
+        Me.TxtMultiSelectFinder18.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiSelectFinder18.MyLinkLable1 = Nothing
+        Me.TxtMultiSelectFinder18.MyLinkLable2 = Nothing
+        Me.TxtMultiSelectFinder18.MyNullText = "All"
+        Me.TxtMultiSelectFinder18.Name = "TxtMultiSelectFinder18"
+        Me.TxtMultiSelectFinder18.Size = New System.Drawing.Size(311, 19)
+        Me.TxtMultiSelectFinder18.TabIndex = 370
+        '
         'FrmUtility
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -10436,6 +10475,8 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.RadButton349, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel66, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(false)
 
@@ -11189,5 +11230,8 @@ End Sub
     Friend WithEvents GroupBox111 As GroupBox
     Friend WithEvents rbtnDeletePS As common.Controls.MyRadioButton
     Friend WithEvents rbtnDeleteDS As common.Controls.MyRadioButton
+    Friend WithEvents RadButton349 As RadButton
+    Friend WithEvents MyLabel66 As common.Controls.MyLabel
+    Friend WithEvents TxtMultiSelectFinder18 As common.UserControls.txtMultiSelectFinder
 End Class
 
