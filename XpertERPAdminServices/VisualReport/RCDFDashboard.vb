@@ -685,9 +685,17 @@ from  TSPL_GRN_HEAD
 left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
 left OUTER join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
-where 2=2 and TSPL_GRN_HEAD.GRN_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
-and TSPL_GRN_HEAD.GRN_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
-
+where 2=2  
+and CONVERT(DATE,TSPL_GRN_HEAD.GRN_Date,103)<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "'"
+                sQuery += " and TSPL_GRN_HEAD.Ref_No in (select  TSPL_GRN_HEAD.Ref_No
+from TSPL_GRN_HEAD
+left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
+where convert(date,TSPL_GRN_HEAD.GRN_Date,103) = convert(date,'15-may-23',103) "
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
+                    sQuery += " And TSPL_GRN_HEAD.Bill_To_Location ='" + txtLocation.Value + "' "
+                End If
+                sQuery += ")"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_GRN_HEAD.Bill_To_Location ='" + txtLocation.Value + "' "
             End If
@@ -878,7 +886,7 @@ INNER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_TENDER_DETA
 GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_TENDER_DETAIL.Unit_code) 
 	RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_PO_WEIGHTMENT_HEAD.Location_Code AND RM_RAL.ITEM_CODE=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_PO_WEIGHTMENT_DETAIL.UOM
 where 
-convert(date,TSPL_GRN_HEAD.GRN_Date,103) >=  convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)  
+convert(date,TSPL_GRN_HEAD.GRN_Date,103) <=  convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)  
 AND  TSPL_ITEM_MASTER.RAL=1 "
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_PO_WEIGHTMENT_HEAD.Location_Code='" + txtLocation.Value + "' "
