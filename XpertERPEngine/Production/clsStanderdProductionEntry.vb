@@ -695,7 +695,7 @@ Public Class clsStanderdProductionEntry
             Remarks = obj.DESCRIPTION
 
             '' credit wip account of consumption items
-            qry = " SELECT Consm.CONSM_ITEM_CODE,cast ( (Consm.Avg_Cost * Consm.CONSM_QTY) as  decimal(18,2)) as Avg_Cost,TSPL_ITEM_MASTER.Item_Desc,TSPL_PURCHASE_ACCOUNTS.RM_Consumption AS CreditAccount " &
+            qry = " SELECT Consm.CONSM_ITEM_CODE,cast ( (Consm.Avg_Cost) as  decimal(18,2)) as Avg_Cost,TSPL_ITEM_MASTER.Item_Desc,TSPL_PURCHASE_ACCOUNTS.RM_Consumption AS CreditAccount " &
                   " FROM TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL  Consm " &
                   " left join TSPL_ITEM_MASTER on Consm.CONSM_ITEM_CODE=TSPL_ITEM_MASTER.Item_Code " &
                   " left join TSPL_PURCHASE_ACCOUNTS on TSPL_ITEM_MASTER.Purchase_Class_Code=TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code " &
@@ -1063,7 +1063,7 @@ Public Class clsStanderdProductionEntryRM
             clsCommon.AddColumnsForChange(coll, "FAT_KG", clsCommon.myCdbl(dr.Item("FAT_KG")))
             clsCommon.AddColumnsForChange(coll, "SNF_KG", clsCommon.myCdbl(dr.Item("SNF_KG")))
             Dim cost As Decimal = clsCommon.myCDecimal(dr.Item("AVG_COST"))
-            Dim Amt As Decimal = (clsCommon.myCDecimal(dr.Item("AVG_COST")) * clsCommon.myCDecimal(dr.Item("Consm_Qty")))
+            'Dim Amt As Decimal = (clsCommon.myCDecimal(dr.Item("AVG_COST")) * clsCommon.myCDecimal(dr.Item("Consm_Qty")))
             clsCommon.AddColumnsForChange(coll, "AVG_COST", cost)
             Dim BalanceQty As Decimal = 0
 
@@ -1091,13 +1091,13 @@ Public Class clsStanderdProductionEntryRM
 
             'cost = clsCommon.myCdbl(dr.Item("FAT_Amt")) + clsCommon.myCdbl(dr.Item("SNF_Amt"))
             clsCommon.AddColumnsForChange(coll, "FIFO_COST", cost)
-            totalFifoCost = totalFifoCost + Amt
+            totalFifoCost = totalFifoCost + cost
 
             'clsCommon.AddColumnsForChange(coll, "AVG_COST", cost)
-            totalAvgCost = totalAvgCost + Amt
+            totalAvgCost = totalAvgCost + cost
 
             clsCommon.AddColumnsForChange(coll, "LIFO_COST", cost)
-            totalLifoCost = totalLifoCost + Amt
+            totalLifoCost = totalLifoCost + cost
 
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL", OMInsertOrUpdate.Insert, "", trans)
         Next

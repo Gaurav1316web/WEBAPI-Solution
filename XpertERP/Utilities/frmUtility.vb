@@ -26146,4 +26146,33 @@ where TSPL_ASSET_SCRAP_HEAD.Status=1"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub TxtMultiSelectFinder18__My_Click(sender As Object, e As EventArgs) Handles TxtMultiSelectFinder18._My_Click
+        Dim qry As String = "select PROD_ENTRY_CODE as DOC_Code,PROD_DATE as DocDate,LOCATION_CODE,DESCRIPTION from TSPL_SPP_PRODUCTION_ENTRY"
+        TxtMultiSelectFinder18.arrValueMember = clsCommon.ShowMultipleSelectForm("CFProE@u", qry, "DOC_CODE", "", TxtMultiSelectFinder18.arrValueMember, Nothing)
+    End Sub
+
+    Private Sub RadButton349_Click(sender As Object, e As EventArgs) Handles RadButton349.Click
+        Try
+            If TxtMultiSelectFinder18.arrValueMember Is Nothing OrElse TxtMultiSelectFinder18.arrValueMember.Count <= 0 Then
+                Throw New Exception("Please select At least One Document")
+            End If
+            Dim StrAllException As String = ""
+
+            For ii As Integer = 0 To TxtMultiSelectFinder18.arrValueMember.Count - 1
+                Try
+                    clsStanderdProductionEntry.ReCreateJE(clsUserMgtCode.frmStanderdProductionEntry, TxtMultiSelectFinder18.arrValueMember(ii), "", True)
+                Catch ex As Exception
+                    StrAllException += "Error  [" + TxtMultiSelectFinder18.arrValueMember(ii) + "]" + ex.Message + Environment.NewLine
+                End Try
+            Next
+            If clsCommon.myLen(StrAllException) > 0 Then
+                clsCommon.MyMessageBoxShow(StrAllException, Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow("Successfully Created", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
