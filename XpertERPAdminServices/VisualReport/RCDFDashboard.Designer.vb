@@ -22,15 +22,15 @@ Partial Class RCDFDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim CartesianArea1 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim CartesianArea2 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim CartesianArea3 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition21 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
@@ -313,7 +313,7 @@ Partial Class RCDFDashboard
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.PageBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(67, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.RadPageView1.SelectedPage = Me.Attachments
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(859, 474)
         Me.RadPageView1.TabIndex = 1
         Me.RadPageView1.ViewMode = Telerik.WinControls.UI.PageViewMode.Backstage
@@ -359,7 +359,7 @@ Partial Class RCDFDashboard
         '
         '
         '
-        Me.gvRMStock.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvRMStock.MasterTemplate.ViewDefinition = TableViewDefinition15
         Me.gvRMStock.Name = "gvRMStock"
         Me.gvRMStock.Size = New System.Drawing.Size(456, 388)
         Me.gvRMStock.TabIndex = 15
@@ -405,7 +405,7 @@ Partial Class RCDFDashboard
         '
         '
         '
-        Me.gvRMSupply.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvRMSupply.MasterTemplate.ViewDefinition = TableViewDefinition16
         Me.gvRMSupply.Name = "gvRMSupply"
         Me.gvRMSupply.Size = New System.Drawing.Size(390, 249)
         Me.gvRMSupply.TabIndex = 6
@@ -430,7 +430,7 @@ Partial Class RCDFDashboard
         '
         '
         '
-        Me.gvRMInPlant.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvRMInPlant.MasterTemplate.ViewDefinition = TableViewDefinition17
         Me.gvRMInPlant.Name = "gvRMInPlant"
         Me.gvRMInPlant.Size = New System.Drawing.Size(390, 113)
         Me.gvRMInPlant.TabIndex = 7
@@ -485,7 +485,7 @@ Partial Class RCDFDashboard
         '
         '
         '
-        Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition18
         Me.gvFinishGoods.Name = "gvFinishGoods"
         Me.gvFinishGoods.Size = New System.Drawing.Size(850, 249)
         Me.gvFinishGoods.TabIndex = 6
@@ -505,7 +505,7 @@ Partial Class RCDFDashboard
         '
         'cvFinishGoods
         '
-        Me.cvFinishGoods.AreaDesign = CartesianArea1
+        Me.cvFinishGoods.AreaDesign = CartesianArea2
         Me.cvFinishGoods.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvFinishGoods.Location = New System.Drawing.Point(0, 0)
         Me.cvFinishGoods.Name = "cvFinishGoods"
@@ -554,7 +554,7 @@ Partial Class RCDFDashboard
         '
         '
         '
-        Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition19
         Me.gvProdution.Name = "gvProdution"
         Me.gvProdution.Size = New System.Drawing.Size(846, 248)
         Me.gvProdution.TabIndex = 6
@@ -574,7 +574,7 @@ Partial Class RCDFDashboard
         '
         'cvProdution
         '
-        Me.cvProdution.AreaDesign = CartesianArea2
+        Me.cvProdution.AreaDesign = CartesianArea3
         Me.cvProdution.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvProdution.Location = New System.Drawing.Point(0, 0)
         Me.cvProdution.Name = "cvProdution"
@@ -620,7 +620,7 @@ Partial Class RCDFDashboard
         '
         '
         '
-        Me.gvQuality.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvQuality.MasterTemplate.ViewDefinition = TableViewDefinition20
         Me.gvQuality.Name = "gvQuality"
         Me.gvQuality.Size = New System.Drawing.Size(850, 249)
         Me.gvQuality.TabIndex = 6
@@ -645,7 +645,7 @@ Partial Class RCDFDashboard
         '
         '
         '
-        Me.gvQualitySummary.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvQualitySummary.MasterTemplate.ViewDefinition = TableViewDefinition21
         Me.gvQualitySummary.Name = "gvQualitySummary"
         Me.gvQualitySummary.Size = New System.Drawing.Size(850, 113)
         Me.gvQualitySummary.TabIndex = 7
