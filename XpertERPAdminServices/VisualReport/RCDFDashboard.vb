@@ -643,7 +643,7 @@ order by TSPL_GRN_HEAD.GRN_Date desc"
             End If
 
             If dtQuality IsNot Nothing AndAlso dtQuality.Rows.Count > 0 Then
-                lblQuality.Text = "Status of " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + ""
+                lblQuality.Text = "Current Status"
 
                 gvQuality.DataSource = Nothing
                 gvQuality.Columns.Clear()
@@ -706,7 +706,7 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Ite
             End If
 
             If dtQualitySummary IsNot Nothing AndAlso dtQualitySummary.Rows.Count > 0 Then
-                lblQualitySummary.Text = "Quality Summery RM Wise"
+                lblQualitySummary.Text = "Quality Summary RAL Wise"
 
                 gvQualitySummary.DataSource = Nothing
                 gvQualitySummary.Columns.Clear()
@@ -840,8 +840,7 @@ ORDER BY  ITEM_CODE"
             End If
 
             If dtRMStock IsNot Nothing AndAlso dtRMStock.Rows.Count > 0 Then
-                lblRMStock.Text = "Stock Details Qty in MT"
-
+                lblRMStock.Text = "Stock Details Qty."
                 gvRMStock.DataSource = Nothing
                 gvRMStock.Columns.Clear()
                 gvRMStock.Rows.Clear()
@@ -896,7 +895,7 @@ AND  TSPL_ITEM_MASTER.RAL=1 "
             End If
 
             If dtRMSupply IsNot Nothing AndAlso dtRMSupply.Rows.Count > 0 Then
-                lblQuality.Text = "Supply Details Against Current RM & Indoor Vehicles"
+                lblQuality.Text = "Supply Details Against RAL"
                 gvRMSupply.DataSource = Nothing
                 gvRMSupply.Columns.Clear()
                 gvRMSupply.Rows.Clear()
@@ -951,7 +950,7 @@ GROUP BY TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAI
             End If
 
             If dtRMInPlant IsNot Nothing AndAlso dtRMInPlant.Rows.Count > 0 Then
-                lblQuality.Text = "In Plant Vehicles"
+                lblQuality.Text = "Indoor Vehicles Status"
 
                 gvRMInPlant.DataSource = Nothing
                 gvRMInPlant.Columns.Clear()
@@ -1055,6 +1054,8 @@ GROUP BY TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAI
     Private Sub LegendElement_VisualItemCreating(sender As Object, e As LegendItemElementCreatingEventArgs)
         e.ItemElement = New CustomLegendItemElement(e.LegendItem)
     End Sub
+
+
 End Class
 
 Public Class CustomPalette
