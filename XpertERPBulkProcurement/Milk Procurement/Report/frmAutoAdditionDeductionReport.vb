@@ -333,4 +333,66 @@ Public Class frmAutoAdditionDeductionReport
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            Dim Qry As String = Nothing
+            ''Dim Qry1 As String = Nothing
+            ''Dim Qry2 As String = Nothing
+
+            ''Dim Qry3 As String = Nothing
+
+
+
+
+            Qry = "select round(row_number() over(order by(select 1)),0) as SNo, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code]
+                                    ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code]
+									,TSPL_VLC_MASTER_HEAD.VLC_Name as [Vender Name]
+                                     ,TSPL_MCC_MASTER.MCC_Name as Area
+									 ,TSPL_COMPANY_MASTER.Regn_No
+									 ,TSPL_COMPANY_MASTER.Phone1 
+									 ,TSPL_COMPANY_MASTER.Comp_Name
+									 ,(MILK_SRN_DETAIL.AMOUNT) AS SRN_AMOUNT        
+									 ,MILK_RECEIPT_DETAIL.ACC_WEIGHT
+                                    ,TSPL_VENDOR_INVOICE_DETAIL.Total_Amount As [Addition/Deduction Amount]
+                                    ,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
+									,'" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate
+                                     from TSPL_VENDOR_INVOICE_DETAIL
+                                    LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+                                    LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
+                                    left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+									 left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+									 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VLC_MASTER_HEAD.comp_code
+									 LEFT OUTER JOIN (select  TSPL_MILK_SRN_HEAD.VSP_CODE,sum(TSPL_MILK_SRN_DETAIL.AMOUNT) as 'amount' from TSPL_MILK_SRN_HEAD 
+									left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+									where 
+									convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>= '" + txtFromDate.Value + "' and CONVERT(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)<='" + txtToDate.Value + "' 
+									group by TSPL_MILK_SRN_HEAD.VSP_CODE) MILK_SRN_DETAIL ON MILK_SRN_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
+									LEFT OUTER JOIN (select  TSPL_MILK_RECEIPT_DETAIL.VSP_CODE,sum(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT) as 'ACC_WEIGHT' from TSPL_MILK_RECEIPT_DETAIL 
+									where 
+									convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)>= '" + txtFromDate.Value + "' and CONVERT(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)<='" + txtToDate.Value + "' 
+									group by TSPL_MILK_RECEIPT_DETAIL.VSP_CODE) MILK_RECEIPT_DETAIL ON MILK_RECEIPT_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
+                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + txtFromDate.Value + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + txtToDate.Value + "' "
+
+            If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                Qry += "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
+            End If
+            If TxtMultiDCS.arrValueMember IsNot Nothing AndAlso TxtMultiDCS.arrValueMember.Count > 0 Then
+                Qry += "and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtMultiDCS.arrValueMember) + ")"
+            End If
+
+            If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
+                Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
+            End If
+
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            If dt1.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt1, "crptAutoAdditionDeductionNewGNG ", "AutoPrint")
+                frmCRV = Nothing
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
 End Class
