@@ -1842,7 +1842,12 @@ Public Class ClsScrapInvoiceDetail
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "invoice_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
-                clsCommon.AddColumnsForChange(coll, "Row_Type", obj.Row_Type)
+                If clsCommon.myLen(obj.Row_Type) <= 0 Then
+                    clsCommon.AddColumnsForChange(coll, "Row_Type", "Item")
+                Else
+                    clsCommon.AddColumnsForChange(coll, "Row_Type", obj.Row_Type)
+                End If
+
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Item_Desc", obj.Item_Desc)
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
