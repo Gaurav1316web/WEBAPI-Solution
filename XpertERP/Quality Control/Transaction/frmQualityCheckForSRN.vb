@@ -2017,7 +2017,8 @@ Public Class FrmQualityCheckForSRN
                                   TSPL_QC_CHECK_HEAD.Gate_Entry_No,TSPL_QC_CHECK_HEAD.Gate_Entry_Date,TSPL_QC_CHECK_HEAD.QC_Status,TSPL_GRN_HEAD.Ref_No as RAL_NO,TSPL_QC_CHECK_HEAD.Template_Remarks
                                   from TSPL_QC_CHECK_DETAIL 
                  				inner join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Document_Code = TSPL_QC_CHECK_DETAIL.Document_Code
-                                                              left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_QC_CHECK_HEAD.Vendor_Code
+                                left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_QC_CHECK_HEAD.Vendor_Code
+                                left outer Join TSPL_QC_CHECK_SRN_DETAIL On TSPL_QC_CHECK_SRN_DETAIL.Document_Code=TSPL_QC_CHECK_HEAD.Document_Code
 									left outer join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_QC_CHECK_DETAIL.Item_Code
                                   left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No = TSPL_QC_CHECK_DETAIL.MRN_No and TSPL_MRN_DETAIL.Item_Code = TSPL_QC_CHECK_DETAIL.Item_Code
                                   left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No = TSPL_MRN_DETAIL.GRN_Id and TSPL_GRN_DETAIL.Item_Code = TSPL_MRN_DETAIL.Item_Code
