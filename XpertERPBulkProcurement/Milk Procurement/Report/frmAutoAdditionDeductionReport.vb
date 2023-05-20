@@ -337,11 +337,17 @@ Public Class frmAutoAdditionDeductionReport
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim Qry As String = Nothing
-            ''Dim Qry1 As String = Nothing
-            ''Dim Qry2 As String = Nothing
+            Dim Qry1 As String = Nothing
+            Dim Qry2 As String = Nothing
 
             ''Dim Qry3 As String = Nothing
+            If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                Qry1 = "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
+            End If
 
+            If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
+                Qry2 = " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
+            End If
 
 
 
@@ -366,24 +372,15 @@ Public Class frmAutoAdditionDeductionReport
 									 LEFT OUTER JOIN (select  TSPL_MILK_SRN_HEAD.VSP_CODE,sum(TSPL_MILK_SRN_DETAIL.AMOUNT) as 'amount' from TSPL_MILK_SRN_HEAD 
 									left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
 									where 
-									convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>= '" + txtFromDate.Value + "' and CONVERT(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)<='" + txtToDate.Value + "' 
+									convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'  and CONVERT(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  
 									group by TSPL_MILK_SRN_HEAD.VSP_CODE) MILK_SRN_DETAIL ON MILK_SRN_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
 									LEFT OUTER JOIN (select  TSPL_MILK_RECEIPT_DETAIL.VSP_CODE,sum(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT) as 'ACC_WEIGHT' from TSPL_MILK_RECEIPT_DETAIL 
 									where 
-									convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)>= '" + txtFromDate.Value + "' and CONVERT(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)<='" + txtToDate.Value + "' 
+									convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'  and CONVERT(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  
 									group by TSPL_MILK_RECEIPT_DETAIL.VSP_CODE) MILK_RECEIPT_DETAIL ON MILK_RECEIPT_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
-                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + txtFromDate.Value + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + txtToDate.Value + "' "
+                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + Qry1 + Qry2 + ""
 
-            If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
-                Qry += "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
-            End If
-            If TxtMultiDCS.arrValueMember IsNot Nothing AndAlso TxtMultiDCS.arrValueMember.Count > 0 Then
-                Qry += "and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtMultiDCS.arrValueMember) + ")"
-            End If
 
-            If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
-                Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
-            End If
 
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry)
             If dt1.Rows.Count > 0 Then
