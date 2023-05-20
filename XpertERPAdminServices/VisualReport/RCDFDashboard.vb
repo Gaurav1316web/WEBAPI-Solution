@@ -643,7 +643,7 @@ order by TSPL_GRN_HEAD.GRN_Date desc"
             End If
 
             If dtQuality IsNot Nothing AndAlso dtQuality.Rows.Count > 0 Then
-                lblQuality.Text = "Current Status"
+                lblQuality.Text = "Status of " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + ""
 
                 gvQuality.DataSource = Nothing
                 gvQuality.Columns.Clear()
@@ -698,7 +698,7 @@ where convert(date,TSPL_GRN_HEAD.GRN_Date,103) = convert(date,'15-may-23',103) "
                 sQuery += ")"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_GRN_HEAD.Bill_To_Location ='" + txtLocation.Value + "' "
-            End If
+                End If
                 sQuery += " GROUP BY TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAIL.Item_Desc
 order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAIL.Item_Desc"
 
@@ -706,7 +706,7 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Ite
             End If
 
             If dtQualitySummary IsNot Nothing AndAlso dtQualitySummary.Rows.Count > 0 Then
-                lblQualitySummary.Text = "Quality Summary RAL Wise"
+                lblQualitySummary.Text = "Quality Summery RM Wise"
 
                 gvQualitySummary.DataSource = Nothing
                 gvQualitySummary.Columns.Clear()
@@ -781,40 +781,47 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Ite
     Public Sub Load_Report_Raw_Material()
         Try
             If dtRMStock Is Nothing OrElse dtRMStock.Rows.Count <= 0 Then
-                Dim sQuery As String = "select xx.Item_Desc,xx.STOCK_QTY,cast(cast(xx.QTY_FOR_DAYS as integer) as varchar)+ ' Days' as QTY_FOR_DAYS from (
-SELECT RM_STOCK_DAYS.ITEM_CODE,max(RM_STOCK_DAYS.Item_Desc) as Item_Desc,SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0)) AS STOCK_QTY,SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) AS REQ_STOCK,SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) AS MIN_LEVEL,
-	CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) ELSE 
-	CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) ELSE 0 END END AS 'QTY_FOR_DAYS' 
-	FROM  (
-	SELECT RM_STOCK.ITEM_CODE,max(RM_STOCK.Item_Desc) as Item_Desc,SUM(ISNULL(RM_STOCK.IN_STOCK_QTY,0))-SUM(ISNULL(RM_STOCK.OUT_STOCK_QTY,0)) AS 'STOCK_QTY',0 AS 'REQ_STOCK', 0 AS 'MIN_LEVEL' FROM (
-	SELECT TSPL_INVENTORY_MOVEMENT.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Item_Desc,
-	CASE WHEN INOUT='I' THEN STOCK_QTY END AS 'IN_STOCK_QTY',
-	CASE WHEN INOUT='O' THEN STOCK_QTY END AS 'OUT_STOCK_QTY'
-	 FROM TSPL_INVENTORY_MOVEMENT
-	LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
-	WHERE 2=2 "
+                Dim sQuery As String = "select xx.Item_Desc,xx.UOM,xx.STOCK_QTY,cast(cast(xx.QTY_FOR_DAYS as integer) as varchar)+ ' Days' as QTY_FOR_DAYS from (
+                SELECT RM_STOCK_DAYS.ITEM_CODE,max(RM_STOCK_DAYS.Item_Desc) as Item_Desc,
+                 max(RM_STOCK_DAYS.UOM)  AS 'UOM',
+                SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))  AS 'STOCK_QTY',
+                SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) AS REQ_STOCK,SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) AS MIN_LEVEL,
+	            CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.REQ_STOCK,0)) ELSE 
+	            CASE WHEN SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0))<>0 THEN SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))/SUM(ISNULL(RM_STOCK_DAYS.MIN_LEVEL,0)) ELSE 0 END END AS 'QTY_FOR_DAYS' 
+	            FROM  (
+	            SELECT RM_STOCK.ITEM_CODE,max(RM_STOCK.Item_Desc) as Item_Desc,MAX(RM_STOCK.UOM) AS 'UOM',SUM(ISNULL(RM_STOCK.IN_STOCK_QTY,0))-SUM(ISNULL(RM_STOCK.OUT_STOCK_QTY,0)) AS 'STOCK_QTY',0 AS 'REQ_STOCK', 0 AS 'MIN_LEVEL' FROM (
+	            SELECT TSPL_INVENTORY_MOVEMENT.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Unit_Code AS 'UOM',
+	            CASE WHEN INOUT='I' THEN STOCK_QTY END AS 'IN_STOCK_QTY',
+	            CASE WHEN INOUT='O' THEN STOCK_QTY END AS 'OUT_STOCK_QTY'
+	             FROM TSPL_INVENTORY_MOVEMENT
+	            LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code
+	            WHERE 2=2 "
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_INVENTORY_MOVEMENT.Location_Code='" + txtLocation.Value + "' "
                 End If
-                sQuery += "  AND TSPL_ITEM_MASTER.Structure_Code IN ('RM')) RM_STOCK
+                sQuery += "  AND TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM')) RM_STOCK
 	GROUP BY  RM_STOCK.Item_Code
 	UNION ALL
 	SELECT  
-	TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,max(TSPL_ITEM_MASTER.Item_Desc) as Item_Desc,
+	TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE,max(TSPL_ITEM_MASTER.Item_Desc) as Item_Desc,max(TSPL_ITEM_MASTER.Unit_Code) as 'UOM',
 	0 AS 'STOCK_QTY',
-	AVG(TSPL_MF_BOM_DETAIL.Percentage*(TSPL_LOCATION_MASTER.Silo_Capacity*1000))/100 AS 'REQ_STOCK',
+	AVG(CASE WHEN TSPL_MF_BOM_DETAIL.Percentage>0 THEN 
+    (TSPL_MF_BOM_DETAIL.Percentage*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/100 ELSE 
+    CASE WHEN TSPL_MF_BOM_DETAIL.CONSM_QUANTITY>0 THEN
+    ((TSPL_MF_BOM_DETAIL.CONSM_QUANTITY*TSPL_LOCATION_MASTER.Silo_Capacity*1000)/TSPL_MF_BOM_HEAD.PROD_QUANTITY) ELSE 0 END
+    END)  AS 'REQ_STOCK',
 	0 AS 'MIN_LEVEL'
 	FROM TSPL_MF_BOM_HEAD 
 	LEFT OUTER JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_DETAIL.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE
 	LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE
 	left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_MF_BOM_HEAD.LOCATION_CODE
 	INNER join (select PROD_ITEM_CODE,MAX(BOM_CODE) AS 'BOM_CODE',MAX(REVISION_NO) AS 'REVISION_NO' from TSPL_MF_BOM_HEAD WHERE 2=2 "
-                 If clsCommon.myLen(txtLocation.Value) > 0 Then
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " and TSPL_MF_BOM_HEAD.LOCATION_CODE='" + txtLocation.Value + "' "
                 End If
                 sQuery += " GROUP BY PROD_ITEM_CODE
 	) BOM_LATEST ON BOM_LATEST.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE AND BOM_LATEST.REVISION_NO=TSPL_MF_BOM_HEAD.REVISION_NO
-	WHERE  TSPL_ITEM_MASTER.Structure_Code IN ('RM')  "
+	WHERE  TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM')  "
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " and 	TSPL_MF_BOM_HEAD.LOCATION_CODE='" + txtLocation.Value + "' "
                 End If
@@ -822,25 +829,26 @@ SELECT RM_STOCK_DAYS.ITEM_CODE,max(RM_STOCK_DAYS.Item_Desc) as Item_Desc,SUM(ISN
                 sQuery += "GROUP BY  
 	TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE
 	UNION ALL
-	select TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code ,TSPL_ITEM_MASTER.Item_Desc,
+	select TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code ,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.Unit_Code AS 'UOM',
 	0 AS 'STOCK_QTY', 
 	0 AS 'REQ_STOCK',
 	TSPL_ITEM_REORDER_LEVEL_NEW.Min_Level AS 'MIN_LEVEL' 
 	from TSPL_ITEM_REORDER_LEVEL_NEW 
 	left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code
-	where TSPL_ITEM_MASTER.Structure_Code IN ('RM') and Apply='Y'"
-                  If clsCommon.myLen(txtLocation.Value) > 0 Then
+	where TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM') and Apply='Y'"
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " AND TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code='" + txtLocation.Value + "' "
                 End If
                 sQuery += " ) RM_STOCK_DAYS
 GROUP BY  RM_STOCK_DAYS.ITEM_CODE
-)xx
+)xx WHERE XX.ITEM_CODE NOT IN ('PM0001','PM0002') and xx.STOCK_QTY>0
 ORDER BY  ITEM_CODE"
                 dtRMStock = clsDBFuncationality.GetDataTable(sQuery)
             End If
 
             If dtRMStock IsNot Nothing AndAlso dtRMStock.Rows.Count > 0 Then
-                lblRMStock.Text = "Stock Details Qty."
+                lblRMStock.Text = "Stock Details Qty"
+
                 gvRMStock.DataSource = Nothing
                 gvRMStock.Columns.Clear()
                 gvRMStock.Rows.Clear()
@@ -886,7 +894,14 @@ GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDE
 	RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_PO_WEIGHTMENT_HEAD.Location_Code AND RM_RAL.ITEM_CODE=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_PO_WEIGHTMENT_DETAIL.UOM
 where 
 convert(date,TSPL_GRN_HEAD.GRN_Date,103) <=  convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)  
-AND  TSPL_ITEM_MASTER.RAL=1 "
+AND  TSPL_ITEM_MASTER.RAL=1 and TSPL_GRN_HEAD.Ref_No in (
+select TSPL_GRN_HEAD.Ref_No from TSPL_GRN_HEAD
+left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
+where convert(date,TSPL_GRN_HEAD.GRN_Date,103) =convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103) "
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
+                    sQuery += " And TSPL_GRN_HEAD.Bill_To_Location='" + txtLocation.Value + "' "
+                End If
+                sQuery += ")"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_PO_WEIGHTMENT_HEAD.Location_Code='" + txtLocation.Value + "' "
                 End If
@@ -895,7 +910,7 @@ AND  TSPL_ITEM_MASTER.RAL=1 "
             End If
 
             If dtRMSupply IsNot Nothing AndAlso dtRMSupply.Rows.Count > 0 Then
-                lblQuality.Text = "Supply Details Against RAL"
+                lblQuality.Text = "Supply Details Against Current RM & Indoor Vehicles"
                 gvRMSupply.DataSource = Nothing
                 gvRMSupply.Columns.Clear()
                 gvRMSupply.Rows.Clear()
@@ -941,7 +956,7 @@ left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_C
 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
 left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
 where convert(date,TSPL_GRN_HEAD.GRN_Date,103) =convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)"
-                 If clsCommon.myLen(txtLocation.Value) > 0 Then
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And Bill_To_Location='" + txtLocation.Value + "' "
                 End If
                 sQuery += "  AND TSPL_PO_WEIGHTMENT_HEAD.Status=1)
@@ -950,7 +965,7 @@ GROUP BY TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAI
             End If
 
             If dtRMInPlant IsNot Nothing AndAlso dtRMInPlant.Rows.Count > 0 Then
-                lblQuality.Text = "Indoor Vehicles Status"
+                lblQuality.Text = "In Plant Vehicles"
 
                 gvRMInPlant.DataSource = Nothing
                 gvRMInPlant.Columns.Clear()
@@ -1054,8 +1069,6 @@ GROUP BY TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAI
     Private Sub LegendElement_VisualItemCreating(sender As Object, e As LegendItemElementCreatingEventArgs)
         e.ItemElement = New CustomLegendItemElement(e.LegendItem)
     End Sub
-
-
 End Class
 
 Public Class CustomPalette

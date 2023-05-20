@@ -298,6 +298,9 @@ Public Class clsStanderdProductionEntry
         Return True
     End Function
     Public Shared Function ReCreateJE(ByVal Form_Id As String, ByVal strDocNo As String, ByVal arrloc As String, ByVal isCheckForPosted As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Return ReCreateJE(Form_Id, strDocNo, arrloc, isCheckForPosted, trans, False)
+    End Function
+    Public Shared Function ReCreateJE(ByVal Form_Id As String, ByVal strDocNo As String, ByVal arrloc As String, ByVal isCheckForPosted As Boolean, ByVal trans As SqlTransaction, ByVal SkipInventory As Boolean) As Boolean
         If (clsCommon.myLen(strDocNo) <= 0) Then
             Throw New Exception("Code not found to Post")
         End If
@@ -305,10 +308,10 @@ Public Class clsStanderdProductionEntry
         Dim obj As clsStanderdProductionEntry = clsStanderdProductionEntry.GetData(strDocNo, arrloc, NavigatorType.Current, trans)
 
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProductionEntry, obj.LOCATION_CODE, obj.PROD_DATE, trans)
-        Dim isSaved As Boolean = True
-        UpdateInventoryMovement(Form_Id, obj, arrloc, trans)
-        'clsStanderdProductionEntryRM.SaveRM(obj.PROD_ENTRY_CODE, arrloc, trans)
-        isSaved = JournalEntry(trans, obj)
+        If Not SkipInventory Then
+            UpdateInventoryMovement(Form_Id, obj, arrloc, trans)
+        End If
+        JournalEntry(trans, obj)
         Return True
     End Function
 
