@@ -54,12 +54,12 @@ Partial Class FrmPendingAproval
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.cboModule = New common.Controls.MyComboBox()
         Me.RadLabel10 = New common.Controls.MyLabel()
+        Me.BtnSelAll = New Telerik.WinControls.UI.RadButton()
         Me.btnSel1000 = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.txtGrandTotal = New Telerik.WinControls.UI.RadTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblNoOfRecords = New common.Controls.MyLabel()
-        Me.BtnSelAll = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSlctAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -95,12 +95,12 @@ Partial Class FrmPendingAproval
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnSelAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSel1000, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGrandTotal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnSelAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -520,6 +520,15 @@ Partial Class FrmPendingAproval
         Me.RadLabel10.TabIndex = 11
         Me.RadLabel10.Text = "Module"
         '
+        'BtnSelAll
+        '
+        Me.BtnSelAll.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnSelAll.Location = New System.Drawing.Point(301, 3)
+        Me.BtnSelAll.Name = "BtnSelAll"
+        Me.BtnSelAll.Size = New System.Drawing.Size(108, 22)
+        Me.BtnSelAll.TabIndex = 8
+        Me.BtnSelAll.Text = "Select All"
+        '
         'btnSel1000
         '
         Me.btnSel1000.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -566,15 +575,6 @@ Partial Class FrmPendingAproval
         Me.lblNoOfRecords.Size = New System.Drawing.Size(87, 16)
         Me.lblNoOfRecords.TabIndex = 2
         Me.lblNoOfRecords.Text = "0 Record Found"
-        '
-        'BtnSelAll
-        '
-        Me.BtnSelAll.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnSelAll.Location = New System.Drawing.Point(301, 3)
-        Me.BtnSelAll.Name = "BtnSelAll"
-        Me.BtnSelAll.Size = New System.Drawing.Size(108, 22)
-        Me.BtnSelAll.TabIndex = 8
-        Me.BtnSelAll.Text = "Select All"
         '
         'FrmPendingAproval
         '
@@ -629,12 +629,12 @@ Partial Class FrmPendingAproval
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnSelAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSel1000, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGrandTotal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNoOfRecords, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnSelAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -54,6 +54,7 @@ Public Class FrmPendingAproval
     Dim ShowDairySaleModuleOnBulkPosting As Integer
     Dim RecordCount As Integer = 0
     Dim CreateProvisionOfTransporterInDairyDispatch As Boolean = False
+    Dim FlagAllSelectWorking As Boolean = False
 
     Private Sub FrmPendingAproval_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ShowDairySaleModuleOnBulkPosting = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowDairySaleModuleOnBulkPosting, clsFixedParameterCode.ShowDairySaleModuleOnBulkPosting, Nothing))
@@ -211,7 +212,7 @@ Public Class FrmPendingAproval
         dr("Name") = "Product Sale"
         dt.Rows.Add(dr)
 
-     
+
         If ShowDairySaleModuleOnBulkPosting = 1 Then
             dr = dt.NewRow()
             dr("Code") = "Dairy Sale"
@@ -223,7 +224,7 @@ Public Class FrmPendingAproval
             dr("Name") = "Fresh Sale"
             dt.Rows.Add(dr)
         End If
-    
+
         dr = dt.NewRow()
         dr("Code") = "Material Management"
         dr("Name") = "Material Management"
@@ -1134,7 +1135,9 @@ Public Class FrmPendingAproval
 
     Private Sub gv1_ValueChanging(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.ValueChangingEventArgs) Handles gv1.ValueChanging
         Try
-            TotalAmount(e.NewValue, gv1)
+            If FlagAllSelectWorking = False Then
+                TotalAmount(e.NewValue, gv1)
+            End If
         Catch ex As Exception
 
         End Try
@@ -1279,9 +1282,9 @@ Public Class FrmPendingAproval
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = "select CAST((TSPL_PP_ISSUE_HEAD.is_Post)as BIT) as Status,TSPL_PP_ISSUE_HEAD.Issue_Code as [Document Id],convert(varchar,TSPL_PP_ISSUE_HEAD.Issue_Date ,103) as [Document Date],isnull(TSPL_PP_ISSUE_HEAD.Batch_Code,0) as [Batch Code],Main_Location_Code as [Location],case when TSPL_ITEM_MASTER.Item_Type='F' then 'Finished Goods' when TSPL_ITEM_MASTER.Item_Type='S' then 'Semi Finished Goods' else '' end [Item Type] ,TSPL_PP_ISSUE_HEAD.Created_By as [Created By],convert(varchar,TSPL_PP_ISSUE_HEAD.Created_Date,103) as [Created Date],TSPL_PP_ISSUE_HEAD.Description from TSPL_PP_ISSUE_HEAD  " & _
-                    " left outer join TSPL_PP_BATCH_ORDER_BOM_DETAIL on TSPL_PP_BATCH_ORDER_BOM_DETAIL.Batch_Code =TSPL_PP_ISSUE_HEAD.Batch_Code " & _
-                    " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code=TSPL_PP_BATCH_ORDER_BOM_DETAIL.item_Code " & _
+                    qry = "select CAST((TSPL_PP_ISSUE_HEAD.is_Post)as BIT) as Status,TSPL_PP_ISSUE_HEAD.Issue_Code as [Document Id],convert(varchar,TSPL_PP_ISSUE_HEAD.Issue_Date ,103) as [Document Date],isnull(TSPL_PP_ISSUE_HEAD.Batch_Code,0) as [Batch Code],Main_Location_Code as [Location],case when TSPL_ITEM_MASTER.Item_Type='F' then 'Finished Goods' when TSPL_ITEM_MASTER.Item_Type='S' then 'Semi Finished Goods' else '' end [Item Type] ,TSPL_PP_ISSUE_HEAD.Created_By as [Created By],convert(varchar,TSPL_PP_ISSUE_HEAD.Created_Date,103) as [Created Date],TSPL_PP_ISSUE_HEAD.Description from TSPL_PP_ISSUE_HEAD  " &
+                    " left outer join TSPL_PP_BATCH_ORDER_BOM_DETAIL on TSPL_PP_BATCH_ORDER_BOM_DETAIL.Batch_Code =TSPL_PP_ISSUE_HEAD.Batch_Code " &
+                    " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code=TSPL_PP_BATCH_ORDER_BOM_DETAIL.item_Code " &
                     " WHERE convert(date,TSPL_PP_ISSUE_HEAD.Issue_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_PP_ISSUE_HEAD.Issue_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -1310,7 +1313,7 @@ Public Class FrmPendingAproval
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = "select CAST((TSPL_PP_STANDARDIZATION_HEAD.Posted)as BIT) as Status,TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code as [Document Id],convert(varchar,TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date ,103) as [Document Date],isnull(TSPL_PP_STANDARDIZATION_HEAD.Main_Batch_Code,0) as [Batch Code],Loaction_Code as [Location],TSPL_PP_STANDARDIZATION_HEAD.Created_By as [Created By],convert(varchar,TSPL_PP_STANDARDIZATION_HEAD.Created_Date,103) as [Created Date] from TSPL_PP_STANDARDIZATION_HEAD " & _
+                    qry = "select CAST((TSPL_PP_STANDARDIZATION_HEAD.Posted)as BIT) as Status,TSPL_PP_STANDARDIZATION_HEAD.Standardization_Code as [Document Id],convert(varchar,TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date ,103) as [Document Date],isnull(TSPL_PP_STANDARDIZATION_HEAD.Main_Batch_Code,0) as [Batch Code],Loaction_Code as [Location],TSPL_PP_STANDARDIZATION_HEAD.Created_By as [Created By],convert(varchar,TSPL_PP_STANDARDIZATION_HEAD.Created_Date,103) as [Created Date] from TSPL_PP_STANDARDIZATION_HEAD " &
                     " WHERE  convert(date,TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_PP_STANDARDIZATION_HEAD.Standardization_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -1340,7 +1343,7 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "select CAST((TSPL_PP_STD_FINALQC_HEAD.Posted)as BIT) as Status,TSPL_PP_STD_FINALQC_HEAD.QC_Code as [Document Id],convert(varchar,TSPL_PP_STD_FINALQC_HEAD.QC_Date ,103) as [Document Date],isnull(TSPL_PP_STD_FINALQC_HEAD.Main_Batch_Code,0) as [Batch Code],Loaction_Code as [Location],TSPL_PP_STD_FINALQC_HEAD.Created_By as [Created By],convert(varchar,TSPL_PP_STD_FINALQC_HEAD.Created_Date,103) as [Created Date] from TSPL_PP_STD_FINALQC_HEAD " & _
+                    qry = "select CAST((TSPL_PP_STD_FINALQC_HEAD.Posted)as BIT) as Status,TSPL_PP_STD_FINALQC_HEAD.QC_Code as [Document Id],convert(varchar,TSPL_PP_STD_FINALQC_HEAD.QC_Date ,103) as [Document Date],isnull(TSPL_PP_STD_FINALQC_HEAD.Main_Batch_Code,0) as [Batch Code],Loaction_Code as [Location],TSPL_PP_STD_FINALQC_HEAD.Created_By as [Created By],convert(varchar,TSPL_PP_STD_FINALQC_HEAD.Created_Date,103) as [Created Date] from TSPL_PP_STD_FINALQC_HEAD " &
                     " WHERE  convert(date,TSPL_PP_STD_FINALQC_HEAD.QC_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_PP_STD_FINALQC_HEAD.QC_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -1363,7 +1366,7 @@ Public Class FrmPendingAproval
 
                     End If
                     qry += " ORDER BY TSPL_PP_STD_FINALQC_HEAD.QC_Date, TSPL_PP_STD_FINALQC_HEAD.QC_Code "
-                    
+
                 End If
             End If
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Stage Process") = CompairStringResult.Equal Then
@@ -1371,7 +1374,7 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "select CAST((TSPL_PP_STAGE_PROCESS_HEAD.Posted )as BIT) as Status,TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE as [Document Id],convert(varchar,TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_DATE ,103) as [Document Date],isnull(TSPL_PP_STAGE_PROCESS_HEAD.Main_Batch_Code,0) as [Batch Code],TSPL_PP_STAGE_PROCESS_HEAD.Created_By as [Created By],convert(varchar,TSPL_PP_STAGE_PROCESS_HEAD.Created_Date,103) as [Created Date] from TSPL_PP_STAGE_PROCESS_HEAD  " & _
+                    qry = "select CAST((TSPL_PP_STAGE_PROCESS_HEAD.Posted )as BIT) as Status,TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_CODE as [Document Id],convert(varchar,TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_DATE ,103) as [Document Date],isnull(TSPL_PP_STAGE_PROCESS_HEAD.Main_Batch_Code,0) as [Batch Code],TSPL_PP_STAGE_PROCESS_HEAD.Created_By as [Created By],convert(varchar,TSPL_PP_STAGE_PROCESS_HEAD.Created_Date,103) as [Created Date] from TSPL_PP_STAGE_PROCESS_HEAD  " &
                     " WHERE  convert(date,TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_PP_STAGE_PROCESS_HEAD.STAGE_PROCESS_DATE,103)<= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -1801,8 +1804,8 @@ Public Class FrmPendingAproval
             'Load_Authorisation("Transfer(Load-In)")
             'If dtAuthen.Rows.Count > 0 Then
             '    If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
-            qry = "Select CAST((case when Max(Status) ='Y' then 1 else 0 end)as BIT) as Status, MAX([Document Id]) as [Document Id], MAX([Document Date]) as [Document Date], SUM(Amount) as Amount, MAX(ItemType) as [Item Type], MAX([Referenced Document]) as [Referenced Document], MAX([Transfer No]) as [Transfer No], MAX(Description) as Description from (SELECT TSPL_ADJUSTMENT_HEADER.Posted as Status, TSPL_ADJUSTMENT_HEADER.Adjustment_No as [Document Id], TSPL_ADJUSTMENT_HEADER.Adjustment_Date as [Document Date], isnull(Item_Cost,0) as Amount, TSPL_ADJUSTMENT_HEADER.ItemType as ItemType, TSPL_ADJUSTMENT_HEADER.Reference_Document as [Referenced Document], " & _
-            " (case when  TSPL_ADJUSTMENT_HEADER.Reference_Document ='Sale Invoice' then TSPL_SHIPMENT_MASTER.Transfer_No else  case when TSPL_ADJUSTMENT_HEADER.Reference_Document ='Load Out/Transfer' then  TSPL_ADJUSTMENT_HEADER.Document_No end end ) as [Transfer No], TSPL_ADJUSTMENT_HEADER.Description as Description,TSPL_ADJUSTMENT_HEADER.Created_By as 'Created By'   FROM TSPL_ADJUSTMENT_HEADER Left Outer Join TSPL_ADJUSTMENT_DETAIL on TSPL_ADJUSTMENT_DETAIL.Adjustment_No=TSPL_ADJUSTMENT_HEADER.Adjustment_No " & _
+            qry = "Select CAST((case when Max(Status) ='Y' then 1 else 0 end)as BIT) as Status, MAX([Document Id]) as [Document Id], MAX([Document Date]) as [Document Date], SUM(Amount) as Amount, MAX(ItemType) as [Item Type], MAX([Referenced Document]) as [Referenced Document], MAX([Transfer No]) as [Transfer No], MAX(Description) as Description from (SELECT TSPL_ADJUSTMENT_HEADER.Posted as Status, TSPL_ADJUSTMENT_HEADER.Adjustment_No as [Document Id], TSPL_ADJUSTMENT_HEADER.Adjustment_Date as [Document Date], isnull(Item_Cost,0) as Amount, TSPL_ADJUSTMENT_HEADER.ItemType as ItemType, TSPL_ADJUSTMENT_HEADER.Reference_Document as [Referenced Document], " &
+            " (case when  TSPL_ADJUSTMENT_HEADER.Reference_Document ='Sale Invoice' then TSPL_SHIPMENT_MASTER.Transfer_No else  case when TSPL_ADJUSTMENT_HEADER.Reference_Document ='Load Out/Transfer' then  TSPL_ADJUSTMENT_HEADER.Document_No end end ) as [Transfer No], TSPL_ADJUSTMENT_HEADER.Description as Description,TSPL_ADJUSTMENT_HEADER.Created_By as 'Created By'   FROM TSPL_ADJUSTMENT_HEADER Left Outer Join TSPL_ADJUSTMENT_DETAIL on TSPL_ADJUSTMENT_DETAIL.Adjustment_No=TSPL_ADJUSTMENT_HEADER.Adjustment_No " &
          " LEFT OUTER JOIN TSPL_SALE_INVOICE_HEAD on TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No=TSPL_ADJUSTMENT_HEADER.Document_No  left outer join TSPL_SHIPMENT_MASTER on TSPL_SHIPMENT_MASTER .Shipment_No =TSPL_SALE_INVOICE_HEAD.Shipment_No  WHERE  convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
             If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Empty Transactions") = CompairStringResult.Equal Then
@@ -1920,9 +1923,9 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
 
-                    qry = "SELECT  CAST(TSPL_SD_SHIPMENT_HEAD.Status as BIT) as Status, TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document Id], TSPL_SD_SHIPMENT_HEAD.Document_Date as [Document Date], TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Sale Invoice], isnull(TSPL_SD_SHIPMENT_HEAD.Total_Amt,0) as [Amount], TSPL_SD_SHIPMENT_HEAD.Bill_To_Location As Location , TSPL_LOCATION_MASTER.Location_Desc as [Location Desc], TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name], TSPL_SD_SHIPMENT_HEAD.Description as [Description], CAST(TSPL_SD_SHIPMENT_HEAD.On_Hold as BIT) as Hold,TSPL_SD_SHIPMENT_HEAD.Created_By as 'Created By' FROM TSPL_SD_SHIPMENT_HEAD" & _
-                        " Left Outer Join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" & _
-                        " Left Outer Join TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code" & _
+                    qry = "SELECT  CAST(TSPL_SD_SHIPMENT_HEAD.Status as BIT) as Status, TSPL_SD_SHIPMENT_HEAD.Document_Code as [Document Id], TSPL_SD_SHIPMENT_HEAD.Document_Date as [Document Date], TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Sale Invoice], isnull(TSPL_SD_SHIPMENT_HEAD.Total_Amt,0) as [Amount], TSPL_SD_SHIPMENT_HEAD.Bill_To_Location As Location , TSPL_LOCATION_MASTER.Location_Desc as [Location Desc], TSPL_SD_SHIPMENT_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name], TSPL_SD_SHIPMENT_HEAD.Description as [Description], CAST(TSPL_SD_SHIPMENT_HEAD.On_Hold as BIT) as Hold,TSPL_SD_SHIPMENT_HEAD.Created_By as 'Created By' FROM TSPL_SD_SHIPMENT_HEAD" &
+                        " Left Outer Join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" &
+                        " Left Outer Join TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code" &
                         " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code WHERE convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)"
                     If rbtnStatusPending.IsChecked = True Then
                         qry += " and TSPL_SD_SHIPMENT_HEAD.Status <> 1"
@@ -1950,9 +1953,9 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "SELECT CAST(TSPL_SD_SALE_INVOICE_HEAD.Status as BIT) as Status, TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Document Id], TSPL_SD_SALE_INVOICE_HEAD.Document_Date as [Document Date],isnull(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,0) as [Amount], TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No as [Shipment No], TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name], TSPL_SD_SALE_INVOICE_HEAD.Description as [Description], CAST(TSPL_SD_SALE_INVOICE_HEAD.On_Hold as BIT) as Hold,TSPL_SD_SALE_INVOICE_HEAD.Created_By as 'Created By'" & _
-                    " FROM TSPL_SD_SALE_INVOICE_HEAD" & _
-                    " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code" & _
+                    qry = "SELECT CAST(TSPL_SD_SALE_INVOICE_HEAD.Status as BIT) as Status, TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Document Id], TSPL_SD_SALE_INVOICE_HEAD.Document_Date as [Document Date],isnull(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,0) as [Amount], TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No as [Shipment No], TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name], TSPL_SD_SALE_INVOICE_HEAD.Description as [Description], CAST(TSPL_SD_SALE_INVOICE_HEAD.On_Hold as BIT) as Hold,TSPL_SD_SALE_INVOICE_HEAD.Created_By as 'Created By'" &
+                    " FROM TSPL_SD_SALE_INVOICE_HEAD" &
+                    " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code" &
                     " WHERE  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)"
                     If rbtnStatusPending.IsChecked = True Then
                         qry += " and TSPL_SD_SALE_INVOICE_HEAD.Status = 0"
@@ -2319,7 +2322,7 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "SELECT CAST((case when ISNULL(TSPL_VENDOR_INVOICE_HEAD.Posting_Date, '')= '' then 0 else 1 end)as BIT) as Status, TSPL_VENDOR_INVOICE_HEAD.Document_No as [Document Id], TSPL_VENDOR_INVOICE_HEAD.invoice_entry_date as [Document Date],isnull(TSPL_VENDOR_INVOICE_HEAD.Document_Total,0) as [Amount], TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as [Vendor Code],TSPL_VENDOR_INVOICE_HEAD.Vendor_Name as [Vendor Name], TSPL_VENDOR_INVOICE_HEAD.RefDocNo, TSPL_VENDOR_INVOICE_HEAD.Description as " & _
+                    qry = "SELECT CAST((case when ISNULL(TSPL_VENDOR_INVOICE_HEAD.Posting_Date, '')= '' then 0 else 1 end)as BIT) as Status, TSPL_VENDOR_INVOICE_HEAD.Document_No as [Document Id], TSPL_VENDOR_INVOICE_HEAD.invoice_entry_date as [Document Date],isnull(TSPL_VENDOR_INVOICE_HEAD.Document_Total,0) as [Amount], TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as [Vendor Code],TSPL_VENDOR_INVOICE_HEAD.Vendor_Name as [Vendor Name], TSPL_VENDOR_INVOICE_HEAD.RefDocNo, TSPL_VENDOR_INVOICE_HEAD.Description as " &
                           "[Description], CAST((case when TSPL_VENDOR_INVOICE_HEAD.On_Hold ='Y' then 1 else 0 end)as BIT) as Hold,TSPL_VENDOR_INVOICE_HEAD.Created_By as 'Created BY' FROM TSPL_VENDOR_INVOICE_HEAD WHERE  convert(date,TSPL_VENDOR_INVOICE_HEAD.invoice_entry_date,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_VENDOR_INVOICE_HEAD.invoice_entry_date ,103) <= convert(date,'" + dtpToDate.Value + "',103) and TSPL_VENDOR_INVOICE_HEAD .ISProcurementDeduction =0 "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2559,10 +2562,10 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT POSTED as Status,EMP_SAL_CODE as [Document Id],APPLICABLE_FROM as [Document Date],'' AS [Description],TSPL_EMPLOYEE_SALARY.EMP_CODE as [Employee Code]," & _
-                          " TSPL_EMPLOYEE_MASTER.Emp_Name AS [Employee Name],REVISION_NO as [Revision No],SALARY_STRUCTURE_CODE as [Salary Structure], " & _
-                          " TSPL_EMPLOYEE_SALARY.Created_By as [Created By],TSPL_EMPLOYEE_SALARY.Created_Date as [Created Date] " & _
-                          " FROM TSPL_EMPLOYEE_SALARY left join TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_SALARY.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE " & _
+                    qry = " SELECT POSTED as Status,EMP_SAL_CODE as [Document Id],APPLICABLE_FROM as [Document Date],'' AS [Description],TSPL_EMPLOYEE_SALARY.EMP_CODE as [Employee Code]," &
+                          " TSPL_EMPLOYEE_MASTER.Emp_Name AS [Employee Name],REVISION_NO as [Revision No],SALARY_STRUCTURE_CODE as [Salary Structure], " &
+                          " TSPL_EMPLOYEE_SALARY.Created_By as [Created By],TSPL_EMPLOYEE_SALARY.Created_Date as [Created Date] " &
+                          " FROM TSPL_EMPLOYEE_SALARY left join TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_SALARY.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE " &
                           " WHERE  convert(date,TSPL_EMPLOYEE_SALARY.APPLICABLE_FROM ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_EMPLOYEE_SALARY.APPLICABLE_FROM,103) <= convert(date,'" + dtpToDate.Value + "',103)"
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2590,9 +2593,9 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT POSTED as Status,DLA_CODE as [Document Id],'' AS [Description],PAY_PERIOD_CODE as [Pay Period Code],REGISTER_TYPE as [Register Type]," & _
-                          " TSPL_HOURLY_ATTENDANCE.Created_Date as [Document Date],ENTEREDBY_EMP_CODE as [Entered By],TSPL_HOURLY_ATTENDANCE.Created_By as [Created By],TSPL_HOURLY_ATTENDANCE.Created_Date as [Created Date] FROM TSPL_HOURLY_ATTENDANCE  " & _
-                          " WHERE  convert(date,TSPL_HOURLY_ATTENDANCE.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT POSTED as Status,DLA_CODE as [Document Id],'' AS [Description],PAY_PERIOD_CODE as [Pay Period Code],REGISTER_TYPE as [Register Type]," &
+                          " TSPL_HOURLY_ATTENDANCE.Created_Date as [Document Date],ENTEREDBY_EMP_CODE as [Entered By],TSPL_HOURLY_ATTENDANCE.Created_By as [Created By],TSPL_HOURLY_ATTENDANCE.Created_Date as [Created Date] FROM TSPL_HOURLY_ATTENDANCE  " &
+                          " WHERE  convert(date,TSPL_HOURLY_ATTENDANCE.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_HOURLY_ATTENDANCE.Created_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2620,9 +2623,9 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT POSTED as Status,DLA_CODE as [Document Id],'' AS [Description],PAY_PERIOD_CODE as [Pay Period Code],REGISTER_TYPE as [Register Type]," & _
-                          " TSPL_DAILY_ATTENDANCE.Created_Date as [Document Date],ENTEREDBY_EMP_CODE as [Entered By],TSPL_DAILY_ATTENDANCE.Created_By as [Created By],TSPL_DAILY_ATTENDANCE.Created_Date as [Created Date] FROM TSPL_DAILY_ATTENDANCE  " & _
-                          " WHERE  convert(date,TSPL_DAILY_ATTENDANCE.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT POSTED as Status,DLA_CODE as [Document Id],'' AS [Description],PAY_PERIOD_CODE as [Pay Period Code],REGISTER_TYPE as [Register Type]," &
+                          " TSPL_DAILY_ATTENDANCE.Created_Date as [Document Date],ENTEREDBY_EMP_CODE as [Entered By],TSPL_DAILY_ATTENDANCE.Created_By as [Created By],TSPL_DAILY_ATTENDANCE.Created_Date as [Created Date] FROM TSPL_DAILY_ATTENDANCE  " &
+                          " WHERE  convert(date,TSPL_DAILY_ATTENDANCE.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_DAILY_ATTENDANCE.Created_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2650,9 +2653,9 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT POSTED as Status,MTA_CODE as [Document Id],'' AS [Description],PAY_PERIOD_CODE as [Pay Period Code],REGISTER_TYPE as [Register Type]," & _
-                          " TSPL_MONTHLY_ATTENDANCE.Created_Date as [Document Date],ENTEREDBY_EMP_CODE as [Entered By],TSPL_MONTHLY_ATTENDANCE.Created_By as [Created By],TSPL_MONTHLY_ATTENDANCE.Created_Date as [Created Date] FROM TSPL_MONTHLY_ATTENDANCE  " & _
-                          " WHERE  convert(date,TSPL_MONTHLY_ATTENDANCE.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT POSTED as Status,MTA_CODE as [Document Id],'' AS [Description],PAY_PERIOD_CODE as [Pay Period Code],REGISTER_TYPE as [Register Type]," &
+                          " TSPL_MONTHLY_ATTENDANCE.Created_Date as [Document Date],ENTEREDBY_EMP_CODE as [Entered By],TSPL_MONTHLY_ATTENDANCE.Created_By as [Created By],TSPL_MONTHLY_ATTENDANCE.Created_Date as [Created Date] FROM TSPL_MONTHLY_ATTENDANCE  " &
+                          " WHERE  convert(date,TSPL_MONTHLY_ATTENDANCE.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_MONTHLY_ATTENDANCE.Created_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2680,9 +2683,9 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT POSTED as Status,OT_Sheet_Code as [Document Id],'' AS [Description],PAY_PERIOD_CODE as [Pay Period Code]," & _
-                          " tspl_ot_sheet.Created_Date as [Document Date],tspl_ot_sheet.Created_By as [Created By],tspl_ot_sheet.Created_Date as [Created Date] FROM tspl_ot_sheet  " & _
-                          " WHERE  convert(date,tspl_ot_sheet.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT POSTED as Status,OT_Sheet_Code as [Document Id],'' AS [Description],PAY_PERIOD_CODE as [Pay Period Code]," &
+                          " tspl_ot_sheet.Created_Date as [Document Date],tspl_ot_sheet.Created_By as [Created By],tspl_ot_sheet.Created_Date as [Created Date] FROM tspl_ot_sheet  " &
+                          " WHERE  convert(date,tspl_ot_sheet.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,tspl_ot_sheet.Created_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2710,10 +2713,10 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT TSPL_ALLOWANCE.POSTED as Status,TSPL_ALLOWANCE.ALLOWANCE_CODE as [Document Id],TSPL_ALLOWANCE.PAY_PERIOD_CODE as [Pay Period Code], " & _
-                          " TSPL_ALLOWANCE.ALLOWANCE_DATE as [Document Date],TSPL_ALLOWANCE.EMP_CODE as [Employee Code],TSPL_ALLOWANCE.ALLOWANCE_REMARKS as [Description],  " & _
-                          " SUM(isnull(TSPL_ALLOWANCE_DETAIL.Allowance_Amount,0)) as Amount,TSPL_ALLOWANCE.Created_By as [Created By],TSPL_ALLOWANCE.Created_Date as [Created Date] FROM TSPL_ALLOWANCE LEFT OUTER JOIN TSPL_ALLOWANCE_DETAIL ON TSPL_ALLOWANCE.ALLOWANCE_CODE=TSPL_ALLOWANCE_DETAIL.ALLOWANCE_CODE " & _
-                          " WHERE  convert(date,TSPL_ALLOWANCE.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT TSPL_ALLOWANCE.POSTED as Status,TSPL_ALLOWANCE.ALLOWANCE_CODE as [Document Id],TSPL_ALLOWANCE.PAY_PERIOD_CODE as [Pay Period Code], " &
+                          " TSPL_ALLOWANCE.ALLOWANCE_DATE as [Document Date],TSPL_ALLOWANCE.EMP_CODE as [Employee Code],TSPL_ALLOWANCE.ALLOWANCE_REMARKS as [Description],  " &
+                          " SUM(isnull(TSPL_ALLOWANCE_DETAIL.Allowance_Amount,0)) as Amount,TSPL_ALLOWANCE.Created_By as [Created By],TSPL_ALLOWANCE.Created_Date as [Created Date] FROM TSPL_ALLOWANCE LEFT OUTER JOIN TSPL_ALLOWANCE_DETAIL ON TSPL_ALLOWANCE.ALLOWANCE_CODE=TSPL_ALLOWANCE_DETAIL.ALLOWANCE_CODE " &
+                          " WHERE  convert(date,TSPL_ALLOWANCE.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_ALLOWANCE.Created_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2741,10 +2744,10 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT TSPL_DEDUCTION.POSTED as Status,TSPL_DEDUCTION.DEDUCTION_CODE as [Document Id],TSPL_DEDUCTION.PAY_PERIOD_CODE as [Pay Period Code], " & _
-                          " TSPL_DEDUCTION.DEDUCTION_DATE as [Document Date],TSPL_DEDUCTION.EMP_CODE as [Employee Code],TSPL_DEDUCTION.DEDUCTION_REMARKS as [Description], " & _
-                          " SUM(isnull(TSPL_DEDUCTION_DETAIL.DEDUCTION_AMOUNT ,0)) as Amount,TSPL_DEDUCTION.Created_By as [Created By],TSPL_DEDUCTION.Created_Date as [Created Date] FROM TSPL_DEDUCTION LEFT OUTER JOIN TSPL_DEDUCTION_DETAIL ON TSPL_DEDUCTION.DEDUCTION_CODE=TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE " & _
-                          " WHERE  convert(date,TSPL_DEDUCTION.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT TSPL_DEDUCTION.POSTED as Status,TSPL_DEDUCTION.DEDUCTION_CODE as [Document Id],TSPL_DEDUCTION.PAY_PERIOD_CODE as [Pay Period Code], " &
+                          " TSPL_DEDUCTION.DEDUCTION_DATE as [Document Date],TSPL_DEDUCTION.EMP_CODE as [Employee Code],TSPL_DEDUCTION.DEDUCTION_REMARKS as [Description], " &
+                          " SUM(isnull(TSPL_DEDUCTION_DETAIL.DEDUCTION_AMOUNT ,0)) as Amount,TSPL_DEDUCTION.Created_By as [Created By],TSPL_DEDUCTION.Created_Date as [Created Date] FROM TSPL_DEDUCTION LEFT OUTER JOIN TSPL_DEDUCTION_DETAIL ON TSPL_DEDUCTION.DEDUCTION_CODE=TSPL_DEDUCTION_DETAIL.DEDUCTION_CODE " &
+                          " WHERE  convert(date,TSPL_DEDUCTION.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_DEDUCTION.Created_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2772,10 +2775,10 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT TSPL_EMPLOYEE_BONUS.POSTED as Status,TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE as [Document Id],TSPL_EMPLOYEE_BONUS.FROM_PAY_PERIOD_CODE as [From Pay Period],TSPL_EMPLOYEE_BONUS.TO_PAY_PERIOD_CODE as [To Pay Period], " & _
-                          " TSPL_EMPLOYEE_BONUS.PAYABLE_PAY_PERIOD_CODE as [Payable Pay Period],TSPL_EMPLOYEE_BONUS.Created_Date as [Document Date],TSPL_EMPLOYEE_BONUS.DESCRIPTION as [Description], SUM(isnull(TSPL_BONUS_GENERATION_DETAIL.ACTUAL_AMOUNT  ,0)) as Amount," & _
-                          " TSPL_EMPLOYEE_BONUS.Created_By as [Created By],TSPL_EMPLOYEE_BONUS.Created_Date as [Created Date] FROM TSPL_EMPLOYEE_BONUS LEFT OUTER JOIN TSPL_BONUS_GENERATION_DETAIL ON TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE=TSPL_BONUS_GENERATION_DETAIL.EMP_BONUS_CODE" & _
-                          " WHERE  convert(date,TSPL_EMPLOYEE_BONUS.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT TSPL_EMPLOYEE_BONUS.POSTED as Status,TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE as [Document Id],TSPL_EMPLOYEE_BONUS.FROM_PAY_PERIOD_CODE as [From Pay Period],TSPL_EMPLOYEE_BONUS.TO_PAY_PERIOD_CODE as [To Pay Period], " &
+                          " TSPL_EMPLOYEE_BONUS.PAYABLE_PAY_PERIOD_CODE as [Payable Pay Period],TSPL_EMPLOYEE_BONUS.Created_Date as [Document Date],TSPL_EMPLOYEE_BONUS.DESCRIPTION as [Description], SUM(isnull(TSPL_BONUS_GENERATION_DETAIL.ACTUAL_AMOUNT  ,0)) as Amount," &
+                          " TSPL_EMPLOYEE_BONUS.Created_By as [Created By],TSPL_EMPLOYEE_BONUS.Created_Date as [Created Date] FROM TSPL_EMPLOYEE_BONUS LEFT OUTER JOIN TSPL_BONUS_GENERATION_DETAIL ON TSPL_EMPLOYEE_BONUS.EMP_BONUS_CODE=TSPL_BONUS_GENERATION_DETAIL.EMP_BONUS_CODE" &
+                          " WHERE  convert(date,TSPL_EMPLOYEE_BONUS.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_EMPLOYEE_BONUS.Created_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2806,11 +2809,11 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT TSPL_ADJUSTMENT_VOUCHER.POSTED as Status,TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_CODE as [Document Id],TSPL_ADJUSTMENT_VOUCHER.PAY_PERIOD_CODE as [Pay Period Code], " & _
-                          " TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_DATE as [Document Date],TSPL_ADJUSTMENT_VOUCHER.EMP_CODE as [Employee Code], " & _
-                          " TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_REMARK as [Description], SUM(isnull(TSPL_EMPADJUSTMENT_DETAIL.ADJUSTMENT_PLUS ,0)+isnull(TSPL_EMPADJUSTMENT_DETAIL.ADJUSTMENT_MINUS ,0)) as Amount," & _
-                          " TSPL_ADJUSTMENT_VOUCHER.Created_By as [Created By],TSPL_ADJUSTMENT_VOUCHER.Created_Date as [Created Date] FROM TSPL_ADJUSTMENT_VOUCHER LEFT OUTER JOIN TSPL_EMPADJUSTMENT_DETAIL ON TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_CODE=TSPL_EMPADJUSTMENT_DETAIL.ADJUSTMENT_CODE" & _
-                          " WHERE  convert(date,TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT TSPL_ADJUSTMENT_VOUCHER.POSTED as Status,TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_CODE as [Document Id],TSPL_ADJUSTMENT_VOUCHER.PAY_PERIOD_CODE as [Pay Period Code], " &
+                          " TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_DATE as [Document Date],TSPL_ADJUSTMENT_VOUCHER.EMP_CODE as [Employee Code], " &
+                          " TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_REMARK as [Description], SUM(isnull(TSPL_EMPADJUSTMENT_DETAIL.ADJUSTMENT_PLUS ,0)+isnull(TSPL_EMPADJUSTMENT_DETAIL.ADJUSTMENT_MINUS ,0)) as Amount," &
+                          " TSPL_ADJUSTMENT_VOUCHER.Created_By as [Created By],TSPL_ADJUSTMENT_VOUCHER.Created_Date as [Created Date] FROM TSPL_ADJUSTMENT_VOUCHER LEFT OUTER JOIN TSPL_EMPADJUSTMENT_DETAIL ON TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_CODE=TSPL_EMPADJUSTMENT_DETAIL.ADJUSTMENT_CODE" &
+                          " WHERE  convert(date,TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_ADJUSTMENT_VOUCHER.ADJUSTMENT_DATE,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2839,11 +2842,11 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT POSTED as Status,REIMBURSEMENT_CODE as [Document Id],PAY_PERIOD_CODE as [Pay Period Code], " & _
-                          " TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_DATE as [Document Date],TSPL_EMP_REIMBURSEMENT.EMP_CODE as [Employee Code], " & _
-                          " isnull(TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_AMOUNT,0) as [Amount],TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_REMARK as [Description], " & _
-                          " TSPL_EMP_REIMBURSEMENT.Created_By as [Created By],TSPL_EMP_REIMBURSEMENT.Created_Date as [Created Date] FROM TSPL_EMP_REIMBURSEMENT " & _
-                          " WHERE  convert(date,TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT POSTED as Status,REIMBURSEMENT_CODE as [Document Id],PAY_PERIOD_CODE as [Pay Period Code], " &
+                          " TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_DATE as [Document Date],TSPL_EMP_REIMBURSEMENT.EMP_CODE as [Employee Code], " &
+                          " isnull(TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_AMOUNT,0) as [Amount],TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_REMARK as [Description], " &
+                          " TSPL_EMP_REIMBURSEMENT.Created_By as [Created By],TSPL_EMP_REIMBURSEMENT.Created_Date as [Created Date] FROM TSPL_EMP_REIMBURSEMENT " &
+                          " WHERE  convert(date,TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_EMP_REIMBURSEMENT.REIMBURSEMENT_DATE,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2871,14 +2874,14 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT POSTED as Status,LOAN_CODE as [Document Id],TSPL_LOAN_APPLICATION.LOAN_DATE as [Document Date],TSPL_LOAN_APPLICATION.EMP_CODE as [Employee Code], " & _
-                          " TSPL_LOAN_APPLICATION.LOAN_TYPE as [Loan Type],isnull(TSPL_LOAN_APPLICATION.LOAN_AMOUNT,0) as [Amount], " & _
-                          " TSPL_LOAN_APPLICATION.PAYMENT_STARTDATE as [Payment Start Date],TSPL_LOAN_APPLICATION.NO_OF_EMI as [No of EMI], " & _
-                          " TSPL_LOAN_APPLICATION.INTEREST_APPLIED as [Interest Applied],TSPL_LOAN_APPLICATION.INTEREST_TYPE as [Interest Type], " & _
-                          " TSPL_LOAN_APPLICATION.INTEREST_RATE as [Interest Rate],isnull(TSPL_LOAN_APPLICATION.INTEREST_AMOUNT,0) as [Interest Amount]," & _
-                          " isnull(TSPL_LOAN_APPLICATION.TOTALPAYABLE_AMOUNT,0) as [Total Payable Amount],TSPL_LOAN_APPLICATION.LOAN_DESCRIPTION as [Description]," & _
-                          " TSPL_LOAN_APPLICATION.Created_By as [Created By],TSPL_LOAN_APPLICATION.Created_Date as [Created Date] FROM TSPL_LOAN_APPLICATION " & _
-                          " WHERE  convert(date,TSPL_LOAN_APPLICATION.LOAN_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT POSTED as Status,LOAN_CODE as [Document Id],TSPL_LOAN_APPLICATION.LOAN_DATE as [Document Date],TSPL_LOAN_APPLICATION.EMP_CODE as [Employee Code], " &
+                          " TSPL_LOAN_APPLICATION.LOAN_TYPE as [Loan Type],isnull(TSPL_LOAN_APPLICATION.LOAN_AMOUNT,0) as [Amount], " &
+                          " TSPL_LOAN_APPLICATION.PAYMENT_STARTDATE as [Payment Start Date],TSPL_LOAN_APPLICATION.NO_OF_EMI as [No of EMI], " &
+                          " TSPL_LOAN_APPLICATION.INTEREST_APPLIED as [Interest Applied],TSPL_LOAN_APPLICATION.INTEREST_TYPE as [Interest Type], " &
+                          " TSPL_LOAN_APPLICATION.INTEREST_RATE as [Interest Rate],isnull(TSPL_LOAN_APPLICATION.INTEREST_AMOUNT,0) as [Interest Amount]," &
+                          " isnull(TSPL_LOAN_APPLICATION.TOTALPAYABLE_AMOUNT,0) as [Total Payable Amount],TSPL_LOAN_APPLICATION.LOAN_DESCRIPTION as [Description]," &
+                          " TSPL_LOAN_APPLICATION.Created_By as [Created By],TSPL_LOAN_APPLICATION.Created_Date as [Created Date] FROM TSPL_LOAN_APPLICATION " &
+                          " WHERE  convert(date,TSPL_LOAN_APPLICATION.LOAN_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_LOAN_APPLICATION.LOAN_DATE,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2908,12 +2911,12 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT POSTED as Status,LOANADJUSTMENT_CODE as [Document Id],TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_DATE as [Document Date], " & _
-                          " TSPL_LOAN_ADJUSTMENT.EMP_CODE as [Employee Code],TSPL_LOAN_ADJUSTMENT.PAY_PERIOD_CODE as [Pay Period], " & _
-                          " isnull(TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_PLUS,0) as [Adjustment Plus],isnull(TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_MINUS,0) as [Adjustment Minus], " & _
-                          " TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_REASON as [Description], " & _
-                          " TSPL_LOAN_ADJUSTMENT.Created_By as [Created By],TSPL_LOAN_ADJUSTMENT.Created_Date as [Created Date] FROM TSPL_LOAN_ADJUSTMENT " & _
-                          " WHERE  convert(date,TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT POSTED as Status,LOANADJUSTMENT_CODE as [Document Id],TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_DATE as [Document Date], " &
+                          " TSPL_LOAN_ADJUSTMENT.EMP_CODE as [Employee Code],TSPL_LOAN_ADJUSTMENT.PAY_PERIOD_CODE as [Pay Period], " &
+                          " isnull(TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_PLUS,0) as [Adjustment Plus],isnull(TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_MINUS,0) as [Adjustment Minus], " &
+                          " TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_REASON as [Description], " &
+                          " TSPL_LOAN_ADJUSTMENT.Created_By as [Created By],TSPL_LOAN_ADJUSTMENT.Created_Date as [Created Date] FROM TSPL_LOAN_ADJUSTMENT " &
+                          " WHERE  convert(date,TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_LOAN_ADJUSTMENT.ADJUSTMENT_DATE,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2941,12 +2944,12 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT POSTED as Status,LVAPPLICATION_CODE as [Document Id],TSPL_LEAVE_APPLICATION.APPLICATION_DATE as [Document Date], " & _
-                          " TSPL_LEAVE_APPLICATION.EMP_CODE as [Employee Code],TSPL_LEAVE_APPLICATION.PAY_PERIOD_CODE as [Pay Period], " & _
-                          " TSPL_LEAVE_APPLICATION.LEAVE_CODE as [Leave Code],TSPL_LEAVE_APPLICATION.FROM_DATE as [From Date],TSPL_LEAVE_APPLICATION.TO_DATE as [To Date], " & _
-                          " TSPL_LEAVE_APPLICATION.TOTAL_DAYS as [Total Days],TSPL_LEAVE_APPLICATION.LEAVE_REASON as [Description], " & _
-                          " TSPL_LEAVE_APPLICATION.Created_By as [Created By],TSPL_LEAVE_APPLICATION.Created_Date as [Created Date] FROM TSPL_LEAVE_APPLICATION  " & _
-                          " WHERE  convert(date,TSPL_LEAVE_APPLICATION.APPLICATION_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT POSTED as Status,LVAPPLICATION_CODE as [Document Id],TSPL_LEAVE_APPLICATION.APPLICATION_DATE as [Document Date], " &
+                          " TSPL_LEAVE_APPLICATION.EMP_CODE as [Employee Code],TSPL_LEAVE_APPLICATION.PAY_PERIOD_CODE as [Pay Period], " &
+                          " TSPL_LEAVE_APPLICATION.LEAVE_CODE as [Leave Code],TSPL_LEAVE_APPLICATION.FROM_DATE as [From Date],TSPL_LEAVE_APPLICATION.TO_DATE as [To Date], " &
+                          " TSPL_LEAVE_APPLICATION.TOTAL_DAYS as [Total Days],TSPL_LEAVE_APPLICATION.LEAVE_REASON as [Description], " &
+                          " TSPL_LEAVE_APPLICATION.Created_By as [Created By],TSPL_LEAVE_APPLICATION.Created_Date as [Created Date] FROM TSPL_LEAVE_APPLICATION  " &
+                          " WHERE  convert(date,TSPL_LEAVE_APPLICATION.APPLICATION_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_LEAVE_APPLICATION.APPLICATION_DATE,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -2974,12 +2977,12 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " SELECT POSTED as Status,LVADJUSTMENT_CODE as [Document Id],TSPL_LEAVE_ADJUSTMENT.ADJUSTMENT_DATE as [Document Date], " & _
-                          " TSPL_LEAVE_ADJUSTMENT.EMP_CODE as [Employee Code],TSPL_LEAVE_ADJUSTMENT.PAY_PERIOD_CODE as [Pay Period], " & _
-                          " TSPL_LEAVE_ADJUSTMENT.LEAVE_CODE as [Leave Code],TSPL_LEAVE_ADJUSTMENT.ADJUST_ALLOTED as [Adjustment in Alloted], " & _
-                          " TSPL_LEAVE_ADJUSTMENT.ADJUST_AVAILED as [Adjustment in Availed],TSPL_LEAVE_ADJUSTMENT.LEAVE_REASON as [Description], " & _
-                          " TSPL_LEAVE_ADJUSTMENT.Created_By as [Created By],TSPL_LEAVE_ADJUSTMENT.Created_Date as [Created Date] FROM TSPL_LEAVE_ADJUSTMENT " & _
-                          " WHERE  convert(date,TSPL_LEAVE_ADJUSTMENT.ADJUSTMENT_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " SELECT POSTED as Status,LVADJUSTMENT_CODE as [Document Id],TSPL_LEAVE_ADJUSTMENT.ADJUSTMENT_DATE as [Document Date], " &
+                          " TSPL_LEAVE_ADJUSTMENT.EMP_CODE as [Employee Code],TSPL_LEAVE_ADJUSTMENT.PAY_PERIOD_CODE as [Pay Period], " &
+                          " TSPL_LEAVE_ADJUSTMENT.LEAVE_CODE as [Leave Code],TSPL_LEAVE_ADJUSTMENT.ADJUST_ALLOTED as [Adjustment in Alloted], " &
+                          " TSPL_LEAVE_ADJUSTMENT.ADJUST_AVAILED as [Adjustment in Availed],TSPL_LEAVE_ADJUSTMENT.LEAVE_REASON as [Description], " &
+                          " TSPL_LEAVE_ADJUSTMENT.Created_By as [Created By],TSPL_LEAVE_ADJUSTMENT.Created_Date as [Created Date] FROM TSPL_LEAVE_ADJUSTMENT " &
+                          " WHERE  convert(date,TSPL_LEAVE_ADJUSTMENT.ADJUSTMENT_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_LEAVE_ADJUSTMENT.ADJUSTMENT_DATE,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3006,7 +3009,7 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "select TSPL_EMPLOYEE_INCREMENT_HEAD.POSTED as status ,TSPL_EMPLOYEE_INCREMENT_HEAD.INCREMENT_CODE as [Document Id] ,convert(varchar,TSPL_EMPLOYEE_INCREMENT_HEAD.INCREMENT_DATE,103) as [Document Date],'' as [Description],TSPL_EMPLOYEE_INCREMENT_HEAD.EMP_CODE as [Employee Code],TSPL_EMPLOYEE_MASTER.Emp_Name as [Employee Name] ,TSPL_EMPLOYEE_INCREMENT_HEAD.REVISION_NO as [Revision No],TSPL_EMPLOYEE_INCREMENT_HEAD.SALARY_STRUCTURE_CODE as [Salary Structure],SUM(convert(decimal,isnull(TSPL_EMPLOYEE_INCREMENT_DETAIL.IncrementAmt,0))) AS Amount,TSPL_EMPLOYEE_INCREMENT_HEAD.Created_By as [Created By] ,convert(varchar,TSPL_EMPLOYEE_INCREMENT_HEAD.Created_Date,103) as [Created Date]  from TSPL_EMPLOYEE_INCREMENT_HEAD left join tspl_employee_master on tspl_employee_master.EMP_CODE =TSPL_EMPLOYEE_INCREMENT_HEAD.EMP_CODE LEFT OUTER JOIN TSPL_EMPLOYEE_INCREMENT_DETAIL ON TSPL_EMPLOYEE_INCREMENT_HEAD.INCREMENT_CODE=TSPL_EMPLOYEE_INCREMENT_DETAIL.INCREMENT_CODE  " & _
+                    qry = "select TSPL_EMPLOYEE_INCREMENT_HEAD.POSTED as status ,TSPL_EMPLOYEE_INCREMENT_HEAD.INCREMENT_CODE as [Document Id] ,convert(varchar,TSPL_EMPLOYEE_INCREMENT_HEAD.INCREMENT_DATE,103) as [Document Date],'' as [Description],TSPL_EMPLOYEE_INCREMENT_HEAD.EMP_CODE as [Employee Code],TSPL_EMPLOYEE_MASTER.Emp_Name as [Employee Name] ,TSPL_EMPLOYEE_INCREMENT_HEAD.REVISION_NO as [Revision No],TSPL_EMPLOYEE_INCREMENT_HEAD.SALARY_STRUCTURE_CODE as [Salary Structure],SUM(convert(decimal,isnull(TSPL_EMPLOYEE_INCREMENT_DETAIL.IncrementAmt,0))) AS Amount,TSPL_EMPLOYEE_INCREMENT_HEAD.Created_By as [Created By] ,convert(varchar,TSPL_EMPLOYEE_INCREMENT_HEAD.Created_Date,103) as [Created Date]  from TSPL_EMPLOYEE_INCREMENT_HEAD left join tspl_employee_master on tspl_employee_master.EMP_CODE =TSPL_EMPLOYEE_INCREMENT_HEAD.EMP_CODE LEFT OUTER JOIN TSPL_EMPLOYEE_INCREMENT_DETAIL ON TSPL_EMPLOYEE_INCREMENT_HEAD.INCREMENT_CODE=TSPL_EMPLOYEE_INCREMENT_DETAIL.INCREMENT_CODE  " &
                           " WHERE  convert(date,TSPL_EMPLOYEE_INCREMENT_HEAD.INCREMENT_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_EMPLOYEE_INCREMENT_HEAD.INCREMENT_DATE,103) <= convert(date,'" + dtpToDate.Value + "',103)"
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3056,9 +3059,9 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " Select POSTED as Status,BO_CODE as[Document Id],BO_Date as [Document Date], Description," & _
-                           "APPROVED_BY [Approved By],Created_By as [Created By],Created_Date as [Created Date] " & _
-                           "from TSPL_MF_BATCH_ORDER" & _
+                    qry = " Select POSTED as Status,BO_CODE as[Document Id],BO_Date as [Document Date], Description," &
+                           "APPROVED_BY [Approved By],Created_By as [Created By],Created_Date as [Created Date] " &
+                           "from TSPL_MF_BATCH_ORDER" &
                           " WHERE  convert(date,BO_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,BO_Date,103) <= convert(date,'" + dtpToDate.Value + "',103)"
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3085,12 +3088,12 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " select POSTED as Status,BOM_CODE as[Document Id],BOM_Date as [Document Date],'' as Description," & _
-                          " REVISION_NO [Revision No],PROD_ITEM_CODE as [Item Code],Prod_quantity as [Quatinty]," & _
-                          " prod_item_unit_code as [Item Unit Code]," & _
-                          " Created_By as [Created By],Created_Date as [Created Date]" & _
-                          " from TSPL_MF_BOM_HEAD " & _
-                          " WHERE  convert(date,TSPL_MF_BOM_HEAD.BOM_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " select POSTED as Status,BOM_CODE as[Document Id],BOM_Date as [Document Date],'' as Description," &
+                          " REVISION_NO [Revision No],PROD_ITEM_CODE as [Item Code],Prod_quantity as [Quatinty]," &
+                          " prod_item_unit_code as [Item Unit Code]," &
+                          " Created_By as [Created By],Created_Date as [Created Date]" &
+                          " from TSPL_MF_BOM_HEAD " &
+                          " WHERE  convert(date,TSPL_MF_BOM_HEAD.BOM_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_MF_BOM_HEAD.BOM_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3118,14 +3121,14 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "  select POSTED as Status,MO_CODE as[Document Id],MO_DATE as [Document Date],'' as Description," & _
-                          " ITEM_CODE as [Item Code],QTY_ORDERED as [Qty Ordered],UNIT_CODE as [Unit Code], " & _
-                          " QTY_ORDERED_STOCK as [Qty Ordered Stock],UNIT_CODE_STOCK as [Unit Code Stock], " & _
-                          " Description,BOM_CODE as [Batch of Material Code],MO_DUE_DATE as [MO Due Date], " & _
-                          " PRODUCTION_AREA as [Production Area],PLANNER Planner,IN_CHARGE as [In Charge], " & _
-                          " Created_By as [Created By],Created_Date as [Created Date]  " & _
-                          " from TSPL_MF_MANUFACTURING_ORDER " & _
-                          " WHERE  convert(date,TSPL_MF_MANUFACTURING_ORDER.MO_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = "  select POSTED as Status,MO_CODE as[Document Id],MO_DATE as [Document Date],'' as Description," &
+                          " ITEM_CODE as [Item Code],QTY_ORDERED as [Qty Ordered],UNIT_CODE as [Unit Code], " &
+                          " QTY_ORDERED_STOCK as [Qty Ordered Stock],UNIT_CODE_STOCK as [Unit Code Stock], " &
+                          " Description,BOM_CODE as [Batch of Material Code],MO_DUE_DATE as [MO Due Date], " &
+                          " PRODUCTION_AREA as [Production Area],PLANNER Planner,IN_CHARGE as [In Charge], " &
+                          " Created_By as [Created By],Created_Date as [Created Date]  " &
+                          " from TSPL_MF_MANUFACTURING_ORDER " &
+                          " WHERE  convert(date,TSPL_MF_MANUFACTURING_ORDER.MO_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_MF_MANUFACTURING_ORDER.MO_DATE,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3157,11 +3160,11 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " select POSTED as Status,PROD_PLAN_CODE as[Document Id],PLAN_FOR_DATE as [Document Date]," & _
-                          " DESCRIPTION as [Description],COMMENTS as [Comments]," & _
-                          " Created_By as [Created By],Created_Date as [Created Date] " & _
-                          " from TSPL_MF_PRODUCTION_PLAN_HEAD " & _
-                          " WHERE  convert(date,TSPL_MF_PRODUCTION_PLAN_HEAD.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " select POSTED as Status,PROD_PLAN_CODE as[Document Id],PLAN_FOR_DATE as [Document Date]," &
+                          " DESCRIPTION as [Description],COMMENTS as [Comments]," &
+                          " Created_By as [Created By],Created_Date as [Created Date] " &
+                          " from TSPL_MF_PRODUCTION_PLAN_HEAD " &
+                          " WHERE  convert(date,TSPL_MF_PRODUCTION_PLAN_HEAD.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_MF_PRODUCTION_PLAN_HEAD.Created_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3192,12 +3195,12 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " select POSTED as Status,RECEIPT_CODE as[Document Id],BATCH_DATE [Document Date]," & _
-                          " DESCRIPTION as [Description],BO_CODE [BO Code],RECEIPT_DATE [Receipt Date], " & _
-                          " Received_by [Received By],LOCATION_CODE [Location Code],COMMENTS as [Comments]," & _
-                          " Created_By as [Created By],Created_Date as [Created Date] " & _
-                          " from TSPL_MF_RECEIPT " & _
-                          " WHERE  convert(date,TSPL_MF_RECEIPT.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " select POSTED as Status,RECEIPT_CODE as[Document Id],BATCH_DATE [Document Date]," &
+                          " DESCRIPTION as [Description],BO_CODE [BO Code],RECEIPT_DATE [Receipt Date], " &
+                          " Received_by [Received By],LOCATION_CODE [Location Code],COMMENTS as [Comments]," &
+                          " Created_By as [Created By],Created_Date as [Created Date] " &
+                          " from TSPL_MF_RECEIPT " &
+                          " WHERE  convert(date,TSPL_MF_RECEIPT.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_MF_RECEIPT.Created_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3230,12 +3233,12 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " select POSTED as Status,PROD_ENTRY_CODE as[Document Id],BATCH_DATE [Document Date]," & _
-                          " DESCRIPTION as [Description],Batch_Code [BO Code],PROD_DATE [Receipt Date], " & _
-                          " Received_by [Received By],LOCATION_CODE [Location Code],COMMENTS as [Comments], " & _
-                          " Created_By as [Created By],Created_Date as [Created Date] " & _
-                          " from TSPL_PP_PRODUCTION_ENTRY " & _
-                          " WHERE  convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " select POSTED as Status,PROD_ENTRY_CODE as[Document Id],BATCH_DATE [Document Date]," &
+                          " DESCRIPTION as [Description],Batch_Code [BO Code],PROD_DATE [Receipt Date], " &
+                          " Received_by [Received By],LOCATION_CODE [Location Code],COMMENTS as [Comments], " &
+                          " Created_By as [Created By],Created_Date as [Created Date] " &
+                          " from TSPL_PP_PRODUCTION_ENTRY " &
+                          " WHERE  convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_PP_PRODUCTION_ENTRY.PROD_DATE ,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3267,12 +3270,12 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "  select POSTED as Status,REQ_CODE as[Document Id],REQ_DATE as [Document Date] ," & _
-                          " EXP_Date as [Expire Date],REQUESTED_BY as [Requested By]," & _
-                          " DESCRIPTION as [Description],LOCATION_CODE [Location Code],COMMENTS as [Comments]," & _
-                          " Created_By as [Created By],Created_Date as [Created Date] " & _
-                          " from TSPL_MF_REQUISITION " & _
-                          " WHERE  convert(date,TSPL_MF_REQUISITION.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = "  select POSTED as Status,REQ_CODE as[Document Id],REQ_DATE as [Document Date] ," &
+                          " EXP_Date as [Expire Date],REQUESTED_BY as [Requested By]," &
+                          " DESCRIPTION as [Description],LOCATION_CODE [Location Code],COMMENTS as [Comments]," &
+                          " Created_By as [Created By],Created_Date as [Created Date] " &
+                          " from TSPL_MF_REQUISITION " &
+                          " WHERE  convert(date,TSPL_MF_REQUISITION.Created_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_MF_REQUISITION.Created_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3303,12 +3306,12 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " select POSTED as Status,RETURN_CODE as[Document Id],RETURN_DATE as [Document Date] ," & _
-                          " EXP_Date as [Expire Date],RETURNED_BY as [Returned By],RETURNED_TO as [Returned To]," & _
-                          " DESCRIPTION as [Description],LOCATION_CODE [Location Code],COMMENTS as [Comments]," & _
-                          " Created_By as [Created By],Created_Date as [Created Date] " & _
-                          " from TSPL_MF_RETURN " & _
-                          " WHERE  convert(date,TSPL_MF_RETURN.RETURN_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " select POSTED as Status,RETURN_CODE as[Document Id],RETURN_DATE as [Document Date] ," &
+                          " EXP_Date as [Expire Date],RETURNED_BY as [Returned By],RETURNED_TO as [Returned To]," &
+                          " DESCRIPTION as [Description],LOCATION_CODE [Location Code],COMMENTS as [Comments]," &
+                          " Created_By as [Created By],Created_Date as [Created Date] " &
+                          " from TSPL_MF_RETURN " &
+                          " WHERE  convert(date,TSPL_MF_RETURN.RETURN_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_MF_RETURN.RETURN_DATE,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3340,12 +3343,12 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = " select POSTED as Status,ISSUE_CODE as[Document Id],ISSUE_DATE as [Document Date] ," & _
-                          " EXP_Date as [Expire Date],ISSUED_BY as [Issue By],ISSUED_TO as [Issue To]," & _
-                          " DESCRIPTION as [Description],LOCATION_CODE [Location Code],COMMENTS as [Comments]," & _
-                          " Created_By as [Created By],Created_Date as [Created Date] " & _
-                          " from TSPL_MF_ISSUE" & _
-                          " WHERE  convert(date,TSPL_MF_ISSUE.ISSUE_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = " select POSTED as Status,ISSUE_CODE as[Document Id],ISSUE_DATE as [Document Date] ," &
+                          " EXP_Date as [Expire Date],ISSUED_BY as [Issue By],ISSUED_TO as [Issue To]," &
+                          " DESCRIPTION as [Description],LOCATION_CODE [Location Code],COMMENTS as [Comments]," &
+                          " Created_By as [Created By],Created_Date as [Created Date] " &
+                          " from TSPL_MF_ISSUE" &
+                          " WHERE  convert(date,TSPL_MF_ISSUE.ISSUE_DATE ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_MF_ISSUE.ISSUE_DATE,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3375,9 +3378,9 @@ Public Class FrmPendingAproval
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "  select CAST(TSPL_SILO_MILK_TRANSFER_HEAD.POSTED as BIT )  as Status,Document_Code  as [Document Id],Document_Date as [Document Date] , DESCRIPTION as [Description],MainLocation_Code as [Location Code]," & _
-                        " Silo_Code as Silo,Item_Code as Item, Created_By as [Created By],Created_Date as [Created Date]  from TSPL_SILO_MILK_TRANSFER_HEAD " & _
-                          " WHERE  convert(date,TSPL_SILO_MILK_TRANSFER_HEAD.Document_Date  ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " & _
+                    qry = "  select CAST(TSPL_SILO_MILK_TRANSFER_HEAD.POSTED as BIT )  as Status,Document_Code  as [Document Id],Document_Date as [Document Date] , DESCRIPTION as [Description],MainLocation_Code as [Location Code]," &
+                        " Silo_Code as Silo,Item_Code as Item, Created_By as [Created By],Created_Date as [Created Date]  from TSPL_SILO_MILK_TRANSFER_HEAD " &
+                          " WHERE  convert(date,TSPL_SILO_MILK_TRANSFER_HEAD.Document_Date  ,103) >= convert(date,'" + dtpFromDate.Value + "',103) " &
                           " and convert(date,TSPL_SILO_MILK_TRANSFER_HEAD.Document_Date  ,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -3950,14 +3953,14 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = "Select CAST((TSPL_SD_SALE_INVOICE_HEAD.Status)as BIT) as Status,Against_Shipment_No as [Document Id],TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceNo, " & _
-                        "convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as [Document Date], isnull(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,0) as [Amount], " & _
-                        "'' as [QC No],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer],TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location as Location, " & _
-                        "TSPL_SD_SALE_INVOICE_HEAD.Created_By as [Created By],  convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Created_Date,103) as [Created Date] ,TSPL_SD_SALE_INVOICE_HEAD.description" & _
-                        " from TSPL_SD_SALE_INVOICE_HEAD  Left Outer Join TSPL_CUSTOMER_MASTER on " & _
-                        "TSPL_SD_SALE_INVOICE_HEAD.Customer_Code =TSPL_CUSTOMER_MASTER.Cust_Code  " & _
-                        "Left Outer Join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location =TSPL_LOCATION_MASTER.Location_Code " & _
-                    " WHERE  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " & _
+                    qry = "Select CAST((TSPL_SD_SALE_INVOICE_HEAD.Status)as BIT) as Status,Against_Shipment_No as [Document Id],TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceNo, " &
+                        "convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as [Document Date], isnull(TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,0) as [Amount], " &
+                        "'' as [QC No],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer],TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location as Location, " &
+                        "TSPL_SD_SALE_INVOICE_HEAD.Created_By as [Created By],  convert(varchar,TSPL_SD_SALE_INVOICE_HEAD.Created_Date,103) as [Created Date] ,TSPL_SD_SALE_INVOICE_HEAD.description" &
+                        " from TSPL_SD_SALE_INVOICE_HEAD  Left Outer Join TSPL_CUSTOMER_MASTER on " &
+                        "TSPL_SD_SALE_INVOICE_HEAD.Customer_Code =TSPL_CUSTOMER_MASTER.Cust_Code  " &
+                        "Left Outer Join TSPL_LOCATION_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location =TSPL_LOCATION_MASTER.Location_Code " &
+                    " WHERE  convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " &
                     "convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -4009,15 +4012,15 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = "Select CAST((TSPL_SD_SHIPMENT_HEAD.Status)as BIT) as Status,Document_Code as [Document Id], " & _
-                        "(select isnull((Select distinct '['+TSPL_SD_SALE_INVOICE_HEAD.Document_Code+']  ' from TSPL_SD_SHIPMENT_HEAD a left outer join TSPL_SD_SALE_INVOICE_HEAD on a.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No where  a.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code  for xml path('')),'') ) as InvoiceNo, " & _
-                        "convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as [Document Date], isnull(TSPL_SD_SHIPMENT_HEAD.Total_Amt,0) as [Amount], " & _
-                        "'' as [QC No],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer],TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as Location,  " & _
-                        "TSPL_SD_SHIPMENT_HEAD.Created_By as [Created By],  convert(varchar,TSPL_SD_SHIPMENT_HEAD.Created_Date,103) as [Created Date] ,   " & _
-                        "TSPL_SD_SHIPMENT_HEAD.description from TSPL_SD_SHIPMENT_HEAD  Left Outer Join TSPL_CUSTOMER_MASTER on  " & _
-                        "TSPL_SD_SHIPMENT_HEAD.Customer_Code =TSPL_CUSTOMER_MASTER.Cust_Code  Left Outer Join TSPL_LOCATION_MASTER on  " & _
-                        "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location =TSPL_LOCATION_MASTER.Location_Code " & _
-                    " WHERE  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " & _
+                    qry = "Select CAST((TSPL_SD_SHIPMENT_HEAD.Status)as BIT) as Status,Document_Code as [Document Id], " &
+                        "(select isnull((Select distinct '['+TSPL_SD_SALE_INVOICE_HEAD.Document_Code+']  ' from TSPL_SD_SHIPMENT_HEAD a left outer join TSPL_SD_SALE_INVOICE_HEAD on a.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No where  a.Document_Code= TSPL_SD_SHIPMENT_HEAD.Document_Code  for xml path('')),'') ) as InvoiceNo, " &
+                        "convert(varchar,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as [Document Date], isnull(TSPL_SD_SHIPMENT_HEAD.Total_Amt,0) as [Amount], " &
+                        "'' as [QC No],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer],TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as Location,  " &
+                        "TSPL_SD_SHIPMENT_HEAD.Created_By as [Created By],  convert(varchar,TSPL_SD_SHIPMENT_HEAD.Created_Date,103) as [Created Date] ,   " &
+                        "TSPL_SD_SHIPMENT_HEAD.description from TSPL_SD_SHIPMENT_HEAD  Left Outer Join TSPL_CUSTOMER_MASTER on  " &
+                        "TSPL_SD_SHIPMENT_HEAD.Customer_Code =TSPL_CUSTOMER_MASTER.Cust_Code  Left Outer Join TSPL_LOCATION_MASTER on  " &
+                        "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location =TSPL_LOCATION_MASTER.Location_Code " &
+                    " WHERE  convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " &
                     "convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -4054,17 +4057,17 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "select CAST((case when TSPL_BOOKING_DETAIL.Booking_Status=4 then 1 else 0 end)as BIT) as Status " & _
-                        " ,TSPL_BOOKING_DETAIL.Document_No as [Document Id] " & _
-                    ",TSPL_BOOKING_DETAIL.DocumentAmount as [Amount],TSPL_CUSTOMER_MASTER.Cust_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name] " & _
-                    ",TSPL_LOCATION_MASTER.Location_Desc as [Location], TSPL_BOOKING_MATSER.Created_By as [Created By] " & _
-                    ", convert(varchar,TSPL_BOOKING_MATSER.Created_Date,103) as [Created Date] " & _
-                    ", '' as [Description] " & _
-                    "from TSPL_BOOKING_MATSER inner join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No " & _
-                    "Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_BOOKING_DETAIL.Cust_Code =TSPL_CUSTOMER_MASTER.Cust_Code   " & _
-                    "Left Outer Join TSPL_LOCATION_MASTER on TSPL_BOOKING_DETAIL.Loc_Code =TSPL_LOCATION_MASTER.Location_Code  " & _
-                    " WHERE FOC_Item=0 and convert(date,TSPL_BOOKING_MATSER.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " & _
-                    "convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) " & _
+                    qry = "select CAST((case when TSPL_BOOKING_DETAIL.Booking_Status=4 then 1 else 0 end)as BIT) as Status " &
+                        " ,TSPL_BOOKING_DETAIL.Document_No as [Document Id] " &
+                    ",TSPL_BOOKING_DETAIL.DocumentAmount as [Amount],TSPL_CUSTOMER_MASTER.Cust_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name] " &
+                    ",TSPL_LOCATION_MASTER.Location_Desc as [Location], TSPL_BOOKING_MATSER.Created_By as [Created By] " &
+                    ", convert(varchar,TSPL_BOOKING_MATSER.Created_Date,103) as [Created Date] " &
+                    ", '' as [Description] " &
+                    "from TSPL_BOOKING_MATSER inner join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No " &
+                    "Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_BOOKING_DETAIL.Cust_Code =TSPL_CUSTOMER_MASTER.Cust_Code   " &
+                    "Left Outer Join TSPL_LOCATION_MASTER on TSPL_BOOKING_DETAIL.Loc_Code =TSPL_LOCATION_MASTER.Location_Code  " &
+                    " WHERE FOC_Item=0 and convert(date,TSPL_BOOKING_MATSER.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " &
+                    "convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) " &
                     " and isnull(TSPL_BOOKING_MATSER.From_Screen_code,'')<>'" & clsUserMgtCode.frmbookingdairyFreshSale & "' "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -4101,17 +4104,17 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "select CAST((case when TSPL_BOOKING_DETAIL.Booking_Status=4 then 1 else 0 end)as BIT) as Status " & _
-                        " ,TSPL_BOOKING_DETAIL.Document_No as [Document Id] " & _
-                    ",TSPL_BOOKING_DETAIL.DocumentAmount as [Amount],TSPL_CUSTOMER_MASTER.Cust_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name] " & _
-                    ",TSPL_LOCATION_MASTER.Location_Desc as [Location], TSPL_BOOKING_MATSER.Created_By as [Created By] " & _
-                    ", convert(varchar,TSPL_BOOKING_MATSER.Created_Date,103) as [Created Date] " & _
-                    ", '' as [Description] " & _
-                    "from TSPL_BOOKING_MATSER inner join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No " & _
-                    "Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_BOOKING_DETAIL.Cust_Code =TSPL_CUSTOMER_MASTER.Cust_Code   " & _
-                    "Left Outer Join TSPL_LOCATION_MASTER on TSPL_BOOKING_DETAIL.Loc_Code =TSPL_LOCATION_MASTER.Location_Code  " & _
-                    " WHERE FOC_Item=0 and convert(date,TSPL_BOOKING_MATSER.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " & _
-                    "convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) " & _
+                    qry = "select CAST((case when TSPL_BOOKING_DETAIL.Booking_Status=4 then 1 else 0 end)as BIT) as Status " &
+                        " ,TSPL_BOOKING_DETAIL.Document_No as [Document Id] " &
+                    ",TSPL_BOOKING_DETAIL.DocumentAmount as [Amount],TSPL_CUSTOMER_MASTER.Cust_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name] " &
+                    ",TSPL_LOCATION_MASTER.Location_Desc as [Location], TSPL_BOOKING_MATSER.Created_By as [Created By] " &
+                    ", convert(varchar,TSPL_BOOKING_MATSER.Created_Date,103) as [Created Date] " &
+                    ", '' as [Description] " &
+                    "from TSPL_BOOKING_MATSER inner join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No " &
+                    "Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_BOOKING_DETAIL.Cust_Code =TSPL_CUSTOMER_MASTER.Cust_Code   " &
+                    "Left Outer Join TSPL_LOCATION_MASTER on TSPL_BOOKING_DETAIL.Loc_Code =TSPL_LOCATION_MASTER.Location_Code  " &
+                    " WHERE FOC_Item=0 and convert(date,TSPL_BOOKING_MATSER.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " &
+                    "convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) " &
                     " and isnull(TSPL_BOOKING_MATSER.From_Screen_code,'')='" & clsUserMgtCode.frmbookingdairyFreshSale & "' "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -4148,15 +4151,15 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "Select CAST((case when isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.Post,'N')='N' then 0 else 1 end )as BIT) as Status,GPCode as [Document Id]," & _
-                    " TSPL_DAIRYSALE_GATEPASS_MASTER.Transporter , convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) as [Document Date]," & _
-                    " isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCAN ,0) as [Total CAN],isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate  ,0) as [Total Crate], " & _
-                    " TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id  as [Vehicle Id],TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as [Vehicle No]," & _
-                    " TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code  as Location, TSPL_DAIRYSALE_GATEPASS_MASTER.Created_By as [Created By]," & _
-                    " convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.Created_Date,103) as [Created Date] , " & _
-                    " TSPL_DAIRYSALE_GATEPASS_MASTER.Remarks as description from TSPL_DAIRYSALE_GATEPASS_MASTER " & _
-                    " Left Outer Join TSPL_LOCATION_MASTER on  TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code =TSPL_LOCATION_MASTER.Location_Code  " & _
-                    " WHERE  convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate ,103) >= convert(date,'" + dtpFromDate.Value + "',103)  " & _
+                    qry = "Select CAST((case when isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.Post,'N')='N' then 0 else 1 end )as BIT) as Status,GPCode as [Document Id]," &
+                    " TSPL_DAIRYSALE_GATEPASS_MASTER.Transporter , convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) as [Document Date]," &
+                    " isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCAN ,0) as [Total CAN],isnull(TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate  ,0) as [Total Crate], " &
+                    " TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id  as [Vehicle Id],TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number as [Vehicle No]," &
+                    " TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code  as Location, TSPL_DAIRYSALE_GATEPASS_MASTER.Created_By as [Created By]," &
+                    " convert(varchar,TSPL_DAIRYSALE_GATEPASS_MASTER.Created_Date,103) as [Created Date] , " &
+                    " TSPL_DAIRYSALE_GATEPASS_MASTER.Remarks as description from TSPL_DAIRYSALE_GATEPASS_MASTER " &
+                    " Left Outer Join TSPL_LOCATION_MASTER on  TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code =TSPL_LOCATION_MASTER.Location_Code  " &
+                    " WHERE  convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate ,103) >= convert(date,'" + dtpFromDate.Value + "',103)  " &
                     " and convert(date,TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate,103) <= convert(date,'" + dtpToDate.Value + "',103)"
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -4188,15 +4191,15 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
-                    qry = "select isnull(CAST((TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted)as BIT),0) as Status  " & _
-                   " ,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No as [Document Id] , convert(varchar,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,103) as [Document Date],TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type" & _
-                    " ,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.totalcrateQty as [Crate Qty],TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.TotalCanQty as [Can Qty]" & _
-                   " ,TSPL_LOCATION_MASTER.Location_Desc as [Location], TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_By as [Created By] " & _
-                   " , convert(varchar,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_Date,103) as [Created Date] " & _
-                   " ,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments  as [Description] " & _
-                   " from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE" & _
-                " Left Outer Join TSPL_LOCATION_MASTER on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code =TSPL_LOCATION_MASTER.Location_Code  " & _
-                    " WHERE  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " & _
+                    qry = "select isnull(CAST((TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Posted)as BIT),0) as Status  " &
+                   " ,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No as [Document Id] , convert(varchar,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,103) as [Document Date],TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.type" &
+                    " ,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.totalcrateQty as [Crate Qty],TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.TotalCanQty as [Can Qty]" &
+                   " ,TSPL_LOCATION_MASTER.Location_Desc as [Location], TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_By as [Created By] " &
+                   " , convert(varchar,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Created_Date,103) as [Created Date] " &
+                   " ,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comments  as [Description] " &
+                   " from TSPL_CRATE_RECEIVED_HEAD_FRESHSALE" &
+                " Left Outer Join TSPL_LOCATION_MASTER on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code =TSPL_LOCATION_MASTER.Location_Code  " &
+                    " WHERE  convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " &
                     "convert(date,TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -4255,11 +4258,11 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = " Select CAST((TSPL_MCC_Sale_Farmer_Head.Status)as BIT) as Status,TSPL_MCC_Sale_Farmer_Head.Document_Code as[Document Id],convert(varchar,TSPL_MCC_Sale_Farmer_Head.Document_Date,103) as [Document Date]," & _
-                    " isnull(TSPL_MCC_Sale_Farmer_Head.Total_Amt,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " & _
-                    " TSPL_MCC_Sale_Farmer_Head.Created_By as [Created By], " & _
-                    " convert(varchar,TSPL_MCC_Sale_Farmer_Head.Created_Date,103) as [Created Date],TSPL_MCC_Sale_Farmer_Head.Description from TSPL_MCC_Sale_Farmer_Head " & _
-                    " left join TSPL_LOCATION_MASTER  on TSPL_MCC_Sale_Farmer_Head.bill_to_location=TSPL_LOCATION_MASTER.Location_Code  " & _
+                    qry = " Select CAST((TSPL_MCC_Sale_Farmer_Head.Status)as BIT) as Status,TSPL_MCC_Sale_Farmer_Head.Document_Code as[Document Id],convert(varchar,TSPL_MCC_Sale_Farmer_Head.Document_Date,103) as [Document Date]," &
+                    " isnull(TSPL_MCC_Sale_Farmer_Head.Total_Amt,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " &
+                    " TSPL_MCC_Sale_Farmer_Head.Created_By as [Created By], " &
+                    " convert(varchar,TSPL_MCC_Sale_Farmer_Head.Created_Date,103) as [Created Date],TSPL_MCC_Sale_Farmer_Head.Description from TSPL_MCC_Sale_Farmer_Head " &
+                    " left join TSPL_LOCATION_MASTER  on TSPL_MCC_Sale_Farmer_Head.bill_to_location=TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE  convert(date,TSPL_MCC_Sale_Farmer_Head.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_MCC_Sale_Farmer_Head.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -4291,11 +4294,11 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = " Select CAST((TSPL_MCC_SALE_RETURN_HEAD_FARMER.Status)as BIT) as Status,TSPL_MCC_SALE_RETURN_HEAD_FARMER.Document_Code as[Document Id],convert(varchar,TSPL_MCC_SALE_RETURN_HEAD_FARMER.Document_Date,103) as [Document Date]," & _
-                    " isnull(TSPL_MCC_SALE_RETURN_HEAD_FARMER.Total_Amt,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " & _
-                    " TSPL_MCC_SALE_RETURN_HEAD_FARMER.Created_By as [Created By], " & _
-                    " convert(varchar,TSPL_MCC_SALE_RETURN_HEAD_FARMER.Created_Date,103) as [Created Date],TSPL_MCC_SALE_RETURN_HEAD_FARMER.Description from TSPL_MCC_SALE_RETURN_HEAD_FARMER " & _
-                    " left join TSPL_LOCATION_MASTER  on TSPL_MCC_SALE_RETURN_HEAD_FARMER.bill_to_location=TSPL_LOCATION_MASTER.Location_Code  " & _
+                    qry = " Select CAST((TSPL_MCC_SALE_RETURN_HEAD_FARMER.Status)as BIT) as Status,TSPL_MCC_SALE_RETURN_HEAD_FARMER.Document_Code as[Document Id],convert(varchar,TSPL_MCC_SALE_RETURN_HEAD_FARMER.Document_Date,103) as [Document Date]," &
+                    " isnull(TSPL_MCC_SALE_RETURN_HEAD_FARMER.Total_Amt,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " &
+                    " TSPL_MCC_SALE_RETURN_HEAD_FARMER.Created_By as [Created By], " &
+                    " convert(varchar,TSPL_MCC_SALE_RETURN_HEAD_FARMER.Created_Date,103) as [Created Date],TSPL_MCC_SALE_RETURN_HEAD_FARMER.Description from TSPL_MCC_SALE_RETURN_HEAD_FARMER " &
+                    " left join TSPL_LOCATION_MASTER  on TSPL_MCC_SALE_RETURN_HEAD_FARMER.bill_to_location=TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE  convert(date,TSPL_MCC_SALE_RETURN_HEAD_FARMER.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_MCC_SALE_RETURN_HEAD_FARMER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -4327,11 +4330,11 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = " Select CAST((TSPL_MP_Pay_Adj_Head.Is_Post)as BIT) as Status,TSPL_MP_Pay_Adj_Head.Adjustment_No as[Document Id],convert(varchar,TSPL_MP_Pay_Adj_Head.Adjustment_Date,103) as [Document Date]," & _
-                    " isnull(TSPL_MP_Pay_Adj_Head.Doc_Amount ,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " & _
-                    " TSPL_MP_Pay_Adj_Head.Created_By as [Created By], " & _
-                    " convert(varchar,TSPL_MP_Pay_Adj_Head.Created_Date,103) as [Created Date],TSPL_MP_Pay_Adj_Head.Description from TSPL_MP_Pay_Adj_Head " & _
-                    " left join TSPL_LOCATION_MASTER  on TSPL_MP_Pay_Adj_Head.MCC_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
+                    qry = " Select CAST((TSPL_MP_Pay_Adj_Head.Is_Post)as BIT) as Status,TSPL_MP_Pay_Adj_Head.Adjustment_No as[Document Id],convert(varchar,TSPL_MP_Pay_Adj_Head.Adjustment_Date,103) as [Document Date]," &
+                    " isnull(TSPL_MP_Pay_Adj_Head.Doc_Amount ,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " &
+                    " TSPL_MP_Pay_Adj_Head.Created_By as [Created By], " &
+                    " convert(varchar,TSPL_MP_Pay_Adj_Head.Created_Date,103) as [Created Date],TSPL_MP_Pay_Adj_Head.Description from TSPL_MP_Pay_Adj_Head " &
+                    " left join TSPL_LOCATION_MASTER  on TSPL_MP_Pay_Adj_Head.MCC_Code=TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE  convert(date,TSPL_MP_Pay_Adj_Head.Adjustment_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_MP_Pay_Adj_Head.Adjustment_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -5933,9 +5936,9 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         '  " where TSPL_Program_Master.Program_Code='" + ProgramName + "' and " & _
         '  "TSPL_GROUP_PROGRAM_MAPPING.Group_Code in (select Group_Code  from TSPL_USER_GROUP_MAPPING where User_Code ='" + objCommonVar.CurrentUserCode + "') and TSPL_GROUP_PROGRAM_MAPPING.Authorized_Flag=1 "
 
-        StrQuery = "select max(TSPL_GROUP_PROGRAM_MAPPING.Authorized_Flag) as Authorized_Flag from TSPL_GROUP_PROGRAM_MAPPING " & _
-        " inner join TSPL_Program_Master on TSPL_Program_Master.Program_Code=TSPL_GROUP_PROGRAM_MAPPING.Program_Code " & _
-         " where TSPL_Program_Master.Program_Code='" + ProgramName + "' and " & _
+        StrQuery = "select max(TSPL_GROUP_PROGRAM_MAPPING.Authorized_Flag) as Authorized_Flag from TSPL_GROUP_PROGRAM_MAPPING " &
+        " inner join TSPL_Program_Master on TSPL_Program_Master.Program_Code=TSPL_GROUP_PROGRAM_MAPPING.Program_Code " &
+         " where TSPL_Program_Master.Program_Code='" + ProgramName + "' and " &
          "TSPL_GROUP_PROGRAM_MAPPING.Group_Code in (select Group_Code  from TSPL_USER_GROUP_MAPPING where User_Code in (select '" + objCommonVar.CurrentUserCode + "' union  select TSPL_USER_MAPPING_DETAIL.Mapped_UserCode AS User_Code  from TSPL_USER_MAPPING_DETAIL Where TSPL_USER_MAPPING_DETAIL.User_Code='" + objCommonVar.CurrentUserCode + "' ) ) and TSPL_GROUP_PROGRAM_MAPPING.Authorized_Flag=1 "
 
 
@@ -5996,14 +5999,14 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         dr("Name") = "Disposal Entry"
         dt1.Rows.Add(dr)
 
-        
+
 
         dr = dt1.NewRow()
         dr("Code") = "Asset Store Requisition"
         dr("Name") = "Asset Store Requisition"
         dt1.Rows.Add(dr)
 
-      
+
 
         dr = dt1.NewRow()
         dr("Code") = "Issue Items to Assemble Asset"
@@ -6068,11 +6071,11 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = " Select CAST((TSPL_ACQUISITION_head.Status)as BIT) as Status,TSPL_ACQUISITION_head.Acquisition_Code as[Document Id],convert(varchar,TSPL_ACQUISITION_head.acquisition_date,103) as [Document Date]," & _
-                    " isnull(TSPL_ACQUISITION_head.net_amt,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " & _
-                    " TSPL_ACQUISITION_head.Created_By as [Created By], " & _
-                    " convert(varchar,TSPL_ACQUISITION_head.Created_Date,103) as [Created Date],TSPL_ACQUISITION_head.Description from TSPL_ACQUISITION_head " & _
-                    " left join TSPL_LOCATION_MASTER  on TSPL_ACQUISITION_head.Loc_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
+                    qry = " Select CAST((TSPL_ACQUISITION_head.Status)as BIT) as Status,TSPL_ACQUISITION_head.Acquisition_Code as[Document Id],convert(varchar,TSPL_ACQUISITION_head.acquisition_date,103) as [Document Date]," &
+                    " isnull(TSPL_ACQUISITION_head.net_amt,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " &
+                    " TSPL_ACQUISITION_head.Created_By as [Created By], " &
+                    " convert(varchar,TSPL_ACQUISITION_head.Created_Date,103) as [Created Date],TSPL_ACQUISITION_head.Description from TSPL_ACQUISITION_head " &
+                    " left join TSPL_LOCATION_MASTER  on TSPL_ACQUISITION_head.Loc_Code=TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE Acquisition_Type<>'Merge' AND  convert(date,TSPL_ACQUISITION_head.acquisition_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_ACQUISITION_head.acquisition_date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -6104,11 +6107,11 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = " Select CAST((TSPL_ASSET_SCRAP_HEAD.Status)as BIT) as Status,TSPL_ASSET_SCRAP_HEAD.Document_No as[Document Id],convert(varchar,TSPL_ASSET_SCRAP_HEAD.Document_Date,103) as [Document Date]," & _
-                    " isnull(TSPL_ASSET_SCRAP_HEAD.Doc_Amt,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " & _
-                    " TSPL_ASSET_SCRAP_HEAD.Created_By as [Created By], " & _
-                    " convert(varchar,TSPL_ASSET_SCRAP_HEAD.Created_Date,103) as [Created Date],TSPL_ASSET_SCRAP_HEAD.Description from TSPL_ASSET_SCRAP_HEAD " & _
-                    " left join TSPL_LOCATION_MASTER  on TSPL_ASSET_SCRAP_HEAD.Loc_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
+                    qry = " Select CAST((TSPL_ASSET_SCRAP_HEAD.Status)as BIT) as Status,TSPL_ASSET_SCRAP_HEAD.Document_No as[Document Id],convert(varchar,TSPL_ASSET_SCRAP_HEAD.Document_Date,103) as [Document Date]," &
+                    " isnull(TSPL_ASSET_SCRAP_HEAD.Doc_Amt,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " &
+                    " TSPL_ASSET_SCRAP_HEAD.Created_By as [Created By], " &
+                    " convert(varchar,TSPL_ASSET_SCRAP_HEAD.Created_Date,103) as [Created Date],TSPL_ASSET_SCRAP_HEAD.Description from TSPL_ASSET_SCRAP_HEAD " &
+                    " left join TSPL_LOCATION_MASTER  on TSPL_ASSET_SCRAP_HEAD.Loc_Code=TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE  convert(date,TSPL_ASSET_SCRAP_HEAD.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_ASSET_SCRAP_HEAD.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -6140,11 +6143,11 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = " Select CAST((TSPL_REQUISITION_HEAD.status)as BIT) as Status,TSPL_REQUISITION_HEAD.Requisition_Id as[Document Id],convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as [Document Date]," & _
-                    " isnull(TSPL_REQUISITION_HEAD.total_RQ_Amt ,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " & _
-                    " TSPL_REQUISITION_HEAD.Created_By as [Created By], " & _
-                    " convert(varchar,TSPL_REQUISITION_HEAD.Created_Date,103) as [Created Date],TSPL_REQUISITION_HEAD.Description from TSPL_REQUISITION_HEAD " & _
-                    " left join TSPL_LOCATION_MASTER  on TSPL_REQUISITION_HEAD.Location=TSPL_LOCATION_MASTER.Location_Code  " & _
+                    qry = " Select CAST((TSPL_REQUISITION_HEAD.status)as BIT) as Status,TSPL_REQUISITION_HEAD.Requisition_Id as[Document Id],convert(varchar,TSPL_REQUISITION_HEAD.Requisition_Date,103) as [Document Date]," &
+                    " isnull(TSPL_REQUISITION_HEAD.total_RQ_Amt ,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " &
+                    " TSPL_REQUISITION_HEAD.Created_By as [Created By], " &
+                    " convert(varchar,TSPL_REQUISITION_HEAD.Created_Date,103) as [Created Date],TSPL_REQUISITION_HEAD.Description from TSPL_REQUISITION_HEAD " &
+                    " left join TSPL_LOCATION_MASTER  on TSPL_REQUISITION_HEAD.Location=TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE  convert(date,TSPL_REQUISITION_HEAD.Requisition_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_REQUISITION_HEAD.Requisition_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -6176,11 +6179,11 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = " Select CAST((TSPL_IssueItemToAssembledAsset_Head.status)as BIT) as Status,TSPL_IssueItemToAssembledAsset_Head.doc_no as[Document Id],convert(varchar,TSPL_IssueItemToAssembledAsset_Head.doc_date,103) as [Document Date]," & _
-                    " isnull(TSPL_IssueItemToAssembledAsset_Head.Doc_Amt ,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " & _
-                    " TSPL_IssueItemToAssembledAsset_Head.Created_By as [Created By], " & _
-                    " convert(varchar,TSPL_IssueItemToAssembledAsset_Head.Created_Date,103) as [Created Date],TSPL_IssueItemToAssembledAsset_Head.REMARKS AS Description from TSPL_IssueItemToAssembledAsset_Head " & _
-                    " left join TSPL_LOCATION_MASTER  on TSPL_IssueItemToAssembledAsset_Head.From_Location=TSPL_LOCATION_MASTER.Location_Code  " & _
+                    qry = " Select CAST((TSPL_IssueItemToAssembledAsset_Head.status)as BIT) as Status,TSPL_IssueItemToAssembledAsset_Head.doc_no as[Document Id],convert(varchar,TSPL_IssueItemToAssembledAsset_Head.doc_date,103) as [Document Date]," &
+                    " isnull(TSPL_IssueItemToAssembledAsset_Head.Doc_Amt ,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " &
+                    " TSPL_IssueItemToAssembledAsset_Head.Created_By as [Created By], " &
+                    " convert(varchar,TSPL_IssueItemToAssembledAsset_Head.Created_Date,103) as [Created Date],TSPL_IssueItemToAssembledAsset_Head.REMARKS AS Description from TSPL_IssueItemToAssembledAsset_Head " &
+                    " left join TSPL_LOCATION_MASTER  on TSPL_IssueItemToAssembledAsset_Head.From_Location=TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE  convert(date,TSPL_IssueItemToAssembledAsset_Head.doc_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_IssueItemToAssembledAsset_Head.doc_date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -6213,11 +6216,11 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = " Select CAST((TSPL_ASSET_WORK_HEAD.status)as BIT) as Status,TSPL_ASSET_WORK_HEAD.document_code as[Document Id],convert(varchar,TSPL_ASSET_WORK_HEAD.document_date,103) as [Document Date]," & _
-                    " isnull(TSPL_ASSET_WORK_HEAD.Net_Amt ,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " & _
-                    " TSPL_ASSET_WORK_HEAD.Created_By as [Created By], " & _
-                    " convert(varchar,TSPL_ASSET_WORK_HEAD.Created_Date,103) as [Created Date],TSPL_ASSET_WORK_HEAD.Description from TSPL_ASSET_WORK_HEAD " & _
-                    " left join TSPL_LOCATION_MASTER  on TSPL_ASSET_WORK_HEAD.Location_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
+                    qry = " Select CAST((TSPL_ASSET_WORK_HEAD.status)as BIT) as Status,TSPL_ASSET_WORK_HEAD.document_code as[Document Id],convert(varchar,TSPL_ASSET_WORK_HEAD.document_date,103) as [Document Date]," &
+                    " isnull(TSPL_ASSET_WORK_HEAD.Net_Amt ,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " &
+                    " TSPL_ASSET_WORK_HEAD.Created_By as [Created By], " &
+                    " convert(varchar,TSPL_ASSET_WORK_HEAD.Created_Date,103) as [Created Date],TSPL_ASSET_WORK_HEAD.Description from TSPL_ASSET_WORK_HEAD " &
+                    " left join TSPL_LOCATION_MASTER  on TSPL_ASSET_WORK_HEAD.Location_Code=TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE  convert(date,TSPL_ASSET_WORK_HEAD.document_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_ASSET_WORK_HEAD.document_date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -6249,11 +6252,11 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
 
-                    qry = " Select CAST((TSPL_ACQUISITION_head.Status)as BIT) as Status,TSPL_ACQUISITION_head.Acquisition_Code as[Document Id],convert(varchar,TSPL_ACQUISITION_head.acquisition_date,103) as [Document Date]," & _
-                    " isnull(TSPL_ACQUISITION_head.net_amt,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " & _
-                    " TSPL_ACQUISITION_head.Created_By as [Created By], " & _
-                    " convert(varchar,TSPL_ACQUISITION_head.Created_Date,103) as [Created Date],TSPL_ACQUISITION_head.Description from TSPL_ACQUISITION_head " & _
-                    " left join TSPL_LOCATION_MASTER  on TSPL_ACQUISITION_head.Loc_Code=TSPL_LOCATION_MASTER.Location_Code  " & _
+                    qry = " Select CAST((TSPL_ACQUISITION_head.Status)as BIT) as Status,TSPL_ACQUISITION_head.Acquisition_Code as[Document Id],convert(varchar,TSPL_ACQUISITION_head.acquisition_date,103) as [Document Date]," &
+                    " isnull(TSPL_ACQUISITION_head.net_amt,0) as [Amount],TSPL_LOCATION_MASTER.Location_Desc as [Location], " &
+                    " TSPL_ACQUISITION_head.Created_By as [Created By], " &
+                    " convert(varchar,TSPL_ACQUISITION_head.Created_Date,103) as [Created Date],TSPL_ACQUISITION_head.Description from TSPL_ACQUISITION_head " &
+                    " left join TSPL_LOCATION_MASTER  on TSPL_ACQUISITION_head.Loc_Code=TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE Acquisition_Type='Merge' AND  convert(date,TSPL_ACQUISITION_head.acquisition_date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and convert(date,TSPL_ACQUISITION_head.acquisition_date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
 
                     If rbtnStatusPending.IsChecked = True Then
@@ -6320,34 +6323,75 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         End If
     End Sub
 
-    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles BtnSelAll.Click
-        For i As Integer = 0 To gv1.Rows.Count - 1
-            gv1.Rows(i).Cells("Status").Value = False
-        Next
-        If BtnSelAll.Text = "Select All" Then
-            For i As Integer = 0 To gv1.ChildRows.Count - 1
-                'gv1.ChildRows(i).IsVisible = True
-                If i > gv1.ChildRows.Count - 1 Then
-                    Exit For
-                End If
-                gv1.ChildRows(i).Cells("Status").Value = True
-            Next
-            IsSelected = True
-            BtnSelAll.Text = "UnSelect All"
-            TotalAmount(True, gv1)
 
-        ElseIf BtnSelAll.Text = "UnSelect All" Then
-            IsSelected = False
-            BtnSelAll.Text = "Select All"
-            txtGrandTotal.Text = ""
-            'For i As Integer = 0 To gv1.ChildRows.Count - 1
-            '    gv1.ChildRows(i).IsVisible = True
-            'Next
-        End If
+    Private Sub BtnSelAll_Click(sender As Object, e As EventArgs) Handles BtnSelAll.Click
+        'Try
+        '    FlagAllSelectWorking = True
+        '    Dim TempTotal As Double = 0
+        '    For i As Integer = 0 To gv1.Rows.Count - 1
+        '        gv1.Rows(i).Cells("Status").Value = True
+        '        TempTotal = TempTotal + clsCommon.myCdbl(gv1.Rows(i).Cells("Amount"))
+        '    Next
+        '    txtGrandTotal.Text = TempTotal
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(ex.Message)
+        'Finally
+        '    FlagAllSelectWorking = False
+        'End Try
+        Try
+            FlagAllSelectWorking = True
+            If clsCommon.CompairString(BtnSelAll.Text, "Select All") = CompairStringResult.Equal Then
+                Dim TempTotal As Double = 0
+                For i As Integer = 0 To gv1.Rows.Count - 1
+                    gv1.Rows(i).Cells("Status").Value = True
+                    TempTotal = TempTotal + clsCommon.myCdbl(gv1.Rows(i).Cells("Amount"))
+                Next
+                txtGrandTotal.Text = TempTotal
+                IsSelected = True
+                BtnSelAll.Text = "UnSelect All"
 
+
+                'For i As Integer = 0 To gv1.Rows.Count - 1
+                '    'gv1.ChildRows(i).IsVisible = True
+                '    If i > gv1.Rows.Count - 1 Then
+                '        Exit For
+                '    End If
+                '    gv1.Rows(i).Cells("Status").Value = False
+                'Next
+
+
+            ElseIf clsCommon.CompairString(BtnSelAll.Text, "UnSelect All") = CompairStringResult.Equal Then
+                For i As Integer = 0 To gv1.Rows.Count - 1
+                    'gv1.ChildRows(i).IsVisible = True
+                    'If i > gv1.Rows.Count - 1 Then
+                    '    Exit For
+                    'End If
+                    gv1.Rows(i).Cells("Status").Value = False
+                Next
+                IsSelected = False
+                BtnSelAll.Text = "Select All"
+                txtGrandTotal.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        Finally
+            FlagAllSelectWorking = False
+        End Try
+
+        'For i As Integer = 0 To gv1.ChildRows.Count - 1
+        '    'gv1.ChildRows(i).IsVisible = True
+        '    If i > gv1.ChildRows.Count - 1 Then
+        '        Exit For
+        '    End If
+        '    gv1.ChildRows(i).Cells("Status").Value = True
+        'Next
+        '    IsSelected = True
+        '    BtnSelAll.Text = "UnSelect All"
+        ''    TotalAmount(True, gv1)
+        'ElseIf clsCommon.CompairString(BtnSelAll.Text, "UnSelect All") = CompairStringResult.Equal Then
+        'IsSelected = False
+        'BtnSelAll.Text = "Select All"
+        'txtGrandTotal.Text = ""
+        'End If
     End Sub
 End Class
-
-
-
-
