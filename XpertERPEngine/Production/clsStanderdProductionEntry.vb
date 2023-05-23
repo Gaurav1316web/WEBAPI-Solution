@@ -298,6 +298,9 @@ Public Class clsStanderdProductionEntry
         Return True
     End Function
     Public Shared Function ReCreateJE(ByVal Form_Id As String, ByVal strDocNo As String, ByVal arrloc As String, ByVal isCheckForPosted As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Return ReCreateJE(Form_Id, strDocNo, arrloc, isCheckForPosted, trans, False)
+    End Function
+    Public Shared Function ReCreateJE(ByVal Form_Id As String, ByVal strDocNo As String, ByVal arrloc As String, ByVal isCheckForPosted As Boolean, ByVal trans As SqlTransaction, ByVal SkipInventory As Boolean) As Boolean
         If (clsCommon.myLen(strDocNo) <= 0) Then
             Throw New Exception("Code not found to Post")
         End If
@@ -305,10 +308,10 @@ Public Class clsStanderdProductionEntry
         Dim obj As clsStanderdProductionEntry = clsStanderdProductionEntry.GetData(strDocNo, arrloc, NavigatorType.Current, trans)
 
         clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProductionEntry, obj.LOCATION_CODE, obj.PROD_DATE, trans)
-        Dim isSaved As Boolean = True
-        UpdateInventoryMovement(Form_Id, obj, arrloc, trans)
-        'clsStanderdProductionEntryRM.SaveRM(obj.PROD_ENTRY_CODE, arrloc, trans)
-        isSaved = JournalEntry(trans, obj)
+        If Not SkipInventory Then
+            UpdateInventoryMovement(Form_Id, obj, arrloc, trans)
+        End If
+        JournalEntry(trans, obj)
         Return True
     End Function
 
@@ -695,7 +698,7 @@ Public Class clsStanderdProductionEntry
             Remarks = obj.DESCRIPTION
 
             '' credit wip account of consumption items
-            qry = " SELECT Consm.CONSM_ITEM_CODE,cast ( (Consm.Avg_Cost * Consm.CONSM_QTY) as  decimal(18,2)) as Avg_Cost,TSPL_ITEM_MASTER.Item_Desc,TSPL_PURCHASE_ACCOUNTS.RM_Consumption AS CreditAccount " &
+            qry = " SELECT Consm.CONSM_ITEM_CODE,cast ( (Consm.Avg_Cost) as  decimal(18,2)) as Avg_Cost,TSPL_ITEM_MASTER.Item_Desc,TSPL_PURCHASE_ACCOUNTS.RM_Consumption AS CreditAccount " &
                   " FROM TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL  Consm " &
                   " left join TSPL_ITEM_MASTER on Consm.CONSM_ITEM_CODE=TSPL_ITEM_MASTER.Item_Code " &
                   " left join TSPL_PURCHASE_ACCOUNTS on TSPL_ITEM_MASTER.Purchase_Class_Code=TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code " &
@@ -1063,7 +1066,7 @@ Public Class clsStanderdProductionEntryRM
             clsCommon.AddColumnsForChange(coll, "FAT_KG", clsCommon.myCdbl(dr.Item("FAT_KG")))
             clsCommon.AddColumnsForChange(coll, "SNF_KG", clsCommon.myCdbl(dr.Item("SNF_KG")))
             Dim cost As Decimal = clsCommon.myCDecimal(dr.Item("AVG_COST"))
-            Dim Amt As Decimal = (clsCommon.myCDecimal(dr.Item("AVG_COST")) * clsCommon.myCDecimal(dr.Item("Consm_Qty")))
+            'Dim Amt As Decimal = (clsCommon.myCDecimal(dr.Item("AVG_COST")) * clsCommon.myCDecimal(dr.Item("Consm_Qty")))
             clsCommon.AddColumnsForChange(coll, "AVG_COST", cost)
             Dim BalanceQty As Decimal = 0
 
@@ -1091,13 +1094,13 @@ Public Class clsStanderdProductionEntryRM
 
             'cost = clsCommon.myCdbl(dr.Item("FAT_Amt")) + clsCommon.myCdbl(dr.Item("SNF_Amt"))
             clsCommon.AddColumnsForChange(coll, "FIFO_COST", cost)
-            totalFifoCost = totalFifoCost + Amt
+            totalFifoCost = totalFifoCost + cost
 
             'clsCommon.AddColumnsForChange(coll, "AVG_COST", cost)
-            totalAvgCost = totalAvgCost + Amt
+            totalAvgCost = totalAvgCost + cost
 
             clsCommon.AddColumnsForChange(coll, "LIFO_COST", cost)
-            totalLifoCost = totalLifoCost + Amt
+            totalLifoCost = totalLifoCost + cost
 
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL", OMInsertOrUpdate.Insert, "", trans)
         Next

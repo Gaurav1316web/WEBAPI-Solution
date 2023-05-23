@@ -26146,4 +26146,56 @@ where TSPL_ASSET_SCRAP_HEAD.Status=1"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub TxtMultiSelectFinder18__My_Click(sender As Object, e As EventArgs) Handles TxtMultiSelectFinder18._My_Click
+        Dim qry As String = "select PROD_ENTRY_CODE as DOC_Code,PROD_DATE as DocDate,LOCATION_CODE,DESCRIPTION from TSPL_SPP_PRODUCTION_ENTRY"
+        TxtMultiSelectFinder18.arrValueMember = clsCommon.ShowMultipleSelectForm("CFProE@u", qry, "DOC_CODE", "", TxtMultiSelectFinder18.arrValueMember, Nothing)
+    End Sub
+
+    Private Sub RadButton349_Click(sender As Object, e As EventArgs) Handles RadButton349.Click
+        Try
+            If TxtMultiSelectFinder18.arrValueMember Is Nothing OrElse TxtMultiSelectFinder18.arrValueMember.Count <= 0 Then
+                Throw New Exception("Please select At least One Document")
+            End If
+            Dim StrAllException As String = ""
+            Dim qry As String
+            For ii As Integer = 0 To TxtMultiSelectFinder18.arrValueMember.Count - 1
+                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                Try
+                    qry = "update TSPL_SPP_CONSUMPTION_WITHOUT_BATCH set Avg_Cost=xx.Avg_Cost from (
+select Source_Doc_No,Item_Code,Avg_Cost   from TSPL_INVENTORY_MOVEMENT where Trans_Type='STD_PRO_ENT' and InOut='O' and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "'
+)xx inner join TSPL_SPP_CONSUMPTION_WITHOUT_BATCH on TSPL_SPP_CONSUMPTION_WITHOUT_BATCH.PROD_ENTRY_CODE=xx.Source_Doc_No and TSPL_SPP_CONSUMPTION_WITHOUT_BATCH.CONSM_ITEM_CODE=xx.Item_Code"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "update TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL set FIFO_Cost=xx.Avg_Cost,LIFO_Cost=xx.Avg_Cost,Avg_Cost=xx.Avg_Cost
+from (
+select Source_Doc_No,Item_Code,Avg_Cost   from TSPL_INVENTORY_MOVEMENT where Trans_Type='STD_PRO_ENT' and InOut='O' and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "'
+)xx inner join TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL on TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE=xx.Source_Doc_No and TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.CONSM_ITEM_CODE=xx.Item_Code"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "update TSPL_SPP_COST_WITHOUT_BATCH set OverHead_Cost=xx.Avg_Cost from (
+select Source_Doc_No,sum(Avg_Cost) as Avg_Cost  from TSPL_INVENTORY_MOVEMENT where Trans_Type='STD_PRO_ENT' and InOut='O' and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "' group by Source_Doc_No  
+)xx inner join TSPL_SPP_COST_WITHOUT_BATCH on TSPL_SPP_COST_WITHOUT_BATCH.PROD_ENTRY_CODE=xx.Source_Doc_No "
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "update TSPL_INVENTORY_MOVEMENT set Avg_Cost=xx.Avg_Cost from (
+select Source_Doc_No,sum(Avg_Cost) as Avg_Cost  from TSPL_INVENTORY_MOVEMENT where Trans_Type='STD_PRO_ENT' and InOut='O' and TSPL_INVENTORY_MOVEMENT.Source_Doc_No='" + clsCommon.myCstr(TxtMultiSelectFinder18.arrValueMember(ii)) + "' group by Source_Doc_No  
+)xx inner join TSPL_INVENTORY_MOVEMENT on TSPL_INVENTORY_MOVEMENT.Source_Doc_No=xx.Source_Doc_No  and TSPL_INVENTORY_MOVEMENT.InOut='I'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    clsStanderdProductionEntry.ReCreateJE(clsUserMgtCode.frmStanderdProductionEntry, TxtMultiSelectFinder18.arrValueMember(ii), "", True, trans, True)
+                    trans.Commit()
+                Catch ex As Exception
+                    trans.Rollback()
+                    StrAllException += "Error  [" + TxtMultiSelectFinder18.arrValueMember(ii) + "]" + ex.Message + Environment.NewLine
+                End Try
+            Next
+            If clsCommon.myLen(StrAllException) > 0 Then
+                clsCommon.MyMessageBoxShow(StrAllException, Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow("Successfully Created", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

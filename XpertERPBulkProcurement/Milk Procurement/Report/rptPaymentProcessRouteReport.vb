@@ -1879,7 +1879,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
 
             Dim whrcls As String = " where 2=2 "
             Dim whrcls1 As String = " where 2=2 "
-
+            strQry = ""
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
                 strQry += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
             End If
@@ -1891,6 +1891,15 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             whrcls += "  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) "
             whrcls += " and not exists(select 1 from TSPL_MILK_PURCHASE_INVOICE_PRO_LOSS where TSPL_MILK_PURCHASE_INVOICE_PRO_LOSS.InvoiceNo=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE) "
             whrcls1 += "  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1  "
+
+            If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                whrcls1 += " and tspl_vlc_master_head.mcc in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
+            End If
+
+            If txtRouteName.arrValueMember IsNot Nothing AndAlso txtRouteName.arrValueMember.Count > 0 Then
+                whrcls1 += " and tspl_bulk_route_master_mcc.route_no in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ") "
+            End If
+
 
             Dim BaseQry As String = ""
             BaseQry = "select TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, "
@@ -1925,7 +1934,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
 
             If SettPickBulkRoute Then
                 BaseQry += " LEFT OUTER JOIN TSPL_BULK_ROUTE_MASTER_MCC ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_BULK_ROUTE_MASTER_MCC.MCC_CODE
-left join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO =TSPL_BULK_ROUTE_MASTER.ROUTE_NO  " + Environment.NewLine
+                        left join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO =TSPL_BULK_ROUTE_MASTER.ROUTE_NO  " + Environment.NewLine
             Else
                 BaseQry += " left join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code " + Environment.NewLine
             End If
@@ -1937,11 +1946,26 @@ left join TSPL_BULK_ROUTE_MASTER On TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO =TSPL_BU
             BaseQry += " left join (select distinct FAT_Pers,SNF_Pers,Ratio as Fat_ratio,SNF_Ratio, Milk_Rate,TSPL_MILK_PRICE_MASTER.Price_Code,TSPL_FAT_SNF_UPLOADER_MASTER.code    from TSPL_FAT_SNF_UPLOADER_MASTER inner join  TSPL_MILK_PRICE_MASTER  on TSPL_MILK_PRICE_MASTER.Price_Code=TSPL_FAT_SNF_UPLOADER_MASTER.Price_Code) as  Price_Chart    on TSPL_MILK_SRN_DETAIL.Price_Code=Price_Chart.Code "
             BaseQry += " left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code " + Environment.NewLine +
             " left join TSPL_MILK_REJECT_head on TSPL_MILK_REJECT_head.doc_code=TSPL_MILK_SRN_HEAD.Against_reject_no
-          left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and TSPL_VLC_MASTER_HEAD.VLC_Code  = TSPL_MILK_REJECT_DETAIL.VLC_CODE  and TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT = TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty   
+          left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and  TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.sample_no
           left outer join (select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE , TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No as BillNo ,TSPL_PAYMENT_PROCESS_DETAIL.Doc_No as DOCNO, convert(varchar,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103) as BillDate from TSPL_PAYMENT_PROCESS_DETAIL inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
-		  where 2=2   and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 ) as TBL_BILL_DETAILS on TBL_BILL_DETAILS.VSP_CODE =
-          TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code  
-          "
+		  where 2=2   and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 "
+
+            'If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+            '          BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
+            ' End If
+
+            'If txtRouteName.arrValueMember IsNot Nothing AndAlso txtRouteName.arrValueMember.Count > 0 Then
+            'BaseQry += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ") "
+            'End If
+
+
+            BaseQry += ") as TBL_BILL_DETAILS on TBL_BILL_DETAILS.VSP_CODE = TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code"
+            '
+
+
+
+
+
             BaseQry += "  " & whrcls & " " + strQry
 
             Dim dt As New DataTable
@@ -2122,8 +2146,19 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                     LEFT OUTER JOIN TSPL_BULK_ROUTE_MASTER_MCC ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_BULK_ROUTE_MASTER_MCC.MCC_CODE
 					inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
                     where  convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and
-                     TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission'
-                    and (TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc,Final.ROUTE_NO "
+                    TSPL_VENDOR_INVOICE_HEAD.Description <> 'AP Credit Note For VSP Commission'
+                    and (TSPL_MULTIPLE_DEDUCTION_head.trans_type = 'Addition' or TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') "
+
+            If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                sQueryAD += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
+            End If
+
+            If txtRouteName.arrValueMember IsNot Nothing AndAlso txtRouteName.arrValueMember.Count > 0 Then
+                sQueryAD += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ") "
+            End If
+
+
+            sQueryAD += " ) Final group by Final.VSP_Uploader_Code, Final.VSP_Code , Final.Item_Desc,Final.ROUTE_NO "
 
             'sQueryAD = ""
 
@@ -2135,8 +2170,16 @@ when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DE
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
 LEFT OUTER JOIN TSPL_BULK_ROUTE_MASTER_MCC ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_BULK_ROUTE_MASTER_MCC.MCC_CODE
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
-where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1
-) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code,Final.ROUTE_NO "
+where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1"
+            If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                sQueryDD += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
+            End If
+
+            If txtRouteName.arrValueMember IsNot Nothing AndAlso txtRouteName.arrValueMember.Count > 0 Then
+                sQueryDD += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ") "
+            End If
+
+            sQueryDD += ") Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code,Final.ROUTE_NO "
 
             Dim dtDeductionTemp As DataTable = clsDBFuncationality.GetDataTable(sQueryDD)
 
@@ -2521,7 +2564,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
 
     Private Sub txtRouteName_My_Click(sender As Object, e As EventArgs) Handles txtRouteName._My_Click
         Dim qry As String = " select ROUTE_NO as RouteNo, ROUTE_NAME as RouteName from TSPL_BULK_ROUTE_MASTER"
-        txtRouteName.arrValueMember = clsCommon.ShowMultipleSelectForm("TransDetailedCardReport", qry, "RouteNo", "RouteName", txtMultiMCC.arrValueMember, txtMultiMCC.arrDispalyMember)
+        txtRouteName.arrValueMember = clsCommon.ShowMultipleSelectForm("TransDetailedCardReport", qry, "RouteNo", "RouteName", txtRouteName.arrValueMember, txtRouteName.arrDispalyMember)
     End Sub
 
 

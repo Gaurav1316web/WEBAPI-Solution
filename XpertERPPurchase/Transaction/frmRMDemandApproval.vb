@@ -594,8 +594,8 @@ select TSPL_RM_DEMAND_APPROVAL_ITEM_LOCATION.Location,TSPL_RM_DEMAND_APPROVAL_IN
 TSPL_RM_DEMAND_APPROVAL_ITEM_LOCATION.TRNo=TSPL_RM_DEMAND_APPROVAL_INDENT.Against_TRNo
 where   TSPL_RM_DEMAND_APPROVAL_INDENT.Document_Code not in ('" + txtDocNo.Value + "') 
 union 
-select loc.Location,'' as Against_Requisition,item.Item_Code,null as Item_Desc
-,0 as Requisition_Qty,null as   Unit_Code,-1 as RI,0 as Chk 
+select loc.Location,'' as Against_Requisition,item.Item_Code,TSPL_ITEM_MASTER.Item_Desc as Item_Desc
+,0 as Requisition_Qty,TSPL_ITEM_MASTER.Unit_Code as   Unit_Code,-1 as RI,0 as Chk 
 from
 (select distinct TSPL_RM_DEMAND_APPROVAL_ITEM_LOCATION.Location from TSPL_RM_DEMAND_APPROVAL_INDENT 
 left outer join TSPL_RM_DEMAND_APPROVAL_ITEM_LOCATION on 
@@ -606,6 +606,7 @@ cross join
 left outer join TSPL_RM_DEMAND_APPROVAL_ITEM_LOCATION on 
 TSPL_RM_DEMAND_APPROVAL_ITEM_LOCATION.TRNo=TSPL_RM_DEMAND_APPROVAL_INDENT.Against_TRNo 
 )item
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=item.Item_Code
 )x
 group by Requisition_Id,Item_Code,Location "  'having sum(RI)>0 and sum(chk)>0
 
@@ -639,7 +640,9 @@ group by Requisition_Id,Item_Code,Location "  'having sum(RI)>0 and sum(chk)>0
                     For ii As Integer = 0 To dtBase.Rows.Count - 1
                         If clsCommon.CompairString(clsCommon.myCstr(dr("Location")), clsCommon.myCstr(dtBase.Rows(ii)("Location"))) = CompairStringResult.Equal Then
                             If clsCommon.CompairString(clsCommon.myCstr(dr("Item_Code")), clsCommon.myCstr(dtBase.Rows(ii)("Item_Code"))) = CompairStringResult.Equal Then
-                                arrIndent.Add(clsCommon.myCstr(dtBase.Rows(ii)("Requisition_Id")))
+                                If clsCommon.myLen(dtBase.Rows(ii)("Requisition_Id")) > 0 Then
+                                    arrIndent.Add(clsCommon.myCstr(dtBase.Rows(ii)("Requisition_Id")))
+                                End If
                             End If
                         End If
                     Next

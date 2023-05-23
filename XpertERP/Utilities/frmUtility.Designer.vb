@@ -566,6 +566,9 @@ Partial Class FrmUtility
         Me.RadButton112 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton114 = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadButton349 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel66 = New common.Controls.MyLabel()
+        Me.TxtMultiSelectFinder18 = New common.UserControls.txtMultiSelectFinder()
         Me.RadButton344 = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel65 = New common.Controls.MyLabel()
         Me.TxtMultiSelectFinder17 = New common.UserControls.txtMultiSelectFinder()
@@ -1314,6 +1317,8 @@ Partial Class FrmUtility
         CType(Me.RadButton112, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton114, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageViewPage7.SuspendLayout
+        CType(Me.RadButton349, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.MyLabel66, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton344, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel65, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox91.SuspendLayout
@@ -1904,7 +1909,7 @@ Partial Class FrmUtility
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView1.Size = New System.Drawing.Size(1103, 602)
         Me.RadPageView1.TabIndex = 44
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1946,12 +1951,12 @@ Partial Class FrmUtility
         '
         'RadScrollablePanel1.PanelContainer
         '
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton348)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnCreateTransferJournalEntry)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnCreateTransferJournalEntryOtherThanEmpty)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnCreateGLReceiptAdjEntry)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnRecereateInventoryMovementAndItemLocationDetail)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton5)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton348)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtBlankTransDataDate)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton143)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton271)
@@ -7126,6 +7131,9 @@ Partial Class FrmUtility
         '
         'RadPageViewPage7
         '
+        Me.RadPageViewPage7.Controls.Add(Me.RadButton349)
+        Me.RadPageViewPage7.Controls.Add(Me.MyLabel66)
+        Me.RadPageViewPage7.Controls.Add(Me.TxtMultiSelectFinder18)
         Me.RadPageViewPage7.Controls.Add(Me.RadButton344)
         Me.RadPageViewPage7.Controls.Add(Me.MyLabel65)
         Me.RadPageViewPage7.Controls.Add(Me.TxtMultiSelectFinder17)
@@ -7155,9 +7163,40 @@ Partial Class FrmUtility
         Me.RadPageViewPage7.Size = New System.Drawing.Size(1082, 554)
         Me.RadPageViewPage7.Text = "Update After Posting"
         '
+        'RadButton349
+        '
+        Me.RadButton349.Location = New System.Drawing.Point(797, 536)
+        Me.RadButton349.Name = "RadButton349"
+        Me.RadButton349.Size = New System.Drawing.Size(22, 19)
+        Me.RadButton349.TabIndex = 372
+        Me.RadButton349.Text = ">>"
+        '
+        'MyLabel66
+        '
+        Me.MyLabel66.FieldName = Nothing
+        Me.MyLabel66.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel66.Location = New System.Drawing.Point(270, 536)
+        Me.MyLabel66.Name = "MyLabel66"
+        Me.MyLabel66.Size = New System.Drawing.Size(149, 18)
+        Me.MyLabel66.TabIndex = 371
+        Me.MyLabel66.Text = "Cattle Feed Production Entry"
+        '
+        'TxtMultiSelectFinder18
+        '
+        Me.TxtMultiSelectFinder18.arrDispalyMember = Nothing
+        Me.TxtMultiSelectFinder18.arrValueMember = Nothing
+        Me.TxtMultiSelectFinder18.Location = New System.Drawing.Point(486, 536)
+        Me.TxtMultiSelectFinder18.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiSelectFinder18.MyLinkLable1 = Nothing
+        Me.TxtMultiSelectFinder18.MyLinkLable2 = Nothing
+        Me.TxtMultiSelectFinder18.MyNullText = "All"
+        Me.TxtMultiSelectFinder18.Name = "TxtMultiSelectFinder18"
+        Me.TxtMultiSelectFinder18.Size = New System.Drawing.Size(311, 19)
+        Me.TxtMultiSelectFinder18.TabIndex = 370
+        '
         'RadButton344
         '
-        Me.RadButton344.Location = New System.Drawing.Point(796, 519)
+        Me.RadButton344.Location = New System.Drawing.Point(796, 516)
         Me.RadButton344.Name = "RadButton344"
         Me.RadButton344.Size = New System.Drawing.Size(22, 19)
         Me.RadButton344.TabIndex = 369
@@ -7167,7 +7206,7 @@ Partial Class FrmUtility
         '
         Me.MyLabel65.FieldName = Nothing
         Me.MyLabel65.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel65.Location = New System.Drawing.Point(269, 519)
+        Me.MyLabel65.Location = New System.Drawing.Point(269, 516)
         Me.MyLabel65.Name = "MyLabel65"
         Me.MyLabel65.Size = New System.Drawing.Size(210, 18)
         Me.MyLabel65.TabIndex = 368
@@ -7177,7 +7216,7 @@ Partial Class FrmUtility
         '
         Me.TxtMultiSelectFinder17.arrDispalyMember = Nothing
         Me.TxtMultiSelectFinder17.arrValueMember = Nothing
-        Me.TxtMultiSelectFinder17.Location = New System.Drawing.Point(485, 519)
+        Me.TxtMultiSelectFinder17.Location = New System.Drawing.Point(485, 516)
         Me.TxtMultiSelectFinder17.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMultiSelectFinder17.MyLinkLable1 = Nothing
         Me.TxtMultiSelectFinder17.MyLinkLable2 = Nothing
@@ -10229,6 +10268,8 @@ Partial Class FrmUtility
         CType(Me.RadButton114, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadPageViewPage7.ResumeLayout(False)
         Me.RadPageViewPage7.PerformLayout
+        CType(Me.RadButton349, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.MyLabel66, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton344, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel65, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox91.ResumeLayout(False)
@@ -11189,5 +11230,8 @@ End Sub
     Friend WithEvents GroupBox111 As GroupBox
     Friend WithEvents rbtnDeletePS As common.Controls.MyRadioButton
     Friend WithEvents rbtnDeleteDS As common.Controls.MyRadioButton
+    Friend WithEvents RadButton349 As RadButton
+    Friend WithEvents MyLabel66 As common.Controls.MyLabel
+    Friend WithEvents TxtMultiSelectFinder18 As common.UserControls.txtMultiSelectFinder
 End Class
 

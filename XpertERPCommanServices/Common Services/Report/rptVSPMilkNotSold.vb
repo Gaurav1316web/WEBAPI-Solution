@@ -85,43 +85,44 @@ Public Class rptVSPMilkNotSold
                         For i As Integer = 0 To dtDedName.Rows.Count - 1
                             If clsCommon.myLen(DedName) > 0 AndAlso clsCommon.myLen(DedCode) > 0 Then
                                 DedCode += "," + clsCommon.myCstr(dtDedName.Rows(i)("Code"))
-                                DedName += "," + "Max(IsNull([" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "],0)) As [" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
+                                DedName += "," + "(IsNull([" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "],0)) As [" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
                                 DedName1 += "," + "[" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
-                                OpntmpName += ",(" + "tmp1.[" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]" + "+(Case When tmpOpening.IsOpening=1 Then tmpOpening.[" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "] Else 0 End)) As [" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
                                 tDedAmt += "+[" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
                             Else
                                 DedCode = clsCommon.myCstr(dtDedName.Rows(i)("Code"))
-                                DedName = ",Max(IsNull([" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "],0)) As [" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
+                                DedName = ",(IsNull([" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "],0)) As [" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
                                 DedName1 = "[" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
-                                OpntmpName = "(tmp1.[" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]" + "+(Case When tmpOpening.IsOpening=1 Then tmpOpening.[" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "] Else 0 End)) As [" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
                                 tDedAmt = "[" + clsCommon.myCstr(dtDedName.Rows(i)("Description")) + "]"
                             End If
                         Next
                     End If
-
                 End If
-                qry = "Select *,(" + tDedAmt + ") As Total from (Select Max([VLC Uploader Code]) As [VLC Uploader Code],max([VSP Name]) As [VSP Name],Max([MCC Name]) As [MCC Name]" + DedName + "
-                         from ( 
-                         select TSPL_VLC_MASTER_HEAD.VSP_Code as [VSP Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VLC_MASTER_HEAD.MCC ,
-                         TSPL_Location_MASTER.Location_Desc as [MCC Name] ,TSPL_Location_MASTER.Loc_Segment_Code as [SegmentCode],
-                         TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code], '" + dtpFromDate.Text + "' as PaymentCycleFrom, '" + dtpToDate.Text + "' PaymentCycleTo
-                         ,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt
-                         ,tmp1.Vendor_CODE," + OpntmpName + "
-                        from TSPL_VLC_MASTER_HEAD 
-                        left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code
-                        left outer join TSPL_Location_MASTER on TSPL_Location_MASTER.Location_Code = TSPL_VLC_MASTER_HEAD.MCC and TSPL_Location_MASTER.Rejected_Type='N' and TSPL_Location_MASTER.Location_Category='MCC'
-                        left outer join TSPL_PAYMENT_PROCESS_DEDUCTION on TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
-                        left outer join 
-                        (Select * from (SELECT  Vendor_CODE," + DedName1 + " FROM
-                        (SELECT Vendor_CODE,Ded_Code, Ded_Desc,Reduce_Deduc_Amt FROM TSPL_PAYMENT_PROCESS_DEDUCTION)Tab1
-                        PIVOT(SUM(Reduce_Deduc_Amt) FOR Ded_Desc IN (" + DedName1 + ")) AS Tab2 )tmp)tmp1 ON tmp1.Vendor_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
-                        left outer join
-                        (Select * from (SELECT  Vendor_CODE,IsOpening," + DedName1 + " FROM
-                        (SELECT Vendor_CODE,DeductionCode, Deduction_Desc,TSPL_MULTIPLE_DEDUCTION_Detail.Amount,IsOpening FROM TSPL_MULTIPLE_DEDUCTION_Detail Left Outer Join TSPL_MULTIPLE_DEDUCTION_head On TSPL_MULTIPLE_DEDUCTION_head.Document_No=TSPL_MULTIPLE_DEDUCTION_Detail.Document_No)Tab1
-                        PIVOT(SUM(Amount) FOR Deduction_Desc IN (" + DedName1 + ")) AS Tab2 )tmp)As tmpOpening On tmpOpening.Vendor_Code=tmp1.Vendor_CODE 
-                        where TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC.Text) + "' and TSPL_VLC_MASTER_HEAD.Active =1 and Loc_Segment_Code = '" + fndLoc.Value + "' and TSPL_VLC_MASTER_HEAD.VSP_Code not in (
-                    select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE from TSPL_PAYMENT_PROCESS_DETAIL left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No where convert (date, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) >= convert (date, '" + dtpFromDate.Value + "',103) and convert (date, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) <= convert (date, '" + dtpToDate.Value + "',103) and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + fndLoc.Value + "') 
-                        )xx group by xx.[VSP Code])Abc where (" + tDedAmt + ")>0"
+                Dim dtCycleDate As DataTable = Nothing
+                Dim strPreCycleDate As String = "select top(1) From_Date,To_Date from TSPL_Payment_Cycle_Generated where TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = '" + clsCommon.myCstr(txtMCC.Text) + "' and TSPL_PAYMENT_CYCLE_GENERATED.From_Date < convert (date, '" + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") + "',103) Order By From_Date desc"
+                dtCycleDate = clsDBFuncationality.GetDataTable(strPreCycleDate)
+
+                qry = "Select *,(" + tDedAmt + ") As Total 
+                        from (select TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader As 'DCS Code',Vendor_Name AS 'DCS Name'" + DedName + " from TSPL_VENDOR_INVOICE_HEAD 
+                        Left outer join
+		                           (Select * from (SELECT  Vendor_CODE, " + DedName1 + " FROM
+                                   (SELECT Vendor_CODE,Ded_Code, Ded_Desc,Reduce_Deduc_Amt FROM TSPL_PAYMENT_PROCESS_DEDUCTION)Tab1
+                                    PIVOT(SUM(Reduce_Deduc_Amt) FOR Ded_Desc IN (" + DedName1 + ")) AS Tab2 )tmp)tmp1 ON tmp1.Vendor_CODE=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                        inner join
+                        (select VSP_CODE,MCC_CODE from (
+                        SELECT TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_MILK_SRN_HEAD.MCC_CODE,1 as RI  from TSPL_MILK_SRN_HEAD
+                        where  TSPL_MILK_SRN_HEAD.DOC_DATE >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and  TSPL_MILK_SRN_HEAD.DOC_DATE <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' 
+                        group by TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_MILK_SRN_HEAD.MCC_CODE
+                        union all
+                        SELECT TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_MILK_SRN_HEAD.MCC_CODE,2 as RI  from TSPL_MILK_SRN_HEAD
+                        where TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtCycleDate.Rows(0)("From_Date")), "dd/MMM/yyyy HH:mm:ss tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtCycleDate.Rows(0)("To_Date")), "dd/MMM/yyyy HH:mm:ss tt") + "'  
+                        group by TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_MILK_SRN_HEAD.MCC_CODE
+                        )xx group by VSP_CODE,MCC_CODE having   sum(case when RI=2 then 1 else -1 end)>0) As ClosedDCS ON ClosedDCS.VSP_CODE=tmp1.Vendor_CODE
+                        Left Outer Join  TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=ClosedDCS.MCC_CODE
+						Left Outer Join TSPL_PAYMENT_PROCESS_DETAIL ON TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE=ClosedDCS.VSP_CODE
+                        where TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and ClosedDCS.MCC_CODE='" + clsCommon.myCstr(txtMCC.Text) + "'
+                        Group by TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_MCC_MASTER.MCC_Name,Closeddcs.VSP_CODE,Vendor_Name,ClosedDCS.MCC_CODE, " + DedName1 + ") as abc   Where (" + tDedAmt + ")>0  "
+
+
             Else
                 qry = "select TSPL_VLC_MASTER_HEAD.VSP_Code as [VSP Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VLC_MASTER_HEAD.MCC ,TSPL_Location_MASTER.Location_Desc as [MCC Name] ,TSPL_Location_MASTER.Loc_Segment_Code as [SegmentCode],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code],  '" + dtpFromDate.Text + "' as PaymentCycleFrom, '" + dtpToDate.Text + "' PaymentCycleTo  from TSPL_VLC_MASTER_HEAD 
                     left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code
@@ -129,9 +130,6 @@ Public Class rptVSPMilkNotSold
                     where TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC.Text) + "' and TSPL_VLC_MASTER_HEAD.Active =1 and Loc_Segment_Code = '" + fndLoc.Value + "' and TSPL_VLC_MASTER_HEAD.VSP_Code not in (
                     select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE from TSPL_PAYMENT_PROCESS_DETAIL left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No where convert (date, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) >= convert (date, '" + dtpFromDate.Value + "',103) and convert (date, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) <= convert (date, '" + dtpToDate.Value + "',103) and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + fndLoc.Value + "')"
             End If
-
-
-
 
             dt = clsDBFuncationality.GetDataTable(qry)
             Gv1.DataSource = Nothing
@@ -159,13 +157,49 @@ Public Class rptVSPMilkNotSold
                 clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
                 Exit Sub
             End If
-
+            SetGridFormat()
             ReStoreGridLayout()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
 
+    Sub SetGridFormat()
+        Gv1.AutoExpandGroups = True
+        Gv1.ShowGroupPanel = False
+        Gv1.ShowRowHeaderColumn = False
+        Gv1.AllowAddNewRow = False
+        Gv1.AllowDeleteRow = False
+        Gv1.EnableFiltering = True
+        Gv1.ShowFilteringRow = True
+
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).BestFit()
+        Next
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim columnName As String = Nothing
+        If Gv1.Rows.Count > 0 Then
+            Dim Count As Integer = 0
+            If Gv1.Columns.Count > 0 Then
+                For ic As Integer = 0 To Gv1.Columns.Count - 1
+                    If ic > 1 Then
+                        columnName = Gv1.Columns(ic).Name
+                        If Gv1.Columns(columnName).FormatString = "" Then
+                            Gv1.Columns(columnName).FormatString = "{0:n2}"
+                            summaryRowItem.Add(New GridViewSummaryItem(columnName, "{0:n2}", GridAggregateFunction.Sum))
+                        End If
+                    End If
+                Next
+            End If
+        End If
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        'Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By Type"))
+        Gv1.AutoSizeRows = True
+        Gv1.BestFitColumns()
+        Gv1.Columns(columnName).Width = 200
+        Gv1.MasterTemplate.AutoExpandGroups = True
+    End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub
@@ -237,7 +271,50 @@ Public Class rptVSPMilkNotSold
                 clsCommon.MyExportToExcelGrid("VSP Milk NOT Sold", Gv1, arrHeader, Me.Text)
             Else
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                clsCommon.MyExportToPDF("VSP Milk NOT Sold", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                'clsCommon.MyExportToPDF("VSP Milk NOT Sold", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                Dim style As New GridPrintStyle()
+                'style.FitWidthMode = PrintFitWidthMode.FitPageWidth
+                'style.PrintGrouping = True
+                style.HeaderCellBackColor = Color.White
+                style.GroupRowBackColor = Color.White
+                style.SummaryCellBackColor = Color.White
+                'style.PrintSummaries = False
+                'style.PrintHeaderOnEachPage = True
+                'style.PrintHiddenColumns = False
+                Gv1.PrintStyle = style
+
+                Dim doc As New clsMyPrintDocument()
+
+                doc.Margins.Top = 50
+                doc.Margins.Bottom = 50
+                doc.Margins.Left = 50
+                doc.Margins.Right = 50
+                doc.HeaderHeight = 90
+                doc.Landscape = True
+                doc.AssociatedObject = Gv1
+
+                doc.DocumentName = objCommonVar.CurrentCompanyName
+
+                Dim dtCompDetails As DataTable = Nothing
+                Dim strCompDetails As String = "select Phone1,Regn_No from TSPL_COMPANY_MASTER where Comp_Code='" + objCommonVar.CurrentCompanyCode + "'"
+                dtCompDetails = clsDBFuncationality.GetDataTable(strCompDetails)
+
+                Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select MCC_Name from TSPL_MCC_MASTER where MCC_Code='" + txtMCC.Text + "'"))
+                doc.MiddleHeader = objCommonVar.CurrentCompanyName + Environment.NewLine + "Area" + " " + strLocation + " " + "Phone No." + clsCommon.myCstr(dtCompDetails.Rows(0)("Phone1")) + " " + "Reg No. " + clsCommon.myCstr(dtCompDetails.Rows(0)("Regn_No")) + Environment.NewLine + "Societywise Deduction Balance Report" + " " + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + " "
+                doc.HeaderFont = New Font("Segoe UI", 10, FontStyle.Bold)
+
+                'doc.LeftUpperText = "Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy")
+                'doc.LeftUpperFont = New Font("Segoe UI", 8, FontStyle.Regular)
+
+                doc.AssociatedObject = Gv1
+                'doc.Print()
+                doc.RightFooter = "Page [Page #] of [Total Pages]"
+
+                Dim dialog As New RadPrintPreviewDialog
+                dialog.Document = doc
+                dialog.ToolMenu.Visible = True
+                dialog.Show()
+                doc = Nothing
             End If
 
         Catch ex As Exception
@@ -414,11 +491,12 @@ Public Class rptVSPMilkNotSold
                 Return
             End If
             'Dim strMccCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Location_Code from  TSPL_Location_MASTER where Loc_Segment_Code = '" + txtMCC.Value + "'"))
-            Dim qry As String = " select Name as Code ,MCC_Code  ,Fiscal_Code , convert (varchar, From_Date,103) as [From Date] , convert (varchar,To_Date,103) as [To Date] from TSPL_PAYMENT_CYCLE_GENERATED "
-            txtPaymentCycleCode.Value = clsCommon.ShowSelectForm("Route@paymentCycleReport", qry, "Code", " MCC_Code = '" + txtMCC.Text + "' ", txtPaymentCycleCode.Value, "Code", isButtonClicked)
-            If clsCommon.myLen(txtPaymentCycleCode.Value) > 0 Then
-                dtpFromDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue(" select From_Date from  TSPL_PAYMENT_CYCLE_GENERATED where TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = '" + txtMCC.Text + "' and TSPL_PAYMENT_CYCLE_GENERATED.Name = '" + txtPaymentCycleCode.Value + "'"))
-                dtpToDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue(" select To_Date from  TSPL_PAYMENT_CYCLE_GENERATED where TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = '" + txtMCC.Text + "' and TSPL_PAYMENT_CYCLE_GENERATED.Name = '" + txtPaymentCycleCode.Value + "' "))
+            Dim qry As String = " select Name as Code ,MCC_Code  ,Fiscal_Code , convert (varchar, From_Date,103) as [From Date] , convert (varchar,To_Date,103) as [To Date] from TSPL_PAYMENT_CYCLE_GENERATED where  MCC_Code = '" + txtMCC.Text + "'"
+            Dim dr As DataRow = clsCommon.ShowSelectFormForRow("Route@paymentCycleReport", qry, "Code", txtPaymentCycleCode.Value)
+            If dr IsNot Nothing Then
+                txtPaymentCycleCode.Value = clsCommon.myCstr(dr("Code"))
+                dtpFromDate.Value = clsCommon.myCDate(dr("From Date"))
+                dtpToDate.Value = clsCommon.myCDate(dr("To Date"))
                 dtpFromDate.Enabled = False
                 dtpToDate.Enabled = False
             Else
