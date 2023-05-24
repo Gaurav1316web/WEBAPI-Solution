@@ -643,7 +643,7 @@ order by TSPL_GRN_HEAD.GRN_Date desc"
             End If
 
             If dtQuality IsNot Nothing AndAlso dtQuality.Rows.Count > 0 Then
-                lblQuality.Text = "Status of " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + ""
+                lblQuality.Text = "Current Status"
 
                 gvQuality.DataSource = Nothing
                 gvQuality.Columns.Clear()
@@ -698,7 +698,7 @@ where convert(date,TSPL_GRN_HEAD.GRN_Date,103) = convert(date,'15-may-23',103) "
                 sQuery += ")"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_GRN_HEAD.Bill_To_Location ='" + txtLocation.Value + "' "
-            End If
+                End If
                 sQuery += " GROUP BY TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAIL.Item_Desc
 order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAIL.Item_Desc"
 
@@ -706,7 +706,7 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Ite
             End If
 
             If dtQualitySummary IsNot Nothing AndAlso dtQualitySummary.Rows.Count > 0 Then
-                lblQualitySummary.Text = "Quality Summery RM Wise"
+                lblQualitySummary.Text = "Quality Summary RAL Wise"
 
                 gvQualitySummary.DataSource = Nothing
                 gvQualitySummary.Columns.Clear()
@@ -836,7 +836,7 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Ite
 	from TSPL_ITEM_REORDER_LEVEL_NEW 
 	left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_REORDER_LEVEL_NEW.Item_Code
 	where TSPL_ITEM_MASTER.Structure_Code IN ('RM','PM') and Apply='Y'"
-                  If clsCommon.myLen(txtLocation.Value) > 0 Then
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " AND TSPL_ITEM_REORDER_LEVEL_NEW.Location_Code='" + txtLocation.Value + "' "
                 End If
                 sQuery += " ) RM_STOCK_DAYS
@@ -847,7 +847,7 @@ ORDER BY  ITEM_CODE"
             End If
 
             If dtRMStock IsNot Nothing AndAlso dtRMStock.Rows.Count > 0 Then
-                lblRMStock.Text = "Stock Details Qty"
+                lblRMStock.Text = "Stock Details Qty."
 
                 gvRMStock.DataSource = Nothing
                 gvRMStock.Columns.Clear()
@@ -910,7 +910,7 @@ where convert(date,TSPL_GRN_HEAD.GRN_Date,103) =convert(date,'" + clsCommon.GetP
             End If
 
             If dtRMSupply IsNot Nothing AndAlso dtRMSupply.Rows.Count > 0 Then
-                lblQuality.Text = "Supply Details Against Current RM & Indoor Vehicles"
+                lblQuality.Text = "Supply Details Against Current RAL"
                 gvRMSupply.DataSource = Nothing
                 gvRMSupply.Columns.Clear()
                 gvRMSupply.Rows.Clear()
@@ -956,7 +956,7 @@ left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_C
 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
 left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
 where convert(date,TSPL_GRN_HEAD.GRN_Date,103) =convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)"
-                 If clsCommon.myLen(txtLocation.Value) > 0 Then
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And Bill_To_Location='" + txtLocation.Value + "' "
                 End If
                 sQuery += "  AND TSPL_PO_WEIGHTMENT_HEAD.Status=1)
@@ -965,7 +965,7 @@ GROUP BY TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAI
             End If
 
             If dtRMInPlant IsNot Nothing AndAlso dtRMInPlant.Rows.Count > 0 Then
-                lblQuality.Text = "In Plant Vehicles"
+                lblQuality.Text = "Indoor Vehicle Status"
 
                 gvRMInPlant.DataSource = Nothing
                 gvRMInPlant.Columns.Clear()
