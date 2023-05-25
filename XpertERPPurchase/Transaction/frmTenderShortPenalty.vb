@@ -21,31 +21,6 @@ Public Class frmTenderShortPenalty
         btnPrint.Visible = MyBase.isPrintFlag
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)
-        coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
-        coll.Add("Document_Date", "DateTime not NULL")
-        coll.Add("Location_Code", "varchar(12) not NULL References TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Tender_No", "varchar(50) not NULL References TSPL_TENDER_HEADER(DocumentCode)")
-        coll.Add("Vendor_Code", "varchar(12) not NULL References TSPL_VENDOR_MASTER(Vendor_Code)")
-        coll.Add("Item_Code", "varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Remarks", "varchar(200) NULL")
-        coll.Add("Status", "integer not null default 0")
-        coll.Add("Created_By", "VARCHAR(12) not NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
-        coll.Add("Created_Date", "DateTime not NULL")
-        coll.Add("Modify_By", "VARCHAR(12) not NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
-        coll.Add("Modify_Date", "DateTime not NULL")
-        coll.Add("Post_By", "VARCHAR(12) NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
-        coll.Add("Post_Date", "DateTime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_PENALTY", coll, "", False, False, "", "Document_No", "Document_Date")
-
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "VARCHAR(30)  NULL REFERENCES TSPL_TENDER_PENALTY(Document_No) ")
-        coll.Add("SRN_No", "VARCHAR(30)  NULL REFERENCES TSPL_SRN_HEAD(SRN_No)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_PENALTY_DETAIL", coll, "UNIQUE(SRN_No)", False, True, "TSPL_TENDER_PENALTY", "Document_No", "")
-
 
 
 
