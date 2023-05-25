@@ -1394,7 +1394,7 @@ Public Class frmVehicleMaster
                 Exit Sub
             End If
 
-            clsERPFuncationality.ShowHistoryData(fndVehicle_id.Value, "Vehicle_Id", "TSPL_Vehicle_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(fndVehicle_id.Value, "Vehicle_Id", "TSPL_Vehicle_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

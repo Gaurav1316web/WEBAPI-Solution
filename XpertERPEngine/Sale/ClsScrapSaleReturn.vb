@@ -916,7 +916,7 @@ left outer join tspl_tax_master as TCS2 on TCS2.Tax_Code =tspl_scrapsale_head_re
                     Dim SignedQRCode As String = objResult.SelectToken("SignedQRCode").ToString
                     clsDBFuncationality.ExecuteNonQuery("update tspl_scrapsale_head_return set  IRN_No ='" & Irn & "',qr_code='" & SignedQRCode & "',ack_no='" & AckNo & "',ack_date='" & clsCommon.GetPrintDate(AckDt, "dd/MMM/yyyy hh:mm tt") & "' where document_no ='" & strDocNo & "'", trans)
 
-                    Dim TempByte As Byte() = clsERPFuncationality.GenerateMyQCCode(SignedQRCode)
+                    Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
                     clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "tspl_scrapsale_head_return", "tspl_scrapsale_head_return.document_no='" & strDocNo & "'", trans)
                 Else
                     Return False

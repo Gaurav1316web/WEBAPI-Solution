@@ -272,7 +272,7 @@ Public Class frmBreakDownMaster
                 clsCommon.MyMessageBoxShow("Select Break Down Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Code", "TSPL_BREAK_DOWN_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_BREAK_DOWN_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

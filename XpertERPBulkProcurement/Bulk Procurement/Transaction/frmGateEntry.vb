@@ -1149,7 +1149,7 @@ Public Class FrmGateEntry
                 End If
                 If myMessages.deleteConfirm() Then
                     arr.Add(fndGateEntryNO.Value)
-                    If clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.frmGateEntry, Nothing) Then
+                    If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.frmGateEntry, Nothing) Then
                         If clsGateEntry.deleteData(fndGateEntryNO.Value, Nothing) Then
                             reset()
                             myMessages.delete()

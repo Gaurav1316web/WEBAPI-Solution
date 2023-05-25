@@ -272,7 +272,7 @@ Public Class frmVSPDeduction
                 clsCommon.MyMessageBoxShow("Select Deduction_Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Deduction_Code", "TSPL_VSP_DEDUCTION_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Deduction_Code", "TSPL_VSP_DEDUCTION_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -111,6 +111,8 @@ Public Class frmPendingSRN
                 left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No 
                 left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO
                 left outer join tspl_grn_head on tspl_grn_head.GRN_No=TSPL_SRN_HEAD.Against_GRN
+                left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_DETAIL.SRN_No
+				left outer join TSPL_TENDER_PENALTY on  TSPL_TENDER_PENALTY.Document_No=TSPL_TENDER_PENALTY_DETAIL.Document_No
                 where TSPL_SRN_DETAIL.Status=0 and TSPL_SRN_DETAIL.Item_Cost>0 and TSPL_SRN_HEAD.Status=1  and coalesce(TSPL_SRN_head.RGP_Type,'') not in ('AR','AB','AI')  and TSPL_SRN_DETAIL.Row_Type='" + clsItemRowType.RowTypeItem + "' and not exists(select 1 from TSPL_SRN_RETURN where TSPL_SRN_RETURN.SRN_No=TSPL_SRN_HEAD.SRN_No) and TSPL_SRN_HEAD.IsCancel=0  "
             If clsCommon.myLen(VendorCode) > 0 Then
                 qry += " and TSPL_SRN_HEAD.Vendor_Code='" + VendorCode + "'"
@@ -129,6 +131,7 @@ Public Class frmPendingSRN
             If clsCommon.myLen(ItemForDocumentFilter) > 0 Then
                 qry += "  and TSPL_SRN_DETAIL.Item_Code = '" + ItemForDocumentFilter + "'"
             End If
+            qry += " and 2= (case when TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and LEN(TSPL_PURCHASE_ORDER_HEAD.RefTendorNo)>0 then (case when TSPL_TENDER_PENALTY_DETAIL.PK_Id is not null and TSPL_TENDER_PENALTY.status=1 then 2 else 1 end) else 2 end) "
             '' work done on against ticket no. UDL/02/05/18-000144
             If SkipJobWorkSRN = True Then
                 qry += " and TSPL_SRN_HEAD.PurchaseOrder_Type not in ('J') "

@@ -1136,7 +1136,7 @@ and TSPL_SD_SALE_INVOICE_head.Document_Code ='" & strDocNo & "'"
                     Dim SignedQRCode As String = objResult.SelectToken("SignedQRCode").ToString
                     clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set  IRN_No ='" & Irn & "',qr_code='" & SignedQRCode & "',ack_no='" & AckNo & "',ack_date='" & clsCommon.GetPrintDate(AckDt, "dd/MMM/yyyy hh:mm tt") & "' where TSPL_SD_SALE_INVOICE_HEAD.Document_Code ='" & strDocNo & "' and TSPL_SD_SALE_INVOICE_HEAD.trans_type='EXP' and TSPL_SD_SALE_INVOICE_HEAD.document_type='EX' ", trans)
 
-                    Dim TempByte As Byte() = clsERPFuncationality.GenerateMyQCCode(SignedQRCode)
+                    Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
                     clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_HEAD", "TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & strDocNo & "'", trans)
 
                     '' to save Export commercial invoice data 

@@ -1006,7 +1006,7 @@ Public Class FrmJWOSRN
                 txtDocNo.Focus()
             End If
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                clsERPFuncationality.ShowTransHistoryData(clsCommon.myCstr(txtDocNo.Value), "DOCUMENT_NO", "TSPL_JWO_SRN_HEAD", "TSPL_JWO_SRN_DETAIL")
+                clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(txtDocNo.Value), "DOCUMENT_NO", "TSPL_JWO_SRN_HEAD", "TSPL_JWO_SRN_DETAIL")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

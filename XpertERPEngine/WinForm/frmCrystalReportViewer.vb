@@ -139,7 +139,7 @@ Public Class frmCrystalReportViewer
                 Dim strReportPath As String = GetReportPath(crpfolder, strReportName, dtTranDate)
                 rpdoc.Load(strReportPath)
                 rpdoc.SetDataSource(dt)
-                clsERPFuncationality.SetCustomizedPaperSize(rpdoc, ePaperSize)
+                clsERPFuncationalityOLD.SetCustomizedPaperSize(rpdoc, ePaperSize)
                 crptViewer.ReportSource = rpdoc
                 crptViewer.ShowPrintButton = ShowCystalReportToolbar
                 crptViewer.ShowExportButton = ShowCystalReportToolbar

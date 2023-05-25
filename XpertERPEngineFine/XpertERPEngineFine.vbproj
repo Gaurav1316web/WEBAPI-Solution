@@ -78,13 +78,17 @@
     <Compile Include="BulkProcurement\clsOwnBMCGainLossRate.vb" />
     <Compile Include="Classes\checkprocedure.vb" />
     <Compile Include="Classes\clsCreateAllTable.vb" />
+    <Compile Include="Classes\clsDocType.vb" />
     <Compile Include="Classes\clsEnums.vb" />
+    <Compile Include="Classes\clsERPFuncationality.vb" />
     <Compile Include="Classes\clsFixedParameterType.vb" />
     <Compile Include="Classes\clsGetKeys.vb" />
     <Compile Include="Classes\clsUserMgtCode.vb" />
     <Compile Include="Classes\Comman Services\clsBankGroupMaster.vb" />
+    <Compile Include="Classes\connectSql.vb" />
     <Compile Include="Classes\objCommonVar.vb" />
     <Compile Include="Classes\Sales Distribution\ClsDCSforSale.vb" />
+    <Compile Include="clsTenderPenalty.vb" />
     <Compile Include="Milk Procurement MCC\ClsOwnBmcExpanse.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

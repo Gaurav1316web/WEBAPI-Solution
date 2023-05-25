@@ -789,7 +789,7 @@ Public Class FrmMonthlySaleReport
     'End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        ReportID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType)
+        ReportID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         PageSetupReport_ID = ReportID
         Print1(Exporter.Refresh)
 

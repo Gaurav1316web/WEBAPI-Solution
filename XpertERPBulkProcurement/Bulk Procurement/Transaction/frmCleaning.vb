@@ -172,7 +172,7 @@ Public Class FrmCleaning
                         End If
                     End If
                     arr.Add(fndDocNo.Value)
-                    If clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.frmCleaning, trans) Then
+                    If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.frmCleaning, trans) Then
                         If clsCleaning.deleteData(fndDocNo.Value, trans) Then
                             trans.Commit()
                             reset()

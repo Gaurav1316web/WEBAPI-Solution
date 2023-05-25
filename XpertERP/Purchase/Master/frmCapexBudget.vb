@@ -441,7 +441,7 @@ Public Class FrmCapexBudget
                 clsCommon.MyMessageBoxShow("Select Capex Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Code", "TSPL_CAPEX_BUDGET_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_CAPEX_BUDGET_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -303,7 +303,7 @@ Public Class frmVSPDayWiseIncentive
                 clsCommon.MyMessageBoxShow("Select Day_Wise_Incentive_Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Day_Wise_Incentive_Code", "TSPL_VSP_DAY_WISE_INCENTIVE_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Day_Wise_Incentive_Code", "TSPL_VSP_DAY_WISE_INCENTIVE_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -4368,7 +4368,7 @@ Public Class frmProductionEntryFinalQC
                 clsCommon.MyMessageBoxShow("Select QC Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtCode.Value, "QC_Code", "TSPL_PE_FINALQC_HEAD", "TSPL_PE_FINALQC_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "QC_Code", "TSPL_PE_FINALQC_HEAD", "TSPL_PE_FINALQC_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -770,7 +770,7 @@ Public Class FrmDepAccountSet
                 clsCommon.MyMessageBoxShow("Select Account Set", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtDocNo.Value, "AcSet_Code", "TSPL_DEP_ACCOUNTSET")
+            clsERPFuncationalityOLD.ShowHistoryData(txtDocNo.Value, "AcSet_Code", "TSPL_DEP_ACCOUNTSET")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

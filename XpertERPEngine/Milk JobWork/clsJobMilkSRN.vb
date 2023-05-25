@@ -252,7 +252,7 @@ Public Class clsJobMilkSRN
         Try
             Dim arr As List(Of String) = New List(Of String)
             arr.Add(strDocNo)
-            clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.FrmJobMilkSRN, trans)
+            clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.FrmJobMilkSRN, trans)
             Dim qry As String = "delete from tspl_Job_milk_srn where srn_No='" & strDocNo & "'"
             Dim isDeleted As Boolean = True
             isDeleted = isDeleted AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

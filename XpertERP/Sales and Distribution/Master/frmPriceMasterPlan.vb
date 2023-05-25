@@ -1618,7 +1618,7 @@ Public Class frmPriceMasterPlan
                 txtCode.Focus()
             End If
             If clsCommon.myLen(txtCode.Value) > 0 Then
-                clsERPFuncationality.ShowTransHistoryData(clsCommon.myCstr(txtCode.Value), "plan_code", "TSPL_ITEM_PRICE_PLAN_HEADER", "TSPL_ITEM_PRICE_PLAN_DETAIL")
+                clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(txtCode.Value), "plan_code", "TSPL_ITEM_PRICE_PLAN_HEADER", "TSPL_ITEM_PRICE_PLAN_DETAIL")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

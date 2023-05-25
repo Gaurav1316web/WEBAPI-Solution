@@ -3446,7 +3446,7 @@ Public Class clsPSShipmentHead
                 Next
             End If
             Dim strTrgtFile As String = ("DistributerInvoice_" & Booking_No).ToString.Replace("/", "").Replace("\", "")
-            clsERPFuncationality.exportCrystalToPDF(dt, AttachmentPath & "\Crystal Reports\Kwality Sales Report", "rptDistributerProductSaleInvoice", strTrgtFile, AttachmentPath)
+            clsERPFuncationalityOLD.exportCrystalToPDF(dt, AttachmentPath & "\Crystal Reports\Kwality Sales Report", "rptDistributerProductSaleInvoice", strTrgtFile, AttachmentPath)
 
             'If clsCommon.myLen(strVoucherNoForRecreateOnly) <= 0 Then
             Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + Form_ID + "'", trans)

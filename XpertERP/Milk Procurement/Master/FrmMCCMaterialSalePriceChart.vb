@@ -520,7 +520,7 @@ Public Class FrmMCCMaterialSalePriceChart
                 clsCommon.MyMessageBoxShow("Select Price Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(fndno.Value, "Code", "TSPL_MCC_RATE_UPLOADER_master", "TSPL_MCC_RATE_UPLOADER_Detail")
+            clsERPFuncationalityold.ShowTransHistoryData(fndno.Value, "Code", "TSPL_MCC_RATE_UPLOADER_master", "TSPL_MCC_RATE_UPLOADER_Detail")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -1189,7 +1189,7 @@ Public Class FrmProcessProductionPlanning
                 clsCommon.MyMessageBoxShow("Select Planning Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtCode.Value, "Plan_Code", "TSPL_PP_PRODUCTION_PLAN_HEAD", "TSPL_PP_PRODUCTION_PLAN_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "Plan_Code", "TSPL_PP_PRODUCTION_PLAN_HEAD", "TSPL_PP_PRODUCTION_PLAN_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

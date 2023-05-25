@@ -1311,7 +1311,7 @@ Public Class FrmPrimaryTransporterVehicalMaster
                 clsCommon.MyMessageBoxShow("Select Vehicle Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndcode.Value, "Vehicle_Code", "TSPL_Primary_Vehicle_Master")
+            clsERPFuncationalityOLD.ShowHistoryData(fndcode.Value, "Vehicle_Code", "TSPL_Primary_Vehicle_Master")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

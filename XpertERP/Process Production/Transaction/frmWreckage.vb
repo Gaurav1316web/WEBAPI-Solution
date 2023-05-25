@@ -1342,7 +1342,7 @@ Public Class frmWreckage
                 clsCommon.MyMessageBoxShow("Select Receipt Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "WRECKAGE_ENTRY_CODE", "TSPL_WRECKAGE_ENTRY")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "WRECKAGE_ENTRY_CODE", "TSPL_WRECKAGE_ENTRY")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

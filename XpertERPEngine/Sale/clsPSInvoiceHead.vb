@@ -1390,7 +1390,7 @@ Public Class clsPSInvoiceHead
                 'assign to variable
                 Dim dynamicQrCode As String = objResult.SelectToken("dynamicQrCode").ToString
 
-                Dim TempByte As Byte() = clsERPFuncationality.GenerateMyQCCode(dynamicQrCode)
+                Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(dynamicQrCode)
                 clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
             Else
                 Throw New Exception("Invalid JSON Value")
@@ -1449,7 +1449,7 @@ where TSPL_SD_SALE_INVOICE_head.Document_Code ='" & strDocNo & "'"
                         Dim SignedQRCode As String = objResult.SelectToken("SignedQRCode").ToString
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SALE_INVOICE_HEAD set  IRN_No ='" & Irn & "',qr_code='" & SignedQRCode & "',ack_no='" & AckNo & "',ack_date='" & clsCommon.GetPrintDate(AckDt, "dd/MMM/yyyy hh:mm tt") & "' where Document_Code ='" & strDocNo & "'", trans)
 
-                        Dim TempByte As Byte() = clsERPFuncationality.GenerateMyQCCode(SignedQRCode)
+                        Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
                         clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_head", "TSPL_SD_SALE_INVOICE_head.document_code='" & strDocNo & "'", trans)
                     End If
 

@@ -5631,7 +5631,7 @@ Public Class frmScrapSaleReturn
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_SCRAPSALE_HEAD_Return", "TSPL_SCRAPSALE_DETAIL_RETURN")
+            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_SCRAPSALE_HEAD_Return", "TSPL_SCRAPSALE_DETAIL_RETURN")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

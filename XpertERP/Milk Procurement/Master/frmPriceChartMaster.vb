@@ -892,7 +892,7 @@ Public Class FrmPriceChartMaster
                 clsCommon.MyMessageBoxShow("Select Price Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndcode.Value, "Price_Code", "TSPL_MILK_PRICE_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(fndcode.Value, "Price_Code", "TSPL_MILK_PRICE_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

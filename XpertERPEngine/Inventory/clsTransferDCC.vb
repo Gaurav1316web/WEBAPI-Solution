@@ -896,7 +896,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                     Dim SignedQRCode As String = objResult.SelectToken("SignedQRCode").ToString
                     clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSFER_ORDER_HEAD set  IRN_No ='" & Irn & "',qr_code='" & SignedQRCode & "',ack_no='" & AckNo & "',ack_date='" & clsCommon.GetPrintDate(AckDt, "dd/MMM/yyyy hh:mm tt") & "' where TSPL_TRANSFER_ORDER_HEAD.Document_No ='" & strDocNo & "'", trans)
 
-                    Dim TempByte As Byte() = clsERPFuncationality.GenerateMyQCCode(SignedQRCode)
+                    Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
                     clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_TRANSFER_ORDER_HEAD", "TSPL_TRANSFER_ORDER_HEAD.Document_No='" & strDocNo & "'", trans)
 
                     If objCommonVar.GenerateEWayBillWithEInvoice = True Then

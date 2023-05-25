@@ -739,7 +739,7 @@ Public Class frmMapPayHeadsToSalaStructure
                 clsCommon.MyMessageBoxShow("Select Salary Structure Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "SALARY_STRUCTURE_CODE", "TSPL_SALSTRUCT_PAYHEADS")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "SALARY_STRUCTURE_CODE", "TSPL_SALSTRUCT_PAYHEADS")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

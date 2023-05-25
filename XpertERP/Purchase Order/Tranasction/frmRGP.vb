@@ -4186,7 +4186,7 @@ Public Class frmRGP
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "RGP_No", "TSPL_RGP_HEAD", "TSPL_RGP_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "RGP_No", "TSPL_RGP_HEAD", "TSPL_RGP_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

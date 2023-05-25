@@ -1855,7 +1855,7 @@ Public Class frmTaxAuthority
                 clsCommon.MyMessageBoxShow("Select Tax Authority Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(findTaxAuthority.Value, "Tax_Code", "TSPL_TAX_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(findTaxAuthority.Value, "Tax_Code", "TSPL_TAX_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

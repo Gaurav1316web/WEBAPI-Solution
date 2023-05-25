@@ -830,7 +830,7 @@ Public Class FrmQualityCheckBulkSale
         Try
             If (deleteConfirm()) Then
                 arr.Add(fndQcNo.Value)
-                If clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.FrmQualityCheckBulkSale, Nothing) Then
+                If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.FrmQualityCheckBulkSale, Nothing) Then
                     If (ClsQualityCheckBulkSale.DeleteData(fndQcNo.Value)) Then
                         common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
                         Reset()

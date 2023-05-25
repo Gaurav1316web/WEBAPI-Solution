@@ -2021,7 +2021,7 @@ Public Class frmMilkSRNMCC
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(clsCommon.myCstr(txtCode.Value), "DOC_CODE", "TSPL_MILK_SRN_HEAD", "TSPL_MILK_SRN_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(txtCode.Value), "DOC_CODE", "TSPL_MILK_SRN_HEAD", "TSPL_MILK_SRN_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -434,7 +434,7 @@ Public Class frmCityMaster
                 clsCommon.MyMessageBoxShow("Select City Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndcity.Value, "City_Code", "TSPL_CITY_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(fndcity.Value, "City_Code", "TSPL_CITY_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -5183,7 +5183,7 @@ Public Class frmVendorMaster
                 clsCommon.MyMessageBoxShow("Select Vendor")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndvendorNo.Value, "Vendor_Code", "TSPL_VENDOR_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(fndvendorNo.Value, "Vendor_Code", "TSPL_VENDOR_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

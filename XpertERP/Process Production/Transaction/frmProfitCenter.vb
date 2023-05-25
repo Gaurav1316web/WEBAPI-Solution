@@ -362,7 +362,7 @@ Public Class frmProfitCenter
                 clsCommon.MyMessageBoxShow("Select Profit Center Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Code", "TSPL_PROFIT_CENTER_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_PROFIT_CENTER_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -2278,7 +2278,7 @@ Public Class FrmQualityCheck
                 If deleteConfirm() Then
                     trans = clsDBFuncationality.GetTransactin()
                     arr.Add(fndQcNo.Value)
-                    If clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.frmQualityCheck, trans) Then
+                    If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.frmQualityCheck, trans) Then
                         If clsQualityCheck.deleteData(fndQcNo.Value, trans) Then
                             clsQCPaperSealDetail.DeleteData(txtChallanNo.Text, trans)
                             clsQCManualSealDetail.DeleteData(txtChallanNo.Text, trans)

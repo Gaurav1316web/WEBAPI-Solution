@@ -768,7 +768,7 @@ Public Class rptCollectionDataChangeReport
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells("SRN No").Value)) > 0 Then
-                clsERPFuncationality.ShowTransHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("SRN No").Value), "DOC_CODE", "TSPL_MILK_SRN_HEAD", "TSPL_MILK_SRN_DETAIL")
+                clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("SRN No").Value), "DOC_CODE", "TSPL_MILK_SRN_HEAD", "TSPL_MILK_SRN_DETAIL")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

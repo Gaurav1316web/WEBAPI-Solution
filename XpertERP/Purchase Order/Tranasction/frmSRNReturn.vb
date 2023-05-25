@@ -359,7 +359,7 @@ Public Class frmSRNReturn
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Document_No", "TSPL_SRN_RETURN")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Document_No", "TSPL_SRN_RETURN")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

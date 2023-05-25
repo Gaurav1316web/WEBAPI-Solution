@@ -5565,7 +5565,7 @@ left join TSPL_STATE_MASTER as  FromState on FromState.State_Code=FromLocation.S
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "shipment_No", "TSPL_SCRAPSALE_HEAD", "TSPL_SCRAPSALE_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "shipment_No", "TSPL_SCRAPSALE_HEAD", "TSPL_SCRAPSALE_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -2707,7 +2707,7 @@ Public Class frmProcessProductionStageProcess
                 clsCommon.MyMessageBoxShow("Select Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtCode.Value, "STAGE_PROCESS_CODE", "TSPL_PP_STAGE_PROCESS_HEAD", "TSPL_PP_STAGE_PROCESS_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "STAGE_PROCESS_CODE", "TSPL_PP_STAGE_PROCESS_HEAD", "TSPL_PP_STAGE_PROCESS_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

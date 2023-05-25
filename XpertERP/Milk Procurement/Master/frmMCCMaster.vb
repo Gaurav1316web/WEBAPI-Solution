@@ -5420,7 +5420,7 @@ Public Class FrmMCCMaster
                 clsCommon.MyMessageBoxShow(Me, "Select MCC")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndMCCCode.Value, "MCC_Code", "TSPL_MCC_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(fndMCCCode.Value, "MCC_Code", "TSPL_MCC_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

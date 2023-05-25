@@ -2,6 +2,7 @@
 Imports System.Reflection
 Imports System.Windows.Forms
 Public Class clsDocType
+    Public Const TenderPenalty As String = "Tender Penalty"
     Public Const BreakDownEntry As String = "Break Down Entry"
     Public Const OutputEntry As String = "Output Entry"
     Public Const ShipToLocation = "Ship To Location"
@@ -716,7 +717,7 @@ Public Class clsDocType
             Dim qry As String = "delete from TSPL_DOCUMENT_TYPE"
             clsDBFuncationality.ExecuteNonQuery(qry)
 
-
+            InsertDefaultValue(clsDocType.TenderPenalty, "", False, True)
             InsertDefaultValue(clsDocType.Android, clsDocTransactionType.RequestService, False, False)
             InsertDefaultValue(clsDocType.Android, clsDocTransactionType.MCCSaleRequest, False, False)
             InsertDefaultValue(clsDocType.Android, clsDocTransactionType.MPSale, False, False)

@@ -7865,7 +7865,7 @@ Public Class FrmTransferKDIL
                 txtDocNo.Focus()
             End If
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                clsERPFuncationality.ShowTransHistoryData(clsCommon.myCstr(txtDocNo.Value), "DOCUMENT_NO", "TSPL_TRANSFER_ORDER_HEAD", "TSPL_TRANSFER_ORDER_DETAIL")
+                clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(txtDocNo.Value), "DOCUMENT_NO", "TSPL_TRANSFER_ORDER_HEAD", "TSPL_TRANSFER_ORDER_DETAIL")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

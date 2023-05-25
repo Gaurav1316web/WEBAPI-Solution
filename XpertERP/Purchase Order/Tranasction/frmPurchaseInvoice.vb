@@ -8423,7 +8423,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "PI_No", "TSPL_PI_HEAD", "TSPL_PI_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "PI_No", "TSPL_PI_HEAD", "TSPL_PI_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

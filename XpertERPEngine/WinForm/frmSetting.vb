@@ -161,7 +161,7 @@ Public Class frmSetting
     End Sub
 
     Private Sub gv_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv.CellDoubleClick
-        clsERPFuncationality.ShowHistoryData(gv.CurrentRow.Cells("FP_Type").Value, "Type", "TSPL_FIXED_PARAMETER", "", Nothing, "Code", gv.CurrentRow.Cells("FP_Code").Value)
+        clsERPFuncationalityOLD.ShowHistoryData(gv.CurrentRow.Cells("FP_Type").Value, "Type", "TSPL_FIXED_PARAMETER", "", Nothing, "Code", gv.CurrentRow.Cells("FP_Code").Value)
 
     End Sub
 

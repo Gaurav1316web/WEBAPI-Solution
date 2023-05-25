@@ -1975,7 +1975,7 @@ Public Class MDI
             If clsEmployeeMaster.CheckUserForHRDepartment(UserCode) Then
                 Dim msg As String = clsEmployeeMaster.GetBdayAnniversaryMSG()
                 If clsCommon.myLen(msg) > 0 Then
-                    clsERPFuncationality.ShowAlert(msg, "B'Day/Anniversary Reminder")
+                    clsERPFuncationalityOLD.ShowAlert(msg, "B'Day/Anniversary Reminder")
                 End If
             End If
         End If

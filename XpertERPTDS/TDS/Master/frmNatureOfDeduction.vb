@@ -928,7 +928,7 @@ Public Class frmNatureOfDeduction
                 clsCommon.MyMessageBoxShow("Select Nature of Deduction")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(Fnd_DeductionNew.Value, "Deduction_Code", "TSPL_TDS_DEDUCTION_HEAD", "TSPL_TDS_DEDUCTION_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(Fnd_DeductionNew.Value, "Deduction_Code", "TSPL_TDS_DEDUCTION_HEAD", "TSPL_TDS_DEDUCTION_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

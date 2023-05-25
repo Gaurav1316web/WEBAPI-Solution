@@ -999,7 +999,7 @@ Public Class rptZoneWiseMilkSaleVisual
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType)
+        PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         TemplateGridview = Gv1
         Print(Exporter.Refresh)
     End Sub
@@ -1237,7 +1237,7 @@ Public Class rptZoneWiseMilkSaleVisual
                     End Select
                 End If
             End If
-            PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType)
+            PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try

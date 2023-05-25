@@ -2414,7 +2414,7 @@ Public Class frmAssembDis
                 clsCommon.MyMessageBoxShow("Select Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "CODE", "TSPL_PROD_ASSEMBLIES")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "CODE", "TSPL_PROD_ASSEMBLIES")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

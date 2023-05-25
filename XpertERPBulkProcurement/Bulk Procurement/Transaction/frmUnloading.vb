@@ -432,7 +432,7 @@ Public Class FrmUnloading
                 End If
                 If deleteConfirm() Then
                     arr.Add(fndUnloadingNo.Value)
-                    If clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.frmUnloading, trans) Then
+                    If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.frmUnloading, trans) Then
                         If clsUnloading.deleteData(fndUnloadingNo.Value, trans) Then
                             trans.Commit()
                             reset(True)

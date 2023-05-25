@@ -1969,7 +1969,7 @@ End if
                 clsCommon.MyMessageBoxShow(Me, "Select Bank")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndbank.Value, "Bank_Code", "TSPL_BANK_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(fndbank.Value, "Bank_Code", "TSPL_BANK_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

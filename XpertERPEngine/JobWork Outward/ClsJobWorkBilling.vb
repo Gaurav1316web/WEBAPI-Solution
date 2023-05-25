@@ -579,7 +579,7 @@ where TSPL_JOBWORK_BILLING_HEAD.Document_Code ='" & strDocNo & "'"
                     Dim SignedQRCode As String = objResult.SelectToken("SignedQRCode").ToString
                     clsDBFuncationality.ExecuteNonQuery("update TSPL_JOBWORK_BILLING_HEAD set  IRN_No ='" & Irn & "',qr_code='" & SignedQRCode & "',ack_no='" & AckNo & "',ack_date='" & clsCommon.GetPrintDate(AckDt, "dd/MMM/yyyy hh:mm tt") & "' where TSPL_JOBWORK_BILLING_HEAD.Document_Code ='" & strDocNo & "'", trans)
 
-                    Dim TempByte As Byte() = clsERPFuncationality.GenerateMyQCCode(SignedQRCode)
+                    Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
                     clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_JOBWORK_BILLING_HEAD", "TSPL_JOBWORK_BILLING_HEAD.Document_Code='" & strDocNo & "'", trans)
                 Else
                     Return False

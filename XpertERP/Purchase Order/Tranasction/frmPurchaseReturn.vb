@@ -7193,7 +7193,7 @@ Public Class frmPurchaseReturn
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "PR_No", "TSPL_PR_HEAD", "TSPL_PR_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "PR_No", "TSPL_PR_HEAD", "TSPL_PR_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

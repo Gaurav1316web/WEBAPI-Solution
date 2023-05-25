@@ -592,7 +592,7 @@ Public Class clsBulkMilkSRN
             End If
             Dim arr As List(Of String) = New List(Of String)
             arr.Add(strDocNo)
-            clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.frmBulkMilkSRN, trans)
+            clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.frmBulkMilkSRN, trans)
             Dim qry As String = ""
             Dim isDeleted As Boolean = True
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strDocNo, "TSPL_Bulk_MILK_SRN", "SRN_NO", "TSPL_BULK_MILK_SRN_CHEMBER_DETAILS", "SRN_NO", trans)

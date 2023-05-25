@@ -594,7 +594,7 @@ Public Class FrmAdditionalCharges
                 clsCommon.MyMessageBoxShow("Select Additional Charges Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndCode.Value, "Code", "tspl_Additional_Charges")
+            clsERPFuncationalityOLD.ShowHistoryData(fndCode.Value, "Code", "tspl_Additional_Charges")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

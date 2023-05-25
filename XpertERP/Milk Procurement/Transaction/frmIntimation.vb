@@ -338,7 +338,7 @@ Public Class frmIntimation
             End If
             If myMessages.deleteConfirm() Then
                 arr.Add(fndGateEntryNO.Value)
-                If clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.frmGateEntry, Nothing) Then
+                If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.frmGateEntry, Nothing) Then
                     If clsIntimation.deleteData(fndGateEntryNO.Value, Nothing) Then
                         reset()
                         myMessages.delete()

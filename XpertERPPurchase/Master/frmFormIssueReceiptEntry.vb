@@ -309,11 +309,11 @@ Public Class FrmFormIssueReceiptEntry
 
                 count += 1
             Next
-
-            Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
+        Return True
     End Function
 
     Sub SaveData()

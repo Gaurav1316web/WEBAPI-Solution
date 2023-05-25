@@ -2618,7 +2618,7 @@ Public Class FrmProcessBatchOrder
                 clsCommon.MyMessageBoxShow("Select Batch Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtCode.Value, "batch_code", "TSPL_PP_BATCH_ORDER_HEAD", "TSPL_PP_BATCH_ORDER_RAW_ITEM_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "batch_code", "TSPL_PP_BATCH_ORDER_HEAD", "TSPL_PP_BATCH_ORDER_RAW_ITEM_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

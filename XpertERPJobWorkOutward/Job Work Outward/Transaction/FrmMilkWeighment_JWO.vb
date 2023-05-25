@@ -341,7 +341,7 @@ Public Class FrmMilkWeighment_JWO
         If clsCommon.myLen(fndDocNO.Value) > 0 Then
             If deleteConfirm() Then
                 arr.Add(fndDocNO.Value)
-                If clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.FrmMilkWeighment, Nothing) Then
+                If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.FrmMilkWeighment, Nothing) Then
                     If clsMilkWeighment_JOW.deleteData(fndDocNO.Value) Then
                         reset()
                         myMessages.delete()

@@ -499,7 +499,7 @@ Public Class FrmWeighmentEntry
             If (qry = 0) Then
                 If (deleteConfirm()) Then
                     arr.Add(fndWeighmentcode.Value)
-                    If clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.FrmWeighmentEntry, Nothing) Then
+                    If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.FrmWeighmentEntry, Nothing) Then
                         If (ClsWeighmentEntry.DeleteData(fndWeighmentcode.Value)) Then
                             common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
                             Reset()
