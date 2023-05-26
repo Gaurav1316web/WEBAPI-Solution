@@ -63,8 +63,8 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         End If
         Me.Focus()
         txtdate.Focus()
-        'btnPrint.Visible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal)
-        btnPrint.Visible = True
+        btnPrint.Visible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal)
+        'btnPrint.Visible = True
     End Sub
     Private Sub FrmVLCDataUploaderManual_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N Then
