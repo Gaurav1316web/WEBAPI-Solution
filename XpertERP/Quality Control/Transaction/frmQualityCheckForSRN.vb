@@ -2076,29 +2076,19 @@ Public Class FrmQualityCheckForSRN
                     Exit Sub
                 End If
 
-                'If clsCommon.myLen(TxtFinderVendorPrint.Value) <= 0 Then
-                '    common.clsCommon.MyMessageBoxShow(Me, "Select Vendor first")
-                '    TxtFinderVendorPrint.Focus()
-                '    Exit Sub
-                'End If
-                'If clsCommon.myLen(TxtFinderItemPrint.Value) <= 0 Then
-                '    common.clsCommon.MyMessageBoxShow(Me, "Select Item first")
-                '    TxtFinderItemPrint.Focus()
-                '    Exit Sub
-                'End If
-                'If clsCommon.myLen(TxtFinderRalPrint.Value) <= 0 Then
-                '    common.clsCommon.MyMessageBoxShow(Me, "Select RAL NO first")
-                '    TxtFinderRalPrint.Focus()
-                '    Exit Sub
-                'End If
-                StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + TxtFinderVendorPrint.Value + "' 
-                             and TSPL_QC_CHECK_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'
-                              and TSPL_GRN_HEAD.Ref_No='" + TxtFinderRalPrint.Value + "'
-                            and  Convert( Date, TSPL_QC_CHECK_HEAD.Document_Date,103) >= Convert( Date, ('" & fromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
-                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                    StrWhere += "
-and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
+                If clsCommon.myLen(TxtFinderVendorPrint.Value) > 0 Then
+                    StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + TxtFinderVendorPrint.Value + "'"
+
+                ElseIf clsCommon.myLen(TxtFinderItemPrint.Value) > 0 Then
+                    StrWhere += " and TSPL_QC_CHECK_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'"
+
+                ElseIf clsCommon.myLen(TxtFinderRalPrint.Value) > 0 Then
+                    StrWhere += " and TSPL_GRN_HEAD.Ref_No = '" + TxtFinderRalPrint.Value + "'"
+
                 End If
+
+                StrWhere += " and  Convert( Date, TSPL_QC_CHECK_HEAD.Document_Date,103) >= Convert( Date, ('" & fromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
+
             End If
 
             Dim frmCRV As New frmCrystalReportViewer()
