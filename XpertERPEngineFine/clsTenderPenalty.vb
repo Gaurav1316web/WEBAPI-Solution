@@ -147,8 +147,20 @@ where 2=2"
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted Docuemnt [" + obj.Document_No + "]")
                 End If
+                Dim qry As String = ""
 
-                Dim qry As String = "delete from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + strCode + "'"
+                For Each strSRNNo As String In obj.Arr
+                    qry = "delete From TSPL_SRN_DEDUCTION  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + obj.Item_Code + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "delete From TSPL_SRN_DEDUCTION_SECURITY  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + obj.Item_Code + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "delete From TSPL_SRN_TENDER  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + obj.Item_Code + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                Next
+
+                qry = "delete from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                 qry = "delete from TSPL_TENDER_PENALTY where Document_No='" + strCode + "'"
