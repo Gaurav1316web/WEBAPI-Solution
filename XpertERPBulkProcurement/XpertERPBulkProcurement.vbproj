@@ -164,6 +164,12 @@
     <Compile Include="Bulk Procurement\Master\frmTankerCleaningItem.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Bulk Procurement\Master\frmNewDCSScreen.Designer.vb">
+      <DependentUpon>frmNewDCSScreen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Master\frmNewDCSScreen.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\FrmOwnBmcExpanse.Designer.vb">
       <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>
     </Compile>
@@ -596,6 +602,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Bulk Procurement\Master\frmTankerCleaningItem.resx">
       <DependentUpon>frmTankerCleaningItem.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Master\frmNewDCSScreen.resx">
+      <DependentUpon>frmNewDCSScreen.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\FrmOwnBmcExpanse.resx">
       <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>

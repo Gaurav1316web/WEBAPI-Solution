@@ -1,6 +1,6 @@
 ﻿Imports common
 Public Class clsUserMgtCode
-
+    Public Const frmNewDCSScreen As String = "New-DCS-SCR"
     Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmGateEntryReturnCS As String = "GERETURN-CS"
