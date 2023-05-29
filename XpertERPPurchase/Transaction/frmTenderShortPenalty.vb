@@ -588,21 +588,27 @@ where TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.R
 and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_TENDER_PENALTY_DETAIL.Document_No not in ('" + txtDocNo.Value + "') ) "
             qry = GetBaseQery("0", qry)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim arrSRN As New List(Of String)
             For ii As Integer = 0 To dt.Rows.Count - 1
-                If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
-                    ''Now Gendrate Deduction
-                    Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
-                    Try
-                        clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, tran)
-                        tran.Commit()
-                    Catch ex As Exception
-                        tran.Rollback()
-                        Throw New Exception(ex.Message)
-                    End Try
-                Else
-                    Exit For
-                End If
+                arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
             Next
+
+            Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+            Try
+                clsSRNHead.DeleteSRNDeduction(arrSRN, txtItem.Value, tran)
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
+                        clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, tran)
+                    Else
+                        Exit For
+                    End If
+                Next
+                tran.Commit()
+            Catch ex As Exception
+                tran.Rollback()
+                Throw New Exception(ex.Message)
+            End Try
+
             dt = clsDBFuncationality.GetDataTable(qry)
             For ii As Integer = 0 To dt.Rows.Count - 1
                 If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
