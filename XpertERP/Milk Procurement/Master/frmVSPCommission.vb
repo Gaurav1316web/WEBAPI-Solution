@@ -252,7 +252,7 @@ Public Class frmVSPCommission
                 clsCommon.MyMessageBoxShow("Select Commission_Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Commission_Code", "TSPL_VSP_COMMISSION_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Commission_Code", "TSPL_VSP_COMMISSION_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

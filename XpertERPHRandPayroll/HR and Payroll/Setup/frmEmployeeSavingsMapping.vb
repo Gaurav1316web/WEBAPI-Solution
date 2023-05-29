@@ -876,7 +876,7 @@ Public Class frmEmployeeSavingsMapping
                 clsCommon.MyMessageBoxShow("Select Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtCode.Value, "DOCUMENT_CODE", "TSPL_EMPLOYEE_SAVINGS_MAPPING_MASTER", "TSPL_EMPLOYEE_SAVINGS_MAPPING_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "DOCUMENT_CODE", "TSPL_EMPLOYEE_SAVINGS_MAPPING_MASTER", "TSPL_EMPLOYEE_SAVINGS_MAPPING_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

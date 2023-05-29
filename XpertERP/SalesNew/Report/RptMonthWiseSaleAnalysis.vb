@@ -804,7 +804,7 @@ Public Class RptMonthWiseSaleAnalysis
 
     Private Sub BtnGo_Click(sender As Object, e As EventArgs) Handles BtnGo.Click
         Try
-            PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType)
+            PageSetupReport_ID = clsERPFuncationality.GetReportID(MyBase.Form_ID, ddlReportType.Text)
             TemplateGridview = gv1
             gv1.EnableFiltering = True
             LoadData(0)

@@ -1184,7 +1184,7 @@ Public Class FrmJobMilkQualityCheck
                 If deleteConfirm() Then
                     trans = clsDBFuncationality.GetTransactin()
                     arr.Add(fndQcNo.Value)
-                    If clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.FrmJobMilkQualityCheck, trans) Then
+                    If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.FrmJobMilkQualityCheck, trans) Then
                         If clsMilkQualityCheck.deleteData(fndQcNo.Value, trans) Then
                             clsMilkQCPaperSealDetail.DeleteData(txtChallanNo.Text, trans)
                             clsMilkQCManualSealDetail.DeleteData(txtChallanNo.Text, trans)

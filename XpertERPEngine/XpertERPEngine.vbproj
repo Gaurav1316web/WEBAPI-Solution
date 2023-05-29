@@ -224,7 +224,6 @@
     <Compile Include="Common\ClsDeprAccountSet.vb" />
     <Compile Include="Common\clsDevisionMaster.vb" />
     <Compile Include="Common\clsDocPrefix.vb" />
-    <Compile Include="Common\clsDocType.vb" />
     <Compile Include="Common\clsEmailAndSMSConfig.vb" />
     <Compile Include="Common\clsEmailSMSSettingNew.vb" />
     <Compile Include="Common\clsERPFuncationality.vb" />
@@ -568,7 +567,6 @@
     <Compile Include="Common\clsTaxGroupMaster.vb" />
     <Compile Include="Common\ClsTransactionApproval.vb" />
     <Compile Include="Common\clsCancelTableClass.vb" />
-    <Compile Include="Common\connectSql.vb" />
     <Compile Include="Common\myMessages.vb" />
     <Compile Include="Common\TabOrderManager.vb" />
     <Compile Include="Fixed Asset\clsAcquisitionCodes.vb" />

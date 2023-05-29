@@ -804,7 +804,7 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
                     Dim SignedQRCode As String = objResult.SelectToken("SignedQRCode").ToString
                     clsDBFuncationality.ExecuteNonQuery("update TSPL_SCRAPINVOICE_HEAD set  IRN_No ='" & Irn & "',qr_code='" & SignedQRCode & "',ack_no='" & AckNo & "',ack_date='" & clsCommon.GetPrintDate(AckDt, "dd/MMM/yyyy hh:mm tt") & "' where invoice_No ='" & strDocNo & "'", trans)
 
-                    Dim TempByte As Byte() = clsERPFuncationality.GenerateMyQCCode(SignedQRCode)
+                    Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
                     clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SCRAPINVOICE_HEAD", "TSPL_SCRAPINVOICE_HEAD.invoice_No='" & strDocNo & "'", trans)
 
                     If objCommonVar.GenerateEWayBillWithEInvoice = True Then

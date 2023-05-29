@@ -580,7 +580,7 @@ Public Class frmCustCategoryWiseDefaultItemUomMaster
     'End Sub
     'Private Sub btnShowHistory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
     '    Try
-    '        clsERPFuncationality.ShowTransHistoryData(txtCode.Value, "Price_Code", "TSPL_JOB_OUTWARD_PRICE_HEAD", "TSPL_JOB_OUTWARD_PRICE_DETAIL")
+    '        clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "Price_Code", "TSPL_JOB_OUTWARD_PRICE_HEAD", "TSPL_JOB_OUTWARD_PRICE_DETAIL")
     '    Catch ex As Exception
     '        clsCommon.MyMessageBoxShow(ex.Message)
     '    End Try

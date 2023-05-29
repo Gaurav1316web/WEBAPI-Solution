@@ -686,7 +686,7 @@ Public Class FrmWeighment
             If clsCommon.myLen(fndDocNO.Value) > 0 Then
                 If deleteConfirm() Then
                     arr.Add(fndDocNO.Value)
-                    If clsERPFuncationality.AddToHistory(arr, clsUserMgtCode.frmWeighment, Nothing) Then
+                    If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.frmWeighment, Nothing) Then
                         If clsWeighment.deleteData(fndDocNO.Value) Then
                             reset()
                             myMessages.delete()

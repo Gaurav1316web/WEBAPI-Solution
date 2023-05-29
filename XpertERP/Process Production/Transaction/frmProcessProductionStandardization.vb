@@ -4087,7 +4087,7 @@ Public Class frmProcessProductionStandardization
                 clsCommon.MyMessageBoxShow("Select Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtCode.Value, "Standardization_Code", "TSPL_PP_STANDARDIZATION_HEAD", "TSPL_PP_STD_ISSUE_ITEM_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "Standardization_Code", "TSPL_PP_STANDARDIZATION_HEAD", "TSPL_PP_STD_ISSUE_ITEM_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -5217,7 +5217,7 @@ Public Class frmIssueReturn
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "Doc_No", "TSPL_IssueReturn_HEAD", "TSPL_IssueReturn_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "Doc_No", "TSPL_IssueReturn_HEAD", "TSPL_IssueReturn_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

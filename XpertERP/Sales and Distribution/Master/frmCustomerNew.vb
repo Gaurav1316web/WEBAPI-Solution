@@ -5814,7 +5814,7 @@ Public Class frmCustomer
                 clsCommon.MyMessageBoxShow("Select Customer")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndCustomer.Value, "Cust_Code", "TSPL_CUSTOMER_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(fndCustomer.Value, "Cust_Code", "TSPL_CUSTOMER_MASTER")
 
           
         Catch ex As Exception

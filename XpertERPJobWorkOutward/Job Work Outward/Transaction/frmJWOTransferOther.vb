@@ -2834,7 +2834,7 @@ Public Class frmJWOTransferOther
                 txtDocNo.Focus()
             End If
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                clsERPFuncationality.ShowTransHistoryData(clsCommon.myCstr(txtDocNo.Value), "TRANSFER_NO", "TSPL_JOB_WORK_OUTWARD_TRANSFER_HEAD", "TSPL_JOB_WORK_OUTWARD_TRANSFER_DETAILS")
+                clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(txtDocNo.Value), "TRANSFER_NO", "TSPL_JOB_WORK_OUTWARD_TRANSFER_HEAD", "TSPL_JOB_WORK_OUTWARD_TRANSFER_DETAILS")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

@@ -1073,7 +1073,7 @@ End if
                 clsCommon.MyMessageBoxShow("Select Vendor Group Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndgroupcode.Value, "ven_group_code", "TSPL_VENDOR_GROUP")
+            clsERPFuncationalityOLD.ShowHistoryData(fndgroupcode.Value, "ven_group_code", "TSPL_VENDOR_GROUP")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -10222,7 +10222,7 @@ Public Class frmPurchaseOrder
                 clsCommon.MyMessageBoxShow(Me, "Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_HEAD", "TSPL_PURCHASE_ORDER_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_HEAD", "TSPL_PURCHASE_ORDER_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

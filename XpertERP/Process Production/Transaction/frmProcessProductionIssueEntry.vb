@@ -3351,7 +3351,7 @@ Public Class FrmProcessProductionIssueEntry
                 clsCommon.MyMessageBoxShow("Select Issue Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtCode.Value, "issue_code", "TSPL_PP_ISSUE_HEAD", "TSPL_PP_ISSUE_ITEM_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtCode.Value, "issue_code", "TSPL_PP_ISSUE_HEAD", "TSPL_PP_ISSUE_ITEM_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

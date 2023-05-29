@@ -2363,7 +2363,7 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Please Select Document No")
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_COLLECTION_MCC", "TSPL_MILK_COLLECTION_MCC_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_COLLECTION_MCC", "TSPL_MILK_COLLECTION_MCC_DETAIL")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

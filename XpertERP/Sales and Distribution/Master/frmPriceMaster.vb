@@ -3468,7 +3468,7 @@ Public Class FrmPriceMaster
                 txtPriceId.Focus()
             End If
             If clsCommon.myLen(txtPriceId.Value) > 0 Then
-                clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(txtPriceId.Value), "Item_Price_Id", "TSPL_ITEM_PRICE_MASTER")
+                clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(txtPriceId.Value), "Item_Price_Id", "TSPL_ITEM_PRICE_MASTER")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

@@ -275,7 +275,7 @@ Public Class frmCompetitorMaster
                 clsCommon.MyMessageBoxShow("Select Competitor Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Code", "TSPL_COMPETITOR_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_COMPETITOR_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

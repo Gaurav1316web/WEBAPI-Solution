@@ -1246,7 +1246,7 @@ Public Class frmSaleAccountSetCode
                 clsCommon.MyMessageBoxShow("Select Account Set", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndaccountsetcode.Value, "Sales_Class_Code", "TSPL_sales_ACCOUNTS")
+            clsERPFuncationalityOLD.ShowHistoryData(fndaccountsetcode.Value, "Sales_Class_Code", "TSPL_sales_ACCOUNTS")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

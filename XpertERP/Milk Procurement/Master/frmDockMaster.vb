@@ -275,7 +275,7 @@ Public Class frmDockMaster
                 clsCommon.MyMessageBoxShow("Select code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Code", "TSPL_DOCK_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_DOCK_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

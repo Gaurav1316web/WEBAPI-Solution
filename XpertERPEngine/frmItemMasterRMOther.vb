@@ -5924,7 +5924,7 @@ ExitLOOP:
                 clsCommon.MyMessageBoxShow(Me, "Select Item Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtCode.Value, "Item_Code", "TSPL_ITEM_MASTER", "TSPL_ITEM_UOM_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Item_Code", "TSPL_ITEM_MASTER", "TSPL_ITEM_UOM_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

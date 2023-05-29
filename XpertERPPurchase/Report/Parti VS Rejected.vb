@@ -193,7 +193,7 @@ Public Class Parti_VS_Rejected
         bs.DataSource = ds.Tables(0)
         gv.DataSource = bs
     End Sub
-    Public Function ExporttoMyExcel(ByVal sql As String, ByVal frm As RadForm) As Boolean
+    Public Sub ExporttoMyExcel(ByVal sql As String, ByVal frm As RadForm)
         Dim sfd As SaveFileDialog = New SaveFileDialog()
         Dim Fullpath As String
         sfd.FileName = frm.Text
@@ -203,7 +203,7 @@ Public Class Parti_VS_Rejected
             path = sfd.FileName
             Fullpath = path
         Else
-            Return False
+            Exit Sub
         End If
 
 
@@ -217,7 +217,7 @@ Public Class Parti_VS_Rejected
                 FillGridView(sql, gv)
                 If gv.Rows.Count = 0 Then
                     common.clsCommon.MyMessageBoxShow("There is no data for Show Excel Report.")
-                    Return False
+                    Exit Sub
                 End If
                 Dim i As Integer = 0
                 For i = 0 To gv.ColumnCount - 1
@@ -251,14 +251,14 @@ Public Class Parti_VS_Rejected
                 xlsApp.Visible = True
                 xlsWB = xlsApp.Workbooks.Open(Fullpath)
                 'common.clsCommon.MyMessageBoxShow("Excel Report Created!", "Export", MessageBoxButtons.OK)
-                Return True
+
             Catch ex As Exception
                 frm.Controls.Remove(gv)
                 common.clsCommon.MyMessageBoxShow("No Report Created.", "Export Error", MessageBoxButtons.OK)
-                Return False
+
             End Try
         End If
-    End Function
+    End Sub
 
     Private Sub exporter_ExcelCellFormatting(ByVal sender As Object, ByVal e As ExcelML.ExcelCellFormattingEventArgs)
         If e.GridRowInfoType Is GetType(GridViewTableHeaderRowInfo) Then

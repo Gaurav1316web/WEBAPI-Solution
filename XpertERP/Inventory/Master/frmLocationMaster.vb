@@ -3796,7 +3796,7 @@ Public Class frmLocationMaster
                 clsCommon.MyMessageBoxShow("Select Location")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndLocation.Value, "Location_Code", "TSPL_Location_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(fndLocation.Value, "Location_Code", "TSPL_Location_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

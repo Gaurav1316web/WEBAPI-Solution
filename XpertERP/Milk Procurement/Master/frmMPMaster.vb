@@ -2432,7 +2432,7 @@ Public Class FrmMPMaster
                 clsCommon.MyMessageBoxShow("Select MP Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndMPCode.Value, "MP_Code", "tspl_mp_master")
+            clsERPFuncationalityOLD.ShowHistoryData(fndMPCode.Value, "MP_Code", "tspl_mp_master")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

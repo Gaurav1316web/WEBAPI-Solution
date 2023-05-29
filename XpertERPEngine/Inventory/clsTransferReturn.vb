@@ -286,7 +286,7 @@ where TSPL_TRANSFER_RETURN.document_no  ='" & strDocNo & "' AND TSPL_TRANSFER_RE
                     Dim SignedQRCode As String = objResult.SelectToken("SignedQRCode").ToString
                     clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSFER_RETURN set  IRN_No ='" & Irn & "',qr_code='" & SignedQRCode & "',ack_no='" & AckNo & "',ack_date='" & clsCommon.GetPrintDate(AckDt, "dd/MMM/yyyy hh:mm tt") & "' where TSPL_TRANSFER_RETURN.Document_No ='" & strDocNo & "'", trans)
 
-                    Dim TempByte As Byte() = clsERPFuncationality.GenerateMyQCCode(SignedQRCode)
+                    Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(SignedQRCode)
                     clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_TRANSFER_RETURN", "TSPL_TRANSFER_RETURN.Document_No='" & strDocNo & "'", trans)
                 Else
                     Return False

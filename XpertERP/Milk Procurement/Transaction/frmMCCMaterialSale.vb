@@ -6276,7 +6276,7 @@ Public Class frmMCCMaterialSale
         Try
             '====================================================
             'Dim strUrl As String = "upi://pay?pa=1234566@ICIC12345.ifsc.npci&pn=TEST&mc=0000&tr=API123456&am=10000&mam=10000&cu=INR&mode=01&b2cSellerGstin=29AABCT1332L000&b2cUPIID=null&b2cBankAcNo=1234566&b2cIFSCCode=ICIC12345&b2cInvNo=API123456&b2cInvDate=10-06-2021&b2cCGSTAmount=0&b2cSGSTAmount=0&b2cIGSTAmount=0&b2cCESS=0&size=150"
-            'Dim TempByte As Byte() = clsERPFuncationality.GenerateMyQCCode(strUrl)
+            'Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(strUrl)
             'clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_HEAD", "TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No='" & txtDocNo.Value & "'")
 
             '===================================================

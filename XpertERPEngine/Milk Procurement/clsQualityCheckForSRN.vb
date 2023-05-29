@@ -218,6 +218,9 @@ Public Class clsQualityCheckForSRNHead
     End Function
 
     Public Shared Function GetData(ByVal strCode As String, ByVal QC_Type As String, ByVal NavType As NavigatorType, Optional ByVal trans As SqlTransaction = Nothing) As clsQualityCheckForSRNHead
+        Return GetData(strCode, QC_Type, "", NavType, trans)
+    End Function
+    Public Shared Function GetData(ByVal strCode As String, ByVal QC_Type As String, ByVal ExtrWhr As String, ByVal NavType As NavigatorType, Optional ByVal trans As SqlTransaction = Nothing) As clsQualityCheckForSRNHead
         Dim dt As New DataTable()
         Dim dt1 As New DataTable()
         Dim objtr As New clsQualityCheckForSRNDetail()
@@ -230,18 +233,19 @@ Public Class clsQualityCheckForSRNHead
             obj.Arr = New List(Of clsQualityCheckDetail)
 
             Dim qry As String = "select TSPL_QC_CHECK_HEAD.*,tspl_vendor_master.vendor_name,tspl_location_master.location_desc from TSPL_QC_CHECK_HEAD left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_QC_CHECK_HEAD.vendor_code left outer join tspl_location_master on tspl_location_master.location_code=TSPL_QC_CHECK_HEAD.bill_to_location where TSPL_QC_CHECK_HEAD.qc_type='" + QC_Type + "' "
+            Dim whr As String = " where qc_type='" + QC_Type + "' " + ExtrWhr
 
             Select Case NavType
                 Case NavigatorType.Current
                     qry += " and TSPL_QC_CHECK_HEAD.document_code='" + strCode + "'"
                 Case NavigatorType.First
-                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select min(document_code) from TSPL_QC_CHECK_HEAD where qc_type='" + QC_Type + "')"
+                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select min(document_code) from TSPL_QC_CHECK_HEAD " + whr + ")"
                 Case NavigatorType.Last
-                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select max(document_code) from TSPL_QC_CHECK_HEAD where qc_type='" + QC_Type + "')"
+                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select max(document_code) from TSPL_QC_CHECK_HEAD " + whr + ")"
                 Case NavigatorType.Next
-                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select min(document_code) from TSPL_QC_CHECK_HEAD where qc_type='" + QC_Type + "' and document_code>'" + strCode + "')"
+                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select min(document_code) from TSPL_QC_CHECK_HEAD " + whr + " and document_code>'" + strCode + "')"
                 Case NavigatorType.Previous
-                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select max(document_code) from TSPL_QC_CHECK_HEAD where qc_type='" + QC_Type + "' and document_code<'" + strCode + "')"
+                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select max(document_code) from TSPL_QC_CHECK_HEAD " + whr + " and document_code<'" + strCode + "')"
             End Select
             dt = clsDBFuncationality.GetDataTable(qry, trans)
 

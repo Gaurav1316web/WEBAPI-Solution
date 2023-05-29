@@ -382,52 +382,52 @@ Public Class rptDeleteHistoryReport
                     'DetailTable7 = "Section Stock"
                     'DetailTable8 = "Section Stock History Detail"
                     If e.Column Is gv1.Columns("Issue Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PE_ISSUE_ITEM_DETAIL")
-                        ' clsERPFuncationality.ShowTransHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY", "TSPL_PP_PE_ISSUE_ITEM_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PE_ISSUE_ITEM_DETAIL")
+                        ' clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY", "TSPL_PP_PE_ISSUE_ITEM_DETAIL")
                     ElseIf e.Column Is gv1.Columns("Stage Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PE_STAGE_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PE_STAGE_DETAIL")
                     ElseIf e.Column Is gv1.Columns("Batch Production Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY_DETAIL")
                     ElseIf e.Column Is gv1.Columns("Quality Check Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PE_QC_DETAIL")
-                        'clsERPFuncationality.ShowTransHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY", "TSPL_PP_PE_QC_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PE_QC_DETAIL")
+                        'clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PRODUCTION_ENTRY", "TSPL_PP_PE_QC_DETAIL")
                     ElseIf e.Column Is gv1.Columns("Wreckage & Flushing Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PE_WRECKAGE_FLASHING")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PE_WRECKAGE_FLASHING")
                     ElseIf e.Column Is gv1.Columns("Scrap Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PE_SCRAP_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PROD ENTRY CODE").Value), "PROD_ENTRY_CODE", "TSPL_PP_PE_SCRAP_DETAIL")
                     End If
 
                 ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmProductionPlanningDairy) = CompairStringResult.Equal Then
                     If e.Column Is gv1.Columns("Plan Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PLAN CODE").Value), "PLAN_CODE", "TSPL_PP_PRODUCTION_PLAN_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PLAN CODE").Value), "PLAN_CODE", "TSPL_PP_PRODUCTION_PLAN_DETAIL")
                     End If
                 ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmBatchOrderDairy) = CompairStringResult.Equal Then
                     If e.Column Is gv1.Columns("BOM Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("BATCH CODE").Value), "batch_code", "TSPL_PP_BATCH_ORDER_BOM_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("BATCH CODE").Value), "batch_code", "TSPL_PP_BATCH_ORDER_BOM_DETAIL")
                     ElseIf e.Column Is gv1.Columns("ITEM Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("BATCH CODE").Value), "batch_code", "TSPL_PP_BATCH_ORDER_RAW_ITEM_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("BATCH CODE").Value), "batch_code", "TSPL_PP_BATCH_ORDER_RAW_ITEM_DETAIL")
                     End If
                 ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmProcessProductionIssueEntry) = CompairStringResult.Equal Then
                     If e.Column Is gv1.Columns("ITEM Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("issue code").Value), "issue_code", "TSPL_PP_ISSUE_ITEM_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("issue code").Value), "issue_code", "TSPL_PP_ISSUE_ITEM_DETAIL")
                     ElseIf e.Column Is gv1.Columns("QC Detail") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("issue code").Value), "issue_code", "TSPL_PP_ISSUE_QC_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("issue code").Value), "issue_code", "TSPL_PP_ISSUE_QC_DETAIL")
                     End If
                 ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmProcessProductionStandardization) = CompairStringResult.Equal Then
                     If e.Column Is gv1.Columns("QC DETAIL") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_STD_QC_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_STD_QC_DETAIL")
                     ElseIf e.Column Is gv1.Columns("BATCH ITEM DETAIL") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL")
                     ElseIf e.Column Is gv1.Columns("ISSUE ITEM DETAIL") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_STD_ISSUE_ITEM_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_STD_ISSUE_ITEM_DETAIL")
                     ElseIf e.Column Is gv1.Columns("ADD REMOVE ITEM DETAIL") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL")
                     ElseIf e.Column Is gv1.Columns("QC LOG SHEET") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_STD_QC_LOG_SHEET")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_STD_QC_LOG_SHEET")
                     ElseIf e.Column Is gv1.Columns("STAGE DETAIL") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_STD_STAGE_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_STD_STAGE_DETAIL")
                     ElseIf e.Column Is gv1.Columns("CONSUMPTION DETAIL") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("Standardization Code").Value), "Standardization_Code", "TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL")
                     End If
 
                     'StrMasterTable = "TSPL_PP_STANDARDIZATION_HEAD"
@@ -443,7 +443,7 @@ Public Class rptDeleteHistoryReport
                     'DetailTable6 = "CONSUMPTION DETAIL"
                 ElseIf clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.PricePlan) = CompairStringResult.Equal Then
                     If e.Column Is gv1.Columns("PLAN CODE") Then
-                        clsERPFuncationality.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PLAN CODE").Value), "PLAN_CODE", "TSPL_ITEM_PRICE_PLAN_DETAIL")
+                        clsERPFuncationalityOLD.ShowHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("PLAN CODE").Value), "PLAN_CODE", "TSPL_ITEM_PRICE_PLAN_DETAIL")
                     End If
                 End If
             End If

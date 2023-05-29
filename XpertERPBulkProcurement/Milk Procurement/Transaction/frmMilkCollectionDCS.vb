@@ -1612,7 +1612,7 @@ where 2=2 "
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Please Select Document No")
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_COLLECTION_DCS", "TSPL_MILK_COLLECTION_DCS_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_COLLECTION_DCS", "TSPL_MILK_COLLECTION_DCS_DETAIL")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

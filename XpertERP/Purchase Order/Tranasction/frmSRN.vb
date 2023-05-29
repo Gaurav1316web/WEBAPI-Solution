@@ -11442,7 +11442,7 @@ b:                          ' Next
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "SRN_No", "TSPL_SRN_HEAD", "TSPL_SRN_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "SRN_No", "TSPL_SRN_HEAD", "TSPL_SRN_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

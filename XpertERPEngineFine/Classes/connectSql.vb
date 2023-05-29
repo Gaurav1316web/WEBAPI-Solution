@@ -1,14 +1,6 @@
 ﻿'--- modified By : Manoj Sir 18/10/2012 :12:45 PM
 
-Imports Microsoft.VisualBasic
-Imports System
-Imports System.Data
 Imports System.Data.SqlClient
-Imports System.Configuration.ConfigurationSettings
-Imports Telerik.WinControls
-Imports System.Globalization
-Imports System.Collections
-Imports common
 Public Module connectSql
     Public strConn As String = clsDBFuncationality.connectionString 'Configuration.ConfigurationSettings.AppSettings("connectionString").ToString()
     Dim sql As String
@@ -175,7 +167,7 @@ Public Module connectSql
                 'dt = ds.Tables(0)
             End If
         Catch ex As Exception
-            myMessages.myExceptions(ex)
+            clsCommon.MyMessageBoxShow(ex.Message)
         End Try
         If Not String.IsNullOrEmpty(location) Then
         Else
@@ -198,7 +190,7 @@ Public Module connectSql
                 Next
             End If
         Catch ex As Exception
-            myMessages.myExceptions(ex)
+            clsCommon.MyMessageBoxShow(ex.Message)
         End Try
         Return arrlocation
     End Function

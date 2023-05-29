@@ -233,7 +233,7 @@ Public Class frmCanMaster
                 clsCommon.MyMessageBoxShow("Select code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Code", "TSPL_CAN_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_CAN_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

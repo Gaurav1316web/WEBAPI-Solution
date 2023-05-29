@@ -4247,7 +4247,7 @@ Public Class FrmPrimaryTransporterMaster
                 clsCommon.MyMessageBoxShow("Select Transporter Code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndvendorNo.Value, "Vendor_Code", "TSPL_Vendor_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(fndvendorNo.Value, "Vendor_Code", "TSPL_Vendor_MASTER")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

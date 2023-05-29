@@ -14047,7 +14047,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
             clsCommon.AddColumnsForChange(coll, "QR_Code", TxtEInvoiceUpdateQCCode.Text)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" + txtInvoiceNo.Text + "'", Tran)
 
-            Dim TempByte As Byte() = clsERPFuncationality.GenerateMyQCCode(TxtEInvoiceUpdateQCCode.Text)
+            Dim TempByte As Byte() = clsERPFuncationalityOLD.GenerateMyQCCode(TxtEInvoiceUpdateQCCode.Text)
             clsDBFuncationality.UpdateImage("BarCode_Img", TempByte, "TSPL_SD_SALE_INVOICE_HEAD", "TSPL_SD_SALE_INVOICE_HEAD.Document_Code='" & txtInvoiceNo.Text & "'", Tran)
             Tran.Commit()
             clsCommon.MyMessageBoxShow(Me, "E-Invoice Details Updated successfully", Me.Text)

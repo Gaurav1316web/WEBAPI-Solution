@@ -1094,7 +1094,7 @@ Public Class frmSiloMilkTransfer
                 clsCommon.MyMessageBoxShow("Select Doc No")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtAdjustmentNo.Value, "Document_Code", "TSPL_SILO_MILK_TRANSFER_HEAD", "TSPL_SILO_MILK_TRANSFER_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtAdjustmentNo.Value, "Document_Code", "TSPL_SILO_MILK_TRANSFER_HEAD", "TSPL_SILO_MILK_TRANSFER_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

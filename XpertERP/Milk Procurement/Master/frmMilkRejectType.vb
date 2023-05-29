@@ -325,7 +325,7 @@ Public Class frmMilkRejectType
                 clsCommon.MyMessageBoxShow("Select code")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(txtCode.Value, "Code", "TSPL_MILK_REJECT_TYPE")
+            clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "Code", "TSPL_MILK_REJECT_TYPE")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

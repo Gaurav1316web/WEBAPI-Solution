@@ -111,8 +111,8 @@ Public Class FrmConsumptionReport1
 
             End If
 
-            qry = "select '" + fromdate + "' as FromDate ,'" + Todate + "' as ToDate,category ,CategoryName ,SubCat ,SubCateName , Item_Code ,Item_Desc ,UOM,'' as LocationCode,'' as locdesc,OpBal ,OpBalRate ,convert(decimal(18,2),(isnull(opbal,0)*isnull(opbalrate,0))) as OPValue ,ReceiveQty,(RecvdRate/nullif(ReceiveQty,0))as RecvdRate  ,convert(decimal(18,2),(isnull(ReceiveQty,0)*isnull((RecvdRate/nullif(ReceiveQty,0)),0))) as ReceiveValue ,IssueQty ,(IssueRate/nullif(IssueQty,0))as IssueRate ,convert(decimal(18,2),(isnull(IssueQty,0)*isnull(IssueRate/nullif(IssueQty,0),0))) as IssueValue ,ClosingBalance,(OpBalRate+(RecvdRate/nullif(ReceiveQty,0))-(IssueRate/nullif(IssueQty,0)))as ClosingRate,convert(decimal(18,2),(isnull(ClosingBalance,0)* isnull(OpBalRate+(RecvdRate/nullif(ReceiveQty,0))-(IssueRate/nullif(IssueQty,0)),0))) as ClosingValue    ,CompCode,LocationCode,TSPL_COMPANY_MASTER.Comp_Name as compname, TSPL_COMPANY_MASTER.Logo_Img as Image1, TSPL_COMPANY_MASTER.Logo_Img2 as Image2," + Address + "as address " & _
-                   "   from (select category,MAX(CategoryName )as CategoryName,SubCat ,MAX(SubCateName )as SubCateName, Item_Code,MAX(Item_Desc) as Item_Desc,UOM,SUM(OpBal)  as OpBal,SUM(OpBalRate)as OpBalRate ,SUM(ReceiveQty) as ReceiveQty,SUM(RecvdRate ) as RecvdRate ,SUM(IssueQty) as IssueQty,SUM(IssueRate )as IssueRate ,SUM(OpBal+ReceiveQty-IssueQty) as ClosingBalance  ,Sum(OpBalRate +RecvdRate -IssueRate )as ClosingRate,MAX(CompCode)as CompCode,MAX(LocationCode )as LocationCode  " & _
+            qry = "select '" + fromdate + "' as FromDate ,'" + Todate + "' as ToDate,category ,CategoryName ,SubCat ,SubCateName , Item_Code ,Item_Desc ,UOM,'' as LocationCode,'' as locdesc,OpBal ,OpBalRate ,convert(decimal(18,2),(isnull(opbal,0)*isnull(opbalrate,0))) as OPValue ,ReceiveQty,(RecvdRate/nullif(ReceiveQty,0))as RecvdRate  ,convert(decimal(18,2),(isnull(ReceiveQty,0)*isnull((RecvdRate/nullif(ReceiveQty,0)),0))) as ReceiveValue ,IssueQty ,(IssueRate/nullif(IssueQty,0))as IssueRate ,convert(decimal(18,2),(isnull(IssueQty,0)*isnull(IssueRate/nullif(IssueQty,0),0))) as IssueValue ,ClosingBalance,(OpBalRate+(RecvdRate/nullif(ReceiveQty,0))-(IssueRate/nullif(IssueQty,0)))as ClosingRate,convert(decimal(18,2),(isnull(ClosingBalance,0)* isnull(OpBalRate+(RecvdRate/nullif(ReceiveQty,0))-(IssueRate/nullif(IssueQty,0)),0))) as ClosingValue    ,CompCode,LocationCode,TSPL_COMPANY_MASTER.Comp_Name as compname, TSPL_COMPANY_MASTER.Logo_Img as Image1, TSPL_COMPANY_MASTER.Logo_Img2 as Image2," + Address + "as address " &
+                   "   from (select category,MAX(CategoryName )as CategoryName,SubCat ,MAX(SubCateName )as SubCateName, Item_Code,MAX(Item_Desc) as Item_Desc,UOM,SUM(OpBal)  as OpBal,SUM(OpBalRate)as OpBalRate ,SUM(ReceiveQty) as ReceiveQty,SUM(RecvdRate ) as RecvdRate ,SUM(IssueQty) as IssueQty,SUM(IssueRate )as IssueRate ,SUM(OpBal+ReceiveQty-IssueQty) as ClosingBalance  ,Sum(OpBalRate +RecvdRate -IssueRate )as ClosingRate,MAX(CompCode)as CompCode,MAX(LocationCode )as LocationCode  " &
                    " from(select TSPL_ITEM_MASTER .item_category as category,TSPL_Item_Category .Category_Name as CategoryName,TSPL_ITEM_MASTER.Sub_item_category  as SubCat,TSPL_ITEM_SUB_CATEGORY .Description as SubCateName, TSPL_INVENTORY_MOVEMENT .Item_Code,TSPL_INVENTORY_MOVEMENT .Item_Desc,TSPL_INVENTORY_MOVEMENT.UOM,0 as ReceiveQty,0 as RecvdRate ,0 as IssueQty,0 as IssueRate,(Qty*case when InOut='I' then 1 else  case when InOut='O' then -1 else 0 end end) as OpBal,(nullif(Net_Cost,0)/nullIf(Qty,0)*case when InOut='I' then 1 else  case when InOut='O' then -1 else 0 end end) as OpBalRate,TSPL_INVENTORY_MOVEMENT .Comp_Code as CompCode,TSPL_INVENTORY_MOVEMENT .Location_Code as LocationCode from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_INVENTORY_MOVEMENT .Item_Code =TSPL_ITEM_MASTER .Item_Code and TSPL_INVENTORY_MOVEMENT .UOM =TSPL_ITEM_MASTER .Unit_Code left outer join TSPL_ITEM_SUB_CATEGORY on TSPL_ITEM_SUB_CATEGORY.Category_Code =TSPL_ITEM_MASTER .item_category and TSPL_ITEM_SUB_CATEGORY .Sub_Category_Code =tspl_item_master.Sub_item_category left outer join TSPL_Item_Category  on TSPL_Item_Category.Category_Code = TSPL_ITEM_MASTER .item_category  where   TSPL_ITEM_MASTER .Item_Type not in('F') and    Convert(Date,TSPL_INVENTORY_MOVEMENT.Source_Doc_Date,103)<Convert(Date,'" + dtpfromdate.Value + "',103) "
 
             If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
@@ -149,9 +149,9 @@ Public Class FrmConsumptionReport1
 
             qry += "Union all"
 
-            qry += "   select TSPL_ITEM_MASTER .item_category as category,TSPL_Item_Category .Category_Name as CategoryName,TSPL_ITEM_MASTER.Sub_item_category   as SubCat,TSPL_ITEM_SUB_CATEGORY .Description as SubCateName," & _
-                    " TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.UOM,case when InOut='I' then Qty else 0 end as ReceiveQty,case when InOut='I' then   Net_Cost  else 0 end as RecvdRate," & _
-                    "  case when InOut='O' then Qty else 0 end as IssueQty,case when InOut='O' then  Net_Cost  else 0 end as IssueRate,0 as OpBal,0 as OpBalRate,TSPL_INVENTORY_MOVEMENT .Comp_Code as CompCode," & _
+            qry += "   select TSPL_ITEM_MASTER .item_category as category,TSPL_Item_Category .Category_Name as CategoryName,TSPL_ITEM_MASTER.Sub_item_category   as SubCat,TSPL_ITEM_SUB_CATEGORY .Description as SubCateName," &
+                    " TSPL_INVENTORY_MOVEMENT.Item_Code,TSPL_INVENTORY_MOVEMENT.Item_Desc,TSPL_INVENTORY_MOVEMENT.UOM,case when InOut='I' then Qty else 0 end as ReceiveQty,case when InOut='I' then   Net_Cost  else 0 end as RecvdRate," &
+                    "  case when InOut='O' then Qty else 0 end as IssueQty,case when InOut='O' then  Net_Cost  else 0 end as IssueRate,0 as OpBal,0 as OpBalRate,TSPL_INVENTORY_MOVEMENT .Comp_Code as CompCode," &
                     "  TSPL_INVENTORY_MOVEMENT .Location_Code as LocationCode  from TSPL_INVENTORY_MOVEMENT left outer join TSPL_ITEM_MASTER on TSPL_INVENTORY_MOVEMENT .Item_Code =TSPL_ITEM_MASTER .Item_Code and TSPL_INVENTORY_MOVEMENT .UOM =TSPL_ITEM_MASTER .Unit_Code left outer join TSPL_ITEM_SUB_CATEGORY on TSPL_ITEM_SUB_CATEGORY.Category_Code =TSPL_ITEM_MASTER .item_category and TSPL_ITEM_SUB_CATEGORY .Sub_Category_Code =tspl_item_master.Sub_item_category left outer join TSPL_Item_Category  on TSPL_Item_Category.Category_Code = TSPL_ITEM_MASTER .item_category  where  TSPL_ITEM_MASTER .Item_Type not in('F') and  Convert(Date,TSPL_INVENTORY_MOVEMENT.Source_Doc_Date,103)>=Convert(Date,'" + dtpfromdate.Value + "',103) and Convert(Date,TSPL_INVENTORY_MOVEMENT.Source_Doc_Date,103)<=convert(Date,'" + dtptodate.Value + "',103) "
 
             If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
@@ -199,14 +199,12 @@ Public Class FrmConsumptionReport1
                 ExporttoMyExcel(qry, Me)
 
             End If
-
-
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
     End Sub
 
-    Public Function ExporttoMyExcel(ByVal sql As String, ByVal frm As RadForm) As Boolean
+    Public Sub ExporttoMyExcel(ByVal sql As String, ByVal frm As RadForm)
         Dim sfd As SaveFileDialog = New SaveFileDialog()
         Dim Fullpath As String
         sfd.FileName = frm.Text
@@ -217,7 +215,7 @@ Public Class FrmConsumptionReport1
             path = sfd.FileName
             Fullpath = path
         Else
-            Return False
+            Exit Sub
         End If
         If Not path.Equals(String.Empty) Then
             Dim gv As New RadGridView()
@@ -259,14 +257,12 @@ Public Class FrmConsumptionReport1
                 xlsApp.Visible = True
                 xlsWB = xlsApp.Workbooks.Open(Fullpath)
                 'common.clsCommon.MyMessageBoxShow("Excel Report Created!", "Export", MessageBoxButtons.OK)
-                Return True
             Catch ex As Exception
                 frm.Controls.Remove(gv)
                 Throw New Exception(ex.Message)
-                Return False
             End Try
         End If
-    End Function
+    End Sub
     Private Sub exporter_ExcelCellFormatting(ByVal sender As Object, ByVal e As ExcelML.ExcelCellFormattingEventArgs)
         If e.GridRowInfoType Is GetType(GridViewTableHeaderRowInfo) Then
             e.ExcelStyleElement.FontStyle.Bold = False

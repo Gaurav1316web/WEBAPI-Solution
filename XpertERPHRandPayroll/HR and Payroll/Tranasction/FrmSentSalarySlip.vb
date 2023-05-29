@@ -325,7 +325,7 @@ Public Class FrmSentSalarySlip
                         Dim strTrgtFile As String = ("SalarySlip_" & dtt.Rows(i)("PAY_PERIOD_CODE") & "_" & dtt.Rows(i)("EMP_CODE")).ToString.Replace("/", "").Replace("\", "")
                         If rbtnFormat1.IsChecked = True Then
                             strStartupPath = GetReportPath(CrystalReportFolder.HRPayroll, "crptKDILSalarySlipFormat1", Nothing)
-                            If clsERPFuncationality.exportCrystalToPDF(dtFinal, strStartupPath, "crptKDILSalarySlipFormat1", strTrgtFile, strStartupPath) Then
+                            If clsERPFuncationalityOLD.exportCrystalToPDF(dtFinal, strStartupPath, "crptKDILSalarySlipFormat1", strTrgtFile, strStartupPath) Then
                                 arrTo = New List(Of String)
                                 If dtFinal.Rows.Count > 0 Then
                                     arrTo = New List(Of String)
@@ -362,7 +362,7 @@ Public Class FrmSentSalarySlip
                         Else
                             ' If clsERPFuncationality.exportCrystalToPDF(dtFinal, strStartupPath & "\Crystal Reports\HR_Payroll", "crptKDILSalarySlip ForSingleEmployee", strTrgtFile, strStartupPath) Then
                             strStartupPath = GetReportPath(CrystalReportFolder.HRPayroll, "crptKDILSalarySlip ForSingleEmployee", Nothing)
-                            If clsERPFuncationality.exportCrystalToPDF(dtFinal, strStartupPath, "crptKDILSalarySlip ForSingleEmployee", strTrgtFile, strStartupPath) Then
+                            If clsERPFuncationalityOLD.exportCrystalToPDF(dtFinal, strStartupPath, "crptKDILSalarySlip ForSingleEmployee", strTrgtFile, strStartupPath) Then
                                 arrTo = New List(Of String)
                                 If dtFinal.Rows.Count > 0 Then
                                     arrTo = New List(Of String)

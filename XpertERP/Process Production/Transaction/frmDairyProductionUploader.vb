@@ -763,7 +763,7 @@ ExitLOOP:
                 clsCommon.MyMessageBoxShow("Select Document No")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_PRODUCTION_UPLOADER_HEAD", "TSPL_PRODUCTION_UPLOADER_DETAIL")
+            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_PRODUCTION_UPLOADER_HEAD", "TSPL_PRODUCTION_UPLOADER_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -2355,7 +2355,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 clsCommon.MyMessageBoxShow("Select User")
                 Exit Sub
             End If
-            clsERPFuncationality.ShowHistoryData(fndUserCode.Value, "USER_Code", "TSPL_USER_MASTER")
+            clsERPFuncationalityOLD.ShowHistoryData(fndUserCode.Value, "USER_Code", "TSPL_USER_MASTER")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try

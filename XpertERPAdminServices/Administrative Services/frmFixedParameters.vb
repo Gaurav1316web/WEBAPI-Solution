@@ -94,7 +94,7 @@ Public Class FrmFixedParameters
     End Sub
 
     Private Sub gvInvoice_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gvInvoice.CellDoubleClick
-        clsERPFuncationality.ShowHistoryData(gvInvoice.CurrentRow.Cells("Type").Value, "Type", "TSPL_FIXED_PARAMETER", "", Nothing, "Code", gvInvoice.CurrentRow.Cells("Code").Value)
+        clsERPFuncationalityOLD.ShowHistoryData(gvInvoice.CurrentRow.Cells("Type").Value, "Type", "TSPL_FIXED_PARAMETER", "", Nothing, "Code", gvInvoice.CurrentRow.Cells("Code").Value)
     End Sub
 
     Private Sub btn_Export_Click(sender As Object, e As EventArgs) Handles btn_Export.Click

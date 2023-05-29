@@ -609,7 +609,7 @@ Public Class frmJWIItemPriceMaster
 
     Private Sub btnShowHistory_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShowHistory.Click
         Try
-            clsERPFuncationality.ShowTransHistoryData(txtCode.Value, "Price_Code", "TSPL_JOB_OUTWARD_PRICE_HEAD", "TSPL_JOB_OUTWARD_PRICE_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Price_Code", "TSPL_JOB_OUTWARD_PRICE_HEAD", "TSPL_JOB_OUTWARD_PRICE_DETAIL")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
