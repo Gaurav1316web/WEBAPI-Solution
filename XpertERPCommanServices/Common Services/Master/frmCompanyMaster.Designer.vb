@@ -23,11 +23,13 @@ Partial Class FrmCompanyMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmCompanyMaster))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtcomp_code1 = New common.Controls.MyTextBox()
+        Me.labcompcode1 = New common.Controls.MyLabel()
         Me.dtPanIssueDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.dtTinIssueDate = New common.Controls.MyDateTimePicker()
@@ -167,6 +169,8 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtcomp_code1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.labcompcode1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtPanIssueDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtTinIssueDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -306,6 +310,8 @@ Partial Class FrmCompanyMaster
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtcomp_code1)
+        Me.RadGroupBox1.Controls.Add(Me.labcompcode1)
         Me.RadGroupBox1.Controls.Add(Me.dtPanIssueDate)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel12)
         Me.RadGroupBox1.Controls.Add(Me.dtTinIssueDate)
@@ -399,6 +405,40 @@ Partial Class FrmCompanyMaster
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(807, 488)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'txtcomp_code1
+        '
+        Me.txtcomp_code1.CalculationExpression = Nothing
+        Me.txtcomp_code1.FieldCode = Nothing
+        Me.txtcomp_code1.FieldDesc = Nothing
+        Me.txtcomp_code1.FieldMaxLength = 0
+        Me.txtcomp_code1.FieldName = Nothing
+        Me.txtcomp_code1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtcomp_code1.isCalculatedField = False
+        Me.txtcomp_code1.IsSourceFromTable = False
+        Me.txtcomp_code1.IsSourceFromValueList = False
+        Me.txtcomp_code1.IsUnique = False
+        Me.txtcomp_code1.Location = New System.Drawing.Point(699, 5)
+        Me.txtcomp_code1.MaxLength = 100
+        Me.txtcomp_code1.MendatroryField = False
+        Me.txtcomp_code1.MyLinkLable1 = Me.labcompcode1
+        Me.txtcomp_code1.MyLinkLable2 = Nothing
+        Me.txtcomp_code1.Name = "txtcomp_code1"
+        Me.txtcomp_code1.ReferenceFieldDesc = Nothing
+        Me.txtcomp_code1.ReferenceFieldName = Nothing
+        Me.txtcomp_code1.ReferenceTableName = Nothing
+        Me.txtcomp_code1.Size = New System.Drawing.Size(95, 18)
+        Me.txtcomp_code1.TabIndex = 304
+        '
+        'labcompcode1
+        '
+        Me.labcompcode1.FieldName = Nothing
+        Me.labcompcode1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.labcompcode1.Location = New System.Drawing.Point(602, 6)
+        Me.labcompcode1.Name = "labcompcode1"
+        Me.labcompcode1.Size = New System.Drawing.Size(91, 16)
+        Me.labcompcode1.TabIndex = 305
+        Me.labcompcode1.Text = "Company Code1"
         '
         'dtPanIssueDate
         '
@@ -760,7 +800,6 @@ Partial Class FrmCompanyMaster
         Me.txtcust_name.Name = "txtcust_name"
         Me.txtcust_name.Size = New System.Drawing.Size(473, 19)
         Me.txtcust_name.TabIndex = 65
-        Me.txtcust_name.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel1
         '
@@ -1421,6 +1460,7 @@ Partial Class FrmCompanyMaster
         Me.cboDataBase.AutoCompleteDisplayMember = Nothing
         Me.cboDataBase.AutoCompleteValueMember = Nothing
         Me.cboDataBase.CalculationExpression = Nothing
+        Me.cboDataBase.DropDownAnimationEnabled = True
         Me.cboDataBase.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDataBase.FieldCode = Nothing
         Me.cboDataBase.FieldDesc = Nothing
@@ -1458,6 +1498,7 @@ Partial Class FrmCompanyMaster
         Me.ddlModeofTransp.AutoCompleteDisplayMember = Nothing
         Me.ddlModeofTransp.AutoCompleteValueMember = Nothing
         Me.ddlModeofTransp.CalculationExpression = Nothing
+        Me.ddlModeofTransp.DropDownAnimationEnabled = True
         Me.ddlModeofTransp.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlModeofTransp.FieldCode = Nothing
         Me.ddlModeofTransp.FieldDesc = Nothing
@@ -1468,12 +1509,12 @@ Partial Class FrmCompanyMaster
         Me.ddlModeofTransp.IsSourceFromTable = False
         Me.ddlModeofTransp.IsSourceFromValueList = False
         Me.ddlModeofTransp.IsUnique = False
-        RadListDataItem1.Text = "By Air"
-        RadListDataItem2.Text = "By Road"
-        RadListDataItem3.Text = "By Sea"
-        Me.ddlModeofTransp.Items.Add(RadListDataItem1)
-        Me.ddlModeofTransp.Items.Add(RadListDataItem2)
-        Me.ddlModeofTransp.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "By Air"
+        RadListDataItem5.Text = "By Road"
+        RadListDataItem6.Text = "By Sea"
+        Me.ddlModeofTransp.Items.Add(RadListDataItem4)
+        Me.ddlModeofTransp.Items.Add(RadListDataItem5)
+        Me.ddlModeofTransp.Items.Add(RadListDataItem6)
         Me.ddlModeofTransp.Location = New System.Drawing.Point(167, 339)
         Me.ddlModeofTransp.MendatroryField = False
         Me.ddlModeofTransp.MyLinkLable1 = Me.RadLabel2
@@ -1887,8 +1928,6 @@ Partial Class FrmCompanyMaster
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.menuImport, Me.menuExport, Me.menuClose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -1903,15 +1942,11 @@ Partial Class FrmCompanyMaster
         '
         'menuExport
         '
-        Me.menuExport.AccessibleDescription = "Export"
-        Me.menuExport.AccessibleName = "Export"
         Me.menuExport.Name = "menuExport"
         Me.menuExport.Text = "Export"
         '
         'menuClose
         '
-        Me.menuClose.AccessibleDescription = "Close"
-        Me.menuClose.AccessibleName = "Close"
         Me.menuClose.Name = "menuClose"
         Me.menuClose.Text = "Close"
         '
@@ -1932,7 +1967,6 @@ Partial Class FrmCompanyMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(830, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadPageView1
         '
@@ -1946,10 +1980,9 @@ Partial Class FrmCompanyMaster
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(828, 536)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemFitMode = Telerik.WinControls.UI.StripViewItemFitMode.None
@@ -2539,6 +2572,8 @@ Partial Class FrmCompanyMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtcomp_code1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.labcompcode1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtPanIssueDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtTinIssueDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2819,5 +2854,7 @@ Partial Class FrmCompanyMaster
     Friend WithEvents btnBGClear As Telerik.WinControls.UI.RadButton
     Friend WithEvents BGImage As System.Windows.Forms.PictureBox
     Friend WithEvents btnBackgroundselect As Telerik.WinControls.UI.RadButton
+    Friend WithEvents txtcomp_code1 As common.Controls.MyTextBox
+    Friend WithEvents labcompcode1 As common.Controls.MyLabel
 End Class
 
