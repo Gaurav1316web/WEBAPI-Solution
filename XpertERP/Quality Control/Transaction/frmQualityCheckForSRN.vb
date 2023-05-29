@@ -177,6 +177,7 @@ Public Class FrmQualityCheckForSRN
         RadPageView1.SelectedPage = RadPageViewPage1
         txtDesc.Focus()
         txtDesc.Select()
+        Array_Template = Nothing
     End Sub
 
     Private Sub FrmQualityCheckForSRN_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -649,7 +650,11 @@ Public Class FrmQualityCheckForSRN
         Dim obj As New clsQualityCheckForSRNHead()
         Try
             FunReset()
-            obj = clsQualityCheckForSRNHead.GetData(strCode, QC_Type, NavType)
+            Dim whrcls As String = ""
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls += "  and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            obj = clsQualityCheckForSRNHead.GetData(strCode, QC_Type, whrcls, NavType)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0 Then
                 isInsideLoadData = True
                 isNewEntry = False
@@ -1032,7 +1037,7 @@ Public Class FrmQualityCheckForSRN
     Private Sub fndVendor_code__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndVendor_code._MYValidating
         fndVendor_code.Value = clsVendorMaster.getFinder(" TSPL_VENDOR_MASTER.Status='N'", fndVendor_code.Value, isButtonClicked)
         TxtVendor_desc.Text = clsVendorMaster.GetName(fndVendor_code.Value, Nothing)
-        FillMRNGrid()
+        FillMRNGrid("")
     End Sub
 
     Private Sub txtBillToLocation__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtBillToLocation._MYValidating
@@ -1045,10 +1050,10 @@ Public Class FrmQualityCheckForSRN
         End If
         txtBillToLocation.Value = clsLocation.getFinder(whrcls, txtBillToLocation.Value, isButtonClicked)
         lblBillToLocation.Text = clsLocation.GetName(txtBillToLocation.Value, Nothing)
-        FillMRNGrid()
+        FillMRNGrid("")
     End Sub
 
-    Private Sub FillMRNGrid()
+    Private Sub FillMRNGrid(ByVal strMRN As String)
         Dim dt As New DataTable()
         Dim Cmpr_SRN_Type As String = ""
         Dim Cmpr_Item_Type As String = ""
@@ -1072,7 +1077,9 @@ Public Class FrmQualityCheckForSRN
             If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 qry += " and TSPL_MRN_Head.bill_to_location in (" + objCommonVar.strCurrUserLocations + ")"
             End If
-
+            If clsCommon.myLen(strMRN) > 0 Then
+                qry += " and TSPL_MRN_HEAD.MRN_No='" + strMRN + "'"
+            End If
             qry += " union all" + Environment.NewLine &
             " select null as Bin_No,vendor_code as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  from TSPL_SRN_DETAIL  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_HEAD.Status=1 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0  " + Environment.NewLine &
             " union all  " + Environment.NewLine &
@@ -1818,12 +1825,13 @@ Public Class FrmQualityCheckForSRN
             If Not rows Is Nothing Then
                 fndVendor_code.Value = clsCommon.myCstr(rows("Vendor Code"))
                 txtRALNo.Text = clsCommon.myCstr(rows("RAL No"))
+                Dim strMRN As String = clsCommon.myCstr(rows("MRN No"))
                 If clsCommon.myLen(fndVendor_code.Value) > 0 Then
                     TxtVendor_desc.Text = clsVendorMaster.GetName(fndVendor_code.Value, Nothing)
                     If objCommonVar.ApplyLocationFilterBasedOnPermission = True Then
                         txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_MRN_Head.Bill_To_Location from TSPL_MRN_Head where TSPL_MRN_Head.mrn_no='" + clsCommon.myCstr(rows("MRN No")) + "'", Nothing))
                     End If
-                    FillMRNGrid()
+                    FillMRNGrid(strMRN)
 
                     If SettItemWiseQualityCheckInGeneralPurchase = True Then
                         Dim iMRN As String = ""
@@ -2126,5 +2134,6 @@ Public Class FrmQualityCheckForSRN
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+
 
 End Class
