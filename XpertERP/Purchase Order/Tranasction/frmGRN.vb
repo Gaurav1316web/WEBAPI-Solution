@@ -485,6 +485,8 @@ Public Class frmGRN
         txtVendorNo.Value = ""
         lblVendorName.Text = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
+        fromDate.Value = clsCommon.GETSERVERDATE()
+        ToDate.Value = clsCommon.GETSERVERDATE()
         rbtnTaxCalAutomatic.IsChecked = True
         txtBillToLocation.Value = ""
         lblBillToLocation.Text = ""
@@ -7027,7 +7029,92 @@ Public Class frmGRN
         End Try
     End Sub
 
-    Private Sub cboVisualQCStatusSecond_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cboVisualQCStatusSecond.SelectedIndexChanged
+    Private Sub TxtFinderVendorPrint__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtFinderVendorPrint._MYValidating
+        Dim qry As String = "select distinct Vendor_Code,Vendor_Name from TSPL_GRN_HEAD "
+        TxtFinderVendorPrint.Value = clsCommon.ShowSelectForm("VnrPrt", qry, "Vendor_Code", "", TxtFinderVendorPrint.Value, "Vendor_Code", isButtonClicked)
+        lblVendorPrint.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name from tspl_grn_head WHERE Vendor_Code ='" + TxtFinderVendorPrint.Value + "'"))
+    End Sub
+
+    Private Sub TxtFinderItemPrint__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtFinderItemPrint._MYValidating
+        Dim qry As String = "select DISTINCT TSPL_GRN_DETAIL.item_code,TSPL_GRN_DETAIL.item_desc from TSPL_GRN_DETAIL 
+left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No 
+inner join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code"
+        Dim WHRCLS As String = " TSPL_ITEM_MASTER.Structure_Code='RM' "
+        TxtFinderItemPrint.Value = clsCommon.ShowSelectForm("itmPrt", qry, "item_code", WHRCLS, TxtFinderVendorPrint.Value, "item_code", isButtonClicked)
+        lblItemPrint.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_desc from TSPL_GRN_DETAIL WHERE item_code ='" + TxtFinderItemPrint.Value + "'"))
+    End Sub
+
+    Private Sub TxtFinderRalPrint__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtFinderRalPrint._MYValidating
+        Dim qry As String = "select distinct Ref_No,convert(date,tspl_tender_header.DocumentDate,103) as RalDate from TSPL_GRN_HEAD 
+inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.Ref_No"
+        TxtFinderRalPrint.Value = clsCommon.ShowSelectForm("itmPrt", qry, "Ref_No", "", TxtFinderRalPrint.Value, "Ref_No", isButtonClicked)
+        lblRalPrint.Text = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select DocumentDate from tspl_tender_header WHERE DocumentCode ='" + TxtFinderRalPrint.Value + "'"))
+    End Sub
+    Private Sub rmiEnglish_Click(sender As Object, e As EventArgs) Handles rmiEnglish.Click
+        PrintRejected(rmiEnglish.Text)
+    End Sub
+
+    Private Sub rmiHindi_Click(sender As Object, e As EventArgs) Handles rmiHindi.Click
+        PrintRejected(rmiHindi.Text)
+    End Sub
+
+    Private Sub PrintRejected(strBtnText As String)
+        Try
+            Dim StrWhere As String = ""
+            If clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage1.Name) = CompairStringResult.Equal Then
+                If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow(Me, "Document number not found")
+                    txtDocNo.Focus()
+                    Exit Sub
+                End If
+                StrWhere += " AND TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "'"
+            ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage7.Name) = CompairStringResult.Equal Then
+                If fromDate.Value > ToDate.Value Then
+                    common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
+                    fromDate.Focus()
+                    Exit Sub
+                End If
+
+                If clsCommon.myLen(TxtFinderVendorPrint.Value) > 0 Then
+                    StrWhere += " and TSPL_GRN_head.Vendor_Code = '" + TxtFinderVendorPrint.Value + "'"
+
+                ElseIf clsCommon.myLen(TxtFinderItemPrint.Value) > 0 Then
+                    StrWhere += " and TSPL_GRN_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'"
+
+                ElseIf clsCommon.myLen(TxtFinderRalPrint.Value) > 0 Then
+                    StrWhere += " and TSPL_GRN_head.Ref_No = '" + TxtFinderRalPrint.Value + "'"
+
+                End If
+                StrWhere += " and TSPL_GRN_head.Vendor_Code = '" + TxtFinderVendorPrint.Value + "' 
+                              and  TSPL_GRN_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'
+                              and TSPL_GRN_head.Ref_No = '" + TxtFinderRalPrint.Value + "'
+                            and convert(date,tspl_grn_head.GRN_Date,103)>= convert(date,('" & fromDate.Value & "'),103) and convert(date,tspl_grn_head.GRN_Date,103)<= convert(date,('" & ToDate.Value & "'),103)"
+                If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                    StrWhere += " and tspl_grn_head.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
+                End If
+            End If
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim qry As String = " Select TSPL_COMPANY_MASTER.Comp_Code   , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 as Comp_Add1, TSPL_COMPANY_MASTER.Add2 as Comp_Add2 , TSPL_COMPANY_MASTER.Add3 as Comp_Add3 , TSPL_COMPANY_MASTER.City_Code as Comp_City_Code, TSPL_COMPANY_MASTER.Email as Comp_Email , TSPL_COMPANY_MASTER.Pincode as Comp_Pincode , TSPL_COMPANY_MASTER.State as Comp_State , TSPL_COMPANY_MASTER.Tin_No as Comp_Tin_No , TSPL_COMPANY_MASTER.Logo_Img as Comp_Logo_Img , TSPL_COMPANY_MASTER.Logo_Img2 as Comp_Logo_Img2, TSPL_COMPANY_MASTER.GSTReg_No as Comp_GSTReg_No, TSPL_COMPANY_MASTER.CINNo as Comp_CINNo, TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1 , TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, tspl_grn_head.Ref_No,tspl_grn_head.GRN_Date,TSPL_GRN_head.Vendor_Code,TSPL_GRN_head.Vendor_Name,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAIL.Item_Desc,tspl_grn_head.VisualQCUpdatedDate,tspl_grn_head.VisualQCStatus,tspl_grn_head.VisualQCUpdatedDateSecond,tspl_grn_head.VisualQCStatusSecond,tspl_grn_head.VisualQCRemarks,tspl_grn_head.VisualQCRemarksSecond
+                                from tspl_grn_head 
+                                left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=tspl_grn_head.GRN_No
+                                inner join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
+                                left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code
+                                where tspl_grn_head.VisualQCStatus=2 or tspl_grn_head.VisualQCStatusSecond=2" + StrWhere
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow("No Record Found")
+                Exit Sub
+            Else
+                If clsCommon.CompairString(strBtnText, "English") = CompairStringResult.Equal Then
+                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCTenderWiseLabReportEnglish", "Rejected Report")
+                ElseIf clsCommon.CompairString(strBtnText, "Hindi") = CompairStringResult.Equal Then
+                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportRejectionHindi", "Rejected Report")
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+
 
     End Sub
 End Class

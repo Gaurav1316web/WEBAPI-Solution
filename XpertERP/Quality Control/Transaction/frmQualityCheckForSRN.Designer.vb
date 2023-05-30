@@ -22,8 +22,8 @@ Partial Class FrmQualityCheckForSRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmQualityCheckForSRN))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -65,10 +65,13 @@ Partial Class FrmQualityCheckForSRN
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.lblItemPrint = New common.Controls.MyLabel()
-        Me.TxtFinderItemPrint = New common.UserControls.txtFinder()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.lblRalPrint = New common.Controls.MyLabel()
+        Me.TxtFinderRalPrint = New common.UserControls.txtFinder()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.lblVendorPrint = New common.Controls.MyLabel()
+        Me.lblItemPrint = New common.Controls.MyLabel()
+        Me.TxtFinderItemPrint = New common.UserControls.txtFinder()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.TxtFinderVendorPrint = New common.UserControls.txtFinder()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -76,6 +79,7 @@ Partial Class FrmQualityCheckForSRN
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.btnRALWiseAnaysisPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnRejected = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiEnglish = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiHindi = New Telerik.WinControls.UI.RadMenuItem()
@@ -89,10 +93,6 @@ Partial Class FrmQualityCheckForSRN
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.TxtFinderRalPrint = New common.UserControls.txtFinder()
-        Me.lblRalPrint = New common.Controls.MyLabel()
-        Me.MyLabel11 = New common.Controls.MyLabel()
-        Me.btnRALWiseAnaysisPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -135,9 +135,11 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.RadPageViewPage3.SuspendLayout()
-        CType(Me.lblItemPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRalPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblItemPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
@@ -145,6 +147,7 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnRALWiseAnaysisPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAnalysisPrintVertical, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAnalysisPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -156,9 +159,6 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRalPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnRALWiseAnaysisPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -268,7 +268,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv_MRN.MasterTemplate.AllowDeleteRow = False
         Me.gv_MRN.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_MRN.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv_MRN.Name = "gv_MRN"
         Me.gv_MRN.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_MRN.ShowGroupPanel = False
@@ -306,7 +306,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -846,6 +846,74 @@ Partial Class FrmQualityCheckForSRN
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1038, 410)
         Me.RadPageViewPage3.Text = "Multiple Doc Print"
         '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.Location = New System.Drawing.Point(8, 112)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel11.TabIndex = 63
+        Me.MyLabel11.Text = "RAL No."
+        '
+        'lblRalPrint
+        '
+        Me.lblRalPrint.AutoSize = False
+        Me.lblRalPrint.BorderVisible = True
+        Me.lblRalPrint.Enabled = False
+        Me.lblRalPrint.FieldName = Nothing
+        Me.lblRalPrint.Location = New System.Drawing.Point(213, 109)
+        Me.lblRalPrint.Name = "lblRalPrint"
+        Me.lblRalPrint.Size = New System.Drawing.Size(243, 19)
+        Me.lblRalPrint.TabIndex = 62
+        '
+        'TxtFinderRalPrint
+        '
+        Me.TxtFinderRalPrint.CalculationExpression = Nothing
+        Me.TxtFinderRalPrint.FieldCode = Nothing
+        Me.TxtFinderRalPrint.FieldDesc = Nothing
+        Me.TxtFinderRalPrint.FieldMaxLength = 0
+        Me.TxtFinderRalPrint.FieldName = Nothing
+        Me.TxtFinderRalPrint.isCalculatedField = False
+        Me.TxtFinderRalPrint.IsSourceFromTable = False
+        Me.TxtFinderRalPrint.IsSourceFromValueList = False
+        Me.TxtFinderRalPrint.IsUnique = False
+        Me.TxtFinderRalPrint.Location = New System.Drawing.Point(65, 109)
+        Me.TxtFinderRalPrint.MendatroryField = True
+        Me.TxtFinderRalPrint.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtFinderRalPrint.MyLinkLable1 = Me.MyLabel6
+        Me.TxtFinderRalPrint.MyLinkLable2 = Me.lblVendorPrint
+        Me.TxtFinderRalPrint.MyReadOnly = False
+        Me.TxtFinderRalPrint.MyShowMasterFormButton = False
+        Me.TxtFinderRalPrint.Name = "TxtFinderRalPrint"
+        Me.TxtFinderRalPrint.ReferenceFieldDesc = Nothing
+        Me.TxtFinderRalPrint.ReferenceFieldName = Nothing
+        Me.TxtFinderRalPrint.ReferenceTableName = Nothing
+        Me.TxtFinderRalPrint.Size = New System.Drawing.Size(142, 19)
+        Me.TxtFinderRalPrint.TabIndex = 61
+        Me.TxtFinderRalPrint.Value = ""
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(8, 60)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel6.TabIndex = 57
+        Me.MyLabel6.Text = "Vendor"
+        '
+        'lblVendorPrint
+        '
+        Me.lblVendorPrint.AutoSize = False
+        Me.lblVendorPrint.BorderVisible = True
+        Me.lblVendorPrint.Enabled = False
+        Me.lblVendorPrint.FieldName = Nothing
+        Me.lblVendorPrint.Location = New System.Drawing.Point(213, 59)
+        Me.lblVendorPrint.Name = "lblVendorPrint"
+        Me.lblVendorPrint.Size = New System.Drawing.Size(243, 19)
+        Me.lblVendorPrint.TabIndex = 56
+        '
         'lblItemPrint
         '
         Me.lblItemPrint.AutoSize = False
@@ -882,27 +950,6 @@ Partial Class FrmQualityCheckForSRN
         Me.TxtFinderItemPrint.Size = New System.Drawing.Size(142, 19)
         Me.TxtFinderItemPrint.TabIndex = 59
         Me.TxtFinderItemPrint.Value = ""
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(8, 60)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(43, 16)
-        Me.MyLabel6.TabIndex = 57
-        Me.MyLabel6.Text = "Vendor"
-        '
-        'lblVendorPrint
-        '
-        Me.lblVendorPrint.AutoSize = False
-        Me.lblVendorPrint.BorderVisible = True
-        Me.lblVendorPrint.Enabled = False
-        Me.lblVendorPrint.FieldName = Nothing
-        Me.lblVendorPrint.Location = New System.Drawing.Point(213, 59)
-        Me.lblVendorPrint.Name = "lblVendorPrint"
-        Me.lblVendorPrint.Size = New System.Drawing.Size(243, 19)
-        Me.lblVendorPrint.TabIndex = 56
         '
         'MyLabel8
         '
@@ -1000,6 +1047,15 @@ Partial Class FrmQualityCheckForSRN
         Me.fromDate.TabStop = False
         Me.fromDate.Text = "24/10/2011"
         Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'btnRALWiseAnaysisPrint
+        '
+        Me.btnRALWiseAnaysisPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRALWiseAnaysisPrint.Location = New System.Drawing.Point(642, 5)
+        Me.btnRALWiseAnaysisPrint.Name = "btnRALWiseAnaysisPrint"
+        Me.btnRALWiseAnaysisPrint.Size = New System.Drawing.Size(120, 22)
+        Me.btnRALWiseAnaysisPrint.TabIndex = 64
+        Me.btnRALWiseAnaysisPrint.Text = "RAL Wise Anaysis Print"
         '
         'btnRejected
         '
@@ -1114,62 +1170,6 @@ Partial Class FrmQualityCheckForSRN
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'TxtFinderRalPrint
-        '
-        Me.TxtFinderRalPrint.CalculationExpression = Nothing
-        Me.TxtFinderRalPrint.FieldCode = Nothing
-        Me.TxtFinderRalPrint.FieldDesc = Nothing
-        Me.TxtFinderRalPrint.FieldMaxLength = 0
-        Me.TxtFinderRalPrint.FieldName = Nothing
-        Me.TxtFinderRalPrint.isCalculatedField = False
-        Me.TxtFinderRalPrint.IsSourceFromTable = False
-        Me.TxtFinderRalPrint.IsSourceFromValueList = False
-        Me.TxtFinderRalPrint.IsUnique = False
-        Me.TxtFinderRalPrint.Location = New System.Drawing.Point(65, 109)
-        Me.TxtFinderRalPrint.MendatroryField = True
-        Me.TxtFinderRalPrint.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtFinderRalPrint.MyLinkLable1 = Me.MyLabel6
-        Me.TxtFinderRalPrint.MyLinkLable2 = Me.lblVendorPrint
-        Me.TxtFinderRalPrint.MyReadOnly = False
-        Me.TxtFinderRalPrint.MyShowMasterFormButton = False
-        Me.TxtFinderRalPrint.Name = "TxtFinderRalPrint"
-        Me.TxtFinderRalPrint.ReferenceFieldDesc = Nothing
-        Me.TxtFinderRalPrint.ReferenceFieldName = Nothing
-        Me.TxtFinderRalPrint.ReferenceTableName = Nothing
-        Me.TxtFinderRalPrint.Size = New System.Drawing.Size(142, 19)
-        Me.TxtFinderRalPrint.TabIndex = 61
-        Me.TxtFinderRalPrint.Value = ""
-        '
-        'lblRalPrint
-        '
-        Me.lblRalPrint.AutoSize = False
-        Me.lblRalPrint.BorderVisible = True
-        Me.lblRalPrint.Enabled = False
-        Me.lblRalPrint.FieldName = Nothing
-        Me.lblRalPrint.Location = New System.Drawing.Point(213, 109)
-        Me.lblRalPrint.Name = "lblRalPrint"
-        Me.lblRalPrint.Size = New System.Drawing.Size(243, 19)
-        Me.lblRalPrint.TabIndex = 62
-        '
-        'MyLabel11
-        '
-        Me.MyLabel11.FieldName = Nothing
-        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(8, 112)
-        Me.MyLabel11.Name = "MyLabel11"
-        Me.MyLabel11.Size = New System.Drawing.Size(49, 16)
-        Me.MyLabel11.TabIndex = 63
-        Me.MyLabel11.Text = "RAL No."
-        '
-        'btnRALWiseAnaysisPrint
-        '
-        Me.btnRALWiseAnaysisPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnRALWiseAnaysisPrint.Location = New System.Drawing.Point(642, 5)
-        Me.btnRALWiseAnaysisPrint.Name = "btnRALWiseAnaysisPrint"
-        Me.btnRALWiseAnaysisPrint.Size = New System.Drawing.Size(120, 22)
-        Me.btnRALWiseAnaysisPrint.TabIndex = 64
-        Me.btnRALWiseAnaysisPrint.Text = "RAL Wise Anaysis Print"
-        '
         'FrmQualityCheckForSRN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1226,9 +1226,11 @@ Partial Class FrmQualityCheckForSRN
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
-        CType(Me.lblItemPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRalPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblItemPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
@@ -1237,6 +1239,7 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnRALWiseAnaysisPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAnalysisPrintVertical, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAnalysisPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1248,9 +1251,6 @@ Partial Class FrmQualityCheckForSRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRalPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnRALWiseAnaysisPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

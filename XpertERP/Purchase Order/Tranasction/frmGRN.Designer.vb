@@ -22,22 +22,22 @@ Partial Class frmGRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -189,10 +189,28 @@ Partial Class frmGRN
         Me.btnQCUpdate = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel25 = New common.Controls.MyLabel()
+        Me.MyLabel24 = New common.Controls.MyLabel()
+        Me.MyLabel23 = New common.Controls.MyLabel()
+        Me.lblRalPrint = New common.Controls.MyLabel()
+        Me.lblItemPrint = New common.Controls.MyLabel()
+        Me.lblVendorPrint = New common.Controls.MyLabel()
+        Me.TxtFinderItemPrint = New common.UserControls.txtFinder()
+        Me.TxtFinderRalPrint = New common.UserControls.txtFinder()
+        Me.TxtFinderVendorPrint = New common.UserControls.txtFinder()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel19 = New common.Controls.MyLabel()
+        Me.MyLabel20 = New common.Controls.MyLabel()
+        Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnRejected = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiEnglish = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiHindi = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btn_Amendment = New Telerik.WinControls.UI.RadButton()
         Me.btncancel = New Telerik.WinControls.UI.RadButton()
@@ -354,7 +372,21 @@ Partial Class frmGRN
         CType(Me.btnQCUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage7.SuspendLayout()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRalPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblItemPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVendorPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_Amendment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btncancel, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -384,6 +416,7 @@ Partial Class frmGRN
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnRejected)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_Amendment)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btncancel)
@@ -405,11 +438,12 @@ Partial Class frmGRN
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage6)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage7)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView1.Size = New System.Drawing.Size(1013, 429)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1711,7 +1745,7 @@ Partial Class frmGRN
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1964,7 +1998,7 @@ Partial Class frmGRN
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -2024,7 +2058,7 @@ Partial Class frmGRN
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -2093,7 +2127,7 @@ Partial Class frmGRN
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
         Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvACInsurance.ShowGroupPanel = False
@@ -2544,17 +2578,17 @@ Partial Class frmGRN
         Me.cboVisualQCStatusSecond.IsSourceFromTable = False
         Me.cboVisualQCStatusSecond.IsSourceFromValueList = False
         Me.cboVisualQCStatusSecond.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Ok"
-        RadListDataItem3.Text = "Not Ok"
-        RadListDataItem4.Text = "Partial Ok"
-        RadListDataItem5.Text = "Hold"
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem1)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem2)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem3)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem4)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem5)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem6)
+        RadListDataItem13.Text = "Select"
+        RadListDataItem14.Text = "Ok"
+        RadListDataItem15.Text = "Not Ok"
+        RadListDataItem16.Text = "Partial Ok"
+        RadListDataItem17.Text = "Hold"
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem13)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem14)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem15)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem16)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem17)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem18)
         Me.cboVisualQCStatusSecond.Location = New System.Drawing.Point(63, 43)
         Me.cboVisualQCStatusSecond.MendatroryField = True
         Me.cboVisualQCStatusSecond.MyLinkLable1 = Nothing
@@ -2764,17 +2798,17 @@ Partial Class frmGRN
         Me.cboVisualQCStatus.IsSourceFromTable = False
         Me.cboVisualQCStatus.IsSourceFromValueList = False
         Me.cboVisualQCStatus.IsUnique = False
-        RadListDataItem7.Text = "Select"
-        RadListDataItem8.Text = "Ok"
-        RadListDataItem9.Text = "Not Ok"
-        RadListDataItem10.Text = "Partial Ok"
-        RadListDataItem11.Text = "Hold"
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem7)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem8)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem9)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem10)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem11)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem12)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Ok"
+        RadListDataItem3.Text = "Not Ok"
+        RadListDataItem4.Text = "Partial Ok"
+        RadListDataItem5.Text = "Hold"
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem1)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem2)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem3)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem4)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem5)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem6)
         Me.cboVisualQCStatus.Location = New System.Drawing.Point(63, 43)
         Me.cboVisualQCStatus.MendatroryField = True
         Me.cboVisualQCStatus.MyLinkLable1 = Nothing
@@ -2815,6 +2849,226 @@ Partial Class frmGRN
         Me.MyLabel13.TabIndex = 138
         Me.MyLabel13.Text = "Status"
         '
+        'RadPageViewPage7
+        '
+        Me.RadPageViewPage7.Controls.Add(Me.MyLabel25)
+        Me.RadPageViewPage7.Controls.Add(Me.MyLabel24)
+        Me.RadPageViewPage7.Controls.Add(Me.MyLabel23)
+        Me.RadPageViewPage7.Controls.Add(Me.lblRalPrint)
+        Me.RadPageViewPage7.Controls.Add(Me.lblItemPrint)
+        Me.RadPageViewPage7.Controls.Add(Me.lblVendorPrint)
+        Me.RadPageViewPage7.Controls.Add(Me.TxtFinderItemPrint)
+        Me.RadPageViewPage7.Controls.Add(Me.TxtFinderRalPrint)
+        Me.RadPageViewPage7.Controls.Add(Me.TxtFinderVendorPrint)
+        Me.RadPageViewPage7.Controls.Add(Me.RadGroupBox3)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(105.0!, 26.0!)
+        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage7.Name = "RadPageViewPage7"
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(992, 383)
+        Me.RadPageViewPage7.Text = "Multiple Doc Print"
+        '
+        'MyLabel25
+        '
+        Me.MyLabel25.FieldName = Nothing
+        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel25.Location = New System.Drawing.Point(11, 118)
+        Me.MyLabel25.Name = "MyLabel25"
+        Me.MyLabel25.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel25.TabIndex = 64
+        Me.MyLabel25.Text = "RAL No."
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel24.Location = New System.Drawing.Point(11, 93)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(28, 16)
+        Me.MyLabel24.TabIndex = 63
+        Me.MyLabel24.Text = "Item"
+        '
+        'MyLabel23
+        '
+        Me.MyLabel23.FieldName = Nothing
+        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel23.Location = New System.Drawing.Point(11, 68)
+        Me.MyLabel23.Name = "MyLabel23"
+        Me.MyLabel23.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel23.TabIndex = 62
+        Me.MyLabel23.Text = "Vendor"
+        '
+        'lblRalPrint
+        '
+        Me.lblRalPrint.AutoSize = False
+        Me.lblRalPrint.BorderVisible = True
+        Me.lblRalPrint.Enabled = False
+        Me.lblRalPrint.FieldName = Nothing
+        Me.lblRalPrint.Location = New System.Drawing.Point(225, 115)
+        Me.lblRalPrint.Name = "lblRalPrint"
+        Me.lblRalPrint.Size = New System.Drawing.Size(243, 19)
+        Me.lblRalPrint.TabIndex = 61
+        '
+        'lblItemPrint
+        '
+        Me.lblItemPrint.AutoSize = False
+        Me.lblItemPrint.BorderVisible = True
+        Me.lblItemPrint.Enabled = False
+        Me.lblItemPrint.FieldName = Nothing
+        Me.lblItemPrint.Location = New System.Drawing.Point(225, 91)
+        Me.lblItemPrint.Name = "lblItemPrint"
+        Me.lblItemPrint.Size = New System.Drawing.Size(243, 19)
+        Me.lblItemPrint.TabIndex = 60
+        '
+        'lblVendorPrint
+        '
+        Me.lblVendorPrint.AutoSize = False
+        Me.lblVendorPrint.BorderVisible = True
+        Me.lblVendorPrint.Enabled = False
+        Me.lblVendorPrint.FieldName = Nothing
+        Me.lblVendorPrint.Location = New System.Drawing.Point(225, 66)
+        Me.lblVendorPrint.Name = "lblVendorPrint"
+        Me.lblVendorPrint.Size = New System.Drawing.Size(243, 19)
+        Me.lblVendorPrint.TabIndex = 59
+        '
+        'TxtFinderItemPrint
+        '
+        Me.TxtFinderItemPrint.CalculationExpression = Nothing
+        Me.TxtFinderItemPrint.FieldCode = Nothing
+        Me.TxtFinderItemPrint.FieldDesc = Nothing
+        Me.TxtFinderItemPrint.FieldMaxLength = 0
+        Me.TxtFinderItemPrint.FieldName = Nothing
+        Me.TxtFinderItemPrint.isCalculatedField = False
+        Me.TxtFinderItemPrint.IsSourceFromTable = False
+        Me.TxtFinderItemPrint.IsSourceFromValueList = False
+        Me.TxtFinderItemPrint.IsUnique = False
+        Me.TxtFinderItemPrint.Location = New System.Drawing.Point(74, 90)
+        Me.TxtFinderItemPrint.MendatroryField = True
+        Me.TxtFinderItemPrint.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtFinderItemPrint.MyLinkLable1 = Me.MyLabel6
+        Me.TxtFinderItemPrint.MyLinkLable2 = Nothing
+        Me.TxtFinderItemPrint.MyReadOnly = False
+        Me.TxtFinderItemPrint.MyShowMasterFormButton = False
+        Me.TxtFinderItemPrint.Name = "TxtFinderItemPrint"
+        Me.TxtFinderItemPrint.ReferenceFieldDesc = Nothing
+        Me.TxtFinderItemPrint.ReferenceFieldName = Nothing
+        Me.TxtFinderItemPrint.ReferenceTableName = Nothing
+        Me.TxtFinderItemPrint.Size = New System.Drawing.Size(142, 20)
+        Me.TxtFinderItemPrint.TabIndex = 58
+        Me.TxtFinderItemPrint.Value = ""
+        '
+        'TxtFinderRalPrint
+        '
+        Me.TxtFinderRalPrint.CalculationExpression = Nothing
+        Me.TxtFinderRalPrint.FieldCode = Nothing
+        Me.TxtFinderRalPrint.FieldDesc = Nothing
+        Me.TxtFinderRalPrint.FieldMaxLength = 0
+        Me.TxtFinderRalPrint.FieldName = Nothing
+        Me.TxtFinderRalPrint.isCalculatedField = False
+        Me.TxtFinderRalPrint.IsSourceFromTable = False
+        Me.TxtFinderRalPrint.IsSourceFromValueList = False
+        Me.TxtFinderRalPrint.IsUnique = False
+        Me.TxtFinderRalPrint.Location = New System.Drawing.Point(75, 116)
+        Me.TxtFinderRalPrint.MendatroryField = True
+        Me.TxtFinderRalPrint.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtFinderRalPrint.MyLinkLable1 = Me.MyLabel6
+        Me.TxtFinderRalPrint.MyLinkLable2 = Nothing
+        Me.TxtFinderRalPrint.MyReadOnly = False
+        Me.TxtFinderRalPrint.MyShowMasterFormButton = False
+        Me.TxtFinderRalPrint.Name = "TxtFinderRalPrint"
+        Me.TxtFinderRalPrint.ReferenceFieldDesc = Nothing
+        Me.TxtFinderRalPrint.ReferenceFieldName = Nothing
+        Me.TxtFinderRalPrint.ReferenceTableName = Nothing
+        Me.TxtFinderRalPrint.Size = New System.Drawing.Size(142, 20)
+        Me.TxtFinderRalPrint.TabIndex = 57
+        Me.TxtFinderRalPrint.Value = ""
+        '
+        'TxtFinderVendorPrint
+        '
+        Me.TxtFinderVendorPrint.CalculationExpression = Nothing
+        Me.TxtFinderVendorPrint.FieldCode = Nothing
+        Me.TxtFinderVendorPrint.FieldDesc = Nothing
+        Me.TxtFinderVendorPrint.FieldMaxLength = 0
+        Me.TxtFinderVendorPrint.FieldName = Nothing
+        Me.TxtFinderVendorPrint.isCalculatedField = False
+        Me.TxtFinderVendorPrint.IsSourceFromTable = False
+        Me.TxtFinderVendorPrint.IsSourceFromValueList = False
+        Me.TxtFinderVendorPrint.IsUnique = False
+        Me.TxtFinderVendorPrint.Location = New System.Drawing.Point(74, 65)
+        Me.TxtFinderVendorPrint.MendatroryField = True
+        Me.TxtFinderVendorPrint.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtFinderVendorPrint.MyLinkLable1 = Me.MyLabel6
+        Me.TxtFinderVendorPrint.MyLinkLable2 = Nothing
+        Me.TxtFinderVendorPrint.MyReadOnly = False
+        Me.TxtFinderVendorPrint.MyShowMasterFormButton = False
+        Me.TxtFinderVendorPrint.Name = "TxtFinderVendorPrint"
+        Me.TxtFinderVendorPrint.ReferenceFieldDesc = Nothing
+        Me.TxtFinderVendorPrint.ReferenceFieldName = Nothing
+        Me.TxtFinderVendorPrint.ReferenceTableName = Nothing
+        Me.TxtFinderVendorPrint.Size = New System.Drawing.Size(142, 20)
+        Me.TxtFinderVendorPrint.TabIndex = 56
+        Me.TxtFinderVendorPrint.Value = ""
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.MyLabel19)
+        Me.RadGroupBox3.Controls.Add(Me.MyLabel20)
+        Me.RadGroupBox3.Controls.Add(Me.ToDate)
+        Me.RadGroupBox3.Controls.Add(Me.fromDate)
+        Me.RadGroupBox3.HeaderText = "Date Range"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(13, 14)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(310, 42)
+        Me.RadGroupBox3.TabIndex = 55
+        Me.RadGroupBox3.Text = "Date Range"
+        '
+        'MyLabel19
+        '
+        Me.MyLabel19.FieldName = Nothing
+        Me.MyLabel19.Location = New System.Drawing.Point(130, 16)
+        Me.MyLabel19.Name = "MyLabel19"
+        Me.MyLabel19.Size = New System.Drawing.Size(19, 18)
+        Me.MyLabel19.TabIndex = 3
+        Me.MyLabel19.Text = "To"
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Location = New System.Drawing.Point(5, 16)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(32, 18)
+        Me.MyLabel20.TabIndex = 2
+        Me.MyLabel20.Text = "From"
+        '
+        'ToDate
+        '
+        Me.ToDate.CustomFormat = "dd/MM/yyyy"
+        Me.ToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.ToDate.Location = New System.Drawing.Point(157, 15)
+        Me.ToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.ToDate.Name = "ToDate"
+        Me.ToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.ToDate.Size = New System.Drawing.Size(78, 20)
+        Me.ToDate.TabIndex = 1
+        Me.ToDate.TabStop = False
+        Me.ToDate.Text = "24/10/2011"
+        Me.ToDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'fromDate
+        '
+        Me.fromDate.CustomFormat = "dd/MM/yyyy"
+        Me.fromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.fromDate.Location = New System.Drawing.Point(44, 15)
+        Me.fromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromDate.Name = "fromDate"
+        Me.fromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.fromDate.Size = New System.Drawing.Size(78, 20)
+        Me.fromDate.TabIndex = 0
+        Me.fromDate.TabStop = False
+        Me.fromDate.Text = "24/10/2011"
+        Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
         'RadMenu1
         '
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
@@ -2839,6 +3093,28 @@ Partial Class frmGRN
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
+        'btnRejected
+        '
+        Me.btnRejected.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnRejected.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiEnglish, Me.rmiHindi})
+        Me.btnRejected.Location = New System.Drawing.Point(395, 4)
+        Me.btnRejected.Name = "btnRejected"
+        Me.btnRejected.Size = New System.Drawing.Size(83, 22)
+        Me.btnRejected.TabIndex = 159
+        Me.btnRejected.Text = "Rejected Analysis Print"
+        '
+        'rmiEnglish
+        '
+        Me.rmiEnglish.Name = "rmiEnglish"
+        Me.rmiEnglish.Text = "English"
+        Me.rmiEnglish.UseCompatibleTextRendering = False
+        '
+        'rmiHindi
+        '
+        Me.rmiHindi.Name = "rmiHindi"
+        Me.rmiHindi.Text = "Hindi"
+        Me.rmiHindi.UseCompatibleTextRendering = False
+        '
         'RadButton1
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -2854,7 +3130,7 @@ Partial Class frmGRN
         '
         Me.btn_Amendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_Amendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Amendment.Location = New System.Drawing.Point(468, 4)
+        Me.btn_Amendment.Location = New System.Drawing.Point(482, 5)
         Me.btn_Amendment.Name = "btn_Amendment"
         Me.btn_Amendment.Size = New System.Drawing.Size(69, 22)
         Me.btn_Amendment.TabIndex = 7
@@ -2875,7 +3151,7 @@ Partial Class frmGRN
         '
         Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnpost.Location = New System.Drawing.Point(395, 4)
+        Me.btnUnpost.Location = New System.Drawing.Point(555, 5)
         Me.btnUnpost.Name = "btnUnpost"
         Me.btnUnpost.Size = New System.Drawing.Size(69, 22)
         Me.btnUnpost.TabIndex = 4
@@ -3106,7 +3382,23 @@ Partial Class frmGRN
         CType(Me.btnQCUpdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage7.ResumeLayout(False)
+        Me.RadPageViewPage7.PerformLayout()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRalPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblItemPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVendorPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnRejected, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_Amendment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btncancel, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3284,5 +3576,23 @@ Partial Class frmGRN
     Friend WithEvents cboVisualQCStatusSecond As common.Controls.MyComboBox
     Friend WithEvents RadPageViewPage6 As RadPageViewPage
     Friend WithEvents UcAttachment1 As ucAttachment
+    Friend WithEvents RadPageViewPage7 As RadPageViewPage
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents MyLabel19 As common.Controls.MyLabel
+    Friend WithEvents MyLabel20 As common.Controls.MyLabel
+    Friend WithEvents ToDate As RadDateTimePicker
+    Friend WithEvents fromDate As RadDateTimePicker
+    Friend WithEvents TxtFinderItemPrint As common.UserControls.txtFinder
+    Friend WithEvents TxtFinderRalPrint As common.UserControls.txtFinder
+    Friend WithEvents TxtFinderVendorPrint As common.UserControls.txtFinder
+    Friend WithEvents lblRalPrint As common.Controls.MyLabel
+    Friend WithEvents lblItemPrint As common.Controls.MyLabel
+    Friend WithEvents lblVendorPrint As common.Controls.MyLabel
+    Friend WithEvents btnRejected As RadSplitButton
+    Friend WithEvents rmiEnglish As RadMenuItem
+    Friend WithEvents rmiHindi As RadMenuItem
+    Friend WithEvents MyLabel23 As common.Controls.MyLabel
+    Friend WithEvents MyLabel24 As common.Controls.MyLabel
+    Friend WithEvents MyLabel25 As common.Controls.MyLabel
 End Class
 
