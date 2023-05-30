@@ -200,6 +200,12 @@
     <Compile Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkCollectionGenerate.Designer.vb">
+      <DependentUpon>frmMilkCollectionGenerate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkCollectionGenerate.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMilkCollectionMCCQC.Designer.vb">
       <DependentUpon>frmMilkCollectionMCCQC.vb</DependentUpon>
     </Compile>
@@ -620,6 +626,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.resx">
       <DependentUpon>rptTruckSheetDailySummaryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionGenerate.resx">
+      <DependentUpon>frmMilkCollectionGenerate.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionMCCQC.resx">
       <DependentUpon>frmMilkCollectionMCCQC.vb</DependentUpon>

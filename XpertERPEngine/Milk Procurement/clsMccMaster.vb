@@ -2585,12 +2585,12 @@ Public Class clsEkoPro
             End If
 
             dclReturnMilkValue = (dclReturnMilkValue * ((100 - dclDedPer) / 100))
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                dclReturnMilkValue = clsCommon.myRoundOFF(dclReturnMilkValue, 2, 9)
-            Else
-                dclReturnMilkValue = clsCommon.myRoundOFF(dclReturnMilkValue, 2, 4)
-            End If
-
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then ''By Kislay on 30/05/2023
+            '    dclReturnMilkValue = clsCommon.myRoundOFF(dclReturnMilkValue, 2, 9)
+            'Else
+            '    dclReturnMilkValue = clsCommon.myRoundOFF(dclReturnMilkValue, 2, 4)
+            'End If
+            dclReturnMilkValue = clsCommon.myRoundOFF(dclReturnMilkValue, 2, 4)
             If dclReturnMilkValue < 0 Then
                 dclReturnMilkValue = 0
             End If
