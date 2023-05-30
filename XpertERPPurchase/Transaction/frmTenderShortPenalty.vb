@@ -80,7 +80,9 @@ Public Class frmTenderShortPenalty
     Sub AddNew()
         BlankAllControls()
         txtDate.Focus()
-        RadButton1.Visible = False
+        'RadButton1.Visible = False
+        RadButton2.Enabled = True
+        RadButton3.Enabled = True
     End Sub
     Function AllowToSave() As Boolean
         Try
@@ -155,11 +157,15 @@ Public Class frmTenderShortPenalty
                 btnSave.Enabled = True
                 btnPost.Enabled = True
                 btnDelete.Enabled = True
+                RadButton2.Enabled = True
+                RadButton3.Enabled = True
                 btnSave.Text = "Update"
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
+                    RadButton2.Enabled = False
+                    RadButton3.Enabled = False
                 End If
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
@@ -311,6 +317,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 RadButton1.Visible = True
+                RadButton3.Visible = True
             End If
         End If
     End Sub
@@ -466,6 +473,68 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub Calculate(ByVal OnlyClearPenalty As Boolean)
+        Try
+            If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
+                txtBillToLocation.Focus()
+                Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(txtTenderNo.Value) <= 0 Then
+                txtTenderNo.Focus()
+                Throw New Exception("Please select " + txtTenderNo.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
+                txtVendorNo.Focus()
+                Throw New Exception("Please select " + txtVendorNo.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(txtItem.Value) <= 0 Then
+                txtItem.Focus()
+                Throw New Exception("Please select " + txtItem.MyLinkLable1.Text)
+            End If
+            Dim qry As String = "and not exists(select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_HEAD.SRN_No)
+and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_TENDER_PENALTY_DETAIL.Document_No not in ('" + txtDocNo.Value + "') ) "
+            qry = GetBaseQery("0", qry)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim arrSRN As New List(Of String)
+            For ii As Integer = 0 To dt.Rows.Count - 1
+                If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
+                    arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
+                End If
+            Next
+
+            Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+            Try
+                clsSRNHead.DeleteSRNDeduction(arrSRN, txtItem.Value, tran)
+                If Not OnlyClearPenalty Then
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
+                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, tran)
+                        Else
+                            Exit For
+                        End If
+                    Next
+                End If
+                tran.Commit()
+            Catch ex As Exception
+                tran.Rollback()
+                Throw New Exception(ex.Message)
+            End Try
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            For ii As Integer = 0 To dt.Rows.Count - 1
+                If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
+                    dt.Rows(ii)("FinalStatus") = 1
+                Else
+                    Exit For
+                End If
+            Next
+            SetGridFormation(dt)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
         Try
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
@@ -536,8 +605,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             End If
             Dim whr As String = "  exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode='" + txtTenderNo.Value + "' and TSPL_TENDER_DETAIL.Location='" + txtBillToLocation.Value + "' and TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) "
             txtItem.Value = clsItemMaster.getFinder(whr, txtItem.Value, isButtonClicked)
-            lblItem.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtItem.Value + "'"))
-
+            lblItem.Text = clsItemMaster.GetItemName(txtItem.Value, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtItem.Value = ""
@@ -567,60 +635,7 @@ where TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.R
     End Function
 
     Private Sub RadButton2_Click_1(sender As Object, e As EventArgs) Handles RadButton2.Click
-        Try
-            If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-                txtBillToLocation.Focus()
-                Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)
-            End If
-            If clsCommon.myLen(txtTenderNo.Value) <= 0 Then
-                txtTenderNo.Focus()
-                Throw New Exception("Please select " + txtTenderNo.MyLinkLable1.Text)
-            End If
-            If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                txtVendorNo.Focus()
-                Throw New Exception("Please select " + txtVendorNo.MyLinkLable1.Text)
-            End If
-            If clsCommon.myLen(txtItem.Value) <= 0 Then
-                txtItem.Focus()
-                Throw New Exception("Please select " + txtItem.MyLinkLable1.Text)
-            End If
-            Dim qry As String = "and not exists(select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_HEAD.SRN_No)
-and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_TENDER_PENALTY_DETAIL.Document_No not in ('" + txtDocNo.Value + "') ) "
-            qry = GetBaseQery("0", qry)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            Dim arrSRN As New List(Of String)
-            For ii As Integer = 0 To dt.Rows.Count - 1
-                arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
-            Next
-
-            Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
-            Try
-                clsSRNHead.DeleteSRNDeduction(arrSRN, txtItem.Value, tran)
-                For ii As Integer = 0 To dt.Rows.Count - 1
-                    If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
-                        clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, tran)
-                    Else
-                        Exit For
-                    End If
-                Next
-                tran.Commit()
-            Catch ex As Exception
-                tran.Rollback()
-                Throw New Exception(ex.Message)
-            End Try
-
-            dt = clsDBFuncationality.GetDataTable(qry)
-            For ii As Integer = 0 To dt.Rows.Count - 1
-                If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
-                    dt.Rows(ii)("FinalStatus") = 1
-                Else
-                    Exit For
-                End If
-            Next
-            SetGridFormation(dt)
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        Calculate(False)
     End Sub
 
     Sub SetGridFormation(ByVal dt As DataTable)
@@ -741,5 +756,9 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
         gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv1.MasterTemplate.ShowRowHeaderColumn = False
         gv1.TableElement.TableHeaderHeight = 40
+    End Sub
+
+    Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
+        Calculate(True)
     End Sub
 End Class
