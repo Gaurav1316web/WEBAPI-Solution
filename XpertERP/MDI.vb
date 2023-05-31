@@ -7683,6 +7683,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmTankerProvision
                         frm = New frmTankerProvision
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.MilkCollectionGenerate
+                        frm = New frmMilkCollectionGenerate
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MilkCollectionMCC
                         Dim x As Boolean = objCommonVar.IsAutoTabOrdering
                         frm = New frmMilkCollectionMCC
