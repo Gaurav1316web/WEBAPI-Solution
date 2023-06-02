@@ -3588,8 +3588,8 @@ Public Class FrmStockRecoBatch
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmProcessProductionStandardization, strTransCode)
                             'Case "BulkSRNTrade"
                             '    clsOpenTransactionForm.OpenTransacionForm(EnumTransType.BulkSRNTrade, strTransCode)
-                        Case "DispatchBSTrade"
-                            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTrade, strTransCode)
+                        'Case "DispatchBSTrade"
+                        '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTrade, strTransCode)
                         Case "DispChallan"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCDispatch, strTransCode)
                         Case "MilkTransferIn"
@@ -3606,8 +3606,8 @@ Public Class FrmStockRecoBatch
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.mbtnGatePass, strTransCode)
                         Case "PROD_ENTRY"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmProductionEntry, strTransCode)
-                        Case "MCC-IISSUE"
-                            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strTransCode)
+                        'Case "MCC-IISSUE"
+                        '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strTransCode)
                         Case "FS-SH"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDispatchMultipleFreshSale, strTransCode)
                         Case "PS-SH"

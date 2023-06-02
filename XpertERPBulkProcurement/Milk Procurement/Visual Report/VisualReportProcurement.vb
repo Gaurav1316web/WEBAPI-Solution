@@ -274,7 +274,7 @@ Public Class VisualReportProcurement
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.ExciseSummary1 & "'"))
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" &"'))
 
             Dim sfd As SaveFileDialog = New SaveFileDialog()
             Dim filePath As String
@@ -296,7 +296,7 @@ Public Class VisualReportProcurement
     Private Sub txtPlant__My_Click(sender As Object, e As EventArgs) Handles txtPlant._My_Click
         Dim qry As String = "select  Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where Type='PLANT'"
         txtPlant.arrValueMember = clsCommon.ShowMultipleSelectForm("VRPCUPLT", qry, "Code", "Name", txtPlant.arrValueMember, txtPlant.arrDispalyMember)
-        RefreshMCC()
+            RefreshMCC()
         RefreshRoute()
         RefreshVLC()
     End Sub

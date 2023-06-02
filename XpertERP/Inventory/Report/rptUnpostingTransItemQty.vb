@@ -1104,10 +1104,10 @@ Public Class RptUnpostingTransItemQty
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkJobWorkTransferOther, strDocNo)
                 End If
                 ' VSPTRAN
-            ElseIf clsCommon.CompairString(strTransType, "VSP_Item_Issue") = CompairStringResult.Equal Then
-                If clsCommon.myLen(strDocNo) > 0 Then
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strDocNo)
-                End If
+                'ElseIf clsCommon.CompairString(strTransType, "VSP_Item_Issue") = CompairStringResult.Equal Then
+                '    If clsCommon.myLen(strDocNo) > 0 Then
+                '        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strDocNo)
+                '    End If
                 'VSPASSETISSUE
             ElseIf clsCommon.CompairString(strTransType, "VSP_Asset_Issue") = CompairStringResult.Equal Then
                 If clsCommon.myLen(strDocNo) > 0 Then

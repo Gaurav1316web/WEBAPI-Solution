@@ -586,11 +586,11 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(vehicle_Code)
             ContextMenuStrip1.Items.Add(vehicleNo)
             ContextMenuStrip1.Items.Add(Against_Shipment_No)
-        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSynchronization) = CompairStringResult.Equal Then
-            ContextMenuStrip1.Items.Add(MCCName)
-            ContextMenuStrip1.Items.Add(Synchroniz_By_User)
-            ContextMenuStrip1.Items.Add(Synchroniz_Date)
-            ContextMenuStrip1.Items.Add(Synchronization_Msg)
+            'ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmSynchronization) = CompairStringResult.Equal Then
+            '    ContextMenuStrip1.Items.Add(MCCName)
+            '    ContextMenuStrip1.Items.Add(Synchroniz_By_User)
+            '    ContextMenuStrip1.Items.Add(Synchroniz_Date)
+            '    ContextMenuStrip1.Items.Add(Synchronization_Msg)
             ' Ticket No : MIL/11/02/19-000040 by prabhakar for sync MCC to Server SMS & Email
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmMilkSRN) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(MCCName)
@@ -602,9 +602,9 @@ Public Class frmEMailAndSMSSetting
             'SNO,Shift,FAT_PER,SNF_PER,TotalNoVSP
             ContextMenuStrip1.Items.Add(Detail_Data)
             ContextMenuStrip1.Items.Add(Heading)
-        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.FrmSendSMSMultipleUser) = CompairStringResult.Equal Then
-            ContextMenuStrip1.Items.Add(SmsText)
-            ContextMenuStrip1.Items.Add(SmsSendBy)
+            'ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.FrmSendSMSMultipleUser) = CompairStringResult.Equal Then
+            '    ContextMenuStrip1.Items.Add(SmsText)
+            '    ContextMenuStrip1.Items.Add(SmsSendBy)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.FrmSentSalarySlip) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(PayHeadCode)
             ContextMenuStrip1.Items.Add(EmpName)

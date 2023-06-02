@@ -32,7 +32,7 @@ Public Class FrmMCCProcurementCycle
         LblMilkRcp.Text = ProgramCodeNew.GetProgramName(LblMilkRcp.Tag)
         LblMilkSample.Tag = clsUserMgtCode.frmMilkSample
         LblMilkSample.Text = ProgramCodeNew.GetProgramName(LblMilkSample.Tag)
-        LblMilTrSh.Tag = clsUserMgtCode.MilkTruckSheet
+        'LblMilTrSh.Tag = clsUserMgtCode.MilkTruckSheet
         LblMilTrSh.Text = ProgramCodeNew.GetProgramName(LblMilTrSh.Tag)
         LblVLCDataUpl.Tag = clsUserMgtCode.frmVlcdataUploadar
         LblVLCDataUpl.Text = ProgramCodeNew.GetProgramName(LblVLCDataUpl.Tag)
@@ -51,7 +51,7 @@ Public Class FrmMCCProcurementCycle
         OvlOpenMCC.Tag = clsUserMgtCode.frmOpenMCCShift
         OvlMilkRcp.Tag = clsUserMgtCode.frmMilkReceipt
         OvlMilkRcp.Tag = clsUserMgtCode.frmMilkSample
-        OvlMilkTrSh.Tag = clsUserMgtCode.MilkTruckSheet
+        'OvlMilkTrSh.Tag = clsUserMgtCode.MilkTruckSheet
         OvlVLCDataUpl.Tag = clsUserMgtCode.frmVlcdataUploadar
         OvlMilkShiftEnd.Tag = clsUserMgtCode.frmMilkShiftEndMCC
         OvlTankerDispatch.Tag = clsUserMgtCode.frmMCCDispatch

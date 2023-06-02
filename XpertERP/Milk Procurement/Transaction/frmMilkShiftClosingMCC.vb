@@ -2375,11 +2375,11 @@ Public Class frmMilkShiftClosingMCC
         End Try
     End Sub
 
-    Private Sub BtnMilkTruckSheet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnMilkTruckSheet.Click
-        Dim frm As New FrmMilkTruckSheet
-        frm.SetUserMgmt(clsUserMgtCode.MilkTruckSheet)
-        frm.Show()
-    End Sub
+    'Private Sub BtnMilkTruckSheet_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnMilkTruckSheet.Click
+    '    Dim frm As New FrmMilkTruckSheet
+    '    frm.SetUserMgmt(clsUserMgtCode.MilkTruckSheet)
+    '    frm.Show()
+    'End Sub
 
     Private Sub TxtManualFat_Per_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TxtManualFat_Per.TextChanged
         If clsCommon.myLen(clsCommon.myCstr(TxtManualStock.Text)) > 0 Then

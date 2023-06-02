@@ -39,10 +39,10 @@ Public Class FrmRequisitionApproval
             If AllowToSave() Then
 
                 If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmRequisitionApproval, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                    Else
-                        Return
-                    End If
+                    'If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmRequisitionApproval, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                    'Else
+                    '    Return
+                    'End If
                 End If
                 Dim obj As New clsRequisitionApproval()
                 obj.Level1 = clsCommon.myCdbl(txtLevel1.Text)
