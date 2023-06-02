@@ -164,6 +164,12 @@
     <Compile Include="Bulk Procurement\Master\frmTankerCleaningItem.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Bulk Procurement\Master\frmNewDCSScreen.Designer.vb">
+      <DependentUpon>frmNewDCSScreen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Procurement\Master\frmNewDCSScreen.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\FrmOwnBmcExpanse.Designer.vb">
       <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>
     </Compile>
@@ -192,6 +198,12 @@
       <DependentUpon>rptTruckSheetDailySummaryReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkCollectionGenerate.Designer.vb">
+      <DependentUpon>frmMilkCollectionGenerate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMilkCollectionGenerate.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMilkCollectionMCCQC.Designer.vb">
@@ -597,6 +609,9 @@
     <EmbeddedResource Include="Bulk Procurement\Master\frmTankerCleaningItem.resx">
       <DependentUpon>frmTankerCleaningItem.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Procurement\Master\frmNewDCSScreen.resx">
+      <DependentUpon>frmNewDCSScreen.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\FrmOwnBmcExpanse.resx">
       <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>
     </EmbeddedResource>
@@ -611,6 +626,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.resx">
       <DependentUpon>rptTruckSheetDailySummaryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionGenerate.resx">
+      <DependentUpon>frmMilkCollectionGenerate.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionMCCQC.resx">
       <DependentUpon>frmMilkCollectionMCCQC.vb</DependentUpon>

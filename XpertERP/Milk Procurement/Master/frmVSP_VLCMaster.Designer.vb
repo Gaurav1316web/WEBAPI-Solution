@@ -237,10 +237,10 @@ Partial Class frmVSP_VLCMaster
         Me.RadLabel30 = New common.Controls.MyLabel()
         Me.txtCredit = New common.Controls.MyTextBox()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkApplyCowPrice = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel47 = New common.Controls.MyLabel()
         Me.chkSuspense = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtLoyaltyPer = New common.MyNumBox()
-        Me.chkApplyCowPrice = New Telerik.WinControls.UI.RadCheckBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.btnImportMultipleMaster = New Telerik.WinControls.UI.RadButton()
         Me.btnExportMultipleMaster = New Telerik.WinControls.UI.RadButton()
@@ -477,10 +477,10 @@ Partial Class frmVSP_VLCMaster
         CType(Me.RadLabel30, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCredit, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.chkApplyCowPrice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSuspense, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLoyaltyPer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkApplyCowPrice, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
         CType(Me.btnImportMultipleMaster, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExportMultipleMaster, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1240,7 +1240,7 @@ Partial Class frmVSP_VLCMaster
         Me.pageCus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pageCus.Location = New System.Drawing.Point(9, 76)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage3
+        Me.pageCus.SelectedPage = Me.RadPageViewPage2
         Me.pageCus.Size = New System.Drawing.Size(1066, 523)
         Me.pageCus.TabIndex = 5
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -4218,6 +4218,15 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1045, 477)
         Me.RadPageViewPage3.Text = "VLC Detail"
         '
+        'chkApplyCowPrice
+        '
+        Me.chkApplyCowPrice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkApplyCowPrice.Location = New System.Drawing.Point(243, 155)
+        Me.chkApplyCowPrice.Name = "chkApplyCowPrice"
+        Me.chkApplyCowPrice.Size = New System.Drawing.Size(103, 16)
+        Me.chkApplyCowPrice.TabIndex = 132
+        Me.chkApplyCowPrice.Text = "Apply Cow Price"
+        '
         'MyLabel47
         '
         Me.MyLabel47.FieldName = Nothing
@@ -4264,15 +4273,6 @@ Partial Class frmVSP_VLCMaster
         Me.txtLoyaltyPer.Text = "0"
         Me.txtLoyaltyPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtLoyaltyPer.Value = 0R
-        '
-        'chkApplyCowPrice
-        '
-        Me.chkApplyCowPrice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkApplyCowPrice.Location = New System.Drawing.Point(243, 155)
-        Me.chkApplyCowPrice.Name = "chkApplyCowPrice"
-        Me.chkApplyCowPrice.Size = New System.Drawing.Size(103, 16)
-        Me.chkApplyCowPrice.TabIndex = 132
-        Me.chkApplyCowPrice.Text = "Apply Cow Price"
         '
         'GroupBox2
         '
@@ -5102,10 +5102,10 @@ Partial Class frmVSP_VLCMaster
         CType(Me.txtCredit, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
+        CType(Me.chkApplyCowPrice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSuspense, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLoyaltyPer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkApplyCowPrice, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         CType(Me.btnImportMultipleMaster, System.ComponentModel.ISupportInitialize).EndInit()

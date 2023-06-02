@@ -1378,11 +1378,11 @@ Public Class clsPaymentProcessHead
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             ''Update AP Invoice Balance Amont Type Debit/Credit Note/ItemIssue/ItemIssueRetrun
             qry = "update TSPL_VENDOR_INVOICE_HEAD  set Balance_Amt=xx.BalanceAmt from (" + Environment.NewLine +
-            " select AP_Invoice_No,( Amount-Reduce_Deduc_Amt) as BalanceAmt from TSPL_PAYMENT_PROCESS_DEDUCTION where Doc_No='" + strDocNo + "'  " + Environment.NewLine +
+            " select AP_Invoice_No,( Amount) as BalanceAmt from TSPL_PAYMENT_PROCESS_DEDUCTION where Doc_No='" + strDocNo + "'  " + Environment.NewLine +
             " union all " + Environment.NewLine +
             " select AP_Invoice_No,(Amount) as BalanceAmt from TSPL_PAYMENT_PROCESS_CREDIT_NOTE where Doc_No='" + strDocNo + "'  " + Environment.NewLine +
             "union all" + Environment.NewLine +
-            "select AP_Invoice_No,(Amount-Reduce_Deduc_Amt) as BalanceAmt from TSPL_PAYMENT_PROCESS_ITEM_ISSUE where Doc_No='" + strDocNo + "'" + Environment.NewLine +
+            "select AP_Invoice_No,(Amount) as BalanceAmt from TSPL_PAYMENT_PROCESS_ITEM_ISSUE where Doc_No='" + strDocNo + "'" + Environment.NewLine +
             "union all" + Environment.NewLine +
             "select AP_Invoice_No,(Amount) as BalanceAmt from TSPL_PAYMENT_PROCESS_ITEM_ISSUE_RETURN  where Doc_No='" + strDocNo + "'" + Environment.NewLine +
             " )xx " + Environment.NewLine +

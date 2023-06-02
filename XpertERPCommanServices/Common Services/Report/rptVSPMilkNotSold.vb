@@ -114,7 +114,7 @@ Public Class rptVSPMilkNotSold
                         group by TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_MILK_SRN_HEAD.MCC_CODE
                         union all
                         SELECT TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_MILK_SRN_HEAD.MCC_CODE,2 as RI  from TSPL_MILK_SRN_HEAD
-                        where TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtCycleDate.Rows(0)("From_Date")), "dd/MMM/yyyy HH:mm:ss tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtCycleDate.Rows(0)("To_Date")), "dd/MMM/yyyy HH:mm:ss tt") + "'  
+                        where TSPL_MILK_SRN_HEAD.DOC_DATE < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "'  
                         group by TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_MILK_SRN_HEAD.MCC_CODE
                         )xx group by VSP_CODE,MCC_CODE having   sum(case when RI=2 then 1 else -1 end)>0) As ClosedDCS ON ClosedDCS.VSP_CODE=tmp1.Vendor_CODE
                         Left Outer Join  TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=ClosedDCS.MCC_CODE

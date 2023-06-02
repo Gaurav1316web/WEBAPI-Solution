@@ -1,0 +1,586 @@
+﻿Imports System.Data.SqlClient
+Imports common
+
+Public Class frmMilkCollectionGenerate
+    Inherits FrmMainTranScreen
+
+#Region "Variables"
+    Private isCellValueChangedOpen As Boolean = False
+    Private isNewEntry As Boolean = False
+    Private isInsideLoadData As Boolean = False
+    Dim ButtonToolTip As ToolTip = New ToolTip()
+    Private isCellValueChangedTaxOpen As Boolean = False
+#End Region
+    Private Sub SetUserMgmtNew()
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+    End Sub
+    Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'SetUserMgmtNew()
+        'txtVendorNo.MendatroryField = True
+        'ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
+        'ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
+        'ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
+        'ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        'ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
+        'AddNew()
+        'SetLength()
+        'If clsCommon.myLen(Me.Tag) > 0 Then
+        '    LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+        'End If
+    End Sub
+
+    Sub SetLength()
+        'txtDocNo.MyMaxLength = 30
+        'txtRemarks.MaxLength = 200
+    End Sub
+    Sub BlankAllControls()
+        'txtDocNo.Value = ""
+        'txtVendorNo.Value = ""
+        'lblVendorName.Text = ""
+        'txtDate.Value = clsCommon.GETSERVERDATE()
+        'txtBillToLocation.Value = ""
+        'lblBillToLocation.Text = ""
+        'txtItem.Value = ""
+        'lblItem.Text = ""
+        'txtTenderNo.Value = ""
+        'txtBillToLocation.Enabled = True
+        'txtItem.Enabled = True
+        'UsLock1.Status = ERPTransactionStatus.Pending
+        'isNewEntry = True
+        'btnSave.Text = "Save"
+        'btnSave.Enabled = True
+        'btnPost.Enabled = False
+        'btnDelete.Enabled = False
+
+        'EnableDisableControls(True)
+
+        'gv1.DataSource = Nothing
+        'gv1.Columns.Clear()
+        'gv1.Rows.Clear()
+    End Sub
+
+    Sub EnableDisableControls(ByVal val As Boolean)
+        'txtTenderNo.Enabled = val
+        'txtVendorNo.Enabled = val
+        'txtItem.Enabled = val
+        'txtBillToLocation.Enabled = val
+    End Sub
+    Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        AddNew()
+    End Sub
+    Sub AddNew()
+        'BlankAllControls()
+        'txtDate.Focus()
+        ''RadButton1.Visible = False
+        'RadButton2.Enabled = True
+        'RadButton3.Enabled = True
+    End Sub
+    Function AllowToSave() As Boolean
+        'Try
+        '    For ii As Integer = 0 To gv1.Rows.Count - 1
+        '        If clsCommon.myCBool(gv1.Rows(ii).Cells("UserStatus").Value) Then
+        '            If clsCommon.myCDecimal(gv1.Rows(ii).Cells("FinalStatus").Value) = 0 Then
+        '                Throw New Exception("Invalid GRN [" + clsCommon.myCstr(gv1.Rows(ii).Cells("GRN_No").Value) + "] Because SRN should be Posted")
+        '            End If
+        '            If ii > 0 Then
+        '                If Not clsCommon.myCBool(gv1.Rows(ii - 1).Cells("UserStatus").Value) Then
+        '                    Throw New Exception("Please First Check GRN [" + clsCommon.myCstr(gv1.Rows(ii - 1).Cells("GRN_No").Value) + "]")
+        '                End If
+        '            End If
+        '        End If
+        '    Next
+        'Catch ex As Exception
+        '    Throw New Exception(ex.Message)
+        'End Try
+        'Return True
+    End Function
+    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
+        SaveData(False)
+    End Sub
+    Sub SaveData(ByVal ChekBtnPost As Boolean, Optional ByVal isamendment As Boolean = False)
+        'Dim obj As New clsTenderPenalty()
+        'Try
+        '    btnSave.Focus()
+        '    If (AllowToSave()) Then
+        '        obj.Document_No = txtDocNo.Value
+        '        obj.Document_Date = txtDate.Value
+        '        obj.Tender_No = txtTenderNo.Value
+        '        obj.Vendor_Code = txtVendorNo.Value
+        '        obj.Item_Code = txtItem.Value
+        '        obj.Location_Code = txtBillToLocation.Value
+        '        obj.Remarks = txtRemarks.Text
+        '        obj.Arr = New ArrayList()
+        '        For Each grow As GridViewRowInfo In gv1.Rows
+        '            If clsCommon.myCBool(grow.Cells("UserStatus").Value) Then
+        '                obj.Arr.Add(clsCommon.myCstr(grow.Cells("SRN_No").Value))
+        '            End If
+        '        Next
+        '        If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
+        '            Throw New Exception("Please Fill at list one Item")
+        '        End If
+        '        If (obj.SaveData(obj, isNewEntry)) Then
+        '            If ChekBtnPost = False Then
+        '                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+        '            End If
+        '            LoadData(obj.Document_No, NavigatorType.Current)
+        '        End If
+        '    End If
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'Finally
+        '    obj = Nothing
+        'End Try
+    End Sub
+    Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+        Dim obj As New clsTenderPenalty()
+        'Try
+        '    btnSave.Enabled = True
+        '    btnPost.Enabled = False
+        '    btnDelete.Enabled = False
+        '    isInsideLoadData = False
+        '    isNewEntry = True
+        '    btnSave.Text = "Save"
+        '    BlankAllControls()
+        '    obj = clsTenderPenalty.GetData(strCode, NavTyep, Nothing)
+        '    If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
+        '        isInsideLoadData = True
+        '        isNewEntry = False
+        '        btnSave.Enabled = True
+        '        btnPost.Enabled = True
+        '        btnDelete.Enabled = True
+        '        RadButton2.Enabled = True
+        '        RadButton3.Enabled = True
+        '        btnSave.Text = "Update"
+        '        If obj.Status = ERPTransactionStatus.Approved Then
+        '            btnSave.Enabled = False
+        '            btnPost.Enabled = False
+        '            btnDelete.Enabled = False
+        '            RadButton2.Enabled = False
+        '            RadButton3.Enabled = False
+        '        End If
+        '        UsLock1.Status = obj.Status
+        '        txtDocNo.Value = obj.Document_No
+        '        txtDate.Value = obj.Document_Date
+        '        txtTenderNo.Value = obj.Tender_No
+        '        txtVendorNo.Value = obj.Vendor_Code
+        '        lblVendorName.Text = obj.VendorName
+        '        txtItem.Value = obj.Item_Code
+        '        lblItem.Text = obj.ItemName
+        '        txtBillToLocation.Value = obj.Location_Code
+        '        lblBillToLocation.Text = obj.LocationName
+        '        txtRemarks.Text = obj.Remarks
+
+
+        '        EnableDisableControls(False)
+
+        '        Dim qry As String = " and  TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(obj.Arr) + ")"
+        '        qry = GetBaseQery("1", qry)
+        '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+
+        '        SetGridFormation(dt)
+        '    End If
+        'Catch ex As Exception
+        '    isNewEntry = True
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'Finally
+        '    isInsideLoadData = False
+        '    obj = Nothing
+        'End Try
+    End Sub
+    Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        CloseForm()
+    End Sub
+    Sub CloseForm()
+        Me.Close()
+    End Sub
+
+
+
+
+
+
+    Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
+        'If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnAddNew.Enabled Then
+        '    AddNew()
+        'ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
+        '    SaveData(False)
+        'ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag AndAlso btnPost.Enabled Then
+        '    PostData()
+        'ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
+        '    DeleteData()
+        'ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
+        '    CloseForm()
+        'ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+        '    Dim frm As New FrmPWD(Nothing)
+        '    frm.strType = "sirc"
+        '    frm.strCode = "sireversandcreate"
+        '    frm.ShowDialog()
+        '    If frm.isPasswordCorrect Then
+        '        RadButton1.Visible = True
+        '        RadButton3.Visible = True
+        '    End If
+        'End If
+    End Sub
+    Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
+        e.Cancel = True
+    End Sub
+    'Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
+    '    Dim arrTaxableAuth As New List(Of String)
+    '    Dim dblLeak As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colLeakQty).Value)
+    '    Dim dblBurst As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colBurstQty).Value)
+    '    Dim dblShort As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colShortQty).Value)
+    '    Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colQty).Value)
+    '    If chkVendorGrossReceipt.Checked Then
+    '        dblQty = dblQty + dblLeak + dblBurst + dblShort
+    '    End If
+    '    If Not clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(colQCStatus).Value) Then
+    '        dblQty = 0
+    '    End If
+    '    Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colRate).Value)
+    '    Dim dblAmt As Double = dblQty * dblRate
+    '    If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colRowType).Value), RowTypeItem) = CompairStringResult.Equal Then
+    '        gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 2)
+    '    ElseIf clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(colIsInsurance).Value) AndAlso clsCommon.myLen(gv1.Rows(IntRowNo).Cells(colGRNNo).Value) <= 0 Then
+    '        dblAmt = (clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colInsuranceBaseAmt).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colInsurancePer).Value)) / 100
+    '        gv1.Rows(IntRowNo).Cells(colAmt).Value = Math.Round(dblAmt, 2)
+    '    Else
+    '        dblAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colAmt).Value)
+    '    End If
+
+    '    Dim dblHeaderDisAmt As Decimal = Math.Round(dblAmt * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeaderDiscountPer).Value) / 100, 2, MidpointRounding.AwayFromZero)
+    '    Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
+    '    Dim dblDetailDisAmt As Decimal = (dblAmt * dblDisPer) / 100
+    '    Dim dblDisAmt As Double = dblDetailDisAmt + dblHeaderDisAmt
+    '    Dim dblAmtAfterDis As Double = dblAmt - dblDisAmt
+
+    '    Dim dblTotAmt As Decimal = 0
+    '    For jj As Integer = 0 To gv1.Rows.Count - 1
+    '        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(jj).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
+    '            If jj = IntRowNo Then
+    '                dblTotAmt += dblAmt
+    '            Else
+    '                dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmt).Value)
+    '            End If
+    '        End If
+    '    Next
+    '    Dim dclItemInsuranceAdditionalChargePart As Decimal = 0
+    '    If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
+    '        dclItemInsuranceAdditionalChargePart = Math.Round(clsCommon.myCDivide((clsCommon.myCdbl(lblAddChargesForInsurance.Text)) * dblAmt, dblTotAmt), 2, MidpointRounding.AwayFromZero)
+    '    Else
+    '        gv1.Rows(IntRowNo).Cells(colItemInsurancePer).Value = 0
+    '        gv1.Rows(IntRowNo).Cells(colItemInsuranceAmt).Value = 0
+    '    End If
+    '    Dim dclItemInsuranceBaseAmt As Decimal = dblAmtAfterDis + dclItemInsuranceAdditionalChargePart
+    '    Dim dclItemInsuranceAmt As Decimal = 0
+    '    If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(colItemInsuranceApplyOn).Value), clsCalculationlApplyON.RowTypeApplyOnPercent) = CompairStringResult.Equal Then
+    '        dclItemInsuranceAmt = dclItemInsuranceBaseAmt * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colItemInsurancePer).Value) / 100
+    '    Else
+    '        dclItemInsuranceAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colItemInsuranceAmt).Value)
+    '    End If
+    '    Dim dclItemAmtAfterInsurance As Decimal = dblAmtAfterDis + dclItemInsuranceAmt + dclItemInsuranceAdditionalChargePart
+
+
+    '    Dim dblCurrentTaxablePer As Decimal = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colTaxableAmountPer).Value)
+    '    Dim dblCurrentTaxableAmount As Decimal = dclItemAmtAfterInsurance * dblCurrentTaxablePer / 100
+
+
+    '    For ii As Integer = 1 To 10
+    '        Dim Strii As String = clsCommon.myCstr(ii)
+    '        If rbtnTaxCalAutomatic.IsChecked Then
+    '            Dim strTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAX" + Strii)).Value)
+    '            If clsCommon.myLen(strTaxCode) > 0 Then
+    '                Dim dblTaxRate As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value)
+    '                Dim IsSurTax As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISSURTAX" + Strii)).Value)
+    '                Dim strSurTaxCode As String = clsCommon.myCstr(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + Strii)).Value)
+    '                Dim IsTaxable As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + Strii)).Value)
+    '                Dim IsExcisable As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" + Strii)).Value)
+    '                Dim IsTaxOnBaseAmt As Boolean = clsCommon.myCBool(gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxOnBaseAmt" + Strii)).Value)
+    '                Dim dblBaseAmt As Double = 0
+    '                Dim dblTaxAmt As Double = 0
+    '                If IsTaxOnBaseAmt Then
+    '                    dblBaseAmt = dblCurrentTaxableAmount
+    '                ElseIf IsSurTax Then
+    '                    Dim dblSurTaxAmt As Double = GetCurrentRowSurTaxAmt(IntRowNo, ii, strSurTaxCode)
+    '                    dblBaseAmt = dblSurTaxAmt
+    '                Else
+    '                    Dim dblOtherTaxAmt As Double = 0
+    '                    dblOtherTaxAmt = GetCurrentRowOtherTaxAmt(IntRowNo, Strii, arrTaxableAuth)
+    '                    dblBaseAmt = (dblCurrentTaxableAmount + dblOtherTaxAmt)
+    '                End If
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Math.Round(dblBaseAmt, 2)
+    '                dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Math.Round(dblTaxAmt, 2)
+    '                If IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper()) Then
+    '                    arrTaxableAuth.Add(strTaxCode.ToUpper())
+    '                End If
+    '            Else
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTax" + Strii)).Value = Nothing
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = Nothing
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxRate" + Strii)).Value = Nothing
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = Nothing
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISSURTAX" + Strii)).Value = Nothing
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + Strii)).Value = Nothing
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + Strii)).Value = Nothing
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" + Strii)).Value = Nothing
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxOnBaseAmt" + Strii)).Value = Nothing
+    '            End If
+    '        ElseIf rbtnTaxCalManual.IsChecked Then
+    '            If gv2.Rows.Count >= ii Then
+    '                Dim dblTaxAmt As Double = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxAmt).Value)
+    '                Dim dblTaxRate As Double = clsCommon.myCdbl(gv2.Rows(ii - 1).Cells(colTTaxRate).Value)
+    '                Dim dblCurrRowAmt As Double = clsCommon.myCdbl(gv1.Rows(clsCommon.myCdbl(IntRowNo)).Cells(colAmtAfterDis).Value)
+    '                dblTotAmt = 0
+    '                For jj As Integer = 0 To gv1.Rows.Count - 1
+    '                    dblTotAmt += clsCommon.myCdbl(gv1.Rows(jj).Cells(colAmtAfterDis).Value)
+    '                Next
+    '                Dim dblCurrCalTax As Double = 0
+    '                If dblTotAmt <> 0 Then
+    '                    dblCurrCalTax = Math.Round(clsCommon.myCdbl(dblTaxAmt * dblCurrRowAmt / dblTotAmt), 2, MidpointRounding.ToEven)
+    '                End If
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXBASEAMT" + Strii)).Value = dblCurrRowAmt
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("colTaxAmt" + Strii)).Value = dblCurrCalTax
+    '                gv1.Rows(IntRowNo).Cells(clsCommon.myCstr("COLTAXRATE" + Strii)).Value = dblTaxRate
+    '            End If
+    '        End If
+    '    Next
+    '    Dim dblTotTaxAmt As Double = GetCurrentRowTotalTaxAmt(IntRowNo)
+    '    Dim dblAmtAfterTax As Double = dblAmtAfterDis + dclItemInsuranceAdditionalChargePart + dclItemInsuranceAmt + dblTotTaxAmt
+
+    '    gv1.Rows(IntRowNo).Cells(colHeaderDiscountAmt).Value = Math.Round(dblHeaderDisAmt, 2)
+    '    gv1.Rows(IntRowNo).Cells(colDetailDisAmt).Value = Math.Round(dblDetailDisAmt, 2)
+
+    '    gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
+    '    gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
+
+    '    gv1.Rows(IntRowNo).Cells(colItemInsuranceBaseAmt).Value = Math.Round(dclItemInsuranceBaseAmt, 2)
+    '    gv1.Rows(IntRowNo).Cells(colItemInsuranceAmt).Value = Math.Round(dclItemInsuranceAmt, 2)
+    '    gv1.Rows(IntRowNo).Cells(colItemAmtAfterInsurance).Value = Math.Round(dclItemAmtAfterInsurance, 2)
+
+    '    gv1.Rows(IntRowNo).Cells(colTaxableAmount).Value = Math.Round(dblCurrentTaxableAmount, 2)
+    '    gv1.Rows(IntRowNo).Cells(colTotTaxAmt).Value = Math.Round(dblTotTaxAmt, 2)
+    '    gv1.Rows(IntRowNo).Cells(colAmtAfterTax).Value = Math.Round(dblAmtAfterTax, 2)
+    'End Sub
+
+
+    Private Sub Calculate(ByVal OnlyClearPenalty As Boolean)
+        '        Try
+        '            If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
+        '                txtBillToLocation.Focus()
+        '                Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)
+        '            End If
+        '            If clsCommon.myLen(txtTenderNo.Value) <= 0 Then
+        '                txtTenderNo.Focus()
+        '                Throw New Exception("Please select " + txtTenderNo.MyLinkLable1.Text)
+        '            End If
+        '            If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
+        '                txtVendorNo.Focus()
+        '                Throw New Exception("Please select " + txtVendorNo.MyLinkLable1.Text)
+        '            End If
+        '            If clsCommon.myLen(txtItem.Value) <= 0 Then
+        '                txtItem.Focus()
+        '                Throw New Exception("Please select " + txtItem.MyLinkLable1.Text)
+        '            End If
+        '            Dim qry As String = "and not exists(select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_HEAD.SRN_No)
+        'and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_TENDER_PENALTY_DETAIL.Document_No not in ('" + txtDocNo.Value + "') ) "
+        '            qry = GetBaseQery("0", qry)
+        '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '            Dim arrSRN As New List(Of String)
+        '            For ii As Integer = 0 To dt.Rows.Count - 1
+        '                If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
+        '                    arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
+        '                End If
+        '            Next
+
+        '            Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+        '            Try
+        '                clsSRNHead.DeleteSRNDeduction(arrSRN, txtItem.Value, tran)
+        '                If Not OnlyClearPenalty Then
+        '                    For ii As Integer = 0 To dt.Rows.Count - 1
+        '                        If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
+        '                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, tran)
+        '                        Else
+        '                            Exit For
+        '                        End If
+        '                    Next
+        '                End If
+        '                tran.Commit()
+        '            Catch ex As Exception
+        '                tran.Rollback()
+        '                Throw New Exception(ex.Message)
+        '            End Try
+
+        '            dt = clsDBFuncationality.GetDataTable(qry)
+        '            For ii As Integer = 0 To dt.Rows.Count - 1
+        '                If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
+        '                    dt.Rows(ii)("FinalStatus") = 1
+        '                Else
+        '                    Exit For
+        '                End If
+        '            Next
+        '            SetGridFormation(dt)
+        '        Catch ex As Exception
+        '            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        '        End Try
+    End Sub
+
+
+
+
+
+
+    Function GetBaseQery(ByVal UserStaus As String, ByVal WhrCls As String) As String
+        Dim qry As String = "select  cast(" + UserStaus + " as bit) as UserStatus, TSPL_GRN_HEAD.GRN_No,convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date,TSPL_GRN_HEAD.VehicleNo,isnull(TSPL_GRN_HEAD.Status,0) as GRNStatus,TSPL_SRN_HEAD.SRN_No,convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  SRN_Date,isnull(TSPL_SRN_HEAD.Status,0) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight,TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty
+,TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt,TSPL_SRN_DEDUCTION.Ded_Per as QualityDeductionPer,TSPL_SRN_DEDUCTION.Ded_Amt as QualityDeductionAmt,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_SRN_TENDER.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER.Penalty as LatePenaltyAmt," + UserStaus + " as FinalStatus
+from TSPL_GRN_DETAIL
+left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No
+left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id
+left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.GRN_ID=TSPL_GRN_HEAD.GRN_No and TSPL_SRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
+left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No
+left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
+left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code= TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code and  TSPL_PO_WEIGHTMENT_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
+left outer join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION_SECURITY.Item_Code=TSPL_SRN_DETAIL.Item_Code
+left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION.Item_Code=TSPL_SRN_DETAIL.Item_Code
+left outer join TSPL_SRN_TENDER on TSPL_SRN_TENDER.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_TENDER.Item_Code=TSPL_SRN_DETAIL.Item_Code and isnull(TSPL_SRN_TENDER.Penalty,0)>0
+left outer join TSPL_TENDER_SCHEDULE_PENALTY on  TSPL_TENDER_SCHEDULE_PENALTY.PK_Id=TSPL_SRN_TENDER.Against_Tender_Schedule_Penalty_PK_Id
+left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo
+left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
+where TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + +"' and TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected'  and TSPL_GRN_DETAIL.Item_Code='" + +"' and TSPL_GRN_HEAD.Vendor_Code='" + +"' and TSPL_GRN_HEAD.Bill_To_Location='" + +"' and ISNULL( TSPL_GRN_HEAD.IsCancel,0)=0  " + WhrCls
+        qry += " Order by CONVERT(date, TSPL_GRN_HEAD.GRN_Date,103),isnull(TSPL_SRN_HEAD.Status,0) desc"
+        Return qry
+    End Function
+
+    Private Sub RadButton2_Click_1(sender As Object, e As EventArgs) Handles RadButton2.Click
+        Calculate(False)
+    End Sub
+
+    Sub SetGridFormation(ByVal dt As DataTable)
+        gv1.DataSource = Nothing
+        gv1.Columns.Clear()
+        gv1.Rows.Clear()
+        gv1.DataSource = dt
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).IsVisible = False
+        Next
+        gv1.Columns("UserStatus").IsVisible = True
+        gv1.Columns("UserStatus").Width = 30
+        gv1.Columns("UserStatus").HeaderText = " "
+        gv1.Columns("UserStatus").ReadOnly = False
+
+        gv1.Columns("GRN_No").IsVisible = True
+        gv1.Columns("GRN_No").Width = 120
+        gv1.Columns("GRN_No").HeaderText = "GRN"
+
+        gv1.Columns("GRN_Date").IsVisible = True
+        gv1.Columns("GRN_Date").Width = 100
+        gv1.Columns("GRN_Date").HeaderText = "GRN Date"
+
+        gv1.Columns("VehicleNo").IsVisible = True
+        gv1.Columns("VehicleNo").Width = 100
+        gv1.Columns("VehicleNo").HeaderText = "Vehicle No"
+
+        gv1.Columns("GRNStatus").IsVisible = False
+
+        gv1.Columns("SRN_No").IsVisible = True
+        gv1.Columns("SRN_No").Width = 120
+        gv1.Columns("SRN_No").HeaderText = "SRN"
+
+        gv1.Columns("SRN_Date").IsVisible = True
+        gv1.Columns("SRN_Date").Width = 100
+        gv1.Columns("SRN_Date").HeaderText = "SRN Date"
+
+        gv1.Columns("SRNStatus").IsVisible = False
+
+        gv1.Columns("Weighment_Code").IsVisible = True
+        gv1.Columns("Weighment_Code").Width = 120
+        gv1.Columns("Weighment_Code").HeaderText = "Weighemnt No"
+
+        gv1.Columns("Weighment_Date").IsVisible = True
+        gv1.Columns("Weighment_Date").Width = 100
+        gv1.Columns("Weighment_Date").HeaderText = "Weighemnt Date"
+
+        gv1.Columns("Gross_Weight").IsVisible = True
+        gv1.Columns("Gross_Weight").Width = 100
+        gv1.Columns("Gross_Weight").HeaderText = "Gross Weight"
+        gv1.Columns("Gross_Weight").FormatString = "{0:n3}"
+
+        gv1.Columns("Tare_Weight").IsVisible = True
+        gv1.Columns("Tare_Weight").Width = 100
+        gv1.Columns("Tare_Weight").HeaderText = "Tare Weight"
+        gv1.Columns("Tare_Weight").FormatString = "{0:n3}"
+
+        gv1.Columns("Extra_Weight").IsVisible = True
+        gv1.Columns("Extra_Weight").Width = 100
+        gv1.Columns("Extra_Weight").HeaderText = "Extra Weight"
+        gv1.Columns("Extra_Weight").FormatString = "{0:n3}"
+
+        gv1.Columns("UOM").IsVisible = True
+        gv1.Columns("UOM").Width = 100
+        gv1.Columns("UOM").HeaderText = "UOM"
+
+        gv1.Columns("Net_Weight").IsVisible = True
+        gv1.Columns("Net_Weight").Width = 100
+        gv1.Columns("Net_Weight").HeaderText = "Net Weight"
+        gv1.Columns("Net_Weight").FormatString = "{0:n3}"
+
+        gv1.Columns("WeightmentStatus").IsVisible = False
+
+
+        gv1.Columns("SRN_Qty").IsVisible = True
+        gv1.Columns("SRN_Qty").Width = 100
+        gv1.Columns("SRN_Qty").HeaderText = "SRN Accepted Qty"
+        gv1.Columns("SRN_Qty").FormatString = "{0:n2}"
+
+        gv1.Columns("SecurityDeductionAmt").IsVisible = True
+        gv1.Columns("SecurityDeductionAmt").Width = 100
+        gv1.Columns("SecurityDeductionAmt").HeaderText = "Security Deduction"
+        gv1.Columns("SecurityDeductionAmt").FormatString = "{0:n2}"
+
+        gv1.Columns("QualityDeductionPer").IsVisible = True
+        gv1.Columns("QualityDeductionPer").Width = 100
+        gv1.Columns("QualityDeductionPer").HeaderText = "Quality Deduction %"
+        gv1.Columns("QualityDeductionPer").FormatString = "{0:n2}"
+
+        gv1.Columns("QualityDeductionAmt").IsVisible = True
+        gv1.Columns("QualityDeductionAmt").Width = 100
+        gv1.Columns("QualityDeductionAmt").HeaderText = "Quality Deduction Amount"
+        gv1.Columns("QualityDeductionAmt").FormatString = "{0:n2}"
+
+        gv1.Columns("LatePenaltyQty").IsVisible = True
+        gv1.Columns("LatePenaltyQty").Width = 100
+        gv1.Columns("LatePenaltyQty").HeaderText = "Late Penalty Qty"
+        gv1.Columns("LatePenaltyQty").FormatString = "{0:n2}"
+
+        gv1.Columns("LatePenaltyPer").IsVisible = True
+        gv1.Columns("LatePenaltyPer").Width = 100
+        gv1.Columns("LatePenaltyPer").HeaderText = "Late Penalty %"
+        gv1.Columns("LatePenaltyPer").FormatString = "{0:n2}"
+
+        gv1.Columns("LatePenaltyAmt").IsVisible = True
+        gv1.Columns("LatePenaltyAmt").Width = 100
+        gv1.Columns("LatePenaltyAmt").HeaderText = "Late Penalty Amount"
+        gv1.Columns("LatePenaltyAmt").FormatString = "{0:n2}"
+
+        gv1.Columns("FinalStatus").IsVisible = False
+
+        gv1.AllowAddNewRow = False
+        gv1.ShowGroupPanel = False
+        gv1.AllowColumnReorder = False
+        gv1.AllowRowReorder = False
+        gv1.EnableSorting = False
+        gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gv1.MasterTemplate.ShowRowHeaderColumn = False
+        gv1.TableElement.TableHeaderHeight = 40
+    End Sub
+
+    Private Sub RadButton3_Click(sender As Object, e As EventArgs)
+        Calculate(True)
+    End Sub
+End Class
