@@ -496,7 +496,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
 and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_TENDER_PENALTY_DETAIL.Document_No not in ('" + txtDocNo.Value + "') ) "
             qry = GetBaseQery("0", qry)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            Dim arrSRN As New List(Of String)
+            Dim arrSRN As New ArrayList
             For ii As Integer = 0 To dt.Rows.Count - 1
                 If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
                     arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
@@ -505,7 +505,7 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
 
             Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
-                clsSRNHead.DeleteSRNDeduction(arrSRN, txtItem.Value, tran)
+                clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, tran)
                 If Not OnlyClearPenalty Then
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
