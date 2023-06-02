@@ -7067,7 +7067,7 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                     txtDocNo.Focus()
                     Exit Sub
                 End If
-                StrWhere += " AND TSPL_QC_CHECK_SRN_DETAIL.Document_Code = '" + txtDocNo.Value + "'"
+                StrWhere += " AND TSPL_GRN_head.GRN_No = '" + txtDocNo.Value + "'"
             ElseIf clsCommon.CompairString(RadPageView1.SelectedPage.Name, RadPageViewPage7.Name) = CompairStringResult.Equal Then
                 If fromDate.Value > ToDate.Value Then
                     common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater than to Date")
@@ -7085,34 +7085,40 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
                     StrWhere += " and TSPL_GRN_head.Ref_No = '" + TxtFinderRalPrint.Value + "'"
 
                 End If
-                StrWhere += " and TSPL_GRN_head.Vendor_Code = '" + TxtFinderVendorPrint.Value + "' 
-                              and  TSPL_GRN_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'
-                              and TSPL_GRN_head.Ref_No = '" + TxtFinderRalPrint.Value + "'
+                StrWhere += " 
                             and convert(date,tspl_grn_head.GRN_Date,103)>= convert(date,('" & fromDate.Value & "'),103) and convert(date,tspl_grn_head.GRN_Date,103)<= convert(date,('" & ToDate.Value & "'),103)"
                 If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                     StrWhere += " and tspl_grn_head.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
                 End If
             End If
             Dim frmCRV As New frmCrystalReportViewer()
-            Dim qry As String = " Select TSPL_COMPANY_MASTER.Comp_Code   , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 as Comp_Add1, TSPL_COMPANY_MASTER.Add2 as Comp_Add2 , TSPL_COMPANY_MASTER.Add3 as Comp_Add3 , TSPL_COMPANY_MASTER.City_Code as Comp_City_Code, TSPL_COMPANY_MASTER.Email as Comp_Email , TSPL_COMPANY_MASTER.Pincode as Comp_Pincode , TSPL_COMPANY_MASTER.State as Comp_State , TSPL_COMPANY_MASTER.Tin_No as Comp_Tin_No , TSPL_COMPANY_MASTER.Logo_Img as Comp_Logo_Img , TSPL_COMPANY_MASTER.Logo_Img2 as Comp_Logo_Img2, TSPL_COMPANY_MASTER.GSTReg_No as Comp_GSTReg_No, TSPL_COMPANY_MASTER.CINNo as Comp_CINNo, TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1 , TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, tspl_grn_head.Ref_No,tspl_grn_head.GRN_Date,TSPL_GRN_head.Vendor_Code,TSPL_GRN_head.Vendor_Name,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAIL.Item_Desc,tspl_grn_head.VisualQCUpdatedDate,tspl_grn_head.VisualQCStatus,tspl_grn_head.VisualQCUpdatedDateSecond,tspl_grn_head.VisualQCStatusSecond,tspl_grn_head.VisualQCRemarks,tspl_grn_head.VisualQCRemarksSecond
+            Dim qry As String = " Select TSPL_COMPANY_MASTER.Comp_Code   , TSPL_COMPANY_MASTER.Comp_Name , TSPL_COMPANY_MASTER.Add1 as Comp_Add1, TSPL_COMPANY_MASTER.Add2 as Comp_Add2 , TSPL_COMPANY_MASTER.Add3 as Comp_Add3 , TSPL_COMPANY_MASTER.City_Code as Comp_City_Code, TSPL_COMPANY_MASTER.Email as Comp_Email , TSPL_COMPANY_MASTER.Pincode as Comp_Pincode , TSPL_COMPANY_MASTER.State as Comp_State , TSPL_COMPANY_MASTER.Tin_No as Comp_Tin_No , TSPL_COMPANY_MASTER.Logo_Img as Comp_Logo_Img , TSPL_COMPANY_MASTER.Logo_Img2 as Comp_Logo_Img2, TSPL_COMPANY_MASTER.GSTReg_No as Comp_GSTReg_No, TSPL_COMPANY_MASTER.CINNo as Comp_CINNo, TSPL_COMPANY_MASTER.Phone1 as Comp_Phone1 , TSPL_COMPANY_MASTER.Phone2 as Comp_Phone2, TSPL_LOCATION_MASTER.IsMainPlant as Location_IsMainPlant,  TSPL_LOCATION_MASTER.Location_Desc,tspl_grn_head.Ref_No,tspl_grn_head.GRN_Date,TSPL_GRN_head.Vendor_Code,TSPL_GRN_head.Vendor_Name,TSPL_GRN_DETAIL.Item_Code,TSPL_GRN_DETAIL.Item_Desc,tspl_grn_head.VisualQCUpdatedDate,tspl_grn_head.VisualQCStatus,tspl_grn_head.VisualQCUpdatedDateSecond,tspl_grn_head.VisualQCStatusSecond,tspl_grn_head.VisualQCRemarks,tspl_grn_head.VisualQCRemarksSecond, 
+                                    tspl_grn_head.VehicleNo,tspl_grn_head.LR_No,
+                                    isnull(case when tspl_grn_head.VisualQCStatus=2  then tspl_grn_head.VisualQCUpdatedDate end,
+                                    case when tspl_grn_head.VisualQCStatusSecond=2 then tspl_grn_head.VisualQCUpdatedDateSecond end) as QCDate,
+                                    isnull(case when tspl_grn_head.VisualQCStatus=2 then tspl_grn_head.VisualQCRemarks end,case when tspl_grn_head.VisualQCStatusSecond=2 then tspl_grn_head.VisualQCRemarksSecond end) as Remarks
+ 
+  
+
                                 from tspl_grn_head 
                                 left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=tspl_grn_head.GRN_No
                                 inner join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
                                 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_ITEM_MASTER.Comp_code
+								left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_COMPANY_MASTER.Comp_Code
                                 where tspl_grn_head.VisualQCStatus=2 or tspl_grn_head.VisualQCStatusSecond=2" + StrWhere
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found")
                 Exit Sub
             Else
                 If clsCommon.CompairString(strBtnText, "English") = CompairStringResult.Equal Then
-                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCTenderWiseLabReportEnglish", "Rejected Report")
+                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCRALWiseRMReportEnglish", "Rejected Report")
                 ElseIf clsCommon.CompairString(strBtnText, "Hindi") = CompairStringResult.Equal Then
                     frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "rptQCAnalysisReportRejectionHindi", "Rejected Report")
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
