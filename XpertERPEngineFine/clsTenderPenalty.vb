@@ -147,8 +147,11 @@ where 2=2"
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted Docuemnt [" + obj.Document_No + "]")
                 End If
+                Dim qry As String = ""
 
-                Dim qry As String = "delete from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + strCode + "'"
+                DeleteSRNDeduction(obj.Arr, obj.Item_Code, trans)
+
+                qry = "delete from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                 qry = "delete from TSPL_TENDER_PENALTY where Document_No='" + strCode + "'"
@@ -162,81 +165,62 @@ where 2=2"
         End If
         Return True
     End Function
+
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
 
-        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        'Try
-        '    Dim Qry As String = "select Status,Confirmatory_PO from TSPL_TENDER_PENALTY where Document_No='" + strCode + "'"
-        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
-        '    If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-        '        Throw New Exception("Document No [" + strCode + "] not found for reverse and unpost")
-        '    End If
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim Qry As String = "select Status from TSPL_TENDER_PENALTY where Document_No='" + strCode + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("Document No [" + strCode + "] not found for reverse and unpost")
+            End If
 
-        '    If Not clsCommon.myCdbl(dt.Rows(0)("Status")) = 1 Then
-        '        Throw New Exception("Transaction status should be posted for reverse and unpost")
-        '    End If
-        '    Dim strReturnExist As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No from TSPL_SRN_RETURN where Document_No = '" + strCode + "' ", trans))
-        '    If clsCommon.myLen(strReturnExist) > 0 Then
-        '        Throw New Exception("SRN Return Document  (" + strReturnExist + ") Exist Against this SRN. reverse and unpost Not Possible")
-        '    End If
-        '    If clsCommon.myCdbl(dt.Rows(0)("Confirmatory_PO")) = 1 Then
-        '        Qry = "select PurchaseOrder_No from TSPL_PURCHASE_ORDER_HEAD  where Confirmatory_PO_SRN_No='" + strCode + "'"
-        '        dt = clsDBFuncationality.GetDataTable(Qry, trans)
-        '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-        '            clsPurchaseOrderHead.ReverseAndUnpost(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_No")), clsUserMgtCode.mbtnPurchaseOrder, trans)
-        '            clsPurchaseOrderHead.DeleteData(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_No")), False, trans)
-        '        End If
-        '    End If
+            If Not clsCommon.myCdbl(dt.Rows(0)("Status")) = 1 Then
+                Throw New Exception("Transaction status should be posted for reverse and unpost")
+            End If
 
+            Qry = "select TSPL_PI_DETAIL.PI_No,TSPL_TENDER_PENALTY_DETAIL.SRN_No from TSPL_TENDER_PENALTY_DETAIL 
+inner join TSPL_PI_DETAIL on TSPL_PI_DETAIL.SRN_Id=TSPL_TENDER_PENALTY_DETAIL.SRN_No  
+where TSPL_TENDER_PENALTY_DETAIL.Document_No='" + strCode + "'"
+            dt = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("Purchase Invoice No [" + clsCommon.myCstr(dt.Rows(0)("PI_No")) + "] is Generated Against SRN No [" + clsCommon.myCstr(dt.Rows(0)("SRN_No")) + "] ")
+            End If
 
-        '    If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchaseDoNotCheckForwardDocuments, clsFixedParameterCode.PurchaseDoNotCheckForwardDocuments, trans)) <= 0 Then
-        '        Qry = "select distinct PI_No from TSPL_PI_DETAIL where SRN_Id='" + strCode + "'"
-        '        dt = clsDBFuncationality.GetDataTable(Qry, trans)
-        '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-        '            Qry = "CURRENT SRN IS USED IN FOLLOWING PURCHASE INVOICE -"
-        '            For Each DR As DataRow In dt.Rows
-        '                Qry += Environment.NewLine + clsCommon.myCstr(DR("PI_NO"))
-        '            Next
-        '            Throw New Exception(Qry)
-        '        End If
-        '    End If
+            Qry = "select Document_No from TSPL_TENDER_PENALTY 
+where exists(select 1 from TSPL_TENDER_PENALTY as TabCurr where TabCurr.Document_No='" + strCode + "' and TabCurr.Location_Code=TSPL_TENDER_PENALTY.Location_Code and TabCurr.Tender_No=TSPL_TENDER_PENALTY.Tender_No and TabCurr.Vendor_Code=TSPL_TENDER_PENALTY.Vendor_Code and TabCurr.Item_Code=TSPL_TENDER_PENALTY.Item_Code and TabCurr.Created_Date< TSPL_TENDER_PENALTY.Created_Date)"
+            dt = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("Please remove Tender Penalty Docuemnt [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "] to unpost it")
+            End If
 
-        '    Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PO-RC' and Source_Doc_No='" + strCode + "'", trans)
-        '    If clsCommon.myLen(VoucherNo) > 0 Then
-        '        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, VoucherNo, "TSPL_JOURNAL_MASTER", "Voucher_No", "TSPL_JOURNAL_DETAILS", "Voucher_No", trans)
-        '        Qry = "delete from TSPL_JOURNAL_DETAILS where Voucher_No ='" + VoucherNo + "'"
-        '        clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-        '        Qry = "delete from TSPL_JOURNAL_MASTER where Voucher_No ='" + VoucherNo + "'"
-        '        clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-        '    End If
+            Qry = "Update TSPL_TENDER_PENALTY set Status = 0 where Document_No='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            'clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_TENDER_PENALTY", "Document_No", trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 
+    Public Shared Function DeleteSRNDeduction(ByVal ArrSRNNo As ArrayList, ByVal strICode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            If ArrSRNNo IsNot Nothing AndAlso ArrSRNNo.Count > 0 Then
+                Dim qry As String = "delete From TSPL_SRN_DEDUCTION  Where SRN_No in (" + clsCommon.GetMulcallString(ArrSRNNo) + ") and Item_Code='" + strICode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        '    Qry = "update TSPL_SERIAL_ITEM set Against_Inv_Movement_Trans_Id=null where Document_Code='" + strCode + "'"
-        '    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                qry = "delete From TSPL_SRN_DEDUCTION_SECURITY  Where SRN_No in (" + clsCommon.GetMulcallString(ArrSRNNo) + ") and Item_Code='" + strICode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-        '    clsBatchInventory.ReverseAndUnpost("SRN", strCode, trans)
-        '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
-        '    Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" + strCode + "' and Trans_Type='SRN'"
-        '    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
-
-        '    Qry = "delete From TSPL_SRN_DEDUCTION  Where Document_No ='" + strCode + "'"
-        '    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
-        '    Qry = "delete From TSPL_SRN_DEDUCTION_SECURITY  Where Document_No ='" + strCode + "'"
-        '    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
-        '    Qry = "delete From TSPL_SRN_TENDER  Where Document_No ='" + strCode + "'"
-        '    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
-        '    Qry = "Update TSPL_TENDER_PENALTY set Status = 0 where Document_No='" + strCode + "'"
-        '    clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-        '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_TENDER_PENALTY", "Document_No", trans)
-        '    trans.Commit()
-        'Catch ex As Exception
-        '    trans.Rollback()
-        '    Throw New Exception(ex.Message)
-        'End Try
+                qry = "delete From TSPL_SRN_TENDER  Where SRN_No in  (" + clsCommon.GetMulcallString(ArrSRNNo) + ") and Item_Code='" + strICode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
         Return True
     End Function
 End Class

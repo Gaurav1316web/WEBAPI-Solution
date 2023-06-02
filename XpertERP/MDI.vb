@@ -7340,9 +7340,17 @@ Public Class MDI
                     Case clsUserMgtCode.frmVSPMaster
                         frm = New frmVSPMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmVSP_VLCMaster
-                        frm = New frmVSP_VLCMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
+                        If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NewDCSScreen, clsFixedParameterCode.NewDCSScreen, Nothing)) > 0 Then
+                            frm = New frmNewDCSScreen(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
+                        Else
+                            frm = New frmVSP_VLCMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
+                        End If
+
+
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmPrimaryTransporterMaster
                         frm = New FrmPrimaryTransporterMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -7674,6 +7682,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmTankerProvision
                         frm = New frmTankerProvision
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.MilkCollectionGenerate
+                        frm = New frmMilkCollectionGenerate
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MilkCollectionMCC
                         Dim x As Boolean = objCommonVar.IsAutoTabOrdering

@@ -62,6 +62,10 @@ Public Class frmTenderShortPenalty
         btnDelete.Enabled = False
 
         EnableDisableControls(True)
+
+        gv1.DataSource = Nothing
+        gv1.Columns.Clear()
+        gv1.Rows.Clear()
     End Sub
 
     Sub EnableDisableControls(ByVal val As Boolean)
@@ -76,14 +80,16 @@ Public Class frmTenderShortPenalty
     Sub AddNew()
         BlankAllControls()
         txtDate.Focus()
-        RadButton1.Visible = False
+        'RadButton1.Visible = False
+        RadButton2.Enabled = True
+        RadButton3.Enabled = True
     End Sub
     Function AllowToSave() As Boolean
         Try
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myCBool(gv1.Rows(ii).Cells("UserStatus").Value) Then
                     If clsCommon.myCDecimal(gv1.Rows(ii).Cells("FinalStatus").Value) = 0 Then
-                        Throw New Exception("Invalid GRN [" + clsCommon.myCstr(gv1.Rows(ii).Cells("GRN_No").Value) + "] Bucause SRN Not Posted")
+                        Throw New Exception("Invalid GRN [" + clsCommon.myCstr(gv1.Rows(ii).Cells("GRN_No").Value) + "] Because SRN should be Posted")
                     End If
                     If ii > 0 Then
                         If Not clsCommon.myCBool(gv1.Rows(ii - 1).Cells("UserStatus").Value) Then
@@ -119,18 +125,17 @@ Public Class frmTenderShortPenalty
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    clsCommon.MyMessageBoxShow("Please Fill at list one Item")
-                    Return
+                    Throw New Exception("Please Fill at list one Item")
                 End If
                 If (obj.SaveData(obj, isNewEntry)) Then
                     If ChekBtnPost = False Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
         End Try
@@ -152,11 +157,15 @@ Public Class frmTenderShortPenalty
                 btnSave.Enabled = True
                 btnPost.Enabled = True
                 btnDelete.Enabled = True
+                RadButton2.Enabled = True
+                RadButton3.Enabled = True
                 btnSave.Text = "Update"
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
+                    RadButton2.Enabled = False
+                    RadButton3.Enabled = False
                 End If
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
@@ -173,8 +182,7 @@ Public Class frmTenderShortPenalty
 
                 EnableDisableControls(False)
 
-                Dim qry As String = " TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + txtTenderNo.Value + "' and TSPL_GRN_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_GRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_GRN_HEAD.Bill_To_Location='" + txtBillToLocation.Value + "' and ISNULL( TSPL_GRN_HEAD.IsCancel,0)=0  
-and  TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(obj.Arr) + ")"
+                Dim qry As String = " and  TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(obj.Arr) + ")"
                 qry = GetBaseQery("1", qry)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
@@ -183,7 +191,7 @@ and  TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(obj.Arr) + ")"
             End If
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             obj = Nothing
@@ -203,7 +211,7 @@ and  TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(obj.Arr) + ")"
             If (myMessages.postConfirm()) Then
                 'SaveData(True)
                 If (clsTenderPenalty.PostData(txtDocNo.Value)) Then
-                    clsCommon.MyMessageBoxShow("Successfully Posted")
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                     ''If (clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                     ''    Print()
@@ -211,7 +219,7 @@ and  TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(obj.Arr) + ")"
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
@@ -234,12 +242,12 @@ and  TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(obj.Arr) + ")"
                 End If
                 If (clsTenderPenalty.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -275,7 +283,7 @@ and  TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(obj.Arr) + ")"
             End If
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
@@ -309,6 +317,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 RadButton1.Visible = True
+                RadButton3.Visible = True
             End If
         End If
     End Sub
@@ -454,16 +463,78 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                If clsCommon.MyMessageBoxShow("Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     clsTenderPenalty.ReverseAndUnpost(txtDocNo.Value)
-                    clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub Calculate(ByVal OnlyClearPenalty As Boolean)
+        Try
+            If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
+                txtBillToLocation.Focus()
+                Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(txtTenderNo.Value) <= 0 Then
+                txtTenderNo.Focus()
+                Throw New Exception("Please select " + txtTenderNo.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
+                txtVendorNo.Focus()
+                Throw New Exception("Please select " + txtVendorNo.MyLinkLable1.Text)
+            End If
+            If clsCommon.myLen(txtItem.Value) <= 0 Then
+                txtItem.Focus()
+                Throw New Exception("Please select " + txtItem.MyLinkLable1.Text)
+            End If
+            Dim qry As String = "and not exists(select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_HEAD.SRN_No)
+and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_TENDER_PENALTY_DETAIL.Document_No not in ('" + txtDocNo.Value + "') ) "
+            qry = GetBaseQery("0", qry)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim arrSRN As New ArrayList
+            For ii As Integer = 0 To dt.Rows.Count - 1
+                If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
+                    arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
+                End If
+            Next
+
+            Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+            Try
+                clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, tran)
+                If Not OnlyClearPenalty Then
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
+                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, tran)
+                        Else
+                            Exit For
+                        End If
+                    Next
+                End If
+                tran.Commit()
+            Catch ex As Exception
+                tran.Rollback()
+                Throw New Exception(ex.Message)
+            End Try
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+            For ii As Integer = 0 To dt.Rows.Count - 1
+                If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
+                    dt.Rows(ii)("FinalStatus") = 1
+                Else
+                    Exit For
+                End If
+            Next
+            SetGridFormation(dt)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
         Try
             Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
@@ -487,17 +558,17 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
 select DocumentCode,max(DocumentDate) as DocumentDate,Location,Vendor_Code,Item_Code,1 as RI,1 as Chk from (
 select TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_HEADER.DocumentDate,TSPL_TENDER_DETAIL.Location,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_TENDER_DETAIL.Item_Code from TSPL_TENDER_DETAIL
 left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode
-where TSPL_TENDER_HEADER.Posted=1 and  isnull(TSPL_TENDER_HEADER.Tender_Type,0)<>2 and TSPL_TENDER_DETAIL.Location='JODH'
+where TSPL_TENDER_HEADER.Posted=1  and TSPL_TENDER_DETAIL.Location='" + txtBillToLocation.Value + "'
 )x Group by DocumentCode,Location,Vendor_Code,Item_Code
 union all
-select TSPL_TENDER_PENALTY.Tender_No as DocumentCode,null as  DocumentDate, Location_Code as Location,Vendor_Code,Item_Code,-1 as RI,0 as Chk from TSPL_TENDER_PENALTY where TSPL_TENDER_PENALTY.Document_No not in ('aaaaa')
+select TSPL_TENDER_PENALTY.Tender_No as DocumentCode,null as  DocumentDate, Location_Code as Location,Vendor_Code,Item_Code,-1 as RI,0 as Chk from TSPL_TENDER_PENALTY where TSPL_TENDER_PENALTY.Document_No not in ('" + txtDocNo.Value + "')
 )xx 
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=xx.Location
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=xx.Item_Code
 Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.RI)>0 and sum(xx.Chk)>0 order by DocumentDate"
 
-            Dim whr As String = "TSPL_TENDER_HEADER.Posted=1 and  isnull(TSPL_TENDER_HEADER.Tender_Type,0)<>2 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Location='" + txtBillToLocation.Value + "')"
+            Dim whr As String = "TSPL_TENDER_HEADER.Posted=1 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Location='" + txtBillToLocation.Value + "')"
             txtTenderNo.Value = clsTenderHead.getFinder(whr, txtTenderNo.Value, isButtonClicked)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -534,8 +605,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             End If
             Dim whr As String = "  exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode='" + txtTenderNo.Value + "' and TSPL_TENDER_DETAIL.Location='" + txtBillToLocation.Value + "' and TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code) "
             txtItem.Value = clsItemMaster.getFinder(whr, txtItem.Value, isButtonClicked)
-            lblItem.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtItem.Value + "'"))
-
+            lblItem.Text = clsItemMaster.GetItemName(txtItem.Value, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtItem.Value = ""
@@ -545,7 +615,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
 
     Function GetBaseQery(ByVal UserStaus As String, ByVal WhrCls As String) As String
         Dim qry As String = "select  cast(" + UserStaus + " as bit) as UserStatus, TSPL_GRN_HEAD.GRN_No,convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date,TSPL_GRN_HEAD.VehicleNo,isnull(TSPL_GRN_HEAD.Status,0) as GRNStatus,TSPL_SRN_HEAD.SRN_No,convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  SRN_Date,isnull(TSPL_SRN_HEAD.Status,0) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight,TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty
-,TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt,TSPL_SRN_DEDUCTION.Ded_Per as QualityDeductionPer,TSPL_SRN_DEDUCTION.Ded_Amt as QualityDeductionAmt,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_SRN_TENDER.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER.Penalty as LatePenaltyAmt,0 as FinalStatus
+,TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt,TSPL_SRN_DEDUCTION.Ded_Per as QualityDeductionPer,TSPL_SRN_DEDUCTION.Ded_Amt as QualityDeductionAmt,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_SRN_TENDER.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER.Penalty as LatePenaltyAmt," + UserStaus + " as FinalStatus
 from TSPL_GRN_DETAIL
 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No
 left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id
@@ -555,63 +625,17 @@ left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_N
 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code= TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code and  TSPL_PO_WEIGHTMENT_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
 left outer join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION_SECURITY.Item_Code=TSPL_SRN_DETAIL.Item_Code
 left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION.Item_Code=TSPL_SRN_DETAIL.Item_Code
-left outer join TSPL_SRN_TENDER on TSPL_SRN_TENDER.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_TENDER.Item_Code=TSPL_SRN_DETAIL.Item_Code
-left outer join  TSPL_TENDER_SCHEDULE_PENALTY on  TSPL_TENDER_SCHEDULE_PENALTY.PK_Id=TSPL_SRN_TENDER.Against_Tender_Schedule_Penalty_PK_Id
-where " + WhrCls
+left outer join TSPL_SRN_TENDER on TSPL_SRN_TENDER.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_TENDER.Item_Code=TSPL_SRN_DETAIL.Item_Code and isnull(TSPL_SRN_TENDER.Penalty,0)>0
+left outer join TSPL_TENDER_SCHEDULE_PENALTY on  TSPL_TENDER_SCHEDULE_PENALTY.PK_Id=TSPL_SRN_TENDER.Against_Tender_Schedule_Penalty_PK_Id
+left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo
+left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
+where TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + txtTenderNo.Value + "' and TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected'  and TSPL_GRN_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_GRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_GRN_HEAD.Bill_To_Location='" + txtBillToLocation.Value + "' and ISNULL( TSPL_GRN_HEAD.IsCancel,0)=0  " + WhrCls
         qry += " Order by CONVERT(date, TSPL_GRN_HEAD.GRN_Date,103),isnull(TSPL_SRN_HEAD.Status,0) desc"
         Return qry
     End Function
 
     Private Sub RadButton2_Click_1(sender As Object, e As EventArgs) Handles RadButton2.Click
-        Try
-            If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
-                txtBillToLocation.Focus()
-                Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)
-            End If
-            If clsCommon.myLen(txtTenderNo.Value) <= 0 Then
-                txtTenderNo.Focus()
-                Throw New Exception("Please select " + txtTenderNo.MyLinkLable1.Text)
-            End If
-            If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                txtVendorNo.Focus()
-                Throw New Exception("Please select " + txtVendorNo.MyLinkLable1.Text)
-            End If
-            If clsCommon.myLen(txtItem.Value) <= 0 Then
-                txtItem.Focus()
-                Throw New Exception("Please select " + txtItem.MyLinkLable1.Text)
-            End If
-            Dim qry As String = " TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + txtTenderNo.Value + "' and TSPL_GRN_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_GRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_GRN_HEAD.Bill_To_Location='" + txtBillToLocation.Value + "' and ISNULL( TSPL_GRN_HEAD.IsCancel,0)=0  
-and not exists(select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_HEAD.SRN_No)
-and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_TENDER_PENALTY_DETAIL.Document_No not in ('" + txtDocNo.Value + "') ) "
-            qry = GetBaseQery("0", qry)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            For ii As Integer = 0 To dt.Rows.Count - 1
-                If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
-                    ''Now Gendrate Deduction
-                    Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
-                    Try
-                        clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("GRN_No")), txtItem.Value, tran)
-                        tran.Commit()
-                    Catch ex As Exception
-                        tran.Rollback()
-                        Throw New Exception(ex.Message)
-                    End Try
-                Else
-                    Exit For
-                End If
-            Next
-            dt = clsDBFuncationality.GetDataTable(qry)
-            For ii As Integer = 0 To dt.Rows.Count - 1
-                If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
-                    dt.Rows(ii)("FinalStatus") = 1
-                Else
-                    Exit For
-                End If
-            Next
-            SetGridFormation(dt)
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        Calculate(False)
     End Sub
 
     Sub SetGridFormation(ByVal dt As DataTable)
@@ -732,5 +756,9 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
         gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv1.MasterTemplate.ShowRowHeaderColumn = False
         gv1.TableElement.TableHeaderHeight = 40
+    End Sub
+
+    Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
+        Calculate(True)
     End Sub
 End Class

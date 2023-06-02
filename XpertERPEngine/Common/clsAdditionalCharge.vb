@@ -244,6 +244,7 @@ Public Class clsCustomerMaster
     '=============
     Public Alies_Name As String
     Public Zone_Code As String
+    Public Area_Code As String
     Public CSA_Type As String = Nothing
     Public ManualCustomer As String = Nothing
 
@@ -439,7 +440,7 @@ Public Class clsCustomerMaster
                      " ,[TAX7],[TAX7_Rate],[TAX8],[TAX8_Rate],[TAX9],[TAX9_Rate],[TAX10],[TAX10_Rate],[Payment_Code],[Service_Tax_No] " &
                      " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
                      " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
-                     " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus " &
+                     " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus,Area_Code " &
                      " from TSPL_CUSTOMER_MASTER where CUSTOMER_FORM_TYPE='ALL' and Cust_Code = '" + strCustCode + "'"
         Return qry
     End Function
@@ -607,8 +608,9 @@ Public Class clsCustomerMaster
                 clsCommon.AddColumnsForChange(coll, "Parent_Customer_No", obj.Parent_Customer_No)
                 ''Anand  Ticket No:BM00000003994
                 clsCommon.AddColumnsForChange(coll, "Alies_Name", obj.Alies_Name)
-                clsCommon.AddColumnsForChange(coll, "Zone_Code", obj.Zone_Code)
+                clsCommon.AddColumnsForChange(coll, "Zone_Code", obj.Zone_Code, True)
                 ''------------------------
+                clsCommon.AddColumnsForChange(coll, "Area_Code", obj.Area_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Customer_Class", obj.Customer_Class)
                 clsCommon.AddColumnsForChange(coll, "Credit_Customer", obj.Credit_Customer)
                 clsCommon.AddColumnsForChange(coll, "LastInvoice_No", obj.LastInvoice_No)
@@ -816,55 +818,7 @@ Public Class clsCustomerMaster
     Public Shared Function SaveHistory(ByVal Cust_Code As String, ByVal isNewEntry As Boolean, ByVal arrDBName As List(Of String), ByVal trans As SqlTransaction) As Boolean
         Try
             If isNewEntry = False Then
-                'If clsCommon.MyMessageBoxShow("Do you want to save Amendment history?", "", MessageBoxButtons.YesNo) = DialogResult.Yes Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Cust_Code, "TSPL_CUSTOMER_MASTER", "Cust_Code", "TSPL_VISI_MASTER", "Customer_Id", trans)
-                'If MessageBox.Show("Do you want to save Amendment history?", "Important Query", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes Then
-                'Dim Qry As String = "INSERT INTO TSPL_CUSTOMER_MASTER_HISTORY (price_group_code,Parent_Customer_YN,Cust_Code, Customer_Name,Alies_Name,Zone_Code, Add1, Add2, Add3, Closing_Date, Cust_Category_Code, Cust_Group_Code, "
-                'Qry += "Cust_Type_Code,PIN_NO, Route_No, Route_Desc, Price_Code, City_Code, State, Country, Phone1, Phone2, Fax, Email, WebSite, Contact_Person_Name, Contact_Person_Phone, Contact_Person_Fax, "
-                'Qry += "Contact_Person_Website, Contact_Person_Email, Terms_Code, Cust_Account, Tax_Group, TAX1, TAX1_Rate , "
-                'Qry += "TAX2, TAX2_Rate, TAX3, TAX3_Rate, TAX4, TAX4_Rate, TAX5, TAX5_Rate, TAX6, TAX6_Rate, TAX7, TAX7_Rate, TAX8, TAX8_Rate, TAX9, TAX9_Rate, "
-                'Qry += "Tax10, TAX10_Rate, Payment_Code, Service_Tax_No, Tin_No, Lst_No, Form_Type, Channel_Code, Channel_Desc, Status, OnHold, Remarks1, Remarks2, "
-                'Qry += "Additional1, additional2, Additional3, Salesman_Code, Salesman_Desc, OutLet_Commossion, Balance_ToDate, Credit_Limit,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Crate_Opening ,Crate_Opening_Date, Created_By, "
-                'Qry += "Created_Date, Modify_By, Modify_Date,Comp_Code, Route_Group,CST, ECC, Range, Collectorate, PAN, Division, Amendment_Date,CSA_Type,Other_For_PAN )"
-                'Qry += "  "
-                'Qry += "SELECT price_group_code,Parent_Customer_YN,Cust_code, Customer_Name,Alies_Name,Zone_Code, Add1, Add2, Add3, Closing_Date, Cust_Category_Code, Cust_Group_Code, Cust_Type_Code, PIN_NO,Route_No, Route_Desc, "
-                'Qry += "Price_Code, City_Code, State, Country, Phone1, Phone2, Fax, Email, WebSite, Contact_Person_Name, Contact_Person_Phone, "
-                'Qry += "Contact_Person_Fax, Contact_Person_Website, Contact_Person_Email, Terms_Code, Cust_Account, Tax_Group, TAX1, TAX1_Rate , TAX2, TAX2_Rate, "
-                'Qry += "TAX3, TAX3_Rate, TAX4, TAX4_Rate, TAX5, TAX5_Rate, TAX6, TAX6_Rate, TAX7, TAX7_Rate, TAX8, TAX8_Rate, TAX9, TAX9_Rate, TAX10, TAX10_Rate, Payment_Code, Service_Tax_No, Tin_No, Lst_No, Form_Type, Channel_Code, Channel_Desc, Status, OnHold, Remarks1, Remarks2, Additional1, "
-                'Qry += "additional2, Additional3, Salesman_Code, Salesman_Desc, OutLet_Commossion, Balance_ToDate, Credit_Limit,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Crate_Opening ,Crate_Opening_Date, '" + objCommonVar.CurrentUserCode + "', '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "', "
-                'Qry += " '" + objCommonVar.CurrentUserCode + "', '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "', Comp_Code, Route_Group, CST, ECC, Range, Collectorate, PAN, Division, '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "',CSA_Type,Other_For_PAN "
-                'Qry += "FROM TSPL_CUSTOMER_MASTER Where Cust_Code='" + Cust_Code + "'"
-                'clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(Qry, arrDBName, trans)
-
-                ''connectSql.RunSp("sp_TSPL_CUSTOMER_MASTER_HISTORY_INSERT", New SqlParameter("@Cust_Code", obj.Cust_Code), New SqlParameter("@Customer_Name", Me.txtCustomerName.Text), New SqlParameter("@Add1", Me.txtAdd1.Text), New SqlParameter("@Add2", Me.txtAdd2.Text), New SqlParameter("@Add3", Me.txtAdd3.Text), New SqlParameter("@Closing_Date", Format(Me.dtClosing.Value, "dd/MM/yyyy")), New SqlParameter("@Cust_Category_Code", Me.fndCusCategory.Value), New SqlParameter("@Cust_Group_Code", Me.fndCusgrp.Value), New SqlParameter("@Cust_Type_Code", Me.fndCusType.Value), New SqlParameter("@Route_No", Me.fndRoute.Value), New SqlParameter("@Route_Desc", Me.txtRoute.Text), New SqlParameter("@Price_Code", Me.txtPriceCode.Value), New SqlParameter("@City_Code", Me.fndCity.Value), New SqlParameter("@State", state_code), New SqlParameter("@Country", Me.txtCountry.Text), New SqlParameter("@Phone1", Me.txtPhone1.Text), New SqlParameter("@Phone2", Me.txtPhone2.Text), New SqlParameter("@Fax", Me.txtfax.Text), New SqlParameter("@Email", Me.txtEmail.Text), New SqlParameter("@WebSite", Me.txtWeb.Text), New SqlParameter("@Contact_Person_Name", Me.txtContactName.Text), New SqlParameter("@Contact_Person_Phone", Me.txtContPhone.Text), New SqlParameter("@Contact_Person_Fax", Me.txtContactFax.Text), New SqlParameter("@Contact_Person_Website", Me.txtContactWeb.Text), New SqlParameter("@Contact_Person_Email", Me.txtContactEmail.Text), New SqlParameter("@Terms_Code", Me.fndTrmsCode.Value), New SqlParameter("@Cust_Account", Me.fndAccntSet.Value), New SqlParameter("@Tax_Group", Me.fndTxGrp.Value), New SqlParameter("@TAX1", strTax1), New SqlParameter("@TAX1_Rate", strTax1_Rate), New SqlParameter("@TAX2", strTax2), New SqlParameter("@TAX2_Rate", strTax2_Rate), New SqlParameter("@TAX3", strTax3), New SqlParameter("@TAX3_Rate", strTax3_Rate), New SqlParameter("@TAX4", strTax4), New SqlParameter("@TAX4_Rate", strTax4_Rate), New SqlParameter("@TAX5", strTax5), New SqlParameter("@TAX5_Rate", strTax5_Rate), New SqlParameter("@TAX6", strTax6), New SqlParameter("@TAX6_Rate", strTax6_Rate), New SqlParameter("@TAX7", strTax7), New SqlParameter("@TAX7_Rate", strTax7_Rate), New SqlParameter("@TAX8", strTax8), New SqlParameter("@TAX8_Rate", strTax8_Rate), New SqlParameter("@TAX9", strTax9), New SqlParameter("@TAX9_Rate", strTax9_Rate), New SqlParameter("@TAX10", strTax10), New SqlParameter("@TAX10_Rate", strTax10_Rate), New SqlParameter("@Payment_Code", Me.fndPayCode.Value), New SqlParameter("@Service_Tax_No", Me.txtStaxNo.Text), New SqlParameter("@Tin_No", Me.txtTinNo.Text), New SqlParameter("@Lst_No", Me.txtLstNo.Text), New SqlParameter("@Form_Type", Me.drpformtype.Text), New SqlParameter("@Channel_Code", Me.fndChannel.Value), New SqlParameter("@Channel_Desc", Me.txtChannel.Text), New SqlParameter("@Status", strStatus), New SqlParameter("@OnHold", strHold), New SqlParameter("@Remarks1", Me.txtRemarks1.Text), New SqlParameter("@Remarks2", Me.txtRemarks2.Text), New SqlParameter("@Additional1", Me.txtAddInfo1.Text), New SqlParameter("@Additional2", Me.txtAddInfo2.Text), New SqlParameter("@Additional3", Me.txtAddInfo3.Text), New SqlParameter("@Salesman_Code", Me.fndSalePerson.Value), New SqlParameter("@Salesman_Desc", Me.txtSalesPerson.Text), New SqlParameter("@Visi_Id", Me.fndVisi.Value), New SqlParameter("@Visi_Desc", Me.txtVisi.Text), New SqlParameter("@OutLet_Commossion", OutComm), New SqlParameter("@Balance_ToDate", Bal1), New SqlParameter("@Credit_Limit", CrLimit), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@routegroup", Me.fndroutegroup.Value), New SqlParameter("@cst", txtcst.Text.ToString()), New SqlParameter("@ecc", txtecc.Text), New SqlParameter("@range", txtrange.Text), New SqlParameter("@collectorate", txtcollect.Text), New SqlParameter("@pan", txtpan.Text), New SqlParameter("@division", txtdivision.Text), New SqlParameter("@Amendment_Date", connectSql.serverDate()))
-
-                ''--------------------For Saving History Of Visi Master-------------------
-                'Dim AmndNO As Integer = 0
-                'Dim qryInsert As String = "select Visi_Id, VisiMake, Visi_Chasis_No, Visi_Installation_date, Created_By, Created_Date, Modify_By, Modify_Date, Comp_Code, Customer_Id, Customer_name  from TSPL_VISI_MASTER Where Customer_Id='" + Cust_Code + "' "
-                'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qryInsert, trans)
-                'If dt.Rows.Count > 0 Then
-                '    For Each dr As DataRow In dt.Rows
-                '        Dim qry1 As String = "select isNULL(MAX(Amendment_No), 0) as AmendmntNO  from TSPL_VISI_MASTER_HISTORY Where TSPL_VISI_MASTER_HISTORY.customer_Id='" + Cust_Code + "' And Visi_Id='" + dr("Visi_Id") + "'"
-                '        AmndNO = clsDBFuncationality.getSingleValue(qry1, trans)
-                '        AmndNO = AmndNO + 1
-                '        Dim collv As New Hashtable()
-                '        clsCommon.AddColumnsForChange(collv, "Visi_Id", dr("Visi_Id"))
-                '        clsCommon.AddColumnsForChange(collv, "VisiMake", dr("VisiMake"))
-                '        clsCommon.AddColumnsForChange(collv, "Visi_Chasis_No", dr("Visi_Chasis_No"))
-                '        clsCommon.AddColumnsForChange(collv, "Visi_Installation_date", dr("Visi_Installation_date"))
-                '        clsCommon.AddColumnsForChange(collv, "Created_By", dr("Created_By"))
-                '        clsCommon.AddColumnsForChange(collv, "Created_Date", dr("Created_Date"))
-                '        clsCommon.AddColumnsForChange(collv, "Modify_By", dr("Modify_By"))
-                '        clsCommon.AddColumnsForChange(collv, "Modify_Date", dr("Modify_Date"))
-                '        clsCommon.AddColumnsForChange(collv, "Comp_Code", dr("Customer_Id"))
-                '        clsCommon.AddColumnsForChange(collv, "Customer_Id", dr("Customer_Id"))
-                '        clsCommon.AddColumnsForChange(collv, "Customer_name", dr("Customer_name"))
-                '        clsCommon.AddColumnsForChange(collv, "Amendment_No", AmndNO)
-                '        clsCommon.AddColumnsForChange(collv, "History_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd-MMM-yyyy hh:mm tt"))
-                '        clsCommonFunctionality.UpdateDataTableInSelectedDatabase(collv, arrDBName, "TSPL_VISI_MASTER_History", OMInsertOrUpdate.Insert, "", trans)
-                '    Next
-                'End If
-                'End If
             End If
             Return True
         Catch ex As Exception

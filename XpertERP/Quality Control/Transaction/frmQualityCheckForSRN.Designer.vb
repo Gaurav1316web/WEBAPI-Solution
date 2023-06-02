@@ -22,8 +22,8 @@ Partial Class FrmQualityCheckForSRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmQualityCheckForSRN))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -202,7 +202,7 @@ Partial Class FrmQualityCheckForSRN
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1059, 458)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -268,7 +268,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv_MRN.MasterTemplate.AllowDeleteRow = False
         Me.gv_MRN.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_MRN.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv_MRN.Name = "gv_MRN"
         Me.gv_MRN.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_MRN.ShowGroupPanel = False
@@ -306,7 +306,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -363,7 +363,7 @@ Partial Class FrmQualityCheckForSRN
         Me.txtRALNo.IsSourceFromTable = False
         Me.txtRALNo.IsSourceFromValueList = False
         Me.txtRALNo.IsUnique = False
-        Me.txtRALNo.Location = New System.Drawing.Point(579, 77)
+        Me.txtRALNo.Location = New System.Drawing.Point(561, 77)
         Me.txtRALNo.MaxLength = 50
         Me.txtRALNo.MendatroryField = False
         Me.txtRALNo.MyLinkLable1 = Me.RadLabel21
@@ -379,7 +379,7 @@ Partial Class FrmQualityCheckForSRN
         '
         Me.RadLabel21.FieldName = Nothing
         Me.RadLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel21.Location = New System.Drawing.Point(527, 97)
+        Me.RadLabel21.Location = New System.Drawing.Point(509, 97)
         Me.RadLabel21.Name = "RadLabel21"
         Me.RadLabel21.Size = New System.Drawing.Size(78, 16)
         Me.RadLabel21.TabIndex = 69
@@ -390,7 +390,7 @@ Partial Class FrmQualityCheckForSRN
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(527, 76)
+        Me.MyLabel9.Location = New System.Drawing.Point(509, 76)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(46, 16)
         Me.MyLabel9.TabIndex = 77
@@ -454,15 +454,17 @@ Partial Class FrmQualityCheckForSRN
         '
         'MyLabel4
         '
-        Me.MyLabel4.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel4.AutoSize = False
+        Me.MyLabel4.Dock = System.Windows.Forms.DockStyle.Top
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(307, 5)
+        Me.MyLabel4.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.MyLabel4.Location = New System.Drawing.Point(0, 0)
         Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(117, 19)
+        Me.MyLabel4.Size = New System.Drawing.Size(1038, 19)
         Me.MyLabel4.TabIndex = 74
         Me.MyLabel4.Text = "QUALITY CHECK"
+        Me.MyLabel4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         '
         'txtAccept
         '
@@ -470,7 +472,7 @@ Partial Class FrmQualityCheckForSRN
         Me.txtAccept.AutoSize = True
         Me.txtAccept.BackColor = System.Drawing.Color.LightGreen
         Me.txtAccept.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtAccept.Location = New System.Drawing.Point(924, 28)
+        Me.txtAccept.Location = New System.Drawing.Point(925, 44)
         Me.txtAccept.MaximumSize = New System.Drawing.Size(107, 20)
         Me.txtAccept.MinimumSize = New System.Drawing.Size(107, 20)
         Me.txtAccept.Name = "txtAccept"
@@ -483,10 +485,10 @@ Partial Class FrmQualityCheckForSRN
         '
         Me.UsLock1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(934, 5)
+        Me.UsLock1.Location = New System.Drawing.Point(925, 21)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(97, 20)
+        Me.UsLock1.Size = New System.Drawing.Size(107, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 71
         '
@@ -503,9 +505,10 @@ Partial Class FrmQualityCheckForSRN
         'btnNew
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(359, 27)
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(354, 27)
         Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(14, 21)
+        Me.btnNew.Size = New System.Drawing.Size(20, 21)
         Me.btnNew.TabIndex = 0
         Me.btnNew.Text = " "
         '
@@ -513,7 +516,7 @@ Partial Class FrmQualityCheckForSRN
         '
         Me.RadLabel20.FieldName = Nothing
         Me.RadLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel20.Location = New System.Drawing.Point(527, 119)
+        Me.RadLabel20.Location = New System.Drawing.Point(509, 119)
         Me.RadLabel20.Name = "RadLabel20"
         Me.RadLabel20.Size = New System.Drawing.Size(91, 16)
         Me.RadLabel20.TabIndex = 70
@@ -532,7 +535,7 @@ Partial Class FrmQualityCheckForSRN
         Me.txtDocNo.MyMaxLength = 100
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
-        Me.txtDocNo.Size = New System.Drawing.Size(258, 21)
+        Me.txtDocNo.Size = New System.Drawing.Size(253, 21)
         Me.txtDocNo.TabIndex = 12
         Me.txtDocNo.Value = ""
         '
@@ -548,7 +551,7 @@ Partial Class FrmQualityCheckForSRN
         Me.txtGENo.IsSourceFromTable = False
         Me.txtGENo.IsSourceFromValueList = False
         Me.txtGENo.IsUnique = False
-        Me.txtGENo.Location = New System.Drawing.Point(625, 95)
+        Me.txtGENo.Location = New System.Drawing.Point(607, 95)
         Me.txtGENo.MaxLength = 50
         Me.txtGENo.MendatroryField = False
         Me.txtGENo.MyLinkLable1 = Me.RadLabel21
@@ -608,7 +611,7 @@ Partial Class FrmQualityCheckForSRN
         Me.txtGEDate.IsSourceFromTable = False
         Me.txtGEDate.IsSourceFromValueList = False
         Me.txtGEDate.IsUnique = False
-        Me.txtGEDate.Location = New System.Drawing.Point(625, 118)
+        Me.txtGEDate.Location = New System.Drawing.Point(607, 118)
         Me.txtGEDate.MendatroryField = False
         Me.txtGEDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtGEDate.MyLinkLable1 = Me.RadLabel20

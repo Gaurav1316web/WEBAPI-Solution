@@ -117,7 +117,7 @@ Public Class FrmCompanyMaster
 
                 clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "' WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
                 '===SANJEET(24/11/2016)=TinNo Issue date and PanNo Issue Date=========
-                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET TinNo_Issue_Date = '" & clsCommon.GetPrintDate(dtTinIssueDate.Text, "dd/MMM/yyyy") & "' ,PanNo_Issue_Date ='" & clsCommon.GetPrintDate(dtPanIssueDate.Text, "dd/MMM/yyyy") & "' WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
+                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET TinNo_Issue_Date = '" & clsCommon.GetPrintDate(dtTinIssueDate.Text, "dd/MMM/yyyy") & "' ,PanNo_Issue_Date ='" & clsCommon.GetPrintDate(dtPanIssueDate.Text, "dd/MMM/yyyy") & "',comp_code1='" & txtcomp_code1.Text & "' WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
                 UpdateCompanyMaster()
 
                 ''----GST Function
@@ -219,7 +219,7 @@ Public Class FrmCompanyMaster
                 clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET Comp_ESIC_NO = '" & txtESICNO.Text & "' ,Comp_PF_NO ='" & txtPFNO.Text & "',Employer_Name='" & TxtEmployerName.Text & "',Employer_Desg='" & TxtEmployerDesg.Text & "',Employer_Add1='" & TxtEmployerAdd1.Text & "',Employer_Add2='" & TxtEmployerAdd2.Text & "',Employer_Add3='" & TxtEmployerAdd3.Text & "' " + xcheckInsurance + ",Bank_Name='" & txtBankName.Text & "',BankAccountNo='" & TxtBankAccountNo.Text & "',BankIFSCCode='" & txtifsccode.Text & "',BankBranchAddress='" & txtbranchAddress.Text & "'  WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
 
                 '===SANJEET(24/11/2016)=TinNo Issue date and PanNo Issue Date=========
-                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET TinNo_Issue_Date = '" & clsCommon.GetPrintDate(dtTinIssueDate.Text, "dd/MMM/yyyy") & "' ,PanNo_Issue_Date ='" & clsCommon.GetPrintDate(dtPanIssueDate.Text, "dd/MMM/yyyy") & "' WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
+                clsDBFuncationality.ExecuteNonQuery(" UPDATE TSPL_COMPANY_MASTER SET TinNo_Issue_Date = '" & clsCommon.GetPrintDate(dtTinIssueDate.Text, "dd/MMM/yyyy") & "' ,PanNo_Issue_Date ='" & clsCommon.GetPrintDate(dtPanIssueDate.Text, "dd/MMM/yyyy") & "',comp_code1='" & txtcomp_code1.Text & "' WHERE Comp_Code ='" + fndCompanyCode.Value + "'")
 
                 ''=-----GST Function
                 If AllowGSTApplicable = True Then
@@ -240,7 +240,7 @@ Public Class FrmCompanyMaster
     ''fill company details
     Private Sub funFill()
         cboDataBase.SelectedIndex = 0
-        dt = clsDBFuncationality.GetDataTable("select  Comp_Name,Add1,Add2,Add3,City_Code ,Phone1 ,Phone2 ,Fax,Email ,Pincode ,State ,Tin_No ,CST_LST ,Regn_No ,Cform ,Mode_of_Trans ,DataBase_Name ,Logo_Img ,Logo_Img2 ,Vat_Reg_No ,ServiceTax_Reg_No ,Ecc_No ,CE_Range ,CE_Commissionerate,CE_Division ,Pan_No ,Tan_No ,Tcan_No ,Circle_No ,Ward_No ,Access_Officer,NameInTally,IntegrateWithTally,BaseCurrencyCode,ApplyMultiCurrency,cust_code,Is_Main_Company,CINNo,IECode ,Comp_PF_NO,Comp_ESIC_NO,ISNULL(Employer_Name,'') AS Employer_Name,ISNULL(Employer_Desg,'') AS Employer_Desg,ISNULL(Employer_Add1,'') AS Employer_Add1,ISNULL(Employer_Add2,'') AS Employer_Add2,ISNULL(Employer_Add3,'') AS Employer_Add3,Insurance_No,insurance_comp_name,insurance_valid_date,TinNo_Issue_Date,PanNo_Issue_Date,GSTINNo,GSTReg_No,Bank_Name,BankAccountNo,BankIFSCCode,BankBranchAddress from TSPL_COMPANY_MASTER  where Comp_Code='" + fndCompanyCode.Value + "'")
+        dt = clsDBFuncationality.GetDataTable("select  Comp_Name,Add1,Add2,Add3,City_Code ,Phone1 ,Phone2 ,Fax,Email ,Pincode ,State ,Tin_No ,CST_LST ,Regn_No ,Cform ,Mode_of_Trans ,DataBase_Name ,Logo_Img ,Logo_Img2 ,Vat_Reg_No ,ServiceTax_Reg_No ,Ecc_No ,CE_Range ,CE_Commissionerate,CE_Division ,Pan_No ,Tan_No ,Tcan_No ,Circle_No ,Ward_No ,Access_Officer,NameInTally,IntegrateWithTally,BaseCurrencyCode,ApplyMultiCurrency,cust_code,Is_Main_Company,CINNo,IECode ,Comp_PF_NO,Comp_ESIC_NO,ISNULL(Employer_Name,'') AS Employer_Name,ISNULL(Employer_Desg,'') AS Employer_Desg,ISNULL(Employer_Add1,'') AS Employer_Add1,ISNULL(Employer_Add2,'') AS Employer_Add2,ISNULL(Employer_Add3,'') AS Employer_Add3,Insurance_No,insurance_comp_name,insurance_valid_date,TinNo_Issue_Date,PanNo_Issue_Date,GSTINNo,GSTReg_No,Bank_Name,BankAccountNo,BankIFSCCode,BankBranchAddress,comp_code1 from TSPL_COMPANY_MASTER  where Comp_Code='" + fndCompanyCode.Value + "'")
         'While dr.Read()
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
@@ -343,7 +343,7 @@ Public Class FrmCompanyMaster
                 TxtBankAccountNo.Text = clsCommon.myCstr(dr("BankAccountNo"))
                 txtifsccode.Text = clsCommon.myCstr(dr("BankIFSCCode"))
                 txtbranchAddress.Text = clsCommon.myCstr(dr("BankBranchAddress"))
-
+                txtcomp_code1.Text = clsCommon.myCstr(dr("comp_code1"))
                 'If userCode <> "ADMIN" Then
                 '    If funSetUserAccess() = False Then Exit Sub
                 'End If
@@ -438,7 +438,7 @@ Public Class FrmCompanyMaster
         TxtBankAccountNo.Text = ""
         txtifsccode.Text = ""
         txtbranchAddress.Text = ""
-       
+        txtcomp_code1.Text = ""
     End Sub
     'priti added on 01-06-2011 --- To implement the access control
     'Private Function funSetUserAccess() As Boolean
@@ -1126,7 +1126,7 @@ Public Class FrmCompanyMaster
             txtTinNo.Text = ""
             txtCstLst.Text = ""
             txtRegdNo.Text = ""
-
+            txtcomp_code1.Text = ""
             txtVatRegNo.Text = ""
             txtPanNo.Text = ""
             txtServiceTaxRegNo.Text = ""
@@ -1200,6 +1200,7 @@ Public Class FrmCompanyMaster
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
+
 
     Private Sub txtcust_code__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtcust_code._MYValidating
         Try

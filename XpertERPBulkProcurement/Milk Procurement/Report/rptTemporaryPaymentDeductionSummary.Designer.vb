@@ -371,7 +371,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(671, 278)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(833, 278)
         Me.RadPageViewPage2.Text = "Report"
         '
         'Gv1
@@ -393,7 +393,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(671, 278)
+        Me.Gv1.Size = New System.Drawing.Size(833, 278)
         Me.Gv1.TabIndex = 0
         '
         'btnExp

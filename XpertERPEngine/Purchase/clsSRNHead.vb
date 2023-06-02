@@ -2715,6 +2715,12 @@ Public Class clsSRNHead
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             End If
 
+            Qry = "select Document_No from TSPL_TENDER_PENALTY_DETAIL where SRN_No='" + strCode + "'"
+            dt = clsDBFuncationality.GetDataTable(Qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("CURRENT SRN IS USED IN FOLLOWING Tender Dedcution -" + clsCommon.myCstr(dt.Rows(0)("Document_No")))
+            End If
+
 
             Qry = "update TSPL_SERIAL_ITEM set Against_Inv_Movement_Trans_Id=null where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
@@ -2739,16 +2745,7 @@ Public Class clsSRNHead
     End Function
 
     Public Shared Function GenerateSRNDeduction(ByVal strSRNNo As String, ByVal strICode As String, ByVal trans As SqlTransaction) As Boolean
-        Dim qry As String = "delete From TSPL_SRN_DEDUCTION  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + strICode + "'"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-        qry = "delete From TSPL_SRN_DEDUCTION_SECURITY  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + strICode + "'"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-        qry = "delete From TSPL_SRN_TENDER  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + strICode + "'"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-        qry = "select TSPL_SRN_HEAD.Against_QC_Code,TSPL_SRN_DETAIL.PO_ID,TSPL_SRN_DETAIL.Row_Type,TSPL_SRN_DETAIL.SRN_Qty,TSPL_SRN_DETAIL.Leak_Qty,TSPL_SRN_DETAIL.Burst_Qty,TSPL_SRN_DETAIL.Short_Qty,TSPL_SRN_HEAD.Vendor_Code,TSPL_SRN_HEAD.isExemptSecurityDedution ,TSPL_SRN_DETAIL.GRN_ID,TSPL_SRN_DETAIL.Item_Net_Amt 
+        Dim qry As String = "select TSPL_SRN_HEAD.Against_QC_Code,TSPL_SRN_DETAIL.PO_ID,TSPL_SRN_DETAIL.Row_Type,TSPL_SRN_DETAIL.SRN_Qty,TSPL_SRN_DETAIL.Leak_Qty,TSPL_SRN_DETAIL.Burst_Qty,TSPL_SRN_DETAIL.Short_Qty,TSPL_SRN_HEAD.Vendor_Code,TSPL_SRN_HEAD.isExemptSecurityDedution ,TSPL_SRN_DETAIL.GRN_ID,TSPL_SRN_DETAIL.Item_Net_Amt 
 from TSPL_SRN_DETAIL
 left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No
 where TSPL_SRN_HEAD.SRN_No='" + strSRNNo + "' and TSPL_SRN_DETAIL.Item_Code='" + strICode + "'"
@@ -2790,7 +2787,7 @@ select Against_TenderNo as DocumentCode,Against_Tender_Schedule_PK_Id as PK_Id,n
                         clsCommon.AddColumnsForChange(coll, "Against_TenderNo", clsCommon.myCstr(dt.Rows(kk)("DocumentCode")))
                         clsCommon.AddColumnsForChange(coll, "Against_Tender_Schedule_PK_Id", clsCommon.myCDecimal(dt.Rows(kk)("PK_Id")))
                         clsCommon.AddColumnsForChange(coll, "SRN_No", strSRNNo)
-                        clsCommon.AddColumnsForChange(coll, "Item_Code", clsCommon.myCstr(dtSRN.Rows(0)("Item_Code")))
+                        clsCommon.AddColumnsForChange(coll, "Item_Code", strICode)
                         Dim dclApplyQty As Decimal = 0
                         If dclSRNQty <= clsCommon.myCDecimal(dt.Rows(kk)("Qty")) Then
                             dclApplyQty = dclSRNQty
