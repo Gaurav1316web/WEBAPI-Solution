@@ -113,7 +113,7 @@ Public Class frmTimeTable
     Sub Save()
 
         If MyBase.isModifyonPasswordFlag Then
-            If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.TimeTable, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+            If clsPasswordCheckForMasters.CheckMasterPwd("", clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
             Else
                 Return
             End If

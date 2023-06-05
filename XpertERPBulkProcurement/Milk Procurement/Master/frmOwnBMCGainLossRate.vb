@@ -13,7 +13,7 @@ Public Class frmOwnBMCGainLossRate
     Dim Qry As String
 #End Region
     Private Sub frmOwnBMCGainLossRate_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        funreset()
+        funReset()
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete")
@@ -214,10 +214,10 @@ Public Class frmOwnBMCGainLossRate
         txtSNF.Text = ""
         txtLFat.Text = ""
         txtLSnf.Text = ""
-        txtLossFATPer.Value = ""
-        txtLossSNFPer.Value = ""
-        txtGainFATPer.Value = ""
-        txtGainSNFPer.Value = ""
+        txtLossFATPer.Value = 0
+        txtLossSNFPer.Value = 0
+        txtGainFATPer.Value = 0
+        txtGainSNFPer.Value = 0
         txtCode.Value = Nothing
         txtDescription.Text = Nothing
         dtpEndDate.Value = clsCommon.GETSERVERDATE()

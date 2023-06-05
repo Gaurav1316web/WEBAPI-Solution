@@ -263,34 +263,31 @@ Public Class VisualTopProcurement
     End Sub
 
     Private Sub btnQuickExport_Click(sender As Object, e As EventArgs)
-        Try
 
-            Dim arrHeader As List(Of String) = New List(Of String)()
+
+        Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & "'))
-
-            Dim sfd As SaveFileDialog = New SaveFileDialog()
-            Dim filePath As String
-            sfd.FileName = Me.Text
-            sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
-            If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+        'arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue)
+        Dim sfd As SaveFileDialog = New SaveFileDialog()
+        Dim filePath As String
+        sfd.FileName = Me.Text
+        sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx|CSV Files (*.csv) |*.csv"
+        If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
                 filePath = sfd.FileName
             Else
                 Exit Sub
             End If
             '     transportSql.exportdataChilRows(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
             common.clsCommon.MyMessageBoxShow("Exported Successfully.")
-            Process.Start(filePath)
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
+        Process.Start(filePath)
+        'common.clsCommon.MyMessageBoxShow(Me, ex.Message)
     End Sub
 
     Private Sub txtPlant__My_Click(sender As Object, e As EventArgs) Handles txtPlant._My_Click
         Dim qry As String = "select  Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER where Type='PLANT'"
         txtPlant.arrValueMember = clsCommon.ShowMultipleSelectForm("VRPCUPLT", qry, "Code", "Name", txtPlant.arrValueMember, txtPlant.arrDispalyMember)
-            RefreshMCC()
+        RefreshMCC()
         RefreshRoute()
         RefreshVLC()
     End Sub
