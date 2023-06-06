@@ -135,7 +135,7 @@ Public Class FrmVLCDailyLandedCost
                 Dim arrHeader As List(Of String) = New List(Of String)()
                 Dim CompName As String = "Company : " & objCommonVar.CurrentCompanyName ' clsDBFuncationality.getSingleValue("Select Comp_Name from TSPL_COMPANY_MASTER Where Comp_Code='" & clsUserMgtCode.RptDailyStanderdMilkQtyMCCWise & "'")
                 arrHeader.Add(CompName)
-                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.RptDailyLandedCost & "'"))
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & "'"))
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(dtpFromdate1.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy")) + " ")
                 If exporter = EnumExportTo.Excel Then
                     clsCommon.MyExportToExcelGrid(Me.Text, gv1, arrHeader, Me.Text)

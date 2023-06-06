@@ -13972,6 +13972,7 @@ Public Class clsCreateAllTable
             '----------------------------------------------
             coll.Add("Alies_Name", "varchar(200) NOT NULL Default ''")
             coll.Add("Zone_Code", "VARCHAR(30) NULL")
+            coll.Add("Area_Code", "VARCHAR(12) NULL references TSPL_AREA_MASTER(Code)")
             coll.Add("CheckCreditLimit", "integer not null default 0")
             coll.Add("PIN_NO", "varchar(30) null")
             coll.Add("Struct_Code", "Varchar(30)  null references TSPL_Sales_Hierarchy_Structure(Struct_Code)")

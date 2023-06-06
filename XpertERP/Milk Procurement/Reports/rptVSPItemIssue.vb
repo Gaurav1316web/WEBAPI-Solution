@@ -442,7 +442,7 @@ Public Class RptVSPItemIssue
             If gv.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
                 arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptVSPItemIssue & "'"))
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & "'"))
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
                 If chkMCCSelect.IsChecked Then
                     Dim strMCCName As String = ""

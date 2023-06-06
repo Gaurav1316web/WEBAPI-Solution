@@ -149,16 +149,7 @@ where 2=2"
                 End If
                 Dim qry As String = ""
 
-                For Each strSRNNo As String In obj.Arr
-                    qry = "delete From TSPL_SRN_DEDUCTION  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + obj.Item_Code + "'"
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-                    qry = "delete From TSPL_SRN_DEDUCTION_SECURITY  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + obj.Item_Code + "'"
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-                    qry = "delete From TSPL_SRN_TENDER  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + obj.Item_Code + "'"
-                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                Next
+                DeleteSRNDeduction(obj.Arr, obj.Item_Code, trans)
 
                 qry = "delete from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -174,6 +165,7 @@ where 2=2"
         End If
         Return True
     End Function
+
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
 
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -209,6 +201,24 @@ where exists(select 1 from TSPL_TENDER_PENALTY as TabCurr where TabCurr.Document
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function DeleteSRNDeduction(ByVal ArrSRNNo As ArrayList, ByVal strICode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            If ArrSRNNo IsNot Nothing AndAlso ArrSRNNo.Count > 0 Then
+                Dim qry As String = "delete From TSPL_SRN_DEDUCTION  Where SRN_No in (" + clsCommon.GetMulcallString(ArrSRNNo) + ") and Item_Code='" + strICode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete From TSPL_SRN_DEDUCTION_SECURITY  Where SRN_No in (" + clsCommon.GetMulcallString(ArrSRNNo) + ") and Item_Code='" + strICode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete From TSPL_SRN_TENDER  Where SRN_No in  (" + clsCommon.GetMulcallString(ArrSRNNo) + ") and Item_Code='" + strICode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+        Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True

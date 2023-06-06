@@ -1114,10 +1114,10 @@ Public Class clsApprovalAlert_Child
                         ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmCSASaleInvoice) = CompairStringResult.Equal Then
                             isSaved = isSaved AndAlso clsCSASaleInvoice.PostData(clsUserMgtCode.frmCSASaleInvoice, LOCATIONRIGTHS(trans), obj.Document_Code, trans)
 
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmVSPItemIssue) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsVSPItemIssue.PostData(obj.Document_Code, trans)
+                        'ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmVSPItemIssue) = CompairStringResult.Equal Then
+                        '    isSaved = isSaved AndAlso clsVSPItemIssue.PostData(obj.Document_Code, trans)
 
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
                             isSaved = isSaved AndAlso clsMCCMaterialSale.PostData(clsUserMgtCode.frmMCCMaterial, obj.Document_Code, trans)
 
                         ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmShipmentProductSale) = CompairStringResult.Equal Then

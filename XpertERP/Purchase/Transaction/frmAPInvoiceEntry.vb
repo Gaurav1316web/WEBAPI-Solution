@@ -5276,8 +5276,8 @@ Public Class FrmAPInvoiceEntry
                 MDI.ShowForm(clsUserMgtCode.mbtnPurchaseInvoice, "", True, clsCommon.myCstr(dt.Rows(0)("Against_POInvoice_No")))
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_PurchaseReturn_No")) > 0 Then
                 MDI.ShowForm(clsUserMgtCode.mbtnPurchaseReturn, "", True, clsCommon.myCstr(dt.Rows(0)("Against_PurchaseReturn_No")))
-            ElseIf clsCommon.myLen(dt.Rows(0)("Against_VSPItemIssue_No")) > 0 Then
-                MDI.ShowForm(clsUserMgtCode.frmVSPItemIssue, "", True, clsCommon.myCstr(dt.Rows(0)("Against_VSPItemIssue_No")))
+                'ElseIf clsCommon.myLen(dt.Rows(0)("Against_VSPItemIssue_No")) > 0 Then
+                '    MDI.ShowForm(clsUserMgtCode.frmVSPItemIssue, "", True, clsCommon.myCstr(dt.Rows(0)("Against_VSPItemIssue_No")))
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_VCGL")) > 0 Then
                 MDI.ShowForm(clsUserMgtCode.mbtnVCGLEntry, "", True, clsCommon.myCstr(dt.Rows(0)("Against_VCGL")))
             ElseIf clsCommon.myLen(dt.Rows(0)("RefDocType")) > 0 Then

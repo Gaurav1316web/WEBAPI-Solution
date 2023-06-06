@@ -50,7 +50,7 @@ Public Class FrmExciseSummaryReport
 
             Dim strRights As String
             Dim strTemp() As String
-            Dim strProgCode = clsUserMgtCode.ExciseSummary1
+            Dim strProgCode =
             strRights = enuUserRights.enuRead & "," & enuUserRights.enuModify & "," & enuUserRights.enuDelete & "," & enuUserRights.enuAuthorised
             strRights = modUserMgt.funGetPermissions(strRights, strProgCode)
             strTemp = Split(strRights, ",")

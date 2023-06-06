@@ -165,7 +165,7 @@ Public Class clsScreenNotificationSchedule
                         clsCommon.MyMessageBoxShow(clsCommon.myCstr(dr("Notification")))
                     End If
 
-                ElseIf clsCommon.CompairString(clsUserMgtCode.FrmBankGuaranteeMaster1, dr("program_code")) = CompairStringResult.Equal Then
+                    'ElseIf clsCommon.CompairString(clsUserMgtCode.FrmBankGuaranteeMaster1, dr("program_code")) = CompairStringResult.Equal Then
                     Count = 0
                     strDate = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy")
 

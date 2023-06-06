@@ -5131,13 +5131,13 @@ Public Class FrmMCCMaster
     End Sub
 
     Private Sub gvBankG_CellDoubleClicK(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvBankG.CellDoubleClick
-        Try
-            If clsCommon.myLen(gvBankG.CurrentRow.Cells("COLBankNO").Value) > 0 Then
-                clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmBankGuaranteeMaster1, gvBankG.CurrentRow.Cells("COLBankNO").Value)
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.ToString)
-        End Try
+        'Try
+        '    If clsCommon.myLen(gvBankG.CurrentRow.Cells("COLBankNO").Value) > 0 Then
+        '        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmBankGuaranteeMaster1, gvBankG.CurrentRow.Cells("COLBankNO").Value)
+        '    End If
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        'End Try
     End Sub
 
     Private Sub GVPaymentEntry_CellDoubleClicK(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles GVPaymentEntry.CellDoubleClick

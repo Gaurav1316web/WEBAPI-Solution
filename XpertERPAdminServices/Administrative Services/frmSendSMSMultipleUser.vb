@@ -42,7 +42,7 @@ Public Class FrmSendSMSMultipleUser
                         objSMSH.arrMobilNo.Add(Mobile)
                     Next
                 End If
-                objSMSH.SaveData(clsUserMgtCode.FrmSendSMSMultipleUser, objSMSH, Nothing)
+                objSMSH.SaveData("", objSMSH, Nothing)
                 objSMSH = Nothing
                 clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
             End If
