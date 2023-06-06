@@ -23,8 +23,8 @@ Partial Class rptrlPenaltyRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -113,7 +113,7 @@ Partial Class rptrlPenaltyRegister
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1163, 467)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -356,7 +356,7 @@ Partial Class rptrlPenaltyRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.Name = "gv"
         Me.gv.ReadOnly = True
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -407,7 +407,7 @@ Partial Class rptrlPenaltyRegister
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSchedule.ShowGroupPanel = False
