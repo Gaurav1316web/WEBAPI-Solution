@@ -2041,6 +2041,7 @@ Public Class clsUserMgtCode
     Public Const frmQCSeparation As String = "QC_SEPARATE"
     Public Const frmTankerProvision As String = "M-TANK-PROV"
     Public Const MilkCollectionGenerate As String = "MLK-COL-GEN"
+    Public Const MilkCollectionMCCMultipleDays As String = "MLK-COL-MLD"
     Public Const MilkCollectionMCC As String = "MLK-COL-MCC"
     Public Const MilkCollectionMCCGateEntry As String = "MLK-COL-MCCG"
     Public Const MilkCollectionMCCSample As String = "MLK-COL-MCCS"
