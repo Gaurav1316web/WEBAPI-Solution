@@ -129,7 +129,7 @@ Public Class frmSynchronization
         If AllowToSave() Then
 
             If MyBase.isModifyonPasswordFlag Then
-                If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmSynchronization, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                If clsPasswordCheckForMasters.CheckMasterPwd("", clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                 Else
                     Return
                 End If
@@ -722,7 +722,7 @@ Public Class frmSynchronization
 
     End Sub
     Public Sub SendSMS(ByVal trans As SqlTransaction, ByVal msg As String)
-        Dim dtSMSEmail As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,EMail_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmSynchronization + "'", trans)
+        Dim dtSMSEmail As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,EMail_Text from TSPL_ES_Content where Form_ID='" + "'", trans)
         Dim strSMSContent As String = ""
         If dtSMSEmail.Rows.Count > 0 Then
             strSMSContent = clsCommon.myCstr(dtSMSEmail.Rows(0).Item("SMS_Text"))
@@ -746,7 +746,7 @@ Public Class frmSynchronization
             Dim objSMSH As New clsSMSHead()
             objSMSH.SMS_Text = strSMSContent
             objSMSH.arrMobilNo = New List(Of String)()
-            objSMSH.SaveData(clsUserMgtCode.frmSynchronization, objSMSH, trans)
+            objSMSH.SaveData("", objSMSH, trans)
             objSMSH = Nothing
         End If
     End Sub

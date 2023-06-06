@@ -4616,7 +4616,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
             frm.VendorCode = Vsp_Name
             frm.MpCode = clsCommon.myCstr(row_MP.Item("MP_Code"))
             frm.isForMP = True
-            frm.fORMCode = clsUserMgtCode.MilkMPPayment
+            'frm.fORMCode = clsUserMgtCode.MilkMPPayment
             frm.stran = trans
             'frm.strCurrCode = FndSRNNO.Value
             frm.Frm_date = frm_date

@@ -407,7 +407,7 @@ Public Class FrmExciseSummaryNew
 
             Dim strRights As String
             Dim strTemp() As String
-            Dim strProgCode = clsUserMgtCode.ExciseSummary1
+            Dim strProgCode = ""
             strRights = enuUserRights.enuRead & "," & enuUserRights.enuModify & "," & enuUserRights.enuDelete & "," & enuUserRights.enuAuthorised
             strRights = modUserMgt.funGetPermissions(strRights, strProgCode)
             strTemp = Split(strRights, ",")
@@ -572,13 +572,13 @@ Public Class FrmExciseSummaryNew
                 Dim arrHeader As List(Of String) = New List(Of String)()
                 'arrHeader.Add("Date Range: " + clsCommon.GetPrintDate(dtStart.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtEnd.Value, "dd/MM/yyyy"))
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.ExciseSummary1 & "'"))
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & "'"))
 
-            'If chkCHapterWise.Checked Then
-            '    arrHeader.Add("EXCISE DUTY CALCULATION  - CHAPTERWISE " + clsCommon.GETSERVERDATE() + " ")
-            'Else
-            '    arrHeader.Add("EXCISE DUTY CALCULATION  " + clsCommon.GETSERVERDATE() + " ")
-            'End If
+                'If chkCHapterWise.Checked Then
+                '    arrHeader.Add("EXCISE DUTY CALCULATION  - CHAPTERWISE " + clsCommon.GETSERVERDATE() + " ")
+                'Else
+                '    arrHeader.Add("EXCISE DUTY CALCULATION  " + clsCommon.GETSERVERDATE() + " ")
+                'End If
                 arrHeader.Add("From Date : " + clsCommon.GetPrintDate(dtStart.Value, "dd/MMM/yyyy") + " To " + clsCommon.GetPrintDate(dtEnd.Value, "dd/MMM/yyyy") + " ")
                 arrHeader.Add("From Time : " + clsCommon.GetPrintDate(dtStart.Value, "hh:mm tt") + " To " + clsCommon.GetPrintDate(dtEnd.Value, "hh:mm tt") + " ")
 

@@ -58,7 +58,7 @@ Public Class frmCustomerAdvanceAgainstBooking
             " left outer join tspl_customer_master on TSPL_BOOKING_DETAIL .Cust_Code=tspl_customer_master.Cust_Code " & Environment.NewLine &
             " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_BOOKING_MATSER.location_code" & Environment.NewLine &
                   " where isnull(TSPL_BOOKING_MATSER.Booking_type,'')='CD' and convert(date ,TSPL_BOOKING_MATSER.Document_Date ,103) between convert(date ,'" & txtFromDate.Value & "' ,103) and convert(date ,'" & txtToDate.Value & "' ,103) " & Environment.NewLine &
-                  " and TSPL_BOOKING_MATSER.IsSampling =0 and ISNULL(TSPL_BOOKING_PAYMENT_MODE_DETAIL.Against_Receipt_No ,'')='' and ISNULL(TSPL_BOOKING_MATSER.Against_Booking_No  ,'')='' and TSPL_BOOKING_MATSER.location_code='" & clsCommon.myCstr(txtLocation.Value) & "' and TSPL_BOOKING_MATSER.From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "' and TSPL_BOOKING_MATSER.Is_Cancelled=0 " & Environment.NewLine
+                  " and TSPL_BOOKING_MATSER.IsSampling =0 and ISNULL(TSPL_BOOKING_PAYMENT_MODE_DETAIL.Against_Receipt_No ,'')='' and ISNULL(TSPL_BOOKING_MATSER.Against_Booking_No  ,'')='' and TSPL_BOOKING_MATSER.location_code='" & clsCommon.myCstr(txtLocation.Value) & "' and TSPL_BOOKING_MATSER.From_Screen_code='" & "' and TSPL_BOOKING_MATSER.Is_Cancelled=0 " & Environment.NewLine
 
             If txtCustomerNo.arrValueMember IsNot Nothing AndAlso txtCustomerNo.arrValueMember.Count > 0 Then
                 qry += " and TSPL_BOOKING_DETAIL.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomerNo.arrValueMember) + ")  "
@@ -377,7 +377,7 @@ Public Class frmCustomerAdvanceAgainstBooking
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
             arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
 
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.frmAdvanceForCD & "'"))
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & "'"))
             arrHeader.Add(" Location : " + clsCommon.myCstr(txtLocation.Value))
 
             If Gv1.Rows.Count > 0 Then

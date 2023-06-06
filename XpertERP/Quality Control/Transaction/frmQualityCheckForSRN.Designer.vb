@@ -268,7 +268,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv_MRN.MasterTemplate.AllowDeleteRow = False
         Me.gv_MRN.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_MRN.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition3
+        'Me.gv_MRN.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv_MRN.Name = "gv_MRN"
         Me.gv_MRN.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_MRN.ShowGroupPanel = False
@@ -306,7 +306,7 @@ Partial Class FrmQualityCheckForSRN
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
+        'Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False

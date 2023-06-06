@@ -90,7 +90,7 @@ Public Class frmCurrencyRateMain
 
     Sub AddNew()
         Dim frm As New frmCurrencyConversion()
-        frm.SetUserMgmt(clsUserMgtCode.frmCurrencyConversion)
+        frm.SetUserMgmt("")
         frm.ShowDialog()
         LoadData(False)
     End Sub
@@ -101,7 +101,7 @@ Public Class frmCurrencyRateMain
 
     Private Sub gv1_CellDoubleClick(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellDoubleClick
         Dim frm As New frmCurrencyConversion()
-        frm.SetUserMgmt(clsUserMgtCode.frmCurrencyConversion)
+        frm.SetUserMgmt("")
         frm.StrCode = clsCommon.myCstr(gv1.CurrentRow.Cells("Code").Value)
         frm.ShowDialog()
         LoadData(False)

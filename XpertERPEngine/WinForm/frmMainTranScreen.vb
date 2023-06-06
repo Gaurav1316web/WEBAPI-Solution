@@ -1602,9 +1602,9 @@ Public Class FrmMainTranScreen
                 clsCommon.MyMessageBoxShow("No Document Found on Current Screen")
                 Exit Sub
             End If
+            ' clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkMPPayment) = CompairStringResult.Equal OrElse
             If clsCommon.CompairString(Form_ID, clsUserMgtCode.frmPaymentProcessFarmer) = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(Form_ID, clsUserMgtCode.frmPaymentProcess) = CompairStringResult.Equal OrElse
-                clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkMPPayment) = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkVSPPayment) = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(Form_ID, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal OrElse
                 clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkVSPIssuePayment) = CompairStringResult.Equal Then

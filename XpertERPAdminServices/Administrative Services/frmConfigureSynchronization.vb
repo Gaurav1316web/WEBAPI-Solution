@@ -27,7 +27,7 @@ Public Class frmConfigureSynchronization
         Try
             If AllowToSave() Then
                 If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmConfigureSynchronization, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                    If clsPasswordCheckForMasters.CheckMasterPwd("", clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                     Else
                         Return
                     End If
@@ -129,7 +129,7 @@ Public Class frmConfigureSynchronization
 
 
     Private Sub SetUserMgmtNew()
-        MyBase.SetUserMgmt(clsUserMgtCode.frmConfigureSynchronization)
+        MyBase.SetUserMgmt("")
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If

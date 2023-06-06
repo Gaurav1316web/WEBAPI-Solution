@@ -980,7 +980,7 @@ Public Class RptServiceTaxDetail
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.RptServiceTaxDetail & "'"))
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & "'"))
 
             If rbtnLocationSelect.IsChecked Then
                 Dim strLoca As String = ""

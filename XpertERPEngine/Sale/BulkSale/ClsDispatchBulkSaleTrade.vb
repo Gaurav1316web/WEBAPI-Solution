@@ -41,7 +41,7 @@ Public Class ClsDispatchBulkSaleTrade
         Dim qry As String = String.Empty
         ' Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmDispatchBulkSaleTrade, obj.Location_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, "", obj.Location_Code, obj.Document_Date, trans)
             qry = "delete from TSPL_Dispatch_Detail_BulkSale_Trade where Document_No='" & obj.Document_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If isNewEntry Then
@@ -159,7 +159,7 @@ Public Class ClsDispatchBulkSaleTrade
                 Throw New Exception("No Data found to Post")
             End If
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmDispatchBulkSaleTrade, obj.Location_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, "", obj.Location_Code, obj.Document_Date, trans)
 
 
             ''richa 08/08/2014 for INventory movement
@@ -394,7 +394,7 @@ Public Class ClsDispatchBulkSaleTrade
         End If
         Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Location_Code from TSPL_Dispatch_BulkSale_Trade where Document_No='" + strDocNo + "'", trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, clsUserMgtCode.FrmDispatchBulkSaleTrade, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkSale, "", clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
         End If
         Try

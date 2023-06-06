@@ -250,12 +250,12 @@ Public Class RptInventoryRecoReport
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells("Trans Type").Value), "CSA-SALEPATTI-RETURN") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmCSASalePattiReturn, clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells("Trans Type").Value), "DispatchBSTrade") = CompairStringResult.Equal Then
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
+                    clsOpenTransactionForm.OpenTransacionForm("", clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
                     ''''''''''''''''''''''''''''''''''''
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells("Trans Type").Value), "DispChallanRet") = CompairStringResult.Equal Then
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCTankerDispatchReturn, clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
+                    clsOpenTransactionForm.OpenTransacionForm("", clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells("Trans Type").Value), "DispChallan-RET") = CompairStringResult.Equal Then
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MCCDispatchReturn, clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
+                    clsOpenTransactionForm.OpenTransacionForm("", clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells("Trans Type").Value), "EX_SALE_IN") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmEXSalesInvoice, clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells("Trans Type").Value), "JWO-SRN") = CompairStringResult.Equal Then
@@ -264,7 +264,7 @@ Public Class RptInventoryRecoReport
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPAssetIssue, clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
 
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells("Trans Type").Value), "MCC-IISSUE") = CompairStringResult.Equal Then
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
+                    clsOpenTransactionForm.OpenTransacionForm("", clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells("Trans Type").Value), "MilkTransferInReturn") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkTransferInReturn, clsCommon.myCstr(Gv1.CurrentRow.Cells("Inv Source Doc No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(Gv1.CurrentRow.Cells("Trans Type").Value), "MilkTransferJobWork") = CompairStringResult.Equal Then

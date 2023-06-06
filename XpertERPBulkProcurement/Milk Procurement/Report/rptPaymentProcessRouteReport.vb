@@ -2732,13 +2732,16 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             'End If
             'whrclsItemWise += " and final.doc_no in ('" + fndDocNo.Value + "')"
             whrclsItemWise += "  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + txtToDate.Value + "'),103) "
-            Dim strPC_FATValue As String = 0
-            Dim strPC_SNFValue As String = 0
+            Dim strPC_FATValue As String = Nothing
+            Dim strPC_SNFValue As String = Nothing
             Dim dtPC_FAT_SNF As DataTable = clsDBFuncationality.GetDataTable("select  top 1 round ( Price_Chart_FAT_Ratio * Price_Chart_Rate / nullif (Price_Chart_FAT_Per,0) , 2,1 ) as FAT_PCValue , round (  Price_Chart_SNF_Ratio * Price_Chart_Rate / nullif (Price_Chart_SNF_Per,0),2,1)  as SNF_PCValue  from TSPL_PRICE_CHART_PLANNING order by convert (date, Planning_Date,103)")
-            If dtPC_FAT_SNF IsNot Nothing Or dtPC_FAT_SNF.Rows.Count > 0 Then
+            If dtPC_FAT_SNF IsNot Nothing AndAlso dtPC_FAT_SNF.Rows.Count > 0 Then
                 strPC_FATValue = clsCommon.myCdbl(dtPC_FAT_SNF.Rows(0)("FAT_PCValue"))
                 strPC_SNFValue = clsCommon.myCdbl(dtPC_FAT_SNF.Rows(0)("SNF_PCValue"))
             End If
+
+
+
             Dim CycleNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select max(Name) as CycleNo from TSPL_PAYMENT_CYCLE_GENERATED where convert(varchar, From_Date,103) = convert(varchar, '" + txtFromDate.Value + "',103) "))
             Dim BaseQry As String = ""
             BaseQry = "select '" + CycleNo + "' as CycleNo, TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, '" + strPC_FATValue + "' as PC_FATValue, '" + strPC_SNFValue + "' as PC_SNFValue, "

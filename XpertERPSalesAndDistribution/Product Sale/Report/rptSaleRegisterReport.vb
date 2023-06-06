@@ -1715,8 +1715,8 @@ Public Class RptSaleRegisterReport
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmCSATransferReturn, strTransCode)
                         Case "MCC Sale Return"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCMaterialSaleReturn, strTransCode)
-                        Case "Tanker Dispatch Return"
-                            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MCCDispatchReturn, strTransCode)
+                        'Case "Tanker Dispatch Return"
+                        '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MCCDispatchReturn, strTransCode)
                         Case "Bulk Sale"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmInvoiceBulkSale, strTransCode)
                         Case "Bulk Sale Trade"
