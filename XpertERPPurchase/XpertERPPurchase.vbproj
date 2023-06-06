@@ -335,6 +335,12 @@
     <Compile Include="Report\rptPurchasePlanReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptrlPenaltyRegister.Designer.vb">
+      <DependentUpon>rptrlPenaltyRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptrlPenaltyRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\Store Receipt Note.Designer.vb">
       <DependentUpon>Store Receipt Note.vb</DependentUpon>
     </Compile>
@@ -482,6 +488,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptPurchasePlanReport.resx">
       <DependentUpon>rptPurchasePlanReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptrlPenaltyRegister.resx">
+      <DependentUpon>rptrlPenaltyRegister.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\Store Receipt Note.resx">
       <DependentUpon>Store Receipt Note.vb</DependentUpon>
