@@ -208,23 +208,7 @@ Public Class frmMilkShiftUploaderUCDF
             txtDate.Focus()
             Throw New Exception("Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
         End If
-        'If txtTotEnteredQty.Value <= 0 Then
-        '    txtTotEnteredQty.Focus()
-        '    Throw New Exception("Please fill Total Entered Qty")
-        'End If
-        'If txtTotEnteredFAT.Value <= 0 Then
-        '    txtTotEnteredFAT.Focus()
-        '    Throw New Exception("Please fill Total FAT KG")
-        'End If
-        'If txtTotEnteredSNF.Value <= 0 Then
-        '    txtTotEnteredSNF.Focus()
-        '    Throw New Exception("Please fill Total FAT SNF")
-        'End If
 
-        'If clsCommon.myLen(txRoute.Value) <= 0 Then
-        '    txRoute.Focus()
-        '    Throw New Exception("Please select Route")
-        'End If
         If clsCommon.myLen(txtMCC.Value) <= 0 Then
             txtMCC.Focus()
             Throw New Exception("Please select MCC")
@@ -243,27 +227,27 @@ Public Class frmMilkShiftUploaderUCDF
             txtQty.Focus()
             Throw New Exception("Please enter Qty")
         End If
-
-        If clsCommon.myLen(txtFAT.Text) <= 0 Then
-            txtFAT.Focus()
-            Throw New Exception("Please enter FAT")
-        End If
-        If clsCommon.myLen(txtSNF.Value) <= 0 Then
-            txtSNF.Focus()
-            Throw New Exception("Please enter SNF")
-        End If
-
-        If Not settAllowZeroFATSNF Then
-            If txtFAT.Value <= 0 Then
+        Dim intRejectApplicableOn As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Applicable_On from TSPL_MILK_REJECT_TYPE where Code='" + cboRejectType.SelectedValue + "'"))
+        If intRejectApplicableOn <> 1 Then '' ''1-Reject Type is Rate 
+            If clsCommon.myLen(txtFAT.Text) <= 0 Then
                 txtFAT.Focus()
                 Throw New Exception("Please enter FAT")
             End If
-            If txtSNF.Value <= 0 Then
+            If clsCommon.myLen(txtSNF.Value) <= 0 Then
                 txtSNF.Focus()
                 Throw New Exception("Please enter SNF")
             End If
+            If Not settAllowZeroFATSNF Then
+                If txtFAT.Value <= 0 Then
+                    txtFAT.Focus()
+                    Throw New Exception("Please enter FAT")
+                End If
+                If txtSNF.Value <= 0 Then
+                    txtSNF.Focus()
+                    Throw New Exception("Please enter SNF")
+                End If
+            End If
         End If
-
         Return True
     End Function
 
