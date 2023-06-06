@@ -771,6 +771,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmPurchaseHistory, "Purchase History ", "1.08.03.12", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptQualityStatus, "Quality Status Report", "1.08.03.13", clsUserMgtCode.SubModulePurchaseReport, 37)
 
+
         'InsertDefaultValue(clsUserMgtCode.mbtnStoreLedger, "Stores Ledger", "1.08.03.14", clsUserMgtCode.SubModulePurchaseReport, 37)
         'InsertDefaultValue(clsUserMgtCode.mbtnDailyRcptNoteSummary, "Daily Receipt Note Summary", "1.08.03.15", clsUserMgtCode.SubModulePurchaseReport, 37)
         'InsertDefaultValue(clsUserMgtCode.Store_Receipt_Note, "Daily Receipt Detail Work", "1.08.03.16", clsUserMgtCode.SubModulePurchaseReport, 37)
@@ -824,6 +825,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmCancelledTransactions_Purchase, "Purchase Cancelled Transactions Report", "1.08.03.43", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmTenderTrackingReport, "Tender Tracking Report", "1.08.03.44", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmERPStatusTrackingReport, "ERP Status Tracking Report", "1.08.03.45", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptrlPenaltyRegister, "Penalty Register Report", "1.08.03.46", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 

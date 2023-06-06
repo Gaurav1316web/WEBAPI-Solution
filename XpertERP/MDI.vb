@@ -3685,6 +3685,11 @@ Public Class MDI
                     Case clsUserMgtCode.FrmERPStatusTrackingReport
                         frm = New FrmERPStatusTrackingReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptrlPenaltyRegister
+                        frm = New rptrlPenaltyRegister()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmHSNMaster
                         frm = New frmHSNMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -6168,6 +6173,11 @@ Public Class MDI
                     Case clsUserMgtCode.RptDayWisePurchasePriceReport
                         frm = New RptDayWisePurchasePriceReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    'Case clsUserMgtCode.rptrlPenaltyRegister
+                    '    frm = New rptrlPenaltyRegister()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.RptPurchasePlanReport
                         frm = New RptPurchasePlanReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

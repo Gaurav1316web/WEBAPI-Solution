@@ -653,6 +653,7 @@ Public Class clsUserMgtCode
     Public Const rptCapexRegister As String = "CAP-REG"
     Public Const SRNReturnListCancellation As String = "SRN-RT-CAN"
     Public Const RptDayWisePurchasePriceReport As String = "DAY_PCH_PRC"
+
     Public Const RptPurchasePlanReport As String = "PUR_PLN_RPT"
     Public Const RptPurchaseMaterialRegister As String = "PUR_MTR_REG"
     Public Const RptTransporterProvisionReport As String = "RPT-TRA-PRO"
@@ -2317,6 +2318,7 @@ Public Class clsUserMgtCode
     Public Const FrmCostCentreConsumptionRpt As String = "CST_CNT_CUN"
     Public Const FrmTenderTrackingReport As String = "PO_TTRRPT"
     Public Const FrmERPStatusTrackingReport As String = "PO_ERPSTRPT"
+    Public Const rptrlPenaltyRegister As String = "RL-PEN-REG"
     Public Const RptPOAgainstDocument As String = "PO_AGT"
     Public Const frmBillChecklist As String = "PO_BCL"
     Public Const frmCancelledTransactions_Purchase As String = "PO_CanRPT"
