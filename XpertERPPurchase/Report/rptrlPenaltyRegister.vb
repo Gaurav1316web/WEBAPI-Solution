@@ -12,6 +12,7 @@ Public Class rptrlPenaltyRegister
     '    Public Penalty As Decimal
     '#End Region
 #Region "Variables"
+
     Dim blnPageLoad As Boolean = False
     Private isCellValueChangedOpen As Boolean = False
     Private isNewEntry As Boolean = False
