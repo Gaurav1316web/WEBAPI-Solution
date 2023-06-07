@@ -1542,6 +1542,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
         frm.VendorCode = Vsp_Name
         frm.Frm_date = frm_date
         frm.To_date = End_date
+        frm.isForMP = False
         Dim StrDoc As New List(Of String)
         If Is_With_Bill Then
             If Not frm.LoaDHeadDataQuery(trans) Then
