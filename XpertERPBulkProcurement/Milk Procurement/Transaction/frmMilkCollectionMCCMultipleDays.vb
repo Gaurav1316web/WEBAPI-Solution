@@ -57,63 +57,6 @@ Public Class frmMilkCollectionMCCMultipleDays
 
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("Document_No", "Varchar(30) not null Primary key")
-        coll.Add("Document_Date", "Datetime NOT NULL")
-        coll.Add("Late", "int Null")
-        coll.Add("Route_Code", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
-        coll.Add("Tanker_No", "Varchar(20) not null references TSPL_TANKER_MASTER(Tanker_No)")
-        coll.Add("Vehicle_No", "Varchar(150) not null")
-        coll.Add("Entered_Qty", "Decimal(18,3) null")
-        coll.Add("Entered_FATKg", "Decimal(18,3) null")
-        coll.Add("Entered_SNFKg", "Decimal(18,3) null")
-        coll.Add("Description", "Varchar(200) null")
-        coll.Add("FAT_SNF_Type", "int Null")
-        coll.Add("Status", "Integer NOT NULL DEFAULT 0")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Posted_Date", "datetime null")
-        coll.Add("Posted_By", "varchar(12)  NULL")
-        coll.Add("Slip_No", "Varchar(30) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", coll, Nothing, True, False, "", "Document_No", "Document_Date")
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Collection_Date", "Date NOT NULL")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS(Document_No)")
-        coll.Add("SNo", "Integer NULL")
-        coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
-        coll.Add("Milk_Type", "char(5) NOT NULL Default 'M'")
-        coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("FAT", "Decimal(18,2) null")
-        coll.Add("SNF", "Decimal(18,2) null")
-        coll.Add("FATKG", "Decimal(18,3) null")
-        coll.Add("SNFKG", "Decimal(18,3) null")
-        coll.Add("Gaze_Reading", "Decimal(18,1) null")
-        coll.Add("Silo_Capacity", "integer null")
-        coll.Add("Temp", "Decimal(18,2) null")
-        coll.Add("Sample_No", "integer null")
-        coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
-        coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "")
-
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("Against_Multiple_Days", "integer NULL references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL(PK_Id)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
-
-        Dim qry As String = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC_DETAIL' and COLUMN_NAME='Against_Multiple_Days'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            qry = "CREATE UNIQUE INDEX Unique_Mupliple_Day ON TSPL_MILK_COLLECTION_MCC_DETAIL (Against_Multiple_Days) WHERE Against_Multiple_Days IS NOT NULL;"
-            clsDBFuncationality.ExecuteNonQuery(qry)
-        End If
-
-
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         SettMilkCollectionFATSNFTypeHeader = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFTypeHeader, clsFixedParameterCode.MilkCollectionFATSNFTypeHeader, Nothing))

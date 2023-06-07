@@ -203,18 +203,20 @@ where 2=2"
                     objMCC.Trip_No = 1
                     objMCC.Tanker_No = obj.Tanker_No
                     objMCC.Vehicle_No = obj.Vehicle_No
-                    objMCC.Entered_Qty = objtr.Qty
-                    objMCC.Entered_FATKg = objtr.FATKG
-                    objMCC.Entered_SNFKg = objtr.SNFKG
+                    objMCC.Entered_Qty = 0
+                    objMCC.Entered_FATKg = 0
+                    objMCC.Entered_SNFKg = 0
                     objMCC.Description = obj.Description
                     objMCC.Slip_No = obj.Slip_No
                     objMCC.FAT_SNF_Type = obj.FAT_SNF_Type
                     objMCC.Arr = New List(Of clsMilkCollectionMCCDetail)
                     Arr.Add(objtr.Collection_Date, objMCC)
                 End If
-                Dim objMCCTR As clsMilkCollectionMCCDetail
+                Arr(objtr.Collection_Date).Entered_Qty += objtr.Qty
+                Arr(objtr.Collection_Date).Entered_FATKg += objtr.FATKG
+                Arr(objtr.Collection_Date).Entered_SNFKg += objtr.SNFKG
 
-                objMCCTR = New clsMilkCollectionMCCDetail
+                Dim objMCCTR As New clsMilkCollectionMCCDetail()
                 'objMCCTR.PK_Id = clsCommon.myCDecimal(dr("PK_Id"))
                 'objMCCTR.Document_No = clsCommon.myCstr(dr("Document_No"))
                 objMCCTR.SNo = Arr(objtr.Collection_Date).Arr.Count + 1
@@ -233,6 +235,7 @@ where 2=2"
                 objMCCTR.Against_Multiple_Days = objtr.PK_Id
                 Arr(objtr.Collection_Date).Arr.Add(objMCCTR)
             Next
+
             If Arr.ContainsKey(MaxDate) Then
                 Arr(MaxDate).Entered_Qty += (obj.Entered_Qty - TotQty)
                 Arr(MaxDate).Entered_FATKg += (obj.Entered_FATKg - TotFATKG)
