@@ -91,7 +91,7 @@ Public Class FrmProductionAndSaleReport
 
                 query = "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
                         ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location]
-                        ,cast((TSPL_LOCATION_MASTER.Silo_Capacity/31*daysinmonth) AS DECIMAL(18,0)) as [Capacity],
+                        ,cast((TSPL_LOCATION_MASTER.Silo_Capacity/31*(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "')))) AS DECIMAL(18,0)) as [Capacity],
                         NoOfShift
                         ,CAST((ProdDailyQty.Qty/1000) AS DECIMAL(18,0)) as ProdDailyQty
                         ,CAST((ProdCumQty.Qty/1000) AS DECIMAL(18,0)) as ProdCumQty
@@ -107,8 +107,8 @@ Public Class FrmProductionAndSaleReport
                         FROM TSPL_LOCATION_MASTER 
 
                         Left outer join 
-						(select count (TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,max(day(eomonth(TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE))) as daysinmonth,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
-						WHERE CONVERT (DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) BETWEEN CONVERT(DATE,'01/Apr/2023',103) AND CONVERT(DATE,'08/Apr/2023',103)  
+						(select count (TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
+						WHERE CONVERT (DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) BETWEEN CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) AND CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)  
                            Group By LOCATION_CODE) NoOfShift
 						   ON TSPL_LOCATION_MASTER.LOCATION_CODE = NoOfShift.LOCATION_CODE
 
@@ -181,8 +181,8 @@ Public Class FrmProductionAndSaleReport
                 'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
                 'dtpFrom.Value = fDate
                 'toDate.Value = tDate
-                dtcurrent = fromDate.Value
-                dtnext = toDate.Value
+                'dtcurrent = fromDate.Value
+                'dtnext = toDate.Value
                 fDate = fromDate.Value
                 tDate = toDate.Value
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
@@ -203,7 +203,7 @@ Public Class FrmProductionAndSaleReport
                 Dim strLocation As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME(TSPL_LOCATION_MASTER.location_code) as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
                 Dim strMainLocation As String = clsDBFuncationality.getSingleValue("SELECT '[' + TSPL_LOCATION_MASTER.location_code + ']' FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='1'")
 
-                StrTempQry = "DECLARE @colsScheme AS NVARCHAR(MAX),@query h AS NVARCHAR(MAX) SELECT  
+                StrTempQry = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
                      STUFF((SELECT distinct ',' +'max('  + QUOTENAME(TSPL_LOCATION_MASTER.location_code)+')'
                      +' as ' + QUOTENAME( TSPL_LOCATION_MASTER.location_code)
                     as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')"
