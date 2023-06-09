@@ -37,9 +37,14 @@ Public Class rptDailyQtyReport
         cboItemType.Enabled = isEnable
         RadGroupBox1.Enabled = isEnable
         txtMCC_Code.Enabled = isEnable
+        lblToleranceFAT.Enabled = isEnable
+        lblToleranceSNF.Enabled = isEnable
+        txtToleranceFat.Enabled = isEnable
+        txtToleranceSNF.Enabled = isEnable
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+
         Try
             If rdbSummary.Checked = True Then
                 PageSetupReport_ID = MyBase.Form_ID + "_S"
@@ -80,36 +85,40 @@ Public Class rptDailyQtyReport
                 End If
             End If
             qry = "  select max(Entered_Qty) as Entered_Qty, max(Entered_FATKg) as Entered_FATKg , max(Entered_SNFKg) as Entered_SNFKg , max(PK_Id) as PK_Id, Document_No ,  max(Document_Date) as Document_Date ,max(MCC_Code) as MCC_Code , max(MCC_NAME) as MCC_NAME, max(UploaderNo) as  UploaderNo,max(Route_Code) as Route_Code, max(ROUTE_NAME) as ROUTE_NAME ,max(Tanker_No) as Tanker_No ,max(Vehicle_No) as Vehicle_No
- 
-                   , sum(MCC_Qty) as MCC_Qty , ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_FAT ,ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_SNF ,sum(MCC_FATKG) as MCC_FATKG , sum(MCC_SNFKG) as MCC_SNFKG,
 
-                   max(DCS_Qty) as DCS_Qty, max(DCS_FAT) as DCS_FAT , max(DCS_SNF) as DCS_SNF,  max(DCS_FATKG) as DCS_FATKG ,max(DCS_SNFKG) as DCS_SNFKG ,
-				   
-				   max(DCS_Qty) - sum(MCC_Qty)  as Diff_Qty,
-				   
-				   max(DCS_FAT) - ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as Diff_FAT 
-				   
-				   ,max(DCS_SNF) - ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as Diff_SNF
-				   
-				   , max(DCS_FATKG) - sum(MCC_FATKG)  as  Diff_FATKG, 
-				   
-				       max(DCS_SNFKG) - sum(MCC_SNFKG) as Diff_SNFKG  
-                   from   (select TSPL_MILK_COLLECTION_MCC.Entered_Qty, TSPL_MILK_COLLECTION_MCC.Entered_FATKg , TSPL_MILK_COLLECTION_MCC.Entered_SNFKg, TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No ,convert (varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as  Document_Date ,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code, TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo ,TSPL_MILK_COLLECTION_MCC.Route_Code  ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME ,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No
-                   ,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCC_Qty , TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCC_FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCC_SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCC_FATKG , TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCC_SNFKG,
-                   isnull(XXXDCS.qty,0) as DCS_Qty,isnull(XXXDCS.FAT,0) as DCS_FAT , isnull(XXXDCS.SNF,0) as DCS_SNF, isnull(XXXDCS.FATKG,0) as DCS_FATKG, isnull(XXXDCS.SNFKG,0) as DCS_SNFKG, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty - isnull(XXXDCS.qty,0) as Diff_Qty, TSPL_MILK_COLLECTION_MCC_DETAIL.FAT - isnull(XXXDCS.FAT,0)  as Diff_FAT, TSPL_MILK_COLLECTION_MCC_DETAIL.SNF - isnull(XXXDCS.SNF,0)  as Diff_SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG - isnull(XXXDCS.FATKG,0)  as Diff_FATKG, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG - isnull(XXXDCS.SNFKG,0)  as Diff_SNFKG
-                   from TSPL_MILK_COLLECTION_MCC_DETAIL
-                   left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-                   left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
-                   left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
-                   left outer join (  
-                   select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail, sum (qty ) as qty  ,  sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG ,   sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,
-                   ((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100) as FAT , ((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100) as SNF 
-                   from TSPL_MILK_COLLECTION_DCS_DETAIL 
-                   left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
-                   left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
-                   where convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) >= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) " + strMilkcollectionDCSStatus + "
-                   group by TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail ) XXXDCS on XXXDCS.Against_Milk_Collection_MCC_Detail = TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
-                   where convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)) xyz group by Document_No  " + strMilkCollectionMCCStatus + " "
+                        , sum(MCC_Qty) as MCC_Qty , ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_FAT ,ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_SNF ,sum(MCC_FATKG) as MCC_FATKG , sum(MCC_SNFKG) as MCC_SNFKG,
+
+                        max(DCS_Qty) as DCS_Qty, max(DCS_FAT) as DCS_FAT , max(DCS_SNF) as DCS_SNF,  max(DCS_FATKG) as DCS_FATKG ,max(DCS_SNFKG) as DCS_SNFKG ,
+
+            max(DCS_Qty) - sum(MCC_Qty)  as Diff_Qty,
+
+            max(DCS_FAT) - ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as Diff_FAT 
+
+            ,max(DCS_SNF) - ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as Diff_SNF
+
+            , max(DCS_FATKG) - sum(MCC_FATKG)  as  Diff_FATKG, 
+
+                max(DCS_SNFKG) - sum(MCC_SNFKG) as Diff_SNFKG  
+                        from   (select TSPL_MILK_COLLECTION_MCC.Entered_Qty, TSPL_MILK_COLLECTION_MCC.Entered_FATKg , TSPL_MILK_COLLECTION_MCC.Entered_SNFKg, TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No ,convert (varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as  Document_Date ,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code, TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo ,TSPL_MILK_COLLECTION_MCC.Route_Code  ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME ,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No
+                        ,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCC_Qty , TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCC_FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCC_SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCC_FATKG , TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCC_SNFKG,
+                        isnull(XXXDCS.qty,0) as DCS_Qty,isnull(XXXDCS.FAT,0) as DCS_FAT , isnull(XXXDCS.SNF,0) as DCS_SNF, isnull(XXXDCS.FATKG,0) as DCS_FATKG, isnull(XXXDCS.SNFKG,0) as DCS_SNFKG, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty - isnull(XXXDCS.qty,0) as Diff_Qty, TSPL_MILK_COLLECTION_MCC_DETAIL.FAT - isnull(XXXDCS.FAT,0)  as Diff_FAT, TSPL_MILK_COLLECTION_MCC_DETAIL.SNF - isnull(XXXDCS.SNF,0)  as Diff_SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG - isnull(XXXDCS.FATKG,0)  as Diff_FATKG, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG - isnull(XXXDCS.SNFKG,0)  as Diff_SNFKG
+                        from TSPL_MILK_COLLECTION_MCC_DETAIL
+                        left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+                        left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+                        left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
+                        left outer join (  
+                        select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail, sum (qty ) as qty  ,  sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG ,   sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,
+                        ((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100) as FAT , ((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100) as SNF 
+            from TSPL_MILK_COLLECTION_DCS_DETAIL 
+                        left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
+                        left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+                        where convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) " + strMilkcollectionDCSStatus + "
+                        group by TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail ) XXXDCS on XXXDCS.Against_Milk_Collection_MCC_Detail = TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+                        where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)) xyz group by Document_No  " + strMilkCollectionMCCStatus + " "
+
+
+
+
 
             If rdbSummary.Checked = True Then
                 qry = " select XXXFinal.Document_No, max(XXXFinal.Document_Date) as Document_Date ,max( XXXFinal.Route_Code) as Route_Code, max(XXXFinal.ROUTE_NAME) as ROUTE_NAME ,
@@ -152,7 +161,64 @@ Public Class rptDailyQtyReport
                         Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code=tmp.VLC_Code
                         Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
                         where convert (date,Shift_Date,103) >= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,Shift_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)" + strFilterQry
+            ElseIf (rbtnTranpoterGainLoss.Checked = True) Then
+
+                If txtToleranceFat.Value < 0 Or txtToleranceFat.Value >= 100 Then
+
+                    clsCommon.MyMessageBoxShow("Invalid Input !, Please enter valid Tolerance Fat%.", Me.Text)
+                    txtToleranceFat.Focus()
+                    Exit Sub
+                End If
+
+                If txtToleranceSNF.Value < 0 Or txtToleranceSNF.Value >= 100 Then
+                    clsCommon.MyMessageBoxShow("Invalid Input !, Please enter valid Tolerance Fat%.", Me.Text)
+                    txtToleranceSNF.Focus()
+                    Exit Sub
+                End If
+                Dim strqry = String.Empty
+
+                qry = "select GetAllGainLossRate.*, 0 as FAT_AMT,0 as SNF_AMT,0 as AMOUNT,
+TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate,
+TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate,
+TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate,
+TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate,
+TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date from (
+select GetRateCode.*,( SELECT top 1  TSPL_OWN_BMC_GAIN_LOSS_RATE.Code
+ FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 and TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 and 
+ CONVERT(date, TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date, 103) <= CONVERT(date, GetRateCode.Document_Date, 103)) as GainLossCode from (
+
+ select XXXFinal.Document_No, max(XXXFinal.Document_Date) as Document_Date ,max( XXXFinal.Route_Code) as Route_Code, max(XXXFinal.ROUTE_NAME) as ROUTE_NAME ,
+                            max(XXXFinal.Tanker_No ) as Tanker_No, max(XXXFinal.Vehicle_No) as Vehicle_No, max(Entered_Qty) as Entered_Qty,((max (Entered_FATKg) / nullif (max (Entered_Qty),0)) * 100) as Entered_FAT, ((max (Entered_SNFKg) / nullif (max (Entered_Qty),0)) * 100) as Entered_SNF , max(Entered_FATKg) as Entered_FATKg,max(Entered_SNFKg) as Entered_SNFKg , 
+                            sum( XXXFinal.MCC_Qty) as  MCC_Qty, ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_FAT, ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_SNF,sum (MCC_FATKG) as MCC_FATKG , sum (MCC_SNFKG) as MCC_SNFKG , sum (DCS_Qty) as DCS_Qty , ROUND(((sum (DCS_FATKG) / nullif( sum (DCS_Qty),0)) * 100),1,0) as DCS_FAT,ROUND(((sum (DCS_SNFKG) / nullif (sum (DCS_Qty),0)) * 100),1,0) as DCS_SNF , sum(DCS_FATKG) as DCS_FATKG , sum(DCS_SNFKG) as DCS_SNFKG, sum (Diff_Qty) as Diff_Qty ,
+                            max(DCS_FAT) - ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as Diff_FAT, max(DCS_SNF) - ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as Diff_SNF,sum(Diff_FATKG) as Diff_FATKG, sum(Diff_SNFKG) as Diff_SNFKG,  max(Entered_Qty) - sum( XXXFinal.MCC_Qty)  as DiffMCCVsEntered_Qty ,
+                            ((max (Entered_FATKg) / nullif (max (Entered_Qty),0)) * 100) - ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0)  as DiffMCCVsEntered_FAT ,
+                            ((max (Entered_SNFKg) / nullif (max (Entered_Qty),0)) * 100) - ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as DiffMCCVsEntered_SNF ,
+                            max(Entered_FATKg) -  sum (MCC_FATKG)  as DiffMCCVsEntered_FATKG , max(Entered_SNFKg) - sum (MCC_SNFKG) as DiffMCCVsEntered_SNFKG from ( " + qry + " ) XXXFinal group by XXXFinal.Document_No
+)GetRateCode
+)GetAllGainLossRate
+left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=GetAllGainLossRate.GainLossCode
+ "
+
+
             End If
+
+            'If (rbtnTranpoterGainLoss.Checked = True) Then
+
+            '    If txtToleranceFat.Value < 0 And txtToleranceFat.Value >= 100 Then
+
+            '        clsCommon.MyMessageBoxShow("Invalid Input !, Please enter valid Tolerance Fat%.")
+            '        txtToleranceFat.Focus()
+            '        Exit Sub
+            '    End If
+
+            '    If txtToleranceSNF.Value < 0 And txtToleranceSNF.Value >= 100 Then
+            '        clsCommon.MyMessageBoxShow("Invalid Input !, Please enter valid Tolerance Fat%.")
+            '        txtToleranceSNF.Focus()
+            '        Exit Sub
+            '    End If
+
+            '    MessageBox.Show("Transpoter Gain Loss Button Checked::")
+            'End If
 
             dt = clsDBFuncationality.GetDataTable(qry)
             Gv1.DataSource = Nothing
@@ -168,6 +234,9 @@ Public Class rptDailyQtyReport
                     SetGridFormationOFGV1Dock()
                 Else
                     SetGridFormationOFGV1()
+                End If
+                If rbtnTranpoterGainLoss.Checked = True Then
+                    CalTolerenceGainLoss(txtToleranceFat.Value, txtToleranceSNF.Value)
                 End If
 
                 For ii As Integer = 0 To Gv1.Columns.Count - 1
@@ -251,6 +320,54 @@ Public Class rptDailyQtyReport
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
+    Sub CalTolerenceGainLoss(ByVal TFat As Decimal, ByVal TSNF As Decimal)
+        Dim TFatAmt As Decimal = 0
+        Dim TSNFAmt As Decimal = 0
+
+        For i As Integer = 0 To Gv1.Rows.Count - 1
+
+
+
+            If Gv1.Rows(i).Cells("DiffMCCVsEntered_FATKG").Value > 0 Then
+                If TFat > 0 Then
+                    If Gv1.Rows(i).Cells("DiffMCCVsEntered_FATKG").Value > (Gv1.Rows(i).Cells("MCC_FATKG").Value * (TFat / 100)) Then
+                        TFatAmt = (Gv1.Rows(i).Cells("DiffMCCVsEntered_FATKG").Value - (Gv1.Rows(i).Cells("MCC_FATKG").Value * (TFat / 100))) * Gv1.Rows(i).Cells("Loss_FAT_Rate").Value
+                    Else
+                        TFatAmt = Gv1.Rows(i).Cells("DiffMCCVsEntered_FATKG").Value * Gv1.Rows(i).Cells("Loss_FAT_Rate").Value
+                    End If
+                End If
+            Else
+                If Gv1.Rows(i).Cells("DiffMCCVsEntered_FATKG").Value > (Gv1.Rows(i).Cells("MCC_FATKG").Value * (TFat / 100)) Then
+                    TFatAmt = (Gv1.Rows(i).Cells("DiffMCCVsEntered_FATKG").Value - (Gv1.Rows(i).Cells("MCC_FATKG").Value * (TFat / 100))) * Gv1.Rows(i).Cells("Gain_FAT_Rate").Value
+                Else
+                    TFatAmt = Gv1.Rows(i).Cells("DiffMCCVsEntered_FATKG").Value * Gv1.Rows(i).Cells("Gain_FAT_Rate").Value
+                End If
+
+            End If
+            If Gv1.Rows(i).Cells("DiffMCCVsEntered_SNFKG").Value > 0 Then
+                If TSNF > 0 Then
+                    If Gv1.Rows(i).Cells("DiffMCCVsEntered_SNFKG").Value > (Gv1.Rows(i).Cells("MCC_SNFKG").Value * (TSNF / 100)) Then
+                        TSNFAmt = (Gv1.Rows(i).Cells("DiffMCCVsEntered_SNFKG").Value - (Gv1.Rows(i).Cells("MCC_SNFKG").Value * (TSNF / 100))) * Gv1.Rows(i).Cells("Loss_SNF_Rate").Value
+                    Else
+                        TSNFAmt = Gv1.Rows(i).Cells("DiffMCCVsEntered_SNFKG").Value * Gv1.Rows(i).Cells("Loss_SNF_Rate").Value
+                    End If
+                End If
+            Else
+                If Gv1.Rows(i).Cells("DiffMCCVsEntered_SNFKG").Value > (Gv1.Rows(i).Cells("MCC_SNFKG").Value * (TSNF / 100)) Then
+                    TSNFAmt = (Gv1.Rows(i).Cells("DiffMCCVsEntered_SNFKG").Value - (Gv1.Rows(i).Cells("MCC_SNFKG").Value * (TSNF / 100))) * Gv1.Rows(i).Cells("Gain_SNF_Rate").Value
+                Else
+                    TSNFAmt = Gv1.Rows(i).Cells("DiffMCCVsEntered_SNFKG").Value * Gv1.Rows(i).Cells("Gain_SNF_Rate").Value
+                End If
+
+            End If
+
+
+            Gv1.Rows(i).Cells("FAT_AMT").Value = TFatAmt
+            Gv1.Rows(i).Cells("SNF_AMT").Value = TSNFAmt
+            Gv1.Rows(i).Cells("AMOUNT").Value = TFatAmt + TSNFAmt
+        Next
+
+    End Sub
     Sub SetGridFormationOFGV1()
         Gv1.TableElement.TableHeaderHeight = 40
         Gv1.MasterTemplate.ShowRowHeaderColumn = False
@@ -280,7 +397,7 @@ Public Class rptDailyQtyReport
             Gv1.Columns("Tanker_No").HeaderText = "Tanker No"
             Gv1.Columns("Vehicle_No").HeaderText = "Vehicle No"
 
-            If rdbSummary.Checked = True Then
+            If rdbSummary.Checked = True Or rbtnTranpoterGainLoss.Checked = True Then
                 '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
                 Gv1.Columns("Entered_Qty").HeaderText = "Qty"
                 Gv1.Columns("Entered_Qty").FormatString = "{0:n3}"
@@ -297,6 +414,8 @@ Public Class rptDailyQtyReport
 
                 Gv1.Columns("Entered_SNFKg").HeaderText = "SNF KG"
                 Gv1.Columns("Entered_SNFKg").FormatString = "{0:n3}"
+
+
             Else
                 Gv1.Columns("Entered_Qty").HeaderText = "Qty"
                 'Gv1.Columns("Entered_FAT").HeaderText = "FAT %"
@@ -322,28 +441,52 @@ Public Class rptDailyQtyReport
             Gv1.Columns("MCC_SNFKG").HeaderText = "SNF KG"
             Gv1.Columns("MCC_SNFKG").FormatString = "{0:n3}"
 
-            Gv1.Columns("DCS_Qty").HeaderText = "Qty"
-            Gv1.Columns("DCS_Qty").FormatString = "{0:n3}"
-            Gv1.Columns("DCS_FAT").HeaderText = "FAT %"
-            Gv1.Columns("DCS_FAT").FormatString = "{0:n2}"
-            Gv1.Columns("DCS_SNF").HeaderText = "SNF %"
-            Gv1.Columns("DCS_SNF").FormatString = "{0:n2}"
-            Gv1.Columns("DCS_FATKG").HeaderText = "FAT KG"
-            Gv1.Columns("DCS_FATKG").FormatString = "{0:n3}"
-            Gv1.Columns("DCS_SNFKG").HeaderText = "SNF KG"
-            Gv1.Columns("DCS_SNFKG").FormatString = "{0:n3}"
-            'Diff
-            Gv1.Columns("Diff_Qty").HeaderText = "Qty"
-            Gv1.Columns("Diff_Qty").FormatString = "{0:n3}"
-            Gv1.Columns("Diff_FAT").HeaderText = "FAT %"
-            Gv1.Columns("Diff_FAT").FormatString = "{0:n2}"
-            Gv1.Columns("Diff_SNF").HeaderText = "SNF %"
-            Gv1.Columns("Diff_SNF").FormatString = "{0:n2}"
-            Gv1.Columns("Diff_FATKG").HeaderText = "FAT KG"
-            Gv1.Columns("Diff_FATKG").FormatString = "{0:n3}"
-            Gv1.Columns("Diff_SNFKG").HeaderText = "SNF KG"
-            Gv1.Columns("Diff_SNFKG").FormatString = "{0:n3}"
+            If rbtnTranpoterGainLoss.Checked = False Then
+                Gv1.Columns("DCS_Qty").HeaderText = "Qty"
+                Gv1.Columns("DCS_Qty").FormatString = "{0:n3}"
+                Gv1.Columns("DCS_FAT").HeaderText = "FAT %"
+                Gv1.Columns("DCS_FAT").FormatString = "{0:n2}"
+                Gv1.Columns("DCS_SNF").HeaderText = "SNF %"
+                Gv1.Columns("DCS_SNF").FormatString = "{0:n2}"
+                Gv1.Columns("DCS_FATKG").HeaderText = "FAT KG"
+                Gv1.Columns("DCS_FATKG").FormatString = "{0:n3}"
+                Gv1.Columns("DCS_SNFKG").HeaderText = "SNF KG"
+                Gv1.Columns("DCS_SNFKG").FormatString = "{0:n3}"
+                'Diff
+                Gv1.Columns("Diff_Qty").HeaderText = "Qty"
+                Gv1.Columns("Diff_Qty").FormatString = "{0:n3}"
+                Gv1.Columns("Diff_FAT").HeaderText = "FAT %"
+                Gv1.Columns("Diff_FAT").FormatString = "{0:n2}"
+                Gv1.Columns("Diff_SNF").HeaderText = "SNF %"
+                Gv1.Columns("Diff_SNF").FormatString = "{0:n2}"
+                Gv1.Columns("Diff_FATKG").HeaderText = "FAT KG"
+                Gv1.Columns("Diff_FATKG").FormatString = "{0:n3}"
+                Gv1.Columns("Diff_SNFKG").HeaderText = "SNF KG"
+                Gv1.Columns("Diff_SNFKG").FormatString = "{0:n3}"
+            End If
+            If rbtnTranpoterGainLoss.Checked = True Then
+                Gv1.Columns("DiffMCCVsEntered_Qty").HeaderText = "Qty"
+                Gv1.Columns("DiffMCCVsEntered_Qty").FormatString = "{0:n3}"
+                Gv1.Columns("DiffMCCVsEntered_FAT").HeaderText = "FAT %"
+                Gv1.Columns("DiffMCCVsEntered_FAT").FormatString = "{0:n2}"
+                Gv1.Columns("DiffMCCVsEntered_SNF").HeaderText = "SNF %"
+                Gv1.Columns("DiffMCCVsEntered_SNF").FormatString = "{0:n2}"
+                Gv1.Columns("DiffMCCVsEntered_FATKG").HeaderText = "FAT KG"
+                Gv1.Columns("DiffMCCVsEntered_FATKG").FormatString = "{0:n3}"
+                Gv1.Columns("DiffMCCVsEntered_SNFKG").HeaderText = "SNF KG"
+                Gv1.Columns("DiffMCCVsEntered_SNFKG").FormatString = "{0:n3}"
+
+
+                'Gv1.Columns.Add("Fat amt", "test1")
+                Gv1.Columns("FAT_AMT").HeaderText = "FAT AMT"
+                Gv1.Columns("FAT_AMT").FormatString = "{0:n3}"
+                Gv1.Columns("SNF_AMT").HeaderText = "SNF AMT"
+                Gv1.Columns("SNF_AMT").FormatString = "{0:n3}"
+                Gv1.Columns("AMOUNT").HeaderText = "AMOUNT"
+                Gv1.Columns("AMOUNT").FormatString = "{0:n3}"
+            End If
             If rdbSummary.Checked = True Then
+
                 Gv1.Columns("DiffEnteredVsMCC_Qty").HeaderText = "Qty"
                 Gv1.Columns("DiffEnteredVsMCC_Qty").FormatString = "{0:n3}"
                 Gv1.Columns("DiffEnteredVsMCC_FAT").HeaderText = "FAT %"
@@ -478,6 +621,36 @@ Public Class rptDailyQtyReport
                 view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsMCC_SNF").Name)
                 view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsMCC_FATKG").Name)
                 view.ColumnGroups(5).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsMCC_SNFKG").Name)
+
+            ElseIf rbtnTranpoterGainLoss.Checked = True Then
+                view.ColumnGroups.Add(New GridViewColumnGroup("Entered Data"))
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_Qty").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_FAT").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_SNF").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_FATKg").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_SNFKg").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("BMC Data"))
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_Qty").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_FAT").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_SNF").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_FATKG").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_SNFKG").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Difference Data(BMC - Entered)"))
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("DiffMCCVsEntered_Qty").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("DiffMCCVsEntered_FAT").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("DiffMCCVsEntered_SNF").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("DiffMCCVsEntered_FATKG").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("DiffMCCVsEntered_SNFKG").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("FAT_AMT").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("SNF_AMT").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("AMOUNT").Name)
+
+
 
             Else
                 view.ColumnGroups.Add(New GridViewColumnGroup("BMC Data"))
@@ -625,6 +798,7 @@ Public Class rptDailyQtyReport
         dtpToDate.Value = clsCommon.GETSERVERDATE()
         fromDate.Value = clsCommon.GETSERVERDATE() 'ToDate.Value.AddMonths(-1)
         LoadShiftName()
+        TranspoterBoxhandler(False)
         Reset()
 
     End Sub
@@ -663,6 +837,7 @@ Public Class rptDailyQtyReport
     Private Sub rbtnDock_Click(sender As Object, e As EventArgs) Handles rbtnDock.Click
         MyLabel4.Visible = True
         txtMCC_Code.Visible = True
+        TranspoterBoxhandler(False)
     End Sub
 
     Private Sub txtMCC_Code__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC_Code._MYValidating
@@ -677,11 +852,26 @@ Public Class rptDailyQtyReport
     Private Sub rdbDetails_Click(sender As Object, e As EventArgs) Handles rdbDetails.Click
         MyLabel4.Visible = False
         txtMCC_Code.Visible = False
+        TranspoterBoxhandler(False)
     End Sub
 
     Private Sub rdbSummary_Click(sender As Object, e As EventArgs) Handles rdbSummary.Click
         MyLabel4.Visible = False
         txtMCC_Code.Visible = False
+        TranspoterBoxhandler(False)
+    End Sub
+
+    Private Sub rbtnTranpoterGainLoss_Click(sender As Object, e As EventArgs) Handles rbtnTranpoterGainLoss.Click
+        MyLabel4.Visible = False
+        txtMCC_Code.Visible = False
+        TranspoterBoxhandler(True)
+    End Sub
+
+    Sub TranspoterBoxhandler(ByVal flag As Boolean)
+        lblToleranceFAT.Visible = flag
+        lblToleranceSNF.Visible = flag
+        txtToleranceFat.Visible = flag
+        txtToleranceSNF.Visible = flag
     End Sub
 
     'Sub LoadStatus()

@@ -1252,9 +1252,11 @@ Public Class frmMPIncentiveEntrty
 
     Sub UpdateRow(ByVal ii As Integer)
         gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colAmountActual).Value = (clsCommon.myCdbl(gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colQty).Value) * txtIncentiveRate.Value)
-        If Not SettApplyPashuAaharAndMineralMixture Then
-            gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colAmount).Value = Math.Ceiling(clsCommon.myCdbl(gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colQty).Value) * txtIncentiveRate.Value)
-        End If
+        gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colAmount).Value = (clsCommon.myCdbl(gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colQty).Value) * txtIncentiveRate.Value)
+
+        'If Not SettApplyPashuAaharAndMineralMixture Then
+        '    gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colAmount).Value = Math.Ceiling(clsCommon.myCdbl(gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colQty).Value) * txtIncentiveRate.Value)
+        'End If
         gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colPashuAaharAmt).Value = Math.Ceiling(clsCommon.myCdbl(gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colPashuAaharQty).Value) * txtPashuAahar.Value)
         gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colMineralMixtureAmt).Value = Math.Ceiling(clsCommon.myCdbl(gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colMineralMixtureQty).Value) * txtMineralMixture.Value)
         gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colSailejAmt).Value = Math.Ceiling(clsCommon.myCdbl(gvItem.Rows(ii).Cells(clsMPIncetiveEntryColumns.colSailejQty).Value) * txtSailejRate.Value)

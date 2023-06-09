@@ -199,12 +199,12 @@ Public Class frmSubLocationMaster
     Sub SaveData()
         Try
             If (AllowToSave()) Then
-                'If MyBase.isModifyonPasswordFlag Then
-                '    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.SublocationMaster, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                '    Else
-                '        Return
-                '    End If
-                'End If
+                If MyBase.isModifyonPasswordFlag Then
+                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.SublocationMaster, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                    Else
+                        Return
+                    End If
+                End If
                 Dim obj As New clsSubLocation()
                 obj.Sub_Location_code = (fndSubLocid.Value).ToString
                 obj.Description = txtSubLoc.Text

@@ -380,12 +380,12 @@ Public Class FrmPromptMsgRelatedToPendency
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmProcessProductionStandardization, strDocumentCode)
                 Case "Milk Sample"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkSample, strDocumentCode)
-                'Case "Milk Truck Sheet"
-                '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MilkTruckSheet, strDocumentCode)
+                Case "Milk Truck Sheet"
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MilkTruckSheet, strDocumentCode)
                 Case "Tanker Dispatch"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCDispatch, strDocumentCode)
-                'Case "Tanker Location Change"
-                '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDispatchTransfer, strDocumentCode)
+                Case "Tanker Location Change"
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDispatchTransfer, strDocumentCode)
                 Case "VSP Asset Issue"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPAssetIssue, strDocumentCode)
                 Case "MCC Material Sale"
@@ -393,7 +393,7 @@ Public Class FrmPromptMsgRelatedToPendency
                 Case "MCC Material Sale Return"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCMaterialSaleReturn, strDocumentCode)
                 Case "VSP Item Issue"
-                    'clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strDocumentCode)
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strDocumentCode)
                 Case "Export Sale Quotation"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmEXSalesQuotation, strDocumentCode)
                 Case "Export Sales Order"

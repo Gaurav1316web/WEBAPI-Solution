@@ -20,11 +20,6 @@ Imports XpertERPRiceProduction
 Imports XpertERPService
 Imports XpertERPTDS
 Imports XpertERPPurchase
-'--preetiGupta ticket no[BM00000003695],KDI/09/04/18-000202
-'=================BM00000007778,Rohit(Add Code to do not Display Some Reports Menu it will Display after Pressing ctrl+alt+shift+w)
-
-''Checkin by richa 20200619
-
 
 Public Class MDI
 #Region "Varaibles"
@@ -3685,6 +3680,11 @@ Public Class MDI
                     Case clsUserMgtCode.FrmERPStatusTrackingReport
                         frm = New FrmERPStatusTrackingReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptrlPenaltyRegister
+                        frm = New rptrlPenaltyRegister()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmHSNMaster
                         frm = New frmHSNMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -6168,6 +6168,11 @@ Public Class MDI
                     Case clsUserMgtCode.RptDayWisePurchasePriceReport
                         frm = New RptDayWisePurchasePriceReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    'Case clsUserMgtCode.rptrlPenaltyRegister
+                    '    frm = New rptrlPenaltyRegister()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.RptPurchasePlanReport
                         frm = New RptPurchasePlanReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -7686,6 +7691,12 @@ Public Class MDI
                     Case clsUserMgtCode.MilkCollectionGenerate
                         frm = New frmMilkCollectionGenerate
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.MilkCollectionMCCMultipleDays
+                        Dim x As Boolean = objCommonVar.IsAutoTabOrdering
+                        frm = New frmMilkCollectionMCCMultipleDays
+                        objCommonVar.IsAutoTabOrdering = False
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        objCommonVar.IsAutoTabOrdering = x
                     Case clsUserMgtCode.MilkCollectionMCC
                         Dim x As Boolean = objCommonVar.IsAutoTabOrdering
                         frm = New frmMilkCollectionMCC

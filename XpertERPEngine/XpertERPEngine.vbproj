@@ -413,6 +413,7 @@
     <Compile Include="Milk Procurement\clsMccScrapGatePass.vb" />
     <Compile Include="Milk Procurement\clsMilkCollectionDCS.vb" />
     <Compile Include="Milk Procurement\clsMilkCollectionMCC.vb" />
+    <Compile Include="Milk Procurement\clsMilkCollectionMCCMulipleDays.vb" />
     <Compile Include="Milk Procurement\clsMilkPurchaseInvoiceProvision.vb" />
     <Compile Include="Milk Procurement\clsMilkShiftUploader.vb" />
     <Compile Include="Milk Procurement\clsMPDCSInsentiveReco.vb" />
