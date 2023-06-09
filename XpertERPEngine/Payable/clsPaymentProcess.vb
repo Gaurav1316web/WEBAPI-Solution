@@ -1388,6 +1388,17 @@ Public Class clsPaymentProcessHead
             " )xx " + Environment.NewLine +
             "inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=xx.AP_Invoice_No"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            ''Update Head Load Credit note AP Invoice Balance Amont Type Invoice
+            qry = "update TSPL_VENDOR_INVOICE_HEAD set Balance_amt=Document_Total where RefDocType = 'Milk_HE' and RefDocNo in (select Milk_Purchase_Invoice_No from TSPL_PAYMENT_PROCESS_INVOICE where doc_no='" + strDocNo + "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "update TSPL_VENDOR_INVOICE_HEAD set Balance_amt=Document_Total where Document_No in (
+select AP_Invoice_No from TSPL_PAYMENT_PROCESS_COMPULSORY where Doc_No='" + strDocNo + "'
+union all
+select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo + "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             'Update Advance Payment entry Balance Amount
             qry = "update TSPL_PAYMENT_HEADER set Balance_Amt=Balance_Amt+xx.Amount_Knock_Off from (" + Environment.NewLine +
             "select  Payment_No,Amount_Knock_Off from TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT where Doc_No='" + strDocNo + "'" + Environment.NewLine +
