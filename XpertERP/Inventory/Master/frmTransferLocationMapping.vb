@@ -226,10 +226,10 @@ Public Class frmTransferLocationMapping
         If AllowToSave() Then
 
             If MyBase.isModifyonPasswordFlag Then
-                'If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.ItemLocationMapping, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                'Else
-                '    Return False
-                'End If
+                If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.ItemLocationMapping, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                Else
+                    Return False
+                End If
             End If
             Dim obj As New clsItemLoc
             Dim obj1 As clsItemLoc

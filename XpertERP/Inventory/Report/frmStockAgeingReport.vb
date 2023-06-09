@@ -933,12 +933,12 @@ Public Class frmStockAgeingReport
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells("Trans_Type").Value), "CSA-SALEPATTI-RETURN") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmCSASalePattiReturn, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells("Trans_Type").Value), "DispatchBSTrade") = CompairStringResult.Equal Then
-                    clsOpenTransactionForm.OpenTransacionForm("", clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
                     ''''''''''''''''''''''''''''''''''''
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells("Trans_Type").Value), "DispChallanRet") = CompairStringResult.Equal Then
-                    'clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCTankerDispatchReturn, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
-                    'ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells("Trans_Type").Value), "DispChallan-RET") = CompairStringResult.Equal Then
-                    '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MCCDispatchReturn, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCTankerDispatchReturn, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
+                ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells("Trans_Type").Value), "DispChallan-RET") = CompairStringResult.Equal Then
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MCCDispatchReturn, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells("Trans_Type").Value), "EX_SALE_IN") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmEXSalesInvoice, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells("Trans_Type").Value), "JWO-SRN") = CompairStringResult.Equal Then
@@ -947,7 +947,7 @@ Public Class frmStockAgeingReport
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPAssetIssue, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
 
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells("Trans_Type").Value), "MCC-IISSUE") = CompairStringResult.Equal Then
-                    'clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
+                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells("Trans_Type").Value), "MilkTransferInReturn") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkTransferInReturn, clsCommon.myCstr(gv1.CurrentRow.Cells("Document_No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells("Trans_Type").Value), "MilkTransferJobWork") = CompairStringResult.Equal Then

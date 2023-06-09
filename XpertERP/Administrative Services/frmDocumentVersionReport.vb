@@ -2593,7 +2593,7 @@ Public Class FrmDocumentVersionReport
     '===========Sanjeet(27/12/2016)============================
     Sub FillMccProcurement()
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "VSP Item Issue") = CompairStringResult.Equal Then
-            'Load_Authorisation(clsUserMgtCode.frmVSPItemIssue)
+            Load_Authorisation(clsUserMgtCode.frmVSPItemIssue)
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
