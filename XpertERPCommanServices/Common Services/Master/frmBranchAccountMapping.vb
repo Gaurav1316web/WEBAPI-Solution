@@ -212,7 +212,7 @@ Public Class FrmBranchAccountMapping
         Try
             If AllowToSave() Then
                 If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.FrmBranchAccountMapping, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                    If clsPasswordCheckForMasters.CheckMasterPwd("", clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                     Else
                         Return
                     End If

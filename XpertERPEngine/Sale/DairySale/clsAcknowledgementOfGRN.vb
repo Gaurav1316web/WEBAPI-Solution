@@ -35,7 +35,7 @@ Public Class clsAcknowledgementOfGRN
         Dim qry As String = String.Empty
         Try
             Dim ApplyTSPriceAtBulkSale As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyTSPriceAtBulkSale, clsFixedParameterCode.ApplyTSPriceAtBulkSale, trans)) = 1, True, False))
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmAcknowledgeMentOfGRN, obj.Location_Code, obj.ACKNOWLEDGEMENT_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, "", obj.Location_Code, obj.ACKNOWLEDGEMENT_Date, trans)
             qry = "delete from TSPL_ACKNOWLEDGEMENT_OF_GRN_DETAIL where ACKNOWLEDGEMENT_No='" & obj.ACKNOWLEDGEMENT_No & "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             If isNewEntry Then
@@ -123,7 +123,7 @@ Public Class clsAcknowledgementOfGRN
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select ACKNOWLEDGEMENT_Date,Location_Code from TSPL_ACKNOWLEDGEMENT_OF_GRN_HEAD where ACKNOWLEDGEMENT_No='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmAcknowledgeMentOfGRN, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("ACKNOWLEDGEMENT_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, "", clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("ACKNOWLEDGEMENT_Date")), trans)
 
             End If
             Dim qry As String = ""
@@ -158,7 +158,7 @@ Public Class clsAcknowledgementOfGRN
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select ACKNOWLEDGEMENT_Date,Location_Code from TSPL_ACKNOWLEDGEMENT_OF_GRN_HEAD where ACKNOWLEDGEMENT_No='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmAcknowledgeMentOfGRN, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("ACKNOWLEDGEMENT_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, "", clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("ACKNOWLEDGEMENT_Date")), trans)
 
             End If
             Dim qry = "Update TSPL_ACKNOWLEDGEMENT_OF_GRN_HEAD set Posted=1, " & _

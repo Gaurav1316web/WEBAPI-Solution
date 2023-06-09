@@ -1542,6 +1542,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
         frm.VendorCode = Vsp_Name
         frm.Frm_date = frm_date
         frm.To_date = End_date
+        frm.isForMP = False
         Dim StrDoc As New List(Of String)
         If Is_With_Bill Then
             If Not frm.LoaDHeadDataQuery(trans) Then
@@ -4616,7 +4617,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
             frm.VendorCode = Vsp_Name
             frm.MpCode = clsCommon.myCstr(row_MP.Item("MP_Code"))
             frm.isForMP = True
-            frm.fORMCode = clsUserMgtCode.MilkMPPayment
+            'frm.fORMCode = clsUserMgtCode.MilkMPPayment
             frm.stran = trans
             'frm.strCurrCode = FndSRNNO.Value
             frm.Frm_date = frm_date

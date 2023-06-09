@@ -400,20 +400,20 @@ Public Class RptPrmoptMsgRelatedToPendencyDoc
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmProcessProductionStandardization, documentCode)
                 Case "Milk Sample"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkSample, documentCode)
-                Case "Milk Truck Sheet"
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MilkTruckSheet, documentCode)
+                'Case "Milk Truck Sheet"
+                '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MilkTruckSheet, documentCode)
                 Case "Tanker Dispatch"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCDispatch, documentCode)
-                Case "Tanker Location Change"
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDispatchTransfer, documentCode)
+                'Case "Tanker Location Change"
+                '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDispatchTransfer, documentCode)
                 Case "VSP Asset Issue"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPAssetIssue, documentCode)
                 Case "MCC Material Sale"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCMaterial, documentCode)
                 Case "MCC Material Sale Return"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCMaterialSaleReturn, documentCode)
-                Case "VSP Item Issue"
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, documentCode)
+                'Case "VSP Item Issue"
+                '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, documentCode)
                 Case "Export Sale Quotation"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmEXSalesQuotation, documentCode)
                 Case "Export Sales Order"
@@ -595,12 +595,12 @@ Public Class RptPrmoptMsgRelatedToPendencyDoc
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmProcessProductionStandardization, strDocumentCode)
                 Case "Milk Sample"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkSample, strDocumentCode)
-                Case "Milk Truck Sheet"
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MilkTruckSheet, strDocumentCode)
+                'Case "Milk Truck Sheet"
+                '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MilkTruckSheet, strDocumentCode)
                 Case "Tanker Dispatch"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCDispatch, strDocumentCode)
-                Case "Tanker Location Change"
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDispatchTransfer, strDocumentCode)
+                'Case "Tanker Location Change"
+                '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDispatchTransfer, strDocumentCode)
                 Case "VSP Asset Issue"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPAssetIssue, strDocumentCode)
                 Case "MCC Material Sale"
@@ -608,8 +608,8 @@ Public Class RptPrmoptMsgRelatedToPendencyDoc
                 Case "MCC Material Sale Return"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCMaterialSaleReturn, strDocumentCode)
                 Case "VSP Item Issue"
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strDocumentCode)
-                Case "Export Sale Quotation"
+                    '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strDocumentCode)
+                    'Case "Export Sale Quotation"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmEXSalesQuotation, strDocumentCode)
                 Case "Export Sales Order"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmEXSalesOrder, strDocumentCode)

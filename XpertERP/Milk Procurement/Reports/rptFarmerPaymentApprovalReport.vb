@@ -236,7 +236,7 @@ Public Class rptFarmerPaymentApprovalReport
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy")) + " ")
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptFarmerPaymentApprovalReport & "'"))
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & "'"))
             If exporter = EnumExportTo.Excel Then
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                 clsCommon.MyExportToExcelGrid("Farmer Payment Approval Report", Gv1, arrHeader, Me.Text)

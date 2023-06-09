@@ -359,14 +359,14 @@ Public Class clsPendingDocsPopupHead
             End If
         End If
 
-        Load_Authorisation(clsUserMgtCode.MilkTruckSheet)
+        'Load_Authorisation(clsUserMgtCode.MilkTruckSheet)
         If dtAuthen.Rows.Count > 0 Then
             If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
-                qry += "   " & _
-                         "  Select 'MCC Milk Procurement' As Module, 'Milk Truck Sheet' As Screen, Tspl_Milk_Truck_Sheet_Head.DOC_CODE [Doc Code]," & _
-                         " Tspl_Milk_Truck_Sheet_Head.DOC_DATE [Doc Date], Case When Tspl_Milk_Truck_Sheet_Head.Posted = 1 Then 'Y' Else 'N' End As Status, Tspl_Milk_Truck_Sheet_Head.Created_By [Created By],'" & clsUserMgtCode.MilkTruckSheet & "' as Form_type " & _
-                         " From Tspl_Milk_Truck_Sheet_Head   " & _
-                           " where 2=2 and convert(date, Tspl_Milk_Truck_Sheet_Head.DOC_DATE,103)  >=convert(date,'" + fromDate + "',103) and convert(date, Tspl_Milk_Truck_Sheet_Head.DOC_DATE,103) <=convert(date,'" + toDate + "',103 )" & _
+                qry += "   " &
+                         "  Select 'MCC Milk Procurement' As Module, 'Milk Truck Sheet' As Screen, Tspl_Milk_Truck_Sheet_Head.DOC_CODE [Doc Code]," &
+                         " Tspl_Milk_Truck_Sheet_Head.DOC_DATE [Doc Date], Case When Tspl_Milk_Truck_Sheet_Head.Posted = 1 Then 'Y' Else 'N' End As Status, Tspl_Milk_Truck_Sheet_Head.Created_By [Created By]," &
+                         " From Tspl_Milk_Truck_Sheet_Head   " &
+                           " where 2=2 and convert(date, Tspl_Milk_Truck_Sheet_Head.DOC_DATE,103)  >=convert(date,'" + fromDate + "',103) and convert(date, Tspl_Milk_Truck_Sheet_Head.DOC_DATE,103) <=convert(date,'" + toDate + "',103 )" &
                               " and  Tspl_Milk_Truck_Sheet_Head.Posted  in (0,1) "
                 If user IsNot Nothing AndAlso user.Count > 0 Then
                     qry += " and Tspl_Milk_Truck_Sheet_Head.Created_By in (" + clsCommon.GetMulcallString(user) + ") "
@@ -449,13 +449,13 @@ Public Class clsPendingDocsPopupHead
                 qry += " union all "
             End If
         End If
-        Load_Authorisation(clsUserMgtCode.frmVSPItemIssue)
+        'Load_Authorisation(clsUserMgtCode.frmVSPItemIssue)
         If dtAuthen.Rows.Count > 0 Then
             If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
-                qry += "  " & _
-                " Select 'MCC Milk Procurement' As Module, 'VSP Item Issue' As Screen, TSPL_VSPItem_HEAD.Doc_No [Doc Code], Convert(date,TSPL_VSPItem_HEAD.Doc_Date,103) As [Doc Date]," & _
-                " Case When TSPL_VSPItem_HEAD.Status = 1 Then 'Y' Else 'N' End As Status, TSPL_VSPItem_HEAD.Created_By [Created By] ,'" & clsUserMgtCode.frmVSPItemIssue & "' as Form_type    From TSPL_VSPItem_HEAD " & _
-                " where 2=2 and convert(date, TSPL_VSPItem_HEAD.Doc_Date,103)  >=convert(date,'" + fromDate + "',103) and convert(date, TSPL_VSPItem_HEAD.Doc_Date,103) <=convert(date,'" + toDate + "',103 )" & _
+                qry += "  " &
+                " Select 'MCC Milk Procurement' As Module, 'VSP Item Issue' As Screen, TSPL_VSPItem_HEAD.Doc_No [Doc Code], Convert(date,TSPL_VSPItem_HEAD.Doc_Date,103) As [Doc Date]," &
+                " Case When TSPL_VSPItem_HEAD.Status = 1 Then 'Y' Else 'N' End As Status, TSPL_VSPItem_HEAD.Created_By [Created By] ,'" & "' as Form_type    From TSPL_VSPItem_HEAD " &
+                " where 2=2 and convert(date, TSPL_VSPItem_HEAD.Doc_Date,103)  >=convert(date,'" + fromDate + "',103) and convert(date, TSPL_VSPItem_HEAD.Doc_Date,103) <=convert(date,'" + toDate + "',103 )" &
                  " and TSPL_VSPItem_HEAD.Status in (0,1) "
                 If user IsNot Nothing AndAlso user.Count > 0 Then
                     qry += " and TSPL_VSPItem_HEAD.Created_By in (" + clsCommon.GetMulcallString(user) + ") "

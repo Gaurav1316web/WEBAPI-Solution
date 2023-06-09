@@ -38,7 +38,7 @@ Public Class FrmGenerateFreshBooking
         Try
             If clsCommon.CompairString(cmbBookingType.Text, "CD") <> CompairStringResult.Equal Then
                 If gv1.CurrentColumn Is gv1.Columns("Reference Booking No") Then
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmbookingdairyFreshSale, clsCommon.myCstr(gv1.CurrentRow.Cells("Reference Booking No").Value))
+                    clsOpenTransactionForm.OpenTransacionForm("", clsCommon.myCstr(gv1.CurrentRow.Cells("Reference Booking No").Value))
                 End If
             End If
         Catch ex As Exception
@@ -106,7 +106,7 @@ Public Class FrmGenerateFreshBooking
              " left outer join TSPL_CARD_SALE on TSPL_CARD_SALE.Card_No =TSPL_BOOKING_MATSER.card_sale_no " & Environment.NewLine &
              " left outer join TSPL_BOOKING_DETAIL on tspl_booking_matser.Document_No =TSPL_BOOKING_DETAIL.Document_No " & Environment.NewLine &
              " left outer join TSPL_CUSTOMER_MASTER on  TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_BOOKING_DETAIL.Cust_Code" & Environment.NewLine &
-             " where  tspl_booking_matser.booking_type='" & strBookingType & "' and tspl_booking_matser.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_MATSER.From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "' " & Environment.NewLine
+             " where  tspl_booking_matser.booking_type='" & strBookingType & "' and tspl_booking_matser.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_MATSER.From_Screen_code='" & "' " & Environment.NewLine
 
 
 
@@ -117,14 +117,14 @@ Public Class FrmGenerateFreshBooking
                 strqry += " and TSPL_BOOKING_DETAIL.route_no in (" + clsCommon.GetMulcallString(fndRouteNo.arrValueMember) + " ) "
             End If
 
-            strqry += "  and Against_Booking_No in (select BM.Document_No from TSPL_BOOKING_MATSER BM where BM.booking_type='" & strBookingType & "' and BM.location_code ='" & txtLocation.Value & "'  and BM.From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "') " & Environment.NewLine
+            strqry += "  and Against_Booking_No in (select BM.Document_No from TSPL_BOOKING_MATSER BM where BM.booking_type='" & strBookingType & "' and BM.location_code ='" & txtLocation.Value & "'  and BM.From_Screen_code='" & "') " & Environment.NewLine
             If isshowMessage = False Then
-                strqry += " UNION " & Environment.NewLine & _
-                " select distinct TSPL_BOOKING_DETAIL.Cust_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.card_sale_no,TSPL_CARD_SALE.No_Of_Days ,TSPL_BOOKING_MATSER.Document_No as [Reference Booking No], TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Document_Date as Document_Date ,isnull(tspl_booking_matser.booking_type,'') as ActualBookingType,TSPL_BOOKING_DETAIL.route_no  from TSPL_BOOKING_MATSER " & Environment.NewLine & _
-                " left outer join TSPL_CARD_SALE on TSPL_CARD_SALE.Card_No =TSPL_BOOKING_MATSER.card_sale_no " & Environment.NewLine & _
-                " left outer join TSPL_BOOKING_DETAIL on tspl_booking_matser.Document_No =TSPL_BOOKING_DETAIL.Document_No " & Environment.NewLine & _
-                " left outer join TSPL_CUSTOMER_MASTER on  TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_BOOKING_DETAIL.Cust_Code" & Environment.NewLine & _
-                " where  tspl_booking_matser.booking_type='" & strBookingType & "' and tspl_booking_matser.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_MATSER.From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "' " & Environment.NewLine
+                strqry += " UNION " & Environment.NewLine &
+                " select distinct TSPL_BOOKING_DETAIL.Cust_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.card_sale_no,TSPL_CARD_SALE.No_Of_Days ,TSPL_BOOKING_MATSER.Document_No as [Reference Booking No], TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Document_Date as Document_Date ,isnull(tspl_booking_matser.booking_type,'') as ActualBookingType,TSPL_BOOKING_DETAIL.route_no  from TSPL_BOOKING_MATSER " & Environment.NewLine &
+                " left outer join TSPL_CARD_SALE on TSPL_CARD_SALE.Card_No =TSPL_BOOKING_MATSER.card_sale_no " & Environment.NewLine &
+                " left outer join TSPL_BOOKING_DETAIL on tspl_booking_matser.Document_No =TSPL_BOOKING_DETAIL.Document_No " & Environment.NewLine &
+                " left outer join TSPL_CUSTOMER_MASTER on  TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_BOOKING_DETAIL.Cust_Code" & Environment.NewLine &
+                " where  tspl_booking_matser.booking_type='" & strBookingType & "' and tspl_booking_matser.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_MATSER.From_Screen_code='" & "' " & Environment.NewLine
 
                 If txtCustomerNo.arrValueMember IsNot Nothing AndAlso txtCustomerNo.arrValueMember.Count > 0 Then
                     strqry += " and TSPL_BOOKING_DETAIL.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomerNo.arrValueMember) + ")  "
@@ -132,20 +132,20 @@ Public Class FrmGenerateFreshBooking
                 If fndRouteNo.arrValueMember IsNot Nothing AndAlso fndRouteNo.arrValueMember.Count > 0 Then
                     strqry += " and TSPL_BOOKING_DETAIL.route_no in (" + clsCommon.GetMulcallString(fndRouteNo.arrValueMember) + " ) "
                 End If
-                strqry += "   and Against_Booking_No in (select BM.Document_No from TSPL_BOOKING_MATSER BM where BM.booking_type='" & strBookingType & "' and BM.location_code ='" & txtLocation.Value & "'  and BM.From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "' )"
+                strqry += "   and Against_Booking_No in (select BM.Document_No from TSPL_BOOKING_MATSER BM where BM.booking_type='" & strBookingType & "' and BM.location_code ='" & txtLocation.Value & "'  and BM.From_Screen_code='" & "' )"
 
             End If
 
 
 
-            strqry += "  )AgainstBooking group by Against_Booking_No,[Customer Code] having count(Against_Booking_No)+1<=max(No_Of_Days) " & Environment.NewLine & _
-                           " union all " & Environment.NewLine & _
-            " select distinct TSPL_BOOKING_DETAIL.Cust_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.card_sale_no,TSPL_BOOKING_MATSER.Document_No as [Reference Booking No], TSPL_BOOKING_MATSER.Against_Booking_No,1 as number1,case when isnull(tspl_booking_matser.booking_type,'')='CD' THEN TSPL_CARD_SALE.No_Of_Days ELSE 1 END as No_Of_Days,convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103) as Document_Date ,isnull(tspl_booking_matser.booking_type,'') as ActualBookingType,TSPL_BOOKING_DETAIL.route_no  from TSPL_BOOKING_MATSER" & Environment.NewLine & _
-            " left outer join TSPL_CARD_SALE on TSPL_CARD_SALE.Card_No =TSPL_BOOKING_MATSER.card_sale_no" & Environment.NewLine & _
-            " left outer join TSPL_BOOKING_DETAIL on tspl_booking_matser.Document_No =TSPL_BOOKING_DETAIL.Document_No " & Environment.NewLine & _
-            " left outer join TSPL_CUSTOMER_MASTER on  TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_BOOKING_DETAIL.Cust_Code" & Environment.NewLine & _
-            " where  tspl_booking_matser.Posted =1 and " & Environment.NewLine & _
-            " tspl_booking_matser.booking_type='" & strBookingType & "' and tspl_booking_matser.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_MATSER.From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "' " & Environment.NewLine
+            strqry += "  )AgainstBooking group by Against_Booking_No,[Customer Code] having count(Against_Booking_No)+1<=max(No_Of_Days) " & Environment.NewLine &
+                           " union all " & Environment.NewLine &
+            " select distinct TSPL_BOOKING_DETAIL.Cust_Code as [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.card_sale_no,TSPL_BOOKING_MATSER.Document_No as [Reference Booking No], TSPL_BOOKING_MATSER.Against_Booking_No,1 as number1,case when isnull(tspl_booking_matser.booking_type,'')='CD' THEN TSPL_CARD_SALE.No_Of_Days ELSE 1 END as No_Of_Days,convert(varchar,TSPL_BOOKING_MATSER.Document_Date,103) as Document_Date ,isnull(tspl_booking_matser.booking_type,'') as ActualBookingType,TSPL_BOOKING_DETAIL.route_no  from TSPL_BOOKING_MATSER" & Environment.NewLine &
+            " left outer join TSPL_CARD_SALE on TSPL_CARD_SALE.Card_No =TSPL_BOOKING_MATSER.card_sale_no" & Environment.NewLine &
+            " left outer join TSPL_BOOKING_DETAIL on tspl_booking_matser.Document_No =TSPL_BOOKING_DETAIL.Document_No " & Environment.NewLine &
+            " left outer join TSPL_CUSTOMER_MASTER on  TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_BOOKING_DETAIL.Cust_Code" & Environment.NewLine &
+            " where  tspl_booking_matser.Posted =1 and " & Environment.NewLine &
+            " tspl_booking_matser.booking_type='" & strBookingType & "' and tspl_booking_matser.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_MATSER.From_Screen_code='" & "' " & Environment.NewLine
             If txtCustomerNo.arrValueMember IsNot Nothing AndAlso txtCustomerNo.arrValueMember.Count > 0 Then
                 strqry += " and TSPL_BOOKING_DETAIL.Cust_Code in (" + clsCommon.GetMulcallString(txtCustomerNo.arrValueMember) + ")  "
             End If
@@ -153,11 +153,11 @@ Public Class FrmGenerateFreshBooking
                 strqry += " and TSPL_BOOKING_DETAIL.route_no in (" + clsCommon.GetMulcallString(fndRouteNo.arrValueMember) + " ) "
             End If
 
-            strqry += "  and  isnull(Against_Booking_No,'') ='' and TSPL_BOOKING_MATSER.Document_No not in (select distinct  TSPL_BOOKING_MATSER.Against_Booking_No   from TSPL_BOOKING_MATSER" & Environment.NewLine & _
-            " left outer join TSPL_CARD_SALE on TSPL_CARD_SALE.Card_No =TSPL_BOOKING_MATSER.card_sale_no" & Environment.NewLine & _
-            " left outer join TSPL_BOOKING_DETAIL on tspl_booking_matser.Document_No =TSPL_BOOKING_DETAIL.Document_No " & Environment.NewLine & _
-            " left outer join TSPL_CUSTOMER_MASTER on  TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_BOOKING_DETAIL.Cust_Code" & Environment.NewLine & _
-            " where  tspl_booking_matser.booking_type='" & strBookingType & "' and tspl_booking_matser.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_MATSER.From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "' " & Environment.NewLine
+            strqry += "  and  isnull(Against_Booking_No,'') ='' and TSPL_BOOKING_MATSER.Document_No not in (select distinct  TSPL_BOOKING_MATSER.Against_Booking_No   from TSPL_BOOKING_MATSER" & Environment.NewLine &
+            " left outer join TSPL_CARD_SALE on TSPL_CARD_SALE.Card_No =TSPL_BOOKING_MATSER.card_sale_no" & Environment.NewLine &
+            " left outer join TSPL_BOOKING_DETAIL on tspl_booking_matser.Document_No =TSPL_BOOKING_DETAIL.Document_No " & Environment.NewLine &
+            " left outer join TSPL_CUSTOMER_MASTER on  TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_BOOKING_DETAIL.Cust_Code" & Environment.NewLine &
+            " where  tspl_booking_matser.booking_type='" & strBookingType & "' and tspl_booking_matser.location_code ='" & txtLocation.Value & "' and TSPL_BOOKING_MATSER.From_Screen_code='" & "' " & Environment.NewLine
 
             '" where tspl_booking_matser.Posted =1 and tspl_booking_matser.booking_type='" & strBookingType & "' and tspl_booking_matser.location_code ='" & txtLocation.Value & "' " & Environment.NewLine
 
@@ -168,7 +168,7 @@ Public Class FrmGenerateFreshBooking
                 strqry += " and TSPL_BOOKING_DETAIL.route_no  in (" + clsCommon.GetMulcallString(fndRouteNo.arrValueMember) + " ) "
             End If
 
-            strqry += " and Against_Booking_No in (select BM.Document_No from TSPL_BOOKING_MATSER BM where BM.booking_type='" & strBookingType & "' and BM.location_code ='" & txtLocation.Value & "' and BM.From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "' ) ) ) final " & Environment.NewLine & _
+            strqry += " and Against_Booking_No in (select BM.Document_No from TSPL_BOOKING_MATSER BM where BM.booking_type='" & strBookingType & "' and BM.location_code ='" & txtLocation.Value & "' and BM.From_Screen_code='" & "' ) ) ) final " & Environment.NewLine &
                 " where final.Document_Date='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strqry)
@@ -274,7 +274,7 @@ Public Class FrmGenerateFreshBooking
                             obj.Is_Taxable = 2   ' 2 for Taxable and NonTaxable item in a single booking
                           
                             obj.TRANSACTION_TYPE = objDairySale.TRANSACTION_TYPE
-                            obj.From_Screen_code = clsUserMgtCode.frmbookingdairyFreshSale
+                            'obj.From_Screen_code = clsUserMgtCode.frmbookingdairyFreshSale
                             obj.SalesmanCode = objDairySale.SalesmanCode
                             obj.Cust_PO_No = objDairySale.Cust_PO_No
                             obj.Podate = objDairySale.Podate

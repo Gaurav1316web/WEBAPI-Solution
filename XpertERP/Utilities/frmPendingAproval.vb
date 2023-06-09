@@ -3427,7 +3427,7 @@ Public Class FrmPendingAproval
     '===========Sanjeet(27/12/2016)============================
     Sub FillMccProcurement()
         If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "VSP Item Issue") = CompairStringResult.Equal Then
-            Load_Authorisation(clsUserMgtCode.frmVSPItemIssue)
+            'Load_Authorisation(clsUserMgtCode.frmVSPItemIssue)
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
@@ -4068,7 +4068,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                     "Left Outer Join TSPL_LOCATION_MASTER on TSPL_BOOKING_DETAIL.Loc_Code =TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE FOC_Item=0 and convert(date,TSPL_BOOKING_MATSER.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " &
                     "convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) " &
-                    " and isnull(TSPL_BOOKING_MATSER.From_Screen_code,'')<>'" & clsUserMgtCode.frmbookingdairyFreshSale & "' "
+                    " and isnull(TSPL_BOOKING_MATSER.From_Screen_code,'')<>'" & "" & "' "
 
                     If rbtnStatusPending.IsChecked = True Then
                         qry += " and TSPL_BOOKING_DETAIL.Booking_Status in (1,3) "
@@ -4100,7 +4100,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
             End If
             ''richa agarwal 19 Nov,2019
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Fresh Booking/DO") = CompairStringResult.Equal Then
-            Load_Authorisation(clsUserMgtCode.frmbookingdairyFreshSale)
+            Load_Authorisation("")
             If dtAuthen.Rows.Count > 0 Then
                 If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
                     gv1.DataSource = Nothing
@@ -4115,7 +4115,7 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                     "Left Outer Join TSPL_LOCATION_MASTER on TSPL_BOOKING_DETAIL.Loc_Code =TSPL_LOCATION_MASTER.Location_Code  " &
                     " WHERE FOC_Item=0 and convert(date,TSPL_BOOKING_MATSER.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " &
                     "convert(date,TSPL_BOOKING_MATSER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) " &
-                    " and isnull(TSPL_BOOKING_MATSER.From_Screen_code,'')='" & clsUserMgtCode.frmbookingdairyFreshSale & "' "
+                    " and isnull(TSPL_BOOKING_MATSER.From_Screen_code,'')='" & "" & "' "
 
                     If rbtnStatusPending.IsChecked = True Then
                         qry += " and TSPL_BOOKING_DETAIL.Booking_Status in (1,3) "
