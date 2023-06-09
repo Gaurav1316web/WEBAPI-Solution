@@ -104,6 +104,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
 
             Dim whr As String = "TSPL_TENDER_HEADER.Posted=1 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Location='" + txtLocation.Value + "')"
             txtTenderNo.Value = clsTenderHead.getFinder(whr, txtTenderNo.Value, isButtonClicked)
+            'lblTender.Text = clsTenderHead.getFinder(whr, "DocumentDate", Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtTenderNo.Value = ""
@@ -239,20 +240,23 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             '    whr += " And TSPL_ITEM_MASTER.Item_Code in ( " + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
             'End If
 
-            qry = " select  TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as 'Tender No',TSPL_GRN_DETAIL.Item_Code as 'Item Code',TSPL_GRN_DETAIL.Item_Desc as 'Item Description',TSPL_GRN_HEAD.Vendor_Code as 'Vendor Code' ,TSPL_GRN_HEAD.Vendor_Name AS 'Vendor Name',TSPL_GRN_HEAD.GRN_No as 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo,(case when isnull(TSPL_GRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as GRNStatus,TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date',(Case when isnull(TSPL_SRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weightment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',(Case when isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0)= 1 then 'APPROVED' else 'PENDING' end) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM
+            qry = " select  TSPL_TENDER_PENALTY.Document_No AS RAL,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as 'Tender No',TSPL_GRN_DETAIL.Item_Code as 'Item Code',TSPL_GRN_DETAIL.Item_Desc as 'Item Description',TSPL_GRN_HEAD.Vendor_Code as 'Vendor Code' ,TSPL_GRN_HEAD.Vendor_Name AS 'Vendor Name',TSPL_GRN_HEAD.GRN_No as 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo,(case when isnull(TSPL_GRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as GRNStatus,TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date',(Case when isnull(TSPL_SRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weightment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',(Case when isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0)= 1 then 'APPROVED' else 'PENDING' end) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM
                     ,TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt,TSPL_SRN_DEDUCTION.Ded_Per as QualityDeductionPer,TSPL_SRN_DEDUCTION.Ded_Amt as QualityDeductionAmt,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_SRN_TENDER.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER.Penalty as LatePenaltyAmt,TSPL_PI_DETAIL.PI_No as 'PI No',TSPL_PI_HEAD.PI_Date as 'PI Date'
                         from TSPL_GRN_DETAIL
                     left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No
 
-                    left outer join TSPL_TENDER_PENALTY on TSPL_TENDER_PENALTY.Vendor_Code = TSPL_GRN_HEAD.Vendor_Code and TSPL_GRN_HEAD.Bill_To_Location = TSPL_TENDER_PENALTY.Location_Code and TSPL_GRN_HEAD.Ref_No = TSPL_TENDER_PENALTY.Tender_No and TSPL_TENDER_PENALTY.Item_Code=TSPL_GRN_DETAIL.Item_Code
-
                     left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id
                     left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.GRN_ID=TSPL_GRN_HEAD.GRN_No and TSPL_SRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
+
+                    left outer join TSPL_SRN_HEAD on  TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
+					left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.SRN_No = TSPL_SRN_HEAD.SRN_No
+
+                    left outer join TSPL_TENDER_PENALTY ON TSPL_TENDER_PENALTY.Document_No = TSPL_TENDER_PENALTY_DETAIL.Document_No
 
                     left outer join TSPL_PI_DETAIL on TSPL_PI_DETAIL.SRN_Id = TSPL_SRN_DETAIL.SRN_No and TSPL_SRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
 					Left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No = TSPL_PI_DETAIL.PI_No
 
-                    left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No
+                    
                     left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
                     left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code= TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code and  TSPL_PO_WEIGHTMENT_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
                     left outer join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION_SECURITY.Item_Code=TSPL_SRN_DETAIL.Item_Code
@@ -266,65 +270,93 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             Dim dtgv As New DataTable
             dtgv = clsDBFuncationality.GetDataTable(qry)
             If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
-                gv.DataSource = Nothing
-                gv.Rows.Clear()
-                gv.Columns.Clear()
+                gv.Visible = True
+                'gv.DataSource = Nothing
+                'gv.Rows.Clear()
+                'gv.Columns.Clear()
                 gv.DataSource = dtgv
-                gv.BestFitColumns()
+                gv.ReadOnly = True
+                SetGridFormat()
+                'gv.BestFitColumns()
                 'ReStoreGridLayout()
-                gv.MasterTemplate.SummaryRowsBottom.Clear()
-                For Each col As GridViewColumn In gv.Columns
-                    col.Width = 150
-                    col.ReadOnly = True
-                Next
-                Dim summaryRowItem As New GridViewSummaryRowItem()
-                'Dim intCount As Integer = 0
+                '    gv.MasterTemplate.SummaryRowsBottom.Clear()
+                '    For Each col As GridViewColumn In gv.Columns
+                '        col.Width = 150
+                '        col.ReadOnly = True
+                '    Next
+                '    Dim summaryRowItem As New GridViewSummaryRowItem()
+                '    'Dim intCount As Integer = 0
 
-                If dtgv.Columns.Contains("Gross Weight") Then
-                    Dim item5 As New GridViewSummaryItem("Gross Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item5)
-                End If
+                '    Dim item5 As New GridViewSummaryItem("Gross Weight", "{0:F2}", GridAggregateFunction.Sum)
+                '    summaryRowItem.Add(item5)
+                '    Dim item4 As New GridViewSummaryItem("Tare Weight", "{0:F2}", GridAggregateFunction.Sum)
+                '    summaryRowItem.Add(item4)
+                '    Dim item6 As New GridViewSummaryItem("Net Weight", "{0:F2}", GridAggregateFunction.Sum)
+                '    summaryRowItem.Add(item6)
+                '    Dim item7 As New GridViewSummaryItem("QualityDeductionPer", "{0:F2}", GridAggregateFunction.Sum)
+                '    summaryRowItem.Add(item7)
+                '    Dim item9 As New GridViewSummaryItem("QualityDeductionAmt", "{0:F2}", GridAggregateFunction.Sum)
+                '    summaryRowItem.Add(item9)
+                '    Dim item8 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+                '    summaryRowItem.Add(item8)
+                '    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
-                If dtgv.Columns.Contains("Tare Weight") Then
-                    Dim item4 As New GridViewSummaryItem("Tare Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item4)
-                End If
-
-                If dtgv.Columns.Contains("Net Weight") Then
-                    Dim item6 As New GridViewSummaryItem("Net Weight", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item6)
-                End If
-
-                If dtgv.Columns.Contains("QualityDeductionPer") Then
-                    Dim item7 As New GridViewSummaryItem("QualityDeductionPer", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item7)
-                End If
-
-                If dtgv.Columns.Contains("QualityDeductionAmt") Then
-                    Dim item9 As New GridViewSummaryItem("QualityDeductionAmt", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item9)
-                End If
-
-                If dtgv.Columns.Contains("SRN Qty") Then
-                    Dim item8 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
-                    summaryRowItem.Add(item8)
-                End If
-
-                gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
-            End If
-            If dtgv.Rows.Count <= 0 Then
+            Else
+                common.clsCommon.MyMessageBoxShow("No Data Found")
                 gv.DataSource = Nothing
-                gv.Rows.Clear()
-                gv.Columns.Clear()
-                clsCommon.MyMessageBoxShow("No Data Found")
-                Exit Sub
             End If
+
+
+
+            'If dtgv.Rows.Count <= 0 Then
+            '    gv.DataSource = Nothing
+            '    gv.Rows.Clear()
+            '    gv.Columns.Clear()
+            '    clsCommon.MyMessageBoxShow("No Data Found")
+            '    Exit Sub
+            'End If
 
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
+    End Sub
+
+    Sub SetGridFormat()
+        gv.ShowGroupPanel = False
+        gv.ShowRowHeaderColumn = False
+        gv.AllowAddNewRow = False
+        gv.AllowDeleteRow = False
+        gv.EnableFiltering = True
+        gv.ShowFilteringRow = True
+
+        gv.MasterTemplate.SummaryRowsBottom.Clear()
+
+        For ii As Integer = 0 To gv.Columns.Count - 1
+            gv.Columns(ii).ReadOnly = True
+            gv.Columns(ii).BestFit()
+        Next
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+
+        Dim item5 As New GridViewSummaryItem("Gross Weight", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item5)
+        Dim item4 As New GridViewSummaryItem("Tare Weight", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+        Dim item6 As New GridViewSummaryItem("Net Weight", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item6)
+        Dim item7 As New GridViewSummaryItem("QualityDeductionPer", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item7)
+        Dim item9 As New GridViewSummaryItem("QualityDeductionAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item9)
+        Dim item8 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item8)
+
+        gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
+        gv.AutoSizeRows = False
+        gv.BestFitColumns()
+
     End Sub
 
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
