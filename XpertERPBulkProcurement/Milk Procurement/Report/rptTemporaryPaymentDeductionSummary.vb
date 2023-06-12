@@ -193,17 +193,31 @@ Public Class rptTemporaryPaymentDeductionSummary
                 arr.Add(clsCommon.myCstr(dr("Doc_No")))
             Next
             strDocNo = clsCommon.GetMulcallString(arr)
-        End If
-
-        Dim strOldDocNo As String = Nothing
-        If clsCommon.myLen(strDocNo) > 0 Then
-            strOldDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT TOP 1 Doc_No  from TSPL_PAYMENT_PROCESS_head where convert(date,To_Date,103)<=convert(date,('" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'),103) AND TSPL_PAYMENT_PROCESS_head.Doc_No in (" + strDocNo + ") ORDER BY From_Date DESC"))
         Else
             strDocNo = "''"
+        End If
+        If clsCommon.myLen(subMCCQry1) <= 0 Then
+            subMCCQry1 = ""
+        End If
+        If clsCommon.myLen(subDCSQry) <= 0 Then
+            subDCSQry = ""
+        End If
+        Dim strOldDocNo As String = Nothing
+        Dim strOLDFromDate As String = ""
+        Dim strOLDToDate As String = ""
+        Dim qry As String = "SELECT TOP 1 Doc_No,From_Date,To_Date  from TSPL_PAYMENT_PROCESS_head where convert(date,To_Date,103)<convert(date,('" + clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") + "'),103) ORDER BY From_Date DESC"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            strOldDocNo = clsCommon.myCstr(dt.Rows(0)("Doc_No"))
+            strOLDFromDate = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("From_Date")), "dd/MMM/yyyy")
+            strOLDToDate = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("To_Date")), "dd/MMM/yyyy")
+        Else
             strOldDocNo = "''"
+            strOLDFromDate = clsCommon.GetPrintDate(clsCommon.myCDate(fromDate.AddDays(-10)), "dd/MMM/yyyy")
+            strOLDToDate = clsCommon.GetPrintDate(clsCommon.myCDate(fromDate.AddDays(-1)), "dd/MMM/yyyy")
         End If
 
-        Dim qry As String = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ",sum(Amount) as 'Opening+Sale',Sum(ReDedctAmt) As 'Amt Deducted',sum(Amount-ReDedctAmt) As 'Balance Amount' from (                        
+        qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ",sum(Amount) as 'Opening+Sale',Sum(ReDedctAmt) As 'Amt Deducted',sum(Amount-ReDedctAmt) As 'Balance Amount' from (                        
 Select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc 
 ,0 as Amount ,(isnull(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0)) As ReDedctAmt
 from TSPL_PAYMENT_PROCESS_DEDUCTION 
@@ -220,14 +234,15 @@ select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Ad
 from TSPL_MULTIPLE_DEDUCTION_HEAD 
 LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
 left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
-where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0 and convert(date,Document_Date,103)>convert(date,('" + clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") + "'),103) " + subMCCQry1 + "
+where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0 
+and convert(date,Document_Date,103)>=convert(date,('" + clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") + "'),103) and convert(date,Document_Date,103)<=convert(date,('" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "'),103)
 Union All 
 Select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc 
 ,isnull(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0) as Amount,0 as ReDedctAmt
 from TSPL_PAYMENT_PROCESS_DEDUCTION 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
 Left Outer Join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
-where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ('" + strOldDocNo + "') " + subMCCQry1 + " and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103)<convert(date,('" + clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") + "'),103)
+where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ('" + strOldDocNo + "') " + subMCCQry1 + " 
 union all
 select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
 ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
@@ -237,7 +252,15 @@ select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Ad
 from TSPL_MULTIPLE_DEDUCTION_HEAD 
 LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
 left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
-where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)<convert(date,('" + clsCommon.GetPrintDate(fromDate, "dd/MMM/yyyy") + "'),103) " + subMCCQry1 + "
+where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 "
+        If clsCommon.myLen(strOLDFromDate) > 0 Then
+            qry += " and convert(date,Document_Date,103)>=convert(date,('" + strOLDFromDate + "'),103) "
+        End If
+        If clsCommon.myLen(strOLDToDate) > 0 Then
+            qry += " and convert(date,Document_Date,103)<=convert(date,('" + strOLDToDate + "'),103) "
+        End If
+
+        qry += subMCCQry1 + "
 ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " having sum(Amount)>0 order by [Type] desc"
         Return qry
     End Function
