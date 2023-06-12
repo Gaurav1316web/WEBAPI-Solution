@@ -12,6 +12,7 @@ Public Class RCDFDashboard
 
     Dim dtQuality As DataTable = Nothing
     Dim dtQualitySummary As DataTable = Nothing
+    Dim dtQcPending As DataTable = Nothing
 
     Dim dtRMStock As DataTable = Nothing
     Dim dtRMSupply As DataTable = Nothing
@@ -70,6 +71,7 @@ Public Class RCDFDashboard
         Reset()
     End Sub
     Sub Reset()
+        lblQuality.Text = ""
         dtFinishGoods = Nothing
         gvFinishGoods.DataSource = Nothing
         gvFinishGoods.Rows.Clear()
@@ -86,6 +88,8 @@ Public Class RCDFDashboard
         gvQuality.DataSource = Nothing
         gvQuality.Rows.Clear()
         gvQuality.Columns.Clear()
+
+        dtQcPending = Nothing
 
         dtQualitySummary = Nothing
         gvQualitySummary.DataSource = Nothing
@@ -318,7 +322,7 @@ select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.pr
                 cvFinishGoods.ChartElement.TitleElement.TextAlignment = ContentAlignment.MiddleCenter
                 cvFinishGoods.ChartElement.TitleElement.ForeColor = Color.WhiteSmoke
 
-                cvFinishGoods.Title = "PRODUCTION CHART"
+                cvFinishGoods.Title = "SALE CHART"
 
                 Dim smartLabelsController As New SmartLabelsController()
                 cvFinishGoods.Controllers.Add(smartLabelsController)
@@ -623,6 +627,27 @@ where TSPL_ITEM_MASTER.STRUCTURE_CODE='FG'
     End Sub
 
     Public Sub Load_Report_Quality()
+
+        Try
+            If dtQcPending Is Nothing OrElse dtQcPending.Rows.Count <= 0 Then
+                Dim sQuery As String = "
+                select  TSPL_MRN_DETAIL.Location,count(*) as 'QC Pending' from TSPL_MRN_HEAD 
+                left join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code
+                where TSPL_MRN_DETAIL.MRN_No   not in (select TSPL_QC_CHECK_DETAIL.MRN_No from TSPL_QC_CHECK_DETAIL)  and TSPL_ITEM_MASTER.Is_AllowQC_ON_Purchase=1
+                "
+                If clsCommon.myLen(txtLocation.Value) > 0 Then
+                    sQuery += " And TSPL_MRN_DETAIL.Location='" + txtLocation.Value + "' "
+                End If
+                sQuery += " AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')  and convert(date,TSPL_MRN_HEAD.MRN_Date,103) >= convert(date, '01-apr-2023', 103) group by TSPL_MRN_DETAIL.Location"
+
+                dtQcPending = clsDBFuncationality.GetDataTable(sQuery)
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
         Try
             If dtQuality Is Nothing OrElse dtQuality.Rows.Count <= 0 Then
                 Dim sQuery As String = "select  TSPL_GRN_HEAD.Ref_No,TSPL_GRN_HEAD.Vendor_Name as 'VENDOR',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_GRN_HEAD.VehicleNo,CASE WHEN TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2  or TabQC.QC_Status='Rejected' then 'Rejected' else CASE WHEN (TabQC.QC_Status in ('Accepted','Under Deviation') or TSPL_GRN_HEAD.VisualQCStatus=5) then 'Accepted' else 'Pending' END END AS QCStaus,ISNULL(TabQC.InputDataDeductionPer,0) AS DEDPer
@@ -643,8 +668,10 @@ order by TSPL_GRN_HEAD.GRN_Date desc"
                 dtQuality = clsDBFuncationality.GetDataTable(sQuery)
             End If
 
+
             If dtQuality IsNot Nothing AndAlso dtQuality.Rows.Count > 0 Then
-                lblQuality.Text = "Current Status"
+                Dim qcPendingValue As Integer = dtQcPending.Rows(0)("QC Pending").ToString()
+                lblQuality.Text = "CURRENT STATUS" + " [TOTAL QC PENDING  - " + qcPendingValue.ToString() + "]"
 
                 gvQuality.DataSource = Nothing
                 gvQuality.Columns.Clear()
@@ -707,7 +734,7 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Ite
             End If
 
             If dtQualitySummary IsNot Nothing AndAlso dtQualitySummary.Rows.Count > 0 Then
-                lblQualitySummary.Text = "Quality Summary RAL Wise"
+                lblQualitySummary.Text = "QUALITY SUMMARY RAL WISE"
 
                 gvQualitySummary.DataSource = Nothing
                 gvQualitySummary.Columns.Clear()

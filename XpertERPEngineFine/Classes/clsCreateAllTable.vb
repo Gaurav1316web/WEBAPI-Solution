@@ -22879,7 +22879,7 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
 
             coll = New Dictionary(Of String, String)
-            coll.Add("REF_PK_ID", "integer NOT NULL references TSPL_MILK_COLLECTION_SERVICE(PK_ID)")
+            coll.Add("REF_PK_ID", "integer NOT NULL references TSPL_MILK_COLLECTION_BMCDCS(PK_ID)")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Vehicle_No", "Varchar(20) not null")
             coll.Add("Trip_No", "Integer NULL")
@@ -22892,7 +22892,7 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS_TRIP", coll)
 
             coll = New Dictionary(Of String, String)
-            coll.Add("REF_PK_ID", "integer NOT NULL references TSPL_MILK_COLLECTION_SERVICE(PK_ID)")
+            coll.Add("REF_PK_ID", "integer NOT NULL references TSPL_MILK_COLLECTION_BMCDCS(PK_ID)")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
             coll.Add("IShift", "char(1) not null")
