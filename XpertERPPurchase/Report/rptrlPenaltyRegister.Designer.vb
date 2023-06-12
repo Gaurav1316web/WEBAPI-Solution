@@ -23,12 +23,19 @@ Partial Class rptrlPenaltyRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.lblPending = New common.Controls.MyLabel()
+        Me.lblReceived = New common.Controls.MyLabel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.lblOrdered = New common.Controls.MyLabel()
+        Me.lblTender = New common.Controls.MyLabel()
         Me.txtItem = New common.UserControls.txtFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.lblItem = New common.Controls.MyLabel()
@@ -45,13 +52,13 @@ Partial Class rptrlPenaltyRegister
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gvSchedule = New common.UserControls.MyRadGridView()
-        Me.RadLabel29 = New common.Controls.MyLabel()
         Me.radbtnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.RadLabel29 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -60,6 +67,13 @@ Partial Class rptrlPenaltyRegister
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPending, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblReceived, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblOrdered, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTender, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendor, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,11 +90,11 @@ Partial Class rptrlPenaltyRegister
         Me.SplitContainer2.SuspendLayout()
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.radbtnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -133,6 +147,13 @@ Partial Class rptrlPenaltyRegister
         Me.RadGroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel7)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel6)
+        Me.RadGroupBox1.Controls.Add(Me.lblPending)
+        Me.RadGroupBox1.Controls.Add(Me.lblReceived)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel3)
+        Me.RadGroupBox1.Controls.Add(Me.lblOrdered)
+        Me.RadGroupBox1.Controls.Add(Me.lblTender)
         Me.RadGroupBox1.Controls.Add(Me.txtItem)
         Me.RadGroupBox1.Controls.Add(Me.lblItem)
         Me.RadGroupBox1.Controls.Add(Me.txtVendorNo)
@@ -149,6 +170,84 @@ Partial Class rptrlPenaltyRegister
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(1136, 413)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(537, 58)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(93, 18)
+        Me.MyLabel7.TabIndex = 378
+        Me.MyLabel7.Text = "Pending Quantity"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(535, 34)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(97, 18)
+        Me.MyLabel6.TabIndex = 379
+        Me.MyLabel6.Text = "Received Quantity"
+        '
+        'lblPending
+        '
+        Me.lblPending.AutoSize = False
+        Me.lblPending.BorderVisible = True
+        Me.lblPending.FieldName = Nothing
+        Me.lblPending.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPending.Location = New System.Drawing.Point(661, 59)
+        Me.lblPending.Name = "lblPending"
+        Me.lblPending.Size = New System.Drawing.Size(211, 19)
+        Me.lblPending.TabIndex = 377
+        Me.lblPending.TextWrap = False
+        '
+        'lblReceived
+        '
+        Me.lblReceived.AutoSize = False
+        Me.lblReceived.BorderVisible = True
+        Me.lblReceived.FieldName = Nothing
+        Me.lblReceived.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblReceived.Location = New System.Drawing.Point(661, 34)
+        Me.lblReceived.Name = "lblReceived"
+        Me.lblReceived.Size = New System.Drawing.Size(211, 19)
+        Me.lblReceived.TabIndex = 378
+        Me.lblReceived.TextWrap = False
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(536, 10)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(94, 18)
+        Me.MyLabel3.TabIndex = 377
+        Me.MyLabel3.Text = "Ordered Quantity"
+        '
+        'lblOrdered
+        '
+        Me.lblOrdered.AutoSize = False
+        Me.lblOrdered.BorderVisible = True
+        Me.lblOrdered.FieldName = Nothing
+        Me.lblOrdered.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblOrdered.Location = New System.Drawing.Point(661, 9)
+        Me.lblOrdered.Name = "lblOrdered"
+        Me.lblOrdered.Size = New System.Drawing.Size(211, 19)
+        Me.lblOrdered.TabIndex = 376
+        Me.lblOrdered.TextWrap = False
+        '
+        'lblTender
+        '
+        Me.lblTender.AutoSize = False
+        Me.lblTender.BorderVisible = True
+        Me.lblTender.FieldName = Nothing
+        Me.lblTender.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTender.Location = New System.Drawing.Point(293, 34)
+        Me.lblTender.Name = "lblTender"
+        Me.lblTender.Size = New System.Drawing.Size(223, 18)
+        Me.lblTender.TabIndex = 375
+        Me.lblTender.TextWrap = False
         '
         'txtItem
         '
@@ -356,7 +455,7 @@ Partial Class rptrlPenaltyRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gv.Name = "gv"
         Me.gv.ReadOnly = True
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -407,7 +506,7 @@ Partial Class rptrlPenaltyRegister
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSchedule.ShowGroupPanel = False
@@ -415,17 +514,6 @@ Partial Class rptrlPenaltyRegister
         Me.gvSchedule.Size = New System.Drawing.Size(1142, 390)
         Me.gvSchedule.TabIndex = 19
         Me.gvSchedule.TabStop = False
-        '
-        'RadLabel29
-        '
-        Me.RadLabel29.FieldName = Nothing
-        Me.RadLabel29.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel29.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel29.Location = New System.Drawing.Point(8, 6)
-        Me.RadLabel29.Name = "RadLabel29"
-        Me.RadLabel29.Size = New System.Drawing.Size(150, 13)
-        Me.RadLabel29.TabIndex = 1521
-        Me.RadLabel29.Text = "Press F5 To View Penalty Details"
         '
         'radbtnExp
         '
@@ -476,6 +564,17 @@ Partial Class rptrlPenaltyRegister
         Me.btnclose.TabIndex = 164
         Me.btnclose.Text = "Close"
         '
+        'RadLabel29
+        '
+        Me.RadLabel29.FieldName = Nothing
+        Me.RadLabel29.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel29.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel29.Location = New System.Drawing.Point(8, 6)
+        Me.RadLabel29.Name = "RadLabel29"
+        Me.RadLabel29.Size = New System.Drawing.Size(150, 13)
+        Me.RadLabel29.TabIndex = 1521
+        Me.RadLabel29.Text = "Press F5 To View Penalty Details"
+        '
         'rptrlPenaltyRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -497,6 +596,13 @@ Partial Class rptrlPenaltyRegister
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPending, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblReceived, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblOrdered, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTender, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendor, System.ComponentModel.ISupportInitialize).EndInit()
@@ -514,11 +620,11 @@ Partial Class rptrlPenaltyRegister
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.radbtnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -550,5 +656,12 @@ Partial Class rptrlPenaltyRegister
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents gvSchedule As common.UserControls.MyRadGridView
+    Friend WithEvents lblTender As common.Controls.MyLabel
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents lblOrdered As common.Controls.MyLabel
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents lblPending As common.Controls.MyLabel
+    Friend WithEvents lblReceived As common.Controls.MyLabel
     Friend WithEvents RadLabel29 As common.Controls.MyLabel
 End Class

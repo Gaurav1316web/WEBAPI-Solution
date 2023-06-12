@@ -104,7 +104,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
 
             Dim whr As String = "TSPL_TENDER_HEADER.Posted=1 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Location='" + txtLocation.Value + "')"
             txtTenderNo.Value = clsTenderHead.getFinder(whr, txtTenderNo.Value, isButtonClicked)
-            'lblTender.Text = clsTenderHead.getFinder(whr, "DocumentDate", Nothing)
+            lblTender.Text = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select DocumentDate from TSPL_TENDER_HEADER where DocumentCode = '" + txtTenderNo.Value + "' "))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtTenderNo.Value = ""
@@ -162,9 +162,11 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             'dtpTodate.Value = clsCommon.GETSERVERDATE()
             RadGroupBox1.Enabled = True
             gv.DataSource = Nothing
+            gvSchedule.DataSource = Nothing
             txtLocation.Value = ""
             lblBillToLocation.Text = ""
             txtTenderNo.Value = ""
+            lblTender.Text = ""
             txtVendorNo.Value = ""
             lblVendorName.Text = ""
             txtItem.Value = ""
@@ -172,6 +174,9 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             btnclose.Visible = True
             btnGo.Visible = True
             radbtnExp.Visible = True
+            lblOrdered.Text = ""
+            lblPending.Text = ""
+            lblReceived.Text = ""
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -205,6 +210,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
         TemplateGridview = gv
         LoadData()
         SetSchedule()
+        CalculateDifference()
 
 
     End Sub
@@ -240,7 +246,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             '    whr += " And TSPL_ITEM_MASTER.Item_Code in ( " + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
             'End If
 
-            qry = " select  TSPL_TENDER_PENALTY.Document_No AS RAL,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as 'Tender No',TSPL_GRN_DETAIL.Item_Code as 'Item Code',TSPL_GRN_DETAIL.Item_Desc as 'Item Description',TSPL_GRN_HEAD.Vendor_Code as 'Vendor Code' ,TSPL_GRN_HEAD.Vendor_Name AS 'Vendor Name',TSPL_GRN_HEAD.GRN_No as 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo,(case when isnull(TSPL_GRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as GRNStatus,TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date',(Case when isnull(TSPL_SRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weightment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',(Case when isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0)= 1 then 'APPROVED' else 'PENDING' end) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM
+            qry = " select  TSPL_TENDER_PENALTY.Document_No ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo AS RAL,TSPL_GRN_DETAIL.Item_Code as 'Item Code',TSPL_GRN_DETAIL.Item_Desc as 'Item Description',TSPL_GRN_HEAD.Vendor_Code as 'Vendor Code' ,TSPL_GRN_HEAD.Vendor_Name AS 'Vendor Name',TSPL_GRN_HEAD.GRN_No as 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo,(case when isnull(TSPL_GRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as GRNStatus,TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date',(Case when isnull(TSPL_SRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weightment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',(Case when isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0)= 1 then 'APPROVED' else 'PENDING' end) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM
                     ,TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt,TSPL_SRN_DEDUCTION.Ded_Per as QualityDeductionPer,TSPL_SRN_DEDUCTION.Ded_Amt as QualityDeductionAmt,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_SRN_TENDER.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER.Penalty as LatePenaltyAmt,TSPL_PI_DETAIL.PI_No as 'PI No',TSPL_PI_HEAD.PI_Date as 'PI Date'
                         from TSPL_GRN_DETAIL
                     left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No
@@ -351,6 +357,10 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
         summaryRowItem.Add(item9)
         Dim item8 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item8)
+        Dim item1 As New GridViewSummaryItem("LatePenaltyAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        Dim item2 As New GridViewSummaryItem("LatePenaltyQty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
 
         gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
@@ -397,7 +407,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
         Try
             Dim Baseqry As String = ""
 
-            Baseqry = "select TSPL_TENDER_SCHEDULE.* from TSPL_TENDER_SCHEDULE  where TSPL_TENDER_SCHEDULE.DocumentCode='" + txtTenderNo.Value + "'    and TSPL_TENDER_SCHEDULE.Location_Code = '" + txtLocation.Value + "'  and TSPL_TENDER_SCHEDULE.Vendor_Code = '" + txtVendorNo.Value + "'   and TSPL_TENDER_SCHEDULE.Item_Code = '" + txtItem.Value + "' order by TSPL_TENDER_SCHEDULE.PK_Id"
+            Baseqry = "select TSPL_TENDER_SCHEDULE.PK_Id as 'PK Id',TSPL_TENDER_SCHEDULE.DocumentCode,TSPL_TENDER_SCHEDULE.PSNo,TSPL_TENDER_SCHEDULE.Schedule_No as 'Schedule No',TSPL_TENDER_SCHEDULE.From_Date as 'From Date',TSPL_TENDER_SCHEDULE.To_Date as 'To Date',TSPL_TENDER_SCHEDULE.Vendor_Code as 'Vendor Code',TSPL_TENDER_SCHEDULE.Location_Code as 'Location Code',TSPL_TENDER_SCHEDULE.Item_Code as 'Item Code',TSPL_TENDER_SCHEDULE.Schedule_Qty_Per as 'Schedule Qty Per',TSPL_TENDER_SCHEDULE.Schedule_Qty as 'Schedule Qty',TSPL_TENDER_SCHEDULE.Schedule_Short_Per as 'Schedule Short Per',TSPL_TENDER_SCHEDULE.Schedule_Short as 'Schedule Short',TSPL_TENDER_SCHEDULE.Late_Days as 'Late Days',TSPL_TENDER_SCHEDULE.Extension_Days as 'Extension Days' from TSPL_TENDER_SCHEDULE  where TSPL_TENDER_SCHEDULE.DocumentCode= '" + txtTenderNo.Value + "'    and TSPL_TENDER_SCHEDULE.Location_Code = '" + txtLocation.Value + "'  and TSPL_TENDER_SCHEDULE.Vendor_Code = '" + txtVendorNo.Value + "'   and TSPL_TENDER_SCHEDULE.Item_Code = '" + txtItem.Value + "' order by TSPL_TENDER_SCHEDULE.PK_Id"
 
             Dim dtgv As New DataTable
             dtgv = clsDBFuncationality.GetDataTable(Baseqry)
@@ -408,12 +418,17 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
                 gvSchedule.DataSource = dtgv
                 gvSchedule.BestFitColumns()
                 'ReStoreGridLayout()
-                gv.MasterTemplate.SummaryRowsBottom.Clear()
+                gvSchedule.MasterTemplate.SummaryRowsBottom.Clear()
                 For Each col As GridViewColumn In gvSchedule.Columns
                     col.Width = 150
                     col.ReadOnly = True
                 Next
                 Dim summaryRowItem As New GridViewSummaryRowItem()
+                Dim item1 As New GridViewSummaryItem("Schedule Qty", "{0:F0}", GridAggregateFunction.Sum)
+                summaryRowItem.Add(item1)
+
+                gvSchedule.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
             End If
 
             If dtgv.Rows.Count <= 0 Then
@@ -431,6 +446,41 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
         End Try
 
     End Sub
+
+
+
+
+    Sub CalculateDifference()
+
+        Dim sum1 As Decimal = 0
+        Dim sum2 As Decimal = 0
+
+        For Each row As GridViewRowInfo In gv.Rows
+            ' Assuming the column you want to calculate the sum for in gv is at index 0 '
+            sum1 += Convert.ToDecimal(row.Cells(20).Value)
+        Next
+
+        For Each row As GridViewRowInfo In gvSchedule.Rows
+            ' Assuming the column you want to calculate the sum for in gvschedule is at index 0 '
+            sum2 += Convert.ToDecimal(row.Cells(10).Value)
+        Next
+
+        Dim difference As Decimal = 0
+
+        difference = sum2 - sum1
+        lblOrdered.Text = clsCommon.myRoundOFF(sum2, 2)
+        lblReceived.Text = clsCommon.myRoundOFF(sum1, 2)
+
+        lblPending.Text = clsCommon.myRoundOFF(difference, 2)
+        'Return difference
+
+    End Sub
+
+
+
+
+
+
 
     'Sub LoadBlankGridSchedule()
     '    gvSchedule.Rows.Clear()
@@ -685,6 +735,8 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
         End If
         Return ArrTemp
     End Function
+
+
 
     'Private Sub ShowPenalty()
     '    Try
