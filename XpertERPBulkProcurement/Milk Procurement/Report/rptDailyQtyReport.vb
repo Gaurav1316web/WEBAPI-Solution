@@ -84,40 +84,54 @@ Public Class rptDailyQtyReport
                     strMilkcollectionDCSStatus = " and TSPL_MILK_COLLECTION_DCS.Status = 0 "
                 End If
             End If
-            qry = "  select max(Entered_Qty) as Entered_Qty, max(Entered_FATKg) as Entered_FATKg , max(Entered_SNFKg) as Entered_SNFKg , max(PK_Id) as PK_Id, Document_No ,  max(Document_Date) as Document_Date ,max(MCC_Code) as MCC_Code , max(MCC_NAME) as MCC_NAME, max(UploaderNo) as  UploaderNo,max(Route_Code) as Route_Code, max(ROUTE_NAME) as ROUTE_NAME ,max(Tanker_No) as Tanker_No ,max(Vehicle_No) as Vehicle_No
+            'qry = "  select max(Entered_Qty) as Entered_Qty, max(Entered_FATKg) as Entered_FATKg , max(Entered_SNFKg) as Entered_SNFKg , max(PK_Id) as PK_Id, Document_No ,  max(Document_Date) as Document_Date ,max(MCC_Code) as MCC_Code , max(MCC_NAME) as MCC_NAME, max(UploaderNo) as  UploaderNo,max(Route_Code) as Route_Code, max(ROUTE_NAME) as ROUTE_NAME ,max(Tanker_No) as Tanker_No ,max(Vehicle_No) as Vehicle_No
 
-                        , sum(MCC_Qty) as MCC_Qty , ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_FAT ,ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_SNF ,sum(MCC_FATKG) as MCC_FATKG , sum(MCC_SNFKG) as MCC_SNFKG,
+            '            , sum(MCC_Qty) as MCC_Qty , ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_FAT ,ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as MCC_SNF ,sum(MCC_FATKG) as MCC_FATKG , sum(MCC_SNFKG) as MCC_SNFKG,
 
-                        max(DCS_Qty) as DCS_Qty, max(DCS_FAT) as DCS_FAT , max(DCS_SNF) as DCS_SNF,  max(DCS_FATKG) as DCS_FATKG ,max(DCS_SNFKG) as DCS_SNFKG ,
+            '            max(DCS_Qty) as DCS_Qty, max(DCS_FAT) as DCS_FAT , max(DCS_SNF) as DCS_SNF,  max(DCS_FATKG) as DCS_FATKG ,max(DCS_SNFKG) as DCS_SNFKG ,
 
-            max(DCS_Qty) - sum(MCC_Qty)  as Diff_Qty,
+            'max(DCS_Qty) - sum(MCC_Qty)  as Diff_Qty,
 
-            max(DCS_FAT) - ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as Diff_FAT 
+            'max(DCS_FAT) - ROUND(((sum (MCC_FATKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as Diff_FAT 
 
-            ,max(DCS_SNF) - ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as Diff_SNF
+            ',max(DCS_SNF) - ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as Diff_SNF
 
-            , max(DCS_FATKG) - sum(MCC_FATKG)  as  Diff_FATKG, 
+            ', max(DCS_FATKG) - sum(MCC_FATKG)  as  Diff_FATKG, 
 
-                max(DCS_SNFKG) - sum(MCC_SNFKG) as Diff_SNFKG  
-                        from   (select TSPL_MILK_COLLECTION_MCC.Entered_Qty, TSPL_MILK_COLLECTION_MCC.Entered_FATKg , TSPL_MILK_COLLECTION_MCC.Entered_SNFKg, TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No ,convert (varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as  Document_Date ,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code, TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo ,TSPL_MILK_COLLECTION_MCC.Route_Code  ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME ,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No
-                        ,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCC_Qty , TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCC_FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCC_SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCC_FATKG , TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCC_SNFKG,
-                        isnull(XXXDCS.qty,0) as DCS_Qty,isnull(XXXDCS.FAT,0) as DCS_FAT , isnull(XXXDCS.SNF,0) as DCS_SNF, isnull(XXXDCS.FATKG,0) as DCS_FATKG, isnull(XXXDCS.SNFKG,0) as DCS_SNFKG, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty - isnull(XXXDCS.qty,0) as Diff_Qty, TSPL_MILK_COLLECTION_MCC_DETAIL.FAT - isnull(XXXDCS.FAT,0)  as Diff_FAT, TSPL_MILK_COLLECTION_MCC_DETAIL.SNF - isnull(XXXDCS.SNF,0)  as Diff_SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG - isnull(XXXDCS.FATKG,0)  as Diff_FATKG, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG - isnull(XXXDCS.SNFKG,0)  as Diff_SNFKG
-                        from TSPL_MILK_COLLECTION_MCC_DETAIL
-                        left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-                        left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
-                        left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
-                        left outer join (  
-                        select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail, sum (qty ) as qty  ,  sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG ,   sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,
-                        ((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100) as FAT , ((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100) as SNF 
-            from TSPL_MILK_COLLECTION_DCS_DETAIL 
-                        left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
+            '    max(DCS_SNFKG) - sum(MCC_SNFKG) as Diff_SNFKG  
+            '            from   (select TSPL_MILK_COLLECTION_MCC.Entered_Qty, TSPL_MILK_COLLECTION_MCC.Entered_FATKg , TSPL_MILK_COLLECTION_MCC.Entered_SNFKg, TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No ,convert (varchar,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as  Document_Date ,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code, TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo ,TSPL_MILK_COLLECTION_MCC.Route_Code  ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME ,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No
+            '            ,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCC_Qty , TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCC_FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCC_SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCC_FATKG , TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCC_SNFKG,
+            '            isnull(XXXDCS.qty,0) as DCS_Qty,isnull(XXXDCS.FAT,0) as DCS_FAT , isnull(XXXDCS.SNF,0) as DCS_SNF, isnull(XXXDCS.FATKG,0) as DCS_FATKG, isnull(XXXDCS.SNFKG,0) as DCS_SNFKG, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty - isnull(XXXDCS.qty,0) as Diff_Qty, TSPL_MILK_COLLECTION_MCC_DETAIL.FAT - isnull(XXXDCS.FAT,0)  as Diff_FAT, TSPL_MILK_COLLECTION_MCC_DETAIL.SNF - isnull(XXXDCS.SNF,0)  as Diff_SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG - isnull(XXXDCS.FATKG,0)  as Diff_FATKG, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG - isnull(XXXDCS.SNFKG,0)  as Diff_SNFKG
+            '            from TSPL_MILK_COLLECTION_MCC_DETAIL
+            '            left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+            '            left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
+            '            left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
+            '            left outer join (  
+            '            select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail, sum (qty ) as qty  ,  sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) as FATKG ,   sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) as SNFKG ,
+            '            ((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100) as FAT , ((sum (TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG) / sum (TSPL_MILK_COLLECTION_DCS_DETAIL.qty )) * 100) as SNF 
+            'from TSPL_MILK_COLLECTION_DCS_DETAIL 
+            '            left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
+            '            left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+            '            where convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) " + strMilkcollectionDCSStatus + "
+            '            group by TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail ) XXXDCS on XXXDCS.Against_Milk_Collection_MCC_Detail = TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+            '            where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)) xyz group by Document_No  " + strMilkCollectionMCCStatus + " "
+
+
+            'qry = "select max(Entered_Qty) as Entered_Qty, max(Entered_FATKg) as Entered_FATKg, max(Entered_SNFKg) as Entered_SNFKg, max(PK_Id) as PK_Id, Document_No, max(Document_Date) as Document_Date, max(MCC_Code) as MCC_Code, max(MCC_NAME) as MCC_NAME, max(UploaderNo) as UploaderNo, max(Route_Code) as Route_Code, max(ROUTE_NAME) as ROUTE_NAME, max(Tanker_No) as Tanker_No, max(Vehicle_No) as Vehicle_No, sum(MCC_Qty) as MCC_Qty, ROUND( ( ( sum (MCC_FATKG) / nullif ( sum (MCC_Qty), 0 ) ) * 100 ), 1, 0 ) as MCC_FAT, ROUND( ( ( sum (MCC_SNFKG) / nullif ( sum (MCC_Qty), 0 ) ) * 100 ), 1, 0 ) as MCC_SNF, sum(MCC_FATKG) as MCC_FATKG, sum(MCC_SNFKG) as MCC_SNFKG, sum(DCS_Qty) as DCS_Qty, (sum(DCS_FATKG)/sum(DCS_Qty)*100) as DCS_FAT, (sum(DCS_SNFKG)/sum(DCS_Qty)*100) as DCS_SNF, sum(DCS_FATKG) as DCS_FATKG, sum(DCS_SNFKG) as DCS_SNFKG, sum(DCS_Qty) - sum(MCC_Qty) as Diff_Qty, (sum(DCS_FATKG)/sum(DCS_Qty)*100)- ROUND( ( ( sum (MCC_FATKG) / nullif ( sum (MCC_Qty), 0 ) ) * 100 ), 1, 0 ) as Diff_FAT, (sum(DCS_SNFKG)/sum(DCS_Qty)*100)-ROUND( ( ( sum (MCC_SNFKG) / nullif ( sum (MCC_Qty), 0 ) ) * 100 ), 1, 0 ) as Diff_SNF, sum(DCS_FATKG) - sum(MCC_FATKG) as Diff_FATKG, sum(DCS_SNFKG) - sum(MCC_SNFKG) as Diff_SNFKG from ( select TSPL_MILK_COLLECTION_MCC.Entered_Qty, TSPL_MILK_COLLECTION_MCC.Entered_FATKg, TSPL_MILK_COLLECTION_MCC.Entered_SNFKg, TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id, TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No, convert ( varchar, TSPL_MILK_COLLECTION_MCC.Document_Date, 103 ) as Document_Date, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code, TSPL_MCC_MASTER.MCC_NAME, TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo, TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_BULK_ROUTE_MASTER.ROUTE_NAME, TSPL_MILK_COLLECTION_MCC.Tanker_No, TSPL_MILK_COLLECTION_MCC.Vehicle_No, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCC_Qty, TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCC_FAT, TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCC_SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCC_FATKG, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCC_SNFKG, isnull(XXXDCS.qty, 0) as DCS_Qty, isnull(XXXDCS.FAT, 0) as DCS_FAT, isnull(XXXDCS.SNF, 0) as DCS_SNF, isnull(XXXDCS.FATKG, 0) as DCS_FATKG, isnull(XXXDCS.SNFKG, 0) as DCS_SNFKG, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty - isnull(XXXDCS.qty, 0) as Diff_Qty, TSPL_MILK_COLLECTION_MCC_DETAIL.FAT - isnull(XXXDCS.FAT, 0) as Diff_FAT, TSPL_MILK_COLLECTION_MCC_DETAIL.SNF - isnull(XXXDCS.SNF, 0) as Diff_SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG - isnull(XXXDCS.FATKG, 0) as Diff_FATKG, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG - isnull(XXXDCS.SNFKG, 0) as Diff_SNFKG from TSPL_MILK_COLLECTION_MCC_DETAIL left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No = TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_MCC.Route_Code left outer join ( select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail, sum (qty) as qty, sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG ) as FATKG, sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG ) as SNFKG, ( ( sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG ) / sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.qty ) ) * 100 ) as FAT, ( ( sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG ) / sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.qty ) ) * 100 ) as SNF
+            '                       from TSPL_MILK_COLLECTION_DCS_DETAIL 
+            '                        left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
+            '            left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+            '            where convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) " + strMilkcollectionDCSStatus + "
+            '            group by TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail ) XXXDCS on XXXDCS.Against_Milk_Collection_MCC_Detail = TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+            '            where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)) xyz group by Document_No  " + strMilkCollectionMCCStatus + " "
+
+            qry = "select max(Entered_Qty) as Entered_Qty, max(Entered_FATKg) as Entered_FATKg, max(Entered_SNFKg) as Entered_SNFKg, max(PK_Id) as PK_Id, Document_No, max(Document_Date) as Document_Date, max(MCC_Code) as MCC_Code, max(MCC_NAME) as MCC_NAME, max(UploaderNo) as UploaderNo, max(Route_Code) as Route_Code, max(ROUTE_NAME) as ROUTE_NAME, max(Tanker_No) as Tanker_No, max(Vehicle_No) as Vehicle_No, sum(MCC_Qty) as MCC_Qty, ROUND(((sum (MCC_FATKG) / nullif ( sum (MCC_Qty), 0 ) ) * 100 ), 1, 0 ) as MCC_FAT, ROUND( ( ( sum (MCC_SNFKG) / nullif ( sum (MCC_Qty), 0 ) ) * 100 ), 1, 0 ) as MCC_SNF, sum(MCC_FATKG) as MCC_FATKG, sum(MCC_SNFKG) as MCC_SNFKG, max(DCS_Qty) as DCS_Qty, isnull( (max(DCS_FATKG)/ nullif(max(DCS_Qty),0)*100),0) as DCS_FAT, isnull( (max(DCS_SNFKG)/ nullif(max(DCS_Qty),0)*100),0) as DCS_SNF, isnull(max(DCS_FATKG),0) as DCS_FATKG,isnull( max(DCS_SNFKG),0) as DCS_SNFKG, max(DCS_Qty) - sum(MCC_Qty) as Diff_Qty, (max(DCS_FATKG)/ nullif(max(DCS_Qty),0)*100)- ROUND( ( ( sum (MCC_FATKG) / nullif ( sum (MCC_Qty), 0 ) ) * 100 ), 1, 0 ) as Diff_FAT, (max(DCS_SNFKG)/ nullif(max(DCS_Qty),0)*100)-ROUND( ( ( sum (MCC_SNFKG) / nullif ( sum (MCC_Qty), 0 ) ) * 100 ), 1, 0 ) as Diff_SNF, sum(MCC_FATKG) -max(DCS_FATKG) as Diff_FATKG, sum(MCC_SNFKG)-max(DCS_SNFKG) as Diff_SNFKG from ( select TSPL_MILK_COLLECTION_MCC.Entered_Qty, TSPL_MILK_COLLECTION_MCC.Entered_FATKg, TSPL_MILK_COLLECTION_MCC.Entered_SNFKg, TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id, TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No, convert ( varchar, TSPL_MILK_COLLECTION_MCC.Document_Date, 103 ) as Document_Date, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code, TSPL_MCC_MASTER.MCC_NAME, TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo, TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_BULK_ROUTE_MASTER.ROUTE_NAME, TSPL_MILK_COLLECTION_MCC.Tanker_No, TSPL_MILK_COLLECTION_MCC.Vehicle_No, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCC_Qty, TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCC_FAT, TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCC_SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCC_FATKG, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCC_SNFKG, isnull(XXXDCS.qty, 0) as DCS_Qty, isnull(XXXDCS.FAT, 0) as DCS_FAT, isnull(XXXDCS.SNF, 0) as DCS_SNF, isnull(XXXDCS.FATKG, 0) as DCS_FATKG, isnull(XXXDCS.SNFKG, 0) as DCS_SNFKG, TSPL_MILK_COLLECTION_MCC_DETAIL.Qty - isnull(XXXDCS.qty, 0) as Diff_Qty, TSPL_MILK_COLLECTION_MCC_DETAIL.FAT - isnull(XXXDCS.FAT, 0) as Diff_FAT, TSPL_MILK_COLLECTION_MCC_DETAIL.SNF - isnull(XXXDCS.SNF, 0) as Diff_SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG - isnull(XXXDCS.FATKG, 0) as Diff_FATKG, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG - isnull(XXXDCS.SNFKG, 0) as Diff_SNFKG from TSPL_MILK_COLLECTION_MCC_DETAIL left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No = TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_COLLECTION_MCC.Route_Code left outer join ( select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail, sum (qty) as qty, sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG ) as FATKG, sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG ) as SNFKG, ( ( sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG ) /nullif( sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.qty ),0) ) * 100 ) as FAT, ( ( sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG ) / nullif(sum ( TSPL_MILK_COLLECTION_DCS_DETAIL.qty ),0) ) * 100 ) as SNF
+                         from TSPL_MILK_COLLECTION_DCS_DETAIL 
+                                    left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
                         left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
                         where convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) " + strMilkcollectionDCSStatus + "
                         group by TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail ) XXXDCS on XXXDCS.Against_Milk_Collection_MCC_Detail = TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
-                        where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)) xyz group by Document_No  " + strMilkCollectionMCCStatus + " "
-
-
-
+                        where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)) xyz group by UploaderNo, Document_No  " + strMilkCollectionMCCStatus + " "
 
 
             If rdbSummary.Checked = True Then
@@ -129,6 +143,15 @@ Public Class rptDailyQtyReport
                             ((max (Entered_SNFKg) / nullif (max (Entered_Qty),0)) * 100) - ROUND(((sum (MCC_SNFKG) / nullif (sum (MCC_Qty),0)) * 100),1,0) as DiffEnteredVsMCC_SNF ,
                             max(Entered_FATKg) -  sum (MCC_FATKG)  as DiffEnteredVsMCC_FATKG , max(Entered_SNFKg) - sum (MCC_SNFKG) as DiffEnteredVsMCC_SNFKG from ( " + qry + " ) XXXFinal group by XXXFinal.Document_No order by convert (datetime, max(XXXFinal.Document_Date),103) asc "
             ElseIf rdbDetails.Checked = True Then
+
+
+                '                qry = "select XXXFinal.PK_Id as PK_Id, XXXFinal.Document_No as Document_No, XXXFinal.Document_Date As Document_Date, XXXFinal.MCC_Code As MCC_Code, XXXFinal.MCC_NAME As MCC_NAME, XXXFinal.UploaderNo As UploaderNo, XXXFinal.Route_Code As Route_Code, XXXFinal.ROUTE_NAME As ROUTE_NAME, XXXFinal.Tanker_No As Tanker_No, XXXFinal.Vehicle_No As Vehicle_No, Entered_Qty As Entered_Qty, ((Entered_FATKg / nullif(Entered_Qty, 0)) * 100) As Entered_FAT, ((Entered_SNFKg / nullif(Entered_Qty, 0)) * 100) As Entered_SNF, Entered_FATKg As Entered_FATKg, Entered_SNFKg As Entered_SNFKg, XXXFinal.MCC_Qty As MCC_Qty, ROUND(((MCC_FATKG / nullif(MCC_Qty, 0)) * 100), 1, 0) As MCC_FAT, ROUND(((MCC_SNFKG / nullif(MCC_Qty, 0)) * 100), 1, 0) As MCC_SNF, MCC_FATKG As MCC_FATKG, MCC_SNFKG As MCC_SNFKG, DCS_Qty As DCS_Qty, ROUND(((DCS_FATKG / nullif(DCS_Qty, 0)) * 100), 1, 0) As DCS_FAT, ROUND(((DCS_SNFKG / nullif(DCS_Qty, 0)) * 100), 1, 0) As DCS_SNF, DCS_FATKG As DCS_FATKG, DCS_SNFKG As DCS_SNFKG, Diff_Qty As Diff_Qty, DCS_FAT - ROUND(((MCC_FATKG / nullif(MCC_Qty, 0)) * 100), 1, 0) As Diff_FAT, DCS_SNF - ROUND(((MCC_SNFKG / nullif(MCC_Qty, 0)) * 100), 1, 0) As Diff_SNF, Diff_FATKG As Diff_FATKG, Diff_SNFKG As Diff_SNFKG, Entered_Qty - XXXFinal.MCC_Qty As DiffEnteredVsMCC_Qty, ((Entered_FATKg / nullif(Entered_Qty, 0)) * 100) - ROUND(((MCC_FATKG / nullif(MCC_Qty, 0)) * 100), 1, 0) As DiffEnteredVsMCC_FAT, ((Entered_SNFKg / nullif(Entered_Qty, 0)) * 100) - ROUND(((MCC_SNFKG / nullif(MCC_Qty, 0)) * 100), 1, 0) As DiffEnteredVsMCC_SNF, Entered_FATKg - MCC_FATKG As DiffEnteredVsMCC_FATKG, Entered_SNFKg - MCC_SNFKG as DiffEnteredVsMCC_SNFKG from( " + qry + " ) XXXFinal  
+                'left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=XXXFinal.Document_No"
+                qry = "select XXXFinal.PK_Id as PK_Id, XXXFinal.Document_No as Document_No, XXXFinal.Document_Date As Document_Date, XXXFinal.MCC_Code As MCC_Code, XXXFinal.MCC_NAME As MCC_NAME, XXXFinal.UploaderNo As UploaderNo, XXXFinal.Route_Code As Route_Code, XXXFinal.ROUTE_NAME As ROUTE_NAME, XXXFinal.Tanker_No As Tanker_No, XXXFinal.Vehicle_No As Vehicle_No, XXXFinal.MCC_Qty As MCC_Qty, ROUND(((MCC_FATKG / nullif(MCC_Qty, 0)) * 100), 1, 0) As MCC_FAT, ROUND(((MCC_SNFKG / nullif(MCC_Qty, 0)) * 100), 1, 0) As MCC_SNF, MCC_FATKG As MCC_FATKG, MCC_SNFKG As MCC_SNFKG, DCS_Qty As DCS_Qty,isnull( ROUND(((DCS_FATKG / nullif(DCS_Qty, 0)) * 100), 1, 0),0) As DCS_FAT, isnull(ROUND(((DCS_SNFKG / nullif(DCS_Qty, 0)) * 100), 1, 0),0) As DCS_SNF, isnull(DCS_FATKG,0) As DCS_FATKG, isnull(DCS_SNFKG,0) As DCS_SNFKG, Diff_Qty As Diff_Qty, DCS_FAT - ROUND(((MCC_FATKG / nullif(MCC_Qty, 0)) * 100), 1, 0) As Diff_FAT, DCS_SNF - ROUND(((MCC_SNFKG / nullif(MCC_Qty, 0)) * 100), 1, 0) As Diff_SNF, Diff_FATKG As Diff_FATKG, Diff_SNFKG As Diff_SNFKG from( " + qry + " ) XXXFinal  
+left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=XXXFinal.Document_No"
+
+
+
                 'qry = qry + " order by TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No asc "
             ElseIf rbtnDock.Checked = True Then
                 qry = ""
@@ -202,23 +225,6 @@ left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=
 
             End If
 
-            'If (rbtnTranpoterGainLoss.Checked = True) Then
-
-            '    If txtToleranceFat.Value < 0 And txtToleranceFat.Value >= 100 Then
-
-            '        clsCommon.MyMessageBoxShow("Invalid Input !, Please enter valid Tolerance Fat%.")
-            '        txtToleranceFat.Focus()
-            '        Exit Sub
-            '    End If
-
-            '    If txtToleranceSNF.Value < 0 And txtToleranceSNF.Value >= 100 Then
-            '        clsCommon.MyMessageBoxShow("Invalid Input !, Please enter valid Tolerance Fat%.")
-            '        txtToleranceSNF.Focus()
-            '        Exit Sub
-            '    End If
-
-            '    MessageBox.Show("Transpoter Gain Loss Button Checked::")
-            'End If
 
             dt = clsDBFuncationality.GetDataTable(qry)
             Gv1.DataSource = Nothing
@@ -238,6 +244,7 @@ left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=
                 If rbtnTranpoterGainLoss.Checked = True Then
                     CalTolerenceGainLoss(txtToleranceFat.Value, txtToleranceSNF.Value)
                 End If
+
 
                 For ii As Integer = 0 To Gv1.Columns.Count - 1
                     Gv1.Columns(ii).ReadOnly = True
@@ -288,6 +295,20 @@ left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=
                         Dim DiffEnteredVsMCCSnfKg As New GridViewSummaryItem("DiffEnteredVsMCC_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(DiffEnteredVsMCCSnfKg)
                     End If
+                    If rbtnTranpoterGainLoss.Checked = True Then
+                        Dim DiffMCCVsEnteredQty As New GridViewSummaryItem("DiffMCCVsEntered_Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(DiffMCCVsEnteredQty)
+                        Dim DiffEnteredVsMCCFatKg As New GridViewSummaryItem("DiffMCCVsEntered_FATKG", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(DiffEnteredVsMCCFatKg)
+                        Dim DiffMCCVsEnteredSnfKg As New GridViewSummaryItem("DiffMCCVsEntered_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(DiffMCCVsEnteredSnfKg)
+                        Dim FATAmt As New GridViewSummaryItem("FAT_AMT", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(FATAmt)
+                        Dim SNFAmt As New GridViewSummaryItem("SNF_AMT", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(SNFAmt)
+                        Dim Amount As New GridViewSummaryItem("AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(Amount)
+                    End If
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 End If
                 ControlEnableDisable(False)
@@ -320,6 +341,7 @@ left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
+
     Sub CalTolerenceGainLoss(ByVal TFat As Decimal, ByVal TSNF As Decimal)
         Dim TFatAmt As Decimal = 0
         Dim TSNFAmt As Decimal = 0
@@ -364,7 +386,7 @@ left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=
 
             Gv1.Rows(i).Cells("FAT_AMT").Value = TFatAmt
             Gv1.Rows(i).Cells("SNF_AMT").Value = TSNFAmt
-            Gv1.Rows(i).Cells("AMOUNT").Value = TFatAmt + TSNFAmt
+            Gv1.Rows(i).Cells("AMOUNT").Value = clsCommon.myRoundOFF(TFatAmt + TSNFAmt, 2)
         Next
 
     End Sub
@@ -416,7 +438,7 @@ left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=
                 Gv1.Columns("Entered_SNFKg").FormatString = "{0:n3}"
 
 
-            Else
+            ElseIf (rbtnDock.Checked = True) Then
                 Gv1.Columns("Entered_Qty").HeaderText = "Qty"
                 'Gv1.Columns("Entered_FAT").HeaderText = "FAT %"
                 'Gv1.Columns("Entered_SNF").HeaderText = "SNF %"

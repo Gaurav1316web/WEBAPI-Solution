@@ -316,7 +316,7 @@ Partial Class RCDFDashboard
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.PageBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(67, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(1287, 766)
         Me.RadPageView1.TabIndex = 1
         Me.RadPageView1.ViewMode = Telerik.WinControls.UI.PageViewMode.Backstage
@@ -511,7 +511,7 @@ Partial Class RCDFDashboard
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(1278, 22)
         Me.MyLabel2.TabIndex = 16
-        Me.MyLabel2.Text = "Last 10 Days Finish Good Sale Data (Unit in Qtl.)"
+        Me.MyLabel2.Text = "LAST10 DAYS SALE DATA (Unit in Qtl.)"
         Me.MyLabel2.TextAlignment = System.Drawing.ContentAlignment.TopCenter
         '
         'cvFinishGoods
@@ -583,7 +583,7 @@ Partial Class RCDFDashboard
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(1274, 23)
         Me.MyLabel1.TabIndex = 16
-        Me.MyLabel1.Text = "Last 10 Days Production Data (Unit in Qtl.)"
+        Me.MyLabel1.Text = "LAST 10 DAYS PRODUCTION DATA (Unit in Qtl.)"
         Me.MyLabel1.TextAlignment = System.Drawing.ContentAlignment.TopCenter
         '
         'cvProdution
@@ -652,7 +652,7 @@ Partial Class RCDFDashboard
         Me.lblQuality.Name = "lblQuality"
         Me.lblQuality.Size = New System.Drawing.Size(1278, 22)
         Me.lblQuality.TabIndex = 14
-        Me.lblQuality.Text = "Current Status"
+        Me.lblQuality.Text = "CURRENT STATUS"
         Me.lblQuality.TextAlignment = System.Drawing.ContentAlignment.TopCenter
         '
         'gvQualitySummary
