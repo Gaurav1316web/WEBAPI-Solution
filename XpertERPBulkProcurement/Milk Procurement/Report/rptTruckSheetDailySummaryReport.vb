@@ -111,7 +111,7 @@ Public Class rptTruckSheetDailySummaryReport
             '            ,case when sum([Milk Weight] )=0 then 0 else (sum([FAT] )/sum([Milk Weight] ))*100 end as [Total FAT(%)]
             ',case when sum([Milk Weight] )=0 then 0 else (sum([SNF] )/sum([Milk Weight] ))*100 end as [Total SNF(%)] 
 
-            FinalQuery = "select [Doc Date],[Shift],case when sum([Milk Weight])=0 then 0 else 
+            FinalQuery = "select [Doc Date],[Shift],a.[Milk type],case when sum([Milk Weight])=0 then 0 else 
 (case when sum(SOUR)=0 and sum(CURD)=0 then sum([Milk Weight]) else 0 end) end as [Sweet Qty]
 ,case when sum([Milk Weight])=0 then 0 else 
 (case when sum(SOUR)=0 and sum(CURD)=0 then sum([FAT]) else 0 end) end as [Sweet FAT]			
@@ -130,16 +130,16 @@ Public Class rptTruckSheetDailySummaryReport
 ,case when sum([Milk Weight] )=0 then 0 else (sum([FAT] )) end as [Total FAT Kg]
 ,case when sum([Milk Weight] )=0 then 0 else (sum([SNF] )) end as [Total SNF Kg] 
 ,sum(NetAmount) as Amount
-from(select [Milk Weight],[FAT], [SNF]
+from(select aa.[Milk Type],aa.[Milk Weight],[FAT], [SNF]
 ,case When isnull(RejectType,'')='SOUR' then [Milk Weight] else 0 end as [SOUR]
 ,case When isnull(RejectType,'')='CURD' then [Milk Weight] else 0 end as [CURD]
 ,NetAmount,[Doc Date],[Shift]
  from (
- select sum([Milk Weight(KG)] ) as [Milk Weight]
+ select PP.[Milk Type] AS [Milk Type],sum([Milk Weight(KG)] ) as [Milk Weight]
 ,sum([FAT(KG)] ) as [FAT] ,sum([SNF(KG)] ) as [SNF],RejectType,[Doc Date],[Shift],sum(NetAmount) as NetAmount
 from (" + qry +
-"  ) as  pp group by  [Doc Date],[Shift],pp.RejectType ) as aa )a where 1=1
- group by [Doc Date],[Shift] order by [Doc Date],[Shift]"
+"  ) as  pp group by [Milk Type],  [Doc Date],[Shift],pp.RejectType ) as aa )a where 1=1
+ group by [Milk Type], [Doc Date],[Shift] order by [Doc Date],[Shift]"
 
             dt1 = Nothing
             dt1 = clsDBFuncationality.GetDataTable(FinalQuery)
@@ -170,37 +170,50 @@ from (" + qry +
         'Gv1.GroupDescriptors.Add(New GridGroupByExpression("Plant as Plant format ""{0}: {1}"" Group By Plant"))
         'Gv1.GroupDescriptors.Add(New GridGroupByExpression("Mcc as Mcc format ""{0}: {1}"" Group By Mcc"))
         Gv1.AutoExpandGroups = True
-        Gv1.ShowGroupPanel = False
+        Gv1.ShowGroupPanel = True
         Gv1.ShowRowHeaderColumn = False
         Gv1.AllowAddNewRow = False
         Gv1.AllowDeleteRow = False
         Gv1.EnableFiltering = True
         Gv1.ShowFilteringRow = True
 
+
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).BestFit()
         Next
 
-        Gv1.Columns("Sweet FAT").IsVisible = False
-        Gv1.Columns("Sweet SNF").IsVisible = False
-        Gv1.Columns("SOUR FAT").IsVisible = False
-        Gv1.Columns("SOUR SNF").IsVisible = False
+        Gv1.Columns("Sweet FAT").IsVisible = True
+        Gv1.Columns("Sweet SNF").IsVisible = True
+        Gv1.Columns("SOUR FAT").IsVisible = True
+        Gv1.Columns("SOUR SNF").IsVisible = True
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
+
         Gv1.Columns("Sweet Qty").FormatString = "{0:n2}"
         Dim item1 As New GridViewSummaryItem("Sweet Qty", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
+        Gv1.Columns("Sweet FAT").FormatString = "{0:n2}"
+        Dim item9 As New GridViewSummaryItem("Sweet FAT", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item9)
+        Gv1.Columns("Sweet SNF").FormatString = "{0:n2}"
+        Dim item10 As New GridViewSummaryItem("Sweet SNF", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item10)
         Gv1.Columns("SOUR Qty").FormatString = "{0:n2}"
         Dim item2 As New GridViewSummaryItem("SOUR Qty", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item2)
+        Gv1.Columns("SOUR FAT").FormatString = "{0:n2}"
+        Dim item11 As New GridViewSummaryItem("SOUR FAT", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item11)
+        Gv1.Columns("SOUR SNF").FormatString = "{0:n2}"
+        Dim item12 As New GridViewSummaryItem("SOUR SNF", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item12)
         Gv1.Columns("CURD Qty").FormatString = "{0:n2}"
         Dim item3 As New GridViewSummaryItem("CURD Qty", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item3)
         Gv1.Columns("Total Qty").FormatString = "{0:n2}"
         Dim item4 As New GridViewSummaryItem("Total Qty", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
-
         Gv1.Columns("Total FAT Kg").FormatString = "{0:n3}"
         Dim item5 As New GridViewSummaryItem("Total FAT Kg", "{0:n3}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
@@ -235,6 +248,7 @@ from (" + qry +
         summaryItem4.AggregateExpression = "sum([SOUR SNF])*100/sum([SOUR Qty])"
         summaryRowItem.Add(summaryItem4)
 
+
         'If Gv1.Rows.Count > 0 Then
         '    Dim summaryRowItem As New GridViewSummaryRowItem()
         '    For i As Integer = 3 To Gv1.Columns.Count - 1
@@ -244,10 +258,15 @@ from (" + qry +
         '    Next
         '    Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         'End If
-        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        Gv1.AutoSizeRows = True
-        Gv1.BestFitColumns()
+        'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        'Gv1.AutoSizeRows = True
+        'Gv1.BestFitColumns()
+        Gv1.ShowGroupPanel = True
         Gv1.MasterTemplate.AutoExpandGroups = True
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
+        'Gv1.ShowGroupPanel = False
+        'Gv1.MasterTemplate.AutoExpandGroups = True
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()

@@ -3485,6 +3485,7 @@ Public Class FrmMCCMilkRegister
             gv.GroupDescriptors.Clear()
             gv.MasterTemplate.SummaryRowsBottom.Clear()
             FormatGrid()
+            
 
             gv.ShowGroupPanel = True
             gv.MasterTemplate.AutoExpandGroups = True
@@ -4089,5 +4090,6 @@ Public Class FrmMCCMilkRegister
             chkDairyMilkReportPrint.Checked = False
         End If
     End Sub
+
 
 End Class

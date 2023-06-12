@@ -284,7 +284,7 @@ WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >='" + clsCommon.GetPrintDate(cls
                 sQuery += " union
 select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILK UNION','GOVT','GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon else 'OTHER' end as price_CodeNon,0 as Qty from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),(select TSPL_PRICE_COMPONENT_MAPPING.Remarks as 'price_CodeNon' from TSPL_PRICE_COMPONENT_MAPPING) as TSPL_CUSTOMER_MASTER
 )x 
-)xxxxx Group by GrpMonth,GrpCode order by GrpMonth "
+)xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103) desc"
                 dtFinishGoods = clsDBFuncationality.GetDataTable(sQuery)
             End If
 
@@ -397,8 +397,8 @@ select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.pr
 
                 repoRate = New GridViewDecimalColumn()
                 repoRate.FormatString = ""
-                repoRate.HeaderText = "Total"
-                repoRate.Name = "Total"
+                repoRate.HeaderText = "TOTAL"
+                repoRate.Name = "TOTAL"
                 repoRate.Width = 100
                 repoRate.Minimum = 0
                 repoRate.FormatString = "{0:n2}"
@@ -464,7 +464,7 @@ WHERE CONVERT(DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>='" + clsCommon.GetP
                 select convert(date, thedate,103) as PROD_DATE,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',0 as FINAL_PRODUCTION_QTY from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),TSPL_ITEM_MASTER
 where TSPL_ITEM_MASTER.STRUCTURE_CODE='FG'
                 )x
-)xxxxx Group by GrpMonth,GrpCode order by GrpMonth"
+)xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103) desc"
                 dtProduction = clsDBFuncationality.GetDataTable(sQuery)
             End If
 
@@ -577,8 +577,8 @@ where TSPL_ITEM_MASTER.STRUCTURE_CODE='FG'
 
                 repoRate = New GridViewDecimalColumn()
                 repoRate.FormatString = ""
-                repoRate.HeaderText = "Total"
-                repoRate.Name = "Total"
+                repoRate.HeaderText = "TOTAL"
+                repoRate.Name = "TOTAL"
                 repoRate.Width = 100
                 repoRate.Minimum = 0
                 repoRate.FormatString = "{0:n2}"
@@ -625,7 +625,7 @@ where TSPL_ITEM_MASTER.STRUCTURE_CODE='FG'
     Public Sub Load_Report_Quality()
         Try
             If dtQuality Is Nothing OrElse dtQuality.Rows.Count <= 0 Then
-                Dim sQuery As String = "select  TSPL_GRN_HEAD.Ref_No,TSPL_GRN_HEAD.Vendor_Name as 'Vendor',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_GRN_HEAD.VehicleNo,CASE WHEN TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2  or TabQC.QC_Status='Rejected' then 'Rejected' else CASE WHEN (TabQC.QC_Status in ('Accepted','Under Deviation') or TSPL_GRN_HEAD.VisualQCStatus=5) then 'Accepted' else 'Pending' END END AS QCStaus,ISNULL(TabQC.InputDataDeductionPer,0) AS DEDPer
+                Dim sQuery As String = "select  TSPL_GRN_HEAD.Ref_No,TSPL_GRN_HEAD.Vendor_Name as 'VENDOR',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_GRN_HEAD.VehicleNo,CASE WHEN TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2  or TabQC.QC_Status='Rejected' then 'Rejected' else CASE WHEN (TabQC.QC_Status in ('Accepted','Under Deviation') or TSPL_GRN_HEAD.VisualQCStatus=5) then 'Accepted' else 'Pending' END END AS QCStaus,ISNULL(TabQC.InputDataDeductionPer,0) AS DEDPer
 from TSPL_GRN_HEAD
 left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
@@ -692,7 +692,7 @@ and CONVERT(DATE,TSPL_GRN_HEAD.GRN_Date,103)<='" + clsCommon.GetPrintDate(clsCom
 from TSPL_GRN_HEAD
 left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
-where convert(date,TSPL_GRN_HEAD.GRN_Date,103) = convert(date,'15-may-23',103) "
+where convert(date,TSPL_GRN_HEAD.GRN_Date,103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_GRN_HEAD.Bill_To_Location ='" + txtLocation.Value + "' "
                 End If
@@ -782,8 +782,19 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Ite
     Public Sub Load_Report_Raw_Material()
         Try
             If dtRMStock Is Nothing OrElse dtRMStock.Rows.Count <= 0 Then
-                Dim sQuery As String = "select xx.Item_Desc,CASE WHEN ISNULL(TSPL_ITEM_UOM_DETAIL.UOM_Code,'x')='x' THEN xx.UOM ELSE TSPL_ITEM_UOM_DETAIL.UOM_Code END as 'Unit',
-                xx.STOCK_QTY/ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1) AS 'STOCK_QTY',cast(cast(xx.QTY_FOR_DAYS as integer) as varchar)+ ' Days' as QTY_FOR_DAYS from (
+                Dim sQuery As String = "select xx.Item_Desc,
+                case when xx.UOM='KG' THEN 
+		                CASE WHEN ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)=0 THEN xx.UOM ELSE TSPL_ITEM_UOM_DETAIL.UOM_Code END 
+	                 WHEN xx.UOM='GM' THEN 
+	                    CASE WHEN ISNULL(KG_UOM_DETAIL.Conversion_Factor,0)=0 THEN xx.UOM ELSE KG_UOM_DETAIL.UOM_Code END
+                 ELSE xx.UOM END AS 'Unit',	
+                 CAST((case when xx.UOM='KG' THEN 
+		                CASE WHEN ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)<>0 THEN (xx.STOCK_QTY/ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,1)) ELSE xx.STOCK_QTY END 
+	                 WHEN xx.UOM='GM' THEN 
+	                    CASE WHEN ISNULL(KG_UOM_DETAIL.Conversion_Factor,0)<>0 THEN (xx.STOCK_QTY/ISNULL(KG_UOM_DETAIL.Conversion_Factor,1)) ELSE xx.STOCK_QTY END
+                 ELSE xx.STOCK_QTY END) AS numeric(10,0)) AS 'STOCK_QTY',
+                cast(xx.QTY_FOR_DAYS as integer)  as QTY_FOR_DAYS  
+                from (
                 SELECT RM_STOCK_DAYS.ITEM_CODE,max(RM_STOCK_DAYS.Item_Desc) as Item_Desc,
                  max(RM_STOCK_DAYS.UOM)  AS 'UOM',
                 SUM(ISNULL(RM_STOCK_DAYS.STOCK_QTY,0))  AS 'STOCK_QTY',
@@ -845,6 +856,7 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Ite
 GROUP BY  RM_STOCK_DAYS.ITEM_CODE
 )xx 
 left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(TSPL_ITEM_UOM_DETAIL.UOM_Code)='QTL'
+left outer join TSPL_ITEM_UOM_DETAIL KG_UOM_DETAIL on KG_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(KG_UOM_DETAIL.UOM_Code)='KG'
 WHERE XX.ITEM_CODE NOT IN ('PM0001','PM0002') and xx.STOCK_QTY>0
 ORDER BY  XX.ITEM_DESC"
                 dtRMStock = clsDBFuncationality.GetDataTable(sQuery)
@@ -868,7 +880,7 @@ ORDER BY  XX.ITEM_DESC"
                 gvRMStock.DataSource = dtRMStock
                 gvRMStock.Columns("Item_Desc").HeaderText = "Name of Material"
                 gvRMStock.Columns("STOCK_QTY").HeaderText = "Stock Available"
-                gvRMStock.Columns("QTY_FOR_DAYS").HeaderText = "Available Stock in Days"
+                gvRMStock.Columns("QTY_FOR_DAYS").HeaderText = "Available Stock" + Environment.NewLine + "In Days"
 
                 For ii As Integer = 0 To gvRMStock.Columns.Count - 1
                     gvRMStock.Columns(ii).ReadOnly = True
@@ -882,7 +894,10 @@ ORDER BY  XX.ITEM_DESC"
 
         Try
             If dtRMSupply Is Nothing OrElse dtRMSupply.Rows.Count <= 0 Then
-                Dim sQuery As String = "select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,SUM(CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 then 0 else cast(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as numeric (18,2)) END) AS GRNQTY,RM_RAL.RAL_QTY
+                Dim sQuery As String = "Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
+SUM(CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 then 0 else cast(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as numeric (18,0)) END) AS GRNQTY,
+cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
+(RM_RAL.RAL_QTY - sum((CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 then 0 else cast(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as numeric (18,0)) END))) as 'Pending_Qty'
 from TSPL_PO_WEIGHTMENT_HEAD
 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
@@ -929,11 +944,13 @@ where convert(date,TSPL_GRN_HEAD.GRN_Date,103) =convert(date,'" + clsCommon.GetP
                 gvRMSupply.MasterTemplate.ShowRowHeaderColumn = False
                 gvRMSupply.DataSource = dtRMSupply
                 gvRMSupply.Columns("Ref_No").HeaderText = "RAL"
-                gvRMSupply.Columns("Item_Desc").HeaderText = "Name of Material"
-                gvRMSupply.Columns("Vendor_Name").HeaderText = "Vendor"
-                gvRMSupply.Columns("GRNQTY").HeaderText = "Received"
-                gvRMSupply.Columns("RAL_QTY").HeaderText = "Total"
+                gvRMSupply.Columns("Item_Desc").HeaderText = "Name of" + Environment.NewLine + "Material"
                 gvRMSupply.Columns("UOM").HeaderText = "Unit"
+                gvRMSupply.Columns("Vendor_Name").HeaderText = "Vendor"
+                gvRMSupply.Columns("GRNQTY").HeaderText = "Received" + Environment.NewLine + "Quantity"
+                gvRMSupply.Columns("RAL_QTY").HeaderText = "Ordered" + Environment.NewLine + "Quantity"
+                gvRMSupply.Columns("Pending_Qty").HeaderText = "Pending" + Environment.NewLine + "Quantity"
+
 
                 For ii As Integer = 0 To gvRMSupply.Columns.Count - 1
                     gvRMSupply.Columns(ii).ReadOnly = True

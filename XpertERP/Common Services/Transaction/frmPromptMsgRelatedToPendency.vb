@@ -386,14 +386,14 @@ Public Class FrmPromptMsgRelatedToPendency
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCDispatch, strDocumentCode)
                 'Case "Tanker Location Change"
                 '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDispatchTransfer, strDocumentCode)
-                Case "VSP Asset Issue"
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPAssetIssue, strDocumentCode)
+                'Case "VSP Asset Issue"
+                '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPAssetIssue, strDocumentCode)
                 Case "MCC Material Sale"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCMaterial, strDocumentCode)
                 Case "MCC Material Sale Return"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCMaterialSaleReturn, strDocumentCode)
-                Case "VSP Item Issue"
-                    'clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strDocumentCode)
+                'Case "VSP Item Issue"
+                '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strDocumentCode)
                 Case "Export Sale Quotation"
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmEXSalesQuotation, strDocumentCode)
                 Case "Export Sales Order"

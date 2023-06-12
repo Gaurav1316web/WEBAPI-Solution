@@ -6074,9 +6074,9 @@ goAlreadyAdded:
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.mbtnGatePass, strTransCode)
                         Case "PROD_ENTRY"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmProductionEntry, strTransCode)
-                        Case "MCC-IISSUE"
-                            '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strTransCode)
-                            'Case "FS-SH"
+                        'Case "MCC-IISSUE"
+                        '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strTransCode)
+                        Case "FS-SH"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDispatchMultipleFreshSale, strTransCode)
                         Case "PS-SH"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmShipmentProductSale, strTransCode)

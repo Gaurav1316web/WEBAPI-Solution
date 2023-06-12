@@ -2064,11 +2064,11 @@ goAlreadyAdded:
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmCSASaleInvoice, clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "CSA-SALEPATTI-RETURN") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmCSASalePattiReturn, clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "DispatchBSTrade") = CompairStringResult.Equal Then
-                    clsOpenTransactionForm.OpenTransacionForm("", clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
+                    'ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "DispatchBSTrade") = CompairStringResult.Equal Then
+                    '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
                     ''''''''''''''''''''''''''''''''''''
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "DispChallanRet") = CompairStringResult.Equal Then
-                    'clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCTankerDispatchReturn, clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
+                    'ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "DispChallanRet") = CompairStringResult.Equal Then
+                    '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCTankerDispatchReturn, clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
                     'ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "DispChallan-RET") = CompairStringResult.Equal Then
                     '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.MCCDispatchReturn, clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "EX_SALE_IN") = CompairStringResult.Equal Then
@@ -2078,8 +2078,8 @@ goAlreadyAdded:
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "MCC-AISSUE") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "MCC-ARETURN") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPAssetIssue, clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
 
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "MCC-IISSUE") = CompairStringResult.Equal Then
-                    'clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
+                    'ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "MCC-IISSUE") = CompairStringResult.Equal Then
+                    '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "MilkTransferInReturn") = CompairStringResult.Equal Then
                     clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMilkTransferInReturn, clsCommon.myCstr(gvDetail.CurrentRow.Cells("Source_Doc_No").Value))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(gvDetail.CurrentRow.Cells("Trans_Type").Value), "MilkTransferJobWork") = CompairStringResult.Equal Then

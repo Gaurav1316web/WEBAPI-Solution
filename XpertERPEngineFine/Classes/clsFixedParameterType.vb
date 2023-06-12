@@ -47,6 +47,7 @@ Public Class clsFixedParameterType
     Public Const AndroidAPPVersion As String = "Android APP Version"
     Public Const AndroidMPMaster As String = "Android MP Master"
     Public Const AndroidMPIncetiveEntry As String = "Android MP Incetive Entry"
+    Public Const AndroidMilkCollectionBMCDCS As String = "Android Milk Collection BMC DCS"
     Public Const MPIncentiveEntryApplyMonthly As String = "MP Incentive Entry Apply Monthly"
     Public Const MPIncentiveEntryCycleWiseButNEFTMonthly As String = "MP Incentive Entry Cycle Wise But NEFT Monthly"
 
@@ -1341,6 +1342,10 @@ Public Class clsFixedParameterCode
     Public Const VerifiedJanAadharNo As String = "Verified Jan Aadhar No"
     Public Const MultipleEntryScreen As String = "Multiple Entry Screen"
     Public Const QtyDecimalPlaces As String = "Qty Decimal Places"
+    Public Const TolleranceQty As String = "Tollerance Qty"
+    Public Const TolleranceFAT As String = "Tollerance FAT"
+    Public Const TolleranceSNF As String = "Tollerance SNF"
+
     Public Const comtecxpertappsaras As String = "com.tecxpert.app.saras"
     Public Const comTecxpertSarasPro As String = "com.tecxpert.saras_pro"
     Public Const comAnchal_ucdfErp As String = "com.anchal_ucdf.erp"
@@ -2819,6 +2824,11 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.VerifiedJanAadharNo, "0", "0:OFF,1:ON;Pick Farmer only Verified Janaadhar No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreen, "0", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.QtyDecimalPlaces, "0", "[0,1,2] Qty Decimal Places In MP Incentive Entry")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")
+
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comAnchal_ucdfErp, "", "Version of Aanchal Pro APP [0 Skip]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comtecxpertappsaras, "", "Version of SARAS Sales APP [0 Skip]")
