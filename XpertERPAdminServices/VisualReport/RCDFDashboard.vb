@@ -71,7 +71,7 @@ Public Class RCDFDashboard
         Reset()
     End Sub
     Sub Reset()
-        lblQuality.Text = ""
+        lblQuality.Text = "CURRENT STATUS"
         dtFinishGoods = Nothing
         gvFinishGoods.DataSource = Nothing
         gvFinishGoods.Rows.Clear()
