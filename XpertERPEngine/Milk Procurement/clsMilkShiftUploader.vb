@@ -1585,7 +1585,15 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                                 objtemp.FAT = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.FAT)).Value) / SettDBFFATDivideBy
                                 objtemp.SNF = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.SNF)).Value) / SettDBFSNFDivideBy
                                 objtemp.SNF = clsCommon.myRoundOFF(objtemp.SNF, IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), 4)
-
+                                objtemp.DockCollectionMilkType = "M"
+                                If objCommonVar.DisplayTypeInMilkReceipt Then
+                                    If Not arrColumnName.Contains(clsDBFTemplate.DockCollectionMilkType) Then
+                                        Throw New Exception("Please set " + clsDBFTemplate.DockCollectionMilkType + " in DBF Template")
+                                    End If
+                                    If clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.DockCollectionMilkType)).Value) = 2 Then
+                                        objtemp.DockCollectionMilkType = "C"
+                                    End If
+                                End If
                                 If arrColumnName.IndexOf(clsDBFTemplate.EmpatyCAN) >= 0 Then
                                     objtemp.QAT = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.EmpatyCAN)).Value)
                                 End If
@@ -1629,9 +1637,10 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                                 objtr.Milk_Weight = objtemp.Qty
                                 objtr.FAT = objtemp.FAT
                                 objtr.SNF = objtemp.SNF
-                                objtr.Dock_Collection_Milk_Type = objtemp.IShift
+                                'objtr.Dock_Collection_Milk_Type = objtemp.IShift
                                 objtr.BULK_ROUTE_NO = objtemp.BulkRoute
                                 objtr.QAT = IIf(objtemp.QAT = 1, True, False)
+                                objtr.Dock_Collection_Milk_Type = objtemp.DockCollectionMilkType
                                 arr(UniqueCombination).Arr.Add(objtr)
                                 If dtRejctType IsNot Nothing AndAlso dtRejctType.Rows.Count > 0 Then
                                     For Each drRejctType As DataRow In dtRejctType.Rows
@@ -1641,7 +1650,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                                                 objtr.SNo = arr(UniqueCombination).Arr.Count + 1
                                                 objtr.Reject_Type = clsCommon.myCstr(drRejctType("Code"))
                                                 objtr.VLC_Code = objtemp.VLC
-                                                objtr.Dock_Collection_Milk_Type = objtemp.IShift
+                                                objtr.Dock_Collection_Milk_Type = objtemp.DockCollectionMilkType
                                                 objtr.BULK_ROUTE_NO = objtemp.BulkRoute
                                                 objtr.No_Of_Cans = 1
                                                 objtr.Milk_Weight = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsCommon.myCstr(drRejctType("Code")) + "#" + clsDBFTemplate.Qty)).Value)
