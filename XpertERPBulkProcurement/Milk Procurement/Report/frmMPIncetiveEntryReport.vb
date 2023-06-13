@@ -162,13 +162,13 @@ left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.MP_Code=TSPL_MP_INCENTIVE_ENTRY
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
 left outer join tspl_MCC_Master on tspl_MCC_Master.MCC_Code=TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code
-left outer join (select MCC_Code,VLC_Code,Cycle_Year,Cycle_Month,Document_Code,'Done' as Reco_Status from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL
+left outer join(select MCC_Code,VLC_Code,Cycle_Year,Cycle_Month,Cycle_No,Document_Code,'Done' as Reco_Status from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL
 union all 
-select MCC_Code,VLC_Code,Cycle_Year,Cycle_Month,Document_Code,'Invalid' as Reco_Status from (
-select  MCC_Code,VLC_Code,Cycle_Year,Cycle_Month,max(Document_Code) as Document_Code from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID 
-group by MCC_Code,VLC_Code,Cycle_Year,Cycle_Month
+select MCC_Code,VLC_Code,Cycle_Year,Cycle_Month,Cycle_No,Document_Code,'Invalid' as Reco_Status from (
+select  MCC_Code,VLC_Code,Cycle_Year,Cycle_Month,Cycle_No,max(Document_Code) as Document_Code from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL_INVALID 
+group by MCC_Code,VLC_Code,Cycle_Year,Cycle_Month,Cycle_No
 )xxx 
-where not exists(select 1 from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL where TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.MCC_Code=xxx.MCC_Code and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=xxx.VLC_Code and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_Year=xxx.Cycle_Year and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_Month=xxx.Cycle_Month)) as TABReco on TABReco.MCC_Code=TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code and TABReco.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code and TABReco.Cycle_Year=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_Year and TABReco.Cycle_Month=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_Month and TABReco.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+where not exists(select 1 from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL where TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.MCC_Code=xxx.MCC_Code and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.VLC_Code=xxx.VLC_Code and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_Year=xxx.Cycle_Year and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_Month=xxx.Cycle_Month and TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Cycle_No=xxx.Cycle_No)) as TABReco on TABReco.MCC_Code=TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code and TABReco.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code and TABReco.Cycle_Year=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_Year and TABReco.Cycle_Month=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_Month and TABReco.Cycle_No=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Cycle_No
 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code = TSPL_MP_MASTER.Zone_Code
 left outer join TSPL_BLOCK_MASTER on TSPL_BLOCK_MASTER.BLOCK_CODE = TSPL_MP_MASTER.BLOCK_CODE
 left outer join TSPL_REVENUE_VILLAGE_MASTER on TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_CODE = TSPL_MP_MASTER.REVENUE_VILLAGE_CODE
