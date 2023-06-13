@@ -1584,7 +1584,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                                 objtemp.Qty = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.Qty)).Value)
                                 objtemp.FAT = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.FAT)).Value) / SettDBFFATDivideBy
                                 objtemp.SNF = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.SNF)).Value) / SettDBFSNFDivideBy
-                                objtemp.SNF = Math.Round(objtemp.SNF, IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), MidpointRounding.ToEven)
+                                objtemp.SNF = clsCommon.myRoundOFF(objtemp.SNF, IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), 4)
 
                                 If arrColumnName.IndexOf(clsDBFTemplate.EmpatyCAN) >= 0 Then
                                     objtemp.QAT = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.EmpatyCAN)).Value)
