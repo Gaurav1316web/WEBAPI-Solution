@@ -111,8 +111,8 @@ Public Class rptTruckSheetDailySummaryReport
             '            ,case when sum([Milk Weight] )=0 then 0 else (sum([FAT] )/sum([Milk Weight] ))*100 end as [Total FAT(%)]
             ',case when sum([Milk Weight] )=0 then 0 else (sum([SNF] )/sum([Milk Weight] ))*100 end as [Total SNF(%)] 
 
-            FinalQuery = "select [Doc Date],[Shift],a.[Milk type],case when sum([Milk Weight])=0 then 0 else 
-(case when sum(SOUR)=0 and sum(CURD)=0 then sum([Milk Weight]) else 0 end) end as [Sweet Qty]
+            FinalQuery = "select [Doc Date],[Shift],a.[Milk type], 
+ sum([Milk Weight]) as [Sweet Qty]
 ,case when sum([Milk Weight])=0 then 0 else 
 (case when sum(SOUR)=0 and sum(CURD)=0 then sum([FAT]) else 0 end) end as [Sweet FAT]			
 ,case when sum([Milk Weight])=0 then 0 else 
@@ -126,7 +126,7 @@ Public Class rptTruckSheetDailySummaryReport
 ,case When sum(SOUR)>0 then cast((sum([SNF])/sum([Milk Weight]))*100 as decimal(18,2)) else 0 end as [SOUR SNF(%)]
 ,case when sum(SOUR)>0 then sum([FAT])  else 0 end as [SOUR FAT] 
 ,case When sum(SOUR)>0 then sum([SNF]) else 0 end as [SOUR SNF]
-,sum(CURD) as [CURD Qty],sum([Milk Weight]) as [Total Qty]
+,sum(CURD) as [CURD Qty],sum([Milk Weight]+SOUR+CURD) as [Total Qty]
 ,case when sum([Milk Weight] )=0 then 0 else (sum([FAT] )) end as [Total FAT Kg]
 ,case when sum([Milk Weight] )=0 then 0 else (sum([SNF] )) end as [Total SNF Kg] 
 ,sum(NetAmount) as Amount
@@ -190,8 +190,8 @@ from (" + qry +
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
-        Gv1.Columns("Sweet Qty").FormatString = "{0:n2}"
-        Dim item1 As New GridViewSummaryItem("Sweet Qty", "{0:n2}", GridAggregateFunction.Sum)
+        Gv1.Columns("Sweet Qty").FormatString = "{0:f2}"
+        Dim item1 As New GridViewSummaryItem("Sweet Qty", "{0:f2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
         Gv1.Columns("Sweet FAT").FormatString = "{0:n2}"
         Dim item9 As New GridViewSummaryItem("Sweet FAT", "{0:n2}", GridAggregateFunction.Sum)
@@ -214,11 +214,11 @@ from (" + qry +
         Gv1.Columns("Total Qty").FormatString = "{0:n2}"
         Dim item4 As New GridViewSummaryItem("Total Qty", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item4)
-        Gv1.Columns("Total FAT Kg").FormatString = "{0:n3}"
-        Dim item5 As New GridViewSummaryItem("Total FAT Kg", "{0:n3}", GridAggregateFunction.Sum)
+        Gv1.Columns("Total FAT Kg").FormatString = "{0:n2}"
+        Dim item5 As New GridViewSummaryItem("Total FAT Kg", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item5)
-        Gv1.Columns("Total SNF Kg").FormatString = "{0:n3}"
-        Dim item6 As New GridViewSummaryItem("Total SNF Kg", "{0:n3}", GridAggregateFunction.Sum)
+        Gv1.Columns("Total SNF Kg").FormatString = "{0:n2}"
+        Dim item6 As New GridViewSummaryItem("Total SNF Kg", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item6)
         Gv1.Columns("Amount").FormatString = "{0:n2}"
         Dim item7 As New GridViewSummaryItem("Amount", "{0:n2}", GridAggregateFunction.Sum)
@@ -308,17 +308,24 @@ from (" + qry +
                 doc.Landscape = True
                 doc.AssociatedObject = Gv1
 
-                doc.DocumentName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptTruckSheetDailySummaryReport & "'"))
-                doc.MiddleHeader = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptTruckSheetDailySummaryReport & "'"))
+                doc.DocumentName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Comp_Name from TSPL_COMPANY_MASTER"))
+                'Dim strLocation As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select MCC_Name from TSPL_MCC_MASTER where MCC_Code='" + txtMCC.arrValueMember + "'"))
+                doc.MiddleHeader = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Comp_Name from TSPL_COMPANY_MASTER")) + Environment.NewLine
+                'doc.MiddleHeader += "Daily Summary Of :" + clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select MCC_Name from TSPL_MCC_MASTER where MCC_Code='" + txtMCC.Value + "'")) + " "
+                If txtMCC.arrDispalyMember IsNot Nothing AndAlso txtMCC.arrDispalyMember.Count > 0 Then
+                    doc.MiddleHeader += "Daily Summary Of :" + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember)
+                Else
+                    doc.MiddleHeader += "Daily Summary Of : GANGANAGAR "
+                End If
                 doc.HeaderFont = New Font("Segoe UI", 10, FontStyle.Bold)
 
                 doc.LeftUpperText = "Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy")
                 doc.LeftUpperFont = New Font("Segoe UI", 8, FontStyle.Regular)
 
-                If txtMCC.arrDispalyMember IsNot Nothing AndAlso txtMCC.arrDispalyMember.Count > 0 Then
-                    doc.LeftMiddleText = "Mcc : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember)
-                    doc.LeftLowerFont = New Font("Segoe UI", 8, FontStyle.Regular)
-                End If
+                'If txtMCC.arrDispalyMember IsNot Nothing AndAlso txtMCC.arrDispalyMember.Count > 0 Then
+                '    doc.LeftMiddleText = "Mcc : " + clsCommon.GetMulcallStringWithComma(txtMCC.arrDispalyMember)
+                '    doc.LeftLowerFont = New Font("Segoe UI", 8, FontStyle.Regular)
+                'End If
 
                 doc.AssociatedObject = Gv1
                     'doc.Print()

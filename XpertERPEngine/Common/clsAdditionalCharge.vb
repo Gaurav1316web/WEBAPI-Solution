@@ -6975,6 +6975,7 @@ Public Class clsTempFATSNFAmt
     Public BulkRoute As String
     Public RejectType As String
     Public QAT As Integer
+    Public DockCollectionMilkType As String
 End Class
 
 Public Class clsRowColumnTemp

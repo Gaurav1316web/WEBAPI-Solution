@@ -782,6 +782,7 @@ Public Class clsDBFTemplate
     Public Const FAT As String = "FAT#"
     Public Const SNF As String = "SNF#"
     Public Const EmpatyCAN As String = "EmpatyCAN#"
+    Public Const DockCollectionMilkType As String = "DockCollectionMilkType#"
 #End Region
 
 End Class
