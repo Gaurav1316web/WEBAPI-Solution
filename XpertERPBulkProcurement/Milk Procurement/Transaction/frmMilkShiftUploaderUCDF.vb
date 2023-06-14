@@ -241,7 +241,7 @@ Public Class frmMilkShiftUploaderUCDF
             txtQty.Focus()
             Throw New Exception("Please enter Qty")
         End If
-        Dim intRejectApplicableOn As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Applicable_On from TSPL_MILK_REJECT_TYPE where Code='" + cboRejectType.SelectedValue + "'"))
+        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(clsCommon.myCstr(cboRejectType.SelectedValue), Nothing)
         If intRejectApplicableOn <> 1 Then '' ''1-Reject Type is Rate 
             If clsCommon.myLen(txtFAT.Text) <= 0 Then
                 txtFAT.Focus()

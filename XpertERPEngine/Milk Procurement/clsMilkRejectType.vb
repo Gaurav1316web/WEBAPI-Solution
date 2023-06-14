@@ -134,6 +134,17 @@ Public Class clsMilkRejectType
         End If
         Return dt
     End Function
+
+    Public Shared Function GetApplicableOn(ByVal Code As String, ByVal tran As SqlTransaction) As Integer
+        '-1-Good;0-%;2-Rate;3-FATKg;4-SNFKg
+        Dim intRet As Integer = -1
+        Dim qry As String = "select Applicable_On from TSPL_MILK_REJECT_TYPE where Code='" + Code + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            intRet = clsCommon.myCDecimal(dt.Rows(0)("Applicable_On"))
+        End If
+        Return intRet
+    End Function
 End Class
 
 

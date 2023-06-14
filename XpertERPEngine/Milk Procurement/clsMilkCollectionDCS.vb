@@ -381,7 +381,12 @@ Public Class clsMilkCollectionDCSDetail
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkCollectionDCSDetail), ByVal trans As SqlTransaction, ByVal intPKID As Integer, ByVal isMissingOnly As Boolean) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkCollectionDCSDetail In Arr
-                If obj.Qty > 0 AndAlso obj.FAT > 0 AndAlso obj.SNF > 0 Then
+                If obj.Qty > 0 Then
+                    If obj.FAT <= 0 OrElse obj.SNF <= 0 Then
+                        If clsMilkRejectType.GetApplicableOn(obj.Milk_Type, trans) <> 1 Then
+                            Continue For
+                        End If
+                    End If
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                     clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)

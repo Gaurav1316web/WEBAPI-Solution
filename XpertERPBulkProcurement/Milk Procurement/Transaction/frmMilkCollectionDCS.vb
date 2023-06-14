@@ -719,11 +719,14 @@ Public Class frmMilkCollectionDCS
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFPer).Value), 2, MidpointRounding.ToEven)
                         objTr.FATKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningFATKG).Value)
                         objTr.SNFKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFKG).Value)
-                        If objTr.FAT <= 0 Then
-                            Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                        End If
-                        If objTr.SNF <= 0 Then
-                            Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
+                        If intRejectApplicableOn <> 1 Then
+                            If objTr.FAT <= 0 Then
+                                Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
+                            If objTr.SNF <= 0 Then
+                                Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
                         End If
                         Arr.Add(objTr)
                     End If
@@ -746,11 +749,14 @@ Public Class frmMilkCollectionDCS
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFPer).Value), 2, MidpointRounding.ToEven)
                         objTr.FATKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningFATKG).Value)
                         objTr.SNFKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFKG).Value)
-                        If objTr.FAT <= 0 Then
-                            Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                        End If
-                        If objTr.SNF <= 0 Then
-                            Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
+                        If intRejectApplicableOn <> 1 Then
+                            If objTr.FAT <= 0 Then
+                                Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
+                            If objTr.SNF <= 0 Then
+                                Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
                         End If
                         Arr.Add(objTr)
                     End If
