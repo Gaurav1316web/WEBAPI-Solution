@@ -529,9 +529,12 @@ Public Class FrmProductionAndSaleReport
             If exporter = EnumExportTo.Excel Then
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 transportSql.QuickExportToExcel(gv1, "", StrReportName, , arrHeader)
-            Else
+                'Else
                 'transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 'clsCommon.MyExportToPDF(Label1.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+
+            If rdbDaily.Checked = True Then
 
                 Dim doc As New RadPrintDocument()
 
@@ -542,11 +545,17 @@ Public Class FrmProductionAndSaleReport
                 doc.HeaderHeight = 100
                 doc.FooterHeight = 200
                 doc.Landscape = True
-                doc.LeftFooter = "Remark : For No demand,weekly maintenance and one section of plant/machine failure reasons,please mention Zero in hours column" + Environment.NewLine + "Code List of Raw Materials" + Environment.NewLine + "1 DORB                            2 RICE BRAIN" + Environment.NewLine + "3 DOMC                            4 GWAR KORMA" + Environment.NewLine + "5 MAIZE                            6 GWAR CHURI" + Environment.NewLine + "7 BARLEY SOUND          8 MOLASSES"
+                doc.LeftFooter = "Remark : For No demand,weekly maintenance and one section of plant/machine failure reasons,please mention Zero in hours column" +
+                Environment.NewLine + "Code List of Raw Materials" +
+                Environment.NewLine + "1 DORB                    2 RICE BRAIN" +
+                Environment.NewLine + "3 DOMC                    4 GWAR KORMA" +
+                Environment.NewLine + "5 MAIZE                    6 GWAR CHURI" +
+                Environment.NewLine + "7 BARLEY SOUND           8 MOLASSES"
 
                 'doc.LeftFooter = "Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")
                 'doc.RightFooter = "User : " + objCommonVar.CurrentUser
-                doc.RightFooter = "ATUL MATHUR-RCDF" + Environment.NewLine + "MANAGER(SYSTEMS)"
+                'doc.RightFooter = "ATUL MATHUR-RCDF" + Environment.NewLine + "MANAGER(SYSTEMS)"
+                doc.RightFooter = clsDBFuncationality.getSingleValue("SELECT Range_Name from TSPL_LOCATION_MASTER where Location_Code ='RCDF'") + Environment.NewLine + clsDBFuncationality.getSingleValue("SELECT Range_Address from TSPL_LOCATION_MASTER where Location_Code ='RCDF'")
                 doc.AssociatedObject = gv1
 
                 'Dim strHeader As String = Label1.Text 'Me.Text.Replace("/", "")
@@ -559,6 +568,35 @@ Public Class FrmProductionAndSaleReport
                 'doc.RightHeader = "Report Type : " + IIf(rdbDaily.Checked = True, "Daily", "Weekly")
                 doc.RightHeader = "Report Date : " + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")
 
+                Dim dialog As New RadPrintPreviewDialog
+                dialog.Document = doc
+                dialog.ToolMenu.Visible = True
+                dialog.ShowDialog()
+                doc = Nothing
+
+            Else
+
+                Dim doc As New RadPrintDocument()
+
+                doc.Margins.Top = 50
+                doc.Margins.Bottom = 50
+                doc.Margins.Left = 50
+                doc.Margins.Right = 50
+                doc.HeaderHeight = 100
+                doc.FooterHeight = 200
+                doc.Landscape = True
+                doc.AssociatedObject = gv1
+                doc.MiddleHeader = "RCDF : Weekly Production & Sale of Cattle Feed Plants:" + fromDate.Value.ToString("MMMM") + " " + clsCommon.myCstr(fromDate.Value.Year)
+                doc.HeaderFont = New Font("Verdana", 10, FontStyle.Bold)
+                doc.RightHeader = "MT"
+                doc.LeftFooter = " Breakdown Reasons" + Environment.NewLine + "1. No Demand" + Environment.NewLine + "2. Short of Raw material except Molasses" +
+                Environment.NewLine + "3. Short of Molasses" + Environment.NewLine + "4. Complete Plant/Machine failure" +
+                Environment.NewLine + "5. Power supply/shortage" + Environment.NewLine + "6. Labour problem" +
+                Environment.NewLine + "7. Transport problem" + Environment.NewLine + "8. Weekly maintenance" +
+                Environment.NewLine + "9. One section of plant/machine failure" + Environment.NewLine + "10. Other"
+
+                'doc.LeftFooter = clsDBFuncationality.get("select Name from TSPL_BREAK_DOWN_MASTER ")
+
                 'doc.Print()
                 Dim dialog As New RadPrintPreviewDialog
                 dialog.Document = doc
@@ -567,6 +605,13 @@ Public Class FrmProductionAndSaleReport
                 doc = Nothing
 
             End If
+
+            'Dim dialog As New RadPrintPreviewDialog
+            'dialog.Document = doc
+            'dialog.ToolMenu.Visible = True
+            'dialog.ShowDialog()
+            'doc = Nothing
+
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
