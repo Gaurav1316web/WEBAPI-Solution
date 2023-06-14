@@ -217,36 +217,12 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
 
     Sub LoadData()
         Try
-            'If clsCommon.GetDateWithStartTime(dtpfromdate.Value) > clsCommon.GetDateWithEndTime(dtpTodate.Value) Then
-            '    dtpfromdate.Focus()
-            '    Throw New Exception("From date can not be greater then to Date")
-            'End If
-            'gv.MasterTemplate.SummaryRowsBottom.Clear()
             Dim qry As String = ""
-            'Dim fromdate As String = ""
-            'Dim Todate As String = ""
             Dim whr As String = ""
 
-            'fromdate = clsCommon.myCDate(dtpfromdate.Value, "dd/MM/yyyy")
-            'Todate = clsCommon.myCDate(dtpTodate.Value, "dd/MM/yyyy")
 
-            'If txtLocation.Value IsNot Nothing AndAlso txtLocation.Value.Count > 0 Then
-            '    whr += " and TSPL_LOCATION_MASTER.Location_Code in (" + clsCommon.GetMulcallString(txtLocation.Value) + ")"
-            'End If
 
-            'If txtTenderNo.Value IsNot Nothing AndAlso txtTenderNo.Value.Count > 0 Then
-            '    whr += " and TSPL_TENDER_PENALTY.Tender_No in (" + clsCommon.GetMulcallString(txtTenderNo.Value) + ")"
-            'End If
-
-            'If txtVendor.arrValueMember IsNot Nothing AndAlso txtVendor.arrValueMember.Count > 0 Then
-            '    whr += " And TSPL_VENDOR_MASTER.Vendor_Code in ( " + clsCommon.GetMulcallString(txtVendor.arrValueMember) + ")"
-            'End If
-
-            'If txtItem.arrValueMember IsNot Nothing AndAlso txtItem.arrValueMember.Count > 0 Then
-            '    whr += " And TSPL_ITEM_MASTER.Item_Code in ( " + clsCommon.GetMulcallString(txtItem.arrValueMember) + ")"
-            'End If
-
-            qry = " select  TSPL_TENDER_PENALTY.Document_No ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo AS RAL,TSPL_GRN_DETAIL.Item_Code as 'Item Code',TSPL_GRN_DETAIL.Item_Desc as 'Item Description',TSPL_GRN_HEAD.Vendor_Code as 'Vendor Code' ,TSPL_GRN_HEAD.Vendor_Name AS 'Vendor Name',TSPL_GRN_HEAD.GRN_No as 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo,(case when isnull(TSPL_GRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as GRNStatus,TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date',(Case when isnull(TSPL_SRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weightment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',(Case when isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0)= 1 then 'APPROVED' else 'PENDING' end) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM
+            qry = " select  TSPL_TENDER_PENALTY.Document_No ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo AS RAL,TSPL_GRN_DETAIL.Item_Code as 'Item Code',TSPL_GRN_DETAIL.Item_Desc as 'Item Description',TSPL_GRN_HEAD.Vendor_Code as 'Vendor Code' ,TSPL_GRN_HEAD.Vendor_Name AS 'Vendor Name',TSPL_GRN_HEAD.GRN_No as 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo,(case when isnull(TSPL_GRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as GRNStatus,TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date',(Case when isnull(TSPL_SRN_HEAD.Status,0) = 1 then 'APPROVED' else 'PENDING' end) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weightment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',(Case when isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0)= 1 then 'APPROVED' else 'PENDING' end) as WeightmentStatus,isNull(TSPL_SRN_DETAIL.SRN_Qty,0) as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM
                     ,TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt,TSPL_SRN_DEDUCTION.Ded_Per as QualityDeductionPer,TSPL_SRN_DEDUCTION.Ded_Amt as QualityDeductionAmt,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_SRN_TENDER.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER.Penalty as LatePenaltyAmt,TSPL_PI_DETAIL.PI_No as 'PI No',TSPL_PI_HEAD.PI_Date as 'PI Date'
                         from TSPL_GRN_DETAIL
                     left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No
@@ -277,52 +253,14 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
             dtgv = clsDBFuncationality.GetDataTable(qry)
             If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
                 gv.Visible = True
-                'gv.DataSource = Nothing
-                'gv.Rows.Clear()
-                'gv.Columns.Clear()
+                RadPageView1.SelectedPage = RadPageViewPage2
                 gv.DataSource = dtgv
                 gv.ReadOnly = True
                 SetGridFormat()
-                'gv.BestFitColumns()
-                'ReStoreGridLayout()
-                '    gv.MasterTemplate.SummaryRowsBottom.Clear()
-                '    For Each col As GridViewColumn In gv.Columns
-                '        col.Width = 150
-                '        col.ReadOnly = True
-                '    Next
-                '    Dim summaryRowItem As New GridViewSummaryRowItem()
-                '    'Dim intCount As Integer = 0
-
-                '    Dim item5 As New GridViewSummaryItem("Gross Weight", "{0:F2}", GridAggregateFunction.Sum)
-                '    summaryRowItem.Add(item5)
-                '    Dim item4 As New GridViewSummaryItem("Tare Weight", "{0:F2}", GridAggregateFunction.Sum)
-                '    summaryRowItem.Add(item4)
-                '    Dim item6 As New GridViewSummaryItem("Net Weight", "{0:F2}", GridAggregateFunction.Sum)
-                '    summaryRowItem.Add(item6)
-                '    Dim item7 As New GridViewSummaryItem("QualityDeductionPer", "{0:F2}", GridAggregateFunction.Sum)
-                '    summaryRowItem.Add(item7)
-                '    Dim item9 As New GridViewSummaryItem("QualityDeductionAmt", "{0:F2}", GridAggregateFunction.Sum)
-                '    summaryRowItem.Add(item9)
-                '    Dim item8 As New GridViewSummaryItem("SRN Qty", "{0:F2}", GridAggregateFunction.Sum)
-                '    summaryRowItem.Add(item8)
-                '    gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
             Else
                 common.clsCommon.MyMessageBoxShow("No Data Found")
                 gv.DataSource = Nothing
             End If
-
-
-
-            'If dtgv.Rows.Count <= 0 Then
-            '    gv.DataSource = Nothing
-            '    gv.Rows.Clear()
-            '    gv.Columns.Clear()
-            '    clsCommon.MyMessageBoxShow("No Data Found")
-            '    Exit Sub
-            'End If
-
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
@@ -452,26 +390,30 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
 
     Sub CalculateDifference()
 
-        Dim sum1 As Decimal = 0
-        Dim sum2 As Decimal = 0
+        Dim Received As Decimal = 0
+        Dim Ordered As Decimal = 0
 
         For Each row As GridViewRowInfo In gv.Rows
+            'If (row.Cells(20).Value) = 0 Then
+            'sum1 += 0
+            'Else
             ' Assuming the column you want to calculate the sum for in gv is at index 0 '
-            sum1 += Convert.ToDecimal(row.Cells(20).Value)
+            Received += Convert.ToDecimal(row.Cells(20).Value)
+            'End If
         Next
 
         For Each row As GridViewRowInfo In gvSchedule.Rows
             ' Assuming the column you want to calculate the sum for in gvschedule is at index 0 '
-            sum2 += Convert.ToDecimal(row.Cells(10).Value)
+            Ordered += Convert.ToDecimal(row.Cells(10).Value)
         Next
 
-        Dim difference As Decimal = 0
+        Dim Pending As Decimal = 0
 
-        difference = sum2 - sum1
-        lblOrdered.Text = clsCommon.myRoundOFF(sum2, 2)
-        lblReceived.Text = clsCommon.myRoundOFF(sum1, 2)
+        Pending = Ordered - Received
+        lblOrdered.Text = clsCommon.myRoundOFF(Ordered, 2)
+        lblReceived.Text = clsCommon.myRoundOFF(Received, 2)
 
-        lblPending.Text = clsCommon.myRoundOFF(difference, 2)
+        lblPending.Text = clsCommon.myRoundOFF(Pending, 2)
         'Return difference
 
     End Sub
@@ -482,338 +424,7 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
 
 
 
-    'Sub LoadBlankGridSchedule()
-    '    gvSchedule.Rows.Clear()
-    '    gvSchedule.Columns.Clear()
 
-
-    '    Dim repoNum As GridViewDecimalColumn = New GridViewDecimalColumn()
-    '    repoNum = New GridViewDecimalColumn()
-    '    repoNum.FormatString = ""
-    '    repoNum.HeaderText = "SNo"
-    '    repoNum.Name = colScheduleSNo
-    '    repoNum.Width = 50
-    '    repoNum.ReadOnly = True
-    '    repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-    '    gvSchedule.MasterTemplate.Columns.Add(repoNum)
-
-    '    repoNum = New GridViewDecimalColumn()
-    '    repoNum.FormatString = ""
-    '    repoNum.HeaderText = "Schedule No"
-    '    repoNum.Name = colScheduleNo
-    '    repoNum.Width = 100
-    '    repoNum.ReadOnly = True
-    '    repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-    '    gvSchedule.MasterTemplate.Columns.Add(repoNum)
-
-    '    Dim repoDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
-    '    repoDate.Format = DateTimePickerFormat.Custom
-    '    repoDate.CustomFormat = "dd-MM-yyyy"
-    '    repoDate.HeaderText = "From Date"
-    '    repoDate.FormatString = "{0:d}"
-    '    repoDate.Name = colScheduleFromDate
-    '    repoDate.WrapText = True
-    '    repoDate.ReadOnly = False
-    '    repoDate.Width = 80
-    '    gvSchedule.MasterTemplate.Columns.Add(repoDate)
-
-    '    repoDate = New GridViewDateTimeColumn()
-    '    repoDate.Format = DateTimePickerFormat.Custom
-    '    repoDate.CustomFormat = "dd-MM-yyyy"
-    '    repoDate.HeaderText = "To Date"
-    '    repoDate.FormatString = "{0:d}"
-    '    repoDate.Name = colScheduleToDate
-    '    repoDate.WrapText = True
-    '    repoDate.ReadOnly = False
-    '    repoDate.Width = 80
-    '    gvSchedule.MasterTemplate.Columns.Add(repoDate)
-
-    '    repoNum = New GridViewDecimalColumn()
-    '    repoNum.FormatString = ""
-    '    repoNum.HeaderText = "Parent SNo"
-    '    repoNum.Name = colScheduleParentSNo
-    '    repoNum.Width = 50
-    '    repoNum.ReadOnly = True
-    '    repoNum.IsVisible = False
-    '    repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-    '    gvSchedule.MasterTemplate.Columns.Add(repoNum)
-
-    '    Dim repotxt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-    '    repotxt.FormatString = ""
-    '    repotxt.HeaderText = "Vendor Code"
-    '    repotxt.Name = colScheduleVCode
-    '    'repotxt.HeaderImage = My.Resources.search4
-    '    'repotxt.TextImageRelation = TextImageRelation.TextBeforeImage
-    '    repotxt.ReadOnly = True
-    '    repotxt.Width = 100
-    '    repotxt.IsVisible = True
-    '    gvSchedule.MasterTemplate.Columns.Add(repotxt)
-
-    '    repotxt = New GridViewTextBoxColumn()
-    '    repotxt.FormatString = ""
-    '    repotxt.HeaderText = "Vendor Name"
-    '    repotxt.Name = colScheduleVName
-    '    repotxt.Width = 150
-    '    repotxt.ReadOnly = True
-    '    repotxt.IsVisible = True
-    '    gvSchedule.MasterTemplate.Columns.Add(repotxt)
-
-    '    repotxt = New GridViewTextBoxColumn()
-    '    repotxt.FormatString = ""
-    '    repotxt.HeaderText = "Location Code"
-    '    repotxt.Name = colScheduleLCode
-    '    repotxt.ReadOnly = True
-    '    repotxt.Width = 100
-    '    repotxt.IsVisible = True
-    '    gvSchedule.MasterTemplate.Columns.Add(repotxt)
-
-    '    repotxt = New GridViewTextBoxColumn()
-    '    repotxt.FormatString = ""
-    '    repotxt.HeaderText = "Location Name"
-    '    repotxt.Name = colScheduleLName
-    '    repotxt.Width = 150
-    '    repotxt.ReadOnly = True
-    '    repotxt.IsVisible = True
-    '    gvSchedule.MasterTemplate.Columns.Add(repotxt)
-
-    '    repotxt = New GridViewTextBoxColumn()
-    '    repotxt.FormatString = ""
-    '    repotxt.HeaderText = "Item Code"
-    '    repotxt.Name = colScheduleICode
-    '    repotxt.ReadOnly = True
-    '    repotxt.Width = 100
-    '    repotxt.IsVisible = True
-    '    gvSchedule.MasterTemplate.Columns.Add(repotxt)
-
-    '    repotxt = New GridViewTextBoxColumn()
-    '    repotxt.FormatString = ""
-    '    repotxt.HeaderText = "Item Description"
-    '    repotxt.Name = colScheduleIName
-    '    repotxt.Width = 150
-    '    repotxt.ReadOnly = True
-    '    repotxt.IsVisible = True
-    '    gvSchedule.MasterTemplate.Columns.Add(repotxt)
-
-    '    repoNum = New GridViewDecimalColumn()
-    '    repoNum.FormatString = ""
-    '    repoNum.HeaderText = "Quantity %"
-    '    repoNum.Name = colScheduleQtyPer
-    '    repoNum.ReadOnly = True
-    '    repoNum.Width = 80
-    '    repoNum.Minimum = 0
-    '    repoNum.ShowUpDownButtons = False
-    '    repoNum.Step = 0
-    '    repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-    '    gvSchedule.MasterTemplate.Columns.Add(repoNum)
-
-    '    repoNum = New GridViewDecimalColumn()
-    '    repoNum.FormatString = ""
-    '    repoNum.HeaderText = "Quantity"
-    '    repoNum.Name = colScheduleQty
-    '    repoNum.ReadOnly = True
-    '    repoNum.Width = 80
-    '    repoNum.Minimum = 0
-    '    repoNum.ShowUpDownButtons = False
-    '    repoNum.Step = 0
-    '    repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-    '    gvSchedule.MasterTemplate.Columns.Add(repoNum)
-
-    '    repoNum = New GridViewDecimalColumn()
-    '    repoNum.FormatString = ""
-    '    repoNum.HeaderText = "Short %"
-    '    repoNum.Name = colScheduleShortPer
-    '    repoNum.ReadOnly = True
-    '    repoNum.Width = 80
-    '    repoNum.Minimum = 0
-    '    repoNum.ShowUpDownButtons = False
-    '    repoNum.Step = 0
-    '    repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-    '    gvSchedule.MasterTemplate.Columns.Add(repoNum)
-
-    '    repoNum = New GridViewDecimalColumn()
-    '    repoNum.FormatString = ""
-    '    repoNum.HeaderText = "Short Quantity"
-    '    repoNum.Name = colScheduleShort
-    '    repoNum.ReadOnly = True
-    '    repoNum.Width = 80
-    '    repoNum.Minimum = 0
-    '    repoNum.ShowUpDownButtons = False
-    '    repoNum.Step = 0
-    '    repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-    '    gvSchedule.MasterTemplate.Columns.Add(repoNum)
-
-    'repoNum = New GridViewDecimalColumn()
-    'repoNum.FormatString = ""
-    'repoNum.HeaderText = "Late Days"
-    'repoNum.Name = colScheduleLateDays
-    'repoNum.ReadOnly = True
-    'repoNum.Width = 80
-    'repoNum.Minimum = 0
-    'repoNum.ShowUpDownButtons = False
-    'repoNum.Step = 0
-    'repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-    'gvSchedule.MasterTemplate.Columns.Add(repoNum)
-
-    '    repoNum = New GridViewDecimalColumn()
-    '    repoNum.FormatString = ""
-    '    repoNum.HeaderText = "Extension Days"
-    '    repoNum.Name = colScheduleExtensionDays
-    '    repoNum.ReadOnly = False
-    '    repoNum.Width = 80
-    '    repoNum.Minimum = 0
-    '    repoNum.ShowUpDownButtons = False
-    '    repoNum.Step = 0
-    '    repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-    '    gvSchedule.MasterTemplate.Columns.Add(repoNum)
-
-    '    gvSchedule.AllowDeleteRow = True
-    '    gvSchedule.AllowAddNewRow = False
-    '    gvSchedule.ShowGroupPanel = False
-    '    gvSchedule.AllowColumnReorder = False
-    '    gvSchedule.AllowRowReorder = False
-    '    gvSchedule.EnableSorting = False
-    '    gvSchedule.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-    '    gvSchedule.MasterTemplate.ShowRowHeaderColumn = False
-    '    gvSchedule.TableElement.TableHeaderHeight = 40
-
-
-    'End Sub
-
-    'Sub SetSchedule()
-
-    '    Try
-    '        isInsideLoadData = True
-    '        LoadBlankGridSchedule()
-    '        For ii As Integer = 0 To gvSchedule.Rows.Count - 1
-    '            If clsCommon.myLen(gvSchedule.Rows(ii).Cells(colVCode).Value) > 0 AndAlso clsCommon.myLen(gvSchedule.Rows(ii).Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(gvSchedule.Rows(ii).Cells(colICode).Value) > 0 AndAlso clsCommon.myCDecimal(gvSchedule.Rows(ii).Cells(colQty).Value) > 0 Then
-    '                'Dim dtRunningDate As DateTime = txtScheduleStartDate.Value
-    '                Dim ArrSch As List(Of clsItemSchedule) = clsItemSchedule.GetData(clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colICode).Value), Nothing)
-    '                If ArrSch IsNot Nothing AndAlso ArrSch.Count > 0 Then
-    '                    For Each obj As clsItemSchedule In ArrSch
-    '                        gvSchedule.Rows.AddNew()
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
-    '                        'gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
-    '                        'dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
-    '                        'gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
-    '                        'dtRunningDate = dtRunningDate.AddDays(1)
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gvSchedule.Rows(ii).Cells(colLineNo).Value)
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVCode).Value = clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colVCode).Value)
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleVName).Value = clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colVName).Value)
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLCode).Value = clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colLCode).Value)
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLName).Value = clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colLName).Value)
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colICode).Value)
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsCommon.myCstr(gvSchedule.Rows(ii).Cells(colIName).Value)
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = obj.Qty_Per
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gvSchedule.Rows(ii).Cells(colQty).Value) * obj.Qty_Per) / 100)
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = obj.Short_Per
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(gvSchedule.Rows(ii).Cells(colQty).Value) * obj.Short_Per) / 100)
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = obj.Late_Days
-    '                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetSchedulePenalty(obj.Arr, Nothing)
-    '                    Next
-    '                End If
-    '            End If
-    '        Next
-    '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '    Finally
-    '        isInsideLoadData = False
-    '    End Try
-
-    'End Sub
-
-    Private Function SetSchedulePenalty(ByVal Arr As List(Of clsItemSchedulePenalty), ByVal dtRunningDate As DateTime) As List(Of clsTenderSchedulePenelty)
-        Dim ArrTemp As List(Of clsTenderSchedulePenelty) = Nothing
-        If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
-            ArrTemp = New List(Of clsTenderSchedulePenelty)
-            For Each objtr As clsItemSchedulePenalty In Arr
-                Dim objTemp As New clsTenderSchedulePenelty
-                objTemp.Penalty_Date = dtRunningDate.AddDays(objtr.Penalty_Days - 1)
-                objTemp.Penalty = objtr.Penalty
-                ArrTemp.Add(objTemp)
-            Next
-        End If
-        Return ArrTemp
-    End Function
-
-
-
-    'Private Sub ShowPenalty()
-    '    Try
-
-
-
-    '        Dim dtgv As DataTable = New DataTable()
-    '        dtgv.Columns.Add("Penalty Date", GetType(String))
-    '        dtgv.Columns.Add("Penalty", GetType(Decimal))
-
-    '        Dim arr As List(Of rptrlPenaltyRegister) = TryCast(gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag, List(Of rptrlPenaltyRegister))
-
-    '        If arr IsNot Nothing AndAlso arr.Count > 0 Then
-    '            For ii As Integer = 0 To arr.Count - 1
-    '                Dim dr As DataRow = dtgv.NewRow
-    '                dr("Penalty Date") = clsCommon.GetPrintDate(arr(ii).Penalty_Date, "dd/MM/yyyy")
-    '                dr("Penalty") = arr(ii).Penalty
-    '                dtgv.Rows.Add(dr)
-    '            Next
-    '        End If
-    '        If dtgv IsNot Nothing AndAlso dtgv.Rows.Count > 0 Then
-    '            Dim frm As New FrmFreeGrid
-    '            frm.dt = dtgv
-    'frm.arrEditableColumn = New List(Of String)
-    'frm.arrEditableColumn.Add("Penalty")
-    'frm.strFormName = "Show Penalty"
-    'frm.ReportID = "SchPenaltyD"
-    'frm.WindowState = FormWindowState.Maximized
-    'frm.ShowDialog()
-    'If frm.dt IsNot Nothing AndAlso frm.dt.Rows.Count > 0 Then
-    '    Dim ArrTemp As New List(Of clsItemSchedulePenalty)
-    '    Dim obj As clsItemSchedulePenalty = Nothing
-    '    For Each dr As DataRow In frm.dt.Rows
-    '        obj = New clsItemSchedulePenalty()
-    '        obj.Penalty_Days = clsCommon.myCDecimal(dr("Days"))
-    '        obj.Penalty = clsCommon.myCDecimal(dr("Penalty"))
-    '        ArrTemp.Add(obj)
-    '    Next
-    '    gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = ArrTemp
-    'Else
-    '    gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = Nothing
-    'End If
-    '        End If
-    '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '    End Try
-    'End Sub
-
-
-
-    'Private Sub gvSchedule_KeyDown(sender As Object, e As KeyEventArgs) Handles gvSchedule.KeyDown
-    '    If e.KeyCode = Keys.F5 Then
-    '        ShowPenalty()
-    '    End If
-    'End Sub
-
-    'Dim isCellValueChangedOpenSchedule As Boolean = False
-    'Private Sub gvSchedule_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSchedule.CellValueChanged
-    '    Try
-    '        If (Not isInsideLoadData) Then
-    '            If Not isCellValueChangedOpenSchedule Then
-    '                isCellValueChangedOpen = True
-    '                If e.Column Is gvSchedule.Columns(colScheduleToDate) Then
-    '                    Dim PKID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PK_Id from (select ROW_NUMBER() over (Partition by Item_Code order by PK_Id) as SNO, * from TSPL_ITEM_SCHEDULE where Item_Code= '" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleICode).Value) + "' )xx where SNO=" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleSNo).Value) + ""))
-    '                    If clsCommon.myLen(PKID) > 0 Then
-    '                        Dim Arr As List(Of clsItemSchedulePenalty) = clsItemSchedulePenalty.GetData(PKID, Nothing)
-    '                        gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = SetSchedulePenalty(Arr, clsCommon.myCDate(gvSchedule.CurrentRow.Cells(colScheduleToDate).Value).AddDays(1))
-    '                    End If
-    '                End If
-    '            End If
-    '            isCellValueChangedOpenSchedule = False
-    '        End If
-    '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '        isCellValueChangedOpenSchedule = False
-    '    End Try
-    'End Sub
 
 
 
