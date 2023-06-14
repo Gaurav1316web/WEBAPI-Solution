@@ -22971,6 +22971,7 @@ Public Class clsCreateAllTable
             coll.Add("Posted_By", "varchar(12)  NULL")
             coll.Add("Slip_No", "Varchar(30) null")
             coll.Add("Trip_No", "Integer not NULL default 1")
+            coll.Add("REF_PK_ID_BMCDCS", "integer NOT NULL references TSPL_MILK_COLLECTION_BMCDCS(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC_DETAIL' and COLUMN_NAME='Against_Multiple_Days'"

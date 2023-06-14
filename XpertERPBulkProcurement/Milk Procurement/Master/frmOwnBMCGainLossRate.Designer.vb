@@ -164,7 +164,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtLossSNFPer.IsSourceFromValueList = False
         Me.txtLossSNFPer.IsUnique = False
         Me.txtLossSNFPer.Location = New System.Drawing.Point(508, 19)
-        Me.txtLossSNFPer.MaxLength = 5
+        Me.txtLossSNFPer.MaxLength = 6
         Me.txtLossSNFPer.MendatroryField = False
         Me.txtLossSNFPer.MyLinkLable1 = Me.MyLabel9
         Me.txtLossSNFPer.MyLinkLable2 = Nothing
@@ -203,7 +203,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtLossFATPer.IsSourceFromValueList = False
         Me.txtLossFATPer.IsUnique = False
         Me.txtLossFATPer.Location = New System.Drawing.Point(355, 18)
-        Me.txtLossFATPer.MaxLength = 5
+        Me.txtLossFATPer.MaxLength = 6
         Me.txtLossFATPer.MendatroryField = False
         Me.txtLossFATPer.MyLinkLable1 = Me.MyLabel10
         Me.txtLossFATPer.MyLinkLable2 = Nothing
@@ -242,7 +242,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtLSnf.IsSourceFromValueList = False
         Me.txtLSnf.IsUnique = False
         Me.txtLSnf.Location = New System.Drawing.Point(207, 18)
-        Me.txtLSnf.MaxLength = 5
+        Me.txtLSnf.MaxLength = 6
         Me.txtLSnf.MendatroryField = False
         Me.txtLSnf.MyLinkLable1 = Me.MyLabel6
         Me.txtLSnf.MyLinkLable2 = Nothing
@@ -281,7 +281,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtLFat.IsSourceFromValueList = False
         Me.txtLFat.IsUnique = False
         Me.txtLFat.Location = New System.Drawing.Point(69, 18)
-        Me.txtLFat.MaxLength = 5
+        Me.txtLFat.MaxLength = 6
         Me.txtLFat.MendatroryField = False
         Me.txtLFat.MyLinkLable1 = Me.MyLabel5
         Me.txtLFat.MyLinkLable2 = Nothing
@@ -347,7 +347,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtGainSNFPer.IsSourceFromValueList = False
         Me.txtGainSNFPer.IsUnique = False
         Me.txtGainSNFPer.Location = New System.Drawing.Point(508, 21)
-        Me.txtGainSNFPer.MaxLength = 5
+        Me.txtGainSNFPer.MaxLength = 6
         Me.txtGainSNFPer.MendatroryField = False
         Me.txtGainSNFPer.MyLinkLable1 = Me.MyLabel8
         Me.txtGainSNFPer.MyLinkLable2 = Nothing
@@ -386,7 +386,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtGainFATPer.IsSourceFromValueList = False
         Me.txtGainFATPer.IsUnique = False
         Me.txtGainFATPer.Location = New System.Drawing.Point(355, 20)
-        Me.txtGainFATPer.MaxLength = 5
+        Me.txtGainFATPer.MaxLength = 6
         Me.txtGainFATPer.MendatroryField = False
         Me.txtGainFATPer.MyLinkLable1 = Me.MyLabel7
         Me.txtGainFATPer.MyLinkLable2 = Nothing
@@ -425,7 +425,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtSNF.IsSourceFromValueList = False
         Me.txtSNF.IsUnique = False
         Me.txtSNF.Location = New System.Drawing.Point(207, 18)
-        Me.txtSNF.MaxLength = 5
+        Me.txtSNF.MaxLength = 6
         Me.txtSNF.MendatroryField = False
         Me.txtSNF.MyLinkLable1 = Me.MyLabel4
         Me.txtSNF.MyLinkLable2 = Nothing
@@ -464,7 +464,7 @@ Partial Class frmOwnBMCGainLossRate
         Me.txtFat.IsSourceFromValueList = False
         Me.txtFat.IsUnique = False
         Me.txtFat.Location = New System.Drawing.Point(69, 18)
-        Me.txtFat.MaxLength = 5
+        Me.txtFat.MaxLength = 6
         Me.txtFat.MendatroryField = False
         Me.txtFat.MyLinkLable1 = Me.MyLabel2
         Me.txtFat.MyLinkLable2 = Nothing
