@@ -21,8 +21,8 @@ Partial Class frmMPDCSIncentiveReco
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -59,6 +59,7 @@ Partial Class frmMPDCSIncentiveReco
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -97,6 +98,7 @@ Partial Class frmMPDCSIncentiveReco
         CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -116,6 +118,7 @@ Partial Class frmMPDCSIncentiveReco
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer3)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Size = New System.Drawing.Size(825, 451)
@@ -438,7 +441,7 @@ Partial Class frmMPDCSIncentiveReco
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(804, 289)
@@ -478,7 +481,7 @@ Partial Class frmMPDCSIncentiveReco
         Me.gvTermsCdtion.MasterTemplate.AllowDeleteRow = False
         Me.gvTermsCdtion.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTermsCdtion.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTermsCdtion.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTermsCdtion.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvTermsCdtion.Name = "gvTermsCdtion"
         Me.gvTermsCdtion.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTermsCdtion.ShowGroupPanel = False
@@ -502,8 +505,8 @@ Partial Class frmMPDCSIncentiveReco
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.RadButton6)
-        Me.SplitContainer3.Size = New System.Drawing.Size(726, 24)
-        Me.SplitContainer3.SplitterDistance = 536
+        Me.SplitContainer3.Size = New System.Drawing.Size(464, 24)
+        Me.SplitContainer3.SplitterDistance = 342
         Me.SplitContainer3.TabIndex = 6
         '
         'btnsave
@@ -589,6 +592,17 @@ Partial Class frmMPDCSIncentiveReco
         Me.rmDeleteLayout.Text = "Delete Layout"
         Me.rmDeleteLayout.UseCompatibleTextRendering = False
         '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(478, 5)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(125, 22)
+        Me.btnReverse.TabIndex = 43
+        Me.btnReverse.Text = "Reverse and Unpost"
+        Me.btnReverse.Visible = False
+        '
         'frmMPDCSIncentiveReco
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -641,6 +655,7 @@ Partial Class frmMPDCSIncentiveReco
         CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -682,5 +697,6 @@ Partial Class frmMPDCSIncentiveReco
     Friend WithEvents txtZone As common.UserControls.txtFinder
     Friend WithEvents lblZonet As common.Controls.MyLabel
     Friend WithEvents lblZone As common.Controls.MyLabel
+    Friend WithEvents btnReverse As RadButton
 End Class
 
