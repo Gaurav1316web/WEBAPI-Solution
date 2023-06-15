@@ -735,7 +735,7 @@ Public Class frmMilkPurchaseInvoiceMCC
         Dim objVendor As clsTDSVendorDetails = clsTDSVendorDetails.GetData(fndVSPCode.Value, trans)
         If objVendor IsNot Nothing Then
             ' btnViewTDSDetails.Enabled = True
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(txtTotComm.Text), trans)
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(txtTotComm.Text), trans, False, fndVSPCode.Value)
             If (objDedDetails IsNot Nothing) Then
                 objRemittance = New clsRemittance()
                 objRemittance.Branch_Code = objVendor.Branch_Code
@@ -766,7 +766,7 @@ Public Class frmMilkPurchaseInvoiceMCC
         If (objRemittance Is Nothing) Then
             SetVendorTDSDetails(trans)
         Else
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(txtTotComm.Text), trans)
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(txtTotComm.Text), trans, False, fndVSPCode.Value)
             If (objDedDetails IsNot Nothing AndAlso objRemittance.IsApplyTDS) Then
                 objRemittance.TDS_Per = objDedDetails.TDS
                 objRemittance.Surcharge_Per = objDedDetails.Surcharge

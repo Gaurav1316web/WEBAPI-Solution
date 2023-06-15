@@ -5862,7 +5862,7 @@ Public Class MDI
                     '--------------------TDS Master-----------------------------
 
                     Case clsUserMgtCode.NatureOfDeduction
-                        frm = New frmNatureOfDeduction(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
+                        frm = New frmNatureOfDeduction()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.PartyDetails
                         frm = New frmPartyDetails(lblUserCode.Text, objCommonVar.CurrentCompanyCode)

@@ -11199,6 +11199,7 @@ Public Class clsCreateAllTable
             coll.Add("Surcharge", "decimal (18,2) NULL")
             coll.Add("Educess", "decimal (18,2) NULL")
             coll.Add("Seceducess", "decimal (18,2) NULL")
+            coll.Add("TDS_Non_PAN", "decimal (18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_TDS_DEDUCTION_DETAIL", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
@@ -23728,6 +23729,7 @@ Public Class clsCreateAllTable
             coll.Add("RO_Increase_After", "integer not NULL default -1")
             coll.Add("Qty_UOM", "integer not NULL default 0")
             coll.Add("Milk_Type", "varchar(100) Not NULL default ('''Good''')")
+            coll.Add("Apply_TDS", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)

@@ -564,7 +564,7 @@ Public Class FrmAPInvoiceEntry
             Else
                 appAmt = clsCommon.myCdbl(lblTotRAmt.Text)
             End If
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, appAmt)
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, appAmt, Nothing, False, TxtVendorNo.Value)
             If (objDedDetails IsNot Nothing) Then
                 ''By Balwinder on 09/11/2016 against ticket no BM00000010070
                 Dim isApplyTDS As Boolean = False
@@ -651,7 +651,7 @@ Public Class FrmAPInvoiceEntry
             applicableAmt += dblPreviousTDSAmt
 
 
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, applicableAmt)
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, applicableAmt, Nothing, False, TxtVendorNo.Value)
             If (objDedDetails IsNot Nothing AndAlso objRemittance.IsApplyTDS) Then
                 objRemittance.TDS_Per = objDedDetails.TDS
                 objRemittance.Surcharge_Per = objDedDetails.Surcharge

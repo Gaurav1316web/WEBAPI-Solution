@@ -550,7 +550,7 @@ Public Class clsCSASaleInvoice
         objRemittance = Nothing
         Dim objVendor As clsTDSVendorDetails = clsTDSVendorDetails.GetData(VendorCode, trans)
         If objVendor IsNot Nothing Then
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(TotalCommision), trans)
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(TotalCommision), trans, False, VendorCode)
             If (objDedDetails IsNot Nothing) Then
                 objRemittance = New clsRemittance()
                 objRemittance.Branch_Code = objVendor.Branch_Code
@@ -832,7 +832,7 @@ Public Class clsCSASaleInvoice
 
                 If objRemittance IsNot Nothing Then
                     '========================
-                    Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(obj.total_commision), trans)
+                    Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(obj.total_commision), trans, False, objVendorInvHead.Vendor_Code)
                     If (objDedDetails IsNot Nothing AndAlso objRemittance.IsApplyTDS) Then
                         objRemittance.TDS_Per = objDedDetails.TDS
                         objRemittance.Surcharge_Per = objDedDetails.Surcharge
@@ -1137,7 +1137,7 @@ Public Class clsCSASaleInvoice
 
                             If objRemittance IsNot Nothing Then
                                 '========================
-                                Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(dr("cmsn_amt")), trans)
+                                Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(dr("cmsn_amt")), trans, False, objVendorInvHead.Vendor_Code)
                                 If (objDedDetails IsNot Nothing AndAlso objRemittance.IsApplyTDS) Then
                                     objRemittance.TDS_Per = objDedDetails.TDS
                                     objRemittance.Surcharge_Per = objDedDetails.Surcharge
@@ -1387,7 +1387,7 @@ Public Class clsCSASaleInvoice
 
                             If objRemittance IsNot Nothing Then
                                 '========================
-                                Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(dr("frght_amt")), trans)
+                                Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(dr("frght_amt")), trans, False, objVendorInvHead.Vendor_Code)
                                 If (objDedDetails IsNot Nothing AndAlso objRemittance.IsApplyTDS) Then
                                     objRemittance.TDS_Per = objDedDetails.TDS
                                     objRemittance.Surcharge_Per = objDedDetails.Surcharge
