@@ -20,6 +20,14 @@ Public Class frmOwnBMCGainLossRate
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P  for Post ")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(rdbtnreset, "Press Alt+N Adding New")
+        MyLabel10.Visible = False
+        MyLabel7.Visible = False
+        MyLabel8.Visible = False
+        MyLabel9.Visible = False
+        txtGainFATPer.Visible = False
+        txtGainSNFPer.Visible = False
+        txtLossFATPer.Visible = False
+        txtLossSNFPer.Visible = False
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click

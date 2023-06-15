@@ -7765,6 +7765,9 @@ Public Class MDI
                     Case clsUserMgtCode.DBTNEFTUploader
                         frm = New frmDBTNEFTUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmCreateBMCDCSbyMobile
+                        frm = New FrmCreateBMCDCSbyMobile
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.DBTNEFTReject
                         frm = New frmDBTNEFTReject
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

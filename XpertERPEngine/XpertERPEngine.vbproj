@@ -397,6 +397,7 @@
     <Compile Include="JobWork Outward\clsJWOFormula.vb" />
     <Compile Include="Milk JobWork\clsJWIItemPriceMaster.vb" />
     <Compile Include="Milk Procurement\clsAcknowledgementEntry.vb" />
+    <Compile Include="Milk Procurement\clsBMCDCSMobile.vb" />
     <Compile Include="Milk Procurement\clsCapping.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFT.vb" />
     <Compile Include="Milk Procurement\clsDBTNEFTReject.vb" />

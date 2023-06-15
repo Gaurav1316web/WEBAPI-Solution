@@ -1538,9 +1538,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MPIncentiveEntry, "MP Incentive Entry", "1.17.02.46", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.DCSMPIncentiveReco, "DCS MP Incentive Reco", "1.17.02.47", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, "DBT NEFT Uploader", "1.17.02.48", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, True, Nothing)
-        InsertDefaultValue(clsUserMgtCode.DBTNEFTReject, "DBT NEFT Reject", "1.17.02.49", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.50", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmCreateBMCDCSbyMobile, "BMC DCS Mobile", "1.17.02.49", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.DBTNEFTReject, "DBT NEFT Reject", "1.17.02.50", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.52", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
 
         '=========================================================================================
         '--Reportsmdi
