@@ -454,4 +454,8 @@ group by FINAL3.company_name,FINAL3.[Vendor Code],FINAL3.[Vendor Name],FINAL3.[V
         End Try
 
     End Sub
+
+    Private Sub RadPageView1_SelectedPageChanged(sender As Object, e As EventArgs) Handles RadPageView1.SelectedPageChanged
+
+    End Sub
 End Class
