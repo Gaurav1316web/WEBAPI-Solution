@@ -68,8 +68,8 @@ Partial Class FrmCreateBMCDCSbyMobile
         Me.txtdate.Size = New System.Drawing.Size(102, 18)
         Me.txtdate.TabIndex = 11
         Me.txtdate.TabStop = False
-        Me.txtdate.Text = "13/06/2011"
-        Me.txtdate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtdate.Text = "16/06/2023"
+        Me.txtdate.Value = New Date(2023, 6, 16, 0, 0, 0, 0)
         '
         'btnGo
         '
