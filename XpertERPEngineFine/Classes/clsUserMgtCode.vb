@@ -42,7 +42,7 @@ Public Class clsUserMgtCode
     'Public Const RptRouteWiseTrendBar As String = "RPT_Route"
     Public Const rptMccCollectionDetails As String = "RPT_MCC_COL"
     Public Const rptMccMasterDetail As String = "RPT_MCC_DET"
-    Public Const rptListofCowDCS As String = "RPT_LIST_COW_DCS"
+    Public Const rptListofCowDCS As String = "COW-LST-RPT"
     Public Const rptMccProcurementUploader As String = "RPT_MCC_UP"
     Public Const rptMCCWiseAbstractReport As String = "RPT_MCC_ABST"
     Public Const rptCollectionDataChangeReport As String = "RPT_MCC_CDC"
