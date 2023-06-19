@@ -1371,6 +1371,12 @@
     <Compile Include="Milk Procurement\Reports\rptFarmerPaymentApprovalReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Reports\rptListofCowDCS.Designer.vb">
+      <DependentUpon>rptListofCowDCS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Reports\rptListofCowDCS.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Reports\rptMCCBillGenrationStatus.Designer.vb">
       <DependentUpon>rptMCCBillGenrationStatus.vb</DependentUpon>
     </Compile>
@@ -6046,6 +6052,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Reports\rptFarmerPaymentApprovalReport.resx">
       <DependentUpon>rptFarmerPaymentApprovalReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Reports\rptListofCowDCS.resx">
+      <DependentUpon>rptListofCowDCS.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Reports\rptMCCBillGenrationStatus.resx">
       <DependentUpon>rptMCCBillGenrationStatus.vb</DependentUpon>
