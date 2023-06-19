@@ -42,12 +42,14 @@ Public Class clsUserMgtCode
     'Public Const RptRouteWiseTrendBar As String = "RPT_Route"
     Public Const rptMccCollectionDetails As String = "RPT_MCC_COL"
     Public Const rptMccMasterDetail As String = "RPT_MCC_DET"
+    Public Const rptListofCowDCS As String = "RPT_LIST_COW_DCS"
     Public Const rptMccProcurementUploader As String = "RPT_MCC_UP"
     Public Const rptMCCWiseAbstractReport As String = "RPT_MCC_ABST"
     Public Const rptCollectionDataChangeReport As String = "RPT_MCC_CDC"
     'Public Const rptFarmerPaymentApprovalReport As String = "RPT_MCC_FPA"
     Public Const rptMCCPaymentSummary As String = "RPT_MCC_PS"
     Public Const FrmItemCostUOM As String = "Cost-UOM"
+
 
     '' add masters
     Public Const FrmFarmerPaymMCCFarmerMapping As String = "FPMCCFMapp"

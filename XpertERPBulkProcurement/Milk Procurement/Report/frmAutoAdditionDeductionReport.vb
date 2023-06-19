@@ -351,7 +351,7 @@ Public Class frmAutoAdditionDeductionReport
 
 
 
-            Qry = "select round(row_number() over(order by(select 1)),0) as SNo, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code]
+            Qry = "select round(row_number() over(order by(select 1)),0) as SNo, cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [DCS Code] 
                                     ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code]
 									,TSPL_VLC_MASTER_HEAD.VLC_Name as [Vender Name]
                                      ,TSPL_MCC_MASTER.MCC_Name as Area
@@ -378,7 +378,7 @@ Public Class frmAutoAdditionDeductionReport
 									where 
 									convert(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "'  and CONVERT(date,TSPL_MILK_RECEIPT_DETAIL.DOC_DATE,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  
 									group by TSPL_MILK_RECEIPT_DETAIL.VSP_CODE) MILK_RECEIPT_DETAIL ON MILK_RECEIPT_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
-                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + Qry1 + Qry2 + ""
+                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + Qry1 + Qry2 + " order by [DCS Code] asc "
 
 
 
