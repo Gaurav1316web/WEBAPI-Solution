@@ -22972,7 +22972,7 @@ Public Class clsCreateAllTable
             coll.Add("Posted_By", "varchar(12)  NULL")
             coll.Add("Slip_No", "Varchar(30) null")
             coll.Add("Trip_No", "Integer not NULL default 1")
-            coll.Add("REF_PK_ID_BMCDCS", "integer NOT NULL references TSPL_MILK_COLLECTION_BMCDCS(PK_ID)")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC_DETAIL' and COLUMN_NAME='Against_Multiple_Days'"
@@ -22996,6 +22996,7 @@ Public Class clsCreateAllTable
             coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
             coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
             coll.Add("Against_Multiple_Days", "integer NULL references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL(PK_Id)")
+            coll.Add("REF_PK_ID_BMCDCS", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then

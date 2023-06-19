@@ -112,7 +112,11 @@ Public Class clsBMCDCS_DCS
             Dim dt As DataTable
             Dim obj As clsBMCDCSMobile = New clsBMCDCSMobile()
 
-            Dim strQry As String = "select TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.PK_ID,
+            '            Dim strQry As String = "select max(REF_PK_ID) as REF_PK_ID,max(PK_ID) as PK_ID,VLC_Code,IShift,sum(Qty) as Qty,Sum(FAT) as FAT,sum(SNF) as SNF,sum(FATKG) as FATKG,sum(SNFKG)as SNFKG
+            'from TSPL_MILK_COLLECTION_BMCDCS_DCS where TSPL_MILK_COLLECTION_BMCDCS_DCS.Ref_pk_id=" + clsCommon.myCstr(PK_ID) + "
+            ' group by TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code, TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift
+            '"
+            Dim strQry = "select TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.PK_ID,
 TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code,
 TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,
 TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty,

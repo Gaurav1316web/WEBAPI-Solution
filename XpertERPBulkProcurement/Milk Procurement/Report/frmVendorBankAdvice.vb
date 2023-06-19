@@ -304,7 +304,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
             Gv1.Columns("Date_Range").HeaderText = "Date Range"
             Gv1.Columns("Date_Range").IsVisible = False
 
-            Gv1.Columns("VLC_CODE_Uploader").HeaderText = "Code"
+            Gv1.Columns("VLC_CODE_Uploader").HeaderText = "DCS Code"
             Gv1.Columns("VLC_CODE_Uploader").IsVisible = True
 
             Gv1.Columns("Payee_Joint_Name").HeaderText = "Society Name"

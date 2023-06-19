@@ -16,7 +16,7 @@ Public Class FrmCreateBMCDCSbyMobile
             For Each lst As clsBMCDCSMobile In lstObj
 
                 Dim qryStr As String = "select *
-from TSPL_MILK_COLLECTION_MCC, TSPL_MILK_COLLECTION_BMCDCS where TSPL_MILK_COLLECTION_MCC.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK_ID)
+from TSPL_MILK_COLLECTION_MCC, TSPL_MILK_COLLECTION_BMCDCS where TSPL_MILK_COLLECTION_MCC.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK_ID) + "and TSPL_MILK_COLLECTION_MCC.TRip_No=" + clsCommon.myCstr(lst.Trip_No)
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qryStr)
                 If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -42,13 +42,37 @@ from TSPL_MILK_COLLECTION_MCC, TSPL_MILK_COLLECTION_BMCDCS where TSPL_MILK_COLLE
                         Throw New Exception("Please Fill at list one Item")
                     End If
                     obj.SaveData(obj, isNewEntry)
+                    clsCommon.MyMessageBoxShow(Me, "BMC Truck Sheet Data saved successfully", Me.Text)
+                    'LoadData(obj.Document_No, NavigatorType.Current)
+
+                    Dim obj_Dcs As New clsMilkCollectionDCS()
+                    obj_Dcs.Document_No = lst.Document_No
+                    obj_Dcs.Document_Date = lst.Document_Date
+                    'obj_Dcs.Description = txtDesc.Text
+                    'obj_Dcs.Slip_No = txtSlipNo.Text
+                    obj_Dcs.Arr = GetDCSTRData(False, lst)
+                    If (obj_Dcs.Arr Is Nothing OrElse obj_Dcs.Arr.Count <= 0) Then
+                        Throw New Exception("Please Fill at list one Item")
+                    End If
+                    obj_Dcs.ArrMCC = New List(Of clsMilkCollectionDCSMCCDetail)
+                    For ii As Integer = 0 To lst.Arr_BMCDCS_Trip.Count - 1
+                        Dim objtrMCC As New clsMilkCollectionDCSMCCDetail
+                        objtrMCC.Against_Milk_Collection_MCC_Detail = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL Order by TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id desc"))
+                        obj_Dcs.ArrMCC.Add(objtrMCC)
+                    Next
+                    If (obj_Dcs.ArrMCC Is Nothing OrElse obj_Dcs.ArrMCC.Count <= 0) Then
+                        Throw New Exception("Please Fill at list one BMC Details")
+                    End If
+                    obj_Dcs.SaveData(obj_Dcs, isNewEntry)
                     clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     'LoadData(obj.Document_No, NavigatorType.Current)
+                    'End If
                 End If
 
             Next
 
         Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
 
@@ -78,6 +102,73 @@ from TSPL_MILK_COLLECTION_MCC, TSPL_MILK_COLLECTION_BMCDCS where TSPL_MILK_COLLE
                         'objTr.Gaze_Reading_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colGazeReadingCode).Value)
                         'objTr.Gaze_Reading = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colGazeReading).Value)
                         'objTr.Silo_Capacity = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMCCSiloCapacity).Value)
+                        Arr.Add(objTr)
+                    End If
+                End If
+            End If
+        Next
+        Return Arr
+    End Function
+    Function GetDCSTRData(ByVal isMissingOnly As Boolean, ByRef lst As clsBMCDCSMobile) As List(Of clsMilkCollectionDCSDetail)
+        Dim Arr As New List(Of clsMilkCollectionDCSDetail)
+        For ii As Integer = 0 To lst.Arr_BMCDCS_DCS.Count - 1
+            If clsCommon.myLen(lst.Arr_BMCDCS_DCS(ii).VLC_Code) > 0 Then
+                Dim flag As Boolean = True
+                If clsCommon.CompairString(lst.Arr_BMCDCS_DCS(ii).IShift, "E") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).Qty) > 0 Then
+                    'If clsCommon.myCDecimal(lst.Arr_BMCDCS_DCS(ii).REF_PK_ID) > 0 AndAlso isMissingOnly Then
+                    'flag = False
+                    'End If
+                    If flag Then
+                        Dim objTr As New clsMilkCollectionDCSDetail()
+                        objTr.SNo = ii + 1
+                        objTr.VLC_Code = clsCommon.myCstr(lst.Arr_BMCDCS_DCS(ii).VLC_Code)
+                        objTr.Shift = "E"
+                        objTr.Milk_Type = clsCommon.myCstr("Good")
+                        'objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
+                        objTr.Qty = clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).Qty)
+                        objTr.FAT = Math.Round(clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).FAT), 1, MidpointRounding.ToEven)
+                        objTr.SNF = Math.Round(clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).SNF), 2, MidpointRounding.ToEven)
+                        objTr.FATKG = clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).FATKG)
+                        objTr.SNFKG = clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).SNFKG)
+                        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
+                        If intRejectApplicableOn <> 1 Then
+                            If objTr.FAT <= 0 Then
+                                Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
+                            If objTr.SNF <= 0 Then
+                                Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
+                        End If
+                        Arr.Add(objTr)
+                    End If
+                End If
+
+                flag = True
+                If clsCommon.CompairString(lst.Arr_BMCDCS_DCS(ii).IShift, "M") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).Qty) > 0 Then
+                    'If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningPKID).Value) > 0 AndAlso isMissingOnly Then
+                    '    flag = False
+                    'End If
+                    If flag Then
+                        Dim objTr As New clsMilkCollectionDCSDetail()
+                        objTr.SNo = ii + 1
+                        objTr.VLC_Code = clsCommon.myCstr(lst.Arr_BMCDCS_DCS(ii).VLC_Code)
+                        objTr.Shift = "M"
+                        objTr.Milk_Type = clsCommon.myCstr("Good")
+                        'objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
+                        objTr.Qty = clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).Qty)
+                        objTr.FAT = Math.Round(clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).FAT), 1, MidpointRounding.ToEven)
+                        objTr.SNF = Math.Round(clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).SNF), 2, MidpointRounding.ToEven)
+                        objTr.FATKG = clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).FATKG)
+                        objTr.SNFKG = clsCommon.myCdbl(lst.Arr_BMCDCS_DCS(ii).SNFKG)
+                        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
+                        If intRejectApplicableOn <> 1 Then
+                            If objTr.FAT <= 0 Then
+                                Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
+                            If objTr.SNF <= 0 Then
+                                Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
+                        End If
                         Arr.Add(objTr)
                     End If
                 End If
