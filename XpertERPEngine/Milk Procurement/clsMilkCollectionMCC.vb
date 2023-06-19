@@ -19,6 +19,7 @@ Public Class clsMilkCollectionMCC
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posting_Date As DateTime? = Nothing
     Public FAT_SNF_Type As Integer
+    Public REF_PK_ID As Integer
     Public Arr As List(Of clsMilkCollectionMCCDetail) = Nothing
 
     Public Temp As Decimal
@@ -58,6 +59,7 @@ Public Class clsMilkCollectionMCC
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "REF_PK_ID", obj.REF_PK_ID)
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Late", obj.Late)
             clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code, True)
