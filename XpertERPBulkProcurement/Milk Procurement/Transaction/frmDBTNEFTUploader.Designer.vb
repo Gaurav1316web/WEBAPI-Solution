@@ -21,9 +21,9 @@ Partial Class frmDBTNEFTUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblZone = New common.Controls.MyLabel()
@@ -466,7 +466,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(825, 321)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -490,7 +490,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MasterTemplate.AllowAddNewRow = False
         Me.gvFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFarmer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvFarmer.Name = "gvFarmer"
         Me.gvFarmer.ShowHeaderCellButtons = True
         Me.gvFarmer.Size = New System.Drawing.Size(804, 273)
@@ -516,7 +516,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(804, 273)
@@ -543,7 +543,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MasterTemplate.AllowAddNewRow = False
         Me.gvInvalid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvalid.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvInvalid.Name = "gvInvalid"
         Me.gvInvalid.ShowHeaderCellButtons = True
         Me.gvInvalid.Size = New System.Drawing.Size(804, 243)

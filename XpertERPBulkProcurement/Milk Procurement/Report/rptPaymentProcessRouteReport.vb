@@ -3189,6 +3189,8 @@ select * from CTE left outer join
     Sub SetGridFormationOFGV1()
         Gv1.TableElement.TableHeaderHeight = 40
         Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        Gv1.AutoExpandGroups = True
+        Gv1.ShowGroupPanel = True
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = True
@@ -3259,6 +3261,8 @@ select * from CTE left outer join
             dt.Columns.Add("SNo", GetType(String))
             dt.Columns.Add("Date", GetType(String))
             dt.Columns.Add("Document_No", GetType(String))
+            'dt.Columns.Add(New DataColumn("Route No", GetType(String)))
+            'dt.Columns.Add(New DataColumn("Route Name", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("Temp", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("Truck No", GetType(String)))
             dt.Columns.Add(New DataColumn("HeadWeight", System.Type.GetType("System.Decimal")))
@@ -3267,6 +3271,7 @@ select * from CTE left outer join
             dt.Columns.Add(New DataColumn("HeadFATKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("HeadSNFKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add("BMC", GetType(String))
+            'dt.Columns.Add(New DataColumn("Bmc Uploader Code", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailWeight", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailFAT", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailSNF", System.Type.GetType("System.Decimal")))
@@ -3435,6 +3440,8 @@ select * from CTE left outer join
             dt.Columns.Add("SNo", GetType(String))
             dt.Columns.Add("Date", GetType(String))
             dt.Columns.Add("Document_No", GetType(String))
+            dt.Columns.Add(New DataColumn("Route No", GetType(String)))
+            dt.Columns.Add(New DataColumn("Route Name", GetType(String)))
             dt.Columns.Add(New DataColumn("Temp", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("Truck No", GetType(String)))
             dt.Columns.Add(New DataColumn("HeadWeight", System.Type.GetType("System.Decimal")))
@@ -3443,6 +3450,7 @@ select * from CTE left outer join
             dt.Columns.Add(New DataColumn("HeadFATKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("HeadSNFKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add("BMC", GetType(String))
+            dt.Columns.Add(New DataColumn("Bmc Uploader Code", GetType(String)))
             dt.Columns.Add(New DataColumn("DetailWeight", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailFAT", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailSNF", System.Type.GetType("System.Decimal")))
@@ -3452,10 +3460,11 @@ select * from CTE left outer join
             dt.Columns.Add(New DataColumn("DiffFATKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DiffSNFKG", System.Type.GetType("System.Decimal")))
 
-            'Mcc Detail
+            ''Mcc Detail
             qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.document_date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC.Document_No,TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_MCC_DETAIL.* from TSPL_MILK_COLLECTION_MCC_DETAIL
                 left join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.document_no=TSPL_MILK_COLLECTION_MCC_DETAIL.document_no
                 left join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_CODE=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_CODE
+	           
                 where 1=1"
 
             qry += " And convert(date,TSPL_MILK_COLLECTION_MCC.document_date,103)>=convert(date,('" + dtpGainLossFromDate.Value + "'),103) and convert(date,TSPL_MILK_COLLECTION_MCC.document_date,103) <=convert(date,('" + dtpGainLossToDate.Value + "'),103) 
@@ -3464,9 +3473,16 @@ select * from CTE left outer join
             dtMCCDetail = clsDBFuncationality.GetDataTable(qry)
 
             'Mcc Head
-            qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.document_date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC.Document_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,TSPL_MILK_COLLECTION_MCC.Entered_Qty
+            qry = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader, convert(varchar,TSPL_MILK_COLLECTION_MCC.document_date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC.Document_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,TSPL_MILK_COLLECTION_MCC.Entered_Qty
                     ,(case when Entered_Qty>0 then (Entered_FATKg*100)/Entered_Qty else 0 end) as FAT
-                    ,(case when Entered_Qty>0 then (Entered_SNFKg*100)/Entered_Qty else 0 end) as SNF,TSPL_MILK_COLLECTION_MCC.Entered_FATKg,TSPL_MILK_COLLECTION_MCC.Entered_SNFKg,TSPL_MILK_COLLECTION_MCC.Temp from TSPL_MILK_COLLECTION_MCC
+                    ,(case when Entered_Qty>0 then (Entered_SNFKg*100)/Entered_Qty else 0 end) as SNF,TSPL_MILK_COLLECTION_MCC.Entered_FATKg,TSPL_MILK_COLLECTION_MCC.Entered_SNFKg,TSPL_MILK_COLLECTION_MCC.Temp,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME
+from
+TSPL_MILK_COLLECTION_MCC
+
+                   left join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
+	              left join (select max(mcc_code) as mcc_code,document_no from TSPL_MILK_COLLECTION_MCC_DETAIL group by document_no)detail
+	               on   detail.document_no=TSPL_MILK_COLLECTION_MCC.Document_No
+	               left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=detail.mcc_code
                 where 1=1"
 
             qry += " And convert(date,TSPL_MILK_COLLECTION_MCC.document_date,103)>=convert(date,('" + dtpGainLossFromDate.Value + "'),103) and convert(date,TSPL_MILK_COLLECTION_MCC.document_date,103) <=convert(date,('" + dtpGainLossToDate.Value + "'),103) 
@@ -3505,9 +3521,9 @@ select * from CTE left outer join
                     If dr1 IsNot Nothing AndAlso dr1.Length > 0 Then
                         TempdtMCCDetail = dr1.CopyToDataTable()
 
-                        dt.Rows.Add(DBNull.Value, DBNull.Value, dtMCCHead.Rows(i).Item("Document_No"), dtMCCHead.Rows(i).Item("Temp"), dtMCCHead.Rows(i).Item("Vehicle_No"), Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), Math.Round(dtMCCHead.Rows(i).Item("FAT"), 2), Math.Round(dtMCCHead.Rows(i).Item("SNF"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), TempdtMCCDetail.Rows(0).Item("MCC_NAME"), TempdtMCCDetail.Rows(0).Item("Qty"), TempdtMCCDetail.Rows(0).Item("FAT"), TempdtMCCDetail.Rows(0).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(0).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(0).Item("SNFKG"), 2), DBNull.Value, DBNull.Value, DBNull.Value)
+                        dt.Rows.Add(DBNull.Value, DBNull.Value, dtMCCHead.Rows(i).Item("Document_No"), dtMCCHead.Rows(i).Item("Route_Code"), dtMCCHead.Rows(i).Item("ROUTE_NAME"), dtMCCHead.Rows(i).Item("Temp"), dtMCCHead.Rows(i).Item("Vehicle_No"), Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), Math.Round(dtMCCHead.Rows(i).Item("FAT"), 2), Math.Round(dtMCCHead.Rows(i).Item("SNF"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), TempdtMCCDetail.Rows(0).Item("MCC_NAME"), dtMCCHead.Rows(i).Item("Mcc_Code_VLC_Uploader"), TempdtMCCDetail.Rows(0).Item("Qty"), TempdtMCCDetail.Rows(0).Item("FAT"), TempdtMCCDetail.Rows(0).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(0).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(0).Item("SNFKG"), 2), DBNull.Value, DBNull.Value, DBNull.Value)
                         For j As Integer = 1 To TempdtMCCDetail.Rows.Count - 1
-                            dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, TempdtMCCDetail.Rows(j).Item("MCC_NAME"), TempdtMCCDetail.Rows(j).Item("Qty"), TempdtMCCDetail.Rows(j).Item("FAT"), TempdtMCCDetail.Rows(j).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(j).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(j).Item("SNFKG"), 2), DBNull.Value, DBNull.Value, DBNull.Value)
+                            dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, TempdtMCCDetail.Rows(j).Item("MCC_NAME"), TempdtMCCDetail.Rows(j).Item("Mcc_Code_VLC_Uploader"), TempdtMCCDetail.Rows(j).Item("Qty"), TempdtMCCDetail.Rows(j).Item("FAT"), TempdtMCCDetail.Rows(j).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(j).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(j).Item("SNFKG"), 2), DBNull.Value, DBNull.Value, DBNull.Value)
                         Next
 
                         SumQty = Math.Round(clsCommon.myCdbl(TempdtMCCDetail.Compute("SUM([Qty])", " [Qty] is not null")), 2)
@@ -3525,7 +3541,7 @@ select * from CTE left outer join
                             AVGSNF = 0
                         End If
 
-                        dt.Rows.Add(clsCommon.myCstr(i + 1), clsCommon.myCstr(dtMCCHead.Rows(i).Item("Document_Date")), DBNull.Value, DBNull.Value, "Total", Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), DBNull.Value, DBNull.Value, Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), "Total", SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, VariationQty, VariationFATKG, VariationSNFKG)
+                        dt.Rows.Add(clsCommon.myCstr(i + 1), clsCommon.myCstr(dtMCCHead.Rows(i).Item("Document_Date")), DBNull.Value, clsCommon.myCstr(dtMCCHead.Rows(i).Item("Route_Code")), clsCommon.myCstr(dtMCCHead.Rows(i).Item("ROUTE_NAME")), DBNull.Value, "Total", Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), DBNull.Value, DBNull.Value, Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), "Total", DBNull.Value, SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, VariationQty, VariationFATKG, VariationSNFKG)
 
                     End If
                 Next
@@ -3558,7 +3574,7 @@ select * from CTE left outer join
                 GVariationFATKG = Math.Round(GSumFATKGHead - GSumFATKGDetail, 2)
                 GVariationSNFKG = Math.Round(GSumSNFKGHead - GSumSNFKGDetail, 2)
 
-                dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "G.Total", GSumQtyHead, GAVGFATHead, GAVGSNFHead, GSumFATKGHead, GSumSNFKGHead, "Total", GSumQtyDetail, GAVGFATDetail, GAVGSNFDetail, GSumFATKGDetail, GSumSNFKGDetail, GVariationQty, GVariationFATKG, GVariationSNFKG)
+                dt.Rows.Add(DBNull.Value, DBNull.Value, "G.Total", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumQtyHead, GAVGFATHead, GAVGSNFHead, GSumFATKGHead, GSumSNFKGHead, "Total", DBNull.Value, GSumQtyDetail, GAVGFATDetail, GAVGSNFDetail, GSumFATKGDetail, GSumSNFKGDetail, GVariationQty, GVariationFATKG, GVariationSNFKG)
             End If
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then

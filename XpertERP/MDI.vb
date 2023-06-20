@@ -9002,6 +9002,13 @@ Public Class MDI
                         frm = New rptMccMasterDetail
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.rptListofCowDCS
+                        frm = New rptListofCowDCS
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
+
+
                     Case clsUserMgtCode.rptMccProcurementUploader
                         frm = New rptMccProcurementUploaderReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
