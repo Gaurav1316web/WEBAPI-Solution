@@ -59,7 +59,7 @@ Public Class clsMilkCollectionMCC
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "REF_PK_ID", obj.REF_PK_ID)
+            'clsCommon.AddColumnsForChange(coll, "REF_PK_ID", obj.REF_PK_ID)
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Late", obj.Late)
             clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code, True)
@@ -308,6 +308,7 @@ Public Class clsMilkCollectionMCCDetail
     Public Gaze_Reading_Code As String
     Public Silo_Capacity As Integer
     Public Against_Multiple_Days As Integer
+    Public REF_PK_ID_BMCDCS_TRIP As Integer
 
 
 
@@ -348,7 +349,10 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Gaze_Reading_Code", obj.Gaze_Reading_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Silo_Capacity", obj.Silo_Capacity)
                 clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days", obj.Against_Multiple_Days, True)
+
+                clsCommon.AddColumnsForChange(coll, "REF_PK_ID_BMCDCS_TRIP", obj.REF_PK_ID_BMCDCS_TRIP, True)
                 clsCommon.AddColumnsForChange(coll, "IsUpdatedFromCorrection", IIf(IsUpdatedFromCorrection = True, 1, 0))
+
                 If obj.PK_Id > 0 Then
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(obj.PK_Id) + "' ", trans)
                 Else
