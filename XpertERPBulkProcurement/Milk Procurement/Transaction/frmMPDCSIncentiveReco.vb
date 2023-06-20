@@ -125,6 +125,13 @@ Public Class frmMPDCSIncentiveReco
                       "========Table Name=========" + Environment.NewLine +
                       "TSPL_DCS_MP_INCENTIVE_RECO_HEAD" + Environment.NewLine +
                       "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL" + Environment.NewLine)
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "MulProcDedReversAndCreate"
+            frm.strCode = "MulProcDedReversAndCreate"
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnReverse.Visible = True
+            End If
         End If
     End Sub
     Private Sub RadButton2_Click(sender As Object, e As EventArgs) Handles RadButton2.Click
@@ -1171,6 +1178,29 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTE
         txtZone.Value = ClsZoneMaster.getFinder(whr, txtZone.Value, isButtonClicked)
         lblZone.Text = ClsZoneMaster.GetName(txtZone.Value)
         GetDocNoAndLoad()
+    End Sub
+
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            'If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            '    '' REASON FOR DELETE 
+            '    Dim Reason As String = ""
+            '    Dim frm As New FrmFreeTxtBox1
+            '    frm.Text = "Remarks for Reverse"
+            '    frm.ShowDialog()
+            '    If clsCommon.myLen(frm.strRmks) <= 0 Then
+            '        Exit Sub
+            '    Else
+            '        Reason = frm.strRmks
+            '    End If
+
+            '    clsMilkCollectionMCC.ReverseAndUnpost(txtDocNo.Value)
+            '    clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+            '    LoadData(txtDocNo.Value, NavigatorType.Current)
+            'End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
 

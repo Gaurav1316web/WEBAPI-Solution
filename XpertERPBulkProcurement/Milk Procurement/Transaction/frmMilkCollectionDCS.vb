@@ -190,12 +190,12 @@ Public Class frmMilkCollectionDCS
         repoComboBox.HeaderText = "Type"
         repoComboBox.Name = colDocCollectionMilkType
         repoComboBox.Width = 100
-        repoComboBox.ReadOnly = True
+        repoComboBox.ReadOnly = Not objCommonVar.DisplayTypeInMilkReceipt
         repoComboBox.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         repoComboBox.DataSource = clsMilkReceiptMCC.GetMilkType(False)
         repoComboBox.ValueMember = "Code"
         repoComboBox.DisplayMember = "Name"
-        repoComboBox.IsVisible = False
+        repoComboBox.IsVisible = objCommonVar.DisplayTypeInMilkReceipt
         gv1.MasterTemplate.Columns.Add(repoComboBox)
 
         Dim repoTextBox2 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -641,7 +641,9 @@ Public Class frmMilkCollectionDCS
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             gv1.CurrentRow.Cells(colVLCCode).Value = clsCommon.myCstr(dt.Rows(0)("VLC_Code"))
             gv1.CurrentRow.Cells(colVLCName).Value = clsCommon.myCstr(dt.Rows(0)("VLC_Name"))
-            gv1.CurrentRow.Cells(colDocCollectionMilkType).Value = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_Cow_Price")) = 1, "C", "M")
+            If Not objCommonVar.DisplayTypeInMilkReceipt Then
+                gv1.CurrentRow.Cells(colDocCollectionMilkType).Value = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_Cow_Price")) = 1, "C", "M")
+            End If
             If Not clsCommon.CompairString(clsCommon.myCstr(txtMCC.Tag), clsCommon.myCstr(dt.Rows(0)("MCC"))) = CompairStringResult.Equal Then
                 clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]", Me.Text)
             End If
@@ -717,11 +719,14 @@ Public Class frmMilkCollectionDCS
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFPer).Value), 2, MidpointRounding.ToEven)
                         objTr.FATKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningFATKG).Value)
                         objTr.SNFKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFKG).Value)
-                        If objTr.FAT <= 0 Then
-                            Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                        End If
-                        If objTr.SNF <= 0 Then
-                            Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
+                        If intRejectApplicableOn <> 1 Then
+                            If objTr.FAT <= 0 Then
+                                Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
+                            If objTr.SNF <= 0 Then
+                                Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
                         End If
                         Arr.Add(objTr)
                     End If
@@ -744,11 +749,14 @@ Public Class frmMilkCollectionDCS
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFPer).Value), 2, MidpointRounding.ToEven)
                         objTr.FATKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningFATKG).Value)
                         objTr.SNFKG = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFKG).Value)
-                        If objTr.FAT <= 0 Then
-                            Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                        End If
-                        If objTr.SNF <= 0 Then
-                            Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
+                        If intRejectApplicableOn <> 1 Then
+                            If objTr.FAT <= 0 Then
+                                Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
+                            If objTr.SNF <= 0 Then
+                                Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                            End If
                         End If
                         Arr.Add(objTr)
                     End If
@@ -960,6 +968,12 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
             If gv1.CurrentCell.ColumnInfo.Name = colMilkType Then
                 '    gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
                 'ElseIf gv1.CurrentCell.ColumnInfo.Name = colDocCollectionMilkType Then
+                If objCommonVar.DisplayTypeInMilkReceipt Then
+                    gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
+                Else
+                    gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
+                End If
+            ElseIf gv1.CurrentCell.ColumnInfo.Name = colDocCollectionMilkType Then
                 gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
             ElseIf gv1.CurrentCell.ColumnInfo.Name = colVLCUploaderCode Then
                 If SettHideShiftCollection <> 1 Then
@@ -996,7 +1010,11 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
                             gv1.CurrentRow.Cells(colDocCollectionMilkType).Value = strDocCollectionMilkType
                         End If
                     End If
-                    gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
+                    If objCommonVar.DisplayTypeInMilkReceipt Then
+                        gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
+                    Else
+                        gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
+                    End If
                 End If
             ElseIf (gv1.CurrentCell.ColumnInfo.Name = colMorningQty) Then
                 If SettFATSNFNoDecimalDCS Then
@@ -1024,7 +1042,11 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
                         gv1.CurrentRow.Cells(colDocCollectionMilkType).Value = strDocCollectionMilkType
                     End If
                 End If
-                gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
+                If objCommonVar.DisplayTypeInMilkReceipt Then
+                    gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
+                Else
+                    gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
+                End If
             End If
         End If
     End Sub

@@ -5862,7 +5862,7 @@ Public Class MDI
                     '--------------------TDS Master-----------------------------
 
                     Case clsUserMgtCode.NatureOfDeduction
-                        frm = New frmNatureOfDeduction(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
+                        frm = New frmNatureOfDeduction()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.PartyDetails
                         frm = New frmPartyDetails(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
@@ -7765,6 +7765,9 @@ Public Class MDI
                     Case clsUserMgtCode.DBTNEFTUploader
                         frm = New frmDBTNEFTUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmCreateBMCDCSbyMobile
+                        frm = New FrmCreateBMCDCSbyMobile
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.DBTNEFTReject
                         frm = New frmDBTNEFTReject
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8998,6 +9001,13 @@ Public Class MDI
                     Case clsUserMgtCode.rptMccMasterDetail
                         frm = New rptMccMasterDetail
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptListofCowDCS
+                        frm = New rptListofCowDCS
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
+
 
                     Case clsUserMgtCode.rptMccProcurementUploader
                         frm = New rptMccProcurementUploaderReport

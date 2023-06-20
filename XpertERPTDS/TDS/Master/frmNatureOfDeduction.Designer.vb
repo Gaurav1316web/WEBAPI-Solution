@@ -32,6 +32,8 @@ Partial Class frmNatureOfDeduction
         Dim GridViewDecimalColumn4 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
         Dim GridViewDecimalColumn5 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
         Dim GridViewDecimalColumn6 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim GridViewDecimalColumn7 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.gbdesignation = New Telerik.WinControls.UI.RadGroupBox()
@@ -399,7 +401,7 @@ Partial Class frmNatureOfDeduction
         Me.dgvdeduction.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvdeduction.Location = New System.Drawing.Point(7, 155)
         '
-        'dgvdeduction
+        '
         '
         Me.dgvdeduction.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         GridViewTextBoxColumn1.HeaderText = "Line Number"
@@ -423,9 +425,13 @@ Partial Class frmNatureOfDeduction
         GridViewDecimalColumn6.HeaderText = "Sec.Edu.Cess %"
         GridViewDecimalColumn6.Name = "Sec.Edu.Cess %"
         GridViewDecimalColumn6.Width = 120
-        Me.dgvdeduction.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewDecimalColumn1, GridViewDecimalColumn2, GridViewDecimalColumn3, GridViewDecimalColumn4, GridViewDecimalColumn5, GridViewDecimalColumn6})
+        GridViewDecimalColumn7.HeaderText = "TDS Non PAN"
+        GridViewDecimalColumn7.Name = "column1"
+        Me.dgvdeduction.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewDecimalColumn1, GridViewDecimalColumn2, GridViewDecimalColumn3, GridViewDecimalColumn4, GridViewDecimalColumn5, GridViewDecimalColumn6, GridViewDecimalColumn7})
         Me.dgvdeduction.MasterTemplate.EnableGrouping = False
+        Me.dgvdeduction.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvdeduction.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvdeduction.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.dgvdeduction.Name = "dgvdeduction"
         Me.dgvdeduction.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvdeduction.ShowHeaderCellButtons = True
@@ -458,6 +464,7 @@ Partial Class frmNatureOfDeduction
         Me.ddldeduction.AutoCompleteDisplayMember = Nothing
         Me.ddldeduction.AutoCompleteValueMember = Nothing
         Me.ddldeduction.CalculationExpression = Nothing
+        Me.ddldeduction.DropDownAnimationEnabled = True
         Me.ddldeduction.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddldeduction.FieldCode = Nothing
         Me.ddldeduction.FieldDesc = Nothing
@@ -659,12 +666,9 @@ Partial Class frmNatureOfDeduction
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(851, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport, Me.menuExport, Me.menuClose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -672,21 +676,16 @@ Partial Class frmNatureOfDeduction
         'MenuImport
         '
         Me.MenuImport.AccessibleDescription = "MenuImport"
-        Me.MenuImport.AccessibleName = "Import"
         Me.MenuImport.Name = "MenuImport"
         Me.MenuImport.Text = "Import"
         '
         'menuExport
         '
-        Me.menuExport.AccessibleDescription = "Export"
-        Me.menuExport.AccessibleName = "Export"
         Me.menuExport.Name = "menuExport"
         Me.menuExport.Text = "Export"
         '
         'menuClose
         '
-        Me.menuClose.AccessibleDescription = "Close"
-        Me.menuClose.AccessibleName = "Close"
         Me.menuClose.Name = "menuClose"
         Me.menuClose.Text = "Close"
         '

@@ -179,6 +179,50 @@ Public Class clsMPDCSInsentiveReco
         End Try
         Return True
     End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Throw New Exception("Not implemented")
+            'Dim obj As clsMilkCollectionMCC = clsMilkCollectionMCC.GetData(strDocNo, NavigatorType.Current, trans)
+            'If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
+            '    clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
+            'End If
+
+            'If Not obj.Status = ERPTransactionStatus.Approved Then
+            '    clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
+            'End If
+
+            ''Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (
+            ''select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocNo + "')"
+            ''Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            ''If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            ''    Throw New Exception("BMC Truck Sheet Document No [" + strDocNo + "] is used in DCS Trcuk Sheet No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
+            ''End If
+
+            'Dim coll As New Hashtable()
+            'clsCommon.AddColumnsForChange(coll, "Status", 0)
+            'clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+            'clsCommon.AddColumnsForChange(coll, "Posting_Date", Nothing, True)
+            'clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_No + "'", trans)
+
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 End Class
 
 Public Class clsMPDCSInsentiveRecoDetail

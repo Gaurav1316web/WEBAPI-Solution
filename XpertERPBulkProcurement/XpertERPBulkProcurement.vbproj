@@ -200,6 +200,12 @@
     <Compile Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.Designer.vb">
+      <DependentUpon>FrmCreateBMCDCSbyMobile.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMilkCollectionGenerate.Designer.vb">
       <DependentUpon>frmMilkCollectionGenerate.vb</DependentUpon>
     </Compile>
@@ -632,6 +638,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.resx">
       <DependentUpon>rptTruckSheetDailySummaryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.resx">
+      <DependentUpon>FrmCreateBMCDCSbyMobile.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionGenerate.resx">
       <DependentUpon>frmMilkCollectionGenerate.vb</DependentUpon>

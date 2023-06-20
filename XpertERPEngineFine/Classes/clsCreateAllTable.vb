@@ -11199,6 +11199,7 @@ Public Class clsCreateAllTable
             coll.Add("Surcharge", "decimal (18,2) NULL")
             coll.Add("Educess", "decimal (18,2) NULL")
             coll.Add("Seceducess", "decimal (18,2) NULL")
+            coll.Add("TDS_Non_PAN", "decimal (18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_TDS_DEDUCTION_DETAIL", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
@@ -22971,6 +22972,7 @@ Public Class clsCreateAllTable
             coll.Add("Posted_By", "varchar(12)  NULL")
             coll.Add("Slip_No", "Varchar(30) null")
             coll.Add("Trip_No", "Integer not NULL default 1")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC_DETAIL' and COLUMN_NAME='Against_Multiple_Days'"
@@ -22994,6 +22996,7 @@ Public Class clsCreateAllTable
             coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
             coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
             coll.Add("Against_Multiple_Days", "integer NULL references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL(PK_Id)")
+            coll.Add("REF_PK_ID_BMCDCS", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -23728,6 +23731,7 @@ Public Class clsCreateAllTable
             coll.Add("RO_Increase_After", "integer not NULL default -1")
             coll.Add("Qty_UOM", "integer not NULL default 0")
             coll.Add("Milk_Type", "varchar(100) Not NULL default ('''Good''')")
+            coll.Add("Apply_TDS", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)

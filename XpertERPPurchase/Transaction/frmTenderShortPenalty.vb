@@ -507,9 +507,13 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
             Try
                 clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, tran)
                 If Not OnlyClearPenalty Then
+                    arrSRN = New ArrayList
                     For ii As Integer = 0 To dt.Rows.Count - 1
                         If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 Then
-                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, tran)
+                            If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
+                                clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, tran)
+                                arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
+                            End If
                         Else
                             Exit For
                         End If

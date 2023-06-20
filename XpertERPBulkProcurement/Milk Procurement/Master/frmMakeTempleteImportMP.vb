@@ -218,6 +218,24 @@ Public Class frmMakeTempleteImportMP
                     gvColumnsMain.Rows(gvColumnsMain.Rows.Count - 1).Cells(colExcel).Value = objTr.Column_Header
                 Next
             End If
+            If arrColsOrginal.Count <> obj.Arr.Count Then
+                For Each key As String In arrColsOrginal.Keys
+                    Dim flag As Boolean = False
+                    For Each objTr As clsExportTemplateDetail In obj.Arr
+                        If clsCommon.CompairString(objTr.Column_Name, key) = CompairStringResult.Equal Then
+                            flag = True
+                            Exit For
+                        End If
+                    Next
+                    If Not flag Then
+                        gvColumnsMain.Rows.AddNew()
+                        gvColumnsMain.Rows(gvColumnsMain.Rows.Count - 1).Cells(colSeqNo).Value = gvColumnsMain.Rows.Count
+                        gvColumnsMain.Rows(gvColumnsMain.Rows.Count - 1).Cells(colOrginal).Value = key
+                        gvColumnsMain.Rows(gvColumnsMain.Rows.Count - 1).Cells(colMandatory).Value = arrColsOrginal(key)
+                    End If
+                Next
+
+            End If
         End If
     End Sub
 
