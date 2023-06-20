@@ -22,7 +22,7 @@ Partial Class rptListofCowDCS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -102,7 +102,7 @@ Partial Class rptListofCowDCS
         Me.lblMCCOwnBMC.BorderVisible = True
         Me.lblMCCOwnBMC.FieldName = Nothing
         Me.lblMCCOwnBMC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMCCOwnBMC.Location = New System.Drawing.Point(239, 19)
+        Me.lblMCCOwnBMC.Location = New System.Drawing.Point(242, 33)
         Me.lblMCCOwnBMC.Name = "lblMCCOwnBMC"
         Me.lblMCCOwnBMC.Size = New System.Drawing.Size(201, 18)
         Me.lblMCCOwnBMC.TabIndex = 355
@@ -112,7 +112,7 @@ Partial Class rptListofCowDCS
         '
         Me.lblOwnMCC.FieldName = Nothing
         Me.lblOwnMCC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblOwnMCC.Location = New System.Drawing.Point(26, 20)
+        Me.lblOwnMCC.Location = New System.Drawing.Point(26, 34)
         Me.lblOwnMCC.Name = "lblOwnMCC"
         Me.lblOwnMCC.Size = New System.Drawing.Size(62, 16)
         Me.lblOwnMCC.TabIndex = 354
@@ -129,7 +129,7 @@ Partial Class rptListofCowDCS
         Me.txtMCCOwnBMC.IsSourceFromTable = False
         Me.txtMCCOwnBMC.IsSourceFromValueList = False
         Me.txtMCCOwnBMC.IsUnique = False
-        Me.txtMCCOwnBMC.Location = New System.Drawing.Point(108, 19)
+        Me.txtMCCOwnBMC.Location = New System.Drawing.Point(97, 33)
         Me.txtMCCOwnBMC.MendatroryField = True
         Me.txtMCCOwnBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCCOwnBMC.MyLinkLable1 = Me.lblOwnMCC
@@ -140,7 +140,7 @@ Partial Class rptListofCowDCS
         Me.txtMCCOwnBMC.ReferenceFieldDesc = Nothing
         Me.txtMCCOwnBMC.ReferenceFieldName = Nothing
         Me.txtMCCOwnBMC.ReferenceTableName = Nothing
-        Me.txtMCCOwnBMC.Size = New System.Drawing.Size(124, 18)
+        Me.txtMCCOwnBMC.Size = New System.Drawing.Size(140, 18)
         Me.txtMCCOwnBMC.TabIndex = 353
         Me.txtMCCOwnBMC.Value = ""
         '
@@ -168,7 +168,7 @@ Partial Class rptListofCowDCS
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
