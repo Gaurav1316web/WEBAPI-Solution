@@ -351,7 +351,7 @@ Public Class frmAutoAdditionDeductionReport
 
 
 
-            Qry = "select round(row_number() over(order by(select 1)),0) as SNo, cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [DCS Code] 
+            Qry = "select round(row_number() over(order by(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer))),0) as SNo, cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [DCS Code] 
                                     ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code]
 									,TSPL_VLC_MASTER_HEAD.VLC_Name as [Vender Name]
                                      ,TSPL_MCC_MASTER.MCC_Name as Area
