@@ -28,77 +28,118 @@ Public Class FrmVendorSecurity
     End Sub
 
     Sub Print(ByVal IsPrint As Exporter)
-        If fromDate.Value > ToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
-            fromDate.Focus()
-            Exit Sub
+        Try
+            If fromDate.Value > ToDate.Value Then
+                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                fromDate.Focus()
+                Exit Sub
+            End If
+            If ChkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
+                clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.")
+                Exit Sub
+            End If
+            If rbtnSecurity.IsChecked Then
+                ShowSecurity(IsPrint)
+            Else
+                ShowSaving()
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub ShowSaving()
+        'clsVedorInvoiceHead.GetVendorSecurity(rdbDetail.IsChecked, fromDate.Value, ToDate.Value, IIf(ChkVendorSelect.IsChecked, cbgVendor.CheckedValue, Nothing), txtVendorGroupMult.arrValueMember, txtLocationMult.arrValueMember)
+        Dim BaseQry As String = "select x.Document_No,convert(varchar, x.Document_Date,103) as Document_Date,x.DocumentType,x.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VENDOR_MASTER.Vendor_Name,x.Document_Amt from (
+select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as Document_Date,'Saving' DocumentType,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_INVOICE_HEAD.Document_Total as Document_Amt
+from TSPL_PAYMENT_PROCESS_SAVING
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
+where TSPL_VENDOR_INVOICE_HEAD.Posting_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and  TSPL_VENDOR_INVOICE_HEAD.Posting_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' "
+        If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
+            BaseQry += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ")"
         End If
-        'If chkSelectLocation.IsChecked AndAlso cbgLocation.CheckedValue.Count = 0 Then
-        '    clsCommon.MyMessageBoxShow("Please select atleast single Location or select all.")
-        '    Exit Sub
-        'End If
-        If ChkVendorSelect.IsChecked AndAlso cbgVendor.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single Vendor or select all.")
-            Exit Sub
+        If ChkVendorSelect.IsChecked Then
+            BaseQry += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in (" + clsCommon.GetMulcallString(cbgVendor.CheckedValue) + ")"
         End If
-        '''''===SHIVANI[BM00000007755] 
-        ''''Dim strWhrClause As String = ""
-        ''''If ChkVendorSelect.IsChecked And cbgVendor.CheckedValue.Count > 0 Then
-        ''''    strWhrClause += "and xxx.Vendor_Code  IN (" + clsCommon.GetMulcallString(cbgVendor.CheckedValue) + ") "
-        ''''End If
-        ''''If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
-        ''''    strWhrClause += " and xxx.Loc_Code in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ") " + Environment.NewLine
-        ''''End If
-        ''''If txtVendorGroupMult.arrValueMember IsNot Nothing AndAlso txtVendorGroupMult.arrValueMember.Count > 0 Then
-        ''''    strWhrClause += " and Vendor_Group_Code in (" + clsCommon.GetMulcallString(txtVendorGroupMult.arrValueMember) + ") " + Environment.NewLine
-        ''''End If
-        '''''If chkSelectLocation.IsChecked And cbgLocation.CheckedValue.Count > 0 Then
-        '''''    strWhrClause += "and Location_Code  IN (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
-        '''''End If
-        ''''Dim qry As String
-        ''''Dim squery As String
-        ''''Dim query As String
-        ''''Dim companyname As String = objCommonVar.CurrentCompanyName
-        ''''query = " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Description as Comments, TSPL_VENDOR_INVOICE_HEAD.Posting_Date as DocDate, 'AP Invoice' as Document_Type ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ,Loc_Code ,TSPL_GL_SEGMENT_CODE.Description,TSPL_DEDUCTION_MASTER.Description as Is_Security, case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' Then Amount Else 0 End as DrAmt, case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' Then Amount Else 0 End as CrAmt  from TSPL_VENDOR_INVOICE_HEAD   left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No =TSPL_VENDOR_INVOICE_HEAD.Document_No "
-        ''''query += " left join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER .Code =TSPL_VENDOR_INVOICE_DETAIL.DeductionCode left join TSPL_GL_SEGMENT_CODE on TSPL_VENDOR_INVOICE_HEAD.Loc_Code=TSPL_GL_SEGMENT_CODE.Segment_code  where TSPL_VENDOR_INVOICE_HEAD.Document_Type in ('D','C') AND Is_Security =1"
-        ''''query += " union all"
-        ''''query += " select TSPL_PAYMENT_HEADER.Payment_No,TSPL_PAYMENT_HEADER.Entry_Desc as Comments ,TSPL_PAYMENT_HEADER.Payment_Date  ,'Payment Entry' as Payment_Type ,TSPL_PAYMENT_HEADER.Vendor_Code ,TSPL_PAYMENT_HEADER.Location_GL_Code as Loc_Code, TSPL_GL_SEGMENT_CODE.Description,'Security' as Is_Security, 0 as DrAmt,  Payment_Amount  as CrAmt   from TSPL_PAYMENT_HEADER left join TSPL_GL_SEGMENT_CODE on TSPL_PAYMENT_HEADER.Location_GL_Code =TSPL_GL_SEGMENT_CODE.Segment_code where TSPL_PAYMENT_HEADER.Payment_Type ='RC' and Is_Security =1"
-        ''''query += " union all"
-        ''''query += " select TSPL_BANK_REVERSE.Reverse_Code,TSPL_BANK_REVERSE.Reason as Comments ,TSPL_BANK_REVERSE.Reversal_Date, 'Bank Reverse' as Payment_Type,TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_PAYMENT_HEADER.Location_GL_Code as Loc_Code, TSPL_GL_SEGMENT_CODE.Description, 'Security' as Is_Security, TSPL_PAYMENT_HEADER.Payment_Amount as DrAmt, 0 as CrAmt  from TSPL_BANK_REVERSE"
-        ''''query += " left join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No =TSPL_BANK_REVERSE.Document_No left join TSPL_GL_SEGMENT_CODE on TSPL_PAYMENT_HEADER.Location_GL_Code =TSPL_GL_SEGMENT_CODE.Segment_code"
-        ''''query += " where Reverse_Document ='Payments' and TSPL_PAYMENT_HEADER.Is_Security =1"
+        BaseQry += " union all
+Select TSPL_PAYMENT_HEADER.Payment_No as Document_No,TSPL_PAYMENT_HEADER.Payment_Date as Document_Date,'Payment' as DocumentType,TSPL_PAYMENT_HEADER.Vendor_Code,-1*TSPL_PAYMENT_HEADER.Payment_Amount as Document_Amt from TSPL_PAYMENT_HEADER 
+where isnull(TSPL_PAYMENT_HEADER.Saving,0)=1 and Payment_Type='OA' and 
+TSPL_PAYMENT_HEADER.Payment_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and  TSPL_PAYMENT_HEADER.Payment_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+        If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
+            BaseQry += " and TSPL_PAYMENT_HEADER.Location_GL_Code in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ")"
+        End If
+        If ChkVendorSelect.IsChecked Then
+            BaseQry += " and TSPL_PAYMENT_HEADER.Vendor_Code in (" + clsCommon.GetMulcallString(cbgVendor.CheckedValue) + ")"
+        End If
+        BaseQry += ")x 
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=x.Vendor_Code
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=x.Vendor_Code
+where 2=2 "
+        If ChkVendorSelect.IsChecked Then
+            BaseQry += " and TSPL_VENDOR_MASTER.Vendor_Group_Code in (" + clsCommon.GetMulcallString(cbgVendor.CheckedValue) + ")"
+        End If
+
+        Dim qry As String = ""
+        If rdbSummary.IsChecked Then
+            qry = "select xx.Vendor_Code,max(xx.VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(Vendor_Name) as Vendor_Name,sum(Document_Amt) as Document_Amt  from (" + BaseQry + ")xx group by xx.Vendor_Code"
+        Else
+            qry = BaseQry + " order by x.Document_Date "
+
+        End If
+        Dim dtgv As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
+            Gv1.DataSource = Nothing
+
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.DataSource = dtgv
+
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
+            FormatGridSavingDetails()
+
+            If rdbSummary.IsChecked Then
+                Gv1.Tag = "Summary"
+            Else
+                Gv1.Tag = "Details"
+            End If
+
+            RadPageView1.SelectedPage = RadPageViewPage2
+            ReStoreGridLayout()
+            Gv1.MasterTemplate.AllowAddNewRow = False
 
 
-        ''''squery = "select '" & companyname & "' as companyname,'" & clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") & "'  as fromDate,'" & clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") & "'  as Todate ,ROW_NUMBER() OVER ( ORDER BY final.Vendor_Code) as RowNo,convert(varchar,DocDate,103) as DocDate, Document_No,Comments, Document_Type, Vendor_Code, Vendor_Name,Loc_Code,Description,Vendor_Group_Code,Group_Desc,Is_Security, Opening ,DrAmt,CrAmt,SUM(TempClosing) OVER (Partition BY final.Vendor_Code ORDER BY RowNo) as Closing   from (Select *,Opening-DrAmt+CrAmt as TempClosing, ROW_NUMBER() OVER (Partition BY Vendor_Code ORDER BY Vendor_Code, DocDate) as RowNo from ("
-        ''''squery += " Select XXX.Vendor_Code, MAX(TSPL_VENDOR_MASTER.Vendor_Name) as Vendor_Name,Loc_Code ,max(xxx.Description ) as Description,(TSPL_VENDOR_MASTER.Vendor_Group_Code) as Vendor_Group_Code ,max(TSPL_VENDOR_GROUP.Group_Desc) as Group_Desc, '' as Document_No,'' as Comments, NULL as DocDate, 'Opening' as Document_Type, SUM(CrAmt)-SUM(DrAmt) as Opening, 0 as DrAmt, 0 as CrAmt,(Is_Security ) as Is_Security  from ( "
-        ''''squery += " " + query + " "
-        ''''squery += " )XXX LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=XXX.Vendor_Code left join TSPL_VENDOR_GROUP on TSPL_VENDOR_GROUP.Ven_Group_Code =TSPL_VENDOR_MASTER.Vendor_Group_Code WHERE 2=2 and CONVERT(Date,DocDate,103)< CONVERT(Date,'" + fromDate.Value + "',103) "
-        ''''squery += " " + strWhrClause + " "
-        ''''squery += "  Group By XXX.Vendor_Code,xxx.Loc_Code,TSPL_VENDOR_MASTER.Vendor_Group_Code,Is_Security"
-        ''''squery += " union all "
-        ''''squery += " Select XXX.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Name,xxx.Loc_Code,xxx.Description,Vendor_Group_Code ,Group_Desc, Document_No,Comments, DocDate, Document_Type, 0 as Opening, DrAmt, CrAmt,Is_Security from ("
-        ''''squery += " " + query + " "
-        ''''squery += " ) XXX LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=XXX.Vendor_Code left join TSPL_VENDOR_GROUP on TSPL_VENDOR_GROUP.Ven_Group_Code =TSPL_VENDOR_MASTER.Vendor_Group_Code WHERE 2=2 and CONVERT(Date,DocDate,103)>=CONVERT(Date,'" + fromDate.Value + "',103) AND CONVERT(Date,DocDate,103)<=CONVERT(Date,'" + ToDate.Value + "',103)"
-        ''''squery += " " + strWhrClause + " "
-        ''''squery += ") YYY )final"
-        ''''If rdbDetail.IsChecked Then
-        ''''    squery += " ORDER BY Vendor_Code "  ' done by richa agarwal against ticket no BM00000008908 on 25 feb,2016   '', DocDate"
-        ''''End If
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            Dim strTemp As String = ""
+            arrHeader.Add("From Date : " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + " ")
+            arrHeader.Add("Company : " + objCommonVar.CurrentCompanyName)
+            If ChkVendorSelect.IsChecked Then
+                Dim strLocationName As String = ""
+                For Each StrName As String In cbgVendor.CheckedDisplayMember
+                    If clsCommon.myLen(strLocationName) > 0 Then
+                        strLocationName += ", "
+                    End If
+                    strLocationName += StrName
+                Next
+                Dim strLocationCode As String = ""
+                For Each StrCode As String In cbgVendor.CheckedValue
+                    If clsCommon.myLen(strLocationCode) > 0 Then
+                        strLocationCode += ", "
+                    End If
+                    strLocationCode += StrCode
+                Next
+                arrHeader.Add(("Vendor: " + strLocationName + " "))
+            End If
 
-        ''''If rdbDetail.IsChecked Then
-        ''''    qry = "" + squery + ""
-        ''''Else
-        ''''    qry = "select Vendor_Code ,max(Vendor_Name ) as Vendor_Name,max(companyname) as companyname, max(fromDate) as fromDate , max(Todate) as Todate,max(Is_Security) as Is_Security  ,Loc_Code,max(Description) as Description,Vendor_Group_Code,max(Group_Desc) as Group_Desc,sum(Opening ) as Opening, sum(DrAmt) as DrAmt,sum(CrAmt) as CrAmt,SUM(Opening)-SUM(DrAmt)+SUM(CrAmt) as Closing from ("
-        ''''    qry += "" & squery & ""
+        Else
+            clsCommon.MyMessageBoxShow("No Data Found")
+        End If
+    End Sub
 
-        ''''    qry += " ) summary group by summary.Vendor_Code,summary .Loc_Code,summary .Vendor_Group_Code "
-        ''''End If
+    Private Sub ShowSecurity(ByVal IsPrint As Exporter)
         Dim qry As String = clsVedorInvoiceHead.GetVendorSecurity(rdbDetail.IsChecked, fromDate.Value, ToDate.Value, IIf(ChkVendorSelect.IsChecked, cbgVendor.CheckedValue, Nothing), txtVendorGroupMult.arrValueMember, txtLocationMult.arrValueMember)
-
-        Dim dtgv As New DataTable
-
-
-        dtgv = clsDBFuncationality.GetDataTable(qry)
+        Dim dtgv As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
             Gv1.DataSource = Nothing
 
@@ -115,7 +156,6 @@ Public Class FrmVendorSecurity
                 Gv1.Tag = "Summary"
             Else
                 Gv1.Tag = "Details"
-
             End If
             '===============added by shivani against ticket[BM00000008613]  Ticket No : KDI/03/01/19-000447 By Prabhakar add Summary rpt File
             If btnReferesh = False Then
@@ -161,12 +201,84 @@ Public Class FrmVendorSecurity
         Else
             clsCommon.MyMessageBoxShow("No Data Found")
         End If
-
     End Sub
 
+    Sub FormatGridSavingDetails()
+        Gv1.TableElement.TableHeaderHeight = 20
+        Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To Gv1.Columns.Count - 1
+            Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = False
+        Next
+        If rdbDetail.IsChecked Then
+
+            Gv1.Columns("Document_No").IsVisible = True
+            Gv1.Columns("Document_No").Width = 100
+            Gv1.Columns("Document_No").HeaderText = "Document No"
+
+            Gv1.Columns("Document_Date").IsVisible = True
+            Gv1.Columns("Document_Date").Width = 100
+            Gv1.Columns("Document_Date").HeaderText = "Document Date"
+
+
+            Gv1.Columns("DocumentType").IsVisible = True
+            Gv1.Columns("DocumentType").Width = 100
+            Gv1.Columns("DocumentType").HeaderText = "Document Type"
+
+            Gv1.Columns("Vendor_Code").IsVisible = False
+            Gv1.Columns("Vendor_Code").Width = 100
+            Gv1.Columns("Vendor_Code").HeaderText = "Vendor Code"
+
+            Gv1.Columns("VLC_Code_VLC_Uploader").IsVisible = True
+            Gv1.Columns("VLC_Code_VLC_Uploader").Width = 100
+            Gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Code"
+
+            Gv1.Columns("Vendor_Name").IsVisible = True
+            Gv1.Columns("Vendor_Name").Width = 200
+            Gv1.Columns("Vendor_Name").HeaderText = " DCS Name"
+
+
+
+            Gv1.Columns("Document_Amt").IsVisible = True
+            Gv1.Columns("Document_Amt").Width = 150
+            Gv1.Columns("Document_Amt").HeaderText = "Amount"
+
+        ElseIf rdbSummary.IsChecked Then
+
+            Gv1.Columns("Vendor_Code").IsVisible = False
+            Gv1.Columns("Vendor_Code").Width = 100
+            Gv1.Columns("Vendor_Code").HeaderText = "Vendor Code"
+
+            Gv1.Columns("VLC_Code_VLC_Uploader").IsVisible = True
+            Gv1.Columns("VLC_Code_VLC_Uploader").Width = 100
+            Gv1.Columns("VLC_Code_VLC_Uploader").HeaderText = "DCS Code"
+
+            Gv1.Columns("Vendor_Name").IsVisible = True
+            Gv1.Columns("Vendor_Name").Width = 200
+            Gv1.Columns("Vendor_Name").HeaderText = " DCS Name"
+
+            Gv1.Columns("Document_Amt").IsVisible = True
+            Gv1.Columns("Document_Amt").Width = 150
+            Gv1.Columns("Document_Amt").HeaderText = "Amount"
+
+
+        End If
+
+
+
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim intCount As Integer = 0
+        'Changed By : Prabhakar ' 
+        Dim item1 As New GridViewSummaryItem("Document_Amt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+
+
+
+        Gv1.ShowGroupPanel = False
+        Gv1.MasterTemplate.AutoExpandGroups = True
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+    End Sub
     Sub FormatGridDetails()
-
-
         Gv1.TableElement.TableHeaderHeight = 20
         Gv1.MasterTemplate.ShowRowHeaderColumn = False
         For ii As Integer = 0 To Gv1.Columns.Count - 1
@@ -347,13 +459,9 @@ Public Class FrmVendorSecurity
         ToDate.Value = clsCommon.GETSERVERDATE()
         fromDate.Value = ToDate.Value.AddMonths(-1)
         LoadVendor()
-        'LoadCustomer()
-
-        chkAllLocation.CheckState = CheckState.Checked
         ChkVendorAll.CheckState = CheckState.Checked
         rdbSummary.IsChecked = True
         Gv1.DataSource = Nothing
-
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
@@ -429,7 +537,7 @@ Public Class FrmVendorSecurity
     End Enum
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         btnReferesh = True
-        PageSetupReport_ID = MyBase.Form_ID + IIf(rdbSummary.IsChecked = True, "S", "D")
+        PageSetupReport_ID = MyBase.Form_ID + IIf(rbtnSecurity.IsChecked, "", "S") + IIf(rdbSummary.IsChecked = True, "S", "D")
         TemplateGridview = Gv1
         Print(Exporter.Refresh)
     End Sub
@@ -440,9 +548,7 @@ Public Class FrmVendorSecurity
 
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
-
             Dim arrHeader As List(Of String) = New List(Of String)()
-
             arrHeader.Add("Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy"))
             arrHeader.Add("Company : " + objCommonVar.CurrentCompanyName)
             arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptVendorSecurity & "'"))
@@ -467,33 +573,18 @@ Public Class FrmVendorSecurity
                     End If
                     strLocationCode += StrCode
                 Next
-
                 arrHeader.Add(("Vendor: " + strLocationName + " "))
-
             End If
             If exporter = EnumExportTo.Excel Then
-                'Dim sfd As SaveFileDialog = New SaveFileDialog()
-                'Dim filePath As String
-                'sfd.FileName = Me.Text
-                'sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
-                'If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-                '    filePath = sfd.FileName
-                'Else
-                '    Exit Sub
-                'End If
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                 transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
-                'transportSql.exportdataChilRows(Gv1, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
-                'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
-                'Process.Start(filePath)
             Else
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                clsCommon.MyExportToPDF("Vendor Security Report" + IIf(rdbDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, "Security Level", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                clsCommon.MyExportToPDF("Vendor " + IIf(rbtnSaving.IsChecked, "Saving", "Security") + "  Report" + IIf(rdbDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
-
     End Sub
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
@@ -552,4 +643,7 @@ Public Class FrmVendorSecurity
         Export(EnumExportTo.PDF)
     End Sub
 
+    Private Sub rbtnSecurity_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnSecurity.ToggleStateChanged, rbtnSaving.ToggleStateChanged
+        btnPrint.Visible = rbtnSecurity.IsChecked
+    End Sub
 End Class
