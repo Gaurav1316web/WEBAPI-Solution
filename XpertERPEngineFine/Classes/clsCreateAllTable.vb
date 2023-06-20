@@ -23379,6 +23379,7 @@ Public Class clsCreateAllTable
             coll.Add("Type", "Varchar(1) null")
             coll.Add("SNo", "int Null")
             coll.Add("Applicable_On", "int Null")
+            coll.Add("Include_In_DBT", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_REJECT_TYPE", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -26788,6 +26789,7 @@ Public Class clsCreateAllTable
             coll.Add("Vendor_Branch_Name", "varchar(150) NULL")
             coll.Add("Vendor_Bank_ACNo", "varchar(50) NULL")
             coll.Add("Against_VSP_Asset_Lost", "Varchar(30) null References TSPL_VSPAsset_HEAD(Doc_No)")
+            coll.Add("Saving", "INTEGER NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_HEADER", coll, Nothing, True, False, "", "Payment_No", "Payment_Date", True)
             '' PJC tables ends here
 
@@ -51915,6 +51917,8 @@ Public Class clsCreateAllTable
             coll.Add("Posting_Date", "Datetime   NULL")
             coll.Add("Status", "int Null")
             coll.Add("Zone_Code", "varchar(30) NULL references TSPL_ZONE_MASTER (Zone_Code) ")
+            coll.Add("Apply_FAT_Above", "Decimal(18,2) null")
+            coll.Add("Apply_SNF_Above", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             Try

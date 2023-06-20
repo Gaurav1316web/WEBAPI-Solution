@@ -100,6 +100,7 @@ Public Class clsPaymentHeader
     Public Account_Payee As Integer = 0
     Public Advance_Against_Salary As Integer = 0
     Public Is_Security As Integer = 0
+    Public Saving As Boolean = False
     Public Account_Payee_Name As String = Nothing
     '' Anubhooti 21-Aug-2014
     Public PurchaseOrder_No As String = Nothing
@@ -283,6 +284,7 @@ Public Class clsPaymentHeader
 
             clsCommon.AddColumnsForChange(coll, "Account_Payee", obj.Account_Payee)
             clsCommon.AddColumnsForChange(coll, "Is_Security", obj.Is_Security)
+            clsCommon.AddColumnsForChange(coll, "Saving", IIf(obj.Saving, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Account_Payee_Name", obj.Account_Payee_Name)
             clsCommon.AddColumnsForChange(coll, "PurchaseOrder_No", obj.PurchaseOrder_No, True)
             clsCommon.AddColumnsForChange(coll, "Against_PP_Detail_No", obj.Against_PP_Detail_No, True)
@@ -700,7 +702,7 @@ Public Class clsPaymentHeader
         " TSPL_PAYMENT_HEADER.TAX7_Amt, TSPL_PAYMENT_HEADER.TAX7_Base_Amt, TSPL_PAYMENT_HEADER.TAX8, TSPL_PAYMENT_HEADER.TAX8_Rate, TSPL_PAYMENT_HEADER.TAX8_Amt," &
         " TSPL_PAYMENT_HEADER.TAX8_Base_Amt, TSPL_PAYMENT_HEADER.TAX9, TSPL_PAYMENT_HEADER.TAX9_Rate, TSPL_PAYMENT_HEADER.TAX9_Amt, TSPL_PAYMENT_HEADER.TAX9_Base_Amt, " &
         " TSPL_PAYMENT_HEADER.TAX10, TSPL_PAYMENT_HEADER.TAX10_Rate, TSPL_PAYMENT_HEADER.TAX10_Amt, TSPL_PAYMENT_HEADER.TAX10_Base_Amt," &
-        " TSPL_PAYMENT_HEADER.PurchaseOrder_No_GST,TSPL_PAYMENT_HEADER.Tax_Group,TSPL_PAYMENT_HEADER.Tax_Amount_Advance,TSPL_PAYMENT_HEADER.PurchaseOrder_Amount,TSPL_PAYMENT_HEADER.PurchaseOrder_Add_Amount,TSPL_PAYMENT_HEADER.PO_Location_Code,TSPL_PAYMENT_HEADER.Tax_Group_BankCharges,TSPL_PAYMENT_HEADER.Bank_Charges_Tax,TSPL_PAYMENT_HEADER.isFarmerLoanPayment " &
+        " TSPL_PAYMENT_HEADER.PurchaseOrder_No_GST,TSPL_PAYMENT_HEADER.Tax_Group,TSPL_PAYMENT_HEADER.Tax_Amount_Advance,TSPL_PAYMENT_HEADER.PurchaseOrder_Amount,TSPL_PAYMENT_HEADER.PurchaseOrder_Add_Amount,TSPL_PAYMENT_HEADER.PO_Location_Code,TSPL_PAYMENT_HEADER.Tax_Group_BankCharges,TSPL_PAYMENT_HEADER.Bank_Charges_Tax,TSPL_PAYMENT_HEADER.isFarmerLoanPayment,TSPL_PAYMENT_HEADER.Saving " &
         " FROM TSPL_PAYMENT_HEADER " &
         " LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.Bank_Code=TSPL_PAYMENT_HEADER.Bank_Code" &
         " where  2=2"
@@ -758,6 +760,7 @@ Public Class clsPaymentHeader
             obj.Loan_Code = clsCommon.myCstr(dt.Rows(0)("Loan_Code"))
             obj.Against_TDS_PAYMENT_No = clsCommon.myCstr(dt.Rows(0)("Against_TDS_PAYMENT_No"))
             obj.Is_Security = clsCommon.myCdbl(dt.Rows(0)("Is_Security"))
+            obj.Saving = (clsCommon.myCDecimal(dt.Rows(0)("Saving")) = 1)
             obj.Location_GL_Code = clsCommon.myCstr(dt.Rows(0)("Location_GL_Code"))
             If IsDBNull(dt.Rows(0)("DateAndTime")) = True Then
                 obj.DateAndTime = Nothing
