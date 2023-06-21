@@ -2327,23 +2327,28 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
     End Sub
     Private Sub btnMGo_Click(sender As Object, e As EventArgs) Handles btnMGo.Click
         Try
-            Dim lstObj As New List(Of clsBMCDCSMobile)
-            'For Each lst As clsBMCDCSMobile In clsBMCDCSMobile.GetData(DatePickerMDate.Value)
-            '    lstObj.Add(lst)
-            'Next
-            ' Add MCC Truck Sheet Entry
+            Dim Arr As New List(Of clsBMCDCSMobile)
             For Each lst As clsBMCDCSMobile In clsBMCDCSMobile.GetData(DatePickerMDate.Value)
-                Dim strQry = "select Document_No from TSPL_MILK_COLLECTION_MCC where Route_Code='" + clsCommon.myCstr(lst.Route_Code) + "' and Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "' and Trip_No=" + clsCommon.myCstr(lst.Trip_No)
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
-                If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                    lst.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
-                    isNewEntry = False
-                    BMCEntry(lst)
-                Else
-                    isNewEntry = True
-                    BMCEntry(lst)
-                End If
+                Arr.Add(lst)
             Next
+            ' Add MCC Truck Sheet Entry
+            If Arr.Count > 0 Then
+                For Each lst As clsBMCDCSMobile In clsBMCDCSMobile.GetData(DatePickerMDate.Value)
+                    Dim strQry = "select Document_No from TSPL_MILK_COLLECTION_MCC where Route_Code='" + clsCommon.myCstr(lst.Route_Code) + "' and Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "' and Trip_No=" + clsCommon.myCstr(lst.Trip_No)
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                        lst.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
+                        isNewEntry = False
+                        BMCEntry(lst)
+                    Else
+                        isNewEntry = True
+                        BMCEntry(lst)
+                    End If
+                Next
+            Else
+                Throw New Exception("No Data Found!")
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -2395,6 +2400,9 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                         objTr.FATKG = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).FATKG)
                         objTr.SNFKG = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).SNFKG)
                         objTr.Temp = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Temp)
+                        objTr.Gaze_Reading_Code = clsCommon.myCstr(lst.Arr_BMCDCS_Trip(ii).Gaze_Reading_Code)
+                        objTr.Gaze_Reading = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Gaze_Reading)
+                        objTr.Silo_Capacity = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Silo_Capacity)
                         objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).PK_ID)
                         Arr.Add(objTr)
                     End If
