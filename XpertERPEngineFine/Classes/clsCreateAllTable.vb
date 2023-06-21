@@ -22890,6 +22890,9 @@ Public Class clsCreateAllTable
             coll.Add("FATKG", "Decimal(18,3) null")
             coll.Add("SNFKG", "Decimal(18,3) null")
             coll.Add("Temp", "Decimal(18,2) null")
+            coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
+            coll.Add("Gaze_Reading", "Decimal(18,1) null")
+            coll.Add("Silo_Capacity", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS_TRIP", coll)
 
             coll = New Dictionary(Of String, String)
