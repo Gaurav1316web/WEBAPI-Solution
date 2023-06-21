@@ -26,11 +26,13 @@ Partial Class rptListofCowDCS
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.lblMCCOwnBMC = New common.Controls.MyLabel()
+        Me.txtMultiMCC = New common.UserControls.txtMultiSelectFinder()
         Me.lblOwnMCC = New common.Controls.MyLabel()
-        Me.txtMCCOwnBMC = New common.UserControls.txtFinder()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
@@ -41,11 +43,11 @@ Partial Class rptListofCowDCS
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.lblMCCOwnBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblOwnMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,6 +68,7 @@ Partial Class rptListofCowDCS
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
@@ -87,26 +90,27 @@ Partial Class rptListofCowDCS
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.lblMCCOwnBMC)
+        Me.RadPageViewPage1.Controls.Add(Me.txtMultiMCC)
         Me.RadPageViewPage1.Controls.Add(Me.lblOwnMCC)
-        Me.RadPageViewPage1.Controls.Add(Me.txtMCCOwnBMC)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 354)
         Me.RadPageViewPage1.Text = "Filters"
         '
-        'lblMCCOwnBMC
+        'txtMultiMCC
         '
-        Me.lblMCCOwnBMC.AutoSize = False
-        Me.lblMCCOwnBMC.BorderVisible = True
-        Me.lblMCCOwnBMC.FieldName = Nothing
-        Me.lblMCCOwnBMC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMCCOwnBMC.Location = New System.Drawing.Point(242, 33)
-        Me.lblMCCOwnBMC.Name = "lblMCCOwnBMC"
-        Me.lblMCCOwnBMC.Size = New System.Drawing.Size(201, 18)
-        Me.lblMCCOwnBMC.TabIndex = 355
-        Me.lblMCCOwnBMC.TextWrap = False
+        Me.txtMultiMCC.arrDispalyMember = Nothing
+        Me.txtMultiMCC.arrValueMember = Nothing
+        Me.txtMultiMCC.Location = New System.Drawing.Point(106, 32)
+        Me.txtMultiMCC.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtMultiMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultiMCC.MyLinkLable1 = Nothing
+        Me.txtMultiMCC.MyLinkLable2 = Nothing
+        Me.txtMultiMCC.MyNullText = "All"
+        Me.txtMultiMCC.Name = "txtMultiMCC"
+        Me.txtMultiMCC.Size = New System.Drawing.Size(344, 19)
+        Me.txtMultiMCC.TabIndex = 1516
         '
         'lblOwnMCC
         '
@@ -117,32 +121,6 @@ Partial Class rptListofCowDCS
         Me.lblOwnMCC.Size = New System.Drawing.Size(62, 16)
         Me.lblOwnMCC.TabIndex = 354
         Me.lblOwnMCC.Text = "MCC Code"
-        '
-        'txtMCCOwnBMC
-        '
-        Me.txtMCCOwnBMC.CalculationExpression = Nothing
-        Me.txtMCCOwnBMC.FieldCode = Nothing
-        Me.txtMCCOwnBMC.FieldDesc = Nothing
-        Me.txtMCCOwnBMC.FieldMaxLength = 0
-        Me.txtMCCOwnBMC.FieldName = Nothing
-        Me.txtMCCOwnBMC.isCalculatedField = False
-        Me.txtMCCOwnBMC.IsSourceFromTable = False
-        Me.txtMCCOwnBMC.IsSourceFromValueList = False
-        Me.txtMCCOwnBMC.IsUnique = False
-        Me.txtMCCOwnBMC.Location = New System.Drawing.Point(97, 33)
-        Me.txtMCCOwnBMC.MendatroryField = True
-        Me.txtMCCOwnBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMCCOwnBMC.MyLinkLable1 = Me.lblOwnMCC
-        Me.txtMCCOwnBMC.MyLinkLable2 = Nothing
-        Me.txtMCCOwnBMC.MyReadOnly = False
-        Me.txtMCCOwnBMC.MyShowMasterFormButton = False
-        Me.txtMCCOwnBMC.Name = "txtMCCOwnBMC"
-        Me.txtMCCOwnBMC.ReferenceFieldDesc = Nothing
-        Me.txtMCCOwnBMC.ReferenceFieldName = Nothing
-        Me.txtMCCOwnBMC.ReferenceTableName = Nothing
-        Me.txtMCCOwnBMC.Size = New System.Drawing.Size(140, 18)
-        Me.txtMCCOwnBMC.TabIndex = 353
-        Me.txtMCCOwnBMC.Value = ""
         '
         'RadPageViewPage2
         '
@@ -174,6 +152,28 @@ Partial Class rptListofCowDCS
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(779, 354)
         Me.Gv1.TabIndex = 0
+        '
+        'btnExp
+        '
+        Me.btnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnExp.Location = New System.Drawing.Point(158, 11)
+        Me.btnExp.Name = "btnExp"
+        Me.btnExp.Size = New System.Drawing.Size(83, 22)
+        Me.btnExp.TabIndex = 356
+        Me.btnExp.Text = "Export"
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        Me.rmiExcel.UseCompatibleTextRendering = False
+        '
+        'rmiPDF
+        '
+        Me.rmiPDF.Name = "rmiPDF"
+        Me.rmiPDF.Text = "PDF"
+        Me.rmiPDF.UseCompatibleTextRendering = False
         '
         'btnClose
         '
@@ -239,11 +239,11 @@ Partial Class rptListofCowDCS
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.lblMCCOwnBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblOwnMCC, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
@@ -262,7 +262,9 @@ Partial Class rptListofCowDCS
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnReset As RadButton
-    Friend WithEvents lblMCCOwnBMC As common.Controls.MyLabel
     Friend WithEvents lblOwnMCC As common.Controls.MyLabel
-    Friend WithEvents txtMCCOwnBMC As common.UserControls.txtFinder
+    Friend WithEvents btnExp As RadSplitButton
+    Friend WithEvents rmiExcel As RadMenuItem
+    Friend WithEvents rmiPDF As RadMenuItem
+    Friend WithEvents txtMultiMCC As common.UserControls.txtMultiSelectFinder
 End Class
