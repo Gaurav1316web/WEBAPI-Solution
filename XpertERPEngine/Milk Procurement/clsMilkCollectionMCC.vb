@@ -19,7 +19,7 @@ Public Class clsMilkCollectionMCC
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posting_Date As DateTime? = Nothing
     Public FAT_SNF_Type As Integer
-    Public REF_PK_ID As Integer
+    'Public REF_PK_ID As Integer
     Public Arr As List(Of clsMilkCollectionMCCDetail) = Nothing
 
     Public Temp As Decimal
