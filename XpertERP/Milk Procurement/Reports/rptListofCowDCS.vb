@@ -80,7 +80,7 @@ Public Class rptListofCowDCS
                 Dim qry As String = ""
                 Dim dt As New DataTable
 
-                qry = "select row_number() over(order by(select 1)) as SNo,VLC_Code_VLC_Uploader,VLC_Name,case when Apply_Cow_Price=1 then 'Y' else 'N' end Apply_Cow_Price,convert(date,TSPL_VLC_MASTER_HEAD.ApplyCowPriceDate,103)  as ApplyCowPriceDate from TSPL_VLC_MASTER_HEAD
+                qry = "select row_number() over(order by(select 1)) as SNo,VLC_Code_VLC_Uploader as DCS  ,VLC_Name as [DCS Name],case when Apply_Cow_Price=1 then 'Y' else 'N' end [Apply Cow Price],convert(date,TSPL_VLC_MASTER_HEAD.ApplyCowPriceDate,103)  as [Apply Cow Price Date] from TSPL_VLC_MASTER_HEAD
                     LEFT JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC where TSPL_MCC_MASTER.MCC_Code ='" + txtMCCOwnBMC.Value + "' "
 
                 dt = clsDBFuncationality.GetDataTable(qry)
@@ -100,7 +100,7 @@ Public Class rptListofCowDCS
                     Next
                     RadPageView1.SelectedPage = RadPageViewPage2
                     Gv1.EnableFiltering = True
-                    FormatGrid()
+                    'FormatGrid()
                     Gv1.BestFitColumns()
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No Data Found ", Me.Text)

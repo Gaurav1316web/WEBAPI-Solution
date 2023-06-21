@@ -9,6 +9,9 @@ Public Class clsMPDCSInsentiveReco
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posting_Date As Date? = Nothing
     Public Zone_Code As String = Nothing
+    Public Apply_FAT_Above As Decimal = 0
+    Public Apply_SNF_Above As Decimal = 0
+
     Public arr As List(Of clsMPDCSInsentiveRecoDetail) = Nothing
 
 #End Region
@@ -33,6 +36,10 @@ Public Class clsMPDCSInsentiveReco
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommon.AddColumnsForChange(coll, "Zone_Code", obj.Zone_Code, True)
+
+            clsCommon.AddColumnsForChange(coll, "Apply_FAT_Above", obj.Apply_FAT_Above, True)
+            clsCommon.AddColumnsForChange(coll, "Apply_SNF_Above", obj.Apply_SNF_Above, True)
+
             If isNewEntry Then
                 qry = "select max(Document_Code)as Document_Code from TSPL_DCS_MP_INCENTIVE_RECO_HEAD where Reco_Date='" + clsCommon.GetPrintDate(obj.Reco_Date) + "'"
                 obj.Document_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
@@ -87,6 +94,10 @@ Public Class clsMPDCSInsentiveReco
             obj.Reco_Date = clsCommon.myCDate(dt.Rows(0)("Reco_Date"))
             obj.Reco_Date_To = clsCommon.myCDate(dt.Rows(0)("Reco_Date_To"))
             obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
+
+            obj.Apply_FAT_Above = clsCommon.myCDecimal(dt.Rows(0)("Apply_SNF_Above"))
+            obj.Apply_SNF_Above = clsCommon.myCDecimal(dt.Rows(0)("Apply_SNF_Above"))
+
             If dt.Rows(0)("Posting_Date") IsNot DBNull.Value Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
             End If

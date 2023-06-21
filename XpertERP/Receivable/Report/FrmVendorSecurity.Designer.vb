@@ -22,6 +22,7 @@ Partial Class FrmVendorSecurity
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -32,11 +33,6 @@ Partial Class FrmVendorSecurity
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbSummary = New Telerik.WinControls.UI.RadRadioButton()
         Me.rdbDetail = New Telerik.WinControls.UI.RadRadioButton()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.cbgLocation = New common.MyCheckBoxGrid()
-        Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.chkSelectLocation = New common.Controls.MyRadioButton()
-        Me.chkAllLocation = New common.Controls.MyRadioButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
@@ -60,6 +56,9 @@ Partial Class FrmVendorSecurity
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnSecurity = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnSaving = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -72,11 +71,6 @@ Partial Class FrmVendorSecurity
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.rdbSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbDetail, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        Me.Panel2.SuspendLayout()
-        CType(Me.chkSelectLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAllLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -97,6 +91,10 @@ Partial Class FrmVendorSecurity
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.rbtnSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSaving, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -134,17 +132,16 @@ Partial Class FrmVendorSecurity
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(769, 380)
         Me.RadPageView1.TabIndex = 12
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
         Me.RadPageViewPage1.Controls.Add(Me.txtVendorGroupMult)
         Me.RadPageViewPage1.Controls.Add(Me.txtLocationMult)
         Me.RadPageViewPage1.Controls.Add(Me.lblVendorGroup)
         Me.RadPageViewPage1.Controls.Add(Me.lblLocation)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox8)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
@@ -203,15 +200,15 @@ Partial Class FrmVendorSecurity
         Me.RadGroupBox2.Controls.Add(Me.rdbSummary)
         Me.RadGroupBox2.Controls.Add(Me.rdbDetail)
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(268, 6)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(393, 10)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(156, 37)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(132, 33)
         Me.RadGroupBox2.TabIndex = 307
         '
         'rdbSummary
         '
-        Me.rdbSummary.Location = New System.Drawing.Point(13, 9)
+        Me.rdbSummary.Location = New System.Drawing.Point(6, 8)
         Me.rdbSummary.Name = "rdbSummary"
         Me.rdbSummary.Size = New System.Drawing.Size(67, 18)
         Me.rdbSummary.TabIndex = 306
@@ -219,69 +216,11 @@ Partial Class FrmVendorSecurity
         '
         'rdbDetail
         '
-        Me.rdbDetail.Location = New System.Drawing.Point(88, 9)
+        Me.rdbDetail.Location = New System.Drawing.Point(79, 9)
         Me.rdbDetail.Name = "rdbDetail"
         Me.rdbDetail.Size = New System.Drawing.Size(49, 18)
         Me.rdbDetail.TabIndex = 307
         Me.rdbDetail.Text = "Detail"
-        '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.cbgLocation)
-        Me.RadGroupBox1.Controls.Add(Me.Panel2)
-        Me.RadGroupBox1.HeaderText = "Location"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(595, 6)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(32, 43)
-        Me.RadGroupBox1.TabIndex = 306
-        Me.RadGroupBox1.Text = "Location"
-        Me.RadGroupBox1.Visible = False
-        '
-        'cbgLocation
-        '
-        Me.cbgLocation.CheckedValue = Nothing
-        Me.cbgLocation.DataSource = Nothing
-        Me.cbgLocation.DisplayMember = "Name"
-        Me.cbgLocation.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.cbgLocation.Location = New System.Drawing.Point(10, 43)
-        Me.cbgLocation.MyAutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
-        Me.cbgLocation.MyShowHeadrText = False
-        Me.cbgLocation.Name = "cbgLocation"
-        Me.cbgLocation.Size = New System.Drawing.Size(12, 0)
-        Me.cbgLocation.TabIndex = 1
-        Me.cbgLocation.ValueMember = "Code"
-        '
-        'Panel2
-        '
-        Me.Panel2.Controls.Add(Me.chkSelectLocation)
-        Me.Panel2.Controls.Add(Me.chkAllLocation)
-        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel2.Location = New System.Drawing.Point(10, 20)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(12, 23)
-        Me.Panel2.TabIndex = 0
-        '
-        'chkSelectLocation
-        '
-        Me.chkSelectLocation.Location = New System.Drawing.Point(193, 4)
-        Me.chkSelectLocation.MyLinkLable1 = Nothing
-        Me.chkSelectLocation.MyLinkLable2 = Nothing
-        Me.chkSelectLocation.Name = "chkSelectLocation"
-        Me.chkSelectLocation.Size = New System.Drawing.Size(50, 18)
-        Me.chkSelectLocation.TabIndex = 1
-        Me.chkSelectLocation.Text = "Select"
-        '
-        'chkAllLocation
-        '
-        Me.chkAllLocation.Location = New System.Drawing.Point(154, 4)
-        Me.chkAllLocation.MyLinkLable1 = Nothing
-        Me.chkAllLocation.MyLinkLable2 = Nothing
-        Me.chkAllLocation.Name = "chkAllLocation"
-        Me.chkAllLocation.Size = New System.Drawing.Size(33, 18)
-        Me.chkAllLocation.TabIndex = 0
-        Me.chkAllLocation.Text = "All"
         '
         'RadGroupBox3
         '
@@ -420,12 +359,13 @@ Partial Class FrmVendorSecurity
         '
         '
         Me.Gv1.MasterTemplate.EnableFiltering = True
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(748, 296)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
         '
         'btnexport
         '
@@ -439,15 +379,11 @@ Partial Class FrmVendorSecurity
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
@@ -497,29 +433,53 @@ Partial Class FrmVendorSecurity
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(769, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnSecurity)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnSaving)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(265, 10)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(125, 33)
+        Me.RadGroupBox4.TabIndex = 308
+        '
+        'rbtnSecurity
+        '
+        Me.rbtnSecurity.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnSecurity.Location = New System.Drawing.Point(5, 7)
+        Me.rbtnSecurity.Name = "rbtnSecurity"
+        Me.rbtnSecurity.Size = New System.Drawing.Size(60, 18)
+        Me.rbtnSecurity.TabIndex = 306
+        Me.rbtnSecurity.Text = "Security"
+        Me.rbtnSecurity.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnSaving
+        '
+        Me.rbtnSaving.Location = New System.Drawing.Point(66, 7)
+        Me.rbtnSaving.Name = "rbtnSaving"
+        Me.rbtnSaving.Size = New System.Drawing.Size(53, 18)
+        Me.rbtnSaving.TabIndex = 307
+        Me.rbtnSaving.TabStop = False
+        Me.rbtnSaving.Text = "Saving"
         '
         'FrmVendorSecurity
         '
@@ -548,12 +508,6 @@ Partial Class FrmVendorSecurity
         Me.RadGroupBox2.PerformLayout()
         CType(Me.rdbSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbDetail, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.Panel2.ResumeLayout(False)
-        Me.Panel2.PerformLayout()
-        CType(Me.chkSelectLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAllLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -576,6 +530,11 @@ Partial Class FrmVendorSecurity
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.rbtnSecurity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSaving, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -587,11 +546,6 @@ Partial Class FrmVendorSecurity
     Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents rdbSummary As Telerik.WinControls.UI.RadRadioButton
     Friend WithEvents rdbDetail As Telerik.WinControls.UI.RadRadioButton
-    Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents cbgLocation As common.MyCheckBoxGrid
-    Friend WithEvents Panel2 As System.Windows.Forms.Panel
-    Friend WithEvents chkSelectLocation As common.Controls.MyRadioButton
-    Friend WithEvents chkAllLocation As common.Controls.MyRadioButton
     Friend WithEvents RadGroupBox3 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
     Friend WithEvents RadLabel1 As common.Controls.MyLabel
@@ -619,4 +573,7 @@ Partial Class FrmVendorSecurity
     Friend WithEvents btnexport As Telerik.WinControls.UI.RadSplitButton
     Friend WithEvents rmiExcel As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmiPDF As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents rbtnSecurity As RadRadioButton
+    Friend WithEvents rbtnSaving As RadRadioButton
 End Class

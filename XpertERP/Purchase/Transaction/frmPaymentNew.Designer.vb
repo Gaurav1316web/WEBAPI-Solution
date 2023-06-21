@@ -62,6 +62,7 @@ Partial Class FrmPaymentNew
         Me.lblCurrency = New common.Controls.MyLabel()
         Me.lblConvRate = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkSaving = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkFarmerLoanPayment = New Telerik.WinControls.UI.RadCheckBox()
         Me.pnlMiscPayment = New System.Windows.Forms.Panel()
         Me.txtRemitTo = New common.Controls.MyTextBox()
@@ -152,7 +153,6 @@ Partial Class FrmPaymentNew
         Me.lblpaymenttype = New common.Controls.MyLabel()
         Me.gvDetails = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -202,6 +202,7 @@ Partial Class FrmPaymentNew
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -238,6 +239,7 @@ Partial Class FrmPaymentNew
         CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkSaving, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFarmerLoanPayment, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlMiscPayment.SuspendLayout()
         CType(Me.txtRemitTo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -916,6 +918,7 @@ Partial Class FrmPaymentNew
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkSaving)
         Me.RadGroupBox1.Controls.Add(Me.chkFarmerLoanPayment)
         Me.RadGroupBox1.Controls.Add(Me.pnlMiscPayment)
         Me.RadGroupBox1.Controls.Add(Me.chkIsReceipt)
@@ -975,6 +978,15 @@ Partial Class FrmPaymentNew
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(1110, 205)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'chkSaving
+        '
+        Me.chkSaving.CheckAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.chkSaving.Location = New System.Drawing.Point(524, 66)
+        Me.chkSaving.Name = "chkSaving"
+        Me.chkSaving.Size = New System.Drawing.Size(53, 18)
+        Me.chkSaving.TabIndex = 12116
+        Me.chkSaving.Text = "Saving"
         '
         'chkFarmerLoanPayment
         '
@@ -1444,11 +1456,11 @@ Partial Class FrmPaymentNew
         'ChkAdvSalary
         '
         Me.ChkAdvSalary.CheckAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.ChkAdvSalary.Location = New System.Drawing.Point(415, 65)
+        Me.ChkAdvSalary.Location = New System.Drawing.Point(415, 66)
         Me.ChkAdvSalary.Name = "ChkAdvSalary"
-        Me.ChkAdvSalary.Size = New System.Drawing.Size(136, 18)
+        Me.ChkAdvSalary.Size = New System.Drawing.Size(96, 18)
         Me.ChkAdvSalary.TabIndex = 12115
-        Me.ChkAdvSalary.Text = "Advance Against Salary"
+        Me.ChkAdvSalary.Text = "Advance Salary"
         '
         'lblCustomerOutStanding
         '
@@ -1600,15 +1612,15 @@ Partial Class FrmPaymentNew
         Me.pnlCform.Controls.Add(Me.chkCForm)
         Me.pnlCform.Controls.Add(Me.MyLabel18)
         Me.pnlCform.Controls.Add(Me.txtCFormInvNo)
-        Me.pnlCform.Location = New System.Drawing.Point(556, 65)
+        Me.pnlCform.Location = New System.Drawing.Point(589, 65)
         Me.pnlCform.Name = "pnlCform"
-        Me.pnlCform.Size = New System.Drawing.Size(324, 22)
+        Me.pnlCform.Size = New System.Drawing.Size(291, 22)
         Me.pnlCform.TabIndex = 19
         '
         'chkCForm
         '
         Me.chkCForm.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkCForm.Location = New System.Drawing.Point(10, 2)
+        Me.chkCForm.Location = New System.Drawing.Point(3, 4)
         Me.chkCForm.Name = "chkCForm"
         Me.chkCForm.Size = New System.Drawing.Size(96, 16)
         Me.chkCForm.TabIndex = 0
@@ -1618,11 +1630,11 @@ Partial Class FrmPaymentNew
         '
         Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel18.Location = New System.Drawing.Point(122, 3)
+        Me.MyLabel18.Location = New System.Drawing.Point(111, 3)
         Me.MyLabel18.Name = "MyLabel18"
-        Me.MyLabel18.Size = New System.Drawing.Size(60, 16)
+        Me.MyLabel18.Size = New System.Drawing.Size(42, 16)
         Me.MyLabel18.TabIndex = 1
-        Me.MyLabel18.Text = "Invoice No"
+        Me.MyLabel18.Text = "Inv. No"
         Me.MyLabel18.Visible = False
         '
         'txtCFormInvNo
@@ -1636,7 +1648,7 @@ Partial Class FrmPaymentNew
         Me.txtCFormInvNo.IsSourceFromTable = False
         Me.txtCFormInvNo.IsSourceFromValueList = False
         Me.txtCFormInvNo.IsUnique = False
-        Me.txtCFormInvNo.Location = New System.Drawing.Point(187, 3)
+        Me.txtCFormInvNo.Location = New System.Drawing.Point(155, 3)
         Me.txtCFormInvNo.MendatroryField = True
         Me.txtCFormInvNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCFormInvNo.MyLinkLable1 = Nothing
@@ -2358,14 +2370,6 @@ Partial Class FrmPaymentNew
         Me.pvpCustomFields.Size = New System.Drawing.Size(1115, 441)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1115, 441)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
@@ -3005,6 +3009,14 @@ Partial Class FrmPaymentNew
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1115, 441)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'FrmPaymentNew
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3059,6 +3071,7 @@ Partial Class FrmPaymentNew
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkSaving, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFarmerLoanPayment, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlMiscPayment.ResumeLayout(False)
         Me.pnlMiscPayment.PerformLayout()
@@ -3373,5 +3386,6 @@ Partial Class FrmPaymentNew
     Friend WithEvents TxtVendor_BankName As common.Controls.MyTextBox
     Friend WithEvents MyLabel23 As common.Controls.MyLabel
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As RadButton
+    Friend WithEvents chkSaving As RadCheckBox
 End Class
 
