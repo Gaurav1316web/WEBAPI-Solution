@@ -1885,7 +1885,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             End If
 
             If txtRouteName.arrValueMember IsNot Nothing AndAlso txtRouteName.arrValueMember.Count > 0 Then
-                strQry += " and TSPL_BULK_ROUTE_MASTER.Route_Name in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ")"
+                strQry += " and Tspl_vlc_master_head.Route_Name in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ")"
             End If
 
             whrcls += "  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) "
@@ -1909,7 +1909,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             ",case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.Fat_ratio)/Price_Chart.FAT_Pers) as decimal(18,2)) end as Standard_FAT_Rate" + Environment.NewLine +
             ",case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.SNF_Ratio)/Price_Chart.SNF_Pers) as decimal(18,2)) end as Standard_SNF_Rate" + Environment.NewLine +
             ",TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')='' then TSPL_MILK_RECEIPT_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT,"
-            BaseQry += " TSPL_BULK_ROUTE_MASTER.ROUTE_NO as ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_BULK_ROUTE_MASTER.Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SAMPLE_DETAIL.TYPE,'')='' then 'Mix' else TSPL_MILK_SAMPLE_DETAIL.TYPE end as Type ,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,"
+            BaseQry += " TSPL_VLC_MASTER_HEAD.Route_code as ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_BULK_ROUTE_MASTER.Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SAMPLE_DETAIL.TYPE,'')='' then 'Mix' else TSPL_MILK_SAMPLE_DETAIL.TYPE end as Type ,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,"
             BaseQry += " TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt"
             BaseQry += " ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type " + Environment.NewLine +
                 ",(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)) as SRN_Net_Amount
@@ -1981,6 +1981,8 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                 legerMainQuery += " order by CAST(VLC_Code_VLC_Uploader AS int) asc"
+                'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                '    legerMainQuery += " order by CAST(VLC_Code_VLC_Uploader AS int) asc"
             End If
 
             dt = clsDBFuncationality.GetDataTable(legerMainQuery)
@@ -2579,8 +2581,6 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
-
-
     End Sub
 
     Private Sub txtMultiMCC_My_Click(sender As Object, e As EventArgs) Handles txtMultiMCC._My_Click
@@ -2589,8 +2589,12 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
     End Sub
 
     Private Sub txtRouteName_My_Click(sender As Object, e As EventArgs) Handles txtRouteName._My_Click
-        Dim qry As String = " select ROUTE_NO as RouteNo, ROUTE_NAME as RouteName from TSPL_BULK_ROUTE_MASTER"
-        txtRouteName.arrValueMember = clsCommon.ShowMultipleSelectForm("TransDetailedCardReport", qry, "RouteNo", "RouteName", txtRouteName.arrValueMember, txtRouteName.arrDispalyMember)
+        Dim qry As String = "select ROUTE_NO as RouteNo, ROUTE_NAME as RouteName from TSPL_BULK_ROUTE_MASTER"
+
+        '"  select distinct Tspl_vlc_master_head.Route_code as RouteNo, TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as RouteName from TSPL_BULK_ROUTE_MASTER
+        'inner  join Tspl_vlc_master_head on Tspl_vlc_master_head.route_code=TSPL_BULK_ROUTE_MASTER.route_no "
+
+        txtRouteName.arrValueMember = clsCommon.ShowMultipleSelectForm("TransDetailedCardReport", qry, "ROUTE_NO", "ROUTE_NAME", txtRouteName.arrValueMember, txtRouteName.arrDispalyMember)
     End Sub
 
 
