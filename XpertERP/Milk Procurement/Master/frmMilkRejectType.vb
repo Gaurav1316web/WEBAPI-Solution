@@ -13,27 +13,6 @@ Public Class frmMilkRejectType
 
     Private Sub frmJWPriceCodeMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim dt As DataTable
-        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
-            Dim qry As String = "select 1 from TSPL_MILK_REJECT_TYPE"
-            dt = clsDBFuncationality.GetDataTable(qry)
-            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                qry = "Insert into TSPL_MILK_REJECT_TYPE(Code,Description,Applicable_Per,Item_Code,Created_By,Created_Date,Modify_By,Modify_Date)values ('Sour','Sour','0','RM0000001','Admin',getdate(),'Admin',getdate())"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-                qry = "Insert into TSPL_MILK_REJECT_TYPE(Code,Description,Applicable_Per,Item_Code,Created_By,Created_Date,Modify_By,Modify_Date)values ('Salt','Salt','0','RM0000001','Admin',getdate(),'Admin',getdate())"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-                qry = "Insert into TSPL_MILK_REJECT_TYPE(Code,Description,Applicable_Per,Item_Code,Created_By,Created_Date,Modify_By,Modify_Date)values ('Sugar','Sugar','0','RM0000001','Admin',getdate(),'Admin',getdate())"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-                qry = "Insert into TSPL_MILK_REJECT_TYPE(Code,Description,Applicable_Per,Item_Code,Created_By,Created_Date,Modify_By,Modify_Date)values ('Glucose','Glucose','0','RM0000001','Admin',getdate(),'Admin',getdate())"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-                qry = "Insert into TSPL_MILK_REJECT_TYPE(Code,Description,Applicable_Per,Item_Code,Created_By,Created_Date,Modify_By,Modify_Date)values ('Maltose','Maltose','0','RM0000001','Admin',getdate(),'Admin',getdate())"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-                qry = "Insert into TSPL_MILK_REJECT_TYPE(Code,Description,Applicable_Per,Item_Code,Created_By,Created_Date,Modify_By,Modify_Date)values ('Starch','Starch','0','RM0000001','Admin',getdate(),'Admin',getdate())"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-                qry = "Insert into TSPL_MILK_REJECT_TYPE(Code,Description,Applicable_Per,Item_Code,Created_By,Created_Date,Modify_By,Modify_Date)values ('Curd','Curd','0','RM0000001','Admin',getdate(),'Admin',getdate())"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-            End If
-        End If
-
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update")
         ButtonToolTip.SetToolTip(rdbtndelete, "Press Alt+D  for Delete")
@@ -75,6 +54,7 @@ Public Class frmMilkRejectType
             ElseIf rbtnSNFKGRate.IsChecked Then
                 obj.Applicable_On = 3
             End If
+            obj.Include_In_DBT = chkIncludeInDBT.Checked
             obj.Applicable_Per = txtApplicablePer.Value
             obj.Type = clsCommon.myCstr(cboType.SelectedValue)
             obj.SNo = txtSNo.Value
@@ -109,6 +89,7 @@ Public Class frmMilkRejectType
             Else
                 rbtnPer.IsChecked = True
             End If
+            chkIncludeInDBT.Checked = obj.Include_In_DBT
             txtApplicablePer.Value = obj.Applicable_Per
             txtItem.Value = obj.Item_Code
             lblItem.Text = clsItemMaster.GetItemName(obj.Item_Code, Nothing)
@@ -212,6 +193,7 @@ Public Class frmMilkRejectType
         txtSNo.Value = 0
         txtSNo.MendatroryField = False
         rbtnPer.IsChecked = True
+        chkIncludeInDBT.Checked = False
     End Sub
 
     Private Sub frmHSNMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown

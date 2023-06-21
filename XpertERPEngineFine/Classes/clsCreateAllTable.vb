@@ -22890,6 +22890,9 @@ Public Class clsCreateAllTable
             coll.Add("FATKG", "Decimal(18,3) null")
             coll.Add("SNFKG", "Decimal(18,3) null")
             coll.Add("Temp", "Decimal(18,2) null")
+            coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
+            coll.Add("Gaze_Reading", "Decimal(18,1) null")
+            coll.Add("Silo_Capacity", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS_TRIP", coll)
 
             coll = New Dictionary(Of String, String)
@@ -22996,7 +22999,7 @@ Public Class clsCreateAllTable
             coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
             coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
             coll.Add("Against_Multiple_Days", "integer NULL references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL(PK_Id)")
-            coll.Add("REF_PK_ID_BMCDCS", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS(PK_ID)")
+            coll.Add("REF_PK_ID_BMCDCS_TRIP", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS_TRIP(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -23379,6 +23382,7 @@ Public Class clsCreateAllTable
             coll.Add("Type", "Varchar(1) null")
             coll.Add("SNo", "int Null")
             coll.Add("Applicable_On", "int Null")
+            coll.Add("Include_In_DBT", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_REJECT_TYPE", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -26788,6 +26792,7 @@ Public Class clsCreateAllTable
             coll.Add("Vendor_Branch_Name", "varchar(150) NULL")
             coll.Add("Vendor_Bank_ACNo", "varchar(50) NULL")
             coll.Add("Against_VSP_Asset_Lost", "Varchar(30) null References TSPL_VSPAsset_HEAD(Doc_No)")
+            coll.Add("Saving", "INTEGER NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_HEADER", coll, Nothing, True, False, "", "Payment_No", "Payment_Date", True)
             '' PJC tables ends here
 
@@ -51915,6 +51920,8 @@ Public Class clsCreateAllTable
             coll.Add("Posting_Date", "Datetime   NULL")
             coll.Add("Status", "int Null")
             coll.Add("Zone_Code", "varchar(30) NULL references TSPL_ZONE_MASTER (Zone_Code) ")
+            coll.Add("Apply_FAT_Above", "Decimal(18,2) null")
+            coll.Add("Apply_SNF_Above", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_MP_INCENTIVE_RECO_HEAD", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             Try
