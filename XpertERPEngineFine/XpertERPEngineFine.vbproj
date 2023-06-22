@@ -83,6 +83,7 @@
     <Compile Include="Classes\clsERPFuncationality.vb" />
     <Compile Include="Classes\clsFixedParameterType.vb" />
     <Compile Include="Classes\clsGetKeys.vb" />
+    <Compile Include="Classes\clsNewDCSScreen.vb" />
     <Compile Include="Classes\clsUserMgtCode.vb" />
     <Compile Include="Classes\Comman Services\clsBankGroupMaster.vb" />
     <Compile Include="Classes\connectSql.vb" />
