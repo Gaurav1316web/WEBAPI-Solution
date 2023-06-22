@@ -92,13 +92,6 @@ Public Class rptListofCowDCS
         End Try
     End Sub
 
-    Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
-        EnableDisaableControls(True)
-    End Sub
-    Sub EnableDisaableControls(ByVal flag As Boolean)
-        txtMultiMCC.Enabled = flag
-
-    End Sub
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then

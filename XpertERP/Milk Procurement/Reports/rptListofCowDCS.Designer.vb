@@ -35,7 +35,6 @@ Partial Class rptListofCowDCS
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.ToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -50,7 +49,6 @@ Partial Class rptListofCowDCS
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -71,7 +69,6 @@ Partial Class rptListofCowDCS
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 402
         Me.SplitContainer1.TabIndex = 0
@@ -157,7 +154,7 @@ Partial Class rptListofCowDCS
         '
         Me.btnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnExp.Location = New System.Drawing.Point(158, 11)
+        Me.btnExp.Location = New System.Drawing.Point(85, 11)
         Me.btnExp.Name = "btnExp"
         Me.btnExp.Size = New System.Drawing.Size(83, 22)
         Me.btnExp.TabIndex = 356
@@ -194,16 +191,6 @@ Partial Class rptListofCowDCS
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 154
         Me.btnGo.Text = ">>>"
-        '
-        'btnReset
-        '
-        Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(85, 11)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(71, 22)
-        Me.btnReset.TabIndex = 155
-        Me.btnReset.Text = "Reset"
         '
         'ToDate
         '
@@ -246,7 +233,6 @@ Partial Class rptListofCowDCS
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -261,7 +247,6 @@ Partial Class rptListofCowDCS
     Friend WithEvents ToDate As RadDateTimePicker
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnGo As RadButton
-    Friend WithEvents btnReset As RadButton
     Friend WithEvents lblOwnMCC As common.Controls.MyLabel
     Friend WithEvents btnExp As RadSplitButton
     Friend WithEvents rmiExcel As RadMenuItem
