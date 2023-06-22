@@ -979,7 +979,7 @@ Public Class RptMCCsaleRegister
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add("Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy"))
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.ExciseSummary1 & "'"))
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & "'"))
             'If rbtnLocationSelect.IsChecked Then
             '    Dim strlocName As String = ""
             '    For Each StrName As String In cbgLocation.CheckedDisplayMember

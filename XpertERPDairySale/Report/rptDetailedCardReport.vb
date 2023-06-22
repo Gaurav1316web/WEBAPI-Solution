@@ -110,9 +110,10 @@ Public Class rptDetailedCardReport
     End Sub
     Private Sub ReStoreGridLayout()
         Try
-            If clsCommon.myLen(clsUserMgtCode.rptDetailedCardReport) > 0 Then
+            'clsCommon.myLen(clsUserMgtCode.rptDetailedCardReport) > 0 Then
+            If clsCommon.myLen("") > 0 Then
                 Dim obj As clsGridLayout = New clsGridLayout()
-                obj = CType(obj.GetData(clsUserMgtCode.rptDetailedCardReport, "", objCommonVar.CurrentUserCode), clsGridLayout)
+                obj = CType(obj.GetData("", "", objCommonVar.CurrentUserCode), clsGridLayout)
                 If Not obj Is Nothing AndAlso obj.GridColumns >= Gv1.ColumnCount Then
                     Dim ii As Integer
                     For ii = 0 To Gv1.Columns.Count - 1 Step ii + 1
@@ -133,7 +134,7 @@ Public Class rptDetailedCardReport
         txtLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("TransDetailedCardReport", qry, "Code", "Name", txtLocation.arrValueMember, txtLocation.arrDispalyMember)
     End Sub
     Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
-        Dim ReportID As String = clsUserMgtCode.rptDetailedCardReport
+        Dim ReportID As String = ""
         If clsCommon.myLen(ReportID) > 0 Then
             Gv1.MasterTemplate.FilterDescriptors.Clear()
             Dim obj As New clsGridLayout()
@@ -154,7 +155,7 @@ Public Class rptDetailedCardReport
     End Sub
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
-        clsGridLayout.DeleteData(clsUserMgtCode.rptDetailedCardReport, objCommonVar.CurrentUserCode)
+        clsGridLayout.DeleteData("", objCommonVar.CurrentUserCode)
         common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
     End Sub
 
@@ -166,7 +167,7 @@ Public Class rptDetailedCardReport
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDetailedCardReport & "'"))
+            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & "'"))
             arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy")) + " ")
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
 
@@ -180,11 +181,11 @@ Public Class rptDetailedCardReport
          
 
             If exporter = EnumExportTo.Excel Then
-                transportSql.applyExportTemplate(Gv1, clsUserMgtCode.rptDetailedCardReport)
+                transportSql.applyExportTemplate(Gv1, "")
                 clsCommon.MyExportToExcelGrid("Detailed Card Report", Gv1, arrHeader, Me.Text)
             Else
-                transportSql.applyExportTemplate(Gv1, clsUserMgtCode.rptDetailedCardReport)
-                clsCommon.MyExportToPDF("Detailed Card Report", Gv1, arrHeader, Me.Text, clsUserMgtCode.rptDetailedCardReport, objCommonVar.CurrentUserCode)
+                transportSql.applyExportTemplate(Gv1, "")
+                clsCommon.MyExportToPDF("Detailed Card Report", Gv1, arrHeader, Me.Text, "", objCommonVar.CurrentUserCode)
             End If
 
         Catch ex As Exception

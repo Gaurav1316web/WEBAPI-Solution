@@ -769,7 +769,7 @@ Public Class FrmTransactionApproval
                             ElseIf clsCommon.CompairString(clsUserMgtCode.frmMCCMaterial, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                                 obj1.Document_No = Gv1.Rows(i).Cells(colDocNo).Value
                                 obj1.Doc_Date = clsCommon.GetPrintDate(Gv1.Rows(i).Cells(colDocDate).Value, "dd/MMM/yyyy")
-                            ElseIf clsCommon.CompairString(clsUserMgtCode.frmVSPItemIssue, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                                'ElseIf clsCommon.CompairString(clsUserMgtCode.frmVSPItemIssue, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                                 obj1.Document_No = Gv1.Rows(i).Cells(colDocNo).Value
                                 obj1.Doc_Date = clsCommon.GetPrintDate(Gv1.Rows(i).Cells(colDocDate).Value, "dd/MMM/yyyy")
                             End If
@@ -882,7 +882,7 @@ Public Class FrmTransactionApproval
                                 ElseIf clsCommon.CompairString(clsUserMgtCode.frmMCCMaterial, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                                     clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSACTION_APPROVAL set Approve='2' where Document_No='" + obj1.Document_No + "'", trans)
                                     clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set Is_Advance_Approved=2 where Document_Code='" + obj1.Document_No + "'", trans)
-                                ElseIf clsCommon.CompairString(clsUserMgtCode.frmVSPItemIssue, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                                    'ElseIf clsCommon.CompairString(clsUserMgtCode.frmVSPItemIssue, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                                     clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSACTION_APPROVAL set Approve='2' where Document_No='" + obj1.Document_No + "'", trans)
                                 End If
 

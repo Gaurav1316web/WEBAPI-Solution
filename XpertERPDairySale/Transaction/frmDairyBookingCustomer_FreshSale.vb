@@ -1421,7 +1421,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                     obj.TRANSACTION_TYPE = IIf(rbtn_Fresh.IsChecked = True, "FS", "PS")
                 End If
 
-                obj.From_Screen_code = clsUserMgtCode.frmbookingdairyFreshSale
+                obj.From_Screen_code = ""
 
                 If EnableCustomerPODetailonDairyBooking = 1 Then
                     obj.SalesmanCode = txtSalesman.Value
@@ -1672,7 +1672,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                         End If
                     End If
                     ''============25/04/2018 Send Notification Alert for Ex Factory Date Entry, It show alert date befor one day of EX_factory_Date===========
-                    Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmbookingdairyFreshSale + "'", Nothing))
+                    Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + "'", Nothing))
                     If clsCommon.CompairString(strNotificationOn, "S") = CompairStringResult.Equal Then
                         If txtEx_Factory_Date.Checked = True Then
                             Dim Booking_Id As String = obj.Document_No
@@ -1888,7 +1888,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             Dim qry As String = ""
             Dim obj As New clsBookingEntryDairySale
             'Dim intRow As Integer
-            obj = clsBookingEntryDairySale.GetData(strCode, NavTyep, clsUserMgtCode.frmbookingdairyFreshSale)
+            obj = clsBookingEntryDairySale.GetData(strCode, NavTyep, "")
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
 
@@ -2235,7 +2235,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             If (myMessages.postConfirm()) Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,location_code from TSPL_BOOKING_MATSER where Document_No='" + txtDocNo.Value + "'", trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmbookingdairyFreshSale, clsCommon.myCstr(dt.Rows(0)("location_code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, "", clsCommon.myCstr(dt.Rows(0)("location_code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
                 End If
                 If clsCommon.myLen(txtDocNo.Value) > 0 Then
                     Dim qry = "Update TSPL_BOOKING_MATSER set Posted=1, " &
@@ -2253,7 +2253,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                     End If
                     'Next
                     '== Notification regarding
-                    Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmbookingdairyFreshSale + "'", trans))
+                    Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + "'", trans))
                     If clsCommon.CompairString(strNotificationOn, "P") = CompairStringResult.Equal Then
                         If txtEx_Factory_Date.Checked = True Then
                             Dim Booking_Id As String = txtDocNo.Value
@@ -2281,10 +2281,10 @@ Public Class frmDairyBookingCustomer_FreshSale
         End Try
     End Sub
     Private Shared Function CreateNotificationContentEMP(ByVal Booking_Id As String, ByVal Booking_Date As DateTime, ByVal Ex_Factory_Date As DateTime, ByVal trans As SqlTransaction) As Boolean
-        Dim strNotifiContent As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmbookingdairyFreshSale + "'", trans))
-        Dim strNotifi_DetalContent As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_Detail_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmbookingdairyFreshSale + "'", trans))
-        Dim strNotifiCaption As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_Caption from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmbookingdairyFreshSale + "'", trans))
-        Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmbookingdairyFreshSale + "'", trans))
+        Dim strNotifiContent As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_Text from TSPL_ES_Content where Form_ID='" + "'", trans))
+        Dim strNotifi_DetalContent As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_Detail_Text from TSPL_ES_Content where Form_ID='" + "'", trans))
+        Dim strNotifiCaption As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_Caption from TSPL_ES_Content where Form_ID='" + "'", trans))
+        Dim strNotificationOn As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Notification_On from TSPL_ES_Content where Form_ID='" + "'", trans))
 
         If clsCommon.myLen(strNotifiContent) > 0 Then
             Dim objNotification As New clsNotificationHead()
@@ -2296,7 +2296,7 @@ Public Class frmDairyBookingCustomer_FreshSale
             objNotification.Notification_Text = objNotification.Notification_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.Doc_No, clsCommon.myCstr(Booking_Id))
             objNotification.Notification_Text = objNotification.Notification_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.Doc_Date, clsCommon.myCstr(Booking_Date))
             objNotification.Notification_Text = objNotification.Notification_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.Ex_Factory_Date, clsCommon.myCstr(clsCommon.myCDate(Ex_Factory_Date)))
-            objNotification.SaveData(clsUserMgtCode.frmbookingdairyFreshSale, objNotification, trans)
+            objNotification.SaveData("", objNotification, trans)
             objNotification = Nothing
             Return True
         End If
@@ -2397,7 +2397,7 @@ Public Class frmDairyBookingCustomer_FreshSale
     Private Sub txtDocNo__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtDocNo._MYNavigator
         Try
 
-            Dim qry As String = "select count(*) from TSPL_BOOKING_MATSER where Document_No='" + txtDocNo.Value + "' and comp_code='" + objCommonVar.CurrentCompanyCode + "' and TSPL_BOOKING_MATSER.From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "'"
+            Dim qry As String = "select count(*) from TSPL_BOOKING_MATSER where Document_No='" + txtDocNo.Value + "' and comp_code='" + objCommonVar.CurrentCompanyCode + "' and TSPL_BOOKING_MATSER.From_Screen_code='" & "'"
             Dim check As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
             If check > 0 Then
                 txtDocNo.MyReadOnly = True
@@ -2419,7 +2419,7 @@ Public Class frmDairyBookingCustomer_FreshSale
         Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Document_No as DocumentNo,convert(varchar(12),TSPL_BOOKING_MATSER.Document_date,103) as Document_date,TSPL_CUSTOMER_MASTER.Cust_Code as Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.location_code as Location ,isnull(TSPL_BOOKING_MATSER.Booking_Type,'') as [Booking Type] ,case when TSPL_BOOKING_MATSER.Posted=1 then 'posted' else 'Unposted' end as Posted,TSPL_BOOKING_MATSER.card_sale_no as [Card Sale No],convert(varchar,TSPL_BOOKING_MATSER.CardSale_FROM_DATE ,103) as [Card Sale From Date],convert(varchar,TSPL_BOOKING_MATSER.CardSale_TO_DATE  ,103)  as [Card Sale To Date],FORMAT( TSPL_BOOKING_MATSER.Created_Date, 'dd/MM/yyyy hh:mm tt' ) as [Created Date] from TSPL_BOOKING_MATSER" &
          " left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No " &
          " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code "
-        Dim whrClas As String = " TSPL_BOOKING_MATSER.comp_code='" + objCommonVar.CurrentCompanyCode + "' and From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "'"
+        Dim whrClas As String = " TSPL_BOOKING_MATSER.comp_code='" + objCommonVar.CurrentCompanyCode + "' and From_Screen_code='" & "'"
         '-------richa 17/12/2019 show customer according to custoer permission Ticket No. ---------
         Dim strwherecls As String = ""
         strwherecls = Xtra.CustomerPermission()
@@ -2765,7 +2765,7 @@ Public Class frmDairyBookingCustomer_FreshSale
 #Region "New Mail System"
     Private Sub RadMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem3.Click
         Dim frm As New FrmMailSMSSettingNew2()
-        frm.FormId = clsUserMgtCode.frmbookingdairyFreshSale
+        frm.FormId = ""
         frm.ShowDialog()
     End Sub
 
@@ -2990,7 +2990,7 @@ Public Class frmDairyBookingCustomer_FreshSale
 
     Private Sub btnCreateDO_Click(sender As Object, e As EventArgs) Handles btnCreateDO.Click
 
-        RecordCount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_BOOKING_MATSER where  TSPL_BOOKING_MATSER.From_Screen_code='" & clsUserMgtCode.frmbookingdairyFreshSale & "' "))
+        RecordCount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_BOOKING_MATSER where  TSPL_BOOKING_MATSER.From_Screen_code='" & "' "))
         If RecordCount = 0 Then
             FlagFirstRecord = True
         Else
@@ -3096,7 +3096,7 @@ Public Class frmDairyBookingCustomer_FreshSale
                                     obj.TRANSACTION_TYPE = IIf(rbtn_Fresh.IsChecked = True, "FS", "PS")
                                 End If
 
-                                obj.From_Screen_code = clsUserMgtCode.frmbookingdairyFreshSale
+                                obj.From_Screen_code = ""
                                 obj.SalesmanCode = txtSalesman.Value
                                 obj.Cust_PO_No = txtPONo.Text
                                 If txtCustPODate.Checked Then

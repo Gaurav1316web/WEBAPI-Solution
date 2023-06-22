@@ -5,7 +5,7 @@ Public Class UcMilkPendingSRN
     Dim IsInsideLoadData As Boolean = False
     Public VendorCode As String = Nothing
     Public MpCode As String = Nothing
-    Public fORMCode As String = Nothing
+    'Public fORMCode As String = Nothing
     Public VendorName As String = Nothing
     Public stran As SqlTransaction
     Public strCurrCode As String = Nothing
@@ -824,7 +824,7 @@ Public Class UcMilkPendingSRN
                     VendorCode = strVendorCode
                     VendorName = strVendorName
                 End If
-                If fORMCode = clsUserMgtCode.MilkMPPayment Then
+                If isForMP Then
                     'Dim sQuery As String = "select count(*) from tspl_mp_master inner join tspl_vlc_master_Head on tspl_vlc_master_Head.vlc_Code=tspl_mp_master.vlc_Code and vsp_Code='" & VendorCode & "' and mp_Code='" & strVendorCode & "'"
                     'Dim cc As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sQuery, stran))
                     'If cc = 1 Then
@@ -847,7 +847,6 @@ Public Class UcMilkPendingSRN
                         common.clsCommon.MyMessageBoxShow("SRN's Vendor should be `" + VendorName)
                         e.Cancel = True
                     End If
-
                 End If
             End If
         End If

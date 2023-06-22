@@ -42,7 +42,7 @@ Public Class ClsSiloMilkTransfer
         Dim isSaved As Boolean = True
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmSiloMilkTransfer, obj.MainLocation_Code, obj.Document_Date, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmSiloMilkTransfer_JOBWORK, obj.MainLocation_Code, obj.Document_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, "", obj.MainLocation_Code, obj.Document_Date, trans)
 
 
             qry = "delete from TSPL_SILO_MILK_TRANSFER_DETAIL where Document_Code='" + obj.Document_Code + "'"
@@ -118,7 +118,7 @@ Public Class ClsSiloMilkTransfer
         End If
 
 
-        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmSiloMilkTransfer_JOBWORK, obj.MainLocation_Code, obj.Document_Date, trans)
+        clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, "", obj.MainLocation_Code, obj.Document_Date, trans)
         If clsCommon.CompairString(obj.Posted, "1") = CompairStringResult.Equal Then
             Throw New Exception("Already Posted Transaction :" + StrAdjustmentNo)
         End If
@@ -662,7 +662,7 @@ Public Class ClsSiloMilkTransfer
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select	Document_Date,MainLocation_Code from TSPL_SILO_MILK_TRANSFER_HEAD where Document_Code='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmSiloMilkTransfer, clsCommon.myCstr(dt.Rows(0)("MainLocation_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmSiloMilkTransfer_JOBWORK, clsCommon.myCstr(dt.Rows(0)("MainLocation_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, "", clsCommon.myCstr(dt.Rows(0)("MainLocation_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
             End If
             Dim issaved As Boolean = True
@@ -817,7 +817,7 @@ Public Class ClsSiloMilkTransfer
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
             Try
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmSiloMilkTransfer, obj.MainLocation_Code, obj.Document_Date, trans)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmSiloMilkTransfer_JOBWORK, obj.MainLocation_Code, obj.Document_Date, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, "", obj.MainLocation_Code, obj.Document_Date, trans)
 
                 HistoryUpdate(strCode, trans)
                 If (clsCommon.CompairString(obj.Posted, "1") = CompairStringResult.Equal) Then

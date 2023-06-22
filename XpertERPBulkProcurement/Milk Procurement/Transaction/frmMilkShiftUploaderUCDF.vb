@@ -42,12 +42,26 @@ Public Class frmMilkShiftUploaderUCDF
 
         settAlwaysVSPDefaulter = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AlwaysVSPDefaulter, clsFixedParameterCode.AlwaysVSPDefaulter, Nothing)) = 1)
         settSelectMilkRejectDefaulterManually = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SelectMilkRejectDefaulterManually, clsFixedParameterCode.SelectMilkRejectDefaulterManually, Nothing)) = 1)
+        LoadDockCollection()
         LoadShift()
         LoadShiftFrom()
         LoadReject()
         LoadLate()
         AddNew()
+
+
     End Sub
+
+    Private Sub LoadDockCollection()
+        cboDockCollectionMilkType.DataSource = clsMilkReceiptMCC.GetDockCollectionMilkType(False, True)
+        cboDockCollectionMilkType.ValueMember = "Code"
+        cboDockCollectionMilkType.DisplayMember = "Name"
+
+        cboDockCollectionMilkType.SelectedValue = "M"
+
+        cboDockCollectionMilkType.Enabled = objCommonVar.DisplayTypeInMilkReceipt
+    End Sub
+
     Public Sub LoadLate()
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(Integer))
@@ -208,23 +222,7 @@ Public Class frmMilkShiftUploaderUCDF
             txtDate.Focus()
             Throw New Exception("Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
         End If
-        'If txtTotEnteredQty.Value <= 0 Then
-        '    txtTotEnteredQty.Focus()
-        '    Throw New Exception("Please fill Total Entered Qty")
-        'End If
-        'If txtTotEnteredFAT.Value <= 0 Then
-        '    txtTotEnteredFAT.Focus()
-        '    Throw New Exception("Please fill Total FAT KG")
-        'End If
-        'If txtTotEnteredSNF.Value <= 0 Then
-        '    txtTotEnteredSNF.Focus()
-        '    Throw New Exception("Please fill Total FAT SNF")
-        'End If
 
-        'If clsCommon.myLen(txRoute.Value) <= 0 Then
-        '    txRoute.Focus()
-        '    Throw New Exception("Please select Route")
-        'End If
         If clsCommon.myLen(txtMCC.Value) <= 0 Then
             txtMCC.Focus()
             Throw New Exception("Please select MCC")
@@ -243,27 +241,27 @@ Public Class frmMilkShiftUploaderUCDF
             txtQty.Focus()
             Throw New Exception("Please enter Qty")
         End If
-
-        If clsCommon.myLen(txtFAT.Text) <= 0 Then
-            txtFAT.Focus()
-            Throw New Exception("Please enter FAT")
-        End If
-        If clsCommon.myLen(txtSNF.Value) <= 0 Then
-            txtSNF.Focus()
-            Throw New Exception("Please enter SNF")
-        End If
-
-        If Not settAllowZeroFATSNF Then
-            If txtFAT.Value <= 0 Then
+        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(clsCommon.myCstr(cboRejectType.SelectedValue), Nothing)
+        If intRejectApplicableOn <> 1 Then '' ''1-Reject Type is Rate 
+            If clsCommon.myLen(txtFAT.Text) <= 0 Then
                 txtFAT.Focus()
                 Throw New Exception("Please enter FAT")
             End If
-            If txtSNF.Value <= 0 Then
+            If clsCommon.myLen(txtSNF.Value) <= 0 Then
                 txtSNF.Focus()
                 Throw New Exception("Please enter SNF")
             End If
+            If Not settAllowZeroFATSNF Then
+                If txtFAT.Value <= 0 Then
+                    txtFAT.Focus()
+                    Throw New Exception("Please enter FAT")
+                End If
+                If txtSNF.Value <= 0 Then
+                    txtSNF.Focus()
+                    Throw New Exception("Please enter SNF")
+                End If
+            End If
         End If
-
         Return True
     End Function
 
@@ -349,7 +347,7 @@ Public Class frmMilkShiftUploaderUCDF
                 Else
                     objTr.SNo = gv1.Rows.Count + 1
                 End If
-                'objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDockCollectionMilkType).Value)
+                objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue)
                 objTr.VLC_Code = txtVLC.Tag
                 'objTr.No_Of_Cans = clsCommon.myCdbl(gv1.Rows(ii).Cells(colNoOfCan).Value)
                 objTr.Milk_Weight = txtQty.Value
@@ -696,7 +694,7 @@ Public Class frmMilkShiftUploaderUCDF
     Private Sub gv1_DoubleClick(sender As Object, e As EventArgs) Handles gv1.DoubleClick
         Try
             If clsCommon.myLen(gv1.CurrentRow.Cells("TR_No").Value) > 0 Then
-                Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Milk_Weight,TSPL_MILK_SHIFT_UPLOADER_DETAIL.FAT,TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNF,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO as ROUTE_NO,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME 
+                Dim qry As String = "select TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Dock_Collection_Milk_Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Milk_Weight,TSPL_MILK_SHIFT_UPLOADER_DETAIL.FAT,TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNF,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans,TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO as ROUTE_NO,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME 
                 from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
                 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
                 left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
@@ -714,6 +712,7 @@ Public Class frmMilkShiftUploaderUCDF
                     txtNoOfCan.Value = clsCommon.myCDecimal(dt.Rows(0)("No_Of_Cans"))
                     txtBulkRoute.Value = clsCommon.myCstr(dt.Rows(0)("ROUTE_NO"))
                     lblBulkRoute.Text = clsCommon.myCstr(dt.Rows(0)("ROUTE_NAME"))
+                    cboDockCollectionMilkType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("Dock_Collection_Milk_Type"))
                     txtVLC.Focus()
                 End If
             End If
@@ -924,6 +923,7 @@ Public Class frmMilkShiftUploaderUCDF
         frm.arrColsOrginal.Add(clsDBFTemplate.FAT, True)
         frm.arrColsOrginal.Add(clsDBFTemplate.SNF, True)
         frm.arrColsOrginal.Add(clsDBFTemplate.EmpatyCAN, False)
+        frm.arrColsOrginal.Add(clsDBFTemplate.DockCollectionMilkType, False)
         Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Code from TSPL_MILK_REJECT_TYPE")
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             For Each dr As DataRow In dt.Rows
@@ -980,4 +980,6 @@ Public Class frmMilkShiftUploaderUCDF
             gv1.Rows(i).Cells("SNo").Value = (i + 1)
         Next
     End Sub
+
+
 End Class

@@ -1171,6 +1171,505 @@ Partial Class frmVSP_VLCMaster
         Me.txtvendorname.Size = New System.Drawing.Size(282, 18)
         Me.txtvendorname.TabIndex = 1
         '
+        'pageCus
+        '
+        Me.pageCus.Controls.Add(Me.RadPageViewPage1)
+        Me.pageCus.Controls.Add(Me.RadPageViewPage2)
+        Me.pageCus.Controls.Add(Me.RadPageViewPage3)
+        Me.pageCus.Controls.Add(Me.RadPageViewPage4)
+        Me.pageCus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.pageCus.Location = New System.Drawing.Point(9, 76)
+        Me.pageCus.Name = "pageCus"
+        Me.pageCus.SelectedPage = Me.RadPageViewPage2
+        Me.pageCus.Size = New System.Drawing.Size(1066, 523)
+        Me.pageCus.TabIndex = 5
+        CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.txtVidhanSabha)
+        Me.RadPageViewPage1.Controls.Add(Me.lblVidhanSabha)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel57)
+        Me.RadPageViewPage1.Controls.Add(Me.txtPanchayatSamiti)
+        Me.RadPageViewPage1.Controls.Add(Me.lblPanchayatSamiti)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel55)
+        Me.RadPageViewPage1.Controls.Add(Me.txtGrampanchayat)
+        Me.RadPageViewPage1.Controls.Add(Me.lblGrampanchayat)
+        Me.RadPageViewPage1.Controls.Add(Me.txtGrampanchayat22)
+        Me.RadPageViewPage1.Controls.Add(Me.txtRevenueVillage)
+        Me.RadPageViewPage1.Controls.Add(Me.lblRevenueVillage)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel48)
+        Me.RadPageViewPage1.Controls.Add(Me.txtCastCategory)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel42)
+        Me.RadPageViewPage1.Controls.Add(Me.txtZone)
+        Me.RadPageViewPage1.Controls.Add(Me.lblZone)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel50)
+        Me.RadPageViewPage1.Controls.Add(Me.txtBlockCode)
+        Me.RadPageViewPage1.Controls.Add(Me.lblBlockCode)
+        Me.RadPageViewPage1.Controls.Add(Me.txtBlock)
+        Me.RadPageViewPage1.Controls.Add(Me.txtDistrict)
+        Me.RadPageViewPage1.Controls.Add(Me.lblDistrict)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel38)
+        Me.RadPageViewPage1.Controls.Add(Me.txtRegistrationDate)
+        Me.RadPageViewPage1.Controls.Add(Me.txtRegistrationNo)
+        Me.RadPageViewPage1.Controls.Add(Me.lblRegistrationDate)
+        Me.RadPageViewPage1.Controls.Add(Me.lblRegistrationNo)
+        Me.RadPageViewPage1.Controls.Add(Me.lblSupervisiorRPName)
+        Me.RadPageViewPage1.Controls.Add(Me.lblSupervisiorRP)
+        Me.RadPageViewPage1.Controls.Add(Me.txtSupervisiorRP)
+        Me.RadPageViewPage1.Controls.Add(Me.lblMCCOwnBMC)
+        Me.RadPageViewPage1.Controls.Add(Me.lblOwnMCC)
+        Me.RadPageViewPage1.Controls.Add(Me.txtMCCOwnBMC)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel29)
+        Me.RadPageViewPage1.Controls.Add(Me.cmbGender)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel27)
+        Me.RadPageViewPage1.Controls.Add(Me.ddlGender)
+        Me.RadPageViewPage1.Controls.Add(Me.GroupBox4)
+        Me.RadPageViewPage1.Controls.Add(Me.chkCreateCustomerAlso)
+        Me.RadPageViewPage1.Controls.Add(Me.TxtCreditLimitBasedOnMilkReceipt)
+        Me.RadPageViewPage1.Controls.Add(Me.chkCreditLimitBasedOnMilkReceipt)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel41)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel40)
+        Me.RadPageViewPage1.Controls.Add(Me.numCorrectionSNF)
+        Me.RadPageViewPage1.Controls.Add(Me.numCorrectionFat)
+        Me.RadPageViewPage1.Controls.Add(Me.TxtPinCode)
+        Me.RadPageViewPage1.Controls.Add(Me.txtIncentiveMult)
+        Me.RadPageViewPage1.Controls.Add(Me.chkMultIncentive)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel30)
+        Me.RadPageViewPage1.Controls.Add(Me.cmbvsppayment)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
+        Me.RadPageViewPage1.Controls.Add(Me.LblIncentive)
+        Me.RadPageViewPage1.Controls.Add(Me.txtjointname)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel22)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel7)
+        Me.RadPageViewPage1.Controls.Add(Me.FndIncentive)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel8)
+        Me.RadPageViewPage1.Controls.Add(Me.TxtPaymentCycle)
+        Me.RadPageViewPage1.Controls.Add(Me.txtpayeename)
+        Me.RadPageViewPage1.Controls.Add(Me.fndpaymentCycle)
+        Me.RadPageViewPage1.Controls.Add(Me.lblpaymentCycle)
+        Me.RadPageViewPage1.Controls.Add(Me.txtPhone2)
+        Me.RadPageViewPage1.Controls.Add(Me.txtPhone1)
+        Me.RadPageViewPage1.Controls.Add(Me.txtpan)
+        Me.RadPageViewPage1.Controls.Add(Me.lblpan)
+        Me.RadPageViewPage1.Controls.Add(Me.txtCity)
+        Me.RadPageViewPage1.Controls.Add(Me.txtcountrycode)
+        Me.RadPageViewPage1.Controls.Add(Me.txtCountry)
+        Me.RadPageViewPage1.Controls.Add(Me.txtState)
+        Me.RadPageViewPage1.Controls.Add(Me.txtstatecode)
+        Me.RadPageViewPage1.Controls.Add(Me.txtvndrtype)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
+        Me.RadPageViewPage1.Controls.Add(Me.fndCity)
+        Me.RadPageViewPage1.Controls.Add(Me.fndgroupcode)
+        Me.RadPageViewPage1.Controls.Add(Me.chktrarns)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel12)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel11)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel10)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel8)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel7)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel9)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel5)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel6)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel3)
+        Me.RadPageViewPage1.Controls.Add(Me.RadLabel2)
+        Me.RadPageViewPage1.Controls.Add(Me.lblCusGrp)
+        Me.RadPageViewPage1.Controls.Add(Me.txtWeb)
+        Me.RadPageViewPage1.Controls.Add(Me.txtfax)
+        Me.RadPageViewPage1.Controls.Add(Me.txtEmail)
+        Me.RadPageViewPage1.Controls.Add(Me.txtAdd2)
+        Me.RadPageViewPage1.Controls.Add(Me.txtAdd1)
+        Me.RadPageViewPage1.Controls.Add(Me.txtAdd3)
+        Me.RadPageViewPage1.Controls.Add(Me.txtgroupdes)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(84.0!, 26.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1045, 477)
+        Me.RadPageViewPage1.Text = "VSP Address"
+        '
+        'txtVidhanSabha
+        '
+        Me.txtVidhanSabha.CalculationExpression = Nothing
+        Me.txtVidhanSabha.FieldCode = Nothing
+        Me.txtVidhanSabha.FieldDesc = Nothing
+        Me.txtVidhanSabha.FieldMaxLength = 0
+        Me.txtVidhanSabha.FieldName = Nothing
+        Me.txtVidhanSabha.isCalculatedField = False
+        Me.txtVidhanSabha.IsSourceFromTable = False
+        Me.txtVidhanSabha.IsSourceFromValueList = False
+        Me.txtVidhanSabha.IsUnique = False
+        Me.txtVidhanSabha.Location = New System.Drawing.Point(716, 346)
+        Me.txtVidhanSabha.MendatroryField = True
+        Me.txtVidhanSabha.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVidhanSabha.MyLinkLable1 = Me.lblSupervisiorRP
+        Me.txtVidhanSabha.MyLinkLable2 = Nothing
+        Me.txtVidhanSabha.MyReadOnly = False
+        Me.txtVidhanSabha.MyShowMasterFormButton = True
+        Me.txtVidhanSabha.Name = "txtVidhanSabha"
+        Me.txtVidhanSabha.ReferenceFieldDesc = Nothing
+        Me.txtVidhanSabha.ReferenceFieldName = Nothing
+        Me.txtVidhanSabha.ReferenceTableName = Nothing
+        Me.txtVidhanSabha.Size = New System.Drawing.Size(145, 18)
+        Me.txtVidhanSabha.TabIndex = 382
+        Me.txtVidhanSabha.Value = ""
+        '
+        'lblSupervisiorRP
+        '
+        Me.lblSupervisiorRP.FieldName = Nothing
+        Me.lblSupervisiorRP.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSupervisiorRP.Location = New System.Drawing.Point(9, 420)
+        Me.lblSupervisiorRP.Name = "lblSupervisiorRP"
+        Me.lblSupervisiorRP.Size = New System.Drawing.Size(79, 16)
+        Me.lblSupervisiorRP.TabIndex = 354
+        Me.lblSupervisiorRP.Text = "Supervisor/RP"
+        '
+        'lblVidhanSabha
+        '
+        Me.lblVidhanSabha.AutoSize = False
+        Me.lblVidhanSabha.BorderVisible = True
+        Me.lblVidhanSabha.FieldName = Nothing
+        Me.lblVidhanSabha.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVidhanSabha.Location = New System.Drawing.Point(865, 346)
+        Me.lblVidhanSabha.Name = "lblVidhanSabha"
+        Me.lblVidhanSabha.Size = New System.Drawing.Size(178, 18)
+        Me.lblVidhanSabha.TabIndex = 381
+        Me.lblVidhanSabha.TextWrap = False
+        '
+        'MyLabel57
+        '
+        Me.MyLabel57.FieldName = Nothing
+        Me.MyLabel57.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel57.Location = New System.Drawing.Point(621, 347)
+        Me.MyLabel57.Name = "MyLabel57"
+        Me.MyLabel57.Size = New System.Drawing.Size(77, 16)
+        Me.MyLabel57.TabIndex = 380
+        Me.MyLabel57.Text = "Vidhan Sabha"
+        '
+        'txtPanchayatSamiti
+        '
+        Me.txtPanchayatSamiti.CalculationExpression = Nothing
+        Me.txtPanchayatSamiti.FieldCode = Nothing
+        Me.txtPanchayatSamiti.FieldDesc = Nothing
+        Me.txtPanchayatSamiti.FieldMaxLength = 0
+        Me.txtPanchayatSamiti.FieldName = Nothing
+        Me.txtPanchayatSamiti.isCalculatedField = False
+        Me.txtPanchayatSamiti.IsSourceFromTable = False
+        Me.txtPanchayatSamiti.IsSourceFromValueList = False
+        Me.txtPanchayatSamiti.IsUnique = False
+        Me.txtPanchayatSamiti.Location = New System.Drawing.Point(716, 322)
+        Me.txtPanchayatSamiti.MendatroryField = True
+        Me.txtPanchayatSamiti.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPanchayatSamiti.MyLinkLable1 = Me.lblSupervisiorRP
+        Me.txtPanchayatSamiti.MyLinkLable2 = Nothing
+        Me.txtPanchayatSamiti.MyReadOnly = False
+        Me.txtPanchayatSamiti.MyShowMasterFormButton = True
+        Me.txtPanchayatSamiti.Name = "txtPanchayatSamiti"
+        Me.txtPanchayatSamiti.ReferenceFieldDesc = Nothing
+        Me.txtPanchayatSamiti.ReferenceFieldName = Nothing
+        Me.txtPanchayatSamiti.ReferenceTableName = Nothing
+        Me.txtPanchayatSamiti.Size = New System.Drawing.Size(145, 18)
+        Me.txtPanchayatSamiti.TabIndex = 379
+        Me.txtPanchayatSamiti.Value = ""
+        '
+        'lblPanchayatSamiti
+        '
+        Me.lblPanchayatSamiti.AutoSize = False
+        Me.lblPanchayatSamiti.BorderVisible = True
+        Me.lblPanchayatSamiti.FieldName = Nothing
+        Me.lblPanchayatSamiti.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPanchayatSamiti.Location = New System.Drawing.Point(865, 322)
+        Me.lblPanchayatSamiti.Name = "lblPanchayatSamiti"
+        Me.lblPanchayatSamiti.Size = New System.Drawing.Size(178, 18)
+        Me.lblPanchayatSamiti.TabIndex = 378
+        Me.lblPanchayatSamiti.TextWrap = False
+        '
+        'MyLabel55
+        '
+        Me.MyLabel55.FieldName = Nothing
+        Me.MyLabel55.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel55.Location = New System.Drawing.Point(621, 323)
+        Me.MyLabel55.Name = "MyLabel55"
+        Me.MyLabel55.Size = New System.Drawing.Size(94, 16)
+        Me.MyLabel55.TabIndex = 377
+        Me.MyLabel55.Text = "Panchayat Samiti"
+        '
+        'txtGrampanchayat
+        '
+        Me.txtGrampanchayat.CalculationExpression = Nothing
+        Me.txtGrampanchayat.FieldCode = Nothing
+        Me.txtGrampanchayat.FieldDesc = Nothing
+        Me.txtGrampanchayat.FieldMaxLength = 0
+        Me.txtGrampanchayat.FieldName = Nothing
+        Me.txtGrampanchayat.isCalculatedField = False
+        Me.txtGrampanchayat.IsSourceFromTable = False
+        Me.txtGrampanchayat.IsSourceFromValueList = False
+        Me.txtGrampanchayat.IsUnique = False
+        Me.txtGrampanchayat.Location = New System.Drawing.Point(716, 299)
+        Me.txtGrampanchayat.MendatroryField = True
+        Me.txtGrampanchayat.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGrampanchayat.MyLinkLable1 = Me.lblSupervisiorRP
+        Me.txtGrampanchayat.MyLinkLable2 = Nothing
+        Me.txtGrampanchayat.MyReadOnly = False
+        Me.txtGrampanchayat.MyShowMasterFormButton = True
+        Me.txtGrampanchayat.Name = "txtGrampanchayat"
+        Me.txtGrampanchayat.ReferenceFieldDesc = Nothing
+        Me.txtGrampanchayat.ReferenceFieldName = Nothing
+        Me.txtGrampanchayat.ReferenceTableName = Nothing
+        Me.txtGrampanchayat.Size = New System.Drawing.Size(145, 18)
+        Me.txtGrampanchayat.TabIndex = 376
+        Me.txtGrampanchayat.Value = ""
+        '
+        'lblGrampanchayat
+        '
+        Me.lblGrampanchayat.AutoSize = False
+        Me.lblGrampanchayat.BorderVisible = True
+        Me.lblGrampanchayat.FieldName = Nothing
+        Me.lblGrampanchayat.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGrampanchayat.Location = New System.Drawing.Point(865, 299)
+        Me.lblGrampanchayat.Name = "lblGrampanchayat"
+        Me.lblGrampanchayat.Size = New System.Drawing.Size(178, 18)
+        Me.lblGrampanchayat.TabIndex = 375
+        Me.lblGrampanchayat.TextWrap = False
+        '
+        'txtGrampanchayat22
+        '
+        Me.txtGrampanchayat22.FieldName = Nothing
+        Me.txtGrampanchayat22.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGrampanchayat22.Location = New System.Drawing.Point(621, 300)
+        Me.txtGrampanchayat22.Name = "txtGrampanchayat22"
+        Me.txtGrampanchayat22.Size = New System.Drawing.Size(87, 16)
+        Me.txtGrampanchayat22.TabIndex = 374
+        Me.txtGrampanchayat22.Text = "Grampanchayat"
+        '
+        'txtRevenueVillage
+        '
+        Me.txtRevenueVillage.CalculationExpression = Nothing
+        Me.txtRevenueVillage.FieldCode = Nothing
+        Me.txtRevenueVillage.FieldDesc = Nothing
+        Me.txtRevenueVillage.FieldMaxLength = 0
+        Me.txtRevenueVillage.FieldName = Nothing
+        Me.txtRevenueVillage.isCalculatedField = False
+        Me.txtRevenueVillage.IsSourceFromTable = False
+        Me.txtRevenueVillage.IsSourceFromValueList = False
+        Me.txtRevenueVillage.IsUnique = False
+        Me.txtRevenueVillage.Location = New System.Drawing.Point(716, 276)
+        Me.txtRevenueVillage.MendatroryField = True
+        Me.txtRevenueVillage.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRevenueVillage.MyLinkLable1 = Me.lblSupervisiorRP
+        Me.txtRevenueVillage.MyLinkLable2 = Nothing
+        Me.txtRevenueVillage.MyReadOnly = False
+        Me.txtRevenueVillage.MyShowMasterFormButton = True
+        Me.txtRevenueVillage.Name = "txtRevenueVillage"
+        Me.txtRevenueVillage.ReferenceFieldDesc = Nothing
+        Me.txtRevenueVillage.ReferenceFieldName = Nothing
+        Me.txtRevenueVillage.ReferenceTableName = Nothing
+        Me.txtRevenueVillage.Size = New System.Drawing.Size(145, 18)
+        Me.txtRevenueVillage.TabIndex = 373
+        Me.txtRevenueVillage.Value = ""
+        '
+        'lblRevenueVillage
+        '
+        Me.lblRevenueVillage.AutoSize = False
+        Me.lblRevenueVillage.BorderVisible = True
+        Me.lblRevenueVillage.FieldName = Nothing
+        Me.lblRevenueVillage.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRevenueVillage.Location = New System.Drawing.Point(865, 276)
+        Me.lblRevenueVillage.Name = "lblRevenueVillage"
+        Me.lblRevenueVillage.Size = New System.Drawing.Size(178, 18)
+        Me.lblRevenueVillage.TabIndex = 372
+        Me.lblRevenueVillage.TextWrap = False
+        '
+        'MyLabel48
+        '
+        Me.MyLabel48.FieldName = Nothing
+        Me.MyLabel48.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel48.Location = New System.Drawing.Point(621, 277)
+        Me.MyLabel48.Name = "MyLabel48"
+        Me.MyLabel48.Size = New System.Drawing.Size(89, 16)
+        Me.MyLabel48.TabIndex = 371
+        Me.MyLabel48.Text = "Revenue Village"
+        '
+        'txtCastCategory
+        '
+        Me.txtCastCategory.CalculationExpression = Nothing
+        Me.txtCastCategory.FieldCode = Nothing
+        Me.txtCastCategory.FieldDesc = Nothing
+        Me.txtCastCategory.FieldMaxLength = 0
+        Me.txtCastCategory.FieldName = Nothing
+        Me.txtCastCategory.isCalculatedField = False
+        Me.txtCastCategory.IsSourceFromTable = False
+        Me.txtCastCategory.IsSourceFromValueList = False
+        Me.txtCastCategory.IsUnique = False
+        Me.txtCastCategory.Location = New System.Drawing.Point(484, 154)
+        Me.txtCastCategory.MendatroryField = True
+        Me.txtCastCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCastCategory.MyLinkLable1 = Me.lblSupervisiorRP
+        Me.txtCastCategory.MyLinkLable2 = Nothing
+        Me.txtCastCategory.MyReadOnly = False
+        Me.txtCastCategory.MyShowMasterFormButton = False
+        Me.txtCastCategory.Name = "txtCastCategory"
+        Me.txtCastCategory.ReferenceFieldDesc = Nothing
+        Me.txtCastCategory.ReferenceFieldName = Nothing
+        Me.txtCastCategory.ReferenceTableName = Nothing
+        Me.txtCastCategory.Size = New System.Drawing.Size(124, 18)
+        Me.txtCastCategory.TabIndex = 370
+        Me.txtCastCategory.Value = ""
+        '
+        'MyLabel42
+        '
+        Me.MyLabel42.FieldName = Nothing
+        Me.MyLabel42.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel42.Location = New System.Drawing.Point(402, 155)
+        Me.MyLabel42.Name = "MyLabel42"
+        Me.MyLabel42.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel42.TabIndex = 369
+        Me.MyLabel42.Text = "Cast Category"
+        '
+        'txtZone
+        '
+        Me.txtZone.CalculationExpression = Nothing
+        Me.txtZone.FieldCode = Nothing
+        Me.txtZone.FieldDesc = Nothing
+        Me.txtZone.FieldMaxLength = 0
+        Me.txtZone.FieldName = Nothing
+        Me.txtZone.isCalculatedField = False
+        Me.txtZone.IsSourceFromTable = False
+        Me.txtZone.IsSourceFromValueList = False
+        Me.txtZone.IsUnique = False
+        Me.txtZone.Location = New System.Drawing.Point(716, 252)
+        Me.txtZone.MendatroryField = True
+        Me.txtZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtZone.MyLinkLable1 = Me.lblSupervisiorRP
+        Me.txtZone.MyLinkLable2 = Nothing
+        Me.txtZone.MyReadOnly = False
+        Me.txtZone.MyShowMasterFormButton = True
+        Me.txtZone.Name = "txtZone"
+        Me.txtZone.ReferenceFieldDesc = Nothing
+        Me.txtZone.ReferenceFieldName = Nothing
+        Me.txtZone.ReferenceTableName = Nothing
+        Me.txtZone.Size = New System.Drawing.Size(145, 18)
+        Me.txtZone.TabIndex = 368
+        Me.txtZone.Value = ""
+        '
+        'lblZone
+        '
+        Me.lblZone.AutoSize = False
+        Me.lblZone.BorderVisible = True
+        Me.lblZone.FieldName = Nothing
+        Me.lblZone.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblZone.Location = New System.Drawing.Point(865, 252)
+        Me.lblZone.Name = "lblZone"
+        Me.lblZone.Size = New System.Drawing.Size(177, 18)
+        Me.lblZone.TabIndex = 367
+        Me.lblZone.TextWrap = False
+        '
+        'MyLabel50
+        '
+        Me.MyLabel50.FieldName = Nothing
+        Me.MyLabel50.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel50.Location = New System.Drawing.Point(621, 253)
+        Me.MyLabel50.Name = "MyLabel50"
+        Me.MyLabel50.Size = New System.Drawing.Size(32, 16)
+        Me.MyLabel50.TabIndex = 366
+        Me.MyLabel50.Text = "Zone"
+        '
+        'txtBlockCode
+        '
+        Me.txtBlockCode.CalculationExpression = Nothing
+        Me.txtBlockCode.FieldCode = Nothing
+        Me.txtBlockCode.FieldDesc = Nothing
+        Me.txtBlockCode.FieldMaxLength = 0
+        Me.txtBlockCode.FieldName = Nothing
+        Me.txtBlockCode.isCalculatedField = False
+        Me.txtBlockCode.IsSourceFromTable = False
+        Me.txtBlockCode.IsSourceFromValueList = False
+        Me.txtBlockCode.IsUnique = False
+        Me.txtBlockCode.Location = New System.Drawing.Point(716, 229)
+        Me.txtBlockCode.MendatroryField = True
+        Me.txtBlockCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBlockCode.MyLinkLable1 = Me.lblSupervisiorRP
+        Me.txtBlockCode.MyLinkLable2 = Nothing
+        Me.txtBlockCode.MyReadOnly = False
+        Me.txtBlockCode.MyShowMasterFormButton = True
+        Me.txtBlockCode.Name = "txtBlockCode"
+        Me.txtBlockCode.ReferenceFieldDesc = Nothing
+        Me.txtBlockCode.ReferenceFieldName = Nothing
+        Me.txtBlockCode.ReferenceTableName = Nothing
+        Me.txtBlockCode.Size = New System.Drawing.Size(145, 18)
+        Me.txtBlockCode.TabIndex = 365
+        Me.txtBlockCode.Value = ""
+        '
+        'lblBlockCode
+        '
+        Me.lblBlockCode.AutoSize = False
+        Me.lblBlockCode.BorderVisible = True
+        Me.lblBlockCode.FieldName = Nothing
+        Me.lblBlockCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBlockCode.Location = New System.Drawing.Point(865, 229)
+        Me.lblBlockCode.Name = "lblBlockCode"
+        Me.lblBlockCode.Size = New System.Drawing.Size(178, 18)
+        Me.lblBlockCode.TabIndex = 364
+        Me.lblBlockCode.TextWrap = False
+        '
+        'txtBlock
+        '
+        Me.txtBlock.FieldName = Nothing
+        Me.txtBlock.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBlock.Location = New System.Drawing.Point(621, 230)
+        Me.txtBlock.Name = "txtBlock"
+        Me.txtBlock.Size = New System.Drawing.Size(34, 16)
+        Me.txtBlock.TabIndex = 363
+        Me.txtBlock.Text = "Block"
+        '
+        'txtDistrict
+        '
+        Me.txtDistrict.CalculationExpression = Nothing
+        Me.txtDistrict.FieldCode = Nothing
+        Me.txtDistrict.FieldDesc = Nothing
+        Me.txtDistrict.FieldMaxLength = 0
+        Me.txtDistrict.FieldName = Nothing
+        Me.txtDistrict.isCalculatedField = False
+        Me.txtDistrict.IsSourceFromTable = False
+        Me.txtDistrict.IsSourceFromValueList = False
+        Me.txtDistrict.IsUnique = False
+        Me.txtDistrict.Location = New System.Drawing.Point(716, 205)
+        Me.txtDistrict.MendatroryField = True
+        Me.txtDistrict.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDistrict.MyLinkLable1 = Me.lblSupervisiorRP
+        Me.txtDistrict.MyLinkLable2 = Nothing
+        Me.txtDistrict.MyReadOnly = False
+        Me.txtDistrict.MyShowMasterFormButton = True
+        Me.txtDistrict.Name = "txtDistrict"
+        Me.txtDistrict.ReferenceFieldDesc = Nothing
+        Me.txtDistrict.ReferenceFieldName = Nothing
+        Me.txtDistrict.ReferenceTableName = Nothing
+        Me.txtDistrict.Size = New System.Drawing.Size(145, 18)
+        Me.txtDistrict.TabIndex = 362
+        Me.txtDistrict.Value = ""
+        '
+        'lblDistrict
+        '
+        Me.lblDistrict.AutoSize = False
+        Me.lblDistrict.BorderVisible = True
+        Me.lblDistrict.FieldName = Nothing
+        Me.lblDistrict.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDistrict.Location = New System.Drawing.Point(865, 205)
+        Me.lblDistrict.Name = "lblDistrict"
+        Me.lblDistrict.Size = New System.Drawing.Size(177, 18)
+        Me.lblDistrict.TabIndex = 361
+        Me.lblDistrict.TextWrap = False
+        '
+        'MyLabel38
+        '
+        Me.MyLabel38.FieldName = Nothing
+        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel38.Location = New System.Drawing.Point(621, 206)
+        Me.MyLabel38.Name = "MyLabel38"
+        Me.MyLabel38.Size = New System.Drawing.Size(41, 16)
+        Me.MyLabel38.TabIndex = 360
+        Me.MyLabel38.Text = "District"
+        '
         'txtRegistrationDate
         '
         Me.txtRegistrationDate.CalculationExpression = Nothing

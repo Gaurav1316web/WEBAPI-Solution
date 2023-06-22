@@ -13,13 +13,21 @@ Public Class frmOwnBMCGainLossRate
     Dim Qry As String
 #End Region
     Private Sub frmOwnBMCGainLossRate_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        funreset()
+        funReset()
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P  for Post ")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(rdbtnreset, "Press Alt+N Adding New")
+        MyLabel10.Visible = False
+        MyLabel7.Visible = False
+        MyLabel8.Visible = False
+        MyLabel9.Visible = False
+        txtGainFATPer.Visible = False
+        txtGainSNFPer.Visible = False
+        txtLossFATPer.Visible = False
+        txtLossSNFPer.Visible = False
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -109,25 +117,25 @@ Public Class frmOwnBMCGainLossRate
     End Sub
 
     Function AllowToSave() As Boolean
-        If txtFat.Value <= 0 Then
+        If txtFat.Value < 0 Then
             myMessages.blankValue("GFAT")
             txtFat.Focus()
             Return False
         End If
 
-        If txtSNF.Value <= 0 Then
+        If txtSNF.Value < 0 Then
             myMessages.blankValue("GSNF")
             txtSNF.Focus()
             Return False
         End If
 
-        If txtLFat.Value <= 0 Then
+        If txtLFat.Value < 0 Then
             myMessages.blankValue("LFAT")
             txtLFat.Focus()
             Return False
         End If
 
-        If txtLSnf.Value <= 0 Then
+        If txtLSnf.Value < 0 Then
             myMessages.blankValue("LSNF")
             txtLSnf.Focus()
             Return False
@@ -135,6 +143,11 @@ Public Class frmOwnBMCGainLossRate
 
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
             myMessages.blankValue("Description")
+            txtDescription.Focus()
+            Return False
+        End If
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            myMessages.blankValue("Code")
             txtDescription.Focus()
             Return False
         End If
@@ -214,10 +227,10 @@ Public Class frmOwnBMCGainLossRate
         txtSNF.Text = ""
         txtLFat.Text = ""
         txtLSnf.Text = ""
-        txtLossFATPer.Value = ""
-        txtLossSNFPer.Value = ""
-        txtGainFATPer.Value = ""
-        txtGainSNFPer.Value = ""
+        txtLossFATPer.Value = 0
+        txtLossSNFPer.Value = 0
+        txtGainFATPer.Value = 0
+        txtGainSNFPer.Value = 0
         txtCode.Value = Nothing
         txtDescription.Text = Nothing
         dtpEndDate.Value = clsCommon.GETSERVERDATE()

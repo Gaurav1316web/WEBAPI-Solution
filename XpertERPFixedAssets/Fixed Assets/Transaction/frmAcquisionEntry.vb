@@ -6677,7 +6677,7 @@ Public Class frmAcquisionEntry
         Dim objVendor As clsTDSVendorDetails = clsTDSVendorDetails.GetData(txtVendorNo.Value)
         If objVendor IsNot Nothing Then
             btnTDSDetail.Enabled = True
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(lblNetAmt.Text))
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(lblNetAmt.Text), Nothing, False, txtVendorNo.Value)
             If (objDedDetails IsNot Nothing) Then
                 objRemittance = New clsRemittance()
                 objRemittance.Branch_Code = objVendor.Branch_Code
@@ -6709,7 +6709,7 @@ Public Class frmAcquisionEntry
         If (objRemittance Is Nothing) Then
             SetVendorTDSDetails()
         Else
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(lblNetAmt.Text))
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(lblNetAmt.Text), Nothing, False, txtVendorNo.Value)
             If (objDedDetails IsNot Nothing AndAlso objRemittance.IsApplyTDS) Then
                 objRemittance.TDS_Per = objDedDetails.TDS
                 objRemittance.Surcharge_Per = objDedDetails.Surcharge

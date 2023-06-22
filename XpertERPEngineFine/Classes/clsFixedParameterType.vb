@@ -47,6 +47,7 @@ Public Class clsFixedParameterType
     Public Const AndroidAPPVersion As String = "Android APP Version"
     Public Const AndroidMPMaster As String = "Android MP Master"
     Public Const AndroidMPIncetiveEntry As String = "Android MP Incetive Entry"
+    Public Const AndroidMilkCollectionBMCDCS As String = "Android Milk Collection BMC DCS"
     Public Const MPIncentiveEntryApplyMonthly As String = "MP Incentive Entry Apply Monthly"
     Public Const MPIncentiveEntryCycleWiseButNEFTMonthly As String = "MP Incentive Entry Cycle Wise But NEFT Monthly"
 
@@ -1340,7 +1341,12 @@ Public Class clsFixedParameterCode
     Public Const JPRDairyMandatoryColumn As String = "JPR Dairy Mandatory Column"
     Public Const VerifiedJanAadharNo As String = "Verified Jan Aadhar No"
     Public Const MultipleEntryScreen As String = "Multiple Entry Screen"
+    Public Const MultipleEntryScreenAdmin As String = "Multiple Entry Screen Admin"
     Public Const QtyDecimalPlaces As String = "Qty Decimal Places"
+    Public Const TolleranceQty As String = "Tollerance Qty"
+    Public Const TolleranceFAT As String = "Tollerance FAT"
+    Public Const TolleranceSNF As String = "Tollerance SNF"
+
     Public Const comtecxpertappsaras As String = "com.tecxpert.app.saras"
     Public Const comTecxpertSarasPro As String = "com.tecxpert.saras_pro"
     Public Const comAnchal_ucdfErp As String = "com.anchal_ucdf.erp"
@@ -2818,7 +2824,13 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.JPRDairyMandatoryColumn, "0", "Mandatory Column Account No,IFSC")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPMaster, clsFixedParameterCode.VerifiedJanAadharNo, "0", "0:OFF,1:ON;Pick Farmer only Verified Janaadhar No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreen, "0", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreenAdmin, "1", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.QtyDecimalPlaces, "0", "[0,1,2] Qty Decimal Places In MP Incentive Entry")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceSNF, "100", "Tollerance % of SNF")
+
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comAnchal_ucdfErp, "", "Version of Aanchal Pro APP [0 Skip]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comtecxpertappsaras, "", "Version of SARAS Sales APP [0 Skip]")
@@ -4379,8 +4391,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, EnumControlType.CheckBox)
 
-        InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.OwnBMCApplicationFATRatio, clsFixedParameterCode.OwnBMCApplicationFATRatio, EnumControlType.NumericBox)
-        InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.OwnBMCApplicationSNFRatio, clsFixedParameterCode.OwnBMCApplicationSNFRatio, EnumControlType.NumericBox)
+        'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.OwnBMCApplicationFATRatio, clsFixedParameterCode.OwnBMCApplicationFATRatio, EnumControlType.NumericBox)
+        'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.OwnBMCApplicationSNFRatio, clsFixedParameterCode.OwnBMCApplicationSNFRatio, EnumControlType.NumericBox)
 
 
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, clsFixedParameterType.FATSNFNoDecimalDCS, clsFixedParameterCode.FATSNFNoDecimalDCS, EnumControlType.CheckBox)
@@ -4519,16 +4531,16 @@ Public Class clsFixedParameterProgramMapping
 
         ' == KUNAL > TICKET :  BM00000009575 ===
 
-        InsertDefaultValue(clsUserMgtCode.MilkTruckSheet, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.MilkTruckSheet, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmOpenMCCShift, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBulkMilkSRN, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBulkMilkSRNReturn, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmDispatchTransfer, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmDispatchTransfer, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmGateOut, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCGateEntry, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCGateEntry, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MccMilkTransferPrice, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCWeighment, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCWeighment, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.frmMilkPurchaseInvoice, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkShiftEndMCC, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
@@ -4538,7 +4550,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmMCCMilkTransPortorInvoice, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmVLCDataUploaderManual, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmVSPItemIssue, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmVSPItemIssue, clsFixedParameterType.AllowFutureDateTransaction, clsFixedParameterCode.AllowFutureDateTransaction, EnumControlType.CheckBox)
 
         ' == KUNAL > TICKET : BM00000009580 ===
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.AllowPurchaseModulewithUniqueItem, clsFixedParameterCode.AllowPurchaseModulewithUniqueItem, EnumControlType.CheckBox)
@@ -4740,7 +4752,7 @@ Public Class clsFixedParameterProgramMapping
 
         '--------------------end here---------------
         ''richa 
-        InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsFixedParameterType.showPostrequiredforBulkSale, clsFixedParameterCode.showPostrequiredforBulkSale, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsFixedParameterType.showPostrequiredforBulkSale, clsFixedParameterCode.showPostrequiredforBulkSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSale, clsFixedParameterType.showPostrequiredforBulkSale, clsFixedParameterCode.showPostrequiredforBulkSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmCreateAutoInvoiceBS, clsFixedParameterType.showPostrequiredforBulkSale, clsFixedParameterCode.showPostrequiredforBulkSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBulkPurchaseUploader, clsFixedParameterType.showPostrequiredforBulkSale, clsFixedParameterCode.showPostrequiredforBulkSale, EnumControlType.CheckBox)
@@ -4759,9 +4771,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmParameterMaster, clsFixedParameterType.AllowUseBoilingParameteronParameterMaster, clsFixedParameterCode.AllowUseBoilingParameteronParameterMaster, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmQualityCheck, clsFixedParameterType.AllowUseBoilingParameteronParameterMaster, clsFixedParameterCode.AllowUseBoilingParameteronParameterMaster, EnumControlType.CheckBox)
 
-        InsertDefaultValue(clsUserMgtCode.SecondarySettingForQC, clsFixedParameterType.AllowAdditionalWeightinPercentage, clsFixedParameterCode.AllowAdditionalWeightinPercentage, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.SecondarySettingForQC, clsFixedParameterType.EnterAdditionalWeight, clsFixedParameterCode.EnterAdditionalWeight, EnumControlType.TextBox)
-        InsertDefaultValue(clsUserMgtCode.SecondarySettingForQC, clsFixedParameterType.AllowRandomOnlyOneSecondaryQC, clsFixedParameterCode.AllowRandomOnlyOneSecondaryQC, EnumControlType.TextBox)
+        'InsertDefaultValue(clsUserMgtCode.SecondarySettingForQC, clsFixedParameterType.AllowAdditionalWeightinPercentage, clsFixedParameterCode.AllowAdditionalWeightinPercentage, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.SecondarySettingForQC, clsFixedParameterType.EnterAdditionalWeight, clsFixedParameterCode.EnterAdditionalWeight, EnumControlType.TextBox)
+        'InsertDefaultValue(clsUserMgtCode.SecondarySettingForQC, clsFixedParameterType.AllowRandomOnlyOneSecondaryQC, clsFixedParameterCode.AllowRandomOnlyOneSecondaryQC, EnumControlType.TextBox)
 
         InsertDefaultValue(clsUserMgtCode.MilkReject, clsFixedParameterType.FATDeductionPercent, clsFixedParameterCode.FATDeductionPercent, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.MilkReject, clsFixedParameterType.SNFDeductionPercent, clsFixedParameterCode.SNFDeductionPercent, EnumControlType.NumericBox)
@@ -5015,7 +5027,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.ApplyFEFO, clsFixedParameterCode.ApplyFEFO, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmSRNJobWorkEstimate, clsFixedParameterType.CreateJVofPackingMaterialofJWInwardinJWEstimate, clsFixedParameterCode.CreateJVofPackingMaterialofJWInwardinJWEstimate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.journalEntry, clsFixedParameterType.AllowJEofDifferentLocationOnJournalEntry, clsFixedParameterCode.AllowJEofDifferentLocationOnJournalEntry, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.JobWorkDispatch, clsFixedParameterType.AllowtoenterrateIntoJobWorkDispatch, clsFixedParameterCode.AllowtoenterrateIntoJobWorkDispatch, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.JobWorkDispatch, clsFixedParameterType.AllowtoenterrateIntoJobWorkDispatch, clsFixedParameterCode.AllowtoenterrateIntoJobWorkDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSale, clsFixedParameterType.TCSTaxApplicableOnbulkSale, clsFixedParameterCode.TCSTaxApplicableOnbulkSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmCanSale, clsFixedParameterType.TCSTaxApplicableOnCanSale, clsFixedParameterCode.TCSTaxApplicableOnCanSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.mbtnStoreAdjustment, clsFixedParameterType.ItemCostZeroOnStoreAdjForTypeFlushing, clsFixedParameterCode.ItemCostZeroOnStoreAdjForTypeFlushing, EnumControlType.CheckBox)
@@ -5233,7 +5245,7 @@ Public Class clsFixedParameterProgramMapping
 
 
 
-        InsertDefaultValue(clsUserMgtCode.FrmReceiptInvoiceMapping, clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.FrmReceiptInvoiceMapping, clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.PrefixGeneration, clsFixedParameterType.AutoGeneratePrefix, clsFixedParameterCode.AutoGeneratePrefix, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.FrmCustomersOutstanding, clsFixedParameterType.PenaltyPercentage, clsFixedParameterCode.PenaltyPercentage, EnumControlType.NumericBox)
@@ -5269,8 +5281,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMilkShiftEndMCC, clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, EnumControlType.NumericBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCGateEntry, clsFixedParameterType.IsAutoTankerWeightment, clsFixedParameterCode.IsAutoTankerWeightment, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCWeighment, clsFixedParameterType.IsAutoTankerWeightment, clsFixedParameterCode.IsAutoTankerWeightment, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCGateEntry, clsFixedParameterType.IsAutoTankerWeightment, clsFixedParameterCode.IsAutoTankerWeightment, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCWeighment, clsFixedParameterType.IsAutoTankerWeightment, clsFixedParameterCode.IsAutoTankerWeightment, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.AllowJobWorkonGateEntryBulkProc, clsFixedParameterCode.AllowJobWorkonGateEntryBulkProc, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.AllowFractionInMCCTankerDispatchGrossQty, clsFixedParameterCode.AllowFractionInMCCTankerDispatchGrossQty, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.IsUOMSelectableOnMCCDispatch, clsFixedParameterCode.IsUOMSelectableOnMCCDispatch, EnumControlType.CheckBox)
@@ -5280,11 +5292,11 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.ItemDescForTankerdispatchPrint, clsFixedParameterCode.ItemDescForTankerDispatchPrint, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.SkipCogsEntry, clsFixedParameterCode.SkipCogsEntry, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.CreateCommonSeriesLocationwiseForAllSale, clsFixedParameterCode.CreateCommonSeriesLocationwiseForAllSale, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, clsFixedParameterType.MilkProc, clsFixedParameterCode.CreateTankerDispatchGL, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, clsFixedParameterType.MilkProc, clsFixedParameterCode.CreateTankerDispatchGL, EnumControlType.CheckBox)
 
-        InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, clsFixedParameterType.TransferEntryOnInvCtrlAccount, clsFixedParameterCode.TransferEntryOnInvCtrlAccount, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, clsFixedParameterType.SkipCogsEntry, clsFixedParameterCode.SkipCogsEntry, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, clsFixedParameterType.GateEntryTankerFromTankerMaster, clsFixedParameterCode.GateEntryTankerFromTankerMaster, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, clsFixedParameterType.TransferEntryOnInvCtrlAccount, clsFixedParameterCode.TransferEntryOnInvCtrlAccount, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, clsFixedParameterType.SkipCogsEntry, clsFixedParameterCode.SkipCogsEntry, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.MCCDispatchReturn, clsFixedParameterType.GateEntryTankerFromTankerMaster, clsFixedParameterCode.GateEntryTankerFromTankerMaster, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkPurchaseInvoice, clsFixedParameterType.AutoRoundOffSeprateAccountOnVendorTransaction, clsFixedParameterCode.AutoRoundOffSeprateAccountOnVendorTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkPurchaseInvoice, clsFixedParameterType.NoOfDaysForMultiInceForSameVSPForSamePayCycle, clsFixedParameterCode.NoOfDaysForMultiInceForSameVSPForSamePayCycle, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkPurchaseInvoice, clsFixedParameterType.VSPMPDiffrenceOnTSBasis, clsFixedParameterCode.VSPMPDiffrenceOnTSBasis, EnumControlType.CheckBox)
@@ -5292,7 +5304,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.ShowTaxRateColumnOnTransaction, clsFixedParameterCode.ShowTaxRateColumnOnTransaction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterialSaleReturn, clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterialSaleReturn, clsFixedParameterType.ShowTaxRateColumnOnTransaction, clsFixedParameterCode.ShowTaxRateColumnOnTransaction, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmVSPItemIssue, clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmVSPItemIssue, clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPIssuePayment, clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPIssuePayment, clsFixedParameterType.StopVSPBillIfSomethingWrong, clsFixedParameterCode.StopVSPBillIfSomethingWrong, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPIssuePayment, clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, EnumControlType.CheckBox)
@@ -5302,9 +5314,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.FrmMCCMilkTransPortorInvoice, clsFixedParameterType.ShowTaxRateColumnOnTransaction, clsFixedParameterCode.ShowTaxRateColumnOnTransaction, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.DipMarkingMendatory, clsFixedParameterCode.DipMarkingMendatory, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryMCCSAle, clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.DipMarkingMendatory, clsFixedParameterCode.DipMarkingMendatory, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryMCCSAle, clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, EnumControlType.CheckBox)
 
         ' Payable 
 
@@ -5407,7 +5419,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.mbtnIssueReturn, clsFixedParameterType.IsCostEditableOnIssueReturnTransfer, clsFixedParameterCode.IsCostEditableOnIssueReturnTransfer, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMaterialQuotationComparison, clsFixedParameterType.AllowRoundOff_OnCSASalePatti, clsFixedParameterCode.AllowRoundOff_OnCSASalePatti, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmStoreRequistion, clsFixedParameterType.EnableStoreCostCentre, clsFixedParameterCode.EnableStoreCostCentre, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.JobWorkDispatch, clsFixedParameterType.GrossWtFromItemMasterONCSATransfer, clsFixedParameterCode.GrossWtFromItemMasterONCSATransfer, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.JobWorkDispatch, clsFixedParameterType.GrossWtFromItemMasterONCSATransfer, clsFixedParameterCode.GrossWtFromItemMasterONCSATransfer, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryMISSAle, clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, EnumControlType.CheckBox)
         'Sanjay TEC/04/06/18-000273
         InsertDefaultValue(clsUserMgtCode.Transfer, clsFixedParameterType.ShowCrateJaaliBoxIntransfer, clsFixedParameterCode.ShowCrateJaaliBoxIntransfer, EnumControlType.CheckBox)
@@ -5446,20 +5458,20 @@ Public Class clsFixedParameterProgramMapping
         ' By Prabhakar==================================================================================================================
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCMaterial, clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.StopVSPBillIfSomethingWrong, clsFixedParameterCode.StopVSPBillIfSomethingWrong, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.DoNotIncludeIncentiveInMilkPurchaseInvoice, clsFixedParameterCode.DoNotIncludeIncentiveInMilkPurchaseInvoice, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.isFarmerPaymentCycle, clsFixedParameterCode.isFarmerPaymentCycle, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.ControlSampleMandatory, clsFixedParameterCode.MilkSetting, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.MilkProc, clsFixedParameterCode.IsItemEditableOnMCCDispatch, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.MilkProc, clsFixedParameterCode.IsUOMSelectableOnMCCDispatch, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.IsAutoTankerWeightment, clsFixedParameterCode.IsAutoTankerWeightment, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.IsChamberWiseTanker, clsFixedParameterCode.IsChamberWiseTanker, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.MilkProc, clsFixedParameterCode.DisAllowIntermittentTankerForPlantDispatch, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.MilkProc, clsFixedParameterCode.CreateTankerDispatchGL, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.SkipCogsEntry, clsFixedParameterCode.SkipCogsEntry, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.TransferEntryOnInvCtrlAccount, clsFixedParameterCode.TransferEntryOnInvCtrlAccount, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.GateEntryTankerFromTankerMaster, clsFixedParameterCode.GateEntryTankerFromTankerMaster, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.StopVSPBillIfSomethingWrong, clsFixedParameterCode.StopVSPBillIfSomethingWrong, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.DoNotIncludeIncentiveInMilkPurchaseInvoice, clsFixedParameterCode.DoNotIncludeIncentiveInMilkPurchaseInvoice, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, clsFixedParameterType.isFarmerPaymentCycle, clsFixedParameterCode.isFarmerPaymentCycle, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.ControlSampleMandatory, clsFixedParameterCode.MilkSetting, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.MilkProc, clsFixedParameterCode.IsItemEditableOnMCCDispatch, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.MilkProc, clsFixedParameterCode.IsUOMSelectableOnMCCDispatch, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.IsAutoTankerWeightment, clsFixedParameterCode.IsAutoTankerWeightment, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.IsChamberWiseTanker, clsFixedParameterCode.IsChamberWiseTanker, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.MilkProc, clsFixedParameterCode.DisAllowIntermittentTankerForPlantDispatch, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.MilkProc, clsFixedParameterCode.CreateTankerDispatchGL, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.SkipCogsEntry, clsFixedParameterCode.SkipCogsEntry, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.TransferEntryOnInvCtrlAccount, clsFixedParameterCode.TransferEntryOnInvCtrlAccount, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, clsFixedParameterType.GateEntryTankerFromTankerMaster, clsFixedParameterCode.GateEntryTankerFromTankerMaster, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.frmAssembDis, clsFixedParameterType.FATSNFRateMandatory, clsFixedParameterCode.FATSNFRateMandatory, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmAssembDis, clsFixedParameterType.RunBatchFifowise, clsFixedParameterCode.RunBatchFifowise, EnumControlType.CheckBox)
@@ -5692,9 +5704,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmInvoiceBulkSale, clsFixedParameterType.ApplyMultiChamberInBulkWeighmentEntry, clsFixedParameterCode.ApplyMultiChamberInBulkWeighmentEntry, EnumControlType.CheckBox)
 
         '' Bulk Dispatch Trade
-        InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsFixedParameterType.AllowSNFNotManditoryInBulkSale, clsFixedParameterCode.AllowSNFNotManditoryInBulkSale, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsFixedParameterType.BulkSaleDefaultMilkItem, clsFixedParameterCode.BulkSaleDefaultMilkItem, EnumControlType.TextBox)
-        InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsFixedParameterType.AllowStockToleranceNegative, clsFixedParameterCode.AllowStockToleranceNegative, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsFixedParameterType.AllowSNFNotManditoryInBulkSale, clsFixedParameterCode.AllowSNFNotManditoryInBulkSale, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsFixedParameterType.BulkSaleDefaultMilkItem, clsFixedParameterCode.BulkSaleDefaultMilkItem, EnumControlType.TextBox)
+        'InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsFixedParameterType.AllowStockToleranceNegative, clsFixedParameterCode.AllowStockToleranceNegative, EnumControlType.CheckBox)
 
         '' Bulk Dispatah Return
         InsertDefaultValue(clsUserMgtCode.FrmBulkDispatchReturnSale, clsFixedParameterType.AllowToSaveTimeWithDocumentDate, clsFixedParameterCode.AllowToSaveTimeWithDocumentDate, EnumControlType.CheckBox)
@@ -5706,9 +5718,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmCanSale, clsFixedParameterType.AllowStockToleranceNegative, clsFixedParameterCode.AllowStockToleranceNegative, EnumControlType.CheckBox)
 
         '' Bulk Dispatch Trade Return
-        InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, clsFixedParameterType.showPostrequiredforBulkSale, clsFixedParameterCode.showPostrequiredforBulkSale, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, clsFixedParameterType.AllowSNFNotManditoryInBulkSale, clsFixedParameterCode.AllowSNFNotManditoryInBulkSale, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, clsFixedParameterType.BulkSaleDefaultMilkItem, clsFixedParameterCode.BulkSaleDefaultMilkItem, EnumControlType.TextBox)
+        'InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, clsFixedParameterType.showPostrequiredforBulkSale, clsFixedParameterCode.showPostrequiredforBulkSale, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, clsFixedParameterType.AllowSNFNotManditoryInBulkSale, clsFixedParameterCode.AllowSNFNotManditoryInBulkSale, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, clsFixedParameterType.BulkSaleDefaultMilkItem, clsFixedParameterCode.BulkSaleDefaultMilkItem, EnumControlType.TextBox)
 
         '' Sales Setting
         InsertDefaultValue(clsUserMgtCode.FrmSaleSettingBulk, clsFixedParameterType.BulkSaleDefaultMilkItem, clsFixedParameterCode.BulkSaleDefaultMilkItem, EnumControlType.TextBox)
@@ -5924,7 +5936,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmProfitAndLossPerforma, clsFixedParameterType.SelectGLInProftAndLossPerforma, clsFixedParameterCode.SelectGLInProftAndLossPerforma, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBalanceSheetPerforma, clsFixedParameterType.SelectGLInBalanceSheetPerforma, clsFixedParameterCode.SelectGLInBalanceSheetPerforma, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBalanceSheetPerforma, clsFixedParameterType.BalanceSheetPerformaWithFormula, clsFixedParameterCode.BalanceSheetPerformaWithFormula, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.CashFlowPerforma, clsFixedParameterType.SelectGLInCashFlowPerforma, clsFixedParameterCode.SelectGLInCashFlowPerforma, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.CashFlowPerforma, clsFixedParameterType.SelectGLInCashFlowPerforma, clsFixedParameterCode.SelectGLInCashFlowPerforma, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPriceChartBulkProc, clsFixedParameterType.BulkProcurementApplyTotalSoidRate, clsFixedParameterCode.BulkProcurementApplyTotalSoidRate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBulkMilkSRN, clsFixedParameterType.CalculateLtrQtyFromKGQtyByCLR, clsFixedParameterCode.CalculateLtrQtyFromKGQtyByCLR, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBulkMilkSRN, clsFixedParameterType.ApplyCalculateWeightInLtr, clsFixedParameterCode.ApplyCalculateWeightInLtr, EnumControlType.CheckBox)
@@ -6047,18 +6059,18 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmSaleSettingProduct, clsFixedParameterType.AmountLimitForInvoiceBulkSale, clsFixedParameterCode.AmountLimitForInvoiceBulkSale, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.FrmSaleSettingFreshDS, clsFixedParameterType.AmountLimitForInvoiceBulkSale, clsFixedParameterCode.AmountLimitForInvoiceBulkSale, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSale, clsFixedParameterType.AmountLimitForInvoiceBulkSale, clsFixedParameterCode.AmountLimitForInvoiceBulkSale, EnumControlType.NumericBox)
-        InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsFixedParameterType.AmountLimitForInvoiceBulkSale, clsFixedParameterCode.AmountLimitForInvoiceBulkSale, EnumControlType.NumericBox)
+        'InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, clsFixedParameterType.AmountLimitForInvoiceBulkSale, clsFixedParameterCode.AmountLimitForInvoiceBulkSale, EnumControlType.NumericBox)
 
 
 
         InsertDefaultValue(clsUserMgtCode.frmBalanceSheetPerforma, clsFixedParameterType.BalanceSheetProftAndLossGroupCode, clsFixedParameterCode.BalanceSheetProftAndLossGroupCode, EnumControlType.NumericBox)
-        InsertDefaultValue(clsUserMgtCode.CashFlowPerforma, clsFixedParameterType.BalanceSheetProftAndLossGroupCode, clsFixedParameterCode.BalanceSheetProftAndLossGroupCode, EnumControlType.NumericBox)
+        'InsertDefaultValue(clsUserMgtCode.CashFlowPerforma, clsFixedParameterType.BalanceSheetProftAndLossGroupCode, clsFixedParameterCode.BalanceSheetProftAndLossGroupCode, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmProfitAndLossPerforma, clsFixedParameterType.BalanceSheetProftAndLossGroupCode, clsFixedParameterCode.BalanceSheetProftAndLossGroupCode, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.rptBalanceSheet, clsFixedParameterType.BalanceSheetProftAndLossGroupCode, clsFixedParameterCode.BalanceSheetProftAndLossGroupCode, EnumControlType.NumericBox)
 
 
         InsertDefaultValue(clsUserMgtCode.frmBalanceSheetPerforma, clsFixedParameterType.BalanceSheetProftAndLossGroupDesc, clsFixedParameterCode.BalanceSheetProftAndLossGroupDesc, EnumControlType.TextBox)
-        InsertDefaultValue(clsUserMgtCode.CashFlowPerforma, clsFixedParameterType.BalanceSheetProftAndLossGroupDesc, clsFixedParameterCode.BalanceSheetProftAndLossGroupDesc, EnumControlType.TextBox)
+        'InsertDefaultValue(clsUserMgtCode.CashFlowPerforma, clsFixedParameterType.BalanceSheetProftAndLossGroupDesc, clsFixedParameterCode.BalanceSheetProftAndLossGroupDesc, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmProfitAndLossPerforma, clsFixedParameterType.BalanceSheetProftAndLossGroupDesc, clsFixedParameterCode.BalanceSheetProftAndLossGroupDesc, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.rptBalanceSheet, clsFixedParameterType.BalanceSheetProftAndLossGroupDesc, clsFixedParameterCode.BalanceSheetProftAndLossGroupDesc, EnumControlType.TextBox)
 
@@ -6187,7 +6199,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingUploader, clsFixedParameterType.AllowZeroQtyOnDairyBookingUploader, clsFixedParameterCode.AllowZeroQtyOnDairyBookingUploader, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.DonotIncludeSecurityInCustomerOutstanding, clsFixedParameterCode.DonotIncludeSecurityInCustomerOutstanding, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmVendorService, clsFixedParameterType.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, clsFixedParameterCode.ApplyNoGSTCreditIndependentlyOnVendorServiceCharge, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmbookingdairyFreshSale, clsFixedParameterType.CheckNoOfDaysforCardSaleBooking, clsFixedParameterCode.CheckNoOfDaysforCardSaleBooking, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmbookingdairyFreshSale, clsFixedParameterType.CheckNoOfDaysforCardSaleBooking, clsFixedParameterCode.CheckNoOfDaysforCardSaleBooking, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ShowBookingTypeDropDownonDairyBookingCustomer, clsFixedParameterCode.ShowBookingTypeDropDownonDairyBookingCustomer, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmGateEntry, clsFixedParameterType.ShowFATSNFPerOnBulkProcInGateIN, clsFixedParameterCode.ShowFATSNFPerOnBulkProcInGateIN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.AllowItemCostMandatoryForStockingUnit, clsFixedParameterCode.AllowItemCostMandatoryForStockingUnit, EnumControlType.CheckBox)
@@ -6248,7 +6260,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.EnableItemShortDescriptionInBooking, clsFixedParameterCode.EnableItemShortDescriptionInBooking, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.AllowDuplicateItemShortDescriptionInItemMaster, clsFixedParameterCode.AllowDuplicateItemShortDescriptionInItemMaster, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSalaryGeneration, clsFixedParameterType.DoNotCreatePaymentWhileSalaryGeneration, clsFixedParameterCode.DoNotCreatePaymentWhileSalaryGeneration, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerGateOut, clsFixedParameterType.MccPlantSelectionOptionInMccTankerGateOut, clsFixedParameterCode.MccPlantSelectionOptionInMccTankerGateOut, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerGateOut, clsFixedParameterType.MccPlantSelectionOptionInMccTankerGateOut, clsFixedParameterCode.MccPlantSelectionOptionInMccTankerGateOut, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.EnableTankerNoInMccTankerDispWithMccTankerGateOut, clsFixedParameterCode.EnableTankerNoInMccTankerDispWithMccTankerGateOut, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMCCDispatch, clsFixedParameterType.AllowToEnterSnfAtPlantInMccTankerDispatch, clsFixedParameterCode.AllowToEnterSnfAtPlantInMccTankerDispatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSalaryGeneration, clsFixedParameterType.AllowtoSelDateandBankforPayEntryOnSalaryGeneration, clsFixedParameterCode.AllowtoSelDateandBankforPayEntryOnSalaryGeneration, EnumControlType.CheckBox)
@@ -6289,7 +6301,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmPendingRequisitionQty, clsFixedParameterType.ShowStatusItemWiseInPendingRequisitionRpt, clsFixedParameterCode.ShowStatusItemWiseInPendingRequisitionRpt, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.vendormaster, clsFixedParameterType.DoNotCheckAnyValidationOnVendorInactive, clsFixedParameterCode.DoNotCheckAnyValidationOnVendorInactive, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.userMaster, clsFixedParameterType.UserWiseRouteMapping, clsFixedParameterCode.UserWiseRouteMapping, EnumControlType.CheckBox)
-        InsertDefaultValue(clsUserMgtCode.frmMCCTankerGateOut, clsFixedParameterType.CreateMCCTankerGateOutBasedOnBulkRouteMaster, clsFixedParameterCode.CreateMCCTankerGateOutBasedOnBulkRouteMaster, EnumControlType.CheckBox)
+        'InsertDefaultValue(clsUserMgtCode.frmMCCTankerGateOut, clsFixedParameterType.CreateMCCTankerGateOutBasedOnBulkRouteMaster, clsFixedParameterCode.CreateMCCTankerGateOutBasedOnBulkRouteMaster, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.CreateGatePassFromDemand, clsFixedParameterCode.CreateGatePassFromDemand, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.RptBulkMilkRegister, clsFixedParameterType.PickFatSnfKGFromBulkMilkSRNInBulkMilkRegister, clsFixedParameterCode.PickFatSnfKGFromBulkMilkSRNInBulkMilkRegister, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmEmployee_Master, clsFixedParameterType.AadharNoMandatoryOnEmpMaster, clsFixedParameterCode.AadharNoMandatoryOnEmpMaster, EnumControlType.CheckBox)

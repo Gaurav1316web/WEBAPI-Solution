@@ -345,6 +345,7 @@ Public Class FrmPaymentNew
         dtpPayment.Enabled = True
         txtPaymentNo.Value = ""
         txtDescription.Text = ""
+        chkSaving.Checked = False
         dtpPayment.Value = clsCommon.GETSERVERDATE()
         txtVendorCode.Value = ""
         lblVendorName.Text = ""
@@ -649,7 +650,7 @@ Public Class FrmPaymentNew
                 btnViewTDSDetails.Enabled = False
                 ChkAdvSalary.Visible = True
                 pnlEMI.Visible = True
-
+                chkSaving.Visible = False
                 If clsCommon.CompairString(ddlPaymentType.SelectedValue, "AV") = CompairStringResult.Equal Then
                     pnlmemorndm.Visible = True
                     lblpaymentcode.Visible = True
@@ -660,6 +661,8 @@ Public Class FrmPaymentNew
                     ChkSecurity.Visible = False
                     LblPONo.Visible = True
                     txtPONo.Visible = True
+                Else
+                    chkSaving.Visible = True
                 End If
                 If objCommonVar.IsDemoERP = True Then
                     pnlCform.Visible = True
@@ -984,7 +987,7 @@ Public Class FrmPaymentNew
                 objVendor.Nature_Of_Deduction = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ISNULL(Deduction_Code,'')  from tspl_vendor_master where Vendor_Code ='" & txtVendorCode.Value & "'"))
             End If
             btnViewTDSDetails.Enabled = True
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(txtPaymentAmt.Text))
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(txtPaymentAmt.Text), Nothing, False, txtVendorCode.Value)
             If (objDedDetails IsNot Nothing) Then
                 objRemittance = New clsRemittance()
                 objRemittance.Branch_Code = objVendor.Branch_Code
@@ -2057,7 +2060,11 @@ Public Class FrmPaymentNew
                             obj.Advance_Against_Salary = 0
                         End If
                     End If
+                    If clsCommon.CompairString(ddlPaymentType.SelectedValue, "OA") = CompairStringResult.Equal Then
+                        obj.Saving = chkSaving.Checked
+                    End If
                 End If
+
                 obj.isFarmerLoanPayment = IIf(chkFarmerLoanPayment.Checked = True, 1, 0)
                 ''
                 obj.IsChkReverse = "N"
@@ -3129,6 +3136,7 @@ Public Class FrmPaymentNew
                 Else
                     ChkSecurity.Visible = False
                 End If
+                chkSaving.Checked = obj.Saving
                 chkFarmerLoanPayment.Checked = IIf(obj.isFarmerLoanPayment = 1, True, False)
 
                 ddlPaymentType.SelectedValue = clsCommon.myCstr(obj.Payment_Type)
@@ -3759,7 +3767,7 @@ Public Class FrmPaymentNew
         If (objRemittance Is Nothing) Then
             SetVendorTDSDetails()
         Else
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, dblTotAmt)
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, dblTotAmt, Nothing, False, txtVendorCode.Value)
             If (objDedDetails IsNot Nothing) Then
                 objRemittance.TDS_Per = objDedDetails.TDS
                 objRemittance.Surcharge_Per = objDedDetails.Surcharge

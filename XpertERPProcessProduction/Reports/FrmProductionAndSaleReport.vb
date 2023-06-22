@@ -11,7 +11,7 @@ Public Class FrmProductionAndSaleReport
 
 #Region "Variables"
     Dim buttontooltip As ToolTip = New ToolTip()
-    Dim DayCount As Int16 =0
+    Dim DayCount As Int16 = 0
 #End Region
 
 
@@ -41,7 +41,11 @@ Public Class FrmProductionAndSaleReport
         toDate.Visible = False
     End Sub
 
+    'Public Class clsDateDetail
+    '    Public dtCurrent As Date? = Nothing
+    '    Public dtNext As Date? = Nothing
 
+    'End Class
 
 
     Public Sub fillGridReport()
@@ -57,6 +61,8 @@ Public Class FrmProductionAndSaleReport
 
             Dim fDate As DateTime = Nothing
             Dim tDate As DateTime = Nothing
+            Dim dtcurrent As DateTime = Nothing
+            Dim dtnext As DateTime = Nothing
             'DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
             'Dim tDate As DateTime = New DateTime(Year, Month, DateTime.DaysInMonth(Year, Month))
             ',TSPL_LOCATION_MASTER.location_code as [Location Code]
@@ -85,11 +91,13 @@ Public Class FrmProductionAndSaleReport
 
                 query = "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
                         ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location]
-                        ,cast((TSPL_LOCATION_MASTER.Silo_Capacity) AS DECIMAL(18,0)) as [Capacity],TSPL_LOCATION_MASTER.No_Of_Shift AS [No of Shift]
+                        ,cast((TSPL_LOCATION_MASTER.Silo_Capacity/31*(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "')))) AS DECIMAL(18,0)) as [Capacity],
+                        NoOfShift
                         ,CAST((ProdDailyQty.Qty/1000) AS DECIMAL(18,0)) as ProdDailyQty
                         ,CAST((ProdCumQty.Qty/1000) AS DECIMAL(18,0)) as ProdCumQty
                         ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then CAST(ProdDailyQty.Qty*100/(TSPL_LOCATION_MASTER.Silo_Capacity*1000) AS DECIMAL(18,0)) else 0 end as CUD
                         ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then CAST((ProdCumQty.Qty*100)/(TSPL_LOCATION_MASTER.Silo_Capacity*1000*" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)) else 0 end as CUM
+                        ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then CAST((ProdCumQty.Qty*100)/(TSPL_LOCATION_MASTER.Silo_Capacity*1000*" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)) else 0 end as CUY
                         ,CAST(SaleDailyQty.Qty AS DECIMAL(18,0)) as SaleDailyQty
                         ,CAST(SaleCumQty.Qty AS DECIMAL(18,0)) as SaleCumQty
                         ,CAST(FGS.Qty AS DECIMAL(18,0)) as FGS
@@ -97,6 +105,13 @@ Public Class FrmProductionAndSaleReport
                         ,BreakDown.BreakdownHRS
                         ,BreakDown.BreakdownREASON
                         FROM TSPL_LOCATION_MASTER 
+
+                        Left outer join 
+						(select count (TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
+						WHERE CONVERT (DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) BETWEEN CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) AND CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)  
+                           Group By LOCATION_CODE) NoOfShift
+						   ON TSPL_LOCATION_MASTER.LOCATION_CODE = NoOfShift.LOCATION_CODE
+
                          LEFT OUTER JOIN
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
@@ -153,7 +168,7 @@ Public Class FrmProductionAndSaleReport
                          from TSPL_BREAK_DOWN_ENTRY
                         left join TSPL_BREAK_DOWN_MASTER ON TSPL_BREAK_DOWN_ENTRY.Break_Down_Code = TSPL_BREAK_DOWN_MASTER.CODE
                         left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BREAK_DOWN_ENTRY.Location_Code
-                        WHERE convert(date,TSPL_BREAK_DOWN_ENTRY.Doc_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)) BreakDown
+                        WHERE convert(date,TSPL_BREAK_DOWN_ENTRY.Start_Time,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)) BreakDown
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =BreakDown.Location_Code "
 
 
@@ -166,9 +181,13 @@ Public Class FrmProductionAndSaleReport
                 'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
                 'dtpFrom.Value = fDate
                 'toDate.Value = tDate
+                'dtcurrent = fromDate.Value
+                'dtnext = toDate.Value
                 fDate = fromDate.Value
                 tDate = toDate.Value
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
+
+
                 'Dim strLocation As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME(TSPL_LOCATION_MASTER.location_code) as Alies_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0' FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') ")
                 'Dim strMainLocation As String = clsDBFuncationality.getSingleValue("SELECT TSPL_LOCATION_MASTER.Loc_Short_Name FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='1'")
                 Dim StrTempQry As String = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT  
@@ -334,6 +353,8 @@ Public Class FrmProductionAndSaleReport
         End Try
     End Sub
 
+
+
     Sub SetGridFormat(ByRef Gv1 As RadGridView)
         Gv1.ShowGroupPanel = False
         Gv1.ShowRowHeaderColumn = False
@@ -351,11 +372,13 @@ Public Class FrmProductionAndSaleReport
 
 
         If rdbDaily.Checked = True Then
-            Gv1.Columns("No of Shift").HeaderText = "No of Shift" + Environment.NewLine + "Operated"
+            'Gv1.Columns("NoOfShift").HeaderText = "NoOfShift" + Environment.NewLine + "Operated"
+            Gv1.Columns("NoOfShift").HeaderText = "NoOfShift"
             Gv1.Columns("ProdDailyQty").HeaderText = "Daily"
             Gv1.Columns("ProdCumQty").HeaderText = "Cummulative" + Environment.NewLine + "(MTD)"
             Gv1.Columns("CUD").HeaderText = "DLY %"
             Gv1.Columns("CUM").HeaderText = "MTD %"
+            Gv1.Columns("CUY").HeaderText = "YTD %"
             Gv1.Columns("SaleDailyQty").HeaderText = "Daily"
             Gv1.Columns("SaleCumQty").HeaderText = "Cummulative" + Environment.NewLine + "(MTD)"
             Gv1.Columns("PSO").HeaderText = "Pending" + Environment.NewLine + "Supply Orders"
@@ -383,14 +406,22 @@ Public Class FrmProductionAndSaleReport
             item6.AggregateExpression = "IIf(sum(Capacity)>0,(sum(ProdCumQty)*100)/(sum(Capacity)*" + clsCommon.myCstr(DayCount) + "),0)"
             summaryRowItem.Add(item6)
 
-            Dim item7 As New GridViewSummaryItem("SaleDailyQty", "{0:F0}", GridAggregateFunction.Sum)
+            Dim item7 As New GridViewSummaryItem()
+            item7.FormatString = "{0:F0}"
+            item7.Name = "CUY"
+            item7.AggregateExpression = "IIf(sum(Capacity)>0,(sum(ProdCumQty)*100)/(sum(Capacity)*" + clsCommon.myCstr(DayCount) + "),0)"
             summaryRowItem.Add(item7)
-            Dim item8 As New GridViewSummaryItem("SaleCumQty", "{0:F0}", GridAggregateFunction.Sum)
+
+
+
+            Dim item8 As New GridViewSummaryItem("SaleDailyQty", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item8)
-            Dim item9 As New GridViewSummaryItem("FGS", "{0:F0}", GridAggregateFunction.Sum)
+            Dim item9 As New GridViewSummaryItem("SaleCumQty", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item9)
-            Dim item10 As New GridViewSummaryItem("PSO", "{0:F0}", GridAggregateFunction.Sum)
+            Dim item10 As New GridViewSummaryItem("FGS", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item10)
+            Dim item11 As New GridViewSummaryItem("PSO", "{0:F0}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item11)
 
             Dim item21 As New GridViewSummaryItem("BreakdownHRS", "{0:F0}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item21)
@@ -498,9 +529,12 @@ Public Class FrmProductionAndSaleReport
             If exporter = EnumExportTo.Excel Then
                 transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 transportSql.QuickExportToExcel(gv1, "", StrReportName, , arrHeader)
-            Else
+                'Else
                 'transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
                 'clsCommon.MyExportToPDF(Label1.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+
+            If rdbDaily.Checked = True Then
 
                 Dim doc As New RadPrintDocument()
 
@@ -509,17 +543,59 @@ Public Class FrmProductionAndSaleReport
                 doc.Margins.Left = 50
                 doc.Margins.Right = 50
                 doc.HeaderHeight = 100
+                doc.FooterHeight = 200
                 doc.Landscape = True
-                doc.LeftFooter = "Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")
-                doc.RightFooter = "User : " + objCommonVar.CurrentUser
+                doc.LeftFooter = "Remark : For No demand,weekly maintenance and one section of plant/machine failure reasons,please mention Zero in hours column" +
+                Environment.NewLine + "Code List of Raw Materials" +
+                Environment.NewLine + "1 DORB                    2 RICE BRAIN" +
+                Environment.NewLine + "3 DOMC                    4 GWAR KORMA" +
+                Environment.NewLine + "5 MAIZE                    6 GWAR CHURI" +
+                Environment.NewLine + "7 BARLEY SOUND           8 MOLASSES"
+
+                'doc.LeftFooter = "Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")
+                'doc.RightFooter = "User : " + objCommonVar.CurrentUser
+                'doc.RightFooter = "ATUL MATHUR-RCDF" + Environment.NewLine + "MANAGER(SYSTEMS)"
+                doc.RightFooter = clsDBFuncationality.getSingleValue("SELECT Range_Name from TSPL_LOCATION_MASTER where Location_Code ='RCDF'") + Environment.NewLine + clsDBFuncationality.getSingleValue("SELECT Range_Address from TSPL_LOCATION_MASTER where Location_Code ='RCDF'")
                 doc.AssociatedObject = gv1
 
                 'Dim strHeader As String = Label1.Text 'Me.Text.Replace("/", "")
 
-                doc.MiddleHeader = StrReportName + Environment.NewLine + fromDate.Value.ToString("MMMM") + " " + clsCommon.myCstr(fromDate.Value.Year)
+                'doc.MiddleHeader = StrReportName + Environment.NewLine + fromDate.Value.ToString("MMMM") + " " + clsCommon.myCstr(fromDate.Value.Year)
+                doc.MiddleHeader = "RCDF CATTLE FEED PLANT : DAILY PRODUCTION & SALE" + Environment.NewLine + fromDate.Value.ToString("MMMM") + " " + clsCommon.myCstr(fromDate.Value.Year)
                 doc.HeaderFont = New Font("Verdana", 10, FontStyle.Bold)
-                doc.LeftHeader = "Date : " + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")
-                doc.RightHeader = "Report Type : " + IIf(rdbDaily.Checked = True, "Daily", "Weekly")
+                doc.LeftHeader = "Unit : MT"
+                'doc.LeftHeader = "Date : " + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")
+                'doc.RightHeader = "Report Type : " + IIf(rdbDaily.Checked = True, "Daily", "Weekly")
+                doc.RightHeader = "Report Date : " + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy")
+
+                Dim dialog As New RadPrintPreviewDialog
+                dialog.Document = doc
+                dialog.ToolMenu.Visible = True
+                dialog.ShowDialog()
+                doc = Nothing
+
+            Else
+
+                Dim doc As New RadPrintDocument()
+
+                doc.Margins.Top = 50
+                doc.Margins.Bottom = 50
+                doc.Margins.Left = 50
+                doc.Margins.Right = 50
+                doc.HeaderHeight = 100
+                doc.FooterHeight = 200
+                doc.Landscape = True
+                doc.AssociatedObject = gv1
+                doc.MiddleHeader = "RCDF : Weekly Production & Sale of Cattle Feed Plants:" + fromDate.Value.ToString("MMMM") + " " + clsCommon.myCstr(fromDate.Value.Year)
+                doc.HeaderFont = New Font("Verdana", 10, FontStyle.Bold)
+                doc.RightHeader = "MT"
+                doc.LeftFooter = " Breakdown Reasons" + Environment.NewLine + "1. No Demand" + Environment.NewLine + "2. Short of Raw material except Molasses" +
+                Environment.NewLine + "3. Short of Molasses" + Environment.NewLine + "4. Complete Plant/Machine failure" +
+                Environment.NewLine + "5. Power supply/shortage" + Environment.NewLine + "6. Labour problem" +
+                Environment.NewLine + "7. Transport problem" + Environment.NewLine + "8. Weekly maintenance" +
+                Environment.NewLine + "9. One section of plant/machine failure" + Environment.NewLine + "10. Other"
+
+                'doc.LeftFooter = clsDBFuncationality.get("select Name from TSPL_BREAK_DOWN_MASTER ")
 
                 'doc.Print()
                 Dim dialog As New RadPrintPreviewDialog
@@ -529,6 +605,13 @@ Public Class FrmProductionAndSaleReport
                 doc = Nothing
 
             End If
+
+            'Dim dialog As New RadPrintPreviewDialog
+            'dialog.Document = doc
+            'dialog.ToolMenu.Visible = True
+            'dialog.ShowDialog()
+            'doc = Nothing
+
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
@@ -554,7 +637,7 @@ Public Class FrmProductionAndSaleReport
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("SNo").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Location").Name)
             view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("Capacity").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("No of Shift").Name)
+            view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns("NoofShift").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Production"))
             Dim groupRow1 = New GridViewColumnGroupRow()
@@ -569,6 +652,7 @@ Public Class FrmProductionAndSaleReport
             view.ColumnGroups(2).Rows.Add(groupRow2)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("CUD").Name)
             view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("CUM").Name)
+            view.ColumnGroups(2).Rows(0).ColumnNames.Add(gv1.Columns("CUY").Name)
 
             view.ColumnGroups.Add(New GridViewColumnGroup("Sale"))
             Dim groupRow3 = New GridViewColumnGroupRow()

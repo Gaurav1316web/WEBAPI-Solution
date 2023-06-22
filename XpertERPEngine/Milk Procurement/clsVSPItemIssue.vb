@@ -89,7 +89,7 @@ Public Class clsVSPItemIssue
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
 
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmVSPItemIssue, obj.From_Location, obj.Doc_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, obj.From_Location, obj.Doc_Date, trans)
             clsSerializeInvenotry.DeleteData("VSPISSUE", obj.Doc_No, trans)
             clsBatchInventory.DeleteData("MCC-IISSUE", obj.Doc_No, trans)
             Dim qry As String = "delete from TSPL_VSPItem_DETAIL where Doc_No='" + obj.Doc_No + "'"
@@ -419,7 +419,7 @@ Public Class clsVSPItemIssue
             End If
 
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Issue/Return/Transfer", obj.From_Location, obj.Doc_Date, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmVSPItemIssue, obj.From_Location, obj.Doc_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, obj.From_Location, obj.Doc_Date, trans)
 
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
@@ -1252,7 +1252,7 @@ Public Class clsVSPItemIssue
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Doc_No) > 0) Then
             Try
                 'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Issue/Return/Transfer", obj.From_Location, obj.Doc_Date, trans)
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmVSPItemIssue, obj.From_Location, obj.Doc_Date, trans)
+                'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, obj.From_Location, obj.Doc_Date, trans)
 
                 If (obj.Status = 1) Then
                     Throw New Exception("Already Posted on :" + obj.Posting_Date)
@@ -1289,7 +1289,7 @@ Public Class clsVSPItemIssue
             End If
 
             'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Issue/Return/Transfer", obj.From_Location, obj.Doc_Date, trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmVSPItemIssue, obj.From_Location, obj.Doc_Date, trans)
+            'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, obj.From_Location, obj.Doc_Date, trans)
 
             If Not obj.Status = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
@@ -1343,7 +1343,7 @@ Public Class clsVSPItemIssue
             qry = "Update TSPL_VSPItem_HEAD set Status=0, Posting_Date=NULL, Modify_By='" + objCommonVar.CurrentUserCode + "' where Doc_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "update TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL set is_reverse=1 where document_code='" + strCode + "' and trans_code='" + clsCommon.myCstr(clsUserMgtCode.frmVSPItemIssue) + "' and is_reverse=0"
+            qry = "update TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL set is_reverse=1 where document_code='" + strCode + "' and trans_code='" + "' and is_reverse=0"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             trans.Commit()

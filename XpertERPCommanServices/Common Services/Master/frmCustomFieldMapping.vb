@@ -155,7 +155,7 @@ Public Class frmCustomFieldMapping
             
             If (AllowToSave()) Then
                 If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.CustomFieldMapping, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                    If clsPasswordCheckForMasters.CheckMasterPwd("", clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                     Else
                         Return
                     End If

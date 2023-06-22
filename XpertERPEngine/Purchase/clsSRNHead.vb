@@ -2745,16 +2745,7 @@ Public Class clsSRNHead
     End Function
 
     Public Shared Function GenerateSRNDeduction(ByVal strSRNNo As String, ByVal strICode As String, ByVal trans As SqlTransaction) As Boolean
-        Dim qry As String = "delete From TSPL_SRN_DEDUCTION  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + strICode + "'"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-        qry = "delete From TSPL_SRN_DEDUCTION_SECURITY  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + strICode + "'"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-        qry = "delete From TSPL_SRN_TENDER  Where SRN_No ='" + strSRNNo + "' and Item_Code='" + strICode + "'"
-        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-        qry = "select TSPL_SRN_HEAD.Against_QC_Code,TSPL_SRN_DETAIL.PO_ID,TSPL_SRN_DETAIL.Row_Type,TSPL_SRN_DETAIL.SRN_Qty,TSPL_SRN_DETAIL.Leak_Qty,TSPL_SRN_DETAIL.Burst_Qty,TSPL_SRN_DETAIL.Short_Qty,TSPL_SRN_HEAD.Vendor_Code,TSPL_SRN_HEAD.isExemptSecurityDedution ,TSPL_SRN_DETAIL.GRN_ID,TSPL_SRN_DETAIL.Item_Net_Amt 
+        Dim qry As String = "select TSPL_SRN_HEAD.Against_QC_Code,TSPL_SRN_DETAIL.PO_ID,TSPL_SRN_DETAIL.Row_Type,TSPL_SRN_DETAIL.SRN_Qty,TSPL_SRN_DETAIL.Leak_Qty,TSPL_SRN_DETAIL.Burst_Qty,TSPL_SRN_DETAIL.Short_Qty,TSPL_SRN_HEAD.Vendor_Code,TSPL_SRN_HEAD.isExemptSecurityDedution ,TSPL_SRN_DETAIL.GRN_ID,TSPL_SRN_DETAIL.Item_Net_Amt 
 from TSPL_SRN_DETAIL
 left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No
 where TSPL_SRN_HEAD.SRN_No='" + strSRNNo + "' and TSPL_SRN_DETAIL.Item_Code='" + strICode + "'"

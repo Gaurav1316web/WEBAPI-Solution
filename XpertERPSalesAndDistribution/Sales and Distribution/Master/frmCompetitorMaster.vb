@@ -64,10 +64,10 @@ Public Class frmCompetitorMaster
             If AllowToSave() Then
 
                 If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmCompetitorMaster, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                    Else
-                        Return
-                    End If
+                    'If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmCompetitorMaster, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                    'Else
+                    '    Return
+                    'End If
                 End If
                 trans = clsDBFuncationality.GetTransactin()
                 Dim obj As New ClsCompetitorMaster()

@@ -500,11 +500,15 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             Dim dtDateShift As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dtDateShift IsNot Nothing AndAlso dtDateShift.Rows.Count > 0 Then
                 Dim strICode = clsFixedParameter.GetData(clsFixedParameterType.MCCDefaultMilkItem, clsFixedParameterCode.MilkSetting, trans)
+                Dim arrDateShift As New List(Of String)
                 For Each drDateShift As DataRow In dtDateShift.Rows
+
                     Dim strShift As String = clsCommon.myCstr(drDateShift("Shift"))
                     Dim strShiftDate As String = clsCommon.GetPrintDate(clsCommon.myCDate(drDateShift("Shift_Date")), "dd/MMM/yyyy")
                     Dim dtShiftDate As DateTime = clsCommon.myCDate(drDateShift("Shift_Date"))
                     Dim strDockCollectionMilkType As String = clsCommon.myCstr(drDateShift("Dock_Collection_Milk_Type"))
+
+
                     ''Check shift should be open 
                     qry = "select MCC_SHIFT_CODE  from TSPL_OPEN_MCC_SHIFT where MCC_CODE='" + obj.MCC_Code + "' and SHIFT='" + strShift + "' and convert(date, MCC_SHIFT_DATE,103)=convert(date, '" + strShiftDate + "',103)"
                     dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -540,6 +544,9 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                             End If
                             ''End of Generate Shift Code
                             ClsOpenMCCShift.SaveData(objOpenShift, True, trans)
+                            If Not arrDateShift.Contains(strShiftDate + strShift) Then
+                                arrDateShift.Add(strShiftDate + strShift)
+                            End If
                         End If
 
                         ''Again check Mcc Shift opend or Not
@@ -549,7 +556,9 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                             Throw New Exception("Shift Not Opened Date :" + strShiftDate + " Shift :" + strShift)
                         End If
                     Else
-                        Throw New Exception("Shift is already Opened so cannot Post this document")
+                        If Not arrDateShift.Contains(strShiftDate + strShift) Then
+                            Throw New Exception("Shift is already Opened so cannot Post this document")
+                        End If
                     End If
                     ''Check shift should be closed
                     qry = "select DOC_CODE  from TSPL_MILK_Shift_End_HEAD where MCC_CODE='" + obj.MCC_Code + "' and SHIFT='" + strShift + "' and convert(date, MCC_DATE,103)=convert(date, '" + strShiftDate + "',103)"
@@ -1575,8 +1584,16 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                                 objtemp.Qty = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.Qty)).Value)
                                 objtemp.FAT = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.FAT)).Value) / SettDBFFATDivideBy
                                 objtemp.SNF = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.SNF)).Value) / SettDBFSNFDivideBy
-                                objtemp.SNF = Math.Round(objtemp.SNF, IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), MidpointRounding.ToEven)
-
+                                objtemp.SNF = clsCommon.myRoundOFF(objtemp.SNF, IIf(objCommonVar.MilkProcurementSNF2DecimalPlaces, 2, 1), 4)
+                                objtemp.DockCollectionMilkType = "M"
+                                If objCommonVar.DisplayTypeInMilkReceipt Then
+                                    If Not arrColumnName.Contains(clsDBFTemplate.DockCollectionMilkType) Then
+                                        Throw New Exception("Please set " + clsDBFTemplate.DockCollectionMilkType + " in DBF Template")
+                                    End If
+                                    If clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.DockCollectionMilkType)).Value) = 2 Then
+                                        objtemp.DockCollectionMilkType = "C"
+                                    End If
+                                End If
                                 If arrColumnName.IndexOf(clsDBFTemplate.EmpatyCAN) >= 0 Then
                                     objtemp.QAT = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsDBFTemplate.EmpatyCAN)).Value)
                                 End If
@@ -1620,9 +1637,10 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                                 objtr.Milk_Weight = objtemp.Qty
                                 objtr.FAT = objtemp.FAT
                                 objtr.SNF = objtemp.SNF
-                                objtr.Dock_Collection_Milk_Type = objtemp.IShift
+                                'objtr.Dock_Collection_Milk_Type = objtemp.IShift
                                 objtr.BULK_ROUTE_NO = objtemp.BulkRoute
                                 objtr.QAT = IIf(objtemp.QAT = 1, True, False)
+                                objtr.Dock_Collection_Milk_Type = objtemp.DockCollectionMilkType
                                 arr(UniqueCombination).Arr.Add(objtr)
                                 If dtRejctType IsNot Nothing AndAlso dtRejctType.Rows.Count > 0 Then
                                     For Each drRejctType As DataRow In dtRejctType.Rows
@@ -1632,7 +1650,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                                                 objtr.SNo = arr(UniqueCombination).Arr.Count + 1
                                                 objtr.Reject_Type = clsCommon.myCstr(drRejctType("Code"))
                                                 objtr.VLC_Code = objtemp.VLC
-                                                objtr.Dock_Collection_Milk_Type = objtemp.IShift
+                                                objtr.Dock_Collection_Milk_Type = objtemp.DockCollectionMilkType
                                                 objtr.BULK_ROUTE_NO = objtemp.BulkRoute
                                                 objtr.No_Of_Cans = 1
                                                 objtr.Milk_Weight = clsCommon.myCDecimal(grow.Cells(arrColumnName.IndexOf(clsCommon.myCstr(drRejctType("Code")) + "#" + clsDBFTemplate.Qty)).Value)
@@ -1775,8 +1793,8 @@ Public Class clsMilkShiftUploaderDetail
                 If obj.Dock_Collection_Milk_Type_Auto Then
                     If Not objCommonVar.DisplayTypeInMilkReceipt Then
                         If Is_Seprate_Dock_Cow_Buffalo Then
-                            If Not (clsCommon.CompairString(obj.Dock_Collection_Milk_Type, "C") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Dock_Collection_Milk_Type, "B") = CompairStringResult.Equal) Then
-                                Throw New Exception("Milk Type can be B or C")
+                            If Not (clsCommon.CompairString(obj.Dock_Collection_Milk_Type, "M") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Dock_Collection_Milk_Type, "C") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Dock_Collection_Milk_Type, "B") = CompairStringResult.Equal) Then
+                                Throw New Exception("Milk Type can be B/M or C")
                             End If
                         Else
                             obj.Dock_Collection_Milk_Type = "M"

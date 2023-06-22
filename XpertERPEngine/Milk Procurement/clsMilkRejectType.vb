@@ -11,6 +11,7 @@ Public Class clsMilkRejectType
     Public Item_Code As String = Nothing
     Public Type As String = Nothing
     Public SNo As Integer
+    Public Include_In_DBT As Boolean
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsMilkRejectType) As Boolean
@@ -23,6 +24,7 @@ Public Class clsMilkRejectType
         End If
         Try
             Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Include_In_DBT", IIf(obj.Include_In_DBT, 1, 0), True)
             clsCommon.AddColumnsForChange(coll, "Applicable_On", obj.Applicable_On)
             clsCommon.AddColumnsForChange(coll, "Applicable_Per", obj.Applicable_Per)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
@@ -75,6 +77,7 @@ Public Class clsMilkRejectType
             obj.Item_Code = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
             obj.Applicable_On = clsCommon.myCdbl(dt.Rows(0)("Applicable_On"))
             obj.Applicable_Per = clsCommon.myCdbl(dt.Rows(0)("Applicable_Per"))
+            obj.Include_In_DBT = (clsCommon.myCdbl(dt.Rows(0)("Include_In_DBT")) = 1)
             obj.Type = clsCommon.myCstr(dt.Rows(0)("Type"))
             obj.SNo = clsCommon.myCdbl(dt.Rows(0)("SNo"))
         End If
@@ -133,6 +136,17 @@ Public Class clsMilkRejectType
             dt.Rows.InsertAt(dr, 0)
         End If
         Return dt
+    End Function
+
+    Public Shared Function GetApplicableOn(ByVal Code As String, ByVal tran As SqlTransaction) As Integer
+        '-1-Good;0-%;2-Rate;3-FATKg;4-SNFKg
+        Dim intRet As Integer = -1
+        Dim qry As String = "select Applicable_On from TSPL_MILK_REJECT_TYPE where Code='" + Code + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            intRet = clsCommon.myCDecimal(dt.Rows(0)("Applicable_On"))
+        End If
+        Return intRet
     End Function
 End Class
 

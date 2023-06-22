@@ -1378,16 +1378,27 @@ Public Class clsPaymentProcessHead
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             ''Update AP Invoice Balance Amont Type Debit/Credit Note/ItemIssue/ItemIssueRetrun
             qry = "update TSPL_VENDOR_INVOICE_HEAD  set Balance_Amt=xx.BalanceAmt from (" + Environment.NewLine +
-            " select AP_Invoice_No,( Amount-Reduce_Deduc_Amt) as BalanceAmt from TSPL_PAYMENT_PROCESS_DEDUCTION where Doc_No='" + strDocNo + "'  " + Environment.NewLine +
+            " select AP_Invoice_No,( Amount) as BalanceAmt from TSPL_PAYMENT_PROCESS_DEDUCTION where Doc_No='" + strDocNo + "'  " + Environment.NewLine +
             " union all " + Environment.NewLine +
             " select AP_Invoice_No,(Amount) as BalanceAmt from TSPL_PAYMENT_PROCESS_CREDIT_NOTE where Doc_No='" + strDocNo + "'  " + Environment.NewLine +
             "union all" + Environment.NewLine +
-            "select AP_Invoice_No,(Amount-Reduce_Deduc_Amt) as BalanceAmt from TSPL_PAYMENT_PROCESS_ITEM_ISSUE where Doc_No='" + strDocNo + "'" + Environment.NewLine +
+            "select AP_Invoice_No,(Amount) as BalanceAmt from TSPL_PAYMENT_PROCESS_ITEM_ISSUE where Doc_No='" + strDocNo + "'" + Environment.NewLine +
             "union all" + Environment.NewLine +
             "select AP_Invoice_No,(Amount) as BalanceAmt from TSPL_PAYMENT_PROCESS_ITEM_ISSUE_RETURN  where Doc_No='" + strDocNo + "'" + Environment.NewLine +
             " )xx " + Environment.NewLine +
             "inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=xx.AP_Invoice_No"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            ''Update Head Load Credit note AP Invoice Balance Amont Type Invoice
+            qry = "update TSPL_VENDOR_INVOICE_HEAD set Balance_amt=Document_Total where RefDocType = 'Milk_HE' and RefDocNo in (select Milk_Purchase_Invoice_No from TSPL_PAYMENT_PROCESS_INVOICE where doc_no='" + strDocNo + "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "update TSPL_VENDOR_INVOICE_HEAD set Balance_amt=Document_Total where Document_No in (
+select AP_Invoice_No from TSPL_PAYMENT_PROCESS_COMPULSORY where Doc_No='" + strDocNo + "'
+union all
+select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo + "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             'Update Advance Payment entry Balance Amount
             qry = "update TSPL_PAYMENT_HEADER set Balance_Amt=Balance_Amt+xx.Amount_Knock_Off from (" + Environment.NewLine +
             "select  Payment_No,Amount_Knock_Off from TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT where Doc_No='" + strDocNo + "'" + Environment.NewLine +
@@ -1614,9 +1625,12 @@ Public Class clsPaymentProcessHead
             Dim dtCredit As New DataTable
             Dim dtMilkType As New DataTable
             Dim dt As New DataTable
-
+            Dim Flag As Boolean = False
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                Flag = True
+            End If
             sQuery = " select TSPL_DEDUCTION_MASTER.Description as Description,"
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            If Flag Then
                 sQuery += " sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount "
             Else
                 sQuery += " sum(TSPL_VENDOR_INVOICE_DETAIL.Amount) as Amount"
@@ -1740,7 +1754,7 @@ group by Description "
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                If Flag Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreGNG", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 Else
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCre", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
@@ -2242,6 +2256,14 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewKTA", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JAL") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJAL", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+                    '
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewBKN", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+
+                    '
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJHL", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+
                 Else
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNew", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 End If

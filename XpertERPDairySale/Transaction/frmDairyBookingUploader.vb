@@ -930,7 +930,7 @@ Public Class frmDairyBookingUploader
                         If rdbAgainstCashIndent.IsChecked = True Then
                             obj.From_Screen_code = clsUserMgtCode.frmDairyBookingCustomer
                         Else
-                            obj.From_Screen_code = clsUserMgtCode.frmbookingdairyFreshSale
+                            obj.From_Screen_code = ""
                             obj.Card_SALE_No = clsCommon.myCstr(txtCardSaleCode.Value)
                             If clsCommon.myLen(obj.Card_SALE_No) > 0 Then
                                 obj.CardSale_FROM_DATE = clsCommon.myCstr(LblFromDate.Text)
@@ -3501,7 +3501,7 @@ Public Class frmDairyBookingUploader
                             obj.Is_Taxable = 2
                             obj.TRANSACTION_TYPE = ""
                             ''obj.From_Screen_code = clsUserMgtCode.frmDairyBookingCustomer
-                            obj.From_Screen_code = clsUserMgtCode.frmbookingdairyFreshSale
+                            obj.From_Screen_code = ""
                             obj.Card_SALE_No = clsCommon.myCstr(txtCardSaleCode.Value)
                             If clsCommon.myLen(obj.Card_SALE_No) > 0 Then
                                 obj.CardSale_FROM_DATE = clsCommon.myCstr(LblFromDate.Text)
@@ -4002,7 +4002,7 @@ Public Class frmDairyBookingUploader
                             obj.Is_Taxable = 2
                             obj.TRANSACTION_TYPE = ""
                             ''obj.From_Screen_code = clsUserMgtCode.frmDairyBookingCustomer
-                            obj.From_Screen_code = clsUserMgtCode.frmbookingdairyFreshSale
+                            'obj.From_Screen_code = clsUserMgtCode.frmbookingdairyFreshSale
                             'obj.Card_SALE_No = clsCommon.myCstr(txtCardSaleCode.Value)
                             'If clsCommon.myLen(obj.Card_SALE_No) > 0 Then
                             '    obj.CardSale_FROM_DATE = clsCommon.myCstr(LblFromDate.Text)

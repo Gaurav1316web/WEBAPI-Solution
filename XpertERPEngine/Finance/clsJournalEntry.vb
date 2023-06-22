@@ -367,12 +367,12 @@ where TSPL_Receipt_Adjustment_Header.Description ='Return Adjustment Against Bul
 "where TSPL_PAYMENT_HEADER.Entry_Desc ='Misc Payment entry against Payment Process Farmer-" + strSourceDoc + "' and TSPL_PAYMENT_HEADER.Payment_Type='MI'  "
         End If
 
-        If clsCommon.CompairString(strSourceTransaction, clsUserMgtCode.MilkMPPayment) = CompairStringResult.Equal OrElse
-        clsCommon.CompairString(strSourceTransaction, clsUserMgtCode.MilkVSPPayment) = CompairStringResult.Equal OrElse
+        'clsCommon.CompairString(strSourceTransaction, clsUserMgtCode.MilkMPPayment) = CompairStringResult.Equal OrElse
+        If clsCommon.CompairString(strSourceTransaction, clsUserMgtCode.MilkVSPPayment) = CompairStringResult.Equal OrElse
         clsCommon.CompairString(strSourceTransaction, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal OrElse
      clsCommon.CompairString(strSourceTransaction, clsUserMgtCode.MilkVSPIssuePayment) = CompairStringResult.Equal Then
 
-            str += "select TSPL_JOURNAL_MASTER.Voucher_No,TSPL_JOURNAL_MASTER.Source_Code from TSPL_MILK_PURCHASE_INVOICE_HEAD
+                str += "select TSPL_JOURNAL_MASTER.Voucher_No,TSPL_JOURNAL_MASTER.Source_Code from TSPL_MILK_PURCHASE_INVOICE_HEAD
 inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE
 inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_JOURNAL_MASTER.Source_Code='AP-IN'
  where TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE='" + strSourceDoc + "' and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)='" + clsCommon.myCstr(txtFromDateTag) + "'
@@ -386,8 +386,8 @@ select TSPL_JOURNAL_MASTER.Voucher_No,TSPL_JOURNAL_MASTER.Source_Code from TSPL_
 inner join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Reference=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE 
 inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_PAYMENT_HEADER.Payment_No  
 where TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE='" + strSourceDoc + "' and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)='" + clsCommon.myCstr(txtFromDateTag) + "'  and TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document for Asset Lost'"
-        End If
-        Return str
+            End If
+            Return str
     End Function
 End Class
 

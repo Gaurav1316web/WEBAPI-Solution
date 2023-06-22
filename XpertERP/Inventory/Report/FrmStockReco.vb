@@ -6054,10 +6054,10 @@ goAlreadyAdded:
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmProcessProductionStandardization, strTransCode)
                             'Case "BulkSRNTrade"
                             '    clsOpenTransactionForm.OpenTransacionForm(EnumTransType.BulkSRNTrade, strTransCode)
-                        Case "DispatchBSTrade"
-                            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTrade, strTransCode)
-                        Case "DispatchBSTrdReturn"
-                            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, strTransCode)
+                        'Case "DispatchBSTrade"
+                        '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTrade, strTransCode)
+                        'Case "DispatchBSTrdReturn"
+                        '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, strTransCode)
                         Case "DispChallan"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmMCCDispatch, strTransCode)
                         Case "MilkTransferIn"
@@ -6074,8 +6074,8 @@ goAlreadyAdded:
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.mbtnGatePass, strTransCode)
                         Case "PROD_ENTRY"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmProductionEntry, strTransCode)
-                        Case "MCC-IISSUE"
-                            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strTransCode)
+                        'Case "MCC-IISSUE"
+                        '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSPItemIssue, strTransCode)
                         Case "FS-SH"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDispatchMultipleFreshSale, strTransCode)
                         Case "PS-SH"
@@ -6108,8 +6108,8 @@ goAlreadyAdded:
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.mbtnGatePass, strTransCode)
                         Case "BulkSRNRet"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmBulkMilkSRNReturn, strTransCode)
-                        Case "BulkSRNTrade"
-                            clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, strTransCode)
+                        'Case "BulkSRNTrade"
+                        '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, strTransCode)
                         Case "Purchase Return"
                             clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.mbtnPurchaseReturn, strTransCode)
                         Case "SRN-RET"

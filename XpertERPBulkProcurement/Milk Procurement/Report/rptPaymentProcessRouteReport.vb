@@ -1885,7 +1885,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             End If
 
             If txtRouteName.arrValueMember IsNot Nothing AndAlso txtRouteName.arrValueMember.Count > 0 Then
-                strQry += " and TSPL_BULK_ROUTE_MASTER.Route_Name in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ")"
+                strQry += " and Tspl_vlc_master_head.Route_Name in (" + clsCommon.GetMulcallString(txtRouteName.arrValueMember) + ")"
             End If
 
             whrcls += "  and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) "
@@ -1909,7 +1909,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             ",case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.Fat_ratio)/Price_Chart.FAT_Pers) as decimal(18,2)) end as Standard_FAT_Rate" + Environment.NewLine +
             ",case when TSPL_MILK_SRN_DETAIL.AMOUNT=0 then 0 else  Cast( (((Price_Chart.milk_rate+isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive_Rate,0))*Price_Chart.SNF_Ratio)/Price_Chart.SNF_Pers) as decimal(18,2)) end as Standard_SNF_Rate" + Environment.NewLine +
             ",TSPL_MILK_PURCHASE_INVOICE_DETAIL.AMOUNT as Net_AMOUNT,TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_RO_Amount , TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE , convert(varchar,TSPL_MILK_SRN_head.DOC_DATE,103) as DOC_DATE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE ,case when isnull(TSPL_MILK_SRN_HEAD.Against_reject_no,'')='' then TSPL_MILK_RECEIPT_HEAD.shift else TSPL_MILK_REJECT_head.shift end as SHIFT,"
-            BaseQry += " TSPL_BULK_ROUTE_MASTER.ROUTE_NO as ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_BULK_ROUTE_MASTER.Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SAMPLE_DETAIL.TYPE,'')='' then 'Mix' else TSPL_MILK_SAMPLE_DETAIL.TYPE end as Type ,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,"
+            BaseQry += " TSPL_VLC_MASTER_HEAD.Route_code as ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_BULK_ROUTE_MASTER.Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SAMPLE_DETAIL.TYPE,'')='' then 'Mix' else TSPL_MILK_SAMPLE_DETAIL.TYPE end as Type ,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,"
             BaseQry += " TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt"
             BaseQry += " ,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name, case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type " + Environment.NewLine +
                 ",(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)) as SRN_Net_Amount
@@ -1971,14 +1971,19 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             Dim dt As New DataTable
             sQuery = BaseQry
 
+
             Dim legerMainQuery As String = " select  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE, max(Vendor_Name) as Vendor_Name , max(Type) as Type ,sum( Qty) as Qty , sum(case when QBD = 'SWEET' then   Qty else 0 end) as SweetQty ,sum(case when QBD = 'CURD' then   Qty else 0 end) as CurdQty , sum(case when QBD = 'SOUR' then   Qty else 0 end) as SourQty , sum(FATQTY) * 100 / sum( Qty)  as FAT_PER , sum(SNFQTY) * 100 / sum( Qty) as SNF_PER, sum(FATQTY) as  FATQTY, sum(SNFQTY) as SNFQTY, sum (SRN_Net_Amount) as SRN_Net_Amount,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,VLC_NO from (  " + sQuery + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , DOCNO, Route_Name , VSP_CODE,VLC_NO  "
             legerMainQuery = " select Invoice.ROUTE_CODE, DOCNO, Invoice.Route_Name,Invoice.VSP_CODE,	Invoice.Vendor_Name,Invoice.Type,Invoice.Qty,Invoice.SweetQty,Invoice.CurdQty,Invoice.SourQty,Invoice.FAT_PER
             ,Invoice.SNF_PER,Invoice.FATQTY,Invoice.SNFQTY,Invoice.SRN_Net_Amount,Invoice.VLC_Code_VLC_Uploader,Invoice.VLC_NO
             ,  coalesce(PaymentProcess.Total_EMP_Amount,0) as Total_EMP_Amount,coalesce(PaymentProcess.Incentive_Amount,0) as Incentive_Amount ,coalesce(PaymentProcess.Incentive_EMP_Amount,0) as Incentive_EMP_Amount ,coalesce(PaymentProcess.EMP_Amount,0) as EMP_Amount ,coalesce(PaymentProcess.Vsp_Own_System_Amount,0) as Vsp_Own_System_Amount ,coalesce(PaymentProcess.Head_Load_Amount,0) as Head_Load_Amount ,coalesce(PaymentProcess.Payable_Amount,0) as Payable_Amount,coalesce(PaymentProcess.Credit_Note_Amount,0)as Credit_Note_Amount,coalesce(PaymentProcess.Deduction_Amount,0)*(-1)  as Deduction_Amount,coalesce(PaymentProcess.Item_Issue_Amount,0)*(-1) as Item_Issue_Amount,coalesce(PaymentProcess.Item_Issue_Return_Amount,0) as Item_Issue_Return_Amount,coalesce(PaymentProcess.MCC_Sale_Amount,0)*(-1) as MCC_Sale_Amount ,coalesce(PaymentProcess.MCC_Sale_Return_Amount,0) as MCC_Sale_Return_Amount
             from    (select VLC_Code, VSP_CODE,sum(Total_EMP_Amount) as Total_EMP_Amount,sum(Incentive_Amount) as Incentive_Amount,sum(Incentive_EMP_Amount) as Incentive_EMP_Amount,sum(EMP_Amount) as EMP_Amount,sum(Vsp_Own_System_Amount) as Vsp_Own_System_Amount,sum(Head_Load_Amount) as Head_Load_Amount,sum(Credit_Note_Amount)as Credit_Note_Amount,sum(Deduction_Amount) as Deduction_Amount,sum(Item_Issue_Amount) as Item_Issue_Amount,sum(Item_Issue_Return_Amount) as Item_Issue_Return_Amount,sum(MCC_Sale_Amount) as MCC_Sale_Amount ,sum(MCC_Sale_Return_Amount) as MCC_Sale_Return_Amount,sum(Payable_Amount) as Payable_Amount from (select TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount , TSPL_VLC_MASTER_HEAD.VLC_Code  ,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE ,TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount  ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount ,TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount  from TSPL_PAYMENT_PROCESS_DETAIL left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_PAYMENT_PROCESS_DETAIL.Doc_No left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader =TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  " & whrcls1 & "  ) as pp group by VSP_CODE,VLC_Code ) as PaymentProcess
-            left join (  " + legerMainQuery + " )Invoice on   PaymentProcess.vsp_code = Invoice.vsp_code And PaymentProcess.VLC_Code = Invoice.VLC_NO  "
+            left join (  " + legerMainQuery + " )Invoice on   PaymentProcess.vsp_code = Invoice.vsp_code And PaymentProcess.VLC_Code = Invoice.VLC_NO "
 
-
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                legerMainQuery += " order by CAST(VLC_Code_VLC_Uploader AS int) asc"
+                'ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SKR") = CompairStringResult.Equal Then
+                '    legerMainQuery += " order by CAST(VLC_Code_VLC_Uploader AS int) asc"
+            End If
 
             dt = clsDBFuncationality.GetDataTable(legerMainQuery)
 
@@ -2241,7 +2246,13 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                             AVGSNF1 = Math.Round(clsCommon.myCdbl(dt.Compute("MAX(SNF_PER)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'")), 2)
                             SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
                             SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
-                            SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                                SumNETPAYABLE1 = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'")), 0)
+                            Else
+                                SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "VSP_CODE='" + clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "'"))
+
+                            End If
+
                             'clsCommon.myCstr(dtVSP1.Rows(V).Item("VSP_CODE")) + "-" + 
                             Sumtotal = MilkAmt + SumPayment1
                             dtMain.Rows.Add(clsCommon.myCstr(dtVSP1.Rows(V).Item("DOCNO")), SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
@@ -2323,64 +2334,70 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                         End If
                         SumPayment1 = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
                         SumDeduction1 = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                        SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                            SumNETPAYABLE1 = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'")), 0)
+                        Else
+                            SumNETPAYABLE1 = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+
+                        End If
+
                         Sumtotal = MilkAmt + SumPayment1
                         dtMain.Rows.Add("R-Total: " + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "-" + clsCommon.myCstr(dtVSP1.Rows(0).Item("Route_Name")), DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
-                        dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
-                        dtMain.Rows.Add(DBNull.Value, SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
-                        dtMain.Rows.Add(DBNull.Value, SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
-                        dtMain.Rows.Add(DBNull.Value, SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
-                        If HeadingRowCount > 4 Then
-                            For t As Integer = 4 To HeadingRowCount - 1
-                                dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
-                            Next
+                            dtMain.Rows.Add(DBNull.Value, SumSWEET1, SumKGFAT1, MilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Sumtotal)
+                            dtMain.Rows.Add(DBNull.Value, SumSOUR1, SumKGSNF1, HeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumDeduction1)
+                            dtMain.Rows.Add(DBNull.Value, SumCURD1, AVGFAT1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, SumNETPAYABLE1)
+                            dtMain.Rows.Add(DBNull.Value, SumQty1, AVGSNF1, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                            If HeadingRowCount > 4 Then
+                                For t As Integer = 4 To HeadingRowCount - 1
+                                    dtMain.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value)
+                                Next
+                            End If
+
+                            ''Payment
+                            RowIndexForTotal = 0
+                            If dtAdditionTemp IsNot Nothing AndAlso dtAdditionTemp.Rows.Count > 0 Then
+                                RowIndexForTotal = dtMain.Rows.Count - HeadingRowCount
+                                For t As Integer = 0 To dtAdditionHeader.Rows.Count - 1
+                                    Math.DivRem((t + 1), 4, TempReminder)
+                                    If TempReminder = 1 Then
+                                        dtMain.Rows(RowIndexForTotal).Item("Payment1") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    ElseIf TempReminder = 2 Then
+                                        dtMain.Rows(RowIndexForTotal).Item("Payment2") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    ElseIf TempReminder = 3 Then
+                                        dtMain.Rows(RowIndexForTotal).Item("Payment3") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    ElseIf TempReminder = 0 Then
+                                        dtMain.Rows(RowIndexForTotal).Item("Payment4") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                        RowIndexForTotal = RowIndexForTotal + 1
+                                    End If
+                                Next
+                            End If
+
+                            ''Deduction
+                            RowIndexForTotal = 0
+                            If dtDeductionTemp IsNot Nothing AndAlso dtDeductionTemp.Rows.Count > 0 Then
+                                RowIndexForTotal = dtMain.Rows.Count - HeadingRowCount
+                                For t As Integer = 0 To dtDeductionHeader.Rows.Count - 1
+                                    Math.DivRem((t + 1), 4, TempReminder)
+                                    If TempReminder = 1 Then
+                                        dtMain.Rows(RowIndexForTotal).Item("Deduction1") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    ElseIf TempReminder = 2 Then
+                                        dtMain.Rows(RowIndexForTotal).Item("Deduction2") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    ElseIf TempReminder = 3 Then
+                                        dtMain.Rows(RowIndexForTotal).Item("Deduction3") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                    ElseIf TempReminder = 0 Then
+                                        dtMain.Rows(RowIndexForTotal).Item("Deduction4") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
+                                        RowIndexForTotal = RowIndexForTotal + 1
+                                    End If
+                                Next
+                            End If
+
+                            newBlankRow1 = dtMain.NewRow
+                            dtMain.Rows.Add(newBlankRow1)
+                            newBlankRow2 = dtMain.NewRow
+                            dtMain.Rows.Add(newBlankRow2)
+
+                            'Route Total
                         End If
-
-                        ''Payment
-                        RowIndexForTotal = 0
-                        If dtAdditionTemp IsNot Nothing AndAlso dtAdditionTemp.Rows.Count > 0 Then
-                            RowIndexForTotal = dtMain.Rows.Count - HeadingRowCount
-                            For t As Integer = 0 To dtAdditionHeader.Rows.Count - 1
-                                Math.DivRem((t + 1), 4, TempReminder)
-                                If TempReminder = 1 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Payment1") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                                ElseIf TempReminder = 2 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Payment2") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                                ElseIf TempReminder = 3 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Payment3") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                                ElseIf TempReminder = 0 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Payment4") = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "Addition='" + clsCommon.myCstr(dtAdditionHeader.Rows(t).Item("Addition")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                                    RowIndexForTotal = RowIndexForTotal + 1
-                                End If
-                            Next
-                        End If
-
-                        ''Deduction
-                        RowIndexForTotal = 0
-                        If dtDeductionTemp IsNot Nothing AndAlso dtDeductionTemp.Rows.Count > 0 Then
-                            RowIndexForTotal = dtMain.Rows.Count - HeadingRowCount
-                            For t As Integer = 0 To dtDeductionHeader.Rows.Count - 1
-                                Math.DivRem((t + 1), 4, TempReminder)
-                                If TempReminder = 1 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Deduction1") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                                ElseIf TempReminder = 2 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Deduction2") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                                ElseIf TempReminder = 3 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Deduction3") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                                ElseIf TempReminder = 0 Then
-                                    dtMain.Rows(RowIndexForTotal).Item("Deduction4") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "' AND ROUTE_CODE='" + clsCommon.myCstr(dtROUTE1.Rows(R).Item("ROUTE_CODE")) + "'"))
-                                    RowIndexForTotal = RowIndexForTotal + 1
-                                End If
-                            Next
-                        End If
-
-                        newBlankRow1 = dtMain.NewRow
-                        dtMain.Rows.Add(newBlankRow1)
-                        newBlankRow2 = dtMain.NewRow
-                        dtMain.Rows.Add(newBlankRow2)
-
-                        'Route Total
-                    End If
                 Next
 
 
@@ -2411,7 +2428,14 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
                 End If
                 Dim GSumPayment As Decimal = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", ""))
                 Dim GSumDeduction As Decimal = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", ""))
-                Dim GSumNETPAYABLE As Decimal = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", ""))
+                Dim GSumNETPAYABLE As Decimal = 0
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    GSumNETPAYABLE = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "")), 0)
+
+                Else
+                    GSumNETPAYABLE = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", ""))
+
+                End If
                 Dim Gsumtotal As Decimal = GMilkAmt + GSumPayment
                 dtMain.Rows.Add("G-TOTAL:", GSumSWEET, GSumKGFAT, GMilkAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, Gsumtotal)
                 dtMain.Rows.Add(DBNull.Value, GSumSOUR, GSumKGSNF, GHeadLoadAmt, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumDeduction)
@@ -2557,8 +2581,6 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
-
-
     End Sub
 
     Private Sub txtMultiMCC_My_Click(sender As Object, e As EventArgs) Handles txtMultiMCC._My_Click
@@ -2567,8 +2589,12 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
     End Sub
 
     Private Sub txtRouteName_My_Click(sender As Object, e As EventArgs) Handles txtRouteName._My_Click
-        Dim qry As String = " select ROUTE_NO as RouteNo, ROUTE_NAME as RouteName from TSPL_BULK_ROUTE_MASTER"
-        txtRouteName.arrValueMember = clsCommon.ShowMultipleSelectForm("TransDetailedCardReport", qry, "RouteNo", "RouteName", txtRouteName.arrValueMember, txtRouteName.arrDispalyMember)
+        Dim qry As String = "select ROUTE_NO as RouteNo, ROUTE_NAME as RouteName from TSPL_BULK_ROUTE_MASTER"
+
+        '"  select distinct Tspl_vlc_master_head.Route_code as RouteNo, TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as RouteName from TSPL_BULK_ROUTE_MASTER
+        'inner  join Tspl_vlc_master_head on Tspl_vlc_master_head.route_code=TSPL_BULK_ROUTE_MASTER.route_no "
+
+        txtRouteName.arrValueMember = clsCommon.ShowMultipleSelectForm("TransDetailedCardReport", qry, "ROUTE_NO", "ROUTE_NAME", txtRouteName.arrValueMember, txtRouteName.arrDispalyMember)
     End Sub
 
 
@@ -2732,13 +2758,16 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             'End If
             'whrclsItemWise += " and final.doc_no in ('" + fndDocNo.Value + "')"
             whrclsItemWise += "  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + txtFromDate.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + txtToDate.Value + "'),103) "
-            Dim strPC_FATValue As String = 0
-            Dim strPC_SNFValue As String = 0
+            Dim strPC_FATValue As String = Nothing
+            Dim strPC_SNFValue As String = Nothing
             Dim dtPC_FAT_SNF As DataTable = clsDBFuncationality.GetDataTable("select  top 1 round ( Price_Chart_FAT_Ratio * Price_Chart_Rate / nullif (Price_Chart_FAT_Per,0) , 2,1 ) as FAT_PCValue , round (  Price_Chart_SNF_Ratio * Price_Chart_Rate / nullif (Price_Chart_SNF_Per,0),2,1)  as SNF_PCValue  from TSPL_PRICE_CHART_PLANNING order by convert (date, Planning_Date,103)")
-            If dtPC_FAT_SNF IsNot Nothing Or dtPC_FAT_SNF.Rows.Count > 0 Then
+            If dtPC_FAT_SNF IsNot Nothing AndAlso dtPC_FAT_SNF.Rows.Count > 0 Then
                 strPC_FATValue = clsCommon.myCdbl(dtPC_FAT_SNF.Rows(0)("FAT_PCValue"))
                 strPC_SNFValue = clsCommon.myCdbl(dtPC_FAT_SNF.Rows(0)("SNF_PCValue"))
             End If
+
+
+
             Dim CycleNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select max(Name) as CycleNo from TSPL_PAYMENT_CYCLE_GENERATED where convert(varchar, From_Date,103) = convert(varchar, '" + txtFromDate.Value + "',103) "))
             Dim BaseQry As String = ""
             BaseQry = "select '" + CycleNo + "' as CycleNo, TBL_BILL_DETAILS.BillNo, TBL_BILL_DETAILS.BillDate, '" + strPC_FATValue + "' as PC_FATValue, '" + strPC_SNFValue + "' as PC_SNFValue, "
@@ -3164,6 +3193,8 @@ select * from CTE left outer join
     Sub SetGridFormationOFGV1()
         Gv1.TableElement.TableHeaderHeight = 40
         Gv1.MasterTemplate.ShowRowHeaderColumn = False
+        Gv1.AutoExpandGroups = True
+        Gv1.ShowGroupPanel = True
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = True
@@ -3234,6 +3265,8 @@ select * from CTE left outer join
             dt.Columns.Add("SNo", GetType(String))
             dt.Columns.Add("Date", GetType(String))
             dt.Columns.Add("Document_No", GetType(String))
+            'dt.Columns.Add(New DataColumn("Route No", GetType(String)))
+            'dt.Columns.Add(New DataColumn("Route Name", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("Temp", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("Truck No", GetType(String)))
             dt.Columns.Add(New DataColumn("HeadWeight", System.Type.GetType("System.Decimal")))
@@ -3242,6 +3275,7 @@ select * from CTE left outer join
             dt.Columns.Add(New DataColumn("HeadFATKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("HeadSNFKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add("BMC", GetType(String))
+            'dt.Columns.Add(New DataColumn("Bmc Uploader Code", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailWeight", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailFAT", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailSNF", System.Type.GetType("System.Decimal")))
@@ -3410,6 +3444,8 @@ select * from CTE left outer join
             dt.Columns.Add("SNo", GetType(String))
             dt.Columns.Add("Date", GetType(String))
             dt.Columns.Add("Document_No", GetType(String))
+            dt.Columns.Add(New DataColumn("Route No", GetType(String)))
+            dt.Columns.Add(New DataColumn("Route Name", GetType(String)))
             dt.Columns.Add(New DataColumn("Temp", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("Truck No", GetType(String)))
             dt.Columns.Add(New DataColumn("HeadWeight", System.Type.GetType("System.Decimal")))
@@ -3418,6 +3454,7 @@ select * from CTE left outer join
             dt.Columns.Add(New DataColumn("HeadFATKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("HeadSNFKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add("BMC", GetType(String))
+            dt.Columns.Add(New DataColumn("Bmc Uploader Code", GetType(String)))
             dt.Columns.Add(New DataColumn("DetailWeight", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailFAT", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DetailSNF", System.Type.GetType("System.Decimal")))
@@ -3427,10 +3464,11 @@ select * from CTE left outer join
             dt.Columns.Add(New DataColumn("DiffFATKG", System.Type.GetType("System.Decimal")))
             dt.Columns.Add(New DataColumn("DiffSNFKG", System.Type.GetType("System.Decimal")))
 
-            'Mcc Detail
+            ''Mcc Detail
             qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.document_date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC.Document_No,TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_MCC_DETAIL.* from TSPL_MILK_COLLECTION_MCC_DETAIL
                 left join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.document_no=TSPL_MILK_COLLECTION_MCC_DETAIL.document_no
                 left join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_CODE=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_CODE
+	           
                 where 1=1"
 
             qry += " And convert(date,TSPL_MILK_COLLECTION_MCC.document_date,103)>=convert(date,('" + dtpGainLossFromDate.Value + "'),103) and convert(date,TSPL_MILK_COLLECTION_MCC.document_date,103) <=convert(date,('" + dtpGainLossToDate.Value + "'),103) 
@@ -3439,9 +3477,16 @@ select * from CTE left outer join
             dtMCCDetail = clsDBFuncationality.GetDataTable(qry)
 
             'Mcc Head
-            qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.document_date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC.Document_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,TSPL_MILK_COLLECTION_MCC.Entered_Qty
+            qry = "select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader, convert(varchar,TSPL_MILK_COLLECTION_MCC.document_date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC.Document_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,TSPL_MILK_COLLECTION_MCC.Entered_Qty
                     ,(case when Entered_Qty>0 then (Entered_FATKg*100)/Entered_Qty else 0 end) as FAT
-                    ,(case when Entered_Qty>0 then (Entered_SNFKg*100)/Entered_Qty else 0 end) as SNF,TSPL_MILK_COLLECTION_MCC.Entered_FATKg,TSPL_MILK_COLLECTION_MCC.Entered_SNFKg,TSPL_MILK_COLLECTION_MCC.Temp from TSPL_MILK_COLLECTION_MCC
+                    ,(case when Entered_Qty>0 then (Entered_SNFKg*100)/Entered_Qty else 0 end) as SNF,TSPL_MILK_COLLECTION_MCC.Entered_FATKg,TSPL_MILK_COLLECTION_MCC.Entered_SNFKg,TSPL_MILK_COLLECTION_MCC.Temp,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME
+from
+TSPL_MILK_COLLECTION_MCC
+
+                   left join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.Tanker_No=TSPL_MILK_COLLECTION_MCC.Tanker_No
+	              left join (select max(mcc_code) as mcc_code,document_no from TSPL_MILK_COLLECTION_MCC_DETAIL group by document_no)detail
+	               on   detail.document_no=TSPL_MILK_COLLECTION_MCC.Document_No
+	               left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=detail.mcc_code
                 where 1=1"
 
             qry += " And convert(date,TSPL_MILK_COLLECTION_MCC.document_date,103)>=convert(date,('" + dtpGainLossFromDate.Value + "'),103) and convert(date,TSPL_MILK_COLLECTION_MCC.document_date,103) <=convert(date,('" + dtpGainLossToDate.Value + "'),103) 
@@ -3480,9 +3525,9 @@ select * from CTE left outer join
                     If dr1 IsNot Nothing AndAlso dr1.Length > 0 Then
                         TempdtMCCDetail = dr1.CopyToDataTable()
 
-                        dt.Rows.Add(DBNull.Value, DBNull.Value, dtMCCHead.Rows(i).Item("Document_No"), dtMCCHead.Rows(i).Item("Temp"), dtMCCHead.Rows(i).Item("Vehicle_No"), Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), Math.Round(dtMCCHead.Rows(i).Item("FAT"), 2), Math.Round(dtMCCHead.Rows(i).Item("SNF"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), TempdtMCCDetail.Rows(0).Item("MCC_NAME"), TempdtMCCDetail.Rows(0).Item("Qty"), TempdtMCCDetail.Rows(0).Item("FAT"), TempdtMCCDetail.Rows(0).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(0).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(0).Item("SNFKG"), 2), DBNull.Value, DBNull.Value, DBNull.Value)
+                        dt.Rows.Add(DBNull.Value, DBNull.Value, dtMCCHead.Rows(i).Item("Document_No"), dtMCCHead.Rows(i).Item("Route_Code"), dtMCCHead.Rows(i).Item("ROUTE_NAME"), dtMCCHead.Rows(i).Item("Temp"), dtMCCHead.Rows(i).Item("Vehicle_No"), Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), Math.Round(dtMCCHead.Rows(i).Item("FAT"), 2), Math.Round(dtMCCHead.Rows(i).Item("SNF"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), TempdtMCCDetail.Rows(0).Item("MCC_NAME"), dtMCCHead.Rows(i).Item("Mcc_Code_VLC_Uploader"), TempdtMCCDetail.Rows(0).Item("Qty"), TempdtMCCDetail.Rows(0).Item("FAT"), TempdtMCCDetail.Rows(0).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(0).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(0).Item("SNFKG"), 2), DBNull.Value, DBNull.Value, DBNull.Value)
                         For j As Integer = 1 To TempdtMCCDetail.Rows.Count - 1
-                            dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, TempdtMCCDetail.Rows(j).Item("MCC_NAME"), TempdtMCCDetail.Rows(j).Item("Qty"), TempdtMCCDetail.Rows(j).Item("FAT"), TempdtMCCDetail.Rows(j).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(j).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(j).Item("SNFKG"), 2), DBNull.Value, DBNull.Value, DBNull.Value)
+                            dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, TempdtMCCDetail.Rows(j).Item("MCC_NAME"), TempdtMCCDetail.Rows(j).Item("Mcc_Code_VLC_Uploader"), TempdtMCCDetail.Rows(j).Item("Qty"), TempdtMCCDetail.Rows(j).Item("FAT"), TempdtMCCDetail.Rows(j).Item("SNF"), Math.Round(TempdtMCCDetail.Rows(j).Item("FATKG"), 2), Math.Round(TempdtMCCDetail.Rows(j).Item("SNFKG"), 2), DBNull.Value, DBNull.Value, DBNull.Value)
                         Next
 
                         SumQty = Math.Round(clsCommon.myCdbl(TempdtMCCDetail.Compute("SUM([Qty])", " [Qty] is not null")), 2)
@@ -3500,7 +3545,7 @@ select * from CTE left outer join
                             AVGSNF = 0
                         End If
 
-                        dt.Rows.Add(clsCommon.myCstr(i + 1), clsCommon.myCstr(dtMCCHead.Rows(i).Item("Document_Date")), DBNull.Value, DBNull.Value, "Total", Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), DBNull.Value, DBNull.Value, Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), "Total", SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, VariationQty, VariationFATKG, VariationSNFKG)
+                        dt.Rows.Add(clsCommon.myCstr(i + 1), clsCommon.myCstr(dtMCCHead.Rows(i).Item("Document_Date")), DBNull.Value, clsCommon.myCstr(dtMCCHead.Rows(i).Item("Route_Code")), clsCommon.myCstr(dtMCCHead.Rows(i).Item("ROUTE_NAME")), DBNull.Value, "Total", Math.Round(dtMCCHead.Rows(i).Item("Entered_Qty"), 2), DBNull.Value, DBNull.Value, Math.Round(dtMCCHead.Rows(i).Item("Entered_FATKg"), 2), Math.Round(dtMCCHead.Rows(i).Item("Entered_SNFKg"), 2), "Total", DBNull.Value, SumQty, AVGFAT, AVGSNF, SumFATKG, SumSNFKG, VariationQty, VariationFATKG, VariationSNFKG)
 
                     End If
                 Next
@@ -3533,7 +3578,7 @@ select * from CTE left outer join
                 GVariationFATKG = Math.Round(GSumFATKGHead - GSumFATKGDetail, 2)
                 GVariationSNFKG = Math.Round(GSumSNFKGHead - GSumSNFKGDetail, 2)
 
-                dt.Rows.Add(DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, "G.Total", GSumQtyHead, GAVGFATHead, GAVGSNFHead, GSumFATKGHead, GSumSNFKGHead, "Total", GSumQtyDetail, GAVGFATDetail, GAVGSNFDetail, GSumFATKGDetail, GSumSNFKGDetail, GVariationQty, GVariationFATKG, GVariationSNFKG)
+                dt.Rows.Add(DBNull.Value, DBNull.Value, "G.Total", DBNull.Value, DBNull.Value, DBNull.Value, DBNull.Value, GSumQtyHead, GAVGFATHead, GAVGSNFHead, GSumFATKGHead, GSumSNFKGHead, "Total", DBNull.Value, GSumQtyDetail, GAVGFATDetail, GAVGSNFDetail, GSumFATKGDetail, GSumSNFKGDetail, GVariationQty, GVariationFATKG, GVariationSNFKG)
             End If
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then

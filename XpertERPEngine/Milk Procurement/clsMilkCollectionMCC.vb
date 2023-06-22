@@ -19,6 +19,7 @@ Public Class clsMilkCollectionMCC
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posting_Date As DateTime? = Nothing
     Public FAT_SNF_Type As Integer
+    'Public REF_PK_ID As Integer
     Public Arr As List(Of clsMilkCollectionMCCDetail) = Nothing
 
     Public Temp As Decimal
@@ -58,6 +59,7 @@ Public Class clsMilkCollectionMCC
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
+            'clsCommon.AddColumnsForChange(coll, "REF_PK_ID", obj.REF_PK_ID)
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Late", obj.Late)
             clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code, True)
@@ -188,9 +190,18 @@ where 2=2"
         End Try
         Return True
     End Function
-
     Public Shared Function PostData(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            PostData(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function PostData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Document No not found to Post")
@@ -224,9 +235,9 @@ where 2=2"
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
             'Throw New Exception("Balwinder Singh Premi")
-            trans.Commit()
+
         Catch ex As Exception
-            trans.Rollback()
+
             Throw New Exception(ex.Message)
         End Try
         Return True
@@ -296,6 +307,8 @@ Public Class clsMilkCollectionMCCDetail
     Public Gaze_Reading As Decimal
     Public Gaze_Reading_Code As String
     Public Silo_Capacity As Integer
+    Public Against_Multiple_Days As Integer
+    Public REF_PK_ID_BMCDCS_TRIP As Integer
 
 
 
@@ -335,7 +348,11 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Gaze_Reading", obj.Gaze_Reading)
                 clsCommon.AddColumnsForChange(coll, "Gaze_Reading_Code", obj.Gaze_Reading_Code, True)
                 clsCommon.AddColumnsForChange(coll, "Silo_Capacity", obj.Silo_Capacity)
+                clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days", obj.Against_Multiple_Days, True)
+
+                clsCommon.AddColumnsForChange(coll, "REF_PK_ID_BMCDCS_TRIP", obj.REF_PK_ID_BMCDCS_TRIP, True)
                 clsCommon.AddColumnsForChange(coll, "IsUpdatedFromCorrection", IIf(IsUpdatedFromCorrection = True, 1, 0))
+
                 If obj.PK_Id > 0 Then
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(obj.PK_Id) + "' ", trans)
                 Else
@@ -395,6 +412,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Gaze_Reading = clsCommon.myCDecimal(dr("Gaze_Reading"))
                 objTr.Gaze_Reading_Code = clsCommon.myCstr(dr("Gaze_Reading_Code"))
                 objTr.Silo_Capacity = clsCommon.myCDecimal(dr("Silo_Capacity"))
+                objTr.Against_Multiple_Days = clsCommon.myCDecimal(dr("Against_Multiple_Days"))
                 arr.Add(objTr)
             Next
         End If

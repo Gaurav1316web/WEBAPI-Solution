@@ -646,7 +646,7 @@ Public Class FrmMCCSummary
             Dim arrHeader As List(Of String) = New List(Of String)()
             arrHeader.Add("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.ExciseSummary1 & "'"))
+            'arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.ExciseSummary1 & "'"))
 
             'Dim sfd As SaveFileDialog = New SaveFileDialog()
             'Dim filePath As String

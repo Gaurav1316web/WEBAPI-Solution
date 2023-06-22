@@ -564,7 +564,7 @@ Public Class FrmAPInvoiceEntry
             Else
                 appAmt = clsCommon.myCdbl(lblTotRAmt.Text)
             End If
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, appAmt)
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, appAmt, Nothing, False, TxtVendorNo.Value)
             If (objDedDetails IsNot Nothing) Then
                 ''By Balwinder on 09/11/2016 against ticket no BM00000010070
                 Dim isApplyTDS As Boolean = False
@@ -651,7 +651,7 @@ Public Class FrmAPInvoiceEntry
             applicableAmt += dblPreviousTDSAmt
 
 
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, applicableAmt)
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, applicableAmt, Nothing, False, TxtVendorNo.Value)
             If (objDedDetails IsNot Nothing AndAlso objRemittance.IsApplyTDS) Then
                 objRemittance.TDS_Per = objDedDetails.TDS
                 objRemittance.Surcharge_Per = objDedDetails.Surcharge
@@ -5276,8 +5276,8 @@ Public Class FrmAPInvoiceEntry
                 MDI.ShowForm(clsUserMgtCode.mbtnPurchaseInvoice, "", True, clsCommon.myCstr(dt.Rows(0)("Against_POInvoice_No")))
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_PurchaseReturn_No")) > 0 Then
                 MDI.ShowForm(clsUserMgtCode.mbtnPurchaseReturn, "", True, clsCommon.myCstr(dt.Rows(0)("Against_PurchaseReturn_No")))
-            ElseIf clsCommon.myLen(dt.Rows(0)("Against_VSPItemIssue_No")) > 0 Then
-                MDI.ShowForm(clsUserMgtCode.frmVSPItemIssue, "", True, clsCommon.myCstr(dt.Rows(0)("Against_VSPItemIssue_No")))
+                'ElseIf clsCommon.myLen(dt.Rows(0)("Against_VSPItemIssue_No")) > 0 Then
+                '    MDI.ShowForm(clsUserMgtCode.frmVSPItemIssue, "", True, clsCommon.myCstr(dt.Rows(0)("Against_VSPItemIssue_No")))
             ElseIf clsCommon.myLen(dt.Rows(0)("Against_VCGL")) > 0 Then
                 MDI.ShowForm(clsUserMgtCode.mbtnVCGLEntry, "", True, clsCommon.myCstr(dt.Rows(0)("Against_VCGL")))
             ElseIf clsCommon.myLen(dt.Rows(0)("RefDocType")) > 0 Then

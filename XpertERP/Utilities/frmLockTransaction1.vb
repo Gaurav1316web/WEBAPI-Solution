@@ -183,7 +183,7 @@ Public Class FrmLockTransaction1
                 " UNION ALL" &
                 " Select '" + clsUserMgtCode.ModuleBulkSale + "' as [Module],'" + clsUserMgtCode.FrmInvoiceBulkSale + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
                 " UNION ALL" &
-                " Select '" + clsUserMgtCode.ModuleBulkSale + "' as [Module],'" + clsUserMgtCode.FrmDispatchBulkSaleTrade + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
+                " Select '" + clsUserMgtCode.ModuleBulkSale + "' as [Module],'" + "" + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
                 " UNION ALL" &
                 " Select '" + clsUserMgtCode.ModuleBulkSale + "' as [Module],'" + clsUserMgtCode.FrmTankerOut + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
                 " UNION ALL" &
@@ -199,7 +199,7 @@ Public Class FrmLockTransaction1
                 " UNION ALL" &
                  " Select '" + clsUserMgtCode.ModuleBulkSale + "' as [Module],'" + clsUserMgtCode.FrmCanReceived + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
                 " UNION ALL" &
-                  " Select '" + clsUserMgtCode.ModuleBulkSale + "' as [Module],'" + clsUserMgtCode.FrmDispatchBulkSaleTradeReturn + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
+                  " Select '" + clsUserMgtCode.ModuleBulkSale + "' as [Module],'" + "" + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
                 " UNION ALL" &
                 " Select 'Product Sale' as [Module],'Product Booking Entry' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
                 " UNION ALL" &
@@ -265,7 +265,7 @@ Public Class FrmLockTransaction1
                 " UNION ALL" &
                 " Select '" + clsUserMgtCode.ModuleMCCMilkProcurement + "' as [Module],'" + clsUserMgtCode.frmMCCMaterialSaleReturn + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
                 " UNION ALL" &
-                " Select '" + clsUserMgtCode.ModuleMCCMilkProcurement + "' as [Module],'" + clsUserMgtCode.frmVSPItemIssue + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
+                " Select '" + clsUserMgtCode.ModuleMCCMilkProcurement + "' as [Module],'" + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
                 " UNION ALL" &
                 " Select '" + clsUserMgtCode.ModuleMCCMilkProcurement + "' as [Module],'" + clsUserMgtCode.frmPaymentProcess + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate]" &
                 " UNION ALL" &
@@ -421,9 +421,9 @@ Public Class FrmLockTransaction1
                 " UNION ALL " &
                  " Select '" + clsUserMgtCode.ModuleSaleDairy + "' as [Module],'" + clsUserMgtCode.frmPerformaInvoiceDairy + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate] " &
                 " UNION ALL " &
-                " Select '" + clsUserMgtCode.ModuleSaleDairy + "' as [Module],'" + clsUserMgtCode.frmbookingdairyFreshSale + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate] " &
+                " Select '" + clsUserMgtCode.ModuleSaleDairy + "' as [Module],'" + "" + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate] " &
                 " UNION ALL " &
-                  " Select '" + clsUserMgtCode.ModuleSaleDairy + "' as [Module],'" + clsUserMgtCode.frmAcknowledgeMentOfGRN + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate] " &
+                  " Select '" + clsUserMgtCode.ModuleSaleDairy + "' as [Module],'" + "" + "' as [Transaction], CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate] " &
                 " UNION ALL " &
                 " Select 'Dairy Sale' as [Module],'Dairy Invoice' as [Transaction] , CAST(0 as BIT ) as [Lock], CONVERT(date, null, 103) as [FromDate], CONVERT(date, null, 103) as [ToDate] " &
                 " UNION ALL " &

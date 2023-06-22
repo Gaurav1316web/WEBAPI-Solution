@@ -8,8 +8,8 @@ Public Class frmDBTRecoVsIncentiveReport
     Dim dt As DataTable = Nothing
     Dim arr As New Dictionary(Of Integer, DataRow)
     Dim strColumnForTotal As String = Nothing
-    'Dim SettMPIncentiveEntryApplyMonthly As Boolean = False
-    'Dim ApplyZoneWiseVSP As Boolean = False
+    Dim SettMPIncentiveEntryApplyMonthly As Boolean = False
+    Dim SettMPIncentiveEntryCycleWiseButNEFTMonthly As Boolean = False
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -17,11 +17,9 @@ Public Class frmDBTRecoVsIncentiveReport
         btnExp.Visible = MyBase.isExport
     End Sub
     Private Sub rptMilkBillProcurementSummary_Load(sender As Object, e As EventArgs) Handles Me.Load
-        'SettMPIncentiveEntryApplyMonthly = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryApplyMonthly, clsFixedParameterCode.MPIncentiveEntryApplyMonthly, Nothing))
-        'ApplyZoneWiseVSP = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyZoneWiseVSP, clsFixedParameterCode.ApplyZoneWiseVSP, Nothing)) > 0)
+        SettMPIncentiveEntryApplyMonthly = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryApplyMonthly, clsFixedParameterCode.MPIncentiveEntryApplyMonthly, Nothing))
+        SettMPIncentiveEntryCycleWiseButNEFTMonthly = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryCycleWiseButNEFTMonthly, clsFixedParameterCode.MPIncentiveEntryCycleWiseButNEFTMonthly, Nothing))
         ReportType()
-        'lblType.Visible = False
-        'ddlType.Visible = False
         Reset()
     End Sub
 
@@ -374,51 +372,50 @@ Public Class frmDBTRecoVsIncentiveReport
             If dt.Rows.Count > 1 Then
                 Throw New Exception("Selected MCC's Payment Cycle Should be Same")
             End If
-            'If SettMPIncentiveEntryApplyMonthly Then
-            '    txtFromDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1)
-            '    txtToDate.Value = txtFromDate.Value.AddMonths(1).AddDays(-1)
-            'Else
-            PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
-            PaymentCycleValue = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
-            Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
-            If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
-                If txtFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                    txtFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
-                    txtToDate.Value = txtFromDate.Value
-                    Throw New Exception("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
-                End If
-                txtToDate.Value = txtFromDate.Value.AddDays(PaymentCycleValue - 1)
+            If SettMPIncentiveEntryApplyMonthly OrElse SettMPIncentiveEntryCycleWiseButNEFTMonthly Then
+                txtFromDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1)
+                txtToDate.Value = txtFromDate.Value.AddMonths(1).AddDays(-1)
+            Else
+                PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
+                PaymentCycleValue = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
+                Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
+                If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
+                    If txtFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
+                        txtFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+                        txtToDate.Value = txtFromDate.Value
+                        Throw New Exception("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+                    End If
+                    txtToDate.Value = txtFromDate.Value.AddDays(PaymentCycleValue - 1)
 
-                If txtFromDate.Value.Month <> txtToDate.Value.Month Then
-                    txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
-                End If
-                Dim dtNxtPay As DateTime = txtToDate.Value.AddDays(Math.Ceiling(PaymentCycleValue / 2.0))
-                If txtFromDate.Value.Month <> dtNxtPay.Month Then
-                    txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
-                End If
-            ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
-                If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
+                    If txtFromDate.Value.Month <> txtToDate.Value.Month Then
+                        txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+                    End If
+                    Dim dtNxtPay As DateTime = txtToDate.Value.AddDays(Math.Ceiling(PaymentCycleValue / 2.0))
+                    If txtFromDate.Value.Month <> dtNxtPay.Month Then
+                        txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+                    End If
+                ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
+                    If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
 
-                    txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
-                    txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
-                    Throw New Exception("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                        txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                        txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                        Throw New Exception("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    End If
+                    txtToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, txtFromDate.Value)
+                ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
+                    If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
+                        txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                        txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+                        Throw New Exception("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    End If
+                    txtToDate.Value = DateAdd(DateInterval.Year, PaymentCycleValue, txtFromDate.Value)
+                ElseIf clsCommon.CompairString(PaymentCycleType, "Week") = CompairStringResult.Equal Then
+                    Dim today As Date = txtFromDate.Value
+                    Dim dayDiff As Integer = today.DayOfWeek - IIf(PaymentCycleValue = 1, DayOfWeek.Sunday, IIf(PaymentCycleValue = 2, DayOfWeek.Monday, IIf(PaymentCycleValue = 3, DayOfWeek.Tuesday, IIf(PaymentCycleValue = 4, DayOfWeek.Wednesday, IIf(PaymentCycleValue = 5, DayOfWeek.Thursday, IIf(PaymentCycleValue = 6, DayOfWeek.Friday, DayOfWeek.Saturday))))))
+                    txtFromDate.Value = today.AddDays(-dayDiff)
+                    txtToDate.Value = txtFromDate.Value.AddDays(6)
                 End If
-                txtToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, txtFromDate.Value)
-            ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
-                If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                    txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
-                    txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
-                    Throw New Exception("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
-                End If
-                txtToDate.Value = DateAdd(DateInterval.Year, PaymentCycleValue, txtFromDate.Value)
-            ElseIf clsCommon.CompairString(PaymentCycleType, "Week") = CompairStringResult.Equal Then
-                Dim today As Date = txtFromDate.Value
-                Dim dayDiff As Integer = today.DayOfWeek - IIf(PaymentCycleValue = 1, DayOfWeek.Sunday, IIf(PaymentCycleValue = 2, DayOfWeek.Monday, IIf(PaymentCycleValue = 3, DayOfWeek.Tuesday, IIf(PaymentCycleValue = 4, DayOfWeek.Wednesday, IIf(PaymentCycleValue = 5, DayOfWeek.Thursday, IIf(PaymentCycleValue = 6, DayOfWeek.Friday, DayOfWeek.Saturday))))))
-                txtFromDate.Value = today.AddDays(-dayDiff)
-                txtToDate.Value = txtFromDate.Value.AddDays(6)
             End If
-            'End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False

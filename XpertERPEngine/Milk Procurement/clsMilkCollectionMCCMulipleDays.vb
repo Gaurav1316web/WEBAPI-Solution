@@ -1,0 +1,467 @@
+﻿Imports common
+Imports System.Data.SqlClient
+
+Public Class clsMilkCollectionMCCMulipleDays
+#Region "Variables"
+    Public Document_No As String
+    Public Document_Date As DateTime
+    Public Late As Integer
+    Public Route_Code As String
+    Public Route_Name As String ''Not a table Column
+    Public Tanker_No As String
+    Public Vehicle_No As String
+    Public Entered_Qty As Decimal
+    Public Entered_FATKg As Decimal
+    Public Entered_SNFKg As Decimal
+    Public Description As String
+    Public Slip_No As String
+    Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
+    Public Posting_Date As DateTime? = Nothing
+    Public FAT_SNF_Type As Integer
+    Public Arr As List(Of clsMilkCollectionMCCMulipleDaysDetail) = Nothing
+#End Region
+
+    Public Function SaveData(ByVal obj As clsMilkCollectionMCCMulipleDays, ByVal isNewEntry As Boolean) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            SaveData(obj, isNewEntry, trans)
+            trans.Commit()
+        Catch err As Exception
+            trans.Rollback()
+            Throw New Exception(err.Message)
+        End Try
+        Return True
+    End Function
+    Public Function SaveData(ByVal obj As clsMilkCollectionMCCMulipleDays, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Try
+            If isNewEntry = False Then
+                If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select isnull(Status,0) as Status from  TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No ='" + obj.Document_No + "' ", trans)) = 1 Then
+                    Throw New Exception("Posted Document [" + obj.Document_No + "]")
+                End If
+
+                HistoryUpdate(obj.Document_No, trans)
+            End If
+            Dim qry As String = "delete from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where Document_No='" + obj.Document_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Late", obj.Late)
+            clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code, True)
+            clsCommon.AddColumnsForChange(coll, "Tanker_No", obj.Tanker_No)
+            clsCommon.AddColumnsForChange(coll, "Vehicle_No", obj.Vehicle_No)
+            clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
+            clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
+            clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+            clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
+            clsCommon.AddColumnsForChange(coll, "FAT_SNF_Type", obj.FAT_SNF_Type)
+            clsCommon.AddColumnsForChange(coll, "Slip_No", obj.Slip_No)
+            clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+            If isNewEntry Then
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.MilkCollectionMCC, "", "")
+                If (clsCommon.myLen(obj.Document_No) <= 0) Then
+                    Throw New Exception("Error in Document Code Generation")
+                End If
+                clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", OMInsertOrUpdate.Insert, "", trans)
+            Else
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No='" + obj.Document_No + "'", trans)
+            End If
+            clsMilkCollectionMCCMulipleDaysDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, False, trans)
+        Catch err As Exception
+            Throw New Exception(err.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function HistoryUpdate(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL", "Document_No", trans)
+        Return True
+    End Function
+    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMilkCollectionMCCMulipleDays
+        Return GetData(strPONo, NavType, trans, "")
+    End Function
+    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal strDetailWhrlCls As String) As clsMilkCollectionMCCMulipleDays
+        Dim obj As clsMilkCollectionMCCMulipleDays = Nothing
+        Dim qry As String = "SELECT TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.*,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name  
+FROM TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS 
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Route_Code 
+where 2=2"
+        Select Case NavType
+            Case NavigatorType.First
+                qry += " and TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No = (select MIN(Document_No) from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where 1=1  )"
+            Case NavigatorType.Last
+                qry += " and TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No = (select Max(Document_No) from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where 1=1  )"
+            Case NavigatorType.Next
+                qry += " and TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No = (select Min(Document_No) from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No>'" + strPONo + "'  )"
+            Case NavigatorType.Previous
+                qry += " and TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No = (select Max(Document_No) from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No<'" + strPONo + "'  )"
+            Case NavigatorType.Current
+                qry += " and TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No = '" + strPONo + "'"
+        End Select
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            obj = New clsMilkCollectionMCCMulipleDays()
+            obj.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
+            obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
+            obj.Late = clsCommon.myCDecimal(dt.Rows(0)("Late"))
+            obj.Route_Code = clsCommon.myCstr(dt.Rows(0)("Route_Code"))
+            obj.Route_Name = clsCommon.myCstr(dt.Rows(0)("Route_Name"))
+            obj.Tanker_No = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+            obj.Vehicle_No = clsCommon.myCstr(dt.Rows(0)("Vehicle_No"))
+            obj.Entered_Qty = clsCommon.myCDecimal(dt.Rows(0)("Entered_Qty"))
+            obj.Entered_FATKg = clsCommon.myCDecimal(dt.Rows(0)("Entered_FATKg"))
+            obj.Entered_SNFKg = clsCommon.myCDecimal(dt.Rows(0)("Entered_SNFKg"))
+            obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
+            obj.Slip_No = clsCommon.myCstr(dt.Rows(0)("Slip_No"))
+            obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
+            obj.FAT_SNF_Type = clsCommon.myCDecimal(dt.Rows(0)("FAT_SNF_Type"))
+            If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
+                obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
+            End If
+            obj.Arr = clsMilkCollectionMCCMulipleDaysDetail.GetData(obj.Document_No, strDetailWhrlCls, trans)
+        End If
+        Return obj
+    End Function
+
+    Public Shared Function DeleteData(ByVal strCode As String) As Boolean
+        If (clsCommon.myLen(strCode) <= 0) Then
+            Throw New Exception("Document No not found to Delete")
+        End If
+
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            'Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_Date,TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.MCC_Code from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No='" + strCode + "'", trans)
+            'If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.MilkShiftUploader, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
+            'End If
+
+            Dim obj As clsMilkCollectionMCCMulipleDays = clsMilkCollectionMCCMulipleDays.GetData(strCode, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
+                Throw New Exception("Document No: " + strCode + " not found to Delete")
+            End If
+
+            If (obj.Status = ERPTransactionStatus.Approved OrElse obj.Status = ERPTransactionStatus.Posted) Then
+                Throw New Exception("Already Posted on :" + obj.Posting_Date)
+            End If
+            HistoryUpdate(strCode, trans)
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where Document_No='" + strCode + "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No='" + strCode + "'", trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function PostData(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            If (clsCommon.myLen(strCode) <= 0) Then
+                Throw New Exception("Document No not found to Post")
+            End If
+            Dim obj As clsMilkCollectionMCCMulipleDays = clsMilkCollectionMCCMulipleDays.GetData(strCode, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
+                Throw New Exception("Document No: " + strCode + " not found to Post")
+            End If
+            If (obj.Status = ERPTransactionStatus.Approved) Then
+                Throw New Exception("Already Posted on :" + obj.Posting_Date)
+            End If
+
+            Dim Arr As New Dictionary(Of Date, clsMilkCollectionMCC)
+            Dim MaxDate As Date = obj.Arr(0).Collection_Date
+            Dim TotQty As Decimal = 0
+            Dim TotFATKG As Decimal = 0
+            Dim TotSNFKG As Decimal = 0
+            For Each objtr As clsMilkCollectionMCCMulipleDaysDetail In obj.Arr
+                If objtr.Qty <= 0 Then
+                    Throw New Exception("Qty is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                End If
+                If objtr.FAT <= 0 Then
+                    Throw New Exception("FAT is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                End If
+                If objtr.SNF <= 0 Then
+                    Throw New Exception("SNF is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                End If
+                If objtr.Collection_Date > MaxDate Then
+                    MaxDate = objtr.Collection_Date
+                End If
+                TotQty += objtr.Qty
+                TotFATKG += objtr.FATKG
+                TotSNFKG += objtr.SNFKG
+
+
+                If Not Arr.ContainsKey(objtr.Collection_Date) Then
+                    Dim objMCC As New clsMilkCollectionMCC()
+                    objMCC.Document_No = ""
+                    objMCC.Document_Date = objtr.Collection_Date
+                    objMCC.Late = obj.Late
+                    objMCC.Route_Code = obj.Route_Code
+                    objMCC.Trip_No = 1
+                    objMCC.Tanker_No = obj.Tanker_No
+                    objMCC.Vehicle_No = obj.Vehicle_No
+                    objMCC.Entered_Qty = 0
+                    objMCC.Entered_FATKg = 0
+                    objMCC.Entered_SNFKg = 0
+                    objMCC.Description = obj.Description
+                    objMCC.Slip_No = obj.Slip_No
+                    objMCC.FAT_SNF_Type = obj.FAT_SNF_Type
+                    objMCC.Arr = New List(Of clsMilkCollectionMCCDetail)
+                    Arr.Add(objtr.Collection_Date, objMCC)
+                End If
+                Arr(objtr.Collection_Date).Entered_Qty += objtr.Qty
+                Arr(objtr.Collection_Date).Entered_FATKg += objtr.FATKG
+                Arr(objtr.Collection_Date).Entered_SNFKg += objtr.SNFKG
+
+                Dim objMCCTR As New clsMilkCollectionMCCDetail()
+                'objMCCTR.PK_Id = clsCommon.myCDecimal(dr("PK_Id"))
+                'objMCCTR.Document_No = clsCommon.myCstr(dr("Document_No"))
+                objMCCTR.SNo = Arr(objtr.Collection_Date).Arr.Count + 1
+                objMCCTR.Sample_No = objtr.Sample_No
+                objMCCTR.MCC_Code = objtr.MCC_Code
+                objMCCTR.Qty = objtr.Qty
+                objMCCTR.FAT = objtr.FAT
+                objMCCTR.SNF = objtr.SNF
+                objMCCTR.FATKG = objtr.FATKG
+                objMCCTR.SNFKG = objtr.SNFKG
+                objMCCTR.Milk_Type = objtr.Milk_Type
+                objMCCTR.Temp = objtr.Temp
+                objMCCTR.Gaze_Reading = objtr.Gaze_Reading
+                objMCCTR.Gaze_Reading_Code = objtr.Gaze_Reading_Code
+                objMCCTR.Silo_Capacity = objtr.Silo_Capacity
+                objMCCTR.Against_Multiple_Days = objtr.PK_Id
+                Arr(objtr.Collection_Date).Arr.Add(objMCCTR)
+            Next
+
+            If Arr.ContainsKey(MaxDate) Then
+                Arr(MaxDate).Entered_Qty += (obj.Entered_Qty - TotQty)
+                Arr(MaxDate).Entered_FATKg += (obj.Entered_FATKg - TotFATKG)
+                Arr(MaxDate).Entered_SNFKg += (obj.Entered_SNFKg - TotSNFKG)
+            End If
+
+            For ii As Integer = 0 To Arr.Keys.Count - 1
+                Dim objMCC As clsMilkCollectionMCC = Arr.Item(Arr.Keys(ii))
+                objMCC.SaveData(objMCC, True, trans)
+                clsMilkCollectionMCC.PostData(objMCC.Document_No, trans)
+            Next
+
+
+            'HistoryUpdate(strCode, trans)
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Status", 1)
+            clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+            'Throw New Exception("Balwinder Singh Premi")
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim obj As clsMilkCollectionMCCMulipleDays = clsMilkCollectionMCCMulipleDays.GetData(strDocNo, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
+                clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
+            End If
+
+            If Not obj.Status = ERPTransactionStatus.Approved Then
+                clsCommon.MyMessageBoxShow("Transaction status should be posted for reverse and unpost")
+            End If
+
+            Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in (
+select PK_Id from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where Document_No='" + strDocNo + "')"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("BMC Truck Sheet Document No [" + strDocNo + "] is used in DCS Trcuk Sheet No [" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "]")
+            End If
+
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Status", 0)
+            clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
+            clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
+
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+End Class
+
+Public Class clsMilkCollectionMCCMulipleDaysDetail
+#Region "Variables"
+    Public PK_Id As Integer = 0
+    Public Document_No As String
+    Public SNo As Integer
+    Public Sample_No As Integer
+    Public Collection_Date As Date
+    Public MCC_Uploader_Code As String ''Not a Table Column
+    Public MCC_Code As String
+    Public MCC_Name As String
+    Public Milk_Type As String
+    Public Qty As Decimal
+    Public FAT As Decimal
+    Public SNF As Decimal
+    Public FATKG As Decimal
+    Public SNFKG As Decimal
+    Public Temp As Decimal
+    Public Gaze_Reading As Decimal
+    Public Gaze_Reading_Code As String
+    Public Silo_Capacity As Integer
+
+
+
+#End Region
+
+    Public Shared Function AddMissing(ByVal strDocNo As String, ByVal Arr As List(Of clsMilkCollectionMCCMulipleDaysDetail)) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim dtDocDate As DateTime = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Document_Date from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No='" + strDocNo + "'", trans))
+            SaveData(strDocNo, dtDocDate, Arr, False, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal dtDocDate As DateTime, ByVal Arr As List(Of clsMilkCollectionMCCMulipleDaysDetail), ByVal IsUpdatedFromCorrection As Boolean, ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For Each obj As clsMilkCollectionMCCMulipleDaysDetail In Arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Collection_Date", clsCommon.GetPrintDate(obj.Collection_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
+                clsCommon.AddColumnsForChange(coll, "Sample_No", obj.Sample_No)
+                clsCommon.AddColumnsForChange(coll, "MCC_Code", obj.MCC_Code)
+                If clsCommon.CompairString(obj.Milk_Type, "Good") = CompairStringResult.Equal Then
+                    obj.Milk_Type = "Good" ''To Handle Case sensitivity
+                End If
+                clsCommon.AddColumnsForChange(coll, "Milk_Type", obj.Milk_Type)
+                clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                clsCommon.AddColumnsForChange(coll, "FAT", obj.FAT)
+                clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
+                clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
+                clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
+                clsCommon.AddColumnsForChange(coll, "Temp", obj.Temp)
+                clsCommon.AddColumnsForChange(coll, "Gaze_Reading", obj.Gaze_Reading)
+                clsCommon.AddColumnsForChange(coll, "Gaze_Reading_Code", obj.Gaze_Reading_Code, True)
+                clsCommon.AddColumnsForChange(coll, "Silo_Capacity", obj.Silo_Capacity)
+                clsCommon.AddColumnsForChange(coll, "IsUpdatedFromCorrection", IIf(IsUpdatedFromCorrection = True, 1, 0))
+                If obj.PK_Id > 0 Then
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(obj.PK_Id) + "' ", trans)
+                Else
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                End If
+            Next
+        End If
+
+        '        If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RepeatBMCSampleNo, clsFixedParameterCode.RepeatBMCSampleNo, trans)) = 0 Then
+        '            Dim qry As String = "select Sample_No,max(SNo) as SNo,MCC_Code,max(Document_No) as Document_No,max(Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader,max(MCC_NAME) as MCC_NAME from (
+        'select TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No,TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.SNo,isnull(TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.Sample_No,0) as Sample_No,TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.MCC_Code,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_NAME
+        'from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL  
+        'left outer join TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS on TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_No=TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.Document_No
+        'left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER .MCC_Code=TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.MCC_Code
+        'where   convert(Date,TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS.Document_Date,103)='" + clsCommon.GetPrintDate(dtDocDate, "dd/MMM/yyyy") + "' 
+        'and exists (select 1 from (select TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.MCC_Code,isnull(TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.Sample_No,0) as Sample_No from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where Document_No ='" + strDocNo + "')Tab where Tab.MCC_Code=TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.MCC_Code and  Tab.Sample_No=isnull(TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.Sample_No,0))
+        ')x Group by Sample_No,MCC_Code  having sum(1)>1"
+        '            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        '            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '                Throw New Exception("Repeated Sample Found For Same BMC [" + clsCommon.myCstr(dt.Rows(0)("Mcc_Code_VLC_Uploader")) + " " + clsCommon.myCstr(dt.Rows(0)("MCC_Code")) + " " + clsCommon.myCstr(dt.Rows(0)("MCC_NAME")) + " ] and sample no [" + clsCommon.myCstr(dt.Rows(0)("Sample_No")) + "] ")
+        '            End If
+        '        End If
+
+        Return True
+    End Function
+
+    Public Shared Function GetData(ByVal strPONo As String, ByVal strExtraWhrclas As String, ByVal trans As SqlTransaction) As List(Of clsMilkCollectionMCCMulipleDaysDetail)
+        Dim arr As List(Of clsMilkCollectionMCCMulipleDaysDetail) = Nothing
+        Dim qry As String = "SELECT TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.*,TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader  
+FROM TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL 
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_code=TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.MCC_Code  
+where  TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.Document_No='" + strPONo + "' "
+        If clsCommon.myLen(strExtraWhrclas) > 0 Then
+            qry += " and " + strExtraWhrclas
+        End If
+        qry += " ORDER BY TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL.SNO"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            arr = New List(Of clsMilkCollectionMCCMulipleDaysDetail)
+            Dim objTr As clsMilkCollectionMCCMulipleDaysDetail
+            For Each dr As DataRow In dt.Rows
+                objTr = New clsMilkCollectionMCCMulipleDaysDetail
+                objTr.PK_Id = clsCommon.myCDecimal(dr("PK_Id"))
+                objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
+                objTr.Collection_Date = clsCommon.myCDate(dr("Collection_Date"))
+                objTr.SNo = clsCommon.myCDecimal(dr("SNo"))
+                objTr.Sample_No = clsCommon.myCDecimal(dr("Sample_No"))
+                objTr.MCC_Uploader_Code = clsCommon.myCstr(dr("Mcc_Code_VLC_Uploader"))
+                objTr.MCC_Code = clsCommon.myCstr(dr("MCC_Code"))
+                objTr.MCC_Name = clsCommon.myCstr(dr("MCC_NAME"))
+                objTr.Qty = clsCommon.myCDecimal(dr("Qty"))
+                objTr.FAT = clsCommon.myCDecimal(dr("FAT"))
+                objTr.SNF = clsCommon.myCDecimal(dr("SNF"))
+                objTr.FATKG = clsCommon.myCDecimal(dr("FATKG"))
+                objTr.SNFKG = clsCommon.myCDecimal(dr("SNFKG"))
+                objTr.Milk_Type = clsCommon.myCstr(dr("Milk_Type"))
+                objTr.Temp = clsCommon.myCDecimal(dr("Temp"))
+                objTr.Gaze_Reading = clsCommon.myCDecimal(dr("Gaze_Reading"))
+                objTr.Gaze_Reading_Code = clsCommon.myCstr(dr("Gaze_Reading_Code"))
+                objTr.Silo_Capacity = clsCommon.myCDecimal(dr("Silo_Capacity"))
+                arr.Add(objTr)
+            Next
+        End If
+        Return arr
+    End Function
+
+    Public Shared Function DeleteData(ByVal PKID As Integer) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim qry As String = "select Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail=" + clsCommon.myCstr(PKID) + ""
+            qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.myLen(qry) > 0 Then
+                Throw New Exception("DCS Truck sheet entered [" + qry + "].Cant Delete it")
+            End If
+
+            qry = "select Document_No from  TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where PK_Id = " + clsCommon.myCstr(PKID) + ")"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("Invalid PK ID")
+            End If
+            qry = "Delete from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL where PK_Id=" + clsCommon.myCstr(PKID) + ""
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            If dt.Rows.Count = 1 Then
+                qry = "Delete from TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS where Document_No='" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+End Class
+

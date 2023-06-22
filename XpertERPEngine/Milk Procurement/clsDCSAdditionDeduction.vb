@@ -21,6 +21,7 @@ Public Class clsDCSAdditionDeduction
     Public Milk_Type As String
     Public RO_Decimal_Places As Integer
     Public RO_Increase_After As Integer
+    Public Apply_TDS As Boolean
 
     Public Posted As ERPTransactionStatus = ERPTransactionStatus.Pending
 
@@ -68,6 +69,7 @@ Public Class clsDCSAdditionDeduction
             clsCommon.AddColumnsForChange(coll, "Milk_Type", obj.Milk_Type, True)
             clsCommon.AddColumnsForChange(coll, "RO_Decimal_Places", obj.RO_Decimal_Places)
             clsCommon.AddColumnsForChange(coll, "RO_Increase_After", obj.RO_Increase_After)
+            clsCommon.AddColumnsForChange(coll, "Apply_TDS", IIf(obj.Apply_TDS, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -182,6 +184,7 @@ Public Class clsDCSAdditionDeduction
             obj.Posted = IIf(clsCommon.myCdbl(dt.Rows(0)("Posted")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             obj.RO_Decimal_Places = clsCommon.myCDecimal(dt.Rows(0)("RO_Decimal_Places"))
             obj.RO_Increase_After = clsCommon.myCDecimal(dt.Rows(0)("RO_Increase_After"))
+            obj.Apply_TDS = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_TDS")) = 1, True, False)
             obj.Arr = Nothing
             qry = " select Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where Code='" + obj.Code + "' "
             dt = clsDBFuncationality.GetDataTable(qry, trans)

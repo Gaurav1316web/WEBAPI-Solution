@@ -182,7 +182,7 @@ Public Class FrmGRNReport
                 ,TSPL_SRN_DETAIL.Item_Cost AS [SRN Rate]
                 ,TSPL_SRN_DETAIL.MRN_Qty AS [SRN Received Qty]
                 ,Cast(TSPL_SRN_DETAIL.Rejected_Qty as decimal(18,2)) as [SRN Rejected Qty]
-                ,TSPL_SRN_DETAIL.MRN_Qty-TSPL_SRN_DETAIL.Rejected_Qty  as [SRN Accepted Qty]
+                ,Cast(TSPL_SRN_DETAIL.SRN_Qty as decimal(18,2))  as [SRN Accepted Qty]
                 ,TSPL_SRN_DETAIL.Amount as [SRN Amount]
                 ,TSPL_SRN_DETAIL.Total_Tax_Amt as [SRN Tax Amount]
                 ,TSPL_SRN_DETAIL.Item_Net_Amt as [SRN Net Amount]
