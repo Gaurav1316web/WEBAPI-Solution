@@ -10630,7 +10630,7 @@ Public Class clsCreateAllTable
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "varchar(30) ")
             coll.Add("SLNO", "varchar(12) ")
-            coll.Add("AP_Invoice_No", "varchar(30) ")
+            coll.Add("AP_Invoice_No", "varchar(30) REFERENCES TSPL_VENDOR_INVOICE_HEAD (Document_No)")
             coll.Add("AP_Invoice_Date", "varchar(30) ")
             coll.Add("Vendor_CODE", "varchar(30) ")
             coll.Add("Vendor_NAME", "varchar(200) ")
@@ -10644,7 +10644,7 @@ Public Class clsCreateAllTable
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "varchar(30) ")
             coll.Add("SLNO", "varchar(12) ")
-            coll.Add("AP_Invoice_No", "varchar(30) ")
+            coll.Add("AP_Invoice_No", "varchar(30) REFERENCES TSPL_VENDOR_INVOICE_HEAD (Document_No)")
             coll.Add("AP_Invoice_Date", "varchar(30) ")
             coll.Add("Vendor_CODE", "varchar(30) ")
             coll.Add("Vendor_NAME", "varchar(200) ")
@@ -10654,13 +10654,13 @@ Public Class clsCreateAllTable
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "varchar(30) ")
             coll.Add("SLNO", "varchar(12) ")
-            coll.Add("AP_Invoice_No", "varchar(30) ")
+            coll.Add("AP_Invoice_No", "varchar(30) REFERENCES TSPL_VENDOR_INVOICE_HEAD (Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_SAVING", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "varchar(30) ")
             coll.Add("SLNO", "varchar(12) ")
-            coll.Add("AP_Invoice_No", "varchar(30) ")
+            coll.Add("AP_Invoice_No", "varchar(30) REFERENCES TSPL_VENDOR_INVOICE_HEAD (Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_COMPULSORY", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)
@@ -22949,7 +22949,43 @@ Public Class clsCreateAllTable
             coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("Document_No", "Varchar(30) not null Primary key")
+            coll.Add("Document_Date", "Datetime NOT NULL")
+            coll.Add("Route_Code", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("Tanker_No", "Varchar(20) not null references TSPL_TANKER_MASTER(Tanker_No)")
+            coll.Add("Vehicle_No", "Varchar(150) not null")
+            coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
+            coll.Add("Entered_Qty", "Decimal(18,3) null")
+            coll.Add("Entered_FATKg", "Decimal(18,3) null")
+            coll.Add("Entered_SNFKg", "Decimal(18,3) null")
+            coll.Add("Description", "Varchar(200) null")
+            coll.Add("FAT_SNF_Type", "int Null")
+            coll.Add("Status", "Integer NOT NULL DEFAULT 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Posted_Date", "datetime null")
+            coll.Add("Posted_By", "varchar(12)  NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
+            coll.Add("Collection_Date", "Date NOT NULL")
+            coll.Add("SNo", "Integer NULL")
+            coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            coll.Add("Milk_Type", "char(5) NOT NULL Default 'M'")
+            coll.Add("Qty", "Decimal(18,2) null")
+            coll.Add("FAT", "Decimal(18,2) null")
+            coll.Add("SNF", "Decimal(18,2) null")
+            coll.Add("FATKG", "Decimal(18,3) null")
+            coll.Add("SNFKG", "Decimal(18,3) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "")
+
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC' and COLUMN_NAME='Against_DCS_Multiple_Days'"
+            dt = clsDBFuncationality.GetDataTable(qry)
             coll = New Dictionary(Of String, String)
             coll.Add("Document_No", "Varchar(30) not null Primary key")
             coll.Add("Document_Date", "Datetime NOT NULL")
@@ -22975,8 +23011,13 @@ Public Class clsCreateAllTable
             coll.Add("Posted_By", "varchar(12)  NULL")
             coll.Add("Slip_No", "Varchar(30) null")
             coll.Add("Trip_No", "Integer not NULL default 1")
-
+            coll.Add("Against_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                qry = "CREATE UNIQUE INDEX Unique_DCS_Mupliple_Day ON TSPL_MILK_COLLECTION_MCC  (Against_DCS_Multiple_Days) WHERE Against_DCS_Multiple_Days IS NOT NULL;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC_DETAIL' and COLUMN_NAME='Against_Multiple_Days'"
             dt = clsDBFuncationality.GetDataTable(qry)
