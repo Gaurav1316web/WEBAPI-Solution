@@ -125,3 +125,152 @@ where TSPL_MILK_COLLECTION_BMCDCS.Route_Code=" + clsCommon.myCstr(Route_Code) + 
         Return obj.Arr_BMCDCS_Trip
     End Function
 End Class
+
+Public Class clsBMCDCS_DCS_Head
+    Public Document_No As String
+    Public Document_Date As DateTime
+    Public REF_PK_ID As String
+    Public MCC_Code As String
+    Public Arr_DCSMCCDetails As List(Of clsDCS_MCC_DETAIL) = Nothing
+    Public Arr_DCSDetails As List(Of clsBMCDCS_DCS) = Nothing
+    Public Shared Function GetDCSData(ByVal IDate As Date)
+        Dim obj As clsBMCDCS_DCS_Head = Nothing
+        Dim obj_DCS As New clsBMCDCS_DCS()
+        'Dim obj_Trip As New clsBMCDCS_Trip()
+        Dim strQry As String = String.Empty
+        '       
+        '        strQry = "select XX.REF_PK_ID,max(XX.MCC_Code) as MCC_Code,max(Document_Date) as Document_Date
+        'from TSPL_MILK_COLLECTION_BMCDCS_DCS
+        'left join (
+        'select REF_PK_ID,max(MCC_Code)as MCC_Code,max(IDate) as Document_Date from (
+        'select REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate from TSPL_MILK_COLLECTION_BMCDCS_TRIP 
+        'left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID
+        'inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
+        'left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+        'left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+        'where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' --and TSPL_MILK_COLLECTION_MCC.Status=1 
+        'and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null
+        ')x group by REF_PK_ID
+        ')XX on XX.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID
+        'where XX.REF_PK_ID in(
+        'select REF_PK_ID from (
+        'select REF_PK_ID from TSPL_MILK_COLLECTION_BMCDCS_TRIP 
+        'left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID
+        'inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
+        'left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+        'left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+        'where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' --and TSPL_MILK_COLLECTION_MCC.Status=1 
+        'and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null
+
+        ')x group by REF_PK_ID
+        ')
+
+        'group by XX.REF_PK_ID"
+        strQry = "select max(XX.REF_PK_ID) as REF_PK_ID,XX.MCC_Code as MCC_Code,max(Document_Date) as Document_Date from TSPL_MILK_COLLECTION_BMCDCS_DCS left join ( select REF_PK_ID,max(MCC_Code)as MCC_Code,max(IDate) as Document_Date from ( select REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate
+from TSPL_MILK_COLLECTION_BMCDCS_TRIP left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' and TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null )x group by REF_PK_ID )XX on XX.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID where XX.REF_PK_ID in( select REF_PK_ID from ( select REF_PK_ID from TSPL_MILK_COLLECTION_BMCDCS_TRIP left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
+left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' and TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null )x group by REF_PK_ID ) group by XX.MCC_Code"
+
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+        Dim lstObj As New List(Of clsBMCDCS_DCS_Head)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            For Each dr As DataRow In dt.Rows
+                obj = New clsBMCDCS_DCS_Head()
+                obj.REF_PK_ID = clsCommon.myCDecimal(dr("REF_PK_ID"))
+                obj.Document_Date = clsCommon.GetPrintDate(dr("Document_Date"), "dd/MMM/yyyy")
+                obj.MCC_Code = clsCommon.myCstr(dr("MCC_Code"))
+
+                obj.Arr_DCSMCCDetails = clsDCS_MCC_DETAIL.GetDCSMCCDetails(obj.MCC_Code, obj.Document_Date)
+                obj.Arr_DCSDetails = clsBMCDCS_DCS.GetBMCDCS_DCS(obj.MCC_Code, obj.Document_Date)
+                lstObj.Add(obj)
+            Next
+        End If
+        Return lstObj.ToArray()
+    End Function
+End Class
+Public Class clsDCS_MCC_DETAIL
+    Public BMCDCS_Trip_PK_ID As Integer
+    Public Shared Function GetDCSMCCDetails(ByVal MCC_Code As String, ByVal Document_Date As DateTime)
+        Dim obj As clsBMCDCS_DCS_Head = New clsBMCDCS_DCS_Head()
+        'Dim obj_Trip As New clsBMCDCS_Trip()
+        Dim strQry As String = String.Empty
+
+        strQry = "Select TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP from
+        TSPL_MILK_COLLECTION_MCC_DETAIL
+        left join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+        left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID=TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP
+        where MCC_Code='" + clsCommon.myCstr(MCC_Code) + "' and TSPL_MILK_COLLECTION_MCC.Document_Date='" + clsCommon.GetPrintDate(Document_Date) + "'
+        and exists(select * from TSPL_MILK_COLLECTION_MCC_DETAIL where TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID ) 
+        "
+
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+        ' Dim lstObj As New List(Of clsBMCDCS_DCS_Head)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            obj.Arr_DCSMCCDetails = New List(Of clsDCS_MCC_DETAIL)
+            Dim Obj_DCSMCC As clsDCS_MCC_DETAIL
+            For Each dr As DataRow In dt.Rows
+                Obj_DCSMCC = New clsDCS_MCC_DETAIL
+                Obj_DCSMCC.BMCDCS_Trip_PK_ID = clsCommon.myCDecimal(dr("REF_PK_ID_BMCDCS_TRIP"))
+                obj.Arr_DCSMCCDetails.Add(Obj_DCSMCC)
+            Next
+        End If
+        Return obj.Arr_DCSMCCDetails
+    End Function
+End Class
+Public Class clsBMCDCS_DCS
+    Public REF_PK_ID As Integer = 0
+    Public PK_ID As Integer = 0
+    Public VLC_Code As String = ""
+    Public IShift As String = ""
+    Public Qty As Decimal = 0
+    Public FAT As Decimal = 0
+    Public SNF As Decimal = 0
+    Public FATKG As Decimal = 0
+    Public SNFKG As Decimal = 0
+    Public Shared Function GetBMCDCS_DCS(ByVal MCC_Code As String, ByVal Document_Date As DateTime)
+        'Dim obj As clsBMCDCS_DCS_Head = Nothing
+        ' Try
+        Dim dt As DataTable
+        Dim obj As clsBMCDCS_DCS_Head = New clsBMCDCS_DCS_Head()
+        '           
+        '            Dim strQry = "select TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG,
+        'TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty,
+        'TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code
+        'from TSPL_MILK_COLLECTION_BMCDCS_DCS
+        'where TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=" + clsCommon.myCstr(REF_PK_ID)
+        Dim strQry = "select TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG,
+TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty,
+TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code
+from TSPL_MILK_COLLECTION_BMCDCS_DCS
+left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID
+where TSPL_MILK_COLLECTION_BMCDCS.MCC_Code='" + clsCommon.myCstr(MCC_Code) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "'"
+
+        dt = New DataTable()
+        dt = clsDBFuncationality.GetDataTable(strQry)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            obj.Arr_DCSDetails = New List(Of clsBMCDCS_DCS)
+            Dim Obj_DCS As clsBMCDCS_DCS
+            For Each dr As DataRow In dt.Rows
+                Obj_DCS = New clsBMCDCS_DCS
+                Obj_DCS.REF_PK_ID = clsCommon.myCDecimal(dr("REF_PK_ID"))
+                Obj_DCS.PK_ID = clsCommon.myCDecimal(dr("PK_ID"))
+                Obj_DCS.VLC_Code = clsCommon.myCstr(dr("VLC_Code"))
+                Obj_DCS.IShift = clsCommon.myCstr(dr("IShift"))
+                Obj_DCS.Qty = clsCommon.myCDecimal(dr("Qty"))
+                Obj_DCS.FAT = clsCommon.myCDecimal(dr("FAT"))
+                Obj_DCS.SNF = clsCommon.myCDecimal(dr("SNF"))
+                Obj_DCS.FATKG = clsCommon.myCDecimal(dr("FATKG"))
+                Obj_DCS.SNFKG = clsCommon.myCDecimal(dr("SNFKG"))
+                obj.Arr_DCSDetails.Add(Obj_DCS)
+            Next
+        End If
+
+        'Catch ex As Exception
+        'w New Exception(ex.Message)
+
+        'End Try
+        Return obj.Arr_DCSDetails
+    End Function
+End Class
