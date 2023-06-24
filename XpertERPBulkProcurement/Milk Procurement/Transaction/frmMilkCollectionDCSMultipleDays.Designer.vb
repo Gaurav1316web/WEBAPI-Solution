@@ -22,38 +22,39 @@ Partial Class frmMilkCollectionDCSMultipleDays
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtTotEnteredFATPer = New common.MyNumBox()
+        Me.txtTotEnteredSNFPer = New common.MyNumBox()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.txtTankerNo = New common.UserControls.txtFinder()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.lblRoute = New common.Controls.MyLabel()
+        Me.txtRoute = New common.UserControls.txtFinder()
         Me.txtTotPendingSNFPer = New common.Controls.MyLabel()
         Me.txtTotPendingFATPer = New common.Controls.MyLabel()
+        Me.txtTotPendingFAT = New common.Controls.MyLabel()
+        Me.txtTotPendingSNF = New common.Controls.MyLabel()
+        Me.txtTotPendingQty = New common.Controls.MyLabel()
+        Me.txtTotEnteredSNF = New common.MyNumBox()
+        Me.txtTotReceivedSNF = New common.Controls.MyLabel()
+        Me.txtTotReceivedFAT = New common.Controls.MyLabel()
+        Me.MyLabel14 = New common.Controls.MyLabel()
+        Me.txtTotEnteredFAT = New common.MyNumBox()
+        Me.txtTotReceivedQty = New common.Controls.MyLabel()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.txtTotEnteredQty = New common.MyNumBox()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.MyLabel18 = New common.Controls.MyLabel()
+        Me.txtVehicleNo = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.cboFATSNFType = New common.Controls.MyComboBox()
-        Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.txtSlipNo = New common.Controls.MyTextBox()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.lblTotPendingSNFKg = New common.Controls.MyLabel()
-        Me.lblTotReceivedSNFKg = New common.Controls.MyLabel()
-        Me.lblTotPendingFATKg = New common.Controls.MyLabel()
-        Me.lblTotReceivedFATKg = New common.Controls.MyLabel()
-        Me.lblTotPendingQty = New common.Controls.MyLabel()
-        Me.lblTotReceivedQty = New common.Controls.MyLabel()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.lblMCC = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtMCC = New common.UserControls.txtFinder()
-        Me.lblSNFPer = New common.Controls.MyLabel()
-        Me.lblFATKg = New common.Controls.MyLabel()
-        Me.lblSNFKg = New common.Controls.MyLabel()
-        Me.lblFATPer = New common.Controls.MyLabel()
-        Me.MyLabel23 = New common.Controls.MyLabel()
-        Me.lblQty = New common.Controls.MyLabel()
-        Me.MyLabel15 = New common.Controls.MyLabel()
-        Me.MyLabel10 = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -63,47 +64,40 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.gv2 = New Telerik.WinControls.UI.RadGridView()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.btnAddMissing = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.btnImport = New Telerik.WinControls.UI.RadButton()
-        Me.btnExport = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.txtTotEnteredFATPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotEnteredSNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTotPendingSNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTotPendingFATPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotPendingFAT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotPendingSNF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotPendingQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotEnteredSNF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotReceivedSNF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotReceivedFAT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotEnteredFAT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotReceivedQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotEnteredQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboFATSNFType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtSlipNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotPendingSNFKg, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotReceivedSNFKg, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotPendingFATKg, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotReceivedFATKg, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotPendingQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotReceivedQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblFATKg, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSNFKg, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblFATPer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,22 +105,12 @@ Partial Class frmMilkCollectionDCSMultipleDays
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
-        CType(Me.btnAddMissing, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -144,42 +128,44 @@ Partial Class frmMilkCollectionDCSMultipleDays
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
-        Me.gv1.Size = New System.Drawing.Size(963, 199)
+        Me.gv1.Size = New System.Drawing.Size(695, 224)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtTotEnteredFATPer)
+        Me.Panel1.Controls.Add(Me.txtTotEnteredSNFPer)
+        Me.Panel1.Controls.Add(Me.MyLabel6)
+        Me.Panel1.Controls.Add(Me.txtTankerNo)
+        Me.Panel1.Controls.Add(Me.MyLabel9)
+        Me.Panel1.Controls.Add(Me.lblRoute)
+        Me.Panel1.Controls.Add(Me.txtRoute)
         Me.Panel1.Controls.Add(Me.txtTotPendingSNFPer)
         Me.Panel1.Controls.Add(Me.txtTotPendingFATPer)
+        Me.Panel1.Controls.Add(Me.txtTotPendingFAT)
+        Me.Panel1.Controls.Add(Me.txtTotPendingSNF)
+        Me.Panel1.Controls.Add(Me.txtTotPendingQty)
+        Me.Panel1.Controls.Add(Me.txtTotEnteredSNF)
+        Me.Panel1.Controls.Add(Me.txtTotReceivedSNF)
+        Me.Panel1.Controls.Add(Me.txtTotReceivedFAT)
+        Me.Panel1.Controls.Add(Me.MyLabel14)
+        Me.Panel1.Controls.Add(Me.txtTotEnteredFAT)
+        Me.Panel1.Controls.Add(Me.txtTotReceivedQty)
+        Me.Panel1.Controls.Add(Me.MyLabel16)
+        Me.Panel1.Controls.Add(Me.txtTotEnteredQty)
+        Me.Panel1.Controls.Add(Me.MyLabel17)
+        Me.Panel1.Controls.Add(Me.MyLabel18)
+        Me.Panel1.Controls.Add(Me.txtVehicleNo)
         Me.Panel1.Controls.Add(Me.MyLabel1)
         Me.Panel1.Controls.Add(Me.cboFATSNFType)
-        Me.Panel1.Controls.Add(Me.MyLabel7)
-        Me.Panel1.Controls.Add(Me.txtSlipNo)
-        Me.Panel1.Controls.Add(Me.RadButton1)
-        Me.Panel1.Controls.Add(Me.lblTotPendingSNFKg)
-        Me.Panel1.Controls.Add(Me.lblTotReceivedSNFKg)
-        Me.Panel1.Controls.Add(Me.lblTotPendingFATKg)
-        Me.Panel1.Controls.Add(Me.lblTotReceivedFATKg)
-        Me.Panel1.Controls.Add(Me.lblTotPendingQty)
-        Me.Panel1.Controls.Add(Me.lblTotReceivedQty)
-        Me.Panel1.Controls.Add(Me.MyLabel5)
-        Me.Panel1.Controls.Add(Me.MyLabel4)
         Me.Panel1.Controls.Add(Me.lblMCC)
         Me.Panel1.Controls.Add(Me.MyLabel3)
         Me.Panel1.Controls.Add(Me.txtMCC)
-        Me.Panel1.Controls.Add(Me.lblSNFPer)
-        Me.Panel1.Controls.Add(Me.lblFATKg)
-        Me.Panel1.Controls.Add(Me.lblSNFKg)
-        Me.Panel1.Controls.Add(Me.lblFATPer)
-        Me.Panel1.Controls.Add(Me.MyLabel23)
-        Me.Panel1.Controls.Add(Me.lblQty)
-        Me.Panel1.Controls.Add(Me.MyLabel15)
-        Me.Panel1.Controls.Add(Me.MyLabel10)
         Me.Panel1.Controls.Add(Me.UsLock1)
         Me.Panel1.Controls.Add(Me.RadLabel3)
         Me.Panel1.Controls.Add(Me.RadLabel4)
@@ -191,18 +177,155 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(963, 93)
+        Me.Panel1.Size = New System.Drawing.Size(695, 133)
         Me.Panel1.TabIndex = 0
+        '
+        'txtTotEnteredFATPer
+        '
+        Me.txtTotEnteredFATPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTotEnteredFATPer.CalculationExpression = Nothing
+        Me.txtTotEnteredFATPer.DecimalPlaces = 2
+        Me.txtTotEnteredFATPer.FieldCode = Nothing
+        Me.txtTotEnteredFATPer.FieldDesc = Nothing
+        Me.txtTotEnteredFATPer.FieldMaxLength = 0
+        Me.txtTotEnteredFATPer.FieldName = Nothing
+        Me.txtTotEnteredFATPer.isCalculatedField = False
+        Me.txtTotEnteredFATPer.IsSourceFromTable = False
+        Me.txtTotEnteredFATPer.IsSourceFromValueList = False
+        Me.txtTotEnteredFATPer.IsUnique = False
+        Me.txtTotEnteredFATPer.Location = New System.Drawing.Point(298, 90)
+        Me.txtTotEnteredFATPer.MendatroryField = True
+        Me.txtTotEnteredFATPer.MyLinkLable1 = Nothing
+        Me.txtTotEnteredFATPer.MyLinkLable2 = Nothing
+        Me.txtTotEnteredFATPer.Name = "txtTotEnteredFATPer"
+        Me.txtTotEnteredFATPer.ReferenceFieldDesc = Nothing
+        Me.txtTotEnteredFATPer.ReferenceFieldName = Nothing
+        Me.txtTotEnteredFATPer.ReferenceTableName = Nothing
+        Me.txtTotEnteredFATPer.Size = New System.Drawing.Size(45, 20)
+        Me.txtTotEnteredFATPer.TabIndex = 6
+        Me.txtTotEnteredFATPer.Text = "0"
+        Me.txtTotEnteredFATPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTotEnteredFATPer.Value = 0R
+        '
+        'txtTotEnteredSNFPer
+        '
+        Me.txtTotEnteredSNFPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTotEnteredSNFPer.CalculationExpression = Nothing
+        Me.txtTotEnteredSNFPer.DecimalPlaces = 2
+        Me.txtTotEnteredSNFPer.FieldCode = Nothing
+        Me.txtTotEnteredSNFPer.FieldDesc = Nothing
+        Me.txtTotEnteredSNFPer.FieldMaxLength = 0
+        Me.txtTotEnteredSNFPer.FieldName = Nothing
+        Me.txtTotEnteredSNFPer.isCalculatedField = False
+        Me.txtTotEnteredSNFPer.IsSourceFromTable = False
+        Me.txtTotEnteredSNFPer.IsSourceFromValueList = False
+        Me.txtTotEnteredSNFPer.IsUnique = False
+        Me.txtTotEnteredSNFPer.Location = New System.Drawing.Point(298, 111)
+        Me.txtTotEnteredSNFPer.MendatroryField = True
+        Me.txtTotEnteredSNFPer.MyLinkLable1 = Nothing
+        Me.txtTotEnteredSNFPer.MyLinkLable2 = Nothing
+        Me.txtTotEnteredSNFPer.Name = "txtTotEnteredSNFPer"
+        Me.txtTotEnteredSNFPer.ReferenceFieldDesc = Nothing
+        Me.txtTotEnteredSNFPer.ReferenceFieldName = Nothing
+        Me.txtTotEnteredSNFPer.ReferenceTableName = Nothing
+        Me.txtTotEnteredSNFPer.Size = New System.Drawing.Size(45, 20)
+        Me.txtTotEnteredSNFPer.TabIndex = 8
+        Me.txtTotEnteredSNFPer.Text = "0"
+        Me.txtTotEnteredSNFPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTotEnteredSNFPer.Value = 0R
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel6.Location = New System.Drawing.Point(6, 49)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(58, 18)
+        Me.MyLabel6.TabIndex = 20
+        Me.MyLabel6.Text = "Tanker No"
+        '
+        'txtTankerNo
+        '
+        Me.txtTankerNo.CalculationExpression = Nothing
+        Me.txtTankerNo.FieldCode = Nothing
+        Me.txtTankerNo.FieldDesc = Nothing
+        Me.txtTankerNo.FieldMaxLength = 0
+        Me.txtTankerNo.FieldName = Nothing
+        Me.txtTankerNo.isCalculatedField = False
+        Me.txtTankerNo.IsSourceFromTable = False
+        Me.txtTankerNo.IsSourceFromValueList = False
+        Me.txtTankerNo.IsUnique = False
+        Me.txtTankerNo.Location = New System.Drawing.Point(85, 48)
+        Me.txtTankerNo.MendatroryField = True
+        Me.txtTankerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTankerNo.MyLinkLable1 = Me.MyLabel6
+        Me.txtTankerNo.MyLinkLable2 = Nothing
+        Me.txtTankerNo.MyReadOnly = False
+        Me.txtTankerNo.MyShowMasterFormButton = False
+        Me.txtTankerNo.Name = "txtTankerNo"
+        Me.txtTankerNo.ReferenceFieldDesc = Nothing
+        Me.txtTankerNo.ReferenceFieldName = Nothing
+        Me.txtTankerNo.ReferenceTableName = Nothing
+        Me.txtTankerNo.Size = New System.Drawing.Size(210, 20)
+        Me.txtTankerNo.TabIndex = 2
+        Me.txtTankerNo.Value = ""
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel9.Location = New System.Drawing.Point(6, 27)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(36, 18)
+        Me.MyLabel9.TabIndex = 21
+        Me.MyLabel9.Text = "Route"
+        '
+        'lblRoute
+        '
+        Me.lblRoute.AutoSize = False
+        Me.lblRoute.BorderVisible = True
+        Me.lblRoute.FieldName = Nothing
+        Me.lblRoute.Location = New System.Drawing.Point(298, 26)
+        Me.lblRoute.Name = "lblRoute"
+        Me.lblRoute.Size = New System.Drawing.Size(189, 20)
+        Me.lblRoute.TabIndex = 69
+        Me.lblRoute.TextWrap = False
+        '
+        'txtRoute
+        '
+        Me.txtRoute.CalculationExpression = Nothing
+        Me.txtRoute.FieldCode = Nothing
+        Me.txtRoute.FieldDesc = Nothing
+        Me.txtRoute.FieldMaxLength = 0
+        Me.txtRoute.FieldName = Nothing
+        Me.txtRoute.isCalculatedField = False
+        Me.txtRoute.IsSourceFromTable = False
+        Me.txtRoute.IsSourceFromValueList = False
+        Me.txtRoute.IsUnique = False
+        Me.txtRoute.Location = New System.Drawing.Point(85, 26)
+        Me.txtRoute.MendatroryField = True
+        Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRoute.MyLinkLable1 = Me.MyLabel9
+        Me.txtRoute.MyLinkLable2 = Nothing
+        Me.txtRoute.MyReadOnly = False
+        Me.txtRoute.MyShowMasterFormButton = False
+        Me.txtRoute.Name = "txtRoute"
+        Me.txtRoute.ReferenceFieldDesc = Nothing
+        Me.txtRoute.ReferenceFieldName = Nothing
+        Me.txtRoute.ReferenceTableName = Nothing
+        Me.txtRoute.Size = New System.Drawing.Size(210, 20)
+        Me.txtRoute.TabIndex = 1
+        Me.txtRoute.Value = ""
         '
         'txtTotPendingSNFPer
         '
         Me.txtTotPendingSNFPer.AutoSize = False
         Me.txtTotPendingSNFPer.BorderVisible = True
         Me.txtTotPendingSNFPer.FieldName = Nothing
-        Me.txtTotPendingSNFPer.Location = New System.Drawing.Point(632, 67)
+        Me.txtTotPendingSNFPer.Location = New System.Drawing.Point(484, 111)
         Me.txtTotPendingSNFPer.Name = "txtTotPendingSNFPer"
-        Me.txtTotPendingSNFPer.Size = New System.Drawing.Size(60, 20)
-        Me.txtTotPendingSNFPer.TabIndex = 10
+        Me.txtTotPendingSNFPer.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotPendingSNFPer.TabIndex = 14
         Me.txtTotPendingSNFPer.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotPendingSNFPer.TextWrap = False
         '
@@ -211,21 +334,238 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.txtTotPendingFATPer.AutoSize = False
         Me.txtTotPendingFATPer.BorderVisible = True
         Me.txtTotPendingFATPer.FieldName = Nothing
-        Me.txtTotPendingFATPer.Location = New System.Drawing.Point(632, 46)
+        Me.txtTotPendingFATPer.Location = New System.Drawing.Point(484, 90)
         Me.txtTotPendingFATPer.Name = "txtTotPendingFATPer"
-        Me.txtTotPendingFATPer.Size = New System.Drawing.Size(60, 20)
-        Me.txtTotPendingFATPer.TabIndex = 11
+        Me.txtTotPendingFATPer.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotPendingFATPer.TabIndex = 13
         Me.txtTotPendingFATPer.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.txtTotPendingFATPer.TextWrap = False
+        '
+        'txtTotPendingFAT
+        '
+        Me.txtTotPendingFAT.AutoSize = False
+        Me.txtTotPendingFAT.BorderVisible = True
+        Me.txtTotPendingFAT.FieldName = Nothing
+        Me.txtTotPendingFAT.Location = New System.Drawing.Point(436, 90)
+        Me.txtTotPendingFAT.Name = "txtTotPendingFAT"
+        Me.txtTotPendingFAT.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotPendingFAT.TabIndex = 11
+        Me.txtTotPendingFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.txtTotPendingFAT.TextWrap = False
+        '
+        'txtTotPendingSNF
+        '
+        Me.txtTotPendingSNF.AutoSize = False
+        Me.txtTotPendingSNF.BorderVisible = True
+        Me.txtTotPendingSNF.FieldName = Nothing
+        Me.txtTotPendingSNF.Location = New System.Drawing.Point(436, 111)
+        Me.txtTotPendingSNF.Name = "txtTotPendingSNF"
+        Me.txtTotPendingSNF.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotPendingSNF.TabIndex = 12
+        Me.txtTotPendingSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.txtTotPendingSNF.TextWrap = False
+        '
+        'txtTotPendingQty
+        '
+        Me.txtTotPendingQty.AutoSize = False
+        Me.txtTotPendingQty.BorderVisible = True
+        Me.txtTotPendingQty.FieldName = Nothing
+        Me.txtTotPendingQty.Location = New System.Drawing.Point(195, 90)
+        Me.txtTotPendingQty.Name = "txtTotPendingQty"
+        Me.txtTotPendingQty.Size = New System.Drawing.Size(64, 20)
+        Me.txtTotPendingQty.TabIndex = 15
+        Me.txtTotPendingQty.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.txtTotPendingQty.TextWrap = False
+        '
+        'txtTotEnteredSNF
+        '
+        Me.txtTotEnteredSNF.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTotEnteredSNF.CalculationExpression = Nothing
+        Me.txtTotEnteredSNF.DecimalPlaces = 3
+        Me.txtTotEnteredSNF.FieldCode = Nothing
+        Me.txtTotEnteredSNF.FieldDesc = Nothing
+        Me.txtTotEnteredSNF.FieldMaxLength = 0
+        Me.txtTotEnteredSNF.FieldName = Nothing
+        Me.txtTotEnteredSNF.isCalculatedField = False
+        Me.txtTotEnteredSNF.IsSourceFromTable = False
+        Me.txtTotEnteredSNF.IsSourceFromValueList = False
+        Me.txtTotEnteredSNF.IsUnique = False
+        Me.txtTotEnteredSNF.Location = New System.Drawing.Point(343, 111)
+        Me.txtTotEnteredSNF.MendatroryField = True
+        Me.txtTotEnteredSNF.MyLinkLable1 = Nothing
+        Me.txtTotEnteredSNF.MyLinkLable2 = Nothing
+        Me.txtTotEnteredSNF.Name = "txtTotEnteredSNF"
+        Me.txtTotEnteredSNF.ReferenceFieldDesc = Nothing
+        Me.txtTotEnteredSNF.ReferenceFieldName = Nothing
+        Me.txtTotEnteredSNF.ReferenceTableName = Nothing
+        Me.txtTotEnteredSNF.Size = New System.Drawing.Size(45, 20)
+        Me.txtTotEnteredSNF.TabIndex = 9
+        Me.txtTotEnteredSNF.Text = "0"
+        Me.txtTotEnteredSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTotEnteredSNF.Value = 0R
+        '
+        'txtTotReceivedSNF
+        '
+        Me.txtTotReceivedSNF.AutoSize = False
+        Me.txtTotReceivedSNF.BorderVisible = True
+        Me.txtTotReceivedSNF.FieldName = Nothing
+        Me.txtTotReceivedSNF.Location = New System.Drawing.Point(388, 111)
+        Me.txtTotReceivedSNF.Name = "txtTotReceivedSNF"
+        Me.txtTotReceivedSNF.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotReceivedSNF.TabIndex = 10
+        Me.txtTotReceivedSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.txtTotReceivedSNF.TextWrap = False
+        '
+        'txtTotReceivedFAT
+        '
+        Me.txtTotReceivedFAT.AutoSize = False
+        Me.txtTotReceivedFAT.BorderVisible = True
+        Me.txtTotReceivedFAT.FieldName = Nothing
+        Me.txtTotReceivedFAT.Location = New System.Drawing.Point(388, 90)
+        Me.txtTotReceivedFAT.Name = "txtTotReceivedFAT"
+        Me.txtTotReceivedFAT.Size = New System.Drawing.Size(48, 20)
+        Me.txtTotReceivedFAT.TabIndex = 9
+        Me.txtTotReceivedFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.txtTotReceivedFAT.TextWrap = False
+        '
+        'MyLabel14
+        '
+        Me.MyLabel14.FieldName = Nothing
+        Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel14.Location = New System.Drawing.Point(267, 113)
+        Me.MyLabel14.Name = "MyLabel14"
+        Me.MyLabel14.Size = New System.Drawing.Size(29, 16)
+        Me.MyLabel14.TabIndex = 74
+        Me.MyLabel14.Text = "SNF"
+        '
+        'txtTotEnteredFAT
+        '
+        Me.txtTotEnteredFAT.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTotEnteredFAT.CalculationExpression = Nothing
+        Me.txtTotEnteredFAT.DecimalPlaces = 3
+        Me.txtTotEnteredFAT.FieldCode = Nothing
+        Me.txtTotEnteredFAT.FieldDesc = Nothing
+        Me.txtTotEnteredFAT.FieldMaxLength = 0
+        Me.txtTotEnteredFAT.FieldName = Nothing
+        Me.txtTotEnteredFAT.isCalculatedField = False
+        Me.txtTotEnteredFAT.IsSourceFromTable = False
+        Me.txtTotEnteredFAT.IsSourceFromValueList = False
+        Me.txtTotEnteredFAT.IsUnique = False
+        Me.txtTotEnteredFAT.Location = New System.Drawing.Point(343, 90)
+        Me.txtTotEnteredFAT.MendatroryField = True
+        Me.txtTotEnteredFAT.MyLinkLable1 = Nothing
+        Me.txtTotEnteredFAT.MyLinkLable2 = Nothing
+        Me.txtTotEnteredFAT.Name = "txtTotEnteredFAT"
+        Me.txtTotEnteredFAT.ReferenceFieldDesc = Nothing
+        Me.txtTotEnteredFAT.ReferenceFieldName = Nothing
+        Me.txtTotEnteredFAT.ReferenceTableName = Nothing
+        Me.txtTotEnteredFAT.Size = New System.Drawing.Size(45, 20)
+        Me.txtTotEnteredFAT.TabIndex = 7
+        Me.txtTotEnteredFAT.Text = "0"
+        Me.txtTotEnteredFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTotEnteredFAT.Value = 0R
+        '
+        'txtTotReceivedQty
+        '
+        Me.txtTotReceivedQty.AutoSize = False
+        Me.txtTotReceivedQty.BorderVisible = True
+        Me.txtTotReceivedQty.FieldName = Nothing
+        Me.txtTotReceivedQty.Location = New System.Drawing.Point(131, 90)
+        Me.txtTotReceivedQty.Name = "txtTotReceivedQty"
+        Me.txtTotReceivedQty.Size = New System.Drawing.Size(64, 20)
+        Me.txtTotReceivedQty.TabIndex = 16
+        Me.txtTotReceivedQty.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.txtTotReceivedQty.TextWrap = False
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(267, 92)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(28, 16)
+        Me.MyLabel16.TabIndex = 61
+        Me.MyLabel16.Text = "FAT"
+        '
+        'txtTotEnteredQty
+        '
+        Me.txtTotEnteredQty.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTotEnteredQty.CalculationExpression = Nothing
+        Me.txtTotEnteredQty.DecimalPlaces = 3
+        Me.txtTotEnteredQty.FieldCode = Nothing
+        Me.txtTotEnteredQty.FieldDesc = Nothing
+        Me.txtTotEnteredQty.FieldMaxLength = 0
+        Me.txtTotEnteredQty.FieldName = Nothing
+        Me.txtTotEnteredQty.isCalculatedField = False
+        Me.txtTotEnteredQty.IsSourceFromTable = False
+        Me.txtTotEnteredQty.IsSourceFromValueList = False
+        Me.txtTotEnteredQty.IsUnique = False
+        Me.txtTotEnteredQty.Location = New System.Drawing.Point(85, 90)
+        Me.txtTotEnteredQty.MendatroryField = True
+        Me.txtTotEnteredQty.MyLinkLable1 = Nothing
+        Me.txtTotEnteredQty.MyLinkLable2 = Nothing
+        Me.txtTotEnteredQty.Name = "txtTotEnteredQty"
+        Me.txtTotEnteredQty.ReferenceFieldDesc = Nothing
+        Me.txtTotEnteredQty.ReferenceFieldName = Nothing
+        Me.txtTotEnteredQty.ReferenceTableName = Nothing
+        Me.txtTotEnteredQty.Size = New System.Drawing.Size(45, 20)
+        Me.txtTotEnteredQty.TabIndex = 5
+        Me.txtTotEnteredQty.Text = "0"
+        Me.txtTotEnteredQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTotEnteredQty.Value = 0R
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(6, 92)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel17.TabIndex = 18
+        Me.MyLabel17.Text = "Total KG"
+        '
+        'MyLabel18
+        '
+        Me.MyLabel18.FieldName = Nothing
+        Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel18.Location = New System.Drawing.Point(301, 50)
+        Me.MyLabel18.Name = "MyLabel18"
+        Me.MyLabel18.Size = New System.Drawing.Size(61, 16)
+        Me.MyLabel18.TabIndex = 68
+        Me.MyLabel18.Text = "Vehicle No"
+        '
+        'txtVehicleNo
+        '
+        Me.txtVehicleNo.CalculationExpression = Nothing
+        Me.txtVehicleNo.FieldCode = Nothing
+        Me.txtVehicleNo.FieldDesc = Nothing
+        Me.txtVehicleNo.FieldMaxLength = 0
+        Me.txtVehicleNo.FieldName = Nothing
+        Me.txtVehicleNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVehicleNo.isCalculatedField = False
+        Me.txtVehicleNo.IsSourceFromTable = False
+        Me.txtVehicleNo.IsSourceFromValueList = False
+        Me.txtVehicleNo.IsUnique = False
+        Me.txtVehicleNo.Location = New System.Drawing.Point(368, 49)
+        Me.txtVehicleNo.MaxLength = 200
+        Me.txtVehicleNo.MendatroryField = True
+        Me.txtVehicleNo.MyLinkLable1 = Me.MyLabel18
+        Me.txtVehicleNo.MyLinkLable2 = Nothing
+        Me.txtVehicleNo.Name = "txtVehicleNo"
+        Me.txtVehicleNo.ReferenceFieldDesc = Nothing
+        Me.txtVehicleNo.ReferenceFieldName = Nothing
+        Me.txtVehicleNo.ReferenceTableName = Nothing
+        Me.txtVehicleNo.Size = New System.Drawing.Size(119, 18)
+        Me.txtVehicleNo.TabIndex = 3
         '
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(497, 6)
+        Me.MyLabel1.Location = New System.Drawing.Point(497, 28)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(82, 16)
-        Me.MyLabel1.TabIndex = 28
+        Me.MyLabel1.TabIndex = 27
         Me.MyLabel1.Text = "FAT/SNF Type"
         '
         'cboFATSNFType
@@ -249,7 +589,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         RadListDataItem2.Text = "E"
         Me.cboFATSNFType.Items.Add(RadListDataItem1)
         Me.cboFATSNFType.Items.Add(RadListDataItem2)
-        Me.cboFATSNFType.Location = New System.Drawing.Point(584, 5)
+        Me.cboFATSNFType.Location = New System.Drawing.Point(584, 27)
         Me.cboFATSNFType.MendatroryField = True
         Me.cboFATSNFType.MyLinkLable1 = Me.MyLabel1
         Me.cboFATSNFType.MyLinkLable2 = Nothing
@@ -258,151 +598,16 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.cboFATSNFType.ReferenceFieldName = Nothing
         Me.cboFATSNFType.ReferenceTableName = Nothing
         Me.cboFATSNFType.Size = New System.Drawing.Size(106, 18)
-        Me.cboFATSNFType.TabIndex = 29
-        '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(496, 27)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(40, 16)
-        Me.MyLabel7.TabIndex = 44
-        Me.MyLabel7.Text = "SlipNo"
-        '
-        'txtSlipNo
-        '
-        Me.txtSlipNo.CalculationExpression = Nothing
-        Me.txtSlipNo.FieldCode = Nothing
-        Me.txtSlipNo.FieldDesc = Nothing
-        Me.txtSlipNo.FieldMaxLength = 0
-        Me.txtSlipNo.FieldName = Nothing
-        Me.txtSlipNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSlipNo.isCalculatedField = False
-        Me.txtSlipNo.IsSourceFromTable = False
-        Me.txtSlipNo.IsSourceFromValueList = False
-        Me.txtSlipNo.IsUnique = False
-        Me.txtSlipNo.Location = New System.Drawing.Point(544, 26)
-        Me.txtSlipNo.MaxLength = 30
-        Me.txtSlipNo.MendatroryField = False
-        Me.txtSlipNo.MyLinkLable1 = Me.MyLabel7
-        Me.txtSlipNo.MyLinkLable2 = Nothing
-        Me.txtSlipNo.Name = "txtSlipNo"
-        Me.txtSlipNo.ReferenceFieldDesc = Nothing
-        Me.txtSlipNo.ReferenceFieldName = Nothing
-        Me.txtSlipNo.ReferenceTableName = Nothing
-        Me.txtSlipNo.Size = New System.Drawing.Size(148, 18)
-        Me.txtSlipNo.TabIndex = 2
-        '
-        'RadButton1
-        '
-        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(694, 46)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(102, 41)
-        Me.RadButton1.TabIndex = 12
-        Me.RadButton1.Text = "Add To Suspense"
-        '
-        'lblTotPendingSNFKg
-        '
-        Me.lblTotPendingSNFKg.AutoSize = False
-        Me.lblTotPendingSNFKg.BorderVisible = True
-        Me.lblTotPendingSNFKg.FieldName = Nothing
-        Me.lblTotPendingSNFKg.Location = New System.Drawing.Point(572, 67)
-        Me.lblTotPendingSNFKg.Name = "lblTotPendingSNFKg"
-        Me.lblTotPendingSNFKg.Size = New System.Drawing.Size(60, 20)
-        Me.lblTotPendingSNFKg.TabIndex = 9
-        Me.lblTotPendingSNFKg.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblTotPendingSNFKg.TextWrap = False
-        '
-        'lblTotReceivedSNFKg
-        '
-        Me.lblTotReceivedSNFKg.AutoSize = False
-        Me.lblTotReceivedSNFKg.BorderVisible = True
-        Me.lblTotReceivedSNFKg.FieldName = Nothing
-        Me.lblTotReceivedSNFKg.Location = New System.Drawing.Point(512, 67)
-        Me.lblTotReceivedSNFKg.Name = "lblTotReceivedSNFKg"
-        Me.lblTotReceivedSNFKg.Size = New System.Drawing.Size(60, 20)
-        Me.lblTotReceivedSNFKg.TabIndex = 8
-        Me.lblTotReceivedSNFKg.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblTotReceivedSNFKg.TextWrap = False
-        '
-        'lblTotPendingFATKg
-        '
-        Me.lblTotPendingFATKg.AutoSize = False
-        Me.lblTotPendingFATKg.BorderVisible = True
-        Me.lblTotPendingFATKg.FieldName = Nothing
-        Me.lblTotPendingFATKg.Location = New System.Drawing.Point(572, 46)
-        Me.lblTotPendingFATKg.Name = "lblTotPendingFATKg"
-        Me.lblTotPendingFATKg.Size = New System.Drawing.Size(60, 20)
-        Me.lblTotPendingFATKg.TabIndex = 13
-        Me.lblTotPendingFATKg.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblTotPendingFATKg.TextWrap = False
-        '
-        'lblTotReceivedFATKg
-        '
-        Me.lblTotReceivedFATKg.AutoSize = False
-        Me.lblTotReceivedFATKg.BorderVisible = True
-        Me.lblTotReceivedFATKg.FieldName = Nothing
-        Me.lblTotReceivedFATKg.Location = New System.Drawing.Point(512, 46)
-        Me.lblTotReceivedFATKg.Name = "lblTotReceivedFATKg"
-        Me.lblTotReceivedFATKg.Size = New System.Drawing.Size(60, 20)
-        Me.lblTotReceivedFATKg.TabIndex = 14
-        Me.lblTotReceivedFATKg.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblTotReceivedFATKg.TextWrap = False
-        '
-        'lblTotPendingQty
-        '
-        Me.lblTotPendingQty.AutoSize = False
-        Me.lblTotPendingQty.BorderVisible = True
-        Me.lblTotPendingQty.FieldName = Nothing
-        Me.lblTotPendingQty.Location = New System.Drawing.Point(226, 46)
-        Me.lblTotPendingQty.Name = "lblTotPendingQty"
-        Me.lblTotPendingQty.Size = New System.Drawing.Size(69, 20)
-        Me.lblTotPendingQty.TabIndex = 19
-        Me.lblTotPendingQty.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblTotPendingQty.TextWrap = False
-        '
-        'lblTotReceivedQty
-        '
-        Me.lblTotReceivedQty.AutoSize = False
-        Me.lblTotReceivedQty.BorderVisible = True
-        Me.lblTotReceivedQty.FieldName = Nothing
-        Me.lblTotReceivedQty.Location = New System.Drawing.Point(154, 46)
-        Me.lblTotReceivedQty.Name = "lblTotReceivedQty"
-        Me.lblTotReceivedQty.Size = New System.Drawing.Size(72, 20)
-        Me.lblTotReceivedQty.TabIndex = 20
-        Me.lblTotReceivedQty.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblTotReceivedQty.TextWrap = False
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(298, 69)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(42, 16)
-        Me.MyLabel5.TabIndex = 4
-        Me.MyLabel5.Text = "SNF %"
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(397, 48)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(47, 16)
-        Me.MyLabel4.TabIndex = 16
-        Me.MyLabel4.Text = "FAT KG"
+        Me.cboFATSNFType.TabIndex = 28
         '
         'lblMCC
         '
         Me.lblMCC.AutoSize = False
         Me.lblMCC.BorderVisible = True
         Me.lblMCC.FieldName = Nothing
-        Me.lblMCC.Location = New System.Drawing.Point(298, 25)
+        Me.lblMCC.Location = New System.Drawing.Point(298, 69)
         Me.lblMCC.Name = "lblMCC"
-        Me.lblMCC.Size = New System.Drawing.Size(194, 20)
+        Me.lblMCC.Size = New System.Drawing.Size(189, 20)
         Me.lblMCC.TabIndex = 15
         Me.lblMCC.TextWrap = False
         '
@@ -410,10 +615,10 @@ Partial Class frmMilkCollectionDCSMultipleDays
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel3.Location = New System.Drawing.Point(6, 26)
+        Me.MyLabel3.Location = New System.Drawing.Point(6, 70)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(58, 18)
-        Me.MyLabel3.TabIndex = 23
+        Me.MyLabel3.TabIndex = 19
         Me.MyLabel3.Text = "BMC/MCC"
         '
         'txtMCC
@@ -427,7 +632,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.txtMCC.IsSourceFromTable = False
         Me.txtMCC.IsSourceFromValueList = False
         Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(85, 26)
+        Me.txtMCC.Location = New System.Drawing.Point(85, 70)
         Me.txtMCC.MendatroryField = True
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Me.MyLabel3
@@ -439,117 +644,27 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.txtMCC.ReferenceFieldName = Nothing
         Me.txtMCC.ReferenceTableName = Nothing
         Me.txtMCC.Size = New System.Drawing.Size(210, 18)
-        Me.txtMCC.TabIndex = 1
+        Me.txtMCC.TabIndex = 4
         Me.txtMCC.Value = ""
-        '
-        'lblSNFPer
-        '
-        Me.lblSNFPer.AutoSize = False
-        Me.lblSNFPer.BorderVisible = True
-        Me.lblSNFPer.FieldName = Nothing
-        Me.lblSNFPer.Location = New System.Drawing.Point(346, 67)
-        Me.lblSNFPer.Name = "lblSNFPer"
-        Me.lblSNFPer.Size = New System.Drawing.Size(48, 20)
-        Me.lblSNFPer.TabIndex = 5
-        Me.lblSNFPer.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblSNFPer.TextWrap = False
-        '
-        'lblFATKg
-        '
-        Me.lblFATKg.AutoSize = False
-        Me.lblFATKg.BorderVisible = True
-        Me.lblFATKg.FieldName = Nothing
-        Me.lblFATKg.Location = New System.Drawing.Point(452, 46)
-        Me.lblFATKg.Name = "lblFATKg"
-        Me.lblFATKg.Size = New System.Drawing.Size(60, 20)
-        Me.lblFATKg.TabIndex = 15
-        Me.lblFATKg.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblFATKg.TextWrap = False
-        '
-        'lblSNFKg
-        '
-        Me.lblSNFKg.AutoSize = False
-        Me.lblSNFKg.BorderVisible = True
-        Me.lblSNFKg.FieldName = Nothing
-        Me.lblSNFKg.Location = New System.Drawing.Point(452, 67)
-        Me.lblSNFKg.Name = "lblSNFKg"
-        Me.lblSNFKg.Size = New System.Drawing.Size(60, 20)
-        Me.lblSNFKg.TabIndex = 7
-        Me.lblSNFKg.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblSNFKg.TextWrap = False
-        '
-        'lblFATPer
-        '
-        Me.lblFATPer.AutoSize = False
-        Me.lblFATPer.BorderVisible = True
-        Me.lblFATPer.FieldName = Nothing
-        Me.lblFATPer.Location = New System.Drawing.Point(346, 46)
-        Me.lblFATPer.Name = "lblFATPer"
-        Me.lblFATPer.Size = New System.Drawing.Size(48, 20)
-        Me.lblFATPer.TabIndex = 17
-        Me.lblFATPer.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblFATPer.TextWrap = False
-        '
-        'MyLabel23
-        '
-        Me.MyLabel23.FieldName = Nothing
-        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel23.Location = New System.Drawing.Point(397, 69)
-        Me.MyLabel23.Name = "MyLabel23"
-        Me.MyLabel23.Size = New System.Drawing.Size(48, 16)
-        Me.MyLabel23.TabIndex = 6
-        Me.MyLabel23.Text = "SNF KG"
-        '
-        'lblQty
-        '
-        Me.lblQty.AutoSize = False
-        Me.lblQty.BorderVisible = True
-        Me.lblQty.FieldName = Nothing
-        Me.lblQty.Location = New System.Drawing.Point(85, 46)
-        Me.lblQty.Name = "lblQty"
-        Me.lblQty.Size = New System.Drawing.Size(69, 20)
-        Me.lblQty.TabIndex = 21
-        Me.lblQty.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.lblQty.TextWrap = False
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(298, 48)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(41, 16)
-        Me.MyLabel15.TabIndex = 18
-        Me.MyLabel15.Text = "FAT %"
-        '
-        'MyLabel10
-        '
-        Me.MyLabel10.FieldName = Nothing
-        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(6, 48)
-        Me.MyLabel10.Name = "MyLabel10"
-        Me.MyLabel10.Size = New System.Drawing.Size(48, 16)
-        Me.MyLabel10.TabIndex = 22
-        Me.MyLabel10.Text = "Quantity"
         '
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(694, 5)
+        Me.UsLock1.Location = New System.Drawing.Point(493, 5)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(102, 19)
+        Me.UsLock1.Size = New System.Drawing.Size(86, 19)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
-        Me.UsLock1.TabIndex = 30
+        Me.UsLock1.TabIndex = 26
         '
         'RadLabel3
         '
         Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel3.Location = New System.Drawing.Point(6, 69)
+        Me.RadLabel3.Location = New System.Drawing.Point(6, 113)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 16)
-        Me.RadLabel3.TabIndex = 3
+        Me.RadLabel3.TabIndex = 17
         Me.RadLabel3.Text = "Description"
         '
         'RadLabel4
@@ -559,7 +674,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.RadLabel4.Location = New System.Drawing.Point(361, 6)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
-        Me.RadLabel4.TabIndex = 27
+        Me.RadLabel4.TabIndex = 25
         Me.RadLabel4.Text = "Date"
         '
         'RadLabel1
@@ -569,7 +684,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.RadLabel1.Location = New System.Drawing.Point(6, 6)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(75, 16)
-        Me.RadLabel1.TabIndex = 24
+        Me.RadLabel1.TabIndex = 22
         Me.RadLabel1.Text = "Document No"
         '
         'txtDocNo
@@ -585,7 +700,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(250, 19)
-        Me.txtDocNo.TabIndex = 25
+        Me.txtDocNo.TabIndex = 23
         Me.txtDocNo.Value = ""
         '
         'txtDate
@@ -630,7 +745,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(85, 68)
+        Me.txtDesc.Location = New System.Drawing.Point(85, 112)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel3
@@ -639,8 +754,8 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.txtDesc.ReferenceFieldDesc = Nothing
         Me.txtDesc.ReferenceFieldName = Nothing
         Me.txtDesc.ReferenceTableName = Nothing
-        Me.txtDesc.Size = New System.Drawing.Size(210, 18)
-        Me.txtDesc.TabIndex = 3
+        Me.txtDesc.Size = New System.Drawing.Size(174, 18)
+        Me.txtDesc.TabIndex = 10
         '
         'btnAddNew
         '
@@ -649,96 +764,31 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(335, 5)
         Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 18)
-        Me.btnAddNew.TabIndex = 26
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
+        Me.btnAddNew.TabIndex = 24
         '
         'Panel2
         '
-        Me.Panel2.Controls.Add(Me.SplitContainer1)
+        Me.Panel2.Controls.Add(Me.gv1)
         Me.Panel2.Controls.Add(Me.Panel3)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel2.Location = New System.Drawing.Point(0, 93)
+        Me.Panel2.Location = New System.Drawing.Point(0, 133)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(963, 292)
+        Me.Panel2.Size = New System.Drawing.Size(695, 252)
         Me.Panel2.TabIndex = 1
-        '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.gv1)
-        '
-        'SplitContainer1.Panel2
-        '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.gv2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(963, 264)
-        Me.SplitContainer1.SplitterDistance = 199
-        Me.SplitContainer1.TabIndex = 3
-        '
-        'gv2
-        '
-        Me.gv2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv2.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gv2.ForeColor = System.Drawing.Color.Black
-        Me.gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv2.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gv2.MasterTemplate.AllowDeleteRow = False
-        Me.gv2.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gv2.Name = "gv2"
-        Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv2.ShowGroupPanel = False
-        Me.gv2.Size = New System.Drawing.Size(963, 61)
-        Me.gv2.TabIndex = 3
-        Me.gv2.TabStop = False
         '
         'Panel3
         '
-        Me.Panel3.Controls.Add(Me.btnAddMissing)
-        Me.Panel3.Controls.Add(Me.RadButton2)
         Me.Panel3.Controls.Add(Me.btnSave)
         Me.Panel3.Controls.Add(Me.btnClose)
         Me.Panel3.Controls.Add(Me.btnHistory)
         Me.Panel3.Controls.Add(Me.btnDelete)
-        Me.Panel3.Controls.Add(Me.btnPrint)
         Me.Panel3.Controls.Add(Me.btnPost)
-        Me.Panel3.Controls.Add(Me.btnImport)
-        Me.Panel3.Controls.Add(Me.btnExport)
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel3.Location = New System.Drawing.Point(0, 264)
+        Me.Panel3.Location = New System.Drawing.Point(0, 224)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(963, 28)
+        Me.Panel3.Size = New System.Drawing.Size(695, 28)
         Me.Panel3.TabIndex = 40
-        '
-        'btnAddMissing
-        '
-        Me.btnAddMissing.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAddMissing.Location = New System.Drawing.Point(684, 3)
-        Me.btnAddMissing.Name = "btnAddMissing"
-        Me.btnAddMissing.Size = New System.Drawing.Size(78, 22)
-        Me.btnAddMissing.TabIndex = 41
-        Me.btnAddMissing.Text = "Add Missing"
-        Me.btnAddMissing.Visible = False
-        '
-        'RadButton2
-        '
-        Me.RadButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton2.Location = New System.Drawing.Point(521, 3)
-        Me.RadButton2.Name = "RadButton2"
-        Me.RadButton2.Size = New System.Drawing.Size(161, 22)
-        Me.RadButton2.TabIndex = 40
-        Me.RadButton2.Text = "Add DCS To Current BMC"
         '
         'btnSave
         '
@@ -754,7 +804,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(888, 3)
+        Me.btnClose.Location = New System.Drawing.Point(620, 3)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(72, 22)
         Me.btnClose.TabIndex = 6
@@ -763,7 +813,7 @@ Partial Class frmMilkCollectionDCSMultipleDays
         'btnHistory
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(447, 3)
+        Me.btnHistory.Location = New System.Drawing.Point(225, 3)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(72, 22)
         Me.btnHistory.TabIndex = 39
@@ -779,16 +829,6 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(373, 3)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(72, 22)
-        Me.btnPrint.TabIndex = 9
-        Me.btnPrint.Text = "Print"
-        '
         'btnPost
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -799,35 +839,15 @@ Partial Class frmMilkCollectionDCSMultipleDays
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
         '
-        'btnImport
-        '
-        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnImport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnImport.Location = New System.Drawing.Point(299, 3)
-        Me.btnImport.Name = "btnImport"
-        Me.btnImport.Size = New System.Drawing.Size(72, 22)
-        Me.btnImport.TabIndex = 8
-        Me.btnImport.Text = "Import"
-        '
-        'btnExport
-        '
-        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExport.Location = New System.Drawing.Point(225, 3)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(72, 22)
-        Me.btnExport.TabIndex = 7
-        Me.btnExport.Text = "Export"
-        '
-        'frmMilkCollectionDCS
+        'frmMilkCollectionDCSMultipleDays
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(963, 385)
+        Me.ClientSize = New System.Drawing.Size(695, 385)
         Me.ControlBox = False
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
-        Me.Name = "frmMilkCollectionDCS"
+        Me.Name = "frmMilkCollectionDCSMultipleDays"
         '
         '
         '
@@ -838,31 +858,31 @@ Partial Class frmMilkCollectionDCSMultipleDays
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.txtTotEnteredFATPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotEnteredSNFPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTotPendingSNFPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTotPendingFATPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotPendingFAT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotPendingSNF, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotPendingQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotEnteredSNF, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotReceivedSNF, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotReceivedFAT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotEnteredFAT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotReceivedQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotEnteredQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboFATSNFType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtSlipNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotPendingSNFKg, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotReceivedSNFKg, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotPendingFATKg, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotReceivedFATKg, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotPendingQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotReceivedQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSNFPer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblFATKg, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSNFKg, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblFATPer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -870,29 +890,17 @@ Partial Class frmMilkCollectionDCSMultipleDays
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel3.ResumeLayout(False)
-        CType(Me.btnAddMissing, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents gv1 As Telerik.WinControls.UI.RadGridView
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
@@ -905,40 +913,37 @@ Partial Class frmMilkCollectionDCSMultipleDays
     Friend WithEvents txtDesc As common.Controls.MyTextBox
     Friend WithEvents btnAddNew As Telerik.WinControls.UI.RadButton
     Friend WithEvents UsLock1 As common.usLock
-    Friend WithEvents lblSNFPer As common.Controls.MyLabel
-    Friend WithEvents lblFATKg As common.Controls.MyLabel
-    Friend WithEvents lblSNFKg As common.Controls.MyLabel
-    Friend WithEvents lblFATPer As common.Controls.MyLabel
-    Friend WithEvents MyLabel23 As common.Controls.MyLabel
-    Friend WithEvents lblQty As common.Controls.MyLabel
-    Friend WithEvents MyLabel15 As common.Controls.MyLabel
-    Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtMCC As common.UserControls.txtFinder
     Friend WithEvents lblMCC As common.Controls.MyLabel
-    Friend WithEvents MyLabel5 As common.Controls.MyLabel
-    Friend WithEvents MyLabel4 As common.Controls.MyLabel
-    Friend WithEvents lblTotPendingQty As common.Controls.MyLabel
-    Friend WithEvents lblTotReceivedQty As common.Controls.MyLabel
-    Friend WithEvents lblTotPendingSNFKg As common.Controls.MyLabel
-    Friend WithEvents lblTotReceivedSNFKg As common.Controls.MyLabel
-    Friend WithEvents lblTotPendingFATKg As common.Controls.MyLabel
-    Friend WithEvents lblTotReceivedFATKg As common.Controls.MyLabel
-    Friend WithEvents btnImport As RadButton
-    Friend WithEvents btnExport As RadButton
-    Friend WithEvents RadButton1 As RadButton
-    Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnHistory As RadButton
-    Friend WithEvents MyLabel7 As common.Controls.MyLabel
-    Friend WithEvents txtSlipNo As common.Controls.MyTextBox
-    Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents Panel3 As Panel
-    Friend WithEvents gv2 As RadGridView
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents cboFATSNFType As common.Controls.MyComboBox
+    Friend WithEvents txtTotEnteredFATPer As common.MyNumBox
+    Friend WithEvents txtTotEnteredSNFPer As common.MyNumBox
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents txtTankerNo As common.UserControls.txtFinder
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents lblRoute As common.Controls.MyLabel
+    Friend WithEvents txtRoute As common.UserControls.txtFinder
     Friend WithEvents txtTotPendingSNFPer As common.Controls.MyLabel
     Friend WithEvents txtTotPendingFATPer As common.Controls.MyLabel
-    Friend WithEvents RadButton2 As RadButton
-    Friend WithEvents btnAddMissing As RadButton
+    Friend WithEvents txtTotPendingFAT As common.Controls.MyLabel
+    Friend WithEvents txtTotPendingSNF As common.Controls.MyLabel
+    Friend WithEvents txtTotPendingQty As common.Controls.MyLabel
+    Friend WithEvents txtTotEnteredSNF As common.MyNumBox
+    Friend WithEvents txtTotReceivedSNF As common.Controls.MyLabel
+    Friend WithEvents txtTotReceivedFAT As common.Controls.MyLabel
+    Friend WithEvents MyLabel14 As common.Controls.MyLabel
+    Friend WithEvents txtTotEnteredFAT As common.MyNumBox
+    Friend WithEvents txtTotReceivedQty As common.Controls.MyLabel
+    Friend WithEvents MyLabel16 As common.Controls.MyLabel
+    Friend WithEvents txtTotEnteredQty As common.MyNumBox
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents MyLabel18 As common.Controls.MyLabel
+    Friend WithEvents txtVehicleNo As common.Controls.MyTextBox
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Panel2 As Panel
 End Class
 

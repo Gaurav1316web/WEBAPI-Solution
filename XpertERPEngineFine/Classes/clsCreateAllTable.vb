@@ -22976,13 +22976,15 @@ Public Class clsCreateAllTable
             coll.Add("Collection_Date", "Date NOT NULL")
             coll.Add("SNo", "Integer NULL")
             coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            coll.Add("Shift", "char(5) not null")
             coll.Add("Milk_Type", "char(5) NOT NULL Default 'M'")
             coll.Add("Qty", "Decimal(18,2) null")
             coll.Add("FAT", "Decimal(18,2) null")
             coll.Add("SNF", "Decimal(18,2) null")
             coll.Add("FATKG", "Decimal(18,3) null")
             coll.Add("SNFKG", "Decimal(18,3) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS", "Document_No", "")
+            coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "")
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC' and COLUMN_NAME='Against_DCS_Multiple_Days'"
             dt = clsDBFuncationality.GetDataTable(qry)

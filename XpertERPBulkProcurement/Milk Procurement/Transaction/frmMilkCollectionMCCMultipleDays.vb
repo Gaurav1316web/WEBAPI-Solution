@@ -9,7 +9,7 @@ Public Class frmMilkCollectionMCCMultipleDays
     Dim isNewEntry As Boolean = False
     Const ColSNo As String = "ColSNo"
     Const ColPKID As String = "ColPKID"
-    Const colCollectionDate As String = "colCollectionDate "
+    Const colCollectionDate As String = "colCollectionDate"
     Const colMilkType As String = "colMilkType"
     Const colMCCUploaderCode As String = "colMCCUploaderCode"
     Const colMCCCode As String = "colMCCCode"
