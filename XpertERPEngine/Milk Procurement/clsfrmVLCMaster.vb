@@ -31,6 +31,9 @@ Public Class clsfrmVLCMaster
     Public IsSuspense As Boolean = False
     Public ApplyCowPriceDate As Date? = Nothing
     Public Loyalty_Rate As Decimal
+    Public TFOwnBMC As Boolean = False
+    Public OwnBMCDate As Date? = Nothing
+
 
 #End Region
 
@@ -142,6 +145,13 @@ Public Class clsfrmVLCMaster
                 clsCommon.AddColumnsForChange(coll, "ApplyCowPriceDate", Nothing, True)
             End If
             clsCommon.AddColumnsForChange(coll, "Loyalty_Rate", obj.Loyalty_Rate, True)
+            clsCommon.AddColumnsForChange(coll, "isOwnBMC", IIf(obj.TFOwnBMC, 1, 0))
+            If obj.OwnBMCDate.HasValue Then
+                clsCommon.AddColumnsForChange(coll, "OwnBMCDate", clsCommon.GetPrintDate(obj.OwnBMCDate, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "OwnBMCDate", Nothing, True)
+            End If
+
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
@@ -268,7 +278,7 @@ Public Class clsfrmVLCMaster
                 whrcls = " and TSPL_VLC_MASTER_HEAD.mcc in (" + arrLoc + ")"
             End If
 
-            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.IsSuspense,TSPL_VLC_MASTER_HEAD.Apply_Cow_Price, TSPL_VLC_MASTER_HEAD.Apply_Price_Chart_Uploader,TSPL_VLC_MASTER_HEAD.Short_Description, TSPL_VLC_MASTER_HEAD.Price_Code,TSPL_VLC_MASTER_HEAD.vlc_code as [Code],TSPL_VLC_MASTER_HEAD.vlc_name,TSPL_VLC_MASTER_HEAD.vehical_name,TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader,TSPL_VLC_MASTER_HEAD.vsp_code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VLC_MASTER_HEAD.mcc,TSPL_MCC_MASTER.mcc_name,TSPL_VLC_MASTER_HEAD.Village_Code,tspl_village_master.village_name,TSPL_VLC_MASTER_HEAD.route_code,tspl_mcc_route_master.route_name,TSPL_VLC_MASTER_HEAD.Active,convert(date,TSPL_VLC_MASTER_HEAD.Created_Date,103) as Created_Date,TSPL_VLC_MASTER_HEAD.Milk_Receive_UOM,TSPL_VLC_MASTER_HEAD.Auto_Fill_MP_Order,TSPL_VLC_MASTER_HEAD.ApplyCowPriceDate,TSPL_VLC_MASTER_HEAD.Loyalty_Rate from TSPL_VLC_MASTER_HEAD left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.vsp_code and TSPL_VENDOR_MASTER.Form_Type='VSP' left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_VLC_MASTER_HEAD.mcc left outer join tspl_village_master on TSPL_VLC_MASTER_HEAD.village_code=tspl_village_master.village_code left outer join tspl_mcc_route_master on TSPL_VLC_MASTER_HEAD.route_code=tspl_mcc_route_master.route_code "
+            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.IsSuspense,TSPL_VLC_MASTER_HEAD.Apply_Cow_Price, TSPL_VLC_MASTER_HEAD.Apply_Price_Chart_Uploader,TSPL_VLC_MASTER_HEAD.Short_Description, TSPL_VLC_MASTER_HEAD.Price_Code,TSPL_VLC_MASTER_HEAD.vlc_code as [Code],TSPL_VLC_MASTER_HEAD.vlc_name,TSPL_VLC_MASTER_HEAD.vehical_name,TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader,TSPL_VLC_MASTER_HEAD.vsp_code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VLC_MASTER_HEAD.mcc,TSPL_MCC_MASTER.mcc_name,TSPL_VLC_MASTER_HEAD.Village_Code,tspl_village_master.village_name,TSPL_VLC_MASTER_HEAD.route_code,tspl_mcc_route_master.route_name,TSPL_VLC_MASTER_HEAD.Active,convert(date,TSPL_VLC_MASTER_HEAD.Created_Date,103) as Created_Date,TSPL_VLC_MASTER_HEAD.Milk_Receive_UOM,TSPL_VLC_MASTER_HEAD.Auto_Fill_MP_Order,TSPL_VLC_MASTER_HEAD.ApplyCowPriceDate,TSPL_VLC_MASTER_HEAD.Loyalty_Rate,OwnBMCDate from TSPL_VLC_MASTER_HEAD left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.vsp_code and TSPL_VENDOR_MASTER.Form_Type='VSP' left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_VLC_MASTER_HEAD.mcc left outer join tspl_village_master on TSPL_VLC_MASTER_HEAD.village_code=tspl_village_master.village_code left outer join tspl_mcc_route_master on TSPL_VLC_MASTER_HEAD.route_code=tspl_mcc_route_master.route_code "
             Dim strVLCCol As String = ""
             If isUploaderCode Then
                 strVLCCol = "VLC_Code_VLC_Uploader"
@@ -318,7 +328,7 @@ Public Class clsfrmVLCMaster
                     obj.Created_Date = dt.Rows(0)("Created_Date")
                 End If
                 obj.Loyalty_Rate = clsCommon.myCDecimal(dt.Rows(0)("Loyalty_Rate"))
-
+                obj.OwnBMCDate = clsCommon.myCDate(dt.Rows(0)("OwnBMCDate"))
                 qry = "select TSPL_VLC_MASTER_DETAIL.village_code,TSPL_VILLAGE_MASTER.village_name from TSPL_VLC_MASTER_DETAIL left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.village_code=TSPL_VLC_MASTER_DETAIL.village_code where TSPL_VLC_MASTER_DETAIL.vlc_code='" + obj.vlcCode + "'"
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
 
@@ -341,6 +351,53 @@ Public Class clsfrmVLCMaster
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Function
+
+    Public Shared Function ExportDataTable(ByVal strDcsCode As String, ByVal frmMe As RadForm, ByVal exportBlankSheet As String) As Boolean
+        Try
+            Dim whrQry As String = Nothing
+            If clsCommon.myLen(strDcsCode) > 0 AndAlso strDcsCode IsNot Nothing Then
+                whrQry = "where TSPL_VLC_MASTER_HEAD.vsp_code ='" + strDcsCode + "'"
+            End If
+            Dim strQry As String = Nothing
+            If exportBlankSheet = "True" Then
+                strQry = "select ''  As 'DCS Code','' As 'DCS Name',''  As 'DCS Uploader Code','' As 'PAN No',
+                        '' As 'DCS Route Code','' As Active,
+                        '' As 'Created Date','' As  'Loyalty Rate','' As 'Own BMC','' 'Own BMC Date','' As 'Apply Cow Price','' As 'Apply Cow Price Date','' As 'Head Load','' As 'Head Load Service Basis','' As 'Head Load Rate',
+                        '' As 'Registration No','' As 'Registration Date','' As 'Registered/PDCS/CLUSTER',
+                        '' As 'Supervisor','' As 'District Code','' As 'Block Code','' As 'Zone Code','' As 'Revenue Village Code','' AS 'Grampanchayat Code','' As 'Panchayat Samiti Code','' As 'Vidhan Sabha Code',
+                        '' As 'Company Bank','' As 'Bank Code 1','' As 'Bank Name 1','' As 'Branch Name 1','' As 'IFSC Code 1','' As 'Account No 1','' As 'Credit Limit 1',
+                        '' As 'Account Type 1','' As 'Security Charges 1',
+                        '' As 'Bank Code 2','' As 'Bank Name 2','' As 'Branch Name 2','' As 'IFSC Code 2','' As 'Credit Limit 2','' As 'Account Type 2','' As 'Security Charges 2'
+                        "
+            Else
+                strQry = "select TSPL_VLC_MASTER_HEAD.vsp_code  As 'DCS Code',TSPL_VENDOR_MASTER.Vendor_Name As 'DCS Name',TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader  As 'DCS Uploader Code',TSPL_VENDOR_MASTER.PAN As 'PAN No',
+                        TSPL_VLC_MASTER_HEAD.route_code As 'DCS Route Code',TSPL_VLC_MASTER_HEAD.Active,
+                        convert(date,TSPL_VLC_MASTER_HEAD.Created_Date,103) As 'Created Date',TSPL_VLC_MASTER_HEAD.Loyalty_Rate 'Loyalty Rate',TSPL_VLC_MASTER_HEAD.isOwnBMC As 'Own BMC',OwnBMCDate As 'Own BMC Date',TSPL_VLC_MASTER_HEAD.Apply_Cow_Price As 'Apply Cow Price',TSPL_VLC_MASTER_HEAD.ApplyCowPriceDate As 'Apply Cow Price Date',TSPL_VENDOR_MASTER.Is_Head_Load As 'Head Load',TSPL_VENDOR_MASTER.Service_Basis_Head_Load As 'Head Load Service Basis',TSPL_VENDOR_MASTER.Rate_Head_Load As 'Head Load Rate',
+                        TSPL_VENDOR_MASTER.RegistrationNo As 'Registration No',TSPL_VENDOR_MASTER.RegistrationDate As 'Registration Date',TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER As 'Registered/PDCS/CLUSTER',
+                        TSPL_VENDOR_MASTER.Gender,TSPL_VENDOR_MASTER.SupervisorOrRP As 'Supervisor',TSPL_VENDOR_MASTER.DISTRICT_Code As 'District Code',TSPL_VENDOR_MASTER.BLOCK_CODE As 'Block Code',TSPL_VENDOR_MASTER.Zone_Code As 'Zone Code',TSPL_VENDOR_MASTER.REVENUE_VILLAGE_CODE As 'Revenue Village Code',TSPL_VENDOR_MASTER.GRAMPANCHAYAT_CODE AS 'Grampanchayat Code',TSPL_VENDOR_MASTER.PANCHAYAT_SAMITI_CODE As 'Panchayat Samiti Code',TSPL_VENDOR_MASTER.VIDHAN_SABHA_CODE As 'Vidhan Sabha Code',
+                        TSPL_VENDOR_MASTER.Company_Bank As 'Company Bank',TSPL_VENDOR_MASTER.Bank_Code As 'Bank Code 1',TSPL_VENDOR_MASTER.Bank_Name As 'Bank Name 1',TSPL_VENDOR_MASTER.Branch_Name As 'Branch Name 1',TSPL_VENDOR_MASTER.IFSC_Code As 'IFSC Code 1',TSPL_VENDOR_MASTER.Account_No As 'Account No 1',TSPL_VENDOR_MASTER.Credit_Limit As 'Credit Limit 1',
+                        TSPL_VENDOR_MASTER.Account_Type As 'Account Type 1',TSPL_VENDOR_MASTER.Security_Amount As 'Security Charges 1',
+                        TSPL_VENDOR_MASTER.BankCode2 As 'Bank Code 2',TSPL_VENDOR_MASTER.BankName2 As 'Bank Name 2',TSPL_VENDOR_MASTER.BankBranch2 As 'Branch Name 2',TSPL_VENDOR_MASTER.IFSCCode2 As 'IFSC Code 2',TSPL_VENDOR_MASTER.AccNo2 As 'Account No 2',TSPL_VENDOR_MASTER.Credit2 As 'Credit Limit 2',TSPL_VENDOR_MASTER.AccountType2 As 'Account Type 2',TSPL_VENDOR_MASTER.SecurityCharges2 As 'Security Charges 2'
+                        from TSPL_VLC_MASTER_HEAD 
+                        left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.vsp_code and TSPL_VENDOR_MASTER.Form_Type='VSP' 
+                        left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_VLC_MASTER_HEAD.mcc 
+                        left outer join tspl_mcc_route_master on TSPL_VLC_MASTER_HEAD.route_code=tspl_mcc_route_master.route_code
+                        " + whrQry + "
+                        Order By Cast(TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader As int) Asc"
+            End If
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If dt.Rows.Count > 0 Then
+                transportSql.ExporttoExcel(dt, frmMe)
+                dt = Nothing
+            Else
+                Throw New Exception("No data found")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
     End Function
     Public Shared Function GetCodeNumPart(ByVal Code As String) As Integer
         '' created by Panch Raj against Ticket No:BM00000009815 on date 23/09/2016

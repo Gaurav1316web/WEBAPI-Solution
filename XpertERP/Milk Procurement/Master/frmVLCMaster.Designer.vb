@@ -35,6 +35,8 @@ Partial Class FrmVLCMaster
         Me.btngrid_im = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.txtCowPriceDate = New common.Controls.MyDateTimePicker()
         Me.chkSuspense = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.MyLabel10 = New common.Controls.MyLabel()
@@ -81,8 +83,6 @@ Partial Class FrmVLCMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.txtCowPriceDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel12 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -93,6 +93,8 @@ Partial Class FrmVLCMaster
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCowPriceDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSuspense, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -132,8 +134,6 @@ Partial Class FrmVLCMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCowPriceDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -288,6 +288,47 @@ Partial Class FrmVLCMaster
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(699, 364)
         Me.RadPageViewPage1.Text = "Detail"
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel12.Location = New System.Drawing.Point(477, 12)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(89, 16)
+        Me.MyLabel12.TabIndex = 1449
+        Me.MyLabel12.Text = "Apply Cow Price"
+        '
+        'txtCowPriceDate
+        '
+        Me.txtCowPriceDate.CalculationExpression = Nothing
+        Me.txtCowPriceDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtCowPriceDate.FieldCode = Nothing
+        Me.txtCowPriceDate.FieldDesc = Nothing
+        Me.txtCowPriceDate.FieldMaxLength = 0
+        Me.txtCowPriceDate.FieldName = Nothing
+        Me.txtCowPriceDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCowPriceDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtCowPriceDate.isCalculatedField = False
+        Me.txtCowPriceDate.IsSourceFromTable = False
+        Me.txtCowPriceDate.IsSourceFromValueList = False
+        Me.txtCowPriceDate.IsUnique = False
+        Me.txtCowPriceDate.Location = New System.Drawing.Point(574, 12)
+        Me.txtCowPriceDate.MendatroryField = False
+        Me.txtCowPriceDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtCowPriceDate.MyLinkLable1 = Me.MyLabel12
+        Me.txtCowPriceDate.MyLinkLable2 = Nothing
+        Me.txtCowPriceDate.Name = "txtCowPriceDate"
+        Me.txtCowPriceDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtCowPriceDate.ReferenceFieldDesc = Nothing
+        Me.txtCowPriceDate.ReferenceFieldName = Nothing
+        Me.txtCowPriceDate.ReferenceTableName = Nothing
+        Me.txtCowPriceDate.ShowCheckBox = True
+        Me.txtCowPriceDate.Size = New System.Drawing.Size(112, 18)
+        Me.txtCowPriceDate.TabIndex = 1448
+        Me.txtCowPriceDate.TabStop = False
+        Me.txtCowPriceDate.Text = "13/06/2011"
+        Me.txtCowPriceDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
         'chkSuspense
         '
@@ -878,7 +919,7 @@ Partial Class FrmVLCMaster
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(603, 338)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(699, 364)
         Me.RadPageViewPage2.Text = "Attachment"
         '
         'UcAttachment1
@@ -886,7 +927,7 @@ Partial Class FrmVLCMaster
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(603, 338)
+        Me.UcAttachment1.Size = New System.Drawing.Size(699, 364)
         Me.UcAttachment1.TabIndex = 2
         '
         'pvpCustomFields
@@ -895,7 +936,7 @@ Partial Class FrmVLCMaster
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(603, 364)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(699, 364)
         Me.pvpCustomFields.Text = "Custum Fields"
         '
         'UcCustomFields1
@@ -903,7 +944,7 @@ Partial Class FrmVLCMaster
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(603, 364)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(699, 364)
         Me.UcCustomFields1.TabIndex = 2
         '
         'btnclose
@@ -933,47 +974,6 @@ Partial Class FrmVLCMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'txtCowPriceDate
-        '
-        Me.txtCowPriceDate.CalculationExpression = Nothing
-        Me.txtCowPriceDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtCowPriceDate.FieldCode = Nothing
-        Me.txtCowPriceDate.FieldDesc = Nothing
-        Me.txtCowPriceDate.FieldMaxLength = 0
-        Me.txtCowPriceDate.FieldName = Nothing
-        Me.txtCowPriceDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCowPriceDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtCowPriceDate.isCalculatedField = False
-        Me.txtCowPriceDate.IsSourceFromTable = False
-        Me.txtCowPriceDate.IsSourceFromValueList = False
-        Me.txtCowPriceDate.IsUnique = False
-        Me.txtCowPriceDate.Location = New System.Drawing.Point(574, 12)
-        Me.txtCowPriceDate.MendatroryField = False
-        Me.txtCowPriceDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtCowPriceDate.MyLinkLable1 = Me.MyLabel12
-        Me.txtCowPriceDate.MyLinkLable2 = Nothing
-        Me.txtCowPriceDate.Name = "txtCowPriceDate"
-        Me.txtCowPriceDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtCowPriceDate.ReferenceFieldDesc = Nothing
-        Me.txtCowPriceDate.ReferenceFieldName = Nothing
-        Me.txtCowPriceDate.ReferenceTableName = Nothing
-        Me.txtCowPriceDate.ShowCheckBox = True
-        Me.txtCowPriceDate.Size = New System.Drawing.Size(112, 18)
-        Me.txtCowPriceDate.TabIndex = 1448
-        Me.txtCowPriceDate.TabStop = False
-        Me.txtCowPriceDate.Text = "13/06/2011"
-        Me.txtCowPriceDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel12
-        '
-        Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel12.Location = New System.Drawing.Point(477, 12)
-        Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(89, 16)
-        Me.MyLabel12.TabIndex = 1449
-        Me.MyLabel12.Text = "Apply Cow Price"
-        '
         'FrmVLCMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -998,6 +998,8 @@ Partial Class FrmVLCMaster
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCowPriceDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSuspense, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1037,8 +1039,6 @@ Partial Class FrmVLCMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCowPriceDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
