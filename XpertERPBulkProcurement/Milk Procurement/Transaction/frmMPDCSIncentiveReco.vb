@@ -159,6 +159,16 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         Me.Controls.Add(gvExcel)
         Dim ii As Integer = 0
 
+        'ii = ii + 1
+
+        Dim dtError As New DataTable
+        dtError.Columns.Add("DCS Code", GetType(String))
+        dtError.Columns.Add("Year", GetType(String))
+        dtError.Columns.Add("Month", GetType(String))
+        dtError.Columns.Add("Cycle No", GetType(String))
+        dtError.Columns.Add("Qty", GetType(String))
+        dtError.Columns.Add("Error", GetType(String))
+
         Dim result As DialogResult = clsCommon.MyMessageBoxShow("Do you want to use the customize Format for importing?", "Import Format", MessageBoxButtons.YesNo)
         'Dim gvExcel As New RadGridView
         If result = DialogResult.Yes Then
@@ -189,76 +199,113 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                         End If
                         UcAttachment1.AddAttachment(Filename, SafeFileName)
                         For ii = 0 To gvExcel.Rows.Count - 1
+                            Try
 
-
-                            If clsCommon.myLen(gvExcel.Rows(ii).Cells(frm.collReturn.Item("DCS Code")).Value) > 0 AndAlso clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Year")).Value) > 0 AndAlso clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Month")).Value) > 0 AndAlso clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Cycle No")).Value) > 0 AndAlso clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Qty")).Value) > 0 Then
-                                Qry = "select TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name , TSPL_Mcc_UOM_DETAIL.UOM_Code as UOM from TSPL_VLC_MASTER_HEAD 
+                                If clsCommon.myLen(gvExcel.Rows(ii).Cells(frm.collReturn.Item("DCS Code")).Value) > 0 AndAlso clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Year")).Value) > 0 AndAlso clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Month")).Value) > 0 AndAlso clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Cycle No")).Value) > 0 AndAlso clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Qty")).Value) > 0 Then
+                                    Qry = "select TSPL_VLC_MASTER_HEAD.MCC,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name , TSPL_Mcc_UOM_DETAIL.UOM_Code as UOM from TSPL_VLC_MASTER_HEAD 
                                            left outer join TSPL_Mcc_UOM_DETAIL on TSPL_Mcc_UOM_DETAIL.MCC_CODE = TSPL_VLC_MASTER_HEAD.MCC and TSPL_Mcc_UOM_DETAIL.Stocking_Unit = 'Y'
                                            left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_code=TSPL_VLC_MASTER_HEAD.VSP_Code
                                            left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code
                                            left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
                                            where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ='" + clsCommon.myCstr(gvExcel.Rows(ii).Cells(frm.collReturn.Item("DCS Code")).Value) + "'"
 
-                                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                                If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                                    Throw New Exception("Invalid DCS [" + clsCommon.myCstr(gvExcel.Rows(ii).Cells(frm.collReturn.Item("DCS Code")).Value) + "]")
+                                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                                    If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
+                                        Throw New Exception("Invalid DCS [" + clsCommon.myCstr(gvExcel.Rows(ii).Cells(frm.collReturn.Item("DCS Code")).Value) + "]")
+                                    End If
+                                    If clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Year")).Value) <> txtFromDate.Value.Year Then
+                                        Throw New Exception("Year is Mismatched")
+                                    End If
+                                    If clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Month")).Value) <> txtFromDate.Value.Month Then
+                                        Throw New Exception("Month is Mismatched")
+                                    End If
+                                    If clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Cycle No")).Value) <> CycleNo Then
+                                        Throw New Exception("Cycle No is Mismatched")
+                                    End If
+                                    Qry = "select PK_Id from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL  where TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code not in ('" + txtDocumentNo.Value + "') and Cycle_Year='" + clsCommon.myCstr(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Year")).Value) + "' and Cycle_Month='" + clsCommon.myCstr(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Month")).Value) + "' and Cycle_No='" + clsCommon.myCstr(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Cycle No")).Value) + "' and  VLC_Code='" + clsCommon.myCstr(dt1.Rows(0)("VLC_Code")) + "'"
+                                    Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                                    If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
+                                        Continue For
+                                    End If
+
+
+                                    gvItem.Rows.AddNew()
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colSlNo).Value = gvItem.Rows.Count
+
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colBMCCode).Value = clsCommon.myCstr(dt1.Rows(0)("MCC"))
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colBMCName).Value = clsCommon.myCstr(dt1.Rows(0)("MCC_NAME"))
+
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colZoneCode).Value = clsCommon.myCstr(dt1.Rows(0)("Zone_Code"))
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colZoneName).Value = clsCommon.myCstr(dt1.Rows(0)("Zone_Name"))
+
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colVLCCode).Value = clsCommon.myCstr(dt1.Rows(0)("VLC_Code"))
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colVLCUploaderCode).Value = clsCommon.myCstr(dt1.Rows(0)("VLC_Code_VLC_Uploader"))
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colVLCName).Value = clsCommon.myCstr(dt1.Rows(0)("VLC_Name"))
+
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colYear).Value = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Year")).Value)
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colMonth).Value = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Month")).Value)
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colCycleNo).Value = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Cycle No")).Value)
+
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Qty")).Value)
+
+
+
+                                    If clsCommon.myLen(dt1.Rows(0)("UOM")) <= 0 Then
+                                        Throw New Exception("Please define UOM")
+                                    End If
+
+                                    gvItem.Rows(gvItem.Rows.Count - 1).Cells(colUOM).Value = clsCommon.myCstr(dt1.Rows(0)("UOM"))
+                                    'gvItem.Rows(gvItem.Rows.Count - 1).Cells(colFAT).Value = clsCommon.myCDecimal(dgv.Rows(ii).Cells("FAT").Value)
+                                    'gvItem.Rows(gvItem.Rows.Count - 1).Cells(colSNF).Value = clsCommon.myCDecimal(dgv.Rows(ii).Cells("SNF").Value)
+                                    'gvItem.Rows(gvItem.Rows.Count - 1).Cells(colAmount).Value = clsCommon.myCDecimal(dgv.Rows(ii).Cells("Amount").Value)
+
+                                    FillFarmerInfo(gvItem.Rows.Count - 1)
                                 End If
-                                If clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Year")).Value) <> txtFromDate.Value.Year Then
-                                    Throw New Exception("Year is Mismatched")
-                                End If
-                                If clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Month")).Value) <> txtFromDate.Value.Month Then
-                                    Throw New Exception("Month is Mismatched")
-                                End If
-                                If clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Cycle No")).Value) <> CycleNo Then
-                                    Throw New Exception("Cycle No is Mismatched")
-                                End If
-                                Qry = "select PK_Id from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL  where TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code not in ('" + txtDocumentNo.Value + "') and Cycle_Year='" + clsCommon.myCstr(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Year")).Value) + "' and Cycle_Month='" + clsCommon.myCstr(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Month")).Value) + "' and Cycle_No='" + clsCommon.myCstr(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Cycle No")).Value) + "' and  VLC_Code='" + clsCommon.myCstr(dt1.Rows(0)("VLC_Code")) + "'"
-                                Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                                If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
-                                    Continue For
-                                End If
+                            Catch ex As Exception
 
-
-                                gvItem.Rows.AddNew()
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colSlNo).Value = gvItem.Rows.Count
-
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colBMCCode).Value = clsCommon.myCstr(dt1.Rows(0)("MCC"))
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colBMCName).Value = clsCommon.myCstr(dt1.Rows(0)("MCC_NAME"))
-
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colZoneCode).Value = clsCommon.myCstr(dt1.Rows(0)("Zone_Code"))
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colZoneName).Value = clsCommon.myCstr(dt1.Rows(0)("Zone_Name"))
-
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colVLCCode).Value = clsCommon.myCstr(dt1.Rows(0)("VLC_Code"))
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colVLCUploaderCode).Value = clsCommon.myCstr(dt1.Rows(0)("VLC_Code_VLC_Uploader"))
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colVLCName).Value = clsCommon.myCstr(dt1.Rows(0)("VLC_Name"))
-
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colYear).Value = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Year")).Value)
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colMonth).Value = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Month")).Value)
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colCycleNo).Value = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Cycle No")).Value)
-
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colQty).Value = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Qty")).Value)
-
-
-
-                                If clsCommon.myLen(dt1.Rows(0)("UOM")) <= 0 Then
-                                    Throw New Exception("Please define UOM")
-                                End If
-
-                                gvItem.Rows(gvItem.Rows.Count - 1).Cells(colUOM).Value = clsCommon.myCstr(dt1.Rows(0)("UOM"))
-                                'gvItem.Rows(gvItem.Rows.Count - 1).Cells(colFAT).Value = clsCommon.myCDecimal(dgv.Rows(ii).Cells("FAT").Value)
-                                'gvItem.Rows(gvItem.Rows.Count - 1).Cells(colSNF).Value = clsCommon.myCDecimal(dgv.Rows(ii).Cells("SNF").Value)
-                                'gvItem.Rows(gvItem.Rows.Count - 1).Cells(colAmount).Value = clsCommon.myCDecimal(dgv.Rows(ii).Cells("Amount").Value)
-
-                                FillFarmerInfo(gvItem.Rows.Count - 1)
-                            End If
+                                Dim dr As DataRow = dtError.NewRow()
+                                dr("DCS Code") = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("DCS Code")).Value)
+                                dr("Year") = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Year")).Value)
+                                dr("Month") = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Month")).Value)
+                                dr("Cycle No") = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Cycle No")).Value)
+                                dr("Qty") = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Qty")).Value)
+                                dr("Error") = "Error At Row No [" + clsCommon.myCstr(ii) + "] " + "Invalid DCS"
+                                dtError.Rows.Add(dr)
+                            End Try
                         Next
                         ' End If
-                        clsCommon.MyMessageBoxShow(Me, "Data Imported", Me.Text, MessageBoxButtons.OK)
+                        'clsCommon.MyMessageBoxShow(Me, "Data Imported", Me.Text, MessageBoxButtons.OK)
                     Catch ex As Exception
+
+                        'Dim dr As DataRow = dtError.NewRow()
+                        'dr("DCS Code") = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("DCS Code")).Value)
+                        'dr("Year") = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Year")).Value)
+                        'dr("Month") = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Month")).Value)
+                        'dr("Cycle No") = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Cycle No")).Value)
+                        'dr("Qty") = clsCommon.myCDecimal(gvExcel.Rows(ii).Cells(frm.collReturn.Item("Qty")).Value)
+                        'dr("Error") = "Error At Row No [" + clsCommon.myCstr(ii) + "] " + ex.Message
+                        'dtError.Rows.Add(dr)
+
                         'loadBlankGrid()
-                        clsCommon.MyMessageBoxShow(Me, "Error at Row No [" + clsCommon.myCstr(ii) + "]" + Environment.NewLine + ex.Message, Me.Text)
+                        'clsCommon.MyMessageBoxShow(Me, "Error at Row No [" + clsCommon.myCstr(ii) + "]" + Environment.NewLine + ex.Message, Me.Text)
                     Finally
                         Me.Controls.Remove(dgv)
+                    End Try
+
+                    Try
+
+                        If dtError.Rows.Count > 0 Then
+                            Dim ff As New FrmFreeGrid
+                            ff.ReportID = "MULPROD"
+                            ff.Text = "Multiple Deduction Fill Errors"
+                            ff.dt = dtError
+                            ff.ShowDialog()
+                        Else
+                            clsCommon.MyMessageBoxShow(Me, "Data Imported", Me.Text, MessageBoxButtons.OK)
+                        End If
+
+                    Catch ex As Exception
+                        clsCommon.MyMessageBoxShow(Me, "Error at Row No [" + clsCommon.myCstr(ii) + "]" + Environment.NewLine + ex.Message, Me.Text)
                     End Try
                 End If
             End If
