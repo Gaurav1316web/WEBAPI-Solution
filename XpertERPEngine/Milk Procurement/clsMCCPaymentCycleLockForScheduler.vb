@@ -1799,7 +1799,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
             Else
                 appAmt = clsCommon.myCdbl(TotalAmt)
             End If
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, appAmt, trans)
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, appAmt, trans, False, VendorCode)
             If (objDedDetails IsNot Nothing) Then
                 Dim isApplyTDS As Boolean = False
                 Dim qry As String = "select Fiscal_Code,Start_Date,End_Date from TSPL_Fiscal_Year_Master where convert(date,'" + docDate + "',103)>=  convert(date,Start_Date,103)  and convert(date,'" + docDate + "',103)<=convert(date,End_Date,103) "
@@ -1826,6 +1826,9 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                                 isApplyTDS = True
                             ElseIf (dblPreviousTDSAmt + appAmt) >= clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff")) AndAlso clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff")) > 0 Then
                                 isApplyTDS = True
+                                appAmt = ((dblPreviousTDSAmt + appAmt) - clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff")))
+                                TaxableAmt = appAmt
+                                TotalAmt = appAmt
                             End If
                         End If
                     End If
@@ -1873,7 +1876,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
             applicableAmt += dblPreviousTDSAmt
 
 
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, applicableAmt, trans)
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, applicableAmt, trans, False, VendorCode)
             If (objDedDetails IsNot Nothing AndAlso objRemittance.IsApplyTDS) Then
                 objRemittance.TDS_Per = objDedDetails.TDS
                 objRemittance.Surcharge_Per = objDedDetails.Surcharge
@@ -3631,7 +3634,7 @@ and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TSPL_MILK_COLLE
 )x"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 ''Now Create Dr/Cr Note
-                qry = "select xxx.Against_DCS_ADDITION_DEDUCTION,xxx.Amt,TSPL_DCS_ADDITION_DEDUCTION.Nature_Type,TSPL_DCS_ADDITION_DEDUCTION.GL_Account,TSPL_DCS_ADDITION_DEDUCTION.Saving,TSPL_DCS_ADDITION_DEDUCTION.Mapping_Matching,TSPL_DCS_ADDITION_DEDUCTION.RO_Decimal_Places,TSPL_DCS_ADDITION_DEDUCTION.RO_Increase_After
+                qry = "select xxx.Against_DCS_ADDITION_DEDUCTION,xxx.Amt,TSPL_DCS_ADDITION_DEDUCTION.Apply_TDS,TSPL_DCS_ADDITION_DEDUCTION.Nature_Type,TSPL_DCS_ADDITION_DEDUCTION.GL_Account,TSPL_DCS_ADDITION_DEDUCTION.Saving,TSPL_DCS_ADDITION_DEDUCTION.Mapping_Matching,TSPL_DCS_ADDITION_DEDUCTION.RO_Decimal_Places,TSPL_DCS_ADDITION_DEDUCTION.RO_Increase_After
 ,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On
 ,(select top 1 Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT.code=TSPL_DCS_ADDITION_DEDUCTION.Code) as Add_Of_Add_Ded_Code from 
 (select Against_DCS_ADDITION_DEDUCTION, sum(Amt) as Amt  from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED where InvoiceNo='" + objHead.DOC_CODE + "' group by Against_DCS_ADDITION_DEDUCTION) 
@@ -3758,6 +3761,12 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType  in ('DCS-ADD','DCS-DED') and TSPL_VEN
                             End If
                             objVendorInvHead.ApplicableFrom = objVendorInvHead.Invoice_Entry_Date
                             objVendorInvHead.Main_VSP_Milk_AP_Invoice_No = clsVedorInvoiceHead.GetMainVSPMilkAPInvoiceNo(ToDate, objVendorInvHead.Vendor_Code, trans)
+                            If clsCommon.myCdbl(drAmt("Apply_TDS")) = 1 Then
+                                Dim dblPreviousTDSAmt As Decimal = 0
+                                Dim objRemittance As clsRemittance = SetVendorTDSDetails(True, objVendorInvHead.Document_No, objHead.DOC_DATE, dblPreviousTDSAmt, objVendorInvHead.Vendor_Code, objVendorInvHead.Document_Total, objVendorInvHead.Document_Total, trans)
+                                objVendorInvHead.RemittanceObject = objRemittance
+                            End If
+
                             objVendorInvHead.SaveData(objVendorInvHead, True, trans)
                             clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans)
 #End Region

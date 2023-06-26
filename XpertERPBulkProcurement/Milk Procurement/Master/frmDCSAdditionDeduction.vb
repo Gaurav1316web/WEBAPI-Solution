@@ -160,8 +160,10 @@ Public Class frmDCSAdditionDeduction
                     ElseIf rbtnAdditionTypeCompulsory.IsChecked Then
                         obj.Saving = 2
                     End If
+                    obj.Apply_TDS = chkApplyTDS.Checked
                 ElseIf rbtnNatureTypeDeduction.IsChecked Then
                     obj.Nature_Type = 1
+                    obj.Apply_TDS = False
                 End If
                 obj.Applicable_Type = clsCommon.myCdbl(cboApplyType.SelectedValue)
                 obj.Applicable_On = clsCommon.myCdbl(cboApplyOn.SelectedValue)
@@ -245,6 +247,7 @@ Public Class frmDCSAdditionDeduction
                 ElseIf obj.Nature_Type = 1 Then
                     rbtnNatureTypeDeduction.IsChecked = True
                 End If
+                chkApplyTDS.Checked = obj.Apply_TDS
                 cboApplyType.SelectedValue = clsCommon.myCstr(obj.Applicable_Type)
                 cboApplyOn.SelectedValue = clsCommon.myCstr(obj.Applicable_On)
                 If obj.Qty_UOM = 0 Then
@@ -436,6 +439,7 @@ Public Class frmDCSAdditionDeduction
         txtAddAmount.arrValueMember = Nothing
         rbtnQtyUOMRec.IsChecked = True
         txtMilkType.arrValueMember = Nothing
+        chkApplyTDS.Checked = False
     End Sub
     Private Sub frmHSNMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso rdbtnreset.Enabled Then
@@ -561,6 +565,7 @@ Public Class frmDCSAdditionDeduction
 
     Sub setNatureTypeAddition()
         grpAdditionType.Visible = rbtnNatureTypeAddition.IsChecked
+        chkApplyTDS.Visible = rbtnNatureTypeAddition.IsChecked
     End Sub
 
     Private Sub txtAddAmount__My_Click(sender As Object, e As EventArgs) Handles txtAddAmount._My_Click

@@ -1,18 +1,7 @@
-﻿
-Imports Microsoft.VisualBasic
-Imports System
-Imports System.Collections.Generic
-Imports System.ComponentModel
-Imports System.Data
-Imports System.Drawing
+﻿Imports System.ComponentModel
 Imports System.Data.SqlClient
-Imports Telerik.WinControls.UI
-Imports Telerik.WinControls
-Imports Telerik.WinControls.Data
-Imports System.Text.RegularExpressions
-Imports System.Globalization
-Imports System.Threading
 Imports common
+Imports Telerik.WinControls.UI
 Imports XpertERPEngine
 
 'created by --> Vipin
@@ -23,13 +12,6 @@ Imports XpertERPEngine
 '--preeti gupta..ticket no.[BM00000003134]
 Public Class frmNatureOfDeduction
     Inherits FrmMainTranScreen
-
-    Dim userCode, companyCode As String
-    Public Sub New(ByVal user As String, ByVal company As String)
-        InitializeComponent()
-        userCode = user
-        companyCode = company
-    End Sub
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.NatureOfDeduction)
         If Not (MyBase.isReadFlag) Then
@@ -49,12 +31,9 @@ Public Class frmNatureOfDeduction
         'btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
     End Sub
-
     Private Sub frmNatureOfDeduction_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnsave.Enabled Then
             SaveData()
-            'ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag Then
-            '    PostData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btndelete.Enabled Then
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
@@ -84,9 +63,6 @@ Public Class frmNatureOfDeduction
         txtremark.MaxLength = 200
 
     End Sub
-
-
-
     'This will work on Drop Down List Items change
     Private Sub ddldeduction_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ddldeduction.TextChanged
         If (ddldeduction.Text = "Percentage") Then
@@ -94,55 +70,15 @@ Public Class frmNatureOfDeduction
             dgvdeduction.Columns(4).HeaderText = "Surcharge %"
             dgvdeduction.Columns(5).HeaderText = "Edu.Cess %"
             dgvdeduction.Columns(6).HeaderText = "Sec.Edu.Cess %"
+            dgvdeduction.Columns(7).HeaderText = "Non PAN TDS % "
         ElseIf (ddldeduction.Text = "Amount") Then
             dgvdeduction.Columns(3).HeaderText = "TDS Amount"
             dgvdeduction.Columns(4).HeaderText = "Surcharge Amount"
             dgvdeduction.Columns(5).HeaderText = "Edu.Cess Amount"
             dgvdeduction.Columns(6).HeaderText = "Sec.Edu.Cess Amount"
+            dgvdeduction.Columns(7).HeaderText = "Non PAN TDS Amount"
         End If
     End Sub
-
-    'It will fill all controls in screen if find any existing data in table 
-    ''Public Sub fnddeduction_text_changed(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    ''    Try
-    ''        Dim str As String = " select deduction_code As [Nature Of Deduction],description  as [Description],Percent_Amount as [Type]from TSPL_TDS_DEDUCTION_HEAD where deduction_code='" + fnddeduction.txtValue.Text + "'"
-    ''        Dim dr As SqlDataReader
-    ''        Dim strvalue As String
-    ''        dr = connectSql.RunSqlReturnDR(str)
-    ''        While dr.Read()
-    ''            strvalue = dr(0).ToString()
-    ''        End While
-    ''        If strvalue <> "" Then
-    ''            funfill()
-    ''        Else
-    ''            txtdes.Text = ""
-    ''            fndtds.txtValue.Text = ""
-    ''            txttdsdes.Text = ""
-    ''            txtcum.Text = "0.00"
-    ''            txtmdate.Text = ""
-    ''            txtremark.Text = ""
-    ''            txtmdate.Text = "  /    /"
-    ''            ddldeduction.Text = "Percentage"
-    ''            chkinactive.Checked = False
-    ''            ddldeduction.Enabled = True
-    ''            'Dim j As Integer = MasterTemplate.Rows.Count
-    ''            'If j = 1 Then
-
-    ''            '    MasterTemplate.Rows.AddNew()
-
-    ''            'End If
-    ''            'dgvdeduction.Rows.AddNew()
-    ''            dgvdeduction.DataSource = Nothing
-    ''            dgvdeduction.Rows.Clear()
-    ''            btnsave.Text = "Save"
-    ''            btndelete.Enabled = False
-    ''        End If
-    ''    Catch ex As Exception
-
-    ''        myMessages.myExceptions(ex)
-    ''    End Try
-    ''End Sub
-
     Public Sub LoadData()
         Try
             Dim str As String = " select deduction_code from TSPL_TDS_DEDUCTION_HEAD where deduction_code='" + Fnd_DeductionNew.Value + "'"
@@ -161,13 +97,6 @@ Public Class frmNatureOfDeduction
                 chkinactive.Checked = False
                 ddldeduction.Enabled = True
                 fnd_GL_Account.Value = ""
-                'Dim j As Integer = MasterTemplate.Rows.Count
-                'If j = 1 Then
-
-                '    MasterTemplate.Rows.AddNew()
-
-                'End If
-                'dgvdeduction.Rows.AddNew()
                 dgvdeduction.DataSource = Nothing
                 dgvdeduction.Rows.Clear()
                 btnsave.Text = "Save"
@@ -178,56 +107,6 @@ Public Class frmNatureOfDeduction
             myMessages.myExceptions(ex)
         End Try
     End Sub
-    'It will fill all controls in screen if find any existing data in table 
-    ' ''Public Sub fndtds_text_changed(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    ' ''    Try
-    ' ''        Dim str As String = "select tds_group from TSPL_TDS_SECTION_MASTER where tds_group = '" + fndtds.txtValue.Text + "'"
-    ' ''        Dim dr As SqlDataReader
-    ' ''        Dim strvalue As String
-    ' ''        dr = connectSql.RunSqlReturnDR(str)
-    ' ''        While dr.Read()
-    ' ''            strvalue = dr(0).ToString()
-    ' ''        End While
-    ' ''        If strvalue <> "" Then
-    ' ''            funfillTDS()
-    ' ''        Else
-    ' ''            txttdsdes.Text = ""
-
-    ' ''        End If
-    ' ''    Catch ex As Exception
-
-    ' ''        myMessages.myExceptions(ex)
-    ' ''    End Try
-    ' ''End Sub
-
-    'This will check the existence of value in databse on leave property of finder,if it exist then it will fill, otherwise it will blank the fields
-    'Public Sub fndtds_leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
-    '    If fndtds.txtValue.Text = "" Then
-    '    Else
-    '        Try
-    '            Dim strquery As String = "select tds_group from TSPL_TDS_SECTION_MASTER where tds_group = '" + fndtds.txtValue.Text + "'"
-    '            Dim dr As SqlDataReader
-    '            Dim strvalue As String
-
-    '            dr = connectSql.RunSqlReturnDR(strquery)
-    '            While dr.Read()
-    '                strvalue = dr(0).ToString()
-    '            End While
-    '            If strvalue <> "" Then
-    '            Else : strquery = ""
-    '                txttdsdes.Text = ""
-    '                common.clsCommon.MyMessageBoxShow("This TDS Group does not exist in Master Table")
-    '                fndtds.txtValue.Text = ""
-    '            End If
-    '        Catch ex As Exception
-    '            myMessages.myExceptions(ex)
-    '        End Try
-    '    End If
-    'End Sub
-
-    'Keypress validation on finder and converting lower case to upper case
-
-
 #Region "Function"
     'Funtion for insertion of data
     Public Sub funinsert()
@@ -254,21 +133,18 @@ Public Class frmNatureOfDeduction
                 End If
             End If
 
-            connectSql.RunSpTransaction(trans, "SP_DEDUCTION_HEAD_INSERT", New SqlParameter("@deduction_code", Fnd_DeductionNew.Value), New SqlParameter("@description", txtdes.Text.ToString()), New SqlParameter("@TDS_Section", fndTdsNew.Value), New SqlParameter("@cumm_cutoff", txtcum.Text.ToString()), New SqlParameter("@percent_Amount", ddldeduction.Text.ToString()), New SqlParameter("@inactive", strchk), New SqlParameter("@comment", txtremark.Text.ToString()), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate(trans)), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", companyCode), New SqlParameter("@Gl_Account", fnd_GL_Account.Value))
+            connectSql.RunSpTransaction(trans, "SP_DEDUCTION_HEAD_INSERT", New SqlParameter("@deduction_code", Fnd_DeductionNew.Value), New SqlParameter("@description", txtdes.Text.ToString()), New SqlParameter("@TDS_Section", fndTdsNew.Value), New SqlParameter("@cumm_cutoff", txtcum.Text.ToString()), New SqlParameter("@percent_Amount", ddldeduction.Text.ToString()), New SqlParameter("@inactive", strchk), New SqlParameter("@comment", txtremark.Text.ToString()), New SqlParameter("@createdby", objCommonVar.CurrentUserCode), New SqlParameter("@createddate", connectSql.serverDate(trans)), New SqlParameter("@modifiedby", objCommonVar.CurrentUserCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", objCommonVar.CurrentCompanyCode), New SqlParameter("@Gl_Account", fnd_GL_Account.Value))
             '' Anubhooti 16-Sep-2014 BM00000003934
             UpdateOtherColumns(trans)
 
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(Fnd_DeductionNew.Value), "TSPL_TDS_DEDUCTION_HEAD", "Deduction_Code", trans)
 
-            For i As Integer = 0 To dgvdeduction.Rows.Count - 1
-                connectSql.RunSpTransaction(trans, "SP_TDS_DEDUCTION_DETAILS_INSERT", New SqlParameter("@Detail_Line_No", dgvdeduction.Rows(i).Cells(0).Value), New SqlParameter("@Deduction_Code", Fnd_DeductionNew.Value), New SqlParameter("@From_Range", dgvdeduction.Rows(i).Cells(1).Value), New SqlParameter("@To_Range", dgvdeduction.Rows(i).Cells(2).Value), New SqlParameter("@TDS", dgvdeduction.Rows(i).Cells(3).Value), New SqlParameter("@Surcharge", dgvdeduction.Rows(i).Cells(4).Value), New SqlParameter("@Educess", dgvdeduction.Rows(i).Cells(5).Value), New SqlParameter("@Seceducess", dgvdeduction.Rows(i).Cells(6).Value))
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(Fnd_DeductionNew.Value), "TSPL_TDS_DEDUCTION_DETAIL", "Deduction_Code", trans)
-            Next
+            UpdateOtherColumnsDetails(trans)
             trans.Commit()
             myMessages.insert()
             btnsave.Text = "Update"
             btndelete.Enabled = True
-            'If userCode <> "ADMIN" Then
+            'If objCommonVar.CurrentUserCode <> "ADMIN" Then
             '    If funSetUserAccess() = False Then Exit Sub
             'End If
         Catch ex As Exception
@@ -277,7 +153,12 @@ Public Class frmNatureOfDeduction
 
         End Try
     End Sub
-
+    Sub UpdateOtherColumnsDetails(ByVal trans As SqlTransaction)
+        For i As Integer = 0 To dgvdeduction.Rows.Count - 1
+            connectSql.RunSpTransaction(trans, "SP_TDS_DEDUCTION_DETAILS_INSERT", New SqlParameter("@Detail_Line_No", dgvdeduction.Rows(i).Cells(0).Value), New SqlParameter("@Deduction_Code", Fnd_DeductionNew.Value), New SqlParameter("@From_Range", dgvdeduction.Rows(i).Cells(1).Value), New SqlParameter("@To_Range", dgvdeduction.Rows(i).Cells(2).Value), New SqlParameter("@TDS", dgvdeduction.Rows(i).Cells(3).Value), New SqlParameter("@Surcharge", dgvdeduction.Rows(i).Cells(4).Value), New SqlParameter("@Educess", dgvdeduction.Rows(i).Cells(5).Value), New SqlParameter("@Seceducess", dgvdeduction.Rows(i).Cells(6).Value), New SqlParameter("@TDSNonPAN", dgvdeduction.Rows(i).Cells(7).Value))
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(Fnd_DeductionNew.Value), "TSPL_TDS_DEDUCTION_DETAIL", "Deduction_Code", trans)
+        Next
+    End Sub
     Sub UpdateOtherColumns(ByVal trans As SqlTransaction)
         '' Anubhooti 16-Sep-2014 BM00000003934
         Dim strNonPAN As String = ""
@@ -288,7 +169,6 @@ Public Class frmNatureOfDeduction
         End If
         clsDBFuncationality.ExecuteNonQuery("UPDATE TSPL_TDS_DEDUCTION_HEAD SET Non_PAN_No='" & strNonPAN & "',Cumm_Cutoff_Document='" + txtCuttoffDocument.Text + "',IsBuyerFileReturnInLastTwoYears=" + IIf(chkbuyerfilereturnlasttwoyear.Checked, "1", "0") + ",IsTCS_TDSAmountGreaterThan50KPreviousYear=" + IIf(chkTCSTDSamountgreater50KpreviousYear.Checked, "1", "0") + ",Min_Service_Per=" + clsCommon.myCstr(txtMinServicePer.Value) + " WHERE Deduction_Code='" & clsCommon.myCstr(Fnd_DeductionNew.Value) & "'", trans)
     End Sub
-
     'Funtion for updation  of data
     Public Sub funupdate()
         Dim trans As SqlTransaction = Nothing
@@ -303,14 +183,11 @@ Public Class frmNatureOfDeduction
 
             End If
 
-            connectSql.RunSpTransaction(trans, "SP_DEDUCTION_HEAD_UPDATE", New SqlParameter("@deduction_code", Fnd_DeductionNew.Value), New SqlParameter("@description", txtdes.Text.ToString()), New SqlParameter("@TDS_Section", fndTdsNew.Value), New SqlParameter("@cumm_cutoff", txtcum.Text.ToString()), New SqlParameter("@percent_Amount", ddldeduction.Text.ToString()), New SqlParameter("@inactive", strchk), New SqlParameter("@comment", txtremark.Text.ToString()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", companyCode), New SqlParameter("@Gl_Account", fnd_GL_Account.Value))
+            connectSql.RunSpTransaction(trans, "SP_DEDUCTION_HEAD_UPDATE", New SqlParameter("@deduction_code", Fnd_DeductionNew.Value), New SqlParameter("@description", txtdes.Text.ToString()), New SqlParameter("@TDS_Section", fndTdsNew.Value), New SqlParameter("@cumm_cutoff", txtcum.Text.ToString()), New SqlParameter("@percent_Amount", ddldeduction.Text.ToString()), New SqlParameter("@inactive", strchk), New SqlParameter("@comment", txtremark.Text.ToString()), New SqlParameter("@modifiedby", objCommonVar.CurrentUserCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", objCommonVar.CurrentCompanyCode), New SqlParameter("@Gl_Account", fnd_GL_Account.Value))
             UpdateOtherColumns(trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(Fnd_DeductionNew.Value), "TSPL_TDS_DEDUCTION_HEAD", "Deduction_Code", trans)
             connectSql.RunSpTransaction(trans, "SP_TDS_DEDUCTION_DETAILS_DELETE", New SqlParameter("@deduction_code", Fnd_DeductionNew.Value))
-            For i As Integer = 0 To dgvdeduction.Rows.Count - 1
-                connectSql.RunSpTransaction(trans, "SP_TDS_DEDUCTION_DETAILS_INSERT", New SqlParameter("@Detail_Line_No", dgvdeduction.Rows(i).Cells(0).Value), New SqlParameter("@Deduction_Code", Fnd_DeductionNew.Value), New SqlParameter("@From_Range", dgvdeduction.Rows(i).Cells(1).Value), New SqlParameter("@To_Range", dgvdeduction.Rows(i).Cells(2).Value), New SqlParameter("@TDS", dgvdeduction.Rows(i).Cells(3).Value), New SqlParameter("@Surcharge", dgvdeduction.Rows(i).Cells(4).Value), New SqlParameter("@Educess", dgvdeduction.Rows(i).Cells(5).Value), New SqlParameter("@Seceducess", dgvdeduction.Rows(i).Cells(6).Value))
-                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(Fnd_DeductionNew.Value), "TSPL_TDS_DEDUCTION_DETAIL", "Deduction_Code", trans)
-            Next
+            UpdateOtherColumnsDetails(trans)
             trans.Commit()
             myMessages.update()
         Catch ex As Exception
@@ -332,7 +209,6 @@ Public Class frmNatureOfDeduction
         End Try
 
     End Sub
-
     'It will fill all controls in screen if find any existing data in table 
     Public Sub funfill()
         Try
@@ -385,7 +261,7 @@ Public Class frmNatureOfDeduction
 
 
             dgvdeduction.AutoGenerateColumns = False
-            Dim strcmd As String = "select Detail_Line_No,Deduction_Code,From_Range,To_Range,TDS,Surcharge,Educess,Seceducess  from TSPL_TDS_DEDUCTION_DETAIL where Deduction_Code = '" + Fnd_DeductionNew.Value + "'"
+            Dim strcmd As String = "select Detail_Line_No,Deduction_Code,From_Range,To_Range,TDS,Surcharge,Educess,Seceducess,TDS_Non_PAN  from TSPL_TDS_DEDUCTION_DETAIL where Deduction_Code = '" + Fnd_DeductionNew.Value + "'"
             transportSql.FillGridView(strcmd, dgvdeduction)
             dgvdeduction.Columns(0).FieldName = "Detail_Line_No"
 
@@ -395,11 +271,12 @@ Public Class frmNatureOfDeduction
             dgvdeduction.Columns(4).FieldName = "Surcharge"
             dgvdeduction.Columns(5).FieldName = "Educess"
             dgvdeduction.Columns(6).FieldName = "Seceducess"
+            dgvdeduction.Columns(7).FieldName = "TDS_Non_PAN"
             ddldeduction.Enabled = False
             btnsave.Enabled = True
             btndelete.Enabled = True
             btnsave.Text = "Update"
-            'If userCode <> "ADMIN" Then
+            'If objCommonVar.CurrentUserCode <> "ADMIN" Then
             '    If funSetUserAccess() = False Then Exit Sub
             'End If
         Catch ex As Exception
@@ -407,35 +284,6 @@ Public Class frmNatureOfDeduction
             myMessages.myExceptions(ex)
         End Try
     End Sub
-
-
-    'It will fill the  controls if value exist in database according to fndgroupcode
-    'Public Sub funfillTDS()
-    '    Try
-
-    '        Dim strquery As String = "select description,Cumulative_Cutoff from TSPL_TDS_SECTION_MASTER where tds_group = '" + fndtds.txtValue.Text + "'"
-
-    '        Dim dr As SqlDataReader
-    '        Dim strvalue As String
-    '        dr = connectSql.RunSqlReturnDR(strquery)
-    '        While dr.Read()
-    '            txttdsdes.Text = dr(0).ToString()
-    '            Dim strchk As String = dr(1).ToString()
-    '            If strchk = "Y" Then
-    '                txtcum.Enabled = True
-    '                txtcum.Text = "0.00"
-    '            ElseIf strchk = "N" Then
-    '                txtcum.Enabled = False
-    '                txtcum.Text = "0.00"
-    '            End If
-
-
-    '        End While
-    '    Catch ex As Exception
-    '        myMessages.myExceptions(ex)
-    '    End Try
-    'End Sub
-    'It will reset all the controls in screens
     Public Sub funreset()
 
         Fnd_DeductionNew.Value = ""
@@ -461,8 +309,6 @@ Public Class frmNatureOfDeduction
         btnsave.Text = "Save"
         btndelete.Enabled = False
     End Sub
-
-
 #End Region
 
 #Region "Button Click"
@@ -517,19 +363,11 @@ Public Class frmNatureOfDeduction
     Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
         Me.Close()
     End Sub
-
     Private Sub btnnew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnnew.Click
         funreset()
     End Sub
 #End Region
-
-
-
-
-
-
     'This code will give the default values grid cells
-
     Private Sub dgvdeduction_DefaultValuesNeeded(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles dgvdeduction.DefaultValuesNeeded
         Dim grow As GridViewNewRowInfo = DirectCast(e.Row, GridViewNewRowInfo)
         grow.Cells(0).Value = dgvdeduction.RowCount + 1
@@ -566,13 +404,11 @@ Public Class frmNatureOfDeduction
 
 
     End Sub
-
     ' For Export Functionality
     Private Sub menuExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuExport.Click
         Dim str As String = " select m.deduction_code as [Deduction Code],m.description as [Description],m.TDS_Section as [TDS Section],m.Cumm_Cutoff as [Cumulative Cuttoff],m.Percent_Amount as [Percent/Amount],Inactive as [Status],m.comment as [Remark],m.Gl_account as [GL_Account] ,d.detail_line_no as [Line No],d.deduction_code as [Details Deduction Code],d.from_range as [From Range],d.to_range as [To Range],d.tds as [TDS],d.surcharge as [Surcharge],d.educess as [EDU Cess],d.seceducess as [Sec Edu Cess],Non_PAN_No AS [Non PAN No],m.Cumm_Cutoff_Document as [Cumulative Cuttoff Document]  from TSPL_TDS_DEDUCTION_HEAD m join TSPL_TDS_DEDUCTION_DETAIL d on m.deduction_code = d.deduction_code"
         transportSql.ExporttoExcel(str, Me)
     End Sub
-
     ' For Import Functionality
     Private Sub MenuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuImport.Click
         Dim gv As New RadGridView()
@@ -685,11 +521,11 @@ Public Class frmNatureOfDeduction
                     Dim i As Integer = CInt(connectSql.RunScalar(trans, sql1))
                     If (i = 0) Then
 
-                        connectSql.RunSpTransaction(trans, "SP_DEDUCTION_HEAD_INSERT", New SqlParameter("@deduction_code", strcode), New SqlParameter("@description", strdes), New SqlParameter("@TDS_Section", strtdssec), New SqlParameter("@cumm_cutoff", strcumu), New SqlParameter("@percent_Amount", strpercentage), New SqlParameter("@inactive", strstatus), New SqlParameter("@comment", strremark), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate(trans)), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", companyCode), New SqlParameter("@Gl_Account", Gl_Account))
+                        connectSql.RunSpTransaction(trans, "SP_DEDUCTION_HEAD_INSERT", New SqlParameter("@deduction_code", strcode), New SqlParameter("@description", strdes), New SqlParameter("@TDS_Section", strtdssec), New SqlParameter("@cumm_cutoff", strcumu), New SqlParameter("@percent_Amount", strpercentage), New SqlParameter("@inactive", strstatus), New SqlParameter("@comment", strremark), New SqlParameter("@createdby", objCommonVar.CurrentUserCode), New SqlParameter("@createddate", connectSql.serverDate(trans)), New SqlParameter("@modifiedby", objCommonVar.CurrentUserCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", objCommonVar.CurrentCompanyCode), New SqlParameter("@Gl_Account", Gl_Account))
                         '' Anubhooti 16-Sep-2014 BM00000003934
                         clsDBFuncationality.ExecuteNonQuery("UPDATE TSPL_TDS_DEDUCTION_HEAD SET Non_PAN_No='" & strNonPAN & "',Cumm_Cutoff_Document='" + strcumuDoc + "' WHERE Deduction_Code='" & clsCommon.myCstr(strcode) & "'", trans)
                     Else
-                        connectSql.RunSpTransaction(trans, "SP_DEDUCTION_HEAD_UPDATE", New SqlParameter("@deduction_code", strcode), New SqlParameter("@description", strdes), New SqlParameter("@TDS_Section", strtdssec), New SqlParameter("@cumm_cutoff", strcumu), New SqlParameter("@percent_Amount", strpercentage), New SqlParameter("@inactive", strstatus), New SqlParameter("@comment", strremark), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", companyCode), New SqlParameter("@Gl_Account", Gl_Account))
+                        connectSql.RunSpTransaction(trans, "SP_DEDUCTION_HEAD_UPDATE", New SqlParameter("@deduction_code", strcode), New SqlParameter("@description", strdes), New SqlParameter("@TDS_Section", strtdssec), New SqlParameter("@cumm_cutoff", strcumu), New SqlParameter("@percent_Amount", strpercentage), New SqlParameter("@inactive", strstatus), New SqlParameter("@comment", strremark), New SqlParameter("@modifiedby", objCommonVar.CurrentUserCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", objCommonVar.CurrentCompanyCode), New SqlParameter("@Gl_Account", Gl_Account))
                         '' Anubhooti 16-Sep-2014 BM00000003934
                         clsDBFuncationality.ExecuteNonQuery("UPDATE TSPL_TDS_DEDUCTION_HEAD SET Non_PAN_No='" & strNonPAN & "',Cumm_Cutoff_Document='" + strcumuDoc + "' WHERE Deduction_Code='" & clsCommon.myCstr(strcode) & "'", trans)
 
@@ -719,7 +555,6 @@ Public Class frmNatureOfDeduction
         End If
         Me.Controls.Remove(gv)
     End Sub
-
     'For Validation in grid cells
     Private Sub dgvdeduction_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles dgvdeduction.CellValueChanged
         'This code will chech the range og percentage,if percentage become greater then 100 ,it will give a message
@@ -772,57 +607,12 @@ Public Class frmNatureOfDeduction
 
     End Sub
     'File menu close event
-
     Private Sub menuClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuClose.Click
         Me.Close()
     End Sub
-
     Private Sub dgvdeduction_UserAddingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles dgvdeduction.UserAddingRow
 
     End Sub
-
-
-    'This will check the authorization of user to access the screen.If authorize then it will allow user to access the screen.
-    'Private Function funSetUserAccess() As Boolean
-    '    Try
-
-    '        Dim strRights As String
-    '        Dim strTemp() As String
-    '        Dim strProgCode = "DED-NATURE"
-    '        strRights = enuUserRights.enuRead & "," & enuUserRights.enuModify & "," & enuUserRights.enuDelete
-    '        strRights = modUserMgt.funGetPermissions(strRights, strProgCode)
-    '        strTemp = Split(strRights, ",")
-    '        If strTemp(0) = "0" Then
-    '            MsgBox("Permission Denied", MsgBoxStyle.Critical, Me.Text)
-    '            funSetUserAccess = False
-    '            blnRead = False
-    '            Me.Close()
-    '            Exit Function
-    '        Else
-    '            blnRead = True
-    '        End If
-    '        If strTemp(1) = "0" Then 'Grant modify access
-    '            btnsave.Enabled = False
-    '        End If
-    '        If strTemp(2) = "0" Then 'Grant modify access
-    '            btndelete.Enabled = False
-    '        End If
-
-    '        funSetUserAccess = True
-    '    Catch er As Exception
-    '        myMessages.myExceptions(er)
-    '    End Try
-    'End Function
-    'Private Sub fndtds_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles fndtds.Load
-    '    fndtds.ConnectionString = connectSql.SqlCon()
-    '    fndtds.Query = "select tds_group as [TDS Groups],description as [Description] from TSPL_TDS_SECTION_MASTER "
-    '    fndtds.ValueToSelect = "TDS Groups"
-    '    fndtds.Caption = "TDS Section Master"
-    '    fndtds.ValueToSelect1 = "Description"
-
-    'End Sub
-
-    '' Added By Abhishek as On 11/june/2012
     Private Sub fndTdsNew__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndTdsNew._MYValidating
         Dim Qry As String = "select tds_group as [Code],description as [Description] from TSPL_TDS_SECTION_MASTER"
         fndTdsNew.Value = clsCommon.ShowSelectForm("TDSSectionnew", Qry, "Code", "", fndTdsNew.Value, "Code", isButtonClicked)
@@ -846,7 +636,6 @@ Public Class frmNatureOfDeduction
             txtdes.Text = ""
         End If
     End Sub
-
     Private Sub Fnd_DeductionNew__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles Fnd_DeductionNew._MYNavigator
         Dim qry As String = "select deduction_code ,description  as [Description]from TSPL_TDS_DEDUCTION_HEAD where   2=2"
         Select Case NavType
@@ -869,15 +658,6 @@ Public Class frmNatureOfDeduction
 
         LoadData()
     End Sub
-
-    'Private Sub fnddeduction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles fnddeduction.Load
-    '    fnddeduction.ConnectionString = connectSql.SqlCon()
-    '    fnddeduction.Query = " select deduction_code As [Nature Of Deduction],description  as [Description]from TSPL_TDS_DEDUCTION_HEAD "
-    '    fnddeduction.ValueToSelect = "Nature Of Deduction"
-    '    fnddeduction.Caption = "Nature Of Deduction"
-    '    fnddeduction.ValueToSelect1 = "Description"
-    'End Sub
-    '' Added By Abhishek as On 11/june/2012
     Private Sub Fnd_DeductionNew__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles Fnd_DeductionNew._MYValidating
 
         Dim Qry1 As String = " Select Count(*) From TSPL_TDS_DEDUCTION_HEAD where deduction_code='" & Fnd_DeductionNew.Value & "'"
@@ -887,48 +667,36 @@ Public Class frmNatureOfDeduction
         Else
             Fnd_DeductionNew.MyReadOnly = True
         End If
-
-
         If Fnd_DeductionNew.MyReadOnly Or isButtonClicked Then
-
-            'Dim qry As String = "select deduction_code As [Code],description  as [Description]from TSPL_TDS_DEDUCTION_HEAD"
-            'Fnd_DeductionNew.Value = clsCommon.ShowSelectForm("NatureDeductfnd", qry, "Code", "", Fnd_DeductionNew.Value, "Code", isButtonClicked)
             Fnd_DeductionNew.Value = clsNatureOfDeduction.getFinder("", Fnd_DeductionNew.Value, isButtonClicked)
             Fnd_DeductionNew.MyMaxLength = 12
-
         End If
         LoadData()
     End Sub
-
     Private Sub Fnd_DeductionNew_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Fnd_DeductionNew.KeyPress
         If (e.KeyChar = Chr(39)) Then
             e.Handled = True
         End If
     End Sub
-
     Private Sub fnd_GL_Account__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fnd_GL_Account._MYValidating
         Dim qry As String = "select  Account_code as Code,Description as [Description]from TSPL_GL_ACCOUNTS "
         fnd_GL_Account.Value = clsCommon.ShowSelectForm("GLAccounts", qry, "Code", "", fnd_GL_Account.Value, "Code", isButtonClicked)
     End Sub
-
     Private Sub dgvdeduction_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles dgvdeduction.UserDeletingRow
         If common.clsCommon.MyMessageBoxShow("Do you want to delete current row?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
-
-
     Private Sub txtCuttoffDocument_Validating(sender As Object, e As CancelEventArgs) Handles txtCuttoffDocument.Validating
         txtCuttoffDocument.Text = clsCommon.myCstr(clsCommon.myCdbl(txtCuttoffDocument.Text))
     End Sub
-
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(Fnd_DeductionNew.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow("Select Nature of Deduction")
                 Exit Sub
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(Fnd_DeductionNew.Value, "Deduction_Code", "TSPL_TDS_DEDUCTION_HEAD", "TSPL_TDS_DEDUCTION_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(Fnd_DeductionNew.Value, "Deduction_Code", "TSPL_TDS_DEDUCTION_HEAD", "TSPL_TDS_DEDUCTION_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

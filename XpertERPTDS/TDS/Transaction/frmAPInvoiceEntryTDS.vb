@@ -271,7 +271,7 @@ Public Class FrmAPInvoiceEntryTDS
         Dim objVendor As clsTDSVendorDetails = clsTDSVendorDetails.GetData(TxtVendorNo.Value)
         If objVendor IsNot Nothing Then
             btnViewTDSDetails.Enabled = True
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(lblTotRAmt.Text))
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(lblTotRAmt.Text), Nothing, False, TxtVendorNo.Value)
             If (objDedDetails IsNot Nothing) Then
                 objRemittance = New clsRemittance()
                 objRemittance.Branch_Code = objVendor.Branch_Code
@@ -302,7 +302,7 @@ Public Class FrmAPInvoiceEntryTDS
         If (objRemittance Is Nothing) Then
             SetVendorTDSDetails()
         Else
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(lblTotRAmt.Text))
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(lblTotRAmt.Text), Nothing, False, TxtVendorNo.Value)
             If (objDedDetails IsNot Nothing AndAlso objRemittance.IsApplyTDS) Then
                 objRemittance.TDS_Per = objDedDetails.TDS
                 objRemittance.Surcharge_Per = objDedDetails.Surcharge
@@ -1729,7 +1729,7 @@ Public Class FrmAPInvoiceEntryTDS
             gv1.CurrentRow.Cells(colACCode).Value = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(dt.Rows(0)("Account Code")), txtlocation.Value, True, True, Nothing)
             gv1.CurrentRow.Cells(colACName).Value = clsGLAccount.GetName(gv1.CurrentRow.Cells(colACCode).Value)
             ''RICHA 13 sEP,2017
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(clsCommon.myCstr(gv1.CurrentRow.Cells(colDedCode).Value), clsCommon.myCdbl(gv1.CurrentRow.Cells(colDocRefAmount).Value))
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(clsCommon.myCstr(gv1.CurrentRow.Cells(colDedCode).Value), clsCommon.myCdbl(gv1.CurrentRow.Cells(colDocRefAmount).Value), Nothing, False, TxtVendorNo.Value)
             If (objDedDetails IsNot Nothing) Then
                 gv1.CurrentRow.Cells(colTDSper).Value = objDedDetails.TDS
                 gv1.CurrentRow.Cells(colAmt).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colDocRefAmount).Value) * objDedDetails.TDS / 100
@@ -1783,7 +1783,7 @@ Public Class FrmAPInvoiceEntryTDS
                     gv1.CurrentRow.Cells(colDedSection).Value = clsCommon.myCstr(dt.Rows(0)("TDS Section"))
                     gv1.CurrentRow.Cells(colACCode).Value = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(dt.Rows(0)("Account Code")), txtlocation.Value, Nothing)
                     gv1.CurrentRow.Cells(colACName).Value = clsGLAccount.GetName(gv1.CurrentRow.Cells(colACCode).Value)
-                    Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(clsCommon.myCstr(gv1.CurrentRow.Cells(colDedCode).Value), clsCommon.myCdbl(gv1.CurrentRow.Cells(colDocRefAmount).Value))
+                    Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(clsCommon.myCstr(gv1.CurrentRow.Cells(colDedCode).Value), clsCommon.myCdbl(gv1.CurrentRow.Cells(colDocRefAmount).Value), Nothing, False, TxtVendorNo.Value)
                     If (objDedDetails IsNot Nothing) Then
                         gv1.CurrentRow.Cells(colTDSper).Value = objDedDetails.TDS
                         gv1.CurrentRow.Cells(colAmt).Value = clsCommon.myCdbl(gv1.CurrentRow.Cells(colDocRefAmount).Value) * objDedDetails.TDS / 100

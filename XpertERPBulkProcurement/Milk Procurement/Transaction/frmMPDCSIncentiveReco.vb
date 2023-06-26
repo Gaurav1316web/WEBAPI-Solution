@@ -81,6 +81,7 @@ Public Class frmMPDCSIncentiveReco
         Reset()
 
         RadButton4.Visible = SettPickMilkPurchaseInvoiceQtyOrRecoQty
+        RadGroupBox1.Visible = SettPickMilkPurchaseInvoiceQtyOrRecoQty
         RadButton1.Visible = Not SettPickMilkPurchaseInvoiceQtyOrRecoQty
         RadButton2.Visible = Not SettPickMilkPurchaseInvoiceQtyOrRecoQty
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Transaction")
@@ -96,6 +97,7 @@ Public Class frmMPDCSIncentiveReco
             SplitContainer3.Panel2Collapsed = False
 
             RadButton4.Visible = False
+            RadGroupBox1.Visible = False
             RadButton1.Visible = False
             RadButton2.Visible = False
         Else
@@ -125,6 +127,13 @@ Public Class frmMPDCSIncentiveReco
                       "========Table Name=========" + Environment.NewLine +
                       "TSPL_DCS_MP_INCENTIVE_RECO_HEAD" + Environment.NewLine +
                       "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL" + Environment.NewLine)
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "MulProcDedReversAndCreate"
+            frm.strCode = "MulProcDedReversAndCreate"
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnReverse.Visible = True
+            End If
         End If
     End Sub
     Private Sub RadButton2_Click(sender As Object, e As EventArgs) Handles RadButton2.Click
@@ -785,6 +794,10 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         IsinsideLoadData = False
         lblPending.Status = ERPTransactionStatus.Pending
 
+        txtFatPer.Tag = 0
+        txtFatPer.Value = 0
+        txtSnfPer.Tag = 0
+        txtSnfPer.Value = 0
     End Sub
     Private Function AllowToSave() As Boolean
         If AllowFutureDateTransaction(txtdate.Value, Nothing) = False Then
@@ -811,6 +824,8 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
                 obj.Zone_Code = txtZone.Value
                 obj.Reco_Date = txtFromDate.Value
                 obj.Reco_Date_To = txtToDate.Value
+                obj.Apply_FAT_Above = clsCommon.myCDecimal(txtFatPer.Tag)
+                obj.Apply_SNF_Above = clsCommon.myCDecimal(txtSnfPer.Tag)
                 Dim objTr As New clsMPDCSInsentiveRecoDetail
                 obj.arr = New List(Of clsMPDCSInsentiveRecoDetail)
                 For Each grow As GridViewRowInfo In gvItem.Rows
@@ -891,6 +906,11 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
             lblPending.Status = obj.Status
             txtZone.Value = obj.Zone_Code
             lblZone.Text = ClsZoneMaster.GetName(obj.Zone_Code)
+            txtFatPer.Tag = obj.Apply_FAT_Above
+            txtFatPer.Value = obj.Apply_FAT_Above
+
+            txtSnfPer.Tag = obj.Apply_SNF_Above
+            txtSnfPer.Value = obj.Apply_SNF_Above
             If obj.arr IsNot Nothing AndAlso obj.arr.Count > 0 Then
                 CycleNo = obj.arr(0).Cycle_No
                 For Each objTr As clsMPDCSInsentiveRecoDetail In obj.arr
@@ -1119,14 +1139,22 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
             If Not SettDCSMPIncetiveReco Then
                 Throw New Exception("This facility is not for you")
             End If
+
             loadBlankGrid()
+
             Dim qry As String = "select xx.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,xx.CycleYear,xx.CycleMonth,xx.Qty,xx.UOM_Code,xx.FAT_KG,xx.SNF_KG,xx.AMOUNT,TSPL_VENDOR_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description as Zone_Name from (
 select MCC_CODE,VSP_CODE,CycleYear,CycleMonth,sum(Qty) as Qty,max(UOM_Code) as UOM_Code,sum(FAT_KG) as FAT_KG,sum(SNF_KG) as SNF_KG,sum(AMOUNT) as AMOUNT  from (
-select TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE,DATEPART(YEAR, DOC_DATE) as CycleYear,DATEPART(MONTH, DOC_DATE) as CycleMonth,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_SRN_DETAIL.FAT_KG,TSPL_MILK_SRN_DETAIL.SNF_KG,TSPL_MILK_SRN_DETAIL.AMOUNT from 
+select TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE,DATEPART(YEAR, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE) as CycleYear,DATEPART(MONTH, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE) as CycleMonth,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_SRN_DETAIL.FAT_KG,TSPL_MILK_SRN_DETAIL.SNF_KG,TSPL_MILK_SRN_DETAIL.AMOUNT from 
 TSPL_MILK_PURCHASE_INVOICE_DETAIL
 left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
 left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
-where convert(Date, DOC_DATE,103) ='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
+left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No
+left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_REJECT_HEAD.DOC_CODE and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_REJECT_DETAIL.SAMPLE_NO
+left outer join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.Code= TSPL_MILK_REJECT_DETAIL.Reject_Type
+where convert(Date, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) ='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'
+and 2=(case when len(isnull(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))>0 then (case when isnull(TSPL_MILK_REJECT_TYPE.Include_In_DBT,0)=1 then 2 else 3 end ) else 2 end)
+and TSPL_MILK_SRN_DETAIL.FAT_PER>" + clsCommon.myCstr(txtFatPer.Value) + " and TSPL_MILK_SRN_DETAIL.SNF_PER>" + clsCommon.myCstr(txtSnfPer.Value) + "
 )X Group by MCC_CODE,VSP_CODE,CycleYear,CycleMonth
 )xx 
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=xx.MCC_CODE
@@ -1134,10 +1162,10 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=xx.VSP_COD
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            txtFatPer.Tag = txtFatPer.Value
+            txtSnfPer.Tag = txtSnfPer.Value
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For ii = 0 To dt.Rows.Count - 1
-
-
                     If clsCommon.myCDecimal(dt.Rows(ii)("CycleYear")) <> txtFromDate.Value.Year Then
                         Throw New Exception("Year is Mismatched")
                     End If
@@ -1152,8 +1180,6 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTE
                     If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
                         Continue For
                     End If
-
-
                     gvItem.Rows.AddNew()
                     gvItem.Rows(gvItem.Rows.Count - 1).Cells(colSlNo).Value = gvItem.Rows.Count
 
@@ -1285,6 +1311,29 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTE
         txtZone.Value = ClsZoneMaster.getFinder(whr, txtZone.Value, isButtonClicked)
         lblZone.Text = ClsZoneMaster.GetName(txtZone.Value)
         GetDocNoAndLoad()
+    End Sub
+
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            'If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            '    '' REASON FOR DELETE 
+            '    Dim Reason As String = ""
+            '    Dim frm As New FrmFreeTxtBox1
+            '    frm.Text = "Remarks for Reverse"
+            '    frm.ShowDialog()
+            '    If clsCommon.myLen(frm.strRmks) <= 0 Then
+            '        Exit Sub
+            '    Else
+            '        Reason = frm.strRmks
+            '    End If
+
+            '    clsMilkCollectionMCC.ReverseAndUnpost(txtDocNo.Value)
+            '    clsCommon.MyMessageBoxShow("Task done Successfully", Me.Text)
+            '    LoadData(txtDocNo.Value, NavigatorType.Current)
+            'End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
 

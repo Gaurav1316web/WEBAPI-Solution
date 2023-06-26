@@ -28,6 +28,10 @@ Partial Class frmMilkCollectionDCS
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gv1 = New Telerik.WinControls.UI.RadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtMDCSDate = New common.Controls.MyDateTimePicker()
+        Me.lblMDCSDate = New common.Controls.MyLabel()
+        Me.btnMGo = New Telerik.WinControls.UI.RadButton()
         Me.txtTotPendingSNFPer = New common.Controls.MyLabel()
         Me.txtTotPendingFATPer = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -79,6 +83,11 @@ Partial Class frmMilkCollectionDCS
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtMDCSDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblMDCSDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnMGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTotPendingSNFPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTotPendingFATPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,12 +157,13 @@ Partial Class frmMilkCollectionDCS
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
-        Me.gv1.Size = New System.Drawing.Size(963, 199)
+        Me.gv1.Size = New System.Drawing.Size(1091, 199)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.RadGroupBox1)
         Me.Panel1.Controls.Add(Me.txtTotPendingSNFPer)
         Me.Panel1.Controls.Add(Me.txtTotPendingFATPer)
         Me.Panel1.Controls.Add(Me.MyLabel1)
@@ -191,8 +201,70 @@ Partial Class frmMilkCollectionDCS
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(963, 93)
+        Me.Panel1.Size = New System.Drawing.Size(1091, 93)
         Me.Panel1.TabIndex = 0
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtMDCSDate)
+        Me.RadGroupBox1.Controls.Add(Me.btnMGo)
+        Me.RadGroupBox1.Controls.Add(Me.lblMDCSDate)
+        Me.RadGroupBox1.HeaderText = "Generate DCS Data By Mobile"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(842, 6)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(179, 79)
+        Me.RadGroupBox1.TabIndex = 45
+        Me.RadGroupBox1.Text = "Generate DCS Data By Mobile"
+        '
+        'txtMDCSDate
+        '
+        Me.txtMDCSDate.CalculationExpression = Nothing
+        Me.txtMDCSDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtMDCSDate.FieldCode = Nothing
+        Me.txtMDCSDate.FieldDesc = Nothing
+        Me.txtMDCSDate.FieldMaxLength = 0
+        Me.txtMDCSDate.FieldName = Nothing
+        Me.txtMDCSDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMDCSDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtMDCSDate.isCalculatedField = False
+        Me.txtMDCSDate.IsSourceFromTable = False
+        Me.txtMDCSDate.IsSourceFromValueList = False
+        Me.txtMDCSDate.IsUnique = False
+        Me.txtMDCSDate.Location = New System.Drawing.Point(63, 22)
+        Me.txtMDCSDate.MendatroryField = True
+        Me.txtMDCSDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtMDCSDate.MyLinkLable1 = Me.lblMDCSDate
+        Me.txtMDCSDate.MyLinkLable2 = Nothing
+        Me.txtMDCSDate.Name = "txtMDCSDate"
+        Me.txtMDCSDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtMDCSDate.ReferenceFieldDesc = Nothing
+        Me.txtMDCSDate.ReferenceFieldName = Nothing
+        Me.txtMDCSDate.ReferenceTableName = Nothing
+        Me.txtMDCSDate.Size = New System.Drawing.Size(90, 18)
+        Me.txtMDCSDate.TabIndex = 28
+        Me.txtMDCSDate.TabStop = False
+        Me.txtMDCSDate.Text = "13/06/2011"
+        Me.txtMDCSDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'lblMDCSDate
+        '
+        Me.lblMDCSDate.FieldName = Nothing
+        Me.lblMDCSDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMDCSDate.Location = New System.Drawing.Point(25, 23)
+        Me.lblMDCSDate.Name = "lblMDCSDate"
+        Me.lblMDCSDate.Size = New System.Drawing.Size(30, 16)
+        Me.lblMDCSDate.TabIndex = 29
+        Me.lblMDCSDate.Text = "Date"
+        '
+        'btnMGo
+        '
+        Me.btnMGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMGo.Location = New System.Drawing.Point(25, 42)
+        Me.btnMGo.Name = "btnMGo"
+        Me.btnMGo.Size = New System.Drawing.Size(128, 18)
+        Me.btnMGo.TabIndex = 13
+        Me.btnMGo.Text = "Get DCS by Mobile"
         '
         'txtTotPendingSNFPer
         '
@@ -659,7 +731,7 @@ Partial Class frmMilkCollectionDCS
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel2.Location = New System.Drawing.Point(0, 93)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(963, 292)
+        Me.Panel2.Size = New System.Drawing.Size(1091, 292)
         Me.Panel2.TabIndex = 1
         '
         'SplitContainer1
@@ -676,7 +748,7 @@ Partial Class frmMilkCollectionDCS
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.gv2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(963, 264)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1091, 264)
         Me.SplitContainer1.SplitterDistance = 199
         Me.SplitContainer1.TabIndex = 3
         '
@@ -698,7 +770,7 @@ Partial Class frmMilkCollectionDCS
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
-        Me.gv2.Size = New System.Drawing.Size(963, 61)
+        Me.gv2.Size = New System.Drawing.Size(1091, 61)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
         '
@@ -717,7 +789,7 @@ Partial Class frmMilkCollectionDCS
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Panel3.Location = New System.Drawing.Point(0, 264)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(963, 28)
+        Me.Panel3.Size = New System.Drawing.Size(1091, 28)
         Me.Panel3.TabIndex = 40
         '
         'btnAddMissing
@@ -754,7 +826,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(888, 3)
+        Me.btnClose.Location = New System.Drawing.Point(1016, 3)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(72, 22)
         Me.btnClose.TabIndex = 6
@@ -823,7 +895,7 @@ Partial Class frmMilkCollectionDCS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(963, 385)
+        Me.ClientSize = New System.Drawing.Size(1091, 385)
         Me.ControlBox = False
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
@@ -838,6 +910,12 @@ Partial Class frmMilkCollectionDCS
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtMDCSDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblMDCSDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnMGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTotPendingSNFPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTotPendingFATPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -940,5 +1018,9 @@ Partial Class frmMilkCollectionDCS
     Friend WithEvents txtTotPendingFATPer As common.Controls.MyLabel
     Friend WithEvents RadButton2 As RadButton
     Friend WithEvents btnAddMissing As RadButton
+    Friend WithEvents lblMDCSDate As common.Controls.MyLabel
+    Friend WithEvents txtMDCSDate As common.Controls.MyDateTimePicker
+    Friend WithEvents btnMGo As RadButton
+    Friend WithEvents RadGroupBox1 As RadGroupBox
 End Class
 

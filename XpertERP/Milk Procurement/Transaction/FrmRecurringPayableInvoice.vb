@@ -421,7 +421,7 @@ Public Class FrmRecurringPayableInvoice
         Dim objVendor As clsTDSVendorDetails = clsTDSVendorDetails.GetData(TxtVendorNo.Value)
         If objVendor IsNot Nothing Then
             btnViewTDSDetails.Enabled = True
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(lblTotRAmt.Text))
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, clsCommon.myCdbl(lblTotRAmt.Text), Nothing, False, TxtVendorNo.Value)
             If (objDedDetails IsNot Nothing) Then
                 objRemittance = New clsRemittance()
                 objRemittance.Branch_Code = objVendor.Branch_Code
@@ -453,7 +453,7 @@ Public Class FrmRecurringPayableInvoice
         If (objRemittance Is Nothing) Then
             SetVendorTDSDetails()
         Else
-            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(lblTotRAmt.Text))
+            Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objRemittance.Deduction_Code, clsCommon.myCdbl(lblTotRAmt.Text), Nothing, False, TxtVendorNo.Value)
             If (objDedDetails IsNot Nothing AndAlso objRemittance.IsApplyTDS) Then
                 objRemittance.TDS_Per = objDedDetails.TDS
                 objRemittance.Surcharge_Per = objDedDetails.Surcharge

@@ -42,12 +42,14 @@ Public Class clsUserMgtCode
     'Public Const RptRouteWiseTrendBar As String = "RPT_Route"
     Public Const rptMccCollectionDetails As String = "RPT_MCC_COL"
     Public Const rptMccMasterDetail As String = "RPT_MCC_DET"
+    Public Const rptListofCowDCS As String = "COW-LST-RPT"
     Public Const rptMccProcurementUploader As String = "RPT_MCC_UP"
     Public Const rptMCCWiseAbstractReport As String = "RPT_MCC_ABST"
     Public Const rptCollectionDataChangeReport As String = "RPT_MCC_CDC"
     'Public Const rptFarmerPaymentApprovalReport As String = "RPT_MCC_FPA"
     Public Const rptMCCPaymentSummary As String = "RPT_MCC_PS"
     Public Const FrmItemCostUOM As String = "Cost-UOM"
+
 
     '' add masters
     Public Const FrmFarmerPaymMCCFarmerMapping As String = "FPMCCFMapp"
@@ -2043,6 +2045,7 @@ Public Class clsUserMgtCode
     Public Const frmTankerProvision As String = "M-TANK-PROV"
     Public Const MilkCollectionGenerate As String = "MLK-COL-GEN"
     Public Const MilkCollectionMCCMultipleDays As String = "MLK-COL-MLD"
+    Public Const MilkCollectionDCSMultipleDays As String = "MLK-DCS-MLD"
     Public Const MilkCollectionMCC As String = "MLK-COL-MCC"
     Public Const MilkCollectionMCCGateEntry As String = "MLK-COL-MCCG"
     Public Const MilkCollectionMCCSample As String = "MLK-COL-MCCS"

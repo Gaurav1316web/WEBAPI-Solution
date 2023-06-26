@@ -29,9 +29,12 @@ Partial Class frmMilkRejectType
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.chkIncludeInDBT = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtDescription = New common.Controls.MyTextBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.grpAdditionType = New System.Windows.Forms.GroupBox()
+        Me.rbtnSNFKGRate = New common.Controls.MyRadioButton()
+        Me.rbtnFATKGRate = New common.Controls.MyRadioButton()
         Me.rbtnPer = New common.Controls.MyRadioButton()
         Me.rbtnRate = New common.Controls.MyRadioButton()
         Me.txtSNo = New common.MyNumBox()
@@ -51,15 +54,16 @@ Partial Class frmMilkRejectType
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnFATKGRate = New common.Controls.MyRadioButton()
-        Me.rbtnSNFKGRate = New common.Controls.MyRadioButton()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIncludeInDBT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpAdditionType.SuspendLayout()
+        CType(Me.rbtnSNFKGRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnFATKGRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,8 +81,6 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnFATKGRate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnSNFKGRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -131,6 +133,7 @@ Partial Class frmMilkRejectType
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkIncludeInDBT)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDescription)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel3)
         Me.SplitContainer1.Panel1.Controls.Add(Me.grpAdditionType)
@@ -158,15 +161,13 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.SplitterDistance = 321
         Me.SplitContainer1.TabIndex = 1
         '
-        'MyLabel3
+        'chkIncludeInDBT
         '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel3.Location = New System.Drawing.Point(8, 68)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(87, 16)
-        Me.MyLabel3.TabIndex = 1030
-        Me.MyLabel3.Text = "Applicable Type"
+        Me.chkIncludeInDBT.Location = New System.Drawing.Point(102, 205)
+        Me.chkIncludeInDBT.Name = "chkIncludeInDBT"
+        Me.chkIncludeInDBT.Size = New System.Drawing.Size(93, 18)
+        Me.chkIncludeInDBT.TabIndex = 1031
+        Me.chkIncludeInDBT.Text = "Include In DBT"
         '
         'txtDescription
         '
@@ -191,6 +192,16 @@ Partial Class frmMilkRejectType
         Me.txtDescription.Size = New System.Drawing.Size(280, 20)
         Me.txtDescription.TabIndex = 1
         '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel3.Location = New System.Drawing.Point(8, 68)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(87, 16)
+        Me.MyLabel3.TabIndex = 1030
+        Me.MyLabel3.Text = "Applicable Type"
+        '
         'grpAdditionType
         '
         Me.grpAdditionType.Controls.Add(Me.rbtnSNFKGRate)
@@ -202,6 +213,28 @@ Partial Class frmMilkRejectType
         Me.grpAdditionType.Size = New System.Drawing.Size(280, 31)
         Me.grpAdditionType.TabIndex = 1029
         Me.grpAdditionType.TabStop = False
+        '
+        'rbtnSNFKGRate
+        '
+        Me.rbtnSNFKGRate.Location = New System.Drawing.Point(194, 9)
+        Me.rbtnSNFKGRate.MyLinkLable1 = Nothing
+        Me.rbtnSNFKGRate.MyLinkLable2 = Nothing
+        Me.rbtnSNFKGRate.Name = "rbtnSNFKGRate"
+        Me.rbtnSNFKGRate.Size = New System.Drawing.Size(83, 18)
+        Me.rbtnSNFKGRate.TabIndex = 4
+        Me.rbtnSNFKGRate.TabStop = False
+        Me.rbtnSNFKGRate.Text = "SNF KG Rate"
+        '
+        'rbtnFATKGRate
+        '
+        Me.rbtnFATKGRate.Location = New System.Drawing.Point(108, 9)
+        Me.rbtnFATKGRate.MyLinkLable1 = Nothing
+        Me.rbtnFATKGRate.MyLinkLable2 = Nothing
+        Me.rbtnFATKGRate.Name = "rbtnFATKGRate"
+        Me.rbtnFATKGRate.Size = New System.Drawing.Size(82, 18)
+        Me.rbtnFATKGRate.TabIndex = 3
+        Me.rbtnFATKGRate.TabStop = False
+        Me.rbtnFATKGRate.Text = "FAT KG Rate"
         '
         'rbtnPer
         '
@@ -259,7 +292,7 @@ Partial Class frmMilkRejectType
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(8, 160)
+        Me.MyLabel1.Location = New System.Drawing.Point(8, 159)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel1.TabIndex = 1028
@@ -269,7 +302,7 @@ Partial Class frmMilkRejectType
         '
         Me.Lbl_Type.FieldName = Nothing
         Me.Lbl_Type.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lbl_Type.Location = New System.Drawing.Point(8, 186)
+        Me.Lbl_Type.Location = New System.Drawing.Point(8, 181)
         Me.Lbl_Type.Name = "Lbl_Type"
         Me.Lbl_Type.Size = New System.Drawing.Size(31, 16)
         Me.Lbl_Type.TabIndex = 1026
@@ -385,7 +418,7 @@ Partial Class frmMilkRejectType
         '
         Me.lblNoOfCans.FieldName = Nothing
         Me.lblNoOfCans.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblNoOfCans.Location = New System.Drawing.Point(8, 95)
+        Me.lblNoOfCans.Location = New System.Drawing.Point(8, 96)
         Me.lblNoOfCans.Name = "lblNoOfCans"
         Me.lblNoOfCans.Size = New System.Drawing.Size(91, 16)
         Me.lblNoOfCans.TabIndex = 37
@@ -395,7 +428,7 @@ Partial Class frmMilkRejectType
         '
         Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblDescription.Location = New System.Drawing.Point(8, 41)
+        Me.lblDescription.Location = New System.Drawing.Point(8, 40)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Size = New System.Drawing.Size(63, 18)
         Me.lblDescription.TabIndex = 6
@@ -472,28 +505,6 @@ Partial Class frmMilkRejectType
         Me.rdbtndelete.TabIndex = 1
         Me.rdbtndelete.Text = "Delete"
         '
-        'rbtnFATKGRate
-        '
-        Me.rbtnFATKGRate.Location = New System.Drawing.Point(108, 9)
-        Me.rbtnFATKGRate.MyLinkLable1 = Nothing
-        Me.rbtnFATKGRate.MyLinkLable2 = Nothing
-        Me.rbtnFATKGRate.Name = "rbtnFATKGRate"
-        Me.rbtnFATKGRate.Size = New System.Drawing.Size(82, 18)
-        Me.rbtnFATKGRate.TabIndex = 3
-        Me.rbtnFATKGRate.TabStop = False
-        Me.rbtnFATKGRate.Text = "FAT KG Rate"
-        '
-        'rbtnSNFKGRate
-        '
-        Me.rbtnSNFKGRate.Location = New System.Drawing.Point(194, 9)
-        Me.rbtnSNFKGRate.MyLinkLable1 = Nothing
-        Me.rbtnSNFKGRate.MyLinkLable2 = Nothing
-        Me.rbtnSNFKGRate.Name = "rbtnSNFKGRate"
-        Me.rbtnSNFKGRate.Size = New System.Drawing.Size(83, 18)
-        Me.rbtnSNFKGRate.TabIndex = 4
-        Me.rbtnSNFKGRate.TabStop = False
-        Me.rbtnSNFKGRate.Text = "SNF KG Rate"
-        '
         'frmMilkRejectType
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -513,10 +524,13 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIncludeInDBT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpAdditionType.ResumeLayout(False)
         Me.grpAdditionType.PerformLayout()
+        CType(Me.rbtnSNFKGRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnFATKGRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -534,8 +548,6 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnFATKGRate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnSNFKGRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -572,5 +584,6 @@ Partial Class frmMilkRejectType
     Friend WithEvents rbtnRate As common.Controls.MyRadioButton
     Friend WithEvents rbtnSNFKGRate As common.Controls.MyRadioButton
     Friend WithEvents rbtnFATKGRate As common.Controls.MyRadioButton
+    Friend WithEvents chkIncludeInDBT As RadCheckBox
 End Class
 

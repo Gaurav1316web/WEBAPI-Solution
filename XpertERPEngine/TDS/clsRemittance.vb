@@ -584,49 +584,53 @@ End Class
 
 Public Class clsTDSDeductionDetails
 #Region "Variables"
-    Public Detail_Line_No As String = Nothing
+    Public Detail_Line_No As Integer = 0
     Public Deduction_Code As String = Nothing
-    Public From_Range As String = Nothing
-    Public To_Range As String = Nothing
-    Public TDS As String = Nothing
-    Public Surcharge As String = Nothing
-    Public Educess As String = Nothing
-    Public Seceducess As Double = 0
+    Public From_Range As Decimal = 0
+    Public To_Range As Decimal = 0
+    Public TDS As Decimal = 0
+    Public Surcharge As Decimal = 0
+    Public Educess As Decimal = 0
+    Public Seceducess As Decimal = 0
 
 #End Region
 
-    Public Shared Function GetApplicableTDRate(ByVal strDedCode As String, ByVal dblAmount As Double) As clsTDSDeductionDetails
-        Return GetApplicableTDRate(strDedCode, dblAmount, Nothing)
-    End Function
+    'Public Shared Function GetApplicableTDRate(ByVal strDedCode As String, ByVal dblAmount As Double) As clsTDSDeductionDetails
+    '    Return GetApplicableTDRate(strDedCode, dblAmount, Nothing)
+    'End Function
 
-    Public Shared Function GetApplicableTDRate(ByVal strDedCode As String, ByVal dblAmount As Double, ByVal trans As SqlTransaction) As clsTDSDeductionDetails
-        Return GetApplicableTDRate(strDedCode, dblAmount, trans, False)
-    End Function
-    Public Shared Function GetApplicableTDRate(ByVal strDedCode As String, ByVal dblAmount As Double, ByVal trans As SqlTransaction, ByVal isForService As Boolean) As clsTDSDeductionDetails
-        Return GetApplicableTDRate(strDedCode, dblAmount, trans, isForService, "")
-    End Function
+    'Public Shared Function GetApplicableTDRate(ByVal strDedCode As String, ByVal dblAmount As Double, ByVal trans As SqlTransaction) As clsTDSDeductionDetails
+    '    Return GetApplicableTDRate(strDedCode, dblAmount, trans, False)
+    'End Function
+    'Public Shared Function GetApplicableTDRate(ByVal strDedCode As String, ByVal dblAmount As Double, ByVal trans As SqlTransaction, ByVal isForService As Boolean) As clsTDSDeductionDetails
+    '    Return GetApplicableTDRate(strDedCode, dblAmount, trans, isForService, "")
+    'End Function
     Public Shared Function GetApplicableTDRate(ByVal strDedCode As String, ByVal dblAmount As Double, ByVal trans As SqlTransaction, ByVal isForService As Boolean, ByVal strVendorCode As String) As clsTDSDeductionDetails
         Dim obj As clsTDSDeductionDetails = Nothing
-        Dim qry As String = "select isnull(IsBuyerFileReturnInLastTwoYears,0) as IsBuyerFileReturnInLastTwoYears,TSPL_TDS_DEDUCTION_HEAD.Min_Service_Per,TSPL_TDS_DEDUCTION_DETAIL.TDS,TSPL_TDS_DEDUCTION_DETAIL.Surcharge,TSPL_TDS_DEDUCTION_DETAIL.Educess,TSPL_TDS_DEDUCTION_DETAIL.Seceducess from TSPL_TDS_DEDUCTION_DETAIL left outer join TSPL_TDS_DEDUCTION_HEAD on TSPL_TDS_DEDUCTION_HEAD.Deduction_Code=TSPL_TDS_DEDUCTION_DETAIL.Deduction_Code where TSPL_TDS_DEDUCTION_HEAD.Deduction_Code='" + strDedCode + "'  and '" + clsCommon.myCstr(dblAmount) + "'>= TSPL_TDS_DEDUCTION_DETAIL.From_Range  and '" + clsCommon.myCstr(dblAmount) + "'<=TSPL_TDS_DEDUCTION_DETAIL.To_Range and TSPL_TDS_DEDUCTION_HEAD.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' "
+        Dim PAN As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PAN from tspl_Vendor_master where vendor_code='" + strVendorCode + "'", trans))
+        Dim qry As String = "select isnull(IsBuyerFileReturnInLastTwoYears,0) as IsBuyerFileReturnInLastTwoYears,TSPL_TDS_DEDUCTION_HEAD.Min_Service_Per,TSPL_TDS_DEDUCTION_DETAIL.TDS,TSPL_TDS_DEDUCTION_DETAIL.TDS_Non_PAN,TSPL_TDS_DEDUCTION_DETAIL.Surcharge,TSPL_TDS_DEDUCTION_DETAIL.Educess,TSPL_TDS_DEDUCTION_DETAIL.Seceducess from TSPL_TDS_DEDUCTION_DETAIL left outer join TSPL_TDS_DEDUCTION_HEAD on TSPL_TDS_DEDUCTION_HEAD.Deduction_Code=TSPL_TDS_DEDUCTION_DETAIL.Deduction_Code where TSPL_TDS_DEDUCTION_HEAD.Deduction_Code='" + strDedCode + "'  and '" + clsCommon.myCstr(dblAmount) + "'>= TSPL_TDS_DEDUCTION_DETAIL.From_Range  and '" + clsCommon.myCstr(dblAmount) + "'<=TSPL_TDS_DEDUCTION_DETAIL.To_Range and TSPL_TDS_DEDUCTION_HEAD.Comp_Code='" + objCommonVar.CurrentCompanyCode + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsTDSDeductionDetails()
-            obj.TDS = clsCommon.myCdbl(dt.Rows(0)("TDS"))
+            If clsCommon.myLen(PAN) <= 0 Then
+                obj.TDS = clsCommon.myCDecimal(dt.Rows(0)("TDS_Non_PAN"))
+            Else
+                obj.TDS = clsCommon.myCDecimal(dt.Rows(0)("TDS"))
+            End If
             If isForService Then
                 If clsCommon.myLen(strVendorCode) <= 0 Then
                     Throw New Exception("Please Provide Service Vendor to Get TDS Rate")
                 End If
-                Dim PAN As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PAN from tspl_Vendor_master where vendor_code='" + strVendorCode + "'", trans))
                 If (clsCommon.myCdbl(dt.Rows(0)("IsBuyerFileReturnInLastTwoYears")) <= 0 OrElse clsCommon.myLen(PAN) <= 0) Then
                     obj.TDS = clsCommon.myCdbl(dt.Rows(0)("TDS")) * 2
-                    If obj.TDS < clsCommon.myCdbl(dt.Rows(0)("Min_Service_Per")) Then
-                        obj.TDS = clsCommon.myCdbl(dt.Rows(0)("Min_Service_Per"))
+                    If obj.TDS < clsCommon.myCDecimal(dt.Rows(0)("Min_Service_Per")) Then
+                        obj.TDS = clsCommon.myCDecimal(dt.Rows(0)("Min_Service_Per"))
                     End If
                 End If
             End If
-            obj.Surcharge = clsCommon.myCdbl(dt.Rows(0)("Surcharge"))
-            obj.Educess = clsCommon.myCdbl(dt.Rows(0)("Educess"))
-            obj.Seceducess = clsCommon.myCdbl(dt.Rows(0)("Seceducess"))
+            obj.Surcharge = clsCommon.myCDecimal(dt.Rows(0)("Surcharge"))
+            obj.Educess = clsCommon.myCDecimal(dt.Rows(0)("Educess"))
+            obj.Seceducess = clsCommon.myCDecimal(dt.Rows(0)("Seceducess"))
         End If
         Return obj
     End Function

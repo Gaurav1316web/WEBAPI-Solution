@@ -640,8 +640,9 @@ Public Class clsAllStoreProcedure
             strProcedureBody = "( @Deduction_Code as varchar(12) ) as begin  delete from TSPL_TDS_DEDUCTION_DETAIL where  deduction_code=@deduction_code End"
             clsCommonFunctionality.CreateStoreProcedure("SP_TDS_DEDUCTION_DETAILS_DELETE", strProcedureBody)
 
-            strProcedureBody = "( @Detail_Line_No as varchar(12), @Deduction_Code as varchar(12), @From_Range as decimal(18, 2), @To_Range  as decimal(18, 2), @TDS as decimal(18, 2), @Surcharge as decimal(18, 2), @Educess as decimal(18, 2), @Seceducess as decimal(18, 2) )" &
-    " as begin insert into TSPL_TDS_DEDUCTION_DETAIL values(@Detail_Line_No,@Deduction_Code,@From_Range,@To_Range,@TDS,@Surcharge,@Educess,@Seceducess) End"
+            strProcedureBody = "( @Detail_Line_No as varchar(12), @Deduction_Code as varchar(12), @From_Range as decimal(18, 2), @To_Range  as decimal(18, 2), @TDS as decimal(18, 2), @Surcharge as decimal(18, 2), @Educess as decimal(18, 2), @Seceducess as decimal(18, 2), @TDSNonPAN as decimal(18, 2) ) 
+as begin 
+insert into TSPL_TDS_DEDUCTION_DETAIL values(@Detail_Line_No,@Deduction_Code,@From_Range,@To_Range,@TDS,@Surcharge,@Educess,@Seceducess,@TDSNonPAN) End"
             clsCommonFunctionality.CreateStoreProcedure("SP_TDS_DEDUCTION_DETAILS_INSERT", strProcedureBody)
 
             strProcedureBody = "( @Detail_Line_No as varchar(12), @Deduction_Code as varchar(12), @From_Range as decimal(18, 2), @To_Range  as decimal(18, 2), @TDS as decimal(18, 2), @Surcharge as decimal(18, 2), @Educess as decimal(18, 2), @Seceducess as decimal(18, 2) )" &

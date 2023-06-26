@@ -103,6 +103,9 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
     Sub Reset()
         'loadBlankGrid()
         gvItem.DataSource = Nothing
+        gvInvalid.DataSource = Nothing
+        gvFarmer.DataSource = Nothing
+
         Dim dt As Date = clsCommon.GETSERVERDATE()
         txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dt) & "/" & DatePart(DateInterval.Year, dt)
         If SettMPIncentiveEntryApplyMonthly OrElse SettMPIncentiveEntryCycleWiseButNEFTMonthly Then
