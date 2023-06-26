@@ -593,7 +593,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                         End If
                     End If
                     Dim isCreateNewDocOFMilkReceiptAndSample As Boolean = False
-                    qry = "select DOC_CODE,(select max(TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO) as SAMPLE_NO from TSPL_MILK_RECEIPT_DETAIL where TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MILK_RECEIPT_HEAD.DOC_CODE) as SAMPLE_NO ,(select DOC_CODE as Sample_Doc_No from TSPL_MILK_SAMPLE_HEAD where TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE=TSPL_MILK_RECEIPT_HEAD.DOC_CODE) as Sample_Doc_No  from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE ,103)='" + strShiftDate + "' and SHIFT='" + strShift + "' and MCC_CODE='" + obj.MCC_Code + "' and Dock_Collection_Milk_Type ='" + strDockCollectionMilkType + "'"
+                    qry = "select DOC_CODE,(select max(TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO) as SAMPLE_NO from TSPL_MILK_RECEIPT_DETAIL where TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MILK_RECEIPT_HEAD.DOC_CODE) as SAMPLE_NO ,(select DOC_CODE as Sample_Doc_No from TSPL_MILK_SAMPLE_HEAD where TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE=TSPL_MILK_RECEIPT_HEAD.DOC_CODE) as Sample_Doc_No  from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE ,103)='" + strShiftDate + "' and SHIFT='" + strShift + "' and MCC_CODE='" + obj.MCC_Code + "' " + IIf(objCommonVar.DisplayTypeInMilkReceipt, " and Dock_Collection_Milk_Type='" + strDockCollectionMilkType + "'", "")
                     If clsCommon.myLen(obj.Dock_Code) > 0 Then
                         qry += " and Dock_Code='" + obj.Dock_Code + "'"
                     End If

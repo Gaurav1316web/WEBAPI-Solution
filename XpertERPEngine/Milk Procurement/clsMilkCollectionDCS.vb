@@ -137,6 +137,17 @@ Public Class clsMilkCollectionDCS
     Public Shared Function PostData(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            PostData(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function PostData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+
+        Try
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
@@ -158,9 +169,7 @@ Public Class clsMilkCollectionDCS
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_DCS", OMInsertOrUpdate.Update, "Document_No='" + obj.Document_No + "'", trans)
             'Throw New Exception("Balwinder Singh Premi")
-            trans.Commit()
         Catch ex As Exception
-            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True
