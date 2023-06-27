@@ -51,7 +51,13 @@
     Public Shared Function GetTrankerNO(ByVal Route_Code As String)
         Dim TankerNo As String = ""
         Try
-            Dim strQry As String = "select TSPL_BULK_ROUTE_MASTER.Tanker_No from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + clsCommon.myCstr(Route_Code) + "'"
+            'Dim strQry As String = "select TSPL_BULK_ROUTE_MASTER.Tanker_No from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + clsCommon.myCstr(Route_Code) + "'"
+            Dim strQry As String = "select case when TSPL_BULK_ROUTE_MASTER.Tanker_No is null
+then (select TSPL_BULK_ROUTE_MASTER.Tanker_No from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No 
+where TSPL_BULK_ROUTE_MASTER.IsDefault=1)
+else TSPL_BULK_ROUTE_MASTER.Tanker_No
+end as Tanker_No
+from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + clsCommon.myCstr(Route_Code) + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 TankerNo = dt.Rows(0)("Tanker_No")
