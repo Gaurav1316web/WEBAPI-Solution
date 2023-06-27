@@ -226,7 +226,7 @@ Public Class frmVSP_VLCMaster
 
         chkRegistered.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         chkPDCS.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
-        chkCLUSTER.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
+        'chkCLUSTER.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         lblStartDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         txtStartDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         chkOwnBMC.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
@@ -241,7 +241,31 @@ Public Class frmVSP_VLCMaster
         txtRegistrationNo.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         lblRegistrationDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         txtRegistrationDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
+        txtRegistrationDate.Text = clsCommon.GETSERVERDATE()
+        If chkApplyCowPrice.Checked Then
+            txtCowPriceDate.Enabled = True
+        Else
+            txtCowPriceDate.Enabled = False
+        End If
 
+        If ChkHeadLoad.Checked Then
+            CmbHeadLoadServiceBasis.Enabled = True
+            txtRateHeadLoad.Enabled = True
+        Else
+            CmbHeadLoadServiceBasis.Enabled = False
+            txtRateHeadLoad.Enabled = False
+        End If
+
+        If chkOwnBMC.Checked Then
+            lblOwnMCC.Visible = True
+            txtMCCOwnBMC.Visible = True
+            lblMCCOwnBMC.Visible = True
+        Else
+            lblOwnMCC.Visible = False
+            txtMCCOwnBMC.Visible = False
+            lblMCCOwnBMC.Visible = False
+        End If
+        chkCLUSTER.Visible = False
     End Sub
     Function CheckMultiCurrency(ByVal trans As SqlTransaction) As Boolean
         Dim strq As String
@@ -974,6 +998,19 @@ Public Class frmVSP_VLCMaster
                 clsDBFuncationality.ExecuteNonQuery(qryVidhanSabha, trans)
             End If
 
+            If ChkHeadLoad.Checked Then
+                Dim HeadLoadBasis As String = Nothing
+                If CmbHeadLoadServiceBasis.SelectedIndex = 1 Then
+                    HeadLoadBasis = "P"
+                ElseIf CmbHeadLoadServiceBasis.SelectedIndex = 2 Then
+                    HeadLoadBasis = "K"
+                ElseIf CmbHeadLoadServiceBasis.SelectedIndex = 3 Then
+                    HeadLoadBasis = "L"
+                End If
+                Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "1", "0") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+                clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
+            End If
+
 
             updateMultipleIncentive(fndvendorNo.Value, trans)
             'Sanjay
@@ -1106,8 +1143,10 @@ Public Class frmVSP_VLCMaster
                 objMRM.mccname = clsMccMaster.GetName(fndMcc.Value, trans)
                 objMRM.kilometer = 0
                 clsfrmMilkRouteMaster.SaveData(objMRM.code, trans, objMRM, True, True)
-                txtroutecode.Value = clsCommon.myCstr(objMRM.code)
-                txtroutename.Text = clsfrmMilkRouteMaster.GetName(txtroutecode.Value, trans)
+                If clsCommon.myLen(txtroutecode.Value) <= 0 Then
+                    txtroutecode.Value = clsCommon.myCstr(objMRM.code)
+                    txtroutename.Text = clsfrmMilkRouteMaster.GetName(txtroutecode.Value, trans)
+                End If
             End If
             ''end of Milk Route master
 
@@ -1149,11 +1188,19 @@ Public Class frmVSP_VLCMaster
             obj.MCCCOde = clsCommon.myCstr(fndMcc.Value)
             obj.mainvillcode = clsCommon.myCstr(txtvillcode.Value)
             obj.routecode = clsCommon.myCstr(txtroutecode.Value)
+            obj.routename = clsCommon.myCstr(txtroutename.Text)
             obj.Active = IIf(Me.chkInActive.Checked, 0, 1)
             obj.Price_Code = clsCommon.myCstr(fndPriceCode.Value)
             obj.Apply_Cow_Price = chkApplyCowPrice.Checked
+            obj.ApplyCowPriceDate = txtCowPriceDate.Text
             obj.IsSuspense = chkSuspense.Checked
             obj.Loyalty_Rate = txtLoyaltyPer.Value
+            If chkOwnBMC.Checked Then
+                obj.TFOwnBMC = True
+            Else
+                obj.TFOwnBMC = False
+            End If
+            obj.OwnBMCDate = txtOwnBMCDate.Text
             Dim arr As New List(Of clsfrmVLCMaster)
             obj.Form_ID = MyBase.Form_ID
             clsfrmVLCMaster.SaveData(obj.vlcCode, isNewEntry, obj, arr, trans)
@@ -1240,6 +1287,7 @@ Public Class frmVSP_VLCMaster
                 txtroutecode.Value = obj.routecode
                 txtroutename.Text = obj.routename
                 txtLoyaltyPer.Value = obj.Loyalty_Rate
+                txtOwnBMCDate.Value = obj.OwnBMCDate
                 fndPriceCode.Value = obj.Price_Code
                 Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
                 'fndvlccode.ReadOnly = True
@@ -2636,7 +2684,7 @@ Public Class frmVSP_VLCMaster
         chkPDCS.Checked = False
         chkCLUSTER.Checked = False
         txtStartDate.Value = clsCommon.GETSERVERDATE()
-        txtRegistrationDate.Value = Nothing
+        txtRegistrationDate.Value = clsCommon.GETSERVERDATE()
         txtRegistrationNo.Text = ""
         chkOwnBMC.Checked = False
         txtMCCOwnBMC.Value = ""
@@ -2736,7 +2784,7 @@ Public Class frmVSP_VLCMaster
         End If
     End Sub
 
-    
+
 #End Region
 
 #Region "Event"
@@ -2908,7 +2956,7 @@ Public Class frmVSP_VLCMaster
     Public Sub fndcity_text_Changed(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
-    
+
     'This will check the existence of value in databse on text change property of finder,if it exist then it will call funfill() otherwise it will blank the fields
     Public Sub fndvendortype_text_Changed(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
@@ -2928,7 +2976,7 @@ Public Class frmVSP_VLCMaster
             myMessages.myExceptions(ex)
         End Try
     End Sub
-    
+
     'This will check the existence of value in databse on leave property of finder,if it exist then it will fill, otherwise it will blank the fields
     Sub fndgroupcode_leave()
         If fndgroupcode.Value = "" Then
@@ -2981,7 +3029,7 @@ Public Class frmVSP_VLCMaster
     Public Sub fndCity_leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
-    
+
     'This will check the existence of value in databse on leave property of finder,if it exist then it will fill, otherwise it will blank the fields
     Public Sub fndvendortype_leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If fndvendortype.Value = "" Then
@@ -3092,7 +3140,7 @@ Public Class frmVSP_VLCMaster
             End If
         End If
     End Sub
-    
+
     'Numerics Validation---------------------------------------------
     Private Sub txtPhone1_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         If ((e.KeyChar >= Chr(48) And e.KeyChar <= Chr(57)) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(48) Or e.KeyChar = Chr(45)) Then
@@ -3543,7 +3591,7 @@ Public Class frmVSP_VLCMaster
             Else
                 Errorcontrol.ResetError(txtjointname)
             End If
-            
+
             If chkCreditLimitBasedOnMilkReceipt.Checked Then
                 If TxtCreditLimitBasedOnMilkReceipt.Value < 0 OrElse TxtCreditLimitBasedOnMilkReceipt.Value > 100 Then
                     TxtCreditLimitBasedOnMilkReceipt.Focus()
@@ -3603,11 +3651,8 @@ Public Class frmVSP_VLCMaster
                 ''funInsertCharges()
                 isLoadCopy = False
             End If
-
-
         Catch ex As Exception
             myMessages.myExceptions(ex)
-
         End Try
     End Sub
 
@@ -3632,11 +3677,156 @@ Public Class frmVSP_VLCMaster
     End Sub
 
     Private Sub MenuExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuExport.Click
-        'funExport()
+        Try
+            If clsCommon.myLen(txtroutecode.Value) > 0 Then
+                OpenRouteAccRouteCode(txtroutecode.Value)
+            End If
+            Dim BlankSheet As String = Nothing
+            If chkBlankExportExcel.Checked Then
+                BlankSheet = "True"
+            Else
+                BlankSheet = "False"
+            End If
+            clsfrmVLCMaster.ExportDataTable(fndvendorNo.Value, Me, BlankSheet)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+
     End Sub
 
+
+
     Private Sub MenuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuImport.Click
-        'funImport()
+        funImport()
+    End Sub
+    Public Sub funImport()
+        Try
+            Dim gv As New RadGridView()
+            Me.Controls.Add(gv)
+            Dim currentdate As Date = Date.Today
+            If transportSql.importExcel(gv, "DCS Code", "DCS Name", "DCS Uploader Code", "PAN No", "DCS Route Code", "Active", "Created Date", "Loyalty Rate", "Own BMC", "Own BMC Date", "Apply Cow Price", "Apply Cow Price Date", "Head Load", "Head Load Service Basis", "Head Load Rate", "Registration No", "Registration Date", "Registered/PDCS/CLUSTER", "Gender", "Supervisor", "District Code", "Block Code", "Zone Code", "Revenue Village Code", "Grampanchayat Code", "Panchayat Samiti Code", "Vidhan Sabha Code", "Company Bank", "Bank Code 1", "Bank Name 1", "Branch Name 1", "IFSC Code 1", "Account No 1", "Credit Limit 1", "Account Type 1", "Security Charges 1", "Bank Code 2", "Bank Name 2", "Branch Name 2", "IFSC Code 2", "Account No 2", "Credit Limit 2", "Account Type 2", "Security Charges 2") Then
+                Dim linno As Integer = 0
+                Dim TempNewRecord As Boolean = False
+
+
+                clsCommon.ProgressBarShow()
+                Dim obj As New clsfrmVLCMaster
+                Dim strCode As String = ""
+                Dim strName As String = ""
+                Dim strUploader_No As String = ""
+                Dim strZone As String = ""
+
+                For Each grow As GridViewRowInfo In gv.Rows
+                    linno += 1
+
+                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("DCS Code").Value))) Then
+                        Throw New Exception("DCS Code cannot be empty" + clsCommon.myCstr(linno) + ".")
+                    Else
+                        Dim chkQry = "Select VSP_Code from TSPL_VLC_MASTER_HEAD Where VSP_Code='" + clsCommon.myCstr(grow.Cells("DCS Code").Value) + "'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(chkQry)
+                        If dt.Rows.Count > 0 Then
+                            btnsave.Text = "Update"
+                        Else
+                            btnsave.Text = "Save"
+                        End If
+                        fndvendorNo.Value = clsCommon.myCstr(grow.Cells("DCS Code").Value)
+                        txtvendorname.Text = clsCommon.myCstr(grow.Cells("DCS Name").Value)
+                        txtVLCCodeVlcUploader.Text = clsCommon.myCstr(grow.Cells("DCS Uploader Code").Value)
+                        txtpan.Text = clsCommon.myCstr(grow.Cells("PAN No").Value)
+                        cmbGender.Text = clsCommon.myCstr(grow.Cells("Gender").Value)
+                        If clsCommon.myCdbl(grow.Cells("Apply Cow Price").Value) = 1 Then
+                            chkApplyCowPrice.Checked = True
+                        Else
+                            chkApplyCowPrice.Checked = False
+                        End If
+                        txtCowPriceDate.Text = clsCommon.myCstr(grow.Cells("Apply Cow Price Date").Value)
+                        txtLoyaltyPer.Text = clsCommon.myCstr(grow.Cells("Loyalty Rate").Value)
+                        If clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value) = "Registered" Then
+                            chkRegistered.Checked = True
+                        ElseIf clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value) = "PDCS" Then
+                            chkPDCS.Checked = True
+                        ElseIf clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value) = "CLUSTER" Then
+                            chkCLUSTER.Checked = True
+                        Else
+                            chkRegistered.Checked = False
+                            chkPDCS.Checked = False
+                            chkCLUSTER.Checked = False
+                        End If
+                        txtRegistrationNo.Text = clsCommon.myCstr(grow.Cells("Registration No").Value)
+                        txtRegistrationDate.Text = clsCommon.myCstr(grow.Cells("Registration Date").Value)
+                        txtroutecode.Value = clsCommon.myCstr(grow.Cells("DCS Route Code").Value)
+                        If clsCommon.myLen(txtroutecode.Value) > 0 Then
+                            OpenRouteAccRouteCode(txtroutecode.Value)
+                        End If
+                        'txtroutename.Text = clsCommon.myCstr(grow.Cells("DCS Route Name").Value)
+                        If clsCommon.myCdbl(grow.Cells("Own BMC").Value) = 1 Then
+                            chkOwnBMC.Checked = True
+                        Else
+                            chkOwnBMC.Checked = False
+                        End If
+                        txtOwnBMCDate.Text = clsCommon.myCstr(grow.Cells("Own BMC").Value)
+                        If clsCommon.myCdbl(grow.Cells("Head Load").Value) = 1 Then
+                            ChkHeadLoad.Checked = True
+                        Else
+                            ChkHeadLoad.Checked = False
+                        End If
+                        If clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "P" Then
+                            CmbHeadLoadServiceBasis.Text = "%(Percentage)"
+                        ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "K" Then
+                            CmbHeadLoadServiceBasis.Text = "Rate/Kg"
+                        ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "L" Then
+                            CmbHeadLoadServiceBasis.Text = "Rate/Ltr"
+                        End If
+                        txtRateHeadLoad.Text = clsCommon.myCstr(grow.Cells("Head Load Rate").Value)
+                        If clsCommon.myCdbl(grow.Cells("Active").Value) = 1 Then
+                            chkInActive.Checked = True
+                        Else
+                            chkInActive.Checked = False
+                        End If
+
+                        'findfndbankcode.Value = clsCommon.myCstr(grow.Cells("Bank Code 1").Value)
+                        'txtbankcodedes.Text = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
+                        'txtCredit.Text = clsCommon.myCstr(grow.Cells("Credit Limit 1").Value)
+                        'TxtBankName.Text = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
+                        'TxtIFSCCode.Text = clsCommon.myCstr(grow.Cells("IFSC Code 1").Value)
+                        'TxtBankBranch.Text = clsCommon.myCstr(grow.Cells("Branch Name 1").Value)
+                        'TxtAccNo.Text = clsCommon.myCstr(grow.Cells("Account No 1").Value)
+                        'TxtSecurityCharges.Text = clsCommon.myCstr(grow.Cells("Security Charges 1").Value)
+                        'cmbAccountType.Text = clsCommon.myCstr(grow.Cells("Account Type 1").Value)
+
+                        'findfndbankcode2.Value = clsCommon.myCstr(grow.Cells("Bank Code 2").Value)
+                        'txtbankcodedes2.Text = clsCommon.myCstr(grow.Cells("Bank Name 2").Value)
+                        'txtCredit2.Text = clsCommon.myCstr(grow.Cells("Credit Limit 2").Value)
+                        'TxtBankName2.Text = clsCommon.myCstr(grow.Cells("Bank Name 2").Value)
+                        'txtIFSCCode2.Text = clsCommon.myCstr(grow.Cells("IFSC Code 2").Value)
+                        'txtBankBranch2.Text = clsCommon.myCstr(grow.Cells("Branch Name 2").Value)
+                        'TxtAccNo2.Text = clsCommon.myCstr(grow.Cells("Account No 2").Value)
+                        'TxtSecurityCharges2.Text = clsCommon.myCstr(grow.Cells("Security Charges 2").Value)
+                        'cmbAccountType2.Text = clsCommon.myCstr(grow.Cells("Account Type 2").Value)
+
+                        'txtCompanyBank.Value = clsCommon.myCstr(grow.Cells("Company Bank").Value)
+
+                        txtSupervisiorRP.Value = clsCommon.myCstr(grow.Cells("Supervisor").Value)
+                        txtDistrict.Value = clsCommon.myCstr(grow.Cells("District Code").Value)
+                        txtBlockCode.Value = clsCommon.myCstr(grow.Cells("Block Code").Value)
+                        txtZone.Value = clsCommon.myCstr(grow.Cells("Zone Code").Value)
+                        txtRevenueVillage.Value = clsCommon.myCstr(grow.Cells("Revenue Village Code").Value)
+                        txtGrampanchayat.Value = clsCommon.myCstr(grow.Cells("Grampanchayat Code").Value)
+                        txtPanchayatSamiti.Value = clsCommon.myCstr(grow.Cells("Panchayat Samiti Code").Value)
+                        txtVidhanSabha.Value = clsCommon.myCstr(grow.Cells("Vidhan Sabha Code").Value)
+                    End If
+                    'obj.SaveData(obj, True)
+                Next
+                'trans.Commit()
+                clsCommon.ProgressBarHide()
+                'common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+            End If
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.ProgressBarHide()
+            clsCommon.MyMessageBoxShow(ex.Message)
+            'myMessages.myExceptions(ex)
+        End Try
     End Sub
     Private Sub RadMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem4.Click
         Me.Close()
@@ -4174,7 +4364,7 @@ Public Class frmVSP_VLCMaster
         Frm_Open.Show()
     End Sub
 
-    Private Sub rmChargesDetails_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmChargesDetails.Click
+    Private Sub rmChargesDetails_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
             Dim qry As String
             qry = "Select VSP_CODE AS [VSP Code],Charge_CODE AS [Charge Code],isnull(TSPL_Charge_Category.Description,'') As Description,Rate AS EMP From TSPL_MCC_VSP_ChargeCategory_MAPPING LEFT OUTER JOIN TSPL_Charge_Category  on TSPL_Charge_Category.Charge_Cat_Code=TSPL_MCC_VSP_ChargeCategory_MAPPING.Charge_CODE"
@@ -4184,11 +4374,11 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
 
-    Private Sub rmVSPDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmVSPDetail.Click
+    Private Sub rmVSPDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'funImport()
     End Sub
 
-    Private Sub rmChargesDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmChargesDetail.Click
+    Private Sub rmChargesDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
             'ImportChargeDetails()
         Catch ex As Exception
@@ -4196,7 +4386,7 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
 
-    Private Sub rmVSPDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmVSPDetails.Click
+    Private Sub rmVSPDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'funExport()
     End Sub
 
@@ -4266,7 +4456,7 @@ Public Class frmVSP_VLCMaster
 
     End Sub
 
-   
+
     Private Sub chkMultIncentive_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkMultIncentive.ToggleStateChanged
         If chkMultIncentive.Checked Then
             txtIncentiveMult.Enabled = True
@@ -4295,7 +4485,7 @@ Public Class frmVSP_VLCMaster
 
     End Sub
 
-    Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs) Handles RadMenuItem1.Click
+    Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs)
         Try
             Dim qry As String
             qry = "select count(*) from TSPL_VSP_INCENTIVE"
@@ -4310,7 +4500,7 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
 
-    Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
+    Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs)
         Try
             ImportIncentiveDetails()
         Catch ex As Exception
@@ -4407,7 +4597,7 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
 
-   
+
     Function ValidationMultiCurrencyForImport(ByVal strVendorCurrency As String, ByVal strVendorAccountSet As String, ByVal strTaxGroup As String, ByVal strlineNo As String, ByVal trans As SqlTransaction) As Boolean
         '' validation for multicurrency
         If clsCommon.myLen(clsCommon.myCstr(strVendorCurrency)) > 0 Then
@@ -4419,9 +4609,9 @@ Public Class frmVSP_VLCMaster
                 Return False
             End If
             '' match tax Group currency with vendor currency
-            qry = " select TSPL_TAX_GROUP_DETAILS.Tax_Code,coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'') as CURRENCY_CODE from TSPL_TAX_GROUP_DETAILS " & _
-                  " inner join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " & _
-                  " inner join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" & clsCommon.myCstr(strTaxGroup) & "' " & _
+            qry = " select TSPL_TAX_GROUP_DETAILS.Tax_Code,coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'') as CURRENCY_CODE from TSPL_TAX_GROUP_DETAILS " &
+                  " inner join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " &
+                  " inner join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" & clsCommon.myCstr(strTaxGroup) & "' " &
                   " and coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'')<>'" & clsCommon.myCstr(strVendorCurrency) & "'"
             Dim dt As DataTable
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -4447,7 +4637,7 @@ Public Class frmVSP_VLCMaster
     End Sub
 
     Private Sub fndCusgrp__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCusgrp._MYValidating
-        Dim qry As String = " SELECT Cust_Group_Code as [CustomerGruopCode],Cust_Group_Desc as [Description]," & _
+        Dim qry As String = " SELECT Cust_Group_Code as [CustomerGruopCode],Cust_Group_Desc as [Description]," &
                     " Tax_Group as [Tax Group],Cust_Account as [Account Set],Terms_Code as [Terms Code] FROM [TSPL_CUSTOMER_GROUP_MASTER] "
         fndCusgrp.Value = clsCommon.ShowSelectForm("CUSGRP_CODE1", qry, "CustomerGruopCode", "", fndCusgrp.Value, "", isButtonClicked)
     End Sub
@@ -4580,7 +4770,7 @@ Public Class frmVSP_VLCMaster
                 Errorcontrol.ResetError(fndMcc)
             End If
 
-          
+
             '-----------check whether the same VSP mapped earlier with the Other VLC----------------------------------------------------------------------------
             Dim check As String = ""
             check = clsDBFuncationality.getSingleValue("select VLC_NAME from TSPL_VLC_MASTER_HEAD where vsp_code='" + txtvspcode.Value + "' and vlc_code<>'" & fndvlccode.Text & "'")
@@ -4595,7 +4785,7 @@ Public Class frmVSP_VLCMaster
             Else
                 Errorcontrol.ResetError(txtvspcode)
             End If
-          
+
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
@@ -4674,6 +4864,19 @@ Public Class frmVSP_VLCMaster
             txtroutename.Text = clsCommon.myCstr(dr("Description"))
         Else
             txtroutecode.Value = ""
+            txtroutename.Text = ""
+        End If
+    End Sub
+
+    Sub OpenRouteAccRouteCode(ByVal strRouteCode As String)
+        Dim qry As String = "select ROUTE_NO as Code,ROUTE_NAME as Description from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + strRouteCode + "'"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+        If dt.Rows.Count > 0 Then
+            'txtroutecode.Value = clsCommon.myCstr(dr("Code"))
+            txtroutename.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
+        Else
+            'txtroutecode.Value = ""
             txtroutename.Text = ""
         End If
     End Sub
@@ -5791,6 +5994,32 @@ Public Class frmVSP_VLCMaster
             Frm_Open = New frmVidhanSabhaMaster()
             Frm_Open.SetUserMgmt(clsUserMgtCode.frmVidhanSabhaMaster)
             Frm_Open.Show()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+        End Try
+    End Sub
+
+    Private Sub chkApplyCowPrice_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkApplyCowPrice.ToggleStateChanged
+        Try
+            If chkApplyCowPrice.Checked Then
+                txtCowPriceDate.Enabled = True
+            Else
+                txtCowPriceDate.Enabled = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+        End Try
+    End Sub
+
+    Private Sub ChkHeadLoad_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles ChkHeadLoad.ToggleStateChanged
+        Try
+            If ChkHeadLoad.Checked Then
+                CmbHeadLoadServiceBasis.Enabled = True
+                txtRateHeadLoad.Enabled = True
+            Else
+                CmbHeadLoadServiceBasis.Enabled = False
+                txtRateHeadLoad.Enabled = False
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try

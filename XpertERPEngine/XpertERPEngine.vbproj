@@ -413,6 +413,7 @@
     <Compile Include="Milk Procurement\clsMCCPaymentCycleLockForScheduler.vb" />
     <Compile Include="Milk Procurement\clsMccScrapGatePass.vb" />
     <Compile Include="Milk Procurement\clsMilkCollectionDCS.vb" />
+    <Compile Include="Milk Procurement\clsMilkCollectionDCSMulipleDays.vb" />
     <Compile Include="Milk Procurement\clsMilkCollectionMCC.vb" />
     <Compile Include="Milk Procurement\clsMilkCollectionMCCMulipleDays.vb" />
     <Compile Include="Milk Procurement\clsMilkPurchaseInvoiceProvision.vb" />
@@ -515,6 +516,12 @@
     </Compile>
     <Compile Include="UserControl\ucPaymentProcess.vb">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WinForm\Excelform.Designer.vb">
+      <DependentUpon>Excelform.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WinForm\Excelform.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinForm\frmCrystalReportViewer.Designer.vb">
       <DependentUpon>frmCrystalReportViewer.vb</DependentUpon>
@@ -1436,6 +1443,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControl\ucPaymentProcess.resx">
       <DependentUpon>ucPaymentProcess.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForm\Excelform.resx">
+      <DependentUpon>Excelform.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForm\frmCrystalReportViewer.resx">
       <DependentUpon>frmCrystalReportViewer.vb</DependentUpon>

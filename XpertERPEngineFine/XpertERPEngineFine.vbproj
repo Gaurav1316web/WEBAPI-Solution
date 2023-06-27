@@ -83,13 +83,14 @@
     <Compile Include="Classes\clsERPFuncationality.vb" />
     <Compile Include="Classes\clsFixedParameterType.vb" />
     <Compile Include="Classes\clsGetKeys.vb" />
+    <Compile Include="Classes\clsNewDCSScreen.vb" />
     <Compile Include="Classes\clsUserMgtCode.vb" />
     <Compile Include="Comman Services\clsBankGroupMaster.vb" />
     <Compile Include="Classes\connectSql.vb" />
     <Compile Include="Classes\objCommonVar.vb" />
     <Compile Include="Sales Distribution\ClsDCSforSale.vb" />
     <Compile Include="clsTenderPenalty.vb" />
-    <Compile Include="Milk Procurement MCC\ClsOwnBmcExpanse.vb" />
+    <Compile Include="Milk Procurement\ClsOwnBmcExpanse.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>

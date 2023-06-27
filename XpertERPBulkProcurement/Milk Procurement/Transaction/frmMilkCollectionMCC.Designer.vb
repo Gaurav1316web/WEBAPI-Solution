@@ -43,6 +43,10 @@ Partial Class frmMilkCollectionMCC
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.gvTotal = New Telerik.WinControls.UI.RadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtMDate = New common.Controls.MyDateTimePicker()
+        Me.lblMDate = New common.Controls.MyLabel()
+        Me.btnMGo = New Telerik.WinControls.UI.RadButton()
         Me.txtTripNo = New common.MyNumBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel5 = New common.Controls.MyLabel()
@@ -87,9 +91,6 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gvParam = New Telerik.WinControls.UI.RadGridView()
-        Me.lblMDate = New common.Controls.MyLabel()
-        Me.DatePickerMDate = New common.Controls.MyDateTimePicker()
-        Me.btnMGo = New Telerik.WinControls.UI.RadButton()
         Me.Panel2.SuspendLayout()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -105,6 +106,11 @@ Partial Class frmMilkCollectionMCC
         CType(Me.gvTotal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvTotal.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtMDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblMDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnMGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -151,9 +157,6 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer2.SuspendLayout()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblMDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DatePickerMDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnMGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -310,9 +313,7 @@ Partial Class frmMilkCollectionMCC
         '
         'Panel1
         '
-        Me.Panel1.Controls.Add(Me.btnMGo)
-        Me.Panel1.Controls.Add(Me.lblMDate)
-        Me.Panel1.Controls.Add(Me.DatePickerMDate)
+        Me.Panel1.Controls.Add(Me.RadGroupBox1)
         Me.Panel1.Controls.Add(Me.txtTripNo)
         Me.Panel1.Controls.Add(Me.RadButton1)
         Me.Panel1.Controls.Add(Me.MyLabel5)
@@ -358,6 +359,68 @@ Partial Class frmMilkCollectionMCC
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1093, 111)
         Me.Panel1.TabIndex = 0
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtMDate)
+        Me.RadGroupBox1.Controls.Add(Me.btnMGo)
+        Me.RadGroupBox1.Controls.Add(Me.lblMDate)
+        Me.RadGroupBox1.HeaderText = "Generate DCS Data By Mobile"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(843, 12)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(179, 79)
+        Me.RadGroupBox1.TabIndex = 46
+        Me.RadGroupBox1.Text = "Generate DCS Data By Mobile"
+        '
+        'txtMDate
+        '
+        Me.txtMDate.CalculationExpression = Nothing
+        Me.txtMDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtMDate.FieldCode = Nothing
+        Me.txtMDate.FieldDesc = Nothing
+        Me.txtMDate.FieldMaxLength = 0
+        Me.txtMDate.FieldName = Nothing
+        Me.txtMDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtMDate.isCalculatedField = False
+        Me.txtMDate.IsSourceFromTable = False
+        Me.txtMDate.IsSourceFromValueList = False
+        Me.txtMDate.IsUnique = False
+        Me.txtMDate.Location = New System.Drawing.Point(63, 22)
+        Me.txtMDate.MendatroryField = True
+        Me.txtMDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtMDate.MyLinkLable1 = Me.lblMDate
+        Me.txtMDate.MyLinkLable2 = Nothing
+        Me.txtMDate.Name = "txtMDate"
+        Me.txtMDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtMDate.ReferenceFieldDesc = Nothing
+        Me.txtMDate.ReferenceFieldName = Nothing
+        Me.txtMDate.ReferenceTableName = Nothing
+        Me.txtMDate.Size = New System.Drawing.Size(90, 18)
+        Me.txtMDate.TabIndex = 28
+        Me.txtMDate.TabStop = False
+        Me.txtMDate.Text = "13/06/2011"
+        Me.txtMDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'lblMDate
+        '
+        Me.lblMDate.FieldName = Nothing
+        Me.lblMDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMDate.Location = New System.Drawing.Point(25, 23)
+        Me.lblMDate.Name = "lblMDate"
+        Me.lblMDate.Size = New System.Drawing.Size(30, 16)
+        Me.lblMDate.TabIndex = 29
+        Me.lblMDate.Text = "Date"
+        '
+        'btnMGo
+        '
+        Me.btnMGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnMGo.Location = New System.Drawing.Point(25, 42)
+        Me.btnMGo.Name = "btnMGo"
+        Me.btnMGo.Size = New System.Drawing.Size(128, 18)
+        Me.btnMGo.TabIndex = 13
+        Me.btnMGo.Text = "Get BMC by Mobile"
         '
         'txtTripNo
         '
@@ -1102,56 +1165,6 @@ Partial Class frmMilkCollectionMCC
         Me.gvParam.TabIndex = 3
         Me.gvParam.TabStop = False
         '
-        'lblMDate
-        '
-        Me.lblMDate.FieldName = Nothing
-        Me.lblMDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMDate.Location = New System.Drawing.Point(817, 13)
-        Me.lblMDate.Name = "lblMDate"
-        Me.lblMDate.Size = New System.Drawing.Size(30, 16)
-        Me.lblMDate.TabIndex = 1425
-        Me.lblMDate.Text = "Date"
-        '
-        'DatePickerMDate
-        '
-        Me.DatePickerMDate.CalculationExpression = Nothing
-        Me.DatePickerMDate.CustomFormat = "dd/MM/yyyy"
-        Me.DatePickerMDate.FieldCode = Nothing
-        Me.DatePickerMDate.FieldDesc = Nothing
-        Me.DatePickerMDate.FieldMaxLength = 0
-        Me.DatePickerMDate.FieldName = Nothing
-        Me.DatePickerMDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DatePickerMDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.DatePickerMDate.isCalculatedField = False
-        Me.DatePickerMDate.IsSourceFromTable = False
-        Me.DatePickerMDate.IsSourceFromValueList = False
-        Me.DatePickerMDate.IsUnique = False
-        Me.DatePickerMDate.Location = New System.Drawing.Point(853, 12)
-        Me.DatePickerMDate.MendatroryField = True
-        Me.DatePickerMDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.DatePickerMDate.MyLinkLable1 = Me.lblMDate
-        Me.DatePickerMDate.MyLinkLable2 = Nothing
-        Me.DatePickerMDate.Name = "DatePickerMDate"
-        Me.DatePickerMDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.DatePickerMDate.ReferenceFieldDesc = Nothing
-        Me.DatePickerMDate.ReferenceFieldName = Nothing
-        Me.DatePickerMDate.ReferenceTableName = Nothing
-        Me.DatePickerMDate.Size = New System.Drawing.Size(90, 18)
-        Me.DatePickerMDate.TabIndex = 1424
-        Me.DatePickerMDate.TabStop = False
-        Me.DatePickerMDate.Text = "13/06/2011"
-        Me.DatePickerMDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'btnMGo
-        '
-        Me.btnMGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnMGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMGo.Location = New System.Drawing.Point(960, 13)
-        Me.btnMGo.Name = "btnMGo"
-        Me.btnMGo.Size = New System.Drawing.Size(107, 22)
-        Me.btnMGo.TabIndex = 1
-        Me.btnMGo.Text = "Get BMC by Mobile"
-        '
         'frmMilkCollectionMCC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1184,6 +1197,12 @@ Partial Class frmMilkCollectionMCC
         CType(Me.gvTotal, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtMDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblMDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnMGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1230,9 +1249,6 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblMDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DatePickerMDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnMGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1295,8 +1311,9 @@ Partial Class frmMilkCollectionMCC
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents txtTripNo As common.MyNumBox
     Friend WithEvents btnReverse As RadButton
-    Friend WithEvents btnMGo As RadButton
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents txtMDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblMDate As common.Controls.MyLabel
-    Friend WithEvents DatePickerMDate As common.Controls.MyDateTimePicker
+    Friend WithEvents btnMGo As RadButton
 End Class
 

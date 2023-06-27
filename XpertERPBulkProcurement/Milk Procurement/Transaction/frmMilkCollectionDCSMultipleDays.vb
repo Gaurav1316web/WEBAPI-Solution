@@ -1,17 +1,17 @@
-﻿Imports common
-Imports System.Data.SqlClient
-Imports System.IO
+﻿Imports System.Data.SqlClient
+Imports common
 Imports Telerik
 
-Public Class frmMilkCollectionDCS
+Public Class frmMilkCollectionDCSMultipleDays
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim dtDefault As DataTable = Nothing
     Dim arrExistCols As New List(Of String)
-
-
+    Dim SettShowAllMCC As Boolean
+    Dim settFillRouteTankerNo As Boolean = False
     Dim isNewEntry As Boolean = False
     Const ColSNo As String = "ColSNo"
+    Const colCollectionDate As String = "colCollectionDate"
     Const colMilkType As String = "colMilkType"
     Const colDocCollectionMilkType As String = "colDocCollectionMilkType"
     Const colVLCUploaderCode As String = "colVLCUploaderCode"
@@ -47,9 +47,12 @@ Public Class frmMilkCollectionDCS
     Dim settMaxFATPerLimit As Decimal = 0
     Dim settMaxSNFPerLimit As Decimal = 0
     Dim corrFactor As Decimal = 0
+    Dim SettMilkCollectionFATSNFTypeHeader As Integer
 
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SettShowAllMCC = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing)) = 1)
+        settFillRouteTankerNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, Nothing)) = 1)
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
         settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
@@ -60,18 +63,23 @@ Public Class frmMilkCollectionDCS
         SettHideShiftCollection = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HideShiftCollection, clsFixedParameterCode.HideShiftCollection, Nothing))
         settSNFDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, Nothing))
         SettHeaderFATSNFKGDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HeaderFATSNFKGDecimalPlaces, clsFixedParameterCode.HeaderFATSNFKGDecimalPlaces, Nothing))
-        'If isPickCLRInsteadOfSNF Then
-        '    MyLabel23.Text = "CLR KG"
-        '    MyLabel5.Text = "CLR %"
-        'End If
+        SettMilkCollectionFATSNFTypeHeader = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFTypeHeader, clsFixedParameterCode.MilkCollectionFATSNFTypeHeader, Nothing))
         MyBase.SetUserMgmt(clsUserMgtCode.MilkCollectionDCS)
         LoadFATSNFType()
         txtDate.Value = clsCommon.GETSERVERDATE()
-        txtMDCSDate.Value = clsCommon.GETSERVERDATE()
         AddNew()
+        If SettMilkCollectionFATSNFTypeHeader = 0 Then
+            txtTotEnteredFATPer.Enabled = True
+            txtTotEnteredSNFPer.Enabled = True
+            txtTotEnteredFAT.Enabled = False
+            txtTotEnteredSNF.Enabled = False
+        Else
+            txtTotEnteredFATPer.Enabled = False
+            txtTotEnteredSNFPer.Enabled = False
+            txtTotEnteredFAT.Enabled = True
+            txtTotEnteredSNF.Enabled = True
+        End If
     End Sub
-
-
     Public Sub LoadFATSNFType()
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))
@@ -91,8 +99,6 @@ Public Class frmMilkCollectionDCS
         cboFATSNFType.ValueMember = "Code"
         cboFATSNFType.DisplayMember = "Name"
     End Sub
-
-
     Public Function LoadShift() As DataTable
         Dim dt As DataTable = New DataTable()
         dt.Columns.Add("Code", GetType(String))
@@ -110,11 +116,9 @@ Public Class frmMilkCollectionDCS
 
         Return dt
     End Function
-
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
     End Sub
-
     Sub AddNew()
         btnSave.Enabled = True
         btnPost.Enabled = True
@@ -128,34 +132,39 @@ Public Class frmMilkCollectionDCS
         txtDocNo.Value = ""
 
         txtDesc.Text = ""
-        txtSlipNo.Text = ""
-        txtSlipNo.Text = ""
-        lblSNFPer.Text = ""
+
+        txtMCC.Tag = Nothing
+        txtMCC.Value = ""
+        lblMCC.Text = ""
+        txtRoute.Value = ""
+        lblRoute.Text = ""
+        txtTankerNo.Value = ""
+        txtVehicleNo.Text = ""
+        txtTotEnteredQty.Text = ""
+
         isNewEntry = True
         txtMCC.Value = ""
         lblMCC.Text = ""
 
-        lblQty.Text = ""
-        lblTotReceivedQty.Text = ""
-        lblTotPendingQty.Text = ""
-        lblFATPer.Text = ""
-        lblFATKg.Text = ""
-        lblTotReceivedFATKg.Text = ""
-        lblTotPendingFATKg.Text = ""
-        lblFATKg.Text = ""
-        lblSNFKg.Text = ""
-        lblTotReceivedSNFKg.Text = ""
-        lblTotPendingSNFKg.Text = ""
-
+        txtTotReceivedQty.Text = ""
+        txtTotPendingQty.Text = ""
+        txtTotEnteredFATPer.Text = ""
+        txtTotEnteredFAT.Text = ""
+        txtTotReceivedFAT.Text = ""
+        txtTotPendingFAT.Text = ""
+        txtTotEnteredSNFPer.Text = ""
+        txtTotEnteredSNF.Text = ""
+        txtTotReceivedSNF.Text = ""
+        txtTotPendingSNF.Text = ""
+        txtTotPendingFATPer.Text = ""
+        txtTotPendingSNFPer.Text = ""
         UsLock1.Status = ERPTransactionStatus.Pending
         LoadBlankGrid()
         gv1.Rows.AddNew()
         gv1.Rows(0).Cells(colMilkType).Value = "Good"
-        btnAddMissing.Enabled = False
         txtDate.Enabled = True
         txtMCC.Focus()
     End Sub
-
     Sub LoadBlankGrid()
         gv1.Rows.Clear()
         gv1.Columns.Clear()
@@ -170,9 +179,18 @@ Public Class frmMilkCollectionDCS
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
+        Dim repoDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
+        repoDate.Format = DateTimePickerFormat.Custom
+        repoDate.CustomFormat = "dd/MM/yyyy"
+        repoDate.HeaderText = "Collection Date"
+        repoDate.FormatString = "{0:d}"
+        repoDate.Name = colCollectionDate
+        repoDate.WrapText = True
+        repoDate.ReadOnly = False
+        repoDate.Width = 80
+        gv1.MasterTemplate.Columns.Add(repoDate)
 
         Dim repoComboBox As GridViewComboBoxColumn = New GridViewComboBoxColumn()
-
         repoComboBox = New GridViewComboBoxColumn()
         repoComboBox.FormatString = ""
         repoComboBox.HeaderText = "Milk Type"
@@ -463,7 +481,6 @@ Public Class frmMilkCollectionDCS
         setShiftDate()
         'ReStoreGridLayout()
     End Sub
-
     Sub UpdateCurrentRow(ByVal Shift As String, ByVal ii As Integer)
         If clsCommon.CompairString(Shift, "E") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(cboFATSNFType.SelectedValue) = 0 Then
@@ -484,7 +501,6 @@ Public Class frmMilkCollectionDCS
         End If
         UpdateAllTotal()
     End Sub
-
     Private Sub UpdateAllTotal()
         Dim TotEveningQty As Decimal = 0
         Dim TotEveningFATKG As Decimal = 0
@@ -517,20 +533,37 @@ Public Class frmMilkCollectionDCS
                 TotMorningSNFKG += dclCurrSNFKGM
             End If
         Next
-        lblTotReceivedQty.Text = (TotEveningQty + TotMorningQty)
-        lblTotReceivedFATKg.Text = clsCommon.myCstr(Math.Round((TotEveningFATKG + TotMorningFATKG), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
-        lblTotReceivedSNFKg.Text = clsCommon.myCstr(Math.Round((TotEveningSNFKG + TotMorningSNFKG), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
+        'txtTotReceivedQty.Text = (TotEveningQty + TotMorningQty)
+        'txtTotReceivedFAT.Text = clsCommon.myCstr(Math.Round((TotEveningFATKG + TotMorningFATKG), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
+        'txtTotReceivedSNF.Text = clsCommon.myCstr(Math.Round((TotEveningSNFKG + TotMorningSNFKG), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
 
-        lblTotPendingQty.Text = clsCommon.myCstr(clsCommon.myCDecimal(lblQty.Text) - (TotEveningQty + TotMorningQty))
-        lblTotPendingFATKg.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblFATKg.Text) - (TotEveningFATKG + TotMorningFATKG)), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
-        lblTotPendingSNFKg.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblSNFKg.Text) - (TotEveningSNFKG + TotMorningSNFKG)), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
+        'txtTotPendingQty.Text = clsCommon.myCstr(clsCommon.myCDecimal(txtTotReceivedQty.Text) - (TotEveningQty + TotMorningQty))
+        'txtTotPendingFAT.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(txtTotEnteredFAT.Text) - (TotEveningFATKG + TotMorningFATKG)), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
+        'txtTotPendingSNF.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(txtTotEnteredSNF.Text) - (TotEveningSNFKG + TotMorningSNFKG)), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
 
 
-        txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingFATKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 1, MidpointRounding.ToEven)
-        txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingSNFKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 1, MidpointRounding.ToEven)
+        'txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(txtTotPendingFAT.Text) * 100, clsCommon.myCDecimal(txtTotPendingQty.Text)), 1, MidpointRounding.ToEven)
+        'txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(txtTotPendingSNF.Text) * 100, clsCommon.myCDecimal(txtTotPendingQty.Text)), 1, MidpointRounding.ToEven)
+
+
+        txtTotReceivedQty.Text = clsCommon.myCstr(Math.Round((TotEveningQty + TotMorningQty), 3, MidpointRounding.ToEven))
+        txtTotReceivedFAT.Text = clsCommon.myCstr(Math.Round((TotEveningFATKG + TotMorningFATKG), 3, MidpointRounding.ToEven))
+        txtTotReceivedSNF.Text = clsCommon.myCstr(Math.Round((TotEveningSNFKG + TotMorningSNFKG), 3, MidpointRounding.ToEven))
+        If SettMilkCollectionFATSNFTypeHeader = 0 Then
+            txtTotEnteredFAT.Value = Math.Round((txtTotEnteredQty.Value * txtTotEnteredFATPer.Value / 100), 3, MidpointRounding.ToEven)
+            txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * txtTotEnteredSNFPer.Value / 100), 3, MidpointRounding.ToEven)
+        Else
+            txtTotEnteredFATPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredFAT.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
+            txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
+        End If
+        txtTotPendingQty.Text = clsCommon.myCstr(Math.Round((txtTotEnteredQty.Value - (TotEveningQty + TotMorningQty)), 3, MidpointRounding.ToEven))
+        txtTotPendingFAT.Text = clsCommon.myCstr(Math.Round((txtTotEnteredFAT.Value - (TotEveningFATKG + TotMorningFATKG)), 3, MidpointRounding.ToEven))
+        txtTotPendingSNF.Text = clsCommon.myCstr(Math.Round((txtTotEnteredSNF.Value - (TotEveningSNFKG + TotMorningSNFKG)), 3, MidpointRounding.ToEven))
+
+        txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(txtTotPendingFAT.Text) * 100, clsCommon.myCDecimal(txtTotPendingQty.Text)), 1, MidpointRounding.ToEven)
+        txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(txtTotPendingSNF.Text) * 100, clsCommon.myCDecimal(txtTotPendingQty.Text)), 1, MidpointRounding.ToEven)
 
     End Sub
-
     Private Sub gv1_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gv1.CellValidated
         Try
             SetGridFocus()
@@ -538,8 +571,6 @@ Public Class frmMilkCollectionDCS
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
     Private Sub gv1_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -620,7 +651,6 @@ Public Class frmMilkCollectionDCS
             isCellValueChangedOpen = False
         End Try
     End Sub
-
     Sub OpenVLCFinder(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(txtMCC.Tag) <= 0 Then
             txtMCC.Focus()
@@ -651,13 +681,9 @@ Public Class frmMilkCollectionDCS
         End If
 
     End Sub
-
-
-
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SaveData()
     End Sub
-
     Private Function AllowToSave() As Boolean
         'Prevent future date transaction
         If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
@@ -667,28 +693,26 @@ Public Class frmMilkCollectionDCS
         End If
         Return True
     End Function
-
     Public Function SaveData() As Boolean
         Try
             If (AllowToSave()) Then
-                Dim obj As New clsMilkCollectionDCS()
+                Dim obj As New clsMilkCollectionDCSMulipleDays()
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
                 obj.Description = txtDesc.Text
-                obj.Slip_No = txtSlipNo.Text
+                obj.Route_Code = txtRoute.Value
+                obj.Tanker_No = txtTankerNo.Value
+                obj.MCC_Code = txtMCC.Tag
+                obj.Vehicle_No = txtVehicleNo.Text
+                obj.Entered_Qty = clsCommon.myCDecimal(txtTotEnteredQty.Text)
+                obj.Entered_FATKg = clsCommon.myCDecimal(txtTotEnteredFAT.Text)
+                obj.Entered_SNFKg = clsCommon.myCDecimal(txtTotEnteredSNF.Text)
+                obj.FAT_SNF_Type = cboFATSNFType.SelectedValue
                 obj.Arr = GetTRData(False)
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                     Throw New Exception("Please Fill at list one Item")
                 End If
-                obj.ArrMCC = New List(Of clsMilkCollectionDCSMCCDetail)
-                For ii As Integer = 0 To gv2.RowCount - 1
-                    Dim objtrMCC As New clsMilkCollectionDCSMCCDetail
-                    objtrMCC.Against_Milk_Collection_MCC_Detail = clsCommon.myCstr(gv2.Rows(ii).Cells("PK_Id").Value)
-                    obj.ArrMCC.Add(objtrMCC)
-                Next
-                If (obj.ArrMCC Is Nothing OrElse obj.ArrMCC.Count <= 0) Then
-                    Throw New Exception("Please Fill at list one BMC Details")
-                End If
+
                 obj.SaveData(obj, isNewEntry)
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Document_No, NavigatorType.Current)
@@ -699,8 +723,8 @@ Public Class frmMilkCollectionDCS
         End Try
         Return True
     End Function
-    Function GetTRData(ByVal isMissingOnly As Boolean) As List(Of clsMilkCollectionDCSDetail)
-        Dim Arr As New List(Of clsMilkCollectionDCSDetail)
+    Function GetTRData(ByVal isMissingOnly As Boolean) As List(Of clsMilkCollectionDCSMulipleDaysDetail)
+        Dim Arr As New List(Of clsMilkCollectionDCSMulipleDaysDetail)
         For ii As Integer = 0 To gv1.RowCount - 1
             If clsCommon.myLen(gv1.Rows(ii).Cells(colVLCCode).Value) > 0 Then
                 Dim flag As Boolean = True
@@ -709,12 +733,16 @@ Public Class frmMilkCollectionDCS
                         flag = False
                     End If
                     If flag Then
-                        Dim objTr As New clsMilkCollectionDCSDetail()
+                        Dim objTr As New clsMilkCollectionDCSMulipleDaysDetail()
                         objTr.SNo = ii + 1
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
                         objTr.Shift = "E"
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
-                        objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colCollectionDate).Value) <= 0 Then
+                            Throw New Exception("Date Can not be left blank at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                        End If
+                        objTr.Collection_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colCollectionDate).Value)
+                        objTr.Dock_Collection_Milk_Type = clsCommon.myCDate(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningQty).Value)
                         objTr.FAT = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningFATPer).Value), 1, MidpointRounding.ToEven)
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFPer).Value), 2, MidpointRounding.ToEven)
@@ -739,11 +767,15 @@ Public Class frmMilkCollectionDCS
                         flag = False
                     End If
                     If flag Then
-                        Dim objTr As New clsMilkCollectionDCSDetail()
+                        Dim objTr As New clsMilkCollectionDCSMulipleDaysDetail()
                         objTr.SNo = ii + 1
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
                         objTr.Shift = "M"
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colCollectionDate).Value) <= 0 Then
+                            Throw New Exception("Date Can not be left blank at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                        End If
+                        objTr.Collection_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colCollectionDate).Value)
                         objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningQty).Value)
                         objTr.FAT = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningFATPer).Value), 1, MidpointRounding.ToEven)
@@ -770,8 +802,8 @@ Public Class frmMilkCollectionDCS
         Try
             isInsideLoadData = True
             LoadBlankGrid()
-            Dim obj As New clsMilkCollectionDCS()
-            obj = clsMilkCollectionDCS.GetData(strCode, NavTyep, Nothing)
+            Dim obj As New clsMilkCollectionDCSMulipleDays()
+            obj = clsMilkCollectionDCSMulipleDays.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 txtDate.Enabled = False
                 isNewEntry = False
@@ -779,26 +811,36 @@ Public Class frmMilkCollectionDCS
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
-                    btnAddMissing.Enabled = True
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
                     btnDelete.Enabled = True
-                    btnAddMissing.Enabled = False
                 End If
-
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
+                txtRoute.Value = obj.Route_Code
+                lblRoute.Text = obj.Route_Name
+                txtTankerNo.Value = obj.Tanker_No
+                txtVehicleNo.Text = obj.Vehicle_No
+                txtMCC.Value = obj.MCC_Uploader_No
+                txtMCC.Tag = obj.MCC_Code
+                lblMCC.Text = obj.MCC_Name
+                txtTotEnteredQty.Value = obj.Entered_Qty
+                txtTotEnteredFAT.Value = obj.Entered_FATKg
+                txtTotEnteredSNF.Value = obj.Entered_SNFKg
+                txtTotEnteredFATPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredFAT.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
+                txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
+
                 txtDesc.Text = obj.Description
-                txtSlipNo.Text = obj.Slip_No
                 Dim PreviousSNo As Integer = -1
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                    For Each objTr As clsMilkCollectionDCSDetail In obj.Arr
+                    For Each objTr As clsMilkCollectionDCSMulipleDaysDetail In obj.Arr
                         If objTr.SNo <> PreviousSNo Then
                             gv1.Rows.AddNew()
                             PreviousSNo = objTr.SNo
                             gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = objTr.SNo
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCollectionDate).Value = objTr.Collection_Date
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMilkType).Value = objTr.Milk_Type
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colDocCollectionMilkType).Value = objTr.Dock_Collection_Milk_Type
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colVLCCode).Value = objTr.VLC_Code
@@ -829,7 +871,6 @@ Public Class frmMilkCollectionDCS
                     Next
                 End If
                 setShiftDate()
-                RefreshMCCCollectionDetail("", obj.ArrMCC)
                 UpdateAllTotal()
             End If
         Catch ex As Exception
@@ -838,7 +879,6 @@ Public Class frmMilkCollectionDCS
             isInsideLoadData = False
         End Try
     End Sub
-
     Private Sub FrmSerializeItemIn_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N Then
             AddNew()
@@ -850,21 +890,8 @@ Public Class frmMilkCollectionDCS
             PostData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             CancelPressed()
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F11 Then
-            If btnAddMissing.Visible Then
-                btnAddMissing.Visible = Not btnAddMissing.Visible
-            Else
-                Dim pwd As New FrmPWD(Nothing)
-                pwd.strCode = clsFixedParameterCode.MilkSetting
-                pwd.strType = clsFixedParameterType.MCCMilkSRNRepost
-                pwd.ShowDialog()
-                If pwd.isPasswordCorrect Then
-                    btnAddMissing.Visible = Not btnAddMissing.Visible
-                End If
-            End If
         End If
     End Sub
-
     Sub CancelPressed()
         Me.Close()
     End Sub
@@ -876,7 +903,6 @@ Public Class frmMilkCollectionDCS
             e.Cancel = True
         End If
     End Sub
-
     Sub RefeshSNO()
         For ii As Integer = 1 To gv1.Rows.Count
             gv1.Rows(ii - 1).Cells(ColSNo).Value = ii
@@ -885,7 +911,6 @@ Public Class frmMilkCollectionDCS
     Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         CancelPressed()
     End Sub
-
     Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
         If gv1.RowCount > 0 Then
             Dim intCurrRow As Integer = gv1.CurrentRow.Index
@@ -897,10 +922,9 @@ Public Class frmMilkCollectionDCS
             End If
         End If
     End Sub
-
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
         Try
-            Dim qst As String = "select count(*) from TSPL_MILK_SHIFT_UPLOADER_HEAD where Document_No='" + txtDocNo.Value + "'"
+            Dim qst As String = "select count(*) from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS where Document_No='" + txtDocNo.Value + "'"
             Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
             If count = 0 Then
                 txtDocNo.MyReadOnly = False
@@ -912,22 +936,13 @@ Public Class frmMilkCollectionDCS
             common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
-
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select * from (
-select Document_No,max(Document_Date) as Document_Date,max(Description) as Description,max(BMC) as BMC,max(BMC_Code) as BMC_Code,max(BMC_Name) as BMC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(Tanker_No) as Tanker_No,max(Vehicle_No) as Vehicle_No,max(Status) as Status from (
-select TSPL_MILK_COLLECTION_DCS.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS.Description,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code as BMC_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,case when TSPL_MILK_COLLECTION_DCS.Status=1 then 'Posted' else 'Pending' end as Status 
-from TSPL_MILK_COLLECTION_DCS 
-left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No 
-left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail 
-left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No 
-left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_MCC.Route_Code 
-left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
-)xx group by xx.Document_No
-)xxx"
-        LoadData(clsCommon.ShowSelectForm("SMP2FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
+        Dim qry As String = "select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,convert (varchar,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Description,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as BMC,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code as BMC_Code,TSPL_MCC_MASTER.MCC_NAME as BMC_Name,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Tanker_No,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Vehicle_No,case when TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Status=1 then 'Posted' else 'Pending' end as Status 
+from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code "
+        LoadData(clsCommon.ShowSelectForm("SMP3FINOC", qry, "Document_No", "", txtDocNo.Value, "Document_No", isButtonClicked), NavigatorType.Current)
     End Sub
-
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         DeleteData()
     End Sub
@@ -937,7 +952,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
                 Throw New Exception("Please select document no to delete")
             End If
             If clsCommon.MyMessageBoxShow(Me, "Delete the current document" + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-                clsMilkCollectionDCS.DeleteData(txtDocNo.Value)
+                clsMilkCollectionDCSMulipleDays.DeleteData(txtDocNo.Value)
                 clsCommon.MyMessageBoxShow(Me, "Data delete successfully", Me.Text)
                 AddNew()
             End If
@@ -945,10 +960,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         PostData()
-
     End Sub
     Sub PostData()
         Try
@@ -956,7 +969,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
                 Throw New Exception("No document found to post")
             End If
             If clsCommon.MyMessageBoxShow(Me, "Post the Current Document [" + txtDocNo.Value + "]" + Environment.NewLine + "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-                clsMilkCollectionDCS.PostData(txtDocNo.Value)
+                clsMilkCollectionDCSMulipleDays.PostData(txtDocNo.Value)
                 clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
@@ -966,9 +979,9 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
     End Sub
     Sub SetGridFocus()
         If gv1.CurrentCell IsNot Nothing Then
-            If gv1.CurrentCell.ColumnInfo.Name = colMilkType Then
-                '    gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
-                'ElseIf gv1.CurrentCell.ColumnInfo.Name = colDocCollectionMilkType Then
+            If gv1.CurrentCell.ColumnInfo.Name = colCollectionDate Then
+                gv1.CurrentColumn = gv1.Columns(colMilkType)
+            ElseIf gv1.CurrentCell.ColumnInfo.Name = colMilkType Then
                 If objCommonVar.DisplayTypeInMilkReceipt Then
                     gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
                 Else
@@ -1011,11 +1024,12 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
                             gv1.CurrentRow.Cells(colDocCollectionMilkType).Value = strDocCollectionMilkType
                         End If
                     End If
-                    If objCommonVar.DisplayTypeInMilkReceipt Then
-                        gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
-                    Else
-                        gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
-                    End If
+                    'If objCommonVar.DisplayTypeInMilkReceipt Then
+                    '    gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
+                    'Else
+                    '    gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
+                    'End If
+                    gv1.CurrentColumn = gv1.Columns(colCollectionDate)
                 End If
             ElseIf (gv1.CurrentCell.ColumnInfo.Name = colMorningQty) Then
                 If SettFATSNFNoDecimalDCS Then
@@ -1043,23 +1057,15 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
                         gv1.CurrentRow.Cells(colDocCollectionMilkType).Value = strDocCollectionMilkType
                     End If
                 End If
-                If objCommonVar.DisplayTypeInMilkReceipt Then
-                    gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
-                Else
-                    gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
-                End If
+                'If objCommonVar.DisplayTypeInMilkReceipt Then
+                '    gv1.CurrentColumn = gv1.Columns(colDocCollectionMilkType)
+                'Else
+                '    gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
+                'End If
+
+                gv1.CurrentColumn = gv1.Columns(colCollectionDate)
             End If
         End If
-    End Sub
-
-    Private Sub txtDesc_Leave(sender As Object, e As EventArgs) Handles txtDesc.Leave
-        If gv1.Rows.Count > 0 Then
-            gv1.Focus()
-            gv1.CurrentColumn = gv1.Columns(colVLCUploaderCode)
-        End If
-    End Sub
-    Private Sub txtTotEnteredQty_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs)
-        UpdateAllTotal()
     End Sub
 
     Sub setShiftDate()
@@ -1082,126 +1088,36 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
         gv1.Columns(colMorningFATKG).HeaderText = "Morning FAT KG" + Environment.NewLine + CurrShift
         gv1.Columns(colMorningSNFKG).HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG") + Environment.NewLine + CurrShift
     End Sub
-
     Private Sub txtDate_Validated(sender As Object, e As EventArgs) Handles txtDate.Validated
         setShiftDate()
     End Sub
-
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating
         Try
-            Dim qry As String = "select * from (
-select max(UploaderNo) as UploaderNo,max(MCC_NAME) as MCC_NAME,MCC_Code,max(Tanker_No) as Tanker_No,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME from
-(select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.MCC_NAME, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No, TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME
-from  TSPL_MILK_COLLECTION_MCC_DETAIL
-left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
-left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code 
-Where 2=2  and TSPL_MILK_COLLECTION_MCC.Status=1 and convert(Date,TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' 
-)xx group by MCC_Code  )xxx"
-            txtMCC.Value = clsCommon.ShowSelectForm("dd22ShUp", qry, "UploaderNo", "", txtMCC.Value, "UploaderNo", isButtonClicked)
-            lblMCC.Text = ""
-            txtMCC.Tag = Nothing
-            If clsCommon.myLen(txtMCC.Value) > 0 Then
-                RefreshMCCCollectionDetail(txtMCC.Value, Nothing)
+            If clsCommon.myLen(txtRoute.Value) <= 0 Then
+                txtRoute.Focus()
+                Throw New Exception("Please provide Route code ")
             End If
-            LoadTransactionData()
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub RefreshMCCCollectionDetail(ByVal strMCCUploaderNo As String, ByVal arrMCC As List(Of clsMilkCollectionDCSMCCDetail))
-        Try
-            Dim qry As String = "select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as UploaderNo,TSPL_MCC_MASTER.MCC_NAME, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,TSPL_MILK_COLLECTION_MCC.Route_Code ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,case when TSPL_MILK_COLLECTION_MCC.FAT_SNF_Type=0 then '%' else 'KG' end as FAT_SNF_Type_Name,TSPL_MILK_COLLECTION_MCC.FAT_SNF_Type ,case when TSPL_MILK_COLLECTION_MCC.Late=0 then 'No' else 'Yes' end as Late,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF, TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG
-from TSPL_MILK_COLLECTION_MCC_DETAIL
-left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
-left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_MCC.Route_Code
-where 2=2 "
-            If clsCommon.myLen(strMCCUploaderNo) > 0 Then
-                qry += " and TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader='" + txtMCC.Value + "' and convert(Date,TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "'"
+            Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 "
+            If Not SettShowAllMCC Then
+                whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtRoute.Value + "' "
             End If
-            If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
-                qry += " and TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id in ("
-                For ii As Integer = 0 To arrMCC.Count - 1
-                    If ii > 0 Then
-                        qry += ","
-                    End If
-                    qry += clsCommon.myCstr(arrMCC(ii).Against_Milk_Collection_MCC_Detail)
-                Next
-                qry += ")"
-            End If
-            gv2.DataSource = Nothing
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            txtMCC.Value = clsMccMaster.getFinderUploader(whr, clsCommon.myCstr(txtMCC.Value), isButtonClicked)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(txtMCC.Value) + "'")
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Dim dclQty As Decimal = 0
-                Dim dclFATKg As Decimal = 0
-                Dim dclSNFKg As Decimal = 0
-                For ii As Integer = 0 To dt.Rows.Count - 1
-                    If isPickCLRInsteadOfSNF Then
-                        dt.Rows(ii)("SNF") = clsEkoPro.getSnfOnCalculation(clsCommon.myCDecimal(dt.Rows(ii)("FAT")), clsCommon.myCdbl(dt.Rows(ii)("SNF")), corrFactor)
-                        dt.Rows(ii)("SNFKG") = clsCommon.myCDecimal(dt.Rows(ii)("Qty")) * clsCommon.myCDecimal(dt.Rows(ii)("SNF")) / 100
-                    End If
-                    If clsCommon.myLen(strMCCUploaderNo) > 0 Then
-                        'arrMCC = clsCommon.myCDecimal(dt.Rows(ii)("PK_Id"))
-                    Else
-                        txtMCC.Value = clsCommon.myCstr(dt.Rows(ii)("UploaderNo"))
-                    End If
-                    If ii = 0 Then
-                        txtMCC.Tag = clsCommon.myCstr(dt.Rows(ii)("MCC_Code"))
-                        lblMCC.Text = clsCommon.myCstr(dt.Rows(ii)("MCC_NAME"))
-                        cboFATSNFType.SelectedValue = clsCommon.myCstr(dt.Rows(ii)("FAT_SNF_Type"))
-                    End If
-                    dclQty += clsCommon.myCDecimal(dt.Rows(ii)("Qty"))
-                    dclFATKg += clsCommon.myCDecimal(dt.Rows(ii)("FATKG"))
-                    dclSNFKg += clsCommon.myCDecimal(dt.Rows(ii)("SNFKG"))
-                Next
-                lblQty.Text = clsCommon.myCstr(Math.Round(dclQty, 3, MidpointRounding.ToEven))
-                lblFATKg.Text = clsCommon.myCstr(Math.Round(dclFATKg, SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
-                lblSNFKg.Text = clsCommon.myCstr(Math.Round(dclSNFKg, SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
-                If dclQty <> 0 Then
-                    lblFATPer.Text = clsCommon.myCstr(Math.Round(dclFATKg * 100 / dclQty, 1, MidpointRounding.ToEven))
-                    lblSNFPer.Text = clsCommon.myCstr(Math.Round(dclSNFKg * 100 / dclQty, 1, MidpointRounding.ToEven))
-                Else
-                    lblFATPer.Text = "0"
-                    lblSNFPer.Text = "0"
-                End If
-
-                gv2.DataSource = dt
-                gv2.GroupDescriptors.Clear()
-                gv2.ShowGroupPanel = False
-                gv2.AllowAddNewRow = False
-                gv2.EnableFiltering = True
-                gv2.ShowFilteringRow = True
-                gv2.MasterTemplate.SummaryRowsBottom.Clear()
-                For ii As Integer = 0 To gv2.Columns.Count - 1
-                    gv2.Columns(ii).ReadOnly = True
-                    gv2.Columns(ii).IsVisible = True
-                Next
-                gv2.BestFitColumns()
-                gv2.Columns("Document_No").HeaderText = "Document"
-                gv2.Columns("Trip_No").HeaderText = "Trip No"
-                gv2.Columns("PK_Id").HeaderText = "PKID"
-                gv2.Columns("PK_Id").IsVisible = False
-                gv2.Columns("UploaderNo").HeaderText = "BMC"
-                gv2.Columns("MCC_NAME").HeaderText = "BMC Name"
-                gv2.Columns("MCC_Code").HeaderText = "BMC Code"
-                gv2.Columns("MCC_Code").IsVisible = False
-
-                gv2.Columns("Tanker_No").HeaderText = "TankerNo"
-                gv2.Columns("Vehicle_No").HeaderText = "VehicleNo"
-                gv2.Columns("Route_Code").HeaderText = "Route"
-                gv2.Columns("ROUTE_NAME").HeaderText = "Route Name"
-                gv2.Columns("FAT_SNF_Type").HeaderText = "FATSNFTypeCode"
-                gv2.Columns("FAT_SNF_Type").IsVisible = False
-                gv2.Columns("FAT_SNF_Type_Name").HeaderText = "FAT/SNF Type"
-                gv2.Columns("Late").HeaderText = "Late"
-                gv2.Columns("Qty").HeaderText = "Qty"
-                gv2.Columns("FAT").HeaderText = "FAT %"
-                gv2.Columns("FATKG").HeaderText = "FAT KG"
-                gv2.Columns("SNF").HeaderText = "SNF %"
-                gv2.Columns("SNFKG").HeaderText = "SNF KG"
+                txtMCC.Tag = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
+                lblMCC.Text = clsCommon.myCstr(dt.Rows(0)("MCC_NAME"))
+                'If SettApplyGaze Then
+                '    whr = " select Silo_Area,Gaze_Reading_Code from tspl_Silo_Detail where Prog_Code='MCC-MST' and Trans_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colMCCCode).Value) + "'"
+                '    dt = clsDBFuncationality.GetDataTable(whr)
+                '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                '        If dt.Rows.Count = 1 Then
+                '            gv1.CurrentRow.Cells(colMCCSiloCapacity).Value = clsCommon.myCstr(dt.Rows(0)("Silo_Area"))
+                '            gv1.CurrentRow.Cells(colGazeReadingCode).Value = clsCommon.myCstr(dt.Rows(0)("Gaze_Reading_Code"))
+                '        End If
+                '    End If
+                'End If
             End If
+            'LoadTransactionData()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1211,7 +1127,6 @@ where 2=2 "
             gv1.BeginEdit()
         End If
     End Sub
-
     Private Sub gv1_KeyUp(sender As Object, e As KeyEventArgs) Handles gv1.KeyUp
         If e.KeyCode = Keys.Home Then
             If gv1.Rows.Count = gv1.CurrentRow.Index + 1 Then
@@ -1222,8 +1137,7 @@ where 2=2 "
             gv1.CurrentRow.Cells(colMilkType).Value = "Good"
         End If
     End Sub
-
-    Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
+    Private Sub btnExport_Click(sender As Object, e As EventArgs)
         Try
             Dim Str As String = "select '01/Jan/2022' as [Date],'' AS [MCCUploader],'' AS [RouteCode],'' AS [DCSUploader], '' as [Shift], '' as MilkType, '' as [Type], 0.00 as Qty, 0.00 as FAT, 0.00 as " + IIf(isPickCLRInsteadOfSNF, "CLR", "SNF") + " "
             transportSql.ExporttoExcel(Str, Me)
@@ -1232,8 +1146,7 @@ where 2=2 "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
+    Private Sub btnImport_Click(sender As Object, e As EventArgs)
         Dim gv As New RadGridView()
         Dim totqty As Double = 0
         Me.Controls.Add(gv)
@@ -1406,7 +1319,7 @@ where 2=2 "
                     If dr IsNot Nothing AndAlso dr.Length > 0 Then
                         dtCustData = dr.CopyToDataTable()
                         '======================================================================
-                        Dim obj As New clsMilkCollectionDCS()
+                        Dim obj As New clsMilkCollectionDCSMulipleDays()
                         obj.Document_No = ""
                         obj.Document_Date = clsCommon.myCstr(dtCust.Rows(i)("Date"))
 
@@ -1417,19 +1330,8 @@ where 2=2 "
                                 left join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
                                 where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)=convert(date,'" + clsCommon.myCstr(dtCust.Rows(i)("Date")) + "',103)
                                 and MCC_CODE='" & MCCCode & "'  and TSPL_MILK_COLLECTION_MCC.Route_Code='" & RouteCode & "' "
-                        Dim dtMCC As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                        obj.ArrMCC = New List(Of clsMilkCollectionDCSMCCDetail)
-                        If dtMCC IsNot Nothing AndAlso dtMCC.Rows.Count > 0 Then
-                            For Each drMCC As DataRow In dtMCC.Rows
-                                Dim objMCC As New clsMilkCollectionDCSMCCDetail
-                                objMCC.Against_Milk_Collection_MCC_Detail = clsCommon.myCDecimal(drMCC("PK_Id"))
-                                obj.ArrMCC.Add(objMCC)
-                            Next
-                        End If
-                        'obj.Against_Milk_Collection_MCC_Detail = CInt(clsDBFuncationality.getSingleValue(qry, trans))
                         obj.Description = ""
-
-                        obj.Arr = New List(Of clsMilkCollectionDCSDetail)
+                        obj.Arr = New List(Of clsMilkCollectionDCSMulipleDaysDetail)
 
                         Dim TempdtCustData As DataTable = dtCustData.Copy()
                         Dim viewItem As DataView = New DataView(TempdtCustData)
@@ -1447,7 +1349,7 @@ where 2=2 "
                                 MShiftCount = 0
                                 EShiftCount = 0
                                 For j As Integer = 0 To dtItem.Rows.Count - 1
-                                    Dim objTr As New clsMilkCollectionDCSDetail()
+                                    Dim objTr As New clsMilkCollectionDCSMulipleDaysDetail()
 
                                     If SettHideShiftCollection = 0 Then
 
@@ -1469,8 +1371,7 @@ where 2=2 "
 
                                     objTr.SNo = sno
                                     objTr.Milk_Type = clsCommon.myCstr(dtItem.Rows(j)("MilkType"))
-                                    objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(dtItem.Rows(j)("Type"))
-                                    objTr.Shift = clsCommon.myCstr(dtItem.Rows(j)("Shift"))
+
                                     objTr.VLC_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select VLC_Code from TSPL_VLC_MASTER_HEAD where VLC_Code_VLC_Uploader = '" + clsCommon.myCstr(dtItem.Rows(j)("DCSUploader")) + "' ", trans))
                                     objTr.Qty = clsCommon.myCdbl(dtItem.Rows(j)("Qty"))
 
@@ -1493,17 +1394,10 @@ where 2=2 "
                                         objTr.SNFKG = clsCommon.myCDecimal(dtItem.Rows(j)(colSNForCLR))
 
                                     End If
-
-
                                     obj.Arr.Add(objTr)
                                 Next
-
-
                             End If
                         Next
-
-
-
                         If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                             Throw New Exception("Please Fill at list one Item")
                         End If
@@ -1525,14 +1419,10 @@ where 2=2 "
         End If
         Me.Controls.Remove(gv)
     End Sub
-
-
-
-
-    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs)
         Try
             UpdateAllTotal()
-            If clsCommon.myCDecimal(lblTotPendingQty.Text) > 0 AndAlso clsCommon.myCDecimal(lblTotPendingFATKg.Text) > 0 AndAlso clsCommon.myCDecimal(lblTotPendingSNFKg.Text) > 0 Then
+            If clsCommon.myCDecimal(txtTotPendingQty.Text) > 0 AndAlso clsCommon.myCDecimal(txtTotPendingFAT.Text) > 0 AndAlso clsCommon.myCDecimal(txtTotPendingSNF.Text) > 0 Then
                 Dim qry As String = "select top 1 VLC_Code,VLC_Name,VLC_Code_VLC_Uploader,Apply_Cow_Price from TSPL_VLC_MASTER_HEAD where IsSuspense=1"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -1560,9 +1450,9 @@ where 2=2 "
                     gv1.Rows(ii).Cells(colVLCUploaderCode).Value = clsCommon.myCstr(dt.Rows(0)("VLC_Code_VLC_Uploader"))
                     gv1.Rows(ii).Cells(colVLCCode).Value = clsCommon.myCstr(dt.Rows(0)("VLC_Code"))
                     gv1.Rows(ii).Cells(colVLCName).Value = clsCommon.myCstr(dt.Rows(0)("VLC_Name"))
-                    gv1.Rows(ii).Cells(colMorningQty).Value = clsCommon.myCDecimal(lblTotPendingQty.Text)
-                    gv1.Rows(ii).Cells(colMorningFATKG).Value = clsCommon.myCDecimal(lblTotPendingFATKg.Text)
-                    gv1.Rows(ii).Cells(colMorningSNFKG).Value = clsCommon.myCDecimal(lblTotPendingSNFKg.Text)
+                    gv1.Rows(ii).Cells(colMorningQty).Value = clsCommon.myCDecimal(txtTotPendingQty.Text)
+                    gv1.Rows(ii).Cells(colMorningFATKG).Value = clsCommon.myCDecimal(txtTotPendingFAT.Text)
+                    gv1.Rows(ii).Cells(colMorningSNFKG).Value = clsCommon.myCDecimal(txtTotPendingSNF.Text)
                     gv1.Rows(ii).Cells(colMorningFATPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningFATKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value), 1, MidpointRounding.ToEven)
                     gv1.Rows(ii).Cells(colMorningSNFPer).Value = Math.Round((100 * clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningSNFKG).Value)) / clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value), 1, MidpointRounding.ToEven)
                     gv1.Rows(ii).Cells(colMorningFATPerNoDecimal).Value = clsCommon.myCstr(gv1.Rows(ii).Cells(colMorningFATPer).Value).Replace(".", "")
@@ -1578,8 +1468,7 @@ where 2=2 "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Please select document code first..", Me.Text)
@@ -1629,40 +1518,20 @@ where 2=2 "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Please Select Document No")
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_COLLECTION_DCS", "TSPL_MILK_COLLECTION_DCS_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "Document_No", "TSPL_MILK_COLLECTION_DCS", "TSPL_MILK_COLLECTION_DCS_DETAIL")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtDate_Leave(sender As Object, e As EventArgs) Handles txtDate.Leave
-        LoadTransactionData()
+        'LoadTransactionData()
     End Sub
-
-    Private Sub LoadTransactionData()
-        Try
-            If clsCommon.myLen(txtMCC.Tag) > 0 AndAlso clsCommon.myLen(txtMCC.Value) > 0 Then
-                Dim qry As String = "select TSPL_MILK_COLLECTION_DCS.Document_No from tspl_milk_Collection_DCS_MCC_Detail
-left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=tspl_milk_Collection_DCS_MCC_Detail.Document_No
-left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=tspl_milk_Collection_DCS_MCC_Detail.Against_Milk_Collection_MCC_Detail
-where convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code='" + clsCommon.myCstr(txtMCC.Tag) + "'"
-                Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
-                If clsCommon.myLen(strDocNo) > 0 Then
-                    LoadData(strDocNo, NavigatorType.Current)
-                End If
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub RadButton2_Click_1(sender As Object, e As EventArgs) Handles RadButton2.Click
+    Private Sub RadButton2_Click_1(sender As Object, e As EventArgs)
         Try
             If clsCommon.myLen(txtMCC.Value) <= 0 OrElse clsCommon.myLen(txtMCC.Tag) <= 0 Then
                 Throw New Exception("Please First select BMC")
@@ -1692,163 +1561,55 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Private Sub btnAddMissing_Click(sender As Object, e As EventArgs) Handles btnAddMissing.Click
+    Private Sub txRoute__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRoute._MYValidating
         Try
-            Dim Arr As List(Of clsMilkCollectionDCSDetail) = GetTRData(True)
-            If (Arr Is Nothing OrElse Arr.Count <= 0) Then
-                Throw New Exception("Please Fill at list one Item")
-            Else
-                If clsCommon.MyMessageBoxShow(Me, "This Feature will add only Missing Simples" + Environment.NewLine + "Add [" + clsCommon.myCstr(Arr.Count) + "] Missing Samples" + Environment.NewLine + "Are You sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
-                    clsMilkCollectionDCS.AddMissing(txtDocNo.Value, Arr)
-                    clsCommon.MyMessageBoxShow(Me, "Missing Samples Added successfully", Me.Text)
-                    LoadData(txtDocNo.Value, NavigatorType.Current)
+            Dim qry As String = " select ROUTE_NO as Code,ROUTE_NAME as Name from  TSPL_BULK_ROUTE_MASTER "
+            Dim whrCls As String = ""
+            If Not SettShowAllMCC Then
+                whrCls = "exists(select 1 from TSPL_BULK_ROUTE_MASTER_MCC where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO=TSPL_BULK_ROUTE_MASTER.ROUTE_NO )"
+            End If
+            txtRoute.Value = clsCommon.ShowSelectForm("dd33ShUp", qry, "Code", whrCls, txtRoute.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(txtRoute.Value) > 0 Then
+                qry = "select  TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,TSPL_BULK_ROUTE_MASTER.Tanker_No,TSPL_TANKER_MASTER.TANKER_NAME from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + txtRoute.Value + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    lblRoute.Text = clsCommon.myCstr(dt.Rows(0)("ROUTE_NAME"))
+                    If settFillRouteTankerNo Then
+                        txtTankerNo.Value = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+                        txtVehicleNo.Text = clsCommon.myCstr(dt.Rows(0)("TANKER_NAME"))
+                    End If
                 End If
             End If
+            'LoadTransactionData()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-    Private Sub btnMGo_Click(sender As Object, e As EventArgs) Handles btnMGo.Click
+    Private Sub txtTankerNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTankerNo._MYValidating
         Try
-            Dim Arr As New List(Of clsBMCDCS_DCS_Head)
-            For Each lst As clsBMCDCS_DCS_Head In clsBMCDCS_DCS_Head.GetDCSData(txtMDCSDate.Value)
-                Arr.Add(lst)
-            Next
-            ' Add MCC Truck Sheet Entry
-            If Arr.Count > 0 Then
-                For Each lst As clsBMCDCS_DCS_Head In Arr
-                    Dim strQry = "select TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No as Document_No from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Against_Milk_Collection_MCC_Detail in(
-select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL
-left join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-where MCC_Code in(
-select MCC_Code from TSPL_MILK_COLLECTION_MCC_DETAIL
-where PK_Id in(
-select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_ID from TSPL_MILK_COLLECTION_MCC_DETAIL 
-left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID=TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP
-where TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK_ID) + "
-)
-) and TSPL_MILK_COLLECTION_MCC.Document_Date='" + clsCommon.GetPrintDate(lst.Document_Date) + "'
-)"
-
-
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
-                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                        lst.Document_No = clsCommon.myCstr(dt.Rows(0)("Document_No"))
-                        isNewEntry = False
-                        DCSEntry(lst)
-                    Else
-                        isNewEntry = True
-                        DCSEntry(lst)
-                    End If
-                Next
-                clsCommon.MyMessageBoxShow(Me, "DCS Truck Sheet Data saved successfully", Me.Text)
-            Else
-                Throw New Exception("No Data Found!")
+            Dim qry As String = " select Tanker_No from TSPL_TANKER_MASTER where Tanker_No like '%" + txtTankerNo.Value + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If dt.Rows.Count = 1 Then
+                    txtTankerNo.Value = clsCommon.myCstr(dt.Rows(0)("Tanker_No"))
+                End If
             End If
-
-
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
-        End Try
-
-    End Sub
-    Sub DCSEntry(ByRef lst As clsBMCDCS_DCS_Head)
-        Try
-            Dim obj_Dcs As New clsMilkCollectionDCS()
-            obj_Dcs.Document_No = lst.Document_No
-            obj_Dcs.Document_Date = lst.Document_Date
-            obj_Dcs.Description = "Uploaded By Mobile App"
-            'obj_Dcs.Slip_No = txtSlipNo.Text
-            obj_Dcs.Arr = GetDCSTRData(False, lst)
-            If (obj_Dcs.Arr Is Nothing OrElse obj_Dcs.Arr.Count <= 0) Then
-                Throw New Exception("Please Fill at list one Item")
-            End If
-            obj_Dcs.ArrMCC = New List(Of clsMilkCollectionDCSMCCDetail)
-            For ii As Integer = 0 To lst.Arr_DCSMCCDetails.Count - 1
-                Dim objtrMCC As New clsMilkCollectionDCSMCCDetail
-                objtrMCC.Against_Milk_Collection_MCC_Detail = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id as PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where REF_PK_ID_BMCDCS_TRIP=" + clsCommon.myCstr(lst.Arr_DCSMCCDetails(ii).BMCDCS_Trip_PK_ID)))
-                obj_Dcs.ArrMCC.Add(objtrMCC)
-            Next
-            If (obj_Dcs.ArrMCC Is Nothing OrElse obj_Dcs.ArrMCC.Count <= 0) Then
-                Throw New Exception("Please Fill at list one BMC Details")
-            End If
-            obj_Dcs.SaveData(obj_Dcs, isNewEntry)
-            'clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
-            'LoadData(obj.Document_No, NavigatorType.Current)
-            'End If
+            txtTankerNo.Value = clsfrmTankerMaster.GetFinder("", txtTankerNo.Value, isButtonClicked)
+            txtVehicleNo.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TANKER_NAME from TSPL_TANKER_MASTER where Tanker_No='" & txtTankerNo.Value & "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Function GetDCSTRData(ByVal isMissingOnly As Boolean, ByRef lst As clsBMCDCS_DCS_Head) As List(Of clsMilkCollectionDCSDetail)
-        Dim Arr As New List(Of clsMilkCollectionDCSDetail)
-        For ii As Integer = 0 To lst.Arr_DCSDetails.Count - 1
-            If clsCommon.myLen(lst.Arr_DCSDetails(ii).VLC_Code) > 0 Then
-                Dim flag As Boolean = True
-                If clsCommon.CompairString(lst.Arr_DCSDetails(ii).IShift, "E") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty) > 0 Then
-                    'If clsCommon.myCDecimal(lst.Arr_BMCDCS_DCS(ii).REF_PK_ID) > 0 AndAlso isMissingOnly Then
-                    'flag = False
-                    'End If
-                    If flag Then
-                        Dim objTr As New clsMilkCollectionDCSDetail()
-                        objTr.SNo = ii + 1
-                        objTr.VLC_Code = clsCommon.myCstr(lst.Arr_DCSDetails(ii).VLC_Code)
-                        objTr.Shift = "E"
-                        objTr.Milk_Type = clsCommon.myCstr("Good")
-                        'objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
-                        objTr.Qty = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty)
-                        objTr.FAT = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FAT), 1, MidpointRounding.ToEven)
-                        objTr.SNF = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNF), 2, MidpointRounding.ToEven)
-                        objTr.FATKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FATKG)
-                        objTr.SNFKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNFKG)
-                        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
-                        If intRejectApplicableOn <> 1 Then
-                            If objTr.FAT <= 0 Then
-                                Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                            End If
-                            If objTr.SNF <= 0 Then
-                                Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                            End If
-                        End If
-                        Arr.Add(objTr)
-                    End If
-                End If
-                flag = True
-                If clsCommon.CompairString(lst.Arr_DCSDetails(ii).IShift, "M") = CompairStringResult.Equal AndAlso clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty) > 0 Then
-                    'If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningPKID).Value) > 0 AndAlso isMissingOnly Then
-                    '    flag = False
-                    'End If
-                    If flag Then
-                        Dim objTr As New clsMilkCollectionDCSDetail()
-                        objTr.SNo = ii + 1
-                        objTr.VLC_Code = clsCommon.myCstr(lst.Arr_DCSDetails(ii).VLC_Code)
-                        objTr.Shift = "M"
-                        objTr.Milk_Type = clsCommon.myCstr("Good")
-                        'objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
-                        objTr.Qty = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).Qty)
-                        objTr.FAT = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FAT), 1, MidpointRounding.ToEven)
-                        objTr.SNF = Math.Round(clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNF), 2, MidpointRounding.ToEven)
-                        objTr.FATKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).FATKG)
-                        objTr.SNFKG = clsCommon.myCdbl(lst.Arr_DCSDetails(ii).SNFKG)
-                        Dim intRejectApplicableOn As Integer = clsMilkRejectType.GetApplicableOn(objTr.Milk_Type, Nothing)
-                        If intRejectApplicableOn <> 1 Then
-                            If objTr.FAT <= 0 Then
-                                Throw New Exception("FAT Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                            End If
-                            If objTr.SNF <= 0 Then
-                                Throw New Exception("SNF Can not be Zero at Row No [" + clsCommon.myCstr(ii + 1) + "]")
-                            End If
-                        End If
-                        Arr.Add(objTr)
-                    End If
-                End If
-            End If
-        Next
-        Return Arr
-    End Function
+    Private Sub txtTotEnteredQty_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtTotEnteredQty.Validating, txtTotEnteredFAT.Validating, txtTotEnteredSNF.Validating, txtTotEnteredFATPer.Validating, txtTotEnteredSNFPer.Validating
+        UpdateAllTotal()
+    End Sub
 
 
+
+    Private Sub txtDesc_Leave(sender As Object, e As EventArgs) Handles txtDesc.Leave
+        If gv1.Rows.Count > 0 Then
+            gv1.Focus()
+            gv1.CurrentColumn = gv1.Columns(colCollectionDate)
+        End If
+    End Sub
 End Class

@@ -59,7 +59,7 @@ Public Class clsMilkCollectionMCCMulipleDays
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.MilkCollectionMCC, "", "")
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.MilkCollectionMCCMuliple, "", "")
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then
                     Throw New Exception("Error in Document Code Generation")
                 End If

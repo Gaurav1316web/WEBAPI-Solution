@@ -933,33 +933,33 @@ Public Class MDI
         '    End If
         'Else
         objCommonVar.strCurrUserCustomers = ""
-            objCommonVar.strCurrUserZones = ""
-            Dim qry As String = "select TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description from TSPL_ZONE_MASTER 
+        objCommonVar.strCurrUserZones = ""
+        Dim qry As String = "select TSPL_ZONE_MASTER.Zone_Code,TSPL_ZONE_MASTER.Description from TSPL_ZONE_MASTER 
                                 LEFT JOIN TSPL_USER_CUSTOMER_ZONE ON TSPL_USER_CUSTOMER_ZONE.Zone_Code=TSPL_ZONE_MASTER.Zone_Code
                                 LEFT JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code=TSPL_USER_CUSTOMER_ZONE.User_Code
                                 WHERE TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                objCommonVar.strCurrUserZones = ""
-                For Each dr As DataRow In dt.Rows
-                    If clsCommon.myLen(objCommonVar.strCurrUserZones) > 0 Then
-                        objCommonVar.strCurrUserZones += ","
-                        strZone += ","
-                    End If
-                    objCommonVar.strCurrUserZones += "'" + clsCommon.myCstr(dr("ZONE_CODE")) + "'"
-                    strZone += clsCommon.myCstr(dr("Description"))
-                Next
-            End If
-            'Customers
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                Dim qry1 As String = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'''' + ( Customer_Code ) +''''  as Alies_Name
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            objCommonVar.strCurrUserZones = ""
+            For Each dr As DataRow In dt.Rows
+                If clsCommon.myLen(objCommonVar.strCurrUserZones) > 0 Then
+                    objCommonVar.strCurrUserZones += ","
+                    strZone += ","
+                End If
+                objCommonVar.strCurrUserZones += "'" + clsCommon.myCstr(dr("ZONE_CODE")) + "'"
+                strZone += clsCommon.myCstr(dr("Description"))
+            Next
+        End If
+        'Customers
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            Dim qry1 As String = "DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'''' + ( Customer_Code ) +''''  as Alies_Name
                                       FROM tspl_customer_master left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code= TSPL_CUSTOMER_MASTER.Cust_Code 
                                       WHERE TSPL_CUSTOMER_LOCATION_MAPPING.Location_Code in (" + objCommonVar.strCurrUserLocations + ") FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "
-                objCommonVar.strCurrUserCustomers = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1))
-            End If
-            If clsCommon.myLen(strZone) > 0 Then
-                lblUser.Text += "[" + strZone + "]"
-            End If
+            objCommonVar.strCurrUserCustomers = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1))
+        End If
+        If clsCommon.myLen(strZone) > 0 Then
+            lblUser.Text += "[" + strZone + "]"
+        End If
         'End If
     End Function
 
@@ -4525,7 +4525,7 @@ Public Class MDI
                     Case clsUserMgtCode.frmDiscountMaster
                         frm = New FrmDiscountMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmDCSForSale
+                    Case clsUserMgtCode.frmDCSforSale
                         frm = New frmDCSforSale()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDiscountCategoryMaster
@@ -7347,13 +7347,7 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmVSP_VLCMaster
-                        If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NewDCSScreen, clsFixedParameterCode.NewDCSScreen, Nothing)) > 0 Then
-                            frm = New frmNewDCSScreen(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
-                        Else
-                            frm = New frmVSP_VLCMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
-                        End If
-
-
+                        frm = New frmVSP_VLCMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmPrimaryTransporterMaster
@@ -7694,6 +7688,12 @@ Public Class MDI
                     Case clsUserMgtCode.MilkCollectionMCCMultipleDays
                         Dim x As Boolean = objCommonVar.IsAutoTabOrdering
                         frm = New frmMilkCollectionMCCMultipleDays
+                        objCommonVar.IsAutoTabOrdering = False
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        objCommonVar.IsAutoTabOrdering = x
+                    Case clsUserMgtCode.MilkCollectionDCSMultipleDays
+                        Dim x As Boolean = objCommonVar.IsAutoTabOrdering
+                        frm = New frmMilkCollectionDCSMultipleDays
                         objCommonVar.IsAutoTabOrdering = False
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         objCommonVar.IsAutoTabOrdering = x
