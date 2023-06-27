@@ -24,6 +24,7 @@ Partial Class FrmrptTDSLedger
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.fndSection = New common.UserControls.txtFinder()
         Me.lblSection = New common.Controls.MyLabel()
         Me.txtSection = New common.Controls.MyLabel()
@@ -44,6 +45,15 @@ Partial Class FrmrptTDSLedger
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnSummary = New common.Controls.MyRadioButton()
+        Me.rbtnDetail = New common.Controls.MyRadioButton()
+        Me.txtmcc = New common.Controls.MyLabel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.fndmcc = New common.UserControls.txtFinder()
+        Me.txtfiscalyear = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.fndFiscalYear = New common.UserControls.txtFinder()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -81,6 +91,14 @@ Partial Class FrmrptTDSLedger
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtmcc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtfiscalyear, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
@@ -198,7 +216,7 @@ Partial Class FrmrptTDSLedger
         Me.fndNatureofDeduction.IsSourceFromTable = False
         Me.fndNatureofDeduction.IsSourceFromValueList = False
         Me.fndNatureofDeduction.IsUnique = False
-        Me.fndNatureofDeduction.Location = New System.Drawing.Point(94, 48)
+        Me.fndNatureofDeduction.Location = New System.Drawing.Point(94, 47)
         Me.fndNatureofDeduction.MendatroryField = False
         Me.fndNatureofDeduction.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndNatureofDeduction.MyLinkLable1 = Me.lblNatureofDuduction
@@ -285,7 +303,7 @@ Partial Class FrmrptTDSLedger
         Me.RadGroupBox1.Controls.Add(Me.cbgLocation)
         Me.RadGroupBox1.Controls.Add(Me.Panel1)
         Me.RadGroupBox1.HeaderText = "Location"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(5, 71)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(3, 113)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(553, 205)
@@ -369,11 +387,17 @@ Partial Class FrmrptTDSLedger
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(930, 445)
         Me.RadPageView1.TabIndex = 2
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
+        Me.RadPageViewPage1.Controls.Add(Me.txtmcc)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
+        Me.RadPageViewPage1.Controls.Add(Me.fndmcc)
+        Me.RadPageViewPage1.Controls.Add(Me.txtfiscalyear)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
+        Me.RadPageViewPage1.Controls.Add(Me.fndFiscalYear)
         Me.RadPageViewPage1.Controls.Add(Me.txtNatureofDeduction)
         Me.RadPageViewPage1.Controls.Add(Me.txtSection)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
@@ -390,6 +414,131 @@ Partial Class FrmrptTDSLedger
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(909, 397)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(564, 26)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(160, 28)
+        Me.RadGroupBox2.TabIndex = 440
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.Location = New System.Drawing.Point(80, 5)
+        Me.rbtnSummary.MyLinkLable1 = Nothing
+        Me.rbtnSummary.MyLinkLable2 = Nothing
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnSummary.TabIndex = 1
+        Me.rbtnSummary.TabStop = False
+        Me.rbtnSummary.Text = "Summary"
+        '
+        'rbtnDetail
+        '
+        Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDetail.Location = New System.Drawing.Point(13, 5)
+        Me.rbtnDetail.MyLinkLable1 = Nothing
+        Me.rbtnDetail.MyLinkLable2 = Nothing
+        Me.rbtnDetail.Name = "rbtnDetail"
+        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rbtnDetail.TabIndex = 0
+        Me.rbtnDetail.Text = "Detail"
+        Me.rbtnDetail.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'txtmcc
+        '
+        Me.txtmcc.AutoSize = False
+        Me.txtmcc.BorderVisible = True
+        Me.txtmcc.FieldName = Nothing
+        Me.txtmcc.Location = New System.Drawing.Point(243, 90)
+        Me.txtmcc.Name = "txtmcc"
+        Me.txtmcc.Size = New System.Drawing.Size(315, 18)
+        Me.txtmcc.TabIndex = 438
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Location = New System.Drawing.Point(5, 93)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(60, 18)
+        Me.MyLabel3.TabIndex = 437
+        Me.MyLabel3.Text = "MCC Code"
+        '
+        'fndmcc
+        '
+        Me.fndmcc.CalculationExpression = Nothing
+        Me.fndmcc.FieldCode = Nothing
+        Me.fndmcc.FieldDesc = Nothing
+        Me.fndmcc.FieldMaxLength = 0
+        Me.fndmcc.FieldName = Nothing
+        Me.fndmcc.isCalculatedField = False
+        Me.fndmcc.IsSourceFromTable = False
+        Me.fndmcc.IsSourceFromValueList = False
+        Me.fndmcc.IsUnique = False
+        Me.fndmcc.Location = New System.Drawing.Point(94, 89)
+        Me.fndmcc.MendatroryField = False
+        Me.fndmcc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndmcc.MyLinkLable1 = Nothing
+        Me.fndmcc.MyLinkLable2 = Nothing
+        Me.fndmcc.MyReadOnly = False
+        Me.fndmcc.MyShowMasterFormButton = False
+        Me.fndmcc.Name = "fndmcc"
+        Me.fndmcc.ReferenceFieldDesc = Nothing
+        Me.fndmcc.ReferenceFieldName = Nothing
+        Me.fndmcc.ReferenceTableName = Nothing
+        Me.fndmcc.Size = New System.Drawing.Size(143, 20)
+        Me.fndmcc.TabIndex = 436
+        Me.fndmcc.Value = ""
+        '
+        'txtfiscalyear
+        '
+        Me.txtfiscalyear.AutoSize = False
+        Me.txtfiscalyear.BorderVisible = True
+        Me.txtfiscalyear.FieldName = Nothing
+        Me.txtfiscalyear.Location = New System.Drawing.Point(243, 69)
+        Me.txtfiscalyear.Name = "txtfiscalyear"
+        Me.txtfiscalyear.Size = New System.Drawing.Size(315, 18)
+        Me.txtfiscalyear.TabIndex = 435
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Location = New System.Drawing.Point(5, 72)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(58, 18)
+        Me.MyLabel1.TabIndex = 434
+        Me.MyLabel1.Text = "Fiscal Year"
+        '
+        'fndFiscalYear
+        '
+        Me.fndFiscalYear.CalculationExpression = Nothing
+        Me.fndFiscalYear.FieldCode = Nothing
+        Me.fndFiscalYear.FieldDesc = Nothing
+        Me.fndFiscalYear.FieldMaxLength = 0
+        Me.fndFiscalYear.FieldName = Nothing
+        Me.fndFiscalYear.isCalculatedField = False
+        Me.fndFiscalYear.IsSourceFromTable = False
+        Me.fndFiscalYear.IsSourceFromValueList = False
+        Me.fndFiscalYear.IsUnique = False
+        Me.fndFiscalYear.Location = New System.Drawing.Point(94, 67)
+        Me.fndFiscalYear.MendatroryField = False
+        Me.fndFiscalYear.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndFiscalYear.MyLinkLable1 = Nothing
+        Me.fndFiscalYear.MyLinkLable2 = Nothing
+        Me.fndFiscalYear.MyReadOnly = False
+        Me.fndFiscalYear.MyShowMasterFormButton = False
+        Me.fndFiscalYear.Name = "fndFiscalYear"
+        Me.fndFiscalYear.ReferenceFieldDesc = Nothing
+        Me.fndFiscalYear.ReferenceFieldName = Nothing
+        Me.fndFiscalYear.ReferenceTableName = Nothing
+        Me.fndFiscalYear.Size = New System.Drawing.Size(143, 20)
+        Me.fndFiscalYear.TabIndex = 433
+        Me.fndFiscalYear.Value = ""
         '
         'RadPageViewPage2
         '
@@ -426,27 +575,20 @@ Partial Class FrmrptTDSLedger
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(909, 20)
         Me.RadMenu1.TabIndex = 19
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Settings"
-        Me.RadMenuItem3.AccessibleName = "Settings"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem4, Me.RadMenuItem5})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Settings"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem4.AccessibleName = "Save Layout"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Save Layout"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem5.AccessibleName = "Delete Layout"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Delete Layout"
         '
@@ -459,13 +601,14 @@ Partial Class FrmrptTDSLedger
         '
         Me.gvReport.MasterTemplate.AllowAddNewRow = False
         Me.gvReport.MasterTemplate.AllowEditRow = False
+        Me.gvReport.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvReport.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvReport.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvReport.Name = "gvReport"
         Me.gvReport.ShowGroupPanel = False
         Me.gvReport.ShowHeaderCellButtons = True
         Me.gvReport.Size = New System.Drawing.Size(909, 388)
         Me.gvReport.TabIndex = 0
-        Me.gvReport.Text = "RadGridView1"
         '
         'RadSplitButton1
         '
@@ -560,27 +703,20 @@ Partial Class FrmrptTDSLedger
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(930, 20)
         Me.RadMenu2.TabIndex = 64
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem6
         '
-        Me.RadMenuItem6.AccessibleDescription = "Setting"
-        Me.RadMenuItem6.AccessibleName = "Setting"
         Me.RadMenuItem6.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem6.Name = "RadMenuItem6"
         Me.RadMenuItem6.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -621,6 +757,15 @@ Partial Class FrmrptTDSLedger
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtmcc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtfiscalyear, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.PerformLayout()
@@ -674,5 +819,14 @@ Partial Class FrmrptTDSLedger
     Friend WithEvents RadMenuItem6 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmSaveLayout As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmDeleteLayout As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents fndFiscalYear As common.UserControls.txtFinder
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtfiscalyear As common.Controls.MyLabel
+    Friend WithEvents txtmcc As common.Controls.MyLabel
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents fndmcc As common.UserControls.txtFinder
+    Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
+    Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
+    Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
 End Class
 
