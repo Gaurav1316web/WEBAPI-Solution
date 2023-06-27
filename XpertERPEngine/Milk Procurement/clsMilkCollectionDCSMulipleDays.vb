@@ -222,6 +222,7 @@ where 2=2"
                 objMCC.Description = "DCS Multiple Days [" + obj.Document_No + "]"
                 objMCC.Slip_No = "1"
                 objMCC.FAT_SNF_Type = obj.FAT_SNF_Type
+                objMCC.Against_DCS_Multiple_Days = obj.Document_No
 
                 Dim objMCCTr As New clsMilkCollectionMCCDetail
                 objMCCTr.SNo = 1
