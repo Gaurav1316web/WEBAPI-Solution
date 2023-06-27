@@ -51,44 +51,6 @@ Public Class frmMilkCollectionDCSMultipleDays
 
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)
-        coll.Add("Document_No", "Varchar(30) not null Primary key")
-        coll.Add("Document_Date", "Datetime NOT NULL")
-        coll.Add("Route_Code", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
-        coll.Add("Tanker_No", "Varchar(20) not null references TSPL_TANKER_MASTER(Tanker_No)")
-        coll.Add("Vehicle_No", "Varchar(150) not null")
-        coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
-        coll.Add("Entered_Qty", "Decimal(18,3) null")
-        coll.Add("Entered_FATKg", "Decimal(18,3) null")
-        coll.Add("Entered_SNFKg", "Decimal(18,3) null")
-        coll.Add("Description", "Varchar(200) null")
-        coll.Add("FAT_SNF_Type", "int Null")
-        coll.Add("Status", "Integer NOT NULL DEFAULT 0")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Posted_Date", "datetime null")
-        coll.Add("Posted_By", "varchar(12)  NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", coll, Nothing, True, False, "", "Document_No", "Document_Date")
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
-        coll.Add("Collection_Date", "Date NOT NULL")
-        coll.Add("SNo", "Integer NULL")
-        coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
-        coll.Add("Shift", "char(5) not null")
-        coll.Add("Milk_Type", "char(5) NOT NULL Default 'M'")
-        coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("FAT", "Decimal(18,2) null")
-        coll.Add("SNF", "Decimal(18,2) null")
-        coll.Add("FATKG", "Decimal(18,3) null")
-        coll.Add("SNFKG", "Decimal(18,3) null")
-        coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "")
-
-
         SettShowAllMCC = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing)) = 1)
         settFillRouteTankerNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, Nothing)) = 1)
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
@@ -776,6 +738,9 @@ Public Class frmMilkCollectionDCSMultipleDays
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
                         objTr.Shift = "E"
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colCollectionDate).Value) <= 0 Then
+                            Throw New Exception("Date Can not be left blank at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                        End If
                         objTr.Collection_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colCollectionDate).Value)
                         objTr.Dock_Collection_Milk_Type = clsCommon.myCDate(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningQty).Value)
@@ -807,6 +772,9 @@ Public Class frmMilkCollectionDCSMultipleDays
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
                         objTr.Shift = "M"
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colCollectionDate).Value) <= 0 Then
+                            Throw New Exception("Date Can not be left blank at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                        End If
                         objTr.Collection_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colCollectionDate).Value)
                         objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningQty).Value)
