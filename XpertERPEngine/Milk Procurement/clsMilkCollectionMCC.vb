@@ -19,6 +19,7 @@ Public Class clsMilkCollectionMCC
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posting_Date As DateTime? = Nothing
     Public FAT_SNF_Type As Integer
+    Public Against_DCS_Multiple_Days As String
     'Public REF_PK_ID As Integer
     Public Arr As List(Of clsMilkCollectionMCCDetail) = Nothing
 
@@ -76,7 +77,7 @@ Public Class clsMilkCollectionMCC
             clsCommon.AddColumnsForChange(coll, "Age", obj.Age)
             clsCommon.AddColumnsForChange(coll, "ALCOB", obj.ALCOB)
             clsCommon.AddColumnsForChange(coll, "Acidity", obj.Acidity)
-
+            clsCommon.AddColumnsForChange(coll, "Against_DCS_Multiple_Days", obj.Against_DCS_Multiple_Days, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
@@ -142,7 +143,7 @@ where 2=2"
             obj.Age = clsCommon.myCDecimal(dt.Rows(0)("Age"))
             obj.ALCOB = clsCommon.myCstr(dt.Rows(0)("ALCOB"))
             obj.Acidity = clsCommon.myCDecimal(dt.Rows(0)("Acidity"))
-
+            obj.Against_DCS_Multiple_Days = clsCommon.myCstr(dt.Rows(0)("Against_DCS_Multiple_Days"))
             obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             obj.FAT_SNF_Type = clsCommon.myCDecimal(dt.Rows(0)("FAT_SNF_Type"))
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then

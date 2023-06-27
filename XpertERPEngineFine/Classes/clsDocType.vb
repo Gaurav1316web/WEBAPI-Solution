@@ -381,7 +381,9 @@ Public Class clsDocType
     Public Const CartMaintenance As String = "Cart Maintenance Entry"
     Public Const CollectionCenter As String = "Collection Center"
     Public Const MilkCollectionMCC As String = "Milk Collection MCC"
+    Public Const MilkCollectionMCCMuliple As String = "Milk Collection MCC Multiple"
     Public Const MilkCollectionDCS As String = "Milk Collection DCS"
+    Public Const MilkCollectionDCSMuliple As String = "Milk Collection DCS Multiple"
     Public Const VSPMASTER As String = "VSP Master"
     Public Const PTMMASTER As String = "PTM Master"
     Public Const TTMMASTER As String = "TTM Master"
@@ -1348,7 +1350,9 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.CartMaintenance, "", False, False)
             InsertDefaultValue(clsDocType.CollectionCenter, "", False, False)
             'InsertDefaultValue(clsDocType.VSPMASTER, "", False, False, True)
+            InsertDefaultValue(clsDocType.MilkCollectionMCCMuliple, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionMCC, "", False, False, False)
+            InsertDefaultValue(clsDocType.MilkCollectionDCSMuliple, "", False, False, False)
             InsertDefaultValue(clsDocType.MilkCollectionDCS, "", False, False, False)
             InsertDefaultValue(clsDocType.VSPMASTER, clsDocTransactionType.PDCS, False, False, True)
             InsertDefaultValue(clsDocType.VSPMASTER, clsDocTransactionType.Registered, False, False, True)
