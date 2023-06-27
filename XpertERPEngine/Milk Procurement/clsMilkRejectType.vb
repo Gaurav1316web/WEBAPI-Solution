@@ -12,6 +12,7 @@ Public Class clsMilkRejectType
     Public Type As String = Nothing
     Public SNo As Integer
     Public Include_In_DBT As Boolean
+    Public Exclude_Head As Boolean
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsMilkRejectType) As Boolean
@@ -25,6 +26,7 @@ Public Class clsMilkRejectType
         Try
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Include_In_DBT", IIf(obj.Include_In_DBT, 1, 0), True)
+            clsCommon.AddColumnsForChange(coll, "Exclude_Head", IIf(obj.Exclude_Head, 1, 0), True)
             clsCommon.AddColumnsForChange(coll, "Applicable_On", obj.Applicable_On)
             clsCommon.AddColumnsForChange(coll, "Applicable_Per", obj.Applicable_Per)
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
@@ -78,6 +80,7 @@ Public Class clsMilkRejectType
             obj.Applicable_On = clsCommon.myCdbl(dt.Rows(0)("Applicable_On"))
             obj.Applicable_Per = clsCommon.myCdbl(dt.Rows(0)("Applicable_Per"))
             obj.Include_In_DBT = (clsCommon.myCdbl(dt.Rows(0)("Include_In_DBT")) = 1)
+            obj.Exclude_Head = (clsCommon.myCdbl(dt.Rows(0)("Exclude_Head")) = 1)
             obj.Type = clsCommon.myCstr(dt.Rows(0)("Type"))
             obj.SNo = clsCommon.myCdbl(dt.Rows(0)("SNo"))
         End If

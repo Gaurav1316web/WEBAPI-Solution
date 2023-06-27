@@ -29,6 +29,7 @@ Partial Class frmMilkRejectType
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkExcludeHead = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIncludeInDBT = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtDescription = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
@@ -58,6 +59,7 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkExcludeHead, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIncludeInDBT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -133,6 +135,7 @@ Partial Class frmMilkRejectType
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkExcludeHead)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkIncludeInDBT)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDescription)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel3)
@@ -160,6 +163,14 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.Size = New System.Drawing.Size(605, 365)
         Me.SplitContainer1.SplitterDistance = 321
         Me.SplitContainer1.TabIndex = 1
+        '
+        'chkExcludeHead
+        '
+        Me.chkExcludeHead.Location = New System.Drawing.Point(226, 205)
+        Me.chkExcludeHead.Name = "chkExcludeHead"
+        Me.chkExcludeHead.Size = New System.Drawing.Size(134, 18)
+        Me.chkExcludeHead.TabIndex = 1032
+        Me.chkExcludeHead.Text = "Exclude For Head Load"
         '
         'chkIncludeInDBT
         '
@@ -524,6 +535,7 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkExcludeHead, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIncludeInDBT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -585,5 +597,6 @@ Partial Class frmMilkRejectType
     Friend WithEvents rbtnSNFKGRate As common.Controls.MyRadioButton
     Friend WithEvents rbtnFATKGRate As common.Controls.MyRadioButton
     Friend WithEvents chkIncludeInDBT As RadCheckBox
+    Friend WithEvents chkExcludeHead As RadCheckBox
 End Class
 

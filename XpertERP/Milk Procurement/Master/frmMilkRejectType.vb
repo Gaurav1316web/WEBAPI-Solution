@@ -55,6 +55,7 @@ Public Class frmMilkRejectType
                 obj.Applicable_On = 3
             End If
             obj.Include_In_DBT = chkIncludeInDBT.Checked
+            obj.Exclude_Head = chkExcludeHead.Checked
             obj.Applicable_Per = txtApplicablePer.Value
             obj.Type = clsCommon.myCstr(cboType.SelectedValue)
             obj.SNo = txtSNo.Value
@@ -90,6 +91,7 @@ Public Class frmMilkRejectType
                 rbtnPer.IsChecked = True
             End If
             chkIncludeInDBT.Checked = obj.Include_In_DBT
+            chkExcludeHead.Checked = obj.Exclude_Head
             txtApplicablePer.Value = obj.Applicable_Per
             txtItem.Value = obj.Item_Code
             lblItem.Text = clsItemMaster.GetItemName(obj.Item_Code, Nothing)
@@ -317,5 +319,9 @@ Public Class frmMilkRejectType
         Dim qry As String = "select Item_Code as Code,Item_Desc as [Item Desc] from TSPL_ITEM_MASTER"
         txtItem.Value = clsCommon.ShowSelectForm("Item Code", qry, "Code", "Product_Type ='MI'", txtItem.Value, "", isButtonClicked)
         lblItem.Text = clsDBFuncationality.getSingleValue("select Item_Desc  from TSPL_ITEM_MASTER where Item_Code='" + txtItem.Value + "'")
+    End Sub
+
+    Private Sub SplitContainer1_Panel1_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel1.Paint
+
     End Sub
 End Class

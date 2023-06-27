@@ -23424,6 +23424,7 @@ Public Class clsCreateAllTable
             coll.Add("SNo", "int Null")
             coll.Add("Applicable_On", "int Null")
             coll.Add("Include_In_DBT", "int Null")
+            coll.Add("Exclude_Head", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_REJECT_TYPE", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
