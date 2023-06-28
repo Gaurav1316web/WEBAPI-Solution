@@ -56,52 +56,7 @@ Public Class frmFATSNFDiffReport
                 PageSetupReport_ID = PageSetupReport_ID + "_D"
             End If
 
-
-
-
-
-            Dim BaseQry As String = " select xxx.MCC_Code,xxx.MCC_NAME,xxx.Document_Date,xxx.MCCQty,xxx.MCCFATKG,xxx.MCCSNFKG,xxx.DCSQty,xxx.DCSFATKG,xxx.DCSSNFKG,xxx.DiffFATKG,xxx.DiffSNFKG
-,cast((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG as decimal(18,2)) as FatAmt 
-,cast((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG as decimal(18,2)) as SNFAmt 
-,cast((((case when xxx.DiffFATKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate end)*xxx.DiffFATKG) +((case when xxx.DiffSNFKG<0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate else TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate end)*xxx.DiffSNFKG))as decimal(18,2)) as Amt 
-from (
-select  PK_Id,max(MCC_Code) as MCC_Code,max(MCC_NAME) as MCC_NAME,max(Document_Date) as Document_Date,sum(MCCQty) as MCCQty,sum(MCCFATKG) as MCCFATKG,sum(MCCSNFKG) as MCCSNFKG,sum(DCSQty) as DCSQty,sum(DCSFATKG) as DCSFATKG,sum(DCSSNFKG) as DCSSNFKG,-1*(max(MCCFATKG) -sum(DCSFATKG)) as DiffFATKG,-1*(max(MCCSNFKG)-sum(DCSSNFKG)) as DiffSNFKG,(select top 1 case when TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 then TSPL_OWN_BMC_GAIN_LOSS_RATE.Code else '' end as  FindCode 
-from TSPL_OWN_BMC_GAIN_LOSS_RATE where max(Document_Date)>=TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date  and (2= case when TSPL_OWN_BMC_GAIN_LOSS_RATE.End_Date is null then 2 else case when max(Document_Date)<= TSPL_OWN_BMC_GAIN_LOSS_RATE.End_Date then 2 else 3 end end)  and TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 order by TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date desc,TSPL_OWN_BMC_GAIN_LOSS_RATE.Code desc) as  FindCode
-from (
-
-select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) as Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as MCCQty,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG as MCCFATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as MCCFAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as MCCSNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG as MCCSNFKG
-,0 as DCSQty ,0 as DCSFATKG ,0 as DCSSNFKG
-from   TSPL_MILK_COLLECTION_MCC_DETAIL 
-left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code
-where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
-            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                 BaseQry += " and and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
-                End If
-
-            BaseQry += "  union all
-select Tab.PK_Id,null as MCC_Code,null as MCC_NAME,null as Document_Date,0 as MCCQty,0 as MCCFATKG,0 as MCCFAT,0 as MCCSNF,0 as MCCSNFKG
-,TSPL_MILK_COLLECTION_DCS_DETAIL.Qty as DCSQty ,TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG as DCSFATKG ,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG as DCSSNFKG
-from   TSPL_MILK_COLLECTION_DCS_DETAIL 
-left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
-inner join (
-select Document_No,min(PK_Id) as PK_Id from (
-select TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id,TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No 
-from TSPL_MILK_COLLECTION_MCC_DETAIL
-left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-left outer join  TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id 
-where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
-            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                BaseQry += " and and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
-            End If
-
-            BaseQry += " )xx group by xx.Document_No
-)Tab on Tab.Document_No= TSPL_MILK_COLLECTION_DCS.Document_No
-)X group by PK_Id  
-)xxx 
-left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=xxx.FindCode"
-
-
+            Dim BaseQry As String = clsMilkCollectionDCS.GetBaseQueryFATSNFGainLoss(txtFromDate.Value, txtToDate.Value, txtMCC.arrValueMember)
             Dim Qry As String = ""
             If rbtnDetails.IsChecked Then
                 Qry = BaseQry + " order by Document_Date, MCC_NAME "

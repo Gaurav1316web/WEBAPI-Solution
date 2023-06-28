@@ -22,6 +22,9 @@ Partial Class frmDCSAdditionDeduction
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkIncludeShortageOwnBMC = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkSubtract = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkApplyTDS = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.txtMilkType = New common.UserControls.txtMultiSelectFinder()
         Me.grpQtyUOM = New System.Windows.Forms.GroupBox()
@@ -79,10 +82,12 @@ Partial Class frmDCSAdditionDeduction
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.chkApplyTDS = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkIncludeShortageOwnBMC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSubtract, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkApplyTDS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpQtyUOM.SuspendLayout()
         CType(Me.rbtnQtyUOMRec, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -134,7 +139,6 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkApplyTDS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -149,6 +153,8 @@ Partial Class frmDCSAdditionDeduction
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkIncludeShortageOwnBMC)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkSubtract)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkApplyTDS)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel10)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtMilkType)
@@ -196,9 +202,37 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(681, 319)
-        Me.SplitContainer1.SplitterDistance = 285
+        Me.SplitContainer1.Size = New System.Drawing.Size(681, 316)
+        Me.SplitContainer1.SplitterDistance = 282
         Me.SplitContainer1.TabIndex = 0
+        '
+        'chkIncludeShortageOwnBMC
+        '
+        Me.chkIncludeShortageOwnBMC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIncludeShortageOwnBMC.Location = New System.Drawing.Point(439, 186)
+        Me.chkIncludeShortageOwnBMC.Name = "chkIncludeShortageOwnBMC"
+        Me.chkIncludeShortageOwnBMC.Size = New System.Drawing.Size(232, 16)
+        Me.chkIncludeShortageOwnBMC.TabIndex = 376
+        Me.chkIncludeShortageOwnBMC.Text = "Include FAT/SNF Shortage for OWN BMC"
+        '
+        'chkSubtract
+        '
+        Me.chkSubtract.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkSubtract.Location = New System.Drawing.Point(609, 208)
+        Me.chkSubtract.Name = "chkSubtract"
+        Me.chkSubtract.Size = New System.Drawing.Size(62, 16)
+        Me.chkSubtract.TabIndex = 376
+        Me.chkSubtract.Text = "Subtract"
+        '
+        'chkApplyTDS
+        '
+        Me.chkApplyTDS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkApplyTDS.Location = New System.Drawing.Point(528, 60)
+        Me.chkApplyTDS.Name = "chkApplyTDS"
+        Me.chkApplyTDS.Size = New System.Drawing.Size(74, 16)
+        Me.chkApplyTDS.TabIndex = 375
+        Me.chkApplyTDS.Text = "Apply TDS"
+        Me.chkApplyTDS.Visible = False
         '
         'MyLabel10
         '
@@ -358,7 +392,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtAddAmount.MyLinkLable2 = Nothing
         Me.txtAddAmount.MyNullText = "Amount of DCS Addition/Deduction Will be added"
         Me.txtAddAmount.Name = "txtAddAmount"
-        Me.txtAddAmount.Size = New System.Drawing.Size(585, 20)
+        Me.txtAddAmount.Size = New System.Drawing.Size(521, 20)
         Me.txtAddAmount.TabIndex = 366
         '
         'txtDescription
@@ -520,7 +554,7 @@ Partial Class frmDCSAdditionDeduction
         Me.lblMappingCodeDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblMappingCodeDesc.Location = New System.Drawing.Point(308, 185)
         Me.lblMappingCodeDesc.Name = "lblMappingCodeDesc"
-        Me.lblMappingCodeDesc.Size = New System.Drawing.Size(363, 18)
+        Me.lblMappingCodeDesc.Size = New System.Drawing.Size(128, 18)
         Me.lblMappingCodeDesc.TabIndex = 28
         Me.lblMappingCodeDesc.TextWrap = False
         '
@@ -721,7 +755,7 @@ Partial Class frmDCSAdditionDeduction
         Me.GroupBox2.Controls.Add(Me.rbtnNatureTypeAddition)
         Me.GroupBox2.Location = New System.Drawing.Point(308, 50)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(168, 36)
+        Me.GroupBox2.Size = New System.Drawing.Size(174, 36)
         Me.GroupBox2.TabIndex = 6
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Nature"
@@ -975,21 +1009,11 @@ Partial Class frmDCSAdditionDeduction
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'chkApplyTDS
-        '
-        Me.chkApplyTDS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkApplyTDS.Location = New System.Drawing.Point(528, 60)
-        Me.chkApplyTDS.Name = "chkApplyTDS"
-        Me.chkApplyTDS.Size = New System.Drawing.Size(74, 16)
-        Me.chkApplyTDS.TabIndex = 375
-        Me.chkApplyTDS.Text = "Apply TDS"
-        Me.chkApplyTDS.Visible = False
-        '
         'frmDCSAdditionDeduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(681, 319)
+        Me.ClientSize = New System.Drawing.Size(681, 316)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmDCSAdditionDeduction"
         '
@@ -1002,6 +1026,9 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkIncludeShortageOwnBMC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSubtract, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkApplyTDS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpQtyUOM.ResumeLayout(False)
         Me.grpQtyUOM.PerformLayout()
@@ -1057,7 +1084,6 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkApplyTDS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1121,4 +1147,6 @@ Partial Class frmDCSAdditionDeduction
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents txtMilkType As common.UserControls.txtMultiSelectFinder
     Friend WithEvents chkApplyTDS As RadCheckBox
+    Friend WithEvents chkIncludeShortageOwnBMC As RadCheckBox
+    Friend WithEvents chkSubtract As RadCheckBox
 End Class

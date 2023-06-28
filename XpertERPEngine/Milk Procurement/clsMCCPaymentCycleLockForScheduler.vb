@@ -3636,7 +3636,7 @@ and TSPL_DCS_ADDITION_DEDUCTION.Milk_Type like '%'''+trim(isnull(TSPL_MILK_COLLE
                 ''Now Create Dr/Cr Note
                 qry = "select xxx.Against_DCS_ADDITION_DEDUCTION,xxx.Amt,TSPL_DCS_ADDITION_DEDUCTION.Apply_TDS,TSPL_DCS_ADDITION_DEDUCTION.Nature_Type,TSPL_DCS_ADDITION_DEDUCTION.GL_Account,TSPL_DCS_ADDITION_DEDUCTION.Saving,TSPL_DCS_ADDITION_DEDUCTION.Mapping_Matching,TSPL_DCS_ADDITION_DEDUCTION.RO_Decimal_Places,TSPL_DCS_ADDITION_DEDUCTION.RO_Increase_After
 ,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On
-,(select top 1 Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT.code=TSPL_DCS_ADDITION_DEDUCTION.Code) as Add_Of_Add_Ded_Code from 
+,(select top 1 Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT.code=TSPL_DCS_ADDITION_DEDUCTION.Code) as Add_Of_Add_Ded_Code,TSPL_DCS_ADDITION_DEDUCTION.Include_Shortage_Own_BMC,TSPL_DCS_ADDITION_DEDUCTION.Subtract from 
 (select Against_DCS_ADDITION_DEDUCTION, sum(Amt) as Amt  from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED where InvoiceNo='" + objHead.DOC_CODE + "' group by Against_DCS_ADDITION_DEDUCTION) 
 xxx Left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=xxx.Against_DCS_ADDITION_DEDUCTION order by Mapping_Matching,Amt desc"
                 dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -3666,6 +3666,19 @@ xxx Left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.C
                     dtAmt.DefaultView.Sort = "Add_Of_Add_Ded_Code"
                     For Each drAmt As DataRow In dtAmt.DefaultView.ToTable().Rows
                         dblAmount = clsCommon.myRoundOFF(Math.Abs(clsCommon.myCDecimal(drAmt("Amt"))), IIf(clsCommon.myCDecimal(drAmt("RO_Decimal_Places")) >= 0, clsCommon.myCDecimal(drAmt("RO_Decimal_Places")), objCommonVar.DCSAddDedRODecimalPlace), IIf(clsCommon.myCDecimal(drAmt("RO_Increase_After")) >= 0, clsCommon.myCDecimal(drAmt("RO_Increase_After")), objCommonVar.DCSAddDedROIncreaseAfter))
+                        If clsCommon.myLen(drAmt("Include_Shortage_Own_BMC")) = 1 Then
+                            If clsfrmVLCMaster.IsOwnBMC(strVLCCode, objHead.MCC_CODE, trans) Then
+                                Dim arrMCC As New ArrayList
+                                arrMCC.Add(objHead.MCC_CODE)
+                                BaseQry = clsMilkCollectionDCS.GetBaseQueryFATSNFGainLoss(FromDate, ToDate, arrMCC)
+                                qry = "select sum(Amt) as Amt from ( " + BaseQry + ")XX group by MCC_Code"
+                                Dim dclGainLossAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
+                                dclGainLossAmt = (clsCommon.myCDivide(dclGainLossAmt * clsCommon.myCDecimal(drAmt("Applicable_Value")), IIf(clsCommon.myCDecimal(drAmt("Applicable_Type")) = 0, 1, 100)))
+                                dclGainLossAmt = clsCommon.myRoundOFF(dclGainLossAmt, IIf(clsCommon.myCDecimal(drAmt("RO_Decimal_Places")) >= 0, clsCommon.myCDecimal(drAmt("RO_Decimal_Places")), objCommonVar.DCSAddDedRODecimalPlace), IIf(clsCommon.myCDecimal(drAmt("RO_Increase_After")) >= 0, clsCommon.myCDecimal(drAmt("RO_Increase_After")), objCommonVar.DCSAddDedROIncreaseAfter))
+                                dblAmount += dclGainLossAmt
+                            End If
+                        End If
+
                         If clsCommon.myLen(drAmt("Add_Of_Add_Ded_Code")) > 0 Then
                             Dim dclAddBaseAmt As Decimal = 0
                             qry = "select Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where Code='" + clsCommon.myCstr(drAmt("Against_DCS_ADDITION_DEDUCTION")) + "'"
@@ -3677,11 +3690,18 @@ left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No
 where TSPL_VENDOR_INVOICE_HEAD.RefDocType  in ('DCS-ADD','DCS-DED') and TSPL_VENDOR_INVOICE_HEAD.RefDocNo='" + objHead.DOC_CODE + "' and TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction='" + clsCommon.myCstr(drAdd("Add_Of_Add_Ded_Code")) + "'"
                                     dclAddBaseAmt += clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
                                 Next
-                                dclAddBaseAmt = (clsCommon.myCDivide(dclAddBaseAmt * clsCommon.myCDecimal(drAmt("Applicable_Value")), IIf(clsCommon.myCDecimal(drAmt("Applicable_Value")) = 0, 1, 100)))
-                                dclAddBaseAmt = clsCommon.myRoundOFF(dclAddBaseAmt, IIf(clsCommon.myCDecimal(drAmt("RO_Decimal_Places")) >= 0, clsCommon.myCDecimal(drAmt("RO_Decimal_Places")), objCommonVar.DCSAddDedRODecimalPlace), IIf(clsCommon.myCDecimal(drAmt("RO_Increase_After")) >= 0, clsCommon.myCDecimal(drAmt("RO_Increase_After")), objCommonVar.DCSAddDedROIncreaseAfter))
-                                dblAmount += dclAddBaseAmt
+                                If clsCommon.myLen(drAmt("Include_Shortage_Own_BMC")) = 0 Then
+                                    dclAddBaseAmt = (clsCommon.myCDivide(dclAddBaseAmt * clsCommon.myCDecimal(drAmt("Applicable_Value")), IIf(clsCommon.myCDecimal(drAmt("Applicable_Type")) = 0, 1, 100)))
+                                    dclAddBaseAmt = clsCommon.myRoundOFF(dclAddBaseAmt, IIf(clsCommon.myCDecimal(drAmt("RO_Decimal_Places")) >= 0, clsCommon.myCDecimal(drAmt("RO_Decimal_Places")), objCommonVar.DCSAddDedRODecimalPlace), IIf(clsCommon.myCDecimal(drAmt("RO_Increase_After")) >= 0, clsCommon.myCDecimal(drAmt("RO_Increase_After")), objCommonVar.DCSAddDedROIncreaseAfter))
+                                End If
+                                If clsCommon.myCDecimal(drAmt("Subtract")) = 1 Then
+                                    dblAmount -= dclAddBaseAmt
+                                Else
+                                    dblAmount += dclAddBaseAmt
+                                End If
                             End If
                         End If
+
                         If clsCommon.myCdbl(drAmt("Nature_Type")) = 0 Then
 #Region "CreateCreditNotForDCSAddition"
                             Dim objVendorInvHead As New clsVedorInvoiceHead()

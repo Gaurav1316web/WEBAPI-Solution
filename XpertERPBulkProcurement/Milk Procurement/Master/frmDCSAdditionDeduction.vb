@@ -7,9 +7,14 @@ Public Class frmDCSAdditionDeduction
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
     Dim Qry As String
-
 #End Region
+
     Private Sub frmJWPriceCodeMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("Include_Shortage_Own_BMC", "integer NULL")
+        coll.Add("Subtract", "integer NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
+
         SetUserMgmtNew()
         LoadApplyType()
         LoadApplyOn()
@@ -167,7 +172,8 @@ Public Class frmDCSAdditionDeduction
                 End If
                 obj.Applicable_Type = clsCommon.myCdbl(cboApplyType.SelectedValue)
                 obj.Applicable_On = clsCommon.myCdbl(cboApplyOn.SelectedValue)
-
+                obj.Include_Shortage_Own_BMC = chkIncludeShortageOwnBMC.Checked
+                obj.Subtract = chkSubtract.Checked
                 If rbtnQtyUOMRec.IsChecked Then
                     obj.Qty_UOM = 0
                 ElseIf rbtnQtyUOMLtr.IsChecked Then
@@ -257,6 +263,8 @@ Public Class frmDCSAdditionDeduction
                 ElseIf obj.Qty_UOM = 2 Then
                     rbtnQtyUOMKG.IsChecked = True
                 End If
+                chkIncludeShortageOwnBMC.Checked = obj.Include_Shortage_Own_BMC
+                chkSubtract.Checked = obj.Subtract
 
                 txtApplyValue.Value = obj.Applicable_Value
                 txtGLAccount.Value = obj.GL_Account
@@ -440,6 +448,8 @@ Public Class frmDCSAdditionDeduction
         rbtnQtyUOMRec.IsChecked = True
         txtMilkType.arrValueMember = Nothing
         chkApplyTDS.Checked = False
+        chkIncludeShortageOwnBMC.Checked = False
+        chkSubtract.Checked = False
     End Sub
     Private Sub frmHSNMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso rdbtnreset.Enabled Then

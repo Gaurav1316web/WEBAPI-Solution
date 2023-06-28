@@ -7780,9 +7780,9 @@ Public Class MDI
                     Case clsUserMgtCode.VLCProgressReport
                         frm = New frmVLCProgressReportReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    'Case clsUserMgtCode.FATSNFDiffReport
-                    '    frm = New frmFATSNFDiffReport
-                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FATSNFDiffReport
+                        frm = New frmFATSNFDiffReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptMCCShiftReportRouteWise
                         frm = New FrmMCCShiftReportRouteWise
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
