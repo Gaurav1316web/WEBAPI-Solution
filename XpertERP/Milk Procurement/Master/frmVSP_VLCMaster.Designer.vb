@@ -34,6 +34,7 @@ Partial Class frmVSP_VLCMaster
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblMCCName = New common.Controls.MyLabel()
         Me.fndMcc = New common.UserControls.txtFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtvsp = New common.Controls.MyLabel()
@@ -302,6 +303,7 @@ Partial Class frmVSP_VLCMaster
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblMCCName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtvsp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -560,6 +562,7 @@ Partial Class frmVSP_VLCMaster
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblMCCName)
         Me.RadPageViewPage1.Controls.Add(Me.fndMcc)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel24)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel56)
@@ -607,6 +610,19 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1057, 398)
         Me.RadPageViewPage1.Text = "VSP Address"
+        '
+        'lblMCCName
+        '
+        Me.lblMCCName.AutoSize = False
+        Me.lblMCCName.BorderVisible = True
+        Me.lblMCCName.FieldName = Nothing
+        Me.lblMCCName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMCCName.Location = New System.Drawing.Point(747, 58)
+        Me.lblMCCName.Name = "lblMCCName"
+        Me.lblMCCName.Size = New System.Drawing.Size(283, 18)
+        Me.lblMCCName.TabIndex = 1456
+        Me.lblMCCName.TextWrap = False
+        Me.lblMCCName.Visible = False
         '
         'fndMcc
         '
@@ -1414,7 +1430,7 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(80.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1045, 549)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1057, 398)
         Me.RadPageViewPage2.Text = "Bank Details"
         '
         'txtCompanyBank
@@ -2692,7 +2708,7 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(73.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1045, 549)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1057, 398)
         Me.RadPageViewPage4.Text = "Attachment"
         '
         'UcAttachment1
@@ -2700,7 +2716,7 @@ Partial Class frmVSP_VLCMaster
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1045, 549)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1057, 398)
         Me.UcAttachment1.TabIndex = 3
         '
         'RadPageViewPage5
@@ -2747,13 +2763,13 @@ Partial Class frmVSP_VLCMaster
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.lblMCCCode)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox1)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.fndPriceCode)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtAdd1)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.MyLabel21)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtcommpers)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtgroupdes)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.MyLabel9)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtAdd3)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtvlcname)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtAdd1)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtvillcode)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.MyLabel2)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadLabel2)
@@ -5105,6 +5121,7 @@ Partial Class frmVSP_VLCMaster
         Me.pageCus.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblMCCName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtvsp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5631,5 +5648,6 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents MyLabel24 As common.Controls.MyLabel
     Friend WithEvents RadScrollablePanel1 As RadScrollablePanel
     Friend WithEvents chkBlankExportExcel As RadCheckBox
+    Friend WithEvents lblMCCName As common.Controls.MyLabel
 End Class
 

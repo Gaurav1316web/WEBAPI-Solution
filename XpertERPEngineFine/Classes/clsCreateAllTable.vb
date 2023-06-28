@@ -12919,7 +12919,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "varchar(10) NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
-            coll.Add("Modified_Date", "cc")
+            coll.Add("Modified_Date", "varchar(10) NOT NULL")
             coll.Add("VLC_Code_VLC_Uploader", "varchar(30) NULL UNIQUE")
             coll.Add("comp_code", "varchar(8) NULL")
             coll.Add("Active", "integer not null default 1")
@@ -12933,7 +12933,7 @@ Public Class clsCreateAllTable
             coll.Add("IsSuspense", "integer not null default 0")
             coll.Add("ApplyCowPriceDate", "Date Default NULL")
             coll.Add("Loyalty_Rate", "decimal(18, 2) NULL")
-            coll.Add("OwnBMCDate", "varchar(10) NULL")
+            coll.Add("OwnBMCDate", "Date Default NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_MASTER_HEAD", coll, Nothing, True)
             qry = "update TSPL_VLC_MASTER_HEAD set ApplyCowPriceDate='01/Jan/2022' where ApplyCowPriceDate is null and   Apply_Cow_Price=1 "
             clsDBFuncationality.ExecuteNonQuery(qry)
