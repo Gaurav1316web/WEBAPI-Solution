@@ -51,7 +51,13 @@
     Public Shared Function GetTrankerNO(ByVal Route_Code As String)
         Dim TankerNo As String = ""
         Try
-            Dim strQry As String = "select TSPL_BULK_ROUTE_MASTER.Tanker_No from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + clsCommon.myCstr(Route_Code) + "'"
+            'Dim strQry As String = "select TSPL_BULK_ROUTE_MASTER.Tanker_No from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + clsCommon.myCstr(Route_Code) + "'"
+            Dim strQry As String = "select case when TSPL_BULK_ROUTE_MASTER.Tanker_No is null
+then (select TSPL_BULK_ROUTE_MASTER.Tanker_No from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No 
+where TSPL_BULK_ROUTE_MASTER.IsDefault=1)
+else TSPL_BULK_ROUTE_MASTER.Tanker_No
+end as Tanker_No
+from TSPL_BULK_ROUTE_MASTER left outer join TSPL_TANKER_MASTER on TSPL_TANKER_MASTER.Tanker_No=TSPL_BULK_ROUTE_MASTER.Tanker_No where TSPL_BULK_ROUTE_MASTER.ROUTE_NO='" + clsCommon.myCstr(Route_Code) + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 TankerNo = dt.Rows(0)("Tanker_No")
@@ -138,34 +144,7 @@ Public Class clsBMCDCS_DCS_Head
         Dim obj_DCS As New clsBMCDCS_DCS()
         'Dim obj_Trip As New clsBMCDCS_Trip()
         Dim strQry As String = String.Empty
-        '       
-        '        strQry = "select XX.REF_PK_ID,max(XX.MCC_Code) as MCC_Code,max(Document_Date) as Document_Date
-        'from TSPL_MILK_COLLECTION_BMCDCS_DCS
-        'left join (
-        'select REF_PK_ID,max(MCC_Code)as MCC_Code,max(IDate) as Document_Date from (
-        'select REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate from TSPL_MILK_COLLECTION_BMCDCS_TRIP 
-        'left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID
-        'inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
-        'left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-        'left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
-        'where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' --and TSPL_MILK_COLLECTION_MCC.Status=1 
-        'and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null
-        ')x group by REF_PK_ID
-        ')XX on XX.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID
-        'where XX.REF_PK_ID in(
-        'select REF_PK_ID from (
-        'select REF_PK_ID from TSPL_MILK_COLLECTION_BMCDCS_TRIP 
-        'left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID
-        'inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
-        'left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-        'left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
-        'where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' --and TSPL_MILK_COLLECTION_MCC.Status=1 
-        'and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null
 
-        ')x group by REF_PK_ID
-        ')
-
-        'group by XX.REF_PK_ID"
         strQry = "select max(XX.REF_PK_ID) as REF_PK_ID,XX.MCC_Code as MCC_Code,max(Document_Date) as Document_Date from TSPL_MILK_COLLECTION_BMCDCS_DCS left join ( select REF_PK_ID,max(MCC_Code)as MCC_Code,max(IDate) as Document_Date from ( select REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate
 from TSPL_MILK_COLLECTION_BMCDCS_TRIP left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
 where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' and TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null )x group by REF_PK_ID )XX on XX.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID where XX.REF_PK_ID in( select REF_PK_ID from ( select REF_PK_ID from TSPL_MILK_COLLECTION_BMCDCS_TRIP left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
@@ -230,16 +209,10 @@ Public Class clsBMCDCS_DCS
     Public FATKG As Decimal = 0
     Public SNFKG As Decimal = 0
     Public Shared Function GetBMCDCS_DCS(ByVal MCC_Code As String, ByVal Document_Date As DateTime)
-        'Dim obj As clsBMCDCS_DCS_Head = Nothing
-        ' Try
+
         Dim dt As DataTable
         Dim obj As clsBMCDCS_DCS_Head = New clsBMCDCS_DCS_Head()
-        '           
-        '            Dim strQry = "select TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG,
-        'TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty,
-        'TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code
-        'from TSPL_MILK_COLLECTION_BMCDCS_DCS
-        'where TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=" + clsCommon.myCstr(REF_PK_ID)
+
         Dim strQry = "select TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG,
 TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty,
 TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code
@@ -267,10 +240,7 @@ where TSPL_MILK_COLLECTION_BMCDCS.MCC_Code='" + clsCommon.myCstr(MCC_Code) + "' 
             Next
         End If
 
-        'Catch ex As Exception
-        'w New Exception(ex.Message)
 
-        'End Try
         Return obj.Arr_DCSDetails
     End Function
 End Class

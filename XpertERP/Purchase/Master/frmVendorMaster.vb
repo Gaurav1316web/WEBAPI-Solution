@@ -3911,7 +3911,18 @@ Public Class frmVendorMaster
 
 
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
-        SaveData()
+        If btnsave.Text = "Update" Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIRC
+            frm.strCode = clsFixedParameterCode.UpdatePassword
+
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                SaveData()
+            End If
+        Else
+            SaveData()
+        End If
 
     End Sub
     Sub SaveData()
