@@ -2094,7 +2094,7 @@ Public Class clsUserMgtCode
 
     '===========================
     '--------------------------Reports-------------------------------------'
-    'Public Const FATSNFDiffReport As String = "FAT-SNF-DIFF"
+    Public Const FATSNFDiffReport As String = "FAT-SNF-DIFF"
     Public Const VLCProgressReport As String = "VLC-PRO-RPT"
     Public Const MPIncentiveEntryReport As String = "R-MP-INC-ENT"
     'Public Const FailedBDF As String = "Failed BDF"

@@ -4953,7 +4953,13 @@ Public Class frmSRN
                 End If
             End If
             ''
+
             If (AllowToSave()) Then
+                If txtDocNo.Value = "Rejected" Then
+                    clsCommon.MyMessageBoxShow("Data cannot be saved.")
+                Else
+                End If
+
                 obj = New clsSRNHead()
                 obj.isExemptSecurityDedution = IIf(chkExemptSecurityDedution.Checked = True, 1, 0)
                 obj.isJobWorkOutward = IIf(chkJobWorkOutward.Checked = True, 1, 0)
@@ -6635,7 +6641,9 @@ Public Class frmSRN
         Else
             qry += ",TSPL_SRN_HEAD.Against_PO as [Against PO Code], TSPL_PURCHASE_ORDER_HEAD.ReferencePO as [Reference PO]  "
         End If
-        qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo from TSPL_SRN_HEAD LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_SRN_HEAD.Vendor_Code left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SRN_HEAD.Created_By  left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO left outer join TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN "
+        qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo from TSPL_SRN_HEAD LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_SRN_HEAD.Vendor_Code left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SRN_HEAD.Created_By  left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO left outer join TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN left outer join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Document_Code=TSPL_SRN_HEAD.Against_QC_Code
+                 "
+
 
         Dim whrClas As String = ""
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
@@ -6646,6 +6654,8 @@ Public Class frmSRN
         Else
             whrClas += " TSPL_SRN_HEAD.Against_PO not in ( Select TSPL_SRN_HEAD.Against_PO  from TSPL_SRN_HEAD left Outer Join TSPL_PURCHASE_ORDER_HEAD on TSPL_SRN_HEAD.Against_PO =TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No where TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade =0)  "
         End If
+        whrClas += "and TSPL_QC_CHECK_HEAD.QC_Status Not in ('Rejected') And
+                 isnull(TSPL_SRN_HEAD.Against_PO,'') not in ( Select TSPL_SRN_HEAD.Against_PO  from TSPL_SRN_HEAD left Outer Join TSPL_PURCHASE_ORDER_HEAD on TSPL_SRN_HEAD.Against_PO =TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No where TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade =1) "
 
         LoadData(clsCommon.ShowSelectForm("SRNCofnd", qry, "Code", whrClas, txtDocNo.Value, "SRN_Date desc", isButtonClicked), NavigatorType.Current)
     End Sub

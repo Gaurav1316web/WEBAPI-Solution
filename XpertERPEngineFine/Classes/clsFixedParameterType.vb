@@ -1698,6 +1698,7 @@ Public Class clsFixedParameterCode
     Public Const EMP01 As String = "EMP01"
     Public Const SIRevers As String = "SIRevers"
     Public Const SIReversAndCreate As String = "SIReversAndCreate"
+    Public Const UpdatePassword As String = "Update Password"
     Public Const MulProcDedReversAndCreate As String = "MulProcDedReversAndCreate"
     Public Const PPMrpReversAndCreate As String = "PPMrpReversAndCreate"
     Public Const WEUpdateAfterPost As String = "WEUpdateAfterPost"
@@ -3195,6 +3196,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ServiceDealer, clsFixedParameterCode.ServiceDealer, "Employee Type", "Employee Type")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIR, clsFixedParameterCode.SIRevers, "salereverse", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.SIReversAndCreate, "b12sec2", "")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SIRC, clsFixedParameterCode.UpdatePassword, "c1032floor", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MulProcDedReversAndCreate, clsFixedParameterCode.MulProcDedReversAndCreate, "ProDeduction", "Password for reverse of Multiple Procurement Deduction")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PP_MRP, clsFixedParameterCode.PPMrpReversAndCreate, "b12sec2", "")
         InsertDefaultValueFixedParameter(clsFixedParameterType.WEUpdateAfterPost, clsFixedParameterCode.WEUpdateAfterPost, "WEUPDATE", "")

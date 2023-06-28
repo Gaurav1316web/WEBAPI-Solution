@@ -98,7 +98,18 @@ Public Class frmCustomer
         Me.Close()
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        SaveData()
+        If btnSave.Text = "Update" Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIRC
+            frm.strCode = clsFixedParameterCode.UpdatePassword
+
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                SaveData()
+            End If
+        Else
+            SaveData()
+        End If
     End Sub
     Sub SaveData()
         Dim AllowAutoCCode As String

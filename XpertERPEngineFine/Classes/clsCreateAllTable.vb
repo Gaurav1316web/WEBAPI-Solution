@@ -22987,8 +22987,8 @@ Public Class clsCreateAllTable
             coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "")
 
-            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC' and COLUMN_NAME='Against_DCS_Multiple_Days'"
-            dt = clsDBFuncationality.GetDataTable(qry)
+            'qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC' and COLUMN_NAME='Against_DCS_Multiple_Days'"
+            'dt = clsDBFuncationality.GetDataTable(qry)
             coll = New Dictionary(Of String, String)
             coll.Add("Document_No", "Varchar(30) not null Primary key")
             coll.Add("Document_Date", "Datetime NOT NULL")
@@ -23017,10 +23017,10 @@ Public Class clsCreateAllTable
             coll.Add("Against_DCS_Multiple_Days", "Varchar(30) null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
-            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                qry = "CREATE UNIQUE INDEX Unique_DCS_Mupliple_Day ON TSPL_MILK_COLLECTION_MCC  (Against_DCS_Multiple_Days) WHERE Against_DCS_Multiple_Days IS NOT NULL;"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-            End If
+            'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+            '    qry = "CREATE UNIQUE INDEX Unique_DCS_Mupliple_Day ON TSPL_MILK_COLLECTION_MCC  (Against_DCS_Multiple_Days) WHERE Against_DCS_Multiple_Days IS NOT NULL;"
+            '    clsDBFuncationality.ExecuteNonQuery(qry)
+            'End If
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_COLLECTION_MCC_DETAIL' and COLUMN_NAME='Against_Multiple_Days'"
             dt = clsDBFuncationality.GetDataTable(qry)
@@ -23427,6 +23427,7 @@ Public Class clsCreateAllTable
             coll.Add("SNo", "int Null")
             coll.Add("Applicable_On", "int Null")
             coll.Add("Include_In_DBT", "int Null")
+            coll.Add("Exclude_Head", "int Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_REJECT_TYPE", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -23780,6 +23781,8 @@ Public Class clsCreateAllTable
             coll.Add("Qty_UOM", "integer not NULL default 0")
             coll.Add("Milk_Type", "varchar(100) Not NULL default ('''Good''')")
             coll.Add("Apply_TDS", "integer NULL")
+            coll.Add("Include_Shortage_Own_BMC", "integer NULL")
+            coll.Add("Subtract", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)
