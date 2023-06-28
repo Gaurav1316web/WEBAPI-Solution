@@ -67,9 +67,13 @@ Public Class clsQualityCheckApprovalForSRN
                     End If
 
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_QC_CHECK_APPROVAL_ENTRY", OMInsertOrUpdate.Insert, "", trans)
+
                 Next
             End If
-
+            'If clsCommon.CompairString(objtr.QC_Status, "Rejected") = CompairStringResult.Equal Then
+            '    clsCommon.MyMessageBoxShow("Data cannot be saved.")
+            'Else
+            'End If
             SaveDataForSRN(obj, arrdocumentcode, trans)
 
 

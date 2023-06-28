@@ -628,7 +628,7 @@ Public Class clsMilkSRNMCC
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.DOC_CODE), "TSPL_MILK_SRN_HEAD", "DOC_CODE", "TSPL_MILK_SRN_DETAIL", "DOC_CODE", Trans)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE='" + obj.MILK_SAMPLE_CODE + "' and vlc_Doc_COde='" & obj.VLC_DOC_CODE & "'  and sample_No='" & obj.SAMPLE_NO & "' ", Trans)
             End If
-            clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, Trans, isNewEntry)
+            clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, Trans, isNewEntry, obj.Against_Reject_No, obj.SAMPLE_NO)
             clsMilkSRNVSpChargeDetail.SaveData(obj.DOC_CODE, objVSPChargeList, Trans, isNewEntry)
             clsMilkSRNPriceChargeDetail.SaveData(obj.DOC_CODE, objPriceChargeList, Trans, isNewEntry)
             PostData("M-SRN", obj.DOC_CODE, Trans)
@@ -726,8 +726,12 @@ Public Class clsMilkSRNMCC
                 objtr.Commission = clsCommon.myCdbl(dr("Commission_Pers"))
                 objtr.Commission_Amount = clsCommon.myCdbl(dr("Commission_Amount"))
                 objtr.Payment_Commission = clsCommon.myCdbl(dr("EMP_Pers"))
+
+
                 objtr.Head_Load_Amount = clsCommon.myCdbl(dr("Head_Load_Amount"))
                 objtr.Own_Asset_Amount = clsCommon.myCdbl(dr("Own_Asset_Amount"))
+
+
                 objtr.Head_Load_Rate = clsCommon.myCdbl(dr("Head_Load_Rate"))
                 objtr.Own_Asset_Rate = clsCommon.myCdbl(dr("Own_Asset_Rate"))
                 objtr.Head_Load_Type = clsCommon.myCdbl(dr("Head_Load_Type"))
@@ -848,7 +852,7 @@ Public Class clsMilkSRNMCC
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE='" + obj.MILK_SAMPLE_CODE + "' and vlc_Doc_COde='" & obj.VLC_DOC_CODE & "'  and sample_No='" & obj.SAMPLE_NO & "' ", trans)
             End If
-            isSaved = isSaved AndAlso clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, trans, isNewEntry)
+            isSaved = isSaved AndAlso clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, trans, isNewEntry, obj.Against_Reject_No, obj.SAMPLE_NO)
             isSaved = isSaved AndAlso clsMilkSRNVSpChargeDetail.SaveData(obj.DOC_CODE, objVSPChargeList, trans, isNewEntry)
             isSaved = isSaved AndAlso clsMilkSRNPriceChargeDetail.SaveData(obj.DOC_CODE, objPriceChargeList, trans, isNewEntry)
 
@@ -946,7 +950,7 @@ Public Class clsMilkSRNMCC
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE='" + obj.MILK_SAMPLE_CODE + "' and vlc_Doc_COde='" & obj.VLC_DOC_CODE & "'  and sample_No='" & obj.SAMPLE_NO & "' ", trans)
             End If
-            isSaved = isSaved AndAlso clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, trans, isNewEntry)
+            isSaved = isSaved AndAlso clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, trans, isNewEntry, obj.Against_Reject_No, obj.SAMPLE_NO)
             isSaved = isSaved AndAlso clsMilkSRNVSpChargeDetail.SaveData(obj.DOC_CODE, objVSPChargeList, trans, isNewEntry)
             isSaved = isSaved AndAlso clsMilkSRNPriceChargeDetail.SaveData(obj.DOC_CODE, objPriceChargeList, trans, isNewEntry)
 
@@ -1936,7 +1940,7 @@ Public Class clsMilkSRNMCCDetail
     Public QAT_Amt As Decimal
 #End Region
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Dock_Collection_Milk_Type As String, ByVal Arr As List(Of clsMilkSRNMCCDetail), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Dock_Collection_Milk_Type As String, ByVal Arr As List(Of clsMilkSRNMCCDetail), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal Against_Reject_No As String, ByVal SAMPLE_NO As Integer) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsMilkSRNMCCDetail In Arr
                 Dim coll As New Hashtable()
@@ -1980,9 +1984,21 @@ Public Class clsMilkSRNMCCDetail
                 clsCommon.AddColumnsForChange(coll, "TIP_Amount", obj.TIP_Amount)
                 clsCommon.AddColumnsForChange(coll, "Service_Charge_Type", obj.Service_Charge_Type)
                 clsCommon.AddColumnsForChange(coll, "MCC_CODE", obj.MCC_CODE)
+                If clsCommon.myLen(Against_Reject_No) > 0 Then
+                    If (clsDBFuncationality.getSingleValue("select TSPL_MILK_REJECT_TYPE.Exclude_Head from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.Code=TSPL_MILK_REJECT_DETAIL.Reject_Type
+where DOC_CODE='" + clsCommon.myCstr(Against_Reject_No) + "' and SAMPLE_NO=" + clsCommon.myCstr(SAMPLE_NO) + " and TSPL_MILK_REJECT_TYPE.Exclude_Head is not null", trans)) = 1 Then
+                        obj.Head_Load_Rate = 0
+                        obj.Head_Load_Amount = 0
+                    End If
+
+                End If
+
+                    clsCommon.AddColumnsForChange(coll, "Head_Load_Rate", obj.Head_Load_Rate)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", obj.Head_Load_Amount)
+
+
                 clsCommon.AddColumnsForChange(coll, "Own_Asset_Amount", obj.Own_Asset_Amount)
-                clsCommon.AddColumnsForChange(coll, "Head_Load_Rate", obj.Head_Load_Rate)
+
                 clsCommon.AddColumnsForChange(coll, "Own_Asset_Rate", obj.Own_Asset_Rate)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Type", obj.Head_Load_Type)
                 clsCommon.AddColumnsForChange(coll, "Own_Asset_Type", obj.Own_Asset_Type)

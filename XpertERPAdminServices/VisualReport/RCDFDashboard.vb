@@ -669,11 +669,11 @@ from TSPL_MRN_HEAD
                 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code
                 where TSPL_MRN_DETAIL.MRN_No   not in (select TSPL_QC_CHECK_DETAIL.MRN_No from TSPL_QC_CHECK_DETAIL)  and TSPL_ITEM_MASTER.Is_AllowQC_ON_Purchase=1               
                 AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')  
-                and convert(date,TSPL_MRN_HEAD.MRN_Date,103)>= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+                and convert(date,TSPL_MRN_HEAD.MRN_Date,103)>=  convert(date, '01-apr-2023', 103)"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_MRN_DETAIL.Location='" + txtLocation.Value + "' "
                 End If
-                sQuery += " order by TSPL_GRN_HEAD.Ref_No,TSPL_MRN_HEAD.Vendor_Name,TSPL_ITEM_MASTER.Short_Description "
+                sQuery += " order by TSPL_GRN_HEAD.Ref_No desc "
                 dtQuality = clsDBFuncationality.GetDataTable(sQuery)
             End If
 
@@ -714,21 +714,23 @@ from TSPL_MRN_HEAD
         Try
             If dtQualitySummary Is Nothing OrElse dtQualitySummary.Rows.Count <= 0 Then
                 Dim sQuery As String = "select  TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description as 'Item_Desc',
-count((CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 THEN 'FULL_REJECT'  end)) AS 'FULL_REJECT',
-count((case when TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'PARTIAL_REJECT',
-count((case when TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 OR TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'TOTALL_REJECT',
-count((case when TSPL_GRN_HEAD.VisualQCStatus=1 AND (TSPL_GRN_HEAD.VisualQCStatusSecond<>3 OR TSPL_GRN_HEAD.VisualQCStatusSecond<>2)then 'Ok'  end)) AS 'TOTAL_ACCEPTED'
-from  TSPL_GRN_HEAD
-left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
-left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
-left OUTER join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
-where 2=2  
-and CONVERT(DATE,TSPL_GRN_HEAD.GRN_Date,103)<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "'"
-                sQuery += " and TSPL_GRN_HEAD.Ref_No in (select  TSPL_GRN_HEAD.Ref_No
-from TSPL_GRN_HEAD
-left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
-left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
-where convert(date,TSPL_GRN_HEAD.GRN_Date,103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+                count((CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 THEN 'FULL_REJECT'  end)) AS 'FULL_REJECT',
+                count((case when TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'PARTIAL_REJECT',
+                count((case when TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 OR TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'TOTALL_REJECT',
+                count((case when TSPL_GRN_HEAD.VisualQCStatus=1 AND (TSPL_GRN_HEAD.VisualQCStatusSecond<>3 OR TSPL_GRN_HEAD.VisualQCStatusSecond<>2 or TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected')then 'Ok'  end)) AS 'TOTAL_ACCEPTED'
+                from  TSPL_GRN_HEAD
+                left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
+                left OUTER join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
+                where 2=2  AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')
+                and CONVERT(DATE,TSPL_GRN_HEAD.GRN_Date,103)<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "'"
+                sQuery += " and TSPL_GRN_HEAD.Ref_No in (select   TSPL_GRN_HEAD.Ref_No
+                from TSPL_GRN_HEAD
+                left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
+                where isnull(TSPL_GRN_HEAD.Ref_No,'')<>'' 
+                and convert(date,TSPL_GRN_HEAD.GRN_Date,103) >=DATEADD(day, -15,convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+                sQuery += ",103))"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_GRN_HEAD.Bill_To_Location ='" + txtLocation.Value + "' "
                 End If
@@ -737,7 +739,7 @@ where convert(date,TSPL_GRN_HEAD.GRN_Date,103) = '" + clsCommon.GetPrintDate(txt
                     sQuery += " And TSPL_GRN_HEAD.Bill_To_Location ='" + txtLocation.Value + "' "
                 End If
                 sQuery += " GROUP BY TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description
-order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description"
+order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc"
 
                 dtQualitySummary = clsDBFuncationality.GetDataTable(sQuery)
             End If
@@ -998,7 +1000,7 @@ ORDER BY  XX.ITEM_DESC"
                 Dim sQuery As String = "select  TSPL_GRN_HEAD.Ref_No,TSPL_ITEM_MASTER.Short_Description as 'Item_Desc',TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo AS VehicleNo from TSPL_GRN_HEAD
 left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
 left join tspl_item_master on tspl_item_master.Item_Code= TSPL_GRN_DETAIL.Item_Code
-where convert(date,TSPL_GRN_HEAD.GRN_Date,103) =convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)"
+where convert(date,TSPL_GRN_HEAD.GRN_Date,103) >=DATEADD(day, -2,convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103))"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And Bill_To_Location='" + txtLocation.Value + "' "
                 End If
@@ -1008,7 +1010,7 @@ select  TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD
 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
 left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
-where convert(date,TSPL_GRN_HEAD.GRN_Date,103) =convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)"
+where convert(date,TSPL_GRN_HEAD.GRN_Date,103) >=DATEADD(day, -2,convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103))"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And Bill_To_Location='" + txtLocation.Value + "' "
                 End If
