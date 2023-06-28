@@ -511,8 +511,8 @@ Public Class FrmItemMasterRMOther
             Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
+            frm.strType = clsFixedParameterType.SIRC
+            frm.strCode = clsFixedParameterCode.SIReversAndCreate
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 chkDoNotCheckOnSave.Visible = True
@@ -1347,7 +1347,19 @@ Public Class FrmItemMasterRMOther
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        Savedata()
+        If btnSave.Text = "Update" Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIRC
+            frm.strCode = clsFixedParameterCode.UpdatePassword
+
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                Savedata()
+            End If
+        Else
+            Savedata()
+        End If
+
     End Sub
 
     Sub Savedata()
@@ -2387,7 +2399,7 @@ Public Class FrmItemMasterRMOther
         'If clsCommon.myLen(auto_icode_seperator) > 0 Then '---------------if item code is auto generated
         '    txtCode.MyReadOnly = True
         'End If
-    End Sub
+                            End Sub
 
     Public Sub LoadData(ByVal strCode As String, ByVal NavType As common.NavigatorType)
         Try
