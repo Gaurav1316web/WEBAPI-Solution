@@ -12937,6 +12937,8 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VLC_MASTER_HEAD", coll, Nothing, True)
             qry = "update TSPL_VLC_MASTER_HEAD set ApplyCowPriceDate='01/Jan/2022' where ApplyCowPriceDate is null and   Apply_Cow_Price=1 "
             clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = " ALTER TABLE TSPL_VLC_MASTER_HEAD ALTER COLUMN OwnBMCDate date "
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("MP_Code", "Varchar(30) NOT NULL primary key")
