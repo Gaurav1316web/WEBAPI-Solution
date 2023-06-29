@@ -1354,7 +1354,7 @@ Public Class FrmItemMasterRMOther
 
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
-                Savedata()
+                ShowRemarks()
             End If
         Else
             Savedata()
@@ -2399,7 +2399,7 @@ Public Class FrmItemMasterRMOther
         'If clsCommon.myLen(auto_icode_seperator) > 0 Then '---------------if item code is auto generated
         '    txtCode.MyReadOnly = True
         'End If
-                            End Sub
+    End Sub
 
     Public Sub LoadData(ByVal strCode As String, ByVal NavType As common.NavigatorType)
         Try
@@ -6386,4 +6386,30 @@ ExitLOOP:
             ShowPenalty()
         End If
     End Sub
+
+    Private Sub ShowRemarks()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Update"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+            End If
+            Savedata()
+            saveCancelLog(Reason, "Updated", Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+    Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
+        Dim obj As New clsCancelLog
+        obj.Program_Code = Form_ID
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.txtCode.Value)
+        obj.REASON = Reason
+        obj.ACTIVITY_TYPE = Activity_Type
+        Return clsCancelLog.SaveData(obj, True, trans)
+    End Function
 End Class

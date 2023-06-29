@@ -387,6 +387,7 @@ Public Class clsMilkSampleMCCDetail
     Public FAT_CORRECTION As Decimal = 0
     Public SNF_CORRECTION As Decimal = 0
     Public QAT_Rate As Decimal = 0
+    Public Negative_Rate As Decimal = 0
 
 #End Region
 
@@ -444,6 +445,7 @@ Public Class clsMilkSampleMCCDetail
                 clsCommon.AddColumnsForChange(coll, "FAT_CORRECTION", obj.FAT_CORRECTION)
                 clsCommon.AddColumnsForChange(coll, "SNF_CORRECTION", obj.SNF_CORRECTION)
                 clsCommon.AddColumnsForChange(coll, "QAT_Rate", obj.QAT_Rate, True)
+                clsCommon.AddColumnsForChange(coll, "Negative_Rate", obj.Negative_Rate, True)
 
                 Dim Strqry As String = "SELECT Count(*) FROM TSPL_MILK_SAMPLE_Detail where DOC_CODE = '" & strDocNo & "' and TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE='" & obj.VLC_DOC_CODE & "' and sample_No='" & obj.SAMPLE_NO & "'"
                 Dim check As Integer = clsDBFuncationality.getSingleValue(Strqry, trans)
@@ -744,6 +746,9 @@ Public Class clsMilkSRNMCC
 
                 objtr.QAT_Rate = clsCommon.myCdbl(dr("QAT_Rate"))
                 objtr.QAT_Amt = clsCommon.myCdbl(dr("QAT_Amt"))
+
+                objtr.Negative_Rate = clsCommon.myCdbl(dr("Negative_Rate"))
+                objtr.Negative_Amount = clsCommon.myCdbl(dr("Negative_Amount"))
                 ObjList.Add(objtr)
             Next
         End If
@@ -868,9 +873,9 @@ Public Class clsMilkSRNMCC
         Return isSaved
     End Function
 
-    Public Shared Function UpdateSample(ByVal Doc_Code As String, ByVal sample_No As Integer, ByVal FAT As Double, ByVal SNF As Double, ByVal Rate As Double, ByVal Amount As Double, ByVal trans As SqlTransaction, ByVal Price_Code As String, ByVal QATRAte As Decimal) As Boolean
+    Public Shared Function UpdateSample(ByVal Doc_Code As String, ByVal sample_No As Integer, ByVal FAT As Double, ByVal SNF As Double, ByVal Rate As Double, ByVal Amount As Double, ByVal trans As SqlTransaction, ByVal Price_Code As String, ByVal QATRAte As Decimal, ByVal NegativeRate As Decimal) As Boolean
         Try
-            Dim sQuery As String = "update tspl_milk_sample_detail set fat=" & FAT & " , snf=" & SNF & ",rate=" & Rate & ",Amount=" & Amount & ",QAT_Rate=" & QATRAte & ""
+            Dim sQuery As String = "update tspl_milk_sample_detail set fat=" & FAT & " , snf=" & SNF & ",rate=" & Rate & ",Amount=" & Amount & ",QAT_Rate=" & QATRAte & ",Negative_Rate=" & NegativeRate & ""
             If clsCommon.myLen(Price_Code) > 0 Then
                 sQuery += " ,Price_Code='" + Price_Code + "'  "
             End If
@@ -1590,18 +1595,19 @@ Public Class clsMilkSRNMCC
             If isPickCLRInsteadOfSNF Then
                 Dim strPriceCode As String = ""
                 If PickPriceFromFATAndSNF Then
-                    clsMilkSRNMCC.ObjList(0).RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(clsMilkSRNMCC.ObjList(0).MILK_Qty, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, objHead.MCC_CODE, objHead.VLC_CODE, IIf(objHead.SHIFT.Contains("M"), "M", "E"), objHead.DOC_DATE, Trans, strMilkType, clsMilkSRNMCC.ObjList(0).QAT_Rate)
+                    clsMilkSRNMCC.ObjList(0).RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(clsMilkSRNMCC.ObjList(0).MILK_Qty, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, objHead.MCC_CODE, objHead.VLC_CODE, IIf(objHead.SHIFT.Contains("M"), "M", "E"), objHead.DOC_DATE, Trans, strMilkType, clsMilkSRNMCC.ObjList(0).QAT_Rate, clsMilkSRNMCC.ObjList(0).Negative_Rate)
                 Else
                     clsMilkSRNMCC.ObjList(0).RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).CLR, objHead.MCC_CODE, objHead.VLC_CODE, IIf(objHead.SHIFT.Contains("M"), "M", "E"), objHead.DOC_DATE, Trans, strMilkType, strPriceCode)
                     clsMilkSRNMCC.ObjList(0).Price_Code = strPriceCode
                 End If
             Else
-                clsMilkSRNMCC.ObjList(0).RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(clsMilkSRNMCC.ObjList(0).MILK_Qty, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, objHead.MCC_CODE, objHead.VLC_CODE, IIf(objHead.SHIFT.Contains("M"), "M", "E"), objHead.DOC_DATE, Trans, strMilkType, clsMilkSRNMCC.ObjList(0).QAT_Rate)
+                clsMilkSRNMCC.ObjList(0).RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(clsMilkSRNMCC.ObjList(0).MILK_Qty, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, objHead.MCC_CODE, objHead.VLC_CODE, IIf(objHead.SHIFT.Contains("M"), "M", "E"), objHead.DOC_DATE, Trans, strMilkType, clsMilkSRNMCC.ObjList(0).QAT_Rate, clsMilkSRNMCC.ObjList(0).Negative_Rate)
             End If
             If Not MilkShiftUploderQAT Then
                 clsMilkSRNMCC.ObjList(0).QAT_Rate = 0
             End If
             clsMilkSRNMCC.ObjList(0).QAT_Amt = clsMilkSRNMCC.ObjList(0).QAT_Rate * clsMilkSRNMCC.ObjList(0).MILK_Qty
+            clsMilkSRNMCC.ObjList(0).Negative_Amount = clsMilkSRNMCC.ObjList(0).Negative_Rate * clsMilkSRNMCC.ObjList(0).MILK_Qty
             clsMilkSRNMCC.ObjList(0).AMOUNT = Math.Round(clsMilkSRNMCC.ObjList(0).RATE * clsMilkSRNMCC.ObjList(0).MILK_Qty, 2, MidpointRounding.AwayFromZero)
             clsMilkSRNMCC.ObjList(0).Commission = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("commision_pers"))
             clsMilkSRNMCC.ObjList(0).Head_Load_Rate = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("Rate_Head_Load"))
@@ -1791,7 +1797,7 @@ Public Class clsMilkSRNMCC
 
             clsMilkSRNMCC.UpdateDataFromSRNFrom(objHead, clsMilkSRNMCC.ObjList, objVSPChargeList, objPriceChargeList, Trans)
             clsMilkSRNMCC.updateJournalEntryWithTran("MI-SR", objHead.DOC_CODE, Trans)
-            clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, clsMilkSRNMCC.ObjList(0).RATE, clsMilkSRNMCC.ObjList(0).AMOUNT, Trans, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).QAT_Rate)
+            clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, clsMilkSRNMCC.ObjList(0).RATE, clsMilkSRNMCC.ObjList(0).AMOUNT, Trans, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).QAT_Rate, clsMilkSRNMCC.ObjList(0).Negative_Rate)
 
             CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, strMilkReceiptCode, objHead.SAMPLE_NO, objHead.VLC_CODE, dblQty, strType, dblFAT, dblSNF, Trans)
             If IsCapping Then
@@ -1939,6 +1945,8 @@ Public Class clsMilkSRNMCCDetail
     Public VSP_Deduction_Apply As Boolean
     Public QAT_Rate As Decimal
     Public QAT_Amt As Decimal
+    Public Negative_Rate As Decimal
+    Public Negative_Amount As Decimal
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Dock_Collection_Milk_Type As String, ByVal Arr As List(Of clsMilkSRNMCCDetail), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal Against_Reject_No As String, ByVal SAMPLE_NO As Integer) As Boolean
@@ -2008,6 +2016,9 @@ where DOC_CODE='" + clsCommon.myCstr(Against_Reject_No) + "' and SAMPLE_NO=" + c
 
                 clsCommon.AddColumnsForChange(coll, "QAT_Rate", obj.QAT_Rate, True)
                 clsCommon.AddColumnsForChange(coll, "QAT_Amt", obj.QAT_Amt, True)
+
+                clsCommon.AddColumnsForChange(coll, "Negative_Rate", obj.Negative_Rate, True)
+                clsCommon.AddColumnsForChange(coll, "Negative_Amount", obj.Negative_Amount, True)
                 Dim flag As Boolean = True
                 Dim settVSPDayWiseIncentiveAtSRN As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPDayWiseIncentiveAtSRN, clsFixedParameterCode.VSPDayWiseIncentiveAtSRN, trans)) > 0)
                 If settVSPDayWiseIncentiveAtSRN Then
