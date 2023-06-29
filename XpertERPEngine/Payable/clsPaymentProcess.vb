@@ -1506,7 +1506,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
         End If
 
 
-        Dim strRefDocType As String = "('DED-MAP','TIP-DED','VSP-COM','VSP-CMP','VSP-QLT','VSP-PVK','VSP-DIT','PRO-VFC','PRO-VFD','NCM-DED','CM-DED','ASL-DED','PRO-LCS','PRO-STD','OWD-CRE','OWD-CRD','OWD-DBT','DCS-ADD','DCS-DED','DCS-QAT','DCS-LYT')"
+        Dim strRefDocType As String = "('DED-MAP','TIP-DED','VSP-COM','VSP-CMP','VSP-QLT','VSP-PVK','VSP-DIT','PRO-VFC','PRO-VFD','NCM-DED','CM-DED','ASL-DED','PRO-LCS','PRO-STD','OWD-CRE','OWD-CRD','OWD-DBT','DCS-ADD','DCS-DED','DCS-QAT','DCS-LYT','VSP-NGT')"
         'Delete deduction Entry
 
         qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Trans_Type='IC-AD' and source_doc_no in ( select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_AP_Invoice_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhr + " and RefDocType in " + strRefDocType + "))"

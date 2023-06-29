@@ -8137,6 +8137,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptTempTruckSheetCollectionReport
                         frm = New rptTempTruckSheetCollectionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptMobileAppMilkCollection
+                        frm = New rptMobileAppMilkCollection
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.frmDBTRecoVsIncentiveReport
                         frm = New frmDBTRecoVsIncentiveReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
