@@ -2067,6 +2067,7 @@ Public Class clsUserMgtCode
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
     Public Const rptPaymentCycleWiseReport As String = "PYMT_CYCL_R"
     Public Const rptTempTruckSheetCollectionReport As String = "TEMP_TRCK_R"
+    Public Const rptMobileAppMilkCollection As String = "MOB-MLK-R"
     Public Const frmDBTRecoVsIncentiveReport As String = "DBTREC_INC_R"
     Public Const frmAutoAdditionDeductionReport As String = "AUTO_AD_R"
     'Public Const rptTankerStatusReport As String = "R-T-STAT"
