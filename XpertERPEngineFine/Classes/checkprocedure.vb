@@ -1682,10 +1682,11 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDailyQtyReport, "Daily Qty Report", "1.17.03.100", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptPaymentCycleWiseReport, "Payment Cycle Wise Report", "1.17.03.101", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTempTruckSheetCollectionReport, "Temp Truck Sheet Collection Report", "1.17.03.102", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmDBTRecoVsIncentiveReport, "DBT Reco Vs Incentive Report", "1.17.03.103", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmAutoAdditionDeductionReport, "Auto Addition/Deduction Report", "1.17.03.104", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "Truck Sheet Daily Summary Report", "1.17.03.105", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "Temporary Payment Deduction Summary", "1.17.03.106", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMobileAppMilkCollection, "Mobile App Milk Collection Report", "1.17.03.103", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDBTRecoVsIncentiveReport, "DBT Reco Vs Incentive Report", "1.17.03.104", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmAutoAdditionDeductionReport, "Auto Addition/Deduction Report", "1.17.03.105", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "Truck Sheet Daily Summary Report", "1.17.03.106", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "Temporary Payment Deduction Summary", "1.17.03.107", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup
