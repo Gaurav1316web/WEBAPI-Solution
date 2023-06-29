@@ -23307,6 +23307,7 @@ Public Class clsCreateAllTable
             coll.Add("FAT_CORRECTION", "decimal(18,1) null")
             coll.Add("SNF_CORRECTION", "decimal(18,1) null")
             coll.Add("QAT_Rate", "decimal(18,3) null")
+            coll.Add("Negative_Rate", "decimal(18,3) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SAMPLE_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", False, False)
             coll.Item("DOC_CODE") = "Varchar(30) not null "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SAMPLE_DETAIL_SYNC", coll, "Primary Key (DOC_CODE,PK_Id)", False, False)
@@ -23638,6 +23639,8 @@ Public Class clsCreateAllTable
             coll.Add("Capping_SNF", "decimal(18,2) null")
             coll.Add("QAT_Rate", "decimal(18,3) null")
             coll.Add("QAT_Amt", "decimal(18,2) null")
+            coll.Add("Negative_Rate", "decimal(18,3) null")
+            coll.Add("Negative_Amount", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "")
             coll.Item("DOC_CODE") = "varchar(30)  NOT NULL "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL_SYNC", coll, "Primary Key (DOC_CODE,PK_Id)", False, False)

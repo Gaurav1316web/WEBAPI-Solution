@@ -848,7 +848,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                                 objMilkSampleDetail.CLR = Math.Truncate(objtr.SNF * 10) / 10
                                 objMilkSampleDetail.SNF = clsCommon.myRoundOFF(clsEkoPro.getSnfOnCalculation(objMilkSampleDetail.FAT, objMilkSampleDetail.CLR, corrFactor), 1, 4)
                                 If PickPriceFromFATAndSNF Then
-                                    objMilkSampleDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkReceiptDetail.MILK_WEIGHT, objMilkSampleDetail.Price_Code, objMilkSampleDetail.FAT, objMilkSampleDetail.SNF, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strMilkType, objMilkSampleDetail.QAT_Rate)
+                                    objMilkSampleDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkReceiptDetail.MILK_WEIGHT, objMilkSampleDetail.Price_Code, objMilkSampleDetail.FAT, objMilkSampleDetail.SNF, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strMilkType, objMilkSampleDetail.QAT_Rate, objMilkSampleDetail.Negative_Rate)
                                 Else
                                     objMilkSampleDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSampleDetail.FAT, objMilkSampleDetail.CLR, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSampleDetail.Price_Code)
                                 End If
@@ -858,7 +858,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                                 End If
                                 objMilkSampleDetail.SNF = objtr.SNF
                                 objMilkSampleDetail.CLR = clsEkoPro.getClrOnCalculation(objMilkSampleDetail.FAT, objMilkSampleDetail.SNF, corrFactor)
-                                objMilkSampleDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkReceiptDetail.MILK_WEIGHT, objMilkSampleDetail.Price_Code, objMilkSampleDetail.FAT, objMilkSampleDetail.SNF, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strMilkType, objMilkSampleDetail.QAT_Rate)
+                                objMilkSampleDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkReceiptDetail.MILK_WEIGHT, objMilkSampleDetail.Price_Code, objMilkSampleDetail.FAT, objMilkSampleDetail.SNF, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strMilkType, objMilkSampleDetail.QAT_Rate, objMilkSampleDetail.Negative_Rate)
                             End If
                             If Not objtr.QAT Then
                                 objMilkSampleDetail.QAT_Rate = 0
@@ -929,6 +929,10 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
 
                             objMilkSRNDetail.QAT_Rate = objMilkSampleDetail.QAT_Rate
                             objMilkSRNDetail.QAT_Amt = clsCommon.myRoundOFF(objMilkSampleDetail.QAT_Rate * objMilkSRNDetail.MILK_Qty, 2, 4)
+
+                            objMilkSRNDetail.Negative_Rate = objMilkSampleDetail.Negative_Rate
+                            objMilkSRNDetail.Negative_Amount = clsCommon.myRoundOFF(objMilkSampleDetail.Negative_Rate * objMilkSRNDetail.MILK_Qty, 2, 4)
+
 
                             objMilkSRNDetail.Commission = 0 ' because nature is always E and it is never C 'clsCommon.myCdbl(dr(0)("Actual_charges"))
                             objMilkSRNDetail.Commission_Amount = Math.Round(objMilkSRNDetail.AMOUNT * objMilkSRNDetail.Commission / 100, 2)

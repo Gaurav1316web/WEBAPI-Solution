@@ -2444,17 +2444,18 @@ Public Class clsEkoPro
         Return RetVal
     End Function
     Public Shared Function getRateAndPriceCodeFromUploaderShiftWise(ByVal qty As Decimal, ByRef PriceCode As String, ByVal FatPer As Double, ByVal SNFPer As Double, ByVal MccCode As String, ByVal vlcCode As String, ByVal Shift As String, ByVal Doc_Date As Date, ByVal tran As SqlTransaction, ByVal strMilkType As String) As Double
-        Return getRateAndPriceCodeFromUploaderShiftWise(qty, PriceCode, FatPer, SNFPer, MccCode, vlcCode, Shift, Doc_Date, tran, strMilkType, 0)
+        Return getRateAndPriceCodeFromUploaderShiftWise(qty, PriceCode, FatPer, SNFPer, MccCode, vlcCode, Shift, Doc_Date, tran, strMilkType, 0, 0)
     End Function
-    Public Shared Function getRateAndPriceCodeFromUploaderShiftWise(ByVal qty As Decimal, ByRef PriceCode As String, ByVal FatPer As Double, ByVal SNFPer As Double, ByVal MccCode As String, ByVal vlcCode As String, ByVal Shift As String, ByVal Doc_Date As Date, ByVal tran As SqlTransaction, ByVal strMilkType As String, ByRef dclRefQATRate As Decimal) As Double
+    Public Shared Function getRateAndPriceCodeFromUploaderShiftWise(ByVal qty As Decimal, ByRef PriceCode As String, ByVal FatPer As Double, ByVal SNFPer As Double, ByVal MccCode As String, ByVal vlcCode As String, ByVal Shift As String, ByVal Doc_Date As Date, ByVal tran As SqlTransaction, ByVal strMilkType As String, ByRef dclRefQATRate As Decimal, ByRef dclRefNegativeRate As Decimal) As Double
         Dim Rate As Decimal = 0
         PriceCode = ""
+        dclRefNegativeRate = 0
         Try
             If Not clsVendorMaster.IsVLCDripSaver(vlcCode, tran) Then
                 If objCommonVar.PricePlan = 6 Then
                     Rate = GetRateCalculatedRAJ(PriceCode, Doc_Date, Shift, vlcCode, strMilkType, qty, FatPer, SNFPer, tran)
                 ElseIf objCommonVar.PricePlan = 7 Then
-                    Rate = GetRateCalculatedJPR(PriceCode, Doc_Date, Shift, vlcCode, strMilkType, qty, FatPer, SNFPer, tran, dclRefQATRate)
+                    Rate = GetRateCalculatedJPR(PriceCode, Doc_Date, Shift, vlcCode, strMilkType, qty, FatPer, SNFPer, tran, dclRefQATRate, dclRefNegativeRate)
                 Else
                     Dim settMilkCollectionPickBulkRoute As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, tran)) = 1)
                     Dim strJoin As String = " inner "
@@ -2513,12 +2514,13 @@ Public Class clsEkoPro
         Return Rate
     End Function
 
-    Public Shared Function GetRateCalculatedJPR(ByRef strPlanningCode As String, ByVal Doc_Date As Date, ByVal Shift As String, ByVal VLC_Code As String, ByVal strMilkType As String, ByVal Qty As Decimal, ByVal dblFATPer As Double, ByVal dblSNFPer As Double, ByVal tran As SqlTransaction, ByRef dclRefQATRate As Decimal) As Decimal
+    Public Shared Function GetRateCalculatedJPR(ByRef strPlanningCode As String, ByVal Doc_Date As Date, ByVal Shift As String, ByVal VLC_Code As String, ByVal strMilkType As String, ByVal Qty As Decimal, ByVal dblFATPer As Double, ByVal dblSNFPer As Double, ByVal tran As SqlTransaction, ByRef dclRefQATRate As Decimal, ByRef dclRefNegativeRate As Decimal) As Decimal
         'For Jaipur and Alwar
         If Qty <= 0 Then
             Return 0
         End If
         dclRefQATRate = 0
+        dclRefNegativeRate = 0
         strPlanningCode = ""
         Dim strPriceMasterCode As String = Nothing
         Dim dclReturnMilkValue As Decimal = 0
@@ -2575,7 +2577,7 @@ Public Class clsEkoPro
                         Exit For
                     End If
                 Next
-
+                
                 If dclTSDDCSRate > 0 AndAlso dclTSDDCSRateSlab > 0 Then
                     dclRefQATRate = clsCommon.myRoundOFF(((dclTSDDCSRate - dclTSDDCSRateSlab) * dblFATPer / 100), 3, 4)
                 End If
@@ -2592,6 +2594,7 @@ Public Class clsEkoPro
             'End If
             dclReturnMilkValue = clsCommon.myRoundOFF(dclReturnMilkValue, 2, 4)
             If dclReturnMilkValue < 0 Then
+                dclRefNegativeRate = -1 * dclReturnMilkValue
                 dclReturnMilkValue = 0
             End If
         Else
