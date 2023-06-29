@@ -22,16 +22,6 @@ Public Class frmCorrection
 
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles Me.Load
         Try
-            Dim coll As New Dictionary(Of String, String)()
-            coll.Add("Negative_Rate", "decimal(18,3) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SAMPLE_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", False, False)
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SAMPLE_DETAIL_SYNC", coll, "Primary Key (DOC_CODE,PK_Id)", False, False)
-
-            coll = New Dictionary(Of String, String)()
-            coll.Add("Negative_Rate", "decimal(18,3) null")
-            coll.Add("Negative_Amount", "decimal(18,2) null")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "")
-
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
                 chkAddMissingSample.Visible = False
                 chkAdjustOwnBMCFATSNF.Visible = True
