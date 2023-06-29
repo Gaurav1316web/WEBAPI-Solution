@@ -1383,6 +1383,9 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                             Dim objtemp As New clsTempFATSNFAmt
                             objtemp.IDate = clsCommon.myCDate(grow.Cells("Date").Value)
                             objtemp.IShift = clsCommon.myCstr(grow.Cells("Shift").Value)
+                            If Not (clsCommon.CompairString(objtemp.IShift, "M") = CompairStringResult.Equal OrElse clsCommon.CompairString(objtemp.IShift, "E") = CompairStringResult.Equal) Then
+                                Throw New Exception("Shift Should be [M/E]")
+                            End If
                             objtemp.BulkRoute = clsCommon.myCstr(grow.Cells("Route").Value)
                             If clsCommon.myLen(objtemp.BulkRoute) > 0 Then
                                 objtemp.BulkRoute = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ROUTE_NO from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + objtemp.BulkRoute + "'"))

@@ -1707,6 +1707,7 @@ Public Class clsMilkSRNMCC
             If dclDistanceKM = 0 Then
                 dclDistanceKM = 1
             End If
+            clsMilkSRNMCC.ObjList(0).Head_Load_Amount = 0
             If clsCommon.CompairString(clsCommon.myCstr(DtMilkReceipt.Rows(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
                 If clsMilkSRNMCC.ObjList(0).ACC_Qty >= MinimumQtyForHeadLoad Then
                     clsMilkSRNMCC.ObjList(0).Head_Load_Amount = Math.Round(clsMilkSRNMCC.ObjList(0).ACC_Qty * clsMilkSRNMCC.ObjList(0).Head_Load_Rate * dclDistanceKM, 2)
