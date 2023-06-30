@@ -47,7 +47,6 @@ Public Class frmMilkCollectionDCS
     Dim settMaxFATPerLimit As Decimal = 0
     Dim settMaxSNFPerLimit As Decimal = 0
     Dim corrFactor As Decimal = 0
-
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
@@ -692,9 +691,26 @@ Public Class frmMilkCollectionDCS
                 If (obj.ArrMCC Is Nothing OrElse obj.ArrMCC.Count <= 0) Then
                     Throw New Exception("Please Fill at list one BMC Details")
                 End If
-                obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
-                LoadData(obj.Document_No, NavigatorType.Current)
+                Dim isOwnBMC As Integer = 0
+                Dim countOwnBMC As Integer = 0
+                For i As Integer = 0 To obj.Arr.Count - 1
+                    Dim trans As SqlTransaction
+                    countOwnBMC = clsfrmVLCMaster.IsOwnBMC(obj.Arr(i).VLC_Code, txtMCC.Tag, trans)
+                    If countOwnBMC = 1 Then
+                        isOwnBMC = countOwnBMC
+                    End If
+                Next
+                If isOwnBMC = 1 Then
+                    obj.SaveData(obj, isNewEntry)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+                Else
+                    If common.clsCommon.MyMessageBoxShow("You have not selected Own BMC. Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                        obj.SaveData(obj, isNewEntry)
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+                    End If
+                End If
+
+                    LoadData(obj.Document_No, NavigatorType.Current)
             End If
         Catch ex As Exception
             'frmSRN.IsPoSavedAuto = False
