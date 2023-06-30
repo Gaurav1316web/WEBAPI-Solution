@@ -242,6 +242,7 @@ Public Class frmVSP_VLCMaster
         lblRegistrationDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         txtRegistrationDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         txtRegistrationDate.Text = clsCommon.GETSERVERDATE()
+        txtCowPriceDate.Text = clsCommon.GETSERVERDATE()
         If chkApplyCowPrice.Checked Then
             txtCowPriceDate.Enabled = True
         Else
@@ -1253,10 +1254,10 @@ Public Class frmVSP_VLCMaster
             '    End If
             '    'Route Mapping
 
-            '    fndvlccode.Text = obj.vlcCode
-            '    '    fndvlccode.ReadOnly = True
-            '    'Else
-            '    '    fndvlccode.ReadOnly = False
+            fndvlccode.Text = obj.vlcCode
+            '    fndvlccode.ReadOnly = True
+            'Else
+            '    fndvlccode.ReadOnly = False
             'End If
 
 
@@ -1283,16 +1284,26 @@ Public Class frmVSP_VLCMaster
                 chkSuspense.Checked = obj.IsSuspense
                 txtvsp.Text = obj.VspName
                 fndMcc.Value = obj.MCCCOde
+                If clsCommon.myLen(fndMcc.Value) > 0 Then
+                    lblMCCName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("  select MCC_NAME from tspl_MCC_MASTER where MCC_Code = '" + fndMcc.Value + "' "))
+                Else
+                    lblMCCName.Text = ""
+                End If
                 txtvillcode.Value = obj.mainvillcode
                 txtvillname.Text = obj.mainvillname
                 txtroutecode.Value = obj.routecode
+                If clsCommon.myLen(txtroutecode.Value) > 0 Then
+                    txtroutename.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ROUTE_NO As Code, ROUTE_NAME as Description from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + txtroutecode.Value + "'"))
+                Else
+                    txtroutename.Text = ""
+                End If
                 txtroutename.Text = obj.routename
                 txtLoyaltyPer.Value = obj.Loyalty_Rate
                 txtOwnBMCDate.Text = clsCommon.myCDate(obj.OwnBMCDate)
                 fndPriceCode.Value = obj.Price_Code
                 Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
                 'fndvlccode.ReadOnly = True
-                If clscommon.myCBool(obj.HeadLoad) = True Then
+                If clsCommon.myCBool(obj.HeadLoad) = True Then
                     ChkHeadLoad.Checked = True
                     If clsCommon.myCstr(obj.HeadLoadBasis) = "P" Then
                         CmbHeadLoadServiceBasis.Text = "%(Percentage)"
@@ -1810,6 +1821,10 @@ Public Class frmVSP_VLCMaster
 
             trans.Commit()
 
+            Dim obj As New clsfrmVLCMaster()
+            If clsCommon.myLen(obj.vlcCode) > 0 Then
+                VLCLoadData(obj.vlcCode, NavigatorType.Current)
+            End If
             'If clsCommon.myLen(fndvlccode.Text) > 0 Then
             '    VLCLoadData(fndvlccode.Text, NavigatorType.Current)
             'End If
@@ -2850,7 +2865,6 @@ Public Class frmVSP_VLCMaster
                 End If
 
             Else
-
                 txtno_days.Text = ""
                 cmbincentive.SelectedValue = ""
                 cmbvsppayment.SelectedValue = ""
@@ -2894,11 +2908,8 @@ Public Class frmVSP_VLCMaster
                 VLC_reset()
                 btnsave.Text = "Save"
                 btndelete.Enabled = False
-
-
             End If
         Catch ex As Exception
-
             myMessages.myExceptions(ex)
         End Try
     End Sub
@@ -3720,25 +3731,6 @@ Public Class frmVSP_VLCMaster
         funreset()
         isLoadCopy = False
     End Sub
-
-    Private Sub MenuExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuExport.Click
-        Try
-            If clsCommon.myLen(txtroutecode.Value) > 0 Then
-                OpenRouteAccRouteCode(txtroutecode.Value)
-            End If
-            Dim BlankSheet As String = Nothing
-            If chkBlankExportExcel.Checked Then
-                BlankSheet = "True"
-            Else
-                BlankSheet = "False"
-            End If
-            clsfrmVLCMaster.ExportDataTable(fndvendorNo.Value, Me, BlankSheet)
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
-
-    End Sub
-
 
 
     Private Sub MenuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuImport.Click
@@ -4777,10 +4769,10 @@ Public Class frmVSP_VLCMaster
             End If
 
             If isDuplicateVLCCode(IIf(clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal, False, True)) Then
-                clsCommon.MyMessageBoxShow(" Duplicate VLC Code for VLC Uploader")
+                clsCommon.MyMessageBoxShow("Duplicate DCS Code for DCS Uploader")
                 pageCus.SelectedPage = RadPageViewPage1
                 txtVLCCodeVlcUploader.Focus()
-                Errorcontrol.SetError(txtVLCCodeVlcUploader, "Duplicate VLC Code for VLC Uploader")
+                Errorcontrol.SetError(txtVLCCodeVlcUploader, "Duplicate DCS Code for DCS Uploader")
                 Return False
             Else
                 Errorcontrol.SetError(txtVLCCodeVlcUploader, "")
@@ -4843,7 +4835,14 @@ Public Class frmVSP_VLCMaster
     End Function
     Function isDuplicateVLCCode(ByVal isUpdate As Boolean) As Boolean
 
-        Dim qry As String = "select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" & txtVLCCodeVlcUploader.Text & "' and vlc_code<>'" & fndvlccode.Text & "' and mcc='" & fndMcc.Value & "'"
+        'Dim qry As String = "select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" & txtVLCCodeVlcUploader.Text & "' and vlc_code<>'" & fndvlccode.Text & "' and mcc='" & fndMcc.Value & "'"
+        Dim qry As String = Nothing
+        If btnsave.Text.Contains("Save") Then
+            qry = "select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" & txtVLCCodeVlcUploader.Text & "'"
+        Else
+            qry = "select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" & txtVLCCodeVlcUploader.Text & "' and vlc_code<>'" & fndvlccode.Text & "' and mcc='" & fndMcc.Value & "'"
+        End If
+
         Dim rvalue As Boolean = False
         Dim cnt As Integer = 0
         cnt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
@@ -6078,6 +6077,34 @@ Public Class frmVSP_VLCMaster
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
+    End Sub
+
+    Private Sub ExportBlankSheet_Click(sender As Object, e As EventArgs) Handles ExportBlankSheet.Click
+        Try
+            If clsCommon.myLen(txtroutecode.Value) > 0 Then
+                OpenRouteAccRouteCode(txtroutecode.Value)
+            End If
+            Dim ExportSheet As String = "BlankSheet"
+            clsfrmVLCMaster.ExportDataTable(fndvendorNo.Value, Me, ExportSheet)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+        End Try
+    End Sub
+
+    Private Sub ExportData_Click(sender As Object, e As EventArgs) Handles ExportData.Click
+        Try
+            If clsCommon.myLen(txtroutecode.Value) > 0 Then
+                OpenRouteAccRouteCode(txtroutecode.Value)
+            End If
+            Dim ExportSheet As String = "FillDataSheet"
+            clsfrmVLCMaster.ExportDataTable(fndvendorNo.Value, Me, ExportSheet)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtRegistrationDate_ValueChanged(sender As Object, e As EventArgs) Handles txtRegistrationDate.ValueChanged
+
     End Sub
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click

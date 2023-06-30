@@ -142,14 +142,14 @@ Public Class clsfrmVLCMaster
             clsCommon.AddColumnsForChange(coll, "Milk_Receive_UOM", obj.Milk_Receive_UOM, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
-            If obj.ApplyCowPriceDate IsNot Nothing Then
+            If obj.ApplyCowPriceDate IsNot Nothing AndAlso obj.Apply_Cow_Price Then
                 clsCommon.AddColumnsForChange(coll, "ApplyCowPriceDate", clsCommon.GetPrintDate(obj.ApplyCowPriceDate, "dd/MMM/yyyy"))
             Else
                 clsCommon.AddColumnsForChange(coll, "ApplyCowPriceDate", Nothing, True)
             End If
             clsCommon.AddColumnsForChange(coll, "Loyalty_Rate", obj.Loyalty_Rate, True)
             clsCommon.AddColumnsForChange(coll, "isOwnBMC", IIf(obj.TFOwnBMC, 1, 0))
-            If obj.OwnBMCDate IsNot Nothing Then
+            If obj.OwnBMCDate IsNot Nothing AndAlso obj.TFOwnBMC Then
                 clsCommon.AddColumnsForChange(coll, "OwnBMCDate", clsCommon.GetPrintDate(obj.OwnBMCDate, "dd/MMM/yyyy"))
             Else
                 clsCommon.AddColumnsForChange(coll, "OwnBMCDate", Nothing, True)
@@ -197,7 +197,14 @@ Public Class clsfrmVLCMaster
             If IsTransactionExist = False Then
                 trans.Rollback()
             End If
-            Throw New Exception(ex.Message)
+            If clsCommon.myCstr(ex.Message).Contains("uk_VLC_Code_VLC_Uploader") Then
+                Throw New Exception("Duplicate DCS Code for DCS Uploader ")
+                Return False
+            Else
+                Throw New Exception(ex.Message)
+                Return False
+            End If
+            'Throw New Exception(ex.Message)
         End Try
     End Function
 
@@ -366,14 +373,14 @@ Public Class clsfrmVLCMaster
         End Try
     End Function
 
-    Public Shared Function ExportDataTable(ByVal strDcsCode As String, ByVal frmMe As RadForm, ByVal exportBlankSheet As String) As Boolean
+    Public Shared Function ExportDataTable(ByVal strDcsCode As String, ByVal frmMe As RadForm, ByVal exportSheet As String) As Boolean
         Try
             Dim whrQry As String = Nothing
             If clsCommon.myLen(strDcsCode) > 0 AndAlso strDcsCode IsNot Nothing Then
                 whrQry = "where TSPL_VLC_MASTER_HEAD.vsp_code ='" + strDcsCode + "'"
             End If
             Dim strQry As String = Nothing
-            If exportBlankSheet = "True" Then
+            If exportSheet.Contains("BlankSheet") Then
                 strQry = "select ''  As 'DCS Code','' As 'DCS Name',''  As 'DCS Uploader Code','' As 'PAN No',
                         '' As 'DCS Route Code','' As Active,
                         '' As 'Created Date','' As  'Loyalty Rate','' As 'Own BMC','' 'Own BMC Date','' As 'Apply Cow Price','' As 'Apply Cow Price Date','' As 'Head Load','' As 'Head Load Service Basis','' As 'Head Load Rate',
