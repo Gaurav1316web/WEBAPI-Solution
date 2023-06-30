@@ -7780,9 +7780,9 @@ Public Class MDI
                     Case clsUserMgtCode.VLCProgressReport
                         frm = New frmVLCProgressReportReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    'Case clsUserMgtCode.FATSNFDiffReport
-                    '    frm = New frmFATSNFDiffReport
-                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FATSNFDiffReport
+                        frm = New frmFATSNFDiffReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptMCCShiftReportRouteWise
                         frm = New FrmMCCShiftReportRouteWise
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8136,6 +8136,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptTempTruckSheetCollectionReport
                         frm = New rptTempTruckSheetCollectionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptMobileAppMilkCollection
+                        frm = New rptMobileAppMilkCollection
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.frmDBTRecoVsIncentiveReport
                         frm = New frmDBTRecoVsIncentiveReport

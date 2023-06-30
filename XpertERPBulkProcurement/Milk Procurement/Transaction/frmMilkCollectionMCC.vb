@@ -577,7 +577,7 @@ Public Class frmMilkCollectionMCC
         gv1.MasterTemplate.Columns.Add(repoNumBox)
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "CLR KG", "SNF KG")
+        repoNumBox.HeaderText = "SNF KG" ''If(isPickCLRInsteadOfSNF, "CLR KG", "SNF KG")
         repoNumBox.Name = colSNFKG
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
@@ -652,6 +652,7 @@ Public Class frmMilkCollectionMCC
                 If isPickCLRInsteadOfSNF Then
                     Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colSNFPer).Value), corrFactor)
                     dclCurrSNFKG = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) * snfPer / 100
+                    gv1.Rows(ii).Cells(colSNFKG).Value = dclCurrSNFKG
                 End If
                 TotSNFKG += dclCurrSNFKG
                 If Not arrType.Contains(clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)) Then
@@ -813,6 +814,7 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
             'Throw New Exception("Data already exist")
             'clsCommon.MyMessageBoxShow("Data already exist")
         End If
+        UpdateAllTotal()
         Return True
     End Function
     Public Function SaveData() As Boolean
