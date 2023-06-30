@@ -324,7 +324,7 @@ Public Class FrmQualityCheckApprovalForSRN
                     objtr.SRN_Type = clsQualityCheckForSRNHead.CodeOfPurchaseOrderType(clsCommon.myCstr(grow.Cells(colSRNType).Value))
                     objtr.Item_Type = clsQualityCheckForSRNHead.CodeOfItemType(clsCommon.myCstr(grow.Cells(colItemType).Value))
 
-                    If clsCommon.myLen(objtr.Document_Code) > 0 AndAlso clsCommon.myCBool(grow.Cells(colSelect).Value) = True Then ''if selected for approval then go to save
+                    If clsCommon.myLen(objtr.Document_Code) > 0 AndAlso clsCommon.myCBool(grow.Cells(colSelect).Value) = True Then 'if selected for approval then go to save
                         obj.Arr.Add(objtr)
                     End If
                 Next
