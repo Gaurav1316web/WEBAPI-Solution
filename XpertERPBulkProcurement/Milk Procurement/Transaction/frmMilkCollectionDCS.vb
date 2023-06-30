@@ -325,7 +325,7 @@ Public Class frmMilkCollectionDCS
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG")
+        repoNumBox.HeaderText = "Evening SNF KG" ''If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG")
         repoNumBox.Name = colEveningSNFKG
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
@@ -437,7 +437,7 @@ Public Class frmMilkCollectionDCS
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
+        repoNumBox.HeaderText = "Morning SNF KG" ''If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
         repoNumBox.Name = colMorningSNFKG
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
@@ -508,9 +508,11 @@ Public Class frmMilkCollectionDCS
                 If isPickCLRInsteadOfSNF Then
                     Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFPer).Value), corrFactor)
                     dclCurrSNFKGE = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * snfPer / 100
+                    gv1.Rows(ii).Cells(colEveningSNFKG).Value = dclCurrSNFKGE
 
                     snfPer = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFPer).Value), corrFactor)
                     dclCurrSNFKGM = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * snfPer / 100
+                    gv1.Rows(ii).Cells(colMorningSNFKG).Value = dclCurrSNFKGM
                 End If
 
                 TotEveningSNFKG += dclCurrSNFKGE
@@ -665,6 +667,7 @@ Public Class frmMilkCollectionDCS
             txtDate.Focus()
             Return False
         End If
+        UpdateAllTotal()
         Return True
     End Function
 
