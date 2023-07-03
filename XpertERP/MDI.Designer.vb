@@ -92,6 +92,7 @@ Partial Class MDI
         Me.RTV2 = New Telerik.WinControls.UI.RadTreeView()
         Me.RadContextMenu2 = New Telerik.WinControls.UI.RadContextMenu(Me.components)
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnOriginalName = New Telerik.WinControls.UI.RadButton()
         Me.RadButton18 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
@@ -267,6 +268,7 @@ Partial Class MDI
         CType(Me.cboMenu, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RTV2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnOriginalName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -916,6 +918,7 @@ Partial Class MDI
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.btnOriginalName)
         Me.Panel1.Controls.Add(Me.RadButton18)
         Me.Panel1.Controls.Add(Me.RadButton1)
         Me.Panel1.Controls.Add(Me.RadButton2)
@@ -925,6 +928,14 @@ Partial Class MDI
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(239, 25)
         Me.Panel1.TabIndex = 12
+        '
+        'btnOriginalName
+        '
+        Me.btnOriginalName.Location = New System.Drawing.Point(243, 3)
+        Me.btnOriginalName.Name = "btnOriginalName"
+        Me.btnOriginalName.Size = New System.Drawing.Size(110, 19)
+        Me.btnOriginalName.TabIndex = 4
+        Me.btnOriginalName.Text = "Original Name"
         '
         'RadButton18
         '
@@ -2745,6 +2756,7 @@ Partial Class MDI
         CType(Me.cboMenu, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RTV2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.btnOriginalName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3056,6 +3068,7 @@ Partial Class MDI
     Friend WithEvents pBoxFingerPrint1 As System.Windows.Forms.PictureBox
     Friend WithEvents RadButton17 As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadButton18 As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnOriginalName As Telerik.WinControls.UI.RadButton
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents pBoxFingerPrint2 As System.Windows.Forms.PictureBox

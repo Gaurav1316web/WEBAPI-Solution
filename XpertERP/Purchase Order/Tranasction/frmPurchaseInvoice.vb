@@ -8538,7 +8538,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     left join TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
                     left join TSPL_ITEM_MASTER as GUNNY_TSPL_ITEM_MASTER ON GUNNY_TSPL_ITEM_MASTER.ITEM_CODE=TSPL_PO_WEIGHTMENT_GUNNY.ITEM_CODE
                     LEFT JOIN TSPL_TENDER_DETAIL ON TSPL_GRN_HEAD.Ref_No=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_DETAIL.Location=TSPL_GRN_HEAD.Bill_To_Location
-                    and TSPL_TENDER_DETAIL.Item_Code=TSPL_PI_DETAIL.Item_Code
+                    and TSPL_TENDER_DETAIL.Item_Code=TSPL_PI_DETAIL.Item_Code AND TSPL_TENDER_DETAIL.Vendor_Code=TSPL_GRN_HEAD.Vendor_Code
                     left join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No
                     where TSPL_PI_HEAD.PI_No = '" + txtDocNo.Value + "' )ss WHERE 1=1 "
             Else

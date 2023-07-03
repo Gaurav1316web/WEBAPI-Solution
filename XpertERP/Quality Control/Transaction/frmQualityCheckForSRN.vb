@@ -741,6 +741,13 @@ Public Class FrmQualityCheckForSRN
                 txtAccept.Text = obj.QC_Status
                 txtAccept.Visible = True
 
+                'If clsCommon.CompairString(objtr.QC_Status, "Rejected") = CompairStringResult.Equal Then
+                '    chkStatus.Enabled = True
+                'Else
+                '     chkStatus.Enabled = false
+                'End If
+
+
                 If obj.Posted = 1 Then
                     btnsave.Enabled = False
                     btndelete.Enabled = False

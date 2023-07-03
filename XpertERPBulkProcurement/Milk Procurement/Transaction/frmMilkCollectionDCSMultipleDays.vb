@@ -343,7 +343,7 @@ Public Class frmMilkCollectionDCSMultipleDays
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG")
+        repoNumBox.HeaderText = "Evening SNF KG" ''If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG")
         repoNumBox.Name = colEveningSNFKG
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
@@ -455,7 +455,7 @@ Public Class frmMilkCollectionDCSMultipleDays
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
+        repoNumBox.HeaderText = "Morning SNF KG" ''If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
         repoNumBox.Name = colMorningSNFKG
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
@@ -524,9 +524,11 @@ Public Class frmMilkCollectionDCSMultipleDays
                 If isPickCLRInsteadOfSNF Then
                     Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFPer).Value), corrFactor)
                     dclCurrSNFKGE = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * snfPer / 100
+                    gv1.Rows(ii).Cells(colEveningSNFKG).Value = dclCurrSNFKGE
 
                     snfPer = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFPer).Value), corrFactor)
                     dclCurrSNFKGM = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * snfPer / 100
+                    gv1.Rows(ii).Cells(colMorningSNFKG).Value = dclCurrSNFKGM
                 End If
 
                 TotEveningSNFKG += dclCurrSNFKGE
@@ -1078,7 +1080,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_
         gv1.Columns(colEveningFATPer).HeaderText = "Evening FAT %" + Environment.NewLine + PrevShift
         gv1.Columns(colEveningSNFPer).HeaderText = If(isPickCLRInsteadOfSNF, "Evening CLR %", "Evening SNF %") + Environment.NewLine + PrevShift
         gv1.Columns(colEveningFATKG).HeaderText = "Evening FAT KG" + Environment.NewLine + PrevShift
-        gv1.Columns(colEveningSNFKG).HeaderText = If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG") + Environment.NewLine + PrevShift
+        gv1.Columns(colEveningSNFKG).HeaderText = "Evening SNF KG" + Environment.NewLine + PrevShift ''If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG") + Environment.NewLine + PrevShift
 
         gv1.Columns(colMorningQty).HeaderText = "Morning Qty" + Environment.NewLine + CurrShift
         gv1.Columns(colMorningFATPerNoDecimal).HeaderText = "Morning FAT" + Environment.NewLine + CurrShift
@@ -1086,7 +1088,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_
         gv1.Columns(colMorningFATPer).HeaderText = "Morning FAT %" + Environment.NewLine + CurrShift
         gv1.Columns(colMorningSNFPer).HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR %", "Morning SNF %") + Environment.NewLine + CurrShift
         gv1.Columns(colMorningFATKG).HeaderText = "Morning FAT KG" + Environment.NewLine + CurrShift
-        gv1.Columns(colMorningSNFKG).HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG") + Environment.NewLine + CurrShift
+        gv1.Columns(colMorningSNFKG).HeaderText = "Morning SNF KG" + Environment.NewLine + CurrShift ''If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG") + Environment.NewLine + CurrShift
     End Sub
     Private Sub txtDate_Validated(sender As Object, e As EventArgs) Handles txtDate.Validated
         setShiftDate()
