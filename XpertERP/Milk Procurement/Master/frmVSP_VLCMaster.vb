@@ -1129,24 +1129,26 @@ Public Class frmVSP_VLCMaster
 
 
             '' Milk Route Master
-            qry = "select count(*) from tspl_mcc_route_master where route_Name='" + StrTempVSPName + "'"
-            check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
-            If check <= 0 Then
-                Dim objMRM As clsfrmMilkRouteMaster
-                objMRM = New clsfrmMilkRouteMaster()
-                objMRM.arr_VLC_Detail = Nothing
-                objMRM = New clsfrmMilkRouteMaster
-                objMRM.code = StrTempVSPName
-                objMRM.desc = StrTempVSPName
-                objMRM.vehiclecode = StrTempVSPName
-                objMRM.Active = 1
-                objMRM.mcccode = clsCommon.myCstr(fndMcc.Value)
-                objMRM.mccname = clsMccMaster.GetName(fndMcc.Value, trans)
-                objMRM.kilometer = 0
-                clsfrmMilkRouteMaster.SaveData(objMRM.code, trans, objMRM, True, True)
-                If clsCommon.myLen(txtroutecode.Value) <= 0 Then
-                    txtroutecode.Value = clsCommon.myCstr(objMRM.code)
-                    txtroutename.Text = clsfrmMilkRouteMaster.GetName(txtroutecode.Value, trans)
+            If False Then
+                qry = "select count(*) from tspl_mcc_route_master where route_Name='" + StrTempVSPName + "'"
+                check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
+                If check <= 0 Then
+                    Dim objMRM As clsfrmMilkRouteMaster
+                    objMRM = New clsfrmMilkRouteMaster()
+                    objMRM.arr_VLC_Detail = Nothing
+                    objMRM = New clsfrmMilkRouteMaster
+                    objMRM.code = StrTempVSPName
+                    objMRM.desc = StrTempVSPName
+                    objMRM.vehiclecode = StrTempVSPName
+                    objMRM.Active = 1
+                    objMRM.mcccode = clsCommon.myCstr(fndMcc.Value)
+                    objMRM.mccname = clsMccMaster.GetName(fndMcc.Value, trans)
+                    objMRM.kilometer = 0
+                    clsfrmMilkRouteMaster.SaveData(objMRM.code, trans, objMRM, True, True)
+                    If clsCommon.myLen(txtroutecode.Value) <= 0 Then
+                        txtroutecode.Value = clsCommon.myCstr(objMRM.code)
+                        txtroutename.Text = clsfrmMilkRouteMaster.GetName(txtroutecode.Value, trans)
+                    End If
                 End If
             End If
             ''end of Milk Route master
