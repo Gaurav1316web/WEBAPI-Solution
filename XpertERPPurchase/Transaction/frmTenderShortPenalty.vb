@@ -121,7 +121,9 @@ Public Class frmTenderShortPenalty
                 obj.Arr = New ArrayList()
                 For Each grow As GridViewRowInfo In gv1.Rows
                     If clsCommon.myCBool(grow.Cells("UserStatus").Value) Then
-                        obj.Arr.Add(clsCommon.myCstr(grow.Cells("SRN_No").Value))
+                        If Not obj.Arr.Contains(clsCommon.myCstr(grow.Cells("SRN_No").Value)) Then
+                            obj.Arr.Add(clsCommon.myCstr(grow.Cells("SRN_No").Value))
+                        End If
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
