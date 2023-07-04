@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 
 
 Public Class clsFixedParameterType
+    Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
     Public Const NewDCSScreen As String = "New DCS Screen"
     Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
     Public Const StopSetting As String = "Stop Setting"
@@ -1284,6 +1285,7 @@ End Class
 
 
 Public Class clsFixedParameterCode
+    Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
     Public Const NewDCSScreen As String = "New DCS Screen"
     Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
     Public Const JournalEntry As String = "Journal Entry"
@@ -2755,6 +2757,7 @@ Public Class clsFixedParameter
     End Function
 
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.NewDCSScreen, clsFixedParameterCode.NewDCSScreen, "0", "0:Off, 1:On;New DCS Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, "0", "Minimum Qty To Apply For Head Load")
         InsertDefaultValueFixedParameter(clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, "0", "0:OFF:1 Stop Jouranl Entry")
@@ -4367,6 +4370,7 @@ Public Class clsFixedParameterProgramMapping
 
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, EnumControlType.NumericBox)
         'InsertDefaultValue(clsUserMgtCode.frmNewDCSScreen, clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptTrialBalance, clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, EnumControlType.CheckBox)
