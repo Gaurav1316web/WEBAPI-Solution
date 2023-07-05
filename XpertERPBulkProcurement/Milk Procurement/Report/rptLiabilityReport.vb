@@ -64,8 +64,8 @@ Public Class rptLiabilityReport
                 Exit Sub
             End If
 
-
-            qry = clsMilkRejectHead.GetMCCRegisterRejectionQuery(fromDate.Value, ToDate.Value, "M", "E", StrPermission, arrMCC, Nothing, Nothing, "")
+            Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
+            qry = clsMilkRejectHead.GetMCCRegisterRejectionQuery(fromDate.Value, ToDate.Value, "M", "E", StrPermission, arrMCC, Nothing, Nothing, "", SetCowFatPer)
             dt1 = Nothing
             dt1 = clsDBFuncationality.GetDataTable(qry)
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
