@@ -163,7 +163,7 @@ Public Class FrmUserMaster
             End If
             rmImportCustomerMapping.Visibility = ElementVisibility.Visible
             RadMenuItem1.Visibility = ElementVisibility.Visible
-           
+
         Else
             rmImportCustomerMapping.Visibility = ElementVisibility.Collapsed
             RadMenuItem1.Visibility = ElementVisibility.Collapsed
@@ -1550,7 +1550,7 @@ Public Class FrmUserMaster
     Private Sub menuExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuExport.Click
         '=======Update By preeti Gupta Against Ticket No[BM00000008831]
         'sql = "select User_Code,User_Name,Password,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code from TSPL_USER_MASTER "
-        sql = "select User_Code,User_Name,Default_Location as [Default Location],Department_Head as [Department Head],InActive,InActive_Date from TSPL_USER_MASTER "
+        sql = "select User_Code,User_Name,Default_Location as [Default Location],Department_Head as [Department Head],InActive,InActive_Date , User_APP_Type as [App User Type] , Vendor_Code as [Vendor] from TSPL_USER_MASTER "
         ListImpExpColumnsMandatory = New List(Of String)({"User_Code"})
         ListImpExpColumnsSuperMandatory = New List(Of String)({"User_Code"})
         transportSql.ExporttoExcel(sql, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
@@ -1558,13 +1558,13 @@ Public Class FrmUserMaster
     Private Sub menuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuImport.Click
         Dim gv As New RadGridView()
         Me.Controls.Add(gv)
-        If transportSql.importExcel(gv, "User_Code", "User_Name", "Default Location", "Department Head", "InActive", "InActive_Date") Then  ' "Zone Code"
+        If transportSql.importExcel(gv, "User_Code", "User_Name", "Default Location", "Department Head", "InActive", "InActive_Date", "App User Type", "Vendor") Then  ' "Zone Code"
             Dim trans As SqlTransaction = Nothing
 
             Try
                 trans = clsDBFuncationality.GetTransactin()
                 For Each grow As GridViewRowInfo In gv.Rows
-                    Dim strUserCode As String
+                    Dim strPrefixUserCode As String
                     Dim strName As String
                     Dim strEmpCode As String = ""
                     Dim strEmpName As String = ""
@@ -1585,8 +1585,12 @@ Public Class FrmUserMaster
                         trans.Rollback()
                         Exit Sub
                     Else
-                        strUserCode = grow.Cells("User_Code").Value.ToString().ToUpper()
+                        strPrefixUserCode = grow.Cells("User_Code").Value.ToString().ToUpper()
                     End If
+                    Dim strUserCode As String = strPrefixUserCode
+                    Dim strPrefix As String = clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where TYPE='Prefix For User Master' and Code='Prefix For User Master'", trans)
+                    strPrefixUserCode = strPrefix & strPrefixUserCode
+
                     If grow.Cells("User_Name").Value.ToString().Length > 50 Then
                         common.clsCommon.MyMessageBoxShow("User Name cannot be greater than 50 length.")
                         trans.Rollback()
@@ -1612,19 +1616,19 @@ Public Class FrmUserMaster
                     '    End If
                     'End If
 
-                    Dim sql1 As String = "select COUNT(*) from TSPL_USER_MASTER  where User_Code='" + strUserCode + "'"
+                    Dim sql1 As String = "select COUNT(*) from TSPL_USER_MASTER  where User_Code='" + strPrefixUserCode + "'"
                     Dim i As Integer = CInt(connectSql.RunScalar(trans, sql1))
                     If (i = 0) Then
-                        connectSql.RunSpTransaction(trans, "sp_tspl_user_master_insert", New SqlParameter("@Usercode", strUserCode), New SqlParameter("@UserName", strName), New SqlParameter("@EmployeeCode", strEmpCode), New SqlParameter("@EmployeeName", strEmpName), New SqlParameter("@Password", clsCommon.EncryptString(strUserCode)), New SqlParameter("@UserType", strUserType), New SqlParameter("@Level1", strLevel1), New SqlParameter("@Level2", strLevel2), New SqlParameter("@Level3", strLevel3), New SqlParameter("@Level4", strLevel4), New SqlParameter("@Createdby", userCode), New SqlParameter("@Createddate", connectSql.serverDate(trans)), New SqlParameter("@Modifiedby", userCode), New SqlParameter("@Modifieddate", connectSql.serverDate(trans)), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ApprovalLevel", cmbLevel.SelectedValue))
+                        connectSql.RunSpTransaction(trans, "sp_tspl_user_master_insert", New SqlParameter("@Usercode", strPrefixUserCode), New SqlParameter("@UserName", strName), New SqlParameter("@EmployeeCode", strEmpCode), New SqlParameter("@EmployeeName", strEmpName), New SqlParameter("@Password", clsCommon.EncryptString(strUserCode)), New SqlParameter("@UserType", strUserType), New SqlParameter("@Level1", strLevel1), New SqlParameter("@Level2", strLevel2), New SqlParameter("@Level3", strLevel3), New SqlParameter("@Level4", strLevel4), New SqlParameter("@Createdby", userCode), New SqlParameter("@Createddate", connectSql.serverDate(trans)), New SqlParameter("@Modifiedby", userCode), New SqlParameter("@Modifieddate", connectSql.serverDate(trans)), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ApprovalLevel", cmbLevel.SelectedValue))
                     Else
-                        Dim strPassword As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select password from TSPL_USER_MASTER  where User_Code='" + strUserCode + "'", trans))
-                        connectSql.RunSpTransaction(trans, "sp_tspl_user_master_update", New SqlParameter("@Usercode", strUserCode), New SqlParameter("@UserName", strName), New SqlParameter("@EmployeeCode", strEmpCode), New SqlParameter("@EmployeeName", strEmpName), New SqlParameter("@Password", strPassword), New SqlParameter("@UserType", strUserType), New SqlParameter("@Level1", strLevel1), New SqlParameter("@Level2", strLevel2), New SqlParameter("@Level3", strLevel3), New SqlParameter("@Level4", strLevel4), New SqlParameter("@Createdby", userCode), New SqlParameter("@Createddate", connectSql.serverDate(trans)), New SqlParameter("@Modifiedby", userCode), New SqlParameter("@Modifieddate", connectSql.serverDate(trans)), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ApprovalLevel", cmbLevel.SelectedValue))
+                        Dim strPassword As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select password from TSPL_USER_MASTER  where User_Code='" + strPrefixUserCode + "'", trans))
+                        connectSql.RunSpTransaction(trans, "sp_tspl_user_master_update", New SqlParameter("@Usercode", strPrefixUserCode), New SqlParameter("@UserName", strName), New SqlParameter("@EmployeeCode", strEmpCode), New SqlParameter("@EmployeeName", strEmpName), New SqlParameter("@Password", strPassword), New SqlParameter("@UserType", strUserType), New SqlParameter("@Level1", strLevel1), New SqlParameter("@Level2", strLevel2), New SqlParameter("@Level3", strLevel3), New SqlParameter("@Level4", strLevel4), New SqlParameter("@Createdby", userCode), New SqlParameter("@Createddate", connectSql.serverDate(trans)), New SqlParameter("@Modifiedby", userCode), New SqlParameter("@Modifieddate", connectSql.serverDate(trans)), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ApprovalLevel", cmbLevel.SelectedValue))
                     End If
 
                     Dim coll As New Hashtable()
                     If (clsCommon.myLen(strDefaultLocation) > 0) Then ' Condition Add by Prabhakar 25/11/2016
                         clsCommon.AddColumnsForChange(coll, "Default_Location", strDefaultLocation)
-                        clsCommonFunctionality.UpdateDataTable(coll, "tspl_user_master", OMInsertOrUpdate.Update, "User_Code='" + strUserCode + "'", trans)
+                        clsCommonFunctionality.UpdateDataTable(coll, "tspl_user_master", OMInsertOrUpdate.Update, "User_Code='" + strPrefixUserCode + "'", trans)
                     End If
 
                     'sanjay
@@ -1638,7 +1642,9 @@ Public Class FrmUserMaster
                     'If clsCommon.myLen(strZoneCode) > 0 Then
                     '    clsCommon.AddColumnsForChange(colll, "Zone_Code", strZoneCode, True)
                     'End If
-                    clsCommonFunctionality.UpdateDataTable(colll, "tspl_user_master", OMInsertOrUpdate.Update, "User_Code='" + strUserCode + "'", trans)
+                    clsCommon.AddColumnsForChange(colll, "User_APP_Type", grow.Cells("App User Type").Value.ToString())
+                    clsCommon.AddColumnsForChange(colll, "Vendor_Code", grow.Cells("Vendor").Value.ToString())
+                    clsCommonFunctionality.UpdateDataTable(colll, "tspl_user_master", OMInsertOrUpdate.Update, "User_Code='" + strPrefixUserCode + "'", trans)
                     'sanjay
 
                 Next
@@ -2383,7 +2389,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                         Dim strUserCode As String = ""
                         Dim strLoginType As String = ""
                         Dim strCustomerCode As String = ""
-                        
+
                         Dim qry As String = ""
                         Dim chkValidUserCode As Boolean = False
                         Dim chkValidLogintype As Boolean = False
@@ -2484,7 +2490,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             gvUser.DataSource = Nothing
             gvUser.Rows.Clear()
             gvUser.Columns.Clear()
-          
+
             If clsCommon.myLen(fndUserCode.Value) > 0 Then
                 qry = "Select ROW_NUMBER() Over (order by TSPL_User_master.User_Code) as [Line No], Cast(1 as bit) as [Select], TSPL_USER_MAPPING_DETAIL.Mapped_UserCode as [User Code], TSPL_User_master.User_Name  as [User Name] from TSPL_User_master left outer join  TSPL_USER_MAPPING_DETAIL on  TSPL_USER_MAPPING_DETAIL.Mapped_UserCode = TSPL_User_master.User_Code WHERE TSPL_USER_MAPPING_DETAIL.User_Code='" + strCriteria + "'"
                 gvUser.DataSource = clsDBFuncationality.GetDataTable(qry)
