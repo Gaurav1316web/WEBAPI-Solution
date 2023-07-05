@@ -67,9 +67,10 @@ Public Class rptMilkCostReport
             Patment_Cycle_changed()
             strRejection = ",'' as RejectType,'' as RejectReason,'' as Defaulter"
             Dim ShowVLCUploaderData As Boolean = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowVLCUploaderData, clsFixedParameterCode.ShowVLCUploaderData, Nothing)) = 1
-            strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(fromDate.Value, ToDate.Value, "M", "E", "", StrPermission, txtMCC.arrValueMember, txtRoute.arrValueMember, txtVLC.arrValueMember, "", strRejection, ShowVLCUploaderData)
+            Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
+            strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(fromDate.Value, ToDate.Value, "M", "E", "", StrPermission, txtMCC.arrValueMember, txtRoute.arrValueMember, txtVLC.arrValueMember, "", strRejection, ShowVLCUploaderData, SetCowFatPer)
 
-            strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(fromDate.Value, ToDate.Value, "M", "E", StrPermission, txtMCC.arrValueMember, txtRoute.arrValueMember, txtVLC.arrValueMember, "")
+            strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(fromDate.Value, ToDate.Value, "M", "E", StrPermission, txtMCC.arrValueMember, txtRoute.arrValueMember, txtVLC.arrValueMember, "", SetCowFatPer)
 
             qry = "Select final.MCC as [MCC Code] ,final.[MCC Name]
                 ,final.[Doc Date] ,final.Shift , final.[Route Code],final.[Route Name] ,final.[VSP Code],final.[Vlc Uploader Code] as [Society Code]

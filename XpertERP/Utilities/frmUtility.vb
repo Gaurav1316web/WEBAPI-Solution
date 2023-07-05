@@ -9187,15 +9187,37 @@ Public Class FrmUtility
                 If msg.Length > 0 Then
                     Try
 
-                        OldReading += msg
-                        If OldReading.EndsWith(ChrW(3) + "0") Then
-                            Dim reading As String = System.Text.RegularExpressions.Regex.Replace(OldReading.Trim(), "[^0-9.]", "")
-                            _weight = clsCommon.myCdbl(reading)
-                            If IsNumeric(_weight) Then
-                                clsCommon.MyMessageBoxShow(Me, _weight / 10)
+                        OldReading += msg.Replace(" ", "")
+
+                        If clsCommon.myLen(OldReading) = 11 Then
+                            'Reading
+                            '#00.00 07.90 Result- FAT 00.00,SNF 07.90
+                            Try
+                                _fat = Microsoft.VisualBasic.Mid(OldReading, 2, 4)
+                            Catch ex As Exception
+                            End Try
+                            Try
+                                _snf = Microsoft.VisualBasic.Mid(OldReading, 7, 4)
+                            Catch ex As Exception
+                            End Try
+                            If clsCommon.myCdbl(_fat) > 12 OrElse clsCommon.myCdbl(_snf) > 12 Then
+                                Exit Sub
+                            End If
+                            If IsNumeric(_fat) AndAlso IsNumeric(_snf) Then
+                                'DisplayFATData(_fat)
+                                'DisplaySNFData(_snf)
+                                clsCommon.MyMessageBoxShow(Me, "FAT " + clsCommon.myCstr(_fat) + " and SNF " + clsCommon.myCstr(_snf))
                             End If
                             OldReading = ""
                         End If
+                        'If OldReading.EndsWith(ChrW(3) + "0") Then
+                        '    Dim reading As String = System.Text.RegularExpressions.Regex.Replace(OldReading.Trim(), "[^0-9.]", "")
+                        '    _weight = clsCommon.myCdbl(reading)
+                        '    If IsNumeric(_weight) Then
+                        '        clsCommon.MyMessageBoxShow(Me, _weight / 10)
+                        '    End If
+                        '    OldReading = ""
+                        'End If
 
                         'Try
                         '    If clsCommon.myLen(msg) > 0 Then

@@ -161,10 +161,12 @@ Public Class FrmPaymentProcess
     Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = False
     Dim MultipleFinderFillAuto As Boolean = False
     Dim SettVSPHoldPaymentNotCompanyBank As Boolean = False
+    Dim SetCowFatPer As Decimal = 0
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
         SettVSPHoldPaymentNotCompanyBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, Nothing)) = 1)
         IsRoundOffPaiseAmount = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1)
         isConsiderAdvancePayment = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConsiderAdvancePayment, clsFixedParameterType.ConsiderAdvancePayment, Nothing)) = 1, True, False)
