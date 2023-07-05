@@ -1281,6 +1281,7 @@ Public Class clsFixedParameterType
     Public Const ApplyStandardProductionVariance As String = "ApplyStandardProductionVariance"
     Public Const ItemCostTolerancePercentage = "ItemCostTolerancePercentage"
     Public Const HeadLoadDescriptionInPaymentProcessPrint = "HeadLoadDescriptionInPaymentProcessPrint"
+    Public Const PrefixForUserMaster = "Prefix For User Master"
 End Class
 
 
@@ -2672,6 +2673,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyStandardProductionVariance As String = "ApplyStandardProductionVariance"
     Public Const ItemCostTolerancePercentage = "ItemCostTolerancePercentage"
     Public Const HeadLoadDescriptionInPaymentProcessPrint = "HeadLoadDescriptionInPaymentProcessPrint"
+    Public Const PrefixForUserMaster = "Prefix For User Master"
 End Class
 
 
@@ -2689,6 +2691,10 @@ Public Class clsFixedParameter
 
     Public Shared Function GetSpecification(ByVal strType As String, ByVal strCode As String, ByVal trans As SqlTransaction) As String
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Specification from TSPL_FIXED_PARAMETER where TYPE='" + strType + "' and Code='" + strCode + "'", trans))
+    End Function
+    Public Shared Function GetUserCode()
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select (case when ISNUMERIC(Code) = 1 then '' else Code end) as Code from (
+  Select top 1  substring(user_code,1,2) As Code from tspl_user_master where user_code Like '%1%' and User_APP_Type='V' order by user_code desc)x"))
     End Function
 
     ''Created by Pradeep Sharma on 14/06/13 TO Get Combobox datatable
@@ -4332,6 +4338,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyStandardProductionVariance, clsFixedParameterCode.ApplyStandardProductionVariance, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ItemCostTolerancePercentage, clsFixedParameterCode.ItemCostTolerancePercentage, "0", "Enter Item Cost Tolerance In Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.HeadLoadDescriptionInPaymentProcessPrint, clsFixedParameterCode.HeadLoadDescriptionInPaymentProcessPrint, "Head Load", "Head Load Description In Payment Process Print")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PrefixForUserMaster, clsFixedParameterCode.PrefixForUserMaster, clsFixedParameter.GetUserCode(), "Prefix For User Master Code")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6326,5 +6333,6 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmItemMasterRMOther, clsFixedParameterType.ItemCostTolerancePercentage, clsFixedParameterCode.ItemCostTolerancePercentage, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.HeadLoadDescriptionInPaymentProcessPrint, clsFixedParameterCode.HeadLoadDescriptionInPaymentProcessPrint, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.AutoCreateSaleInvoice, clsFixedParameterCode.AutoCreateSaleInvoice, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.userMaster, clsFixedParameterType.PrefixForUserMaster, clsFixedParameterCode.PrefixForUserMaster, EnumControlType.TextBox)
     End Sub
 End Class
