@@ -563,6 +563,12 @@
     <Compile Include="Transaction\frmDeliveryNoteDairySale.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmDemandAdjustment.Designer.vb">
+      <DependentUpon>frmDemandAdjustment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmDemandAdjustment.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmDemandBooking.Designer.vb">
       <DependentUpon>frmDemandBooking.vb</DependentUpon>
     </Compile>
@@ -907,6 +913,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDeliveryNoteDairySale.resx">
       <DependentUpon>frmDeliveryNoteDairySale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmDemandAdjustment.resx">
+      <DependentUpon>frmDemandAdjustment.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDemandBooking.resx">
       <DependentUpon>frmDemandBooking.vb</DependentUpon>
