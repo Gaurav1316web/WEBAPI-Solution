@@ -1334,6 +1334,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptQualityCheck.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptRouteWiseTimeTable.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptTankerReport.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptTruckSheetDailySummaryReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptVlcDailyLanded.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBill.rpt" />
     <None Include="Crystal Reports\Milk Procurement\SubMilkPurchaseBillFATSNFDebitCreditNote.rpt" />
