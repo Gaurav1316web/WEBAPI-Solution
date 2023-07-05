@@ -2165,6 +2165,7 @@ case when isnull(TSPL_MULTIPLE_DEDUCTION_head.trans_type,'')='Addition' then TSP
 WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='DCS-QAT' THEN 'QAP'
 WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='DCS-LYT' THEN 'Loyalty'
 WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='OWD-CRE' THEN 'Own BMC Expanse'
+WHEN TSPL_VENDOR_INVOICE_HEAD.RefDocType='OWD-CRD' THEN 'FAT SNF SHORTAGE'
 when TSPL_DCS_ADDITION_DEDUCTION.Description is null then TSPL_VENDOR_INVOICE_HEAD.RefDocType
 else TSPL_DCS_ADDITION_DEDUCTION.Description  end as Item_Desc , 0 as FAT_Amount,0 as SNF_Amount , TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount as Amount ,Convert (varchar,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date,103) as  AP_Invoice_Date,  0 as Is_Default_Pashu_Vikas_Kos, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code
 ,TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,case when TSPL_MULTIPLE_DEDUCTION_head.Document_No is not null then 1 else 0 end as ManAddDed
@@ -2205,7 +2206,7 @@ left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.Ma
 )ZZ GROUP BY ZZ.VSP_Uploader_Code,ZZ.VSP_Code,ZZ.Vendor_NAME,ZZ.Addition"
         Dim dtAddition As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
-        sQuery = "select Final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Max(Ded_Desc) as Ded_Code, sum(Amount) as [Amount],max(ManAddDed) as ManAddDed  from (
+        sQuery = "select Final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME,Max(case when len(Ded_Desc)<=0 then Ded_Code else Ded_Desc end ) as Ded_Code, sum(Amount) as [Amount],max(ManAddDed) as ManAddDed  from (
 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc,(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt) as Amount ,case when TSPL_MULTIPLE_DEDUCTION_head.Document_No is not null then 1 else 0 end as ManAddDed
 from TSPL_PAYMENT_PROCESS_DEDUCTION 
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
