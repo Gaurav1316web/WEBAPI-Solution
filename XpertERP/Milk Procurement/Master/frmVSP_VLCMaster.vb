@@ -16,7 +16,7 @@ Public Class frmVSP_VLCMaster
     Dim Frm_Open As FrmMainTranScreen
     Dim FixVSPEMP As Integer = 0
     Dim AllowVSPMasterAutoPrefix As Integer = 0
-    Dim UserPrefix As String = "UD"
+    Dim UserPrefix As String = Nothing
     Dim EnableBankFromMaster As Boolean
     Const colEMPSno As String = "colEMPSno"
     Const colEMPSlab As String = "colEMPSlab"
@@ -140,6 +140,7 @@ Public Class frmVSP_VLCMaster
 
 #Region "Page Load"
     Private Sub frmVSP_VLCMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        UserPrefix = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PrefixForUserMaster, clsFixedParameterCode.PrefixForUserMaster, Nothing))
         AllowVSPMasterAutoPrefix = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowVSPMasterAutoPrefix, clsFixedParameterCode.AllowVSPMasterAutoPrefix, Nothing))
         FixVSPEMP = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FixVSPEMP, clsFixedParameterCode.FixVSPEMP, Nothing))
         EnableBankFromMaster = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.EnableBankFromMaster & "'")) = 0, False, True)
