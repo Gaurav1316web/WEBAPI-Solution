@@ -34,7 +34,6 @@ Public Class FrmUserMaster
     Dim sql As String
     Dim ds As DataSet
     Dim dr As SqlDataReader
-    Dim preFixUser As String = "UD"
     'Const colICustCode As String = "COLICustCode"
     'Const colICustName As String = "COLICustName"
     'Const colIStatus As String = "COLIStatus"
@@ -163,7 +162,7 @@ Public Class FrmUserMaster
             End If
             rmImportCustomerMapping.Visibility = ElementVisibility.Visible
             RadMenuItem1.Visibility = ElementVisibility.Visible
-           
+
         Else
             rmImportCustomerMapping.Visibility = ElementVisibility.Collapsed
             RadMenuItem1.Visibility = ElementVisibility.Collapsed
@@ -2383,7 +2382,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                         Dim strUserCode As String = ""
                         Dim strLoginType As String = ""
                         Dim strCustomerCode As String = ""
-                        
+
                         Dim qry As String = ""
                         Dim chkValidUserCode As Boolean = False
                         Dim chkValidLogintype As Boolean = False
@@ -2484,7 +2483,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             gvUser.DataSource = Nothing
             gvUser.Rows.Clear()
             gvUser.Columns.Clear()
-          
+
             If clsCommon.myLen(fndUserCode.Value) > 0 Then
                 qry = "Select ROW_NUMBER() Over (order by TSPL_User_master.User_Code) as [Line No], Cast(1 as bit) as [Select], TSPL_USER_MAPPING_DETAIL.Mapped_UserCode as [User Code], TSPL_User_master.User_Name  as [User Name] from TSPL_User_master left outer join  TSPL_USER_MAPPING_DETAIL on  TSPL_USER_MAPPING_DETAIL.Mapped_UserCode = TSPL_User_master.User_Code WHERE TSPL_USER_MAPPING_DETAIL.User_Code='" + strCriteria + "'"
                 gvUser.DataSource = clsDBFuncationality.GetDataTable(qry)
