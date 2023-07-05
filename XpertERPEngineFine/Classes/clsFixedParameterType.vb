@@ -730,6 +730,8 @@ Public Class clsFixedParameterType
     Public Const isPriceChartGradeWise As String = "Is Price Chart Grade Wise"
     Public Const isCreateBulkProcPriceChartItemWise As String = "Create Bulk Procurement price chart-Itemwise"
     Public Const isFarmerPaymentCycle As String = "is Farmer Payment Cycle"
+    Public Const CowFATPer As String = "Cow FAT Per"
+    Public Const MixFATPer As String = "Mix FAT Per"
     Public Const MilkSamplShowOddEvenTwoGrid As String = "Show Odd and Even Two Grid"
     Public Const OpenODDEvenForm As String = "Open Odd-Even Form"
     Public Const Open4AnalyzerForm As String = "Open 4 Milk Analyzer Form"
@@ -1611,6 +1613,8 @@ Public Class clsFixedParameterCode
     Public Const isPriceChartGradeWise As String = "Is Price Chart Grade Wise"
     Public Const isCreateBulkProcPriceChartItemWise As String = "Create Bulk Procurement price chart-Itemwise"
     Public Const isFarmerPaymentCycle As String = "is Farmer Payment Cycle"
+    Public Const CowFATPer As String = "Cow FAT Per"
+    Public Const MixFATPer As String = "Mix FAT Per"
     Public Const GateEntryTankerFromTankerMaster As String = "Gate Entry tanker From Master"
     Public Const QualityThenWeighmentinBulkProcurement As String = "First QC then Weighment"
     Public Const isIntimationRequired As String = "Show Intimation Screen"
@@ -3649,6 +3653,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.isPriceChartGradeWise, clsFixedParameterCode.isPriceChartGradeWise, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.isCreateBulkProcPriceChartItemWise, clsFixedParameterCode.isCreateBulkProcPriceChartItemWise, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.isFarmerPaymentCycle, clsFixedParameterCode.isFarmerPaymentCycle, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, "5", "Default Cow FAT Percentage")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, "0", "Mix FAT Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkSamplShowOddEvenTwoGrid, clsFixedParameterCode.MilkSamplShowOddEvenTwoGrid, "0", "0:Off, 1:On; Show Tow Grid Odd Even")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OpenODDEvenForm, clsFixedParameterCode.OpenODDEvenForm, "1", "0:Off, 1:On; Open Odd Even Form")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Open4AnalyzerForm, clsFixedParameterCode.Open4AnalyzerForm, "0", "0:Off, 1:On; Open 4 Analyzer Form")
@@ -5166,8 +5172,11 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.FrmVSPCSASetOff, clsFixedParameterType.AllowDefaultBankCodeforCreditNote, clsFixedParameterCode.AllowDefaultBankCodeforCreditNote, EnumControlType.TextBox)
 
         InsertDefaultValue(clsUserMgtCode.PaymentAdjustmentEntry, clsFixedParameterType.isFarmerPaymentCycle, clsFixedParameterCode.isFarmerPaymentCycle, EnumControlType.CheckBox)
-
-
+        InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
+        'InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
+        ' InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.FAAcquisitionEntry, clsFixedParameterType.ReadOnlyTemplateFieldsOnAcqusition, clsFixedParameterCode.ReadOnlyTemplateFieldsOnAcqusition, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.POWeighment, clsFixedParameterType.AddHighSecurityOnWeighingIntegratedScreen, clsFixedParameterCode.AddHighSecurityOnWeighingIntegratedScreen, EnumControlType.CheckBox)
