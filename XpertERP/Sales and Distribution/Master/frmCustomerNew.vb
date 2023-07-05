@@ -98,7 +98,18 @@ Public Class frmCustomer
         Me.Close()
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        SaveData()
+        If btnSave.Text = "Update" Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIRC
+            frm.strCode = clsFixedParameterCode.UpdatePassword
+
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                ShowRemarks()
+            End If
+        Else
+            SaveData()
+        End If
     End Sub
     Sub SaveData()
         Dim AllowAutoCCode As String
@@ -6046,6 +6057,30 @@ Public Class frmCustomer
         End If
     End Sub
 
-
+    Private Sub ShowRemarks()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Update"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+            End If
+            SaveData()
+            saveCancelLog(Reason, "Updated", Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+    Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
+        Dim obj As New clsCancelLog
+        obj.Program_Code = Form_ID
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.fndCustomer.Value)
+        obj.REASON = Reason
+        obj.ACTIVITY_TYPE = Activity_Type
+        Return clsCancelLog.SaveData(obj, True, trans)
+    End Function
 End Class
 

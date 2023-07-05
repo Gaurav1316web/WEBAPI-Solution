@@ -402,7 +402,7 @@ Public Class frmMilkSRNMCC
                     Trans.Rollback()
                     Return False
                 Else
-                    clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, objList(0).FAT, objList(0).SNF, objList(0).RATE, objList(0).AMOUNT, Trans, "", 0)
+                    clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, objList(0).FAT, objList(0).SNF, objList(0).RATE, objList(0).AMOUNT, Trans, "", 0, 0)
                     Trans.Commit()
                     clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                     'clsCommon.ProgressBarUpdate(counter & "/" & gv1.Rows.Count)
@@ -1941,7 +1941,7 @@ Public Class frmMilkSRNMCC
                     Return False
                 Else
                     clsMilkSRNMCC.updateJournalEntry("MI-SR", objHead.DOC_CODE, obj1.NET_AMOUNT, Trans)
-                    clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, objList(0).FAT, objList(0).SNF, objList(0).RATE, objList(0).AMOUNT, Trans, "", 0)
+                    clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, objList(0).FAT, objList(0).SNF, objList(0).RATE, objList(0).AMOUNT, Trans, "", 0, 0)
                     Trans.Commit()
                     'clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
                     'clsCommon.ProgressBarUpdate(counter & "/" & gv1.Rows.Count)

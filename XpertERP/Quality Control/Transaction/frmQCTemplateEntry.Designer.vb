@@ -63,6 +63,7 @@ Partial Class frmQCTemplateEntry
         Me.RadMenuItemSaveeLayout3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkStatus = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -103,6 +104,7 @@ Partial Class frmQCTemplateEntry
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -139,6 +141,7 @@ Partial Class frmQCTemplateEntry
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkStatus)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblWeighmentDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblWeighmentNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblGRNDate)
@@ -607,6 +610,15 @@ Partial Class frmQCTemplateEntry
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
+        'chkStatus
+        '
+        Me.chkStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkStatus.Location = New System.Drawing.Point(372, 69)
+        Me.chkStatus.Name = "chkStatus"
+        Me.chkStatus.Size = New System.Drawing.Size(70, 16)
+        Me.chkStatus.TabIndex = 1468
+        Me.chkStatus.Text = "chkStatus"
+        '
         'frmQCTemplateEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -663,6 +675,7 @@ Partial Class frmQCTemplateEntry
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -707,5 +720,6 @@ Partial Class frmQCTemplateEntry
     Friend WithEvents lblWeighmentNo As common.Controls.MyLabel
     Friend WithEvents lblGRNDate As common.Controls.MyLabel
     Friend WithEvents lblGRNNo As common.Controls.MyLabel
+    Friend WithEvents chkStatus As RadCheckBox
 End Class
 

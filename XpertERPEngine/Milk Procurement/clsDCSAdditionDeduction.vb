@@ -22,7 +22,8 @@ Public Class clsDCSAdditionDeduction
     Public RO_Decimal_Places As Integer
     Public RO_Increase_After As Integer
     Public Apply_TDS As Boolean
-
+    Public Include_Shortage_Own_BMC As Boolean
+    Public Subtract As Boolean
     Public Posted As ERPTransactionStatus = ERPTransactionStatus.Pending
 
     Public Arr As ArrayList = Nothing
@@ -70,6 +71,8 @@ Public Class clsDCSAdditionDeduction
             clsCommon.AddColumnsForChange(coll, "RO_Decimal_Places", obj.RO_Decimal_Places)
             clsCommon.AddColumnsForChange(coll, "RO_Increase_After", obj.RO_Increase_After)
             clsCommon.AddColumnsForChange(coll, "Apply_TDS", IIf(obj.Apply_TDS, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Include_Shortage_Own_BMC", IIf(obj.Include_Shortage_Own_BMC, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Subtract", IIf(obj.Subtract, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -92,7 +95,6 @@ Public Class clsDCSAdditionDeduction
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
-
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", trans)
         Catch err As Exception
             Throw New Exception(err.Message)
@@ -185,6 +187,8 @@ Public Class clsDCSAdditionDeduction
             obj.RO_Decimal_Places = clsCommon.myCDecimal(dt.Rows(0)("RO_Decimal_Places"))
             obj.RO_Increase_After = clsCommon.myCDecimal(dt.Rows(0)("RO_Increase_After"))
             obj.Apply_TDS = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_TDS")) = 1, True, False)
+            obj.Include_Shortage_Own_BMC = IIf(clsCommon.myCdbl(dt.Rows(0)("Include_Shortage_Own_BMC")) = 1, True, False)
+            obj.Subtract = IIf(clsCommon.myCdbl(dt.Rows(0)("Subtract")) = 1, True, False)
             obj.Arr = Nothing
             qry = " select Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where Code='" + obj.Code + "' "
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -256,23 +260,6 @@ Public Class clsDCSAdditionDeduction
         End Try
         Return True
     End Function
-
-    '    Public Shared Function GetMappingCode(ByVal strMCC As String, ByVal strVSP As String, ByVal TransDate As DateTime, ByVal trans As SqlTransaction) As clsDCSAdditionDeduction
-    '        Dim obj As clsDCSAdditionDeduction = Nothing
-    '        Dim qry As String = "select top 1 case when TSPL_DCS_ADDITION_DEDUCTION.Inactive=0 then TSPL_DCS_ADDITION_DEDUCTION.Code else '' end as  Code" + Environment.NewLine +
-    '            "from TSPL_DCS_ADDITION_DEDUCTION " + Environment.NewLine +
-    '            "left outer join TSPL_FARMER_PRO_VSP on TSPL_FARMER_PRO_VSP.Code = TSPL_DCS_ADDITION_DEDUCTION.Code" + Environment.NewLine +
-    '            "left outer join TSPL_FARMER_PRO_MCC on TSPL_FARMER_PRO_MCC.Code = TSPL_DCS_ADDITION_DEDUCTION.Code" + Environment.NewLine +
-    '            "where TSPL_FARMER_PRO_VSP.VSP_Code='" & strVSP & "' and  TSPL_FARMER_PRO_MCC.MCC_Code='" & strMCC & "'" + Environment.NewLine +
-    '            "and '" + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") + "'>=TSPL_DCS_ADDITION_DEDUCTION.Start_Date  and (2= case when TSPL_DCS_ADDITION_DEDUCTION.End_Date is null then 2 else case when '" + clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") + "'<= TSPL_DCS_ADDITION_DEDUCTION.End_Date then 2 else 3 end end)  and TSPL_DCS_ADDITION_DEDUCTION.Posted=1 order by TSPL_DCS_ADDITION_DEDUCTION.Start_Date desc,TSPL_DCS_ADDITION_DEDUCTION.Code desc"
-    '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-    '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-    '            If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("Code"))) > 0 Then
-    '                obj = clsDCSAdditionDeduction.GetData(clsCommon.myCstr(dt.Rows(0)("Code")), NavigatorType.Current, trans)
-    '            End If
-    '        End If
-    '        Return obj
-    '    End Function
 
     Public Shared Function GetLatestCodeByDate(ByVal FromDate As DateTime, ByVal ToDate As DateTime) As String
         Dim qry As String = "select TabDateRange.thedate, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type,TSPL_DCS_ADDITION_DEDUCTION.Nature_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.GL_Account

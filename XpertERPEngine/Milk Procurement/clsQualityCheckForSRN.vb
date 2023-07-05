@@ -726,7 +726,10 @@ Public Class clsQualityCheckForSRNHead
                 Throw New Exception(Qry)
             End If
 
-            Qry = "Update TSPL_QC_CHECK_HEAD set posted = 0 where Document_Code='" + strCode + "'"
+            Qry = "delete from TSPL_QC_CHECK_APPROVAL_ENTRY where Document_Code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+
+            Qry = "Update TSPL_QC_CHECK_HEAD set posted = 0,Approved_For_SRN=0 where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             Return True
         Catch ex As Exception

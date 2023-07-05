@@ -51,44 +51,6 @@ Public Class frmMilkCollectionDCSMultipleDays
 
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)
-        coll.Add("Document_No", "Varchar(30) not null Primary key")
-        coll.Add("Document_Date", "Datetime NOT NULL")
-        coll.Add("Route_Code", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
-        coll.Add("Tanker_No", "Varchar(20) not null references TSPL_TANKER_MASTER(Tanker_No)")
-        coll.Add("Vehicle_No", "Varchar(150) not null")
-        coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
-        coll.Add("Entered_Qty", "Decimal(18,3) null")
-        coll.Add("Entered_FATKg", "Decimal(18,3) null")
-        coll.Add("Entered_SNFKg", "Decimal(18,3) null")
-        coll.Add("Description", "Varchar(200) null")
-        coll.Add("FAT_SNF_Type", "int Null")
-        coll.Add("Status", "Integer NOT NULL DEFAULT 0")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Posted_Date", "datetime null")
-        coll.Add("Posted_By", "varchar(12)  NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", coll, Nothing, True, False, "", "Document_No", "Document_Date")
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS(Document_No)")
-        coll.Add("Collection_Date", "Date NOT NULL")
-        coll.Add("SNo", "Integer NULL")
-        coll.Add("VLC_Code", "Varchar(30) not null references TSPL_VLC_MASTER_HEAD(VLC_Code)")
-        coll.Add("Shift", "char(5) not null")
-        coll.Add("Milk_Type", "char(5) NOT NULL Default 'M'")
-        coll.Add("Qty", "Decimal(18,2) null")
-        coll.Add("FAT", "Decimal(18,2) null")
-        coll.Add("SNF", "Decimal(18,2) null")
-        coll.Add("FATKG", "Decimal(18,3) null")
-        coll.Add("SNFKG", "Decimal(18,3) null")
-        coll.Add("Dock_Collection_Milk_Type", "char(1) NOT NULL Default 'M'")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS", "Document_No", "")
-
-
         SettShowAllMCC = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing)) = 1)
         settFillRouteTankerNo = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.FillRouteTankerNo, clsFixedParameterCode.FillRouteTankerNo, Nothing)) = 1)
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
@@ -381,7 +343,7 @@ Public Class frmMilkCollectionDCSMultipleDays
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG")
+        repoNumBox.HeaderText = "Evening SNF KG" ''If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG")
         repoNumBox.Name = colEveningSNFKG
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
@@ -493,7 +455,7 @@ Public Class frmMilkCollectionDCSMultipleDays
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
+        repoNumBox.HeaderText = "Morning SNF KG" ''If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
         repoNumBox.Name = colMorningSNFKG
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
@@ -562,9 +524,11 @@ Public Class frmMilkCollectionDCSMultipleDays
                 If isPickCLRInsteadOfSNF Then
                     Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFPer).Value), corrFactor)
                     dclCurrSNFKGE = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEveningQty).Value) * snfPer / 100
+                    gv1.Rows(ii).Cells(colEveningSNFKG).Value = dclCurrSNFKGE
 
                     snfPer = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningFATPer).Value), clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningSNFPer).Value), corrFactor)
                     dclCurrSNFKGM = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colMorningQty).Value) * snfPer / 100
+                    gv1.Rows(ii).Cells(colMorningSNFKG).Value = dclCurrSNFKGM
                 End If
 
                 TotEveningSNFKG += dclCurrSNFKGE
@@ -776,6 +740,9 @@ Public Class frmMilkCollectionDCSMultipleDays
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
                         objTr.Shift = "E"
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colCollectionDate).Value) <= 0 Then
+                            Throw New Exception("Date Can not be left blank at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                        End If
                         objTr.Collection_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colCollectionDate).Value)
                         objTr.Dock_Collection_Milk_Type = clsCommon.myCDate(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningQty).Value)
@@ -807,6 +774,9 @@ Public Class frmMilkCollectionDCSMultipleDays
                         objTr.VLC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colVLCCode).Value)
                         objTr.Shift = "M"
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
+                        If clsCommon.myLen(gv1.Rows(ii).Cells(colCollectionDate).Value) <= 0 Then
+                            Throw New Exception("Date Can not be left blank at Row No [" + clsCommon.myCstr(ii + 1) + "]")
+                        End If
                         objTr.Collection_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colCollectionDate).Value)
                         objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMorningQty).Value)
@@ -1110,7 +1080,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_
         gv1.Columns(colEveningFATPer).HeaderText = "Evening FAT %" + Environment.NewLine + PrevShift
         gv1.Columns(colEveningSNFPer).HeaderText = If(isPickCLRInsteadOfSNF, "Evening CLR %", "Evening SNF %") + Environment.NewLine + PrevShift
         gv1.Columns(colEveningFATKG).HeaderText = "Evening FAT KG" + Environment.NewLine + PrevShift
-        gv1.Columns(colEveningSNFKG).HeaderText = If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG") + Environment.NewLine + PrevShift
+        gv1.Columns(colEveningSNFKG).HeaderText = "Evening SNF KG" + Environment.NewLine + PrevShift ''If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG") + Environment.NewLine + PrevShift
 
         gv1.Columns(colMorningQty).HeaderText = "Morning Qty" + Environment.NewLine + CurrShift
         gv1.Columns(colMorningFATPerNoDecimal).HeaderText = "Morning FAT" + Environment.NewLine + CurrShift
@@ -1118,7 +1088,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_
         gv1.Columns(colMorningFATPer).HeaderText = "Morning FAT %" + Environment.NewLine + CurrShift
         gv1.Columns(colMorningSNFPer).HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR %", "Morning SNF %") + Environment.NewLine + CurrShift
         gv1.Columns(colMorningFATKG).HeaderText = "Morning FAT KG" + Environment.NewLine + CurrShift
-        gv1.Columns(colMorningSNFKG).HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG") + Environment.NewLine + CurrShift
+        gv1.Columns(colMorningSNFKG).HeaderText = "Morning SNF KG" + Environment.NewLine + CurrShift ''If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG") + Environment.NewLine + CurrShift
     End Sub
     Private Sub txtDate_Validated(sender As Object, e As EventArgs) Handles txtDate.Validated
         setShiftDate()

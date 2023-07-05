@@ -36,9 +36,11 @@ Public Class clsQualityCheckApprovalForSRN
     Public Shared Function SaveData(ByVal obj As clsQualityCheckApprovalForSRN, ByVal trans As SqlTransaction) As Boolean
         Dim coll As New Hashtable()
         Dim arrdocumentcode As List(Of String) = Nothing
+        Dim arrdocumentcode_WithoutRejected As List(Of String) = Nothing
         Dim qry As String
         Try
             arrdocumentcode = New List(Of String)
+            arrdocumentcode_WithoutRejected = New List(Of String)
             If obj IsNot Nothing AndAlso obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                 For Each objtr As clsQualityCheckApprovalForSRN In obj.Arr
 
@@ -65,18 +67,27 @@ Public Class clsQualityCheckApprovalForSRN
                     If Not arrdocumentcode.Contains(objtr.Document_Code) Then
                         arrdocumentcode.Add(objtr.Document_Code)
                     End If
-
+                    If (Not arrdocumentcode_WithoutRejected.Contains(objtr.Document_Code)) AndAlso clsCommon.CompairString(objtr.QC_Status, "Rejected") <> CompairStringResult.Equal Then
+                        arrdocumentcode_WithoutRejected.Add(objtr.Document_Code)
+                    End If
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_QC_CHECK_APPROVAL_ENTRY", OMInsertOrUpdate.Insert, "", trans)
+
                 Next
             End If
+            'If clsCommon.CompairString(objtr.QC_Status, "Rejected") = CompairStringResult.Equal Then
+            '    clsCommon.MyMessageBoxShow("Data cannot be saved.")
+            'Else
+            'End If
 
-            SaveDataForSRN(obj, arrdocumentcode, trans)
-
+            'SaveDataForSRN(obj, arrdocumentcode, trans)
+            If arrdocumentcode_WithoutRejected.Count > 0 Then
+                SaveDataForSRN(obj, arrdocumentcode_WithoutRejected, trans)
+            End If
 
             ''====================update the approval status to qc check table
             qry = "update TSPL_QC_CHECK_HEAD set Approved_For_SRN=1,modified_by='" + objCommonVar.CurrentUserCode + "',modified_date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where document_code in (" + clsCommon.GetMulcallString(arrdocumentcode) + ")"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)

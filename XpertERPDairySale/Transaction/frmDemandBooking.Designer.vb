@@ -22,10 +22,22 @@ Partial Class frmDemandBooking
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
+        Me.rgbMilk = New Telerik.WinControls.UI.RadGroupBox()
+        Me.LblDocAmt = New common.Controls.MyLabel()
+        Me.lblDocumentAmt = New common.Controls.MyLabel()
+        Me.lblCrate = New common.Controls.MyLabel()
+        Me.lblTotalCrate = New common.Controls.MyLabel()
+        Me.lblLitre = New common.Controls.MyLabel()
+        Me.lblTotalLitre = New common.Controls.MyLabel()
+        Me.rgbProduct = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblPTotCount = New common.Controls.MyLabel()
+        Me.txtPCount = New common.Controls.MyLabel()
+        Me.lblPTotAmt = New common.Controls.MyLabel()
+        Me.txtPAmt = New common.Controls.MyLabel()
         Me.txtcustomersearch = New common.Controls.MyTextBox()
         Me.btnSearch = New Telerik.WinControls.UI.RadButton()
         Me.lblTransporterName = New common.Controls.MyLabel()
@@ -33,13 +45,6 @@ Partial Class frmDemandBooking
         Me.chkEveningGatepassTruckSheetGenerated = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkMorningGatepassTruckSheetGenerated = New Telerik.WinControls.UI.RadCheckBox()
         Me.UsLock1 = New common.usLock()
-        Me.RadPanel2 = New Telerik.WinControls.UI.RadPanel()
-        Me.LblDocAmt = New common.Controls.MyLabel()
-        Me.lblDocumentAmt = New common.Controls.MyLabel()
-        Me.lblCrate = New common.Controls.MyLabel()
-        Me.lblTotalCrate = New common.Controls.MyLabel()
-        Me.lblLitre = New common.Controls.MyLabel()
-        Me.lblTotalLitre = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbnFreshAmbientBoth = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtn_Ambient = New Telerik.WinControls.UI.RadRadioButton()
@@ -97,24 +102,32 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtDocAmt = New common.Controls.MyLabel()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
-        CType(Me.txtcustomersearch, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSearch, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkEveningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkMorningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPanel2.SuspendLayout()
+        CType(Me.rgbMilk, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbMilk.SuspendLayout()
         CType(Me.LblDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocumentAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCrate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalCrate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLitre, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalLitre, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rgbProduct, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbProduct.SuspendLayout()
+        CType(Me.lblPTotCount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPCount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPTotAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtcustomersearch, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSearch, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkEveningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkMorningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.rdbnFreshAmbientBoth, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -165,6 +178,8 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -180,12 +195,16 @@ Partial Class frmDemandBooking
         '
         '
         Me.RadSplitContainer1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadSplitContainer1.Size = New System.Drawing.Size(1041, 475)
+        Me.RadSplitContainer1.Size = New System.Drawing.Size(1124, 475)
         Me.RadSplitContainer1.TabIndex = 0
         Me.RadSplitContainer1.TabStop = False
         '
         'SplitPanel1
         '
+        Me.SplitPanel1.Controls.Add(Me.MyLabel3)
+        Me.SplitPanel1.Controls.Add(Me.txtDocAmt)
+        Me.SplitPanel1.Controls.Add(Me.rgbMilk)
+        Me.SplitPanel1.Controls.Add(Me.rgbProduct)
         Me.SplitPanel1.Controls.Add(Me.txtcustomersearch)
         Me.SplitPanel1.Controls.Add(Me.btnSearch)
         Me.SplitPanel1.Controls.Add(Me.lblTransporterName)
@@ -193,7 +212,6 @@ Partial Class frmDemandBooking
         Me.SplitPanel1.Controls.Add(Me.chkEveningGatepassTruckSheetGenerated)
         Me.SplitPanel1.Controls.Add(Me.chkMorningGatepassTruckSheetGenerated)
         Me.SplitPanel1.Controls.Add(Me.UsLock1)
-        Me.SplitPanel1.Controls.Add(Me.RadPanel2)
         Me.SplitPanel1.Controls.Add(Me.RadGroupBox1)
         Me.SplitPanel1.Controls.Add(Me.chkIndividualCustomer)
         Me.SplitPanel1.Controls.Add(Me.lblCustomerName)
@@ -228,12 +246,152 @@ Partial Class frmDemandBooking
         '
         '
         Me.SplitPanel1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.SplitPanel1.Size = New System.Drawing.Size(1041, 434)
+        Me.SplitPanel1.Size = New System.Drawing.Size(1124, 434)
         Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, 0.4220183!)
         Me.SplitPanel1.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 154)
         Me.SplitPanel1.TabIndex = 0
         Me.SplitPanel1.TabStop = False
         Me.SplitPanel1.Text = "SplitPanel1"
+        '
+        'rgbMilk
+        '
+        Me.rgbMilk.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbMilk.Controls.Add(Me.LblDocAmt)
+        Me.rgbMilk.Controls.Add(Me.lblDocumentAmt)
+        Me.rgbMilk.Controls.Add(Me.lblCrate)
+        Me.rgbMilk.Controls.Add(Me.lblTotalCrate)
+        Me.rgbMilk.Controls.Add(Me.lblLitre)
+        Me.rgbMilk.Controls.Add(Me.lblTotalLitre)
+        Me.rgbMilk.HeaderText = "Milk"
+        Me.rgbMilk.Location = New System.Drawing.Point(592, 28)
+        Me.rgbMilk.Name = "rgbMilk"
+        Me.rgbMilk.Size = New System.Drawing.Size(248, 90)
+        Me.rgbMilk.TabIndex = 1466
+        Me.rgbMilk.Text = "Milk"
+        '
+        'LblDocAmt
+        '
+        Me.LblDocAmt.FieldName = Nothing
+        Me.LblDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblDocAmt.Location = New System.Drawing.Point(13, 59)
+        Me.LblDocAmt.Name = "LblDocAmt"
+        Me.LblDocAmt.Size = New System.Drawing.Size(74, 16)
+        Me.LblDocAmt.TabIndex = 145
+        Me.LblDocAmt.Text = "Milk Amount"
+        '
+        'lblDocumentAmt
+        '
+        Me.lblDocumentAmt.AutoSize = False
+        Me.lblDocumentAmt.BorderVisible = True
+        Me.lblDocumentAmt.FieldName = Nothing
+        Me.lblDocumentAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDocumentAmt.Location = New System.Drawing.Point(90, 57)
+        Me.lblDocumentAmt.Name = "lblDocumentAmt"
+        Me.lblDocumentAmt.Size = New System.Drawing.Size(146, 20)
+        Me.lblDocumentAmt.TabIndex = 146
+        Me.lblDocumentAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblCrate
+        '
+        Me.lblCrate.FieldName = Nothing
+        Me.lblCrate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCrate.Location = New System.Drawing.Point(13, 15)
+        Me.lblCrate.Name = "lblCrate"
+        Me.lblCrate.Size = New System.Drawing.Size(65, 16)
+        Me.lblCrate.TabIndex = 143
+        Me.lblCrate.Text = "Total Crate"
+        '
+        'lblTotalCrate
+        '
+        Me.lblTotalCrate.AutoSize = False
+        Me.lblTotalCrate.BorderVisible = True
+        Me.lblTotalCrate.FieldName = Nothing
+        Me.lblTotalCrate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalCrate.Location = New System.Drawing.Point(80, 13)
+        Me.lblTotalCrate.Name = "lblTotalCrate"
+        Me.lblTotalCrate.Size = New System.Drawing.Size(156, 20)
+        Me.lblTotalCrate.TabIndex = 144
+        Me.lblTotalCrate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblLitre
+        '
+        Me.lblLitre.FieldName = Nothing
+        Me.lblLitre.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLitre.Location = New System.Drawing.Point(15, 37)
+        Me.lblLitre.Name = "lblLitre"
+        Me.lblLitre.Size = New System.Drawing.Size(61, 16)
+        Me.lblLitre.TabIndex = 141
+        Me.lblLitre.Text = "Total Litre"
+        '
+        'lblTotalLitre
+        '
+        Me.lblTotalLitre.AutoSize = False
+        Me.lblTotalLitre.BorderVisible = True
+        Me.lblTotalLitre.FieldName = Nothing
+        Me.lblTotalLitre.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalLitre.Location = New System.Drawing.Point(80, 35)
+        Me.lblTotalLitre.Name = "lblTotalLitre"
+        Me.lblTotalLitre.Size = New System.Drawing.Size(156, 20)
+        Me.lblTotalLitre.TabIndex = 142
+        Me.lblTotalLitre.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'rgbProduct
+        '
+        Me.rgbProduct.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbProduct.Controls.Add(Me.lblPTotCount)
+        Me.rgbProduct.Controls.Add(Me.txtPCount)
+        Me.rgbProduct.Controls.Add(Me.lblPTotAmt)
+        Me.rgbProduct.Controls.Add(Me.txtPAmt)
+        Me.rgbProduct.HeaderText = "Product"
+        Me.rgbProduct.Location = New System.Drawing.Point(850, 29)
+        Me.rgbProduct.Name = "rgbProduct"
+        Me.rgbProduct.Size = New System.Drawing.Size(225, 71)
+        Me.rgbProduct.TabIndex = 1465
+        Me.rgbProduct.Text = "Product"
+        '
+        'lblPTotCount
+        '
+        Me.lblPTotCount.FieldName = Nothing
+        Me.lblPTotCount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPTotCount.Location = New System.Drawing.Point(3, 20)
+        Me.lblPTotCount.Name = "lblPTotCount"
+        Me.lblPTotCount.Size = New System.Drawing.Size(69, 16)
+        Me.lblPTotCount.TabIndex = 141
+        Me.lblPTotCount.Text = "Total Count"
+        '
+        'txtPCount
+        '
+        Me.txtPCount.AutoSize = False
+        Me.txtPCount.BorderVisible = True
+        Me.txtPCount.FieldName = Nothing
+        Me.txtPCount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPCount.Location = New System.Drawing.Point(90, 18)
+        Me.txtPCount.Name = "txtPCount"
+        Me.txtPCount.Size = New System.Drawing.Size(128, 20)
+        Me.txtPCount.TabIndex = 142
+        Me.txtPCount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblPTotAmt
+        '
+        Me.lblPTotAmt.FieldName = Nothing
+        Me.lblPTotAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPTotAmt.Location = New System.Drawing.Point(5, 42)
+        Me.lblPTotAmt.Name = "lblPTotAmt"
+        Me.lblPTotAmt.Size = New System.Drawing.Size(79, 16)
+        Me.lblPTotAmt.TabIndex = 139
+        Me.lblPTotAmt.Text = "Total Amount"
+        '
+        'txtPAmt
+        '
+        Me.txtPAmt.AutoSize = False
+        Me.txtPAmt.BorderVisible = True
+        Me.txtPAmt.FieldName = Nothing
+        Me.txtPAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPAmt.Location = New System.Drawing.Point(90, 40)
+        Me.txtPAmt.Name = "txtPAmt"
+        Me.txtPAmt.Size = New System.Drawing.Size(128, 20)
+        Me.txtPAmt.TabIndex = 140
+        Me.txtPAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtcustomersearch
         '
@@ -293,7 +451,7 @@ Partial Class frmDemandBooking
         '
         'chkEveningGatepassTruckSheetGenerated
         '
-        Me.chkEveningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(600, 131)
+        Me.chkEveningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(600, 144)
         Me.chkEveningGatepassTruckSheetGenerated.Name = "chkEveningGatepassTruckSheetGenerated"
         Me.chkEveningGatepassTruckSheetGenerated.ReadOnly = True
         Me.chkEveningGatepassTruckSheetGenerated.Size = New System.Drawing.Size(224, 18)
@@ -302,7 +460,7 @@ Partial Class frmDemandBooking
         '
         'chkMorningGatepassTruckSheetGenerated
         '
-        Me.chkMorningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(600, 112)
+        Me.chkMorningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(600, 125)
         Me.chkMorningGatepassTruckSheetGenerated.Name = "chkMorningGatepassTruckSheetGenerated"
         Me.chkMorningGatepassTruckSheetGenerated.ReadOnly = True
         Me.chkMorningGatepassTruckSheetGenerated.Size = New System.Drawing.Size(228, 18)
@@ -319,86 +477,6 @@ Partial Class frmDemandBooking
         Me.UsLock1.Size = New System.Drawing.Size(97, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 1458
-        '
-        'RadPanel2
-        '
-        Me.RadPanel2.Anchor = System.Windows.Forms.AnchorStyles.Top
-        Me.RadPanel2.Controls.Add(Me.LblDocAmt)
-        Me.RadPanel2.Controls.Add(Me.lblDocumentAmt)
-        Me.RadPanel2.Controls.Add(Me.lblCrate)
-        Me.RadPanel2.Controls.Add(Me.lblTotalCrate)
-        Me.RadPanel2.Controls.Add(Me.lblLitre)
-        Me.RadPanel2.Controls.Add(Me.lblTotalLitre)
-        Me.RadPanel2.Location = New System.Drawing.Point(600, 32)
-        Me.RadPanel2.Name = "RadPanel2"
-        Me.RadPanel2.Size = New System.Drawing.Size(229, 76)
-        Me.RadPanel2.TabIndex = 1457
-        '
-        'LblDocAmt
-        '
-        Me.LblDocAmt.FieldName = Nothing
-        Me.LblDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblDocAmt.Location = New System.Drawing.Point(3, 50)
-        Me.LblDocAmt.Name = "LblDocAmt"
-        Me.LblDocAmt.Size = New System.Drawing.Size(108, 16)
-        Me.LblDocAmt.TabIndex = 139
-        Me.LblDocAmt.Text = "Document Amount"
-        '
-        'lblDocumentAmt
-        '
-        Me.lblDocumentAmt.AutoSize = False
-        Me.lblDocumentAmt.BorderVisible = True
-        Me.lblDocumentAmt.FieldName = Nothing
-        Me.lblDocumentAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocumentAmt.Location = New System.Drawing.Point(110, 49)
-        Me.lblDocumentAmt.Name = "lblDocumentAmt"
-        Me.lblDocumentAmt.Size = New System.Drawing.Size(116, 20)
-        Me.lblDocumentAmt.TabIndex = 140
-        Me.lblDocumentAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'lblCrate
-        '
-        Me.lblCrate.FieldName = Nothing
-        Me.lblCrate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCrate.Location = New System.Drawing.Point(3, 6)
-        Me.lblCrate.Name = "lblCrate"
-        Me.lblCrate.Size = New System.Drawing.Size(65, 16)
-        Me.lblCrate.TabIndex = 137
-        Me.lblCrate.Text = "Total Crate"
-        '
-        'lblTotalCrate
-        '
-        Me.lblTotalCrate.AutoSize = False
-        Me.lblTotalCrate.BorderVisible = True
-        Me.lblTotalCrate.FieldName = Nothing
-        Me.lblTotalCrate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalCrate.Location = New System.Drawing.Point(70, 4)
-        Me.lblTotalCrate.Name = "lblTotalCrate"
-        Me.lblTotalCrate.Size = New System.Drawing.Size(156, 20)
-        Me.lblTotalCrate.TabIndex = 138
-        Me.lblTotalCrate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'lblLitre
-        '
-        Me.lblLitre.FieldName = Nothing
-        Me.lblLitre.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLitre.Location = New System.Drawing.Point(5, 28)
-        Me.lblLitre.Name = "lblLitre"
-        Me.lblLitre.Size = New System.Drawing.Size(61, 16)
-        Me.lblLitre.TabIndex = 126
-        Me.lblLitre.Text = "Total Litre"
-        '
-        'lblTotalLitre
-        '
-        Me.lblTotalLitre.AutoSize = False
-        Me.lblTotalLitre.BorderVisible = True
-        Me.lblTotalLitre.FieldName = Nothing
-        Me.lblTotalLitre.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalLitre.Location = New System.Drawing.Point(70, 26)
-        Me.lblTotalLitre.Name = "lblTotalLitre"
-        Me.lblTotalLitre.Size = New System.Drawing.Size(156, 20)
-        Me.lblTotalLitre.TabIndex = 136
-        Me.lblTotalLitre.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'RadGroupBox1
         '
@@ -585,7 +663,7 @@ Partial Class frmDemandBooking
         'btnUpdateCrateAndAmt
         '
         Me.btnUpdateCrateAndAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateCrateAndAmt.Location = New System.Drawing.Point(853, 109)
+        Me.btnUpdateCrateAndAmt.Location = New System.Drawing.Point(853, 150)
         Me.btnUpdateCrateAndAmt.Name = "btnUpdateCrateAndAmt"
         Me.btnUpdateCrateAndAmt.Size = New System.Drawing.Size(157, 18)
         Me.btnUpdateCrateAndAmt.TabIndex = 152
@@ -812,7 +890,7 @@ Partial Class frmDemandBooking
         Me.RadGroupBox2.Location = New System.Drawing.Point(8, 178)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1031, 244)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1114, 244)
         Me.RadGroupBox2.TabIndex = 50
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -832,14 +910,15 @@ Partial Class frmDemandBooking
         '
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.HorizontalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1011, 214)
+        Me.gv2.Size = New System.Drawing.Size(1094, 214)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
         '
@@ -858,14 +937,15 @@ Partial Class frmDemandBooking
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.HorizontalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1011, 214)
+        Me.gv1.Size = New System.Drawing.Size(1094, 214)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -956,7 +1036,7 @@ Partial Class frmDemandBooking
         '
         '
         Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.SplitPanel2.Size = New System.Drawing.Size(1041, 37)
+        Me.SplitPanel2.Size = New System.Drawing.Size(1124, 37)
         Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, -0.4220183!)
         Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -154)
         Me.SplitPanel2.TabIndex = 1
@@ -1060,7 +1140,7 @@ Partial Class frmDemandBooking
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(969, 11)
+        Me.btnClose.Location = New System.Drawing.Point(1052, 11)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 20)
         Me.btnClose.TabIndex = 14
@@ -1092,7 +1172,7 @@ Partial Class frmDemandBooking
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1041, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1124, 20)
         Me.RadMenu1.TabIndex = 7
         '
         'RadMenuItem3
@@ -1126,11 +1206,33 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(850, 106)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(108, 16)
+        Me.MyLabel3.TabIndex = 1467
+        Me.MyLabel3.Text = "Document Amount"
+        '
+        'txtDocAmt
+        '
+        Me.txtDocAmt.AutoSize = False
+        Me.txtDocAmt.BorderVisible = True
+        Me.txtDocAmt.FieldName = Nothing
+        Me.txtDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDocAmt.Location = New System.Drawing.Point(964, 104)
+        Me.txtDocAmt.Name = "txtDocAmt"
+        Me.txtDocAmt.Size = New System.Drawing.Size(109, 20)
+        Me.txtDocAmt.TabIndex = 1468
+        Me.txtDocAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
         'frmDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1041, 495)
+        Me.ClientSize = New System.Drawing.Size(1124, 495)
         Me.Controls.Add(Me.RadSplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Margin = New System.Windows.Forms.Padding(4)
@@ -1146,21 +1248,28 @@ Partial Class frmDemandBooking
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitPanel1.ResumeLayout(False)
         Me.SplitPanel1.PerformLayout()
-        CType(Me.txtcustomersearch, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSearch, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkEveningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkMorningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadPanel2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPanel2.ResumeLayout(False)
-        Me.RadPanel2.PerformLayout()
+        CType(Me.rgbMilk, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbMilk.ResumeLayout(False)
+        Me.rgbMilk.PerformLayout()
         CType(Me.LblDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocumentAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCrate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalCrate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLitre, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalLitre, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rgbProduct, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbProduct.ResumeLayout(False)
+        Me.rgbProduct.PerformLayout()
+        CType(Me.lblPTotCount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPCount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPTotAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtcustomersearch, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSearch, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkEveningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkMorningGatepassTruckSheetGenerated, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -1214,6 +1323,8 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1271,13 +1382,6 @@ Partial Class frmDemandBooking
     Friend WithEvents RadLabel2 As common.Controls.MyLabel
     Friend WithEvents txtCustomerNo As common.UserControls.txtFinder
     Friend WithEvents chkIndividualCustomer As RadCheckBox
-    Friend WithEvents RadPanel2 As RadPanel
-    Friend WithEvents LblDocAmt As common.Controls.MyLabel
-    Friend WithEvents lblDocumentAmt As common.Controls.MyLabel
-    Friend WithEvents lblCrate As common.Controls.MyLabel
-    Friend WithEvents lblTotalCrate As common.Controls.MyLabel
-    Friend WithEvents lblLitre As common.Controls.MyLabel
-    Friend WithEvents lblTotalLitre As common.Controls.MyLabel
     Friend WithEvents btn_TruckSheet As RadButton
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents btn_Gatepass As RadButton
@@ -1292,5 +1396,19 @@ Partial Class frmDemandBooking
     Friend WithEvents SplitButtonTruckSheet As RadSplitButton
     Friend WithEvents rmi_TS_PDF As RadMenuItem
     Friend WithEvents rmi_TS_Excel As RadMenuItem
+    Friend WithEvents rgbMilk As RadGroupBox
+    Friend WithEvents LblDocAmt As common.Controls.MyLabel
+    Friend WithEvents lblDocumentAmt As common.Controls.MyLabel
+    Friend WithEvents lblCrate As common.Controls.MyLabel
+    Friend WithEvents lblTotalCrate As common.Controls.MyLabel
+    Friend WithEvents lblLitre As common.Controls.MyLabel
+    Friend WithEvents lblTotalLitre As common.Controls.MyLabel
+    Friend WithEvents rgbProduct As RadGroupBox
+    Friend WithEvents lblPTotCount As common.Controls.MyLabel
+    Friend WithEvents txtPCount As common.Controls.MyLabel
+    Friend WithEvents lblPTotAmt As common.Controls.MyLabel
+    Friend WithEvents txtPAmt As common.Controls.MyLabel
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents txtDocAmt As common.Controls.MyLabel
 End Class
 

@@ -167,6 +167,8 @@ where 2=2"
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Posted on :" + obj.Posting_Date)
             End If
+            Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, trans)) > 0)
+            Dim corrFactor As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, trans))
             Dim Arr As New Dictionary(Of Date, List(Of clsMilkCollectionDCSDetail))
             Dim MaxDate As Date = obj.Arr(0).Collection_Date
             Dim TotQty As Decimal = 0
@@ -180,14 +182,19 @@ where 2=2"
                     Throw New Exception("FAT is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
                 End If
                 If objtr.SNF <= 0 Then
-                    Throw New Exception("SNF is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
+                    Throw New Exception("SNF/CLR is Zero at Sample No" + clsCommon.myCstr(objtr.SNo))
                 End If
                 If objtr.Collection_Date > MaxDate Then
                     MaxDate = objtr.Collection_Date
                 End If
                 TotQty += objtr.Qty
                 TotFATKG += objtr.FATKG
-                TotSNFKG += objtr.SNFKG
+                Dim dclCurrSNFKG As Decimal = objtr.SNFKG
+                If isPickCLRInsteadOfSNF Then
+                    Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(objtr.FAT, objtr.SNF, corrFactor)
+                    dclCurrSNFKG = objtr.Qty * snfPer / 100
+                End If
+                TotSNFKG += dclCurrSNFKG
                 Dim objDCSTr As New clsMilkCollectionDCSDetail()
 
                 objDCSTr.VLC_Code = objtr.VLC_Code
@@ -222,6 +229,7 @@ where 2=2"
                 objMCC.Description = "DCS Multiple Days [" + obj.Document_No + "]"
                 objMCC.Slip_No = "1"
                 objMCC.FAT_SNF_Type = obj.FAT_SNF_Type
+                objMCC.Against_DCS_Multiple_Days = obj.Document_No
 
                 Dim objMCCTr As New clsMilkCollectionMCCDetail
                 objMCCTr.SNo = 1
@@ -230,7 +238,12 @@ where 2=2"
                 For Each objDCSTR As clsMilkCollectionDCSDetail In ArrDCS
                     objMCC.Entered_Qty += objDCSTR.Qty
                     objMCC.Entered_FATKg += objDCSTR.FATKG
-                    objMCC.Entered_SNFKg += objDCSTR.SNFKG
+                    Dim dclCurrSNFKG As Decimal = objDCSTR.SNFKG
+                    If isPickCLRInsteadOfSNF Then
+                        Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(objDCSTR.FAT, objDCSTR.SNF, corrFactor)
+                        dclCurrSNFKG = objDCSTR.Qty * snfPer / 100
+                    End If
+                    objMCC.Entered_SNFKg += dclCurrSNFKG
                 Next
                 If clsCommon.GetDateWithStartTime(Arr.Keys(ii)) = clsCommon.GetDateWithStartTime(MaxDate) Then
                     objMCC.Entered_Qty = objMCC.Entered_Qty + (obj.Entered_Qty - TotQty)

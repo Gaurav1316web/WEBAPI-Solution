@@ -1506,7 +1506,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
         End If
 
 
-        Dim strRefDocType As String = "('DED-MAP','TIP-DED','VSP-COM','VSP-CMP','VSP-QLT','VSP-PVK','VSP-DIT','PRO-VFC','PRO-VFD','NCM-DED','CM-DED','ASL-DED','PRO-LCS','PRO-STD','OWD-CRE','OWD-CRD','OWD-DBT','DCS-ADD','DCS-DED','DCS-QAT','DCS-LYT')"
+        Dim strRefDocType As String = "('DED-MAP','TIP-DED','VSP-COM','VSP-CMP','VSP-QLT','VSP-PVK','VSP-DIT','PRO-VFC','PRO-VFD','NCM-DED','CM-DED','ASL-DED','PRO-LCS','PRO-STD','OWD-CRE','OWD-CRD','OWD-DBT','DCS-ADD','DCS-DED','DCS-QAT','DCS-LYT','VSP-NGT')"
         'Delete deduction Entry
 
         qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Trans_Type='IC-AD' and source_doc_no in ( select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_AP_Invoice_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhr + " and RefDocType in " + strRefDocType + "))"
@@ -1626,7 +1626,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
             Dim dtMilkType As New DataTable
             Dim dt As New DataTable
             Dim Flag As Boolean = False
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                 Flag = True
             End If
             sQuery = " select TSPL_DEDUCTION_MASTER.Description as Description,"
@@ -1754,8 +1754,11 @@ group by Description "
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                If Flag Then
+                ' If Flag Then
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreGNG", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreJPR", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 Else
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCre", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 End If
@@ -2026,7 +2029,7 @@ left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=
 where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_Code)TabSaving on TabSaving.VSP_Code=TBL_BILL_DETAILS.VSP_CODE"
         BaseQry += "  " & whrcls & " "
         Dim dt As New DataTable
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
             sQuery = BaseQry + " order by  cast(VLC_Code_VLC_Uploader as int),BillNo,convert(datetime,coalesce(TSPL_MILK_RECEIPT_HEAD.DOC_DATE,TSPL_MILK_SRN_head.DOC_DATE),103),shift desc"
         Else
             sQuery = BaseQry + " order by " + IIf(objCommonVar.CurrentCompanyCode = "RCDF", " ", "BILLSRL asc,") + " vsp_code,convert(datetime,coalesce(TSPL_MILK_RECEIPT_HEAD.DOC_DATE,TSPL_MILK_SRN_head.DOC_DATE),103),shift desc"
@@ -2262,11 +2265,13 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")
                     '
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewBKN", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+                    '
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewTNK", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
 
                     '
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JHL") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewJHL", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
-
                 Else
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNew", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 End If

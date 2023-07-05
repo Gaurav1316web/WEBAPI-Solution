@@ -242,6 +242,7 @@ Public Class frmVSP_VLCMaster
         lblRegistrationDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         txtRegistrationDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         txtRegistrationDate.Text = clsCommon.GETSERVERDATE()
+        txtCowPriceDate.Text = clsCommon.GETSERVERDATE()
         If chkApplyCowPrice.Checked Then
             txtCowPriceDate.Enabled = True
         Else
@@ -1128,24 +1129,26 @@ Public Class frmVSP_VLCMaster
 
 
             '' Milk Route Master
-            qry = "select count(*) from tspl_mcc_route_master where route_Name='" + StrTempVSPName + "'"
-            check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
-            If check <= 0 Then
-                Dim objMRM As clsfrmMilkRouteMaster
-                objMRM = New clsfrmMilkRouteMaster()
-                objMRM.arr_VLC_Detail = Nothing
-                objMRM = New clsfrmMilkRouteMaster
-                objMRM.code = StrTempVSPName
-                objMRM.desc = StrTempVSPName
-                objMRM.vehiclecode = StrTempVSPName
-                objMRM.Active = 1
-                objMRM.mcccode = clsCommon.myCstr(fndMcc.Value)
-                objMRM.mccname = clsMccMaster.GetName(fndMcc.Value, trans)
-                objMRM.kilometer = 0
-                clsfrmMilkRouteMaster.SaveData(objMRM.code, trans, objMRM, True, True)
-                If clsCommon.myLen(txtroutecode.Value) <= 0 Then
-                    txtroutecode.Value = clsCommon.myCstr(objMRM.code)
-                    txtroutename.Text = clsfrmMilkRouteMaster.GetName(txtroutecode.Value, trans)
+            If False Then
+                qry = "select count(*) from tspl_mcc_route_master where route_Name='" + StrTempVSPName + "'"
+                check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
+                If check <= 0 Then
+                    Dim objMRM As clsfrmMilkRouteMaster
+                    objMRM = New clsfrmMilkRouteMaster()
+                    objMRM.arr_VLC_Detail = Nothing
+                    objMRM = New clsfrmMilkRouteMaster
+                    objMRM.code = StrTempVSPName
+                    objMRM.desc = StrTempVSPName
+                    objMRM.vehiclecode = StrTempVSPName
+                    objMRM.Active = 1
+                    objMRM.mcccode = clsCommon.myCstr(fndMcc.Value)
+                    objMRM.mccname = clsMccMaster.GetName(fndMcc.Value, trans)
+                    objMRM.kilometer = 0
+                    clsfrmMilkRouteMaster.SaveData(objMRM.code, trans, objMRM, True, True)
+                    If clsCommon.myLen(txtroutecode.Value) <= 0 Then
+                        txtroutecode.Value = clsCommon.myCstr(objMRM.code)
+                        txtroutename.Text = clsfrmMilkRouteMaster.GetName(txtroutecode.Value, trans)
+                    End If
                 End If
             End If
             ''end of Milk Route master
@@ -1197,10 +1200,12 @@ Public Class frmVSP_VLCMaster
             obj.Loyalty_Rate = txtLoyaltyPer.Value
             If chkOwnBMC.Checked Then
                 obj.TFOwnBMC = True
+                obj.OwnBMCDate = txtOwnBMCDate.Text
+                obj.OwnBMC = clsCommon.myCstr(txtMCCOwnBMC.Value)
             Else
                 obj.TFOwnBMC = False
             End If
-            obj.OwnBMCDate = txtOwnBMCDate.Text
+
             Dim arr As New List(Of clsfrmVLCMaster)
             obj.Form_ID = MyBase.Form_ID
             clsfrmVLCMaster.SaveData(obj.vlcCode, isNewEntry, obj, arr, trans)
@@ -1252,10 +1257,10 @@ Public Class frmVSP_VLCMaster
             '    End If
             '    'Route Mapping
 
-            '    fndvlccode.Text = obj.vlcCode
-            '    '    fndvlccode.ReadOnly = True
-            '    'Else
-            '    '    fndvlccode.ReadOnly = False
+            fndvlccode.Text = obj.vlcCode
+            '    fndvlccode.ReadOnly = True
+            'Else
+            '    fndvlccode.ReadOnly = False
             'End If
 
 
@@ -1282,15 +1287,50 @@ Public Class frmVSP_VLCMaster
                 chkSuspense.Checked = obj.IsSuspense
                 txtvsp.Text = obj.VspName
                 fndMcc.Value = obj.MCCCOde
+                If clsCommon.myLen(fndMcc.Value) > 0 Then
+                    lblMCCName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("  select MCC_NAME from tspl_MCC_MASTER where MCC_Code = '" + fndMcc.Value + "' "))
+                Else
+                    lblMCCName.Text = ""
+                End If
                 txtvillcode.Value = obj.mainvillcode
                 txtvillname.Text = obj.mainvillname
                 txtroutecode.Value = obj.routecode
+                If clsCommon.myLen(txtroutecode.Value) > 0 Then
+                    txtroutename.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select ROUTE_NO As Code, ROUTE_NAME as Description from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + txtroutecode.Value + "'"))
+                Else
+                    txtroutename.Text = ""
+                End If
                 txtroutename.Text = obj.routename
                 txtLoyaltyPer.Value = obj.Loyalty_Rate
-                txtOwnBMCDate.Value = obj.OwnBMCDate
+                If obj.TFOwnBMC = True Then
+                    chkOwnBMC.Checked = True
+                    txtOwnBMCDate.Text = clsCommon.myCDate(obj.OwnBMCDate)
+                    txtMCCOwnBMC.Value = clsCommon.myCstr(obj.OwnBMC)
+                Else
+                    chkOwnBMC.Checked = False
+                    txtOwnBMCDate.Text = ""
+                    txtMCCOwnBMC.Value = ""
+                End If
                 fndPriceCode.Value = obj.Price_Code
                 Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
                 'fndvlccode.ReadOnly = True
+                If clsCommon.myCBool(obj.HeadLoad) = True Then
+                    ChkHeadLoad.Checked = True
+                    If clsCommon.myCstr(obj.HeadLoadBasis) = "P" Then
+                        CmbHeadLoadServiceBasis.Text = "%(Percentage)"
+                    ElseIf clsCommon.myCstr(obj.HeadLoadBasis) = "K" Then
+                        CmbHeadLoadServiceBasis.Text = "Rate/Kg"
+                    ElseIf clsCommon.myCstr(obj.HeadLoadBasis) = "L" Then
+                        CmbHeadLoadServiceBasis.Text = "Rate/Ltr"
+                    End If
+                    txtRateHeadLoad.Text = obj.HeadLoadRate
+                Else
+                    ChkHeadLoad.Checked = False
+                    CmbHeadLoadServiceBasis.Text = ""
+                    CmbHeadLoadServiceBasis.Text = ""
+                    CmbHeadLoadServiceBasis.Text = ""
+                    txtRateHeadLoad.Text = ""
+                End If
             Else
                 Reset()
             End If
@@ -1429,7 +1469,7 @@ Public Class frmVSP_VLCMaster
             End If
         End If
 
-        'Create Mcc Master
+        ''Create Mcc Master
         Try
             If chkOwnBMC.Checked = True AndAlso clsCommon.myLen(txtMCCOwnBMC.Value) <= 0 Then
                 Dim qry As String = " select count (*)  from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader = '" + txtVLCCodeVlcUploader.Text + "'  "
@@ -1768,6 +1808,19 @@ Public Class frmVSP_VLCMaster
                 clsDBFuncationality.ExecuteNonQuery(qryVidhanSabha, trans)
             End If
 
+            If ChkHeadLoad.Checked Then
+                Dim HeadLoadBasis As String = Nothing
+                If CmbHeadLoadServiceBasis.SelectedIndex = 1 Then
+                    HeadLoadBasis = "P"
+                ElseIf CmbHeadLoadServiceBasis.SelectedIndex = 2 Then
+                    HeadLoadBasis = "K"
+                ElseIf CmbHeadLoadServiceBasis.SelectedIndex = 3 Then
+                    HeadLoadBasis = "L"
+                End If
+                Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "1", "0") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+                clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
+            End If
+
             'VLC 
             If clsCommon.myLen(fndvlccode.Text) > 0 Then
                 VLCSaveData(False, trans)
@@ -1779,6 +1832,10 @@ Public Class frmVSP_VLCMaster
 
             trans.Commit()
 
+            Dim obj As New clsfrmVLCMaster()
+            If clsCommon.myLen(obj.vlcCode) > 0 Then
+                VLCLoadData(obj.vlcCode, NavigatorType.Current)
+            End If
             'If clsCommon.myLen(fndvlccode.Text) > 0 Then
             '    VLCLoadData(fndvlccode.Text, NavigatorType.Current)
             'End If
@@ -1794,9 +1851,7 @@ Public Class frmVSP_VLCMaster
 
     Private Function CreateNewMCC(ByVal BMCMCCCode As String) As Boolean
         Try
-
             Dim obj As New clsMccMaster()
-
             Dim dtDefaultUOM As New DataTable
             Dim qry As String = ""
             If objCommonVar.ApplyDefaultsInMaster = True Then
@@ -1814,12 +1869,12 @@ Public Class frmVSP_VLCMaster
             If arrExistCols.Contains(clsMasterDefault.colMCCBMCC) Then
                 obj.Is_MCC = IIf(clsCommon.myCdbl(dtDefault.Rows(0).Item(clsMasterDefault.colMCCBMCC)) = 0, 0, 1)
                 If obj.Is_MCC = 1 Then
-                    obj.MCC_Code = clsERPFuncationality.GetNextCode(Nothing, strdate, clsDocType.MCCMaster, "", obj.State_Code, False, True, True)
+                    obj.MCC_Code = clsERPFuncationality.GetNextCode(Nothing, strdate, clsDocType.MCCMaster, clsDocTransactionType.MCC, obj.State_Code, False, True, True)
                 Else
                     obj.MCC_Code = clsERPFuncationality.GetNextCode(Nothing, strdate, clsDocType.MCCMaster, clsDocTransactionType.BMCU, obj.State_Code, False, True, True)
                 End If
             Else
-                obj.MCC_Code = clsERPFuncationality.GetNextCode(Nothing, strdate, clsDocType.MCCMaster, "", obj.State_Code, False, True, True)
+                obj.MCC_Code = clsERPFuncationality.GetNextCode(Nothing, strdate, clsDocType.MCCMaster, clsDocTransactionType.MCC, obj.State_Code, False, True, True)
             End If
 
             If clsCommon.myLen(obj.MCC_Code) <= 0 Then
@@ -2348,6 +2403,22 @@ Public Class frmVSP_VLCMaster
 
                 clsMccMaster.SaveData(obj)
                 txtMCCOwnBMC.Value = obj.MCC_Code
+                Dim MCCName As String = Nothing
+                If clsCommon.myLen(obj.MCC_Code) > 0 Then
+                    MCCName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("  select MCC_NAME from tspl_MCC_MASTER where MCC_Code = '" + clsCommon.myCstr(obj.MCC_Code) + "' "))
+                Else
+                    MCCName = ""
+                End If
+                lblMCCOwnBMC.Text = MCCName
+                If chkOwnBMC.Checked Then
+                    fndMcc.Value = obj.MCC_Code
+                    If clsCommon.myLen(fndMcc.Value) > 0 Then
+                        lblMCCName.Text = MCCName
+                    Else
+                        lblMCCName.Text = ""
+                    End If
+                End If
+
             End If
         Catch ex As Exception
             Return False
@@ -2720,7 +2791,9 @@ Public Class frmVSP_VLCMaster
         lblGrampanchayat.Text = ""
         txtRevenueVillage.Value = ""
         lblRevenueVillage.Text = ""
-
+        ChkHeadLoad.Checked = False
+        CmbHeadLoadServiceBasis.Text = ""
+        txtRateHeadLoad.Text = ""
         funSetDefaultData()
         'VLC
         VLC_reset()
@@ -2742,10 +2815,11 @@ Public Class frmVSP_VLCMaster
         txtvspcode.Value = ""
         chkApplyCowPrice.Checked = False
         chkSuspense.Checked = False
-        fndMcc.Value = ""
+        fndMcc.Value = Nothing
         fndPriceCode.Value = Nothing
         fndPriceCode.Enabled = True
-        MCCLOCATIONFINDER()
+        lblMCCName.Text = ""
+        'MCCLOCATIONFINDER()
         If clsCommon.CompairString(clsFixedParameter.GetData(clsFixedParameterType.AutoUpdateVLCUploaderCodeInVLCMaster, clsFixedParameterCode.AutoUpdateVLCUploaderCodeInVLCMaster, Nothing), "1") = CompairStringResult.Equal Then
             txtVLCCodeVlcUploader.Enabled = False
         Else
@@ -2816,7 +2890,6 @@ Public Class frmVSP_VLCMaster
                 End If
 
             Else
-
                 txtno_days.Text = ""
                 cmbincentive.SelectedValue = ""
                 cmbvsppayment.SelectedValue = ""
@@ -2860,11 +2933,8 @@ Public Class frmVSP_VLCMaster
                 VLC_reset()
                 btnsave.Text = "Save"
                 btndelete.Enabled = False
-
-
             End If
         Catch ex As Exception
-
             myMessages.myExceptions(ex)
         End Try
     End Sub
@@ -3323,11 +3393,11 @@ Public Class frmVSP_VLCMaster
         Try
             If AllowVSPMasterAutoPrefix = 0 Then
                 If fndvendorNo.Value = "" Then
-                    myMessages.blankValue("Please Fill VSP Code")
+                    myMessages.blankValue("Please Fill DCS Code")
                     pageCus.SelectedPage = RadPageViewPage1
                     fndvendorNo.Focus()
                     fndvendorNo.Select()
-                    Errorcontrol.SetError(fndvendorNo, "Please Fill VSP Code")
+                    Errorcontrol.SetError(fndvendorNo, "Please Fill DCS Code")
                     Return
                 Else
                     Errorcontrol.ResetError(fndvendorNo)
@@ -3335,11 +3405,11 @@ Public Class frmVSP_VLCMaster
 
             End If
             If txtvendorname.Text = "" Then
-                myMessages.blankValue("Please Fill VSP Name")
+                myMessages.blankValue("Please Fill DCS Name")
                 pageCus.SelectedPage = RadPageViewPage1
                 txtvendorname.Focus()
                 txtvendorname.Select()
-                Errorcontrol.SetError(txtvendorname, "Please Fill VSP Name")
+                Errorcontrol.SetError(txtvendorname, "Please Fill DCS Name")
                 Return
             Else
                 Errorcontrol.ResetError(txtvendorname)
@@ -3347,7 +3417,7 @@ Public Class frmVSP_VLCMaster
 
             If fndgroupcode.Value = "" Then
                 myMessages.blankValue("Please Select Group Code")
-                pageCus.SelectedPage = RadPageViewPage1
+                pageCus.SelectedPage = RadPageViewPage5
                 fndgroupcode.Focus()
                 fndgroupcode.Select()
                 Errorcontrol.SetError(fndgroupcode, "Please Select Group Code")
@@ -3358,9 +3428,9 @@ Public Class frmVSP_VLCMaster
 
             If clsCommon.myLen(txtAdd1.Text) <= 0 AndAlso clsCommon.myLen(txtAdd2.Text) <= 0 AndAlso clsCommon.myLen(txtAdd3.Text) <= 0 Then
                 myMessages.blankValue("Please Fill Address")
-                pageCus.SelectedPage = RadPageViewPage1
+                pageCus.SelectedPage = RadPageViewPage5
                 txtAdd1.Focus()
-                txtAdd2.Select()
+                txtAdd1.Select()
                 Errorcontrol.SetError(txtAdd1, "Please Fill Address")
                 Errorcontrol.SetError(txtAdd2, "Please Fill Address")
                 Errorcontrol.SetError(txtAdd3, "Please Fill Address")
@@ -3373,7 +3443,7 @@ Public Class frmVSP_VLCMaster
 
             If clsCommon.myLen(txtcountrycode) <= 0 Then
                 clsCommon.MyMessageBoxShow("Please Select Country", Me.Text)
-                pageCus.SelectedPage = RadPageViewPage1
+                pageCus.SelectedPage = RadPageViewPage5
                 txtcountrycode.Select()
                 txtcountrycode.Focus()
                 Errorcontrol.SetError(txtcountrycode, "Please Select Country")
@@ -3384,7 +3454,7 @@ Public Class frmVSP_VLCMaster
 
             If clsCommon.myLen(txtstatecode) <= 0 Then
                 clsCommon.MyMessageBoxShow("Please Select State", Me.Text)
-                pageCus.SelectedPage = RadPageViewPage1
+                pageCus.SelectedPage = RadPageViewPage5
                 txtstatecode.Select()
                 txtstatecode.Focus()
                 Errorcontrol.SetError(txtstatecode, "Please Select State")
@@ -3395,7 +3465,7 @@ Public Class frmVSP_VLCMaster
 
             If clsCommon.myLen(txtCity) <= 0 Then
                 clsCommon.MyMessageBoxShow("Please Select City", Me.Text)
-                pageCus.SelectedPage = RadPageViewPage1
+                pageCus.SelectedPage = RadPageViewPage5
                 txtCity.Select()
                 txtCity.Focus()
                 Errorcontrol.SetError(txtcountrycode, "Please Select City")
@@ -3406,7 +3476,7 @@ Public Class frmVSP_VLCMaster
             ' Modify By : Prabhakar Ref Ticket : BM00000010125
             If clsCommon.myLen(TxtPinCode.Text) > 0 Then
                 If clsCommon.myLen(TxtPinCode.Text) <> 6 Then
-                    pageCus.SelectedPage = RadPageViewPage1
+                    pageCus.SelectedPage = RadPageViewPage5
                     clsCommon.MyMessageBoxShow("Invalid Pin Code.Please Enter Pin Code 6 Digit", Me.Text)
                     Errorcontrol.SetError(TxtPinCode, "Invalid Pin Code.Please Enter Pin Code 6 Digit")
                     Return
@@ -3421,7 +3491,7 @@ Public Class frmVSP_VLCMaster
 
             If cmbvsppayment.SelectedValue = "" Then
                 clsCommon.MyMessageBoxShow("Please Select VSP Payment Value", Me.Text)
-                pageCus.SelectedPage = RadPageViewPage1
+                pageCus.SelectedPage = RadPageViewPage5
                 cmbvsppayment.Select()
                 Errorcontrol.SetError(cmbvsppayment, "Please Select VSP Payment Value")
                 Return
@@ -3536,7 +3606,7 @@ Public Class frmVSP_VLCMaster
             End If
             If clsCommon.myLen(txtcountrycode.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow("Please Select Country", Me.Text)
-                pageCus.SelectedPage = RadPageViewPage1
+                pageCus.SelectedPage = RadPageViewPage5
                 txtcountrycode.Focus()
                 txtcountrycode.Select()
                 Errorcontrol.SetError(txtCountry, "Please Select Country")
@@ -3547,7 +3617,7 @@ Public Class frmVSP_VLCMaster
 
             If clsCommon.myLen(txtstatecode.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow("Please Select State", Me.Text)
-                pageCus.SelectedPage = RadPageViewPage1
+                pageCus.SelectedPage = RadPageViewPage5
                 txtstatecode.Focus()
                 txtstatecode.Select()
                 Errorcontrol.SetError(txtState, "Please Select State")
@@ -3559,7 +3629,7 @@ Public Class frmVSP_VLCMaster
 
             If clsCommon.myLen(fndCity.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow("Please Select City", Me.Text)
-                pageCus.SelectedPage = RadPageViewPage1
+                pageCus.SelectedPage = RadPageViewPage5
                 fndCity.Focus()
                 fndCity.Select()
                 Errorcontrol.SetError(txtCity, "Please Select City")
@@ -3583,7 +3653,7 @@ Public Class frmVSP_VLCMaster
             End If
             If clsCommon.myLen(txtjointname.Text) <= 0 And clsCommon.myCstr(cmbvsppayment.Text) = "Different" Then
                 clsCommon.MyMessageBoxShow("Please Fill Joint Name", Me.Text)
-                pageCus.SelectedPage = RadPageViewPage1
+                pageCus.SelectedPage = RadPageViewPage5
                 txtjointname.Focus()
                 txtjointname.Select()
                 Errorcontrol.SetError(txtjointname, "Please Fill Joint Name")
@@ -3591,6 +3661,17 @@ Public Class frmVSP_VLCMaster
             Else
                 Errorcontrol.ResetError(txtjointname)
             End If
+
+            'If clsCommon.myLen(txtroutecode.Value) <= 0 Then
+            '    clsCommon.MyMessageBoxShow("Please Fill Route Code", Me.Text)
+            '    pageCus.SelectedPage = RadPageViewPage1
+            '    txtroutecode.Focus()
+            '    txtroutecode.Select()
+            '    Errorcontrol.SetError(txtroutecode, "Please Fill Route Code")
+            '    Return
+            'Else
+            '    Errorcontrol.ResetError(txtroutecode)
+            'End If
 
             If chkCreditLimitBasedOnMilkReceipt.Checked Then
                 If TxtCreditLimitBasedOnMilkReceipt.Value < 0 OrElse TxtCreditLimitBasedOnMilkReceipt.Value > 100 Then
@@ -3619,7 +3700,7 @@ Public Class frmVSP_VLCMaster
             'VLC
             If clsCommon.myLen(txtvlcname.Text) <= 0 Then
                 If common.clsCommon.MyMessageBoxShow("VLC Name is blank." + Environment.NewLine + "Do you want to Save/Update VSP without VSP?", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.No Then
-                    pageCus.SelectedPage = RadPageViewPage3
+                    pageCus.SelectedPage = RadPageViewPage5
                     txtvlcname.Focus()
                     txtvlcname.Select()
                     Exit Sub
@@ -3675,25 +3756,6 @@ Public Class frmVSP_VLCMaster
         funreset()
         isLoadCopy = False
     End Sub
-
-    Private Sub MenuExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuExport.Click
-        Try
-            If clsCommon.myLen(txtroutecode.Value) > 0 Then
-                OpenRouteAccRouteCode(txtroutecode.Value)
-            End If
-            Dim BlankSheet As String = Nothing
-            If chkBlankExportExcel.Checked Then
-                BlankSheet = "True"
-            Else
-                BlankSheet = "False"
-            End If
-            clsfrmVLCMaster.ExportDataTable(fndvendorNo.Value, Me, BlankSheet)
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
-
-    End Sub
-
 
 
     Private Sub MenuImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MenuImport.Click
@@ -3767,17 +3829,22 @@ Public Class frmVSP_VLCMaster
                         txtOwnBMCDate.Text = clsCommon.myCstr(grow.Cells("Own BMC").Value)
                         If clsCommon.myCdbl(grow.Cells("Head Load").Value) = 1 Then
                             ChkHeadLoad.Checked = True
+                            If clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "P" Then
+                                CmbHeadLoadServiceBasis.Text = "%(Percentage)"
+                            ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "K" Then
+                                CmbHeadLoadServiceBasis.Text = "Rate/Kg"
+                            ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "L" Then
+                                CmbHeadLoadServiceBasis.Text = "Rate/Ltr"
+                            End If
+                            txtRateHeadLoad.Text = clsCommon.myCstr(grow.Cells("Head Load Rate").Value)
                         Else
                             ChkHeadLoad.Checked = False
+                            CmbHeadLoadServiceBasis.Text = ""
+                            CmbHeadLoadServiceBasis.Text = ""
+                            CmbHeadLoadServiceBasis.Text = ""
+                            txtRateHeadLoad.Text = ""
                         End If
-                        If clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "P" Then
-                            CmbHeadLoadServiceBasis.Text = "%(Percentage)"
-                        ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "K" Then
-                            CmbHeadLoadServiceBasis.Text = "Rate/Kg"
-                        ElseIf clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "L" Then
-                            CmbHeadLoadServiceBasis.Text = "Rate/Ltr"
-                        End If
-                        txtRateHeadLoad.Text = clsCommon.myCstr(grow.Cells("Head Load Rate").Value)
+
                         If clsCommon.myCdbl(grow.Cells("Active").Value) = 1 Then
                             chkInActive.Checked = True
                         Else
@@ -4705,7 +4772,7 @@ Public Class frmVSP_VLCMaster
         Try
             If clsCommon.myLen(txtvlcname.Text) <= 0 Then
                 clsCommon.MyMessageBoxShow("Please Fill VLC Name", Me.Text)
-                pageCus.SelectedPage = RadPageViewPage3
+                pageCus.SelectedPage = RadPageViewPage5
                 txtvlcname.Focus()
                 txtvlcname.Select()
                 Errorcontrol.SetError(txtvlcname, "Please Fill VLC Name")
@@ -4716,7 +4783,7 @@ Public Class frmVSP_VLCMaster
             If txtVLCCodeVlcUploader.Enabled = True Then
                 If clsCommon.myLen(txtVLCCodeVlcUploader.Text) <= 0 Then
                     clsCommon.MyMessageBoxShow("Please Fill VLC Code For VLC Uploader ", Me.Text)
-                    pageCus.SelectedPage = RadPageViewPage3
+                    pageCus.SelectedPage = RadPageViewPage1
                     txtVLCCodeVlcUploader.Focus()
                     txtVLCCodeVlcUploader.Select()
                     Errorcontrol.SetError(txtVLCCodeVlcUploader, "Please Fill VLC Code For VLC Uploader")
@@ -4727,10 +4794,10 @@ Public Class frmVSP_VLCMaster
             End If
 
             If isDuplicateVLCCode(IIf(clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal, False, True)) Then
-                clsCommon.MyMessageBoxShow(" Duplicate VLC Code for VLC Uploader")
-                pageCus.SelectedPage = RadPageViewPage3
+                clsCommon.MyMessageBoxShow("Duplicate DCS Code for DCS Uploader")
+                pageCus.SelectedPage = RadPageViewPage1
                 txtVLCCodeVlcUploader.Focus()
-                Errorcontrol.SetError(txtVLCCodeVlcUploader, "Duplicate VLC Code for VLC Uploader")
+                Errorcontrol.SetError(txtVLCCodeVlcUploader, "Duplicate DCS Code for DCS Uploader")
                 Return False
             Else
                 Errorcontrol.SetError(txtVLCCodeVlcUploader, "")
@@ -4739,7 +4806,7 @@ Public Class frmVSP_VLCMaster
             If objCommonVar.ApplyDefaultsInMaster = False OrElse (objCommonVar.ApplyDefaultsInMaster = True AndAlso clsCommon.CompairString(btnsave.Text, "Update") = CompairStringResult.Equal) Then
                 If clsCommon.myLen(txtvillcode.Value) <= 0 Then
                     clsCommon.MyMessageBoxShow("Please Select Village Code/Name", Me.Text)
-                    pageCus.SelectedPage = RadPageViewPage3
+                    pageCus.SelectedPage = RadPageViewPage5
                     txtvillcode.Focus()
                     txtvillcode.Select()
                     Errorcontrol.SetError(txtvillcode, "Please Select Village Code/Name")
@@ -4747,6 +4814,55 @@ Public Class frmVSP_VLCMaster
                 Else
                     Errorcontrol.ResetError(txtvillcode)
                 End If
+            End If
+
+            ''Create Mcc Master
+            'If chkOwnBMC.Checked = True Then
+            '    Try
+            '        If clsCommon.myLen(txtMCCOwnBMC.Value) <= 0 Then
+            '            Dim qry As String = " select count (*)  from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader = '" + txtVLCCodeVlcUploader.Text + "'  "
+            '            Dim checkValid As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(qry))
+            '            If checkValid = False Then
+
+            '                dtDefault = New DataTable()
+            '                Dim newBlankRow1 As DataRow = dtDefault.NewRow
+            '                dtDefault.Rows.Add(newBlankRow1)
+            '                Dim objDefaultTemplate As clsExportTemplate = clsExportTemplate.GetDefaultData("MP-IMP-TMP")
+            '                If (objDefaultTemplate IsNot Nothing AndAlso clsCommon.myLen(objDefaultTemplate.Export_Code) > 0) Then
+            '                    If objDefaultTemplate.Arr IsNot Nothing AndAlso objDefaultTemplate.Arr.Count > 0 Then
+            '                        For Each objTr As clsExportTemplateDetail In objDefaultTemplate.Arr
+            '                            If clsCommon.myLen(objTr.Column_Name) > 0 Then
+            '                                arrExistCols.Add(objTr.Column_Name)
+            '                                Dim newColumn As New DataColumn(clsCommon.myCstr(objTr.Column_Name), GetType(System.String))
+            '                                dtDefault.Columns.Add(newColumn)
+            '                                dtDefault.Rows(0).Item(clsCommon.myCstr(objTr.Column_Name)) = clsCommon.myCstr(objTr.Column_Header)
+            '                            End If
+            '                        Next
+            '                    End If
+            '                End If
+
+            '                If (dtDefault IsNot Nothing AndAlso clsCommon.myLen(dtDefault.Rows.Count) > 0) Then
+            '                    CreateNewMCC(txtVLCCodeVlcUploader.Text)
+            '                Else
+            '                    Throw New Exception("Please set Default Templete to create MCC Master")
+            '                End If
+            '            End If
+            '        End If
+            '    Catch ex As Exception
+            '        MsgBox(ex.Message, MsgBoxStyle.Exclamation, "VSP/VLC Master")
+            '        Return False
+            '    End Try
+            'End If
+
+            If clsCommon.myLen(fndMcc.Value) <= 0 AndAlso chkOwnBMC.Checked = False Then
+                clsCommon.MyMessageBoxShow("Please Select MCC", Me.Text)
+                pageCus.SelectedPage = RadPageViewPage1
+                fndMcc.Focus()
+                fndMcc.Select()
+                Errorcontrol.SetError(fndMcc, "Please Select MCC")
+                Return False
+            Else
+                Errorcontrol.ResetError(fndMcc)
             End If
 
             'If clsCommon.myLen(txtvspcode.Value) <= 0 Then
@@ -4758,18 +4874,6 @@ Public Class frmVSP_VLCMaster
             'Else
             '    Errorcontrol.ResetError(txtvspcode)
             'End If
-
-            If clsCommon.myLen(fndMcc.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Please Select MCC", Me.Text)
-                pageCus.SelectedPage = RadPageViewPage3
-                fndMcc.Focus()
-                fndMcc.Select()
-                Errorcontrol.SetError(fndMcc, "Please Select MCC")
-                Return False
-            Else
-                Errorcontrol.ResetError(fndMcc)
-            End If
-
 
             '-----------check whether the same VSP mapped earlier with the Other VLC----------------------------------------------------------------------------
             Dim check As String = ""
@@ -4793,7 +4897,14 @@ Public Class frmVSP_VLCMaster
     End Function
     Function isDuplicateVLCCode(ByVal isUpdate As Boolean) As Boolean
 
-        Dim qry As String = "select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" & txtVLCCodeVlcUploader.Text & "' and vlc_code<>'" & fndvlccode.Text & "' and mcc='" & fndMcc.Value & "'"
+        'Dim qry As String = "select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" & txtVLCCodeVlcUploader.Text & "' and vlc_code<>'" & fndvlccode.Text & "' and mcc='" & fndMcc.Value & "'"
+        Dim qry As String = Nothing
+        If btnsave.Text.Contains("Save") Then
+            qry = "select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" & txtVLCCodeVlcUploader.Text & "'"
+        Else
+            qry = "select COUNT(*) from TSPL_VLC_MASTER_HEAD where VLC_Code_vlc_uploader='" & txtVLCCodeVlcUploader.Text & "' and vlc_code<>'" & fndvlccode.Text & "' and mcc='" & fndMcc.Value & "'"
+        End If
+
         Dim rvalue As Boolean = False
         Dim cnt As Integer = 0
         cnt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
@@ -4808,19 +4919,22 @@ Public Class frmVSP_VLCMaster
     End Function
 
     Private Sub fndMcc__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndMcc._MYValidating
-        Dim StrWhere As String = ""
-        Dim qry As String = "select tspl_mcc_master.mcc_code as Code,tspl_mcc_master.mcc_name as Name,tspl_mcc_master.Plant_Code as [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name] from tspl_mcc_master left outer join tspl_location_master on tspl_location_master.location_code=tspl_mcc_master.plant_code"
-        If clsCommon.myLen(arrLoc) > 0 Then
-            StrWhere = " tspl_mcc_master.mcc_code in (" + arrLoc + ")"
-        End If
+        If chkOwnBMC.Checked = False Then
+            Dim StrWhere As String = ""
+            Dim qry As String = "select tspl_mcc_master.mcc_code as Code,tspl_mcc_master.mcc_name as Name,tspl_mcc_master.Plant_Code as [Plant Code],TSPL_LOCATION_MASTER.Location_Desc AS [Plant Name] from tspl_mcc_master left outer join tspl_location_master on tspl_location_master.location_code=tspl_mcc_master.plant_code"
+            If clsCommon.myLen(arrLoc) > 0 Then
+                StrWhere = " tspl_mcc_master.mcc_code in (" + arrLoc + ")"
+            End If
 
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt Is Nothing OrElse dt.Rows.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Before Doing VLC Master Entry,Make MCC Master", Me.Text)
-            Reset()
-        End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count = 0 Then
+                clsCommon.MyMessageBoxShow("Before Doing VLC Master Entry,Make MCC Master", Me.Text)
+                Reset()
+            End If
 
-        fndMcc.Value = clsCommon.ShowSelectForm("MCCFND", qry, "Code", StrWhere, fndMcc.Value, "Code", isButtonClicked)
+            fndMcc.Value = clsCommon.ShowSelectForm("MCCFND", qry, "Code", StrWhere, fndMcc.Value, "Code", isButtonClicked)
+            lblMCCName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("  select MCC_NAME from tspl_MCC_MASTER where MCC_Code = '" + fndMcc.Value + "' "))
+        End If
     End Sub
 
     Private Sub fndPriceCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPriceCode._MYValidating
@@ -5789,10 +5903,13 @@ Public Class frmVSP_VLCMaster
             lblOwnMCC.Visible = True
             txtMCCOwnBMC.Visible = True
             lblMCCOwnBMC.Visible = True
+            txtOwnBMCDate.Enabled = True
         Else
             lblOwnMCC.Visible = False
             txtMCCOwnBMC.Visible = False
             lblMCCOwnBMC.Visible = False
+            txtOwnBMCDate.Enabled = False
+            txtOwnBMCDate.Text = Nothing
         End If
     End Sub
 
@@ -6005,6 +6122,7 @@ Public Class frmVSP_VLCMaster
                 txtCowPriceDate.Enabled = True
             Else
                 txtCowPriceDate.Enabled = False
+                txtCowPriceDate.Text = Nothing
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
@@ -6023,6 +6141,34 @@ Public Class frmVSP_VLCMaster
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
+    End Sub
+
+    Private Sub ExportBlankSheet_Click(sender As Object, e As EventArgs) Handles ExportBlankSheet.Click
+        Try
+            If clsCommon.myLen(txtroutecode.Value) > 0 Then
+                OpenRouteAccRouteCode(txtroutecode.Value)
+            End If
+            Dim ExportSheet As String = "BlankSheet"
+            clsfrmVLCMaster.ExportDataTable(fndvendorNo.Value, Me, ExportSheet)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+        End Try
+    End Sub
+
+    Private Sub ExportData_Click(sender As Object, e As EventArgs) Handles ExportData.Click
+        Try
+            If clsCommon.myLen(txtroutecode.Value) > 0 Then
+                OpenRouteAccRouteCode(txtroutecode.Value)
+            End If
+            Dim ExportSheet As String = "FillDataSheet"
+            clsfrmVLCMaster.ExportDataTable(fndvendorNo.Value, Me, ExportSheet)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtRegistrationDate_ValueChanged(sender As Object, e As EventArgs) Handles txtRegistrationDate.ValueChanged
+
     End Sub
 
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click

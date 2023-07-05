@@ -462,8 +462,10 @@ Public Class RCDFDashboard
     Public Sub Load_Report_PRODUCTION()
         Try
             If dtProduction Is Nothing OrElse dtProduction.Rows.Count <= 0 Then
-                Dim sQuery As String = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(sr_no) as sr_no,max(GrpName) as GrpName,Sum(Quantity)/1000 As Quantity from ( 
-            select PROD_DATE as GrpMonth,ITEM_CODE as GrpCode,sr_no,item_desc as GrpName,FINAL_PRODUCTION_QTY as Quantity   from (
+                Dim sQuery As String = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(sr_no) as sr_no,max(GrpName) as GrpName,
+            Sum(Quantity)/1000 As Quantity from ( 
+            select PROD_DATE as GrpMonth,ITEM_CODE as GrpCode,sr_no,item_desc as GrpName,FINAL_PRODUCTION_QTY as Quantity 
+						from (
             SELECT   TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,
             case when TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE in ('FG0001','FG0002','FG0003') then  substring(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE, 6,1) else '0' end as sr_no, 
             TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY
@@ -477,8 +479,9 @@ Public Class RCDFDashboard
                 sQuery += "  union
                 select convert(date, thedate,103) as PROD_DATE,TSPL_ITEM_MASTER.Item_Code,
                 case when TSPL_ITEM_MASTER.ITEM_CODE in ('FG0001','FG0002','FG0003') then  substring(TSPL_ITEM_MASTER.ITEM_CODE, 6,1) else '0' end as sr_no, 
-                TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',0 as FINAL_PRODUCTION_QTY from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),TSPL_ITEM_MASTER
-                where TSPL_ITEM_MASTER.STRUCTURE_CODE='FG'
+                TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',0 as FINAL_PRODUCTION_QTY
+                from ExplodeDates('" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'),TSPL_ITEM_MASTER
+                where TSPL_ITEM_MASTER.STRUCTURE_CODE='FG'	 
                 )x
                 )xxxxx Group by GrpMonth,GrpCode order by convert(date, GrpMonth,103),sr_no desc"
                 dtProduction = clsDBFuncationality.GetDataTable(sQuery)
@@ -490,14 +493,27 @@ Public Class RCDFDashboard
                 cvProdution.AreaDesign = CartesianArea1
                 cvProdution.Series.Clear()
                 Dim strValue As String = "Quantity"
+                Dim tempValue As Decimal = 0
 
                 Dim ds As DataSet = New DataSet
                 Dim arrLegend As New List(Of String)
                 For ii As Integer = 0 To dtProduction.Rows.Count - 1
                     If Not arrLegend.Contains(clsCommon.myCstr(dtProduction.Rows(ii)("GrpCode"))) Then
+
                         Dim dtNew As New DataTable
                         dtNew.TableName = clsCommon.myCstr(dtProduction.Rows(ii)("GrpName"))
                         dtNew.Columns.Add("Name", GetType(String))
+
+
+                        'If ii = 3 Then
+                        '    For i As Integer = 0 To arrLegend.Count - 1
+                        '        tempValue += dtProduction.Rows(i)("Quantity")
+                        '    Next
+                        '    'For Each item As DataRow In dtProduction.Rows
+                        '    dtProduction.Rows(ii)("Quantity") = tempValue
+                        '    'Next
+                        'End If
+
                         dtNew.Columns.Add("Value", GetType(Decimal))
                         arrLegend.Add(clsCommon.myCstr(dtProduction.Rows(ii)("GrpCode")))
                         ds.Tables.Add(dtNew)
@@ -505,6 +521,7 @@ Public Class RCDFDashboard
 
                     Dim drTS As DataRow = ds.Tables(clsCommon.myCstr(dtProduction.Rows(ii)("GrpName"))).NewRow()
                     drTS("Name") = dtProduction.Rows(ii)("GrpMonth")
+
                     drTS("Value") = dtProduction.Rows(ii)(strValue)
                     ds.Tables(clsCommon.myCstr(dtProduction.Rows(ii)("GrpName"))).Rows.Add(drTS)
                 Next
@@ -662,18 +679,18 @@ Public Class RCDFDashboard
 
         Try
             If dtQuality Is Nothing OrElse dtQuality.Rows.Count <= 0 Then
-                Dim sQuery As String = "select  TSPL_GRN_HEAD.Ref_No,TSPL_MRN_HEAD.Vendor_Name as 'VENDOR',TSPL_ITEM_MASTER.Short_Description as 'ITEM_DESC',TSPL_MRN_HEAD.VehicleNo ,'Pending' as 'QCstatus','' as 'DEDPer'
+                Dim sQuery As String = " select  ROW_NUMBER() OVER (ORDER BY TSPL_GRN_HEAD.Bill_To_Location) AS 'S.NO',TSPL_GRN_HEAD.Ref_No,TSPL_MRN_HEAD.Vendor_Name as 'VENDOR',TSPL_ITEM_MASTER.Short_Description as 'ITEM_DESC',TSPL_MRN_HEAD.VehicleNo ,'Pending' as 'QCstatus','' as 'DEDPer'
 from TSPL_MRN_HEAD 
                 left join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No
 				left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
                 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code
                 where TSPL_MRN_DETAIL.MRN_No   not in (select TSPL_QC_CHECK_DETAIL.MRN_No from TSPL_QC_CHECK_DETAIL)  and TSPL_ITEM_MASTER.Is_AllowQC_ON_Purchase=1               
                 AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')  
-                and convert(date,TSPL_MRN_HEAD.MRN_Date,103)>= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+                and convert(date,TSPL_MRN_HEAD.MRN_Date,103)>=  convert(date, '01-apr-2023', 103)"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_MRN_DETAIL.Location='" + txtLocation.Value + "' "
                 End If
-                sQuery += " order by TSPL_GRN_HEAD.Ref_No,TSPL_MRN_HEAD.Vendor_Name,TSPL_ITEM_MASTER.Short_Description "
+                sQuery += " order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc "
                 dtQuality = clsDBFuncationality.GetDataTable(sQuery)
             End If
 
@@ -695,6 +712,8 @@ from TSPL_MRN_HEAD
                 gvQuality.TableElement.TableHeaderHeight = 40
                 gvQuality.MasterTemplate.ShowRowHeaderColumn = False
                 gvQuality.DataSource = dtQuality
+                gvQuality.Columns("S.NO").HeaderText = "S.NO"
+                gvQuality.Columns("S.NO").TextAlignment = ContentAlignment.MiddleCenter
                 gvQuality.Columns("Ref_No").HeaderText = "RAL"
                 gvQuality.Columns("Item_Desc").HeaderText = "ITEM NAME"
                 gvQuality.Columns("VehicleNo").HeaderText = "TRUCK NO"
@@ -702,9 +721,15 @@ from TSPL_MRN_HEAD
                 gvQuality.Columns("DEDPer").HeaderText = "DEDUCTION %"
 
                 For ii As Integer = 0 To gvQuality.Columns.Count - 1
-                    gvQuality.Columns(ii).ReadOnly = True
-                    gvQuality.Columns(ii).IsVisible = True
-                    gvQuality.Columns(ii).Width = 150
+                    If ii = 0 Then
+                        gvQuality.Columns(ii).ReadOnly = True
+                        gvQuality.Columns(ii).IsVisible = True
+                        gvQuality.Columns(ii).MaxWidth = 50
+                    Else
+                        gvQuality.Columns(ii).ReadOnly = True
+                        gvQuality.Columns(ii).IsVisible = True
+                        gvQuality.Columns(ii).Width = 150
+                    End If
                 Next
             End If
         Catch ex As Exception
@@ -713,22 +738,24 @@ from TSPL_MRN_HEAD
 
         Try
             If dtQualitySummary Is Nothing OrElse dtQualitySummary.Rows.Count <= 0 Then
-                Dim sQuery As String = "select  TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description as 'Item_Desc',
-count((CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 THEN 'FULL_REJECT'  end)) AS 'FULL_REJECT',
-count((case when TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'PARTIAL_REJECT',
-count((case when TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 OR TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'TOTALL_REJECT',
-count((case when TSPL_GRN_HEAD.VisualQCStatus=1 AND (TSPL_GRN_HEAD.VisualQCStatusSecond<>3 OR TSPL_GRN_HEAD.VisualQCStatusSecond<>2)then 'Ok'  end)) AS 'TOTAL_ACCEPTED'
-from  TSPL_GRN_HEAD
-left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
-left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
-left OUTER join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
-where 2=2  
-and CONVERT(DATE,TSPL_GRN_HEAD.GRN_Date,103)<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "'"
-                sQuery += " and TSPL_GRN_HEAD.Ref_No in (select  TSPL_GRN_HEAD.Ref_No
-from TSPL_GRN_HEAD
-left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
-left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
-where convert(date,TSPL_GRN_HEAD.GRN_Date,103) = '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+                Dim sQuery As String = "select  ROW_NUMBER() OVER (ORDER BY TSPL_GRN_HEAD.Bill_To_Location) AS 'S.NO',TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description as 'Item_Desc',
+                count((CASE WHEN TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 THEN 'FULL_REJECT'  end)) AS 'FULL_REJECT',
+                count((case when TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'PARTIAL_REJECT',
+                count((case when TSPL_QC_CHECK_HEAD.QC_Status='Rejected' or TSPL_GRN_HEAD.VisualQCStatusSecond=2 or TSPL_GRN_HEAD.VisualQCStatus=2 OR TSPL_GRN_HEAD.VisualQCStatus=3  OR TSPL_GRN_HEAD.VisualQCStatusSecond=3 then 'Partial Ok'  end)) AS 'TOTALL_REJECT',
+                count((case when TSPL_GRN_HEAD.VisualQCStatus=1 AND (TSPL_GRN_HEAD.VisualQCStatusSecond<>3 OR TSPL_GRN_HEAD.VisualQCStatusSecond<>2 or TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected')then 'Ok'  end)) AS 'TOTAL_ACCEPTED'
+                from  TSPL_GRN_HEAD
+                left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
+                left OUTER join TSPL_QC_CHECK_HEAD ON TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
+                where 2=2  AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')
+                and CONVERT(DATE,TSPL_GRN_HEAD.GRN_Date,103)<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "'"
+                sQuery += " and TSPL_GRN_HEAD.Ref_No in (select   TSPL_GRN_HEAD.Ref_No
+                from TSPL_GRN_HEAD
+                left join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GRN_DETAIL.Item_Code
+                where isnull(TSPL_GRN_HEAD.Ref_No,'')<>'' 
+                and convert(date,TSPL_GRN_HEAD.GRN_Date,103) >=DATEADD(day, -15,convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'"
+                sQuery += ",103))"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_GRN_HEAD.Bill_To_Location ='" + txtLocation.Value + "' "
                 End If
@@ -737,7 +764,7 @@ where convert(date,TSPL_GRN_HEAD.GRN_Date,103) = '" + clsCommon.GetPrintDate(txt
                     sQuery += " And TSPL_GRN_HEAD.Bill_To_Location ='" + txtLocation.Value + "' "
                 End If
                 sQuery += " GROUP BY TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description
-order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description"
+order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No desc"
 
                 dtQualitySummary = clsDBFuncationality.GetDataTable(sQuery)
             End If
@@ -758,17 +785,29 @@ order by TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.Ite
                 gvQualitySummary.TableElement.TableHeaderHeight = 40
                 gvQualitySummary.MasterTemplate.ShowRowHeaderColumn = False
                 gvQualitySummary.DataSource = dtQualitySummary
+                gvQualitySummary.Columns("S.No").HeaderText = "S.No"
+                gvQualitySummary.Columns("S.NO").TextAlignment = ContentAlignment.MiddleCenter
                 gvQualitySummary.Columns("Ref_No").HeaderText = "RAL"
                 gvQualitySummary.Columns("Item_Desc").HeaderText = "ITEM NAME"
                 gvQualitySummary.Columns("FULL_REJECT").HeaderText = "FULL REJECTED"
+                gvQualitySummary.Columns("FULL_REJECT").TextAlignment = ContentAlignment.MiddleCenter
                 gvQualitySummary.Columns("PARTIAL_REJECT").HeaderText = "PARTIAL REJECTED"
+                gvQualitySummary.Columns("PARTIAL_REJECT").TextAlignment = ContentAlignment.MiddleCenter
                 gvQualitySummary.Columns("TOTALL_REJECT").HeaderText = "TOTAL REJECTED"
+                gvQualitySummary.Columns("TOTALL_REJECT").TextAlignment = ContentAlignment.MiddleCenter
                 gvQualitySummary.Columns("TOTAL_ACCEPTED").HeaderText = "TOTAL ACCEPTED"
+                gvQualitySummary.Columns("TOTAL_ACCEPTED").TextAlignment = ContentAlignment.MiddleCenter
 
                 For ii As Integer = 0 To gvQualitySummary.Columns.Count - 1
-                    gvQualitySummary.Columns(ii).ReadOnly = True
-                    gvQualitySummary.Columns(ii).IsVisible = True
-                    gvQualitySummary.Columns(ii).Width = 150
+                    If ii = 0 Then
+                        gvQualitySummary.Columns(ii).ReadOnly = True
+                        gvQualitySummary.Columns(ii).IsVisible = True
+                        gvQualitySummary.Columns(ii).MaxWidth = 50
+                    Else
+                        gvQualitySummary.Columns(ii).ReadOnly = True
+                        gvQualitySummary.Columns(ii).IsVisible = True
+                        gvQualitySummary.Columns(ii).Width = 150
+                    End If
                 Next
                 gvQualitySummary.Columns("Item_Code").IsVisible = False
             End If
@@ -998,7 +1037,7 @@ ORDER BY  XX.ITEM_DESC"
                 Dim sQuery As String = "select  TSPL_GRN_HEAD.Ref_No,TSPL_ITEM_MASTER.Short_Description as 'Item_Desc',TSPL_GRN_HEAD.Vendor_Name,TSPL_GRN_HEAD.VehicleNo AS VehicleNo from TSPL_GRN_HEAD
 left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
 left join tspl_item_master on tspl_item_master.Item_Code= TSPL_GRN_DETAIL.Item_Code
-where convert(date,TSPL_GRN_HEAD.GRN_Date,103) =convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)"
+where convert(date,TSPL_GRN_HEAD.GRN_Date,103) >=DATEADD(day, -2,convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103))"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And Bill_To_Location='" + txtLocation.Value + "' "
                 End If
@@ -1008,7 +1047,7 @@ select  TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No from TSPL_PO_WEIGHTMENT_HEAD
 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
 left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
 left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.GRN_No=TSPL_GRN_HEAD.GRN_No
-where convert(date,TSPL_GRN_HEAD.GRN_Date,103) =convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103)"
+where convert(date,TSPL_GRN_HEAD.GRN_Date,103) >=DATEADD(day, -2,convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "',103))"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And Bill_To_Location='" + txtLocation.Value + "' "
                 End If
