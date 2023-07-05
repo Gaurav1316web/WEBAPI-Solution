@@ -1974,7 +1974,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
         'End If
         BaseQry += "     ,(TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Net_Amount+ isnull(TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,0)) as SRN_Net_Amount
 ,TSPL_MILK_PURCHASE_INVOICE_HEAD.Total_Basic_AMOUNT "
-            If ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = True Then
+        If ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = True Then
             BaseQry += " ,coalesce(TSPL_Primary_Vehicle_Master.Vehicle,TSPL_MILK_SRN_HEAD.VEHICLE_CODE) as VEHICLE_CODE "
         Else
             BaseQry += " ,TSPL_MILK_SRN_HEAD.VEHICLE_CODE "
