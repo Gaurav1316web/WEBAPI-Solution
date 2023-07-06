@@ -55,14 +55,6 @@ Public Class FrmCapexBudget
     End Sub
 
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
-        'Dim str As String = "select count(*) from TSPL_CAPEX_BUDGET_MASTER where TSPL_CAPEX_BUDGET_MASTER.CODE ='" + txtCode.Value + "' "
-        'Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
-        'If no = 0 AndAlso isButtonClicked = False Then
-        '    txtCode.MyReadOnly = True
-        'Else
-        '    txtCode.MyReadOnly = True
-        'End If
-        'If txtCode.MyReadOnly OrElse isButtonClicked Then
         txtCode.Value = clsCapexBudget.getFinder("", txtCode.Value, isButtonClicked)
         If txtCode.Value <> "" Then
             LoadData(txtCode.Value, NavigatorType.Current)
@@ -372,32 +364,6 @@ Public Class FrmCapexBudget
             txtdate.Focus()
             Return False
         End If
-
-
-        'If clsCommon.GetPrintDate(clsCommon.myCDate(txtdate.Value), "dd/MMM/yyyy") < clsCommon.GetPrintDate(clsCommon.myCDate(docdate), "dd/MMM/yyyy") Then
-        '    clsCommon.MyMessageBoxShow("Sub Capex date should  not be  less than Main Capex")
-        '    txtdate.Focus()
-        '    Return False
-        'End If
-        'If clsCommon.myLen(txt_tolerence.Text) <= 0 OrElse clsCommon.myCdbl(txt_tolerence.Text) <= 0 Then
-        '    myMessages.blankValue("Please enter tolerence")
-        '    txt_tolerence.Focus()
-        '    Return False
-        'End If
-        'Dim Buget As Decimal
-        'If clsCommon.myCdbl(txt_revisedbudget.Text) > 0 Then
-        '    Buget = clsCommon.myCdbl(txt_revisedbudget.Text)
-        'Else
-        '    Buget = clsCommon.myCdbl(txt_budget.Text)
-        'End If
-
-        'If clsCapexMaster.chkLimitBugetMaster(clsCommon.myCstr(txtCapexCode.Value), clsCommon.myCdbl(Buget), clsCommon.myCdbl(txt_tolerence.Text), clsCommon.myCstr(txtCode.Value)) = False Then
-        '    Return False
-        'End If
-
-        'If POAmount(clsCommon.myCstr(txtCode.Value), Buget, clsCommon.myCdbl(txt_tolerence.Text)) = False Then
-        '    Return False
-        'End If
         If clsCapexBudget.ChkAcquisitionEntry(clsCommon.myCstr(txtCode.Value)) = False Then
             clsCommon.MyMessageBoxShow("Project Closed Budget can't be updated")
             Return False
@@ -466,52 +432,6 @@ Public Class FrmCapexBudget
 
 
     End Sub
-    'Function chkLimitBugetMaster(ByVal CapexCode As String, ByVal Buget As Decimal, ByVal Tolerence As Decimal, ByVal SubCapexCode As String) As Boolean
-    '    Dim strLimitBuget As Decimal = 0
-    '    Dim strLimitBugetTol As Decimal = 0
-    '    Dim strLimitSubBuget As Decimal = 0
-    '    Dim strLimitSubBugetTol As Decimal = 0
-    '    Dim strLimitBugetwithTol As Decimal = 0
-    '    Dim strLimitSubBugetWithtol As Decimal = 0
-    '    Dim revno As Decimal = 0
-    '    Dim Strcurrentbugetwithtol As Decimal = 0
-
-    '    If clsCommon.myLen(CapexCode) > 0 Then
-    '        strLimitBuget = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select case when sum(isnull(Revised_Budget,0))=0 then sum(isnull(Budget,0)) else sum(isnull(Revised_Budget,0)) end as Budget  from tspl_capex_master where code='" & CapexCode & "'"))
-    '        strLimitBugetTol = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select (isnull(Tolerence,0)) as Tolerence   from tspl_capex_master where code='" & CapexCode & "'"))
-    '        If clsCommon.myLen(SubCapexCode) > 0 Then
-    '            strLimitSubBuget = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT SUM(Budget) AS Budget FROM (SELECT ((Budget*Tolerence) /100)+Budget AS Budget FROM (select case when (isnull(Revised_Budget,0))=0 then (isnull(Budget,0)) else (isnull(Revised_Budget,0)) end as Budget,Tolerence from TSPL_CAPEX_BUDGET_MASTER where Capex_Code ='" & CapexCode & "' and code not in ('" & SubCapexCode & "')) AS XX)AS XXX"))
-    '        Else
-    '            strLimitSubBuget = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT SUM(Budget) AS Budget FROM (SELECT ((Budget*Tolerence) /100)+Budget AS Budget FROM (select case when (isnull(Revised_Budget,0))=0 then (isnull(Budget,0)) else (isnull(Revised_Budget,0)) end as Budget,Tolerence from TSPL_CAPEX_BUDGET_MASTER where Capex_Code ='" & CapexCode & "' )AS XX)AS XXX"))
-    '        End If
-
-
-    '        'If clsCommon.myCdbl(strLimitBugetTol) > 0 Then
-    '        strLimitBugetwithTol = (strLimitBuget / 100) * strLimitBugetTol
-    '        strLimitBuget = strLimitBuget + strLimitBugetwithTol
-
-    '        Strcurrentbugetwithtol = Buget + ((Buget * Tolerence) / 100)
-    '        strLimitSubBugetWithtol = strLimitSubBuget + Strcurrentbugetwithtol
-    '        strLimitSubBuget = strLimitSubBugetWithtol
-
-
-
-
-    '        'End If
-
-    '        If clsCommon.myCdbl(strLimitSubBuget) <= clsCommon.myCdbl(strLimitBuget) Then
-    '            Return True
-    '        Else
-    '            'clsCommon.MyMessageBoxShow("Capex Sub Buget with tolerence is " & strLimitSubBuget & " is less then " & strLimitBuget & "  ")
-    '            clsCommon.MyMessageBoxShow("Total Sub Capex Budget " & strLimitSubBuget & " cannot exceed Main Capex Budget  " & strLimitBuget & "  ")
-    '            Return False
-    '        End If
-
-    '    End If
-
-    '    Return True
-    'End Function
-
     Private Sub txt_budget_TextChanged(sender As Object, e As EventArgs) Handles txt_budget.TextChanged
         If clsCommon.myCdbl(NumIncBudget.Text) = 0 AndAlso clsCommon.myCdbl(txt_budget.Text) > 0 Then
 

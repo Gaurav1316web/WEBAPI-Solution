@@ -76,37 +76,29 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Telerik.WinControls, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Progress\Telerik UI for WinForms R1 2022\Bin\Telerik.WinControls.dll</HintPath>
+    <Reference Include="Telerik.WinControls">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.WinControls.ChartView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Progress\Telerik UI for WinForms R1 2022\Bin\Telerik.WinControls.ChartView.dll</HintPath>
+    <Reference Include="Telerik.WinControls.ChartView">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.ChartView.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.WinControls.GridView, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Progress\Telerik UI for WinForms R1 2022\Bin\Telerik.WinControls.GridView.dll</HintPath>
+    <Reference Include="Telerik.WinControls.GridView">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.GridView.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.WinControls.RadChart, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Progress\Telerik UI for WinForms R1 2022\Bin\Telerik.WinControls.RadChart.dll</HintPath>
+    <Reference Include="Telerik.WinControls.RadChart">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.RadChart.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.WinControls.UI, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Progress\Telerik UI for WinForms R1 2022\Bin\Telerik.WinControls.UI.dll</HintPath>
+    <Reference Include="Telerik.WinControls.UI">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.dll</HintPath>
     </Reference>
-    <Reference Include="Telerik.WinControls.UI.Design, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Progress\Telerik UI for WinForms R1 2022\Bin\Telerik.WinControls.UI.Design.dll</HintPath>
+    <Reference Include="Telerik.WinControls.UI.Design">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\Telerik.WinControls.UI.Design.dll</HintPath>
     </Reference>
-    <Reference Include="TelerikCommon, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Progress\Telerik UI for WinForms R1 2022\Bin\TelerikCommon.dll</HintPath>
+    <Reference Include="TelerikCommon">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikCommon.dll</HintPath>
     </Reference>
-    <Reference Include="TelerikData, Version=2022.1.222.20, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Progress\Telerik UI for WinForms R1 2022\Bin\TelerikData.dll</HintPath>
+    <Reference Include="TelerikData">
+      <HintPath>..\XpertERP\lib\RCWF\2022.1.222.20.Trial\TelerikData.dll</HintPath>
     </Reference>
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
@@ -144,6 +136,12 @@
   <ItemGroup>
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
+    </Compile>
+    <Compile Include="Master\frmCapexBudget.Designer.vb">
+      <DependentUpon>frmCapexBudget.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmCapexBudget.vb">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Master\frmCostCetreTypeMaster.Designer.vb">
       <DependentUpon>frmCostCetreTypeMaster.vb</DependentUpon>
@@ -389,6 +387,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Master\frmCapexBudget.resx">
+      <DependentUpon>frmCapexBudget.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmCostCetreTypeMaster.resx">
       <DependentUpon>frmCostCetreTypeMaster.vb</DependentUpon>
     </EmbeddedResource>
