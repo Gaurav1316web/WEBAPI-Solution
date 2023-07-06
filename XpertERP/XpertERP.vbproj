@@ -3984,12 +3984,6 @@
     <Compile Include="Purchase Order\Tranasction\frmPurchaseOrderAuto.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Purchase\Master\FrmCostCentreGroupStores.Designer.vb">
-      <DependentUpon>FrmCostCentreGroupStores.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Purchase\Master\FrmCostCentreGroupStores.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Purchase\Report\frmVendorListRPT.Designer.vb">
       <DependentUpon>frmVendorListRPT.vb</DependentUpon>
     </Compile>
@@ -7574,10 +7568,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Tranasction\frmPurchaseOrderAuto.resx">
       <DependentUpon>frmPurchaseOrderAuto.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Purchase\Master\FrmCostCentreGroupStores.resx">
-      <DependentUpon>FrmCostCentreGroupStores.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Report\frmVendorListRPT.resx">
