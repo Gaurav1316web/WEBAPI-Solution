@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -1125,7 +1125,9 @@
     <Compile Include="Milk Procurement\Master\frmContractTanker.Designer.vb">
       <DependentUpon>frmContractTanker.vb</DependentUpon>
     </Compile>
-    <Compile Include="Milk Procurement\Master\frmContractTanker.vb" />
+    <Compile Include="Milk Procurement\Master\frmContractTanker.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\frmDivertedContractor.Designer.vb">
       <DependentUpon>frmDivertedContractor.vb</DependentUpon>
     </Compile>
@@ -1429,7 +1431,9 @@
     <Compile Include="Milk Procurement\Reports\rptPTPBill.Designer.vb">
       <DependentUpon>rptPTPBill.vb</DependentUpon>
     </Compile>
-    <Compile Include="Milk Procurement\Reports\rptPTPBill.vb" />
+    <Compile Include="Milk Procurement\Reports\rptPTPBill.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Reports\RptRouteWiseTrendBar.Designer.vb">
       <DependentUpon>RptRouteWiseTrendBar.vb</DependentUpon>
     </Compile>
@@ -1511,7 +1515,9 @@
     <Compile Include="Milk Procurement\Reports\rptMDConversionAtUDL.Designer.vb">
       <DependentUpon>rptMDConversionAtUDL.vb</DependentUpon>
     </Compile>
-    <Compile Include="Milk Procurement\Reports\rptMDConversionAtUDL.vb" />
+    <Compile Include="Milk Procurement\Reports\rptMDConversionAtUDL.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Reports\rptMilkWeigmentRegister.Designer.vb">
       <DependentUpon>rptMilkWeigmentRegister.vb</DependentUpon>
     </Compile>
@@ -2498,7 +2504,9 @@
     <Compile Include="Purchase\Report\rptVendorAccountSetReport.Designer.vb">
       <DependentUpon>rptVendorAccountSetReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Purchase\Report\rptVendorAccountSetReport.vb" />
+    <Compile Include="Purchase\Report\rptVendorAccountSetReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Purchase\Report\rptVendorPaymentDetails.Designer.vb">
       <DependentUpon>rptVendorPaymentDetails.vb</DependentUpon>
     </Compile>
@@ -2784,7 +2792,9 @@
     <Compile Include="Purchase Order\Tranasction\frmPurchaseSchedule.Designer.vb">
       <DependentUpon>frmPurchaseSchedule.vb</DependentUpon>
     </Compile>
-    <Compile Include="Purchase Order\Tranasction\frmPurchaseSchedule.vb" />
+    <Compile Include="Purchase Order\Tranasction\frmPurchaseSchedule.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Purchase Order\Tranasction\frmSRNReturn.Designer.vb">
       <DependentUpon>frmSRNReturn.vb</DependentUpon>
     </Compile>
@@ -3881,7 +3891,9 @@
     <Compile Include="Process Production\Transaction\frmProcessProductionStandardization.Designer.vb">
       <DependentUpon>frmProcessProductionStandardization.vb</DependentUpon>
     </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessProductionStandardization.vb" />
+    <Compile Include="Process Production\Transaction\frmProcessProductionStandardization.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sales%28KDIL%29\Fresh Sale\Transaction\frmPendingSaleInvoiceFS.Designer.vb">
       <DependentUpon>frmPendingSaleInvoiceFS.vb</DependentUpon>
     </Compile>
@@ -3939,7 +3951,9 @@
     <Compile Include="PRODUCTION\Masters\frmSectionMaster.Designer.vb">
       <DependentUpon>frmSectionMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Masters\frmSectionMaster.vb" />
+    <Compile Include="PRODUCTION\Masters\frmSectionMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PRODUCTION\Masters\frmSectionStageMapping.Designer.vb">
       <DependentUpon>frmSectionStageMapping.vb</DependentUpon>
     </Compile>
@@ -4483,7 +4497,9 @@
     <Compile Include="Purchase Order\Tranasction\frmRFQ.Designer.vb">
       <DependentUpon>frmRFQ.vb</DependentUpon>
     </Compile>
-    <Compile Include="Purchase Order\Tranasction\frmRFQ.vb" />
+    <Compile Include="Purchase Order\Tranasction\frmRFQ.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Purchase Order\Tranasction\frmVendorComparison1.Designer.vb">
       <DependentUpon>frmVendorComparison1.vb</DependentUpon>
     </Compile>
@@ -4937,7 +4953,9 @@
     <Compile Include="SalesNew\Transaction\frmSalesImport.Designer.vb">
       <DependentUpon>frmSalesImport.vb</DependentUpon>
     </Compile>
-    <Compile Include="SalesNew\Transaction\frmSalesImport.vb" />
+    <Compile Include="SalesNew\Transaction\frmSalesImport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SalesNew\Transaction\frmSNPOS.Designer.vb">
       <DependentUpon>frmSNPOS.vb</DependentUpon>
     </Compile>
