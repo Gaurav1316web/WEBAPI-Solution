@@ -2511,9 +2511,12 @@ Public Class FrmPaymentProcess
             Dim qry As String = " select Document_No,max(Invoice_Entry_Date) as Invoice_Entry_Date,max(Vendor_Code) as Vendor_Code,max(Vendor_Name) as Vendor_Name,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(DeductionCode) as DeductionCode,(case when min(DeductionCode)<>max(DeductionCode) then '*' else '' end)+max(Deduction_Desc) as Deduction_Desc,Max(Total_Amount) as Total_Amount,max(Sequence_No) as Sequence_No from (  " + Environment.NewLine +
                 " select TSPL_VENDOR_INVOICE_DETAIL.Document_No,TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code, " &
                 " TSPL_VENDOR_INVOICE_HEAD.Vendor_Name,case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.DeductionCode else TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction end as DeductionCode , case when len(isnull(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,''))>0 then TSPL_VENDOR_INVOICE_DETAIL.Deduction_Desc else TSPL_DCS_ADDITION_DEDUCTION.Description end as Deduction_Desc,"
-            qry += " TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Total_Amount,case when  TSPL_DEDUCTION_MASTER.Sequence_No is null then -1 else TSPL_DEDUCTION_MASTER.Sequence_No end as Sequence_No "
-            qry += " from TSPL_VENDOR_INVOICE_DETAIL left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No =TSPL_VENDOR_INVOICE_DETAIL.Document_No left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction " &
-                " left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode " &
+            qry += " TSPL_VENDOR_INVOICE_HEAD.Balance_Amt as Total_Amount
+,(case when TSPL_VENDOR_INVOICE_HEAD.RefDocType='VSP-NGT' then -2 else (case when  TSPL_DEDUCTION_MASTER.Sequence_No is null then -1 else TSPL_DEDUCTION_MASTER.Sequence_No end) end)  as Sequence_No "
+            qry += " from TSPL_VENDOR_INVOICE_DETAIL 
+left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No =TSPL_VENDOR_INVOICE_DETAIL.Document_No 
+left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction  
+left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode " &
                 " where  Document_Type='D' " &
                 " and ((TSPL_VENDOR_INVOICE_HEAD.isDeduction='1' " &
                 " and (ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DeductionCode,'')<>'' or ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'')) or  len(coalesce(TSPL_VENDOR_INVOICE_HEAD.Against_VCGL,''))>0)  " &
