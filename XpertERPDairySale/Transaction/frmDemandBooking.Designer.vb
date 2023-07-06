@@ -26,6 +26,8 @@ Partial Class frmDemandBooking
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtDocAmt = New common.Controls.MyLabel()
         Me.rgbMilk = New Telerik.WinControls.UI.RadGroupBox()
         Me.LblDocAmt = New common.Controls.MyLabel()
         Me.lblDocumentAmt = New common.Controls.MyLabel()
@@ -102,12 +104,12 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.txtDocAmt = New common.Controls.MyLabel()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbMilk, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbMilk.SuspendLayout()
         CType(Me.LblDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -178,8 +180,6 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -252,6 +252,28 @@ Partial Class frmDemandBooking
         Me.SplitPanel1.TabIndex = 0
         Me.SplitPanel1.TabStop = False
         Me.SplitPanel1.Text = "SplitPanel1"
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(850, 106)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(108, 16)
+        Me.MyLabel3.TabIndex = 1467
+        Me.MyLabel3.Text = "Document Amount"
+        '
+        'txtDocAmt
+        '
+        Me.txtDocAmt.AutoSize = False
+        Me.txtDocAmt.BorderVisible = True
+        Me.txtDocAmt.FieldName = Nothing
+        Me.txtDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDocAmt.Location = New System.Drawing.Point(964, 104)
+        Me.txtDocAmt.Name = "txtDocAmt"
+        Me.txtDocAmt.Size = New System.Drawing.Size(109, 20)
+        Me.txtDocAmt.TabIndex = 1468
+        Me.txtDocAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'rgbMilk
         '
@@ -1206,28 +1228,6 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(850, 106)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(108, 16)
-        Me.MyLabel3.TabIndex = 1467
-        Me.MyLabel3.Text = "Document Amount"
-        '
-        'txtDocAmt
-        '
-        Me.txtDocAmt.AutoSize = False
-        Me.txtDocAmt.BorderVisible = True
-        Me.txtDocAmt.FieldName = Nothing
-        Me.txtDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDocAmt.Location = New System.Drawing.Point(964, 104)
-        Me.txtDocAmt.Name = "txtDocAmt"
-        Me.txtDocAmt.Size = New System.Drawing.Size(109, 20)
-        Me.txtDocAmt.TabIndex = 1468
-        Me.txtDocAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
         'frmDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1248,6 +1248,8 @@ Partial Class frmDemandBooking
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitPanel1.ResumeLayout(False)
         Me.SplitPanel1.PerformLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbMilk, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbMilk.ResumeLayout(False)
         Me.rgbMilk.PerformLayout()
@@ -1323,8 +1325,6 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

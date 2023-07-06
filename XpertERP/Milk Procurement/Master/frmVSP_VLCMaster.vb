@@ -16,6 +16,7 @@ Public Class frmVSP_VLCMaster
     Dim Frm_Open As FrmMainTranScreen
     Dim FixVSPEMP As Integer = 0
     Dim AllowVSPMasterAutoPrefix As Integer = 0
+    Dim UserPrefix As String = Nothing
     Dim EnableBankFromMaster As Boolean
     Const colEMPSno As String = "colEMPSno"
     Const colEMPSlab As String = "colEMPSlab"
@@ -139,6 +140,7 @@ Public Class frmVSP_VLCMaster
 
 #Region "Page Load"
     Private Sub frmVSP_VLCMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        UserPrefix = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PrefixForUserMaster, clsFixedParameterCode.PrefixForUserMaster, Nothing))
         AllowVSPMasterAutoPrefix = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowVSPMasterAutoPrefix, clsFixedParameterCode.AllowVSPMasterAutoPrefix, Nothing))
         FixVSPEMP = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FixVSPEMP, clsFixedParameterCode.FixVSPEMP, Nothing))
         EnableBankFromMaster = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.EnableBankFromMaster & "'")) = 0, False, True)
@@ -1021,18 +1023,18 @@ Public Class frmVSP_VLCMaster
                 End If
             End If
             'Sanjay
-
             If objCommonVar.ApplyDefaultsInMaster = True Then
                 CreateDefaultMasters(trans)
             End If
-
             'VLC
             If clsCommon.myLen(txtvlcname.Text) > 0 Then
                 VLCSaveData(True, trans)
+                If objCommonVar.ApplyDefaultsInMaster = True Then
+                    CreateDefaultUserMaster(trans)
+                End If
             End If
 
             UpdateFeild(fndvendorNo.Value, fndvlccode.Text, trans)
-
             btnsave.Text = "Update"
             btndelete.Enabled = True
             trans.Commit()
@@ -1045,17 +1047,18 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
 
-    Sub CreateDefaultMasters(ByVal trans As SqlTransaction)
+    Sub CreateDefaultUserMaster(ByVal trans As SqlTransaction)
         Dim qry As String = ""
         Dim check As Integer = 0
         Dim coll As New Hashtable()
         Try
             'Create User
-            qry = "select count(User_Code) from TSPL_USER_MASTER where User_Code='" + txtVLCCodeVlcUploader.Text + "'"
+            Dim PrefixUserCode As String = UserPrefix + txtVLCCodeVlcUploader.Text
+            qry = "select count(User_Code) from TSPL_USER_MASTER where User_Code='" + PrefixUserCode + "'"
             check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
             If check <= 0 Then
                 coll = New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "User_Code", txtVLCCodeVlcUploader.Text)
+                clsCommon.AddColumnsForChange(coll, "User_Code", PrefixUserCode)
                 clsCommon.AddColumnsForChange(coll, "User_Name", clsCommon.myCstr(txtvendorname.Text))
                 clsCommon.AddColumnsForChange(coll, "Password", clsCommon.EncryptString(txtVLCCodeVlcUploader.Text))
                 clsCommon.AddColumnsForChange(coll, "Default_Location", fndMcc.Value, True)
@@ -1072,6 +1075,38 @@ Public Class frmVSP_VLCMaster
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Insert, "", trans)
             End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Sub CreateDefaultMasters(ByVal trans As SqlTransaction)
+        Dim qry As String = ""
+        Dim check As Integer = 0
+        Dim coll As New Hashtable()
+        Try
+            ''Create User
+            'Dim PrefixUserCode As String = UserPrefix + txtVLCCodeVlcUploader.Text
+            'qry = "select count(User_Code) from TSPL_USER_MASTER where User_Code='" + PrefixUserCode + "'"
+            'check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
+            'If check <= 0 Then
+            '    coll = New Hashtable()
+            '    clsCommon.AddColumnsForChange(coll, "User_Code", PrefixUserCode)
+            '    clsCommon.AddColumnsForChange(coll, "User_Name", clsCommon.myCstr(txtvendorname.Text))
+            '    clsCommon.AddColumnsForChange(coll, "Password", clsCommon.EncryptString(txtVLCCodeVlcUploader.Text))
+            '    clsCommon.AddColumnsForChange(coll, "Default_Location", fndMcc.Value, True)
+            '    clsCommon.AddColumnsForChange(coll, "User_APP_Type", "V", True)
+            '    clsCommon.AddColumnsForChange(coll, "Vendor_Code", txtvspcode.Value, True)
+            '    clsCommon.AddColumnsForChange(coll, "User_Type", "")
+            '    clsCommon.AddColumnsForChange(coll, "EMP_CODE", "")
+            '    clsCommon.AddColumnsForChange(coll, "Emp_Name", "")
+            '    clsCommon.AddColumnsForChange(coll, "Comp_Code", companyCode)
+            '    clsCommon.AddColumnsForChange(coll, "Created_By", userCode)
+            '    clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+            '    clsCommon.AddColumnsForChange(coll, "Modify_By", userCode)
+            '    clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+
+            '    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Insert, "", trans)
+            'End If
 
             '' Start Primary Transporter Master
             Dim StrVdrNo As String = ""
@@ -1181,6 +1216,7 @@ Public Class frmVSP_VLCMaster
                 txtvspcode.Value = fndvendorNo.Value
                 txtvsp.Text = txtvendorname.Text
             End If
+
 
             Dim obj As New clsfrmVLCMaster()
             obj.vlcCode = clsCommon.myCstr(fndvlccode.Text)

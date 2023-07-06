@@ -34,7 +34,6 @@ Public Class FrmUserMaster
     Dim sql As String
     Dim ds As DataSet
     Dim dr As SqlDataReader
-    Dim preFixUser As String = "UD"
     'Const colICustCode As String = "COLICustCode"
     'Const colICustName As String = "COLICustName"
     'Const colIStatus As String = "COLIStatus"
