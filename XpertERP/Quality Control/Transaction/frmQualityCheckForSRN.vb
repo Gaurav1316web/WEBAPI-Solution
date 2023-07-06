@@ -1039,6 +1039,7 @@ Public Class FrmQualityCheckForSRN
                 FunReset()
             End If
         End If
+
     End Sub
 
     Private Sub fndVendor_code__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndVendor_code._MYValidating
