@@ -143,6 +143,12 @@
     <Compile Include="Master\frmCapexBudget.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\frmCapexMaster.Designer.vb">
+      <DependentUpon>frmCapexMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmCapexMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmCostCetreTypeMaster.Designer.vb">
       <DependentUpon>frmCostCetreTypeMaster.vb</DependentUpon>
     </Compile>
@@ -389,6 +395,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Master\frmCapexBudget.resx">
       <DependentUpon>frmCapexBudget.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmCapexMaster.resx">
+      <DependentUpon>frmCapexMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmCostCetreTypeMaster.resx">
       <DependentUpon>frmCostCetreTypeMaster.vb</DependentUpon>

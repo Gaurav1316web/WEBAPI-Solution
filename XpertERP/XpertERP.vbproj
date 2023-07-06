@@ -2825,12 +2825,6 @@
     <Compile Include="Purchase\frmNEFTUploader.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Purchase\Master\frmCapexMaster.Designer.vb">
-      <DependentUpon>frmCapexMaster.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Purchase\Master\frmCapexMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Purchase\Master\frmHirerachyLevelMaster.Designer.vb">
       <DependentUpon>frmHirerachyLevelMaster.vb</DependentUpon>
     </Compile>
@@ -6865,9 +6859,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\frmNEFTUploader.resx">
       <DependentUpon>frmNEFTUploader.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Purchase\Master\frmCapexMaster.resx">
-      <DependentUpon>frmCapexMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Master\frmHirerachyLevelMaster.resx">
       <DependentUpon>frmHirerachyLevelMaster.vb</DependentUpon>
