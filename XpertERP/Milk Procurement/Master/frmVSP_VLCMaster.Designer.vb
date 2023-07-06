@@ -220,14 +220,14 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.TxtAmc_Charge = New common.Controls.MyTextBox()
         Me.fndPriceCode = New common.UserControls.txtFinder()
+        Me.txtAdd1 = New common.Controls.MyTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.txtcommpers = New common.Controls.MyTextBox()
         Me.txtgroupdes = New common.Controls.MyTextBox()
         Me.lblCusGrp = New common.Controls.MyLabel()
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.txtAdd3 = New common.Controls.MyTextBox()
-        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.txtvlcname = New common.Controls.MyTextBox()
-        Me.txtAdd1 = New common.Controls.MyTextBox()
         Me.txtvillcode = New common.UserControls.txtFinder()
         Me.MyLabel23 = New common.Controls.MyLabel()
         Me.txtvillname = New common.Controls.MyLabel()
@@ -290,6 +290,8 @@ Partial Class frmVSP_VLCMaster
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.ToolTipvendor = New System.Windows.Forms.ToolTip(Me.components)
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -299,7 +301,6 @@ Partial Class frmVSP_VLCMaster
         Me.DtpEndBillingDate = New common.Controls.MyDateTimePicker()
         Me.DtpBillingDate = New common.Controls.MyDateTimePicker()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.chkBlankExportExcel = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -472,14 +473,14 @@ Partial Class frmVSP_VLCMaster
         Me.txtvendortypedes.SuspendLayout()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtAmc_Charge, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAdd1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtcommpers, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtgroupdes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCusGrp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtvlcname, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAdd1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtvillname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAdd2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -538,8 +539,6 @@ Partial Class frmVSP_VLCMaster
         CType(Me.DtpBillingDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.DtpBillingDate.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadMenu1.SuspendLayout()
-        CType(Me.chkBlankExportExcel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -622,7 +621,6 @@ Partial Class frmVSP_VLCMaster
         Me.lblMCCName.Size = New System.Drawing.Size(283, 18)
         Me.lblMCCName.TabIndex = 1456
         Me.lblMCCName.TextWrap = False
-        Me.lblMCCName.Visible = False
         '
         'fndMcc
         '
@@ -1153,7 +1151,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtRegistrationDate.IsSourceFromTable = False
         Me.txtRegistrationDate.IsSourceFromValueList = False
         Me.txtRegistrationDate.IsUnique = False
-        Me.txtRegistrationDate.Location = New System.Drawing.Point(851, 39)
+        Me.txtRegistrationDate.Location = New System.Drawing.Point(851, 37)
         Me.txtRegistrationDate.MendatroryField = False
         Me.txtRegistrationDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtRegistrationDate.MyLinkLable1 = Nothing
@@ -1196,7 +1194,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.lblRegistrationDate.FieldName = Nothing
         Me.lblRegistrationDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRegistrationDate.Location = New System.Drawing.Point(747, 39)
+        Me.lblRegistrationDate.Location = New System.Drawing.Point(747, 38)
         Me.lblRegistrationDate.Name = "lblRegistrationDate"
         Me.lblRegistrationDate.Size = New System.Drawing.Size(94, 16)
         Me.lblRegistrationDate.TabIndex = 357
@@ -2763,8 +2761,8 @@ Partial Class frmVSP_VLCMaster
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.lblMCCCode)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.GroupBox1)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.fndPriceCode)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtAdd1)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.MyLabel21)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtAdd1)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtcommpers)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtgroupdes)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.MyLabel9)
@@ -3825,6 +3823,39 @@ Partial Class frmVSP_VLCMaster
         Me.fndPriceCode.TabIndex = 439
         Me.fndPriceCode.Value = ""
         '
+        'txtAdd1
+        '
+        Me.txtAdd1.CalculationExpression = Nothing
+        Me.txtAdd1.FieldCode = Nothing
+        Me.txtAdd1.FieldDesc = Nothing
+        Me.txtAdd1.FieldMaxLength = 0
+        Me.txtAdd1.FieldName = Nothing
+        Me.txtAdd1.isCalculatedField = False
+        Me.txtAdd1.IsSourceFromTable = False
+        Me.txtAdd1.IsSourceFromValueList = False
+        Me.txtAdd1.IsUnique = False
+        Me.txtAdd1.Location = New System.Drawing.Point(91, 100)
+        Me.txtAdd1.MaxLength = 250
+        Me.txtAdd1.MendatroryField = True
+        Me.txtAdd1.MyLinkLable1 = Me.RadLabel2
+        Me.txtAdd1.MyLinkLable2 = Nothing
+        Me.txtAdd1.Name = "txtAdd1"
+        Me.txtAdd1.ReferenceFieldDesc = Nothing
+        Me.txtAdd1.ReferenceFieldName = Nothing
+        Me.txtAdd1.ReferenceTableName = Nothing
+        Me.txtAdd1.Size = New System.Drawing.Size(509, 20)
+        Me.txtAdd1.TabIndex = 372
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel2.Location = New System.Drawing.Point(3, 100)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(48, 16)
+        Me.RadLabel2.TabIndex = 393
+        Me.RadLabel2.Text = "Address"
+        '
         'txtcommpers
         '
         Me.txtcommpers.CalculationExpression = Nothing
@@ -3917,16 +3948,6 @@ Partial Class frmVSP_VLCMaster
         Me.txtAdd3.Size = New System.Drawing.Size(509, 20)
         Me.txtAdd3.TabIndex = 376
         '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(3, 100)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(48, 16)
-        Me.RadLabel2.TabIndex = 393
-        Me.RadLabel2.Text = "Address"
-        '
         'txtvlcname
         '
         Me.txtvlcname.CalculationExpression = Nothing
@@ -3950,29 +3971,6 @@ Partial Class frmVSP_VLCMaster
         Me.txtvlcname.ReferenceTableName = Nothing
         Me.txtvlcname.Size = New System.Drawing.Size(321, 18)
         Me.txtvlcname.TabIndex = 429
-        '
-        'txtAdd1
-        '
-        Me.txtAdd1.CalculationExpression = Nothing
-        Me.txtAdd1.FieldCode = Nothing
-        Me.txtAdd1.FieldDesc = Nothing
-        Me.txtAdd1.FieldMaxLength = 0
-        Me.txtAdd1.FieldName = Nothing
-        Me.txtAdd1.isCalculatedField = False
-        Me.txtAdd1.IsSourceFromTable = False
-        Me.txtAdd1.IsSourceFromValueList = False
-        Me.txtAdd1.IsUnique = False
-        Me.txtAdd1.Location = New System.Drawing.Point(91, 100)
-        Me.txtAdd1.MaxLength = 250
-        Me.txtAdd1.MendatroryField = True
-        Me.txtAdd1.MyLinkLable1 = Me.RadLabel2
-        Me.txtAdd1.MyLinkLable2 = Nothing
-        Me.txtAdd1.Name = "txtAdd1"
-        Me.txtAdd1.ReferenceFieldDesc = Nothing
-        Me.txtAdd1.ReferenceFieldName = Nothing
-        Me.txtAdd1.ReferenceTableName = Nothing
-        Me.txtAdd1.Size = New System.Drawing.Size(509, 20)
-        Me.txtAdd1.TabIndex = 372
         '
         'txtvillcode
         '
@@ -4948,8 +4946,19 @@ Partial Class frmVSP_VLCMaster
         'MenuExport
         '
         Me.MenuExport.AccessibleDescription = "MenuExport"
+        Me.MenuExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ExportData, Me.ExportBlankSheet})
         Me.MenuExport.Name = "MenuExport"
         Me.MenuExport.Text = "Export"
+        '
+        'ExportData
+        '
+        Me.ExportData.Name = "ExportData"
+        Me.ExportData.Text = "Export Data"
+        '
+        'ExportBlankSheet
+        '
+        Me.ExportBlankSheet.Name = "ExportBlankSheet"
+        Me.ExportBlankSheet.Text = "Export Blank Sheet"
         '
         'RadMenuItem4
         '
@@ -5087,21 +5096,11 @@ Partial Class frmVSP_VLCMaster
         '
         'RadMenu1
         '
-        Me.RadMenu1.Controls.Add(Me.chkBlankExportExcel)
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuClose})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1078, 20)
         Me.RadMenu1.TabIndex = 0
-        '
-        'chkBlankExportExcel
-        '
-        Me.chkBlankExportExcel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBlankExportExcel.Location = New System.Drawing.Point(123, 3)
-        Me.chkBlankExportExcel.Name = "chkBlankExportExcel"
-        Me.chkBlankExportExcel.Size = New System.Drawing.Size(117, 16)
-        Me.chkBlankExportExcel.TabIndex = 1
-        Me.chkBlankExportExcel.Text = "Export Blank Sheet"
         '
         'frmVSP_VLCMaster
         '
@@ -5305,14 +5304,14 @@ Partial Class frmVSP_VLCMaster
         Me.txtvendortypedes.PerformLayout()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtAmc_Charge, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAdd1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtcommpers, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtgroupdes, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCusGrp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtvlcname, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAdd1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtvillname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAdd2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5373,9 +5372,6 @@ Partial Class frmVSP_VLCMaster
         Me.DtpBillingDate.ResumeLayout(False)
         Me.DtpBillingDate.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadMenu1.ResumeLayout(False)
-        Me.RadMenu1.PerformLayout()
-        CType(Me.chkBlankExportExcel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5647,7 +5643,8 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents fndMcc As common.UserControls.txtFinder
     Friend WithEvents MyLabel24 As common.Controls.MyLabel
     Friend WithEvents RadScrollablePanel1 As RadScrollablePanel
-    Friend WithEvents chkBlankExportExcel As RadCheckBox
     Friend WithEvents lblMCCName As common.Controls.MyLabel
+    Friend WithEvents ExportData As RadMenuItem
+    Friend WithEvents ExportBlankSheet As RadMenuItem
 End Class
 

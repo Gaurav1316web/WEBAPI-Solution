@@ -3390,7 +3390,7 @@ where '" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Document_Date")), "dd/MM
                 dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
                     dblAmount = 0
                 If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
-                    If clsCommon.myCdbl(dtAmt.Rows(0)("NoteAmt")) > 0 Then
+                    If clsCommon.myCdbl(dtAmt.Rows(0)("NoteAmt")) < 0 Then
 #Region "CreateCreditNotForOWNBMC"
                         Dim objVendorInvHead As New clsVedorInvoiceHead()
                         objVendorInvHead.isDeduction = 0
@@ -3483,7 +3483,7 @@ where '" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Document_Date")), "dd/MM
                         clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans)
 
 #End Region
-                    ElseIf clsCommon.myCdbl(dtAmt.Rows(0)("NoteAmt")) < 0 Then
+                    ElseIf clsCommon.myCdbl(dtAmt.Rows(0)("NoteAmt")) > 0 Then
 #Region "CreateDebitNotForOWNBMC"
                         If True Then
                             Dim objVendorInvHead As New clsVedorInvoiceHead()
@@ -3666,7 +3666,7 @@ xxx Left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.C
                     dtAmt.DefaultView.Sort = "Add_Of_Add_Ded_Code"
                     For Each drAmt As DataRow In dtAmt.DefaultView.ToTable().Rows
                         dblAmount = clsCommon.myRoundOFF(Math.Abs(clsCommon.myCDecimal(drAmt("Amt"))), IIf(clsCommon.myCDecimal(drAmt("RO_Decimal_Places")) >= 0, clsCommon.myCDecimal(drAmt("RO_Decimal_Places")), objCommonVar.DCSAddDedRODecimalPlace), IIf(clsCommon.myCDecimal(drAmt("RO_Increase_After")) >= 0, clsCommon.myCDecimal(drAmt("RO_Increase_After")), objCommonVar.DCSAddDedROIncreaseAfter))
-                        If clsCommon.myLen(drAmt("Include_Shortage_Own_BMC")) = 1 Then
+                        If clsCommon.myCdbl(drAmt("Include_Shortage_Own_BMC")) = 1 Then
                             If clsfrmVLCMaster.IsOwnBMC(strVLCCode, objHead.MCC_CODE, trans) Then
                                 Dim arrMCC As New ArrayList
                                 arrMCC.Add(objHead.MCC_CODE)

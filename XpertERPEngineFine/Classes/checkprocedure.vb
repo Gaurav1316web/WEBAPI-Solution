@@ -2208,6 +2208,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmTranspoterDeduction, "Transporter Deduction Entry", "1.36.02.23", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmNotepadFileMatching, "Notepad Mismatch", "1.36.02.24", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, "Demand", "1.36.02.25", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDemandAdjustment, "Demand Adjustment", "1.36.02.26", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         '' end of transaction
 
         '--Reports

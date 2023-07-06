@@ -97,6 +97,7 @@ Public Class frmChangeCaption
             End If
             tran.Commit()
             clsCommon.MyMessageBoxShow("Data Successfully Saved")
+            MDI.IsOriginalName = False
             Me.isCancel_Flag = False
             Me.Close()
         Catch ex As Exception
