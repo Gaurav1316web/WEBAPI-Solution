@@ -5736,6 +5736,7 @@ Public Class frmSRN
                 txtCarrier.Text = obj.Carrier
                 txtVehicleNo.Text = obj.VehicleNo
                 txtGRNo.Text = obj.GRNo
+                MyDateTimePicker1.Text = obj.GRDate
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
                     txtGEDate.Value = obj.GEDate
