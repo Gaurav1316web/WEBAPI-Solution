@@ -631,7 +631,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
     End Sub
     Sub SetGridFormatUDP()
         Gv1.AutoExpandGroups = True
-        Gv1.ShowGroupPanel = False
+        Gv1.ShowGroupPanel = True
         Gv1.ShowRowHeaderColumn = False
         Gv1.AllowAddNewRow = False
         Gv1.AllowDeleteRow = False
@@ -642,6 +642,10 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).BestFit()
         Next
+
+        Gv1.AutoSizeRows = True
+        Gv1.BestFitColumns()
+        Gv1.MasterTemplate.AutoExpandGroups = True
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         If rdbOldOutstanding.Checked OrElse rdbOldCurrent.Checked OrElse rdbCurrentStanding.Checked Then
@@ -655,21 +659,13 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             summaryRowItem.Add(item1)
             Gv1.Columns("Amount").Width = 200
         End If
-        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By Type"))
-        If chkDCSWise.Checked Then
-            Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By DeductionName"))
-        End If
-
-        Gv1.AutoSizeRows = True
-        Gv1.BestFitColumns()
-        Gv1.MasterTemplate.AutoExpandGroups = True
+        'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
         If rdbOldOutstanding.Checked OrElse rdbOldCurrent.Checked OrElse rdbCurrentStanding.Checked Then
             Gv1.Columns("Amt Deducted").FormatString = "{0:n2}"
             Dim item2 As New GridViewSummaryItem("Amt Deducted", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
-            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             Gv1.AutoSizeRows = True
             Gv1.BestFitColumns()
             Gv1.Columns("Amt Deducted").Width = 200
@@ -678,22 +674,26 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             Gv1.Columns("Balance Amount").FormatString = "{0:n2}"
             Dim item3 As New GridViewSummaryItem("Balance Amount", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
-            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             Gv1.AutoSizeRows = True
             Gv1.BestFitColumns()
             Gv1.Columns("Balance Amount").Width = 200
             Gv1.MasterTemplate.AutoExpandGroups = True
         End If
-
         If rdbOldOutstanding.Checked OrElse rdbCurrentStanding.Checked Then
             Gv1.Columns("Amt Deducted").IsVisible = False
             Gv1.Columns("Opening+Sale").IsVisible = False
+        End If
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By Type"))
+        If chkDCSWise.Checked Then
+            Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By DeductionName"))
         End If
     End Sub
 
     Sub SetGridFormat()
         Gv1.AutoExpandGroups = True
-        Gv1.ShowGroupPanel = False
+        Gv1.ShowGroupPanel = True
         Gv1.ShowRowHeaderColumn = False
         Gv1.AllowAddNewRow = False
         Gv1.AllowDeleteRow = False
@@ -704,6 +704,10 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).BestFit()
         Next
+
+        Gv1.AutoSizeRows = True
+        Gv1.BestFitColumns()
+        Gv1.MasterTemplate.AutoExpandGroups = True
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         If rdbOldCurrent.Checked Then
@@ -717,21 +721,13 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             summaryRowItem.Add(item1)
             Gv1.Columns("Amount").Width = 200
         End If
-        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-        Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By Type"))
-        If chkDCSWise.Checked Then
-            Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By DeductionName"))
-        End If
-
-        Gv1.AutoSizeRows = True
-        Gv1.BestFitColumns()
-        Gv1.MasterTemplate.AutoExpandGroups = True
+        'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
         If rdbOldCurrent.Checked Then
             Gv1.Columns("Amt Deducted").FormatString = "{0:n2}"
             Dim item2 As New GridViewSummaryItem("Amt Deducted", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
-            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             'Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By Type"))
             Gv1.AutoSizeRows = True
             Gv1.BestFitColumns()
@@ -741,14 +737,18 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             Gv1.Columns("Balance Amount").FormatString = "{0:n2}"
             Dim item3 As New GridViewSummaryItem("Balance Amount", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
-            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            'Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
             'Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By Type"))
             Gv1.AutoSizeRows = True
             Gv1.BestFitColumns()
             Gv1.Columns("Balance Amount").Width = 200
             Gv1.MasterTemplate.AutoExpandGroups = True
         End If
-
+        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By Type"))
+        If chkDCSWise.Checked Then
+            Gv1.GroupDescriptors.Add(New GridGroupByExpression("Type as Type format ""{0}: {1}"" Group By DeductionName"))
+        End If
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()

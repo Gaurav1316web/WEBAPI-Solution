@@ -1340,7 +1340,7 @@ Public Class frmQCTemplateEntry
                     rbtnRej.Enabled = True
                     rbtnUD.Enabled = True
                 End If
-               
+
                 rbtnApp.IsChecked = False
                 rbtnRej.IsChecked = True
                 rbtnUD.IsChecked = False
