@@ -4072,7 +4072,7 @@ where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No
                 If True Then
                     Dim objVendorInvHead As New clsVedorInvoiceHead()
                     objVendorInvHead.isDeduction = 1
-                    objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(objHead.DOC_DATE.AddDays(1), "dd/MMM/yyyy")
+                    objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy")
                     objVendorInvHead.Vendor_Code = objHead.VSP_CODE
                     objVendorInvHead.Vendor_Name = clsVendorMaster.GetName(objHead.VSP_CODE, trans)
                     objVendorInvHead.Vendor_Invoice_No = "" ''No Need to send vendor invoice no because it is of debit note type

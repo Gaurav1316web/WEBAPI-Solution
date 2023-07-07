@@ -26,6 +26,7 @@ Partial Class frmQCTemplateEntry
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkStatus = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblWeighmentDate = New common.Controls.MyLabel()
         Me.lblWeighmentNo = New common.Controls.MyLabel()
         Me.lblGRNDate = New common.Controls.MyLabel()
@@ -63,13 +64,13 @@ Partial Class frmQCTemplateEntry
         Me.RadMenuItemSaveeLayout3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkStatus = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.chkStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblWeighmentDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblWeighmentNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblGRNDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -104,7 +105,6 @@ Partial Class frmQCTemplateEntry
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -179,6 +179,15 @@ Partial Class frmQCTemplateEntry
         Me.SplitContainer2.Size = New System.Drawing.Size(1123, 398)
         Me.SplitContainer2.SplitterDistance = 122
         Me.SplitContainer2.TabIndex = 0
+        '
+        'chkStatus
+        '
+        Me.chkStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkStatus.Location = New System.Drawing.Point(389, 69)
+        Me.chkStatus.Name = "chkStatus"
+        Me.chkStatus.Size = New System.Drawing.Size(100, 16)
+        Me.chkStatus.TabIndex = 1468
+        Me.chkStatus.Text = "Partial Rejected"
         '
         'lblWeighmentDate
         '
@@ -610,15 +619,6 @@ Partial Class frmQCTemplateEntry
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
-        'chkStatus
-        '
-        Me.chkStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkStatus.Location = New System.Drawing.Point(372, 69)
-        Me.chkStatus.Name = "chkStatus"
-        Me.chkStatus.Size = New System.Drawing.Size(70, 16)
-        Me.chkStatus.TabIndex = 1468
-        Me.chkStatus.Text = "chkStatus"
-        '
         'frmQCTemplateEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -641,6 +641,7 @@ Partial Class frmQCTemplateEntry
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.chkStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblWeighmentDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblWeighmentNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblGRNDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -675,7 +676,6 @@ Partial Class frmQCTemplateEntry
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

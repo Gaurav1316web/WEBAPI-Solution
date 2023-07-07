@@ -95,6 +95,7 @@ Public Class clsSRNHead
     Public Carrier As String = Nothing
     Public VehicleNo As String = Nothing
     Public GRNo As String = Nothing
+    Public GRDate As Date? = Nothing
     Public GENo As String = Nothing
     Public GEDate As Date? = Nothing
     Public RMDA_No As String = Nothing
@@ -612,13 +613,15 @@ Public Class clsSRNHead
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, Optional ByVal IsMerchantTrade As String = "") As clsSRNHead
         ' Dim obj As clsSRNHead = Nothing
         Dim obj As New clsSRNHead
-        Dim qry As String = "SELECT TSPL_SRN_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, " &
+        Dim qry As String = "SELECT TSPL_GRN_HEAD.GRN_Date,TSPL_SRN_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, " &
         " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName " &
         " FROM TSPL_SRN_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_HEAD.Bill_To_Location " &
         " left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_SubLocation  on TSPL_LOCATION_MASTER_SubLocation.Location_Code=TSPL_SRN_HEAD.Sublocation_Code " &
         " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SRN_HEAD.Ship_To_Location " &
         " left outer join  TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code= TSPL_SRN_HEAD.Tax_Group " &
-        " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SRN_HEAD.Terms_Code where 2=2"
+        " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SRN_HEAD.Terms_Code 
+          left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN
+         where 2=2"
         Dim whrCls As String = ""
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrCls = " AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
@@ -734,6 +737,7 @@ Public Class clsSRNHead
             obj.Carrier = clsCommon.myCstr(dt.Rows(0)("Carrier"))
             obj.VehicleNo = clsCommon.myCstr(dt.Rows(0)("VehicleNo"))
             obj.GRNo = clsCommon.myCstr(dt.Rows(0)("GRNo"))
+            obj.GRDate = clsCommon.myCDate(dt.Rows(0)("GRN_Date"))
             obj.GENo = clsCommon.myCstr(dt.Rows(0)("GENo"))
             If dt.Rows(0)("GEDate") IsNot DBNull.Value Then
                 obj.GEDate = clsCommon.myCDate(dt.Rows(0)("GEDate"))

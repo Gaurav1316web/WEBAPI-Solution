@@ -154,11 +154,11 @@ Public Class frmVendorBankAdvice
     mp_V.Joint_Account_No
   ) end as Payee_Joint_Account_No,"
                 If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
-                        BaseQry += " Round(TSPL_VENDOR_INVOICE_HEAD.Document_Total,0) as Payable_Amount "
-                    Else
-                        BaseQry += " TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount "
+                    BaseQry += " Round(TSPL_VENDOR_INVOICE_HEAD.Document_Total,0) as Payable_Amount "
+                Else
+                    BaseQry += " TSPL_VENDOR_INVOICE_HEAD.Document_Total as Payable_Amount "
 
-                    End If
+                End If
 
                 BaseQry += "from TSPL_PAYMENT_PROCESS_SAVING 
                             left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_SAVING.Doc_No
