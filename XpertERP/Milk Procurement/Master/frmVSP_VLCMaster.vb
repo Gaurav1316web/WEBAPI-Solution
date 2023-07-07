@@ -243,8 +243,8 @@ Public Class frmVSP_VLCMaster
         txtRegistrationNo.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         lblRegistrationDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         txtRegistrationDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
-        txtRegistrationDate.Text = clsCommon.GETSERVERDATE()
-        txtCowPriceDate.Text = clsCommon.GETSERVERDATE()
+        txtRegistrationDate.Value = clsCommon.GETSERVERDATE()
+        txtCowPriceDate.Value = clsCommon.GETSERVERDATE()
         If chkApplyCowPrice.Checked Then
             txtCowPriceDate.Enabled = True
         Else
@@ -263,10 +263,12 @@ Public Class frmVSP_VLCMaster
             lblOwnMCC.Visible = True
             txtMCCOwnBMC.Visible = True
             lblMCCOwnBMC.Visible = True
+            txtOwnBMCDate.Enabled = True
         Else
             lblOwnMCC.Visible = False
             txtMCCOwnBMC.Visible = False
             lblMCCOwnBMC.Visible = False
+            txtOwnBMCDate.Enabled = False
         End If
         chkCLUSTER.Visible = False
     End Sub
@@ -1231,15 +1233,16 @@ Public Class frmVSP_VLCMaster
             obj.Active = IIf(Me.chkInActive.Checked, 0, 1)
             obj.Price_Code = clsCommon.myCstr(fndPriceCode.Value)
             obj.Apply_Cow_Price = chkApplyCowPrice.Checked
-            obj.ApplyCowPriceDate = txtCowPriceDate.Text
+            obj.ApplyCowPriceDate = txtCowPriceDate.Value
             obj.IsSuspense = chkSuspense.Checked
             obj.Loyalty_Rate = txtLoyaltyPer.Value
             If chkOwnBMC.Checked Then
                 obj.TFOwnBMC = True
-                obj.OwnBMCDate = txtOwnBMCDate.Text
+                obj.OwnBMCDate = txtOwnBMCDate.Value
                 obj.OwnBMC = clsCommon.myCstr(txtMCCOwnBMC.Value)
             Else
                 obj.TFOwnBMC = False
+                obj.OwnBMCDate = Nothing
             End If
 
             Dim arr As New List(Of clsfrmVLCMaster)
@@ -1319,7 +1322,13 @@ Public Class frmVSP_VLCMaster
                 txtvlcname.Text = obj.vlcName
                 'txtvehicalname.Text = obj.vehical
                 txtvspcode.Value = obj.vspCode
-                chkApplyCowPrice.Checked = obj.Apply_Cow_Price
+                If obj.Apply_Cow_Price = True Then
+                    chkApplyCowPrice.Checked = True
+                    txtCowPriceDate.Value = clsCommon.myCDate(obj.ApplyCowPriceDate)
+                Else
+                    chkApplyCowPrice.Checked = False
+                End If
+
                 chkSuspense.Checked = obj.IsSuspense
                 txtvsp.Text = obj.VspName
                 fndMcc.Value = obj.MCCCOde
@@ -1340,12 +1349,20 @@ Public Class frmVSP_VLCMaster
                 txtLoyaltyPer.Value = obj.Loyalty_Rate
                 If obj.TFOwnBMC = True Then
                     chkOwnBMC.Checked = True
-                    txtOwnBMCDate.Text = clsCommon.myCDate(obj.OwnBMCDate)
-                    txtMCCOwnBMC.Value = clsCommon.myCstr(obj.OwnBMC)
+                    If clsCommon.myLen(obj.OwnBMCDate) <= 0 Then
+                        Dim BMCDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Created_Date from TSPL_VLC_MASTER_HEAD where VSP_Code='" + obj.vspCode + "'"))
+                        If clsCommon.myLen(BMCDate) > 0 Then
+                            Dim UpdateBMC As String = "Update TSPL_VLC_MASTER_HEAD set OwnBMCDate='" & clsCommon.GetPrintDate(BMCDate) & "' where VSP_Code='" + obj.vspCode + "' "
+                            clsDBFuncationality.ExecuteNonQuery(UpdateBMC)
+                        End If
+                        txtOwnBMCDate.Value = clsCommon.myCDate(BMCDate)
+                    Else
+                        txtOwnBMCDate.Value = clsCommon.myCDate(obj.OwnBMCDate)
+                    End If
+                    txtMCCOwnBMC.Value = obj.OwnBMC
                 Else
                     chkOwnBMC.Checked = False
-                    txtOwnBMCDate.Text = ""
-                    txtMCCOwnBMC.Value = ""
+                    txtMCCOwnBMC.Value = Nothing
                 End If
                 fndPriceCode.Value = obj.Price_Code
                 Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
@@ -3837,7 +3854,7 @@ Public Class frmVSP_VLCMaster
                         Else
                             chkApplyCowPrice.Checked = False
                         End If
-                        txtCowPriceDate.Text = clsCommon.myCstr(grow.Cells("Apply Cow Price Date").Value)
+                        txtCowPriceDate.Value = clsCommon.myCstr(grow.Cells("Apply Cow Price Date").Value)
                         txtLoyaltyPer.Text = clsCommon.myCstr(grow.Cells("Loyalty Rate").Value)
                         If clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value) = "Registered" Then
                             chkRegistered.Checked = True
@@ -3862,7 +3879,7 @@ Public Class frmVSP_VLCMaster
                         Else
                             chkOwnBMC.Checked = False
                         End If
-                        txtOwnBMCDate.Text = clsCommon.myCstr(grow.Cells("Own BMC").Value)
+                        txtOwnBMCDate.Value = clsCommon.myCstr(grow.Cells("Own BMC").Value)
                         If clsCommon.myCdbl(grow.Cells("Head Load").Value) = 1 Then
                             ChkHeadLoad.Checked = True
                             If clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "P" Then
@@ -5940,12 +5957,13 @@ Public Class frmVSP_VLCMaster
             txtMCCOwnBMC.Visible = True
             lblMCCOwnBMC.Visible = True
             txtOwnBMCDate.Enabled = True
+            txtOwnBMCDate.Value = clsCommon.GETSERVERDATE()
         Else
             lblOwnMCC.Visible = False
             txtMCCOwnBMC.Visible = False
             lblMCCOwnBMC.Visible = False
             txtOwnBMCDate.Enabled = False
-            txtOwnBMCDate.Text = Nothing
+            txtOwnBMCDate.Value = Nothing
         End If
     End Sub
 
@@ -6158,7 +6176,7 @@ Public Class frmVSP_VLCMaster
                 txtCowPriceDate.Enabled = True
             Else
                 txtCowPriceDate.Enabled = False
-                txtCowPriceDate.Text = Nothing
+                txtCowPriceDate.Value = Nothing
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
