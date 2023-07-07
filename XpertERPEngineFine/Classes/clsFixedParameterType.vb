@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 
 
 Public Class clsFixedParameterType
+    Public Const AndroidSaleOrder As String = "Android Sale Order"
     Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
     Public Const NewDCSScreen As String = "New DCS Screen"
     Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
@@ -1288,6 +1289,8 @@ End Class
 
 
 Public Class clsFixedParameterCode
+    Public Const BackDays As String = "Back Days"
+    Public Const MaximumBackDays As String = "Maximum Back Days"
     Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
     Public Const NewDCSScreen As String = "New DCS Screen"
     Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
@@ -2767,6 +2770,9 @@ Public Class clsFixedParameter
     End Function
 
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidSaleOrder, clsFixedParameterCode.BackDays, "3", "Back Days of From Date")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidSaleOrder, clsFixedParameterCode.MaximumBackDays, "60", "Back Days of From Date")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.NewDCSScreen, clsFixedParameterCode.NewDCSScreen, "0", "0:Off, 1:On;New DCS Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, "0", "Minimum Qty To Apply For Head Load")
