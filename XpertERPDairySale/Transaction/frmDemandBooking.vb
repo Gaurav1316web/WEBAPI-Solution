@@ -4075,7 +4075,9 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         End Try
     End Sub
 
+    Private Sub txtRouteNo_Load(sender As Object, e As EventArgs) Handles txtRouteNo.Load
 
+    End Sub
 End Class
 
 Public Class ItemValueClass

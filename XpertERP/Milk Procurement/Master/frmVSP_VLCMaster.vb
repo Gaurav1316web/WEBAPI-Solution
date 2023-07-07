@@ -16,6 +16,7 @@ Public Class frmVSP_VLCMaster
     Dim Frm_Open As FrmMainTranScreen
     Dim FixVSPEMP As Integer = 0
     Dim AllowVSPMasterAutoPrefix As Integer = 0
+    Dim UserPrefix As String = Nothing
     Dim EnableBankFromMaster As Boolean
     Const colEMPSno As String = "colEMPSno"
     Const colEMPSlab As String = "colEMPSlab"
@@ -139,6 +140,7 @@ Public Class frmVSP_VLCMaster
 
 #Region "Page Load"
     Private Sub frmVSP_VLCMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        UserPrefix = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PrefixForUserMaster, clsFixedParameterCode.PrefixForUserMaster, Nothing))
         AllowVSPMasterAutoPrefix = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowVSPMasterAutoPrefix, clsFixedParameterCode.AllowVSPMasterAutoPrefix, Nothing))
         FixVSPEMP = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FixVSPEMP, clsFixedParameterCode.FixVSPEMP, Nothing))
         EnableBankFromMaster = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.EnableBankFromMaster & "'")) = 0, False, True)
@@ -241,8 +243,8 @@ Public Class frmVSP_VLCMaster
         txtRegistrationNo.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         lblRegistrationDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
         txtRegistrationDate.Visible = Allow_Reg_PDCS_CLUSTER_2ndBank_MCC_VLCVSPMaster
-        txtRegistrationDate.Text = clsCommon.GETSERVERDATE()
-        txtCowPriceDate.Text = clsCommon.GETSERVERDATE()
+        txtRegistrationDate.Value = clsCommon.GETSERVERDATE()
+        txtCowPriceDate.Value = clsCommon.GETSERVERDATE()
         If chkApplyCowPrice.Checked Then
             txtCowPriceDate.Enabled = True
         Else
@@ -261,10 +263,12 @@ Public Class frmVSP_VLCMaster
             lblOwnMCC.Visible = True
             txtMCCOwnBMC.Visible = True
             lblMCCOwnBMC.Visible = True
+            txtOwnBMCDate.Enabled = True
         Else
             lblOwnMCC.Visible = False
             txtMCCOwnBMC.Visible = False
             lblMCCOwnBMC.Visible = False
+            txtOwnBMCDate.Enabled = False
         End If
         chkCLUSTER.Visible = False
     End Sub
@@ -1021,18 +1025,18 @@ Public Class frmVSP_VLCMaster
                 End If
             End If
             'Sanjay
-
             If objCommonVar.ApplyDefaultsInMaster = True Then
                 CreateDefaultMasters(trans)
             End If
-
             'VLC
             If clsCommon.myLen(txtvlcname.Text) > 0 Then
                 VLCSaveData(True, trans)
+                If objCommonVar.ApplyDefaultsInMaster = True Then
+                    CreateDefaultUserMaster(trans)
+                End If
             End If
 
             UpdateFeild(fndvendorNo.Value, fndvlccode.Text, trans)
-
             btnsave.Text = "Update"
             btndelete.Enabled = True
             trans.Commit()
@@ -1045,17 +1049,18 @@ Public Class frmVSP_VLCMaster
         End Try
     End Sub
 
-    Sub CreateDefaultMasters(ByVal trans As SqlTransaction)
+    Sub CreateDefaultUserMaster(ByVal trans As SqlTransaction)
         Dim qry As String = ""
         Dim check As Integer = 0
         Dim coll As New Hashtable()
         Try
             'Create User
-            qry = "select count(User_Code) from TSPL_USER_MASTER where User_Code='" + txtVLCCodeVlcUploader.Text + "'"
+            Dim PrefixUserCode As String = UserPrefix + txtVLCCodeVlcUploader.Text
+            qry = "select count(User_Code) from TSPL_USER_MASTER where User_Code='" + PrefixUserCode + "'"
             check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
             If check <= 0 Then
                 coll = New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "User_Code", txtVLCCodeVlcUploader.Text)
+                clsCommon.AddColumnsForChange(coll, "User_Code", PrefixUserCode)
                 clsCommon.AddColumnsForChange(coll, "User_Name", clsCommon.myCstr(txtvendorname.Text))
                 clsCommon.AddColumnsForChange(coll, "Password", clsCommon.EncryptString(txtVLCCodeVlcUploader.Text))
                 clsCommon.AddColumnsForChange(coll, "Default_Location", fndMcc.Value, True)
@@ -1072,6 +1077,38 @@ Public Class frmVSP_VLCMaster
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Insert, "", trans)
             End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+    Sub CreateDefaultMasters(ByVal trans As SqlTransaction)
+        Dim qry As String = ""
+        Dim check As Integer = 0
+        Dim coll As New Hashtable()
+        Try
+            ''Create User
+            'Dim PrefixUserCode As String = UserPrefix + txtVLCCodeVlcUploader.Text
+            'qry = "select count(User_Code) from TSPL_USER_MASTER where User_Code='" + PrefixUserCode + "'"
+            'check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
+            'If check <= 0 Then
+            '    coll = New Hashtable()
+            '    clsCommon.AddColumnsForChange(coll, "User_Code", PrefixUserCode)
+            '    clsCommon.AddColumnsForChange(coll, "User_Name", clsCommon.myCstr(txtvendorname.Text))
+            '    clsCommon.AddColumnsForChange(coll, "Password", clsCommon.EncryptString(txtVLCCodeVlcUploader.Text))
+            '    clsCommon.AddColumnsForChange(coll, "Default_Location", fndMcc.Value, True)
+            '    clsCommon.AddColumnsForChange(coll, "User_APP_Type", "V", True)
+            '    clsCommon.AddColumnsForChange(coll, "Vendor_Code", txtvspcode.Value, True)
+            '    clsCommon.AddColumnsForChange(coll, "User_Type", "")
+            '    clsCommon.AddColumnsForChange(coll, "EMP_CODE", "")
+            '    clsCommon.AddColumnsForChange(coll, "Emp_Name", "")
+            '    clsCommon.AddColumnsForChange(coll, "Comp_Code", companyCode)
+            '    clsCommon.AddColumnsForChange(coll, "Created_By", userCode)
+            '    clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+            '    clsCommon.AddColumnsForChange(coll, "Modify_By", userCode)
+            '    clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+
+            '    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Insert, "", trans)
+            'End If
 
             '' Start Primary Transporter Master
             Dim StrVdrNo As String = ""
@@ -1182,6 +1219,7 @@ Public Class frmVSP_VLCMaster
                 txtvsp.Text = txtvendorname.Text
             End If
 
+
             Dim obj As New clsfrmVLCMaster()
             obj.vlcCode = clsCommon.myCstr(fndvlccode.Text)
             obj.VLC_CODE_VLC_UPLOADER = clsCommon.myCstr(txtVLCCodeVlcUploader.Text)
@@ -1195,15 +1233,16 @@ Public Class frmVSP_VLCMaster
             obj.Active = IIf(Me.chkInActive.Checked, 0, 1)
             obj.Price_Code = clsCommon.myCstr(fndPriceCode.Value)
             obj.Apply_Cow_Price = chkApplyCowPrice.Checked
-            obj.ApplyCowPriceDate = txtCowPriceDate.Text
+            obj.ApplyCowPriceDate = txtCowPriceDate.Value
             obj.IsSuspense = chkSuspense.Checked
             obj.Loyalty_Rate = txtLoyaltyPer.Value
             If chkOwnBMC.Checked Then
                 obj.TFOwnBMC = True
-                obj.OwnBMCDate = txtOwnBMCDate.Text
+                obj.OwnBMCDate = txtOwnBMCDate.Value
                 obj.OwnBMC = clsCommon.myCstr(txtMCCOwnBMC.Value)
             Else
                 obj.TFOwnBMC = False
+                obj.OwnBMCDate = Nothing
             End If
 
             Dim arr As New List(Of clsfrmVLCMaster)
@@ -1283,7 +1322,13 @@ Public Class frmVSP_VLCMaster
                 txtvlcname.Text = obj.vlcName
                 'txtvehicalname.Text = obj.vehical
                 txtvspcode.Value = obj.vspCode
-                chkApplyCowPrice.Checked = obj.Apply_Cow_Price
+                If obj.Apply_Cow_Price = True Then
+                    chkApplyCowPrice.Checked = True
+                    txtCowPriceDate.Value = clsCommon.myCDate(obj.ApplyCowPriceDate)
+                Else
+                    chkApplyCowPrice.Checked = False
+                End If
+
                 chkSuspense.Checked = obj.IsSuspense
                 txtvsp.Text = obj.VspName
                 fndMcc.Value = obj.MCCCOde
@@ -1304,12 +1349,20 @@ Public Class frmVSP_VLCMaster
                 txtLoyaltyPer.Value = obj.Loyalty_Rate
                 If obj.TFOwnBMC = True Then
                     chkOwnBMC.Checked = True
-                    txtOwnBMCDate.Text = clsCommon.myCDate(obj.OwnBMCDate)
-                    txtMCCOwnBMC.Value = clsCommon.myCstr(obj.OwnBMC)
+                    If clsCommon.myLen(obj.OwnBMCDate) <= 0 Then
+                        Dim BMCDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Created_Date from TSPL_VLC_MASTER_HEAD where VSP_Code='" + obj.vspCode + "'"))
+                        If clsCommon.myLen(BMCDate) > 0 Then
+                            Dim UpdateBMC As String = "Update TSPL_VLC_MASTER_HEAD set OwnBMCDate='" & clsCommon.GetPrintDate(BMCDate) & "' where VSP_Code='" + obj.vspCode + "' "
+                            clsDBFuncationality.ExecuteNonQuery(UpdateBMC)
+                        End If
+                        txtOwnBMCDate.Value = clsCommon.myCDate(BMCDate)
+                    Else
+                        txtOwnBMCDate.Value = clsCommon.myCDate(obj.OwnBMCDate)
+                    End If
+                    txtMCCOwnBMC.Value = obj.OwnBMC
                 Else
                     chkOwnBMC.Checked = False
-                    txtOwnBMCDate.Text = ""
-                    txtMCCOwnBMC.Value = ""
+                    txtMCCOwnBMC.Value = Nothing
                 End If
                 fndPriceCode.Value = obj.Price_Code
                 Me.chkInActive.Checked = IIf(obj.Active = 0, True, False)
@@ -3801,7 +3854,7 @@ Public Class frmVSP_VLCMaster
                         Else
                             chkApplyCowPrice.Checked = False
                         End If
-                        txtCowPriceDate.Text = clsCommon.myCstr(grow.Cells("Apply Cow Price Date").Value)
+                        txtCowPriceDate.Value = clsCommon.myCstr(grow.Cells("Apply Cow Price Date").Value)
                         txtLoyaltyPer.Text = clsCommon.myCstr(grow.Cells("Loyalty Rate").Value)
                         If clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value) = "Registered" Then
                             chkRegistered.Checked = True
@@ -3826,7 +3879,7 @@ Public Class frmVSP_VLCMaster
                         Else
                             chkOwnBMC.Checked = False
                         End If
-                        txtOwnBMCDate.Text = clsCommon.myCstr(grow.Cells("Own BMC").Value)
+                        txtOwnBMCDate.Value = clsCommon.myCstr(grow.Cells("Own BMC").Value)
                         If clsCommon.myCdbl(grow.Cells("Head Load").Value) = 1 Then
                             ChkHeadLoad.Checked = True
                             If clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "P" Then
@@ -5904,12 +5957,13 @@ Public Class frmVSP_VLCMaster
             txtMCCOwnBMC.Visible = True
             lblMCCOwnBMC.Visible = True
             txtOwnBMCDate.Enabled = True
+            txtOwnBMCDate.Value = clsCommon.GETSERVERDATE()
         Else
             lblOwnMCC.Visible = False
             txtMCCOwnBMC.Visible = False
             lblMCCOwnBMC.Visible = False
             txtOwnBMCDate.Enabled = False
-            txtOwnBMCDate.Text = Nothing
+            txtOwnBMCDate.Value = Nothing
         End If
     End Sub
 
@@ -6122,7 +6176,7 @@ Public Class frmVSP_VLCMaster
                 txtCowPriceDate.Enabled = True
             Else
                 txtCowPriceDate.Enabled = False
-                txtCowPriceDate.Text = Nothing
+                txtCowPriceDate.Value = Nothing
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)

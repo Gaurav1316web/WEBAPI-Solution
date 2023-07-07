@@ -1176,12 +1176,14 @@ Public Class frmQCTemplateEntry
                     rbtnRej.IsChecked = False
                     txtAccept.Text = "Under Deviation"
                     txtAccept.BackColor = Color.Yellow
+                    'chkStatus.Enabled = False
                 ElseIf strTempUD = False Then
                     rbtnApp.IsChecked = True
                     rbtnUD.IsChecked = False
                     rbtnRej.IsChecked = False
                     txtAccept.Text = "Accepted"
                     txtAccept.BackColor = Color.Green
+                    'chkStatus.Enabled = False
                 End If
 
             ElseIf clsCommon.CompairString(strTempResult, "No") = CompairStringResult.Equal Then
@@ -1190,6 +1192,7 @@ Public Class frmQCTemplateEntry
                 rbtnUD.IsChecked = False
                 txtAccept.Text = "Rejected"
                 txtAccept.BackColor = Color.Red
+                'chkStatus.Enabled = True
             End If
             txtAccept.Visible = True
         Catch ex As Exception
@@ -1340,7 +1343,7 @@ Public Class frmQCTemplateEntry
                     rbtnRej.Enabled = True
                     rbtnUD.Enabled = True
                 End If
-               
+
                 rbtnApp.IsChecked = False
                 rbtnRej.IsChecked = True
                 rbtnUD.IsChecked = False
@@ -1515,6 +1518,20 @@ Public Class frmQCTemplateEntry
                 Dim grow As GridViewRowInfo = TryCast(gv.Rows(kk), GridViewRowInfo)
                 UpdateStausNewInput(grow)
             Next
+        Catch err As Exception
+            common.clsCommon.MyMessageBoxShow(err.Message)
+        End Try
+    End Sub
+
+    Private Sub txtAccept_TextChanged(sender As Object, e As EventArgs) Handles txtAccept.TextChanged
+        Try
+            If txtAccept.Text = "Accepted" Then
+                chkStatus.Enabled = False
+            ElseIf txtAccept.Text = "Rejected" Then
+                chkStatus.Enabled = True
+            Else
+                chkStatus.Enabled = False
+            End If
         Catch err As Exception
             common.clsCommon.MyMessageBoxShow(err.Message)
         End Try

@@ -46,6 +46,11 @@ Public Class frmSRN
     Const colShortQty As String = "COLSHORTQTY"
 
     Const colRejectedQty As String = "COLREJECTEDQTY"
+    Public Const colTenderNo As String = "COLTNO"
+    Public Const colWeighmentNo As String = "COLWENO"
+    Public Const colWeighmentDate As String = "COLWDATE"
+    Public Const colMRNNo As String = "COLMRNO"
+    Public Const colMRNDate As String = "COLMRDATE"
     Const colFreeQty As String = "COLFREEQTY"
     Public Const colUnit As String = "COLUNIT"
     Const colUOMWEIGHT As String = "COLUOMWEIGHT"
@@ -840,6 +845,7 @@ Public Class frmSRN
         gv1.MasterTemplate.Columns.Add(repoICode)
         repoICode = Nothing
 
+
         Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoIName.FormatString = ""
         repoIName.HeaderText = "Item Description"
@@ -1048,6 +1054,62 @@ Public Class frmSRN
         repoRejectedQty.DecimalPlaces = 3
         gv1.MasterTemplate.Columns.Add(repoRejectedQty)
         repoRejectedQty = Nothing
+
+        Dim repoTenderNo As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoTenderNo = New GridViewDecimalColumn()
+        repoTenderNo.FormatString = ""
+        repoTenderNo.HeaderText = "Tender No"
+        repoTenderNo.Name = colTenderNo
+        repoTenderNo.Width = 50
+        repoTenderNo.ReadOnly = True
+        repoTenderNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoTenderNo)
+        repoTenderNo = Nothing
+
+        Dim repoWeighmentNo As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoWeighmentNo = New GridViewDecimalColumn()
+        repoWeighmentNo.FormatString = ""
+        repoWeighmentNo.HeaderText = "Weighment No"
+        repoWeighmentNo.Name = colWeighmentNo
+        repoWeighmentNo.Width = 50
+        repoWeighmentNo.ReadOnly = True
+        repoWeighmentNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoWeighmentNo)
+        repoWeighmentNo = Nothing
+
+        Dim repoWeighmentDate As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoWeighmentDate = New GridViewDecimalColumn()
+        repoWeighmentDate.FormatString = ""
+        repoWeighmentDate.HeaderText = "Weighment Date"
+        repoWeighmentDate.Name = colWeighmentDate
+        repoWeighmentDate.Width = 50
+        repoWeighmentDate.ReadOnly = True
+        repoWeighmentDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoWeighmentDate)
+        repoWeighmentDate = Nothing
+
+        Dim repoMRNNo As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoMRNNo = New GridViewDecimalColumn()
+        repoMRNNo.FormatString = ""
+        repoMRNNo.HeaderText = "MRN No"
+        repoMRNNo.Name = colMRNNo
+        repoMRNNo.Width = 50
+        repoMRNNo.ReadOnly = True
+        repoMRNNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoMRNNo)
+        repoMRNNo = Nothing
+
+
+        Dim repoMRNDate As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoMRNDate = New GridViewDecimalColumn()
+        repoMRNDate.FormatString = ""
+        repoMRNDate.HeaderText = "MRN Date"
+        repoMRNDate.Name = colMRNDate
+        repoMRNDate.Width = 50
+        repoMRNDate.ReadOnly = True
+        repoMRNDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoMRNDate)
+        repoMRNDate = Nothing
 
         Dim repoFreeQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoFreeQty.FormatString = "{0:N3}"
@@ -5674,6 +5736,7 @@ Public Class frmSRN
                 txtCarrier.Text = obj.Carrier
                 txtVehicleNo.Text = obj.VehicleNo
                 txtGRNo.Text = obj.GRNo
+                MyDateTimePicker1.Text = obj.GRDate
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
                     txtGEDate.Value = obj.GEDate
@@ -6634,30 +6697,45 @@ Public Class frmSRN
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
         '' changed by shivani against Ticket no : BM00000008106
         '===================update by preeti gupta [Add column created by for Jakson Clinet]
-        Dim qry As String = "select SRN_No as Code,FORMAT(CAST(SRN_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') as Date,TSPL_SRN_HEAD.Vendor_Code as [Vendor Code], TSPL_SRN_HEAD.Vendor_Name as Vendor,ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],SRN_Total_Amt as Amount,case when TSPL_SRN_HEAD.Status='0' then 'Pending' else 'Approved' end as [Status],Against_QC_Code as [Against QC Code],Against_QC_Date as [Against QC Date],TSPL_USER_MASTER.User_Name as [User Name] "
+        Dim qry As String = "select TSPL_SRN_HEAD.SRN_No as Code,Max(FORMAT(CAST(SRN_Date AS DATETIME),'dd/MM/yyyy hh:mm tt')) as Date,max(TSPL_SRN_DETAIL.Item_Code) as [Item Code],max(TSPL_SRN_DETAIL.Item_Desc) as [Item Name],max(TSPL_SRN_HEAD.Vendor_Code) as [Vendor Code],max( TSPL_SRN_HEAD.Vendor_Name) as Vendor,max(ISNULL(TSPL_VENDOR_MASTER.alies_name,'')) As [Alies Name],sum (SRN_Total_Amt) as Amount,max(case when TSPL_SRN_HEAD.Status='0' then 'Pending' else 'Approved' end) as [Status],max(Against_QC_Code) as [Against QC Code],max(Against_QC_Date) as [Against QC Date],max(TSPL_USER_MASTER.User_Name) as [User Name] "
         '' Anubhooti 12-Mar-2015 (Fetch Alies Name On Vendor Finder)
         If is_Load_MRN Then
-            qry += ",Against_MRN as [Against MRN Code],against_grn as [Against GRN Code] , TSPL_SRN_HEAD.VehicleNo AS VehicleNO, TSPL_GRN_HEAD.GRN_Date as GRN_date"
+            qry += ",max(Against_MRN) as [Against MRN Code],max(against_grn) as [Against GRN Code] , max(TSPL_SRN_HEAD.VehicleNo) AS VehicleNO, max(TSPL_GRN_HEAD.GRN_Date) as GRN_date"
         Else
-            qry += ",TSPL_SRN_HEAD.Against_PO as [Against PO Code], TSPL_PURCHASE_ORDER_HEAD.ReferencePO as [Reference PO]  "
+            qry += ",max(TSPL_SRN_HEAD.Against_PO) as [Against PO Code], TSPL_PURCHASE_ORDER_HEAD.ReferencePO as [Reference PO]  "
         End If
-        qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo from TSPL_SRN_HEAD LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_SRN_HEAD.Vendor_Code left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SRN_HEAD.Created_By  left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO left outer join TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN left outer join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Document_Code=TSPL_SRN_HEAD.Against_QC_Code
+        qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo,max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code) as Weighment_Code,max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date) as Weighment_Date from TSPL_SRN_HEAD LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_SRN_HEAD.Vendor_Code left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SRN_HEAD.Created_By  left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO left outer join TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN left outer join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Document_Code=TSPL_SRN_HEAD.Against_QC_Code left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No  left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
+               and TSPL_SRN_DETAIL.Item_code Not In ('PM0002','PM0001')
                  "
 
 
         Dim whrClas As String = ""
+        'Dim GridItem As String = ""
+        'Dim row As GridViewRowInfo = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas = " TSPL_SRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and "
         End If
         If clsCommon.CompairString(clsUserMgtCode.mbtnSRN, FORMTYPE) = CompairStringResult.Equal Then
-            whrClas += " isnull(TSPL_SRN_HEAD.Against_PO,'') not in ( Select TSPL_SRN_HEAD.Against_PO  from TSPL_SRN_HEAD left Outer Join TSPL_PURCHASE_ORDER_HEAD on TSPL_SRN_HEAD.Against_PO =TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No where TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade =1) "
+            whrClas += " isnull(TSPL_SRN_HEAD.Against_PO,'') not in ( Select TSPL_SRN_HEAD.Against_PO  from TSPL_SRN_HEAD left Outer Join TSPL_PURCHASE_ORDER_HEAD on TSPL_SRN_HEAD.Against_PO =TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No where TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade =1) and"
         Else
-            whrClas += " TSPL_SRN_HEAD.Against_PO not in ( Select TSPL_SRN_HEAD.Against_PO  from TSPL_SRN_HEAD left Outer Join TSPL_PURCHASE_ORDER_HEAD on TSPL_SRN_HEAD.Against_PO =TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No where TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade =0)  "
+            whrClas += " TSPL_SRN_HEAD.Against_PO not in ( Select TSPL_SRN_HEAD.Against_PO  from TSPL_SRN_HEAD left Outer Join TSPL_PURCHASE_ORDER_HEAD on TSPL_SRN_HEAD.Against_PO =TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No where TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade =0)  and"
         End If
-        whrClas += "and TSPL_QC_CHECK_HEAD.QC_Status Not in ('Rejected') And
-                 isnull(TSPL_SRN_HEAD.Against_PO,'') not in ( Select TSPL_SRN_HEAD.Against_PO  from TSPL_SRN_HEAD left Outer Join TSPL_PURCHASE_ORDER_HEAD on TSPL_SRN_HEAD.Against_PO =TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No where TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade =1) "
+        whrClas += " TSPL_QC_CHECK_HEAD.QC_Status Not in ('Rejected') And
+                   isnull(TSPL_SRN_HEAD.Against_PO,'') not in ( Select TSPL_SRN_HEAD.Against_PO  from TSPL_SRN_HEAD 
+                left Outer Join TSPL_PURCHASE_ORDER_HEAD on TSPL_SRN_HEAD.Against_PO =TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No where TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade =1) 
+                   Group by TSPL_SRN_HEAD.SRN_No, TSPL_PURCHASE_ORDER_HEAD.RefTendorNo"
+        'If gvRGP.Rows.Count > 0 Then
+        '    For Each row In gvRGP.Rows
+        '        GridItem = clsCommon.myCstr(row.Cells(2).Value)
+        '    Next
+        '    If clsCommon.myLen(GridItem) > 0 Then
+        '        whrClas += "and TSPL_SRN_DETAIL.Item_code Not In (" + GridItem + ")
+        '        Group by TSPL_SRN_HEAD.SRN_No, TSPL_PURCHASE_ORDER_HEAD.RefTendorNo"
+        '    End If
+        'End If
 
-        LoadData(clsCommon.ShowSelectForm("SRNCofnd", qry, "Code", whrClas, txtDocNo.Value, "SRN_Date desc", isButtonClicked), NavigatorType.Current)
+
+        LoadData(clsCommon.ShowSelectForm("SRNCofnd", qry, "Code", whrClas, txtDocNo.Value, "", isButtonClicked), NavigatorType.Current)
     End Sub
     Private Sub FrmAPInvoiceEntry_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.F2 AndAlso gv1.CurrentCell IsNot Nothing AndAlso gv1.CurrentColumn Is gv1.Columns(colUnit) Then
@@ -11462,5 +11540,7 @@ b:                          ' Next
         ShowJE(MyBase.Form_ID, txtDocNo.Value)
     End Sub
 
-
+    Private Sub MyDateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles MyDateTimePicker1.ValueChanged
+        txtDate.Text = clsCommon.myCDate(MyDateTimePicker1.Text)
+    End Sub
 End Class
