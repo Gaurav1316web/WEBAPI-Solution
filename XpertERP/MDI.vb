@@ -9652,7 +9652,7 @@ Public Class MDI
     Private Sub RadDock1_DockStateChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Docking.DockWindowEventArgs) Handles RadDock1.DockStateChanged
         ' Set Image
         For i As Integer = 0 To RTV2.Nodes.Count - 1
-            SetImage(RTV2.Nodes(i))\
+            SetImage(RTV2.Nodes(i))
 
 
         Next
