@@ -22,6 +22,7 @@ Public Class clsMRNHead
     Public Bill_To_Location As String = Nothing
     Public BillToLocationName As String = Nothing
     Public Ship_To_Location As String = Nothing
+    'Public RAL_Tender_No As String = Nothing
     Public ShipToLocationName As String = Nothing
     Public Tax_Group As String = Nothing
     Public TaxGroupName As String = Nothing 'Not a table field
