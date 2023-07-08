@@ -51,8 +51,19 @@ Public Class rptTruckSheetDailySummaryReport
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            Dim qry As String = "select  A.Comp_Name, [Doc Date],a.[Milk type], max([MCC Name]) as [MCC Name],sum([Milk Weight]) as [Sweet Qty],case when sum([Milk Weight])=0 then 0 else(case when sum(SOUR)=0 and sum(CURD)=0 then sum([FAT]) else 0 end)end as [Sweet FAT] ,case when sum([Milk Weight])=0 then 0 else (case when sum(SOUR)=0 and sum(CURD)=0 then sum([SNF]) else 0 end) end as [Sweet SNF] ,sum(SOUR) as [SOUR Qty]
-                                ,case when sum(SOUR)>0 then sum([FAT])  else 0 end as [SOUR FAT] ,case When sum(SOUR)>0 then sum([SNF]) else 0 end as [SOUR SNF] ,sum(CURD) as [CURD Qty],sum([Milk Weight]+SOUR+CURD) as [Total Qty] ,case when sum([Milk Weight] )=0 then 0 else (sum([FAT] )) end as [Total FAT Kg] ,case when sum([Milk Weight] )=0 then 0 else (sum([SNF] )) end as [Total SNF Kg] from(select AA.Comp_Name, aa.[Milk Type],aa.[Milk Weight],[FAT], [SNF] ,case When isnull(RejectType,'')='SOUR' then [Milk Weight] else 0 end as [SOUR] ,case When isnull(RejectType,'')='CURD' then [Milk Weight] else 0 end as [CURD] ,[Doc Date],[MCC Name]
+            Dim qry As String = "select  A.Comp_Name, [Doc Date],a.[Milk type], max([MCC Name]) as [MCC Name]
+                                ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet Qty]
+                                ,sum([FAT] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet FAT]
+                                ,sum([SNF] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet SNF] 
+                                ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR Qty]
+                                ,sum([FAT]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR FAT]
+                                ,sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR SNF]
+                                ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='CURD' then 1 else 0 end) as [CURD Qty]
+                                ,sum([Milk Weight]) as [Total Qty]
+                                ,sum([FAT]) as [Total FAT Kg]
+                                ,sum([SNF]) AS [Total SNF Kg] 
+
+                                from(select AA.Comp_Name, aa.[Milk Type],aa.[Milk Weight],[FAT], [SNF],aa.RejectType ,case When isnull(RejectType,'')='SOUR' then [Milk Weight] else 0 end as [SOUR] ,case When isnull(RejectType,'')='CURD' then [Milk Weight] else 0 end as [CURD] ,[Doc Date],[MCC Name]
                                  from (
                                  select PP.Comp_Name, PP.[Milk Type] AS [Milk Type],sum([Milk Weight(KG)] ) as [Milk Weight] 
                                 ,sum([FAT(KG)] ) as [FAT] ,sum([SNF(KG)] ) as [SNF],RejectType,[Doc Date],[Shift] ,MAX([MCC Name] )as [MCC Name]
@@ -206,34 +217,35 @@ Public Class rptTruckSheetDailySummaryReport
             ',case when sum([Milk Weight] )=0 then 0 else (sum([SNF] )/sum([Milk Weight] ))*100 end as [Total SNF(%)] 
 
             FinalQuery = "select [Doc Date],a.[Milk type], 
- sum([Milk Weight]) as [Sweet Qty]
-,case when sum([Milk Weight])=0 then 0 else 
-(case when sum(SOUR)=0 and sum(CURD)=0 then sum([FAT]) else 0 end) end as [Sweet FAT]			
-,case when sum([Milk Weight])=0 then 0 else 
-(case when sum(SOUR)=0 and sum(CURD)=0 then sum([SNF]) else 0 end) end as [Sweet SNF] 
-,case when sum([Milk Weight])=0 then 0 else 
-(case when sum(SOUR)=0 and sum(CURD)=0 then cast( (sum([FAT] )/sum([Milk Weight] ))*100 as decimal(18,2)) else 0 end) end as [Sweet FAT(%)]			
-,case when sum([Milk Weight])=0 then 0 else 
-(case when sum(SOUR)=0 and sum(CURD)=0 then cast( (sum([SNF])/sum([Milk Weight] ))*100 as decimal(18,2)) else 0 end) end as [Sweet SNF(%)] 	
-,sum(SOUR) as [SOUR Qty]
-,case when sum(SOUR)>0 then cast((sum([FAT])/sum([Milk Weight] ))*100 as decimal(18,2)) else 0 end as [SOUR FAT(%)] 
-,case When sum(SOUR)>0 then cast((sum([SNF])/sum([Milk Weight]))*100 as decimal(18,2)) else 0 end as [SOUR SNF(%)]
-,case when sum(SOUR)>0 then sum([FAT])  else 0 end as [SOUR FAT] 
-,case When sum(SOUR)>0 then sum([SNF]) else 0 end as [SOUR SNF]
-,sum(CURD) as [CURD Qty],sum([Milk Weight]+SOUR+CURD) as [Total Qty]
-,case when sum([Milk Weight] )=0 then 0 else (sum([FAT] )) end as [Total FAT Kg]
-,case when sum([Milk Weight] )=0 then 0 else (sum([SNF] )) end as [Total SNF Kg] 
-,sum(NetAmount) as Amount
-from(select aa.[Milk Type],aa.[Milk Weight],[FAT], [SNF]
-,case When isnull(RejectType,'')='SOUR' then [Milk Weight] else 0 end as [SOUR]
-,case When isnull(RejectType,'')='CURD' then [Milk Weight] else 0 end as [CURD]
-,NetAmount,[Doc Date],[Shift]
- from (
- select PP.[Milk Type] AS [Milk Type],sum([Milk Weight(KG)] ) as [Milk Weight]
-,sum([FAT(KG)] ) as [FAT] ,sum([SNF(KG)] ) as [SNF],RejectType,[Doc Date],[Shift],sum(NetAmount) as NetAmount
-from (" + qry +
-"  ) as  pp group by [Milk Type],  [Doc Date],[Shift],pp.RejectType ) as aa )a where 1=1
- group by [Milk Type], [Doc Date] order by [Doc Date]"
+                              sum([Milk Weight]* case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet Qty]
+                            ,sum([FAT] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet FAT]		
+                            ,sum([SNF] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet SNF] 
+                            , CAST(SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) / SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) * 100 AS DECIMAL(18, 2)) AS [Sweet FAT(%)]			
+                             ,cast(sum([SNF] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) / sum([Milk Weight]* case when len(isnull(RejectType,''))>0 then 0 else 1 end) * 100 AS decimal(18, 2)) as [Sweet SNF(%)] 	
+                            ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR Qty]
+                             ,CASE    WHEN (SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END)) = 0 THEN 0
+                              ELSE CAST(ISNULL(SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END), 0)
+                                  / ISNULL(SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END), 0)* 100 AS DECIMAL(18, 2))
+                                    END AS [SOUR FAT(%)] 
+                            ,CASE WHEN (sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) )=0  THEN 0 ELSE cast (
+                             ISNULL(sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end),0) / ISNULL(sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end),0)* 100 as decimal (18, 2) ) END AS[SOUR SNF(%)]
+                            ,sum([FAT]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR FAT] 
+                            ,sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR SNF]
+                            ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='CURD' then 1 else 0 end) as [CURD Qty]
+                            ,sum([Milk Weight]) as [Total Qty]
+                            ,sum([FAT]) as [Total FAT Kg]
+                            ,sum([SNF]) AS [Total SNF Kg]
+                            ,sum(NetAmount) as Amount
+                            from(select aa.[Milk Type],aa.[Milk Weight],[FAT], [SNF],aa.RejectType
+                            ,case When isnull(RejectType,'')='SOUR' then [Milk Weight] else 0 end as [SOUR]
+                            ,case When isnull(RejectType,'')='CURD' then [Milk Weight] else 0 end as [CURD]
+                            ,NetAmount,[Doc Date],[Shift]
+                             from (
+                             select PP.[Milk Type] AS [Milk Type],sum([Milk Weight(KG)] ) as [Milk Weight]
+                            ,sum([FAT(KG)] ) as [FAT] ,sum([SNF(KG)] ) as [SNF],RejectType,[Doc Date],[Shift],sum(NetAmount) as NetAmount
+                            from (" + qry +
+                            "  ) as  pp group by [Milk Type],  [Doc Date],[Shift],pp.RejectType ) as aa )a where 1=1
+                             group by [Milk Type], [Doc Date] order by [Doc Date]"
 
             dt1 = Nothing
             dt1 = clsDBFuncationality.GetDataTable(FinalQuery)
