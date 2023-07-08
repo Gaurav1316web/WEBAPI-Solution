@@ -9653,6 +9653,8 @@ Public Class MDI
         ' Set Image
         For i As Integer = 0 To RTV2.Nodes.Count - 1
             SetImage(RTV2.Nodes(i))
+
+
         Next
     End Sub
 

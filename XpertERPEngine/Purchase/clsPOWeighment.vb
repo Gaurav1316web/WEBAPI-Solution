@@ -151,6 +151,7 @@ Public Class clsPOWeighment
             objMRN.Remarks = objGRN.Remarks
             objMRN.Bill_To_Location = objGRN.Bill_To_Location
             objMRN.Ship_To_Location = objGRN.Ship_To_Location
+            'objMRN.RAL_Tender_No = objGRN.RAL_Tender_No
             objMRN.Tax_Group = objGRN.Tax_Group
             objMRN.TAX1 = objGRN.TAX1
             objMRN.TAX1_Rate = objGRN.TAX1_Rate
