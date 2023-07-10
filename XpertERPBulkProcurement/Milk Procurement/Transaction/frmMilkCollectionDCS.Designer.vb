@@ -71,6 +71,8 @@ Partial Class frmMilkCollectionDCS
         Me.gv2 = New Telerik.WinControls.UI.RadGridView()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.btnAddMissing = New Telerik.WinControls.UI.RadButton()
+        Me.btnViewBalance = New Telerik.WinControls.UI.RadButton()
+        Me.btnCreateDCS = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -129,6 +131,8 @@ Partial Class frmMilkCollectionDCS
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
         CType(Me.btnAddMissing, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnViewBalance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCreateDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -783,6 +787,8 @@ Partial Class frmMilkCollectionDCS
         Me.Panel3.Controls.Add(Me.RadButton4)
         Me.Panel3.Controls.Add(Me.RadButton3)
         Me.Panel3.Controls.Add(Me.btnAddMissing)
+        Me.Panel3.Controls.Add(Me.btnViewBalance)
+        Me.Panel3.Controls.Add(Me.btnCreateDCS)
         Me.Panel3.Controls.Add(Me.RadButton2)
         Me.Panel3.Controls.Add(Me.btnSave)
         Me.Panel3.Controls.Add(Me.btnClose)
@@ -801,12 +807,33 @@ Partial Class frmMilkCollectionDCS
         'btnAddMissing
         '
         Me.btnAddMissing.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAddMissing.Location = New System.Drawing.Point(684, 3)
+        Me.btnAddMissing.Location = New System.Drawing.Point(844, 3)
         Me.btnAddMissing.Name = "btnAddMissing"
         Me.btnAddMissing.Size = New System.Drawing.Size(78, 22)
-        Me.btnAddMissing.TabIndex = 41
+        Me.btnAddMissing.TabIndex = 43
         Me.btnAddMissing.Text = "Add Missing"
         Me.btnAddMissing.Visible = False
+        '
+        'btnViewBalance
+        '
+        Me.btnViewBalance.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnViewBalance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnViewBalance.Location = New System.Drawing.Point(764, 3)
+        Me.btnViewBalance.Name = "btnViewBalance"
+        Me.btnViewBalance.Size = New System.Drawing.Size(80, 22)
+        Me.btnViewBalance.TabIndex = 42
+        Me.btnViewBalance.Text = "View Balance"
+        Me.btnViewBalance.Visible = False
+        '
+        'btnCreateDCS
+        '
+        Me.btnCreateDCS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnCreateDCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCreateDCS.Location = New System.Drawing.Point(684, 3)
+        Me.btnCreateDCS.Name = "btnCreateDCS"
+        Me.btnCreateDCS.Size = New System.Drawing.Size(78, 22)
+        Me.btnCreateDCS.TabIndex = 41
+        Me.btnCreateDCS.Text = "Create DCS"
         '
         'RadButton2
         '
@@ -981,6 +1008,8 @@ Partial Class frmMilkCollectionDCS
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel3.ResumeLayout(False)
         CType(Me.btnAddMissing, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnViewBalance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCreateDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1045,6 +1074,8 @@ Partial Class frmMilkCollectionDCS
     Friend WithEvents txtTotPendingSNFPer As common.Controls.MyLabel
     Friend WithEvents txtTotPendingFATPer As common.Controls.MyLabel
     Friend WithEvents RadButton2 As RadButton
+    Friend WithEvents btnCreateDCS As RadButton
+    Friend WithEvents btnViewBalance As RadButton
     Friend WithEvents btnAddMissing As RadButton
     Friend WithEvents lblMDCSDate As common.Controls.MyLabel
     Friend WithEvents txtMDCSDate As common.Controls.MyDateTimePicker

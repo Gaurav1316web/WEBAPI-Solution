@@ -47,6 +47,7 @@ Public Class frmMilkCollectionDCS
     Dim settMaxFATPerLimit As Decimal = 0
     Dim settMaxSNFPerLimit As Decimal = 0
     Dim corrFactor As Decimal = 0
+    Public Shared IsViewBalance As Boolean = False
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
@@ -1868,6 +1869,14 @@ where TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK
         Next
         Return Arr
     End Function
-
+    Private Sub btnCreateDCS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateDCS.Click
+        Dim DocNo As String = gv1.CurrentRow.Cells(colVLCUploaderCode).Value
+        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSP_VLCMaster, DocNo)
+    End Sub
+    'Private Sub btnViewBalance_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnViewBalance.Click
+    '    Dim DocNo As String = gv1.CurrentRow.Cells(colVLCUploaderCode).Value
+    '    isViewBalance = True
+    '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.VendorCustomerLedgerReport, DocNo)
+    'End Sub
 
 End Class
