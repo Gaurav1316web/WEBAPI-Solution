@@ -853,13 +853,14 @@ inner join (" + strMilkSample + ") MilkSample on MilkSample.DOC_CODE=TSPL_MILK_S
                             Dim strMilkType As String = strDockCollectionMilkType
                             If isPickCLRInsteadOfSNF Then
                                 objMilkSampleDetail.CLR = Math.Truncate(objtr.SNF * 10) / 10
-                                objMilkSampleDetail.SNF = clsCommon.myRoundOFF(clsEkoPro.getSnfOnCalculation(objMilkSampleDetail.FAT, objMilkSampleDetail.CLR, corrFactor), 1, 4)
+                                objMilkSampleDetail.SNF = clsEkoPro.getSnfOnCalculation(objMilkSampleDetail.FAT, objMilkSampleDetail.CLR, corrFactor)
                                 If PickPriceFromFATAndSNF Then
+                                    objMilkSampleDetail.SNF = clsCommon.myRoundOFF(objMilkSampleDetail.SNF, 1, 4)
                                     objMilkSampleDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkReceiptDetail.MILK_WEIGHT, objMilkSampleDetail.Price_Code, objMilkSampleDetail.FAT, objMilkSampleDetail.SNF, obj.MCC_Code, objtr.VLC_Code, objtr.Shift, dtShiftDate, trans, strMilkType)
                                 Else
+                                    objMilkSampleDetail.SNF = clsCommon.myRoundOFF(objMilkSampleDetail.SNF, 2, 9)
                                     objMilkSampleDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSampleDetail.FAT, objMilkSampleDetail.CLR, obj.MCC_Code, objtr.VLC_Code, objtr.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSampleDetail.Price_Code)
                                 End If
-
                             Else
                                 If objCommonVar.DisplayTypeInMilkReceipt Then
                                     strMilkType = objMilkSampleDetail.TYPE
