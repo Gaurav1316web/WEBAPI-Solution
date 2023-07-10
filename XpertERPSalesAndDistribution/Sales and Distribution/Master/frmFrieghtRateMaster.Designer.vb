@@ -23,7 +23,7 @@ Partial Class frmFrieghtRateMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.chkInactive = New common.Controls.MyCheckBox()
@@ -122,6 +122,7 @@ Partial Class frmFrieghtRateMaster
         '
         'chkInactive
         '
+        Me.chkInactive.Enabled = False
         Me.chkInactive.Location = New System.Drawing.Point(536, 9)
         Me.chkInactive.MyLinkLable1 = Nothing
         Me.chkInactive.MyLinkLable2 = Nothing
@@ -342,7 +343,7 @@ Partial Class frmFrieghtRateMaster
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(875, 324)
