@@ -846,10 +846,12 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                             Dim strMilkType As String = strDockCollectionMilkType
                             If isPickCLRInsteadOfSNF Then
                                 objMilkSampleDetail.CLR = Math.Truncate(objtr.SNF * 10) / 10
-                                objMilkSampleDetail.SNF = clsCommon.myRoundOFF(clsEkoPro.getSnfOnCalculation(objMilkSampleDetail.FAT, objMilkSampleDetail.CLR, corrFactor), 1, 4)
+                                objMilkSampleDetail.SNF = clsEkoPro.getSnfOnCalculation(objMilkSampleDetail.FAT, objMilkSampleDetail.CLR, corrFactor)
                                 If PickPriceFromFATAndSNF Then
+                                    objMilkSampleDetail.SNF = clsCommon.myRoundOFF(objMilkSampleDetail.SNF, 1, 4)
                                     objMilkSampleDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkReceiptDetail.MILK_WEIGHT, objMilkSampleDetail.Price_Code, objMilkSampleDetail.FAT, objMilkSampleDetail.SNF, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strMilkType, objMilkSampleDetail.QAT_Rate, objMilkSampleDetail.Negative_Rate)
                                 Else
+                                    objMilkSampleDetail.SNF = clsCommon.myRoundOFF(objMilkSampleDetail.SNF, 2, 9)
                                     objMilkSampleDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSampleDetail.FAT, objMilkSampleDetail.CLR, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSampleDetail.Price_Code)
                                 End If
                             Else

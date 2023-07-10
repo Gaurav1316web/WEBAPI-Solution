@@ -22882,6 +22882,8 @@ Public Class clsCreateAllTable
             coll.Add("Partial_Dispatch", "int Null")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modify_By", "varchar(12) NULL")
+            coll.Add("Modify_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
 
             coll = New Dictionary(Of String, String)

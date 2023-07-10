@@ -80,6 +80,8 @@ Partial Class frmMilkCollectionDCS
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -136,6 +138,8 @@ Partial Class frmMilkCollectionDCS
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -776,6 +780,8 @@ Partial Class frmMilkCollectionDCS
         '
         'Panel3
         '
+        Me.Panel3.Controls.Add(Me.RadButton4)
+        Me.Panel3.Controls.Add(Me.RadButton3)
         Me.Panel3.Controls.Add(Me.btnAddMissing)
         Me.Panel3.Controls.Add(Me.RadButton2)
         Me.Panel3.Controls.Add(Me.btnSave)
@@ -891,6 +897,26 @@ Partial Class frmMilkCollectionDCS
         Me.btnExport.TabIndex = 7
         Me.btnExport.Text = "Export"
         '
+        'RadButton3
+        '
+        Me.RadButton3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton3.Location = New System.Drawing.Point(764, 3)
+        Me.RadButton3.Name = "RadButton3"
+        Me.RadButton3.Size = New System.Drawing.Size(72, 22)
+        Me.RadButton3.TabIndex = 10
+        Me.RadButton3.Text = "Print1"
+        '
+        'RadButton4
+        '
+        Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton4.Location = New System.Drawing.Point(838, 3)
+        Me.RadButton4.Name = "RadButton4"
+        Me.RadButton4.Size = New System.Drawing.Size(72, 22)
+        Me.RadButton4.TabIndex = 42
+        Me.RadButton4.Text = "Print2"
+        '
         'frmMilkCollectionDCS
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -964,6 +990,8 @@ Partial Class frmMilkCollectionDCS
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1022,5 +1050,7 @@ Partial Class frmMilkCollectionDCS
     Friend WithEvents txtMDCSDate As common.Controls.MyDateTimePicker
     Friend WithEvents btnMGo As RadButton
     Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents RadButton4 As RadButton
+    Friend WithEvents RadButton3 As RadButton
 End Class
 
