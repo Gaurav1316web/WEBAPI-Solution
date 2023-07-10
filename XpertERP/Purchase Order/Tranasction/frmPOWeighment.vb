@@ -327,6 +327,7 @@ Public Class frmPOWeighment
             txtNetWeight.Value = "0"
             RGBUpdate.Visible = False
             RGBUpdate.SendToBack()
+            lbRALTender.Text = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -583,6 +584,7 @@ Public Class frmPOWeighment
                     lblGDBillToLocation.Text = obj.Bill_To_Location
                     lblGDBillToLocationName.Text = obj.BillToLocationName
                     lblGDShipToLocation.Text = obj.Ship_To_Location
+                    lbRALTender.Text = obj.Ref_No
                     lblGDShipToLocationName.Text = obj.ShipToLocationName
                     If FillDetailData Then
                         Try

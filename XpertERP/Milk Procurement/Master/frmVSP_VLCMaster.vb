@@ -3851,10 +3851,12 @@ Public Class frmVSP_VLCMaster
                         cmbGender.Text = clsCommon.myCstr(grow.Cells("Gender").Value)
                         If clsCommon.myCdbl(grow.Cells("Apply Cow Price").Value) = 1 Then
                             chkApplyCowPrice.Checked = True
+                            txtCowPriceDate.Value = clsCommon.myCDate(grow.Cells("Apply Cow Price Date").Value)
                         Else
                             chkApplyCowPrice.Checked = False
+                            txtCowPriceDate.Value = Nothing
                         End If
-                        txtCowPriceDate.Value = clsCommon.myCstr(grow.Cells("Apply Cow Price Date").Value)
+
                         txtLoyaltyPer.Text = clsCommon.myCstr(grow.Cells("Loyalty Rate").Value)
                         If clsCommon.myCstr(grow.Cells("Registered/PDCS/CLUSTER").Value) = "Registered" Then
                             chkRegistered.Checked = True
@@ -3868,7 +3870,7 @@ Public Class frmVSP_VLCMaster
                             chkCLUSTER.Checked = False
                         End If
                         txtRegistrationNo.Text = clsCommon.myCstr(grow.Cells("Registration No").Value)
-                        txtRegistrationDate.Text = clsCommon.myCstr(grow.Cells("Registration Date").Value)
+                        txtRegistrationDate.Value = clsCommon.myCDate(grow.Cells("Registration Date").Value)
                         txtroutecode.Value = clsCommon.myCstr(grow.Cells("DCS Route Code").Value)
                         If clsCommon.myLen(txtroutecode.Value) > 0 Then
                             OpenRouteAccRouteCode(txtroutecode.Value)
@@ -3876,10 +3878,12 @@ Public Class frmVSP_VLCMaster
                         'txtroutename.Text = clsCommon.myCstr(grow.Cells("DCS Route Name").Value)
                         If clsCommon.myCdbl(grow.Cells("Own BMC").Value) = 1 Then
                             chkOwnBMC.Checked = True
+                            txtOwnBMCDate.Value = clsCommon.myCDate(grow.Cells("Own BMC Date").Value)
                         Else
                             chkOwnBMC.Checked = False
+                            txtOwnBMCDate.Value = Nothing
                         End If
-                        txtOwnBMCDate.Value = clsCommon.myCstr(grow.Cells("Own BMC").Value)
+
                         If clsCommon.myCdbl(grow.Cells("Head Load").Value) = 1 Then
                             ChkHeadLoad.Checked = True
                             If clsCommon.myCstr(grow.Cells("Head Load Service Basis").Value) = "P" Then
