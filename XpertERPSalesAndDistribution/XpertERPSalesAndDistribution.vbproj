@@ -872,6 +872,12 @@
     <Compile Include="Sales and Distribution\Master\frmDiscountMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sales and Distribution\Master\frmFrieghtRateMaster.Designer.vb">
+      <DependentUpon>frmFrieghtRateMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Master\frmFrieghtRateMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sales and Distribution\Master\frmItemSelector2.Designer.vb">
       <DependentUpon>frmItemSelector2.vb</DependentUpon>
     </Compile>
@@ -2105,6 +2111,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Master\frmDiscountMaster.resx">
       <DependentUpon>frmDiscountMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Master\frmFrieghtRateMaster.resx">
+      <DependentUpon>frmFrieghtRateMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Master\frmItemSelector2.resx">
       <DependentUpon>frmItemSelector2.vb</DependentUpon>
