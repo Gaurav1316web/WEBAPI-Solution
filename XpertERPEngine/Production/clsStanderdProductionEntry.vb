@@ -855,7 +855,7 @@ Public Class clsStanderdProductionEntryDetail
 
     Public LAB_TESTING As String
     Public FINAL_PRODUCTION_QTY As Decimal = 0
-
+    Public FINAL_PRODUCTION_QTY_BAG As Decimal = 0
     Public LOCATION_CODE As String
     Public START_TIME As DateTime? = Nothing
     Public END_TIME As DateTime? = Nothing
@@ -879,6 +879,7 @@ Public Class clsStanderdProductionEntryDetail
     Public SNF_Rate As Decimal = 0
     Public Fat_Amt As Decimal = 0
     Public SNF_Amt As Decimal = 0
+    Public UOM_Bag As String
     Public arrSrItem As List(Of clsSerializeInvenotry) = Nothing
 #End Region
 
@@ -908,7 +909,7 @@ Public Class clsStanderdProductionEntryDetail
                     clsCommon.AddColumnsForChange(coll, "LAB_TESTING", obj.LAB_TESTING)
 
                     clsCommon.AddColumnsForChange(coll, "FINAL_PRODUCTION_QTY", obj.FINAL_PRODUCTION_QTY)
-                    'clsCommon.AddColumnsForChange(coll, "FINAL_PRODUCTION_QTY_MIN", obj.FINAL_PRODUCTION_QTY_Min)
+                    'clsCommon.AddColumnsForChange(coll, "FINAL_PRODUCTION_QTY_BAG", obj.FINAL_PRODUCTION_QTY_BAG)
                     'clsCommon.AddColumnsForChange(coll, "FINAL_PRODUCTION_QTY_MAX", obj.FINAL_PRODUCTION_QTY_Max)
                     clsCommon.AddColumnsForChange(coll, "LOCATION_CODE", obj.LOCATION_CODE, True)
 
@@ -940,8 +941,9 @@ Public Class clsStanderdProductionEntryDetail
     End Function
     Public Shared Function GetProductionEntryDetail(ByVal strCode As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsStanderdProductionEntryDetail)
         Dim qry As String
-        qry = "SELECT T1.*,coalesce(TSPL_PURCHASE_ACCOUNTS.Costing_Method,0) as Costing_Method FROM  TSPL_SPP_PRODUCTION_ENTRY_DETAIL T1 " &
+        qry = "SELECT T1.*,case when Conversion_Factor=50 then UOM_Code else '' end as UOM_Bag,Conversion_Factor,coalesce(TSPL_PURCHASE_ACCOUNTS.Costing_Method,0) as Costing_Method FROM  TSPL_SPP_PRODUCTION_ENTRY_DETAIL T1 " &
         " left join TSPL_ITEM_MASTER on T1.ITEM_CODE=TSPL_ITEM_MASTER.Item_Code " &
+        "inner  join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=T1.ITEM_CODE and   TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'" &
         " left join TSPL_PURCHASE_ACCOUNTS on TSPL_ITEM_MASTER.Purchase_Class_Code=TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code WHERE 2=2 " &
         " AND T1.PROD_ENTRY_CODE = '" + strCode + "' ORDER BY T1.ITEM_CODE"
 
@@ -969,7 +971,10 @@ Public Class clsStanderdProductionEntryDetail
                 objtr.UNIT_CODE = clsCommon.myCstr(dr("UNIT_CODE"))
 
                 objtr.FINAL_PRODUCTION_QTY = clsCommon.myCdbl(dr("FINAL_PRODUCTION_QTY"))
-                'objtr.FINAL_PRODUCTION_QTY_Min = clsCommon.myCdbl(dr("FINAL_PRODUCTION_QTY_MIN"))
+                'If clsCommon.myCdbl(dr("FINAL_PRODUCTION_QTY")) > 0 Then
+                '    objtr.FINAL_PRODUCTION_QTY_BAG = clsCommon.myCdbl(dr("FINAL_PRODUCTION_QTY")) / 50
+                'End If
+                'objtr.FINAL_PRODUCTION_QTY_BAG = clsCommon.myCdbl(dr("FINAL_PRODUCTION_QTY_BAG"))
                 'objtr.FINAL_PRODUCTION_QTY_Max = clsCommon.myCdbl(dr("FINAL_PRODUCTION_QTY_MAX"))
                 objtr.LOCATION_CODE = clsCommon.myCstr(dr("LOCATION_CODE"))
 
@@ -987,6 +992,7 @@ Public Class clsStanderdProductionEntryDetail
                 objtr.Fat_Amt = clsCommon.myCdbl(dr.Item("Fat_Amt"))
                 objtr.SNF_Rate = clsCommon.myCdbl(dr.Item("SNF_Rate"))
                 objtr.SNF_Amt = clsCommon.myCdbl(dr.Item("SNF_Amt"))
+                objtr.UOM_Bag = clsCommon.myCstr(dr.Item("UOM_Bag"))
 
                 ObjList.Add(objtr)
             Next
@@ -1567,7 +1573,7 @@ Public Class clsStanderdProductionEntryConsumption
     Public SNF_Per As Decimal
     Public FAT_KG As Decimal
     Public SNF_KG As Decimal
-
+    Public UOM_Bag As String
     '' production costing columns
     Public Fat_Rate As Decimal = 0
     Public SNF_Rate As Decimal = 0

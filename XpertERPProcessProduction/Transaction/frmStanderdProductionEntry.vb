@@ -16,7 +16,10 @@ Public Class frmStanderdProductionEntry
     Const colBOMDesc As String = "colBOMDesc"
     Const colItemCode As String = "ItemCode"
     Const colItemDesc As String = "ItemDesc"
+    Const colUOMBag As String = "UOMBag"
+    Const colFINAL_PROD_Qty_Bag As String = "colFINAL_PROD_Qty_Bag"
     Const colUOM As String = "UOM"
+    Const colFINAL_PROD_Qty As String = "colFINAL_PROD_Qty"
     Const colBatchQty As String = "BatchQTY"
     Const colPrevProdQty As String = "colPrevProdQty"
     Const colPendingBatchQty As String = "colPendingBatchQty"
@@ -26,8 +29,7 @@ Public Class frmStanderdProductionEntry
     Const colBreakageHead As String = "BreakageHead"
     Const colBreakageQty As String = "BreakageQty"
     Const colLabTesting As String = "LabTesting"
-    Const colFINAL_PROD_QtyInBag As String = "colFINAL_PROD_QtyInBag"
-    Const colFINAL_PROD_Qty As String = "colFINAL_PROD_Qty"
+    'Const colFINAL_PROD_QtyInBag As String = "colFINAL_PROD_QtyInBag"
     Const colFINAL_PROD_Qty_Stock As String = "colFINAL_PROD_Qty_Stock"
     Const colFINAL_PROD_Qty_Min As String = "colFINAL_PROD_Qty_Min"
     Const colFINAL_PROD_Qty_Max As String = "colFINAL_PROD_Qty_Max"
@@ -157,7 +159,8 @@ Public Class frmStanderdProductionEntry
         Else
             txtImportTemplate.Enabled = False
         End If
-
+        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
+        txtConsmLocOther.Value = txtLocation.Value
     End Sub
     Sub SetLength()
         txtCode.MyMaxLength = 30
@@ -215,6 +218,7 @@ Public Class frmStanderdProductionEntry
 
         Dim ItemCode As New GridViewTextBoxColumn
         Dim ItemDesc As New GridViewTextBoxColumn
+        Dim UOMBag As New GridViewTextBoxColumn
         Dim UOM As New GridViewTextBoxColumn
         Dim BatchQty As New GridViewDecimalColumn
         Dim PrevProdQty As New GridViewDecimalColumn
@@ -284,13 +288,45 @@ Public Class frmStanderdProductionEntry
         ItemDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvBatch.Columns.Add(ItemDesc)
 
+        UOMBag.FormatString = ""
+        UOMBag.HeaderText = "Bag Uom"
+        UOMBag.Name = colUOMBag
+        UOMBag.Width = 100
+        UOMBag.ReadOnly = True
+        UOMBag.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvBatch.Columns.Add(UOMBag)
+
+        Dim repoFinalProdQtyBag As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoFinalProdQtyBag.FormatString = ""
+        repoFinalProdQtyBag.Name = colFINAL_PROD_Qty_Bag
+        repoFinalProdQtyBag.Width = 100
+        repoFinalProdQtyBag.HeaderText = "Production Bag Qty"
+        repoFinalProdQtyBag.DecimalPlaces = DecimalPointQty
+        repoFinalProdQtyBag.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoFinalProdQtyBag.DecimalPlaces = 3
+        repoFinalProdQtyBag.ReadOnly = False
+        repoFinalProdQtyBag.IsVisible = True
+        gvBatch.MasterTemplate.Columns.Add(repoFinalProdQtyBag)
+
         UOM.FormatString = ""
-        UOM.HeaderText = "UOM"
+        UOM.HeaderText = "LCF UOM"
         UOM.Name = colUOM
         UOM.Width = 100
         UOM.ReadOnly = True
         UOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvBatch.Columns.Add(UOM)
+
+        Dim repoFinalProdQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoFinalProdQty.FormatString = ""
+        repoFinalProdQty.Name = colFINAL_PROD_Qty
+        repoFinalProdQty.Width = 100
+        repoFinalProdQty.HeaderText = "Production Lcf Qty"
+        repoFinalProdQty.DecimalPlaces = DecimalPointQty
+        repoFinalProdQty.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoFinalProdQty.DecimalPlaces = 3
+        repoFinalProdQty.ReadOnly = True
+        repoFinalProdQty.IsVisible = True
+        gvBatch.MasterTemplate.Columns.Add(repoFinalProdQty)
 
         BatchQty.FormatString = ""
         BatchQty.HeaderText = "Batch Qty"
@@ -396,17 +432,7 @@ Public Class frmStanderdProductionEntry
         'repoFinalProdQtyInBag.IsVisible = True
         'gvBatch.MasterTemplate.Columns.Add(repoFinalProdQtyInBag)
 
-        Dim repoFinalProdQty As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoFinalProdQty.FormatString = ""
-        repoFinalProdQty.Name = colFINAL_PROD_Qty
-        repoFinalProdQty.Width = 100
-        repoFinalProdQty.HeaderText = "Final Production Qty"
-        repoFinalProdQty.DecimalPlaces = DecimalPointQty
-        repoFinalProdQty.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoFinalProdQty.DecimalPlaces = 3
-        repoFinalProdQty.ReadOnly = False
-        repoFinalProdQty.IsVisible = True
-        gvBatch.MasterTemplate.Columns.Add(repoFinalProdQty)
+
 
         Dim repoSP_Location_Code As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoSP_Location_Code.FormatString = ""
@@ -1348,6 +1374,7 @@ Public Class frmStanderdProductionEntry
                         obj1.SNF_KG = clsCommon.myCdbl(grow.Cells(colSNF_KG).Value)
 
                         obj1.FINAL_PRODUCTION_QTY = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value)
+                        'obj1.FINAL_PRODUCTION_QTY_BAG = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Bag).Value)
                         'obj1.FINAL_PRODUCTION_QTY_Min = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Min).Value)
                         'obj1.FINAL_PRODUCTION_QTY_Max = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Max).Value)
 
@@ -1523,6 +1550,7 @@ Public Class frmStanderdProductionEntry
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colItemDesc).Value = clsCommon.myCstr(objTr.ITEM_DESCRIPTION)
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colBatchQty).Value = clsCommon.myCdbl(objTr.BATCH_QTY)
 
+
                     '' new code 
                     Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPrevProdQty).Value = clsStanderdProductionEntry.GetPrevProductionQty(txtBatchNo.Text, txtCode.Value, objTr.ITEM_CODE, Nothing)
                     Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPendingBatchQty).Value = objTr.BATCH_QTY - clsCommon.myCdbl(Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPrevProdQty).Value)
@@ -1536,8 +1564,13 @@ Public Class frmStanderdProductionEntry
 
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colUOM).Value = objTr.UNIT_CODE
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value = objTr.FINAL_PRODUCTION_QTY
+                    If objTr.FINAL_PRODUCTION_QTY > 0 Then
+                        gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Bag).Value = objTr.FINAL_PRODUCTION_QTY / 50
+                    End If
+                    'gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Bag).Value = objTr.FINAL_PRODUCTION_QTY_BAG
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSP_Loaction_Code).Value = objTr.LOCATION_CODE
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSP_Loaction_Desc).Value = clsLocation.GetName(objTr.LOCATION_CODE, Nothing)
+                    'gvBatch.CurrentRow.Cells(colUOMBag).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_code='" + bomcode + "'"))
 
                     'gv1.Rows(gv1.Rows.Count - 1).Cells(colStartTime).Value = objTr.START_TIME
                     'gv1.Rows(gv1.Rows.Count - 1).Cells(colEndTime).Value = objTr.END_TIME
@@ -1554,7 +1587,8 @@ Public Class frmStanderdProductionEntry
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFAT_KG).Value = objTr.FAT_KG
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSNF_Per).Value = objTr.SNF_Per
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colSNF_KG).Value = objTr.SNF_KG
-
+                    gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colUOMBag).Value = objTr.UOM_Bag
+                    'gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty_Bag).Value = gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value * 50
                     If clsCommon.myLen(objTr.ITEM_CODE) > 0 AndAlso Not arr_BatchItem.Contains(objTr.ITEM_CODE) Then
                         arr_BatchItem.Add(objTr.ITEM_CODE)
                     End If
@@ -1854,9 +1888,11 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         funReset()
         txtImportTemplate.arrValueMember = Nothing
     End Sub
+
     Private Sub gv1_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvBatch.CellValueChanged
 
         Try
+            'Dim colFINAL_PROD_Qty_Bag =colFINAL_PROD_Qty
             If Not isInsideLoadData Then
                 If Not isCellValueChanged Then
                     If e.Column Is gvBatch.Columns(colBOMCode) Then
@@ -1865,7 +1901,9 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                             txtLocation.Focus()
                             Throw New Exception("Select Location First!")
                         End If
+
                         OpenBOMCode(False)
+
                         'FillRawItemGridFromBOM()
                         isCellValueChanged = False
                         ClickGo = True
@@ -1947,6 +1985,18 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
 
                 End If
             End If
+            If e.Column Is gvBatch.Columns(colFINAL_PROD_Qty_Bag) Then
+                isCellValueChanged = True
+                UpdateCurrentRow(gvBatch.CurrentRow.Index)
+                isCellValueChanged = False
+            End If
+
+            'If e.Column Is gvBatch.Columns(colFINAL_PROD_Qty) Then
+            '    isCellValueChanged = True
+            '    UpdateCurrentRow_new(gvBatch.CurrentRow.Index)
+            '    isCellValueChanged = False
+            'End If
+
         Catch ex As Exception
             isCellValueChanged = False
             clsCommon.MyMessageBoxShow(ex.Message)
@@ -2032,12 +2082,16 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                               ( ( '" + clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd-MMM-yyyy")) + "' between cast(TSPL_MF_BOM_HEAD.START_DATE as date) and cast(TSPL_MF_BOM_HEAD.END_DATE as date) ) or
                               (  '" + clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd-MMM-yyyy")) + "' >=  cast(TSPL_MF_BOM_HEAD.START_DATE as date)  and TSPL_MF_BOM_HEAD.END_DATE is null) )"
 
-        Dim qry As String = " select TSPL_MF_BOM_HEAD.bom_code as Code,TSPL_MF_BOM_HEAD.bom_date as [BOM Date],TSPL_MF_BOM_HEAD.Description,  TSPL_MF_BOM_HEAD.START_DATE as [Valid From],TSPL_MF_BOM_HEAD.END_DATE as [Valid Upto],TSPL_MF_BOM_HEAD.Status,TSPL_MF_BOM_HEAD.prod_item_code as [Main Item Code],  tspl_item_master.item_desc as [Item Description],TSPL_MF_BOM_HEAD.prod_item_unit_code as [Unit],TSPL_MF_BOM_HEAD.prod_quantity as [Quantity],TSPL_MF_BOM_HEAD.revision_no as [Revision No], (case when TSPL_MF_BOM_HEAD.POSTED='1' then 'Posted' else 'UnPosted' end) as [Post Status] from TSPL_MF_BOM_HEAD  left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code 
+        Dim qry As String = " select TSPL_MF_BOM_HEAD.bom_code as Code,TSPL_MF_BOM_HEAD.bom_date as [BOM Date],TSPL_MF_BOM_HEAD.Description,  TSPL_MF_BOM_HEAD.START_DATE as [Valid From],TSPL_MF_BOM_HEAD.END_DATE as [Valid Upto],TSPL_MF_BOM_HEAD.Status,TSPL_MF_BOM_HEAD.prod_item_code as [Main Item Code],  tspl_item_master.item_desc as [Item Description],TSPL_MF_BOM_HEAD.prod_item_unit_code as [Unit],TSPL_MF_BOM_HEAD.prod_quantity as [Quantity],TSPL_MF_BOM_HEAD.revision_no as [Revision No], TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
+	    TSPL_ITEM_UOM_DETAIL.UOM_Code, (case when TSPL_MF_BOM_HEAD.POSTED='1' then 'Posted' else 'UnPosted' end) as [Post Status] from TSPL_MF_BOM_HEAD  left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code
+           inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=tspl_mf_bom_head.PROD_ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
            WHERE isnull(TSPL_MF_BOM_HEAD.POSTED,'0')='1' and TSPL_MF_BOM_HEAD.Location_code='" + txtLocation.Value + "' and NOT EXISTS ( select TSPL_MF_BOM_HEAD.prod_item_code, max(REVISION_NO) as REVISION_NO from TSPL_MF_BOM_HEAD   where   " + whr + " AND  tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code  group by TSPL_MF_BOM_HEAD.prod_item_code ) "
 
         qry += " UNION "
 
-        qry += " select TSPL_MF_BOM_HEAD.bom_code as Code,TSPL_MF_BOM_HEAD.bom_date as [BOM Date],TSPL_MF_BOM_HEAD.Description,  TSPL_MF_BOM_HEAD.START_DATE as [Valid From],TSPL_MF_BOM_HEAD.END_DATE as [Valid Upto],TSPL_MF_BOM_HEAD.Status,TSPL_MF_BOM_HEAD.prod_item_code as [Main Item Code],  tspl_item_master.item_desc as [Item Description],TSPL_MF_BOM_HEAD.prod_item_unit_code as [Unit],TSPL_MF_BOM_HEAD.prod_quantity as [Quantity],TSPL_MF_BOM_HEAD.revision_no as [Revision No], (case when TSPL_MF_BOM_HEAD.POSTED='1' then 'Posted' else 'UnPosted' end) as [Post Status] from TSPL_MF_BOM_HEAD  left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code 
+        qry += " select TSPL_MF_BOM_HEAD.bom_code as Code,TSPL_MF_BOM_HEAD.bom_date as [BOM Date],TSPL_MF_BOM_HEAD.Description,  TSPL_MF_BOM_HEAD.START_DATE as [Valid From],TSPL_MF_BOM_HEAD.END_DATE as [Valid Upto],TSPL_MF_BOM_HEAD.Status,TSPL_MF_BOM_HEAD.prod_item_code as [Main Item Code],  tspl_item_master.item_desc as [Item Description],TSPL_MF_BOM_HEAD.prod_item_unit_code as [Unit],TSPL_MF_BOM_HEAD.prod_quantity as [Quantity],TSPL_MF_BOM_HEAD.revision_no as [Revision No], TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
+	    TSPL_ITEM_UOM_DETAIL.UOM_Code, (case when TSPL_MF_BOM_HEAD.POSTED='1' then 'Posted' else 'UnPosted' end) as [Post Status] from TSPL_MF_BOM_HEAD  left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code
+               inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=tspl_mf_bom_head.PROD_ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
                 inner join ( select TSPL_MF_BOM_HEAD.prod_item_code, max(REVISION_NO) as REVISION_NO from TSPL_MF_BOM_HEAD   where   " + whr + "   group by TSPL_MF_BOM_HEAD.prod_item_code )  TBL_REVISION on TBL_REVISION.prod_item_code = TSPL_MF_BOM_HEAD.prod_item_code and  TBL_REVISION.REVISION_NO = TSPL_MF_BOM_HEAD.revision_no "
 
 
@@ -2052,7 +2106,9 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             gvBatch.CurrentRow.Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PROD_ITEM_UNIT_CODE from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'"))
             gvBatch.CurrentRow.Cells(colItemCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select prod_item_code from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'"))
             gvBatch.CurrentRow.Cells(colItemDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_desc from tspl_item_master where item_code='" + clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value) + "'"))
+            gvBatch.CurrentRow.Cells(colUOMBag).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select UOM_Code from TSPL_ITEM_UOM_DETAIL where Item_code='" + clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value) + "'"))
             gvBatch.CurrentRow.Cells(colSP_Loaction_Code).Value = txtConsmLocOther.Value
+            gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty_Bag).Value = gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value / 50
             'If clsCommon.myLen(txtplancode.Value) > 0 AndAlso clsCommon.myLen(gv.CurrentRow.Cells(colUnit).Value) > 0 Then
             'Else
             '    gv.CurrentRow.Cells(colUnit).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select prod_item_unit_code from tspl_pp_bom_head where bom_code='" + bomcode + "'"))
@@ -2140,6 +2196,18 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             End If
         End If
     End Sub
+    Private Sub UpdateCurrentRow(ByVal RowNo As Integer)
+        'gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value = clsCommon.myCDecimal(gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value)
+        'gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value = gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty).Value / 50
+        gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty).Value = clsCommon.myCDecimal(gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value) * 50
+    End Sub
+
+    'Private Sub UpdateCurrentRow_new(ByVal RowNo As Integer)
+    '    'gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value = clsCommon.myCDecimal(gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value)
+    '    gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value = gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty).Value / 50
+    '    'gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty).Value = clsCommon.myCDecimal(gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value) * 50
+    'End Sub
+
     Private Sub gvConsumption_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvConsumption.CurrentColumnChanged
         If gvConsumption.RowCount > 0 AndAlso 2 = 3 Then
             Dim intCurrRow As Integer = gvConsumption.CurrentRow.Index
