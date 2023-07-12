@@ -211,7 +211,7 @@ Public Class FrmPaymentCode
                     End If
                 End If
             End If
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_paymentcode_insert", New SqlParameter("@Payment_Code", fnd_paymentcode.Value), New SqlParameter("@Payment_desc", txt_description.Text), New SqlParameter("@Payment_Type", ddl_paymenttype.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_paymentcode_insert", New SqlParameter("@Payment_Code", fnd_paymentcode.Value), New SqlParameter("@Payment_desc", txt_description.Text), New SqlParameter("@Payment_Type", ddl_paymenttype.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
 
             If clsCommon.myLen(clsCommon.myCstr(fndBankCode.Value)) > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("update tspl_payment_code set bank_code='" & clsCommon.myCstr(fndBankCode.Value) & "' where payment_code='" & clsCommon.myCstr(fnd_paymentcode.Value) & "'")
@@ -230,7 +230,7 @@ Public Class FrmPaymentCode
     End Sub
     Private Sub funUpdate()
         Try
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_paymentcode_update", New SqlParameter("@Payment_Code", fnd_paymentcode.Value), New SqlParameter("@Payment_desc", txt_description.Text), New SqlParameter("@Payment_Type", ddl_paymenttype.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_paymentcode_update", New SqlParameter("@Payment_Code", fnd_paymentcode.Value), New SqlParameter("@Payment_desc", txt_description.Text), New SqlParameter("@Payment_Type", ddl_paymenttype.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
             If clsCommon.myLen(clsCommon.myCstr(fndBankCode.Value)) > 0 Then
                 clsDBFuncationality.ExecuteNonQuery("update tspl_payment_code set bank_code='" & clsCommon.myCstr(fndBankCode.Value) & "' where payment_code='" & clsCommon.myCstr(fnd_paymentcode.Value) & "'")
             Else
@@ -264,7 +264,7 @@ Public Class FrmPaymentCode
     End Sub
     Private Sub funDelete()
         Try
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_paymentcode_delete", New SqlParameter("@Payment_Code", fnd_paymentcode.Value))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_paymentcode_delete", New SqlParameter("@Payment_Code", fnd_paymentcode.Value))
             myMessages.delete()
             btn_save.Text = "Save"
             btn_delete.Enabled = False
@@ -378,16 +378,7 @@ Public Class FrmPaymentCode
     '    End Try
     'End Function
 
-    Private Function GetReplecateCompaniesDataBase() As List(Of String)
-        Dim arrDBName As New List(Of String)
-        arrDBName.Add(objCommonVar.CurrDatabase)
-        For ii As Integer = 0 To gvDB.Rows.Count - 1
-            If (clsCommon.myCBool(gvDB.Rows(ii).Cells(colSelect).Value)) Then
-                arrDBName.Add(clsCommon.myCstr(gvDB.Rows(ii).Cells(colDataBaseName).Value))
-            End If
-        Next
-        Return arrDBName
-    End Function
+
 
     Sub SetDataBaseGrid()
         gvDB.Rows.Clear()

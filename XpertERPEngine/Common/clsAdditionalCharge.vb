@@ -3634,12 +3634,12 @@ Public Class clsCustomerItemdetail
     Public Shared Function SaveData(ByVal Cust_Code As String, ByVal arrDBName As List(Of String), ByVal Arr As List(Of clsCustomerItemdetail), ByVal trans As SqlTransaction) As Boolean
 
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-            'clsDBFuncationality.UpdateInSelectedDatabase(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Cust_Code))
+            'clsDBFuncationality.SaveAStorePorcedure(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Cust_Code))
             Try
                 clsDBFuncationality.ExecuteNonQueryInSelectedDatabase("Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS Where Cust_Code='" + Cust_Code + "' ", arrDBName, trans)
                 For Each obj As clsCustomerItemdetail In Arr
                     ''Dim dttemp As DataTable = clsDBFuncationality.GetDataTable("Select * from .TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS where Cust_Code='1009' and Item_Code='PC300BFC' and Unit_Code='FC'")
-                    clsDBFuncationality.UpdateInSelectedDatabase(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_INSERT", New SqlParameter("@Cust_Code", Cust_Code), New SqlParameter("@Item_Code", obj.Item_Code), New SqlParameter("@Unit_Code", obj.Unit_Code), New SqlParameter("@Disc_Amt", clsCommon.myCstr(obj.Disc_Amt)), New SqlParameter("@Valid_Upto", obj.valid_Upto), New SqlParameter("@Start_Date", obj.Start_date))
+                    clsDBFuncationality.SaveAStorePorcedure(trans, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_INSERT", New SqlParameter("@Cust_Code", Cust_Code), New SqlParameter("@Item_Code", obj.Item_Code), New SqlParameter("@Unit_Code", obj.Unit_Code), New SqlParameter("@Disc_Amt", clsCommon.myCstr(obj.Disc_Amt)), New SqlParameter("@Valid_Upto", obj.valid_Upto), New SqlParameter("@Start_Date", obj.Start_date))
                     'Dim Unit As String
                     If clsCommon.CompairString(obj.Unit_Code, "FC") = CompairStringResult.Equal Then
                         clsDBFuncationality.ExecuteNonQueryInSelectedDatabase("Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS Where Cust_Code='" + Cust_Code + "' AND Item_Code='" + obj.Item_Code + "' AND Unit_Code='FB'", arrDBName, trans)
@@ -3647,7 +3647,7 @@ Public Class clsCustomerItemdetail
                         If IsUnit > 0 Then
                             Dim ConvFact As Double = clsDBFuncationality.getSingleValue("Select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Where Item_Code='" + obj.Item_Code + "' And UOM_Code='FB'", trans)
                             Dim DiscAmt As Double = clsCommon.myCdbl(obj.Disc_Amt) / ConvFact
-                            clsDBFuncationality.UpdateInSelectedDatabase(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_INSERT", New SqlParameter("@Cust_Code", Cust_Code), New SqlParameter("@Item_Code", obj.Item_Code), New SqlParameter("@Unit_Code", "FB"), New SqlParameter("@Disc_Amt", DiscAmt), New SqlParameter("@Valid_Upto", obj.valid_Upto), New SqlParameter("@Start_Date", obj.Start_date))
+                            clsDBFuncationality.SaveAStorePorcedure(trans, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_INSERT", New SqlParameter("@Cust_Code", Cust_Code), New SqlParameter("@Item_Code", obj.Item_Code), New SqlParameter("@Unit_Code", "FB"), New SqlParameter("@Disc_Amt", DiscAmt), New SqlParameter("@Valid_Upto", obj.valid_Upto), New SqlParameter("@Start_Date", obj.Start_date))
                         End If
                     End If
                 Next
@@ -3762,7 +3762,7 @@ Public Class clsvisidetail
         Dim isSaved As Boolean = True
         Try
             If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-                'clsDBFuncationality.UpdateInSelectedDatabase(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Cust_Code))
+                'clsDBFuncationality.SaveAStorePorcedure(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Cust_Code))
 
                 For Each obj As clsvisidetail In Arr
                     Try
