@@ -3065,6 +3065,7 @@ Public Class clsCreateAllTable
             coll.Add("MorningCutOff_Time", "datetime NULL")
             coll.Add("EveningCutOff_Time", "datetime NULL")
             coll.Add("Route_Seq_No", "integer not null default 0")
+            coll.Add("Entry_UOM", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()

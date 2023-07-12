@@ -24,11 +24,6 @@ Public Class frmRouteMaster
         companyCode = company
     End Sub
     Private Sub RouteMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Entry_UOM", "integer null")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
-
-
         isInsideLoadData = True
         LoadBlankGrid()
         FunAddHandler()
