@@ -208,7 +208,7 @@ Public Class frmRouteGroupMaster
     'This is Delete Function Used To Delete Records From TSPL_ROUTE_GROUP_MASTER
     Private Sub funDelete()
         Try
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "SP_TSPL_ROUTE_GROUP_MASTER_DELETE", New SqlParameter("@Group_Id", fndGroup_Id.Value))
+            clsDBFuncationality.SaveAStorePorcedure("SP_TSPL_ROUTE_GROUP_MASTER_DELETE", New SqlParameter("@Group_Id", fndGroup_Id.Value))
             myMessages.delete()
         Catch ex As Exception
             myMessages.myExceptions(ex)
@@ -291,7 +291,7 @@ Public Class frmRouteGroupMaster
                     End If
                 End If
             End If
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "SP_TSPL_ROUTE_GROUP_MASTER_INSERT", New SqlParameter("@Group_Id", fndGroup_Id.Value), New SqlParameter("@Status", status), New SqlParameter("@Route_Code", fndRoute_id.Value), New SqlParameter("@Start_date", strsdate), New SqlParameter("@Monday", mon), New SqlParameter("@Tuesday", tuesday), New SqlParameter("@Wednesday", wed), New SqlParameter("@Thursday", thursday), New SqlParameter("@Friday", friday), New SqlParameter("@Saturday", sat), New SqlParameter("@Sunday", sun), New SqlParameter("@Description", rtxtDescription.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("SP_TSPL_ROUTE_GROUP_MASTER_INSERT", New SqlParameter("@Group_Id", fndGroup_Id.Value), New SqlParameter("@Status", status), New SqlParameter("@Route_Code", fndRoute_id.Value), New SqlParameter("@Start_date", strsdate), New SqlParameter("@Monday", mon), New SqlParameter("@Tuesday", tuesday), New SqlParameter("@Wednesday", wed), New SqlParameter("@Thursday", thursday), New SqlParameter("@Friday", friday), New SqlParameter("@Saturday", sat), New SqlParameter("@Sunday", sun), New SqlParameter("@Description", rtxtDescription.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
             myMessages.insert()
             rbtnSave.Text = "Update"
             rbtnDelete.Enabled = True
@@ -466,7 +466,7 @@ Public Class frmRouteGroupMaster
             End If
             Dim strsdate As String = Format(dtpStart_date.Value, "dd/MM/yyyy")
             'Dim stredate As String = Format(dtpEnd_date.Value, "dd/MM/yyyy")
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "SP_TSPL_ROUTE_GROUP_MASTER_UPDATE", New SqlParameter("@Group_Id", fndGroup_Id.Value), New SqlParameter("@Status", status), New SqlParameter("@Route_Code", fndRoute_id.Value), New SqlParameter("@Start_date", strsdate), New SqlParameter("@Monday", mon), New SqlParameter("@Tuesday", tuesday), New SqlParameter("@Wednesday", wed), New SqlParameter("@Thursday", thursday), New SqlParameter("@Friday", friday), New SqlParameter("@Saturday", sat), New SqlParameter("@Sunday", sun), New SqlParameter("@Description", rtxtDescription.Text), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("SP_TSPL_ROUTE_GROUP_MASTER_UPDATE", New SqlParameter("@Group_Id", fndGroup_Id.Value), New SqlParameter("@Status", status), New SqlParameter("@Route_Code", fndRoute_id.Value), New SqlParameter("@Start_date", strsdate), New SqlParameter("@Monday", mon), New SqlParameter("@Tuesday", tuesday), New SqlParameter("@Wednesday", wed), New SqlParameter("@Thursday", thursday), New SqlParameter("@Friday", friday), New SqlParameter("@Saturday", sat), New SqlParameter("@Sunday", sun), New SqlParameter("@Description", rtxtDescription.Text), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode))
             myMessages.update()
         Catch ex As Exception
             myMessages.myExceptions(ex)

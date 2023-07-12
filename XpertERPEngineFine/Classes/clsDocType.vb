@@ -521,7 +521,7 @@ Public Class clsDocType
     Public Const BulkMilkPurchaseReturnTrade As String = "Bulk Milk Purchase Rtn Trade"
     Public Const BulkMilkPurchaseReturn As String = "Bulk Milk Purchase Return"
     Public Const FarmerServiceOrder As String = "Farmer Service Order With Rate"
-
+    Public Const DCSSale As String = "DCS Sale"
 
     Public Const CostCenterGroupStore As String = "Cost Center"
     '
@@ -1474,6 +1474,8 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.BulkMilkPurchaseReturn, clsDocTransactionType.BulkProcJobWorkOutward, False, True)
             'FarmerServiceOrder
             InsertDefaultValue(clsDocType.FarmerServiceOrder, "", False, False)
+
+            InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
 
             'sanjay BHA/09/05/18-000014 
             InsertDefaultValue(clsDocType.MaterialQuotation, "", False, True)

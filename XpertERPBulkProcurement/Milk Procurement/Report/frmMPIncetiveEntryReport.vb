@@ -94,61 +94,61 @@ Public Class frmMPIncetiveEntryReport
     End Sub
     Sub Print(ByVal isPrint As Boolean)
         Try
-            If SetToDate() Then
-                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                Gv1.DataSource = Nothing
-                Gv1.Rows.Clear()
-                Gv1.Columns.Clear()
-                Gv1.GroupDescriptors.Clear()
-                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-                Gv1.MasterView.Refresh()
+            ' If SetToDate() Then
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.DataSource = Nothing
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+            Gv1.MasterView.Refresh()
 
 
-                PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
-                If rbtnBankWise.IsChecked = True Then
-                    PageSetupReport_ID = PageSetupReport_ID + "_B"
-                ElseIf rbtnMCCWise.IsChecked = True Then
-                    PageSetupReport_ID = PageSetupReport_ID + "_M" + clsCommon.myCstr(ddlType.SelectedValue)
-                ElseIf rbtnNEFT.IsChecked = True Then
-                    PageSetupReport_ID = PageSetupReport_ID + "_N"
-                End If
+            PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
+            If rbtnBankWise.IsChecked = True Then
+                PageSetupReport_ID = PageSetupReport_ID + "_B"
+            ElseIf rbtnMCCWise.IsChecked = True Then
+                PageSetupReport_ID = PageSetupReport_ID + "_M" + clsCommon.myCstr(ddlType.SelectedValue)
+            ElseIf rbtnNEFT.IsChecked = True Then
+                PageSetupReport_ID = PageSetupReport_ID + "_N"
+            End If
 
 
-                'If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
-                '    txtMCC.Focus()
-                '    Throw New Exception("Please select MCC")
-                'End If
-                Dim whre As String = ""
-                If txtZone.arrValueMember IsNot Nothing AndAlso txtZone.arrValueMember.Count > 0 Then
-                    whre += " and  TSPL_VENDOR_MASTER.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ") "
-                End If
-                If txtBlock.arrValueMember IsNot Nothing AndAlso txtBlock.arrValueMember.Count > 0 Then
-                    whre += " and  TSPL_MP_MASTER.BLOCK_CODE in (" + clsCommon.GetMulcallString(txtBlock.arrValueMember) + ") "
-                End If
-                If txtRevenueVillage.arrValueMember IsNot Nothing AndAlso txtRevenueVillage.arrValueMember.Count > 0 Then
-                    whre += " and  TSPL_MP_MASTER.REVENUE_VILLAGE_CODE in (" + clsCommon.GetMulcallString(txtRevenueVillage.arrValueMember) + ") "
-                End If
-                If txtGrampanchayat.arrValueMember IsNot Nothing AndAlso txtGrampanchayat.arrValueMember.Count > 0 Then
-                    whre += " and  TSPL_MP_MASTER.GRAMPANCHAYAT_CODE in (" + clsCommon.GetMulcallString(txtGrampanchayat.arrValueMember) + ") "
-                End If
+            'If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
+            '    txtMCC.Focus()
+            '    Throw New Exception("Please select MCC")
+            'End If
+            Dim whre As String = ""
+            If txtZone.arrValueMember IsNot Nothing AndAlso txtZone.arrValueMember.Count > 0 Then
+                whre += " and  TSPL_VENDOR_MASTER.Zone_Code in (" + clsCommon.GetMulcallString(txtZone.arrValueMember) + ") "
+            End If
+            If txtBlock.arrValueMember IsNot Nothing AndAlso txtBlock.arrValueMember.Count > 0 Then
+                whre += " and  TSPL_MP_MASTER.BLOCK_CODE in (" + clsCommon.GetMulcallString(txtBlock.arrValueMember) + ") "
+            End If
+            If txtRevenueVillage.arrValueMember IsNot Nothing AndAlso txtRevenueVillage.arrValueMember.Count > 0 Then
+                whre += " and  TSPL_MP_MASTER.REVENUE_VILLAGE_CODE in (" + clsCommon.GetMulcallString(txtRevenueVillage.arrValueMember) + ") "
+            End If
+            If txtGrampanchayat.arrValueMember IsNot Nothing AndAlso txtGrampanchayat.arrValueMember.Count > 0 Then
+                whre += " and  TSPL_MP_MASTER.GRAMPANCHAYAT_CODE in (" + clsCommon.GetMulcallString(txtGrampanchayat.arrValueMember) + ") "
+            End If
 
-                If txtPanchayatSamiti.arrValueMember IsNot Nothing AndAlso txtPanchayatSamiti.arrValueMember.Count > 0 Then
-                    whre += " and  TSPL_MP_MASTER.PANCHAYAT_SAMITI_CODE in (" + clsCommon.GetMulcallString(txtPanchayatSamiti.arrValueMember) + ") "
-                End If
+            If txtPanchayatSamiti.arrValueMember IsNot Nothing AndAlso txtPanchayatSamiti.arrValueMember.Count > 0 Then
+                whre += " and  TSPL_MP_MASTER.PANCHAYAT_SAMITI_CODE in (" + clsCommon.GetMulcallString(txtPanchayatSamiti.arrValueMember) + ") "
+            End If
 
-                If txtVidhanSabha.arrValueMember IsNot Nothing AndAlso txtVidhanSabha.arrValueMember.Count > 0 Then
-                    whre += " and  TSPL_MP_MASTER.VIDHAN_SABHA_CODE in (" + clsCommon.GetMulcallString(txtVidhanSabha.arrValueMember) + ") "
-                End If
-                If txtDistrict.arrValueMember IsNot Nothing AndAlso txtDistrict.arrValueMember.Count > 0 Then
-                    whre += " and  TSPL_MP_MASTER.DISTRICT_Code in (" + clsCommon.GetMulcallString(txtDistrict.arrValueMember) + ") "
-                End If
-                'If ApplyZoneWiseVSP = True Then
-                '    If Not clsCommon.CompairString(objCommonVar.CurrentUserCode, "Admin") = CompairStringResult.Equal Then
-                '        whre += " and TSPL_VENDOR_MASTER.Zone_Code in  (" + objCommonVar.strCurrUserZones + ")"
-                '    End If
-                'End If
+            If txtVidhanSabha.arrValueMember IsNot Nothing AndAlso txtVidhanSabha.arrValueMember.Count > 0 Then
+                whre += " and  TSPL_MP_MASTER.VIDHAN_SABHA_CODE in (" + clsCommon.GetMulcallString(txtVidhanSabha.arrValueMember) + ") "
+            End If
+            If txtDistrict.arrValueMember IsNot Nothing AndAlso txtDistrict.arrValueMember.Count > 0 Then
+                whre += " and  TSPL_MP_MASTER.DISTRICT_Code in (" + clsCommon.GetMulcallString(txtDistrict.arrValueMember) + ") "
+            End If
+            'If ApplyZoneWiseVSP = True Then
+            '    If Not clsCommon.CompairString(objCommonVar.CurrentUserCode, "Admin") = CompairStringResult.Equal Then
+            '        whre += " and TSPL_VENDOR_MASTER.Zone_Code in  (" + objCommonVar.strCurrUserZones + ")"
+            '    End If
+            'End If
 
-                Dim BaseQry As String = "select TSPL_COMPANY_MASTER.Comp_Name,
+            Dim BaseQry As String = "select TSPL_COMPANY_MASTER.Comp_Name,TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,
 TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end  as Comp_address,
 TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code as Doc_No,convert(varchar, TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103) +' - '+ convert(varchar,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103) as Date_Range,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,tspl_MCC_Master.MCC_Name,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME ,TSPL_VENDOR_MASTER.SupervisorOrRP,RPMaster.Emp_Name as SupervisorOrRPName,TSPL_MP_MASTER.Jan_Aadhar_No,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_MASTER.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No,TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount as Payable_Amount,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Created_Entry_Source,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Created_By,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Created_Date,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Modified_Entry_Source,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Modified_By,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Modified_Date,case when TABReco.Document_Code is null then 'Pending' else TABReco.Reco_Status end as Reco_Status,TABReco.Document_Code as Reco_Document_Code 
 ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mineral_Mixture_Qty ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mineral_Mixture_Amount
@@ -179,35 +179,35 @@ left outer join TSPL_DISTRICT_MASTER on TSPL_DISTRICT_MASTER.Code = TSPL_MP_MAST
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =  TSPL_VLC_MASTER_HEAD.VSP_Code
 left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code
 left outer join TSPL_EMPLOYEE_MASTER as RPMaster on RPMaster.EMP_CODE=TSPL_VENDOR_MASTER.SupervisorOrRP
-where 2=2 and CONVERT(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103)='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103)='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + whre + " "
-                If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                    BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+where 2=2 and CONVERT(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + whre + " "
+            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                BaseQry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+            End If
+            If rbtnMCCWise.IsChecked Or rbtnDetails.IsChecked Then
+                If clsCommon.CompairString(ddlType.SelectedValue, "Mineral Mixture") = CompairStringResult.Equal Then
+                    BaseQry += " and isnull(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mineral_Mixture_Amount,0) > 0 "
+                ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Pashu Aahar") = CompairStringResult.Equal Then
+                    BaseQry += " and isnull(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Pashu_Aahar_Amount,0) > 0 "
+                ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Rahat Kampekat Feed") = CompairStringResult.Equal Then
+                    BaseQry += " and isnull(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Rahat_Kampekat_Feed_Amount,0) > 0 "
+                ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Sailej") = CompairStringResult.Equal Then
+                    BaseQry += " and isnull(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Sailej_Amount,0) > 0 "
                 End If
-                If rbtnMCCWise.IsChecked Or rbtnDetails.IsChecked Then
-                    If clsCommon.CompairString(ddlType.SelectedValue, "Mineral Mixture") = CompairStringResult.Equal Then
-                        BaseQry += " and isnull(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Mineral_Mixture_Amount,0) > 0 "
-                    ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Pashu Aahar") = CompairStringResult.Equal Then
-                        BaseQry += " and isnull(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Pashu_Aahar_Amount,0) > 0 "
-                    ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Rahat Kampekat Feed") = CompairStringResult.Equal Then
-                        BaseQry += " and isnull(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Rahat_Kampekat_Feed_Amount,0) > 0 "
-                    ElseIf clsCommon.CompairString(ddlType.SelectedValue, "Sailej") = CompairStringResult.Equal Then
-                        BaseQry += " and isnull(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Sailej_Amount,0) > 0 "
-                    End If
-                End If
+            End If
 
-                Dim Qry As String = ""
-                strColumnForTotal = ""
-                If rbtnBankWise.IsChecked Then
-                    strColumnForTotal = "Bank_Code"
-                    Qry = "select max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by MCC_Code,VLC_Code,MP_Code,Bank_Code order by Bank_Code,MCC_Code, VLC_Code_VLC_Uploader,VLC_CODE_Uploader"
+            Dim Qry As String = ""
+            strColumnForTotal = ""
+            If rbtnBankWise.IsChecked Then
+                strColumnForTotal = "Bank_Code"
+                Qry = "select max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by MCC_Code,VLC_Code,MP_Code,Bank_Code order by Bank_Code,MCC_Code, VLC_Code_VLC_Uploader,VLC_CODE_Uploader"
 
-                ElseIf rbtnMCCWise.IsChecked Or rbtnDetails.IsChecked Then
-                    strColumnForTotal = "MCC_Code"
-                    Qry = "select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) As S_No, max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,max(Jan_Aadhar_No) as Jan_Aadhar_No,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],  max(Bank_Code) as Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount,max(xx.Created_Entry_Source) as Created_Entry_Source,max(xx.Created_By) as Created_By,max(convert(varchar, xx.Created_Date,103)+' '+SUBSTRING(convert(varchar, xx.Created_Date,100),13,20) ) as Created_Date,max(xx.Modified_Entry_Source) as Modified_Entry_Source,max(xx.Modified_By) as Modified_By,max(convert(varchar, xx.Modified_Date,103)+' '+SUBSTRING(convert(varchar, xx.Modified_Date,100),13,20)) as Modified_Date,max(xx.Reco_Status) as Reco_Status,max(xx.Reco_Document_Code) as Reco_Document_Code
+            ElseIf rbtnMCCWise.IsChecked Or rbtnDetails.IsChecked Then
+                strColumnForTotal = "MCC_Code"
+                Qry = "select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) As S_No, max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,xx.From_Date,max(Date_Range) as Date_Range, MCC_Code,max(MCC_Name) as MCC_Name,max(Route_Code) as Route_Code,max(ROUTE_NAME) as ROUTE_NAME,max(SupervisorOrRP) as SupervisorOrRP,max(SupervisorOrRPName) as  SupervisorOrRPName,max(Jan_Aadhar_No) as Jan_Aadhar_No,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max([District Code]) as [District Code],max([District Name]) as [District Name] ,max([Zone Code]) as [Zone Code], max([Zone Name]) as [Zone Name],max([Block Code]) as [Block Code],max([Block Name]) as [Block Name] ,max([Revenue Village Code]) as [Revenue Village Code],max([Revenue Village Name]) as [Revenue Village Name],max([Grampanchayat Code]) as [Grampanchayat Code],max([Grampanchayat Name]) as [Grampanchayat Name],max([Panchayat Samiti Code]) as [Panchayat Samiti Code],max([Panchayat Samiti Name]) as [Panchayat Samiti Name],max([Vidhan Sabha Code]) as [Vidhan Sabha Code], max([Vidhan Sabha Name]) as [Vidhan Sabha Name],  max(Bank_Code) as Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount,max(xx.Created_Entry_Source) as Created_Entry_Source,max(xx.Created_By) as Created_By,max(convert(varchar, xx.Created_Date,103)+' '+SUBSTRING(convert(varchar, xx.Created_Date,100),13,20) ) as Created_Date,max(xx.Modified_Entry_Source) as Modified_Entry_Source,max(xx.Modified_By) as Modified_By,max(convert(varchar, xx.Modified_Date,103)+' '+SUBSTRING(convert(varchar, xx.Modified_Date,100),13,20)) as Modified_Date,max(xx.Reco_Status) as Reco_Status,max(xx.Reco_Document_Code) as Reco_Document_Code
                            ,sum(Mineral_Mixture_Qty) as Mineral_Mixture_Qty,sum(Mineral_Mixture_Amount) as Mineral_Mixture_Amount,sum(Pashu_Aahar_Qty) as Pashu_Aahar_Qty,sum(Pashu_Aahar_Amount) as Pashu_Aahar_Amount,sum(Rahat_Kampekat_Feed_Qty) as Rahat_Kampekat_Feed_Qty,sum(Rahat_Kampekat_Feed_Amount) as Rahat_Kampekat_Feed_Amount,sum(Sailej_Qty) as Sailej_Qty,sum(Sailej_Amount) as Sailej_Amount,(sum(Payable_Amount)+sum(Mineral_Mixture_Amount)+sum(Pashu_Aahar_Amount)+sum(Rahat_Kampekat_Feed_Amount)+sum(Sailej_Amount)) as Total_Amount
-                           from (" + BaseQry + ")xx group by MCC_Code,VLC_Code,MP_Code  order by MCC_Code, VLC_Code_VLC_Uploader , VLC_CODE_Uploader"
-                ElseIf rbtnNEFT.IsChecked Then
-                    Qry = "select   TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,TSPL_MCC_MASTER.MCC_Name ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No, TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty as Quantity,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount as Payable_Amount,(case when  isnull(TabLatestDBT.DBT_NEFT_REJECT_DETAIL_PK_Id,0)>0 and isnull(TabLatestDBT.DBT_NEFT_REJECT_Status,0)=0 then 'DBT Rejected' else (case when isnull(TabLatestDBT.DBT_NEFT_REJECT_Status,0)=1 then 'Pending For NEFT' else  (case when isnull(TabLatestDBT.DBT_NEFT_Status,0)=1 then 'DBT Succeed' else 'Pending For NEFT'  end) end)  end) as Status  from 
+                           from (" + BaseQry + ")xx group by MCC_Code,VLC_Code,MP_Code,from_date  order by MCC_Code, VLC_Code_VLC_Uploader , VLC_CODE_Uploader"
+            ElseIf rbtnNEFT.IsChecked Then
+                Qry = "select   TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,TSPL_MCC_MASTER.MCC_Name ,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No, TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty as Quantity,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount as Payable_Amount,(case when  isnull(TabLatestDBT.DBT_NEFT_REJECT_DETAIL_PK_Id,0)>0 and isnull(TabLatestDBT.DBT_NEFT_REJECT_Status,0)=0 then 'DBT Rejected' else (case when isnull(TabLatestDBT.DBT_NEFT_REJECT_Status,0)=1 then 'Pending For NEFT' else  (case when isnull(TabLatestDBT.DBT_NEFT_Status,0)=1 then 'DBT Succeed' else 'Pending For NEFT'  end) end)  end) as Status  from 
 TSPL_MP_INCENTIVE_ENTRY_DETAIL
 Left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
 left outer join TSPL_MP_MASTER on TSPL_MP_MASTER.MP_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code
@@ -222,54 +222,54 @@ left outer join TSPL_DBT_NEFT_REJECT_DETAIL on TSPL_DBT_NEFT_REJECT_DETAIL.Again
 left outer join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code=TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code 
 ) as TabLatestDBT on TabLatestDBT.Against_MP_Incentive_TR=TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id
 where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103)='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103)='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
-                    If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                        Qry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
-                    End If
-                ElseIf rbtnDuplicateACNo.IsChecked Then
-                    Qry = "select Payee_Joint_Account_No,sum(1) as Repeated from (" + BaseQry + ")xx group by Payee_Joint_Account_No having sum(1)>1"
-                ElseIf rbtnDuplicateJanAdharNo.IsChecked Then
-                    Qry = "select Jan_Aadhar_No,sum(1) as Repeated from (" + BaseQry + ")xx group by Jan_Aadhar_No  having len(isnull(Jan_Aadhar_No,''))>0 and sum(1)>1"
-                ElseIf rbtnFarmerBankWiseDetail.IsChecked Then
-                    Qry = "select  ROW_NUMBER() over (Partition BY max(Bank_Code) order by max(Bank_Code)) as SNo,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(Date_Range) as Date_Range, max(MCC_Code) as MCC_Code,max(MCC_Name) as MCC_Name ,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max(Bank_Code) as Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by VLC_Code,MP_Code order by Bank_Code, VLC_Code_VLC_Uploader,VLC_CODE_Uploader"
-                ElseIf rbtnFarmerBankWiseSummary.IsChecked Then
-                    Qry = "select max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(MCC_Code) as MCC_Code,max(MCC_Name) as MCC_Name,max(Date_Range) as Date_Range,ROW_NUMBER() over ( order by Bank_Code) as SNO,Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by Bank_Code order by Bank_Code"
-                    'Qry = "select max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(MCC_Code) as MCC_Code,max(MCC_Name) as MCC_Name,max(Date_Range) as Date_Range,ROW_NUMBER() over ( order by Bank_Code) as SNO,Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Qty) + min(Qty) as Quantity ,max(Payable_Amount)+min(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by Bank_Code order by Bank_Code"
-
-                Else
-                    Throw New Exception("Wrong Method")
+                If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                    Qry += " and TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
                 End If
-                dt = Nothing
-                dt = clsDBFuncationality.GetDataTable(Qry)
-                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    Throw New Exception("No Data Found to Display")
-                End If
+            ElseIf rbtnDuplicateACNo.IsChecked Then
+                Qry = "select Payee_Joint_Account_No,sum(1) as Repeated from (" + BaseQry + ")xx group by Payee_Joint_Account_No having sum(1)>1"
+            ElseIf rbtnDuplicateJanAdharNo.IsChecked Then
+                Qry = "select Jan_Aadhar_No,sum(1) as Repeated from (" + BaseQry + ")xx group by Jan_Aadhar_No  having len(isnull(Jan_Aadhar_No,''))>0 and sum(1)>1"
+            ElseIf rbtnFarmerBankWiseDetail.IsChecked Then
+                Qry = "select  ROW_NUMBER() over (Partition BY max(Bank_Code) order by max(Bank_Code)) as SNo,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(Date_Range) as Date_Range, max(MCC_Code) as MCC_Code,max(MCC_Name) as MCC_Name ,VLC_Code,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(VLC_Name) as VLC_Name,MP_Code,max(VLC_CODE_Uploader) as VLC_CODE_Uploader,max(Payee_Joint_Name) as Payee_Joint_Name,max(Bank_Code) as Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Payee_Joint_Account_No) as Payee_Joint_Account_No,max(Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by VLC_Code,MP_Code order by Bank_Code, VLC_Code_VLC_Uploader,VLC_CODE_Uploader"
+            ElseIf rbtnFarmerBankWiseSummary.IsChecked Then
+                Qry = "select max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(MCC_Code) as MCC_Code,max(MCC_Name) as MCC_Name,max(Date_Range) as Date_Range,ROW_NUMBER() over ( order by Bank_Code) as SNO,Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,sum(Qty) as Quantity,sum(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by Bank_Code order by Bank_Code"
+                'Qry = "select max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address,max(MCC_Code) as MCC_Code,max(MCC_Name) as MCC_Name,max(Date_Range) as Date_Range,ROW_NUMBER() over ( order by Bank_Code) as SNO,Bank_Code,max(Bank_Code_Desc) as Bank_Code_Desc,max(Qty) + min(Qty) as Quantity ,max(Payable_Amount)+min(Payable_Amount) as Payable_Amount from (" + BaseQry + ")xx group by Bank_Code order by Bank_Code"
 
-                If isPrint Then
-                    If rbtnFarmerBankWiseDetail.IsChecked Then
-                        Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTFarmerWiseBankAdvice", "Farmer Bank Wise Details")
-                        frmCRV = Nothing
-                    ElseIf rbtnFarmerBankWiseSummary.IsChecked Then
-                        Dim frmCRV As New frmCrystalReportViewer()
-                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTFarmerWiseBankSummary", "Farmer Bank Wise Summary")
-                        frmCRV = Nothing
-                    End If
-                End If
-
-                If Not (rbtnNEFT.IsChecked OrElse rbtnDuplicateACNo.IsChecked OrElse rbtnDuplicateJanAdharNo.IsChecked OrElse rbtnDetails.IsChecked OrElse rbtnFarmerBankWiseDetail.IsChecked OrElse rbtnFarmerBankWiseSummary.IsChecked) Then
-                    AddTotalRows() 'strColumnForTotal, dt
-                End If
-
-
-                Gv1.DataSource = dt
-                RadPageView1.SelectedPage = RadPageViewPage2
-                SetGridFormat(Gv1)
-                EnableDisaableControls(False)
-                'If rbtnNEFT.IsChecked Then
-                ReStoreGridLayout()
-                'End If
-
+            Else
+                Throw New Exception("Wrong Method")
             End If
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("No Data Found to Display")
+            End If
+
+            If isPrint Then
+                If rbtnFarmerBankWiseDetail.IsChecked Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTFarmerWiseBankAdvice", "Farmer Bank Wise Details")
+                    frmCRV = Nothing
+                ElseIf rbtnFarmerBankWiseSummary.IsChecked Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTFarmerWiseBankSummary", "Farmer Bank Wise Summary")
+                    frmCRV = Nothing
+                End If
+            End If
+
+            If Not (rbtnNEFT.IsChecked OrElse rbtnDuplicateACNo.IsChecked OrElse rbtnDuplicateJanAdharNo.IsChecked OrElse rbtnDetails.IsChecked OrElse rbtnFarmerBankWiseDetail.IsChecked OrElse rbtnFarmerBankWiseSummary.IsChecked) Then
+                AddTotalRows() 'strColumnForTotal, dt
+            End If
+
+
+            Gv1.DataSource = dt
+            RadPageView1.SelectedPage = RadPageViewPage2
+            SetGridFormat(Gv1)
+            EnableDisaableControls(False)
+            'If rbtnNEFT.IsChecked Then
+            ReStoreGridLayout()
+            'End If
+
+            ' End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
@@ -971,8 +971,8 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
     End Sub
     Sub EnableDisaableControls(ByVal flag As Boolean)
         txtMCC.Enabled = flag
-        txtFromDate.Enabled = flag
-        txtToDate.Enabled = flag
+        'txtFromDate.Enabled = flag
+        'txtToDate.Enabled = flag
         ddlType.Enabled = flag
         GroupBox1.Enabled = flag
         txtBlock.Enabled = flag
@@ -1087,77 +1087,79 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
         txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("MBPSMCC4", qry, "MCC Code", "MCC Name", txtMCC.arrValueMember, txtMCC.arrDispalyMember)
     End Sub
 
-    Private Sub txtFromDate_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtFromDate.Validating
-        SetToDate()
-    End Sub
-    Private Sub txtFromDate_Leave(sender As Object, e As EventArgs) Handles txtFromDate.Leave
-        SetToDate()
-    End Sub
-    Function SetToDate() As Boolean
-        Try
-            Dim PaymentCycleType As String = ""
-            Dim PaymentCycleValue As Integer = 0
-            'If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
-            '    Throw New Exception("Please select the MCC first")
-            'End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select Payment_Cycle,PC_TYPE,PC_VALUE from ( select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in (select top 1 mcc_code from tspl_mcc_master order by MCC_Code) ) xx group by Payment_Cycle,PC_TYPE,PC_VALUE")
-            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                Throw New Exception("No Payment Cycle found on current MCC/Location")
-            End If
-            If dt.Rows.Count > 1 Then
-                Throw New Exception("Selected MCC's Payment Cycle Should be Same")
-            End If
-            If SettMPIncentiveEntryApplyMonthly Then
-                txtFromDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1)
-                txtToDate.Value = txtFromDate.Value.AddMonths(1).AddDays(-1)
-            Else
-                PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
-                PaymentCycleValue = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
-                Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
-                If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
-                    If txtFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                        txtFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
-                        txtToDate.Value = txtFromDate.Value
-                        Throw New Exception("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
-                    End If
-                    txtToDate.Value = txtFromDate.Value.AddDays(PaymentCycleValue - 1)
+    'Private Sub txtFromDate_Validating(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtFromDate.Validating
+    '    'SetToDate()
+    'End Sub
+    'Private Sub txtFromDate_Leave(sender As Object, e As EventArgs) Handles txtFromDate.Leave
+    '    'SetToDate()
+    'End Sub
 
-                    If txtFromDate.Value.Month <> txtToDate.Value.Month Then
-                        txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
-                    End If
-                    Dim dtNxtPay As DateTime = txtToDate.Value.AddDays(Math.Ceiling(PaymentCycleValue / 2.0))
-                    If txtFromDate.Value.Month <> dtNxtPay.Month Then
-                        txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
-                    End If
-                ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
-                    If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
+    'Function SetToDate() As Boolean
+    '    Try
+    '        Dim PaymentCycleType As String = ""
+    '        Dim PaymentCycleValue As Integer = 0
+    '        'If txtMCC.arrValueMember Is Nothing OrElse txtMCC.arrValueMember.Count <= 0 Then
+    '        '    Throw New Exception("Please select the MCC first")
+    '        'End If
+    '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(" select Payment_Cycle,PC_TYPE,PC_VALUE from ( select TSPL_MCC_MASTER.Payment_Cycle,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE  from TSPL_MCC_MASTER left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle   where TSPL_MCC_MASTER.MCC_Code  in (select top 1 mcc_code from tspl_mcc_master order by MCC_Code) ) xx group by Payment_Cycle,PC_TYPE,PC_VALUE")
+    '        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+    '            Throw New Exception("No Payment Cycle found on current MCC/Location")
+    '        End If
+    '        If dt.Rows.Count > 1 Then
+    '            Throw New Exception("Selected MCC's Payment Cycle Should be Same")
+    '        End If
+    '        If SettMPIncentiveEntryApplyMonthly Then
+    '            txtFromDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1)
+    '            txtToDate.Value = txtFromDate.Value.AddMonths(1).AddDays(-1)
+    '        Else
+    '            PaymentCycleType = clsCommon.myCstr(dt.Rows(0)("PC_TYPE"))
+    '            PaymentCycleValue = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
+    '            Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
+    '            If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
+    '                If txtFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
+    '                    txtFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
+    '                    txtToDate.Value = txtFromDate.Value
+    '                    Throw New Exception("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+    '                End If
+    '                txtToDate.Value = txtFromDate.Value.AddDays(PaymentCycleValue - 1)
+    '                'txtToDate.Value = clsCommon.GETSERVERDATE()
 
-                        txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
-                        txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
-                        Throw New Exception("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
-                    End If
-                    txtToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, txtFromDate.Value)
-                ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
-                    If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                        txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
-                        txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
-                        Throw New Exception("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
-                    End If
-                    txtToDate.Value = DateAdd(DateInterval.Year, PaymentCycleValue, txtFromDate.Value)
-                ElseIf clsCommon.CompairString(PaymentCycleType, "Week") = CompairStringResult.Equal Then
-                    Dim today As Date = txtFromDate.Value
-                    Dim dayDiff As Integer = today.DayOfWeek - IIf(PaymentCycleValue = 1, DayOfWeek.Sunday, IIf(PaymentCycleValue = 2, DayOfWeek.Monday, IIf(PaymentCycleValue = 3, DayOfWeek.Tuesday, IIf(PaymentCycleValue = 4, DayOfWeek.Wednesday, IIf(PaymentCycleValue = 5, DayOfWeek.Thursday, IIf(PaymentCycleValue = 6, DayOfWeek.Friday, DayOfWeek.Saturday))))))
-                    txtFromDate.Value = today.AddDays(-dayDiff)
-                    txtToDate.Value = txtFromDate.Value.AddDays(6)
-                End If
-            End If
+    '                If txtFromDate.Value.Month <> txtToDate.Value.Month Then
+    '                    txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+    '                End If
+    '                Dim dtNxtPay As DateTime = txtToDate.Value.AddDays(Math.Ceiling(PaymentCycleValue / 2.0))
+    '                If txtFromDate.Value.Month <> dtNxtPay.Month Then
+    '                    txtToDate.Value = New Date(txtFromDate.Value.Year, txtFromDate.Value.Month, 1).AddMonths(1).AddDays(-1)
+    '                End If
+    '            ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
+    '                If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
 
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-            Return False
-        End Try
-        Return True
-    End Function
+    '                    txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+    '                    txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+    '                    Throw New Exception("Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+    '                End If
+    '                txtToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, txtFromDate.Value)
+    '            ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
+    '                If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
+    '                    txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+    '                    txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
+    '                    Throw New Exception("Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+    '                End If
+    '                txtToDate.Value = DateAdd(DateInterval.Year, PaymentCycleValue, txtFromDate.Value)
+    '            ElseIf clsCommon.CompairString(PaymentCycleType, "Week") = CompairStringResult.Equal Then
+    '                Dim today As Date = txtFromDate.Value
+    '                Dim dayDiff As Integer = today.DayOfWeek - IIf(PaymentCycleValue = 1, DayOfWeek.Sunday, IIf(PaymentCycleValue = 2, DayOfWeek.Monday, IIf(PaymentCycleValue = 3, DayOfWeek.Tuesday, IIf(PaymentCycleValue = 4, DayOfWeek.Wednesday, IIf(PaymentCycleValue = 5, DayOfWeek.Thursday, IIf(PaymentCycleValue = 6, DayOfWeek.Friday, DayOfWeek.Saturday))))))
+    '                txtFromDate.Value = today.AddDays(-dayDiff)
+    '                txtToDate.Value = txtFromDate.Value.AddDays(6)
+    '            End If
+    '        End If
+
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '        Return False
+    '    End Try
+    '    Return True
+    'End Function
 
     Private Sub rmsaveLayout_Click(sender As Object, e As EventArgs) Handles rmsaveLayout.Click
         Try

@@ -508,6 +508,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmRemarMaster, "Remark Master", "1.06.01.14", clsUserMgtCode.SubModuleSaleNewSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmDiscountMaster, "Discount Master", "1.06.01.15", clsUserMgtCode.SubModuleSaleNewSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmDCSforSale, "DCS Sale", "1.06.01.16", clsUserMgtCode.SubModuleSaleNewSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmFrieghtRateMaster, "Frieght Rate Master", "1.06.01.17", clsUserMgtCode.SubModuleSaleNewSetup, 27)
 
         ' Transaction 
         InsertDefaultValue(clsUserMgtCode.SubModuleSaleNewTransaction, "Transaction", "1.06.02", clsUserMgtCode.ModuleSalesNew, "SM", 26)

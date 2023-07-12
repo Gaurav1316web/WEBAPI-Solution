@@ -292,7 +292,7 @@ Public Class frmPaymentTerms
                 End If
             End If
             ''richa Ticket no.BM00000003438 on 20/08/2014 add LCRequired in procedure
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_terms_masterinsert", New SqlParameter("@code", fnd_termscode.Value), New SqlParameter("@desc", txt_desc.Text), New SqlParameter("@no_days", txt_no_of_days.Text), New SqlParameter("@crt_by", userCode), New SqlParameter("@crtdate", connectSql.serverDate()), New SqlParameter("@mod_by", userCode), New SqlParameter("@mod_date", connectSql.serverDate()), New SqlParameter("@comp_code", companyCode), New SqlParameter("@LCRequired", IIf(chkLCRequired.Checked, 1, 0)))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_terms_masterinsert", New SqlParameter("@code", fnd_termscode.Value), New SqlParameter("@desc", txt_desc.Text), New SqlParameter("@no_days", txt_no_of_days.Text), New SqlParameter("@crt_by", userCode), New SqlParameter("@crtdate", connectSql.serverDate()), New SqlParameter("@mod_by", userCode), New SqlParameter("@mod_date", connectSql.serverDate()), New SqlParameter("@comp_code", companyCode), New SqlParameter("@LCRequired", IIf(chkLCRequired.Checked, 1, 0)))
             'common.clsCommon.MyMessageBoxShow("Data Saved sucessfully")
             '=============================================================================
             ' Ticket No : BHA/09/05/18-000010 , BHA/09/05/18-000012 By Prabhakar Anand
@@ -322,7 +322,7 @@ Public Class frmPaymentTerms
     Private Sub funUpdate()
         Try
             ''richa Ticket no.BM00000003438 on 20/08/2014 add LCRequired in procedure
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_terms_masterUpdate", New SqlParameter("@code", fnd_termscode.Value), New SqlParameter("@desc", txt_desc.Text), New SqlParameter("@no_days", txt_no_of_days.Text), New SqlParameter("@crt_by", userCode), New SqlParameter("@crtdate", connectSql.serverDate()), New SqlParameter("@mod_by", userCode), New SqlParameter("@mod_date", connectSql.serverDate()), New SqlParameter("@comp_code", companyCode), New SqlParameter("@LCRequired", IIf(chkLCRequired.Checked, 1, 0)))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_terms_masterUpdate", New SqlParameter("@code", fnd_termscode.Value), New SqlParameter("@desc", txt_desc.Text), New SqlParameter("@no_days", txt_no_of_days.Text), New SqlParameter("@crt_by", userCode), New SqlParameter("@crtdate", connectSql.serverDate()), New SqlParameter("@mod_by", userCode), New SqlParameter("@mod_date", connectSql.serverDate()), New SqlParameter("@comp_code", companyCode), New SqlParameter("@LCRequired", IIf(chkLCRequired.Checked, 1, 0)))
             'common.clsCommon.MyMessageBoxShow("Data Updated sucessfully")
 
             '=============================================================================
@@ -369,7 +369,7 @@ Public Class frmPaymentTerms
 
     Private Sub funDelete()
         Try
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_terms_masterdelete", New SqlParameter("@code", fnd_termscode.Value))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_terms_masterdelete", New SqlParameter("@code", fnd_termscode.Value))
             myMessages.delete()
             btn_save.Text = "Save"
             btn_delete.Enabled = False

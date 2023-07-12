@@ -1843,8 +1843,8 @@ Public Class frmCustomer
             Next
             Try
                 isSaved = clsDBFuncationality.ExecuteNonQuery("delete FROM TSPL_CUSTOMER_ROUTE_MASTER WHERE Cust_Code='" + Me.fndCustomer.Value + "'", trans)
-                isSaved = clsDBFuncationality.UpdateInSelectedDatabase(trans, arrDBName, "sp_TSPL_CUSTOMER_MASTER_DELETE", New SqlParameter("@Cust_Code", Me.fndCustomer.Value), New SqlParameter("@CUSTOMER_FORM_TYPE", "ALL"))
-                isSaved = clsDBFuncationality.UpdateInSelectedDatabase(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Me.fndCustomer.Value))
+                isSaved = clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_CUSTOMER_MASTER_DELETE", New SqlParameter("@Cust_Code", Me.fndCustomer.Value), New SqlParameter("@CUSTOMER_FORM_TYPE", "ALL"))
+                isSaved = clsDBFuncationality.SaveAStorePorcedure(trans, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Me.fndCustomer.Value))
                 '---------------For Deleting The Customer Information from 'Visi Master'---------------
                 Dim QryVisi As String = "Update TSPL_VISI_MASTER set Customer_Id='', Customer_name='' where Customer_Id='" + fndCustomer.Value + "'"
                 isSaved = clsDBFuncationality.ExecuteNonQuery(QryVisi, trans)

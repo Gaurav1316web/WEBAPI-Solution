@@ -2,10 +2,12 @@
 Imports System.ComponentModel
 Imports System.IO
 
+
 'by Sanjay - Create new report 
 Public Class rptTemporaryPaymentDeductionSummary
     Inherits FrmMainTranScreen
     Dim isLoad As Boolean = False
+    Dim dtPrint As DataTable = Nothing
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -38,6 +40,7 @@ Public Class rptTemporaryPaymentDeductionSummary
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        btnPrint.Text = Nothing
         PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             If CheckBox1.Checked Then
@@ -48,7 +51,7 @@ Public Class rptTemporaryPaymentDeductionSummary
         Else
             Print(False)
         End If
-
+        btnPrint.Text = "Print"
     End Sub
 
     Sub PrintUDP(ByVal isPrint As Boolean, Optional ByVal isPrerint As Boolean = False)
@@ -132,26 +135,33 @@ Public Class rptTemporaryPaymentDeductionSummary
                         ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " order by [Type] desc"
                 End If
             End If
-            dt1 = Nothing
-            dt1 = clsDBFuncationality.GetDataTable(qry)
-            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-            Gv1.DataSource = Nothing
-            Gv1.Rows.Clear()
-            Gv1.Columns.Clear()
-            Gv1.GroupDescriptors.Clear()
-            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-            Gv1.MasterView.Refresh()
-
-            If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
-                Exit Sub
+            If btnPrint.Text = "Print" Then
+                dtPrint = clsDBFuncationality.GetDataTable(qry)
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtPrint, "rptTempPayDedctSummaryList", "TP Print")
+                frmCRV = Nothing
             Else
-                Gv1.DataSource = dt1
-                RadPageView1.SelectedPage = RadPageViewPage2
-                SetGridFormatUDP()
-                ReStoreGridLayout()
+                dt1 = Nothing
+                dt1 = clsDBFuncationality.GetDataTable(qry)
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv1.DataSource = Nothing
+                Gv1.Rows.Clear()
+                Gv1.Columns.Clear()
+                Gv1.GroupDescriptors.Clear()
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv1.MasterView.Refresh()
+
+                If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
+                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    Exit Sub
+                Else
+                    Gv1.DataSource = dt1
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    SetGridFormatUDP()
+                    ReStoreGridLayout()
+                End If
+                EnableDisableControl(False)
             End If
-            EnableDisableControl(False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
@@ -200,7 +210,13 @@ where 2=2 "
         End If
         Dim qry As String = ""
         If chkDCSWise.Checked Then
-            qry = "select case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,DCSCode,[DCS Name] ,(DeductionCode+'-'+DeductionName) as DeductionName,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount] from (
+            Dim subQry As String = Nothing
+            If btnPrint.Text = "Print" Then
+                subQry = "select '" + clsCommon.myCstr(objCommonVar.CurrentUser) + "' As PrintedBy,'" + clsCommon.GetPrintDate(fromDate) + "' As FromDate,'" + clsCommon.GetPrintDate(ToDate) + "' As ToDate,(Select Comp_Name From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As Comp_Name,(Select City_Code From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As City_Code, "
+            Else
+                subQry = "Select "
+            End If
+            qry = subQry + " case when Document_Type='D' then 'Deduction' else 'Addition'  end Type,DCSCode,[DCS Name] ,(DeductionCode+'-'+DeductionName) as DeductionName,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount] from (
 select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName,TSPL_VENDOR_MASTER.Vendor_Code,max(VLC_Code_VLC_Uploader) as DCSCode,max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name]
 ,sum((Amount-Reduce_Deduc_Amt) * (case when  Document_Date<'" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else -1 end)) as OP 
 ,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else 0 end)) as Sale
@@ -209,7 +225,7 @@ from (" + BaseQry + ")xx
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code
 group by Document_Type,DeductionCode,TSPL_VENDOR_MASTER.Vendor_Code
-)xxx"
+)xxx where (OP+Sale-AMTDeducted)>0"
         Else
             qry = "select case when Document_Type='D' then 'Deduction' else 'Addition'  end Type ,(DeductionCode+'-'+DeductionName) as DeductionName,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount] from (
 select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName
@@ -443,7 +459,6 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
     End Function
     Sub Print(ByVal isPrint As Boolean, Optional ByVal isPrerint As Boolean = False)
         Try
-
             Dim dt1 As New DataTable
             Dim qry As String = Nothing
             'Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Doc_No from TSPL_PAYMENT_PROCESS_head where convert(date,From_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and convert(date,To_Date,103)<=convert(date,('" + ToDate.Value + "'),103)"))
@@ -507,7 +522,13 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " having sum(Amount)>0 order by [Type] desc"
 
             ElseIf rdbOldCurrent.Checked Then ''2
-                qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
+                Dim subNewQry As String = Nothing
+                If btnPrint.Text = "Print" Then
+                    subNewQry = "select '" + clsCommon.myCstr(objCommonVar.CurrentUser) + "' As PrintedBy,'" + clsCommon.GetPrintDate(fromDate.Value) + "' As FromDate,'" + clsCommon.GetPrintDate(ToDate.Value) + "' As ToDate,(Select Comp_Name From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As Comp_Name,(Select City_Code From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As City_Code, "
+                Else
+                    subNewQry = "Select "
+                End If
+                qry = subNewQry + " case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
                        ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount) as 'Opening+Sale',sum(Amount-ReDedctAmt) As 'Amt Deducted',Sum(ReDedctAmt) As 'Balance Amount' from ( 
                         select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
@@ -538,7 +559,13 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " having  sum(Amount)>0 order by [Type] desc "
 
             ElseIf rdbCurrentStanding.Checked = True Then  ''3
-                qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
+                Dim subNewQry As String = Nothing
+                If btnPrint.Text = "Print" Then
+                    subNewQry = "select '" + clsCommon.myCstr(objCommonVar.CurrentUser) + "' As PrintedBy,'" + clsCommon.GetPrintDate(fromDate.Value) + "' As FromDate,'" + clsCommon.GetPrintDate(ToDate.Value) + "' As ToDate,(Select Comp_Name From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As Comp_Name,(Select City_Code From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As City_Code, "
+                Else
+                    subNewQry = "Select "
+                End If
+                qry = subNewQry + " case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
                        ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount * RI) as [Amount] from (
                         select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
@@ -605,26 +632,33 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " order by [Type] desc"
             End If
 
-            dt1 = Nothing
-            dt1 = clsDBFuncationality.GetDataTable(qry)
-            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-            Gv1.DataSource = Nothing
-            Gv1.Rows.Clear()
-            Gv1.Columns.Clear()
-            Gv1.GroupDescriptors.Clear()
-            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-            Gv1.MasterView.Refresh()
-
-            If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
-                Exit Sub
+            If btnPrint.Text = "Print" Then
+                dtPrint = clsDBFuncationality.GetDataTable(qry)
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dtPrint, "rptTempPayDedctSummaryList", "TP Print")
+                frmCRV = Nothing
             Else
-                Gv1.DataSource = dt1
-                RadPageView1.SelectedPage = RadPageViewPage2
-                SetGridFormat()
-                ReStoreGridLayout()
+                dt1 = Nothing
+                dt1 = clsDBFuncationality.GetDataTable(qry)
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv1.DataSource = Nothing
+                Gv1.Rows.Clear()
+                Gv1.Columns.Clear()
+                Gv1.GroupDescriptors.Clear()
+                Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+                Gv1.MasterView.Refresh()
+
+                If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
+                    clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    Exit Sub
+                Else
+                    Gv1.DataSource = dt1
+                    RadPageView1.SelectedPage = RadPageViewPage2
+                    SetGridFormat()
+                    ReStoreGridLayout()
+                End If
+                EnableDisableControl(False)
             End If
-            EnableDisableControl(False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
@@ -977,6 +1011,81 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
         Try
             Dim qry As String = "select Code,Description from TSPL_DEDUCTION_MASTER"
             txtDeduction.Value = clsCommon.ShowSelectForm("vbaMccm", qry, "Code", "Ded_Grp_Code='DEDUCTION'", txtDeduction.Value, "Description", isButtonClicked)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
+        End Try
+    End Sub
+
+    Private Sub rdbOldCurrent_Click(sender As Object, e As EventArgs) Handles rdbOldCurrent.Click
+        Try
+            If rdbOldCurrent.Checked Then
+                btnPrint.Visible = True
+            Else
+                btnPrint.Visible = False
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
+        End Try
+    End Sub
+
+    Private Sub rdbCurrentStanding_Click(sender As Object, e As EventArgs) Handles rdbCurrentStanding.Click
+        Try
+            If rdbCurrentStanding.Checked Then
+                btnPrint.Visible = True
+            Else
+                btnPrint.Visible = False
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
+        End Try
+    End Sub
+
+    Private Sub rdbOldOutstanding_Click(sender As Object, e As EventArgs) Handles rdbOldOutstanding.Click
+        Try
+            If rdbOldOutstanding.Checked Then
+                btnPrint.Visible = False
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
+        End Try
+    End Sub
+
+    Private Sub chkWithOpening_Click(sender As Object, e As EventArgs) Handles chkWithOpening.Click
+        Try
+            If chkWithOpening.Checked Then
+                btnPrint.Visible = False
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
+        End Try
+    End Sub
+
+    Private Sub chkORD_CD_Click(sender As Object, e As EventArgs) Handles chkORD_CD.Click
+        Try
+            If chkORD_CD.Checked Then
+                btnPrint.Visible = False
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
+        End Try
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            If chkDCSWise.Checked Then
+                PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    If CheckBox1.Checked Then
+                        PrintUDPOLD(False)
+                    Else
+                        PrintUDP(False)
+                    End If
+                Else
+                    Print(False)
+                End If
+            Else
+                common.clsCommon.MyMessageBoxShow("Check DCS Wise")
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
         End Try

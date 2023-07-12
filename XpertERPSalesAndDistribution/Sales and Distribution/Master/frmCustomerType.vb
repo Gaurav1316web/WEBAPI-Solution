@@ -147,7 +147,7 @@ Public Class frmCustomerType
                     End If
                 End If
             End If
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_Customer_Type_Master_insert", New SqlParameter("@CustTypeCode", fndCustomerId.Value), New SqlParameter("@CustTypeDesc", txtCustomerDesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifiedBy", userCode), New SqlParameter("@ModifiedDate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_Customer_Type_Master_insert", New SqlParameter("@CustTypeCode", fndCustomerId.Value), New SqlParameter("@CustTypeDesc", txtCustomerDesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifiedBy", userCode), New SqlParameter("@ModifiedDate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode))
             myMessages.insert()
 
             btnSave.Text = "Update"
@@ -162,7 +162,7 @@ Public Class frmCustomerType
             myMessages.blankValue("Customer Type")
         Else
             Try
-                clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_Customer_Type_Master_update", New SqlParameter("@CustTypeCode", fndCustomerId.Value), New SqlParameter("@CustTypeDesc", txtCustomerDesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifiedBy", userCode), New SqlParameter("@ModifiedDate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode))
+                clsDBFuncationality.SaveAStorePorcedure("sp_tspl_Customer_Type_Master_update", New SqlParameter("@CustTypeCode", fndCustomerId.Value), New SqlParameter("@CustTypeDesc", txtCustomerDesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifiedBy", userCode), New SqlParameter("@ModifiedDate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode))
                 myMessages.update()
                 btnSave.Text = "Update"
             Catch ex As Exception
@@ -183,7 +183,7 @@ Public Class frmCustomerType
     'delete Customer Type Details
     Private Sub funDelete()
         Try
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_Customer_Type_Master_delete", New SqlParameter("@CustTypeCode", fndCustomerId.Value))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_Customer_Type_Master_delete", New SqlParameter("@CustTypeCode", fndCustomerId.Value))
             myMessages.delete()
             btnSave.Text = "Save"
             btnDelete.Enabled = False

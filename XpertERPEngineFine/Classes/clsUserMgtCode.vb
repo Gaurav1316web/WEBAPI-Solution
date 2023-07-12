@@ -875,6 +875,7 @@ Public Class clsUserMgtCode
     Public Const frmRouteShifting As String = "OTLT-SIFT"
     Public Const frmDiscountMaster As String = "DISC-MAST"
     Public Const frmDCSforSale As String = "DCS-SALE"
+    Public Const frmFrieghtRateMaster As String = "FRI-RAT-MST"
     Public Const Sampling_Master As String = "SMPL-MAST"
     Public Const frmDiscountCategoryMaster As String = "DIS-CAT-MST"
     Public Const mbtnTargetMaster As String = "TRGT-MSTR"

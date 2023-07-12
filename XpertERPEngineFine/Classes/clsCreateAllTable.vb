@@ -36,7 +36,9 @@ Public Class clsCreateAllTable
             coll.Add("Code", "varchar(30) Not NULL Primary Key")
             coll.Add("Name", "varchar(50) Not null")
             coll.Add("Uploader_No", "varchar(50) null")
-            coll.Add("Zone", "varchar(50) null")
+            coll.Add("Zone", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
+            coll.Add("Location", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Customer", "varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
             coll.Add("Created_By", "varchar(12)  Not NULL")
             coll.Add("Created_Date", "datetime  Not NULL")
             coll.Add("Modify_By", "varchar(12)  Not NULL")
@@ -3063,6 +3065,7 @@ Public Class clsCreateAllTable
             coll.Add("MorningCutOff_Time", "datetime NULL")
             coll.Add("EveningCutOff_Time", "datetime NULL")
             coll.Add("Route_Seq_No", "integer not null default 0")
+            coll.Add("Entry_UOM", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -22880,6 +22883,8 @@ Public Class clsCreateAllTable
             coll.Add("Partial_Dispatch", "int Null")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modify_By", "varchar(12) NULL")
+            coll.Add("Modify_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
 
             coll = New Dictionary(Of String, String)
