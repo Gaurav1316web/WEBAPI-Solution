@@ -299,7 +299,7 @@ Public Class frmStanderdProductionEntry
         Dim repoFinalProdQtyBag As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoFinalProdQtyBag.FormatString = ""
         repoFinalProdQtyBag.Name = colFINAL_PROD_Qty_Bag
-        repoFinalProdQtyBag.Width = 100
+        repoFinalProdQtyBag.Width = 150
         repoFinalProdQtyBag.HeaderText = "Production Bag Qty"
         repoFinalProdQtyBag.DecimalPlaces = DecimalPointQty
         repoFinalProdQtyBag.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
@@ -319,8 +319,8 @@ Public Class frmStanderdProductionEntry
         Dim repoFinalProdQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoFinalProdQty.FormatString = ""
         repoFinalProdQty.Name = colFINAL_PROD_Qty
-        repoFinalProdQty.Width = 100
-        repoFinalProdQty.HeaderText = "Production Lcf Qty"
+        repoFinalProdQty.Width = 150
+        repoFinalProdQty.HeaderText = "Production LCF Qty"
         repoFinalProdQty.DecimalPlaces = DecimalPointQty
         repoFinalProdQty.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
         repoFinalProdQty.DecimalPlaces = 3
@@ -1887,6 +1887,8 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
     Private Sub btnAddNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnAddNew.Click
         funReset()
         txtImportTemplate.arrValueMember = Nothing
+        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
+        txtConsmLocOther.Value = txtLocation.Value
     End Sub
 
     Private Sub gv1_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvBatch.CellValueChanged
