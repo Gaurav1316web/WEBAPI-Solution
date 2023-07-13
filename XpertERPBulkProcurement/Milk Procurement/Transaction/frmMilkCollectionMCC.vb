@@ -1,4 +1,5 @@
-﻿Imports System.Data.SqlClient
+﻿Imports System.ComponentModel
+Imports System.Data.SqlClient
 Imports common
 Imports Telerik
 Public Class frmMilkCollectionMCC
@@ -2445,5 +2446,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
         Return Arr
     End Function
 
+    Private Sub gv1_Validating(sender As Object, e As CancelEventArgs) Handles gv1.Validating
 
+    End Sub
 End Class
