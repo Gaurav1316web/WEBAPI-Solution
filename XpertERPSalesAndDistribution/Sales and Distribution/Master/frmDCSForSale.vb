@@ -138,70 +138,7 @@ Public Class frmDCSforSale
         btnSave.Enabled = True
         btnDelete.Enabled = True
     End Sub
-    'closing of current window form
-    'Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
-    'Me.Close()
-    'End Sub
 
-    'For Import functionality 
-    'Private Sub import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) 'Handles import.Click
-    '    Dim gv As New RadGridView()
-    '    Me.Controls.Add(gv)
-    '    Dim currentdate As Date = Date.Today
-    '    If transportSql.importExcel(gv, "Code", "Name", "Uploader_No", "Zone") Then
-    '        Dim trans As SqlTransaction = Nothing
-
-    '        Dim linno As Integer = 0
-    '        Dim TempNewRecord As Boolean = False
-    '        Try
-    '            ' connectSql.OpenConnection()
-    '            trans = clsDBFuncationality.GetTransactin()
-
-    '            clsCommon.ProgressBarShow()
-
-    '            Dim strcode As String = ""
-    '            Dim strname As String = ""
-    '            Dim strupload As String = ""
-    '            Dim strzone As String = ""
-
-    '            For Each grow As GridViewRowInfo In gv.Rows
-    '                linno += 1
-    '                strcode = clsCommon.myCstr(grow.Cells(0).Value)
-    '                If (String.IsNullOrEmpty(strcode)) Or clsCommon.myLen(strcode) > 30 Then
-    '                    Throw New Exception("Length of Break Down Code should be max. 30 character At Line No. " + clsCommon.myCstr(linno) + ".")
-    '                End If
-    '                strname = clsCommon.myCstr(grow.Cells(1).Value)
-    '                If (String.IsNullOrEmpty(strname)) Or clsCommon.myLen(strname) > 200 Then
-    '                    Throw New Exception("Length of Break Down Name should be max. 200 character At Line No. " + clsCommon.myCstr(linno) + ".")
-    '                End If
-
-    '                Dim obj As New ClsDCSforSale()
-    '                obj.Code = strcode
-    '                obj.Name = strname
-    '                obj.Uploader_No = strupload
-    '                obj.Zone = strzone
-
-
-    '                Dim Count1 As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select COunt(*) from TSPL_DCS_FOR_SALE WHERE code='" + clsCommon.myCstr(grow.Cells(0).Value) + "'", trans))
-    '                If Count1 <= 0 Then
-    '                    obj.SaveData(obj, True, trans)
-    '                Else
-    '                    obj.SaveData(obj, False, trans)
-    '                End If
-
-
-    '            Next
-    '            trans.Commit()
-    '            clsCommon.ProgressBarHide()
-    '            common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-    '        Catch ex As Exception
-    '            clsCommon.ProgressBarHide()
-    '            trans.Rollback()
-    '            myMessages.myExceptions(ex)
-    '        End Try
-    '    End If
-    '    Me.Controls.Remove(gv)
-    'End Sub
 
     Public Sub closeform()
         Me.Close()

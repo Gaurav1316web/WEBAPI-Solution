@@ -28685,6 +28685,9 @@ Public Class clsCreateAllTable
             coll.Add("ICode", "varchar(50) NOT NULL References TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty", "decimal(18, 2) NULL")
             coll.Add("UOM", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
+            coll.Add("FPKID", "integer NOT NULL references TSPL_DCS_FOR_SALE_Frieght(PK_ID)")
+            coll.Add("Frieght_Rate", "decimal(18, 2) NULL")
+            coll.Add("Frieght_Amt", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
 

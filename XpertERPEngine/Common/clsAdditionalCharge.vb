@@ -467,7 +467,24 @@ Public Class clsCustomerMaster
         Return str
     End Function
 
+    Public Shared Function getFinderObeject(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As clsCustomerMaster
+        Dim obj As clsCustomerMaster = Nothing
+        Dim strCode As String = getFinder(whrcls, curcode, isButtonClicked)
+        If clsCommon.myLen(strCode) > 0 Then
+            Dim str As String = "select Cust_Code,Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code = '" + clsCommon.myCstr(strCode) + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(str)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                obj = New clsCustomerMaster()
+                obj.Cust_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Code"))
+                obj.Customer_Name = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
 
+            End If
+        End If
+
+
+        Return obj
+
+    End Function
     '----------------End of Code For Get Finder--------------------------------------------------------------'
 
     Public Function SaveData(ByVal obj As clsCustomerMaster, ByVal arrVisi As List(Of String), ByVal isNewEntry As Boolean, ByVal arrDBName As List(Of String)) As Boolean
