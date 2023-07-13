@@ -28679,6 +28679,14 @@ Public Class clsCreateAllTable
             coll.Add("Sub_Location_code", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
+
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
+            coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
+            coll.Add("Qty", "decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
+
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("DOCUMENT_CODE", "Varchar(30) NOT NULL References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
