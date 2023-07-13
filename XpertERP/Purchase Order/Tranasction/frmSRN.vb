@@ -6705,8 +6705,8 @@ Public Class frmSRN
             qry += ",max(TSPL_SRN_HEAD.Against_PO) as [Against PO Code], TSPL_PURCHASE_ORDER_HEAD.ReferencePO as [Reference PO]  "
         End If
         qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo,max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code) as Weighment_Code,max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date) as Weighment_Date from TSPL_SRN_HEAD LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_SRN_HEAD.Vendor_Code left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SRN_HEAD.Created_By  left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO left outer join TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN left outer join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Document_Code=TSPL_SRN_HEAD.Against_QC_Code left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No  left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
-               and TSPL_SRN_DETAIL.Item_code Not In ('PM0002','PM0001')
-                 "
+              "
+
 
 
         Dim whrClas As String = ""
@@ -6722,7 +6722,8 @@ Public Class frmSRN
         End If
         whrClas += " TSPL_QC_CHECK_HEAD.QC_Status Not in ('Rejected') And
                    isnull(TSPL_SRN_HEAD.Against_PO,'') not in ( Select TSPL_SRN_HEAD.Against_PO  from TSPL_SRN_HEAD 
-                left Outer Join TSPL_PURCHASE_ORDER_HEAD on TSPL_SRN_HEAD.Against_PO =TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No where TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade =1) 
+                  left Outer Join TSPL_PURCHASE_ORDER_HEAD on TSPL_SRN_HEAD.Against_PO =TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No where TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade =1)
+                  and TSPL_SRN_DETAIL.Item_code Not In ('PM0002','PM0001') 
                    Group by TSPL_SRN_HEAD.SRN_No, TSPL_PURCHASE_ORDER_HEAD.RefTendorNo"
         'If gvRGP.Rows.Count > 0 Then
         '    For Each row In gvRGP.Rows

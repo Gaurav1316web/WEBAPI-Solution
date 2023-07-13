@@ -1,26 +1,9 @@
-﻿'Created By---> Mayank
-'Created Date--->25/may/2011
-'Modified By--> mayank
-'Last Modify Date-->03/june/2011
-'Tables Used-->TSPL_EMPLOYEE_MASTER ,TSPL_Route_Master,TSPL_ZONE_MASTER,TSPL_CITY_MASTER
-'PREETI GUPTA TICKET NO[BM00000004749]
-'=========BM00000007849===============
-'' Work done against ticket no. ERO/25/01/19-000475
-Imports Microsoft.VisualBasic
-Imports System
-Imports System.Drawing
-Imports System.Windows.Forms
-Imports System.Data.SqlClient
-Imports Telerik.WinControls
-Imports Telerik.WinControls.UI
-Imports Telerik.WinControls.Data
-Imports Telerik.WinControls.Enumerations
-Imports Excel = Microsoft.Office.Interop.Excel
+﻿Imports System.Data.SqlClient
 Imports System.Text.RegularExpressions
 Imports common
-Imports XpertERPEngine
 Public Class frmRouteMaster
     Inherits FrmMainTranScreen
+#Region "Variables"
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim userCode, companyCode As String
     Const colSelect As String = "SELECT"
@@ -33,54 +16,62 @@ Public Class frmRouteMaster
     Private isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim SettNoOFCustomerForImportExport As Integer
+#End Region
+
     Public Sub New(ByVal user As String, ByVal company As String)
         InitializeComponent()
         userCode = user
         companyCode = company
     End Sub
     Private Sub RouteMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        ' ticket No ERO/11/12/18-000433 by prabhakar 
-        'ticket No ERO/30/01/19-000482 by sanjay, Customer tag with route
-
         isInsideLoadData = True
-        SetDataBaseGrid()
         LoadBlankGrid()
         FunAddHandler()
         SetUserMgmtNew()
-        ' globalFunc.mandatoryText(fndRouteid.txtValue, rtxtdescription, fndSalesman_code.txtValue, fndPriceCode.txtValue, txtpricecodedescription)
-        '  globalFunc.mandatoryDropdown(ddltype, rddl_route_offday, rddl_category)
-
         SettNoOFCustomerForImportExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NoOFCustomerForImportExportOnRouteMaster, clsFixedParameterCode.NoOFCustomerForImportExportOnRouteMaster, Nothing))
         ButtonToolTip.SetToolTip(rbtnSave, "Press Alt+S for Save/Update ")
-        'ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
         ButtonToolTip.SetToolTip(rbtnDelete, "Press Alt+D  for Delete ")
         ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(rbtnReset, "Press Alt+N Adding New ")
         ButtonToolTip.SetToolTip(btnprint, "Press Alt+R for Print Preview")
-
-        'fndRouteid.txtValue.CharacterCasing = CharacterCasing.Upper
-        'fndcity_id.txtValue.CharacterCasing = CharacterCasing.Upper
-        'fndDepot.txtValue.CharacterCasing = CharacterCasing.Upper
-        ' fndvcode.txtValue.CharacterCasing = CharacterCasing.Upper
-        'AddHandler fndDepot.txtValue.Leave, AddressOf fndDepot_textChanged
-        'AddHandler fndZone_inid.txtValue.Leave, AddressOf fndZone_inid_Leave
-        'AddHandler fndZone_inid.txtValue.KeyPress, AddressOf fndZone_inid_KeyPress
-        '  fndRouteid.txtValue.MaxLength = 12
         rbtnDelete.Enabled = False
         fun_ddl_category()
         fun_ddl_Type()
         fun_ddl_Routeoffday()
+        LoadEntryUOM()
         ToolTipGP_Route_Master.SetToolTip(rbtnReset, "New")
-        'rtxtSalesman_name.ReadOnly = True
         rdoAC.IsChecked = True
-
         dtpAcIn.Value = clsCommon.GETSERVERDATE()
-        'If userCode <> "ADMIN" Then
-        '    If funSetUserAccess() = False Then Exit Sub
-        'End If
         isInsideLoadData = False
     End Sub
+    Private Sub LoadEntryUOM()
+        Try
+            Dim dt As DataTable = New DataTable()
+            dt.Columns.Add("Code", GetType(String))
+            dt.Columns.Add("Name", GetType(String))
+            Dim dr As DataRow = dt.NewRow()
+            dr("Code") = "0"
+            dr("Name") = "Crate And Pouch"
+            dt.Rows.Add(dr)
 
+            dr = dt.NewRow()
+            dr("Code") = "1"
+            dr("Name") = "Crate"
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow()
+            dr("Code") = "2"
+            dr("Name") = "LTR"
+            dt.Rows.Add(dr)
+
+            cboEntryUOM.DataSource = dt
+            cboEntryUOM.ValueMember = "Code"
+            cboEntryUOM.DisplayMember = "Name"
+            cboEntryUOM.SelectedValue = "0"
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
     Sub LoadBlankGrid()
         Dim qry As String = String.Empty
         dgv.Rows.Clear()
@@ -116,16 +107,6 @@ Public Class frmRouteMaster
         repoCustName.ReadOnly = True
         dgv.MasterTemplate.Columns.Add(repoCustName)
 
-        'dgv.AllowDeleteRow = True
-        'dgv.AllowAddNewRow = True
-        'dgv.ShowGroupPanel = False
-        'dgv.AllowColumnReorder = False
-        'dgv.AllowRowReorder = False
-        'dgv.EnableSorting = False
-        'dgv.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        'dgv.MasterTemplate.ShowRowHeaderColumn = False
-        'dgv.TableElement.TableHeaderHeight = 40
-
         dgv.AllowAddNewRow = False
         dgv.AllowDeleteRow = True
         dgv.AllowRowReorder = False
@@ -136,9 +117,7 @@ Public Class frmRouteMaster
         dgv.AllowColumnChooser = True
         dgv.AllowColumnReorder = True
         dgv.Rows.AddNew()
-
     End Sub
-
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.routeMaster)
         If Not (MyBase.isReadFlag) Then
@@ -188,7 +167,6 @@ Public Class frmRouteMaster
         '  AddHandler fndDepot.txtValue.Leave, AddressOf fndDepot_Leave
         ' AddHandler fndDepot.txtValue.KeyPress, AddressOf fndDepot_KeyPress
     End Sub
-
     'It Is Used To Fill The City Code in fndcity_id From TSPL_CITY_MASTER
     Private Sub fndcity_id_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndcity_id.ConnectionString = connectSql.SqlCon()
@@ -217,28 +195,9 @@ Public Class frmRouteMaster
         If (IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowAutoGenerateDocNoInMaster, clsFixedParameterCode.AllowAutoGenerateDocNoInMaster, Nothing)) = "1", True, False) = False) AndAlso fndRouteid.Value = "" Then
             myMessages.blankValue("Route Code")
             fndRouteid.Focus()
-            'ElseIf ddltype.Text = "" Then
-            '    myMessages.blankValue("type")
-            '    ddltype.Focus()
-            'ElseIf rddl_route_offday.Text = "" Then
-            '    myMessages.blankValue("route off day")
-            '    rddl_route_offday.Focus()
         ElseIf rtxtdescription.Text = "" Then
             myMessages.blankValue("Description")
             rtxtdescription.Focus()
-            'ElseIf fndSalesman_code.Value = "" Then
-            '    myMessages.blankValue(" Salesman Code")
-            '    fndSalesman_code.Focus()
-            'ElseIf rddl_category.Text = "" Then
-            '    myMessages.blankValue("Category")
-            '    rddl_category.Focus()
-            'ElseIf fndPriceCode.Value = "" Then
-            '    myMessages.blankValue("Price Code")
-            '    fndPriceCode.Focus()
-
-            'ElseIf txtpricecodedescription.Text = "" Then
-            'myMessages.blankValue("Price Code Description")
-            'txtpricecodedescription.Focus()
         ElseIf rbtnSave.Text = "Save" Then
             funInsert()
         Else
@@ -249,7 +208,6 @@ Public Class frmRouteMaster
     Private Sub rbtnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnDelete.Click
         funDelete()
     End Sub
-
     'It Is Used To Fill The EMP CODE and Emp Name in fndSalesman_code and rtxtsalesman_name Respectively from TSPL_EMPLOYEE_MASTER where Emp_type='SalesMan'
     Private Sub fndSalesman_code_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndSalesman_code.ConnectionString = connectSql.SqlCon()
@@ -283,7 +241,6 @@ Public Class frmRouteMaster
         txtnonprice.Text = connectSql.RunScalar("select distinct Price_Code_Desc  from TSPL_PRICE_COMPONENT_MAPPING where Price_Code= '" + Convert.ToString(fndnonprice.Value) + "'")
 
     End Sub
-
     Sub RoutePrice_Textchanged()
         txtRoutePrice.Text = connectSql.RunScalar("select distinct Price_Code_Desc  from TSPL_ITEM_PRICE_MASTER where Price_Code= '" + Convert.ToString(fndRoutePrice.Value) + "'")
     End Sub
@@ -330,9 +287,7 @@ Public Class frmRouteMaster
     'This is Funfill Function Used To Fill All Fields of Current Windows Form.
     Private Sub funfill()
         Try
-            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
-
-            ' bahul
+            Dim strQuery As String = "select Route_Desc,Type,Employee_Code,Off_Day,City_Code,District,Category_Code,Length,Employee_Name,Depot_Id,Price_Code,Price_Code_Desc ,vehicle_code,NonPrice_Code,status,SDate,RoutePrice_Code ,Route_time,isnull(Distance,0) as Distance,isnull(TOLL_Amount,0) as TOLL_Amount,IsEarlyRoute,MorningCutOff_Time,EveningCutOff_Time,Route_Seq_No,isnull(Entry_UOM,0) as Entry_UOM  from TSPL_Route_Master where Route_No='" + fndRouteid.Value + "'"
             fnd_saleman_code.arrValueMember = Nothing
             fnd_saleman_code.arrDispalyMember = Nothing
             Dim arrempcode As New ArrayList()
@@ -348,11 +303,8 @@ Public Class frmRouteMaster
                 fnd_saleman_code.arrValueMember = arrempcode
                 fnd_saleman_code.arrDispalyMember = arrempname
             End If
-
-
-            Dim dt As DataTable
-            dt = clsDBFuncationality.GetDataTable(strQuery)
-            If dt.Rows.Count > 0 Then
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQuery)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For i As Integer = 0 To dt.Rows.Count - 1
                     rtxtdescription.Text = clsCommon.myCstr(dt.Rows(i)("Route_Desc"))
                     ddltype.Text = clsCommon.myCstr(dt.Rows(i)("Type"))
@@ -408,13 +360,10 @@ Public Class frmRouteMaster
                         fndRoutePrice.Value = clsCommon.myCstr(dt.Rows(i)("RoutePrice_Code"))
 
                     End If
+                    cboEntryUOM.SelectedValue = clsCommon.myCstr(dt.Rows(i)("Entry_UOM"))
                     rbtnDelete.Enabled = True
                     rbtnSave.Text = "Update"
-                    'If userCode <> "ADMIN" Then
-                    '    If funSetUserAccess() = False Then Exit Sub
-                    'End If
                 Next
-
                 'sanjay
                 LoadBlankGrid()
                 Dim obj As New clsRouteCustomerSequenceMaster
@@ -425,42 +374,7 @@ Public Class frmRouteMaster
                     dgv.CurrentRow.Cells(colCustomerName).Value = objRouteCustomerSequence.CUSTOMER_NAME
                     dgv.Rows.AddNew()
                 Next
-
             End If
-
-
-            ''Dim dr As SqlDataReader
-            ''dr = connectSql.RunSqlReturnDR(strQuery)
-            ''If dr.Read() Then
-            ''    rtxtdescription.Text = dr(0).ToString()
-            ''    ddltype.Text = dr(1).ToString()
-            ''    fndSalesman_code.Value = dr(2).ToString()
-            ''    rddl_route_offday.Text = dr(3).ToString()
-            ''    fndcity_id.Value = dr(4).ToString()
-            ''    rtxtDistrict.Text = dr(5).ToString()
-            ''    rddl_category.Text = dr(6).ToString()
-            ''    rtxtroute_length.Text = dr(7).ToString()
-            ''    rtxtSalesman_name.Text = dr(8).ToString()
-            ''    fndDepot.Value = dr(9).ToString()
-            ''    fndPriceCode.Value = dr(10).ToString()
-            ''    txtpricecodedescription.Text = dr(11).ToString()
-            ''    fndvcode.Value = dr(12).ToString()
-            ''    fndnonprice.Value = Convert.ToString(dr("NonPrice_Code"))
-            ''    txtnonprice.Text = clsDBFuncationality.getSingleValue("select distinct Price_Code_Desc  from TSPL_PRICE_COMPONENT_MAPPING Where Price_Code='" + fndnonprice.Value + "'")
-            ''    txtvcodedesc.Text = clsDBFuncationality.getSingleValue("select description from tspl_vehicle_master where vehicle_id='" + fndvcode.Value + "' ")
-            ''    Dim StrCk As String = dr("Status").ToString()
-            ''    If (StrCk = "I") Then
-            ''        rdoIN.IsChecked = True
-            ''    Else
-            ''        rdoAC.IsChecked = True
-            ''    End If
-            ''    dtpAcIn.Value = dr("SDate")
-            ''    rbtnDelete.Enabled = True
-            ''    rbtnSave.Text = "Update"
-            ''    'If userCode <> "ADMIN" Then
-            ''    '    If funSetUserAccess() = False Then Exit Sub
-            ''    'End If
-            ''End If
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
@@ -510,14 +424,13 @@ Public Class frmRouteMaster
             chkIsEarlyRoute.Checked = False
             fnd_saleman_code.arrValueMember = Nothing
             dtpAcIn.Value = clsCommon.GETSERVERDATE()
-            SetDataBaseGrid()
             isCellValueChangedOpen = False
             LoadBlankGrid()
+            cboEntryUOM.SelectedValue = "0"
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
     End Sub
-
     'This is Delete Function Used To Delete Records From TSPL_ROUTE_MASTER
     Private Sub funDelete()
         Try
@@ -537,7 +450,7 @@ Public Class frmRouteMaster
                     Dim strqrydelete As String = "delete from tspl_salesman_detail WHERE Route_Code='" + fndRouteid.Value + "'"
                     clsDBFuncationality.ExecuteNonQuery(strqrydelete)
 
-                    clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "SP_TSPL_ROUTE_MASTER_DELETE", New SqlParameter("@Route_No", fndRouteid.Value))
+                    clsDBFuncationality.SaveAStorePorcedure("SP_TSPL_ROUTE_MASTER_DELETE", New SqlParameter("@Route_No", fndRouteid.Value))
 
                     myMessages.delete()
                     fndRouteid.Enabled = True
@@ -579,54 +492,25 @@ Public Class frmRouteMaster
                 Throw New Exception("Please select at least one salesman")
             End If
 
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "SP_TSPL_ROUTE_MASTER_INSERT", New SqlParameter("@Route_No", fndRouteid.Value), New SqlParameter("@Route_Desc", rtxtdescription.Text), New SqlParameter("@Type", strtype), New SqlParameter("@Employee_Code", fnd_saleman_code.arrValueMember(0)), New SqlParameter("@Employee_Name", fnd_saleman_code.arrDispalyMember(0)), New SqlParameter("@Depot_Id", fndDepot.Value), New SqlParameter("@Off_Day", stroffday), New SqlParameter("@City_Code", fndcity_id.Value), New SqlParameter("@District", rtxtDistrict.Text), New SqlParameter("@Category_Code", strcatcode), New SqlParameter("@Length", rtxtroute_length.Text), New SqlParameter("@Price_Code", fndPriceCode.Value), New SqlParameter("@Price_Code_Desc", txtpricecodedescription.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@Status", strActive), New SqlParameter("@SDate", dtpAcIn.Value))
-            Dim strqry As String = "update tspl_route_master set RoutePrice_Code='" & fndRoutePrice.Value & "',vehicle_code='" + fndvcode.Value + "', NonPrice_Code = '" + Convert.ToString(fndnonprice.Value) + "',Distance=" & clsCommon.myCdbl(txtDistance.Value) & ", TOLL_Amount =" & clsCommon.myCdbl(txtTollAmount.Value) & ", IsEarlyRoute ='" & IIf(chkIsEarlyRoute.Checked = True, 1, 0) & "'   where route_no='" + fndRouteid.Value + "'"
-            clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(strqry, GetReplecateCompaniesDataBase(), Nothing)
-            'connectSql.RunSql(strqry)
-
-            ''richa agarwal 15 Dec,2018 add route time column
-            If txtRouteTime.Checked = True Then
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "Route_Time", clsCommon.GetPrintDate(txtRouteTime.Value, "dd/MMM/yyyy hh:mm tt"), True)
-                clsCommonFunctionality.UpdateDataTable(coll1, "tspl_route_MASTER", OMInsertOrUpdate.Update, "tspl_route_MASTER.Route_No='" + fndRouteid.Value + "' ", Nothing)
-            End If
-            ''------------------------
-            If txtMorningCOT.Checked = True Then
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "MorningCutOff_Time", clsCommon.GetPrintDate(txtMorningCOT.Value, "dd/MMM/yyyy hh:mm tt"), True)
-                clsCommonFunctionality.UpdateDataTable(coll1, "tspl_route_MASTER", OMInsertOrUpdate.Update, "tspl_route_MASTER.Route_No='" + fndRouteid.Value + "' ", Nothing)
-            End If
-            If txtEveningCOT.Checked = True Then
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "EveningCutOff_Time", clsCommon.GetPrintDate(txtEveningCOT.Value, "dd/MMM/yyyy hh:mm tt"), True)
-                clsCommonFunctionality.UpdateDataTable(coll1, "tspl_route_MASTER", OMInsertOrUpdate.Update, "tspl_route_MASTER.Route_No='" + fndRouteid.Value + "' ", Nothing)
-            End If
-
-            If clsCommon.myLen(txtSeqNo.Text) > 0 Then
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", txtSeqNo.Text)
-                clsCommonFunctionality.UpdateDataTable(coll1, "tspl_route_MASTER", OMInsertOrUpdate.Update, "tspl_route_MASTER.Route_No='" + fndRouteid.Value + "' ", Nothing)
-            Else
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", 0)
-                clsCommonFunctionality.UpdateDataTable(coll1, "tspl_route_MASTER", OMInsertOrUpdate.Update, "tspl_route_MASTER.Route_No='" + fndRouteid.Value + "' ", Nothing)
-            End If
-
-            ' bahul
-            If fnd_saleman_code.arrValueMember Is Nothing OrElse fnd_saleman_code.arrValueMember.Count <= 0 Then
-            Else
-                Dim i As Integer = 0
-                For i = 0 To fnd_saleman_code.arrValueMember.Count - 1
-                    Dim coll As New Hashtable()
-                    clsCommon.AddColumnsForChange(coll, "Route_Code", fndRouteid.Value, True)
-                    clsCommon.AddColumnsForChange(coll, "Salesman_Code", clsCommon.myCstr(fnd_saleman_code.arrValueMember(i)), True)
-                    clsCommonFunctionality.UpdateDataTable(coll, "tspl_salesman_detail", OMInsertOrUpdate.Insert, "", Nothing)
-                Next
-            End If
 
             'sanjay
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
+                clsDBFuncationality.SaveAStorePorcedure(trans, "SP_TSPL_ROUTE_MASTER_INSERT", New SqlParameter("@Route_No", fndRouteid.Value), New SqlParameter("@Route_Desc", rtxtdescription.Text), New SqlParameter("@Type", strtype), New SqlParameter("@Employee_Code", fnd_saleman_code.arrValueMember(0)), New SqlParameter("@Employee_Name", fnd_saleman_code.arrDispalyMember(0)), New SqlParameter("@Depot_Id", fndDepot.Value), New SqlParameter("@Off_Day", stroffday), New SqlParameter("@City_Code", fndcity_id.Value), New SqlParameter("@District", rtxtDistrict.Text), New SqlParameter("@Category_Code", strcatcode), New SqlParameter("@Length", rtxtroute_length.Text), New SqlParameter("@Price_Code", fndPriceCode.Value), New SqlParameter("@Price_Code_Desc", txtpricecodedescription.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@Status", strActive), New SqlParameter("@SDate", dtpAcIn.Value))
+                ExtraUpdate(trans)
+
+                ' bahul
+                If fnd_saleman_code.arrValueMember Is Nothing OrElse fnd_saleman_code.arrValueMember.Count <= 0 Then
+                Else
+                    Dim i As Integer = 0
+                    For i = 0 To fnd_saleman_code.arrValueMember.Count - 1
+                        Dim coll As New Hashtable()
+                        clsCommon.AddColumnsForChange(coll, "Route_Code", fndRouteid.Value, True)
+                        clsCommon.AddColumnsForChange(coll, "Salesman_Code", clsCommon.myCstr(fnd_saleman_code.arrValueMember(i)), True)
+                        clsCommonFunctionality.UpdateDataTable(coll, "tspl_salesman_detail", OMInsertOrUpdate.Insert, "", trans)
+                    Next
+                End If
+
                 Dim strqry1 As String = "delete from TSPL_ROUTE_CUSTOMER_SEQUENCE WHERE ROUTE_NO='" + fndRouteid.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(strqry1, trans)
                 Dim obj As New clsRouteCustomerSequenceMaster()
@@ -649,19 +533,42 @@ Public Class frmRouteMaster
                 trans.rollback()
                 myMessages.myExceptions(ex)
             End Try
-
             'sanjay
-
             myMessages.insert()
-
             rbtnSave.Text = "Update"
             rbtnDelete.Enabled = True
-            'If userCode <> "ADMIN" Then
-            '    If funSetUserAccess() = False Then Exit Sub
-            'End If
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
+    End Sub
+    Private Sub ExtraUpdate(ByVal trans As SqlTransaction)
+        Dim coll1 As New Hashtable()
+        clsCommon.AddColumnsForChange(coll1, "RoutePrice_Code", fndRoutePrice.Value, True)
+        clsCommon.AddColumnsForChange(coll1, "vehicle_code", fndvcode.Value, True)
+        clsCommon.AddColumnsForChange(coll1, "NonPrice_Code", fndnonprice.Value, True)
+        clsCommon.AddColumnsForChange(coll1, "Distance", txtDistance.Value)
+        clsCommon.AddColumnsForChange(coll1, "TOLL_Amount", txtTollAmount.Value)
+        clsCommon.AddColumnsForChange(coll1, "IsEarlyRoute", IIf(chkIsEarlyRoute.Checked = True, 1, 0))
+        If txtRouteTime.Checked Then
+            clsCommon.AddColumnsForChange(coll1, "Route_Time", clsCommon.GetPrintDate(txtRouteTime.Value, "dd/MMM/yyyy hh:mm tt"))
+        Else
+            clsCommon.AddColumnsForChange(coll1, "Route_Time", Nothing, True)
+        End If
+        ''------------------------
+        If txtMorningCOT.Checked Then
+            clsCommon.AddColumnsForChange(coll1, "MorningCutOff_Time", clsCommon.GetPrintDate(txtMorningCOT.Value, "dd/MMM/yyyy hh:mm tt"), True)
+        Else
+            clsCommon.AddColumnsForChange(coll1, "MorningCutOff_Time", Nothing, True)
+        End If
+        If txtEveningCOT.Checked Then
+            clsCommon.AddColumnsForChange(coll1, "EveningCutOff_Time", clsCommon.GetPrintDate(txtEveningCOT.Value, "dd/MMM/yyyy hh:mm tt"), True)
+        Else
+            clsCommon.AddColumnsForChange(coll1, "EveningCutOff_Time", Nothing, True)
+        End If
+        clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", txtSeqNo.Value)
+        clsCommon.AddColumnsForChange(coll1, "City_Code", fndcity_id.Value, True)
+        clsCommon.AddColumnsForChange(coll1, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
+        clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_ROUTE_MASTER", OMInsertOrUpdate.Update, "TSPL_ROUTE_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
     End Sub
     'This is Update Function Used To Update Records In TSPL_ROUTE_MASTER
     Private Sub funUpdate()
@@ -670,10 +577,6 @@ Public Class frmRouteMaster
 
             Dim ADate As Date? = Nothing
             Dim IDate As Date? = Nothing
-            'Dim str As String = "select status,SDate from tspl_route_master where route_No='" + fndRouteid.Value + "'"
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(str)
-            'Dim value As String = dt.Rows(0)("status")
-            'Dim Strdate As String = dt.Rows(0)("SDate")
 
             Dim str As String = "select * from tspl_route_master where route_No='" + fndRouteid.Value + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(str, trans)
@@ -707,63 +610,10 @@ Public Class frmRouteMaster
             ElseIf rdoIN.IsChecked = True Then
                 strActive = "I"
             End If
-            'clsDBFuncationality.UpdateInSelectedDatabase(trans, GetReplecateCompaniesDataBase(), "SP_TSPL_ROUTE_MASTER_UPDATE", New SqlParameter("@Route_No", fndRouteid.Value), New SqlParameter("@Route_Desc", rtxtdescription.Text), New SqlParameter("@Type", ddltype.Text), New SqlParameter("@Employee_Code", fndSalesman_code.Value), New SqlParameter("@Employee_Name", rtxtSalesman_name.Text), New SqlParameter("@Depot_Id", fndDepot.Value), New SqlParameter("@Off_Day", rddl_route_offday.Text), New SqlParameter("@City_Code", fndcity_id.Value), New SqlParameter("@District", rtxtDistrict.Text), New SqlParameter("@Category_Code", rddl_category.Text), New SqlParameter("@Length", rtxtroute_length.Text), New SqlParameter("@Price_Code", fndPriceCode.Value), New SqlParameter("@Price_Code_Desc", txtpricecodedescription.Text), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@Status", strActive), New SqlParameter("@SDate", dtpAcIn.Value))
-            Dim strqry As String = "update tspl_route_master set  RoutePrice_Code='" & fndRoutePrice.Value & "',vehicle_code='" + fndvcode.Value + "', NonPrice_Code = '" + Convert.ToString(fndnonprice.Value) + "',Distance=" & clsCommon.myCdbl(txtDistance.Value) & ", TOLL_Amount =" & clsCommon.myCdbl(txtTollAmount.Value) & ", IsEarlyRoute ='" & IIf(chkIsEarlyRoute.Checked = True, 1, 0) & "'"
-            If clsCommon.myLen(fndcity_id.Value) > 0 Then
-                strqry += " ,City_Code='" + fndcity_id.Value + "' "
-            Else
-                strqry += " ,City_Code=null "
-            End If
-            strqry += " where route_no='" + fndRouteid.Value + "'"
-            clsDBFuncationality.ExecuteNonQuery(strqry, trans)
 
-            ''richa agarwal 15 Dec,2018 add route time column
-            If txtRouteTime.Checked = True Then
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "Route_Time", clsCommon.GetPrintDate(txtRouteTime.Value, "dd/MMM/yyyy hh:mm tt"), True)
-                clsCommonFunctionality.UpdateDataTable(coll1, "tspl_route_MASTER", OMInsertOrUpdate.Update, "tspl_route_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
-            Else
-                Dim qry1 As String = "Update tspl_route_MASTER set Route_Time=NULL WHERE Route_No='" + fndRouteid.Value + "'"
-                clsDBFuncationality.ExecuteNonQuery(qry1, trans)
-            End If
+            ExtraUpdate(trans)
 
-            ''------------------------
-            If txtMorningCOT.Checked = True Then
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "MorningCutOff_Time", clsCommon.GetPrintDate(txtMorningCOT.Value, "dd/MMM/yyyy hh:mm tt"), True)
-                clsCommonFunctionality.UpdateDataTable(coll1, "tspl_route_MASTER", OMInsertOrUpdate.Update, "tspl_route_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
-            Else
-                Dim qry1 As String = "Update tspl_route_MASTER set MorningCutOff_Time=NULL WHERE Route_No='" + fndRouteid.Value + "'"
-                clsDBFuncationality.ExecuteNonQuery(qry1, trans)
 
-            End If
-
-            If txtEveningCOT.Checked = True Then
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "EveningCutOff_Time", clsCommon.GetPrintDate(txtEveningCOT.Value, "dd/MMM/yyyy hh:mm tt"), True)
-                clsCommonFunctionality.UpdateDataTable(coll1, "tspl_route_MASTER", OMInsertOrUpdate.Update, "tspl_route_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
-            Else
-                Dim qry1 As String = "Update tspl_route_MASTER set EveningCutOff_Time=NULL WHERE Route_No='" + fndRouteid.Value + "'"
-                clsDBFuncationality.ExecuteNonQuery(qry1, trans)
-
-            End If
-
-            '--Updates Salesman Name Against Same Root in Customer Master---Pankaj Kumar
-            'Dim SalesManDesc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Emp_Name FROM TSPL_EMPLOYEE_MASTER WHERE EMP_CODE='" + fndSalesman_code.Value + "'", trans))
-            'clsDBFuncationality.ExecuteNonQuery("UPDATE TSPL_CUSTOMER_MASTER SET Salesman_Code='" + fndSalesman_code.Value + "', Salesman_Desc='" + SalesManDesc + "' WHERE Route_No='" + fndRouteid.Value + "'", trans)
-            ''-------------------------------------
-
-            'connectSql.RunSql(strqry)
-            '------------------------------------------------------------------------------------------
-            If clsCommon.myLen(txtSeqNo.Text) > 0 Then
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", txtSeqNo.Text)
-                clsCommonFunctionality.UpdateDataTable(coll1, "tspl_route_MASTER", OMInsertOrUpdate.Update, "tspl_route_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
-            Else
-                Dim coll1 As New Hashtable()
-                clsCommon.AddColumnsForChange(coll1, "Route_Seq_No", 0)
-                clsCommonFunctionality.UpdateDataTable(coll1, "tspl_route_MASTER", OMInsertOrUpdate.Update, "tspl_route_MASTER.Route_No='" + fndRouteid.Value + "' ", trans)
-            End If
 
             If strActive <> value Then
                 If rdoAC.IsChecked = True Then
@@ -773,55 +623,12 @@ Public Class frmRouteMaster
                     ADate = clsCommon.GetPrintDate(Strdate, "yyyy-MM-dd")
                     IDate = Nothing
                 End If
-
-                'connectSql.RunSp("SP_TSPL_ROUTE_MASTER_HISTORY_INSERT", New SqlParameter("@Route_No", fndRouteid.Value), New SqlParameter("@Route_Desc", rtxtdescription.Text), New SqlParameter("@Type", ddltype.Text), New SqlParameter("@Employee_Code", fndSalesman_code.Value), New SqlParameter("@Employee_Name", rtxtSalesman_name.Text), New SqlParameter("@Depot_Id", fndDepot.Value), New SqlParameter("@Off_Day", rddl_route_offday.Text), New SqlParameter("@City_Code", fndcity_id.Value), New SqlParameter("@District", rtxtDistrict.Text), New SqlParameter("@Category_Code", rddl_category.Text), New SqlParameter("@Length", rtxtroute_length.Text), New SqlParameter("@Price_Code", fndPriceCode.Value), New SqlParameter("@Price_Code_Desc", txtpricecodedescription.Text), New SqlParameter("@Created_By", userCode), New SqlParameter("@Created_Date", connectSql.serverDate()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate()), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@AcDate", ADate), New SqlParameter("@InDate", IDate), New SqlParameter("@HisDate", clsCommon.GETSERVERDATE()))
-                'Dim strqry1 As String = "update tspl_route_master_History set vehicle_code='" + fndvcode.Value + "', NonPrice_Code = '" + Convert.ToString(fndnonprice.Value) + "' where route_no='" + fndRouteid.Value + "'"
-
-
                 clsDBFuncationality.SaveAStorePorcedure(trans, "SP_TSPL_ROUTE_MASTER_HISTORY_INSERT", New SqlParameter("@Route_No", fndRouteid.Value), New SqlParameter("@Route_Desc", Route_desc), New SqlParameter("@Type", Type), New SqlParameter("@Employee_Code", Employee_Code), New SqlParameter("@Employee_Name", Employee_Name), New SqlParameter("@Depot_Id", Depot_Id), New SqlParameter("@Off_Day", Off_Day), New SqlParameter("@City_Code", City_Code), New SqlParameter("@District", District), New SqlParameter("@Category_Code", Category_Code), New SqlParameter("@Length", Length), New SqlParameter("@Price_Code", Price_Code), New SqlParameter("@Price_Code_Desc", Price_Code_Desc), New SqlParameter("@Created_By", Created_By), New SqlParameter("@Created_Date", Created_Date), New SqlParameter("@Modify_By", Modify_By), New SqlParameter("@Modify_Date", Modify_Date), New SqlParameter("@Comp_Code", Comp_Code), New SqlParameter("@vehicle_code", vehicle_code), New SqlParameter("@NonPrice_Code", NonPrice_Code), New SqlParameter("@AcDate", ADate), New SqlParameter("@InDate", IDate), New SqlParameter("@HisDate", clsCommon.GETSERVERDATE(trans)))
-                ' Dim strqry1 As String = "update tspl_route_master_History set vehicle_code='" + vehicle_code + "', NonPrice_Code = '" + NonPrice_Code + "' where route_no='" + fndRouteid.Value + "'"
-
-
-
-                'connectSql.RunSql(strqry1)
-                'Dim qrycount As String = "select COUNT (*) from TSPL_CUSTOMER_MASTER where Route_No='" + fndRouteid.Value + "'"
-                'Dim strroute As Integer = clsDBFuncationality.getSingleValue(qrycount, trans)
-                'If strroute > 0 Then
-                '    Dim SalesManDescCust As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT salesman_desc FROM tspl_customer_master WHERE salesman_code='" + fndSalesman_code.Value + "'", trans))
-                '    Dim strqrysales As String = "UPDATE TSPL_CUSTOMER_MASTER SET Salesman_Code='" + fndSalesman_code.Value + "', Salesman_Desc='" + SalesManDescCust + "' WHERE Route_No='" + fndRouteid.Value + "'"
-                '    clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(strqrysales, GetReplecateCompaniesDataBase(), trans)
-
-                'End If
-
-                ' bahul
-
-
-                ' Ticket No : ERO/25/04/18-000102
-                ' Start   ERO/25/04/18-000102
-                '' ''If fnd_saleman_code.arrValueMember Is Nothing OrElse fnd_saleman_code.arrValueMember.Count <= 0 Then
-                '' ''    Throw New Exception("Please select at least one salesman")
-                '' ''End If
-
-                '' ''Dim i As Integer = 0
-                '' ''Dim strqrydelete As String = "delete from tspl_salesman_detail WHERE Route_Code='" + fndRouteid.Value + "'"
-                '' ''clsDBFuncationality.ExecuteNonQuery(strqrydelete, trans)
-
-                '' ''For i = 0 To fnd_saleman_code.arrValueMember.Count - 1
-                '' ''    Dim coll As New Hashtable()
-                '' ''    clsCommon.AddColumnsForChange(coll, "Route_Code", fndRouteid.Value, True)
-                '' ''    clsCommon.AddColumnsForChange(coll, "Salesman_Code", clsCommon.myCstr(fnd_saleman_code.arrValueMember(i)), True)
-                '' ''    clsCommonFunctionality.UpdateDataTable(coll, "tspl_salesman_detail", OMInsertOrUpdate.Insert, "", trans)
-                '' ''Next
-
-                ' End ERO/25/04/18-000102
             End If
-
-            ' New for Ticket No : ERO/25/04/18-000102
 
             Dim strqrydelete As String = "delete from tspl_salesman_detail WHERE Route_Code='" + fndRouteid.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(strqrydelete, trans)
             If fnd_saleman_code.arrValueMember Is Nothing OrElse fnd_saleman_code.arrValueMember.Count <= 0 Then
-                ' Throw New Exception("Please select at least one salesman")
             Else
                 Dim i As Integer = 0
                 For i = 0 To fnd_saleman_code.arrValueMember.Count - 1
@@ -832,9 +639,6 @@ Public Class frmRouteMaster
                 Next
             End If
 
-            'sanjay
-            'Dim strqry1 As String = "delete from TSPL_ROUTE_CUSTOMER_SEQUENCE WHERE ROUTE_NO='" + fndRouteid.Value + "'"
-            'clsDBFuncationality.ExecuteNonQuery(strqry1, trans)
             Dim obj As New clsRouteCustomerSequenceMaster()
             obj.ROUTE_NO = clsCommon.myCstr(fndRouteid.Value)
             obj.DocDate = clsCommon.GetPrintDate(dtpAcIn.Value, "dd/MMM/yyyy hh:mm tt")
@@ -843,7 +647,7 @@ Public Class frmRouteMaster
             For Each grow As GridViewRowInfo In dgv.Rows
                 If clsCommon.myLen(grow.Cells(colCustomerCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colCustomerName).Value) > 0 Then
                     Dim objTr As New clsRouteCustomerSequence()
-                    objTr.SNO = counter 'clsCommon.myCdbl(grow.Cells(colSNo).Value)
+                    objTr.SNO = counter
                     objTr.CUSTOMER_CODE = clsCommon.myCstr(grow.Cells(colCustomerCode).Value)
                     obj.ArrRouteCustomerSequence.Add(objTr)
                     counter = counter + 1
@@ -851,8 +655,6 @@ Public Class frmRouteMaster
             Next
             obj.SaveData(obj, trans)
             'sanjay
-
-
             myMessages.update()
             fndRouteid.Enabled = True
             trans.Commit()
@@ -876,7 +678,6 @@ Public Class frmRouteMaster
     Private Sub fndcity_id_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
-
     'It Validate User To Press The Keys 
     Private Sub fndRouteid_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
 
@@ -1156,7 +957,6 @@ Public Class frmRouteMaster
         Me.Controls.Remove(gv)
     End Sub
     'It Is Used To Fill Or Clear The Records Bassed On EMP CODE( fndSalesman_code) From TSPL_EMPLOYEE_MASTER
-
     Sub text_changed1()
         Try
             'Dim stremp_code As String = "select EMP_CODE from TSPL_EMPLOYEE_MASTER where EMP_CODE='" + fndSalesman_code.Value + "'"
@@ -1267,8 +1067,6 @@ Public Class frmRouteMaster
     Private Sub fndvcode_text_changed(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
-
-
     Sub fndPriceCode_text_changed()
         Try
             Dim strprice_code As String = "select Price_Code from TSPL_PRICE_COMPONENT_MAPPING where Price_Code='" + fndPriceCode.Value + "'"
@@ -1284,12 +1082,9 @@ Public Class frmRouteMaster
             myMessages.myExceptions(ex)
         End Try
     End Sub
-
     Private Sub fndPriceCode_text_changed(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
-
-
     Public Sub fillPriceCodeDescription()
         Try
             Dim stremp_name As String = "select Price_Code_Desc from TSPL_PRICE_COMPONENT_MAPPING where Price_Code='" + fndPriceCode.Value + "'"
@@ -1298,7 +1093,6 @@ Public Class frmRouteMaster
             myMessages.myExceptions(ex)
         End Try
     End Sub
-
     Public Sub fillvcodeDescription()
         Try
             Dim stremp_name As String = "select description  from tspl_vehicle_master where vehicle_id='" + fndvcode.Value + "'"
@@ -1327,8 +1121,6 @@ Public Class frmRouteMaster
             End Try
         End If
     End Sub
-
-
     Sub fndvcode_leave()
         If fndvcode.Value = "" Then
         Else
@@ -1348,22 +1140,16 @@ Public Class frmRouteMaster
             End Try
         End If
     End Sub
-
-
-
-
     Private Sub fndPriceCode_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         If Microsoft.VisualBasic.Asc(e.KeyChar) = 39 Then
             e.Handled = True
         End If
     End Sub
-
     Private Sub fndvcode_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         If Microsoft.VisualBasic.Asc(e.KeyChar) = 39 Then
             e.Handled = True
         End If
     End Sub
-
     'It Is Used To Fill The Depot No In fndDepot from Table
     Private Sub fndDepot_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndDepot.ConnectionString = connectSql.SqlCon()
@@ -1401,68 +1187,6 @@ Public Class frmRouteMaster
             e.Handled = True
         End If
     End Sub
-
-    Private Function GetReplecateCompaniesDataBase() As List(Of String)
-        Dim arrDBName As New List(Of String)
-        arrDBName.Add(objCommonVar.CurrDatabase)
-        For ii As Integer = 0 To gvDB.Rows.Count - 1
-            If (clsCommon.myCBool(gvDB.Rows(ii).Cells(colSelect).Value)) Then
-                arrDBName.Add(clsCommon.myCstr(gvDB.Rows(ii).Cells(colDataBaseName).Value))
-            End If
-        Next
-        Return arrDBName
-    End Function
-
-    Sub SetDataBaseGrid()
-        gvDB.Rows.Clear()
-        gvDB.Columns.Clear()
-
-        Dim repoSelect As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
-        repoSelect.FormatString = ""
-        repoSelect.HeaderText = "Select"
-        repoSelect.Name = colSelect
-        repoSelect.Width = 50
-        repoSelect.ReadOnly = False
-        repoSelect.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvDB.MasterTemplate.Columns.Add(repoSelect)
-
-        Dim repoCompCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoCompCode.FormatString = ""
-        repoCompCode.HeaderText = "Company Code"
-        repoCompCode.Name = colCompCode
-        repoCompCode.Width = 150
-        repoCompCode.ReadOnly = True
-        gvDB.MasterTemplate.Columns.Add(repoCompCode)
-
-        Dim repoCompName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoCompName.FormatString = ""
-        repoCompName.HeaderText = "Company Name"
-        repoCompName.Name = colCompName
-        repoCompName.Width = 150
-        repoCompName.ReadOnly = True
-        gvDB.MasterTemplate.Columns.Add(repoCompName)
-
-        Dim repoDB As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoDB.FormatString = ""
-        repoDB.HeaderText = "Database Name"
-        repoDB.Name = colDataBaseName
-        repoDB.IsVisible = False
-        repoDB.ReadOnly = True
-        gvDB.MasterTemplate.Columns.Add(repoDB)
-
-        Dim qry As String = "SELECT Comp_Code,Comp_Name,DataBase_Name from TSPL_COMPANY_MASTER where len(isnull(DataBase_Name,''))>0 and Comp_Code not in ('" + objCommonVar.CurrentCompanyCode + "')"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            For Each dr As DataRow In dt.Rows
-                gvDB.Rows.AddNew()
-                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colSelect).Value = False
-                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colCompCode).Value = clsCommon.myCstr(dr("Comp_Code"))
-                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colCompName).Value = clsCommon.myCstr(dr("Comp_Name"))
-                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colDataBaseName).Value = clsCommon.myCstr(dr("DataBase_Name"))
-            Next
-        End If
-    End Sub
-
     Private Sub fndvcode_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndvcode.ConnectionString = connectSql.SqlCon()
         'fndvcode.Query = "select vehicle_id as [Vehicle Code],description as [Description] from tspl_vehicle_master"
@@ -1471,11 +1195,9 @@ Public Class frmRouteMaster
         'fndvcode.txtValue.MaxLength = 12
         'fndvcode.ValueToSelect1 = "Description"
     End Sub
-
-    Private Sub RadGroupBox4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadGroupBox4.Click
+    Private Sub RadGroupBox4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
-
     Private Sub fndnonprice_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndnonprice.ConnectionString = connectSql.SqlCon()
         'fndnonprice.Query = "select distinct Price_Code as [Price Code],Price_Code_Desc as [Price Code Desc] from TSPL_PRICE_COMPONENT_MAPPING"
@@ -1485,7 +1207,6 @@ Public Class frmRouteMaster
         'fndnonprice.ValueToSelect1 = "Price Code Desc"
 
     End Sub
-
     Private Sub frmRouteMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso rbtnSave.Enabled Then
             SaveData()
@@ -1501,7 +1222,6 @@ Public Class frmRouteMaster
             printHistory()
         End If
     End Sub
-
     Private Sub fndRouteid__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndRouteid._MYValidating
 
         Dim str As String = "select count(*) from TSPL_Route_Master where Route_No ='" + fndRouteid.Value + "' "
@@ -1525,7 +1245,6 @@ Public Class frmRouteMaster
             text_changed()
         End If
     End Sub
-
     Private Sub fndRouteid__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavigatorType As common.NavigatorType) Handles fndRouteid._MYNavigator
         Dim qst As String = "select Route_No as [Route No],Route_Desc as [Route Desc],Type,Employee_Code as [Employee Code],Off_Day as [Off Day],City_Code as [City Code],District,Category_Code as [Category Code],Length from TSPL_Route_Master   where  2=2 "
         Select Case NavigatorType
@@ -1557,51 +1276,42 @@ Public Class frmRouteMaster
 
         text_changed()
     End Sub
-
     'Private Sub fndSalesman_code__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
     '    Dim qry As String = "select distinct EMP_CODE as [EMPCODE],Emp_Name as [Emp Name], Designation,Pin_Code as [Pin Code],Phone,Card_No as [Card No],Cash from TSPL_EMPLOYEE_MASTER "
     '    fndSalesman_code.Value = clsCommon.ShowSelectForm("RouteMaCodFND", qry, "EMPCODE", " Emp_type='SalesMan' ", fndSalesman_code.Value, "", isButtonClicked)
     '    fndSalesman_code_Leave()
     '    text_changed1()
     'End Sub
-
     Private Sub fndcity_id__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndcity_id._MYValidating
         Dim qry As String = "select City_Code as [CityCode],City_Name as [City Name] from TSPL_CITY_MASTER "
         fndcity_id.Value = clsCommon.ShowSelectForm("RotMastrCode2", qry, "CityCODE", "", fndcity_id.Value, "", isButtonClicked)
         fndcity_id_Leave()
     End Sub
-
     Private Sub fndDepot__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndDepot._MYValidating
         Dim qry As String = "select Location_Code as [LocationCode],Location_Desc as [Location Desc] from TSPL_LOCATION_MASTER "
         fndDepot.Value = clsCommon.ShowSelectForm("RouteMasterCode3", qry, "LocationCODE", "Location_Type='Physical'", fndDepot.Value, "", isButtonClicked)
         fndDepot_Leave()
     End Sub
-
     Private Sub fndPriceCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndPriceCode._MYValidating
         Dim qry As String = "select distinct Price_Code as [PriceCode],Price_Code_Desc as [Price Code Desc] from TSPL_PRICE_COMPONENT_MAPPING "
         fndPriceCode.Value = clsCommon.ShowSelectForm("RouteMastID", qry, "PriceCode", "", fndPriceCode.Value, "", isButtonClicked)
         fndPriceCode_text_changed()
         fndPriceCode_leave()
     End Sub
-
-
     Private Sub fndnonprice__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndnonprice._MYValidating
         Dim qry As String = "select distinct Price_Code as [PriceCode],Price_Code_Desc as [Price Code Desc] from TSPL_PRICE_COMPONENT_MAPPING"
         fndnonprice.Value = clsCommon.ShowSelectForm("RouFND", qry, "PriceCode", "", fndnonprice.Value, "", isButtonClicked)
         NonPrice_Textchanged()
     End Sub
-
     Private Sub fndvcode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndvcode._MYValidating
         Dim qry As String = "select vehicle_id as [VehicleCode],description as [Description] from tspl_vehicle_master"
         fndvcode.Value = clsCommon.ShowSelectForm("RouteMFND", qry, "VehicleCode", "", fndvcode.Value, "", isButtonClicked)
         fndvcode_text_changed()
         fndvcode_leave()
     End Sub
-
     Private Sub btnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnprint.Click
         printHistory()
     End Sub
-
     Public Sub printHistory()
         Try
             Dim qry As String = Nothing
@@ -1631,17 +1341,14 @@ Public Class frmRouteMaster
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
     Private Sub fndRoutePrice__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndRoutePrice._MYValidating
         Dim qry As String = "select distinct Price_Code as [PriceCode],Price_Code_Desc as [Price Code Desc],Tax_group from TSPL_ITEM_PRICE_MASTER inner join TSPL_TAX_GROUP_MASTER on TSPL_ITEM_PRICE_MASTER.Tax_group=TSPL_TAX_GROUP_MASTER.Tax_Group_Code "
         fndRoutePrice.Value = clsCommon.ShowSelectForm("RouFND", qry, "PriceCode", "TSPL_TAX_GROUP_MASTER.Is_Transfer=1 ", fndRoutePrice.Value, "", isButtonClicked)
         RoutePrice_Textchanged()
     End Sub
-
     Private Sub MyLabel1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyLabel1.Click
 
     End Sub
-
     Private Sub fnd_saleman_code__My_Click(sender As Object, e As EventArgs) Handles fnd_saleman_code._My_Click
         Try
             Dim qry = "select distinct EMP_CODE as EMPCODE,Emp_Name as EmpName, Designation,Pin_Code as [PinCode],Phone,Card_No as [CardNo],Cash from TSPL_EMPLOYEE_MASTER where Emp_type='SalesMan'"
@@ -1650,7 +1357,6 @@ Public Class frmRouteMaster
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
     Private Sub dgv_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles dgv.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -1669,7 +1375,6 @@ Public Class frmRouteMaster
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
     Private Sub dgv_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles dgv.CurrentColumnChanged
         If dgv.RowCount > 0 Then
             Dim intCurrRow As Integer = dgv.CurrentRow.Index
@@ -1680,7 +1385,6 @@ Public Class frmRouteMaster
             End If
         End If
     End Sub
-
     Private Sub dgv_CurrentRowChanged(sender As Object, e As CurrentRowChangedEventArgs) Handles dgv.CurrentRowChanged
         If dgv.RowCount > 0 Then
             Dim intCurrRow As Integer = dgv.CurrentRow.Index

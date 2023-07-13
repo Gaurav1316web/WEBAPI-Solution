@@ -3065,6 +3065,7 @@ Public Class clsCreateAllTable
             coll.Add("MorningCutOff_Time", "datetime NULL")
             coll.Add("EveningCutOff_Time", "datetime NULL")
             coll.Add("Route_Seq_No", "integer not null default 0")
+            coll.Add("Entry_UOM", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -28677,6 +28678,14 @@ Public Class clsCreateAllTable
             coll.Add("VS_ltrInCrate", "float null")
             coll.Add("Sub_Location_code", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
+
+
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
+            coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
+            coll.Add("Qty", "decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")

@@ -1,9 +1,8 @@
 ﻿'===========BM00000007858==============
 Imports common
 Imports System.Data.SqlClient
-
-
 Public Class clsFixedParameterType
+    Public Const DistributorWiseBilling As String = "Distributor Wise Billing"
     Public Const AndroidSaleOrder As String = "Android Sale Order"
     Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
     Public Const NewDCSScreen As String = "New DCS Screen"
@@ -1286,9 +1285,8 @@ Public Class clsFixedParameterType
     Public Const HeadLoadDescriptionInPaymentProcessPrint = "HeadLoadDescriptionInPaymentProcessPrint"
     Public Const PrefixForUserMaster = "Prefix For User Master"
 End Class
-
-
 Public Class clsFixedParameterCode
+    Public Const DistributorWiseBilling As String = "Distributor Wise Billing"
     Public Const BackDays As String = "Back Days"
     Public Const MaximumBackDays As String = "Maximum Back Days"
     Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
@@ -2682,8 +2680,6 @@ Public Class clsFixedParameterCode
     Public Const HeadLoadDescriptionInPaymentProcessPrint = "HeadLoadDescriptionInPaymentProcessPrint"
     Public Const PrefixForUserMaster = "Prefix For User Master"
 End Class
-
-
 Public Class clsFixedParameter
 #Region "Variables"
     Public Type As String = ""
@@ -2770,6 +2766,8 @@ Public Class clsFixedParameter
     End Function
 
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, "0", "0:OFF;1:ON")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidSaleOrder, clsFixedParameterCode.BackDays, "3", "Back Days of From Date")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidSaleOrder, clsFixedParameterCode.MaximumBackDays, "60", "Back Days of From Date")
 
@@ -4375,7 +4373,6 @@ Public Class clsFixedParameter
     End Function
 
 End Class
-
 Public Class clsFixedParameterProgramMapping
     Public Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strType As String, ByVal strCode As String, ByVal ControlType As EnumControlType) As Boolean
         Dim coll As New Hashtable()
@@ -4389,6 +4386,8 @@ Public Class clsFixedParameterProgramMapping
 
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, EnumControlType.CheckBox)
+
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmMilkSRN, clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, EnumControlType.NumericBox)
         'InsertDefaultValue(clsUserMgtCode.frmNewDCSScreen, clsFixedParameterType.StopSetting, clsFixedParameterCode.JournalEntry, EnumControlType.CheckBox)
