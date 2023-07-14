@@ -51931,6 +51931,12 @@ Public Class clsCreateAllTable
 
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Ref_PK_Id", "integer not NULL UNIQUE references TSPL_MP_INCENTIVE_ENTRY_DETAIL (PK_Id) ")
+            coll.Add("Bank_Response", "Varchar(100) NOT null")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_BANK_RESPONSE", coll, "", False, False, "", "", "")
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "Varchar(30) NOT NULL primary key")
             coll.Add("Document_Date", "datetime not NULL")
             coll.Add("Against_DBT_NEFT", "varchar(30) not NULL references TSPL_DBT_NEFT (Document_Code)")
