@@ -814,12 +814,19 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
                 If clsCommon.myLen(strDocNo) <= 0 Then
                     Throw New Exception("Please select Document No")
                 End If
-                Dim qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2, tspl_company_master.Comp_Name , TL.Location_Desc as Comp_Loc_Desc ,
-                TL.City_Code as Comp_City_Code , tl.Email as Email , TD.Document_Code as Doc_No ,'" & reportDate & "' as Date ,TD.Rem_Name,TD.Rem_Account_No , (select sum( Amount)  from tspl_dbt_neft_detail )as Total_Amt ,
-                (SELECT FORMAT(From_Date, 'dd/MM/yyyy') FROM TSPL_DBT_NEFT) as Pay_From_Date , (SELECT FORMAT(To_Date, 'dd/MM/yyyy') FROM TSPL_DBT_NEFT) as Pay_To_Date from tspl_dbt_neft_detail TD left outer join TSPL_DBT_NEFT
-                 on TSPL_DBT_NEFT.Document_Code = TD.Document_Code  LEFT OUTER JOIN tspl_company_master ON tspl_company_master.comp_code = '" + objCommonVar.CurrentCompanyCode + "'
-					left outer join TSPL_LOCATION_MASTER TL on TL.Comp_code = tspl_company_master.Comp_Code
-					WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
+
+                Dim Qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2, tspl_company_master.Comp_Name , TSPL_LOCATION_MASTER.Location_Desc as Comp_Loc_Desc ,
+                TSPL_LOCATION_MASTER.City_Code as Comp_City_Code , TSPL_LOCATION_MASTER.Email as Email , TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,'" & reportDate & "' as Date ,TSPL_DBT_NEFT_DETAIL.Rem_Name,TSPL_DBT_NEFT_DETAIL.Rem_Account_No 
+				, tspl_dbt_neft_detail.Amount as Total_Amt ,TSPL_DBT_NEFT.From_Date,TSPL_DBT_NEFT.To_Date from TSPL_DBT_NEFT  
+             left outer join (select TSPL_DBT_NEFT_DETAIL.document_code,max(TSPL_DBT_NEFT_DETAIL.Rem_Name) as Rem_Name,max(TSPL_DBT_NEFT_DETAIL.Rem_Account_No) as Rem_Account_No,sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount ,
+                max(TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code)   as MCC_Code from TSPL_DBT_NEFT_DETAIL 
+                left outer join TSPL_MP_INCENTIVE_ENTRY_Detail on TSPL_MP_INCENTIVE_ENTRY_Detail.PK_Id= TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
+                left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_Detail.Document_Code
+             where   TSPL_DBT_NEFT_DETAIL.document_code ='" + strDocNo + "' group by TSPL_DBT_NEFT_DETAIL.document_code 
+               ) TSPL_DBT_NEFT_DETAIL   on TSPL_DBT_NEFT.Document_Code = TSPL_DBT_NEFT_DETAIL.Document_Code  
+                  LEFT OUTER JOIN tspl_company_master ON tspl_company_master.comp_code = 'UDP'
+                  left outer join TSPL_LOCATION_MASTER   on  TSPL_LOCATION_MASTER.Location_Code = TSPL_DBT_NEFT_DETAIL.MCC_Code
+                  WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
