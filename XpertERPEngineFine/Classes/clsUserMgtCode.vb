@@ -1980,6 +1980,7 @@ Public Class clsUserMgtCode
     Public Const frmVehicleMovement As String = "M-VH-MOVE"
     Public Const frmMilkBillGeneration As String = "M-BILL-GEN"
     Public Const MilkGateEntryIn As String = "M-G-IN"
+    ' Public Const MilkRetesting As String = "M-R-Tst"
     Public Const MilkGateEntryWeightment As String = "M-G-WH"
     Public Const MilkGateEntryOut As String = "M-G-OUT"
     Public Const frmMilkReceipt As String = "M-RECEIPT"
@@ -2349,10 +2350,13 @@ Public Class clsUserMgtCode
     Public Const frmMultipleProcDeduction As String = "MCC_MUL_DED"
     '22/11/2016
     'Public Const FrmMccWeightDifferenceRpt As String = "Wgt_Dif_Rpt"
+
+
     '====================
     Public Const MilkProcurementUploader As String = "MLK-UPL-PRO"
     Public Const MilkShiftUploader As String = "MLK-PRO-UPL"
     Public Const MilkProcurementCorrection As String = "MLK-PRO-COR"
+    Public Const MilkRetesting As String = "MLK-RE-TST"
     Public Const PrimaryTransportProvisionCorrection As String = "PTP-PRO-COR"
     Public Const frmOutputEntry As String = "OUTPUT-ENT"
     '=====(09/01/2017)==================

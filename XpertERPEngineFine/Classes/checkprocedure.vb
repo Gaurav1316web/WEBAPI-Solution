@@ -1500,6 +1500,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkProcurementUploader, "Milk Procurement Uploader", "1.17.02.11", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, "Milk Shift Uploader", "1.17.02.12", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkProcurementCorrection, "Milk Correction", "1.17.02.13", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.MilkRetesting, "Milk Retesting", "1.17.02.14", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.MilkTruckSheet, "Milk Truck Sheet", "1.17.02.14", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmVlcdataUploadar, "VLC Data Uploader", "1.17.02.16", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, False, Nothing)
         InsertDefaultValue(clsUserMgtCode.FrmVLCDataUploaderManual, "Village Data", "1.17.02.17", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
@@ -3951,6 +3952,7 @@ Public Class clsProgramIdFormNameMapping
         UpdateFormName(clsUserMgtCode.frmWeighment, "FrmWeighment", "ERP.EXE")
 
         UpdateFormName(clsUserMgtCode.MilkGateEntryIn, "frmMilkGateEntryIn", "ERP.EXE")
+        'UpdateFormName(clsUserMgtCode.MilkRetesting, "frmMilkRetesting", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.MilkGateEntryWeightment, "frmMilkGateEntryWeighment", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.MilkGateEntryOut, "frmMilkGateEntryOut", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.frmQualityCheck, "FrmQualityCheck", "ERP.EXE")
