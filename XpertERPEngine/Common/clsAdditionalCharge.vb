@@ -467,7 +467,24 @@ Public Class clsCustomerMaster
         Return str
     End Function
 
+    Public Shared Function getFinderObeject(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As clsCustomerMaster
+        Dim obj As clsCustomerMaster = Nothing
+        Dim strCode As String = getFinder(whrcls, curcode, isButtonClicked)
+        If clsCommon.myLen(strCode) > 0 Then
+            Dim str As String = "select Cust_Code,Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code = '" + clsCommon.myCstr(strCode) + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(str)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                obj = New clsCustomerMaster()
+                obj.Cust_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Code"))
+                obj.Customer_Name = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
 
+            End If
+        End If
+
+
+        Return obj
+
+    End Function
     '----------------End of Code For Get Finder--------------------------------------------------------------'
 
     Public Function SaveData(ByVal obj As clsCustomerMaster, ByVal arrVisi As List(Of String), ByVal isNewEntry As Boolean, ByVal arrDBName As List(Of String)) As Boolean
@@ -3634,12 +3651,12 @@ Public Class clsCustomerItemdetail
     Public Shared Function SaveData(ByVal Cust_Code As String, ByVal arrDBName As List(Of String), ByVal Arr As List(Of clsCustomerItemdetail), ByVal trans As SqlTransaction) As Boolean
 
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-            'clsDBFuncationality.UpdateInSelectedDatabase(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Cust_Code))
+            'clsDBFuncationality.SaveAStorePorcedure(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Cust_Code))
             Try
                 clsDBFuncationality.ExecuteNonQueryInSelectedDatabase("Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS Where Cust_Code='" + Cust_Code + "' ", arrDBName, trans)
                 For Each obj As clsCustomerItemdetail In Arr
                     ''Dim dttemp As DataTable = clsDBFuncationality.GetDataTable("Select * from .TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS where Cust_Code='1009' and Item_Code='PC300BFC' and Unit_Code='FC'")
-                    clsDBFuncationality.UpdateInSelectedDatabase(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_INSERT", New SqlParameter("@Cust_Code", Cust_Code), New SqlParameter("@Item_Code", obj.Item_Code), New SqlParameter("@Unit_Code", obj.Unit_Code), New SqlParameter("@Disc_Amt", clsCommon.myCstr(obj.Disc_Amt)), New SqlParameter("@Valid_Upto", obj.valid_Upto), New SqlParameter("@Start_Date", obj.Start_date))
+                    clsDBFuncationality.SaveAStorePorcedure(trans, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_INSERT", New SqlParameter("@Cust_Code", Cust_Code), New SqlParameter("@Item_Code", obj.Item_Code), New SqlParameter("@Unit_Code", obj.Unit_Code), New SqlParameter("@Disc_Amt", clsCommon.myCstr(obj.Disc_Amt)), New SqlParameter("@Valid_Upto", obj.valid_Upto), New SqlParameter("@Start_Date", obj.Start_date))
                     'Dim Unit As String
                     If clsCommon.CompairString(obj.Unit_Code, "FC") = CompairStringResult.Equal Then
                         clsDBFuncationality.ExecuteNonQueryInSelectedDatabase("Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS Where Cust_Code='" + Cust_Code + "' AND Item_Code='" + obj.Item_Code + "' AND Unit_Code='FB'", arrDBName, trans)
@@ -3647,7 +3664,7 @@ Public Class clsCustomerItemdetail
                         If IsUnit > 0 Then
                             Dim ConvFact As Double = clsDBFuncationality.getSingleValue("Select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Where Item_Code='" + obj.Item_Code + "' And UOM_Code='FB'", trans)
                             Dim DiscAmt As Double = clsCommon.myCdbl(obj.Disc_Amt) / ConvFact
-                            clsDBFuncationality.UpdateInSelectedDatabase(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_INSERT", New SqlParameter("@Cust_Code", Cust_Code), New SqlParameter("@Item_Code", obj.Item_Code), New SqlParameter("@Unit_Code", "FB"), New SqlParameter("@Disc_Amt", DiscAmt), New SqlParameter("@Valid_Upto", obj.valid_Upto), New SqlParameter("@Start_Date", obj.Start_date))
+                            clsDBFuncationality.SaveAStorePorcedure(trans, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_INSERT", New SqlParameter("@Cust_Code", Cust_Code), New SqlParameter("@Item_Code", obj.Item_Code), New SqlParameter("@Unit_Code", "FB"), New SqlParameter("@Disc_Amt", DiscAmt), New SqlParameter("@Valid_Upto", obj.valid_Upto), New SqlParameter("@Start_Date", obj.Start_date))
                         End If
                     End If
                 Next
@@ -3762,7 +3779,7 @@ Public Class clsvisidetail
         Dim isSaved As Boolean = True
         Try
             If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-                'clsDBFuncationality.UpdateInSelectedDatabase(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Cust_Code))
+                'clsDBFuncationality.SaveAStorePorcedure(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Cust_Code))
 
                 For Each obj As clsvisidetail In Arr
                     Try

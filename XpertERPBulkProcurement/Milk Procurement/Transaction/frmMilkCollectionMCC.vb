@@ -1,4 +1,5 @@
-﻿Imports System.Data.SqlClient
+﻿Imports System.ComponentModel
+Imports System.Data.SqlClient
 Imports common
 Imports Telerik
 Public Class frmMilkCollectionMCC
@@ -643,7 +644,9 @@ Public Class frmMilkCollectionMCC
         dt.Columns.Add("Type", GetType(String))
         dt.Columns.Add("Qty", GetType(Decimal))
         dt.Columns.Add("FAT KG", GetType(Decimal))
+        dt.Columns.Add("FAT %", GetType(Decimal))
         dt.Columns.Add("SNF KG", GetType(Decimal))
+        dt.Columns.Add("SNF %", GetType(Decimal))
         For ii As Integer = 0 To gv1.Rows.Count - 1
             If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) > 0 Then
                 TotQty += clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value)
@@ -675,6 +678,33 @@ Public Class frmMilkCollectionMCC
                 End If
             End If
         Next
+        For Each row As DataRow In dt.Rows
+            Dim fatKG As Decimal = clsCommon.myCDecimal(row("FAT KG"))
+            Dim qty As Decimal = clsCommon.myCDecimal(row("Qty"))
+
+            If qty > 0 Then
+                Dim fatPercentage As Decimal = 100 * fatKG / qty
+                Dim formattedFatPercentage As Decimal = Decimal.Round(fatPercentage, 2)
+                row("FAT %") = formattedFatPercentage
+            Else
+                row("FAT %") = 0 ' Handle division by zero scenario
+            End If
+        Next
+        For Each row As DataRow In dt.Rows
+            Dim Snfkg As Decimal = clsCommon.myCDecimal(row("SNF KG"))
+            Dim qty As Decimal = clsCommon.myCDecimal(row("Qty"))
+
+            If qty > 0 Then
+                Dim fatPercentage As Decimal = 100 * Snfkg / qty
+                Dim formattedFatPercentage As Decimal = Decimal.Round(fatPercentage, 2)
+                row("SNF %") = formattedFatPercentage
+            Else
+                row("SNF %") = 0 ' Handle division by zero scenario
+            End If
+        Next
+
+
+
         txtTotReceivedQty.Text = clsCommon.myCstr(Math.Round(TotQty, 3, MidpointRounding.ToEven))
         txtTotReceivedFAT.Text = clsCommon.myCstr(Math.Round(TotFATKG, 3, MidpointRounding.ToEven))
         txtTotReceivedSNF.Text = clsCommon.myCstr(Math.Round(TotSNFKG, 3, MidpointRounding.ToEven))
@@ -706,6 +736,7 @@ Public Class frmMilkCollectionMCC
         gvTotal.Columns("Qty").HeaderText = "Qty"
         gvTotal.Columns("FAT KG").HeaderText = "FAT KG"
         gvTotal.Columns("SNF KG").HeaderText = "SNF KG"
+        'gvTotal.Columns("FAT PER").HeaderText = "FAT PER"
     End Sub
     Private Sub gv1_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gv1.CellValidated
         Try
@@ -2415,5 +2446,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
         Return Arr
     End Function
 
+    Private Sub gv1_Validating(sender As Object, e As CancelEventArgs) Handles gv1.Validating
 
+    End Sub
 End Class

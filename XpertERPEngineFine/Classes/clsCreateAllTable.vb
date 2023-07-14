@@ -36,9 +36,9 @@ Public Class clsCreateAllTable
             coll.Add("Code", "varchar(30) Not NULL Primary Key")
             coll.Add("Name", "varchar(50) Not null")
             coll.Add("Uploader_No", "varchar(50) null")
-            coll.Add("Zone", "varchar(50) null references TSPL_ZONE_MASTER(Zone_Code)")
-            coll.Add("Location", "varchar(50) null references TSPL_LOCATION_MASTER(Location_Code)")
-            coll.Add("Customer", "varchar(50) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
+            coll.Add("Zone", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
+            coll.Add("Location", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("Customer", "varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
             coll.Add("Created_By", "varchar(12)  Not NULL")
             coll.Add("Created_Date", "datetime  Not NULL")
             coll.Add("Modify_By", "varchar(12)  Not NULL")
@@ -3065,6 +3065,7 @@ Public Class clsCreateAllTable
             coll.Add("MorningCutOff_Time", "datetime NULL")
             coll.Add("EveningCutOff_Time", "datetime NULL")
             coll.Add("Route_Seq_No", "integer not null default 0")
+            coll.Add("Entry_UOM", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ROUTE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -28678,6 +28679,14 @@ Public Class clsCreateAllTable
             coll.Add("Sub_Location_code", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
+
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
+            coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
+            coll.Add("Qty", "decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
+
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("DOCUMENT_CODE", "Varchar(30) NOT NULL References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
@@ -28685,6 +28694,9 @@ Public Class clsCreateAllTable
             coll.Add("ICode", "varchar(50) NOT NULL References TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty", "decimal(18, 2) NULL")
             coll.Add("UOM", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
+            coll.Add("FPKID", "integer NOT NULL references TSPL_DCS_FOR_SALE_Frieght(PK_ID)")
+            coll.Add("Frieght_Rate", "decimal(18, 2) NULL")
+            coll.Add("Frieght_Amt", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
 

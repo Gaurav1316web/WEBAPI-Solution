@@ -151,7 +151,7 @@ Public Class frmCustomerAccountSet
                     End If
                 End If
             End If
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_customeraccountset_insert", New SqlParameter("@custacc", fndaccountsetcode.Value), New SqlParameter("@custdesc", rdtxtdescription.Text.ToString()), New SqlParameter("@containerdeposit", fndcontainer.Value), New SqlParameter("@receivablecontrolacc", fndrecisvablecontrol.Value()), New SqlParameter("@receiptdiscacc ", fndrecieptdiscount.Value), New SqlParameter("@advanceacc", fndadvance.Value), New SqlParameter("@writeoff", fndwriteoffs.Value), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modofieddate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("sp_customeraccountset_insert", New SqlParameter("@custacc", fndaccountsetcode.Value), New SqlParameter("@custdesc", rdtxtdescription.Text.ToString()), New SqlParameter("@containerdeposit", fndcontainer.Value), New SqlParameter("@receivablecontrolacc", fndrecisvablecontrol.Value()), New SqlParameter("@receiptdiscacc ", fndrecieptdiscount.Value), New SqlParameter("@advanceacc", fndadvance.Value), New SqlParameter("@writeoff", fndwriteoffs.Value), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modofieddate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
             myMessages.insert()
             '' multicurrency
             Dim coll As New Hashtable()
@@ -193,7 +193,7 @@ Public Class frmCustomerAccountSet
     Public Sub funupdate()
         Try
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndaccountsetcode.Value, "TSPL_CUSTOMER_ACCOUNT_SET", "Cust_account", Nothing)
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_customeraccountset_update", New SqlParameter("custacct", fndaccountsetcode.Value), New SqlParameter("@custdesc", rdtxtdescription.Text.ToString()), New SqlParameter("@containerdeposit", fndcontainer.Value), New SqlParameter("@receivablecontrolacc", fndrecisvablecontrol.Value()), New SqlParameter("@receiptdiscacc", fndrecieptdiscount.Value), New SqlParameter("@advanceacc", fndadvance.Value), New SqlParameter("@writeoff", fndwriteoffs.Value), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modofieddate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
+            clsDBFuncationality.SaveAStorePorcedure("sp_customeraccountset_update", New SqlParameter("custacct", fndaccountsetcode.Value), New SqlParameter("@custdesc", rdtxtdescription.Text.ToString()), New SqlParameter("@containerdeposit", fndcontainer.Value), New SqlParameter("@receivablecontrolacc", fndrecisvablecontrol.Value()), New SqlParameter("@receiptdiscacc", fndrecieptdiscount.Value), New SqlParameter("@advanceacc", fndadvance.Value), New SqlParameter("@writeoff", fndwriteoffs.Value), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modofieddate", connectSql.serverDate()), New SqlParameter("@compcode", companyCode))
             myMessages.update()
             '' multicurrency
             Dim coll As New Hashtable()
@@ -243,7 +243,7 @@ Public Class frmCustomerAccountSet
 
     Public Function fundelete()
         Try
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_customeraccountset_delete", New SqlParameter("@custacc", fndaccountsetcode.Value))
+            clsDBFuncationality.SaveAStorePorcedure("sp_customeraccountset_delete", New SqlParameter("@custacc", fndaccountsetcode.Value))
             Return True
         Catch ex As Exception
             myMessages.myExceptions(ex)
@@ -252,7 +252,7 @@ Public Class frmCustomerAccountSet
     End Function
     'Public Sub fundelete()
     '    Try
-    '        clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_customeraccountset_delete", New SqlParameter("@custacc", fndaccountsetcode.Value))
+    '        clsDBFuncationality.SaveAStorePorcedure(GetReplecateCompaniesDataBase(), "sp_customeraccountset_delete", New SqlParameter("@custacc", fndaccountsetcode.Value))
     '    Catch ex As Exception
     '        myMessages.myExceptions(ex)
     '        Exit Sub
@@ -1450,16 +1450,7 @@ Public Class frmCustomerAccountSet
     '    End Try
     'End Function
 
-    Private Function GetReplecateCompaniesDataBase() As List(Of String)
-        Dim arrDBName As New List(Of String)
-        arrDBName.Add(objCommonVar.CurrDatabase)
-        For ii As Integer = 0 To gvDB.Rows.Count - 1
-            If (clsCommon.myCBool(gvDB.Rows(ii).Cells(colSelect).Value)) Then
-                arrDBName.Add(clsCommon.myCstr(gvDB.Rows(ii).Cells(colDataBaseName).Value))
-            End If
-        Next
-        Return arrDBName
-    End Function
+
 
     Sub SetDataBaseGrid()
         gvDB.Rows.Clear()

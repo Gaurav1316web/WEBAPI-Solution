@@ -206,6 +206,7 @@ Public Class frmSNShipment
 
     Const colACCode As String = "COLACCODE"
     Const colACName As String = "COLACNAME"
+    Const colACType As String = "colACType"
     Const colACAmount As String = "COLACAMOUNT"
 
 
@@ -217,7 +218,10 @@ Public Class frmSNShipment
     Const colDCSIName As String = "colDCSIName"
     Const colDCSQty As String = "colDCSQty"
     Const colDCSUOM As String = "colDCSUOM"
-
+    Const colDCSFPKID As String = "colDCSFPKID"
+    Const colDCSFrieghtRate As String = "colDCSFrieghtRate"
+    Const colDCSFrieghtAmt As String = "colDCSFrieghtAmt"
+    Dim isSummarygvDCS As Boolean = True
     Dim atchqry As String = ""
     Public IsDataImported As Boolean = False
     Public gvExcel As New RadGridView
@@ -2094,7 +2098,14 @@ Public Class frmSNShipment
         repoACName.Width = 300
         repoACName.ReadOnly = True
         gvAC.MasterTemplate.Columns.Add(repoACName)
-
+        Dim repoACType As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoACType.FormatString = ""
+        repoACType.HeaderText = "Type"
+        repoACType.Name = colACType
+        repoACType.Width = 300
+        repoACType.ReadOnly = True
+        repoACType.IsVisible = False
+        gvAC.MasterTemplate.Columns.Add(repoACType)
         Dim repoACAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoACAmt.FormatString = ""
         repoACAmt.HeaderText = "Amount"
@@ -2174,7 +2185,7 @@ Public Class frmSNShipment
         repoNum.FormatString = ""
         repoNum.HeaderText = "Qty"
         repoNum.Name = colDCSQty
-        repoNum.Width = 100
+        repoNum.Width = 40
         repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNum.ReadOnly = False
         gvDCS.MasterTemplate.Columns.Add(repoNum)
@@ -2183,9 +2194,44 @@ Public Class frmSNShipment
         repoTxt.FormatString = ""
         repoTxt.HeaderText = "UOM"
         repoTxt.Name = colDCSUOM
-        repoTxt.Width = 100
+        repoTxt.Width = 40
         repoTxt.ReadOnly = True
         gvDCS.MasterTemplate.Columns.Add(repoTxt)
+        Dim repoNumFPKID As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNumFPKID.FormatString = "{0:n0}"
+        repoNumFPKID.HeaderText = "Frieght PK ID"
+        repoNumFPKID.Name = colDCSFPKID
+        repoNumFPKID.Width = 40
+        repoNumFPKID.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumFPKID.ReadOnly = True
+        repoNumFPKID.IsVisible = False
+        gvDCS.MasterTemplate.Columns.Add(repoNumFPKID)
+        Dim repoNumFrieghtRate As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNumFrieghtRate.FormatString = "{0:n2}"
+        repoNumFrieghtRate.HeaderText = "Frieght Rate"
+        repoNumFrieghtRate.Name = colDCSFrieghtRate
+        repoNumFrieghtRate.Width = 90
+        repoNumFrieghtRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumFrieghtRate.ReadOnly = True
+        repoNumFrieghtRate.IsVisible = True
+        gvDCS.MasterTemplate.Columns.Add(repoNumFrieghtRate)
+        Dim repoNumFrieghtAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNumFrieghtAmt.FormatString = "{0:n2}"
+        repoNumFrieghtAmt.HeaderText = "Frieght Amount"
+        repoNumFrieghtAmt.Name = colDCSFrieghtAmt
+        repoNumFrieghtAmt.Width = 100
+        repoNumFrieghtAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumFrieghtAmt.ReadOnly = True
+        repoNumFrieghtAmt.IsVisible = True
+        gvDCS.MasterTemplate.Columns.Add(repoNumFrieghtAmt)
+        If isSummarygvDCS Then
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            Dim FrieghtAmt As New GridViewSummaryItem("colDCSFrieghtAmt", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(FrieghtAmt)
+            gvDCS.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+            isSummarygvDCS = False
+        End If
+
 
         gvDCS.AllowAddNewRow = False
         gvDCS.ShowGroupPanel = False
@@ -4022,6 +4068,9 @@ Public Class frmSNShipment
                     objTr.ICode = clsCommon.myCstr(grow.Cells(colDCSICode).Value)
                     objTr.Qty = clsCommon.myCDecimal(grow.Cells(colDCSQty).Value)
                     objTr.UOM = clsCommon.myCstr(grow.Cells(colDCSUOM).Value)
+                    objTr.FPKID = clsCommon.myCDecimal(grow.Cells(colDCSFPKID).Value)
+                    objTr.Frieght_Rate = clsCommon.myCDecimal(grow.Cells(colDCSFrieghtRate).Value)
+                    objTr.Frieght_Amt = clsCommon.myCDecimal(grow.Cells(colDCSFrieghtAmt).Value)
                     If clsCommon.myLen(objTr.DCS_Code) > 0 AndAlso clsCommon.myLen(objTr.ICode) > 0 And objTr.Qty > 0 Then
                         obj.ArrDCSItem.Add(objTr)
                     End If
@@ -4683,8 +4732,13 @@ Public Class frmSNShipment
                         gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSIName).Value = objTr.IName
                         gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSQty).Value = objTr.Qty
                         gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSUOM).Value = objTr.UOM
+                        gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSFPKID).Value = objTr.FPKID
+                        gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSFrieghtRate).Value = objTr.Frieght_Rate
+                        gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSFrieghtAmt).Value = objTr.Frieght_Amt
                         gvDCS.Rows.AddNew()
                     Next
+
+
                 End If
                 SetitemWiseTaxOnlySetting()
                 UcAttachment1.LoadData(obj.Document_Code)
@@ -6795,6 +6849,9 @@ Public Class frmSNShipment
                         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                             gvAC.CurrentRow.Cells(colACCode).Value = obj.Code
                             gvAC.CurrentRow.Cells(colACName).Value = obj.desc
+                            'gvAC.CurrentRow.Cells(colACType).Value = ""
+                            'gvAC.CurrentRow.Cells(colACAmount).Value = 0
+
                         Else
                             gvAC.CurrentRow.Cells(colACCode).Value = ""
                             gvAC.CurrentRow.Cells(colACName).Value = ""
@@ -6816,6 +6873,7 @@ Public Class frmSNShipment
             If intCurrRow = gvAC.Rows.Count - 1 AndAlso gvAC.Rows.Count <= 10 Then
                 gvAC.Rows.AddNew()
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
+
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
@@ -8811,20 +8869,51 @@ a:          End If
                             gvDCS.CurrentRow.Cells(colDCSICode).Value = obj.Item_Code
                             gvDCS.CurrentRow.Cells(colDCSIName).Value = obj.Item_Desc
                             gvDCS.CurrentRow.Cells(colDCSUOM).Value = obj.uom_code
+                            Dim objFR As clsFrieghtRateDetail = clsFrieghtRateDetail.GetFrieghtRate(clsCommon.myCstr(txtCustomer.Value), txtDate.Value, clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSZone).Value), clsCommon.myCstr(obj.uom_code))
+                            If objFR IsNot Nothing AndAlso clsCommon.myLen(objFR.PK_ID) > 0 Then
+                                gvDCS.CurrentRow.Cells(colDCSFPKID).Value = objFR.PK_ID
+                                gvDCS.CurrentRow.Cells(colDCSFrieghtRate).Value = objFR.Frieght_Rate
+                            End If
+
                         Else
-                            gvDCS.CurrentRow.Cells(colDCSICode).Value = ""
+                                gvDCS.CurrentRow.Cells(colDCSICode).Value = ""
                             gvDCS.CurrentRow.Cells(colDCSIName).Value = ""
                             gvDCS.CurrentRow.Cells(colDCSUOM).Value = ""
                         End If
                     ElseIf e.Column Is gvDCS.Columns(colDCSQty) Then
-
+                        gvDCS.CurrentRow.Cells(colDCSFrieghtAmt).Value = gvDCS.CurrentRow.Cells(colDCSFrieghtRate).Value * gvDCS.CurrentRow.Cells(colDCSQty).Value
+                        setgvAC()
                     End If
                 End If
                 setGridFocusAC()
+
                 isCellValueChangedOpen = False
+
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+    Sub setgvAC()
+        Try
+            If (gvAC.Rows.Count) > 0 Then
+                Dim qry As String = "Select code, Description, FreightCharges from TSPL_Additional_Charges where FreightCharges='Y'"
+                Dim amt As Double = 0
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                    gvAC.Rows(0).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(0)("Code"))
+                    gvAC.Rows(0).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(0)("Description"))
+                    gvAC.Rows(0).Cells(colACType).Value = clsCommon.myCstr(dt.Rows(0)("FreightCharges"))
+
+                    For r As Integer = 0 To gvDCS.Rows.Count - 1
+                        amt += gvDCS.Rows(r).Cells(colDCSFrieghtAmt).Value
+                    Next
+                    gvAC.Rows(0).Cells(colACAmount).Value = amt
+                End If
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
