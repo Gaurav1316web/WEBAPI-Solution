@@ -14,44 +14,7 @@ Public Class frmFrieghtRateMaster
     Private isInsideLoadData As Boolean = False
 #End Region
     Private Sub frmFrieghtRateMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("From_Date", "datetime Not null")
-        coll.Add("To_Date", "datetime null")
-        coll.Add("Description", "varchar(100) null")
-        coll.Add("Inactive", "integer Not null")
-        coll.Add("Inactive_By", "varchar(30) null")
-        coll.Add("Location_Code", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Inactive_Date", "datetime NULL")
-        coll.Add("Created_By", "varchar(12)  Not NULL")
-        coll.Add("Created_Date", "datetime  Not NULL")
-        coll.Add("Modified_By", "varchar(12)  Not NULL")
-        coll.Add("Modified_Date", "datetime  Not NULL")
-        coll.Add("Status", "integer NOT NULL DEFAULT 0")
-        coll.Add("Posted_By", "varchar(12) NULL")
-        coll.Add("Posted_Date", "datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_FOR_SALE_Frieght", coll, "", True)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("REF_PK_ID", "integer NOT NULL references TSPL_DCS_FOR_SALE_Frieght(PK_ID)")
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Customer_Code", "varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
-        coll.Add("Zone_Code", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
-        coll.Add("UOM_Code", "varchar(12) null references TSPL_UNIT_MASTER(Unit_Code)")
-        coll.Add("Frieght_Rate", "Decimal(18,2) Not null")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_FOR_SALE_Frieght_Detail", coll, "", True)
 
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("DOCUMENT_CODE", "Varchar(30) NOT NULL References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
-        coll.Add("DCS_Code", "varchar(30) NOT NULL References TSPL_DCS_FOR_SALE(Code)")
-        coll.Add("ICode", "varchar(50) NOT NULL References TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Qty", "decimal(18, 2) NULL")
-        coll.Add("UOM", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
-        coll.Add("FPKID", "integer NOT NULL references TSPL_DCS_FOR_SALE_Frieght_Detail(PK_ID)")
-        coll.Add("Frieght_Rate", "decimal(18, 2) NULL")
-        coll.Add("Frieght_Amt", "decimal(18, 2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
         chkInactive.Enabled = False
         AddNew()
@@ -131,14 +94,14 @@ Public Class frmFrieghtRateMaster
         'repoTextBoxUOM.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoTextBoxUOM)
         Dim repoTextBox = New GridViewDecimalColumn()
-        repoTextBox.FormatString = "{0:n3   }"
+        repoTextBox.FormatString = "{0:n2}"
         repoTextBox.HeaderText = "Frieght Rate"
         repoTextBox.Name = colFrieghtRate
         repoTextBox.Width = 80
         repoTextBox.Minimum = 0
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
-        repoTextBox.DecimalPlaces = 3
+        repoTextBox.DecimalPlaces = 2
         repoTextBox.IsVisible = True
         'repoTextBox.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoTextBox)
@@ -302,6 +265,8 @@ Public Class frmFrieghtRateMaster
                         Dim whrcls As String = " Cust_Code in(select Customer_Code from TSPL_CUSTOMER_LOCATION_MAPPING where 2=2"
                         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                             whrcls += " AND Location_code in (" + objCommonVar.strCurrUserLocations + "))"
+                        Else
+                            whrcls += ")"
                         End If
                         gv1.CurrentRow.Cells(colCustCode).Value = clsCommon.myCstr(clsCustomerMaster.getFinder(whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value), False))
                         gv1.CurrentRow.Cells(colCustName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + gv1.CurrentRow.Cells(colCustCode).Value + "'"))

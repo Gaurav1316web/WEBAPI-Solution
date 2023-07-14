@@ -21,60 +21,86 @@ Public Class frmCorrection
 #End Region
 
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Dim id As String = Form_ID
+
         Try
-            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
+                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                    chkAddMissingSample.Visible = False
+                    chkAdjustOwnBMCFATSNF.Visible = True
+                    chkDeleteBMCCollection.Visible = True
+                    txtFromShift.Enabled = False
+                Else
+                    chkAddMissingSample.Visible = True
+                    chkAdjustOwnBMCFATSNF.Visible = False
+                    chkDeleteBMCCollection.Visible = False
+                    txtFromShift.Enabled = True
+                End If
+                SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
+                SettFATSNFNoDecimalMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing))
+                SettShowAllMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing))
+
+                MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
+                RadPageView1.SelectedPage = RadPageViewPage1
+                RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
+                SetUserMgmtNew()
+                LoadMilkType()
+                LoadMilkTypeBMC()
+                LoadShiftWithBoth()
+                LoadShift()
+                MilkWeight_Setting = clsFixedParameter.GetData(clsFixedParameterType.Milk_Can_Weight_Ratio, clsFixedParameterCode.MilkSetting, Nothing)
+                dclCorrectionFactor = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing)
+                settMaxReceiveSNFPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxReceiveSNFPer, clsFixedParameterCode.MaxReceiveSNFPer, Nothing))
+                settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
+                settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
+                IsRoundOffPaiseAmount = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
+                ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
+                txtShiftDate.Value = clsCommon.GETSERVERDATE()
+                txtDCSDate.Value = txtShiftDate.Value
+                cboShift.SelectedValue = "M"
+                RadGroupBox1.Enabled = False
+                RadGroupBox2.Enabled = True
+                txtShiftDate.Focus()
+
+                RadGroupBox3.Enabled = True
+                RadGroupBox4.Enabled = False
+
+                txtVLCCMFromDate.Value = txtShiftDate.Value
+                txtVLCCMToDate.Value = txtShiftDate.Value
+                txtMPCMFromDate.Value = txtShiftDate.Value
+                txtMPCMToDate.Value = txtShiftDate.Value
+                txtMCC.Visible = Not MultipleFinderFillAuto
+                lblMcc.Visible = Not MultipleFinderFillAuto
+                lblMCCCode.Visible = Not MultipleFinderFillAuto
+                LoadShiftFrom()
+            ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
+                txtShiftDate.Value = clsCommon.GETSERVERDATE()
+                txtDCSDate.Value = txtShiftDate.Value
+                cboShift.SelectedValue = "M"
+                RadGroupBox1.Enabled = False
+                RadGroupBox2.Enabled = True
+                txtShiftDate.Focus()
+                LoadShift()
                 chkAddMissingSample.Visible = False
-                chkAdjustOwnBMCFATSNF.Visible = True
-                chkDeleteBMCCollection.Visible = True
-                txtFromShift.Enabled = False
-            Else
-                chkAddMissingSample.Visible = True
-                chkAdjustOwnBMCFATSNF.Visible = False
-                chkDeleteBMCCollection.Visible = False
-                txtFromShift.Enabled = True
+                btnSave.Text = "Update"
+                RadPageViewPage1.Text = "Milk Retesting"
+                RadGroupBox1.HeaderText = "Milk Retesting"
+                RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
+                RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
+                RadPageView1.Pages("RadPageViewPage4").Item.Visibility = ElementVisibility.Collapsed
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+
+
+
             End If
-            SettMilkCollectionFATSNFType = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
-            SettFATSNFNoDecimalMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FATSNFNoDecimalMCC, clsFixedParameterCode.FATSNFNoDecimalMCC, Nothing))
-            SettShowAllMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing))
-
-            MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
-            RadPageView1.SelectedPage = RadPageViewPage1
-            RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
-            SetUserMgmtNew()
-            LoadMilkType()
-            LoadMilkTypeBMC()
-            LoadShiftWithBoth()
-            LoadShift()
-            MilkWeight_Setting = clsFixedParameter.GetData(clsFixedParameterType.Milk_Can_Weight_Ratio, clsFixedParameterCode.MilkSetting, Nothing)
-            dclCorrectionFactor = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing)
-            settMaxReceiveSNFPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxReceiveSNFPer, clsFixedParameterCode.MaxReceiveSNFPer, Nothing))
-            settMaxFATPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxFATPerLimit, clsFixedParameterCode.MaxFATPerLimit, Nothing))
-            settMaxSNFPerLimit = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MaxSNFPerLimit, clsFixedParameterCode.MaxSNFPerLimit, Nothing))
-            IsRoundOffPaiseAmount = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
-            ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
-            txtShiftDate.Value = clsCommon.GETSERVERDATE()
-            txtDCSDate.Value = txtShiftDate.Value
-            cboShift.SelectedValue = "M"
-            RadGroupBox1.Enabled = False
-            RadGroupBox2.Enabled = True
-            txtShiftDate.Focus()
-
-            RadGroupBox3.Enabled = True
-            RadGroupBox4.Enabled = False
-
-            txtVLCCMFromDate.Value = txtShiftDate.Value
-            txtVLCCMToDate.Value = txtShiftDate.Value
-            txtMPCMFromDate.Value = txtShiftDate.Value
-            txtMPCMToDate.Value = txtShiftDate.Value
-            txtMCC.Visible = Not MultipleFinderFillAuto
-            lblMcc.Visible = Not MultipleFinderFillAuto
-            lblMCCCode.Visible = Not MultipleFinderFillAuto
-            LoadShiftFrom()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
+
+
     End Sub
+
 
     Sub LoadShiftFrom()
         Dim dt As DataTable = New DataTable
@@ -253,7 +279,30 @@ Public Class frmCorrection
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        SaveData()
+        If btnSave.Text = "Update" Then
+
+            ShowRemarks()
+
+            Else
+            SaveData()
+        End If
+    End Sub
+    Private Sub ShowRemarks()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Retesting"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+
+            End If
+            SaveData()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub SaveData()
