@@ -12,6 +12,7 @@ Public Class frmShipmentDairy
     Dim AllowCrateCanPhysicalStock As Integer = 0
     Public AllowtoChangeTCSBaseAmount As Boolean = False
     Dim StockCheckOnPostForDairyDispatchMultiple As Boolean = False
+    Dim SettDistributorWiseBilling As Boolean = False
     Public checkstockmrpwise As Boolean = False
     Dim AmountToCheckCustomerOutstandingForTCSTax As Double = 0
     Dim blnReverse As Boolean = False
@@ -390,6 +391,8 @@ Public Class frmShipmentDairy
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+        SettDistributorWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, Nothing)) = 1)
         CreateFreshInvoiceOnDispatchSave = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateFreshInvoiceOnDispatchSave, clsFixedParameterCode.CreateFreshInvoiceOnDispatchSave, Nothing))
         CreateCommonDairyDispatchforFreshAmbient = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateCommonDairyDispatchforFreshAmbient, clsFixedParameterCode.CreateCommonDairyDispatchforFreshAmbient, Nothing))
         EnableCustomerPODetailonDairyBooking = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableCustomerPODetailonDairyBooking, clsFixedParameterCode.EnableCustomerPODetailonDairyBooking, Nothing))
@@ -400,6 +403,7 @@ Public Class frmShipmentDairy
         ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ConsiderPreviousCurrentFYForTCSTaxCustOutstanding, clsFixedParameterCode.ConsiderPreviousCurrentFYForTCSTaxCustOutstanding, Nothing)) = "1", True, False)
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         StockCheckOnPostForDairyDispatchMultiple = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StockCheckOnPostForDairyDispatchMultiple, clsFixedParameterCode.StockCheckOnPostForDairyDispatchMultiple, Nothing)) = 1, True, False)
+
         btnShowInventory.Visible = True
         IsFormLoad = True
         lblPriceCode.Visible = True
@@ -524,6 +528,11 @@ Public Class frmShipmentDairy
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Collapsed
         End If
         ''End of For Attachment
+
+        If Not SettDistributorWiseBilling Then
+            RadPageView1.Pages("RadPageViewPage8").Item.Visibility = ElementVisibility.Collapsed
+        End If
+
 
         If clsCommon.myLen(DocumentNo) > 0 Then
             LoadData(DocumentNo, NavigatorType.Current)
@@ -6320,6 +6329,15 @@ Public Class frmShipmentDairy
         TxtEWayBillUpdateBillDate.Value = DateTime.Now
         TxtEWayBillUpdateValidDate.Value = DateTime.Now
         TxtEWayBillUpdateBillRemarks.Text = ""
+
+        txtFromDateDistributor.Value = DateTime.Now
+        txtToDateDistributor.Value = DateTime.Now
+
+        txtRouteNo.Enabled = SettDistributorWiseBilling
+        gvDistributor.DataSource = Nothing
+        gvDistributor.Rows.Clear()
+        gvDistributor.Columns.Clear()
+        gv1.ReadOnly = False
     End Sub
 
     Private Sub isValid_CashScheme()
@@ -6346,6 +6364,9 @@ Public Class frmShipmentDairy
 
     Function AllowToSave(ByVal ChekPostBtn As Boolean, Optional ByVal UpdateCustomerAfterPost As Boolean = False) As Boolean
         Try
+            If SettDistributorWiseBilling Then
+                MergeDistributorItems(True)
+            End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             If UpdateCustomerAfterPost <> True Then
                 If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -6469,8 +6490,6 @@ Public Class frmShipmentDairy
 
                 End If
             End If
-
-
             If strExcise = True Then
                 If txtRemovalDate.Checked = False Then
                     Throw New Exception("Pls select Removal Date")
@@ -6483,21 +6502,6 @@ Public Class frmShipmentDairy
                 Throw New Exception("Please enter Commission amount.")
                 Return False
             End If
-            'Dim dblPendingBookingAdvanceAmt As Double
-            'Dim strSql = "select (TSPL_BOOKING_MASTER_PRODUCTSALE.Total_Amt * TSPL_BOOKING_MASTER_PRODUCTSALE.Advance_Percentage)/100 -  isnull(TSPL_RECEIPT_HEADER.Receipt_Amount,0) from TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE  " & _
-            '"left outer join TSPL_SD_SALES_ORDER_HEAD on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Against_Sales_Order=TSPL_SD_SALES_ORDER_HEAD.Document_Code  " & _
-            '"left outer join TSPL_BOOKING_MASTER_PRODUCTSALE on TSPL_SD_SALES_ORDER_HEAD.Against_Booking_No=TSPL_BOOKING_MASTER_PRODUCTSALE.Document_Code " & _
-            '"left outer join TSPL_RECEIPT_HEADER on TSPL_BOOKING_MASTER_PRODUCTSALE.Document_Code=TSPL_RECEIPT_HEADER.Booking_Code  " & _
-            '"where TSPL_BOOKING_MASTER_PRODUCTSALE.Advance_Percentage > 0 and TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code='" & txtReqNo.Value & "'"
-            'dblPendingBookingAdvanceAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strSql))
-            'If ChekPostBtn Then
-
-            'Else
-            '    If dblPendingBookingAdvanceAmt > 0 Then
-            '         Throw New Exception("Advance Amount has not been received for booking")
-            '    End If
-            'End If
-
             If clsCommon.CompairString(ddlDispatchTerms.SelectedValue, "FE") = CompairStringResult.Equal Then
                 If lblAddCharges.Text = 0 Then
                     Throw New Exception("Please Enter additional charges for Freight Extra")
@@ -7702,7 +7706,13 @@ Public Class frmShipmentDairy
                 Throw New Exception("Please Fill at list one Item")
                 Return False
             End If
-
+            obj.ArrDemand = New List(Of clsPSShipmentDemand)
+            For ii As Integer = 0 To gvDistributor.Rows.Count - 1
+                Dim objD As New clsPSShipmentDemand
+                objD.Booking_TR_Code = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("TR_Code").Value)
+                objD.Qty = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Qty").Value)
+                obj.ArrDemand.Add(objD)
+            Next
             ''For Custom Fields
             obj.Form_ID = MyBase.Form_ID
             obj.arrCustomFields = New List(Of clsCustomFieldValues)
@@ -8652,6 +8662,15 @@ Public Class frmShipmentDairy
                     TxtEWayBillUpdateBillRemarks.Text = clsCommon.myCstr(dtInv.Rows(0)("EWayBillRemarks"))
                 End If
 
+                qry = "select TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code as TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
+from  TSPL_SD_SHIPMENT_BOOKING_DETAIL
+left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.TR_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code
+left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+where TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE='" + obj.Document_Code + "'
+order by TSPL_DEMAND_BOOKING_DETAIL.TR_Code"
+                LoadDistributorGrid(qry)
             End If
             If clsCommon.myLen(txtInvoiceNo.Text) > 0 Then
                 btnInvoiceJE.Visible = True
@@ -9820,7 +9839,9 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
         '''' priti change ends here
         'SetTaxDetails()
         SetTermDetails()
-        strOrginalCust = clsDBFuncationality.getSingleValue("select Customer_Code from  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE  where Document_No='" & clsCommon.myCstr(gv1.Rows(0).Cells(colOrderNo).Value) & "'")
+        If gv1.Rows.Count > 0 Then
+            strOrginalCust = clsDBFuncationality.getSingleValue("select Customer_Code from  TSPL_DELIVERY_NOTE_MASTER_FRESHSALE  where Document_No='" & clsCommon.myCstr(gv1.Rows(0).Cells(colOrderNo).Value) & "'")
+        End If
     End Sub
 
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
@@ -11571,10 +11592,10 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
     End Sub
 
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRouteNo._MYValidating
-
         Dim qry As String = "Select Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
         txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
         fndRouteNo_TextChanged()
+        LoadDemandData()
     End Sub
 
     Private Sub fndRouteNo_TextChanged()
@@ -14084,6 +14105,167 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
+        LoadDemandData()
+    End Sub
+
+    Private Sub LoadDemandData()
+        Try
+            If SettDistributorWiseBilling AndAlso
+                clsCommon.myLen(txtRouteNo.Value) > 0 AndAlso
+                clsCommon.myLen(txtBillToLocation.Value) > 0 AndAlso
+                clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                Dim qry As String = "select TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
+from TSPL_DEMAND_BOOKING_DETAIL 
+left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+where 
+TSPL_DEMAND_BOOKING_MASTER.Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDateDistributor.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDateDistributor.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + txtRouteNo.Value + "' and TSPL_DEMAND_BOOKING_MASTER.Location_Code='" + txtBillToLocation.Value + "' and TSPL_CUSTOMER_MASTER.Distributor_Code='" + txtVendorNo.Value + "'"
+                If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+                    qry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
+                Else
+                    qry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
+                End If
+                qry += " and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_DEMAND_BOOKING_DETAIL.TR_Code and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
+order by TSPL_DEMAND_BOOKING_DETAIL.TR_Code "
+                LoadDistributorGrid(qry)
+                MergeDistributorItems(True)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadPageView1_SelectedPageChanging(sender As Object, e As RadPageViewCancelEventArgs) Handles RadPageView1.SelectedPageChanging
+        If clsCommon.CompairString(e.Page.Name, "RadPageViewPage8") Then
+            MergeDistributorItems(False)
+        End If
+    End Sub
+
+    Private Sub LoadDistributorGrid(ByVal qry As String)
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            gvDistributor.DataSource = dt
+            gvDistributor.GroupDescriptors.Clear()
+            gvDistributor.ShowGroupPanel = False
+            gvDistributor.MasterTemplate.SummaryRowsBottom.Clear()
+            gvDistributor.EnableFiltering = True
+            gvDistributor.AllowAddNewRow = False
+
+            For ii As Integer = 0 To gvDistributor.Columns.Count - 1
+                gvDistributor.Columns(ii).ReadOnly = True
+                gvDistributor.Columns(ii).IsVisible = True
+            Next
+            gvDistributor.BestFitColumns()
+
+            gvDistributor.Columns("TR_Code").HeaderText = "TR_Code"
+            gvDistributor.Columns("TR_Code").IsVisible = False
+            gvDistributor.Columns("Cust_Code").HeaderText = "Booth Code"
+            gvDistributor.Columns("Customer_Name").HeaderText = "Booth Name"
+            gvDistributor.Columns("Item_Code").HeaderText = "Item Code"
+            gvDistributor.Columns("Item_Desc").HeaderText = "Item Name"
+            gvDistributor.Columns("Qty").HeaderText = "Qty"
+            gvDistributor.Columns("Qty").ReadOnly = False
+            gvDistributor.Columns("Unit_code").HeaderText = "UOM"
+
+            gv1.ReadOnly = True
+            txtRouteNo.Enabled = False
+        End If
+    End Sub
+
+    Function MergeDistributorItems(ByVal IsThrowException As Boolean) As Boolean
+        Try
+            isInsideLoadData = True
+            If SettDistributorWiseBilling Then
+                LoadBlankGrid()
+                Dim myDictionary As New Dictionary(Of String, clsSNShipmentDCSItemDetail)
+                For ii As Integer = 0 To gvDistributor.Rows.Count - 1
+                    If clsCommon.myLen(gvDistributor.Rows(ii).Cells("Item_Code").Value) > 0 AndAlso clsCommon.myLen(gvDistributor.Rows(ii).Cells("Unit_code").Value) > 0 AndAlso clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value) > 0 Then
+                        Dim strKey As String = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value) + clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                        If myDictionary.ContainsKey(strKey) Then
+                            myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                        Else
+                            Dim obj As New clsSNShipmentDCSItemDetail
+                            obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
+                            obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
+                            obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
+                            myDictionary.Add(strKey, obj)
+                        End If
+                    End If
+                Next
+
+                If myDictionary.Count > 0 Then
+                    If gv1.Rows.Count > 0 AndAlso clsCommon.myLen(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value) <= 0 Then
+                        gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
+                    End If
+                    For Each strKey As String In myDictionary.Keys
+                        gv1.Rows.AddNew()
+
+                        strExcise = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Excisable from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'")) = "T", True, False)
+                        If strExcise = True Then
+                            lblRemovalDate.Visible = True
+                            txtRemovalDate.Visible = True
+                        Else
+                            lblRemovalDate.Visible = False
+                            txtRemovalDate.Visible = False
+                        End If
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = RowTypeItem
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = obj.Document_No
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTAX_PAID).Value = "No"
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = myDictionary(strKey).ICode
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = clsItemMaster.GetItemName(myDictionary(strKey).ICode, Nothing)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIHSN).Value = clsItemMaster.GetItemHSNCode(myDictionary(strKey).ICode, Nothing)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsEmptyValue).Value = clsItemMaster.IsItemHaveEmptyValue(myDictionary(strKey).ICode)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIStruct).Value = clsItemMaster.GetItemStructureCode(myDictionary(strKey).ICode, Nothing)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = myDictionary(strKey).UOM
+
+                        ItemPrice(gv1.CurrentRow.Cells(colICode).Value, gv1.CurrentRow.Cells(colUnit).Value, gv1.CurrentRow.Index)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = txtBillToLocation.Value
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = lblBillToLocation.Text
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsSerialseItem).Value = clsItemMaster.IsSerializeItem(myDictionary(strKey).ICode)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIsBatchItem).Value = clsItemMaster.IsBatchItem(myDictionary(strKey).ICode)
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = myDictionary(strKey).Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = myDictionary(strKey).Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colOrgUnit).Value = myDictionary(strKey).UOM
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colPendingQty).Value = 0
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = 0
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceDateColumn).Value = obj.Price_Date
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colPriceCOde).Value = obj.Price_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colConvF).Value = 1
+                        'gv1.Rows(gv1.Rows.Count - 1).Cells(colFromSchemeCode).Value = obj.Scheme_Code
+                        If chkSampling.Checked Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = 0
+                        End If
+                        If AutoScheme = True Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colSchemeApplicable).Value = "Yes"
+                        End If
+                        'findQtyandPromoSchemeCode(False, obj.Scheme_Code, objOrderHead.Document_Date)
+                    Next
+                    For ii As Integer = 0 To gv1.Rows.Count - 1
+                        UpdateCurrentRow(ii)
+                    Next
+                    UpdateAllTotals()
+                End If
+            End If
+            isInsideLoadData = False
+        Catch ex As Exception
+            isInsideLoadData = False
+            If IsThrowException Then
+                Throw New Exception(ex.Message)
+            Else
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End If
+        End Try
+        Return True
+    End Function
 End Class
 
 

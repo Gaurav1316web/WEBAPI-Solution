@@ -2012,13 +2012,22 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             HeadingPAYMENTRowCount = clsCommon.myCdbl(IIf(Math.Ceiling(dtAdditionHeader.Rows.Count / 4) <= 4, 4, Math.Ceiling(dtAdditionHeader.Rows.Count / 4)))
 
 
-            sQueryDH = " select distinct (case when len(TSPL_DCS_ADDITION_DEDUCTION.Description)>0 then TSPL_DCS_ADDITION_DEDUCTION.Description
-when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) as Ded_Code from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
-                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
-                    where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1
-                    order by (case when len(TSPL_DCS_ADDITION_DEDUCTION.Description)>0 then TSPL_DCS_ADDITION_DEDUCTION.Description
-when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) "
+            '            sQueryDH = " select distinct (case when len(TSPL_DCS_ADDITION_DEDUCTION.Description)>0 then TSPL_DCS_ADDITION_DEDUCTION.Description
+            'when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) as Ded_Code from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
+            '                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
+            'left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
+            '                    where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1
+            '                    order by (case when len(TSPL_DCS_ADDITION_DEDUCTION.Description)>0 then TSPL_DCS_ADDITION_DEDUCTION.Description
+            'when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) "
+
+            sQueryDH = " 	 select distinct (case when len(TSPL_DEDUCTION_MASTER.Description)>0 then TSPL_DEDUCTION_MASTER.Description
+                             when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) as Ded_Code from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
+                             left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
+                             left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
+                             left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
+                             where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1
+                             order by (case when len(TSPL_DEDUCTION_MASTER.Description)>0 then TSPL_DEDUCTION_MASTER.Description
+                             when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) "
             Dim dtDeductionHeader As DataTable = clsDBFuncationality.GetDataTable(sQueryDH)
             HeadingDEDUCTIONRowCount = clsCommon.myCdbl(IIf(Math.Ceiling(dtDeductionHeader.Rows.Count / 4) <= 4, 4, Math.Ceiling(dtDeductionHeader.Rows.Count / 4)))
             HeadingRowCount = clsCommon.myCdbl(Math.Max(HeadingPAYMENTRowCount, HeadingDEDUCTIONRowCount))
@@ -2170,12 +2179,13 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
             Dim dtAdditionTemp As DataTable = clsDBFuncationality.GetDataTable(sQueryAD)
 
             sQueryDD = " select Final.Vendor_CODE as VSP_CODE, Final.Ded_Code,Final.ROUTE_NO as ROUTE_CODE, sum(Amount) as [Amount] from (
-select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME,(case when len(TSPL_DCS_ADDITION_DEDUCTION.Description)>0 then TSPL_DCS_ADDITION_DEDUCTION.Description
-when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) as Ded_Code,TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO , (ISNULL (TSPL_PAYMENT_PROCESS_DEDUCTION.Amount ,0)-ISNULL(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0) ) as 'AMOUNT' from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-LEFT OUTER JOIN TSPL_BULK_ROUTE_MASTER_MCC ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_BULK_ROUTE_MASTER_MCC.MCC_CODE
-left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
-where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1"
+                         select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME,(case when len(TSPL_DEDUCTION_MASTER.Description)>0 then TSPL_DEDUCTION_MASTER.Description
+                         when len(TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc)>0 then TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc else TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code end) as Ded_Code,TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO , (ISNULL (TSPL_PAYMENT_PROCESS_DEDUCTION.Amount ,0)-ISNULL(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0) ) as 'AMOUNT' from TSPL_PAYMENT_PROCESS_DEDUCTION inner join TSPL_PAYMENT_PROCESS_HEAD on  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No = TSPL_PAYMENT_PROCESS_HEAD.Doc_No
+                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
+                         LEFT OUTER JOIN TSPL_BULK_ROUTE_MASTER_MCC ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_BULK_ROUTE_MASTER_MCC.MCC_CODE
+                         left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
+                         left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.code =TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code
+                         where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + dtpFromDCS_Ledger.Value + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + dtpToDCS_Ledger.Value + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1"
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
                 sQueryDD += " and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
             End If
@@ -2572,7 +2582,7 @@ where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + 
             'PDF
             If Gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add("Union: " & objCommonVar.CurrentCompanyName)
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(dtpFromDCS_Ledger.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDCS_Ledger.Value, "dd/MM/yyyy")) + " ")
                 clsCommon.MyExportToPDF("DCS LEDGER", Gv1, arrHeader, "DCS LEDGER", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If

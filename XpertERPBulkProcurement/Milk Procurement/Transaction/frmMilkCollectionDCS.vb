@@ -47,6 +47,7 @@ Public Class frmMilkCollectionDCS
     Dim settMaxFATPerLimit As Decimal = 0
     Dim settMaxSNFPerLimit As Decimal = 0
     Dim corrFactor As Decimal = 0
+    Public Shared IsViewBalance As Boolean = False
 #End Region
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
@@ -419,35 +420,79 @@ Public Class frmMilkCollectionDCS
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = "Morning Fat KG"
-        repoNumBox.Name = colMorningFATKG
-        repoNumBox.Width = 100
-        repoNumBox.Minimum = 0
-        repoNumBox.Maximum = 9999
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 3
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
-        repoNumBox.ReadOnly = Not repoNumBox.IsVisible
-        gv1.MasterTemplate.Columns.Add(repoNumBox)
+        If clsCommon.CompairString(objCommonVar.CurrDatabase, "SKR") = CompairStringResult.Equal Then
 
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = "Morning SNF KG" ''If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
-        repoNumBox.Name = colMorningSNFKG
-        repoNumBox.Width = 100
-        repoNumBox.Minimum = 0
-        repoNumBox.Maximum = 9999
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 3
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
-        repoNumBox.ReadOnly = Not repoNumBox.IsVisible
-        gv1.MasterTemplate.Columns.Add(repoNumBox)
+            repoNumBox = New GridViewDecimalColumn()
+            repoNumBox.FormatString = ""
+            repoNumBox.HeaderText = "Morning Fat KG"
+            repoNumBox.Name = colMorningFATKG
+            repoNumBox.Width = 100
+            repoNumBox.Minimum = 0
+            repoNumBox.Maximum = 9999
+            repoNumBox.ShowUpDownButtons = False
+            repoNumBox.Step = 0
+            repoNumBox.DecimalPlaces = 3
+            repoNumBox.ReadOnly = True
+            repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            repoNumBox.IsVisible = (SettHideShiftCollection <> 2)
+            gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+
+            repoNumBox = New GridViewDecimalColumn()
+            repoNumBox.FormatString = ""
+            repoNumBox.HeaderText = "Morning Snf KG"
+            repoNumBox.Name = colMorningSNFKG
+            repoNumBox.Width = 100
+            repoNumBox.Minimum = 0
+            repoNumBox.Maximum = 9999
+            repoNumBox.ShowUpDownButtons = False
+            repoNumBox.Step = 0
+            repoNumBox.DecimalPlaces = 3
+            repoNumBox.ReadOnly = True
+            repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            repoNumBox.IsVisible = (SettHideShiftCollection <> 2)
+            gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+
+
+        Else
+
+            repoNumBox = New GridViewDecimalColumn()
+            repoNumBox.FormatString = "{0:n3}"
+            repoNumBox.HeaderText = "Morning Fat KG"
+            repoNumBox.Name = colMorningFATKG
+            repoNumBox.Width = 100
+            repoNumBox.Minimum = 0
+            repoNumBox.Maximum = 9999
+            repoNumBox.ShowUpDownButtons = False
+            repoNumBox.Step = 0
+            repoNumBox.DecimalPlaces = 3
+            repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
+            repoNumBox.ReadOnly = Not repoNumBox.IsVisible
+            gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+            repoNumBox = New GridViewDecimalColumn()
+            repoNumBox.FormatString = "{0:n3}"
+            repoNumBox.HeaderText = "Morning SNF KG" ''If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
+            repoNumBox.Name = colMorningSNFKG
+            repoNumBox.Width = 100
+            repoNumBox.Minimum = 0
+            repoNumBox.Maximum = 9999
+            repoNumBox.ShowUpDownButtons = False
+            repoNumBox.Step = 0
+            repoNumBox.DecimalPlaces = 3
+            repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
+            repoNumBox.ReadOnly = Not repoNumBox.IsVisible
+            gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+
+
+        End If
+
+
+
 
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -1868,6 +1913,14 @@ where TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK
         Next
         Return Arr
     End Function
-
+    Private Sub btnCreateDCS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateDCS.Click
+        Dim DocNo As String = gv1.CurrentRow.Cells(colVLCUploaderCode).Value
+        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSP_VLCMaster, DocNo)
+    End Sub
+    'Private Sub btnViewBalance_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnViewBalance.Click
+    '    Dim DocNo As String = gv1.CurrentRow.Cells(colVLCUploaderCode).Value
+    '    isViewBalance = True
+    '    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.VendorCustomerLedgerReport, DocNo)
+    'End Sub
 
 End Class

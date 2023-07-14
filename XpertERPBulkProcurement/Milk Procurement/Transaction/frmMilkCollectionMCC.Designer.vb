@@ -176,14 +176,14 @@ Partial Class frmMilkCollectionMCC
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Panel2.Location = New System.Drawing.Point(0, 354)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(1093, 31)
+        Me.Panel2.Size = New System.Drawing.Size(1153, 31)
         Me.Panel2.TabIndex = 1
         '
         'btnReverse
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(803, 5)
+        Me.btnReverse.Location = New System.Drawing.Point(863, 5)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(125, 22)
         Me.btnReverse.TabIndex = 42
@@ -273,7 +273,7 @@ Partial Class frmMilkCollectionMCC
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1005, 5)
+        Me.btnClose.Location = New System.Drawing.Point(1065, 5)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(78, 22)
         Me.btnClose.TabIndex = 6
@@ -307,7 +307,7 @@ Partial Class frmMilkCollectionMCC
         Me.gvTotal.Name = "gvTotal"
         Me.gvTotal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTotal.ShowGroupPanel = False
-        Me.gvTotal.Size = New System.Drawing.Size(220, 98)
+        Me.gvTotal.Size = New System.Drawing.Size(220, 116)
         Me.gvTotal.TabIndex = 7
         Me.gvTotal.TabStop = False
         '
@@ -357,7 +357,7 @@ Partial Class frmMilkCollectionMCC
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1093, 111)
+        Me.Panel1.Size = New System.Drawing.Size(1153, 111)
         Me.Panel1.TabIndex = 0
         '
         'RadGroupBox1
@@ -1101,7 +1101,7 @@ Partial Class frmMilkCollectionMCC
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
-        Me.gv1.Size = New System.Drawing.Size(1093, 141)
+        Me.gv1.Size = New System.Drawing.Size(1153, 123)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
         '
@@ -1120,8 +1120,8 @@ Partial Class frmMilkCollectionMCC
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1093, 243)
-        Me.SplitContainer1.SplitterDistance = 141
+        Me.SplitContainer1.Size = New System.Drawing.Size(1153, 243)
+        Me.SplitContainer1.SplitterDistance = 123
         Me.SplitContainer1.TabIndex = 3
         '
         'SplitContainer2
@@ -1139,7 +1139,7 @@ Partial Class frmMilkCollectionMCC
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvParam)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1093, 98)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1153, 116)
         Me.SplitContainer2.SplitterDistance = 220
         Me.SplitContainer2.TabIndex = 3
         '
@@ -1161,7 +1161,7 @@ Partial Class frmMilkCollectionMCC
         Me.gvParam.Name = "gvParam"
         Me.gvParam.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvParam.ShowGroupPanel = False
-        Me.gvParam.Size = New System.Drawing.Size(869, 98)
+        Me.gvParam.Size = New System.Drawing.Size(929, 116)
         Me.gvParam.TabIndex = 3
         Me.gvParam.TabStop = False
         '
@@ -1169,7 +1169,7 @@ Partial Class frmMilkCollectionMCC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1093, 385)
+        Me.ClientSize = New System.Drawing.Size(1153, 385)
         Me.ControlBox = False
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.Panel1)

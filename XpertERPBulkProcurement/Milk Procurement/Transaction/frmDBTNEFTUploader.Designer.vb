@@ -33,6 +33,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrintBankLetter = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnNEFTUploader = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -76,6 +77,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage2.SuspendLayout()
         Me.Panel1.SuspendLayout()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintBankLetter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNEFTUploader, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -119,6 +121,7 @@ Partial Class frmDBTNEFTUploader
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintBankLetter)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnNEFTUploader)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -234,6 +237,16 @@ Partial Class frmDBTNEFTUploader
         Me.RadButton1.Size = New System.Drawing.Size(137, 20)
         Me.RadButton1.TabIndex = 5
         Me.RadButton1.Text = "Export Invalid Data"
+        '
+        'btnPrintBankLetter
+        '
+        Me.btnPrintBankLetter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintBankLetter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintBankLetter.Location = New System.Drawing.Point(390, 5)
+        Me.btnPrintBankLetter.Name = "btnPrintBankLetter"
+        Me.btnPrintBankLetter.Size = New System.Drawing.Size(100, 22)
+        Me.btnPrintBankLetter.TabIndex = 160
+        Me.btnPrintBankLetter.Text = "Print Bank Letter"
         '
         'btnPrint
         '
@@ -663,6 +676,7 @@ Partial Class frmDBTNEFTUploader
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintBankLetter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNEFTUploader, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -729,5 +743,6 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
     Friend WithEvents gvFarmer As common.UserControls.MyRadGridView
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents btnPrintBankLetter As RadButton
 End Class
 

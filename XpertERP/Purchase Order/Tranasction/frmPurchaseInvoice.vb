@@ -8482,7 +8482,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                         and TSPL_SRN_DETAIL.item_code=SS.Item_Code and GG.BILL_TO_LOCATION=SS.BILL_TO_LOCATION)as SRNQtyInQtl
                         FROM (select '' as RAL_Period,isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as Actual_Total_TDS,cast(case when isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0)>0 and isnull(TSPL_PI_DETAIL.Taxable_Amount,0)>0 then
                          ( isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) 
-                          / (select sum(isnull(TSPL_PI_DETAIL.Taxable_Amount,0)) from TSPL_PI_DETAIL where PI_NO='" + txtDocNo.Value + "' ))
+                          / (select sum(isnull(TSPL_PI_DETAIL.Taxable_Amount,0)) from TSPL_PI_DETAIL where PI_NO='" + txtDocNo.Value + "'  ))
                           * isnull(TSPL_PI_DETAIL.Taxable_Amount,0) else 0 end as decimal(18,2)) as TDS,
                            isnull (TSPL_SRN_TENDER.Penalty,0) as Penalty ,
                            isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as Ded_Amt,
@@ -8494,12 +8494,9 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     ,cast ((TSPL_PI_DETAIL.Item_Net_Amt / cast  (( TSPL_PI_DETAIL.PI_Qty * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) ) as decimal(18,2)) as RateInKg, cast ((TSPL_PI_DETAIL.Item_Net_Amt /TSPL_PI_DETAIL.PI_Qty) as decimal(18,2)) as RateInQtl
                     , TSPL_PI_DETAIL.Total_Tax_Amt  as GST_RATE , TSPL_PI_DETAIL.Item_Net_Amt as Amount , isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) as  Per_QLT,  isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as QualityDeduction, isnull(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt,0) as Securitys , TSPL_GRN_HEAD.Ref_No ,   isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (TSPL_SRN_TENDER.Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end   as TotalDeduction    ,TSPL_PI_DETAIL.Item_Net_Amt  -  ( isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (TSPL_SRN_TENDER.Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end ) as PayableAmount
                     ,TSPL_LOCATION_MASTER.Location_Desc	
-                    ,TSPL_GRN_HEAD.[Invoice/Challan_No] as GRNChallan_No
-                    , CASE WHEN GUNNY_TSPL_ITEM_MASTER.Item_Desc LIKE '%JUTE%' THEN TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight 
-                    ELSE 0 END AS JuteBagWeight
-                    , CASE WHEN GUNNY_TSPL_ITEM_MASTER.Item_Desc LIKE '%PLASTIC BARDANA%' THEN TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight 
-                    ELSE 0 END AS PPBagWeight
-                    ,TSPL_TENDER_DETAIL.Qty as RALQty	
+                    ,TSPL_GRN_HEAD.[Invoice/Challan_No] as GRNChallan_No,
+					TSPL_PO_WEIGHTMENT_GUNNY.JuteBagWeight,TSPL_PO_WEIGHTMENT_GUNNY.PPBagWeight
+                     ,TSPL_TENDER_DETAIL.Qty as RALQty	
                     ,TSPL_PI_DETAIL.Item_Code,TSPL_PI_HEAD.Bill_To_Location
                     , TAC1.Description as TAC1name,isnull (TSPL_PI_HEAD.Add_Charge_Amt1,0) as TAC1amt
                     , TAC2.Description as TAC2name,isnull (TSPL_PI_HEAD.Add_Charge_Amt2,0) as TAC2amt
@@ -8535,8 +8532,10 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DEDUCTION.Item_Code = TSPL_PI_DETAIL.Item_Code
                     left outer join TSPL_PI_REMITTANCE on TSPL_PI_REMITTANCE.Document_No=TSPL_PI_HEAD.pi_no
                     left outer join TSPL_LOCATION_MASTER on TSPL_PI_HEAD.Bill_To_Location =TSPL_LOCATION_MASTER.Location_Code
-                    left join TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
-                    left join TSPL_ITEM_MASTER as GUNNY_TSPL_ITEM_MASTER ON GUNNY_TSPL_ITEM_MASTER.ITEM_CODE=TSPL_PO_WEIGHTMENT_GUNNY.ITEM_CODE
+                    left join (SELECT Weighment_Code, ISNULL([PM0001],0) AS 'JuteBagWeight',ISNULL([PM0002],0) AS 'PPBagWeight'  FROM (SELECT TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code,TSPL_PO_WEIGHTMENT_GUNNY.Item_Code,CAST(ISNULL(TSPL_PO_WEIGHTMENT_GUNNY.Qty,0)*ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)/100 AS decimal(18,2)) AS QTY FROM   TSPL_PO_WEIGHTMENT_GUNNY
+					left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PO_WEIGHTMENT_GUNNY.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code='KG' ) AS PO_WEIGHTMENT_GUNNY
+					PIVOT (SUM(QTY) FOR ITEM_CODE IN ([PM0001],[PM0002])) AS TSPL_PO_WEIGHTMENT_GUNNY) TSPL_PO_WEIGHTMENT_GUNNY on TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
+                    --left join TSPL_ITEM_MASTER as GUNNY_TSPL_ITEM_MASTER ON GUNNY_TSPL_ITEM_MASTER.ITEM_CODE=TSPL_PO_WEIGHTMENT_GUNNY.ITEM_CODE
                     LEFT JOIN TSPL_TENDER_DETAIL ON TSPL_GRN_HEAD.Ref_No=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_DETAIL.Location=TSPL_GRN_HEAD.Bill_To_Location
                     and TSPL_TENDER_DETAIL.Item_Code=TSPL_PI_DETAIL.Item_Code AND TSPL_TENDER_DETAIL.Vendor_Code=TSPL_GRN_HEAD.Vendor_Code
                     left join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No

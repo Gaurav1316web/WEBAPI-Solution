@@ -257,11 +257,11 @@ Partial Class frmDemandBooking
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(850, 106)
+        Me.MyLabel3.Location = New System.Drawing.Point(850, 99)
         Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(108, 16)
+        Me.MyLabel3.Size = New System.Drawing.Size(74, 16)
         Me.MyLabel3.TabIndex = 1467
-        Me.MyLabel3.Text = "Document Amount"
+        Me.MyLabel3.Text = "Doc Amount"
         '
         'txtDocAmt
         '
@@ -269,9 +269,9 @@ Partial Class frmDemandBooking
         Me.txtDocAmt.BorderVisible = True
         Me.txtDocAmt.FieldName = Nothing
         Me.txtDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDocAmt.Location = New System.Drawing.Point(964, 104)
+        Me.txtDocAmt.Location = New System.Drawing.Point(940, 97)
         Me.txtDocAmt.Name = "txtDocAmt"
-        Me.txtDocAmt.Size = New System.Drawing.Size(109, 20)
+        Me.txtDocAmt.Size = New System.Drawing.Size(128, 20)
         Me.txtDocAmt.TabIndex = 1468
         Me.txtDocAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -285,9 +285,9 @@ Partial Class frmDemandBooking
         Me.rgbMilk.Controls.Add(Me.lblLitre)
         Me.rgbMilk.Controls.Add(Me.lblTotalLitre)
         Me.rgbMilk.HeaderText = "Milk"
-        Me.rgbMilk.Location = New System.Drawing.Point(592, 28)
+        Me.rgbMilk.Location = New System.Drawing.Point(592, 33)
         Me.rgbMilk.Name = "rgbMilk"
-        Me.rgbMilk.Size = New System.Drawing.Size(248, 90)
+        Me.rgbMilk.Size = New System.Drawing.Size(248, 80)
         Me.rgbMilk.TabIndex = 1466
         Me.rgbMilk.Text = "Milk"
         '
@@ -295,7 +295,7 @@ Partial Class frmDemandBooking
         '
         Me.LblDocAmt.FieldName = Nothing
         Me.LblDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblDocAmt.Location = New System.Drawing.Point(13, 59)
+        Me.LblDocAmt.Location = New System.Drawing.Point(5, 59)
         Me.LblDocAmt.Name = "LblDocAmt"
         Me.LblDocAmt.Size = New System.Drawing.Size(74, 16)
         Me.LblDocAmt.TabIndex = 145
@@ -307,9 +307,9 @@ Partial Class frmDemandBooking
         Me.lblDocumentAmt.BorderVisible = True
         Me.lblDocumentAmt.FieldName = Nothing
         Me.lblDocumentAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocumentAmt.Location = New System.Drawing.Point(90, 57)
+        Me.lblDocumentAmt.Location = New System.Drawing.Point(80, 57)
         Me.lblDocumentAmt.Name = "lblDocumentAmt"
-        Me.lblDocumentAmt.Size = New System.Drawing.Size(146, 20)
+        Me.lblDocumentAmt.Size = New System.Drawing.Size(156, 20)
         Me.lblDocumentAmt.TabIndex = 146
         Me.lblDocumentAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -317,7 +317,7 @@ Partial Class frmDemandBooking
         '
         Me.lblCrate.FieldName = Nothing
         Me.lblCrate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCrate.Location = New System.Drawing.Point(13, 15)
+        Me.lblCrate.Location = New System.Drawing.Point(5, 15)
         Me.lblCrate.Name = "lblCrate"
         Me.lblCrate.Size = New System.Drawing.Size(65, 16)
         Me.lblCrate.TabIndex = 143
@@ -339,7 +339,7 @@ Partial Class frmDemandBooking
         '
         Me.lblLitre.FieldName = Nothing
         Me.lblLitre.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLitre.Location = New System.Drawing.Point(15, 37)
+        Me.lblLitre.Location = New System.Drawing.Point(5, 37)
         Me.lblLitre.Name = "lblLitre"
         Me.lblLitre.Size = New System.Drawing.Size(61, 16)
         Me.lblLitre.TabIndex = 141
@@ -365,9 +365,9 @@ Partial Class frmDemandBooking
         Me.rgbProduct.Controls.Add(Me.lblPTotAmt)
         Me.rgbProduct.Controls.Add(Me.txtPAmt)
         Me.rgbProduct.HeaderText = "Product"
-        Me.rgbProduct.Location = New System.Drawing.Point(850, 29)
+        Me.rgbProduct.Location = New System.Drawing.Point(850, 33)
         Me.rgbProduct.Name = "rgbProduct"
-        Me.rgbProduct.Size = New System.Drawing.Size(225, 71)
+        Me.rgbProduct.Size = New System.Drawing.Size(225, 63)
         Me.rgbProduct.TabIndex = 1465
         Me.rgbProduct.Text = "Product"
         '
@@ -427,7 +427,7 @@ Partial Class frmDemandBooking
         Me.txtcustomersearch.IsSourceFromTable = False
         Me.txtcustomersearch.IsSourceFromValueList = False
         Me.txtcustomersearch.IsUnique = False
-        Me.txtcustomersearch.Location = New System.Drawing.Point(442, 124)
+        Me.txtcustomersearch.Location = New System.Drawing.Point(442, 119)
         Me.txtcustomersearch.MaxLength = 50
         Me.txtcustomersearch.MendatroryField = False
         Me.txtcustomersearch.Modified = True
@@ -437,15 +437,15 @@ Partial Class frmDemandBooking
         Me.txtcustomersearch.ReferenceFieldDesc = Nothing
         Me.txtcustomersearch.ReferenceFieldName = Nothing
         Me.txtcustomersearch.ReferenceTableName = Nothing
-        Me.txtcustomersearch.Size = New System.Drawing.Size(146, 18)
+        Me.txtcustomersearch.Size = New System.Drawing.Size(135, 18)
         Me.txtcustomersearch.TabIndex = 1464
         '
         'btnSearch
         '
         Me.btnSearch.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSearch.Location = New System.Drawing.Point(446, 144)
+        Me.btnSearch.Location = New System.Drawing.Point(446, 140)
         Me.btnSearch.Name = "btnSearch"
-        Me.btnSearch.Size = New System.Drawing.Size(97, 18)
+        Me.btnSearch.Size = New System.Drawing.Size(131, 18)
         Me.btnSearch.TabIndex = 1463
         Me.btnSearch.Text = "Customer Search"
         '
@@ -455,9 +455,9 @@ Partial Class frmDemandBooking
         Me.lblTransporterName.BorderVisible = True
         Me.lblTransporterName.FieldName = Nothing
         Me.lblTransporterName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTransporterName.Location = New System.Drawing.Point(91, 144)
+        Me.lblTransporterName.Location = New System.Drawing.Point(91, 140)
         Me.lblTransporterName.Name = "lblTransporterName"
-        Me.lblTransporterName.Size = New System.Drawing.Size(349, 18)
+        Me.lblTransporterName.Size = New System.Drawing.Size(224, 18)
         Me.lblTransporterName.TabIndex = 1462
         Me.lblTransporterName.TextWrap = False
         '
@@ -465,7 +465,7 @@ Partial Class frmDemandBooking
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(12, 146)
+        Me.MyLabel2.Location = New System.Drawing.Point(12, 141)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(65, 16)
         Me.MyLabel2.TabIndex = 1461
@@ -473,7 +473,7 @@ Partial Class frmDemandBooking
         '
         'chkEveningGatepassTruckSheetGenerated
         '
-        Me.chkEveningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(600, 144)
+        Me.chkEveningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(600, 140)
         Me.chkEveningGatepassTruckSheetGenerated.Name = "chkEveningGatepassTruckSheetGenerated"
         Me.chkEveningGatepassTruckSheetGenerated.ReadOnly = True
         Me.chkEveningGatepassTruckSheetGenerated.Size = New System.Drawing.Size(224, 18)
@@ -482,7 +482,7 @@ Partial Class frmDemandBooking
         '
         'chkMorningGatepassTruckSheetGenerated
         '
-        Me.chkMorningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(600, 125)
+        Me.chkMorningGatepassTruckSheetGenerated.Location = New System.Drawing.Point(600, 119)
         Me.chkMorningGatepassTruckSheetGenerated.Name = "chkMorningGatepassTruckSheetGenerated"
         Me.chkMorningGatepassTruckSheetGenerated.ReadOnly = True
         Me.chkMorningGatepassTruckSheetGenerated.Size = New System.Drawing.Size(228, 18)
@@ -492,7 +492,7 @@ Partial Class frmDemandBooking
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(593, 9)
+        Me.UsLock1.Location = New System.Drawing.Point(593, 10)
         Me.UsLock1.Margin = New System.Windows.Forms.Padding(4)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
@@ -507,9 +507,9 @@ Partial Class frmDemandBooking
         Me.RadGroupBox1.Controls.Add(Me.rbtn_Ambient)
         Me.RadGroupBox1.Controls.Add(Me.rbtn_Fresh)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(508, 32)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(508, 33)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(62, 66)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(69, 66)
         Me.RadGroupBox1.TabIndex = 60
         '
         'rdbnFreshAmbientBoth
@@ -543,7 +543,7 @@ Partial Class frmDemandBooking
         '
         'chkIndividualCustomer
         '
-        Me.chkIndividualCustomer.Location = New System.Drawing.Point(91, 165)
+        Me.chkIndividualCustomer.Location = New System.Drawing.Point(318, 139)
         Me.chkIndividualCustomer.Name = "chkIndividualCustomer"
         Me.chkIndividualCustomer.Size = New System.Drawing.Size(120, 18)
         Me.chkIndividualCustomer.TabIndex = 1456
@@ -555,9 +555,9 @@ Partial Class frmDemandBooking
         Me.lblCustomerName.BorderVisible = True
         Me.lblCustomerName.FieldName = Nothing
         Me.lblCustomerName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomerName.Location = New System.Drawing.Point(213, 124)
+        Me.lblCustomerName.Location = New System.Drawing.Point(213, 119)
         Me.lblCustomerName.Name = "lblCustomerName"
-        Me.lblCustomerName.Size = New System.Drawing.Size(227, 18)
+        Me.lblCustomerName.Size = New System.Drawing.Size(226, 18)
         Me.lblCustomerName.TabIndex = 1454
         Me.lblCustomerName.TextWrap = False
         '
@@ -565,7 +565,7 @@ Partial Class frmDemandBooking
         '
         Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(10, 124)
+        Me.RadLabel2.Location = New System.Drawing.Point(10, 120)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(55, 16)
         Me.RadLabel2.TabIndex = 1455
@@ -582,7 +582,7 @@ Partial Class frmDemandBooking
         Me.txtCustomerNo.IsSourceFromTable = False
         Me.txtCustomerNo.IsSourceFromValueList = False
         Me.txtCustomerNo.IsUnique = False
-        Me.txtCustomerNo.Location = New System.Drawing.Point(91, 124)
+        Me.txtCustomerNo.Location = New System.Drawing.Point(91, 119)
         Me.txtCustomerNo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtCustomerNo.MendatroryField = False
         Me.txtCustomerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -602,7 +602,7 @@ Partial Class frmDemandBooking
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(12, 102)
+        Me.MyLabel1.Location = New System.Drawing.Point(12, 99)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(43, 16)
         Me.MyLabel1.TabIndex = 1452
@@ -619,7 +619,7 @@ Partial Class frmDemandBooking
         Me.txtVehicleNo.IsSourceFromTable = False
         Me.txtVehicleNo.IsSourceFromValueList = False
         Me.txtVehicleNo.IsUnique = False
-        Me.txtVehicleNo.Location = New System.Drawing.Point(91, 102)
+        Me.txtVehicleNo.Location = New System.Drawing.Point(91, 98)
         Me.txtVehicleNo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtVehicleNo.MendatroryField = True
         Me.txtVehicleNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -641,7 +641,7 @@ Partial Class frmDemandBooking
         Me.lblVehicleNo.BorderVisible = True
         Me.lblVehicleNo.FieldName = Nothing
         Me.lblVehicleNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVehicleNo.Location = New System.Drawing.Point(212, 102)
+        Me.lblVehicleNo.Location = New System.Drawing.Point(212, 98)
         Me.lblVehicleNo.Name = "lblVehicleNo"
         Me.lblVehicleNo.Size = New System.Drawing.Size(227, 18)
         Me.lblVehicleNo.TabIndex = 1451
@@ -659,7 +659,7 @@ Partial Class frmDemandBooking
         Me.txtTripNo.IsSourceFromTable = False
         Me.txtTripNo.IsSourceFromValueList = False
         Me.txtTripNo.IsUnique = False
-        Me.txtTripNo.Location = New System.Drawing.Point(487, 103)
+        Me.txtTripNo.Location = New System.Drawing.Point(487, 98)
         Me.txtTripNo.MaxLength = 50
         Me.txtTripNo.MendatroryField = False
         Me.txtTripNo.Modified = True
@@ -669,14 +669,14 @@ Partial Class frmDemandBooking
         Me.txtTripNo.ReferenceFieldDesc = Nothing
         Me.txtTripNo.ReferenceFieldName = Nothing
         Me.txtTripNo.ReferenceTableName = Nothing
-        Me.txtTripNo.Size = New System.Drawing.Size(83, 18)
+        Me.txtTripNo.Size = New System.Drawing.Size(90, 18)
         Me.txtTripNo.TabIndex = 1449
         '
         'MyLabel18
         '
         Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel18.Location = New System.Drawing.Point(441, 105)
+        Me.MyLabel18.Location = New System.Drawing.Point(441, 99)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(43, 16)
         Me.MyLabel18.TabIndex = 1448
@@ -685,7 +685,7 @@ Partial Class frmDemandBooking
         'btnUpdateCrateAndAmt
         '
         Me.btnUpdateCrateAndAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateCrateAndAmt.Location = New System.Drawing.Point(853, 150)
+        Me.btnUpdateCrateAndAmt.Location = New System.Drawing.Point(853, 140)
         Me.btnUpdateCrateAndAmt.Name = "btnUpdateCrateAndAmt"
         Me.btnUpdateCrateAndAmt.Size = New System.Drawing.Size(157, 18)
         Me.btnUpdateCrateAndAmt.TabIndex = 152
@@ -695,7 +695,7 @@ Partial Class frmDemandBooking
         'btnGo
         '
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(739, 6)
+        Me.btnGo.Location = New System.Drawing.Point(739, 11)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(97, 18)
         Me.btnGo.TabIndex = 151
@@ -708,7 +708,7 @@ Partial Class frmDemandBooking
         Me.lblCityName.BorderVisible = True
         Me.lblCityName.FieldName = Nothing
         Me.lblCityName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCityName.Location = New System.Drawing.Point(212, 57)
+        Me.lblCityName.Location = New System.Drawing.Point(212, 55)
         Me.lblCityName.Name = "lblCityName"
         Me.lblCityName.Size = New System.Drawing.Size(227, 18)
         Me.lblCityName.TabIndex = 150
@@ -717,7 +717,7 @@ Partial Class frmDemandBooking
         'MyLabel5
         '
         Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(12, 57)
+        Me.MyLabel5.Location = New System.Drawing.Point(12, 55)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(25, 18)
         Me.MyLabel5.TabIndex = 149
@@ -735,7 +735,7 @@ Partial Class frmDemandBooking
         Me.TxtCity.IsSourceFromTable = False
         Me.TxtCity.IsSourceFromValueList = False
         Me.TxtCity.IsUnique = False
-        Me.TxtCity.Location = New System.Drawing.Point(91, 57)
+        Me.TxtCity.Location = New System.Drawing.Point(91, 55)
         Me.TxtCity.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtCity.MendatroryField = True
         Me.TxtCity.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -757,7 +757,7 @@ Partial Class frmDemandBooking
         Me.lblRouteDesc.BorderVisible = True
         Me.lblRouteDesc.FieldName = Nothing
         Me.lblRouteDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRouteDesc.Location = New System.Drawing.Point(212, 32)
+        Me.lblRouteDesc.Location = New System.Drawing.Point(212, 33)
         Me.lblRouteDesc.Name = "lblRouteDesc"
         Me.lblRouteDesc.Size = New System.Drawing.Size(227, 18)
         Me.lblRouteDesc.TabIndex = 147
@@ -766,7 +766,7 @@ Partial Class frmDemandBooking
         'lblRouteNo
         '
         Me.lblRouteNo.FieldName = Nothing
-        Me.lblRouteNo.Location = New System.Drawing.Point(12, 32)
+        Me.lblRouteNo.Location = New System.Drawing.Point(12, 33)
         Me.lblRouteNo.Name = "lblRouteNo"
         Me.lblRouteNo.Size = New System.Drawing.Size(54, 18)
         Me.lblRouteNo.TabIndex = 146
@@ -783,7 +783,7 @@ Partial Class frmDemandBooking
         Me.txtRouteNo.IsSourceFromTable = False
         Me.txtRouteNo.IsSourceFromValueList = False
         Me.txtRouteNo.IsUnique = False
-        Me.txtRouteNo.Location = New System.Drawing.Point(91, 32)
+        Me.txtRouteNo.Location = New System.Drawing.Point(91, 33)
         Me.txtRouteNo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtRouteNo.MendatroryField = True
         Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -806,7 +806,7 @@ Partial Class frmDemandBooking
         Me.RadGroupBox3.Controls.Add(Me.rbtnEvening)
         Me.RadGroupBox3.Controls.Add(Me.rbtnMorning)
         Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(442, 32)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(442, 33)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Size = New System.Drawing.Size(64, 66)
         Me.RadGroupBox3.TabIndex = 67
@@ -844,7 +844,7 @@ Partial Class frmDemandBooking
         '
         Me.RadLabel15.FieldName = Nothing
         Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel15.Location = New System.Drawing.Point(12, 80)
+        Me.RadLabel15.Location = New System.Drawing.Point(12, 78)
         Me.RadLabel15.Name = "RadLabel15"
         Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
         Me.RadLabel15.TabIndex = 23
@@ -862,7 +862,7 @@ Partial Class frmDemandBooking
         Me.txtLocation.IsSourceFromTable = False
         Me.txtLocation.IsSourceFromValueList = False
         Me.txtLocation.IsUnique = False
-        Me.txtLocation.Location = New System.Drawing.Point(91, 80)
+        Me.txtLocation.Location = New System.Drawing.Point(91, 77)
         Me.txtLocation.Margin = New System.Windows.Forms.Padding(4)
         Me.txtLocation.MendatroryField = True
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -884,7 +884,7 @@ Partial Class frmDemandBooking
         Me.lblLocation.BorderVisible = True
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(212, 80)
+        Me.lblLocation.Location = New System.Drawing.Point(212, 77)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(227, 18)
         Me.lblLocation.TabIndex = 22
@@ -895,9 +895,9 @@ Partial Class frmDemandBooking
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(369, 10)
+        Me.btnAddNew.Location = New System.Drawing.Point(388, 10)
         Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(18, 21)
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
         Me.btnAddNew.TabIndex = 51
         '
         'RadGroupBox2
@@ -909,10 +909,10 @@ Partial Class frmDemandBooking
         Me.RadGroupBox2.Controls.Add(Me.gv2)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Item Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(8, 178)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(6, 160)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1114, 244)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1114, 271)
         Me.RadGroupBox2.TabIndex = 50
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -940,7 +940,7 @@ Partial Class frmDemandBooking
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1094, 214)
+        Me.gv2.Size = New System.Drawing.Size(1094, 241)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
         '
@@ -967,7 +967,7 @@ Partial Class frmDemandBooking
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1094, 214)
+        Me.gv1.Size = New System.Drawing.Size(1094, 241)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -985,7 +985,7 @@ Partial Class frmDemandBooking
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(441, 13)
+        Me.txtDate.Location = New System.Drawing.Point(441, 11)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -995,7 +995,7 @@ Partial Class frmDemandBooking
         Me.txtDate.ReferenceFieldDesc = Nothing
         Me.txtDate.ReferenceFieldName = Nothing
         Me.txtDate.ReferenceTableName = Nothing
-        Me.txtDate.Size = New System.Drawing.Size(126, 18)
+        Me.txtDate.Size = New System.Drawing.Size(136, 18)
         Me.txtDate.TabIndex = 48
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "13/06/2011 11:29 AM"
@@ -1005,7 +1005,7 @@ Partial Class frmDemandBooking
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(408, 14)
+        Me.RadLabel4.Location = New System.Drawing.Point(408, 12)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
         Me.RadLabel4.TabIndex = 47
@@ -1034,7 +1034,7 @@ Partial Class frmDemandBooking
         Me.txtDocNo.MyMaxLength = 32767
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
-        Me.txtDocNo.Size = New System.Drawing.Size(276, 20)
+        Me.txtDocNo.Size = New System.Drawing.Size(297, 20)
         Me.txtDocNo.TabIndex = 46
         Me.txtDocNo.TabStop = False
         Me.txtDocNo.Value = ""

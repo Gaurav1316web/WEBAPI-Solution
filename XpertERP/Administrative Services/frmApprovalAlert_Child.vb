@@ -5,7 +5,7 @@ Imports Telerik.WinControls.UI
 Imports System.Data.Sql
 Imports System.Data.SqlClient
 Imports System.IO
-
+Imports XpertERPEngine
 Public Class FrmApprovalAlert_Child
     Inherits FrmMainTranScreen
 
@@ -59,14 +59,19 @@ Public Class FrmApprovalAlert_Child
         LinkLabel2.Visible = False
         LinkLabel1.Visible = True
         btnSave.Enabled = True
-
-        If clsCommon.myLen(ScreenCode) > 0 AndAlso clsCommon.myLen(DocumentCode) > 0 Then
-            Auto_Post = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select distinct Auto_Post from TSPL_APPROVAL_LEVEL_SCREEN where trans_code='" + ScreenCode + "'"))
-            If Auto_Post Then
-                btnPost.Visible = False
-            End If
-            LoadData(ScreenCode, DocumentCode)
+        'Show Print button only on DBT NEFT Uploader screen'
+        If ScreenCode = "DBT-NEFT-UPL" Then
+            btnPrint.Visible = True
+        Else
+            btnPrint.Visible = False
         End If
+        If clsCommon.myLen(ScreenCode) > 0 AndAlso clsCommon.myLen(DocumentCode) > 0 Then
+                Auto_Post = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select distinct Auto_Post from TSPL_APPROVAL_LEVEL_SCREEN where trans_code='" + ScreenCode + "'"))
+                If Auto_Post Then
+                    btnPost.Visible = False
+                End If
+                LoadData(ScreenCode, DocumentCode)
+            End If
     End Sub
 
     Private Sub LoadCombobox()
@@ -378,7 +383,7 @@ Public Class FrmApprovalAlert_Child
                     Throw New Exception("Fill remarks.")
                 End If
             End If
-            
+
 
             obj = New clsApprovalAlert_Child()
 
@@ -495,5 +500,10 @@ Public Class FrmApprovalAlert_Child
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
+    End Sub
+    Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
+        Dim str As String = txtDoc_Code.Text
+        frmDBTNEFTUploader.funPrintBankLetter(str)
+
     End Sub
 End Class

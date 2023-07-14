@@ -4571,6 +4571,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDCSforSale
                         frm = New frmDCSforSale()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmFrieghtRateMaster
+                        frm = New frmFrieghtRateMaster()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDiscountCategoryMaster
                         frm = New FrmDiscountCategoryMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

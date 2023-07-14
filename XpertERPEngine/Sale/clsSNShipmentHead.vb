@@ -1030,7 +1030,7 @@ Public Class clsSNShipmentHead
             End If
 
             qry = "select TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code,TSPL_DCS_FOR_SALE.Uploader_No,TSPL_DCS_FOR_SALE.Name,TSPL_DCS_FOR_SALE.Zone as DCS_Zone
-,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL 
+,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.FPKID,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Frieght_Rate,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Frieght_Amt from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL 
 left outer join TSPL_DCS_FOR_SALE on TSPL_DCS_FOR_SALE.Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode
 where DOCUMENT_CODE='" + obj.Document_Code + "'"
@@ -1047,6 +1047,9 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                     objTRDID.IName = clsCommon.myCstr(dr("Item_Desc"))
                     objTRDID.Qty = clsCommon.myCstr(dr("Qty"))
                     objTRDID.UOM = clsCommon.myCstr(dr("UOM"))
+                    objTRDID.FPKID = clsCommon.myCstr(dr("FPKID"))
+                    objTRDID.Frieght_Rate = clsCommon.myCstr(dr("Frieght_Rate"))
+                    objTRDID.Frieght_Amt = clsCommon.myCstr(dr("Frieght_Amt"))
                     obj.ArrDCSItem.Add(objTRDID)
                 Next
             End If
@@ -2180,6 +2183,10 @@ Public Class clsSNShipmentDCSItemDetail
     Public IName As String = Nothing ''Not a Table Column
     Public Qty As Decimal
     Public UOM As String = Nothing
+    Public FPKID As Double = 0
+    Public Frieght_Rate As Double = 0
+    Public Frieght_Amt As Double = 0
+
 #End Region
 
     Public Shared Function SaveData(ByVal DocNo As String, ByVal arr As List(Of clsSNShipmentDCSItemDetail), ByVal tran As SqlTransaction) As Boolean
@@ -2192,6 +2199,10 @@ Public Class clsSNShipmentDCSItemDetail
                     clsCommon.AddColumnsForChange(coll, "ICode", objtr.ICode)
                     clsCommon.AddColumnsForChange(coll, "Qty", objtr.Qty, True)
                     clsCommon.AddColumnsForChange(coll, "UOM", objtr.UOM)
+                    clsCommon.AddColumnsForChange(coll, "FPKID", objtr.FPKID)
+                    clsCommon.AddColumnsForChange(coll, "Frieght_Rate", objtr.Frieght_Rate, True)
+                    clsCommon.AddColumnsForChange(coll, "Frieght_Amt", objtr.Frieght_Amt, True)
+
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL", OMInsertOrUpdate.Insert, "", tran)
                 Next
             End If

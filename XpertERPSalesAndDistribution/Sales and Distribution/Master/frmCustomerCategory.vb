@@ -261,7 +261,7 @@ Public Class frmCustomerCategory
                 End If
             End If
             Try
-                clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_Customer_Category_Master_insert", New SqlParameter("@CustCategoryCode", fndCustomerId.Value), New SqlParameter("@CustCategoryDesc", txtCustomerDesc.Text), New SqlParameter("@PriceCode", fndPriceCode.Value), New SqlParameter("@PriceCodeDesc", txtPriceCodeDesc.Text), New SqlParameter("@RouteId", fndRoute.Value), New SqlParameter("@RouteDesc", txtRouteDesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifiedBy", userCode), New SqlParameter("@ModifiedDate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ShelfLife", TxtShfLife.Text), New SqlParameter("@PriceCodeNon", Me.fndPriceCodeNon.Value), New SqlParameter("@PriceCodeDescNon", Me.txtPriceCodeNon.Text))
+                clsDBFuncationality.SaveAStorePorcedure("sp_tspl_Customer_Category_Master_insert", New SqlParameter("@CustCategoryCode", fndCustomerId.Value), New SqlParameter("@CustCategoryDesc", txtCustomerDesc.Text), New SqlParameter("@PriceCode", fndPriceCode.Value), New SqlParameter("@PriceCodeDesc", txtPriceCodeDesc.Text), New SqlParameter("@RouteId", fndRoute.Value), New SqlParameter("@RouteDesc", txtRouteDesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifiedBy", userCode), New SqlParameter("@ModifiedDate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ShelfLife", TxtShfLife.Text), New SqlParameter("@PriceCodeNon", Me.fndPriceCodeNon.Value), New SqlParameter("@PriceCodeDescNon", Me.txtPriceCodeNon.Text))
                 myMessages.insert()
                 btnSave.Text = "Update"
                 btnDelete.Enabled = True
@@ -275,7 +275,7 @@ Public Class frmCustomerCategory
     'delete Customer Category Details
     Private Sub funDelete()
         Try
-            clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_Customer_Category_Master_delete", New SqlParameter("@CustCategoryCode", fndCustomerId.Value))
+            clsDBFuncationality.SaveAStorePorcedure("sp_tspl_Customer_Category_Master_delete", New SqlParameter("@CustCategoryCode", fndCustomerId.Value))
             myMessages.delete()
             btnSave.Text = "Save"
             btnDelete.Enabled = False
@@ -295,7 +295,7 @@ Public Class frmCustomerCategory
             myMessages.blankValue("Price Code")
         Else
             Try
-                clsDBFuncationality.UpdateInSelectedDatabase(GetReplecateCompaniesDataBase(), "sp_tspl_Customer_Category_Master_update", New SqlParameter("@CustCategoryCode", fndCustomerId.Value), New SqlParameter("@CustCategoryDesc", txtCustomerDesc.Text), New SqlParameter("@PriceCode", fndPriceCode.Value), New SqlParameter("@PriceCodeDesc", txtPriceCodeDesc.Text), New SqlParameter("@RouteId", fndRoute.Value), New SqlParameter("@RouteDesc", txtRouteDesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifiedBy", userCode), New SqlParameter("@ModifiedDate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ShelfLife", TxtShfLife.Text), New SqlParameter("@PriceCodeNon", Me.fndPriceCodeNon.Value), New SqlParameter("@PriceCodeDescNon", Me.txtPriceCodeNon.Text))
+                clsDBFuncationality.SaveAStorePorcedure("sp_tspl_Customer_Category_Master_update", New SqlParameter("@CustCategoryCode", fndCustomerId.Value), New SqlParameter("@CustCategoryDesc", txtCustomerDesc.Text), New SqlParameter("@PriceCode", fndPriceCode.Value), New SqlParameter("@PriceCodeDesc", txtPriceCodeDesc.Text), New SqlParameter("@RouteId", fndRoute.Value), New SqlParameter("@RouteDesc", txtRouteDesc.Text), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate()), New SqlParameter("@ModifiedBy", userCode), New SqlParameter("@ModifiedDate", connectSql.serverDate()), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ShelfLife", TxtShfLife.Text), New SqlParameter("@PriceCodeNon", Me.fndPriceCodeNon.Value), New SqlParameter("@PriceCodeDescNon", Me.txtPriceCodeNon.Text))
                 If common.clsCommon.MyMessageBoxShow("Do you want to Update Price Code In Customer's Master too?", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
                     Dim strConfirm As String = "update tspl_customer_master set Price_Code ='" + fndPriceCode.Value + "' , price_CodeNon ='" + fndPriceCodeNon.Value + "', Route_No='" + fndRoute.Value + "' where Cust_Category_Code ='" + fndCustomerId.Value + "' and Route_No='" + fndRoute.Value + "'"
                     connectSql.RunSql(strConfirm)
