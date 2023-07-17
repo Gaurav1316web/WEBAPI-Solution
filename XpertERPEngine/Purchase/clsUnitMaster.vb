@@ -84,7 +84,12 @@ Public Class clsUnitMaster
         End Try
         Return True
     End Function
-
+    Public Shared Function getUnitFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+        Dim str As String = ""
+        Dim qry As String = "select Unit_Code as Code,Unit_Desc as Name from TSPL_UNIT_MASTER"
+        str = clsCommon.ShowSelectForm("UnitFnd", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
+        Return str
+    End Function
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
         Dim qry As String = "select TSPL_COST_CENTER_UNIT_MASTER.Code,TSPL_COST_CENTER_UNIT_MASTER.Description from TSPL_COST_CENTER_UNIT_MASTER "

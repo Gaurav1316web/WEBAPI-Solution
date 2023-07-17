@@ -420,35 +420,79 @@ Public Class frmMilkCollectionDCS
         repoNumBox.ReadOnly = Not repoNumBox.IsVisible
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = "Morning Fat KG"
-        repoNumBox.Name = colMorningFATKG
-        repoNumBox.Width = 100
-        repoNumBox.Minimum = 0
-        repoNumBox.Maximum = 9999
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 3
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
-        repoNumBox.ReadOnly = Not repoNumBox.IsVisible
-        gv1.MasterTemplate.Columns.Add(repoNumBox)
+        If clsCommon.CompairString(objCommonVar.CurrDatabase, "SKR") = CompairStringResult.Equal Then
 
-        repoNumBox = New GridViewDecimalColumn()
-        repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = "Morning SNF KG" ''If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
-        repoNumBox.Name = colMorningSNFKG
-        repoNumBox.Width = 100
-        repoNumBox.Minimum = 0
-        repoNumBox.Maximum = 9999
-        repoNumBox.ShowUpDownButtons = False
-        repoNumBox.Step = 0
-        repoNumBox.DecimalPlaces = 3
-        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
-        repoNumBox.ReadOnly = Not repoNumBox.IsVisible
-        gv1.MasterTemplate.Columns.Add(repoNumBox)
+            repoNumBox = New GridViewDecimalColumn()
+            repoNumBox.FormatString = ""
+            repoNumBox.HeaderText = "Morning Fat KG"
+            repoNumBox.Name = colMorningFATKG
+            repoNumBox.Width = 100
+            repoNumBox.Minimum = 0
+            repoNumBox.Maximum = 9999
+            repoNumBox.ShowUpDownButtons = False
+            repoNumBox.Step = 0
+            repoNumBox.DecimalPlaces = 3
+            repoNumBox.ReadOnly = True
+            repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            repoNumBox.IsVisible = (SettHideShiftCollection <> 2)
+            gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+
+            repoNumBox = New GridViewDecimalColumn()
+            repoNumBox.FormatString = ""
+            repoNumBox.HeaderText = "Morning Snf KG"
+            repoNumBox.Name = colMorningSNFKG
+            repoNumBox.Width = 100
+            repoNumBox.Minimum = 0
+            repoNumBox.Maximum = 9999
+            repoNumBox.ShowUpDownButtons = False
+            repoNumBox.Step = 0
+            repoNumBox.DecimalPlaces = 3
+            repoNumBox.ReadOnly = True
+            repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            repoNumBox.IsVisible = (SettHideShiftCollection <> 2)
+            gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+
+
+        Else
+
+            repoNumBox = New GridViewDecimalColumn()
+            repoNumBox.FormatString = "{0:n3}"
+            repoNumBox.HeaderText = "Morning Fat KG"
+            repoNumBox.Name = colMorningFATKG
+            repoNumBox.Width = 100
+            repoNumBox.Minimum = 0
+            repoNumBox.Maximum = 9999
+            repoNumBox.ShowUpDownButtons = False
+            repoNumBox.Step = 0
+            repoNumBox.DecimalPlaces = 3
+            repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
+            repoNumBox.ReadOnly = Not repoNumBox.IsVisible
+            gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+            repoNumBox = New GridViewDecimalColumn()
+            repoNumBox.FormatString = "{0:n3}"
+            repoNumBox.HeaderText = "Morning SNF KG" ''If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
+            repoNumBox.Name = colMorningSNFKG
+            repoNumBox.Width = 100
+            repoNumBox.Minimum = 0
+            repoNumBox.Maximum = 9999
+            repoNumBox.ShowUpDownButtons = False
+            repoNumBox.Step = 0
+            repoNumBox.DecimalPlaces = 3
+            repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+            repoNumBox.IsVisible = ((clsCommon.myCDecimal(cboFATSNFType.SelectedValue) = 1) AndAlso Not SettFATSNFNoDecimalDCS AndAlso (SettHideShiftCollection <> 2))
+            repoNumBox.ReadOnly = Not repoNumBox.IsVisible
+            gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+
+
+        End If
+
+
+
 
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False

@@ -300,7 +300,7 @@ Public Class frmApprovalScreen
         Dim dt As New DataTable
         Try
             Dim qry As String
-            Dim whrCls As String = " and Program_Code in ('PO-ODR','PO-REQ','PO-INV','SALN-SO','SALE-ORDER','SALN-SP','DEL-NOTE-FS','DEL-ORD-PS','DISPATCH-BS','M-Material','VSP-Item','SHIPMENT-PS','CSA-INV-TRN','M-SRN-B','M-RECEIPT','M-QC','LC-CREATION','BOOK-DS','CSA-DO-TRN','SALE-RET-PS','RETRUN-DS','STORE-REQ','AP-INVOICE','PYMT-NEW','AR-INVOICE','RECEIPT-E','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.frmMilkJobWorkTransferOther + "')"
+            Dim whrCls As String = " and Program_Code in ('PO-ODR','PO-REQ','PO-INV','SALN-SO','SALE-ORDER','SALN-SP','DEL-NOTE-FS','DEL-ORD-PS','DISPATCH-BS','M-Material', 'DBT-NEFT-UPL', 'VSP-Item','SHIPMENT-PS','CSA-INV-TRN','M-SRN-B','M-RECEIPT','M-QC','LC-CREATION','BOOK-DS','CSA-DO-TRN','SALE-RET-PS','RETRUN-DS','STORE-REQ','AP-INVOICE','PYMT-NEW','AR-INVOICE','RECEIPT-E','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.frmMilkJobWorkTransferOther + "')"
             If Not clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleSaleDairy) = CompairStringResult.Equal Then ''std. sales
                 If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleBulkMilkProcurement) = CompairStringResult.Equal Then
                     qry = "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &

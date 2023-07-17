@@ -98,6 +98,11 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnNEFTUploader.Visible = MyBase.isPrintFlag
+        If lblPending.Status = ERPTransactionStatus.Pending Then
+            btnNEFTUploader.Visible = False
+        Else
+            btnNEFTUploader.Visible = True
+        End If
         btnPost.Visible = MyBase.isPostFlag
     End Sub
     Sub Reset()
@@ -135,6 +140,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             arr.Add(SettMCCOneDBTOneDoc)
             txtMCC.arrValueMember = arr
         End If
+        gvItem.MasterTemplate.SummaryRowsBottom.Clear()
     End Sub
 
     Private Function AllowToSave() As Boolean
@@ -182,8 +188,12 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                         obj.arrInvalid.Add(objTr)
                     Next
                 End If
+                Dim objApproval As New clsApply_Approval()
                 If (clsDBTNEFT.SaveData(obj, isNewEntry)) Then
-                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+                    Dim qry As String = "select sum(Amount) from TSPL_DBT_NEFT_DETAIL where Document_Code='" + txtDocumentNo.Value + "' "
+                    Dim TotAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
+                    clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, clsCommon.myCstr(obj.Document_Code), txtdate.Text, "", clsCommon.myCstr(txtRemarks.Text), clsCommon.myCdbl(TotAmt), 0, "", objApproval)
+
                     LoadData(obj.Document_Code, NavigatorType.Current)
                 End If
             End If
@@ -256,6 +266,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 btnsave.Enabled = False
                 btndelete.Enabled = False
                 btnPost.Enabled = False
+                btnNEFTUploader.Visible = True
             Else
                 btnsave.Text = "Update"
                 btnsave.Enabled = True
@@ -298,6 +309,19 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             gv.EnableGrouping = False
             gv.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
             gv.GridBehavior = New MyBehavior()
+
+            'Add Summary row for Amount and S.No'
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            gv.Columns("SNo").FormatString = ""
+            Dim item1 As New GridViewSummaryItem("SNo", "", GridAggregateFunction.Count)
+            summaryRowItem.Add(item1)
+
+            gv.Columns("AMOUNT").FormatString = "{0:n2}"
+            Dim item11 As New GridViewSummaryItem("AMOUNT", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item11)
+
+            gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -358,6 +382,8 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
     End Sub
     Private Sub btnsave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnsave.Click
         SaveData()
+        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+
     End Sub
 
     Sub GridFocus(Optional ByVal gvRow As GridViewRowInfo = Nothing)
@@ -768,6 +794,51 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
                 frmCRV = Nothing
             Catch ex As Exception
                 clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+    Private Sub btnPrintBankLetter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrintBankLetter.Click
+        If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
+            myMessages.blankValue("Doument not found to Print")
+        Else
+            funPrintBankLetter(txtDocumentNo.Value)
+        End If
+    End Sub
+    Public Shared Sub funPrintBankLetter(ByVal strDocNo As String)
+        Try
+            Dim reportDateTime As String = (clsDBFuncationality.getSingleValue("select convert(varchar , getdate(),113) as Date_Time"))
+            Dim isPending As String = ERPTransactionStatus.Pending
+            Dim status As String = ""
+            Dim Doc_Date As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select Document_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 104) AS Date"))
+            Dim ToDate As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select To_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 103) AS To_Date"))
+            Dim FromDate As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select From_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 103) AS From_Date"))
+            If isPending = "1" Then
+                status = "Pending"
+            End If
+            Dim User_Name As String = objCommonVar.CurrentUser
+            Try
+                If clsCommon.myLen(strDocNo) <= 0 Then
+                    Throw New Exception("Please select Document No")
+                End If
+
+                Dim qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 ,TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,
+               '" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name, TSPL_DBT_NEFT_DETAIL.Rem_Name,TSPL_DBT_NEFT_DETAIL.Rem_Account_No ,
+                tspl_dbt_neft_detail.Amount as Total_Amt ,'" & FromDate & "' as From_Date, '" & ToDate & "' as To_Date, TSPL_DBT_NEFT.To_Date from TSPL_DBT_NEFT  
+                left outer join (select TSPL_DBT_NEFT_DETAIL.document_code,max(TSPL_DBT_NEFT_DETAIL.Rem_Name) as Rem_Name,max(TSPL_DBT_NEFT_DETAIL.Rem_Account_No) as Rem_Account_No,
+                sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount from TSPL_DBT_NEFT_DETAIL                 
+                where   TSPL_DBT_NEFT_DETAIL.document_code ='" + strDocNo + "' group by TSPL_DBT_NEFT_DETAIL.document_code 
+               ) TSPL_DBT_NEFT_DETAIL   on TSPL_DBT_NEFT.Document_Code = TSPL_DBT_NEFT_DETAIL.Document_Code  
+                  LEFT OUTER JOIN tspl_company_master ON tspl_company_master.comp_code = 'UDP'
+                  WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploaderBankLetter", "Bank Letter NEFT Uploader")
+                frmCRV = Nothing
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(ex.Message)
             End Try
 
         Catch ex As Exception

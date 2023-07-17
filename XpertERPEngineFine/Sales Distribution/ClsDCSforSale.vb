@@ -33,7 +33,9 @@ Public Class ClsDCSforSale
     Public Function SaveData(ByVal obj As ClsDCSforSale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
-
+            If clsCommon.myLen(obj.Code) <= 0 And isNewEntry = False Then
+                isNewEntry = True
+            End If
             Dim coll As New Hashtable()
             'Dim objCommonVar As Object = New ClsDCSforSale()
             clsCommon.AddColumnsForChange(coll, "Name", obj.Name)
@@ -75,20 +77,21 @@ left join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Custo
 left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone where  2=2"
         Dim whrCls As String = ""
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            qry += " AND Location in (" + objCommonVar.strCurrUserLocations + ")"
+            whrCls += " AND Location in (" + objCommonVar.strCurrUserLocations + ")"
+
         End If
 
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_DCS_FOR_SALE.Code=(select MIN(Code) from TSPL_DCS_FOR_SALE  )"
+                qry += " and TSPL_DCS_FOR_SALE.Code=(select MIN(Code) from TSPL_DCS_FOR_SALE where 1=1 " + whrCls + " )"
             Case NavigatorType.Last
-                qry += " and TSPL_DCS_FOR_SALE.Code=(select Max(Code) from TSPL_DCS_FOR_SALE  )"
+                qry += " and TSPL_DCS_FOR_SALE.Code=(select Max(Code) from TSPL_DCS_FOR_SALE where 1=1  " + whrCls + " )"
             Case NavigatorType.Next
-                qry += " and TSPL_DCS_FOR_SALE.Code=(select Min(Code) from TSPL_DCS_FOR_SALE where Code > '" + strCode + "' )"
+                qry += " and TSPL_DCS_FOR_SALE.Code=(select Min(Code) from TSPL_DCS_FOR_SALE where Code > '" + strCode + "'  " + whrCls + " )"
             Case NavigatorType.Previous
-                qry += " and TSPL_DCS_FOR_SALE.Code=(select Max(Code) from TSPL_DCS_FOR_SALE where Code < '" + strCode + "' )"
+                qry += " and TSPL_DCS_FOR_SALE.Code=(select Max(Code) from TSPL_DCS_FOR_SALE where Code < '" + strCode + "' " + whrCls + " )"
             Case NavigatorType.Current
-                qry += " and TSPL_DCS_FOR_SALE.Code='" + strCode + "'"
+                qry += " and TSPL_DCS_FOR_SALE.Code='" + strCode + "'  " + whrCls + ""
         End Select
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -147,7 +150,7 @@ left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone 
 
     End Function
 
-    Public Shared Function GetFinder(ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+    Public Shared Function GetFinder(ByVal curcode As String, ByVal CustCode As String, ByVal isButtonClicked As Boolean) As String
         'Dim obj As ClsDCSforSale = Nothing
         'Dim qry As String = "select Code,Name,Uploader_No,Zone from TSPL_DCS_FOR_SALE"
         'strCode = clsCommon.ShowSelectForm("DCSFSFnd", qry, "Code", "", strCode, "Code", isButtonClicked)
@@ -155,17 +158,24 @@ left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone 
         '    obj = ClsDCSforSale.GetData(strCode, NavigatorType.Current)
         'End If
         'Return obj
+        Dim WhrCls As String = "2=2"
+        If clsCommon.myLen(CustCode) > 0 Then
+            WhrCls += " and Customer in('" + clsCommon.myCstr(CustCode) + "')"
 
+        End If
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls += "  and  Location in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
         Dim str As String = ""
         Dim qry As String = "select Code as [Code],Name as [Name],Zone as [Zone],Uploader_No as [Uploader No],Location as [Location],Customer as [Customer],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date] from TSPL_DCS_FOR_SALE  "
-        str = clsCommon.ShowSelectForm("DCSFSFnd", qry, "Code", "", curcode, "Code", isButtonClicked)
+        str = clsCommon.ShowSelectForm("DCSFSFnd", qry, "Code", WhrCls, curcode, "Code", isButtonClicked)
         Return str
 
     End Function
 
-    Public Shared Function getFinderObeject(ByVal curcode As String, ByVal isButtonClicked As Boolean) As ClsDCSforSale
+    Public Shared Function getFinderObeject(ByVal curcode As String, ByVal CustCode As String, ByVal isButtonClicked As Boolean) As ClsDCSforSale
         Dim obj As ClsDCSforSale = Nothing
-        Dim strCode As String = GetFinder(curcode, isButtonClicked)
+        Dim strCode As String = GetFinder(curcode, CustCode, isButtonClicked)
         If clsCommon.myLen(strCode) > 0 Then
             obj = GetData(strCode, NavigatorType.Current)
         End If

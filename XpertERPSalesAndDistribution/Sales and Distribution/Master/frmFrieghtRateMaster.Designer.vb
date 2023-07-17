@@ -26,6 +26,7 @@ Partial Class frmFrieghtRateMaster
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.chkInactive = New common.Controls.MyCheckBox()
         Me.lblDescription = New common.Controls.MyLabel()
         Me.txtDescription = New common.Controls.MyTextBox()
@@ -44,12 +45,16 @@ Partial Class frmFrieghtRateMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnImport = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,12 +71,15 @@ Partial Class frmFrieghtRateMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -82,6 +90,7 @@ Partial Class frmFrieghtRateMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
@@ -93,12 +102,15 @@ Partial Class frmFrieghtRateMaster
         'SplitContainer2
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer2.IsSplitterFixed = True
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnAddNew)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkInactive)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblDescription)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDescription)
@@ -117,8 +129,18 @@ Partial Class frmFrieghtRateMaster
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
         Me.SplitContainer2.Size = New System.Drawing.Size(875, 456)
-        Me.SplitContainer2.SplitterDistance = 128
+        Me.SplitContainer2.SplitterDistance = 124
         Me.SplitContainer2.TabIndex = 0
+        '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(344, 10)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
+        Me.btnAddNew.TabIndex = 30
         '
         'chkInactive
         '
@@ -309,7 +331,7 @@ Partial Class frmFrieghtRateMaster
         'lblStatus
         '
         Me.lblStatus.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblStatus.Location = New System.Drawing.Point(360, 10)
+        Me.lblStatus.Location = New System.Drawing.Point(382, 10)
         Me.lblStatus.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.Name = "lblStatus"
         Me.lblStatus.Size = New System.Drawing.Size(147, 19)
@@ -346,7 +368,7 @@ Partial Class frmFrieghtRateMaster
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(875, 324)
+        Me.gv1.Size = New System.Drawing.Size(875, 328)
         Me.gv1.TabIndex = 1
         '
         'btnPost
@@ -385,6 +407,28 @@ Partial Class frmFrieghtRateMaster
         Me.btnsave.TabIndex = 4
         Me.btnsave.Text = "Save"
         '
+        'btnImport
+        '
+        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport})
+        Me.btnImport.Location = New System.Drawing.Point(236, 8)
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Size = New System.Drawing.Size(108, 20)
+        Me.btnImport.TabIndex = 156
+        Me.btnImport.Text = "Import/Export"
+        '
+        'rmiImport
+        '
+        Me.rmiImport.Name = "rmiImport"
+        Me.rmiImport.Text = "Import"
+        Me.rmiImport.UseCompatibleTextRendering = False
+        '
+        'rmiExport
+        '
+        Me.rmiExport.Name = "rmiExport"
+        Me.rmiExport.Text = "Export"
+        Me.rmiExport.UseCompatibleTextRendering = False
+        '
         'frmFrieghtRateMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -404,6 +448,7 @@ Partial Class frmFrieghtRateMaster
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
@@ -420,6 +465,7 @@ Partial Class frmFrieghtRateMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -445,4 +491,8 @@ Partial Class frmFrieghtRateMaster
     Friend WithEvents btndelete As RadButton
     Friend WithEvents btnsave As RadButton
     Friend WithEvents chkInactive As common.Controls.MyCheckBox
+    Friend WithEvents btnAddNew As RadButton
+    Friend WithEvents btnImport As RadSplitButton
+    Friend WithEvents rmiImport As RadMenuItem
+    Friend WithEvents rmiExport As RadMenuItem
 End Class

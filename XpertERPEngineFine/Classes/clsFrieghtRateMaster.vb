@@ -4,7 +4,7 @@ Public Class clsFrieghtRateMaster
 #Region "Variables"
     Public PK_ID As Integer = 0
     Public From_Date As DateTime = Nothing
-    Public To_Date As DateTime = Nothing
+    Public To_Date As DateTime? = Nothing
     Public Description As String = ""
     Public Inactive As Integer = 0
     Public Location_Code As String = ""
@@ -15,6 +15,7 @@ Public Class clsFrieghtRateMaster
 
 #End Region
     Public Function SaveData(ByVal obj As clsFrieghtRateMaster, ByVal isNewEntry As Boolean) As Boolean
+
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             SaveData(obj, isNewEntry, trans)
@@ -28,26 +29,31 @@ Public Class clsFrieghtRateMaster
     Public Function SaveData(ByVal obj As clsFrieghtRateMaster, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
 
-            Dim qry As String = "delete from TSPL_DCS_FOR_SALE_Frieght_Detail where REF_PK_ID='" + obj.PK_ID + "'"
+            Dim qry As String = "delete from TSPL_DCS_FOR_SALE_Frieght_Detail where REF_PK_ID='" + clsCommon.myCstr(obj.PK_ID) + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "PK_ID", obj.PK_ID)
-            clsCommon.AddColumnsForChange(coll, "From_Date", obj.From_Date)
-            clsCommon.AddColumnsForChange(coll, "To_Date", obj.To_Date)
+            'clsCommon.AddColumnsForChange(coll, "PK_ID", obj.PK_ID)
+            clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
+            If obj.To_Date IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
+
+            End If
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
             clsCommon.AddColumnsForChange(coll, "Inactive", obj.Inactive)
+
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
 
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
 
-                clsCommon.AddColumnsForChange(coll, "PK_ID", obj.PK_ID)
+                ' clsCommon.AddColumnsForChange(coll, "PK_ID", obj.PK_ID)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FOR_SALE_Frieght", OMInsertOrUpdate.Insert, "", trans)
+                obj.PK_ID = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select PK_ID from TSPL_DCS_FOR_SALE_Frieght order by PK_ID Desc ", trans))
             Else
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FOR_SALE_Frieght", OMInsertOrUpdate.Update, "TSPL_DCS_FOR_SALE_Frieght.PK_ID='" + obj.PK_ID + "'", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FOR_SALE_Frieght", OMInsertOrUpdate.Update, "TSPL_DCS_FOR_SALE_Frieght.PK_ID='" + clsCommon.myCstr(obj.PK_ID) + "'", trans)
             End If
             clsFrieghtRateDetail.SaveData(obj.PK_ID, obj.Arr_FrieghtDetail, False, trans)
         Catch err As Exception
@@ -55,34 +61,46 @@ Public Class clsFrieghtRateMaster
         End Try
         Return True
     End Function
-    Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsFrieghtRateMaster
-        Return GetData(strPONo, NavType, trans, "")
+    Public Shared Function GetData(ByVal PK_ID As Integer, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsFrieghtRateMaster
+        Return GetData(PK_ID, NavType, trans, "")
     End Function
     Public Shared Function GetData(ByVal PK_ID As Integer, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, ByVal strDetailWhrlCls As String) As clsFrieghtRateMaster
         Dim obj As clsFrieghtRateMaster = Nothing
 
         Try
-
-            Dim strQry As String = ""
+            Dim Whrcls As String = ""
+            Dim strQry As String = "select TSPL_DCS_FOR_SALE_FRIEGHT.PK_ID,TSPL_DCS_FOR_SALE_FRIEGHT.From_Date,TSPL_DCS_FOR_SALE_FRIEGHT.To_Date,TSPL_DCS_FOR_SALE_FRIEGHT.Location_Code,
+TSPL_LOCATION_MASTER.Location_Desc as Location_Name,TSPL_DCS_FOR_SALE_FRIEGHT.Description,TSPL_DCS_FOR_SALE_FRIEGHT.Inactive,TSPL_DCS_FOR_SALE_FRIEGHT.Posted_Date,TSPL_DCS_FOR_SALE_FRIEGHT.Status
+from TSPL_DCS_FOR_SALE_FRIEGHT
+left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_DCS_FOR_SALE_FRIEGHT.Location_Code
+where 2=2"
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                Whrcls += " and TSPL_DCS_FOR_SALE_Frieght.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
             Select Case NavType
                 Case NavigatorType.First
-                    strQry += " and TSPL_DCS_FOR_SALE_Frieght.PK_ID = (select MIN(PK_ID) from TSPL_DCS_FOR_SALE_Frieght where 1=1  )"
+                    strQry += " and TSPL_DCS_FOR_SALE_Frieght.PK_ID = (select MIN(PK_ID) from TSPL_DCS_FOR_SALE_Frieght where 1=1 " + Whrcls + "  )"
                 Case NavigatorType.Last
-                    strQry += " and TSPL_DCS_FOR_SALE_Frieght.PK_ID = (select Max(PK_ID) from TSPL_DCS_FOR_SALE_Frieght where 1=1  )"
+                    strQry += " and TSPL_DCS_FOR_SALE_Frieght.PK_ID = (select Max(PK_ID) from TSPL_DCS_FOR_SALE_Frieght where 1=1 " + Whrcls + "  )"
                 Case NavigatorType.Next
-                    strQry += " and TSPL_DCS_FOR_SALE_Frieght.PK_ID = (select Min(PK_ID) from TSPL_DCS_FOR_SALE_Frieght where PK_ID>'" + PK_ID + "'  )"
+                    strQry += " and TSPL_DCS_FOR_SALE_Frieght.PK_ID = (select Min(PK_ID) from TSPL_DCS_FOR_SALE_Frieght where PK_ID>" + clsCommon.myCstr(PK_ID) + " " + Whrcls + "   )"
                 Case NavigatorType.Previous
-                    strQry += " and TSPL_DCS_FOR_SALE_Frieght.PK_ID = (select Max(PK_ID) from TSPL_DCS_FOR_SALE_Frieght where PK_ID<'" + PK_ID + "'  )"
+                    strQry += " and TSPL_DCS_FOR_SALE_Frieght.PK_ID = (select Max(PK_ID) from TSPL_DCS_FOR_SALE_Frieght where PK_ID<" + clsCommon.myCstr(PK_ID) + " " + Whrcls + "  )"
                 Case NavigatorType.Current
-                    strQry += " and TSPL_DCS_FOR_SALE_Frieght.PK_ID = '" + PK_ID + "'"
+                    strQry += " and TSPL_DCS_FOR_SALE_Frieght.PK_ID = '" + clsCommon.myCstr(PK_ID) + "'  " + Whrcls + " "
             End Select
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                strQry += " and TSPL_DCS_FOR_SALE_Frieght.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
 
                 obj = New clsFrieghtRateMaster()
                 obj.PK_ID = clsCommon.myCDecimal(dt.Rows(0)("PK_ID"))
                 obj.From_Date = clsCommon.GetPrintDate(dt.Rows(0)("From_Date"), "dd/MMM/yyyy")
-                obj.To_Date = clsCommon.GetPrintDate(dt.Rows(0)("To_Date"), "dd/MMM/yyyy")
+                If dt.Rows(0)("To_Date") IsNot DBNull.Value Then
+                    obj.To_Date = clsCommon.GetPrintDate(dt.Rows(0)("To_Date"), "dd/MMM/yyyy")
+                End If
                 obj.Inactive = clsCommon.myCDecimal(dt.Rows(0)("Inactive"))
                 obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
                 obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
@@ -123,8 +141,8 @@ Public Class clsFrieghtRateMaster
                 Throw New Exception("Already Posted on :" + obj.Posted_Date)
             End If
             ' HistoryUpdate(strCode, trans)
-            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_DCS_FOR_SALE_Frieght_Detail where REF_PK_ID='" + PK_ID + "'", trans)
-            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_DCS_FOR_SALE_Frieght where PK_ID='" + PK_ID + "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_DCS_FOR_SALE_Frieght_Detail where REF_PK_ID='" + clsCommon.myCstr(PK_ID) + "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_DCS_FOR_SALE_Frieght where PK_ID='" + clsCommon.myCstr(PK_ID) + "'", trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -163,8 +181,49 @@ Public Class clsFrieghtRateMaster
             clsCommon.AddColumnsForChange(coll, "Status", 1)
             clsCommon.AddColumnsForChange(coll, "Posted_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
-            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FOR_SALE_Frieght", OMInsertOrUpdate.Update, "PK_ID='" + obj.PK_ID + "'", trans)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FOR_SALE_Frieght", OMInsertOrUpdate.Update, "PK_ID='" + clsCommon.myCstr(obj.PK_ID) + "'", trans)
             'Throw New Exception("Balwinder Singh Premi")
+
+        Catch ex As Exception
+
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function InactiveCode(ByVal PK_ID As Integer) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            InactiveCode(PK_ID, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function InactiveCode(ByVal PK_ID As Integer, ByVal trans As SqlTransaction) As Boolean
+        Try
+            If (clsCommon.myLen(PK_ID) <= 0) Then
+                Throw New Exception("Code not found to Post")
+            End If
+            Dim obj As clsFrieghtRateMaster = clsFrieghtRateMaster.GetData(PK_ID, NavigatorType.Current, trans)
+
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.PK_ID) <= 0) Then
+                Throw New Exception("Code : " + PK_ID + " not found to Post")
+            End If
+            If (obj.Status = ERPTransactionStatus.Approved) Then
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Inactive", 1)
+                clsCommon.AddColumnsForChange(coll, "Inactive_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Inactive_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FOR_SALE_Frieght", OMInsertOrUpdate.Update, "PK_ID='" + clsCommon.myCstr(obj.PK_ID) + "'", trans)
+            Else
+                Throw New Exception("Code Not Posted")
+            End If
+
+
+
 
         Catch ex As Exception
 
@@ -206,7 +265,7 @@ Public Class clsFrieghtRateMaster
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
-            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FOR_SALE_Frieght", OMInsertOrUpdate.Update, "PK_ID='" + obj.PK_ID + "'", trans)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_FOR_SALE_Frieght", OMInsertOrUpdate.Update, "PK_ID='" + clsCommon.myCstr(obj.PK_ID) + "'", trans)
 
 
         Catch ex As Exception
@@ -246,7 +305,7 @@ Public Class clsFrieghtRateDetail
                 Next
             End If
         Catch ex As Exception
-
+            Throw New Exception(ex.Message)
         End Try
 
         Return True
@@ -258,13 +317,16 @@ Public Class clsFrieghtRateDetail
 
         Try
             Dim dt As DataTable
-            Dim strQry As String = ""
+            Dim strQry As String = "select TSPL_DCS_FOR_SALE_FRIEGHT_Detail.REF_PK_ID,TSPL_DCS_FOR_SALE_FRIEGHT_Detail.PK_ID,TSPL_DCS_FOR_SALE_FRIEGHT_Detail.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DCS_FOR_SALE_FRIEGHT_Detail.Zone_Code,TSPL_DCS_FOR_SALE_FRIEGHT_Detail.UOM_Code,TSPL_DCS_FOR_SALE_FRIEGHT_Detail.Frieght_Rate
+from TSPL_DCS_FOR_SALE_FRIEGHT_Detail
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DCS_FOR_SALE_FRIEGHT_Detail.Customer_Code
+where TSPL_DCS_FOR_SALE_FRIEGHT_Detail.REF_PK_ID=" + clsCommon.myCstr(PK_ID)
             If clsCommon.myLen(strExtraWhrclas) > 0 Then
                 strQry += " and " + strExtraWhrclas
             End If
             strQry += " ORDER BY TSPL_DCS_FOR_SALE_Frieght_Detail.PK_ID"
             dt = New DataTable()
-            dt = clsDBFuncationality.GetDataTable(strQry)
+            dt = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 arr = New List(Of clsFrieghtRateDetail)
                 Dim objTr As clsFrieghtRateDetail
@@ -297,23 +359,48 @@ Public Class clsFrieghtRateDetail
                 Throw New Exception("DCS Truck sheet entered [" + qry + "].Cant Delete it")
             End If
 
-            qry = "select Document_No from  TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No in ( select Document_No from TSPL_MILK_COLLECTION_MCC_DETAIL where PK_Id = " + clsCommon.myCstr(PKID) + ")"
+            qry = "select PK_ID from  TSPL_DCS_FOR_SALE_Frieght_Detail where PK_ID = " + clsCommon.myCstr(PKID)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("Invalid PK ID")
             End If
-            qry = "Delete from TSPL_MILK_COLLECTION_MCC_DETAIL where PK_Id=" + clsCommon.myCstr(PKID) + ""
+            qry = "Delete from TSPL_DCS_FOR_SALE_Frieght_Detail where PK_Id=" + clsCommon.myCstr(PKID)
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            If dt.Rows.Count = 1 Then
-                qry = "Delete from TSPL_MILK_COLLECTION_MCC where Document_No='" + clsCommon.myCstr(dt.Rows(0)("Document_No")) + "'"
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            End If
+
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True
+    End Function
+
+
+    Public Shared Function GetFrieghtRate(ByVal CustomerCode As String, ByVal DDate As DateTime, ByVal ZoneCode As String, ByVal UOMCode As String) As clsFrieghtRateDetail
+        Dim obj As clsFrieghtRateDetail = Nothing
+        Try
+            Dim qry As String = "select Top 1 TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.PK_ID, TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.Frieght_Rate from TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL
+ left join TSPL_DCS_FOR_SALE_FRIEGHT on TSPL_DCS_FOR_SALE_FRIEGHT.PK_ID=TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.REF_PK_ID
+  where TSPL_DCS_FOR_SALE_FRIEGHT.Status=1 and TSPL_DCS_FOR_SALE_FRIEGHT.Inactive=0 and TSPL_DCS_FOR_SALE_FRIEGHT.From_Date<='" + clsCommon.GetPrintDate(DDate) + "' and 2= (case when TSPL_DCS_FOR_SALE_FRIEGHT.To_Date is null then 2 else (case when TSPL_DCS_FOR_SALE_FRIEGHT.To_Date>='" + clsCommon.GetPrintDate(DDate) + "' then 2 else 3 end)  end) and TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.Customer_Code='" + clsCommon.myCstr(CustomerCode) + "' and TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL. Zone_Code='" + clsCommon.myCstr(ZoneCode) + "' and TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.UOM_Code='" + clsCommon.myCstr(UOMCode) + "'
+order by TSPL_DCS_FOR_SALE_FRIEGHT.From_Date desc"
+            'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            '    qry += "  and  TSPL_DCS_FOR_SALE_FRIEGHT.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            'End If
+            If clsCommon.myLen(CustomerCode) > 0 And clsCommon.myLen(ZoneCode) > 0 And clsCommon.myLen(UOMCode) Then
+                obj = New clsFrieghtRateDetail
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt.Rows.Count > 0 Then
+                    obj.PK_ID = clsCommon.myCstr(dt.Rows(0)("PK_ID"))
+                    obj.Frieght_Rate = clsCommon.myCstr(dt.Rows(0)("Frieght_Rate"))
+
+                End If
+
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return obj
     End Function
 End Class
 
