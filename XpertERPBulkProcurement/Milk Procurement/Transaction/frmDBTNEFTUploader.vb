@@ -809,18 +809,30 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
     End Sub
     Public Shared Sub funPrintBankLetter(ByVal strDocNo As String)
         Try
-            Dim reportDate As Date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy")
+            Dim reportDateTime As String = (clsDBFuncationality.getSingleValue("select convert(varchar , getdate(),113) as Date_Time"))
+            Dim isPending As String = ERPTransactionStatus.Pending
+            Dim status As String = ""
+            Dim Doc_Date As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select Document_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 104) AS Date"))
+            Dim ToDate As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select To_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 103) AS To_Date"))
+            Dim FromDate As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select From_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 103) AS From_Date"))
+            If isPending = "1" Then
+                status = "Pending"
+            End If
+            Dim User_Name As String = objCommonVar.CurrentUser
             Try
                 If clsCommon.myLen(strDocNo) <= 0 Then
                     Throw New Exception("Please select Document No")
                 End If
-                Dim qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2, tspl_company_master.Comp_Name , TL.Location_Desc as Comp_Loc_Desc ,
-                TL.City_Code as Comp_City_Code , tl.Email as Email , TD.Document_Code as Doc_No ,'" & reportDate & "' as Date ,TD.Rem_Name,TD.Rem_Account_No , (select sum( Amount)  from tspl_dbt_neft_detail )as Total_Amt ,
-                (SELECT FORMAT(From_Date, 'dd/MM/yyyy') FROM TSPL_DBT_NEFT) as Pay_From_Date , (SELECT FORMAT(To_Date, 'dd/MM/yyyy') FROM TSPL_DBT_NEFT) as Pay_To_Date from tspl_dbt_neft_detail TD left outer join TSPL_DBT_NEFT
-                 on TSPL_DBT_NEFT.Document_Code = TD.Document_Code  LEFT OUTER JOIN tspl_company_master ON tspl_company_master.comp_code = '" + objCommonVar.CurrentCompanyCode + "'
-					left outer join TSPL_LOCATION_MASTER TL on TL.Comp_code = tspl_company_master.Comp_Code
-					WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
 
+                Dim qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 ,TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,
+               '" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name, TSPL_DBT_NEFT_DETAIL.Rem_Name,TSPL_DBT_NEFT_DETAIL.Rem_Account_No ,
+                tspl_dbt_neft_detail.Amount as Total_Amt ,'" & FromDate & "' as From_Date, '" & ToDate & "' as To_Date, TSPL_DBT_NEFT.To_Date from TSPL_DBT_NEFT  
+                left outer join (select TSPL_DBT_NEFT_DETAIL.document_code,max(TSPL_DBT_NEFT_DETAIL.Rem_Name) as Rem_Name,max(TSPL_DBT_NEFT_DETAIL.Rem_Account_No) as Rem_Account_No,
+                sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount from TSPL_DBT_NEFT_DETAIL                 
+                where   TSPL_DBT_NEFT_DETAIL.document_code ='" + strDocNo + "' group by TSPL_DBT_NEFT_DETAIL.document_code 
+               ) TSPL_DBT_NEFT_DETAIL   on TSPL_DBT_NEFT.Document_Code = TSPL_DBT_NEFT_DETAIL.Document_Code  
+                  LEFT OUTER JOIN tspl_company_master ON tspl_company_master.comp_code = 'UDP'
+                  WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploaderBankLetter", "Bank Letter NEFT Uploader")
