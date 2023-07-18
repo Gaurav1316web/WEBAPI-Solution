@@ -46,25 +46,7 @@ Public Class frmRouteMaster
     End Sub
     Private Sub LoadEntryUOM()
         Try
-            Dim dt As DataTable = New DataTable()
-            dt.Columns.Add("Code", GetType(String))
-            dt.Columns.Add("Name", GetType(String))
-            Dim dr As DataRow = dt.NewRow()
-            dr("Code") = "0"
-            dr("Name") = "Crate And Pouch"
-            dt.Rows.Add(dr)
-
-            dr = dt.NewRow()
-            dr("Code") = "1"
-            dr("Name") = "Crate"
-            dt.Rows.Add(dr)
-
-            dr = dt.NewRow()
-            dr("Code") = "2"
-            dr("Name") = "LTR"
-            dt.Rows.Add(dr)
-
-            cboEntryUOM.DataSource = dt
+            cboEntryUOM.DataSource = clsItemUOMDetails.GetEntryUOM()
             cboEntryUOM.ValueMember = "Code"
             cboEntryUOM.DisplayMember = "Name"
             cboEntryUOM.SelectedValue = "0"
