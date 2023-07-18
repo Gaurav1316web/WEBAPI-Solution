@@ -94,11 +94,6 @@ Public Class FrmUserMaster
     End Sub
 
     Private Sub FrmUserMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Entry_UOM", "integer null")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
-
-
         SetUserMgmtNew()
         fndUserCode.TabIndex = 1
         Employee_TextChanged()
