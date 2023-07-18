@@ -936,5 +936,5 @@ Public Class rptSPItemConsumptionReport
         End Try
     End Sub
 
-    
+
 End Class
