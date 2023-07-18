@@ -2423,6 +2423,7 @@ Public Class clsUserMgtCode
     Public Const AuditTrailStandardProduction As String = "ADIT_STDPRO"
     Public Const rptSPItemConsumptionReport As String = "MATCONS_RPT"
     Public Const ProductionReport As String = "PRODUC_RPT"
+    Public Const rptSalesReport As String = "SALES_RPT"
     Public Const FrmProductionAndSaleReport As String = "PANDS_RPT"
     Public Const AuditTrailDairyProduction As String = "ADIT_DARYPD"
     Public Const AuditTrailMilkProcurementMCC As String = "ADIT_MPMCC"
