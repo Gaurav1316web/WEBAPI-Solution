@@ -33,7 +33,9 @@ Public Class ClsDCSforSale
     Public Function SaveData(ByVal obj As ClsDCSforSale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
-
+            If clsCommon.myLen(obj.Code) <= 0 And isNewEntry = False Then
+                isNewEntry = True
+            End If
             Dim coll As New Hashtable()
             'Dim objCommonVar As Object = New ClsDCSforSale()
             clsCommon.AddColumnsForChange(coll, "Name", obj.Name)
@@ -148,7 +150,7 @@ left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone 
 
     End Function
 
-    Public Shared Function GetFinder(ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
+    Public Shared Function GetFinder(ByVal curcode As String, ByVal CustCode As String, ByVal isButtonClicked As Boolean) As String
         'Dim obj As ClsDCSforSale = Nothing
         'Dim qry As String = "select Code,Name,Uploader_No,Zone from TSPL_DCS_FOR_SALE"
         'strCode = clsCommon.ShowSelectForm("DCSFSFnd", qry, "Code", "", strCode, "Code", isButtonClicked)
@@ -157,6 +159,10 @@ left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone 
         'End If
         'Return obj
         Dim WhrCls As String = "2=2"
+        If clsCommon.myLen(CustCode) > 0 Then
+            WhrCls += " and Customer in('" + clsCommon.myCstr(CustCode) + "')"
+
+        End If
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
@@ -167,9 +173,9 @@ left join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_DCS_FOR_SALE.Zone 
 
     End Function
 
-    Public Shared Function getFinderObeject(ByVal curcode As String, ByVal isButtonClicked As Boolean) As ClsDCSforSale
+    Public Shared Function getFinderObeject(ByVal curcode As String, ByVal CustCode As String, ByVal isButtonClicked As Boolean) As ClsDCSforSale
         Dim obj As ClsDCSforSale = Nothing
-        Dim strCode As String = GetFinder(curcode, isButtonClicked)
+        Dim strCode As String = GetFinder(curcode, CustCode, isButtonClicked)
         If clsCommon.myLen(strCode) > 0 Then
             obj = GetData(strCode, NavigatorType.Current)
         End If

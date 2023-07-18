@@ -14,44 +14,7 @@ Public Class frmFrieghtRateMaster
     Private isInsideLoadData As Boolean = False
 #End Region
     Private Sub frmFrieghtRateMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("From_Date", "datetime Not null")
-        coll.Add("To_Date", "datetime null")
-        coll.Add("Description", "varchar(100) null")
-        coll.Add("Inactive", "integer Not null")
-        coll.Add("Inactive_By", "varchar(30) null")
-        coll.Add("Location_Code", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
-        coll.Add("Inactive_Date", "datetime NULL")
-        coll.Add("Created_By", "varchar(12)  Not NULL")
-        coll.Add("Created_Date", "datetime  Not NULL")
-        coll.Add("Modified_By", "varchar(12)  Not NULL")
-        coll.Add("Modified_Date", "datetime  Not NULL")
-        coll.Add("Status", "integer NOT NULL DEFAULT 0")
-        coll.Add("Posted_By", "varchar(12) NULL")
-        coll.Add("Posted_Date", "datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_FOR_SALE_Frieght", coll, "", True)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("REF_PK_ID", "integer NOT NULL references TSPL_DCS_FOR_SALE_Frieght(PK_ID)")
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Customer_Code", "varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
-        coll.Add("Zone_Code", "varchar(30) null references TSPL_ZONE_MASTER(Zone_Code)")
-        coll.Add("UOM_Code", "varchar(12) null references TSPL_UNIT_MASTER(Unit_Code)")
-        coll.Add("Frieght_Rate", "Decimal(18,2) Not null")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_FOR_SALE_Frieght_Detail", coll, "", True)
 
-        coll = New Dictionary(Of String, String)
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("DOCUMENT_CODE", "Varchar(30) NOT NULL References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
-        coll.Add("DCS_Code", "varchar(30) NOT NULL References TSPL_DCS_FOR_SALE(Code)")
-        coll.Add("ICode", "varchar(50) NOT NULL References TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Qty", "decimal(18, 2) NULL")
-        coll.Add("UOM", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
-        coll.Add("FPKID", "integer NOT NULL references TSPL_DCS_FOR_SALE_Frieght_Detail(PK_ID)")
-        coll.Add("Frieght_Rate", "decimal(18, 2) NULL")
-        coll.Add("Frieght_Amt", "decimal(18, 2) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
         chkInactive.Enabled = False
         AddNew()
@@ -131,14 +94,14 @@ Public Class frmFrieghtRateMaster
         'repoTextBoxUOM.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoTextBoxUOM)
         Dim repoTextBox = New GridViewDecimalColumn()
-        repoTextBox.FormatString = "{0:n3   }"
+        repoTextBox.FormatString = "{0:n2}"
         repoTextBox.HeaderText = "Frieght Rate"
         repoTextBox.Name = colFrieghtRate
         repoTextBox.Width = 80
         repoTextBox.Minimum = 0
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
-        repoTextBox.DecimalPlaces = 3
+        repoTextBox.DecimalPlaces = 2
         repoTextBox.IsVisible = True
         'repoTextBox.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoTextBox)
@@ -302,6 +265,8 @@ Public Class frmFrieghtRateMaster
                         Dim whrcls As String = " Cust_Code in(select Customer_Code from TSPL_CUSTOMER_LOCATION_MAPPING where 2=2"
                         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                             whrcls += " AND Location_code in (" + objCommonVar.strCurrUserLocations + "))"
+                        Else
+                            whrcls += ")"
                         End If
                         gv1.CurrentRow.Cells(colCustCode).Value = clsCommon.myCstr(clsCustomerMaster.getFinder(whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value), False))
                         gv1.CurrentRow.Cells(colCustName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + gv1.CurrentRow.Cells(colCustCode).Value + "'"))
@@ -491,101 +456,122 @@ Public Class frmFrieghtRateMaster
         Export()
     End Sub
     Public Sub Import()
-        Dim gv As New RadGridView()
-        Me.Controls.Add(gv)
-        Dim obj As New List(Of clsFrieghtRateDetail)
-        Dim currentdate As Date = Date.Today
-        If transportSql.importExcel(gv, "Customer Code", "Zone", "UOM", "Frieght Rate") Then
+        Try
+            Dim gv As New RadGridView()
+            Me.Controls.Add(gv)
+            Dim obj As New List(Of clsFrieghtRateDetail)
+            Dim currentdate As Date = Date.Today
+            If clsCommon.myLen(txtLocation.Value) > 0 Then
 
-            'Dim trans As SqlTransaction = Nothing
-            Dim linno As Integer = 0
-            Dim TempNewRecord As Boolean = False
-            Try
-                'trans = clsDBFuncationality.GetTransactin()
-                clsCommon.ProgressBarShow()
-                For Each grow As GridViewRowInfo In gv.Rows
-                    Dim Arr As New clsFrieghtRateDetail()
-                    linno += 1
-                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Customer Code").Value))) Then
-                        'Throw New Exception("Customer Code Cannot be empty" + clsCommon.myCstr(linno) + ".")
-                        Continue For
-                    Else
-                        Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
-                        Dim custName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
-                        If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Customer Code").Value)) = CompairStringResult.Equal Then
-                            Arr.Customer_Code = clsCommon.myCstr(grow.Cells("Customer Code").Value)
-                            Arr.Customer_Name = clsCommon.myCstr(custName)
-                        Else
-                            'Throw New Exception("Customer Code Not Exists." + clsCommon.myCstr(linno) + ".")
-                            Continue For
-                        End If
-                    End If
-                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Zone").Value))) Then
-                        'Throw New Exception("Zone cannot be empty" + clsCommon.myCstr(linno) + ".")
-                        Continue For
-                    Else
-                        Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Zone_Code from TSPL_Zone_Master where Zone_Code='" + clsCommon.myCstr(grow.Cells("Zone").Value) + "'"))
-                        If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Zone").Value)) = CompairStringResult.Equal Then
-                            Arr.Zone_Code = clsCommon.myCstr(grow.Cells("Zone").Value)
-                        Else
-                            'Throw New Exception("Zone Code Not Exists." + clsCommon.myCstr(linno) + ".")
-                            Continue For
-                        End If
-                    End If
-                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("UOM").Value))) Then
-                        'Throw New Exception("UOM Code cannot be empty" + clsCommon.myCstr(linno) + ".")
-                        Continue For
-                    Else
-                        Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Code from TSPL_UNIT_MASTER where Unit_Code='" + clsCommon.myCstr(grow.Cells("UOM").Value) + "'"))
-                        If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("UOM").Value)) = CompairStringResult.Equal Then
-                            Arr.UOM_Code = clsCommon.myCstr(grow.Cells("UOM").Value)
-                        Else
-                            'Throw New Exception("UOM Code Not Exists." + clsCommon.myCstr(linno) + ".")
-                            Continue For
-                        End If
-                    End If
-                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Frieght Rate").Value))) Then
-                        'Throw New Exception("Frieght Rate cannot be empty" + clsCommon.myCstr(linno) + ".")
-                        Continue For
-                    Else
-                        Arr.Frieght_Rate = clsCommon.myCDecimal(grow.Cells("Frieght Rate").Value)
-                    End If
-                    obj.Add(Arr)
-                Next
-                If clsCommon.MyMessageBoxShow(Me, "Total Correct Document [" + clsCommon.myCstr(obj.Count) + "] out of [" + clsCommon.myCstr(linno) + "] Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-                    Dim sl As Integer = 1
-                    If obj IsNot Nothing AndAlso obj.Count > 0 Then
-                        isInsideLoadData = True
-                        For Each objTr As clsFrieghtRateDetail In obj
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = sl
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(ColPKID).Value = objTr.PK_ID
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Customer_Code
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = objTr.Customer_Name
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colZoneCode).Value = objTr.Zone_Code
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colUOMCode).Value = objTr.UOM_Code
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colFrieghtRate).Value = objTr.Frieght_Rate
-                            sl += 1
-                            gv1.Rows.AddNew()
+                If transportSql.importExcel(gv, "Customer Code", "Zone", "UOM", "Frieght Rate") Then
+
+                    'Dim trans As SqlTransaction = Nothing
+                    Dim linno As Integer = 0
+                    Dim TempNewRecord As Boolean = False
+                    Try
+                        'trans = clsDBFuncationality.GetTransactin()
+                        clsCommon.ProgressBarShow()
+                        For Each grow As GridViewRowInfo In gv.Rows
+                            Dim Arr As New clsFrieghtRateDetail()
+                            linno += 1
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Customer Code").Value))) Then
+                                'Throw New Exception("Customer Code Cannot be empty" + clsCommon.myCstr(linno) + ".")
+                                Continue For
+                            Else
+                                Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Customer from TSPL_DCS_FOR_SALE where Customer='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "' and Location='" + clsCommon.myCstr(txtLocation.Value) + "'"))
+                                Dim custName As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
+                                If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Customer Code").Value)) = CompairStringResult.Equal Then
+                                    Arr.Customer_Code = clsCommon.myCstr(grow.Cells("Customer Code").Value)
+                                    Arr.Customer_Name = clsCommon.myCstr(custName)
+                                Else
+                                    'Throw New Exception("Customer Code Not Exists." + clsCommon.myCstr(linno) + ".")
+                                    Continue For
+                                End If
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Zone").Value))) Then
+                                'Throw New Exception("Zone cannot be empty" + clsCommon.myCstr(linno) + ".")
+                                Continue For
+                            Else
+                                Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Zone_Code from TSPL_Zone_Master where Zone_Code='" + clsCommon.myCstr(grow.Cells("Zone").Value) + "'"))
+                                If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Zone").Value)) = CompairStringResult.Equal Then
+                                    Arr.Zone_Code = clsCommon.myCstr(grow.Cells("Zone").Value)
+                                Else
+                                    'Throw New Exception("Zone Code Not Exists." + clsCommon.myCstr(linno) + ".")
+                                    Continue For
+                                End If
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("UOM").Value))) Then
+                                'Throw New Exception("UOM Code cannot be empty" + clsCommon.myCstr(linno) + ".")
+                                Continue For
+                            Else
+                                Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Code from TSPL_UNIT_MASTER where Unit_Code='" + clsCommon.myCstr(grow.Cells("UOM").Value) + "'"))
+                                If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("UOM").Value)) = CompairStringResult.Equal Then
+                                    Arr.UOM_Code = clsCommon.myCstr(grow.Cells("UOM").Value)
+                                Else
+                                    'Throw New Exception("UOM Code Not Exists." + clsCommon.myCstr(linno) + ".")
+                                    Continue For
+                                End If
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Frieght Rate").Value))) Then
+                                'Throw New Exception("Frieght Rate cannot be empty" + clsCommon.myCstr(linno) + ".")
+                                Continue For
+                            Else
+                                Arr.Frieght_Rate = clsCommon.myCDecimal(grow.Cells("Frieght Rate").Value)
+                            End If
+                            obj.Add(Arr)
                         Next
+                        clsCommon.ProgressBarHide()
+                        If clsCommon.MyMessageBoxShow(Me, "Total Correct Document [" + clsCommon.myCstr(obj.Count) + "] out of [" + clsCommon.myCstr(linno) + "] Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                            Dim sl As Integer = 1
+                            If obj IsNot Nothing AndAlso obj.Count > 0 Then
+                                isInsideLoadData = True
+                                For Each objTr As clsFrieghtRateDetail In obj
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColSNo).Value = sl
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(ColPKID).Value = objTr.PK_ID
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Customer_Code
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = objTr.Customer_Name
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colZoneCode).Value = objTr.Zone_Code
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colUOMCode).Value = objTr.UOM_Code
+                                    gv1.Rows(gv1.Rows.Count - 1).Cells(colFrieghtRate).Value = objTr.Frieght_Rate
+                                    sl += 1
+                                    gv1.Rows.AddNew()
+                                Next
 
-                        isInsideLoadData = False
-                    End If
+                                isInsideLoadData = False
+                            End If
+                            common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                        Else
+                            common.clsCommon.MyMessageBoxShow("Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
+                        End If
+
+                        clsCommon.ProgressBarHide()
+
+                    Catch ex As Exception
+                        clsCommon.ProgressBarHide()
+                        clsCommon.MyMessageBoxShow(ex.Message)
+                    End Try
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
 
                 End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Please Select Location", Me.Text)
+            End If
+            'clsCommon.ProgressBarHide()
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            'clsCommon.ProgressBarHide()
+            clsCommon.MyMessageBoxShow(ex.Message)
 
-                clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
-            Catch ex As Exception
-                clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
-            End Try
-        End If
-        Me.Controls.Remove(gv)
+        End Try
+
     End Sub
     Public Sub Export()
         Dim str As String
-        str = "select Customer_Code as [Customer Code],Zone_Code as [Zone],UOM_Code as [UOM],Frieght_Rate as [Frieght Rate] from TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL"
-
+        str = "select Customer_Code as [Customer Code],Zone_Code as [Zone],UOM_Code as [UOM],Frieght_Rate as [Frieght Rate] from TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL left join TSPL_DCS_FOR_SALE_FRIEGHT on TSPL_DCS_FOR_SALE_FRIEGHT.PK_ID=TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.REF_PK_ID where 2=2"
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            str += " and TSPL_DCS_FOR_SALE_FRIEGHT.Location_Code in(" + clsCommon.myCstr(objCommonVar.strCurrUserLocations) + ") "
+        End If
         ListImpExpColumnsMandatory = New List(Of String)({"Customer Code", "Zone", "UOM", "Frieght Rate"})
         transportSql.ExporttoExcel(str, Me)
     End Sub

@@ -7590,6 +7590,9 @@ Public Class MDI
                     Case clsUserMgtCode.MilkGateEntryIn
                         frm = New frmMilkGateEntryIn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        'Case clsUserMgtCode.MilkRetesting
+                        ' frm = New frmMilkRetesting
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MilkGateEntryWeightment
                         frm = New frmMilkGateEntryWeighment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -7640,6 +7643,9 @@ Public Class MDI
                             formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         End If
                     Case clsUserMgtCode.MilkProcurementCorrection
+                        frm = New frmCorrection
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.MilkRetesting
                         frm = New frmCorrection
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.PrimaryTransportProvisionCorrection

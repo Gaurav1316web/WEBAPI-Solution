@@ -33,7 +33,7 @@ Public Class frmSNShipment
     Dim iStxtTaxGroup_TxtChangedComplete As Boolean = True
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
-
+    Private ischkFillDCS As Boolean = True
     Const colLineNo As String = "COLLNO"
     Const colRowType As String = "COLTYPE"
     Const colComplete As String = "COMPLETE"
@@ -8851,17 +8851,18 @@ a:          End If
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
                     If e.Column Is gvDCS.Columns(colDCSCode) Then
-                        Dim obj As ClsDCSforSale = ClsDCSforSale.getFinderObeject(clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSCode).Value), False)
+                        Dim obj As ClsDCSforSale = ClsDCSforSale.getFinderObeject(clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSCode).Value), clsCommon.myCstr(txtCustomer.Value), False)
                         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                             gvDCS.CurrentRow.Cells(colDCSCode).Value = obj.Code
                             gvDCS.CurrentRow.Cells(colDCSUploaderNo).Value = obj.Uploader_No
                             gvDCS.CurrentRow.Cells(colDCSName).Value = obj.Name
                             gvDCS.CurrentRow.Cells(colDCSZone).Value = obj.Zone
                         Else
-                            gvDCS.CurrentRow.Cells(colDCSCode).Value = ""
-                            gvDCS.CurrentRow.Cells(colDCSUploaderNo).Value = ""
-                            gvDCS.CurrentRow.Cells(colDCSName).Value = ""
-                            gvDCS.CurrentRow.Cells(colDCSZone).Value = ""
+                            Throw New Exception("DCS Not Mapped with [" + txtCustomer.Value + "- " + lblCustomerName.Text + "]")
+                            'gvDCS.CurrentRow.Cells(colDCSCode).Value = ""
+                            'gvDCS.CurrentRow.Cells(colDCSUploaderNo).Value = ""
+                            'gvDCS.CurrentRow.Cells(colDCSName).Value = ""
+                            'gvDCS.CurrentRow.Cells(colDCSZone).Value = ""
                         End If
                     ElseIf e.Column Is gvDCS.Columns(colDCSICode) Then
                         Dim obj As clsItemMaster = clsItemMaster.GetDCSItemFinder(clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSICode).Value), False)

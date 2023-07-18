@@ -1643,7 +1643,7 @@ left outer join ( select code, Description  from TSPL_DCS_ADDITION_DEDUCTION
 union 
 select  Code , Description from TSPL_DEDUCTION_MASTER) as TSPL_DEDUCTION_MASTER on ( TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
 where TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")  and Len(TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE ) > 0
-group by TSPL_DEDUCTION_MASTER.Description"
+group by TSPL_DEDUCTION_MASTER.Description order by  TSPL_DEDUCTION_MASTER.Description"
             dtDebit = clsDBFuncationality.GetDataTable(sQuery)
 
 
@@ -1708,11 +1708,16 @@ group by Description "
 
             dtCredit = clsDBFuncationality.GetDataTable(sQuery)
 
-            sQuery = "select TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_MCC_MASTER.MCC_NAME,TSPL_COMPANY_MASTER.Regn_No
+
+
+
+
+            sQuery = "select *
+                        from (select TSPL_PAYMENT_PROCESS_HEAD.doc_no
+                        ,TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_MCC_MASTER.MCC_NAME,TSPL_COMPANY_MASTER.Regn_No
                     ,TSPL_COMPANY_MASTER.Add1 as comp_add1 , TSPL_COMPANY_MASTER.Add2 as  comp_add2 
                     ,TSPL_COMPANY_MASTER.Add3 as comp_add3 ,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone , cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,tspl_company_master.Pincode,tspl_company_master.Tcan_No
-                    ,TSPL_PAYMENT_PROCESS_HEAD.doc_no
-                    ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,103) as Doc_Date
+                                        ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,103) as Doc_Date
                     ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.from_date,103) as from_date
                     ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.to_date,103) as to_date
                     ,(SELECT sum(TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty) FROM TSPL_PAYMENT_PROCESS_DETAIL WHERE Doc_no in (" + strDocNo + ")) AS Milk_Qty
@@ -1723,7 +1728,17 @@ group by Description "
                     from TSPL_PAYMENT_PROCESS_HEAD
                     left outer join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER.Comp_Code =TSPL_PAYMENT_PROCESS_HEAD.Comp_Code
                     left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
-                     where TSPL_PAYMENT_PROCESS_HEAD.doc_no in (" + strDocNo + ")"
+                     where TSPL_PAYMENT_PROCESS_HEAD.doc_no in (" + strDocNo + "))XXY
+
+					 left outer join 
+
+					 (select 
+                        TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,'" + strHeadLoadColumnName + "' as Description,'' AS Code,sum(TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount) as HeadLoadAmount from 
+                        TSPL_PAYMENT_PROCESS_DETAIL INNER JOIN
+                        TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+                        where Document_Type='C' and RefDocType='Milk_HE'  and TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") group by 
+                        TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,Description)final1  on final1.Doc_No=xxy.doc_no"
+
             dt = clsDBFuncationality.GetDataTable(sQuery)
 
 
