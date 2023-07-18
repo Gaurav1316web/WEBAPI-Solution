@@ -283,12 +283,13 @@ Public Class frmCorrection
 
             ShowRemarks()
 
-            Else
+        Else
             SaveData()
         End If
     End Sub
     Private Sub ShowRemarks()
         Try
+            Dim qry As String = ""
             Dim Reason As String = ""
             Dim frm As New FrmFreeTxtBox1
             frm.Text = "Remarks for Retesting"
