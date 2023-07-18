@@ -4380,6 +4380,8 @@ Public Class clsCreateAllTable
             coll.Add("ShowGroupOnReport", "int NOT NULL DEFAULT 1")
             coll.Add("PONOMandatory", "int NOT NULL DEFAULT 0")
             coll.Add("Default_VSP", "int NOT NULL DEFAULT 0")
+            coll.Add("VSP_Price_Code_Credit", "varchar(12) NULL")
+            coll.Add("VSP_Price_Code_Cash", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_GROUP_MASTER", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
