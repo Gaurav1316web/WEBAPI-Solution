@@ -4380,6 +4380,8 @@ Public Class clsCreateAllTable
             coll.Add("ShowGroupOnReport", "int NOT NULL DEFAULT 1")
             coll.Add("PONOMandatory", "int NOT NULL DEFAULT 0")
             coll.Add("Default_VSP", "int NOT NULL DEFAULT 0")
+            coll.Add("VSP_Price_Code_Credit", "varchar(12) NULL")
+            coll.Add("VSP_Price_Code_Cash", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_GROUP_MASTER", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
@@ -51929,6 +51931,12 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_DETAIL", coll, "", True, False, "TSPL_DBT_NEFT", "Document_Code", "")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_DETAIL_INVALID", coll, "", True, False, "TSPL_DBT_NEFT", "Document_Code", "")
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Ref_PK_Id", "integer not NULL UNIQUE references TSPL_MP_INCENTIVE_ENTRY_DETAIL (PK_Id) ")
+            coll.Add("Bank_Response", "Varchar(100) NOT null")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_BANK_RESPONSE", coll, "", False, False, "", "", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "Varchar(30) NOT NULL primary key")

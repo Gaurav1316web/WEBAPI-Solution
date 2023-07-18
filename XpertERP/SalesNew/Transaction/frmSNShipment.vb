@@ -33,7 +33,7 @@ Public Class frmSNShipment
     Dim iStxtTaxGroup_TxtChangedComplete As Boolean = True
     Private isNewEntry As Boolean = False
     Private isInsideLoadData As Boolean = False
-
+    Private ischkFillDCS As Boolean = True
     Const colLineNo As String = "COLLNO"
     Const colRowType As String = "COLTYPE"
     Const colComplete As String = "COMPLETE"
@@ -8960,12 +8960,7 @@ a:          End If
     End Sub
 
     Private Sub chkFillDCSDetail_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkFillDCSDetail.ToggleStateChanged
-        If clsCommon.myLen(txtCustomer.Value) > 0 Then
-            SetDCSGrid()
-        Else
-            clsCommon.MyMessageBoxShow(Me, "Please Select Customer.", Me.Text)
-        End If
-
+        SetDCSGrid()
     End Sub
 
     Sub SetDCSGrid()

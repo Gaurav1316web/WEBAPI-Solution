@@ -1470,13 +1470,11 @@ Public Class FrmMCCMilkRegister
             gv.Columns("Milk Weight(LTR)").HeaderText = "Milk Weight(LTR)"
 
 
-
-            gv.Columns("DBT Amount").IsVisible = True
-            gv.Columns("DBT Amount").Width = 100
-            gv.Columns("DBT Amount").HeaderText = "DBT Amount"
-
-
-
+            If gv.Columns.Contains("DBT Amount") Then
+                gv.Columns("DBT Amount").IsVisible = True
+                gv.Columns("DBT Amount").Width = 100
+                gv.Columns("DBT Amount").HeaderText = "DBT Amount"
+            End If
 
             gv.Columns("FAT(%)").IsVisible = True
             gv.Columns("FAT(%)").Width = 100
