@@ -167,6 +167,7 @@ Public Class FrmUserMaster
             rmImportCustomerMapping.Visibility = ElementVisibility.Collapsed
             RadMenuItem1.Visibility = ElementVisibility.Collapsed
         End If
+        LoadEntryUOM()
         LoadBlankUserGrid()
         gvUser.Rows.AddNew()
         txt_Mob_No.Text = ""
@@ -177,6 +178,17 @@ Public Class FrmUserMaster
             fndUserCode.Value = clsCommon.myCstr(Me.Tag)
             usercodeTextChanged()
         End If
+    End Sub
+
+    Private Sub LoadEntryUOM()
+        Try
+            cboEntryUOM.DataSource = clsItemUOMDetails.GetEntryUOM()
+            cboEntryUOM.ValueMember = "Code"
+            cboEntryUOM.DisplayMember = "Name"
+            cboEntryUOM.SelectedValue = "0"
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 #End Region
 #Region "KeyPress Events"
@@ -301,7 +313,7 @@ Public Class FrmUserMaster
 #Region "Methods"
     Private Sub funfill()
 
-        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin from tspl_user_master where  User_Code ='" + fndUserCode.Value + "'"
+        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
         Dim dr As DataTable
         dr = clsDBFuncationality.GetDataTable(str)
         For Each row As DataRow In dr.Rows
@@ -366,7 +378,7 @@ Public Class FrmUserMaster
                 dtInActive.Value = dtInActive.MinDate
 
             End If
-
+            cboEntryUOM.SelectedValue = clsCommon.myCstr(row("Entry_UOM"))
 
             'Add By : Prabhakar'
             If PanelCNF = True Then
@@ -712,6 +724,7 @@ Public Class FrmUserMaster
         clsCommon.AddColumnsForChange(coll, "User_APP_Type", CboAppUserType.SelectedValue, True)
         clsCommon.AddColumnsForChange(coll, "User_APP_Sale_Type", CmbAppUserSaleType.SelectedValue, True)
         clsCommon.AddColumnsForChange(coll, "MP_Code", txtMP.Value, True)
+        clsCommon.AddColumnsForChange(coll, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Update, "User_Code='" + fndUserCode.Value + "'")
     End Sub
 
@@ -1036,6 +1049,7 @@ Public Class FrmUserMaster
         dtInActive.Value = connectSql.serverDate()
         CboAppUserType.SelectedValue = ""
         CmbAppUserSaleType.SelectedValue = ""
+        cboEntryUOM.SelectedValue = "0"
         'Add By : Prabhakar Ticket : BM00000009802'
         If PanelCNF = True Then
             lblDisRetailer.Text = "Distributer"

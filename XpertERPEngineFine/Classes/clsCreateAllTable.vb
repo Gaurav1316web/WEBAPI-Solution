@@ -13560,6 +13560,7 @@ Public Class clsCreateAllTable
             coll.Add("Open_To_Date", "Datetime  NULL")
             coll.Add("OTP", "varchar(6) NULL")
             coll.Add("OTP_Validity", "Datetime  NULL")
+            coll.Add("Entry_UOM", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_USER_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
