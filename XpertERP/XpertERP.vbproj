@@ -394,7 +394,7 @@
     <Reference Include="XpertERPRiceProduction">
       <HintPath>..\XpertERPRiceProduction\bin\Debug\XpertERPRiceProduction.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPSalesAndDistribution, Version=5.2.8.55, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="XpertERPSalesAndDistribution, Version=7.1.0.44, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPSalesAndDistribution\bin\Debug\XpertERPSalesAndDistribution.dll</HintPath>
     </Reference>

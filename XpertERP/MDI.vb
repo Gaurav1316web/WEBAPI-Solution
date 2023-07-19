@@ -9407,6 +9407,12 @@ Public Class MDI
                     Case clsUserMgtCode.rptSPItemConsumptionReport
                         frm = New rptSPItemConsumptionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.ProductionReport
+                        frm = New ProductionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptSalesReport
+                        frm = New rptSalesReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.AuditTrailDairyProduction
                         frm = New rptAuditTrailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

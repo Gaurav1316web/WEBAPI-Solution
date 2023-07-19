@@ -22,13 +22,13 @@ Partial Class frmSRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition21 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -959,7 +959,7 @@ Partial Class frmSRN
         Me.gvRGP.MasterTemplate.AllowDeleteRow = False
         Me.gvRGP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRGP.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRGP.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvRGP.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvRGP.Name = "gvRGP"
         Me.gvRGP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvRGP.ShowGroupPanel = False
@@ -997,7 +997,7 @@ Partial Class frmSRN
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition16
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -2077,7 +2077,7 @@ Partial Class frmSRN
         Me.gv_c_form.MasterTemplate.EnableGrouping = False
         Me.gv_c_form.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_c_form.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_c_form.MasterTemplate.ViewDefinition = TableViewDefinition17
+        Me.gv_c_form.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv_c_form.Name = "gv_c_form"
         Me.gv_c_form.ShowGroupPanel = False
         Me.gv_c_form.ShowHeaderCellButtons = True
@@ -2117,7 +2117,7 @@ Partial Class frmSRN
         Me.gv_roadpermit.MasterTemplate.EnableGrouping = False
         Me.gv_roadpermit.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_roadpermit.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_roadpermit.MasterTemplate.ViewDefinition = TableViewDefinition18
+        Me.gv_roadpermit.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv_roadpermit.Name = "gv_roadpermit"
         Me.gv_roadpermit.ShowGroupPanel = False
         Me.gv_roadpermit.ShowHeaderCellButtons = True
@@ -2465,7 +2465,7 @@ Partial Class frmSRN
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition19
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -2526,7 +2526,7 @@ Partial Class frmSRN
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition20
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -2596,7 +2596,7 @@ Partial Class frmSRN
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
         Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition21
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvACInsurance.ShowGroupPanel = False

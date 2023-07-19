@@ -37,6 +37,33 @@ Public Class clsfrmVLCMaster
     Public HeadLoad As Boolean = False
     Public HeadLoadRate As Decimal
     Public HeadLoadBasis As String = Nothing
+    Public Registered_PDCS_CLUSTER As String = Nothing
+    Public Gender As String = Nothing
+    Public RegistrationNo As String = Nothing
+    Public RegistrationDate As Date?
+    Public Supervisor As String = Nothing
+    Public DistrictCode As String = Nothing
+    Public ZoneCode As String = Nothing
+    Public BlockCode As String = Nothing
+    Public RevenueVillageCode As String = Nothing
+    Public GrampanchayatCode As String = Nothing
+    Public PanchayatSamitiCode As String = Nothing
+    Public VidhanSabhaCode As String = Nothing
+    Public Bank_Code As String = Nothing
+    Public Bank_Name As String = Nothing
+    Public IFSC_Code As String = Nothing
+    Public Account_Type As String = Nothing
+    Public Account_No As String = Nothing
+    Public Security_Charges As Decimal = 0
+    Public Bank_Code2 As String = Nothing
+    Public Bank_Name2 As String = Nothing
+    Public IFSC_Code2 As String = Nothing
+    Public Account_Type2 As String = Nothing
+    Public AccNo2 As String = Nothing
+    Public Security_Charges2 As Decimal = 0
+    Public Company_Bank As String = Nothing
+
+
 
 
 #End Region
@@ -135,11 +162,13 @@ Public Class clsfrmVLCMaster
             clsCommon.AddColumnsForChange(coll, "MCC", obj.MCCCOde)
             clsCommon.AddColumnsForChange(coll, "Active", obj.Active)
             clsCommon.AddColumnsForChange(coll, "Auto_Fill_MP_Order", obj.Auto_Fill_MP_Order)
+            clsCommon.AddColumnsForChange(coll, "Registered_PDCS_CLUSTER", obj.Registered_PDCS_CLUSTER)
             clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
             clsCommon.AddColumnsForChange(coll, "Short_Description", obj.Short_Description)
             clsCommon.AddColumnsForChange(coll, "Apply_Price_Chart_Uploader", IIf(obj.Apply_Price_Chart_Uploader, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Apply_Cow_Price", IIf(obj.Apply_Cow_Price, 1, 0))
             clsCommon.AddColumnsForChange(coll, "IsSuspense", IIf(obj.IsSuspense, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "SupervisorOrRP", obj.Supervisor)
             clsCommon.AddColumnsForChange(coll, "Milk_Receive_UOM", obj.Milk_Receive_UOM, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))
@@ -381,16 +410,15 @@ Public Class clsfrmVLCMaster
         End Try
     End Function
 
-    Public Shared Function ExportDataTable(ByVal strDcsCode As String, ByVal frmMe As RadForm, ByVal exportSheet As String) As Boolean
+    Public Shared Function ExportDataTable(ByVal strDcsCode As ArrayList, ByVal frmMe As RadForm, ByVal exportSheet As String) As Boolean
         Try
             Dim whrQry As String = Nothing
             If clsCommon.myLen(strDcsCode) > 0 AndAlso strDcsCode IsNot Nothing Then
-                whrQry = "where TSPL_VLC_MASTER_HEAD.vsp_code ='" + strDcsCode + "'"
+                whrQry = "where TSPL_VLC_MASTER_HEAD.vsp_code In (" + clsCommon.GetMulcallString(strDcsCode) + ")"
             End If
             Dim strQry As String = Nothing
             If exportSheet.Contains("BlankSheet") Then
-                strQry = "select ''  As 'DCS Code','' As 'DCS Name',''  As 'DCS Uploader Code','' As 'PAN No',
-                        '' As 'DCS Route Code','' As Active,
+                strQry = "select ''  As 'DCS Code','' As 'DCS Name',''  As 'DCS Uploader Code','' As 'PAN No','' As MCC,'' As 'DCS Route Code','' As Active,
                         '' As 'Created Date','' As  'Loyalty Rate','' As 'Own BMC','' 'Own BMC Date','' As 'Apply Cow Price','' As 'Apply Cow Price Date','' As 'Head Load','' As 'Head Load Service Basis','' As 'Head Load Rate',
                         '' As 'Registration No','' As 'Registration Date','' As 'Registered/PDCS/CLUSTER',
                         '' As 'Supervisor','' As 'District Code','' As 'Block Code','' As 'Zone Code','' As 'Revenue Village Code','' AS 'Grampanchayat Code','' As 'Panchayat Samiti Code','' As 'Vidhan Sabha Code',
@@ -400,7 +428,7 @@ Public Class clsfrmVLCMaster
                         "
             Else
                 strQry = "select TSPL_VLC_MASTER_HEAD.vsp_code  As 'DCS Code',TSPL_VENDOR_MASTER.Vendor_Name As 'DCS Name',TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader  As 'DCS Uploader Code',TSPL_VENDOR_MASTER.PAN As 'PAN No',
-                        TSPL_VLC_MASTER_HEAD.route_code As 'DCS Route Code',TSPL_VLC_MASTER_HEAD.Active,
+                        TSPL_MCC_MASTER.MCC_Code As MCC,TSPL_VLC_MASTER_HEAD.route_code As 'DCS Route Code',TSPL_VLC_MASTER_HEAD.Active,
                         convert(date,TSPL_VLC_MASTER_HEAD.Created_Date,103) As 'Created Date',TSPL_VLC_MASTER_HEAD.Loyalty_Rate 'Loyalty Rate',TSPL_VLC_MASTER_HEAD.isOwnBMC As 'Own BMC',OwnBMCDate As 'Own BMC Date',TSPL_VLC_MASTER_HEAD.Apply_Cow_Price As 'Apply Cow Price',TSPL_VLC_MASTER_HEAD.ApplyCowPriceDate As 'Apply Cow Price Date',TSPL_VENDOR_MASTER.Is_Head_Load As 'Head Load',TSPL_VENDOR_MASTER.Service_Basis_Head_Load As 'Head Load Service Basis',TSPL_VENDOR_MASTER.Rate_Head_Load As 'Head Load Rate',
                         TSPL_VENDOR_MASTER.RegistrationNo As 'Registration No',TSPL_VENDOR_MASTER.RegistrationDate As 'Registration Date',TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER As 'Registered/PDCS/CLUSTER',
                         TSPL_VENDOR_MASTER.Gender,TSPL_VENDOR_MASTER.SupervisorOrRP As 'Supervisor',TSPL_VENDOR_MASTER.DISTRICT_Code As 'District Code',TSPL_VENDOR_MASTER.BLOCK_CODE As 'Block Code',TSPL_VENDOR_MASTER.Zone_Code As 'Zone Code',TSPL_VENDOR_MASTER.REVENUE_VILLAGE_CODE As 'Revenue Village Code',TSPL_VENDOR_MASTER.GRAMPANCHAYAT_CODE AS 'Grampanchayat Code',TSPL_VENDOR_MASTER.PANCHAYAT_SAMITI_CODE As 'Panchayat Samiti Code',TSPL_VENDOR_MASTER.VIDHAN_SABHA_CODE As 'Vidhan Sabha Code',
@@ -411,8 +439,7 @@ Public Class clsfrmVLCMaster
                         left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.vsp_code and TSPL_VENDOR_MASTER.Form_Type='VSP' 
                         left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_VLC_MASTER_HEAD.mcc 
                         left outer join tspl_mcc_route_master on TSPL_VLC_MASTER_HEAD.route_code=tspl_mcc_route_master.route_code
-                        " + whrQry + "
-                        Order By Cast(TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader As int) Asc"
+                        " + whrQry + ""
             End If
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
