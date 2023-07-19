@@ -1030,7 +1030,7 @@ Public Class clsSNShipmentHead
             End If
 
             qry = "select TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code,TSPL_DCS_FOR_SALE.Uploader_No,TSPL_DCS_FOR_SALE.Name,TSPL_DCS_FOR_SALE.Zone as DCS_Zone
-,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.FPKID,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Frieght_Rate,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Frieght_Amt from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL 
+,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.FPKID,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Frieght_Rate,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Frieght_Amt,(select TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.UOM_Code from TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL where PK_ID in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.FPKID)) as Frieght_UOM from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL 
 left outer join TSPL_DCS_FOR_SALE on TSPL_DCS_FOR_SALE.Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode
 where DOCUMENT_CODE='" + obj.Document_Code + "'"
@@ -1048,6 +1048,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                     objTRDID.Qty = clsCommon.myCstr(dr("Qty"))
                     objTRDID.UOM = clsCommon.myCstr(dr("UOM"))
                     objTRDID.FPKID = clsCommon.myCstr(dr("FPKID"))
+                    objTRDID.Frieght_UOM = clsCommon.myCstr(dr("Frieght_UOM"))
                     objTRDID.Frieght_Rate = clsCommon.myCstr(dr("Frieght_Rate"))
                     objTRDID.Frieght_Amt = clsCommon.myCstr(dr("Frieght_Amt"))
                     obj.ArrDCSItem.Add(objTRDID)
@@ -2183,6 +2184,7 @@ Public Class clsSNShipmentDCSItemDetail
     Public IName As String = Nothing ''Not a Table Column
     Public Qty As Decimal
     Public UOM As String = Nothing
+    Public Frieght_UOM As String = Nothing
     Public FPKID As Double = 0
     Public Frieght_Rate As Double = 0
     Public Frieght_Amt As Double = 0
