@@ -212,6 +212,12 @@
     <Compile Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\FrmDBTPayment.Designer.vb">
+      <DependentUpon>FrmDBTPayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\FrmDBTPayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMilkCollectionDCSMultipleDays.Designer.vb">
       <DependentUpon>frmMilkCollectionDCSMultipleDays.vb</DependentUpon>
     </Compile>
@@ -656,6 +662,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.resx">
       <DependentUpon>FrmCreateBMCDCSbyMobile.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\FrmDBTPayment.resx">
+      <DependentUpon>FrmDBTPayment.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionDCSMultipleDays.resx">
       <DependentUpon>frmMilkCollectionDCSMultipleDays.vb</DependentUpon>

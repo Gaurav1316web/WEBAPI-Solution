@@ -1090,7 +1090,6 @@ Public Class clsApprovalAlert_Child
                 If obj.No_Of_Level = obj.Max_App_Level Then ''only higher authorized user can post data
                     If clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.mbtnPurchaseRequistion) = CompairStringResult.Equal Then
                         isSaved = isSaved AndAlso clsRequistionHead.PostData(obj.Document_Code, trans)
-
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.mbtnPurchaseOrder) = CompairStringResult.Equal Then
                         Dim objPO As New clsPurchaseOrderHead
                         If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(1) as cc from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where Status='Amend' and TRANS_Code='" + obj.Trans_Code + "'  and Document_Code='" + obj.Document_Code + "'", trans)) > 0 Then
@@ -1100,67 +1099,52 @@ Public Class clsApprovalAlert_Child
                         End If
                         objPO = Nothing
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmSNShipment) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsSNShipmentHead.PostData(clsUserMgtCode.frmSNShipment, obj.Document_Code, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmSNSalesOrder) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsSNSalesOrderHead.PostData(clsUserMgtCode.frmSNSalesOrder, obj.Document_Code, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmDeliveryPrderProductSale) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsPSDeliveryOrder.PostData(clsUserMgtCode.frmDeliveryPrderProductSale, obj.Document_Code, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmDeliveryNoteFreshSale) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsDeliveryNoteFreshSale.PostData(clsUserMgtCode.frmDeliveryNoteFreshSale, obj.Document_Code, trans, 0)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmCSASaleInvoice) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsCSASaleInvoice.PostData(clsUserMgtCode.frmCSASaleInvoice, LOCATIONRIGTHS(trans), obj.Document_Code, trans)
-
+                        isSaved = isSaved AndAlso clsSNShipmentHead.PostData(clsUserMgtCode.frmSNShipment, obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmSNSalesOrder) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsSNSalesOrderHead.PostData(clsUserMgtCode.frmSNSalesOrder, obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmDeliveryPrderProductSale) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsPSDeliveryOrder.PostData(clsUserMgtCode.frmDeliveryPrderProductSale, obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmDeliveryNoteFreshSale) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsDeliveryNoteFreshSale.PostData(clsUserMgtCode.frmDeliveryNoteFreshSale, obj.Document_Code, trans, 0)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmCSASaleInvoice) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsCSASaleInvoice.PostData(clsUserMgtCode.frmCSASaleInvoice, LOCATIONRIGTHS(trans), obj.Document_Code, trans)
                         'ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmVSPItemIssue) = CompairStringResult.Equal Then
                         '    isSaved = isSaved AndAlso clsVSPItemIssue.PostData(obj.Document_Code, trans)
-
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsMCCMaterialSale.PostData(clsUserMgtCode.frmMCCMaterial, obj.Document_Code, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmShipmentProductSale) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsPSShipmentHead.PostData(clsUserMgtCode.frmShipmentProductSale, obj.Document_Code, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmbookingdairy) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso ClsDispatchBulkSale.PostData(clsUserMgtCode.frmbookingdairy, Nothing, obj.Document_Code, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmCSADeliveryOrder) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsCSADeliveryOrder.PostData(obj.Document_Code, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.FrmLCCreation) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso ClsLCCreation.PostData(clsUserMgtCode.FrmLCCreation, obj.Document_Code, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.FrmDispatchBulkSale) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso ClsDispatchBulkSale.PostData(clsUserMgtCode.FrmDispatchBulkSale, LOCATIONRIGTHS(trans), obj.Document_Code, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmBulkMilkSRN) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsBulkMilkSRN.postData(obj.Document_Code, clsUserMgtCode.frmBulkMilkSRN, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmSaleReturnProductSale) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsPSSalesReturnHead.PostData(clsUserMgtCode.frmSaleReturnProductSale, obj.Document_Code, trans)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.mbtnPurchaseInvoice) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsPurchaseInvoiceHead.PostData(clsUserMgtCode.mbtnPurchaseInvoice, obj.Document_Code, "", True, trans, False)
-
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmSaleReturndairy) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsPSSalesReturnHead.PostData(clsUserMgtCode.frmSaleReturndairy, obj.Document_Code, trans)
-                            ' ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmMCCMaterial) = CompairStringResult.Equal Then
-                            '     isSaved = isSaved AndAlso clsMCCMaterialSale.PostData(clsUserMgtCode.frmMCCMaterial, obj.Document_Code, True)
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.ReceiptEntry) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsRcptEntryHeader.funRcptPost(obj.Document_Code, trans, "MReceivable")
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.mbtnARInvoiceEntry) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsCustomerInvoiceHead.PostData("AR-INVOICE", obj.Document_Code, "", trans)
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.mbtnAPInvoiceEntry) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsVedorInvoiceHead.PostData("AP-INVOICE", obj.Document_Code, "", trans)
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.PaymentEntryNew) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsPaymentHeader.PostData(obj.Document_Code, "MPayable", trans)
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.Transfer) = CompairStringResult.Equal Then
-                            Dim ProvisionAllow As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PROVISIONENTRYONSTOCKTRANSFER, clsFixedParameterCode.PROVISIONENTRYONSTOCKTRANSFER, trans)) = 1, True, False))
-                            isSaved = isSaved AndAlso clsTransferDCC.postTransfer(obj.Document_Code, trans, ProvisionAllow, "")
-                        ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmMilkJobWorkTransferOther) = CompairStringResult.Equal Then
-                            isSaved = isSaved AndAlso clsJWOTransferOtherHead.PostData(obj.Document_Code, trans)
+                        isSaved = isSaved AndAlso clsMCCMaterialSale.PostData(clsUserMgtCode.frmMCCMaterial, obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmShipmentProductSale) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsPSShipmentHead.PostData(clsUserMgtCode.frmShipmentProductSale, obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmbookingdairy) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso ClsDispatchBulkSale.PostData(clsUserMgtCode.frmbookingdairy, Nothing, obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmCSADeliveryOrder) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsCSADeliveryOrder.PostData(obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.FrmLCCreation) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso ClsLCCreation.PostData(clsUserMgtCode.FrmLCCreation, obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.FrmDispatchBulkSale) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso ClsDispatchBulkSale.PostData(clsUserMgtCode.FrmDispatchBulkSale, LOCATIONRIGTHS(trans), obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmBulkMilkSRN) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsBulkMilkSRN.postData(obj.Document_Code, clsUserMgtCode.frmBulkMilkSRN, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmSaleReturnProductSale) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsPSSalesReturnHead.PostData(clsUserMgtCode.frmSaleReturnProductSale, obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.mbtnPurchaseInvoice) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsPurchaseInvoiceHead.PostData(clsUserMgtCode.mbtnPurchaseInvoice, obj.Document_Code, "", True, trans, False)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmSaleReturndairy) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsPSSalesReturnHead.PostData(clsUserMgtCode.frmSaleReturndairy, obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.ReceiptEntry) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsRcptEntryHeader.funRcptPost(obj.Document_Code, trans, "MReceivable")
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.mbtnARInvoiceEntry) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsCustomerInvoiceHead.PostData("AR-INVOICE", obj.Document_Code, "", trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.mbtnAPInvoiceEntry) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsVedorInvoiceHead.PostData("AP-INVOICE", obj.Document_Code, "", trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.PaymentEntryNew) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsPaymentHeader.PostData(obj.Document_Code, "MPayable", trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.Transfer) = CompairStringResult.Equal Then
+                        Dim ProvisionAllow As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PROVISIONENTRYONSTOCKTRANSFER, clsFixedParameterCode.PROVISIONENTRYONSTOCKTRANSFER, trans)) = 1, True, False))
+                        isSaved = isSaved AndAlso clsTransferDCC.postTransfer(obj.Document_Code, trans, ProvisionAllow, "")
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmMilkJobWorkTransferOther) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsJWOTransferOtherHead.PostData(obj.Document_Code, trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.DBTNEFTUploader) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsDBTNEFT.PostData(obj.Document_Code, "", trans)
                     End If
 
                     If isSaved Then ''if higher authorizer do approval then at post document status posted on approval table
