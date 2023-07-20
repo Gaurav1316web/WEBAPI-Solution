@@ -23,6 +23,7 @@ Partial Class FrmZoneMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtdesHindi = New common.Controls.MyTextBox()
         Me.lblRSM = New common.Controls.MyLabel()
         Me.fndRSM = New common.UserControls.txtFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -41,10 +42,10 @@ Partial Class FrmZoneMaster
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtdesHindi = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtdesHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRSM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCity, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -57,7 +58,6 @@ Partial Class FrmZoneMaster
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtdesHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -91,6 +91,34 @@ Partial Class FrmZoneMaster
         Me.SplitContainer1.Size = New System.Drawing.Size(685, 135)
         Me.SplitContainer1.SplitterDistance = 103
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtdesHindi
+        '
+        Me.txtdesHindi.CalculationExpression = Nothing
+        Me.txtdesHindi.FieldCode = Nothing
+        Me.txtdesHindi.FieldDesc = Nothing
+        Me.txtdesHindi.FieldMaxLength = 0
+        Me.txtdesHindi.FieldName = Nothing
+        Me.txtdesHindi.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdesHindi.isCalculatedField = False
+        Me.txtdesHindi.IsSourceFromTable = False
+        Me.txtdesHindi.IsSourceFromValueList = False
+        Me.txtdesHindi.IsUnique = False
+        Me.txtdesHindi.Location = New System.Drawing.Point(383, 32)
+        Me.txtdesHindi.MaxLength = 150
+        Me.txtdesHindi.MendatroryField = False
+        Me.txtdesHindi.MyLinkLable1 = Nothing
+        Me.txtdesHindi.MyLinkLable2 = Nothing
+        Me.txtdesHindi.Name = "txtdesHindi"
+        Me.txtdesHindi.ReferenceFieldDesc = Nothing
+        Me.txtdesHindi.ReferenceFieldName = Nothing
+        Me.txtdesHindi.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.txtdesHindi.RootElement.StretchVertically = True
+        Me.txtdesHindi.Size = New System.Drawing.Size(297, 19)
+        Me.txtdesHindi.TabIndex = 31
         '
         'lblRSM
         '
@@ -178,9 +206,9 @@ Partial Class FrmZoneMaster
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Location = New System.Drawing.Point(9, 54)
         Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(25, 18)
+        Me.MyLabel3.Size = New System.Drawing.Size(49, 18)
         Me.MyLabel3.TabIndex = 27
-        Me.MyLabel3.Text = "City"
+        Me.MyLabel3.Text = "Location"
         '
         'txtCode
         '
@@ -309,34 +337,6 @@ Partial Class FrmZoneMaster
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
-        'txtdesHindi
-        '
-        Me.txtdesHindi.CalculationExpression = Nothing
-        Me.txtdesHindi.FieldCode = Nothing
-        Me.txtdesHindi.FieldDesc = Nothing
-        Me.txtdesHindi.FieldMaxLength = 0
-        Me.txtdesHindi.FieldName = Nothing
-        Me.txtdesHindi.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtdesHindi.isCalculatedField = False
-        Me.txtdesHindi.IsSourceFromTable = False
-        Me.txtdesHindi.IsSourceFromValueList = False
-        Me.txtdesHindi.IsUnique = False
-        Me.txtdesHindi.Location = New System.Drawing.Point(383, 32)
-        Me.txtdesHindi.MaxLength = 150
-        Me.txtdesHindi.MendatroryField = False
-        Me.txtdesHindi.MyLinkLable1 = Nothing
-        Me.txtdesHindi.MyLinkLable2 = Nothing
-        Me.txtdesHindi.Name = "txtdesHindi"
-        Me.txtdesHindi.ReferenceFieldDesc = Nothing
-        Me.txtdesHindi.ReferenceFieldName = Nothing
-        Me.txtdesHindi.ReferenceTableName = Nothing
-        '
-        '
-        '
-        Me.txtdesHindi.RootElement.StretchVertically = True
-        Me.txtdesHindi.Size = New System.Drawing.Size(297, 19)
-        Me.txtdesHindi.TabIndex = 31
-        '
         'FrmZoneMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -354,6 +354,7 @@ Partial Class FrmZoneMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtdesHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRSM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCity, System.ComponentModel.ISupportInitialize).EndInit()
@@ -366,7 +367,6 @@ Partial Class FrmZoneMaster
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtdesHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

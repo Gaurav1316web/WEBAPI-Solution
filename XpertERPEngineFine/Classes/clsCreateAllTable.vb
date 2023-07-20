@@ -12917,7 +12917,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NULL")
             coll.Add("Comp_Code", "varchar(8) Not null")
             coll.Add("City_Code", "Varchar(50) null references TSPL_CITY_MASTER (City_Code)")
-            coll.Add("RSM_CODE", "varchar(12)   NULL references TSPL_EMPLOYEE_MASTER(EMP_CODE)")
+            coll.Add("Location_Code", "varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
+            coll.Add("RSM_CODE", "varchar(12) NULL references TSPL_EMPLOYEE_MASTER(EMP_CODE)")
             coll.Add("Description_Hindi", "nvarchar(300) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ZONE_MASTER", coll)
             'Try

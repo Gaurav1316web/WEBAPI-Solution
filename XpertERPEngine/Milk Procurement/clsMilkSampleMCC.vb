@@ -534,6 +534,7 @@ Public Class clsMilkSRNMCC
     Public Dock_Collection_Milk_Type As String
     Public CREATED_BY As String
     Public Posting_Date As Date
+    Public Reason As String
     Public POSTED As ERPTransactionStatus = ERPTransactionStatus.Pending
     '' grid columns
     Public Failed_Sample_Status As Boolean = False
@@ -616,6 +617,7 @@ Public Class clsMilkSRNMCC
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             '' update Sync Satatus
             clsCommon.AddColumnsForChange(coll, "SYNC_STATUS", 0)
+            clsCommon.AddColumnsForChange(coll,"Retesting",obj.Reason)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Trans), "dd/MMM/yyyy"))
@@ -628,7 +630,7 @@ Public Class clsMilkSRNMCC
                 End If
             Else
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.DOC_CODE), "TSPL_MILK_SRN_HEAD", "DOC_CODE", "TSPL_MILK_SRN_DETAIL", "DOC_CODE", Trans)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE='" + obj.MILK_SAMPLE_CODE + "' and vlc_Doc_COde='" & obj.VLC_DOC_CODE & "'  and sample_No='" & obj.SAMPLE_NO & "' ", Trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE='" + obj.MILK_SAMPLE_CODE + "' and vlc_Doc_COde='" & obj.VLC_DOC_CODE & "'  and sample_No='" & obj.SAMPLE_NO & "' and Retesting='" & obj.Reason & "' ", Trans)
             End If
             clsMilkSRNMCCDetail.SaveData(obj.DOC_CODE, obj.Dock_Collection_Milk_Type, objList, Trans, isNewEntry, obj.Against_Reject_No, obj.SAMPLE_NO)
             clsMilkSRNVSpChargeDetail.SaveData(obj.DOC_CODE, objVSPChargeList, Trans, isNewEntry)
