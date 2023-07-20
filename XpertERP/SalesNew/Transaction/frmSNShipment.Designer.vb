@@ -222,6 +222,7 @@ Partial Class frmSNShipment
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.btnAddCost = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
         Me.btnDeliveredTo = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
@@ -234,7 +235,6 @@ Partial Class frmSNShipment
         Me.chkRateDefaultSetting = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadLabel20 = New common.Controls.MyLabel()
         Me.RadLabel21 = New common.Controls.MyLabel()
-        Me.btnAddCost = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
@@ -255,6 +255,9 @@ Partial Class frmSNShipment
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
+        Me.btnDCSPrint = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rbtnDCSPrint = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rbtnDCSSummary = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -446,6 +449,7 @@ Partial Class frmSNShipment
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDeliveredTo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -456,7 +460,6 @@ Partial Class frmSNShipment
         CType(Me.chkRateDefaultSetting, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -468,6 +471,7 @@ Partial Class frmSNShipment
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDCSPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -487,13 +491,14 @@ Partial Class frmSNShipment
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDCSPrint)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnAddCost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnInvoiceJE)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDeliveredTo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsetting)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintInvoice)
         Me.SplitContainer1.Panel2.Controls.Add(Me.chkRateUserCustomer)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnAddCost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -3492,6 +3497,17 @@ Partial Class frmSNShipment
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'btnAddCost
+        '
+        Me.btnAddCost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAddCost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddCost.Location = New System.Drawing.Point(987, 5)
+        Me.btnAddCost.Name = "btnAddCost"
+        Me.btnAddCost.Size = New System.Drawing.Size(87, 20)
+        Me.btnAddCost.TabIndex = 4
+        Me.btnAddCost.Text = "Additional Cost"
+        Me.btnAddCost.Visible = False
+        '
         'btnInvoiceJE
         '
         Me.btnInvoiceJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -3604,17 +3620,6 @@ Partial Class frmSNShipment
         Me.RadLabel21.TabIndex = 38
         Me.RadLabel21.Text = "Gate Entry No"
         Me.RadLabel21.Visible = False
-        '
-        'btnAddCost
-        '
-        Me.btnAddCost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAddCost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddCost.Location = New System.Drawing.Point(289, 4)
-        Me.btnAddCost.Name = "btnAddCost"
-        Me.btnAddCost.Size = New System.Drawing.Size(87, 20)
-        Me.btnAddCost.TabIndex = 4
-        Me.btnAddCost.Text = "Additional Cost"
-        Me.btnAddCost.Visible = False
         '
         'btnPrint
         '
@@ -3820,6 +3825,28 @@ Partial Class frmSNShipment
         WindowsSettings2.EnableRoundedCorners = Nothing
         WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
         Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        '
+        'btnDCSPrint
+        '
+        Me.btnDCSPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDCSPrint.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rbtnDCSPrint, Me.rbtnDCSSummary})
+        Me.btnDCSPrint.Location = New System.Drawing.Point(291, 4)
+        Me.btnDCSPrint.Name = "btnDCSPrint"
+        Me.btnDCSPrint.Size = New System.Drawing.Size(86, 20)
+        Me.btnDCSPrint.TabIndex = 46
+        Me.btnDCSPrint.Text = "DCS Print"
+        '
+        'rbtnDCSPrint
+        '
+        Me.rbtnDCSPrint.Name = "rbtnDCSPrint"
+        Me.rbtnDCSPrint.Text = "Print Challan"
+        Me.rbtnDCSPrint.UseCompatibleTextRendering = False
+        '
+        'rbtnDCSSummary
+        '
+        Me.rbtnDCSSummary.Name = "rbtnDCSSummary"
+        Me.rbtnDCSSummary.Text = "Print Summary"
+        Me.rbtnDCSSummary.UseCompatibleTextRendering = False
         '
         'frmSNShipment
         '
@@ -4041,6 +4068,7 @@ Partial Class frmSNShipment
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDeliveredTo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4052,7 +4080,6 @@ Partial Class frmSNShipment
         CType(Me.chkRateDefaultSetting, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4065,6 +4092,7 @@ Partial Class frmSNShipment
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDCSPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4297,5 +4325,8 @@ Partial Class frmSNShipment
     Friend WithEvents SplitContainer3 As SplitContainer
     Friend WithEvents gvDCS As common.UserControls.MyRadGridView
     Friend WithEvents chkFillDCSDetail As RadCheckBox
+    Friend WithEvents btnDCSPrint As RadSplitButton
+    Friend WithEvents rbtnDCSPrint As RadMenuItem
+    Friend WithEvents rbtnDCSSummary As RadMenuItem
 End Class
 

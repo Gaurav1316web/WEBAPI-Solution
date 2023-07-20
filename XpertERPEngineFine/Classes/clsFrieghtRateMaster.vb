@@ -379,9 +379,9 @@ where TSPL_DCS_FOR_SALE_FRIEGHT_Detail.REF_PK_ID=" + clsCommon.myCstr(PK_ID)
     Public Shared Function GetFrieghtRate(ByVal CustomerCode As String, ByVal DDate As DateTime, ByVal ZoneCode As String, ByVal UOMCode As String) As clsFrieghtRateDetail
         Dim obj As clsFrieghtRateDetail = Nothing
         Try
-            Dim qry As String = "select Top 1 TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.PK_ID, TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.Frieght_Rate from TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL
+            Dim qry As String = "select Top 1 TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.PK_ID, TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.Frieght_Rate,TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.UOM_Code from TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL
  left join TSPL_DCS_FOR_SALE_FRIEGHT on TSPL_DCS_FOR_SALE_FRIEGHT.PK_ID=TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.REF_PK_ID
-  where TSPL_DCS_FOR_SALE_FRIEGHT.Status=1 and TSPL_DCS_FOR_SALE_FRIEGHT.Inactive=0 and TSPL_DCS_FOR_SALE_FRIEGHT.From_Date<='" + clsCommon.GetPrintDate(DDate) + "' and 2= (case when TSPL_DCS_FOR_SALE_FRIEGHT.To_Date is null then 2 else (case when TSPL_DCS_FOR_SALE_FRIEGHT.To_Date>='" + clsCommon.GetPrintDate(DDate) + "' then 2 else 3 end)  end) and TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.Customer_Code='" + clsCommon.myCstr(CustomerCode) + "' and TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL. Zone_Code='" + clsCommon.myCstr(ZoneCode) + "' and TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.UOM_Code='" + clsCommon.myCstr(UOMCode) + "'
+  where TSPL_DCS_FOR_SALE_FRIEGHT.Status=1 and TSPL_DCS_FOR_SALE_FRIEGHT.Inactive=0 and TSPL_DCS_FOR_SALE_FRIEGHT.From_Date<='" + clsCommon.GetPrintDate(DDate) + "' and 2= (case when TSPL_DCS_FOR_SALE_FRIEGHT.To_Date is null then 2 else (case when TSPL_DCS_FOR_SALE_FRIEGHT.To_Date>='" + clsCommon.GetPrintDate(DDate) + "' then 2 else 3 end)  end) and TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.Customer_Code='" + clsCommon.myCstr(CustomerCode) + "' and TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL. Zone_Code='" + clsCommon.myCstr(ZoneCode) + "' 
 order by TSPL_DCS_FOR_SALE_FRIEGHT.From_Date desc"
             'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             '    qry += "  and  TSPL_DCS_FOR_SALE_FRIEGHT.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
@@ -392,6 +392,7 @@ order by TSPL_DCS_FOR_SALE_FRIEGHT.From_Date desc"
                 If dt.Rows.Count > 0 Then
                     obj.PK_ID = clsCommon.myCstr(dt.Rows(0)("PK_ID"))
                     obj.Frieght_Rate = clsCommon.myCstr(dt.Rows(0)("Frieght_Rate"))
+                    obj.UOM_Code = clsCommon.myCstr(dt.Rows(0)("UOM_Code"))
 
                 End If
 

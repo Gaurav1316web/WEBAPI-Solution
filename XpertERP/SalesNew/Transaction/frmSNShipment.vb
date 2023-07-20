@@ -220,6 +220,8 @@ Public Class frmSNShipment
     Const colDCSUOM As String = "colDCSUOM"
     Const colDCSFPKID As String = "colDCSFPKID"
     Const colDCSFrieghtRate As String = "colDCSFrieghtRate"
+    Const colDCSFrieghtUOM As String = "colDCSFrieghtUOM"
+    Const colDCSQtyQtl As String = "colDCSQtyQtl"
     Const colDCSFrieghtAmt As String = "colDCSFrieghtAmt"
     Dim isSummarygvDCS As Boolean = True
     Dim atchqry As String = ""
@@ -310,10 +312,10 @@ Public Class frmSNShipment
         '' MultiCurrency
         SetMultiCurrencyVisibility()
         '' End of MultiCurrency
-        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
-        End If
+        'txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        'If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+        '    lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+        'End If
         ''For Attachment
         If objCommonVar.IsDemoERP Then
             UcAttachment1.Form_ID = MyBase.Form_ID
@@ -349,6 +351,11 @@ Public Class frmSNShipment
         btnDeliveredTo.Enabled = False
         'chkCreateAutoInvoice.Checked = True
         chkCreateAutoInvoice.Enabled = False
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            txtBillToLocation.Value = clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Location_Master where Location_Code in(" + clsCommon.myCstr(objCommonVar.strCurrUserLocations) + ")") 'clsCommon.myCstr(objCommonVar.strCurrUserLocations)
+            lblBillToLocation.Text = clsLocation.GetName(txtBillToLocation.Value, Nothing)
+        End If
+
     End Sub
 
     Sub SetMultiCurrencyVisibility()
@@ -2206,6 +2213,22 @@ Public Class frmSNShipment
         repoNumFPKID.ReadOnly = True
         repoNumFPKID.IsVisible = False
         gvDCS.MasterTemplate.Columns.Add(repoNumFPKID)
+        Dim repoTxtDCSFrieghtUOM As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoTxtDCSFrieghtUOM.FormatString = ""
+        repoTxtDCSFrieghtUOM.HeaderText = "Frieght UOM"
+        repoTxtDCSFrieghtUOM.Name = colDCSFrieghtUOM
+        repoTxtDCSFrieghtUOM.Width = 40
+        repoTxtDCSFrieghtUOM.ReadOnly = True
+        repoTxtDCSFrieghtUOM.IsVisible = False
+        gvDCS.MasterTemplate.Columns.Add(repoTxtDCSFrieghtUOM)
+        Dim repoNumDCSQtyQtl As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNumDCSQtyQtl.FormatString = ""
+        repoNumDCSQtyQtl.HeaderText = "Qty in Qtl"
+        repoNumDCSQtyQtl.Name = colDCSQtyQtl
+        repoNumDCSQtyQtl.Width = 40
+        repoNumDCSQtyQtl.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoNumDCSQtyQtl.ReadOnly = True
+        gvDCS.MasterTemplate.Columns.Add(repoNumDCSQtyQtl)
         Dim repoNumFrieghtRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoNumFrieghtRate.FormatString = "{0:n2}"
         repoNumFrieghtRate.HeaderText = "Frieght Rate"
@@ -4733,6 +4756,8 @@ Public Class frmSNShipment
                         gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSQty).Value = objTr.Qty
                         gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSUOM).Value = objTr.UOM
                         gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSFPKID).Value = objTr.FPKID
+                        gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSFrieghtUOM).Value = objTr.Frieght_UOM
+                        gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSQtyQtl).Value = (objTr.Qty * clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where item_Code='" + clsCommon.myCstr(objTr.ICode) + "' and UOM_Code='" + clsCommon.myCstr(objTr.UOM) + "'")) / clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where item_Code='" + clsCommon.myCstr(objTr.ICode) + "' and UOM_Code='" + clsCommon.myCstr(objTr.Frieght_UOM) + "'")
                         gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSFrieghtRate).Value = objTr.Frieght_Rate
                         gvDCS.Rows(gvDCS.Rows.Count - 1).Cells(colDCSFrieghtAmt).Value = objTr.Frieght_Amt
                         gvDCS.Rows.AddNew()
@@ -8874,16 +8899,26 @@ a:          End If
                             If objFR IsNot Nothing AndAlso clsCommon.myLen(objFR.PK_ID) > 0 Then
                                 gvDCS.CurrentRow.Cells(colDCSFPKID).Value = objFR.PK_ID
                                 gvDCS.CurrentRow.Cells(colDCSFrieghtRate).Value = objFR.Frieght_Rate
+                                gvDCS.CurrentRow.Cells(colDCSFrieghtUOM).Value = objFR.UOM_Code
                             End If
 
                         Else
-                                gvDCS.CurrentRow.Cells(colDCSICode).Value = ""
+                            gvDCS.CurrentRow.Cells(colDCSICode).Value = ""
                             gvDCS.CurrentRow.Cells(colDCSIName).Value = ""
                             gvDCS.CurrentRow.Cells(colDCSUOM).Value = ""
                         End If
                     ElseIf e.Column Is gvDCS.Columns(colDCSQty) Then
-                        gvDCS.CurrentRow.Cells(colDCSFrieghtAmt).Value = gvDCS.CurrentRow.Cells(colDCSFrieghtRate).Value * gvDCS.CurrentRow.Cells(colDCSQty).Value
-                        setgvAC()
+                        If gvDCS.CurrentRow.Cells(colDCSFrieghtRate).Value > 0 Then
+                            Dim convert_DCSItem As Decimal = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where item_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSICode).Value) + "' and UOM_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSUOM).Value) + "'")
+                            Dim convert_Frieght As Decimal = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where item_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSICode).Value) + "' and UOM_Code='" + clsCommon.myCstr(gvDCS.CurrentRow.Cells(colDCSFrieghtUOM).Value) + "'")
+                            Dim qty As Decimal = (gvDCS.CurrentRow.Cells(colDCSQty).Value * convert_DCSItem) / convert_Frieght
+                            gvDCS.CurrentRow.Cells(colDCSQtyQtl).Value = qty
+                            gvDCS.CurrentRow.Cells(colDCSFrieghtAmt).Value = gvDCS.CurrentRow.Cells(colDCSFrieghtRate).Value * gvDCS.CurrentRow.Cells(colDCSQtyQtl).Value
+                            setgvAC()
+                        Else
+                            clsCommon.MyMessageBoxShow(Me, "Frieght Master Not Found.", Me.Text)
+                        End If
+
                     End If
                 End If
                 setGridFocusAC()
@@ -9180,5 +9215,43 @@ a:          End If
         Return True
     End Function
 
+    Sub DCSPrint(ByVal isSummary As Boolean)
+        Try
+            Dim frmDCSPrint As New frmCrystalReportViewer()
+            Dim qry As String = "select XX.*,(XX.Qty * XX.Packing_in_Kg) as Total_Weight, (XX.Qty * XX.Item_Cost) as Basic_Amt
+from( 
+select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Form_38_No,TSPL_SD_SHIPMENT_HEAD.Carrier,TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,TSPL_DCS_FOR_SALE.Name as DCS_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM,(select TSPL_ITEM_UOM_DETAIL.Conversion_Factor from TSPL_ITEM_UOM_DETAIL where Item_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode) and UOM_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM) ) as Packing_in_Kg,TSPL_SD_SHIPMENT_DETAIL.Item_Cost,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1
+from TSPL_SD_SHIPMENT_HEAD
+left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
+left join TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL on TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code AND
+TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+left join TSPL_DCS_FOR_SALE on TSPL_DCS_FOR_SALE.Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code
+left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
+where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) + "' 
+)XX"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+                If isSummary Then
+                    frmDCSPrint.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDCSGatePassSummary", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "crptDCSGatePassSummary.rpt")
+
+                Else
+                    frmDCSPrint.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDCSGatePass", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "crptDCSGatePass.rpt")
+
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnDCSSummary_Click(sender As Object, e As EventArgs) Handles rbtnDCSSummary.Click
+        DCSPrint(True)
+    End Sub
+
+    Private Sub rbtnDCSPrint_Click(sender As Object, e As EventArgs) Handles rbtnDCSPrint.Click
+        DCSPrint(False)
+    End Sub
 End Class
 
