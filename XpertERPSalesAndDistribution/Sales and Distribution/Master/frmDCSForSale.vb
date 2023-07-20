@@ -242,12 +242,11 @@ Public Class frmDCSforSale
         Dim gv As New RadGridView()
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
-        If transportSql.importExcel(gv, "Code", "Name", "Uploader_No", "Zone", "Location", "Customer") Then
+        If transportSql.importExcel(gv, "Name", "Uploader_No", "Zone", "Location", "Customer") Then
             'Dim trans As SqlTransaction = Nothing
 
             Dim linno As Integer = 0
             Dim TempNewRecord As Boolean = False
-
             Try
                 'trans = clsDBFuncationality.GetTransactin()
                 clsCommon.ProgressBarShow()
@@ -263,52 +262,60 @@ Public Class frmDCSforSale
                     linno += 1
 
 
-                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(1).Value))) Then
+                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Name").Value))) Then
                         Throw New Exception("Name Cannot be empty" + clsCommon.myCstr(linno) + ".")
                     Else
-                        obj.Name = clsCommon.myCstr(grow.Cells(1).Value)
+                        obj.Name = clsCommon.myCstr(grow.Cells("Name").Value)
                     End If
 
-                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(2).Value))) Then
-                        Throw New Exception("Uploader cannot be empty" + clsCommon.myCstr(linno) + ".")
-                    Else
-                        obj.Uploader_No = clsCommon.myCstr(grow.Cells(2).Value)
-                    End If
 
-                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(3).Value))) Then
+
+                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Zone").Value))) Then
                         Throw New Exception("Zone cannot be empty" + clsCommon.myCstr(linno) + ".")
                     Else
-                        Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Zone_Code as Code from TSPL_ZONE_MASTER where Zone_Code='" + clsCommon.myCstr(grow.Cells(3).Value) + "'"))
-                        If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells(3).Value)) = CompairStringResult.Equal Then
-                            obj.Zone = clsCommon.myCstr(grow.Cells(3).Value)
+                        Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Zone_Code as Code from TSPL_ZONE_MASTER where Zone_Code='" + clsCommon.myCstr(grow.Cells("Zone").Value) + "'"))
+                        If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Zone").Value)) = CompairStringResult.Equal Then
+                            obj.Zone = clsCommon.myCstr(grow.Cells("Zone").Value)
 
                         Else
                             Throw New Exception("Zone Not Exists." + clsCommon.myCstr(linno) + ".")
 
                         End If
-                        obj.Zone = clsCommon.myCstr(grow.Cells(3).Value)
+                        obj.Zone = clsCommon.myCstr(grow.Cells("Zone").Value)
                     End If
-                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(4).Value))) Then
+                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Location").Value))) Then
                         Throw New Exception("Location cannot be empty" + clsCommon.myCstr(linno) + ".")
                     Else
-                        Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_LOCATION_MASTER where Location_Code='" + clsCommon.myCstr(grow.Cells(4).Value) + "'"))
-                        If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells(4).Value)) = CompairStringResult.Equal Then
-                            obj.Location = clsCommon.myCstr(grow.Cells(4).Value)
+                        Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_LOCATION_MASTER where Location_Code='" + clsCommon.myCstr(grow.Cells("Location").Value) + "'"))
+                        If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Location").Value)) = CompairStringResult.Equal Then
+                            obj.Location = clsCommon.myCstr(grow.Cells("Location").Value)
 
                         Else
                             Throw New Exception("Location Not Exists." + clsCommon.myCstr(linno) + ".")
 
                         End If
                     End If
-                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells(5).Value))) Then
+                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Customer").Value))) Then
                         Throw New Exception("Customer cannot be empty" + clsCommon.myCstr(linno) + ".")
                     Else
-                        Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Code from TSPL_CUSTOMER_LOCATION_MAPPING where Customer_Code='" + clsCommon.myCstr(grow.Cells(5).Value) + "' and Location_Code='" + clsCommon.myCstr(grow.Cells(4).Value) + "'"))
-                        If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells(5).Value)) = CompairStringResult.Equal Then
-                            obj.Customer = clsCommon.myCstr(grow.Cells(5).Value)
+                        Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Code from TSPL_CUSTOMER_LOCATION_MAPPING where Customer_Code='" + clsCommon.myCstr(grow.Cells("Customer").Value) + "' and Location_Code='" + clsCommon.myCstr(grow.Cells("Location").Value) + "'"))
+                        If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Customer").Value)) = CompairStringResult.Equal Then
+                            obj.Customer = clsCommon.myCstr(grow.Cells("Customer").Value)
 
                         Else
                             Throw New Exception("Customer Not Exists." + clsCommon.myCstr(linno) + ".")
+
+                        End If
+
+                    End If
+                    If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Uploader_No").Value))) Then
+                        Throw New Exception("Uploader cannot be empty" + clsCommon.myCstr(linno) + ".")
+                    Else
+                        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_DCS_FOR_SALE WHERE Uploader_No='" + clsCommon.myCstr(grow.Cells("Uploader_No").Value) + "' and Zone='" + clsCommon.myCstr(grow.Cells("Zone").Value) + "' and Customer='" + clsCommon.myCstr(grow.Cells("Customer").Value) + "'"))
+                        If count <= 0 Then
+                            obj.Uploader_No = clsCommon.myCstr(grow.Cells("Uploader_No").Value)
+                        Else
+                            Throw New Exception("Uploader No. already Exists at Line No." + clsCommon.myCstr(linno) + ".")
 
                         End If
 
@@ -323,6 +330,8 @@ Public Class frmDCSforSale
                         obj.SaveData(obj, False)
                     End If
                 Next
+
+
                 'trans.Commit()
                 clsCommon.ProgressBarHide()
                 common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
@@ -336,13 +345,13 @@ Public Class frmDCSforSale
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select TSPL_DCS_FOR_SALE.Code As [Code], TSPL_DCS_FOR_SALE.Name As [Name], TSPL_DCS_FOR_SALE.Uploader_No As [Uploader_No], TSPL_DCS_FOR_SALE.Zone As [Zone], TSPL_DCS_FOR_SALE.Location As [Location], TSPL_DCS_FOR_SALE.Customer As [Customer] from TSPL_DCS_FOR_SALE"
+            Dim str As String = "select TSPL_DCS_FOR_SALE.Name As [Name], TSPL_DCS_FOR_SALE.Uploader_No As [Uploader_No], TSPL_DCS_FOR_SALE.Zone As [Zone], TSPL_DCS_FOR_SALE.Location As [Location], TSPL_DCS_FOR_SALE.Customer As [Customer] from TSPL_DCS_FOR_SALE"
             Dim WhrCls As String = ""
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                WhrCls += " where Location in (" + objCommonVar.strCurrUserLocations + ")"
+                WhrCls += " and Location in (" + objCommonVar.strCurrUserLocations + ")"
             End If
-            Dim orderByClause = "[Code] "
-            ListImpExpColumnsMandatory = New List(Of String)({"Code", "Name", "Uploader_No", "Zone", "Location", "Customer"})
+
+            ListImpExpColumnsMandatory = New List(Of String)({"Name", "Uploader_No", "Zone", "Location", "Customer"})
             transportSql.ExporttoExcel(str, WhrCls, Me)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

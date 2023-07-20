@@ -103,7 +103,7 @@ Partial Class frmDCSforSale
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(586, 224)
+        Me.SplitContainer1.Size = New System.Drawing.Size(636, 224)
         Me.SplitContainer1.SplitterDistance = 175
         Me.SplitContainer1.TabIndex = 0
         '
@@ -113,7 +113,7 @@ Partial Class frmDCSforSale
         Me.lblCustomerDesc.BorderVisible = True
         Me.lblCustomerDesc.FieldName = Nothing
         Me.lblCustomerDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomerDesc.Location = New System.Drawing.Point(335, 125)
+        Me.lblCustomerDesc.Location = New System.Drawing.Point(373, 125)
         Me.lblCustomerDesc.Name = "lblCustomerDesc"
         Me.lblCustomerDesc.Size = New System.Drawing.Size(242, 18)
         Me.lblCustomerDesc.TabIndex = 59
@@ -135,7 +135,7 @@ Partial Class frmDCSforSale
         Me.lblZoneDesc.BorderVisible = True
         Me.lblZoneDesc.FieldName = Nothing
         Me.lblZoneDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblZoneDesc.Location = New System.Drawing.Point(335, 79)
+        Me.lblZoneDesc.Location = New System.Drawing.Point(375, 79)
         Me.lblZoneDesc.Name = "lblZoneDesc"
         Me.lblZoneDesc.Size = New System.Drawing.Size(242, 18)
         Me.lblZoneDesc.TabIndex = 58
@@ -164,7 +164,7 @@ Partial Class frmDCSforSale
         Me.txtCustomer.ReferenceFieldDesc = Nothing
         Me.txtCustomer.ReferenceFieldName = Nothing
         Me.txtCustomer.ReferenceTableName = Nothing
-        Me.txtCustomer.Size = New System.Drawing.Size(220, 19)
+        Me.txtCustomer.Size = New System.Drawing.Size(253, 19)
         Me.txtCustomer.TabIndex = 55
         Me.txtCustomer.Value = ""
         '
@@ -190,7 +190,7 @@ Partial Class frmDCSforSale
         Me.txtZone.ReferenceFieldDesc = Nothing
         Me.txtZone.ReferenceFieldName = Nothing
         Me.txtZone.ReferenceTableName = Nothing
-        Me.txtZone.Size = New System.Drawing.Size(220, 19)
+        Me.txtZone.Size = New System.Drawing.Size(253, 19)
         Me.txtZone.TabIndex = 56
         Me.txtZone.Value = ""
         '
@@ -210,7 +210,7 @@ Partial Class frmDCSforSale
         Me.lblLocationDesc.BorderVisible = True
         Me.lblLocationDesc.FieldName = Nothing
         Me.lblLocationDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocationDesc.Location = New System.Drawing.Point(335, 101)
+        Me.lblLocationDesc.Location = New System.Drawing.Point(373, 101)
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(242, 18)
         Me.lblLocationDesc.TabIndex = 54
@@ -238,7 +238,7 @@ Partial Class frmDCSforSale
         Me.txtLocation.ReferenceFieldDesc = Nothing
         Me.txtLocation.ReferenceFieldName = Nothing
         Me.txtLocation.ReferenceTableName = Nothing
-        Me.txtLocation.Size = New System.Drawing.Size(220, 19)
+        Me.txtLocation.Size = New System.Drawing.Size(253, 19)
         Me.txtLocation.TabIndex = 52
         Me.txtLocation.Value = ""
         '
@@ -268,7 +268,7 @@ Partial Class frmDCSforSale
         '
         '
         Me.txtUpload.RootElement.StretchVertically = True
-        Me.txtUpload.Size = New System.Drawing.Size(220, 21)
+        Me.txtUpload.Size = New System.Drawing.Size(253, 21)
         Me.txtUpload.TabIndex = 51
         Me.txtUpload.Text = " "
         '
@@ -308,7 +308,7 @@ Partial Class frmDCSforSale
         '
         '
         Me.txtName.RootElement.StretchVertically = True
-        Me.txtName.Size = New System.Drawing.Size(220, 21)
+        Me.txtName.Size = New System.Drawing.Size(253, 21)
         Me.txtName.TabIndex = 50
         Me.txtName.Text = " "
         '
@@ -326,7 +326,7 @@ Partial Class frmDCSforSale
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
         Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNew.Location = New System.Drawing.Point(316, 11)
+        Me.btnNew.Location = New System.Drawing.Point(366, 11)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(20, 21)
         Me.btnNew.TabIndex = 49
@@ -344,7 +344,7 @@ Partial Class frmDCSforSale
         Me.txtCode.MyMaxLength = 32767
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(202, 21)
+        Me.txtCode.Size = New System.Drawing.Size(252, 21)
         Me.txtCode.TabIndex = 48
         Me.txtCode.Value = ""
         '
@@ -372,7 +372,7 @@ Partial Class frmDCSforSale
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(506, 15)
+        Me.btnClose.Location = New System.Drawing.Point(556, 15)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 24)
         Me.btnClose.TabIndex = 7
@@ -424,14 +424,14 @@ Partial Class frmDCSforSale
         Me.rdmenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenufile1})
         Me.rdmenufile.Location = New System.Drawing.Point(0, 0)
         Me.rdmenufile.Name = "rdmenufile"
-        Me.rdmenufile.Size = New System.Drawing.Size(586, 20)
+        Me.rdmenufile.Size = New System.Drawing.Size(636, 20)
         Me.rdmenufile.TabIndex = 8
         '
         'frmDCSforSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(586, 244)
+        Me.ClientSize = New System.Drawing.Size(636, 244)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.rdmenufile)
         Me.Name = "frmDCSforSale"

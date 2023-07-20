@@ -532,6 +532,7 @@ Public Class frmFrieghtRateMaster
                         clsCommon.ProgressBarHide()
                         If clsCommon.MyMessageBoxShow(Me, "Total Correct Document [" + clsCommon.myCstr(obj.Count) + "] out of [" + clsCommon.myCstr(linno) + "] Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                             Dim sl As Integer = 1
+                            AddNew()
                             If obj IsNot Nothing AndAlso obj.Count > 0 Then
                                 isInsideLoadData = True
                                 For Each objTr As clsFrieghtRateDetail In obj
