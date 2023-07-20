@@ -7823,6 +7823,9 @@ Public Class MDI
                     Case clsUserMgtCode.DBTNEFTReject
                         frm = New frmDBTNEFTReject
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.DBTPayment
+                        frm = New FrmDBTPayment
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.MPIncentiveEntryReport
                         frm = New frmMPIncetiveEntryReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

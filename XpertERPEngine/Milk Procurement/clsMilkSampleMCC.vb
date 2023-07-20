@@ -1498,6 +1498,10 @@ Public Class clsMilkSRNMCC
                 clsDBFuncationality.ExecuteNonQuery(qry, Trans)
                 qry = "update TSPL_MILK_SRN_HEAD set VLC_CODE='" + objHead.VLC_CODE + "',VSP_CODE='" + objHead.VSP_CODE + "',ROUTE_CODE='" + objHead.ROUTE_CODE + "'  where DOC_CODE='" + objHead.DOC_CODE + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, Trans)
+               '
+                qry = "update TSPL_MILK_SRN_HEAD set Retesting = 1 where DOC_CODE='" + objHead.DOC_CODE + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, Trans)
+                '
             End If
             If CorrTypeSRNFATSNF Then
                 clsMilkSRNMCC.ObjList(0).FAT = Math.Truncate(dblFAT * 10) / 10
