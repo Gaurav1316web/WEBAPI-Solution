@@ -36,6 +36,12 @@ Public Class frmDCSforSale
         'ToolTipcity.SetToolTip(btnNew, "New")
         btnSave.Enabled = True
         btnDelete.Enabled = True
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            txtLocation.Value = clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Location_Master where Location_Code in(" + clsCommon.myCstr(objCommonVar.strCurrUserLocations) + ")") 'clsCommon.myCstr(objCommonVar.strCurrUserLocations)
+            lblLocationDesc.Text = clsLocation.GetName(txtLocation.Value, Nothing)
+            txtCustomer.Enabled = True
+        End If
+
     End Sub
 
 
@@ -131,8 +137,8 @@ Public Class frmDCSforSale
         txtZone.Value = ""
         lblZoneDesc.Text = ""
         btnSave.Text = "Save"
-        txtLocation.Value = ""
-        lblLocationDesc.Text = ""
+        'txtLocation.Value = ""
+        'lblLocationDesc.Text = ""
         txtCustomer.Value = ""
         lblCustomerDesc.Text = ""
         btnSave.Enabled = True
@@ -328,16 +334,19 @@ Public Class frmDCSforSale
         End If
         Me.Controls.Remove(gv)
     End Sub
-
-
-
-
     Public Sub Export()
-        Dim str As String
-        str = "select TSPL_DCS_FOR_SALE.Code As [Code], TSPL_DCS_FOR_SALE.Name As [Name], TSPL_DCS_FOR_SALE.Uploader_No As [Uploader_No], TSPL_DCS_FOR_SALE.Zone As [Zone], TSPL_DCS_FOR_SALE.Location As [Location], TSPL_DCS_FOR_SALE.Customer As [Customer] from TSPL_DCS_FOR_SALE"
-        Dim orderByClause = "[Code] "
-        ListImpExpColumnsMandatory = New List(Of String)({"Code", "Name", "Uploader_No", "Zone", "Location", "Customer"})
-        transportSql.ExporttoExcel(str, Me)
+        Try
+            Dim str As String = "select TSPL_DCS_FOR_SALE.Code As [Code], TSPL_DCS_FOR_SALE.Name As [Name], TSPL_DCS_FOR_SALE.Uploader_No As [Uploader_No], TSPL_DCS_FOR_SALE.Zone As [Zone], TSPL_DCS_FOR_SALE.Location As [Location], TSPL_DCS_FOR_SALE.Customer As [Customer] from TSPL_DCS_FOR_SALE"
+            Dim WhrCls As String = ""
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls += " where Location in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            Dim orderByClause = "[Code] "
+            ListImpExpColumnsMandatory = New List(Of String)({"Code", "Name", "Uploader_No", "Zone", "Location", "Customer"})
+            transportSql.ExporttoExcel(str, WhrCls, Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles rdmenuimport.Click 'RadMenuItem2.Click '

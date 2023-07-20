@@ -18,6 +18,10 @@ Public Class frmFrieghtRateMaster
 
         chkInactive.Enabled = False
         AddNew()
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            txtLocation.Value = clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Location_Master where Location_Code in(" + clsCommon.myCstr(objCommonVar.strCurrUserLocations) + ")") 'clsCommon.myCstr(objCommonVar.strCurrUserLocations)
+            lblLocationDesc.Text = clsLocation.GetName(txtLocation.Value, Nothing)
+        End If
     End Sub
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
@@ -30,8 +34,8 @@ Public Class frmFrieghtRateMaster
         btnsave.Text = "Save"
         isNewEntry = True
         txtCode.Value = ""
-        txtLocation.Value = ""
-        lblLocationDesc.Text = ""
+        'txtLocation.Value = ""
+        'lblLocationDesc.Text = ""
         txtDescription.Text = ""
         txtStartDate.Value = clsCommon.GETSERVERDATE()
         txtEndDate.Value = clsCommon.GETSERVERDATE()
@@ -271,7 +275,12 @@ Public Class frmFrieghtRateMaster
                         gv1.CurrentRow.Cells(colCustCode).Value = clsCommon.myCstr(clsCustomerMaster.getFinder(whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colCustCode).Value), False))
                         gv1.CurrentRow.Cells(colCustName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + gv1.CurrentRow.Cells(colCustCode).Value + "'"))
                     ElseIf e.Column Is gv1.Columns(colZoneCode) Then
-                        gv1.CurrentRow.Cells(colZoneCode).Value = ClsZoneMaster.getFinder("", clsCommon.myCstr(gv1.CurrentRow.Cells(colZoneCode).Value), False)
+                        Dim whrcls As String = " 2=2"
+                        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                            whrcls += " AND Location_code in (" + objCommonVar.strCurrUserLocations + ")"
+
+                        End If
+                        gv1.CurrentRow.Cells(colZoneCode).Value = ClsZoneMaster.getFinder(whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colZoneCode).Value), False)
                     ElseIf e.Column Is gv1.Columns(colUOMCode) Then
                         gv1.CurrentRow.Cells(colUOMCode).Value = clsUnitMaster.getUnitFinder("", clsCommon.myCstr(gv1.CurrentRow.Cells(colUOMCode).Value), False)
                     End If
@@ -567,12 +576,18 @@ Public Class frmFrieghtRateMaster
 
     End Sub
     Public Sub Export()
-        Dim str As String
-        str = "select Customer_Code as [Customer Code],Zone_Code as [Zone],UOM_Code as [UOM],Frieght_Rate as [Frieght Rate] from TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL left join TSPL_DCS_FOR_SALE_FRIEGHT on TSPL_DCS_FOR_SALE_FRIEGHT.PK_ID=TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.REF_PK_ID where 2=2"
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            str += " and TSPL_DCS_FOR_SALE_FRIEGHT.Location_Code in(" + clsCommon.myCstr(objCommonVar.strCurrUserLocations) + ") "
-        End If
-        ListImpExpColumnsMandatory = New List(Of String)({"Customer Code", "Zone", "UOM", "Frieght Rate"})
-        transportSql.ExporttoExcel(str, Me)
+        Try
+            Dim str As String = "select Customer_Code as [Customer Code],Zone_Code as [Zone],UOM_Code as [UOM],Frieght_Rate as [Frieght Rate] from TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL left join TSPL_DCS_FOR_SALE_FRIEGHT on TSPL_DCS_FOR_SALE_FRIEGHT.PK_ID=TSPL_DCS_FOR_SALE_FRIEGHT_DETAIL.REF_PK_ID "
+            Dim whrCls As String = ""
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrCls += " and TSPL_DCS_FOR_SALE_FRIEGHT.Location_Code in(" + clsCommon.myCstr(objCommonVar.strCurrUserLocations) + ") "
+            End If
+            ListImpExpColumnsMandatory = New List(Of String)({"Customer Code", "Zone", "UOM", "Frieght Rate"})
+            transportSql.ExporttoExcel(str, whrCls, Me)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 End Class
