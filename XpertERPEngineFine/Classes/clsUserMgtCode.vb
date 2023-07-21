@@ -1112,6 +1112,8 @@ Public Class clsUserMgtCode
     Public Const rptSaleAccountSetList As String = "ITM-SAL-SET"
     Public Const RptItemSalePurchaseSet As String = "ITM-PUR-SAL"
     Public Const rptCustomerWiseStockReco As String = "CUST-REC-RPT"
+    Public Const rptPerformanceReport As String = "PERF-RPT"
+    'Public Const rptStockReport As String = "STOCK-RPT"
     ''-----------------------------------------------------Purchase----------------------------------------------------------------------
     '-------------------Setup--------------------------
     Public Const frmPurchaseSetting As String = "PUR-SETT"
@@ -2081,6 +2083,7 @@ Public Class clsUserMgtCode
     Public Const MPIncentiveEntry As String = "MP-INC-ENT"
     Public Const DCSMPIncentiveReco As String = "DCS-MP-RECO"
     Public Const DBTNEFTUploader As String = "DBT-NEFT-UPL"
+    Public Const DBTPayment As String = "DBT-PAY-MNT"
     Public Const FrmCreateBMCDCSbyMobile As String = "BMC-DCS-MOB"
     Public Const DBTNEFTReject As String = "DBT-NEFT-REJ"
     ''=============================================

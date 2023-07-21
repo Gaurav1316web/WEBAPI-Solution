@@ -20,6 +20,7 @@ Public Class frmDBTNEFTUploader
     Dim dtPerforma As DataTable
     Dim settMaxRowExport As Integer = 0
     Dim SettMCCOneDBTOneDoc As String = ""
+    Public AllowModifcationByApprovalUser As Boolean = False
 #End Region
     Public Sub New()
         InitializeComponent()
@@ -33,7 +34,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             clsCommon.MyMessageBoxShow(Me, "Please First Create DBT NEFT Performa With Default DBT NEFT Bank", Me.Text)
             Me.Close()
         End If
-
+        SplitContainer3.Panel2Collapsed = True
         SettApplyZoneOnDBT = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyZoneInDBT, clsFixedParameterCode.ApplyZoneInDBT, Nothing)) > 0)
         txtZone.MendatroryField = SettApplyZoneOnDBT
         SettMCCOneDBTOneDoc = clsFixedParameter.GetData(clsFixedParameterType.AndroidAPP, clsFixedParameterCode.OneDBTOneDoc, Nothing)
@@ -43,6 +44,13 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         SettDCSMPIncetiveReco = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DCSRecoCondition, clsFixedParameterCode.MandatoryDCSMPIncetiveReco, Nothing)) = 1)
         settMaxRowExport = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MaxRowsExcelDBTNEFTUploader, clsFixedParameterCode.MaxRowsExcelDBTNEFTUploader, Nothing))
 
+        UcAttachment1.Form_ID = "A" + MyBase.Form_ID
+        UcAttachment1.isDeleteTheAttachment = False
+        UcAttachment1.settAutoAttachment = True
+        'RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Collapsed
+
+        UcAttachment2.Form_ID = MyBase.Form_ID
+        UcAttachment2.MandatoryPDFFile = True
         SetUserMgmtNew()
         Reset()
 
@@ -76,12 +84,13 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnclose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnclose.Enabled Then
-            'PostData()
+            PostData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                       "========Table Name=========" + Environment.NewLine +
                       "TSPL_MP_INCENTIVE_ENTRY_HEAD" + Environment.NewLine +
                       "TSPL_MP_INCENTIVE_ENTRY_DETAIL" + Environment.NewLine)
+            SplitContainer3.Panel2Collapsed = False
         End If
     End Sub
     Private Sub CloseForm()
@@ -141,14 +150,20 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             txtMCC.arrValueMember = arr
         End If
         gvItem.MasterTemplate.SummaryRowsBottom.Clear()
+        UcAttachment1.BlankAllControls()
+        UcAttachment2.BlankAllControls()
     End Sub
 
     Private Function AllowToSave() As Boolean
+        'UcAttachment1.AllowToSave()
         Return True
     End Function
     Sub SaveData()
         Try
             If AllowToSave() Then
+                If Not AllowModifcationByApprovalUser Then
+                    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocumentNo.Value))
+                End If
                 Dim obj As New clsDBTNEFT()
                 obj.Document_Code = txtDocumentNo.Value
                 obj.Document_Date = txtdate.Value
@@ -192,8 +207,23 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 If (clsDBTNEFT.SaveData(obj, isNewEntry)) Then
                     Dim qry As String = "select sum(Amount) from TSPL_DBT_NEFT_DETAIL where Document_Code='" + txtDocumentNo.Value + "' "
                     Dim TotAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
-                    clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, clsCommon.myCstr(obj.Document_Code), txtdate.Text, "", clsCommon.myCstr(txtRemarks.Text), clsCommon.myCdbl(TotAmt), 0, "", objApproval)
+                    clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, obj.Document_Code, txtdate.Text, "", clsCommon.myCstr(txtRemarks.Text), clsCommon.myCdbl(TotAmt), 0, "", objApproval)
+                    qry = "select 1 from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where TRANS_Code='" + MyBase.Form_ID + "' and Document_Code='" + obj.Document_Code + "'"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        UcAttachment1.BlankAllControls()
+                        Dim objP As New clsDBTNEFT()
+                        Dim Filename As String = objP.funPrintBankLetter(obj.Document_Code, True)
+                        Dim SafeFileName As String = "BankLetter.pdf"
+                        UcAttachment1.AddAttachment(Filename, SafeFileName)
+                        Filename = clsCommon.MyExportToExcelGridPath("NEFT Uploader", gvItem, Nothing, Me.Text, False, "", "")
+                        SafeFileName = "NEFTDetail.xls"
+                        UcAttachment1.AddAttachment(Filename, SafeFileName)
 
+                        UcAttachment1.SaveData(obj.Document_Code, True, Nothing)
+                    End If
+
+                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     LoadData(obj.Document_Code, NavigatorType.Current)
                 End If
             End If
@@ -224,7 +254,6 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         IsinsideLoadData = True
         Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(strCode, NavTyep)
         If obj IsNot Nothing Then
-
             DisableInputDataField()
             isNewEntry = False
             txtDocumentNo.Value = obj.Document_Code
@@ -273,6 +302,8 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 btndelete.Enabled = True
                 btnPost.Enabled = True
             End If
+            UcAttachment1.LoadData(obj.Document_Code)
+            UcAttachment2.LoadData(obj.Document_Code)
         End If
         IsinsideLoadData = False
     End Sub
@@ -280,6 +311,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
 
     Private Sub FormatGrid(ByVal gv As RadGridView)
         Try
+            gv.MasterTemplate.SummaryRowsBottom.Clear()
             For ii As Integer = 0 To gv.Columns.Count - 1
                 gv.Columns(ii).ReadOnly = True
                 gv.Columns(ii).FormatString = ""
@@ -382,8 +414,6 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
     End Sub
     Private Sub btnsave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnsave.Click
         SaveData()
-        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
-
     End Sub
 
     Sub GridFocus(Optional ByVal gvRow As GridViewRowInfo = Nothing)
@@ -649,12 +679,19 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
     End Function
 
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
+        PostData()
+    End Sub
+
+    Private Sub PostData()
         Try
             Dim qry As String = ""
             Dim msg As String = ""
             Dim dt As DataTable = Nothing
 
             If (myMessages.postConfirm()) Then
+                UcAttachment2.AllowToSave()
+                UcAttachment2.SaveData(txtDocumentNo.Value)
+
                 Dim ExcellPath As String = ExportGridPath()
                 clsDBTNEFT.PostData(txtDocumentNo.Value, ExcellPath)
                 clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
@@ -768,7 +805,6 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
     End Sub
     Public Sub funPrint(ByVal strDocNo As String)
         Try
-
             Try
                 If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
                     txtDocumentNo.Focus()
@@ -787,8 +823,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MP_INCENTIVE_EN
 left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
 where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Bank "
 
-
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploader", "Bank Wise NEFT Uploader")
                 frmCRV = Nothing
@@ -801,49 +836,9 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
         End Try
     End Sub
     Private Sub btnPrintBankLetter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrintBankLetter.Click
-        If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
-            myMessages.blankValue("Doument not found to Print")
-        Else
-            funPrintBankLetter(txtDocumentNo.Value)
-        End If
+        Dim objP As New clsDBTNEFT()
+        objP.funPrintBankLetter(txtDocumentNo.Value, False)
     End Sub
-    Public Shared Sub funPrintBankLetter(ByVal strDocNo As String)
-        Try
-            Dim reportDateTime As String = (clsDBFuncationality.getSingleValue("select convert(varchar , getdate(),113) as Date_Time"))
-            Dim isPending As String = ERPTransactionStatus.Pending
-            Dim status As String = ""
-            Dim Doc_Date As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select Document_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 104) AS Date"))
-            Dim ToDate As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select To_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 103) AS To_Date"))
-            Dim FromDate As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select From_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 103) AS From_Date"))
-            If isPending = "1" Then
-                status = "Pending"
-            End If
-            Dim User_Name As String = objCommonVar.CurrentUser
-            Try
-                If clsCommon.myLen(strDocNo) <= 0 Then
-                    Throw New Exception("Please select Document No")
-                End If
 
-                Dim qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 ,TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,
-               '" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name, TSPL_DBT_NEFT_DETAIL.Rem_Name,TSPL_DBT_NEFT_DETAIL.Rem_Account_No ,
-                tspl_dbt_neft_detail.Amount as Total_Amt ,'" & FromDate & "' as From_Date, '" & ToDate & "' as To_Date, TSPL_DBT_NEFT.To_Date from TSPL_DBT_NEFT  
-                left outer join (select TSPL_DBT_NEFT_DETAIL.document_code,max(TSPL_DBT_NEFT_DETAIL.Rem_Name) as Rem_Name,max(TSPL_DBT_NEFT_DETAIL.Rem_Account_No) as Rem_Account_No,
-                sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount from TSPL_DBT_NEFT_DETAIL                 
-                where   TSPL_DBT_NEFT_DETAIL.document_code ='" + strDocNo + "' group by TSPL_DBT_NEFT_DETAIL.document_code 
-               ) TSPL_DBT_NEFT_DETAIL   on TSPL_DBT_NEFT.Document_Code = TSPL_DBT_NEFT_DETAIL.Document_Code  
-                  LEFT OUTER JOIN tspl_company_master ON tspl_company_master.comp_code = 'UDP'
-                  WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploaderBankLetter", "Bank Letter NEFT Uploader")
-                frmCRV = Nothing
-            Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
-            End Try
-
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
-    End Sub
 End Class
 

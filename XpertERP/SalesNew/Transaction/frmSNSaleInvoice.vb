@@ -453,8 +453,8 @@ Public Class frmSNSaleInvoice
         txtDate.Value = clsCommon.GETSERVERDATE()
         dtpChallan.Value = clsCommon.GETSERVERDATE()
         dtpInvoice.Value = clsCommon.GETSERVERDATE()
-        txtBillToLocation.Value = ""
-        lblBillToLocation.Text = ""
+        'txtBillToLocation.Value = ""
+        'lblBillToLocation.Text = ""
         txtShipToLocation.Value = ""
         lblShipToLocation.Text = ""
         txtDesc.Text = ""
@@ -5026,9 +5026,16 @@ Public Class frmSNSaleInvoice
         frm.strCurrCode = txtDocNo.Value
         frm.ShowDialog()
         LoadBlankGrid()
+        Dim chkStr As New List(Of String)
         Dim objOrderHead As clsSNShipmentHead = Nothing
         If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
             If clsCommon.myLen(frm.ArrReturn(0).Document_Code) > 0 Then
+                For i As Integer = 0 To frm.ArrReturn.Count - 1
+                    If chkStr.Contains(frm.ArrReturn(i).Document_Code) Then
+                    Else
+                        chkStr.Add(frm.ArrReturn(i).Document_Code)
+                    End If
+                Next
                 objOrderHead = clsSNShipmentHead.GetData(frm.ArrReturn(0).Document_Code, NavigatorType.Current)
                 If objOrderHead IsNot Nothing AndAlso clsCommon.myLen(objOrderHead.Document_Code) > 0 Then
                     chkIsTaxable.Checked = IIf(objOrderHead.is_taxable = 1, True, False)
@@ -5141,66 +5148,137 @@ Public Class frmSNSaleInvoice
                     End If
                     LoadBlankGridAC()
                     InvoiceType()
-                    If (clsCommon.myLen(objOrderHead.Add_Charge_Code1) > 0) Then
+                    Dim StrQry As String = "select Add_Charge_Code,max(Add_Charge_Name) as Add_Charge_Name,sum(Add_Charge_Amt) as Add_Charge_Amt from( select Add_Charge_Code1 as Add_Charge_Code,Add_Charge_Name1 as Add_Charge_Name,Add_Charge_Amt1 as Add_Charge_Amt from TSPL_SD_SHIPMENT_HEAD where Document_Code in (" + clsCommon.GetMulcallString(chkStr) + ") and Add_Charge_Amt1>0 union all
+select Add_Charge_Code2 as Add_Charge_Code,Add_Charge_Name2 as Add_Charge_Name,Add_Charge_Amt2 as Add_Charge_Amt from TSPL_SD_SHIPMENT_HEAD where Document_Code in (" + clsCommon.GetMulcallString(chkStr) + ")and Add_Charge_Amt2>0 union all
+select Add_Charge_Code3 as Add_Charge_Code,Add_Charge_Name3 as Add_Charge_Name,Add_Charge_Amt3 as Add_Charge_Amt from TSPL_SD_SHIPMENT_HEAD where Document_Code in (" + clsCommon.GetMulcallString(chkStr) + ") and Add_Charge_Amt3>0 union all 
+select Add_Charge_Code4 as Add_Charge_Code,Add_Charge_Name4 as Add_Charge_Name,Add_Charge_Amt4 as Add_Charge_Amt from TSPL_SD_SHIPMENT_HEAD where Document_Code in (" + clsCommon.GetMulcallString(chkStr) + ")and Add_Charge_Amt4>0 union all 
+select Add_Charge_Code5 as Add_Charge_Code,Add_Charge_Name5 as Add_Charge_Name,Add_Charge_Amt5 as Add_Charge_Amt from TSPL_SD_SHIPMENT_HEAD where Document_Code in (" + clsCommon.GetMulcallString(chkStr) + ") and Add_Charge_Amt5>0 union all 
+select Add_Charge_Code6 as Add_Charge_Code,Add_Charge_Name6 as Add_Charge_Name,Add_Charge_Amt6 as Add_Charge_Amt from TSPL_SD_SHIPMENT_HEAD where Document_Code in (" + clsCommon.GetMulcallString(chkStr) + ") and Add_Charge_Amt6>0 union all 
+select Add_Charge_Code7 as Add_Charge_Code,Add_Charge_Name7 as Add_Charge_Name,Add_Charge_Amt7 as Add_Charge_Amt from TSPL_SD_SHIPMENT_HEAD where Document_Code in (" + clsCommon.GetMulcallString(chkStr) + ") and Add_Charge_Amt7>0 union all 
+select Add_Charge_Code8 as Add_Charge_Code,Add_Charge_Name8 as Add_Charge_Name,Add_Charge_Amt8 as Add_Charge_Amt from TSPL_SD_SHIPMENT_HEAD where Document_Code in (" + clsCommon.GetMulcallString(chkStr) + ")and Add_Charge_Amt8>0 union all 
+select Add_Charge_Code9 as Add_Charge_Code,Add_Charge_Name9 as Add_Charge_Name,Add_Charge_Amt9 as Add_Charge_Amt from TSPL_SD_SHIPMENT_HEAD where Document_Code in (" + clsCommon.GetMulcallString(chkStr) + ")and Add_Charge_Amt9>0 union all 
+select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name,Add_Charge_Amt10 as Add_Charge_Amt from TSPL_SD_SHIPMENT_HEAD where Document_Code in (" + clsCommon.GetMulcallString(chkStr) + ")and Add_Charge_Amt10>0 )xx group by Add_Charge_Code"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQry)
+                    If dt.Rows.Count > 0 Then
                         gvAC.Rows.AddNew()
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code1
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name1
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt1
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Code"))
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(0)("Add_Charge_Name"))
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = clsCommon.myCDecimal(dt.Rows(0)("Add_Charge_Amt"))
                     End If
-                    If (clsCommon.myLen(objOrderHead.Add_Charge_Code2) > 0) Then
+                    If dt.Rows.Count > 1 Then
                         gvAC.Rows.AddNew()
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code2
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name2
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt2
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(1)("Add_Charge_Code"))
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(1)("Add_Charge_Name"))
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = clsCommon.myCDecimal(dt.Rows(1)("Add_Charge_Amt"))
                     End If
-                    If (clsCommon.myLen(objOrderHead.Add_Charge_Code3) > 0) Then
+                    If dt.Rows.Count > 2 Then
                         gvAC.Rows.AddNew()
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code3
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name3
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt3
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(2)("Add_Charge_Code"))
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(2)("Add_Charge_Name"))
+                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = clsCommon.myCDecimal(dt.Rows(2)("Add_Charge_Amt"))
+                        If dt.Rows.Count > 3 Then
+                            gvAC.Rows.AddNew()
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(3)("Add_Charge_Code"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(3)("Add_Charge_Name"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = clsCommon.myCDecimal(dt.Rows(3)("Add_Charge_Amt"))
+                        End If
+                        If dt.Rows.Count > 4 Then
+                            gvAC.Rows.AddNew()
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(4)("Add_Charge_Code"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(4)("Add_Charge_Name"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = clsCommon.myCDecimal(dt.Rows(4)("Add_Charge_Amt"))
+                        End If
+                        If dt.Rows.Count > 5 Then
+                            gvAC.Rows.AddNew()
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(5)("Add_Charge_Code"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(5)("Add_Charge_Name"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = clsCommon.myCDecimal(dt.Rows(5)("Add_Charge_Amt"))
+                        End If
+                        If dt.Rows.Count > 6 Then
+                            gvAC.Rows.AddNew()
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(6)("Add_Charge_Code"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(6)("Add_Charge_Name"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = clsCommon.myCDecimal(dt.Rows(6)("Add_Charge_Amt"))
+                        End If
+                        If dt.Rows.Count > 7 Then
+                            gvAC.Rows.AddNew()
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(7)("Add_Charge_Code"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(7)("Add_Charge_Name"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = clsCommon.myCDecimal(dt.Rows(7)("Add_Charge_Amt"))
+                        End If
+                        If dt.Rows.Count > 8 Then
+                            gvAC.Rows.AddNew()
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(8)("Add_Charge_Code"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(8)("Add_Charge_Name"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = clsCommon.myCDecimal(dt.Rows(8)("Add_Charge_Amt"))
+                        End If
+                        If dt.Rows.Count > 9 Then
+                            gvAC.Rows.AddNew()
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = clsCommon.myCstr(dt.Rows(9)("Add_Charge_Code"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = clsCommon.myCstr(dt.Rows(9)("Add_Charge_Name"))
+                            gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = clsCommon.myCDecimal(dt.Rows(9)("Add_Charge_Amt"))
+                        End If
                     End If
-                    If (clsCommon.myLen(objOrderHead.Add_Charge_Code4) > 0) Then
-                        gvAC.Rows.AddNew()
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code4
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name4
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt4
-                    End If
-                    If (clsCommon.myLen(objOrderHead.Add_Charge_Code5) > 0) Then
-                        gvAC.Rows.AddNew()
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code5
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name5
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt5
-                    End If
-                    If (clsCommon.myLen(objOrderHead.Add_Charge_Code6) > 0) Then
-                        gvAC.Rows.AddNew()
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code6
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name6
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt6
-                    End If
-                    If (clsCommon.myLen(objOrderHead.Add_Charge_Code7) > 0) Then
-                        gvAC.Rows.AddNew()
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code7
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name7
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt7
-                    End If
-                    If (clsCommon.myLen(objOrderHead.Add_Charge_Code8) > 0) Then
-                        gvAC.Rows.AddNew()
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code8
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name8
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt8
-                    End If
-                    If (clsCommon.myLen(objOrderHead.Add_Charge_Code9) > 0) Then
-                        gvAC.Rows.AddNew()
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code9
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name9
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt9
-                    End If
-                    If (clsCommon.myLen(objOrderHead.Add_Charge_Code10) > 0) Then
-                        gvAC.Rows.AddNew()
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code10
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name10
-                        gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt10
-                    End If
+                    'If (clsCommon.myLen(objOrderHead.Add_Charge_Code1) > 0) Then
+                    '    gvAC.Rows.AddNew()
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code1
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name1
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt1
+                    'End If
+                    'If (clsCommon.myLen(objOrderHead.Add_Charge_Code2) > 0) Then
+                    '    gvAC.Rows.AddNew()
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code2
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name2
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt2
+                    'End If
+                    'If (clsCommon.myLen(objOrderHead.Add_Charge_Code3) > 0) Then
+                    '    gvAC.Rows.AddNew()
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code3
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name3
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt3
+                    'End If
+                    'If (clsCommon.myLen(objOrderHead.Add_Charge_Code4) > 0) Then
+                    '    gvAC.Rows.AddNew()
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code4
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name4
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt4
+                    'End If
+                    'If (clsCommon.myLen(objOrderHead.Add_Charge_Code5) > 0) Then
+                    '    gvAC.Rows.AddNew()
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code5
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name5
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt5
+                    'End If
+                    'If (clsCommon.myLen(objOrderHead.Add_Charge_Code6) > 0) Then
+                    '    gvAC.Rows.AddNew()
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code6
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name6
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt6
+                    'End If
+                    'If (clsCommon.myLen(objOrderHead.Add_Charge_Code7) > 0) Then
+                    '    gvAC.Rows.AddNew()
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code7
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name7
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt7
+                    'End If
+                    'If (clsCommon.myLen(objOrderHead.Add_Charge_Code8) > 0) Then
+                    '    gvAC.Rows.AddNew()
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code8
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name8
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt8
+                    'End If
+                    'If (clsCommon.myLen(objOrderHead.Add_Charge_Code9) > 0) Then
+                    '    gvAC.Rows.AddNew()
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code9
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name9
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt9
+                    'End If
+                    'If (clsCommon.myLen(objOrderHead.Add_Charge_Code10) > 0) Then
+                    '    gvAC.Rows.AddNew()
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACCode).Value = objOrderHead.Add_Charge_Code10
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACName).Value = objOrderHead.Add_Charge_Name10
+                    '    gvAC.Rows(gvAC.Rows.Count - 1).Cells(colACAmount).Value = objOrderHead.Add_Charge_Amt10
+                    'End If
                     gvAC.Rows.AddNew()
 
 
@@ -6836,4 +6914,83 @@ Public Class frmSNSaleInvoice
     Private Sub btnInvoiceJE_Click(sender As Object, e As EventArgs) Handles btnInvoiceJE.Click
         clsOpenJEAgainstInvoice.ShowInvoiceJE(txtDocNo.Value)
     End Sub
+
+    'Private Sub btnDisPrint_Click(sender As Object, e As EventArgs) Handles btnDisPrint.Click
+    '    DispatchInvoicePrint()
+    'End Sub
+    Sub DispatchInvoicePrint()
+        Try
+            Dim frmDCSPrint As New frmCrystalReportViewer()
+            Dim qry As String = "Select XFinal.*,cast((XFinal.CF_AMT+XFinal.Frieght_Amt)as decimal(18,2)) as Total_Amt,TSPL_LOCATION_MASTER.Location_Desc as Location_Desc,TSPL_LOCATION_MASTER.Add1 as Add1
+from(
+select XX.Dispatch_Date,XX.DCS_Name,XX.C_No,XX.GRNO,xx.Zone,XX.SADA,XX.SADA_Cost,XX.GOLD,XX.GOLD_Cost,XX.BPP,XX.BPP_Cost,XX.TruckNo,XX.ChallanNo,
+cast((XX.SADA+XX.GOLD+XX.BPP) as decimal(18,2))as Bags,cast((((XX.SADA*XX.CF_Bag)+(XX.GOLD*XX.CF_Bag)+(XX.BPP*XX.CF_Bag))/XX.CF_MT) as decimal(18,2))as MT,
+cast(((XX.SADA_Cost*XX.SADA)+(XX.GOLD_Cost*XX.GOLD)+(XX.BPP_Cost*XX.BPP))as decimal(18,2)) as CF_AMT,Cast(XX.Frieght_Rate as decimal(18,2)) as Frieght,
+cast(((((XX.SADA*XX.CF_Bag)+(XX.GOLD*XX.CF_Bag)+(XX.BPP*XX.CF_Bag))/XX.CF_QTL)*XX.Frieght_Rate)as decimal(18,2))as Frieght_Amt,
+XX.Document_Date as Bill_Date,XX.Bill,XX.Location_code
+
+--XX.Frieght_Rate
+from(
+select 
+--TSPL_SD_SHIPMENT_HEAD.Document_Date as Dispatch_Date,
+min(TSPL_SD_SHIPMENT_HEAD.Document_Date)as Dispatch_Date,
+TSPL_DCS_FOR_SALE.Name as DCS_Name,
+max(TSPL_DCS_FOR_SALE.Uploader_No) as C_No,
+max(TSPL_SD_SHIPMENT_HEAD.LR_GR_NO) as GRNO,
+max(TSPL_DCS_FOR_SALE.Zone) as Zone,
+sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0002' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as SADA,
+sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0003' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as GOLD,
+sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0001' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as BPP,
+max(TSPL_SD_SHIPMENT_HEAD.Form_38_No) as TruckNo,
+max(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.PK_ID) as ChallanNo,
+max(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0002' then TSPL_SD_SHIPMENT_DETAIL.Item_Cost else '1' end ) as SADA_Cost,
+max(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0003' then TSPL_SD_SHIPMENT_DETAIL.Item_Cost else '1' end ) as GOLD_Cost,
+max(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0001' then TSPL_SD_SHIPMENT_DETAIL.Item_Cost else '1' end ) as BPP_Cost,
+
+max(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Frieght_Rate) as Frieght_Rate,
+max(TSPL_ITEM_UOM_DETAIL.Conversion_Factor)as CF_MT,
+max(TSPL_ITEM_UOM_DETAIL_BAG.Conversion_Factor) as CF_Bag,
+max(TSPL_ITEM_UOM_DETAIL_QTL.Conversion_Factor) as CF_QTL,
+TSPL_SD_SALE_INVOICE_HEAD.Document_Date,
+max(Right(TSPL_SD_SALE_INVOICE_HEAD.Document_Code,6))as Bill,
+max(TSPL_SD_SALE_INVOICE_DETAIL.Document_Code) as Document_Code,
+max(TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code) as Shipment_Code,
+max(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) as Location_code
+from TSPL_SD_SHIPMENT_HEAD
+left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
+left join TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL on TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code AND
+TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+--left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+--left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+left join TSPL_DCS_FOR_SALE on TSPL_DCS_FOR_SALE.Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code
+--left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
+left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Document_Code  and
+TSPL_SD_SALE_INVOICE_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode
+left join TSPL_SD_SALE_INVOICE_HEAD	on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code
+left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and
+TSPL_ITEM_UOM_DETAIL.UOM_Code='MT' 
+left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAIL_BAG on TSPL_ITEM_UOM_DETAIL_BAG.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and
+TSPL_ITEM_UOM_DETAIL_BAG.UOM_Code='BAG'
+left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAIL_QTL on TSPL_ITEM_UOM_DETAIL_QTL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and
+TSPL_ITEM_UOM_DETAIL_QTL.UOM_Code='QTL'
+
+where TSPL_SD_SALE_INVOICE_DETAIL.Document_Code='" + clsCommon.myCstr(txtDocNo.Value) + "'
+group by TSPL_DCS_FOR_SALE.Name,TSPL_SD_SALE_INVOICE_HEAD.Document_Date
+)XX
+)XFinal 
+left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Location_code
+"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+
+                frmDCSPrint.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDispatchInvoiceDetails", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Dispatch_Date")), "crptDispatchInvoiceDetails.rpt")
+
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
 End Class
