@@ -159,41 +159,59 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
     Public Shared Function PostData(ByVal strDocNo As String, ByVal excelPath As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            PostData(strDocNo, excelPath, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+        Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function PostData(ByVal strDocNo As String, ByVal excelPath As String, ByVal trans As SqlTransaction) As Boolean
+        Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
-
-
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_DBT_NEFT.Document_Date,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code from TSPL_DBT_NEFT_DETAIL 
 left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT.Document_Code= TSPL_DBT_NEFT_DETAIL.Document_Code
 left outer join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.pk_id= TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
 left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code= TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
-
  where TSPL_DBT_NEFT_DETAIL.Document_Code ='" + strDocNo + "'", trans)
-
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.DBTNEFTUploader, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-
             End If
-
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
-
             Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(strDocNo, NavigatorType.Current, trans)
-
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + obj.Posted_Date)
             End If
-            Dim qry As String = "Update TSPL_DBT_NEFT set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
+            Dim qry As String = "Update TSPL_DBT_NEFT set Status=1,RCDF_Status=0, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             '================================
             CreateEmailContent(obj, strDocNo, excelPath, trans)
             '================================
-            trans.Commit()
+
+
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "DB_Name", objCommonVar.CurrDatabase)
+            clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
+            clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+            clsCommonFunctionality.UpdateDataTable(coll, objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", OMInsertOrUpdate.Insert, "", trans)
+
+            Dim strPKID As String = clsDBFuncationality.getSingleValue("select max(PK_ID) as PK_ID from " + objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", trans)
+
+            qry = "insert into " + objCommonVar.RCDFDB + "TSPL_ATTACHMENTS (Code,FormId,TransactionId,SNo,FileName,FileData,COMMENTS,Created_By,Created_Date,Modified_By,Modified_Date)
+select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as FormId,'" + strPKID + "' as TransactionId,SNo,FileName,FileData,COMMENTS,'" + objCommonVar.CurrentUserCode + "' as Created_By,GETDATE() as Created_Date,'" + objCommonVar.CurrentUserCode + "' as Modified_By,GETDATE() as  Modified_Date from TSPL_ATTACHMENTS where TransactionId='" + obj.Document_Code + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
         Catch ex As Exception
-            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True
@@ -227,6 +245,86 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
 
     End Sub
 
+
+    Public Shared Function PostDataRCDF(ByVal Arr As List(Of Integer)) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            For ii = 0 To Arr.Count - 1
+                Dim qry As String = "select DB_Name,Document_Code,ISNULL(status,0) as status,DB_Name from TSPL_DBT_NEFT_RCDF where PK_Id = " + clsCommon.myCstr(Arr(ii)) + ""
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    If clsCommon.myCDecimal(dt.Rows(0)("status")) = 1 Then
+                        Throw New Exception("Already posted Doument [" + clsCommon.myCDecimal(dt.Rows(0)("Document_Code")) + "]")
+                    End If
+
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Status", 1)
+                    clsCommon.AddColumnsForChange(coll, "Post_By", objCommonVar.CurrentUserCode)
+                    clsCommon.AddColumnsForChange(coll, "Post_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT_RCDF", OMInsertOrUpdate.Update, "PK_Id=" + clsCommon.myCstr(Arr(ii)) + "", trans)
+
+                    coll = New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "RCDF_Status", 1)
+                    clsCommon.AddColumnsForChange(coll, "RCDF_Post_By", objCommonVar.CurrentUserCode)
+                    clsCommon.AddColumnsForChange(coll, "RCDF_Post_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                    clsCommonFunctionality.UpdateDataTable(coll, clsCommon.myCstr(dt.Rows(0)("DB_Name")) + ".dbo." + "TSPL_DBT_NEFT", OMInsertOrUpdate.Update, "Document_Code='" + clsCommon.myCstr(dt.Rows(0)("Document_Code")) + "'", trans)
+                End If
+            Next
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Function funPrintBankLetter(ByVal strDocNo As String, ByVal isPDFPath As Boolean) As String
+        Dim strPAth As String = ""
+        Try
+            If clsCommon.myLen(strDocNo) <= 0 Then
+                Throw New Exception("Doument not found to Print")
+            End If
+            Dim reportDateTime As String = (clsDBFuncationality.getSingleValue("select convert(varchar , getdate(),113) as Date_Time"))
+            Dim isPending As String = ERPTransactionStatus.Pending
+            Dim status As String = ""
+            Dim Doc_Date As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select Document_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 104) AS Date"))
+            Dim ToDate As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select To_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 103) AS To_Date"))
+            Dim FromDate As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select From_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 103) AS From_Date"))
+            If isPending = "1" Then
+                status = "Pending"
+            End If
+            Dim User_Name As String = objCommonVar.CurrentUser
+            Try
+                If clsCommon.myLen(strDocNo) <= 0 Then
+                    Throw New Exception("Please select Document No")
+                End If
+
+                Dim qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 ,TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,
+               '" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name, TSPL_DBT_NEFT_DETAIL.Rem_Name,TSPL_DBT_NEFT_DETAIL.Rem_Account_No ,
+                tspl_dbt_neft_detail.Amount as Total_Amt ,'" & FromDate & "' as From_Date, '" & ToDate & "' as To_Date, TSPL_DBT_NEFT.To_Date from TSPL_DBT_NEFT  
+                left outer join (select TSPL_DBT_NEFT_DETAIL.document_code,max(TSPL_DBT_NEFT_DETAIL.Rem_Name) as Rem_Name,max(TSPL_DBT_NEFT_DETAIL.Rem_Account_No) as Rem_Account_No,
+                sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount from TSPL_DBT_NEFT_DETAIL                 
+                where   TSPL_DBT_NEFT_DETAIL.document_code ='" + strDocNo + "' group by TSPL_DBT_NEFT_DETAIL.document_code 
+               ) TSPL_DBT_NEFT_DETAIL   on TSPL_DBT_NEFT.Document_Code = TSPL_DBT_NEFT_DETAIL.Document_Code  
+                  LEFT OUTER JOIN tspl_company_master ON tspl_company_master.comp_code = 'UDP'
+                  WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                Dim frmCRV As New frmCrystalReportViewer()
+                strPAth = frmCRV.funreport(isPDFPath, CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploaderBankLetter", "Bank Letter NEFT Uploader")
+                frmCRV = Nothing
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+            End Try
+
+        Catch ex As Exception
+            If isPDFPath Then
+                Throw New Exception("Errow While making attachment" + ex.Message)
+            Else
+                clsCommon.MyMessageBoxShow(ex.Message)
+            End If
+        End Try
+        Return strPAth
+    End Function
 End Class
 
 Public Class clsDBTNEFTDetail

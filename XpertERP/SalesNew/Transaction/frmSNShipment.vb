@@ -466,8 +466,8 @@ Public Class frmSNShipment
         dtpChallan.Value = clsCommon.GETSERVERDATE()
         dtpInvoice.Value = clsCommon.GETSERVERDATE()
         dtpLR_GR_Date.Value = clsCommon.GETSERVERDATE()
-        txtBillToLocation.Value = ""
-        lblBillToLocation.Text = ""
+        'txtBillToLocation.Value = ""
+        'lblBillToLocation.Text = ""
         txtShipToLocation.Value = ""
         lblShipToLocation.Text = ""
         txtDesc.Text = ""
@@ -2150,7 +2150,7 @@ Public Class frmSNShipment
         repoTxt.FormatString = ""
         repoTxt.HeaderText = "Uploader No"
         repoTxt.Name = colDCSUploaderNo
-        repoTxt.Width = 100
+        repoTxt.Width = 90
         repoTxt.ReadOnly = True
         gvDCS.MasterTemplate.Columns.Add(repoTxt)
 
@@ -2176,7 +2176,7 @@ Public Class frmSNShipment
         repoTxt.Name = colDCSICode
         repoTxt.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repoTxt.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoTxt.Width = 100
+        repoTxt.Width = 90
         repoTxt.ReadOnly = False
         gvDCS.MasterTemplate.Columns.Add(repoTxt)
 
@@ -2192,7 +2192,7 @@ Public Class frmSNShipment
         repoNum.FormatString = ""
         repoNum.HeaderText = "Qty"
         repoNum.Name = colDCSQty
-        repoNum.Width = 40
+        repoNum.Width = 60
         repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNum.ReadOnly = False
         gvDCS.MasterTemplate.Columns.Add(repoNum)
@@ -2201,7 +2201,7 @@ Public Class frmSNShipment
         repoTxt.FormatString = ""
         repoTxt.HeaderText = "UOM"
         repoTxt.Name = colDCSUOM
-        repoTxt.Width = 40
+        repoTxt.Width = 50
         repoTxt.ReadOnly = True
         gvDCS.MasterTemplate.Columns.Add(repoTxt)
         Dim repoNumFPKID As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -2225,15 +2225,16 @@ Public Class frmSNShipment
         repoNumDCSQtyQtl.FormatString = ""
         repoNumDCSQtyQtl.HeaderText = "Qty in Qtl"
         repoNumDCSQtyQtl.Name = colDCSQtyQtl
-        repoNumDCSQtyQtl.Width = 40
+        repoNumDCSQtyQtl.Width = 70
         repoNumDCSQtyQtl.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumDCSQtyQtl.ReadOnly = True
+
         gvDCS.MasterTemplate.Columns.Add(repoNumDCSQtyQtl)
         Dim repoNumFrieghtRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoNumFrieghtRate.FormatString = "{0:n2}"
         repoNumFrieghtRate.HeaderText = "Frieght Rate"
         repoNumFrieghtRate.Name = colDCSFrieghtRate
-        repoNumFrieghtRate.Width = 90
+        repoNumFrieghtRate.Width = 80
         repoNumFrieghtRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoNumFrieghtRate.ReadOnly = True
         repoNumFrieghtRate.IsVisible = True
@@ -4084,6 +4085,7 @@ Public Class frmSNShipment
                     common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
                     Return
                 End If
+                ChkDCSItem()
                 obj.ArrDCSItem = New List(Of clsSNShipmentDCSItemDetail)
                 For Each grow As GridViewRowInfo In gvDCS.Rows
                     Dim objTr As New clsSNShipmentDCSItemDetail()
@@ -9252,6 +9254,25 @@ where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) 
 
     Private Sub rbtnDCSPrint_Click(sender As Object, e As EventArgs) Handles rbtnDCSPrint.Click
         DCSPrint(False)
+    End Sub
+    Sub ChkDCSItem()
+        Dim strDCS As New List(Of String)
+        Dim chkStr As String = ""
+        Dim r As Integer = 0
+        For Each grow As GridViewRowInfo In gvDCS.Rows
+            r += 1
+            chkStr = grow.Cells(colDCSCode).Value + grow.Cells(colDCSICode).Value + grow.Cells(colDCSUOM).Value
+            If clsCommon.CompairString(chkStr, "0") <> CompairStringResult.Equal Then
+
+                If strDCS.Contains(chkStr) Then
+                    Throw New Exception("Duplicate Data Found at Row No.[ " + clsCommon.myCstr(r) + " ]")
+                Else
+                    strDCS.Add(chkStr)
+                End If
+            End If
+
+        Next
+
     End Sub
 End Class
 

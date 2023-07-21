@@ -23445,13 +23445,30 @@ Public Class clsCreateAllTable
             coll.Add("Defaulter", "VARCHAR(20) NULL ")
             coll.Add("Org_Rate", "decimal(18, 2) NULL")
             coll.Add("Applicable_Per", "decimal(18, 2) NULL")
+            coll.Add("Against_Shift_Uploader_TR_No", "varchar(30) NULL References TSPL_MILK_SHIFT_UPLOADER_DETAIL(TR_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_REJECT_DETAIL", coll, "Primary Key (DOC_CODE,SAMPLE_NO)", False, False, "TSPL_MILK_REJECT_HEAD", "DOC_CODE", "")
 
             coll.Item("DOC_CODE") = "Varchar(30) null "
             coll.Item("Item_Code") = "Varchar(50) null "
             coll.Item("VLC_CODE") = "Varchar(30) null "
             coll.Item("VSP_CODE") = "Varchar(12) null "
+            coll.Item("Against_Shift_Uploader_TR_No") = "Varchar(30) null "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_REJECT_DETAIL_SYNC", coll, "", False, False)
+
+            qry = "Update TSPL_MILK_REJECT_DETAIL set TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No=xxx.TR_No from (
+select  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,TSPL_MILK_REJECT.DOC_CODE,TSPL_MILK_REJECT.SAMPLE_NO, TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift, TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Milk_Weight,TSPL_MILK_SHIFT_UPLOADER_DETAIL.FAT,TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNF from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+left outer join TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+inner join (select  TSPL_MILK_REJECT_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.SAMPLE_NO, convert(date, DOC_DATE,103) as DOC_DATE,SHIFT ,Reject_Type,VLC_CODE,MILK_WEIGHT,FAT,SNF  
+from TSPL_MILK_REJECT_DETAIL 
+left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE
+ )as TSPL_MILK_REJECT  on TSPL_MILK_REJECT.DOC_DATE=TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date 
+and TSPL_MILK_REJECT.SHIFT=TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift and TSPL_MILK_REJECT.Reject_Type=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type and TSPL_MILK_REJECT.VLC_CODE=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code and TSPL_MILK_REJECT.MILK_WEIGHT=TSPL_MILK_SHIFT_UPLOADER_DETAIL.MILK_WEIGHT and TSPL_MILK_REJECT.FAT=TSPL_MILK_SHIFT_UPLOADER_DETAIL.FAT and TSPL_MILK_REJECT.SNF=TSPL_MILK_SHIFT_UPLOADER_DETAIL.snf 
+where len(isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,''))>0  
+)xxx inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=xxx.DOC_CODE and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=xxx.SAMPLE_NO
+where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
+
+            clsDBFuncationality.ExecuteNonQuery(qry)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) not null Primary key")
@@ -28725,7 +28742,7 @@ Public Class clsCreateAllTable
             coll.Add("ICode", "varchar(50) NOT NULL References TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty", "decimal(18, 2) NULL")
             coll.Add("UOM", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
-            coll.Add("FPKID", "integer NOT NULL references TSPL_DCS_FOR_SALE_Frieght(PK_ID)")
+            coll.Add("FPKID", "integer NOT NULL references TSPL_DCS_FOR_SALE_Frieght_DETAIL(PK_ID)")
             coll.Add("Frieght_Rate", "decimal(18, 2) NULL")
             coll.Add("Frieght_Amt", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
@@ -51914,6 +51931,9 @@ Public Class clsCreateAllTable
             coll.Add("Posted_Date", "Datetime   NULL")
             coll.Add("Status", "int Null")
             coll.Add("Zone_Code", "varchar(30) NULL references TSPL_ZONE_MASTER (Zone_Code) ")
+            coll.Add("RCDF_Status", "int Null")
+            coll.Add("RCDF_Post_By", "varchar(12) NULL")
+            coll.Add("RCDF_Post_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -51932,6 +51952,21 @@ Public Class clsCreateAllTable
             coll.Add("Transaction", "Varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_DETAIL", coll, "", True, False, "TSPL_DBT_NEFT", "Document_Code", "")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_DETAIL_INVALID", coll, "", True, False, "TSPL_DBT_NEFT", "Document_Code", "")
+
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("DB_Name", "Varchar(15) NOT null")
+            coll.Add("Document_Code", "varchar(30) not NULL")
+            coll.Add("Document_Date", "datetime not NULL")
+            coll.Add("From_Date", "date not NULL")
+            coll.Add("To_Date", "date not NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Status", "int Null")
+            coll.Add("Post_By", "varchar(12) NULL")
+            coll.Add("Post_Date", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_RCDF", coll, "", False, False, "", "Document_Code", "Document_Date")
 
 
             coll = New Dictionary(Of String, String)()
