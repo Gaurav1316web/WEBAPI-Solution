@@ -8460,51 +8460,51 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     '' ---------------------------- End HR --------------------------------------
                     ''''''''''''''''''''''''''''''''''''''''''''Visual Process Flow''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                    Case clsUserMgtCode.FrmVPFSettings
-                        frm = New FrmVPFSettings
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmVPFActiveReport
-                        frm = New FrmVPFActiveScreens
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmGLCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmGLCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmCommonCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmCommonCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmAPCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmAPCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmARCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmARCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmBulkSaleCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmBulkSaleCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmFreshSaleCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmFreshSaleCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmProductSaleCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmProductSaleCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmCSASaleCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmCSASaleCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmMMCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmMMCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmMCCProcurementCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmMCCProcurementCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmBulkProcurementCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmBulkProcurementCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmPurchaseCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmPurchaseCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmDProductionCycle
-                        frm = New FrmModuleCycle(clsUserMgtCode.FrmDProductionCycle)
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    ''Case clsUserMgtCode.FrmVPFSettings
+                    ''    frm = New FrmVPFSettings
+                    ''    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmVPFActiveReport
+                    '    frm = New FrmVPFActiveScreens
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmGLCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmGLCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmCommonCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmCommonCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmAPCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmAPCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmARCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmARCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmBulkSaleCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmBulkSaleCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmFreshSaleCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmFreshSaleCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmProductSaleCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmProductSaleCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmCSASaleCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmCSASaleCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmMMCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmMMCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmMCCProcurementCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmMCCProcurementCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmBulkProcurementCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmBulkProcurementCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmPurchaseCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmPurchaseCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.FrmDProductionCycle
+                    '    frm = New FrmModuleCycle(clsUserMgtCode.FrmDProductionCycle)
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     '''''''''''''''''''''''''''''''''''''''''''' End Visual Process Flow ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''  
 
                     '' Anubhooti 28-Aug-2015
