@@ -435,7 +435,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                 objMilkRejectDetail.Reject_Type = objTr.Reject_Type
                 objMilkRejectDetail.Is_Return = 0
                 objMilkRejectDetail.Defaulter = objTr.Reject_Defaulter
-
+                objMilkRejectDetail.Against_Shift_Uploader_TR_No = objTr.TR_No
                 objMilkRejectHead.TOTAL_WEIGHT += objMilkRejectDetail.MILK_WEIGHT
                 objMilkRejectHead.Arr.Add(objMilkRejectDetail)
             End If

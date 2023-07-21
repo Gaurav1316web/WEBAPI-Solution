@@ -23445,13 +23445,30 @@ Public Class clsCreateAllTable
             coll.Add("Defaulter", "VARCHAR(20) NULL ")
             coll.Add("Org_Rate", "decimal(18, 2) NULL")
             coll.Add("Applicable_Per", "decimal(18, 2) NULL")
+            coll.Add("Against_Shift_Uploader_TR_No", "varchar(30) NULL References TSPL_MILK_SHIFT_UPLOADER_DETAIL(TR_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_REJECT_DETAIL", coll, "Primary Key (DOC_CODE,SAMPLE_NO)", False, False, "TSPL_MILK_REJECT_HEAD", "DOC_CODE", "")
 
             coll.Item("DOC_CODE") = "Varchar(30) null "
             coll.Item("Item_Code") = "Varchar(50) null "
             coll.Item("VLC_CODE") = "Varchar(30) null "
             coll.Item("VSP_CODE") = "Varchar(12) null "
+            coll.Item("Against_Shift_Uploader_TR_No") = "Varchar(30) null "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_REJECT_DETAIL_SYNC", coll, "", False, False)
+
+            qry = "Update TSPL_MILK_REJECT_DETAIL set TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No=xxx.TR_No from (
+select  TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,TSPL_MILK_REJECT.DOC_CODE,TSPL_MILK_REJECT.SAMPLE_NO, TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift, TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code,TSPL_MILK_SHIFT_UPLOADER_DETAIL.Milk_Weight,TSPL_MILK_SHIFT_UPLOADER_DETAIL.FAT,TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNF from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+left outer join TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+inner join (select  TSPL_MILK_REJECT_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.SAMPLE_NO, convert(date, DOC_DATE,103) as DOC_DATE,SHIFT ,Reject_Type,VLC_CODE,MILK_WEIGHT,FAT,SNF  
+from TSPL_MILK_REJECT_DETAIL 
+left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE
+ )as TSPL_MILK_REJECT  on TSPL_MILK_REJECT.DOC_DATE=TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date 
+and TSPL_MILK_REJECT.SHIFT=TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift and TSPL_MILK_REJECT.Reject_Type=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type and TSPL_MILK_REJECT.VLC_CODE=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code and TSPL_MILK_REJECT.MILK_WEIGHT=TSPL_MILK_SHIFT_UPLOADER_DETAIL.MILK_WEIGHT and TSPL_MILK_REJECT.FAT=TSPL_MILK_SHIFT_UPLOADER_DETAIL.FAT and TSPL_MILK_REJECT.SNF=TSPL_MILK_SHIFT_UPLOADER_DETAIL.snf 
+where len(isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,''))>0  
+)xxx inner join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=xxx.DOC_CODE and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=xxx.SAMPLE_NO
+where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
+
+            clsDBFuncationality.ExecuteNonQuery(qry)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30) not null Primary key")

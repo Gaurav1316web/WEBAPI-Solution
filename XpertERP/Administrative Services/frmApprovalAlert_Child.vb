@@ -133,6 +133,10 @@ Public Class FrmApprovalAlert_Child
                     btnPost.Enabled = True
                     btnSave.Enabled = True
                 End If
+
+                If clsCommon.CompairString(ScreenCode, clsUserMgtCode.DBTNEFTUploader) = CompairStringResult.Equal Then
+                    UcAttachment1.LoadData(txtDoc_Code.Text)
+                End If
             Else
                 FunReset()
             End If
