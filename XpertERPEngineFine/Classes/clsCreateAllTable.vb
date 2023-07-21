@@ -28725,7 +28725,7 @@ Public Class clsCreateAllTable
             coll.Add("ICode", "varchar(50) NOT NULL References TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty", "decimal(18, 2) NULL")
             coll.Add("UOM", "varchar(12) NOT NULL REFERENCES TSPL_UNIT_MASTER(UNIT_CODE)")
-            coll.Add("FPKID", "integer NOT NULL references TSPL_DCS_FOR_SALE_Frieght(PK_ID)")
+            coll.Add("FPKID", "integer NOT NULL references TSPL_DCS_FOR_SALE_Frieght_DETAIL(PK_ID)")
             coll.Add("Frieght_Rate", "decimal(18, 2) NULL")
             coll.Add("Frieght_Amt", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
@@ -51914,6 +51914,9 @@ Public Class clsCreateAllTable
             coll.Add("Posted_Date", "Datetime   NULL")
             coll.Add("Status", "int Null")
             coll.Add("Zone_Code", "varchar(30) NULL references TSPL_ZONE_MASTER (Zone_Code) ")
+            coll.Add("RCDF_Status", "int Null")
+            coll.Add("RCDF_Post_By", "varchar(12) NULL")
+            coll.Add("RCDF_Post_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -51932,6 +51935,21 @@ Public Class clsCreateAllTable
             coll.Add("Transaction", "Varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_DETAIL", coll, "", True, False, "TSPL_DBT_NEFT", "Document_Code", "")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_DETAIL_INVALID", coll, "", True, False, "TSPL_DBT_NEFT", "Document_Code", "")
+
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("DB_Name", "Varchar(15) NOT null")
+            coll.Add("Document_Code", "varchar(30) not NULL")
+            coll.Add("Document_Date", "datetime not NULL")
+            coll.Add("From_Date", "date not NULL")
+            coll.Add("To_Date", "date not NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Status", "int Null")
+            coll.Add("Post_By", "varchar(12) NULL")
+            coll.Add("Post_Date", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_RCDF", coll, "", False, False, "", "Document_Code", "Document_Date")
 
 
             coll = New Dictionary(Of String, String)()
