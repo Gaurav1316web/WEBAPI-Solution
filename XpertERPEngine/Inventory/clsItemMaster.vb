@@ -2005,6 +2005,27 @@ Public Class clsItemUOMDetails
     Public Item_Cost As Decimal
     Public Custom_Conversion As Boolean
 
+    Public Shared Function GetEntryUOM() As DataTable
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "0"
+        dr("Name") = "Crate And Pouch"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "1"
+        dr("Name") = "Crate"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "2"
+        dr("Name") = "LTR"
+        dt.Rows.Add(dr)
+        Return dt
+    End Function
+
     Public Shared Function SaveData(ByVal strICode As String, ByVal ArrUomDetails As List(Of clsItemUOMDetails), ByVal ArrDatabase As List(Of String), ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Dim StockUnitItemCost As Decimal = 0

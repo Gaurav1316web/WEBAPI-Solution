@@ -582,8 +582,8 @@ Public Class FrmMCCMilkRegister
             summaryRowItem.Add(item2)
             Dim item3 As New GridViewSummaryItem("Milk Weight(LTR)", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
-            Dim item55 As New GridViewSummaryItem("DBT Amount", "{0:F2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(item55)
+            'Dim item55 As New GridViewSummaryItem("DBT Amount", "{0:F2}", GridAggregateFunction.Sum)
+            'summaryRowItem.Add(item55)
 
             Dim item4 As New GridViewSummaryItem("FAT(KG)", "{0:F3}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item4)

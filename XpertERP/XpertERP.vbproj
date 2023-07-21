@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -5526,42 +5526,6 @@
     <Compile Include="Utilities\Reports\frmUserPerformanceDetail.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VPF\FrmAPCycle.Designer.vb">
-      <DependentUpon>FrmAPCycle.vb</DependentUpon>
-    </Compile>
-    <Compile Include="VPF\FrmAPCycle.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VPF\FrmModuleCycle.Designer.vb">
-      <DependentUpon>FrmModuleCycle.vb</DependentUpon>
-    </Compile>
-    <Compile Include="VPF\FrmModuleCycle.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VPF\FrmMCCProcurementCycle.Designer.vb">
-      <DependentUpon>FrmMCCProcurementCycle.vb</DependentUpon>
-    </Compile>
-    <Compile Include="VPF\FrmMCCProcurementCycle.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VPF\FrmPurchaseCycle.Designer.vb">
-      <DependentUpon>FrmPurchaseCycle.vb</DependentUpon>
-    </Compile>
-    <Compile Include="VPF\FrmPurchaseCycle.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VPF\FrmVPFActiveScreens.Designer.vb">
-      <DependentUpon>FrmVPFActiveScreens.vb</DependentUpon>
-    </Compile>
-    <Compile Include="VPF\FrmVPFActiveScreens.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="VPF\FrmVPFSettings.Designer.vb">
-      <DependentUpon>FrmVPFSettings.vb</DependentUpon>
-    </Compile>
-    <Compile Include="VPF\FrmVPFSettings.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Web References\BSWS\Reference.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -8584,24 +8548,6 @@
     <EmbeddedResource Include="Utilities\Reports\frmUserPerformanceDetail.resx">
       <DependentUpon>frmUserPerformanceDetail.vb</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VPF\FrmAPCycle.resx">
-      <DependentUpon>FrmAPCycle.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VPF\FrmModuleCycle.resx">
-      <DependentUpon>FrmModuleCycle.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VPF\FrmMCCProcurementCycle.resx">
-      <DependentUpon>FrmMCCProcurementCycle.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VPF\FrmPurchaseCycle.resx">
-      <DependentUpon>FrmPurchaseCycle.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VPF\FrmVPFActiveScreens.resx">
-      <DependentUpon>FrmVPFActiveScreens.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="VPF\FrmVPFSettings.resx">
-      <DependentUpon>FrmVPFSettings.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

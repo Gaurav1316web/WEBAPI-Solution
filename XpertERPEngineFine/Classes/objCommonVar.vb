@@ -140,7 +140,14 @@ Public Class objCommonVar
     Private Shared _StopInventory As Boolean = False
     Private Shared _StopInventoryNew As Boolean = False
 #End Region
+    Public Shared Property RCDFDB() As String
+        Get
+            Return "RCDF.dbo."
+        End Get
+        Set(ByVal Value As String)
 
+        End Set
+    End Property
     Public Shared Property StopJournalEntry() As Boolean
         Get
             Return _StopJournalEntry

@@ -1144,8 +1144,6 @@ Public Class frmVSP_VLCMaster
                 StrVdrNo = clsERPFuncationality.GetNextCode(trans, clsCommon.GETSERVERDATE(trans), clsDocType.PTMMASTER, "", "")
                 clsCommon.AddColumnsForChange(coll, "Vendor_Code", StrVdrNo)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Insert, "", trans)
-            Else
-                StrVdrNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Code from TSPL_VENDOR_MASTER Inner Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code where TSPL_VENDOR_MASTER.Vendor_Name ='" + StrTempVSPName + "' and TSPL_VENDOR_MASTER.form_type='VSP' And TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(txtVLCCodeVlcUploader.Text) + "'", trans))
             End If
             ''end of Primary Transporter Master
 
@@ -3481,20 +3479,20 @@ Public Class frmVSP_VLCMaster
                 Errorcontrol.ResetError(fndgroupcode)
             End If
 
-            If clsCommon.myLen(txtAdd1.Text) <= 0 AndAlso clsCommon.myLen(txtAdd2.Text) <= 0 AndAlso clsCommon.myLen(txtAdd3.Text) <= 0 Then
-                myMessages.blankValue("Please Fill Address")
-                pageCus.SelectedPage = RadPageViewPage5
-                txtAdd1.Focus()
-                txtAdd1.Select()
-                Errorcontrol.SetError(txtAdd1, "Please Fill Address")
-                Errorcontrol.SetError(txtAdd2, "Please Fill Address")
-                Errorcontrol.SetError(txtAdd3, "Please Fill Address")
-                Return
-            Else
-                Errorcontrol.ResetError(txtAdd1)
-                Errorcontrol.ResetError(txtAdd2)
-                Errorcontrol.ResetError(txtAdd3)
-            End If
+            'If clsCommon.myLen(txtAdd1.Text) <= 0 AndAlso clsCommon.myLen(txtAdd2.Text) <= 0 AndAlso clsCommon.myLen(txtAdd3.Text) <= 0 Then
+            '    myMessages.blankValue("Please Fill Address")
+            '    pageCus.SelectedPage = RadPageViewPage5
+            '    txtAdd1.Focus()
+            '    txtAdd1.Select()
+            '    Errorcontrol.SetError(txtAdd1, "Please Fill Address")
+            '    Errorcontrol.SetError(txtAdd2, "Please Fill Address")
+            '    Errorcontrol.SetError(txtAdd3, "Please Fill Address")
+            '    Return
+            'Else
+            '    Errorcontrol.ResetError(txtAdd1)
+            '    Errorcontrol.ResetError(txtAdd2)
+            '    Errorcontrol.ResetError(txtAdd3)
+            'End If
 
             If clsCommon.myLen(txtcountrycode) <= 0 Then
                 clsCommon.MyMessageBoxShow("Please Select Country", Me.Text)

@@ -1648,63 +1648,67 @@ group by TSPL_DEDUCTION_MASTER.Description order by  TSPL_DEDUCTION_MASTER.Descr
 
 
             Dim strHeadLoadColumnName As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.HeadLoadDescriptionInPaymentProcessPrint, clsFixedParameterCode.HeadLoadDescriptionInPaymentProcessPrint, Nothing))
-            sQuery = " select Description, sum (Amount) as Amount from (
-select Doc_No, Description,Code, sum (Amount) as Amount from ( 
-select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,TSPL_DEDUCTION_MASTER.Description,TSPL_DEDUCTION_MASTER.Code,sum(TSPL_VENDOR_INVOICE_DETAIL.Amount) as Amount 
+            sQuery = "  select 
+ Description, 
+ sum (Amount) as Amount from (
+select Doc_No, Description,Sequence_No,Code, sum (Amount) as Amount from ( 
+select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,TSPL_DEDUCTION_MASTER.Description,TSPL_DEDUCTION_MASTER.Sequence_No,TSPL_DEDUCTION_MASTER.Code,sum(TSPL_VENDOR_INVOICE_DETAIL.Amount) as Amount 
 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
 left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
-left outer join (  select code, Description  from TSPL_DCS_ADDITION_DEDUCTION --where len(isnull(MappingCode,''))<=0
+left outer join (  select code, 0 as Sequence_No,Description  from TSPL_DCS_ADDITION_DEDUCTION --where len(isnull(MappingCode,''))<=0
 union 
-select  Code , Description from TSPL_DEDUCTION_MASTER
+select  Code , Sequence_No,Description from TSPL_DEDUCTION_MASTER
 union 
-select 'DCS-LYT'  Code ,'Loyalty' as  Description 
+select 'DCS-LYT'  Code ,0 as Sequence_No,'Loyalty' as  Description 
 union 
-select 'DCS-QAT'  Code ,'QAP' as  Description 
+select 'DCS-QAT'  Code ,0 as Sequence_No,'QAP' as  Description 
 )  TSPL_DEDUCTION_MASTER on (TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_HEAD.RefDocType)
 where TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ") and len(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE) > 0
-group by TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code
+group by TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code, Sequence_No
 Union
-SELECT TT.Doc_No,coalesce (mapping.mmDescription, TT.Description) , coalesce (mapping.mmCode, TT.Code) AS Code,TT.Amount
+SELECT TT.Doc_No,coalesce (mapping.mmDescription, TT.Description) ,0 as sequence_no, coalesce (mapping.mmCode, TT.Code) AS Code,TT.Amount
 FROM (
 select TSPL_PAYMENT_PROCESS_SAVING.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code,sum(TSPL_VENDOR_INVOICE_DETAIL.Amount) as Amount from TSPL_PAYMENT_PROCESS_SAVING
 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_SAVING.AP_Invoice_No
-left outer join ( select Code, Description  from TSPL_DCS_ADDITION_DEDUCTION 
+left outer join ( select Code, 0 as Sequence_No,Description  from TSPL_DCS_ADDITION_DEDUCTION 
 union 
-select  Code , Description  from TSPL_DEDUCTION_MASTER
+select  Code ,Sequence_No ,Description  from TSPL_DEDUCTION_MASTER
 )  TSPL_DEDUCTION_MASTER on (TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
 where TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ")
-group by TSPL_PAYMENT_PROCESS_SAVING.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code
+group by TSPL_PAYMENT_PROCESS_SAVING.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code,TSPL_DEDUCTION_MASTER.Sequence_No 
 )TT
 left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
 left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.MappingCode
 WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code
 Union
-SELECT TT.Doc_No,coalesce (mapping.mmDescription, TT.Description) , coalesce (mapping.mmCode, TT.Code) AS Code,TT.Amount
+SELECT TT.Doc_No,coalesce (mapping.mmDescription, TT.Description) ,0 as Sequence_No, coalesce (mapping.mmCode, TT.Code) AS Code,TT.Amount
 FROM (
 select TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code
 ,sum(TSPL_VENDOR_INVOICE_DETAIL.Amount) as Amount from TSPL_PAYMENT_PROCESS_COMPULSORY
 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No
-                    left outer join ( select Code, Description  from TSPL_DCS_ADDITION_DEDUCTION 
+                    left outer join ( select Code, 0 as Sequence_No,Description  from TSPL_DCS_ADDITION_DEDUCTION 
                     union 
-                    select  Code , Description  from TSPL_DEDUCTION_MASTER
+                    select  Code ,Sequence_No, Description  from TSPL_DEDUCTION_MASTER
                     )  TSPL_DEDUCTION_MASTER on (TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
 where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ")
-group by TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code
+group by TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code ,TSPL_DEDUCTION_MASTER.Sequence_No
 )TT left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
                      left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION
                      on  DEDUCTION.Code=MAPPING.MappingCode
                      WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code
-                     ) Final group by  Doc_No, Description ,Code
+                     ) Final group by  Doc_No, Description ,Code,Sequence_No
 UNION ALL
 
  
 select 
-TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,'" + strHeadLoadColumnName + "' as Description,'' AS Code,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount as Amount from 
+TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,'" + strHeadLoadColumnName + "' as Description,0 as Sequence_No,'' AS Code,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount as Amount from 
 TSPL_PAYMENT_PROCESS_DETAIL INNER JOIN
 TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
 where Document_Type='C' and RefDocType='Milk_HE'  and TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + "))DD
-group by Description "
+group by code,Sequence_No,Description order by  Sequence_No,code asc 
+
+"
 
             dtCredit = clsDBFuncationality.GetDataTable(sQuery)
 
@@ -2038,7 +2042,7 @@ left join  (select max(created_date) as created_date, VLC_Code, VSP_CODE,sum(Tot
           left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO   
           left outer join (select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE , TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No as BillNo , convert(varchar,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103) as BillDate, TSPL_PAYMENT_PROCESS_DETAIL.SNo as BILLSRL, TSPL_PAYMENT_PROCESS_DETAIL.Doc_No, TSPL_PAYMENT_PROCESS_DETAIL. is_Hold_Payment_Process, TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in ( " + strDocNo + " ) ) as TBL_BILL_DETAILS on TBL_BILL_DETAILS.VSP_CODE =
           TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code
-          LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No
+          LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=(case when TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No is not null then TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No else TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No end)
           left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
           left outer join (select VSP_Code,max(Item_Desc) as Item_Desc, sum([Amount]) as [Amount] from (
 			 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME,TSPL_DCS_ADDITION_DEDUCTION.Description as Item_Desc,(TSPL_VENDOR_INVOICE_HEAD.Document_Total) as [Amount]  from TSPL_PAYMENT_PROCESS_SAVING 

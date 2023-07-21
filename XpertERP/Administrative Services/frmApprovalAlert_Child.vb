@@ -59,19 +59,24 @@ Public Class FrmApprovalAlert_Child
         LinkLabel2.Visible = False
         LinkLabel1.Visible = True
         btnSave.Enabled = True
+
         'Show Print button only on DBT NEFT Uploader screen'
-        If ScreenCode = "DBT-NEFT-UPL" Then
+        If clsCommon.CompairString(ScreenCode, clsUserMgtCode.DBTNEFTUploader) = CompairStringResult.Equal Then
             btnPrint.Visible = True
+            UcAttachment1.Form_ID = ScreenCode
+            UcAttachment1.MandatoryPDFFile = True
+            UcAttachment1.BlankAllControls()
         Else
+            RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Collapsed
             btnPrint.Visible = False
         End If
         If clsCommon.myLen(ScreenCode) > 0 AndAlso clsCommon.myLen(DocumentCode) > 0 Then
-                Auto_Post = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select distinct Auto_Post from TSPL_APPROVAL_LEVEL_SCREEN where trans_code='" + ScreenCode + "'"))
-                If Auto_Post Then
-                    btnPost.Visible = False
-                End If
-                LoadData(ScreenCode, DocumentCode)
+            Auto_Post = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select distinct Auto_Post from TSPL_APPROVAL_LEVEL_SCREEN where trans_code='" + ScreenCode + "'"))
+            If Auto_Post Then
+                btnPost.Visible = False
             End If
+            LoadData(ScreenCode, DocumentCode)
+        End If
     End Sub
 
     Private Sub LoadCombobox()
@@ -127,6 +132,10 @@ Public Class FrmApprovalAlert_Child
                     txtRmks.Enabled = True
                     btnPost.Enabled = True
                     btnSave.Enabled = True
+                End If
+
+                If clsCommon.CompairString(ScreenCode, clsUserMgtCode.DBTNEFTUploader) = CompairStringResult.Equal Then
+                    UcAttachment1.LoadData(txtDoc_Code.Text)
                 End If
             Else
                 FunReset()
@@ -376,6 +385,8 @@ Public Class FrmApprovalAlert_Child
             End If
 
             If (((clsCommon.CompairString(ScreenCode, "PO-REQ") = CompairStringResult.Equal) Or (clsCommon.CompairString(ScreenCode, "PO-ODR") = CompairStringResult.Equal)) AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal AndAlso clsCommon.myCstr(cboApproval.SelectedValue) <> "Rejected") OrElse (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal) Then
+            ElseIf (clsCommon.CompairString(ScreenCode, clsUserMgtCode.DBTNEFTUploader) = CompairStringResult.Equal) Then
+                UcAttachment1.AllowToSave()
             Else
                 If clsCommon.myLen(txtRmks.Text) <= 0 Then
                     txtRmks.Focus()
@@ -386,7 +397,6 @@ Public Class FrmApprovalAlert_Child
 
 
             obj = New clsApprovalAlert_Child()
-
             obj.Approval_Remark = clsCommon.myCstr(txtRmks.Text)
             obj.Auto_Post = Auto_Post
             obj.Document_Code = clsCommon.myCstr(txtDoc_Code.Text)
@@ -400,10 +410,10 @@ Public Class FrmApprovalAlert_Child
             obj.Status = clsCommon.myCstr(cboApproval.SelectedValue)
             obj.Trans_Code = ScreenCode
             obj.User_Code = clsCommon.myCstr(objCommonVar.CurrentUserCode)
-
+            UcAttachment1.SaveData(obj.Document_Code, True, Nothing)
             If clsApprovalAlert_Child.UpdateData(obj) Then
-                clsCommon.MyMessageBoxShow("Data updated successfully.")
 
+                clsCommon.MyMessageBoxShow("Data updated successfully.")
                 Me.Close()
             End If
         Catch ex As Exception
@@ -502,8 +512,7 @@ Public Class FrmApprovalAlert_Child
         End Try
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
-        Dim str As String = txtDoc_Code.Text
-        frmDBTNEFTUploader.funPrintBankLetter(str)
-
+        Dim objP As New clsDBTNEFT()
+        objP.funPrintBankLetter(txtDoc_Code.Text, False)
     End Sub
 End Class

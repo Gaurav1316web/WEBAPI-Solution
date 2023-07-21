@@ -204,6 +204,18 @@
     <Compile Include="Reports\ProductionReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Reports\rptPerformanceReport.Designer.vb">
+      <DependentUpon>rptPerformanceReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptPerformanceReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reports\rptSalesReport.Designer.vb">
+      <DependentUpon>rptSalesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\rptSalesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmStanderdProductionEntry.designer.vb">
       <DependentUpon>frmStanderdProductionEntry.vb</DependentUpon>
     </Compile>
@@ -360,6 +372,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\ProductionReport.resx">
       <DependentUpon>ProductionReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptPerformanceReport.resx">
+      <DependentUpon>rptPerformanceReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\rptSalesReport.resx">
+      <DependentUpon>rptSalesReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmStanderdProductionEntry.resx">
       <DependentUpon>frmStanderdProductionEntry.vb</DependentUpon>
