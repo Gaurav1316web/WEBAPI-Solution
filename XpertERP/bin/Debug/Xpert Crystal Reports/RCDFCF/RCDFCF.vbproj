@@ -763,6 +763,7 @@
     <None Include="Crystal Reports GST\Sales Report\crptDailySettlementDetail.rpt" />
     <None Include="Crystal Reports GST\Sales Report\crptDailySettlementSummary.rpt" />
     <None Include="Crystal Reports GST\Sales Report\crptDayReportDirectSale.rpt" />
+    <None Include="Crystal Reports GST\Sales Report\crptDispatchInvoiceDetails.rpt" />
     <None Include="Crystal Reports GST\Sales Report\crptDCSGatePassSummary.rpt" />
     <None Include="Crystal Reports GST\Sales Report\crptEmptyInwardRegister.rpt" />
     <None Include="Crystal Reports GST\Sales Report\crptER1 - Copy.rpt" />
