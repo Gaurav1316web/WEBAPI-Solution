@@ -491,8 +491,8 @@ Public Class clsMPIncentiveEntryDetail
                         clsCommon.AddColumnsForChange(coll, "Cycle_No", 1)
                     Else
                         qry = "select TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE from TSPL_MCC_MASTER 
-left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle
-where MCC_Code='" + strMCCCode + "'"
+                                left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle
+                                where MCC_Code='" + strMCCCode + "'"
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                             Throw New Exception("Please set Payment Cycle of MCC [" + strMCCCode + "]")
