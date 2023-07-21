@@ -691,6 +691,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FATSNFGainLoss, "FAT/SNF Gain Loss", "1.07.03.41", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptProductReceivingReport, "Product Receiving Report", "1.07.03.42", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerWiseStockReco, "Customer Wise Stock Reco", "1.07.03.43", clsUserMgtCode.SubModuleMaterialReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptPerformanceReport, "Performance Report", "1.07.03.44", clsUserMgtCode.SubModuleMaterialReport, 37)
+        'InsertDefaultValue(clsUserMgtCode.rptStockReport, " Stocks Report", "1.07.03.45", clsUserMgtCode.SubModuleMaterialReport, 37)
         '
         '--------------Purchase----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModulePurchase, "Purchase", "1.08", clsUserMgtCode.ExpertERP, "M", 23)
