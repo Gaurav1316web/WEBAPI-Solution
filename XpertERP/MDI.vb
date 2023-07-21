@@ -4269,6 +4269,13 @@ Public Class MDI
                     Case clsUserMgtCode.rptCustomerWiseStockReco
                         frm = New rptCustomerWiseStockReco()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptPerformanceReport
+                        frm = New rptPerformanceReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    Case clsUserMgtCode.rptStockReport
+                        frm = New rptStockReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.stockRecoNewJR
                         frm = New FrmStockReco(strProgramCode)
