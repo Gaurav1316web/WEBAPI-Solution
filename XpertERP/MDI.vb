@@ -4273,9 +4273,9 @@ Public Class MDI
                         frm = New rptPerformanceReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-                    Case clsUserMgtCode.rptStockReport
-                        frm = New rptStockReport()
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.rptStockReport
+                    '    frm = New rptStockReport()
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.stockRecoNewJR
                         frm = New FrmStockReco(strProgramCode)

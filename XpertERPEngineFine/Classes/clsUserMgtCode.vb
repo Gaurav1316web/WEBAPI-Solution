@@ -1113,7 +1113,7 @@ Public Class clsUserMgtCode
     Public Const RptItemSalePurchaseSet As String = "ITM-PUR-SAL"
     Public Const rptCustomerWiseStockReco As String = "CUST-REC-RPT"
     Public Const rptPerformanceReport As String = "PERF-RPT"
-    Public Const rptStockReport As String = "STOCK-RPT"
+    'Public Const rptStockReport As String = "STOCK-RPT"
     ''-----------------------------------------------------Purchase----------------------------------------------------------------------
     '-------------------Setup--------------------------
     Public Const frmPurchaseSetting As String = "PUR-SETT"
