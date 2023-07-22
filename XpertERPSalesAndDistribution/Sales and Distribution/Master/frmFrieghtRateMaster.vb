@@ -282,7 +282,7 @@ Public Class frmFrieghtRateMaster
                         End If
                         gv1.CurrentRow.Cells(colZoneCode).Value = ClsZoneMaster.getFinder(whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colZoneCode).Value), False)
                     ElseIf e.Column Is gv1.Columns(colUOMCode) Then
-                        gv1.CurrentRow.Cells(colUOMCode).Value = clsUnitMaster.getUnitFinder("", clsCommon.myCstr(gv1.CurrentRow.Cells(colUOMCode).Value), False)
+                        gv1.CurrentRow.Cells(colUOMCode).Value = clsUnitMaster.getUnitFinder(" Unit_code in('Qtl')", clsCommon.myCstr(gv1.CurrentRow.Cells(colUOMCode).Value), False)
                     End If
                 End If
                 isCellValueChangedOpen = False
