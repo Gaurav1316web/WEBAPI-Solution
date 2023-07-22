@@ -1498,6 +1498,7 @@ Public Class clsMilkRejectDetail
     Public dclFATSNFDeductionMixMilkSNFMinValue As Decimal = 7.0 ''Not a TableColumn
     Public dclFATSNFDeductionMixMilkSNFMaxValue As Decimal = 7.2 ''Not a TableColumn
     Public dclFATSNFDeductionMixMilkDeductionPer As Decimal = 20 ''Not a TableColumn
+    Public Against_Shift_Uploader_TR_No As String
 
 #End Region
 
@@ -1533,6 +1534,7 @@ Public Class clsMilkRejectDetail
                 clsCommon.AddColumnsForChange(coll, "Is_Return", obj.Is_Return)
                 clsCommon.AddColumnsForChange(coll, "SNF_Deduction_Per", obj.SNF_Deduction_Per)
                 clsCommon.AddColumnsForChange(coll, "FAT_Deduction_Per", obj.FAT_Deduction_Per)
+                clsCommon.AddColumnsForChange(coll, "Against_Shift_Uploader_TR_No", obj.Against_Shift_Uploader_TR_No, True)
                 If settAlwaysVSPDefaulter Then
                     If clsCommon.myLen(obj.Defaulter) <= 0 Then
                         obj.Defaulter = "VSP"

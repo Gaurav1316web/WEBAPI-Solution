@@ -23,11 +23,11 @@ Partial Class FrmApprovalAlert_Child
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmApprovalAlert_Child))
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
@@ -67,6 +67,8 @@ Partial Class FrmApprovalAlert_Child
         Me.cboApproval = New common.Controls.MyComboBox()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv = New common.UserControls.MyRadGridView()
+        Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
@@ -76,8 +78,6 @@ Partial Class FrmApprovalAlert_Child
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.gv1 = New Telerik.WinControls.UI.MasterGridViewTemplate()
-        Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -121,13 +121,13 @@ Partial Class FrmApprovalAlert_Child
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Attachments.SuspendLayout()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Attachments.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -523,7 +523,7 @@ Partial Class FrmApprovalAlert_Child
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.Attachments
         Me.RadPageView1.Size = New System.Drawing.Size(728, 153)
         Me.RadPageView1.TabIndex = 46
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -601,12 +601,12 @@ Partial Class FrmApprovalAlert_Child
         Me.cboApproval.IsSourceFromTable = False
         Me.cboApproval.IsSourceFromValueList = False
         Me.cboApproval.IsUnique = False
-        RadListDataItem4.Text = "Level1"
-        RadListDataItem5.Text = "Level2"
-        RadListDataItem6.Text = "Level3"
-        Me.cboApproval.Items.Add(RadListDataItem4)
-        Me.cboApproval.Items.Add(RadListDataItem5)
-        Me.cboApproval.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Level1"
+        RadListDataItem2.Text = "Level2"
+        RadListDataItem3.Text = "Level3"
+        Me.cboApproval.Items.Add(RadListDataItem1)
+        Me.cboApproval.Items.Add(RadListDataItem2)
+        Me.cboApproval.Items.Add(RadListDataItem3)
         Me.cboApproval.Location = New System.Drawing.Point(116, 15)
         Me.cboApproval.MendatroryField = True
         Me.cboApproval.MyLinkLable1 = Me.MyLabel22
@@ -643,7 +643,7 @@ Partial Class FrmApprovalAlert_Child
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -651,6 +651,24 @@ Partial Class FrmApprovalAlert_Child
         Me.gv.Size = New System.Drawing.Size(707, 105)
         Me.gv.TabIndex = 0
         Me.gv.TabStop = False
+        '
+        'Attachments
+        '
+        Me.Attachments.Controls.Add(Me.UcAttachment1)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
+        Me.Attachments.Location = New System.Drawing.Point(10, 37)
+        Me.Attachments.Name = "Attachments"
+        Me.Attachments.Size = New System.Drawing.Size(707, 105)
+        Me.Attachments.Text = "Attachment"
+        '
+        'UcAttachment1
+        '
+        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
+        Me.UcAttachment1.Name = "UcAttachment1"
+        Me.UcAttachment1.Size = New System.Drawing.Size(707, 105)
+        Me.UcAttachment1.TabIndex = 2
+        Me.UcAttachment1.TabStop = False
         '
         'btnClose
         '
@@ -725,25 +743,7 @@ Partial Class FrmApprovalAlert_Child
         Me.gv1.AllowAddNewRow = False
         Me.gv1.AllowDeleteRow = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.ViewDefinition = TableViewDefinition4
-        '
-        'Attachments
-        '
-        Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
-        Me.Attachments.Location = New System.Drawing.Point(10, 37)
-        Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(707, 105)
-        Me.Attachments.Text = "Attachment"
-        '
-        'UcAttachment1
-        '
-        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
-        Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(707, 105)
-        Me.UcAttachment1.TabIndex = 2
-        Me.UcAttachment1.TabStop = False
+        Me.gv1.ViewDefinition = TableViewDefinition2
         '
         'FrmApprovalAlert_Child
         '
@@ -806,13 +806,13 @@ Partial Class FrmApprovalAlert_Child
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Attachments.ResumeLayout(False)
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Attachments.ResumeLayout(False)
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
