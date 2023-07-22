@@ -1391,6 +1391,7 @@
     <None Include="Crystal Reports\PRODUCTION\ProductionIssue.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionRequisition.rpt" />
     <None Include="Crystal Reports\PRODUCTION\ProductionReturn.rpt" />
+    <None Include="Crystal Reports\PRODUCTION\rptPerformanceReport.rpt" />
     <None Include="Crystal Reports\PRODUCTION\rptProductionReport.rpt" />
     <None Include="Crystal Reports\PRODUCTION\rptSalesReport.rpt" />
     <None Include="Crystal Reports\Purchase Order\ConsumptionReport.rpt" />
