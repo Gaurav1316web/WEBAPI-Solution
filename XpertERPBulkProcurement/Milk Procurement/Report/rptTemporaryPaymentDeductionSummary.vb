@@ -565,8 +565,8 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                 Else
                     subNewQry = "Select "
                 End If
-                qry = subNewQry + "  row_number() over(order by(select 1)) as SNo " + subDCSQry + ",Max(Ded_code+'-'+Ded_Desc) as DeductionName ,case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
-                       , sum(Amount * RI) as [Amount] from (
+                qry = subNewQry + " case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
+                       ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount * RI) as [Amount] from (
                         select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
                         ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
