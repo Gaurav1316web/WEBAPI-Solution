@@ -22,13 +22,6 @@ Public Class clsSRNHead
     Public isreadytopost As String = Nothing
     Public PROJECT_ID As String = Nothing
     Public SRN_No As String = Nothing
-
-    Public Tender_No As String = Nothing
-    Public Weighment_Code As String = Nothing
-    Public Weighment_Date As Date? = Nothing
-    Public MRN_No As String = Nothing
-    Public MRN_Date As Date? = Nothing
-
     Public SRN_Date As DateTime
     Public Vendor_Code As String = Nothing
     Public Vendor_Name As String = Nothing
@@ -102,7 +95,6 @@ Public Class clsSRNHead
     Public Carrier As String = Nothing
     Public VehicleNo As String = Nothing
     Public GRNo As String = Nothing
-    Public GRDate As Date? = Nothing
     Public GENo As String = Nothing
     Public GEDate As Date? = Nothing
     Public RMDA_No As String = Nothing
@@ -168,9 +160,6 @@ Public Class clsSRNHead
     Public ApplicableFrom As Date? = Nothing
     Public IsAbatementPO As Integer = 0
     Public is_Srn_rejQty_goes_in_Rejstore As Boolean = False
-
-    Public GRN_Date As Date? = Nothing
-
     '===========================Rohit====================
     Public MRN_ID As String = Nothing
     '=============================
@@ -623,17 +612,13 @@ Public Class clsSRNHead
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction, Optional ByVal IsMerchantTrade As String = "") As clsSRNHead
         ' Dim obj As clsSRNHead = Nothing
         Dim obj As New clsSRNHead
-        Dim qry As String = "SELECT TSPL_GRN_HEAD.GRN_Date,TSPL_SRN_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, " &
-        " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName  ,TSPL_MRN_HEAD.MRN_No as[MRN_No],TSPL_MRN_HEAD.MRN_Date as[MRN_Date],TSPL_GRN_HEAD.Ref_No as [Tender_No],TSPL_GRN_HEAD.GRN_No as[GRN_no],TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as[Weighment_Code],TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as [Weighment_Date]" &
+        Dim qry As String = "SELECT TSPL_SRN_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, " &
+        " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName " &
         " FROM TSPL_SRN_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_HEAD.Bill_To_Location " &
         " left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_SubLocation  on TSPL_LOCATION_MASTER_SubLocation.Location_Code=TSPL_SRN_HEAD.Sublocation_Code " &
         " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SRN_HEAD.Ship_To_Location " &
         " left outer join  TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code= TSPL_SRN_HEAD.Tax_Group " &
-        " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SRN_HEAD.Terms_Code 
-          left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN
-         left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_SRN_HEAD.Against_MRN
-         left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No
-         where 2=2"
+        " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_SRN_HEAD.Terms_Code where 2=2"
         Dim whrCls As String = ""
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrCls = " AND Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
@@ -669,14 +654,6 @@ Public Class clsSRNHead
             obj.Against_QC_Code = clsCommon.myCstr(dt.Rows(0)("Against_QC_Code"))
             obj.Against_QC_Date = clsCommon.myCstr(dt.Rows(0)("Against_QC_Date"))
             '-------------------------------------------------------------------------
-
-            obj.Tender_No = clsCommon.myCstr(dt.Rows(0)("Tender_No"))
-            obj.Weighment_Code = clsCommon.myCstr(dt.Rows(0)("Weighment_Code"))
-            obj.Weighment_Date = clsCommon.myCDate(dt.Rows(0)("Weighment_Date"))
-            obj.MRN_No = clsCommon.myCstr(dt.Rows(0)("MRN_No"))
-            obj.MRN_Date = clsCommon.myCDate(dt.Rows(0)("MRN_Date"))
-
-
             obj.RGP_Type = clsCommon.myCstr(dt.Rows(0)("RGP_Type"))
             obj.SRN_No = clsCommon.myCstr(dt.Rows(0)("SRN_No"))
             obj.SRN_Date = clsCommon.myCDate(dt.Rows(0)("SRN_Date"))
@@ -757,7 +734,6 @@ Public Class clsSRNHead
             obj.Carrier = clsCommon.myCstr(dt.Rows(0)("Carrier"))
             obj.VehicleNo = clsCommon.myCstr(dt.Rows(0)("VehicleNo"))
             obj.GRNo = clsCommon.myCstr(dt.Rows(0)("GRNo"))
-            obj.GRDate = clsCommon.myCDate(dt.Rows(0)("GRN_Date"))
             obj.GENo = clsCommon.myCstr(dt.Rows(0)("GENo"))
             If dt.Rows(0)("GEDate") IsNot DBNull.Value Then
                 obj.GEDate = clsCommon.myCDate(dt.Rows(0)("GEDate"))
@@ -867,10 +843,7 @@ Public Class clsSRNHead
             obj.Total_Add_Charge_Insurance = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge_Insurance"))
             obj.Total_Item_Insurance_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Item_Insurance_Amt"))
 
-            qry = "SELECT TSPL_SRN_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc as LocationName ,Weighment_Code,Weighment_Date,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_HEAD.GRN_No,TSPL_GRN_HEAD.GRN_Date,TSPL_mrn_head.MRN_Date,TSPL_SRN_HEAD.Against_MRN FROM TSPL_SRN_DETAIL left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_DETAIL.Location  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No
-left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN
-left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No
-left outer join TSPL_mrn_head on TSPL_mrn_head.MRN_No=TSPL_SRN_HEAD.Against_MRN where TSPL_SRN_DETAIL.SRN_No='" + obj.SRN_No + "' ORDER BY TSPL_SRN_DETAIL.Line_No"
+            qry = "SELECT TSPL_SRN_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc as LocationName FROM TSPL_SRN_DETAIL left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_DETAIL.Location where TSPL_SRN_DETAIL.SRN_No='" + obj.SRN_No + "' ORDER BY TSPL_SRN_DETAIL.Line_No"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -883,14 +856,6 @@ left outer join TSPL_mrn_head on TSPL_mrn_head.MRN_No=TSPL_SRN_HEAD.Against_MRN 
                     objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
                     objTr.Status = Convert.ToInt32(clsCommon.myCdbl(dr("Status")))
                     objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
-
-                    objTr.Ref_No = clsCommon.myCstr(dr("Ref_No"))
-                    objTr.Weighment_Code = clsCommon.myCstr(dr("Weighment_Code"))
-                    objTr.Weighment_Date = clsCommon.GetPrintDate(dr("Weighment_Date"))
-                    objTr.Against_MRN = clsCommon.myCstr(clsCommon.myCstr(dr("Against_MRN")))
-                    objTr.MRN_Date = clsCommon.GetPrintDate(dr("MRN_Date"))
-
-
                     objTr.UOMWeight = clsCommon.myCstr(dr("UOM_WEIGHT"))
                     objTr.UOMWeightValue = clsCommon.myCdbl(dr("UOM_WEIGHT_VALUE"))
                     objTr.Item_Desc = clsCommon.myCstr(dr("Item_Desc"))
@@ -900,9 +865,6 @@ left outer join TSPL_mrn_head on TSPL_mrn_head.MRN_No=TSPL_SRN_HEAD.Against_MRN 
                     objTr.Short_Qty = clsCommon.myCdbl(dr("Short_Qty"))
                     objTr.Rejected_Qty = clsCommon.myCdbl(dr("Rejected_Qty"))
                     objTr.Freeqty = clsCommon.myCdbl(dr("Free_Qty"))
-
-                    objTr.GRN_Date = clsCommon.GetPrintDate(dr("GRN_Date"))
-
                     objTr.MRN_Id = clsCommon.myCstr(dr("MRN_Id"))
                     objTr.GRN_ID = clsCommon.myCstr(dr("GRN_ID"))
                     objTr.RGP_Id = clsCommon.myCstr(dr("RGP_Id"))
@@ -2903,15 +2865,7 @@ Public Class clsSRNDetail
     Public Burst_Qty As Double = 0
     Public Short_Qty As Double = 0
     Public Rejected_Qty As Double = 0
-
-    Public Ref_No As String = Nothing
-    Public Weighment_Code As String = Nothing
-    Public Weighment_Date As Date? = Nothing
-    Public Against_MRN As String = Nothing
-    Public MRN_Date As Date? = Nothing
-
     Public Freeqty As Double = 0
-    Public GRN_Date As Date? = Nothing
     Public MRN_Id As String = Nothing
     Public GRN_ID As String = Nothing
     Public UOMWeightValue As Double = 0
@@ -3089,14 +3043,7 @@ Public Class clsSRNDetail
                 clsCommon.AddColumnsForChange(coll, "Leak_Qty", obj.Leak_Qty)
                 clsCommon.AddColumnsForChange(coll, "Burst_Qty", obj.Burst_Qty)
                 clsCommon.AddColumnsForChange(coll, "Short_Qty", obj.Short_Qty)
-                clsCommon.AddColumnsForChange(coll, "MRN_Date", obj.MRN_Date)
-
-                clsCommon.AddColumnsForChange(coll, "Tender_No", obj.Ref_No)
-                clsCommon.AddColumnsForChange(coll, "Weighment_Code", obj.Weighment_Code)
-                clsCommon.AddColumnsForChange(coll, "Weighment_Date", obj.Weighment_Date)
-                clsCommon.AddColumnsForChange(coll, "MRN_No", obj.Against_MRN)
-                clsCommon.AddColumnsForChange(coll, "MRN_Date", obj.MRN_Date)
-
+                clsCommon.AddColumnsForChange(coll, "Rejected_Qty", obj.Rejected_Qty)
                 clsCommon.AddColumnsForChange(coll, "Free_qty", obj.Freeqty)
                 clsCommon.AddColumnsForChange(coll, "UOM_WEIGHT", obj.UOMWeight)
                 clsCommon.AddColumnsForChange(coll, "UOM_WEIGHT_VALUE", obj.UOMWeightValue)
@@ -3105,8 +3052,6 @@ Public Class clsSRNDetail
                 clsCommon.AddColumnsForChange(coll, "Capex_SubCode", obj.Capex_SubCode, True)
                 clsCommon.AddColumnsForChange(coll, "Category", obj.Category, True)
                 clsCommon.AddColumnsForChange(coll, "Emergency", IIf(obj.Emergency, 1, 0))
-
-                clsCommon.AddColumnsForChange(coll, "GRN_Date", obj.GRN_Date)
 
                 clsCommon.AddColumnsForChange(coll, "MRN_Id", obj.MRN_Id, True)
 
