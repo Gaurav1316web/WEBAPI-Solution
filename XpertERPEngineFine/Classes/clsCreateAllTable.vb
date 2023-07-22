@@ -23516,6 +23516,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Failed_Sample_Approve_Date", "datetime null")
             coll.Add("Purchase_Order_No", "Varchar(30) null")
             coll.Add("Capping_Apply", "integer null")
+            coll.Add("Retesting", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD", coll, "UNIQUE ( MILK_SAMPLE_CODE, SAMPLE_NO,Against_Reject_No)", True, False, "", "DOC_CODE", "DOC_DATE")
             coll.Item("MILK_SAMPLE_CODE") = "VARCHAR(30) NULL "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_HEAD_SYNC", coll, "UNIQUE ( MILK_SAMPLE_CODE, SAMPLE_NO,Against_Reject_No)", False, False)

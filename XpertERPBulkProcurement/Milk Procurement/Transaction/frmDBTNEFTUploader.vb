@@ -20,7 +20,6 @@ Public Class frmDBTNEFTUploader
     Dim dtPerforma As DataTable
     Dim settMaxRowExport As Integer = 0
     Dim SettMCCOneDBTOneDoc As String = ""
-    Public AllowModifcationByApprovalUser As Boolean = False
 #End Region
     Public Sub New()
         InitializeComponent()
@@ -152,18 +151,16 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         gvItem.MasterTemplate.SummaryRowsBottom.Clear()
         UcAttachment1.BlankAllControls()
         UcAttachment2.BlankAllControls()
+        UcAttachment2.isDeleteTheAttachment = True
     End Sub
 
     Private Function AllowToSave() As Boolean
-        'UcAttachment1.AllowToSave()
+        clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocumentNo.Value))
         Return True
     End Function
     Sub SaveData()
         Try
             If AllowToSave() Then
-                If Not AllowModifcationByApprovalUser Then
-                    clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocumentNo.Value))
-                End If
                 Dim obj As New clsDBTNEFT()
                 obj.Document_Code = txtDocumentNo.Value
                 obj.Document_Date = txtdate.Value
@@ -237,7 +234,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
     End Sub
     Private Sub DeleteData()
         Try
-            'clsLockMPPaymentCycle.LockMPTransaction(txtMCC.Value, txtdate.Value)
+            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocumentNo.Value))
             If (deleteConfirm()) Then
                 If (clsDBTNEFT.DeleteData(txtDocumentNo.Value)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
@@ -249,7 +246,6 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
-
         Reset()
         IsinsideLoadData = True
         Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(strCode, NavTyep)
@@ -296,11 +292,13 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 btndelete.Enabled = False
                 btnPost.Enabled = False
                 btnNEFTUploader.Visible = True
+                UcAttachment2.isDeleteTheAttachment = False
             Else
                 btnsave.Text = "Update"
                 btnsave.Enabled = True
                 btndelete.Enabled = True
                 btnPost.Enabled = True
+                UcAttachment2.isDeleteTheAttachment = True
             End If
             UcAttachment1.LoadData(obj.Document_Code)
             UcAttachment2.LoadData(obj.Document_Code)
@@ -688,6 +686,7 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
             Dim msg As String = ""
             Dim dt As DataTable = Nothing
 
+            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocumentNo.Value))
             If (myMessages.postConfirm()) Then
                 UcAttachment2.AllowToSave()
                 UcAttachment2.SaveData(txtDocumentNo.Value)
