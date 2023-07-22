@@ -27,9 +27,12 @@ Partial Class rptPerformanceReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblBillToLocation = New common.Controls.MyLabel()
+        Me.txtBillToLocation = New common.UserControls.txtFinder()
+        Me.rdobtnSRN = New System.Windows.Forms.RadioButton()
+        Me.rdobtnWeighment = New System.Windows.Forms.RadioButton()
         Me.TxtRAL = New common.UserControls.txtMultiSelectFinder()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.TxtMultiLocation = New common.UserControls.txtMultiSelectFinder()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
@@ -51,6 +54,7 @@ Partial Class rptPerformanceReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -102,9 +106,12 @@ Partial Class rptPerformanceReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblBillToLocation)
+        Me.RadPageViewPage1.Controls.Add(Me.txtBillToLocation)
+        Me.RadPageViewPage1.Controls.Add(Me.rdobtnSRN)
+        Me.RadPageViewPage1.Controls.Add(Me.rdobtnWeighment)
         Me.RadPageViewPage1.Controls.Add(Me.TxtRAL)
         Me.RadPageViewPage1.Controls.Add(Me.Label4)
-        Me.RadPageViewPage1.Controls.Add(Me.TxtMultiLocation)
         Me.RadPageViewPage1.Controls.Add(Me.Label3)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
@@ -113,45 +120,92 @@ Partial Class rptPerformanceReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 350)
         Me.RadPageViewPage1.Text = "Filter"
         '
+        'lblBillToLocation
+        '
+        Me.lblBillToLocation.AutoSize = False
+        Me.lblBillToLocation.BorderVisible = True
+        Me.lblBillToLocation.FieldName = Nothing
+        Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBillToLocation.Location = New System.Drawing.Point(180, 33)
+        Me.lblBillToLocation.Name = "lblBillToLocation"
+        Me.lblBillToLocation.Size = New System.Drawing.Size(187, 18)
+        Me.lblBillToLocation.TabIndex = 40
+        Me.lblBillToLocation.TextWrap = False
+        '
+        'txtBillToLocation
+        '
+        Me.txtBillToLocation.CalculationExpression = Nothing
+        Me.txtBillToLocation.FieldCode = Nothing
+        Me.txtBillToLocation.FieldDesc = Nothing
+        Me.txtBillToLocation.FieldMaxLength = 0
+        Me.txtBillToLocation.FieldName = Nothing
+        Me.txtBillToLocation.isCalculatedField = False
+        Me.txtBillToLocation.IsSourceFromTable = False
+        Me.txtBillToLocation.IsSourceFromValueList = False
+        Me.txtBillToLocation.IsUnique = False
+        Me.txtBillToLocation.Location = New System.Drawing.Point(75, 33)
+        Me.txtBillToLocation.MendatroryField = True
+        Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBillToLocation.MyLinkLable1 = Nothing
+        Me.txtBillToLocation.MyLinkLable2 = Nothing
+        Me.txtBillToLocation.MyReadOnly = False
+        Me.txtBillToLocation.MyShowMasterFormButton = False
+        Me.txtBillToLocation.Name = "txtBillToLocation"
+        Me.txtBillToLocation.ReferenceFieldDesc = Nothing
+        Me.txtBillToLocation.ReferenceFieldName = Nothing
+        Me.txtBillToLocation.ReferenceTableName = Nothing
+        Me.txtBillToLocation.Size = New System.Drawing.Size(99, 18)
+        Me.txtBillToLocation.TabIndex = 29
+        Me.txtBillToLocation.Value = ""
+        '
+        'rdobtnSRN
+        '
+        Me.rdobtnSRN.AutoSize = True
+        Me.rdobtnSRN.Location = New System.Drawing.Point(543, 34)
+        Me.rdobtnSRN.Name = "rdobtnSRN"
+        Me.rdobtnSRN.Size = New System.Drawing.Size(46, 17)
+        Me.rdobtnSRN.TabIndex = 28
+        Me.rdobtnSRN.Text = "SRN"
+        Me.rdobtnSRN.UseVisualStyleBackColor = True
+        '
+        'rdobtnWeighment
+        '
+        Me.rdobtnWeighment.AutoSize = True
+        Me.rdobtnWeighment.Checked = True
+        Me.rdobtnWeighment.Location = New System.Drawing.Point(440, 34)
+        Me.rdobtnWeighment.Name = "rdobtnWeighment"
+        Me.rdobtnWeighment.Size = New System.Drawing.Size(85, 17)
+        Me.rdobtnWeighment.TabIndex = 27
+        Me.rdobtnWeighment.TabStop = True
+        Me.rdobtnWeighment.Text = "Weighment"
+        Me.rdobtnWeighment.UseVisualStyleBackColor = True
+        '
         'TxtRAL
         '
         Me.TxtRAL.arrDispalyMember = Nothing
         Me.TxtRAL.arrValueMember = Nothing
-        Me.TxtRAL.Location = New System.Drawing.Point(75, 144)
+        Me.TxtRAL.Location = New System.Drawing.Point(75, 57)
         Me.TxtRAL.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtRAL.MyLinkLable1 = Nothing
         Me.TxtRAL.MyLinkLable2 = Nothing
         Me.TxtRAL.MyNullText = "All"
         Me.TxtRAL.Name = "TxtRAL"
-        Me.TxtRAL.Size = New System.Drawing.Size(292, 19)
+        Me.TxtRAL.Size = New System.Drawing.Size(292, 21)
         Me.TxtRAL.TabIndex = 26
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(18, 144)
+        Me.Label4.Location = New System.Drawing.Point(18, 60)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(26, 13)
         Me.Label4.TabIndex = 25
         Me.Label4.Text = "RAL"
         '
-        'TxtMultiLocation
-        '
-        Me.TxtMultiLocation.arrDispalyMember = Nothing
-        Me.TxtMultiLocation.arrValueMember = Nothing
-        Me.TxtMultiLocation.Location = New System.Drawing.Point(75, 99)
-        Me.TxtMultiLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMultiLocation.MyLinkLable1 = Nothing
-        Me.TxtMultiLocation.MyLinkLable2 = Nothing
-        Me.TxtMultiLocation.MyNullText = "All"
-        Me.TxtMultiLocation.Name = "TxtMultiLocation"
-        Me.TxtMultiLocation.Size = New System.Drawing.Size(292, 19)
-        Me.TxtMultiLocation.TabIndex = 24
-        '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(18, 99)
+        Me.Label3.Location = New System.Drawing.Point(18, 33)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(51, 13)
         Me.Label3.TabIndex = 3
@@ -165,10 +219,11 @@ Partial Class rptPerformanceReport
         Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
         Me.RadGroupBox1.Controls.Add(Me.Label1)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(21, 21)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(411, 297)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(346, 52)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(346, 37)
         Me.RadGroupBox1.TabIndex = 0
+        Me.RadGroupBox1.Visible = False
         '
         'txtToDate
         '
@@ -183,7 +238,7 @@ Partial Class rptPerformanceReport
         Me.txtToDate.IsSourceFromTable = False
         Me.txtToDate.IsSourceFromValueList = False
         Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(238, 16)
+        Me.txtToDate.Location = New System.Drawing.Point(238, 9)
         Me.txtToDate.MendatroryField = False
         Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtToDate.MyLinkLable1 = Nothing
@@ -202,7 +257,7 @@ Partial Class rptPerformanceReport
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(186, 18)
+        Me.Label2.Location = New System.Drawing.Point(186, 11)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(46, 13)
         Me.Label2.TabIndex = 5
@@ -221,7 +276,7 @@ Partial Class rptPerformanceReport
         Me.txtFromDate.IsSourceFromTable = False
         Me.txtFromDate.IsSourceFromValueList = False
         Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(71, 16)
+        Me.txtFromDate.Location = New System.Drawing.Point(71, 9)
         Me.txtFromDate.MendatroryField = False
         Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtFromDate.MyLinkLable1 = Nothing
@@ -240,7 +295,7 @@ Partial Class rptPerformanceReport
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(5, 18)
+        Me.Label1.Location = New System.Drawing.Point(5, 11)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(60, 13)
         Me.Label1.TabIndex = 2
@@ -348,6 +403,7 @@ Partial Class rptPerformanceReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -378,7 +434,6 @@ Partial Class rptPerformanceReport
     Friend WithEvents Label3 As Label
     Friend WithEvents TxtRAL As common.UserControls.txtMultiSelectFinder
     Friend WithEvents Label4 As Label
-    Friend WithEvents TxtMultiLocation As common.UserControls.txtMultiSelectFinder
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnSplitExport As RadSplitButton
     Friend WithEvents rmiExcel As RadMenuItem
@@ -387,4 +442,8 @@ Partial Class rptPerformanceReport
     Friend WithEvents btnclose As RadButton
     Friend WithEvents btnGo As RadButton
     Friend WithEvents Gv1 As RadGridView
+    Friend WithEvents rdobtnSRN As RadioButton
+    Friend WithEvents rdobtnWeighment As RadioButton
+    Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
+    Friend WithEvents lblBillToLocation As common.Controls.MyLabel
 End Class

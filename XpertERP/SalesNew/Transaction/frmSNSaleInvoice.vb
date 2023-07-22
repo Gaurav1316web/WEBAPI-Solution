@@ -278,9 +278,12 @@ Public Class frmSNSaleInvoice
             LoadData(strSRNno, NavigatorType.Current)
         End If
         chkRateDefaultSetting.ToggleState = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SalesRateEditable, clsFixedParameterCode.SalesRateEditable, Nothing)) = 1, ToggleState.On, ToggleState.Off)
-        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+        Else
+            txtBillToLocation.Value = "RCDF"
+            lblBillToLocation.Text = clsLocation.GetName(txtBillToLocation.Value, Nothing)
         End If
         If clsCommon.myLen(strSaleInvoice) > 0 Then
             LoadData(strSaleInvoice, NavigatorType.Current)
@@ -453,8 +456,8 @@ Public Class frmSNSaleInvoice
         txtDate.Value = clsCommon.GETSERVERDATE()
         dtpChallan.Value = clsCommon.GETSERVERDATE()
         dtpInvoice.Value = clsCommon.GETSERVERDATE()
-        txtBillToLocation.Value = ""
-        lblBillToLocation.Text = ""
+        'txtBillToLocation.Value = ""
+        'lblBillToLocation.Text = ""
         txtShipToLocation.Value = ""
         lblShipToLocation.Text = ""
         txtDesc.Text = ""
@@ -3035,6 +3038,11 @@ Public Class frmSNSaleInvoice
             RefreshReqNo()
 
             UpdateAllTotals()
+            If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
+                clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
+                txtDate.Focus()
+                Return False
+            End If
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow("Please select Customer")
                 txtVendorNo.Focus()
@@ -6913,5 +6921,84 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
 
     Private Sub btnInvoiceJE_Click(sender As Object, e As EventArgs) Handles btnInvoiceJE.Click
         clsOpenJEAgainstInvoice.ShowInvoiceJE(txtDocNo.Value)
+    End Sub
+
+
+    Sub DispatchInvoicePrint()
+        Try
+            Dim frmDCSPrint As New frmCrystalReportViewer()
+            Dim qry As String = "Select XFinal.*,cast((XFinal.CF_AMT+XFinal.Frieght_Amt)as decimal(18,2)) as Total_Amt,TSPL_LOCATION_MASTER.Location_Desc as Location_Desc,TSPL_LOCATION_MASTER.Add1 as Add1
+from(
+select XX.Dispatch_Date,XX.DCS_Name,XX.C_No,XX.GRNO,xx.Zone,XX.SADA,XX.SADA_Cost,XX.GOLD,XX.GOLD_Cost,XX.BPP,XX.BPP_Cost,XX.TruckNo,XX.ChallanNo,
+cast((XX.SADA+XX.GOLD+XX.BPP) as decimal(18,2))as Bags,cast((((XX.SADA*XX.CF_Bag)+(XX.GOLD*XX.CF_Bag)+(XX.BPP*XX.CF_Bag))/XX.CF_MT) as decimal(18,2))as MT,
+cast(((XX.SADA_Cost*XX.SADA)+(XX.GOLD_Cost*XX.GOLD)+(XX.BPP_Cost*XX.BPP))as decimal(18,2)) as CF_AMT,Cast(XX.Frieght_Rate as decimal(18,2)) as Frieght,
+cast(((((XX.SADA*XX.CF_Bag)+(XX.GOLD*XX.CF_Bag)+(XX.BPP*XX.CF_Bag))/XX.CF_QTL)*XX.Frieght_Rate)as decimal(18,2))as Frieght_Amt,
+XX.Document_Date as Bill_Date,XX.Bill,XX.Location_code
+
+--XX.Frieght_Rate
+from(
+select 
+--TSPL_SD_SHIPMENT_HEAD.Document_Date as Dispatch_Date,
+min(TSPL_SD_SHIPMENT_HEAD.Document_Date)as Dispatch_Date,
+TSPL_DCS_FOR_SALE.Name as DCS_Name,
+max(TSPL_DCS_FOR_SALE.Uploader_No) as C_No,
+max(TSPL_SD_SHIPMENT_HEAD.LR_GR_NO) as GRNO,
+max(TSPL_DCS_FOR_SALE.Zone) as Zone,
+sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0002' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as SADA,
+sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0003' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as GOLD,
+sum(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0001' then TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty else '0' end) as BPP,
+max(TSPL_SD_SHIPMENT_HEAD.Form_38_No) as TruckNo,
+max(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.PK_ID) as ChallanNo,
+max(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0002' then TSPL_SD_SHIPMENT_DETAIL.Item_Cost else '1' end ) as SADA_Cost,
+max(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0003' then TSPL_SD_SHIPMENT_DETAIL.Item_Cost else '1' end ) as GOLD_Cost,
+max(case when TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode='FG0001' then TSPL_SD_SHIPMENT_DETAIL.Item_Cost else '1' end ) as BPP_Cost,
+
+max(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Frieght_Rate) as Frieght_Rate,
+max(TSPL_ITEM_UOM_DETAIL.Conversion_Factor)as CF_MT,
+max(TSPL_ITEM_UOM_DETAIL_BAG.Conversion_Factor) as CF_Bag,
+max(TSPL_ITEM_UOM_DETAIL_QTL.Conversion_Factor) as CF_QTL,
+TSPL_SD_SALE_INVOICE_HEAD.Document_Date,
+max(Right(TSPL_SD_SALE_INVOICE_HEAD.Document_Code,6))as Bill,
+max(TSPL_SD_SALE_INVOICE_DETAIL.Document_Code) as Document_Code,
+max(TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code) as Shipment_Code,
+max(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) as Location_code
+from TSPL_SD_SHIPMENT_HEAD
+left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
+left join TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL on TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code AND
+TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+--left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+--left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+left join TSPL_DCS_FOR_SALE on TSPL_DCS_FOR_SALE.Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code
+--left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
+left join TSPL_SD_SALE_INVOICE_DETAIL on TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Document_Code  and
+TSPL_SD_SALE_INVOICE_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode
+left join TSPL_SD_SALE_INVOICE_HEAD	on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code
+left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and
+TSPL_ITEM_UOM_DETAIL.UOM_Code='MT' 
+left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAIL_BAG on TSPL_ITEM_UOM_DETAIL_BAG.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and
+TSPL_ITEM_UOM_DETAIL_BAG.UOM_Code='BAG'
+left join TSPL_ITEM_UOM_DETAIL TSPL_ITEM_UOM_DETAIL_QTL on TSPL_ITEM_UOM_DETAIL_QTL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code and
+TSPL_ITEM_UOM_DETAIL_QTL.UOM_Code='QTL'
+
+where TSPL_SD_SALE_INVOICE_DETAIL.Document_Code='" + clsCommon.myCstr(txtDocNo.Value) + "'
+group by TSPL_DCS_FOR_SALE.Name,TSPL_SD_SALE_INVOICE_HEAD.Document_Date
+)XX
+)XFinal 
+left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Location_code
+"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+
+                frmDCSPrint.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDispatchInvoiceDetails", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Dispatch_Date")), "crptDispatchInvoiceDetails.rpt")
+
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnDCSPrint_Click(sender As Object, e As EventArgs) Handles btnDCSPrint.Click
+        DispatchInvoicePrint()
     End Sub
 End Class

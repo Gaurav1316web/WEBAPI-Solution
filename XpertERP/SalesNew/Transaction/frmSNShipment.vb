@@ -354,6 +354,9 @@ Public Class frmSNShipment
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             txtBillToLocation.Value = clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Location_Master where Location_Code in(" + clsCommon.myCstr(objCommonVar.strCurrUserLocations) + ")") 'clsCommon.myCstr(objCommonVar.strCurrUserLocations)
             lblBillToLocation.Text = clsLocation.GetName(txtBillToLocation.Value, Nothing)
+        Else
+            txtBillToLocation.Value = "RCDF" ' clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Location_Master where Location_Code in(" + clsCommon.myCstr(objCommonVar.strCurrUserLocations) + ")") 'clsCommon.myCstr(objCommonVar.strCurrUserLocations)
+            lblBillToLocation.Text = clsLocation.GetName(txtBillToLocation.Value, Nothing)
         End If
 
     End Sub
@@ -5767,6 +5770,8 @@ Public Class frmSNShipment
         Dim WhrCls As String = " Location_Type='Physical'  "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        Else
+            WhrCls += "  and  Location_Code in ('RCDF')"
         End If
         txtBillToLocation.Value = clsCommon.ShowSelectForm("ShipmentMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
         lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
