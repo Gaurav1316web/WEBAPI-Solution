@@ -691,7 +691,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FATSNFGainLoss, "FAT/SNF Gain Loss", "1.07.03.41", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptProductReceivingReport, "Product Receiving Report", "1.07.03.42", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerWiseStockReco, "Customer Wise Stock Reco", "1.07.03.43", clsUserMgtCode.SubModuleMaterialReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptPerformanceReport, "Performance Report", "1.07.03.44", clsUserMgtCode.SubModuleMaterialReport, 37)
+
         'InsertDefaultValue(clsUserMgtCode.rptStockReport, " Stocks Report", "1.07.03.45", clsUserMgtCode.SubModuleMaterialReport, 37)
         '
         '--------------Purchase----------------------------------
@@ -829,6 +829,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmTenderTrackingReport, "Tender Tracking Report", "1.08.03.44", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmERPStatusTrackingReport, "ERP Status Tracking Report", "1.08.03.45", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptrlPenaltyRegister, "Penalty Register Report", "1.08.03.46", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptPerformanceReport, "Performance Report", "1.08.03.47", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 
