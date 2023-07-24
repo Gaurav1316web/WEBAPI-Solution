@@ -55,13 +55,26 @@ Public Class rptTruckSheetDailySummaryReport
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim MCCName As String = Nothing
-            If txtMCC.arrValueMember.Count > 1 Then
-                MCCName = "'Ganganagar' AS MCCName"
-            Else
-                MCCName = "max [MCC Name] as MCCName"
-            End If
-
-            Dim qry As String = "select  A.Comp_Name, [Doc Date],a.[Milk type], " + MCCName + "
+            Dim whrclsRecpt As String = Nothing
+            Dim whrclsRjt As String = Nothing
+            Try
+                If txtMCC.arrValueMember.Count > 1 Then
+                    MCCName = ",'Ganganagar' AS MCCName"
+                    whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                ElseIf txtMCC.arrValueMember.Count <= 0 Then
+                    MCCName = ",'Ganganagar' AS MCCName"
+                    whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                Else
+                    MCCName = ",max ([MCC Name]) as MCCName"
+                    whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                End If
+            Catch
+                MCCName = ",'Ganganagar' AS MCCName"
+            End Try
+            Dim qry As String = "select  A.Comp_Name, [Doc Date],a.[Milk type] " + MCCName + "
                                 ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet Qty]
                                 ,sum([FAT] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet FAT]
                                 ,sum([SNF] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet SNF] 
@@ -104,7 +117,7 @@ Public Class rptTruckSheetDailySummaryReport
                                  left outer join (select code,max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code
                                  left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per
 
-                                 left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  where 2 = 2  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(fromDate.Text, "dd/MMM/yyyy") + "'  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as date) <= '" + clsCommon.GetPrintDate(ToDate.Text, "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") 
+                                 left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  where 2 = 2  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(fromDate.Text, "dd/MMM/yyyy") + "'  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as date) <= '" + clsCommon.GetPrintDate(ToDate.Text, "dd/MMM/yyyy") + "'" + whrclsRecpt + "  
 
                                  Union All  
 
@@ -132,7 +145,7 @@ Public Class rptTruckSheetDailySummaryReport
                                  left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per 
                                  left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type  where 2=2 
 
-                                 and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(fromDate.Text, "dd/MMM/yyyy") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(ToDate.Text, "dd/MMM/yyyy") + "' and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") 
+                                 and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(fromDate.Text, "dd/MMM/yyyy") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(ToDate.Text, "dd/MMM/yyyy") + "'" + whrclsRjt + " 
 
                                  ) As final where 2=2   ) as  pp group by PP.Comp_Name, [Milk Type],  [Doc Date],[Shift],pp.RejectType ) as aa )a where 1=1
                                  group by Comp_Name, [Milk Type], [Doc Date]
@@ -140,15 +153,15 @@ Public Class rptTruckSheetDailySummaryReport
 
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-            If dt2 IsNot Nothing And dt2.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt2, "rptTruckSheetDailySummaryReport", "")
-                frmCRV = Nothing
-            Else
-                clsCommon.MyMessageBoxShow("No Data Found")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                If dt2 IsNot Nothing And dt2.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt2, "rptTruckSheetDailySummaryReport", "")
+                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow("No Data Found")
+                End If
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -230,15 +243,17 @@ Public Class rptTruckSheetDailySummaryReport
                               sum([Milk Weight]* case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet Qty]
                             ,sum([FAT] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet FAT]		
                             ,sum([SNF] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet SNF] 
-                            , CAST(SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) / SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) * 100 AS DECIMAL(18, 2)) AS [Sweet FAT(%)]			
-                             ,cast(sum([SNF] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) / sum([Milk Weight]* case when len(isnull(RejectType,''))>0 then 0 else 1 end) * 100 AS decimal(18, 2)) as [Sweet SNF(%)] 	
+                            ,CASE  WHEN SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) = 0 THEN 0
+                             ELSE CAST(SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) / NULLIF(SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END), 0) * 100 AS DECIMAL(18, 2)) END AS [Sweet FAT(%)]			
+                             ,CASE  WHEN SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) = 0 THEN 0
+                              ELSE CAST(SUM([SNF] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) / NULLIF(SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END), 0) * 100 AS DECIMAL(18, 2)) END AS [Sweet SNF(%)]
                             ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR Qty]
-                             ,CASE    WHEN (SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END)) = 0 THEN 0
+                             ,CASE WHEN (SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END)) = 0 THEN 0
                               ELSE CAST(ISNULL(SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END), 0)
-                                  / ISNULL(SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END), 0)* 100 AS DECIMAL(18, 2))
-                                    END AS [SOUR FAT(%)] 
-                            ,CASE WHEN (sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) )=0  THEN 0 ELSE cast (
-                             ISNULL(sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end),0) / ISNULL(sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end),0)* 100 as decimal (18, 2) ) END AS[SOUR SNF(%)]
+                               / NULLIF(ISNULL(SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END), 0), 0) * 100 AS DECIMAL(18, 2))
+                              END AS [SOUR FAT(%)] 
+                             ,CASE WHEN (sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) )=0  THEN 0 ELSE cast (
+                             ISNULL(sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end),0) / NULLIF(ISNULL(sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end),0),0)* 100 as decimal (18, 2) ) END AS[SOUR SNF(%)]
                             ,sum([FAT]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR FAT] 
                             ,sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR SNF]
                             ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='CURD' then 1 else 0 end) as [CURD Qty]
