@@ -4243,6 +4243,7 @@ Public Class frmSRN
         txtSubLocation.Enabled = True
         txtSubLocation.Value = ""
         lblSubLocation.Text = ""
+        txttender.Text = Nothing
         isAgainstTender = False
     End Sub
     Function checkVendorItemPrice() As Boolean
@@ -5663,6 +5664,7 @@ Public Class frmSRN
                 txtVendorNo.Value = obj.Vendor_Code
                 lblVendorName.Text = obj.Vendor_Name
                 txtRefNo.Text = obj.Ref_No
+                txttender.Text = obj.TenderNo
                 If clsCommon.myLen(obj.Challan_Date) > 0 Then
                     dtpChallan.Value = obj.Challan_Date
                     dtpChallan.Checked = True

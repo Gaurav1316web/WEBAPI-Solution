@@ -181,6 +181,7 @@ Public Class clsSRNHead
     Public Total_Item_Insurance_Amt As Decimal = 0
     Public Total_Add_Charge_Insurance As Decimal = 0
     Public Arr_ACInsurance As List(Of clsSRNAdditionChargeInsurance) = Nothing
+    Public TenderNo As String = Nothing
 #End Region
     '==============added by preeti gupta against ticket no[TEC/23/05/18-000253]
     Public Shared Function HistoryUpdate(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
@@ -613,8 +614,9 @@ Public Class clsSRNHead
         ' Dim obj As clsSRNHead = Nothing
         Dim obj As New clsSRNHead
         Dim qry As String = "SELECT TSPL_SRN_HEAD.*,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName, " &
-        " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName " &
+        " TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_LOCATION_MASTER_SubLocation.Location_Desc as SubLocationName,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo " &
         " FROM TSPL_SRN_HEAD left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SRN_HEAD.Bill_To_Location " &
+        "left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO " &
         " left outer join TSPL_LOCATION_MASTER as TSPL_LOCATION_MASTER_SubLocation  on TSPL_LOCATION_MASTER_SubLocation.Location_Code=TSPL_SRN_HEAD.Sublocation_Code " &
         " left outer join TSPL_SHIP_TO_LOCATION on TSPL_SHIP_TO_LOCATION.Ship_To_Code=TSPL_SRN_HEAD.Ship_To_Location " &
         " left outer join  TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code= TSPL_SRN_HEAD.Tax_Group " &
@@ -666,6 +668,7 @@ Public Class clsSRNHead
             obj.Confirmatory_PO = (clsCommon.myCdbl(dt.Rows(0)("Confirmatory_PO")) = 1)
             obj.is_QCAccepted = IIf(clsCommon.myCdbl(dt.Rows(0)("is_QCAccepted")) = 1, True, False)
             obj.Ref_No = clsCommon.myCstr(dt.Rows(0)("Ref_No"))
+            obj.TenderNo = clsCommon.myCstr(dt.Rows(0)("TenderNo"))
             obj.Description = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Bill_To_Location = clsCommon.myCstr(dt.Rows(0)("Bill_To_Location"))

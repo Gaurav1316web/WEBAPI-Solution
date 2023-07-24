@@ -33,6 +33,9 @@ Partial Class frmSRN
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txttender = New common.Controls.MyTextBox()
+        Me.RadLabel13 = New common.Controls.MyLabel()
+        Me.labtender = New common.Controls.MyLabel()
         Me.MyLabel19 = New common.Controls.MyLabel()
         Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -91,7 +94,6 @@ Partial Class frmSRN
         Me.txtDept = New common.UserControls.txtFinder()
         Me.lblRMDANo = New common.Controls.MyLabel()
         Me.RadLabel21 = New common.Controls.MyLabel()
-        Me.RadLabel13 = New common.Controls.MyLabel()
         Me.RadLabel8 = New common.Controls.MyLabel()
         Me.RadLabel5 = New common.Controls.MyLabel()
         Me.RadLabel20 = New common.Controls.MyLabel()
@@ -236,14 +238,15 @@ Partial Class frmSRN
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.UcCustomFields1 = New ERP.ucCustomFields()
-        Me.labtender = New common.Controls.MyLabel()
-        Me.txttender = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txttender, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.labtender, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -300,7 +303,6 @@ Partial Class frmSRN
         CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRMDANo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -438,8 +440,6 @@ Partial Class frmSRN
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.labtender, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txttender, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -591,6 +591,50 @@ Partial Class frmSRN
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1105, 498)
         Me.RadPageViewPage1.Text = "Store Received Note"
+        '
+        'txttender
+        '
+        Me.txttender.CalculationExpression = Nothing
+        Me.txttender.FieldCode = Nothing
+        Me.txttender.FieldDesc = Nothing
+        Me.txttender.FieldMaxLength = 0
+        Me.txttender.FieldName = Nothing
+        Me.txttender.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txttender.isCalculatedField = False
+        Me.txttender.IsSourceFromTable = False
+        Me.txttender.IsSourceFromValueList = False
+        Me.txttender.IsUnique = False
+        Me.txttender.Location = New System.Drawing.Point(817, 44)
+        Me.txttender.MaxLength = 50
+        Me.txttender.MendatroryField = False
+        Me.txttender.MyLinkLable1 = Me.RadLabel13
+        Me.txttender.MyLinkLable2 = Nothing
+        Me.txttender.Name = "txttender"
+        Me.txttender.ReferenceFieldDesc = Nothing
+        Me.txttender.ReferenceFieldName = Nothing
+        Me.txttender.ReferenceTableName = Nothing
+        Me.txttender.Size = New System.Drawing.Size(115, 18)
+        Me.txttender.TabIndex = 362
+        '
+        'RadLabel13
+        '
+        Me.RadLabel13.FieldName = Nothing
+        Me.RadLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel13.Location = New System.Drawing.Point(538, 88)
+        Me.RadLabel13.Name = "RadLabel13"
+        Me.RadLabel13.Size = New System.Drawing.Size(41, 16)
+        Me.RadLabel13.TabIndex = 46
+        Me.RadLabel13.Text = "GR No"
+        '
+        'labtender
+        '
+        Me.labtender.FieldName = Nothing
+        Me.labtender.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.labtender.Location = New System.Drawing.Point(753, 43)
+        Me.labtender.Name = "labtender"
+        Me.labtender.Size = New System.Drawing.Size(60, 16)
+        Me.labtender.TabIndex = 361
+        Me.labtender.Text = "Tender No"
         '
         'MyLabel19
         '
@@ -1534,16 +1578,6 @@ Partial Class frmSRN
         Me.RadLabel21.Size = New System.Drawing.Size(78, 16)
         Me.RadLabel21.TabIndex = 33
         Me.RadLabel21.Text = "Gate Entry No"
-        '
-        'RadLabel13
-        '
-        Me.RadLabel13.FieldName = Nothing
-        Me.RadLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel13.Location = New System.Drawing.Point(538, 88)
-        Me.RadLabel13.Name = "RadLabel13"
-        Me.RadLabel13.Size = New System.Drawing.Size(41, 16)
-        Me.RadLabel13.TabIndex = 46
-        Me.RadLabel13.Text = "GR No"
         '
         'RadLabel8
         '
@@ -3469,40 +3503,6 @@ Partial Class frmSRN
         Me.UcCustomFields1.Size = New System.Drawing.Size(1105, 494)
         Me.UcCustomFields1.TabIndex = 2
         '
-        'labtender
-        '
-        Me.labtender.FieldName = Nothing
-        Me.labtender.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.labtender.Location = New System.Drawing.Point(753, 43)
-        Me.labtender.Name = "labtender"
-        Me.labtender.Size = New System.Drawing.Size(60, 16)
-        Me.labtender.TabIndex = 361
-        Me.labtender.Text = "Tender No"
-        '
-        'txttender
-        '
-        Me.txttender.CalculationExpression = Nothing
-        Me.txttender.FieldCode = Nothing
-        Me.txttender.FieldDesc = Nothing
-        Me.txttender.FieldMaxLength = 0
-        Me.txttender.FieldName = Nothing
-        Me.txttender.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txttender.isCalculatedField = False
-        Me.txttender.IsSourceFromTable = False
-        Me.txttender.IsSourceFromValueList = False
-        Me.txttender.IsUnique = False
-        Me.txttender.Location = New System.Drawing.Point(817, 44)
-        Me.txttender.MaxLength = 50
-        Me.txttender.MendatroryField = False
-        Me.txttender.MyLinkLable1 = Me.RadLabel13
-        Me.txttender.MyLinkLable2 = Nothing
-        Me.txttender.Name = "txttender"
-        Me.txttender.ReferenceFieldDesc = Nothing
-        Me.txttender.ReferenceFieldName = Nothing
-        Me.txttender.ReferenceTableName = Nothing
-        Me.txttender.Size = New System.Drawing.Size(115, 18)
-        Me.txttender.TabIndex = 362
-        '
         'frmSRN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3524,6 +3524,9 @@ Partial Class frmSRN
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txttender, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.labtender, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3581,7 +3584,6 @@ Partial Class frmSRN
         CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRMDANo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3727,8 +3729,6 @@ Partial Class frmSRN
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.labtender, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txttender, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
