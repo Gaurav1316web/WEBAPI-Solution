@@ -5738,7 +5738,7 @@ Public Class frmSRN
                 txtCarrier.Text = obj.Carrier
                 txtVehicleNo.Text = obj.VehicleNo
                 txtGRNo.Text = obj.GRNo
-                'MyDateTimePicker1.Text = obj.GRDate
+                MyDateTimePicker1.Text = obj.GRN_Date
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
                     txtGEDate.Value = obj.GEDate
@@ -11543,8 +11543,8 @@ b:                          ' Next
         ShowJE(MyBase.Form_ID, txtDocNo.Value)
     End Sub
 
-    Private Sub MyDateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles MyDateTimePicker1.ValueChanged
-        txtDate.Text = clsCommon.myCDate(MyDateTimePicker1.Text)
-    End Sub
+    'Private Sub MyDateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles MyDateTimePicker1.ValueChanged
+    '    txtDate.Text = clsCommon.myCDate(MyDateTimePicker1.Text)
+    'End Sub
 
 End Class
