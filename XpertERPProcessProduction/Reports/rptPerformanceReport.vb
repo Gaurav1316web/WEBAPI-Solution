@@ -12,6 +12,7 @@ Public Class rptPerformanceReport
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Public arrBatchNo As ArrayList
     Dim arrLoc As String = Nothing
+    Dim FORMTYPE As String = Nothing
 
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.rptItemConsumptionReport)
@@ -26,7 +27,9 @@ Public Class rptPerformanceReport
     Sub Reset()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = txtToDate.Value.AddMonths(-1)
-        TxtMultiLocation.arrValueMember = Nothing
+        'TxtMultiLocation.arrValueMember = Nothing
+        txtBillToLocation.Value = Nothing
+        lblBillToLocation.Text = ""
         TxtRAL.arrValueMember = Nothing
         Gv1.DataSource = Nothing
     End Sub
@@ -48,113 +51,81 @@ Public Class rptPerformanceReport
         Dim qry As String = ""
         Dim dt As New DataTable()
         Try
+
             Dim whr As String = ""
-            If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
-                whr += " and TSPL_LOCATION_MASTER.Location_Code In  (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ") "
-            Else
-                'whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
-                'If clsCommon.myLen(arrLoc) > 0 Then
-                'whr += "  and  LOCATION_CODE IN (" + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrValueMember) + ") "
-                'End If
-            End If
-
-            Dim whrcls As String = ""
             If TxtRAL.arrValueMember IsNot Nothing AndAlso TxtRAL.arrValueMember.Count > 0 Then
-                whrcls += " and TSPL_ITEM_MASTER.Item_Code In (" + clsCommon.GetMulcallString(TxtRAL.arrValueMember) + ")"
+                whr += " where XXY.Ref_No In (" + clsCommon.GetMulcallString(TxtRAL.arrValueMember) + ")  "
             End If
 
-            qry = " select CompName,FromDate,ToDate,Trans_Id,Punching_Date,xxxxxxx.Location_Code,TSPL_LOCATION_MASTER.Add1,[Loc Desp],Item_Type_Name,Item_Code ,Item_Desc,Stock_UOM, (ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0)) as OPQty, case when (ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))=0 then 0 else  ((isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0))/((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0)))) end as OPRate ,(isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0)) as OPCost, RecQty,RecRate,RecCost ,IssQty,IssRate,IssCost ,CLQty ,case when isnull(CLQty,0)=0 then 0 else CLCost/CLQty end as CLRate, CLCost from 
+            If rdobtnWeighment.Checked Then
 
-                        ( select  case when '1'='1' then 'Near Tabiji Farm, Bewar Road, Ajmer.' else 'Rajashthan Cooperative Dairy Federation Limited ' end as CompName,'01/04/2023' as FromDate,'05/04/2023' as ToDate,Trans_Id,Punching_Date as Punching_Date ,Location_Code,[Loc Desp],Item_Type_Name,Item_Code ,Item_Desc,Stock_UOM,Balance_FAT,Balance_SNF,isnull(Balance_QTYKG,0) as Balance_QTYKG, (case when InOut='I' then Stock_Qty else 0 end) as RecQty,  (case when InOut='I' then Rate else 0 end) as RecRate,(case when InOut='I' then Cost else 0 end) as RecCost, (case when InOut='O' then -1.00*Stock_Qty else 0 end) as IssQty, (case when InOut='O' then Rate else 0 end) as IssRate, (case when InOut='O' then -1.00*Cost else 0 end) as IssCost, SUM(Stock_Qty) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLQty  ,SUM(Cost) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLCost,SUM(isnull(Balance_QTYKG,0)) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLBalance_QTYKG  from
+                qry = "  SELECT XXY.LOCATION, XXY.Ref_No,XXY.[Item] as [Item Description]  ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],cast (XXY.Rate as decimal (18,2)) as Rate, cast (XXY.[Quantity Supplied] as decimal (18,2)) as [Quantity Supplied],cast (XXY.[Short/Excess Qty] as decimal (18,2)) as [Short/Excess Qty],XXY.RiskPurchase,cast (XXY.[% Supplied] as decimal (18,2)) as [% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,XXY.FROM_DATE,XXY.TO_DATE
+                         from   (select final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.Rate,final.GRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.RiskPurchase,final.[% Supplied],final.Remarks ,final.LOCATION,final.FROM_DATE,final.TO_DATE
+                from (
+                Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
+                cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
+                max(TendorSeqNo) as TendorSeqNo,
+                SUM(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) AS GRNQTY,
+                (RM_RAL.RAL_QTY - sum(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) )as 'Pending_Qty', '' as RiskPurchase,
+				(SUM(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight)*100)/ RM_RAL.RAL_QTY as [% Supplied],'' as Remarks,MAX(RM_RAL.Rate) AS RATE
+                 ,MAX(RM_RAL.Location) AS Location, MAX(RM_RAL.FROM_DATE) AS FROM_DATE,MAX(RM_RAL.TO_DATE) AS TO_DATE 
+                             
 
-                        (select 0 as Trans_Id,'' as Trans_Type,'' as Trans_Type_Name,'Opening Balance' as Source_Doc_No,null as Punching_Date,'' as InOutView, '' as InOut,'' as Location_Code,'' as [Loc Desp],'' as [LocAddress],'' as SourceCode,'' as SourceName,'' as SourceType ,'' as Item_Type,'' as Item_Type_Name,'' as Item_Group,'' as Group_Description,max([FINISHFOOD]) as [FINISHFOOD],max([RAWMATERIAL]) as [RAWMATERIAL],max([OTHER]) as [OTHER],max([PACKINGMAT]) as [PACKINGMAT],max([FIXEDASST]) as [FIXEDASST],max([MAKE]) as [MAKE],max([KV]) as [KV],max([FINISHFOODDESC]) as [FINISHFOODDESC],max([RAWMATERIALDESC]) as [RAWMATERIALDESC],max([OTHERDESC]) as [OTHERDESC],max([PACKINGMATDESC]) as [PACKINGMATDESC],max([FIXEDASSTDESC]) as [FIXEDASSTDESC],max([MAKEDESC]) as [MAKEDESC],max([KVDESC]) as [KVDESC],xxx.Item_Code as Item_Code ,max(xxx.Item_Desc) as Item_Desc,'' as Item_Category_Struct_Code,max(xxx.Stock_UOM) as Stock_UOM,'' as itf_code ,sum( Stock_Qty * case when InOut='I' then 1.00 else -1.00 end) as Stock_Qty,sum( QtyKG * case when InOut='I' then 1.00 else -1.00 end) as Balance_QTYKG, case when sum(convert(decimal(28,3),Stock_Qty* case when InOut='I' then 1.00 else -1.00 end))=0 then 0 else sum(convert(decimal(28,3),Cost* case when InOut='I' then 1.00 else -1.00 end))/sum(convert(decimal(28,3),Stock_Qty* case when InOut='I' then 1.00 else -1.00 end)) end as Rate,sum(Cost * case when InOut='I' then 1.00 else -1.00 end) as Cost,sum( (case when IsFromMilk=1.00 then MilkFATKG else (Stock_Qty*FatPer) end) * case when InOut='I' then 1.00 else -1.00 end) as Balance_FAT,sum(( (case when IsFromMilk=1 then MilkSNFKG else (Stock_Qty*SNFPer) end ) * case when InOut='I' then 1.00 else -1.00 end)) as Balance_SNF  from (select * from ( select InventroyMovement.Fat_Amt,InventroyMovement.SNF_Amt,gl1.Account_code as Inventory_Control_Acc,gl1.Description as Inventory_Control_Acc_desc ,InventroyMovement.Fat_Rate,InventroyMovement.SNF_Rate ,InventroyMovement.Trans_Id,InventroyMovement.Trans_Type, (CASE WHEN (InventroyMovement.Trans_Type='IC-AD' AND TSPL_ADJUSTMENT_HEADER.Reference_Document='JWO-SRN-JLO') THEN 'Jobwork Consumption' ELSE  TSPL_INVENTORY_SOURCE_CODE.Name END )as Trans_Type_Name,InventroyMovement.Source_Doc_No,InventroyMovement.Punching_Date, InventroyMovement.InOut,case when InventroyMovement.InOut='I' then 'In' else case when InventroyMovement.InOut='O' then 'Out' else '' end end as 'InOutView', case when TSPL_LOCATION_MASTER.Is_Section='N' and TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end as Main_Location_Code,MainLocationTable.Location_Desc as MainLocationDesc, InventroyMovement.Location_Code,TSPL_LOCATION_MASTER.Location_Desc AS [Loc Desp],TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then ''  else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_LOCATION_MASTER.Pin_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_LOCATION_MASTER.Pin_Code) End End End  as [LocAddress],SourceCode,SourceName,SourceType  ,Item_Group.Item_Group,Item_Group.Group_Description, InventroyMovement.Item_Code, InventroyMovement.MRP ,TSPL_ITEM_MASTER.Item_Desc,tspl_item_master.itf_code,TSPL_ITEM_MASTER.Structure_Code,TSPL_STRUCTURE_MASTER.Structure_Descq, IsFromMilk,MilkFATKG,MilkSNFKG,case when IsFromMilk=1 then MilkFatPer else isnull((select TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range  
+                from TSPL_PO_WEIGHTMENT_HEAD
+                left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
+                left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code
+                
+                INNER JOIN 
+                (SELECT TSPL_TENDER_DETAIL.Location AS 'LOCATION' ,TSPL_TENDER_HEADER.DocumentCode AS 'RAL',TSPL_TENDER_DETAIL.Vendor_Code AS 'VENDORCODE',TSPL_VENDOR_MASTER.Vendor_Name AS 'VENDORNAME',TSPL_TENDER_DETAIL.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_NAME',TSPL_TENDER_DETAIL.Unit_code  AS 'UOM',max(TSPL_TENDER_HEADER.TendorSeqNo) as TendorSeqNo,SUM(TSPL_TENDER_DETAIL.Qty) AS 'RAL_QTY', 0 AS 'GRNQTY',MAX(TSPL_TENDER_DETAIL.Rate) AS RATE,MAX(TSPL_TENDER_SCHEDULE.FROM_DATE) AS FROM_DATE,MAX(TSPL_TENDER_SCHEDULE.TO_DATE) AS TO_DATE
+                FROM TSPL_TENDER_HEADER
+                LEFT OUTER JOIN TSPL_TENDER_DETAIL ON TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
+                INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE=TSPL_TENDER_DETAIL.ITEM_CODE
+                INNER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code
+				left outer join (SELECT DocumentCode,Location_Code,Vendor_Code,Item_Code,MIN(FROM_DATE) AS FROM_DATE,MAX(TO_DATE) AS TO_DATE  FROM TSPL_TENDER_SCHEDULE  GROUP BY DocumentCode,Location_Code,Vendor_Code,Item_Code) as TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_SCHEDULE.Location_Code=TSPL_TENDER_DETAIL.Location AND TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code AND TSPL_TENDER_SCHEDULE.Item_Code=TSPL_TENDER_DETAIL.Item_Code
+                GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_TENDER_DETAIL.Unit_code) 
+	                RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_PO_WEIGHTMENT_HEAD.Location_Code AND RM_RAL.ITEM_CODE=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_PO_WEIGHTMENT_DETAIL.UOM
+                where TSPL_ITEM_MASTER.RAL=1 And TSPL_PO_WEIGHTMENT_HEAD.Location_Code= '" + clsCommon.myCstr(txtBillToLocation.Value) + "'   GROUP BY TSPL_PO_WEIGHTMENT_HEAD.Location_Code ,TSPL_GRN_HEAD.Ref_No,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_PO_WEIGHTMENT_DETAIL.UOM ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_PO_WEIGHTMENT_DETAIL.UOM,RAL_QTY
+                        ) final ) XXY
+						LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=XXY.LOCATION  " + whr
 
-                        from TSPL_ITEM_QC_PARAMETER_MASTER  
 
-                        left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='FAT'),0) end as MilkFatPer,case when IsFromMilk=1 then MilkSNFPer else isnull((select TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range 
+            Else
 
-                        from TSPL_ITEM_QC_PARAMETER_MASTER 
 
-                        left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='SNF'),0) end as MilkSNFPer,TSPL_LOCATION_MASTER.Is_Section,TSPL_LOCATION_MASTER.Is_Sub_Location, isnull((InventroyMovement.Stock_Qty * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end))  ,0) as QtyKG, InventroyMovement.Stock_UOM,InventroyMovement.Stock_Qty, isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end))
+                qry = "  SELECT XXY.LOCATION, XXY.Ref_No,XXY.[Item] as [Item Description] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],cast (XXY.Rate as decimal (18,2)) as Rate, cast (XXY.[Quantity Supplied] as decimal (18,2)) as [Quantity Supplied],cast (XXY.[Short/Excess Qty] as decimal (18,2)) as [Short/Excess Qty],XXY.RiskPurchase,cast (XXY.[% Supplied] as decimal (18,2)) as [% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,XXY.FROM_DATE,XXY.TO_DATE
+                         from   (select final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.SRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.Rate,final.RiskPurchase,final.[% Supplied],final.Remarks,final.FROM_DATE,final.TO_DATE,final.LOCATION
+                from (
+                Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_SRN_DETAIL.Unit_code AS UOM,TSPL_GRN_HEAD.Vendor_Name,
+                cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
+                max(TendorSeqNo) as TendorSeqNo,
+                SUM(SRN_Qty) AS SRNQTY,
+                (RM_RAL.RAL_QTY - sum(TSPL_SRN_DETAIL.SRN_Qty )) as 'Pending_Qty',MAX(RM_RAL.Rate) AS RATE,'' as RiskPurchase,
+				(sum(SRN_Qty)*100)/ RM_RAL.RAL_QTY as [% Supplied],'' as Remarks
+                 , MAX(RM_RAL.FROM_DATE) AS FROM_DATE,MAX(RM_RAL.TO_DATE) AS TO_DATE,MAX(RM_RAL.Location) AS Location
+                from TSPL_SRN_HEAD
+				LEFT OUTER JOIN TSPL_SRN_DETAIL ON TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No
+                left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SRN_DETAIL.Item_Code
+             
+                INNER JOIN 
+                (SELECT TSPL_TENDER_DETAIL.Location AS 'LOCATION' ,TSPL_TENDER_HEADER.DocumentCode AS 'RAL',TSPL_TENDER_DETAIL.Vendor_Code AS 'VENDORCODE',TSPL_VENDOR_MASTER.Vendor_Name AS 'VENDORNAME',TSPL_TENDER_DETAIL.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_NAME',TSPL_TENDER_DETAIL.Unit_code  AS 'UOM',max(TSPL_TENDER_HEADER.TendorSeqNo) as TendorSeqNo,SUM(TSPL_TENDER_DETAIL.Qty) AS 'RAL_QTY', 0 AS 'GRNQTY',MAX(TSPL_TENDER_DETAIL.Rate) AS RATE,MAX(TSPL_TENDER_SCHEDULE.FROM_DATE) AS FROM_DATE,MAX(TSPL_TENDER_SCHEDULE.TO_DATE) AS TO_DATE
+                FROM TSPL_TENDER_HEADER
+                LEFT OUTER JOIN TSPL_TENDER_DETAIL ON TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
+                INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE=TSPL_TENDER_DETAIL.ITEM_CODE
+                INNER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code
+				left outer join (SELECT DocumentCode,Location_Code,Vendor_Code,Item_Code,MIN(FROM_DATE) AS FROM_DATE,MAX(TO_DATE) AS TO_DATE  FROM TSPL_TENDER_SCHEDULE  GROUP BY DocumentCode,Location_Code,Vendor_Code,Item_Code) as TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_SCHEDULE.Location_Code=TSPL_TENDER_DETAIL.Location AND TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code AND TSPL_TENDER_SCHEDULE.Item_Code=TSPL_TENDER_DETAIL.Item_Code
+                GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_TENDER_DETAIL.Unit_code) 
+	                RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_SRN_HEAD.Bill_To_Location AND RM_RAL.ITEM_CODE=TSPL_SRN_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_SRN_DETAIL.Unit_code
+                where  TSPL_SRN_HEAD.Bill_To_Location= 'AJMR' 
+				   
+				GROUP BY TSPL_SRN_HEAD.Bill_To_Location ,TSPL_GRN_HEAD.Ref_No,TSPL_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SRN_DETAIL.Unit_code ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_SRN_DETAIL.Unit_code,RAL_QTY
+                        ) final) XXY 
+						LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=XXY.LOCATION   " + whr
 
-                        from TSPL_ITEM_QC_PARAMETER_MASTER  
-                        left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='FAT'),0) as FatPer, isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end)) 
 
-                        from TSPL_ITEM_QC_PARAMETER_MASTER
-                        left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='SNF'),0) as SNFPer, (case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then InventroyMovement.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then InventroyMovement.LIFO_Cost else InventroyMovement.Avg_Cost end end ) as Cost,TSPL_ITEM_MASTER.Item_Category_Struct_Code 
-                        ,VirtualCategoryTabel.[FINISHFOOD],VirtualCategoryTabel.[RAWMATERIAL],VirtualCategoryTabel.[OTHER],VirtualCategoryTabel.[PACKINGMAT],VirtualCategoryTabel.[FIXEDASST],VirtualCategoryTabel.[MAKE],VirtualCategoryTabel.[KV],VirtualCategoryTabel.[FINISHFOODDESC],VirtualCategoryTabel.[RAWMATERIALDESC],VirtualCategoryTabel.[OTHERDESC],VirtualCategoryTabel.[PACKINGMATDESC],VirtualCategoryTabel.[FIXEDASSTDESC],VirtualCategoryTabel.[MAKEDESC],VirtualCategoryTabel.[KVDESC] ,TSPL_ITEM_MASTER.Item_Type,VirtualTableItemType.Name as Item_Type_Name,TSPL_INVENTORY_SOURCE_CODE.In_Category,TSPL_INVENTORY_SOURCE_CODE.Out_Category,TSPL_INVENTORY_SOURCE_CODE.Code,(case when ISNULL(InventroyMovement.Location_Code,'')='' then InventroyMovement.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) as PrimaryLocation  from (  select Fat_Amt,SNF_Amt,0 AS Fat_Rate,0 AS SNF_Rate ,Trans_Id,Trans_Type,Source_Doc_No,Punching_Date,InOut,Location_Code,Item_Code,UOM, MRP,Stock_UOM,Stock_Qty,FIFO_Cost,LIFO_Cost,Avg_Cost,0 as IsFromMilk,0 as MilkFatPer,0 as MilkSNFPer,0 as MilkFATKG,0 as MilkSNFKG,case when cust_code is not null and len(cust_code)>0 then cust_code else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Code else Other_Location_Code end end as SourceCode,case when cust_code is not null and len(cust_code)>0 then Cust_Name else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Name else Other_Location_Desc end end as SourceName, case when cust_code is not null and len(cust_code)>0 then 'C' else case when Vendor_Code is not null and len(Vendor_Code)>0 then 'V' else case when Other_Location_Code is not null and len(Other_Location_Code)>0 then 'L' else '' end end end as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_INVENTORY_MOVEMENT 
 
-                         union all 
-
-                             select Fat_Amt,SNF_Amt,ISNULL(Fat_Rate,0) AS Fat_Rate,ISNULL(SNF_Rate,0) AS SNF_Rate,Trans_Id,Trans_Type,Source_Doc_No,Punching_Date,InOut,Location_Code,Item_Code,UOM, MRP,Stock_UOM,Stock_Qty,FIFO_Cost,LIFO_Cost,Avg_Cost,1 as IsFromMilk,Fat_Per as MilkFatPer ,SNF_Per as MilkSNFPer,Fat_KG as MilkFATKG,SNF_KG as MilkSNFKG,case when cust_code is not null and len(cust_code)>0 then cust_code else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Code else Other_Location_Code end end as SourceCode,case when cust_code is not null and len(cust_code)>0 then Cust_Name else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Name else Other_Location_Desc end end as SourceName, case when cust_code is not null and len(cust_code)>0 then 'C' else case when Vendor_Code is not null and len(Vendor_Code)>0 then 'V' else case when Other_Location_Code is not null and len(Other_Location_Code)>0 then 'L' else '' end end end as SourceType,isnull(Custom_UOM,'') as Custom_UOM,isnull(Custom_Coversion_Factor,0) as Custom_Coversion_Factor 
-                             from TSPL_INVENTORY_MOVEMENT_NEW
-                            ) InventroyMovement 
-                             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=InventroyMovement.Item_Code
-                             left outer join TSPL_STRUCTURE_MASTER on TSPL_STRUCTURE_MASTER.Structure_Code=TSPL_ITEM_MASTER.Structure_Code
-                             left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code
-                             left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = InventroyMovement.Location_Code 
-                             left outer join TSPL_LOCATION_MASTER as MainLocationTable on MainLocationTable.Location_Code =(case when TSPL_LOCATION_MASTER.Is_Section='N' and TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) left outer join TSPL_ITEM_UOM_DETAIL as FATSNFConvertedUnit on FATSNFConvertedUnit.Item_Code=InventroyMovement.Item_Code and FATSNFConvertedUnit.UOM_Code='KG' left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=InventroyMovement.Trans_Type  left outer join TSPL_ADJUSTMENT_HEADER ON TSPL_ADJUSTMENT_HEADER.Adjustment_No=InventroyMovement.Source_Doc_No   left outer join (select Item_Code,max([FINISHFOOD]) as [FINISHFOOD],max([RAWMATERIAL]) as [RAWMATERIAL],max([OTHER]) as [OTHER],max([PACKINGMAT]) as [PACKINGMAT],max([FIXEDASST]) as [FIXEDASST],max([MAKE]) as [MAKE],max([KV]) as [KV],max([FINISHFOODDESC]) as [FINISHFOODDESC],max([RAWMATERIALDESC]) as [RAWMATERIALDESC],max([OTHERDESC]) as [OTHERDESC],max([PACKINGMATDESC]) as [PACKINGMATDESC],max([FIXEDASSTDESC]) as [FIXEDASSTDESC],max([MAKEDESC]) as [MAKEDESC],max([KVDESC]) as [KVDESC]  
-                             from (
-                             select * from ( 
-                             select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code 
-                             ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+'DESC' as Item_Category_CodeDesc 
-                             ,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values 
-                             ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc 
-                             from  TSPL_ITEM_MASTER  
-                             left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code 
-                             left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values
-                             where 2=2 
-                             )xx
-                             Pivot 
-                             ( max(Item_Cagetory_Values) for Item_Category_Code   in ( [FINISHFOOD],[RAWMATERIAL],[OTHER],[PACKINGMAT],[FIXEDASST],[MAKE],[KV])
-                             ) Pivt
-                             Pivot 
-                             (
-                             max(Category_Value_Desc) for Item_Category_CodeDesc in ([FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC])
-                             ) Pivt1 
-                             ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2  " + whrcls + "
-                             and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + "') )) xxx 
-                             where Punching_Date < '" + clsCommon.GetPrintDate(txtFromDate.Value) + "' group by xxx.Item_Code 
-
-                             union all 
- 
-                             select Trans_Id,Trans_Type,Trans_Type_Name,Source_Doc_No,Punching_Date,InOutView, InOut,Location_Code,[Loc Desp], [LocAddress],SourceCode,SourceName,SourceType ,Item_Type,Item_Type_Name,Item_Group,Group_Description,[FINISHFOOD],[RAWMATERIAL],[OTHER],[PACKINGMAT],[FIXEDASST],[MAKE],[KV],[FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC],Item_Code ,Item_Desc,Item_Category_Struct_Code,Stock_UOM,itf_code ,( Stock_Qty * case when InOut='I' then 1.00 else -1.00 end) as Stock_Qty,(QtyKG * case when InOut='I' then 1.00 else -1.00 end) as Balance_QTYKG,convert(decimal(28,3),case when Stock_Qty=0 then 0 else Cost/Stock_Qty end) as Rate,(Cost * case when InOut='I' then 1.00 else -1.00 end) as Cost,( (case when IsFromMilk=1 then MilkFATKG else (Stock_Qty*FatPer) end) * case when InOut='I' then 1 else -1.00 end) as Balance_FAT, ( (case when IsFromMilk=1 then MilkSNFKG else (Stock_Qty*SNFPer) end ) * case when InOut='I' then 1.00 else -1.00 end) as Balance_SNF   from (select * from ( select InventroyMovement.Fat_Amt,InventroyMovement.SNF_Amt,gl1.Account_code as Inventory_Control_Acc,gl1.Description as Inventory_Control_Acc_desc ,InventroyMovement.Fat_Rate,InventroyMovement.SNF_Rate ,InventroyMovement.Trans_Id,InventroyMovement.Trans_Type, (CASE WHEN (InventroyMovement.Trans_Type='IC-AD' AND TSPL_ADJUSTMENT_HEADER.Reference_Document='JWO-SRN-JLO') THEN 'Jobwork Consumption' ELSE  TSPL_INVENTORY_SOURCE_CODE.Name END )as Trans_Type_Name,InventroyMovement.Source_Doc_No,InventroyMovement.Punching_Date, InventroyMovement.InOut,case when InventroyMovement.InOut='I' then 'In' else case when InventroyMovement.InOut='O' then 'Out' else '' end end as 'InOutView', case when TSPL_LOCATION_MASTER.Is_Section='N' and TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end as Main_Location_Code,MainLocationTable.Location_Desc as MainLocationDesc, InventroyMovement.Location_Code,TSPL_LOCATION_MASTER.Location_Desc AS [Loc Desp],TSPL_LOCATION_MASTER.Add1+Case When ISNULL(TSPL_LOCATION_MASTER.Add2,'')='' Then ''  else ', '+TSPL_LOCATION_MASTER.Add2+ Case When ISNULL(TSPL_LOCATION_MASTER.Add3,'')='' Then '' Else ', '+TSPL_LOCATION_MASTER.Add3+ Case When ISNULL(TSPL_LOCATION_MASTER.Pin_Code ,'')='' Then '' else '-'+CONVERT(varchar, TSPL_LOCATION_MASTER.Pin_Code) End End End  as [LocAddress],SourceCode,SourceName,SourceType  ,Item_Group.Item_Group,Item_Group.Group_Description, InventroyMovement.Item_Code, InventroyMovement.MRP ,TSPL_ITEM_MASTER.Item_Desc,tspl_item_master.itf_code,TSPL_ITEM_MASTER.Structure_Code,TSPL_STRUCTURE_MASTER.Structure_Descq, IsFromMilk,MilkFATKG,MilkSNFKG,case when IsFromMilk=1 then MilkFatPer else isnull((select TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER  left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='FAT'),0) end as MilkFatPer,case when IsFromMilk=1 then MilkSNFPer else isnull((select TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER  left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='SNF'),0) end as MilkSNFPer,TSPL_LOCATION_MASTER.Is_Section,TSPL_LOCATION_MASTER.Is_Sub_Location, isnull((InventroyMovement.Stock_Qty * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end))  ,0) as QtyKG, InventroyMovement.Stock_UOM,InventroyMovement.Stock_Qty, isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end)) from TSPL_ITEM_QC_PARAMETER_MASTER  left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='FAT'),0) as FatPer, isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end)) from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='SNF'),0) as SNFPer, (case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=3 then InventroyMovement.FIFO_Cost else case when TSPL_PURCHASE_ACCOUNTS.Costing_Method=2 then InventroyMovement.LIFO_Cost else InventroyMovement.Avg_Cost end end ) as Cost,TSPL_ITEM_MASTER.Item_Category_Struct_Code 
-                            ,VirtualCategoryTabel.[FINISHFOOD],VirtualCategoryTabel.[RAWMATERIAL],VirtualCategoryTabel.[OTHER],VirtualCategoryTabel.[PACKINGMAT],VirtualCategoryTabel.[FIXEDASST],VirtualCategoryTabel.[MAKE],VirtualCategoryTabel.[KV],VirtualCategoryTabel.[FINISHFOODDESC],VirtualCategoryTabel.[RAWMATERIALDESC],VirtualCategoryTabel.[OTHERDESC],VirtualCategoryTabel.[PACKINGMATDESC],VirtualCategoryTabel.[FIXEDASSTDESC],VirtualCategoryTabel.[MAKEDESC],VirtualCategoryTabel.[KVDESC] ,TSPL_ITEM_MASTER.Item_Type,VirtualTableItemType.Name as Item_Type_Name,TSPL_INVENTORY_SOURCE_CODE.In_Category,TSPL_INVENTORY_SOURCE_CODE.Out_Category,TSPL_INVENTORY_SOURCE_CODE.Code,(case when ISNULL(InventroyMovement.Location_Code,'')='' then InventroyMovement.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) as PrimaryLocation  from (  select Fat_Amt,SNF_Amt,0 AS Fat_Rate,0 AS SNF_Rate ,Trans_Id,Trans_Type,Source_Doc_No,Punching_Date,InOut,Location_Code,Item_Code,UOM, MRP,Stock_UOM,Stock_Qty,FIFO_Cost,LIFO_Cost,Avg_Cost,0 as IsFromMilk,0 as MilkFatPer,0 as MilkSNFPer,0 as MilkFATKG,0 as MilkSNFKG,case when cust_code is not null and len(cust_code)>0 then cust_code else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Code else Other_Location_Code end end as SourceCode,case when cust_code is not null and len(cust_code)>0 then Cust_Name else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Name else Other_Location_Desc end end as SourceName, case when cust_code is not null and len(cust_code)>0 then 'C' else case when Vendor_Code is not null and len(Vendor_Code)>0 then 'V' else case when Other_Location_Code is not null and len(Other_Location_Code)>0 then 'L' else '' end end end as SourceType,'' as Custom_UOM,0 as Custom_Coversion_Factor  from TSPL_INVENTORY_MOVEMENT 
-                             union all 
-                             select Fat_Amt,SNF_Amt,ISNULL(Fat_Rate,0) AS Fat_Rate,ISNULL(SNF_Rate,0) AS SNF_Rate,Trans_Id,Trans_Type,Source_Doc_No,Punching_Date,InOut,Location_Code,Item_Code,UOM, MRP,Stock_UOM,Stock_Qty,FIFO_Cost,LIFO_Cost,Avg_Cost,1 as IsFromMilk,Fat_Per as MilkFatPer ,SNF_Per as MilkSNFPer,Fat_KG as MilkFATKG,SNF_KG as MilkSNFKG,case when cust_code is not null and len(cust_code)>0 then cust_code else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Code else Other_Location_Code end end as SourceCode,case when cust_code is not null and len(cust_code)>0 then Cust_Name else case when Vendor_Code is not null and len(Vendor_Code)>0 then Vendor_Name else Other_Location_Desc end end as SourceName, case when cust_code is not null and len(cust_code)>0 then 'C' else case when Vendor_Code is not null and len(Vendor_Code)>0 then 'V' else case when Other_Location_Code is not null and len(Other_Location_Code)>0 then 'L' else '' end end end as SourceType,isnull(Custom_UOM,'') as Custom_UOM,isnull(Custom_Coversion_Factor,0) as Custom_Coversion_Factor from TSPL_INVENTORY_MOVEMENT_NEW
-                            ) InventroyMovement 
-                             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=InventroyMovement.Item_Code
-                             left outer join TSPL_STRUCTURE_MASTER on TSPL_STRUCTURE_MASTER.Structure_Code=TSPL_ITEM_MASTER.Structure_Code
-                             left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code
-                             left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = InventroyMovement.Location_Code 
-                             left outer join TSPL_LOCATION_MASTER as MainLocationTable on MainLocationTable.Location_Code =(case when TSPL_LOCATION_MASTER.Is_Section='N' and TSPL_LOCATION_MASTER.Is_Sub_Location='N' then TSPL_LOCATION_MASTER.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) left outer join TSPL_ITEM_UOM_DETAIL as FATSNFConvertedUnit on FATSNFConvertedUnit.Item_Code=InventroyMovement.Item_Code and FATSNFConvertedUnit.UOM_Code='KG' left outer join TSPL_INVENTORY_SOURCE_CODE on TSPL_INVENTORY_SOURCE_CODE.code=InventroyMovement.Trans_Type  left outer join TSPL_ADJUSTMENT_HEADER ON TSPL_ADJUSTMENT_HEADER.Adjustment_No=InventroyMovement.Source_Doc_No   left outer join (select Item_Code,max([FINISHFOOD]) as [FINISHFOOD],max([RAWMATERIAL]) as [RAWMATERIAL],max([OTHER]) as [OTHER],max([PACKINGMAT]) as [PACKINGMAT],max([FIXEDASST]) as [FIXEDASST],max([MAKE]) as [MAKE],max([KV]) as [KV],max([FINISHFOODDESC]) as [FINISHFOODDESC],max([RAWMATERIALDESC]) as [RAWMATERIALDESC],max([OTHERDESC]) as [OTHERDESC],max([PACKINGMATDESC]) as [PACKINGMATDESC],max([FIXEDASSTDESC]) as [FIXEDASSTDESC],max([MAKEDESC]) as [MAKEDESC],max([KVDESC]) as [KVDESC]  from (
-                             select * from ( 
-                             select TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code 
-                             ,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code+'DESC' as Item_Category_CodeDesc 
-                             ,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values 
-                             ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc 
-                             from  TSPL_ITEM_MASTER  
-                             left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code 
-                             left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values
-                             where 2=2 
-                             )xx
-                             Pivot 
-                             ( max(Item_Cagetory_Values) for Item_Category_Code   in ( [FINISHFOOD],[RAWMATERIAL],[OTHER],[PACKINGMAT],[FIXEDASST],[MAKE],[KV])
-                             ) Pivt
-                             Pivot 
-                             (
-                             max(Category_Value_Desc) for Item_Category_CodeDesc in ([FINISHFOODDESC],[RAWMATERIALDESC],[OTHERDESC],[PACKINGMATDESC],[FIXEDASSTDESC],[MAKEDESC],[KVDESC])
-                             ) Pivt1 
-                             ) xxx group by Item_Code ) as VirtualCategoryTabel on  VirtualCategoryTabel.Item_Code=InventroyMovement.Item_Code left outer join ( select Struct.Structure_Code,Structure_Descq,Struct_Val.Value as Item_Group,StructDtl.Description as Group_Description from TSPL_STRUCTURE_MASTER Struct left join ( select Custom_field_Code,Transaction_code,Value from TSPL_CUSTOM_FIELD_VALUES where Program_Code='ITEM-STRUCT'   and Custom_Field_Code='') as Struct_Val  on Struct.Structure_Code=Struct_Val.Transaction_Code left join (select Custom_Field_Code,SNo,Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='') as StructDtl on Struct_Val.Value=StructDtl.Value ) as Item_Group on Item_Group.Structure_Code =TSPL_ITEM_MASTER.Structure_Code  left outer join ( SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  ) as VirtualTableItemType on VirtualTableItemType.Code = TSPL_ITEM_MASTER.Item_Type  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code =TSPL_PURCHASE_ACCOUNTS .Inv_Control_Account   left outer join TSPL_GL_ACCOUNTS gl1 on gl1.Account_Seg_Code1 =TSPL_GL_ACCOUNTS.Account_Seg_Code1  and gl1.Account_Seg_Code7 =  tspl_location_master.Loc_Segment_Code  Where 2=2  and TSPL_LOCATION_MASTER.GIT_Type<>'Y' and MainLocationTable.GIT_Type<>'Y'  ) xxxxx  where 2=2  " + whrcls + " 
-                             and ( ((case when Is_Section='N' and Is_Sub_Location='N' then Location_Code else Main_Location_Code end) = '" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + "' ) )) xxx 
-                             where Punching_Date>= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'   and Punching_Date<= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'   
-                            )xxxxxx  )xxxxxxx 
-
-                            LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=xxxxxxx.Location_Code
-                            where 
-                            Trans_Id<>0  
-
-                            Order by  Punching_Date,Trans_Id "
+            End If
 
             If clsCommon.myLen(qry) > 0 Then
                 dt = clsDBFuncationality.GetDataTable(qry)
@@ -174,6 +145,9 @@ Public Class rptPerformanceReport
             Else
                 clsCommon.MyMessageBoxShow("No data found to display.", "Performance Report")
             End If
+
+
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -189,125 +163,271 @@ Public Class rptPerformanceReport
             Gv1.Columns(ii).IsVisible = False
         Next
 
-        Gv1.Columns("CompName").Width = 100
-        Gv1.Columns("CompName").IsVisible = False
-        Gv1.Columns("CompName").HeaderText = "Comp Name"
+        Gv1.Columns("FROM_DATE").Width = 100
+        Gv1.Columns("FROM_DATE").IsVisible = True
+        Gv1.Columns("FROM_DATE").HeaderText = "From Date"
 
-        Gv1.Columns("FromDate").Width = 100
-        Gv1.Columns("FromDate").IsVisible = False
-        Gv1.Columns("FromDate").HeaderText = "From Date"
+        Gv1.Columns("TO_DATE").Width = 100
+        Gv1.Columns("TO_DATE").IsVisible = True
+        Gv1.Columns("TO_DATE").HeaderText = "To Date"
 
-        Gv1.Columns("ToDate").Width = 100
-        Gv1.Columns("ToDate").IsVisible = False
-        Gv1.Columns("ToDate").HeaderText = "To Date"
+        Gv1.Columns("Ref_No").Width = 150
+        Gv1.Columns("Ref_No").IsVisible = True
+        Gv1.Columns("Ref_No").HeaderText = "RAL No"
 
-        Gv1.Columns("Trans_Id").Width = 100
-        Gv1.Columns("Trans_Id").IsVisible = False
-        Gv1.Columns("Trans_Id").HeaderText = "Trans ID"
+        Gv1.Columns("Item Description").Width = 100
+        Gv1.Columns("Item Description").IsVisible = True
+        Gv1.Columns("Item Description").HeaderText = "Item Description"
 
-        Gv1.Columns("Punching_Date").Width = 100
-        Gv1.Columns("Punching_Date").IsVisible = False
-        Gv1.Columns("Punching_Date").HeaderText = "Punching Date"
+        Gv1.Columns("Supplier's Name").Width = 150
+        Gv1.Columns("Supplier's Name").IsVisible = True
+        Gv1.Columns("Supplier's Name").HeaderText = "Supplier's Name"
 
-        Gv1.Columns("Punching_Date").Width = 100
-        Gv1.Columns("Punching_Date").IsVisible = False
-        Gv1.Columns("Punching_Date").HeaderText = "Punching Date"
+        Gv1.Columns("Quantity Approved").Width = 100
+        Gv1.Columns("Quantity Approved").IsVisible = True
+        Gv1.Columns("Quantity Approved").HeaderText = "Quantity Approved"
 
-        Gv1.Columns("Location_Code").Width = 100
-        Gv1.Columns("Location_Code").IsVisible = False
-        Gv1.Columns("Location_Code").HeaderText = "Location Code"
+        Gv1.Columns("Rate").Width = 100
+        Gv1.Columns("Rate").IsVisible = True
+        Gv1.Columns("Rate").HeaderText = "Rate"
+
+        Gv1.Columns("Quantity Supplied").Width = 100
+        Gv1.Columns("Quantity Supplied").IsVisible = True
+        Gv1.Columns("Quantity Supplied").HeaderText = "Quantity Supplied"
+
+
+        Gv1.Columns("Short/Excess Qty").Width = 100
+        Gv1.Columns("Short/Excess Qty").IsVisible = True
+        Gv1.Columns("Short/Excess Qty").HeaderText = "Short/Excess Qty"
+
+
+
+        Gv1.Columns("RiskPurchase").Width = 100
+        Gv1.Columns("RiskPurchase").IsVisible = True
+        Gv1.Columns("RiskPurchase").HeaderText = "RiskPurchase"
+
+        Gv1.Columns("% Supplied").Width = 100
+        Gv1.Columns("% Supplied").IsVisible = True
+        Gv1.Columns("% Supplied").HeaderText = "% Supplied"
+
+        Gv1.Columns("Remarks").Width = 100
+        Gv1.Columns("Remarks").IsVisible = True
+        Gv1.Columns("Remarks").HeaderText = "Remarks"
 
         Gv1.Columns("Add1").Width = 100
         Gv1.Columns("Add1").IsVisible = False
         Gv1.Columns("Add1").HeaderText = "Add1"
 
-        Gv1.Columns("Loc Desp").Width = 100
-        Gv1.Columns("Loc Desp").IsVisible = True
-        Gv1.Columns("Loc Desp").HeaderText = "Location Description"
+        Gv1.Columns("Location_Desc").Width = 100
+        Gv1.Columns("Location_Desc").IsVisible = False
+        Gv1.Columns("Location_Desc").HeaderText = "Location Description"
 
-        Gv1.Columns("Item_Type_Name").Width = 100
-        Gv1.Columns("Item_Type_Name").IsVisible = False
-        Gv1.Columns("Item_Type_Name").HeaderText = "Item Type"
-
-        Gv1.Columns("Item_Code").Width = 100
-        Gv1.Columns("Item_Code").IsVisible = True
-        Gv1.Columns("Item_Code").HeaderText = "Item Code"
-
-        Gv1.Columns("Item_Desc").Width = 100
-        Gv1.Columns("Item_Desc").IsVisible = True
-        Gv1.Columns("Item_Desc").HeaderText = "Item Description"
-
-        Gv1.Columns("Stock_UOM").Width = 100
-        Gv1.Columns("Stock_UOM").IsVisible = False
-        Gv1.Columns("Stock_UOM").HeaderText = "Stock UOM"
-
-        Gv1.Columns("OPQty").Width = 100
-        Gv1.Columns("OPQty").IsVisible = True
-        Gv1.Columns("OPQty").HeaderText = "Opening Qty"
-
-        Gv1.Columns("OPRate").Width = 100
-        Gv1.Columns("OPRate").IsVisible = True
-        Gv1.Columns("OPRate").HeaderText = "Opening Rate"
-
-        Gv1.Columns("OPCost").Width = 100
-        Gv1.Columns("OPCost").IsVisible = True
-        Gv1.Columns("OPCost").HeaderText = "Opening Cost"
-
-        Gv1.Columns("RecQty").Width = 100
-        Gv1.Columns("RecQty").IsVisible = True
-        Gv1.Columns("RecQty").HeaderText = "Received Qty"
-
-        Gv1.Columns("RecRate").Width = 100
-        Gv1.Columns("RecRate").IsVisible = True
-        Gv1.Columns("RecRate").HeaderText = "Received Rate"
-
-        Gv1.Columns("RecCost").Width = 100
-        Gv1.Columns("RecCost").IsVisible = True
-        Gv1.Columns("RecCost").HeaderText = "Received Cost"
-
-        Gv1.Columns("IssQty").Width = 100
-        Gv1.Columns("IssQty").IsVisible = True
-        Gv1.Columns("IssQty").HeaderText = "Issue Qty"
-
-        Gv1.Columns("IssRate").Width = 100
-        Gv1.Columns("IssRate").IsVisible = True
-        Gv1.Columns("IssRate").HeaderText = "Issue Rate"
-
-        Gv1.Columns("IssCost").Width = 100
-        Gv1.Columns("IssCost").IsVisible = True
-        Gv1.Columns("IssCost").HeaderText = "Issue Cost"
-
-        Gv1.Columns("CLQty").Width = 100
-        Gv1.Columns("CLQty").IsVisible = True
-        Gv1.Columns("CLQty").HeaderText = "Closing Qty"
-
-        Gv1.Columns("CLRate").Width = 100
-        Gv1.Columns("CLRate").IsVisible = True
-        Gv1.Columns("CLRate").HeaderText = "Closing Rate"
-
-        Gv1.Columns("CLCost").Width = 100
-        Gv1.Columns("CLCost").IsVisible = True
-        Gv1.Columns("CLCost").HeaderText = "Closing Cost"
-
-    End Sub
-
-    Private Sub TxtMultiLocation__My_Click(sender As Object, e As EventArgs) Handles TxtMultiLocation._My_Click
-        Dim WhrCls As String = " And Location_Type ='Physical'  "
-        If clsCommon.myLen(arrLoc) > 0 Then
-            WhrCls += "  and  Location_Code in (" + arrLoc + ")"
-        End If
-
-        Dim qry As String = "select Location_Code as [Code] ,Location_Desc as [Name] from TSPL_LOCATION_MASTER where 2=2 " + WhrCls + "  "
-
-        TxtMultiLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("Pro", qry, "Code", "Name", TxtMultiLocation.arrValueMember, TxtMultiLocation.arrDispalyMember)
+        Gv1.Columns("LOCATION").Width = 100
+        Gv1.Columns("LOCATION").IsVisible = True
+        Gv1.Columns("LOCATION").HeaderText = "LOCATION"
 
 
     End Sub
 
     Private Sub TxtItem__My_Click(sender As Object, e As EventArgs) Handles TxtRAL._My_Click
 
-        Dim qry As String = " select Item_Code,Item_Desc from TSPL_ITEM_MASTER order by Item_Code "
-        TxtRAL.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "Item_Code", "Item_Code", TxtRAL.arrValueMember, TxtRAL.arrDispalyMember)
+        Dim qry As String = " SELECT DocumentCode,DocumentDate from TSPL_TENDER_HEADER order by DocumentCode "
+        TxtRAL.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemMulSel", qry, "DocumentCode", "DocumentDate", TxtRAL.arrValueMember, TxtRAL.arrDispalyMember)
+
+
+    End Sub
+
+    Private Sub txtBillToLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBillToLocation._MYValidating
+
+        Try
+            Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+            Dim WhrCls As String
+            If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
+                WhrCls = " Location_Type='Virtual' "
+            Else
+                WhrCls = " (Location_Type='Physical' or Location_Type='WorkOrder')  "
+            End If
+
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+
+            txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
+
+            If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
+            Else
+                lblBillToLocation.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+
+    End Sub
+
+    Private Sub rptPerformanceReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Dim WhrCls As String = String.Empty
+        If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
+            WhrCls = " and Location_Type='Virtual' "
+        Else
+            WhrCls = " and Location_Type='Physical' or Location_Type='WorkOrder'  "
+        End If
+        '  If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.mbtnSRN) = CompairStringResult.Equal Then
+        ' txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' " & WhrCls & " "))
+        If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+        End If
+
+    End Sub
+
+    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+
+        Try
+            If Gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "Admin") = CompairStringResult.Equal Then
+                    arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+
+                Else
+                    'Dim strLocDesc As String = clsDBFuncationality.getSingleValue("select Location_Desc from tspl_location_master where Location_Code in (" + objCommonVar.strCurrUserLocations + ")")
+                    'arrHeader.Add("Location : " + strLocDesc)
+                End If
+                arrHeader.Add("Location:" + clsCommon.myCstr(txtBillToLocation.Value))
+
+                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                clsCommon.MyExportToExcelGrid("Performance Report", Gv1, arrHeader, Me.Text)
+                ' transportSql.exportdataChilRows(gv1, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
+                common.clsCommon.MyMessageBoxShow("Exported Successfully.", Me.Text)
+                'Process.Start(filePath)
+
+            Else
+                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
+
+        Try
+
+            If Gv1.Rows.Count > 0 Then
+
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "Admin") = CompairStringResult.Equal Then
+                    arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                Else
+                    'Dim strLocDesc As String = clsDBFuncationality.getSingleValue("select Location_Desc from tspl_location_master where Location_Code in (" + objCommonVar.strCurrUserLocations + ")")
+                    'arrHeader.Add("Location : " + strLocDesc)
+                End If
+
+                arrHeader.Add("Location:" + clsCommon.myCstr(txtBillToLocation.Value))
+
+                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                clsCommon.MyExportToPDF("Performance Report", Gv1, arrHeader, "Performance Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            Else
+                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+
+        Dim qry As String
+        Try
+
+            Dim whr As String = ""
+            If TxtRAL.arrValueMember IsNot Nothing AndAlso TxtRAL.arrValueMember.Count > 0 Then
+                whr += " where XXY.Ref_No In (" + clsCommon.GetMulcallString(TxtRAL.arrValueMember) + ")  "
+            End If
+
+            If rdobtnWeighment.Checked Then
+
+                qry = "  SELECT XXY.FROM_DATE,XXY.TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1
+                         from   (select final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.Rate,final.GRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.RiskPurchase,final.[% Supplied],final.Remarks ,final.LOCATION,final.FROM_DATE,final.TO_DATE
+                from (
+                Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
+                cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
+                max(TendorSeqNo) as TendorSeqNo,
+                SUM(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) AS GRNQTY,
+                (RM_RAL.RAL_QTY - sum(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) )as 'Pending_Qty', '' as RiskPurchase,
+				(SUM(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight)*100)/ RM_RAL.RAL_QTY as [% Supplied],'' as Remarks,MAX(RM_RAL.Rate) AS RATE
+                 ,MAX(RM_RAL.Location) AS Location, MAX(RM_RAL.FROM_DATE) AS FROM_DATE,MAX(RM_RAL.TO_DATE) AS TO_DATE 
+                             
+
+                from TSPL_PO_WEIGHTMENT_HEAD
+                left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code=TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code
+                left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code
+                
+                INNER JOIN 
+                (SELECT TSPL_TENDER_DETAIL.Location AS 'LOCATION' ,TSPL_TENDER_HEADER.DocumentCode AS 'RAL',TSPL_TENDER_DETAIL.Vendor_Code AS 'VENDORCODE',TSPL_VENDOR_MASTER.Vendor_Name AS 'VENDORNAME',TSPL_TENDER_DETAIL.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_NAME',TSPL_TENDER_DETAIL.Unit_code  AS 'UOM',max(TSPL_TENDER_HEADER.TendorSeqNo) as TendorSeqNo,SUM(TSPL_TENDER_DETAIL.Qty) AS 'RAL_QTY', 0 AS 'GRNQTY',MAX(TSPL_TENDER_DETAIL.Rate) AS RATE,MAX(TSPL_TENDER_SCHEDULE.FROM_DATE) AS FROM_DATE,MAX(TSPL_TENDER_SCHEDULE.TO_DATE) AS TO_DATE
+                FROM TSPL_TENDER_HEADER
+                LEFT OUTER JOIN TSPL_TENDER_DETAIL ON TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
+                INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE=TSPL_TENDER_DETAIL.ITEM_CODE
+                INNER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code
+				left outer join (SELECT DocumentCode,Location_Code,Vendor_Code,Item_Code,MIN(FROM_DATE) AS FROM_DATE,MAX(TO_DATE) AS TO_DATE  FROM TSPL_TENDER_SCHEDULE  GROUP BY DocumentCode,Location_Code,Vendor_Code,Item_Code) as TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_SCHEDULE.Location_Code=TSPL_TENDER_DETAIL.Location AND TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code AND TSPL_TENDER_SCHEDULE.Item_Code=TSPL_TENDER_DETAIL.Item_Code
+                GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_TENDER_DETAIL.Unit_code) 
+	                RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_PO_WEIGHTMENT_HEAD.Location_Code AND RM_RAL.ITEM_CODE=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_PO_WEIGHTMENT_DETAIL.UOM
+                where TSPL_ITEM_MASTER.RAL=1 And TSPL_PO_WEIGHTMENT_HEAD.Location_Code= '" + clsCommon.myCstr(txtBillToLocation.Value) + "'   GROUP BY TSPL_PO_WEIGHTMENT_HEAD.Location_Code ,TSPL_GRN_HEAD.Ref_No,TSPL_PO_WEIGHTMENT_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_PO_WEIGHTMENT_DETAIL.UOM ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_PO_WEIGHTMENT_DETAIL.UOM,RAL_QTY
+                        ) final ) XXY
+						LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=XXY.LOCATION  " + whr
+
+            Else
+
+                qry = "  SELECT XXY.FROM_DATE,XXY.TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1
+                         from   (select final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.SRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.Rate,final.RiskPurchase,final.[% Supplied],final.Remarks,final.FROM_DATE,final.TO_DATE,final.LOCATION
+                from (
+                Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_SRN_DETAIL.Unit_code AS UOM,TSPL_GRN_HEAD.Vendor_Name,
+                cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
+                max(TendorSeqNo) as TendorSeqNo,
+                SUM(SRN_Qty) AS SRNQTY,
+                (RM_RAL.RAL_QTY - sum(TSPL_SRN_DETAIL.SRN_Qty )) as 'Pending_Qty',MAX(RM_RAL.Rate) AS RATE,'' as RiskPurchase,
+				(sum(SRN_Qty)*100)/ RM_RAL.RAL_QTY as [% Supplied],'' as Remarks
+                 , MAX(RM_RAL.FROM_DATE) AS FROM_DATE,MAX(RM_RAL.TO_DATE) AS TO_DATE,MAX(RM_RAL.Location) AS Location
+                from TSPL_SRN_HEAD
+				LEFT OUTER JOIN TSPL_SRN_DETAIL ON TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No
+                left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN
+                left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SRN_DETAIL.Item_Code
+             
+                INNER JOIN 
+                (SELECT TSPL_TENDER_DETAIL.Location AS 'LOCATION' ,TSPL_TENDER_HEADER.DocumentCode AS 'RAL',TSPL_TENDER_DETAIL.Vendor_Code AS 'VENDORCODE',TSPL_VENDOR_MASTER.Vendor_Name AS 'VENDORNAME',TSPL_TENDER_DETAIL.Item_Code AS 'ITEM_CODE',TSPL_ITEM_MASTER.Short_Description AS 'ITEM_NAME',TSPL_TENDER_DETAIL.Unit_code  AS 'UOM',max(TSPL_TENDER_HEADER.TendorSeqNo) as TendorSeqNo,SUM(TSPL_TENDER_DETAIL.Qty) AS 'RAL_QTY', 0 AS 'GRNQTY',MAX(TSPL_TENDER_DETAIL.Rate) AS RATE,MAX(TSPL_TENDER_SCHEDULE.FROM_DATE) AS FROM_DATE,MAX(TSPL_TENDER_SCHEDULE.TO_DATE) AS TO_DATE
+                FROM TSPL_TENDER_HEADER
+                LEFT OUTER JOIN TSPL_TENDER_DETAIL ON TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
+                INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE=TSPL_TENDER_DETAIL.ITEM_CODE
+                INNER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code
+				left outer join (SELECT DocumentCode,Location_Code,Vendor_Code,Item_Code,MIN(FROM_DATE) AS FROM_DATE,MAX(TO_DATE) AS TO_DATE  FROM TSPL_TENDER_SCHEDULE  GROUP BY DocumentCode,Location_Code,Vendor_Code,Item_Code) as TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_SCHEDULE.Location_Code=TSPL_TENDER_DETAIL.Location AND TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code AND TSPL_TENDER_SCHEDULE.Item_Code=TSPL_TENDER_DETAIL.Item_Code
+                GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_TENDER_DETAIL.Unit_code) 
+	                RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_SRN_HEAD.Bill_To_Location AND RM_RAL.ITEM_CODE=TSPL_SRN_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_SRN_DETAIL.Unit_code
+                where  TSPL_SRN_HEAD.Bill_To_Location= 'AJMR' 
+				   
+				GROUP BY TSPL_SRN_HEAD.Bill_To_Location ,TSPL_GRN_HEAD.Ref_No,TSPL_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SRN_DETAIL.Unit_code ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_SRN_DETAIL.Unit_code,RAL_QTY
+                        ) final) XXY 
+						LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=XXY.LOCATION   " + whr
+
+
+            End If
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "rptPerformanceReport", "")
+                frmCRV = Nothing
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found")
+            End If
+
+        Catch ex As Exception
+
+        End Try
+
 
     End Sub
 End Class

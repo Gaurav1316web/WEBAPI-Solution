@@ -278,9 +278,12 @@ Public Class frmSNSaleInvoice
             LoadData(strSRNno, NavigatorType.Current)
         End If
         chkRateDefaultSetting.ToggleState = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SalesRateEditable, clsFixedParameterCode.SalesRateEditable, Nothing)) = 1, ToggleState.On, ToggleState.Off)
-        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+        Else
+            txtBillToLocation.Value = "RCDF"
+            lblBillToLocation.Text = clsLocation.GetName(txtBillToLocation.Value, Nothing)
         End If
         If clsCommon.myLen(strSaleInvoice) > 0 Then
             LoadData(strSaleInvoice, NavigatorType.Current)
@@ -3035,6 +3038,11 @@ Public Class frmSNSaleInvoice
             RefreshReqNo()
 
             UpdateAllTotals()
+            If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
+                clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
+                txtDate.Focus()
+                Return False
+            End If
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow("Please select Customer")
                 txtVendorNo.Focus()
@@ -6915,9 +6923,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
         clsOpenJEAgainstInvoice.ShowInvoiceJE(txtDocNo.Value)
     End Sub
 
-    'Private Sub btnDisPrint_Click(sender As Object, e As EventArgs) Handles btnDisPrint.Click
-    '    DispatchInvoicePrint()
-    'End Sub
+
     Sub DispatchInvoicePrint()
         Try
             Dim frmDCSPrint As New frmCrystalReportViewer()
@@ -6992,5 +6998,7 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
         End Try
     End Sub
 
-
+    Private Sub btnDCSPrint_Click(sender As Object, e As EventArgs) Handles btnDCSPrint.Click
+        DispatchInvoicePrint()
+    End Sub
 End Class

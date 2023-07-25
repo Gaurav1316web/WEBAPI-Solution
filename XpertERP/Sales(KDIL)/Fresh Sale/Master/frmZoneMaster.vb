@@ -117,7 +117,7 @@ Public Class FrmZoneMaster
         txtCode.Value = ""
         txtdes.Text = ""
         txtdesHindi.Text = ""
-        'txtCode.MyReadOnly = False
+        txtCode.MyReadOnly = False
         'txtCity.Value = ""
         fndRSM.Value = ""
         ' lblCity.Text = ""

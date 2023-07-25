@@ -1261,7 +1261,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
         obj = New clsSNInvoiceHead()
         obj.podate = objShipment.Document_Date
         obj.Invoice_Type = objShipment.Invoice_Type
-        obj.Document_Code = objShipment.Document_Code
+        'obj.Document_Code = objShipment.Document_Code
         obj.Document_Date = objShipment.Document_Date
         obj.Customer_Code = objShipment.Customer_Code
         obj.Customer_Name = objShipment.Customer_Name
@@ -1412,7 +1412,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
         obj.Add_Charge_Code10 = objShipment.Add_Charge_Code10
         obj.Add_Charge_Name10 = objShipment.Add_Charge_Name10
         obj.Add_Charge_Amt10 = objShipment.Add_Charge_Amt10
-
+        obj.Invoice_Type = "R"
         obj.Total_Add_Charge = objShipment.Total_Add_Charge
         obj.Inv_No = objShipment.Inv_No
         If clsCommon.myLen(objShipment.Challan_Date) <= 0 Then

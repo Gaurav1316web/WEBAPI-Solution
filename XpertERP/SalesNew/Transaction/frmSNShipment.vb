@@ -354,6 +354,9 @@ Public Class frmSNShipment
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             txtBillToLocation.Value = clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Location_Master where Location_Code in(" + clsCommon.myCstr(objCommonVar.strCurrUserLocations) + ")") 'clsCommon.myCstr(objCommonVar.strCurrUserLocations)
             lblBillToLocation.Text = clsLocation.GetName(txtBillToLocation.Value, Nothing)
+        Else
+            txtBillToLocation.Value = "RCDF" ' clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Location_Master where Location_Code in(" + clsCommon.myCstr(objCommonVar.strCurrUserLocations) + ")") 'clsCommon.myCstr(objCommonVar.strCurrUserLocations)
+            lblBillToLocation.Text = clsLocation.GetName(txtBillToLocation.Value, Nothing)
         End If
 
     End Sub
@@ -5767,6 +5770,8 @@ Public Class frmSNShipment
         Dim WhrCls As String = " Location_Type='Physical'  "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        Else
+            WhrCls += "  and  Location_Code in ('RCDF')"
         End If
         txtBillToLocation.Value = clsCommon.ShowSelectForm("ShipmentMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
         lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
@@ -9222,7 +9227,7 @@ a:          End If
             Dim frmDCSPrint As New frmCrystalReportViewer()
             Dim qry As String = "select XX.*,(XX.Qty * XX.Packing_in_Kg) as Total_Weight, (XX.Qty * XX.Item_Cost) as Basic_Amt
 from( 
-select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Form_38_No,TSPL_SD_SHIPMENT_HEAD.Carrier,TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,TSPL_DCS_FOR_SALE.Name as DCS_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM,(select TSPL_ITEM_UOM_DETAIL.Conversion_Factor from TSPL_ITEM_UOM_DETAIL where Item_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode) and UOM_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM) ) as Packing_in_Kg,TSPL_SD_SHIPMENT_DETAIL.Item_Cost,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1
+select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Form_38_No,TSPL_SD_SHIPMENT_HEAD.Carrier,TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,TSPL_DCS_FOR_SALE.Name as DCS_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM,(select TSPL_ITEM_UOM_DETAIL.Conversion_Factor from TSPL_ITEM_UOM_DETAIL where Item_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode) and UOM_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM) ) as Packing_in_Kg,TSPL_SD_SHIPMENT_DETAIL.Item_Cost,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge
 from TSPL_SD_SHIPMENT_HEAD
 left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
 left join TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL on TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code AND
@@ -9233,9 +9238,35 @@ left join TSPL_DCS_FOR_SALE on TSPL_DCS_FOR_SALE.Code=TSPL_SD_SHIPMENT_DCS_ITEM_
 left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
 where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) + "' 
 )XX"
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            '            Dim StrQry As String = "select max(document_code)as Document_Code,Add_Charge_Code,max(Add_Charge_Name) as Add_Charge_Name,sum(Add_Charge_Amt) as Add_Charge_Amt from(
+            'select document_code,Add_Charge_Code1 as Add_Charge_Code,Add_Charge_Name1 as Add_Charge_Name,Add_Charge_Amt1 as Add_Charge_Amt  from TSPL_SD_SHIPMENT_HEAD where document_code in('" + clsCommon.myCstr(txtDocNo.Value) + "') and  Add_Charge_Amt1>0
+            'union all
+            'select document_code,Add_Charge_Code2 as Add_Charge_Code,Add_Charge_Name2 as Add_Charge_Name,Add_Charge_Amt2 as Add_Charge_Amt  from TSPL_SD_SHIPMENT_HEAD where document_code in('" + clsCommon.myCstr(txtDocNo.Value) + "') and  Add_Charge_Amt2>0
+            'union all
+            'select document_code,Add_Charge_Code3 as Add_Charge_Code,Add_Charge_Name3 as Add_Charge_Name,Add_Charge_Amt3 as Add_Charge_Amt  from TSPL_SD_SHIPMENT_HEAD where document_code in('" + clsCommon.myCstr(txtDocNo.Value) + "') and  Add_Charge_Amt3>0
+            'union all
+            'select document_code,Add_Charge_Code4 as Add_Charge_Code,Add_Charge_Name4 as Add_Charge_Name,Add_Charge_Amt4 as Add_Charge_Amt  from TSPL_SD_SHIPMENT_HEAD where document_code in('" + clsCommon.myCstr(txtDocNo.Value) + "') and  Add_Charge_Amt4>0
+            'union all
+            'select document_code,Add_Charge_Code5 as Add_Charge_Code,Add_Charge_Name5 as Add_Charge_Name,Add_Charge_Amt5 as Add_Charge_Amt  from TSPL_SD_SHIPMENT_HEAD where document_code in('" + clsCommon.myCstr(txtDocNo.Value) + "') and  Add_Charge_Amt5>0
+            'union all
+            'select document_code,Add_Charge_Code6 as Add_Charge_Code,Add_Charge_Name6 as Add_Charge_Name,Add_Charge_Amt6 as Add_Charge_Amt  from TSPL_SD_SHIPMENT_HEAD where document_code in('" + clsCommon.myCstr(txtDocNo.Value) + "') and  Add_Charge_Amt6>0
+            'union all
+            'select document_code,Add_Charge_Code7 as Add_Charge_Code,Add_Charge_Name7 as Add_Charge_Name,Add_Charge_Amt7 as Add_Charge_Amt  from TSPL_SD_SHIPMENT_HEAD where document_code in('" + clsCommon.myCstr(txtDocNo.Value) + "') and  Add_Charge_Amt7>0
+            'union all
+            'select document_code,Add_Charge_Code8 as Add_Charge_Code,Add_Charge_Name8 as Add_Charge_Name,Add_Charge_Amt8 as Add_Charge_Amt  from TSPL_SD_SHIPMENT_HEAD where document_code in('" + clsCommon.myCstr(txtDocNo.Value) + "') and  Add_Charge_Amt8>0
+            'union all
+            'select document_code,Add_Charge_Code9 as Add_Charge_Code,Add_Charge_Name9 as Add_Charge_Name,Add_Charge_Amt9 as Add_Charge_Amt  from TSPL_SD_SHIPMENT_HEAD where document_code in('" + clsCommon.myCstr(txtDocNo.Value) + "') and  Add_Charge_Amt9>0
+            'union all
+            'select document_code,Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name,Add_Charge_Amt10 as Add_Charge_Amt  from TSPL_SD_SHIPMENT_HEAD where document_code in('" + clsCommon.myCstr(txtDocNo.Value) + "') and  Add_Charge_Amt10>0
+            ')xx group by Add_Charge_Code"
+
+
+            ' Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrQry)
             If dt.Rows.Count > 0 Then
                 If isSummary Then
+                    'frmDCSPrint.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dt1, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDCSGatePassSummary", "Sale Order", "SubRptAdditionalReport.rpt")
                     frmDCSPrint.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, clsERPFuncationality.CompanyAddresInvoiceHeader(), "crptDCSGatePassSummary", "Sale Order", clsCommon.myCDate(dt.Rows(0)("Document_Date")), "crptDCSGatePassSummary.rpt")
 
                 Else
