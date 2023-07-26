@@ -68,9 +68,6 @@ Partial Class RCDFDashboard
         Me.gvQualitySummary = New Telerik.WinControls.UI.RadGridView()
         Me.lblQualitySummary = New common.Controls.MyLabel()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.RadPanel2 = New Telerik.WinControls.UI.RadPanel()
-        Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -126,9 +123,6 @@ Partial Class RCDFDashboard
         CType(Me.gvQualitySummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvQualitySummary.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQualitySummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage4.SuspendLayout()
-        CType(Me.RadPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -682,38 +676,12 @@ Partial Class RCDFDashboard
         '
         'RadPageViewPage4
         '
-        Me.RadPageViewPage4.Controls.Add(Me.Label1)
-        Me.RadPageViewPage4.Controls.Add(Me.RadPanel2)
-        Me.RadPageViewPage4.Controls.Add(Me.RadPanel1)
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(222.0!, 45.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(5, 60)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1140, 433)
         Me.RadPageViewPage4.Text = "ACCOUNT"
         Me.RadPageViewPage4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(337, 0)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(39, 14)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Label1"
-        '
-        'RadPanel2
-        '
-        Me.RadPanel2.Location = New System.Drawing.Point(595, 16)
-        Me.RadPanel2.Name = "RadPanel2"
-        Me.RadPanel2.Size = New System.Drawing.Size(537, 409)
-        Me.RadPanel2.TabIndex = 1
-        '
-        'RadPanel1
-        '
-        Me.RadPanel1.Location = New System.Drawing.Point(3, 16)
-        Me.RadPanel1.Name = "RadPanel1"
-        Me.RadPanel1.Size = New System.Drawing.Size(586, 409)
-        Me.RadPanel1.TabIndex = 0
         '
         'RCDFDashboard
         '
@@ -783,10 +751,6 @@ Partial Class RCDFDashboard
         CType(Me.gvQualitySummary.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvQualitySummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblQualitySummary, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage4.ResumeLayout(False)
-        Me.RadPageViewPage4.PerformLayout()
-        CType(Me.RadPanel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -828,8 +792,5 @@ Partial Class RCDFDashboard
     Friend WithEvents lblRMInPlant As common.Controls.MyLabel
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
-    Friend WithEvents Label1 As Label
-    Friend WithEvents RadPanel2 As RadPanel
-    Friend WithEvents RadPanel1 As RadPanel
 End Class
 
