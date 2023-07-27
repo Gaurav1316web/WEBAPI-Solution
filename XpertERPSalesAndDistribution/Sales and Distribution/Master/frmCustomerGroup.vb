@@ -9,35 +9,14 @@
 '19/02/2013 by vipin disabling the salemancode,saleperson name,percentage fields
 '-03/04/2013:5:41PM--Updation By--Pankaj Kumar--Transaction Problem while importing-------------------Ashok
 '--preeti gupta-ticket no-[BM00000003128]
-Imports Telerik.WinControls
-Imports XpertERPEngine
-Imports Telerik.WinControls.UI
-Imports System.Windows.Forms
-Imports System.Data
 Imports System.Data.SqlClient
-Imports Microsoft.VisualBasic
-Imports System
-Imports System.Globalization
-Imports System.Drawing
-Imports Telerik.WinControls.Data
-Imports Telerik.Data
-Imports Telerik.WinControls.Themes
-Imports Telerik.WinControls.UI.Export
-Imports Excel = Microsoft.Office.Interop.Excel
-Imports System.Text.RegularExpressions
 Imports common
 
 
 Public Class frmCustomerGroup
     Inherits FrmMainTranScreen
 
-    Const colSelect As String = "SELECT"
-    Const colCompCode As String = "COMPCODE"
-    Const colCompName As String = "COMPNAME"
-    Const colDataBaseName As String = "DATABASE"
-
     Dim userCode, companyCode As String
-
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Public arrCustomFields As List(Of clsCustomFieldValues) = Nothing
 
@@ -66,7 +45,6 @@ Public Class frmCustomerGroup
     Private Sub Customer_Group_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         TxtShfLife.Text = 0
         SetUserMgmtNew()
-        SetDataBaseGrid()
         RadPageView1.SelectedPage = RadPageViewPage1
 
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
@@ -76,7 +54,6 @@ Public Class frmCustomerGroup
         fndCustomerGroupCode.Focus()
         btnDelete.Enabled = False
         ValidateLength()
-        gvDB.AllowDeleteRow = False
         ''For Custom Fields
         RadPageView1.Pages("pvpCustomFields").Item.Visibility = MyBase.customFieldTabProperty
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -88,7 +65,7 @@ Public Class frmCustomerGroup
     Private Sub ValidateLength()
         txtCustomerGroupDesc.MaxLength = 50
     End Sub
-    
+
     Private Sub SetUserMgmtNew()
         ''richa 25/07/2014 Against Ticket No.BM00000003129
         'MyBase.SetUserMgmt(clsUserMgtCode.CustomerGroup)
@@ -176,14 +153,8 @@ Public Class frmCustomerGroup
         LoadData()
     End Sub
     Sub LoadData()
-        Dim s As String
-        s = clsDBFuncationality.getSingleValue("select cust_group_code from tspl_Customer_Group_Master where cust_group_code='" + fndCustomerGroupCode.Value + "'")
+        Dim s As String = clsDBFuncationality.getSingleValue("select cust_group_code from tspl_Customer_Group_Master where cust_group_code='" + fndCustomerGroupCode.Value + "'")
 
-        'While dr.Read()
-        '    s = dr(0).ToString()
-
-        'End While
-        'dr.Close()
         If s <> fndCustomerGroupCode.Value Then
             btnSave.Text = "Save"
             btnDelete.Enabled = False
@@ -213,7 +184,7 @@ Public Class frmCustomerGroup
         IsCustomerGrpDetailMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsCustomerGroupFieldsMandatory, clsFixedParameterCode.IsCustomerGroupFieldsMandatory, Nothing)) = 1, True, False)
 
         Dim trans As SqlTransaction = Nothing
-       
+
         If fndCustomerGroupCode.Value = "" Then
             myMessages.blankValue("Customer Group Code")
             fndCustomerGroupCode.Focus()
@@ -252,9 +223,8 @@ Public Class frmCustomerGroup
                 If fndSalespersoncode.Value <> "" Then
                     isSaved = isSaved AndAlso clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_CUSTOMER_SALESMAN_DETAIL_insert", New SqlParameter("@CustCode", fndCustomerGroupCode.Value), New SqlParameter("@Salespersoncode", fndSalespersoncode.Value), New SqlParameter("@SalespersonName", txtSalespersonname.Text), New SqlParameter("@Percentage", percentage), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate(trans)), New SqlParameter("@ModifiedBy", userCode), New SqlParameter("@ModifiedDate", connectSql.serverDate(trans)), New SqlParameter("@CompCode", companyCode))
                 End If
-                clsDBFuncationality.ExecuteNonQuery("Update tspl_customer_group_master set ShowGroupOnReport=" & IIf(chkShowGrouponCVReport.Checked = True, 1, 0) & " where Cust_Group_Code='" & clsCommon.myCstr(fndCustomerGroupCode.Value) & "'", trans)
-                clsDBFuncationality.ExecuteNonQuery("Update tspl_customer_group_master set PONOMandatory=" & IIf(chkPONOMandatory.Checked = True, 1, 0) & " where Cust_Group_Code='" & clsCommon.myCstr(fndCustomerGroupCode.Value) & "'", trans)
-                clsDBFuncationality.ExecuteNonQuery("Update tspl_customer_group_master set Default_VSP=" & IIf(chkDefaultVSP.Checked = True, 1, 0) & " where Cust_Group_Code='" & clsCommon.myCstr(fndCustomerGroupCode.Value) & "'", trans)
+                UpdateColumn(trans)
+
                 ''For Custom Fields
                 'obj.Form_ID = MyBase.Form_ID
                 arrCustomFields = New List(Of clsCustomFieldValues)
@@ -285,7 +255,7 @@ Public Class frmCustomerGroup
         Try
 
             If fndCustomerGroupCode.Value <> "" Then
-                ds = connectSql.RunSQLReturnDS("select cust_group_desc,tax_group,cust_account,Terms_Code, Shelf_Life,ShowGroupOnReport,PONOMandatory,Default_VSP from tspl_Customer_Group_Master where cust_group_code='" + fndCustomerGroupCode.Value + "'")
+                ds = connectSql.RunSQLReturnDS("select cust_group_desc,tax_group,cust_account,Terms_Code, Shelf_Life,ShowGroupOnReport,PONOMandatory,Default_VSP,VSP_Price_Code_Credit,VSP_Price_Code_Cash from tspl_Customer_Group_Master where cust_group_code='" + fndCustomerGroupCode.Value + "'")
                 Dim dr As DataRow = ds.Tables(0).Rows(0)
                 txtCustomerGroupDesc.Text = dr(0).ToString().Trim()
                 fndTaxGroup.Value = dr(1).ToString().Trim()
@@ -308,6 +278,11 @@ Public Class frmCustomerGroup
                 Else
                     chkDefaultVSP.Checked = True
                 End If
+
+                txtVSPPriceCodeCredit.Value = clsCommon.myCstr(dr("VSP_Price_Code_Credit"))
+                lblVSPPriceCodeCredit.Text = clsPriceComponentMapping.GetName(txtVSPPriceCodeCredit.Value, Nothing)
+                txtVSPPriceCodeCash.Value = clsCommon.myCstr(dr("VSP_Price_Code_Cash"))
+                lblVSPPriceCodeCash.Text = clsPriceComponentMapping.GetName(txtVSPPriceCodeCash.Value, Nothing)
                 ''For Custom Fields
                 If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
                     UcCustomFields1.LoadData(fndCustomerGroupCode.Value.Trim())
@@ -375,11 +350,8 @@ Public Class frmCustomerGroup
                 Else
                     percentage = txtPercentage.Text
                 End If
-                Dim ArrDBName As List(Of String) = GetReplecateCompaniesDataBase()
                 trans = clsDBFuncationality.GetTransactin()
-                clsDBFuncationality.ExecuteNonQuery("Update tspl_customer_group_master set ShowGroupOnReport=" & IIf(chkShowGrouponCVReport.Checked = True, 1, 0) & " where Cust_Group_Code='" & clsCommon.myCstr(fndCustomerGroupCode.Value) & "'", trans)
-                clsDBFuncationality.ExecuteNonQuery("Update tspl_customer_group_master set PONOMandatory=" & IIf(chkPONOMandatory.Checked = True, 1, 0) & " where Cust_Group_Code='" & clsCommon.myCstr(fndCustomerGroupCode.Value) & "'", trans)
-                clsDBFuncationality.ExecuteNonQuery("Update tspl_customer_group_master set Default_VSP=" & IIf(chkDefaultVSP.Checked = True, 1, 0) & " where Cust_Group_Code='" & clsCommon.myCstr(fndCustomerGroupCode.Value) & "'", trans)
+                UpdateColumn(trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(fndCustomerGroupCode.Value), "TSPL_CUSTOMER_GROUP_MASTER", "Cust_Group_Code", trans)
                 Dim isSaved As Boolean = clsDBFuncationality.SaveAStorePorcedure(trans, "sp_tspl_customer_group_master_update", New SqlParameter("@CustGroupCode", fndCustomerGroupCode.Value), New SqlParameter("@CustGroupDesc", txtCustomerGroupDesc.Text), New SqlParameter("@TaxGroup", fndTaxGroup.Value), New SqlParameter("@CustAccount", fndAccountSet.Value), New SqlParameter("@TermsCode", fndTermsCode.Value), New SqlParameter("@CreatedBy", userCode), New SqlParameter("@CreatedDate", connectSql.serverDate(trans)), New SqlParameter("@ModifiedBy", userCode), New SqlParameter("@ModifiedDate", connectSql.serverDate(trans)), New SqlParameter("@CompCode", companyCode), New SqlParameter("@ShelfLife", TxtShfLife.Text))
                 If fndSalespersoncode.Value <> "" Then
@@ -412,6 +384,16 @@ Public Class frmCustomerGroup
             End Try
         End If
     End Sub
+
+    Private Sub UpdateColumn(trans As SqlTransaction)
+        Dim qry As String = "Update tspl_customer_group_master Set ShowGroupOnReport=" & IIf(chkShowGrouponCVReport.Checked = True, 1, 0) & " 
+,PONOMandatory=" & IIf(chkPONOMandatory.Checked = True, 1, 0) & "
+,Default_VSP=" & IIf(chkDefaultVSP.Checked = True, 1, 0) & "
+,VSP_Price_Code_Credit='" & IIf(chkDefaultVSP.Checked, txtVSPPriceCodeCredit.Value, "") & "'
+,VSP_Price_Code_Cash='" & IIf(chkDefaultVSP.Checked, txtVSPPriceCodeCash.Value, "") & "'
+where Cust_Group_Code ='" & clsCommon.myCstr(fndCustomerGroupCode.Value) & "'"
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+    End Sub
     ' reset Customer Master and Customer Details
     Private Sub funReset()
         fndCustomerGroupCode.Value = ""
@@ -434,7 +416,12 @@ Public Class frmCustomerGroup
         fndCustomerGroupCode.Focus()
         TxtShfLife.Text = 0
         fndCustomerGroupCode.MyReadOnly = False
-        SetDataBaseGrid()
+
+        txtVSPPriceCodeCredit.Value = ""
+        lblVSPPriceCodeCredit.Text = ""
+        txtVSPPriceCodeCash.Value = ""
+        lblVSPPriceCodeCash.Text = ""
+        SetVSPPriceCode()
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.BlankAllControls()
@@ -461,38 +448,7 @@ Public Class frmCustomerGroup
             myMessages.myExceptions(ex)
         End Try
     End Sub
-    'priti added on 01-06-2011 --- To implement the access control
-    'Private Function funSetUserAccess() As Boolean
-    '    Try
-    '        'If funCheckLoginStatus() = False Then Exit Function
-    '        Dim strRights As String
-    '        Dim strTemp() As String
-    '        Dim strProgCode = "CUST-GRP-M"
-    '        strRights = enuUserRights.enuRead & "," & enuUserRights.enuModify & "," & enuUserRights.enuDelete
-    '        strRights = modUserMgt.funGetPermissions(strRights, strProgCode)
-    '        strTemp = Split(strRights, ",")
-    '        If strTemp(0) = "0" Then
-    '            MsgBox("Permission Denied", MsgBoxStyle.Critical, Me.Text)
-    '            funSetUserAccess = False
-    '            blnRead = False
-    '            Me.Close()
-    '            Exit Function
-    '        Else
-    '            blnRead = True
-    '        End If
-    '        If strTemp(1) = "0" Then 'Grant modify access
-    '            btnSave.Enabled = False
-    '        End If
-    '        If strTemp(2) = "0" Then 'Grant modify access
-    '            btnDelete.Enabled = False
-    '        End If
 
-    '        funSetUserAccess = True
-    '    Catch er As Exception
-
-    '    End Try
-    'End Function
-    'Code ends here
 #End Region
 #Region "Finder Load"
     Private Sub fndCustomerGroupCode_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -854,67 +810,10 @@ Public Class frmCustomerGroup
     End Sub
 #End Region
 
-    Private Function GetReplecateCompaniesDataBase() As List(Of String)
-        Dim arrDBName As New List(Of String)
-        arrDBName.Add(objCommonVar.CurrDatabase)
-        For ii As Integer = 0 To gvDB.Rows.Count - 1
-            If (clsCommon.myCBool(gvDB.Rows(ii).Cells(colSelect).Value)) Then
-                arrDBName.Add(clsCommon.myCstr(gvDB.Rows(ii).Cells(colDataBaseName).Value))
-            End If
-        Next
-        Return arrDBName
-    End Function
 
 
-    Sub SetDataBaseGrid()
-        gvDB.Rows.Clear()
-        gvDB.Columns.Clear()
 
-        Dim repoSelect As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
-        repoSelect.FormatString = ""
-        repoSelect.HeaderText = "Select"
-        repoSelect.Name = colSelect
-        repoSelect.Width = 50
-        repoSelect.ReadOnly = False
-        repoSelect.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gvDB.MasterTemplate.Columns.Add(repoSelect)
 
-        Dim repoCompCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoCompCode.FormatString = ""
-        repoCompCode.HeaderText = "Company Code"
-        repoCompCode.Name = colCompCode
-        repoCompCode.Width = 150
-        repoCompCode.ReadOnly = True
-        gvDB.MasterTemplate.Columns.Add(repoCompCode)
-
-        Dim repoCompName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoCompName.FormatString = ""
-        repoCompName.HeaderText = "Company Name"
-        repoCompName.Name = colCompName
-        repoCompName.Width = 150
-        repoCompName.ReadOnly = True
-        gvDB.MasterTemplate.Columns.Add(repoCompName)
-
-        Dim repoDB As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoDB.FormatString = ""
-        repoDB.HeaderText = "Database Name"
-        repoDB.Name = colDataBaseName
-        repoDB.IsVisible = False
-        repoDB.ReadOnly = True
-        gvDB.MasterTemplate.Columns.Add(repoDB)
-
-        Dim qry As String = "SELECT Comp_Code,Comp_Name,DataBase_Name from TSPL_COMPANY_MASTER where len(isnull(DataBase_Name,''))>0 and Comp_Code not in ('" + objCommonVar.CurrentCompanyCode + "')"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            For Each dr As DataRow In dt.Rows
-                gvDB.Rows.AddNew()
-                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colSelect).Value = False
-                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colCompCode).Value = clsCommon.myCstr(dr("Comp_Code"))
-                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colCompName).Value = clsCommon.myCstr(dr("Comp_Name"))
-                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colDataBaseName).Value = clsCommon.myCstr(dr("DataBase_Name"))
-            Next
-        End If
-    End Sub
 
     Private Sub frmCustomerGroup_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
@@ -933,7 +832,7 @@ Public Class frmCustomerGroup
     End Sub
 
     Private Sub fndCustomerGroupCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
-       
+
     End Sub
 
     Private Sub fndAccountSet__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndAccountSet._MYValidating
@@ -961,7 +860,7 @@ Public Class frmCustomerGroup
         txtTaxGroup.Text = clsDBFuncationality.getSingleValue("select Tax_Group_Desc   from tspl_tax_group_master where Tax_Group_Code  ='" + fndTaxGroup.Value + "'")
     End Sub
 
-    
+
     Private Sub fndSalespersoncode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndSalespersoncode._MYValidating
         Dim qry As String = "select Emp_Code as [SalespersonCode],Emp_Name as [Salesperson Name] from tspl_employee_master  "
         fndSalespersoncode.Value = clsCommon.ShowSelectForm("EMPCODEFND", qry, "SalespersonCode", "", fndSalespersoncode.Value, "Emp_Code", isButtonClicked)
@@ -980,8 +879,6 @@ Public Class frmCustomerGroup
         End If
 
         If fndCustomerGroupCode.MyReadOnly OrElse isButtonClicked Then
-            'Dim QRY As String = "select Cust_Group_Code as [CustomerGroupCode],Cust_Group_Desc as [Description]  from tspl_customer_group_master   "
-            'fndCustomerGroupCode.Value = clsCommon.ShowSelectForm("CUSTGROUPFNDD", QRY, "CustomerGroupCode", "", fndCustomerGroupCode.Value, "Cust_Group_Code", isButtonClicked)
             fndCustomerGroupCode.Value = clsCustomerGroupMaster.getFinder("", fndCustomerGroupCode.Value, isButtonClicked)
             txtCustomerGroupDesc.Text = clsDBFuncationality.getSingleValue("select Cust_Group_Desc  from tspl_customer_group_master where Cust_Group_Code='" + fndCustomerGroupCode.Value + "'")
             LoadData()
@@ -1019,7 +916,25 @@ Public Class frmCustomerGroup
 
     End Sub
 
-    Private Sub fndAccountSet_Load_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles fndAccountSet.Load
+    Private Sub chkDefaultVSP_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkDefaultVSP.ToggleStateChanged
+        SetVSPPriceCode()
+    End Sub
 
+    Private Sub txtVSPPriceCodeCash__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVSPPriceCodeCash._MYValidating
+        Dim qry As String = "SELECT DISTINCT TSPL_ITEM_PRICE_MASTER.Price_Code as [Code], TSPL_PRICE_COMPONENT_MAPPING.Price_Code_Desc as [Price Code Description] FROM TSPL_ITEM_PRICE_MASTER INNER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_PRICE_COMPONENT_MAPPING.Price_Code INNER JOIN TSPL_TAX_GROUP_MASTER ON TSPL_ITEM_PRICE_MASTER.Tax_group = TSPL_TAX_GROUP_MASTER.Tax_Group_Code "
+        Dim WhrCls As String = " TSPL_TAX_GROUP_MASTER.Excisable ='N'"
+        txtVSPPriceCodeCash.Value = clsCommon.ShowSelectForm("PriceCode2", qry, "Code", WhrCls, txtVSPPriceCodeCash.Value, "Code", isButtonClicked)
+        lblVSPPriceCodeCash.Text = clsPriceComponentMapping.GetName(txtVSPPriceCodeCash.Value, Nothing)
+    End Sub
+
+    Private Sub txtVSPPriceCodeCredit__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVSPPriceCodeCredit._MYValidating
+        Dim qry As String = "SELECT DISTINCT TSPL_ITEM_PRICE_MASTER.Price_Code as [Code], TSPL_PRICE_COMPONENT_MAPPING.Price_Code_Desc as [Price Code Description] FROM TSPL_ITEM_PRICE_MASTER INNER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_PRICE_COMPONENT_MAPPING.Price_Code INNER JOIN TSPL_TAX_GROUP_MASTER ON TSPL_ITEM_PRICE_MASTER.Tax_group = TSPL_TAX_GROUP_MASTER.Tax_Group_Code "
+        Dim WhrCls As String = " TSPL_TAX_GROUP_MASTER.Excisable ='N'"
+        txtVSPPriceCodeCredit.Value = clsCommon.ShowSelectForm("PriceCode3", qry, "Code", WhrCls, txtVSPPriceCodeCredit.Value, "Code", isButtonClicked)
+        lblVSPPriceCodeCredit.Text = clsPriceComponentMapping.GetName(txtVSPPriceCodeCredit.Value, Nothing)
+    End Sub
+
+    Sub SetVSPPriceCode()
+        rgbVSP.Visible = chkDefaultVSP.Checked
     End Sub
 End Class

@@ -83,7 +83,6 @@ Public Class frmCorrection
                 txtShiftDate.Focus()
                 LoadShift()
                 chkAddMissingSample.Visible = False
-                btnSave.Text = "Update"
                 RadPageViewPage1.Text = "Milk Retesting"
                 RadGroupBox1.HeaderText = "Milk Retesting"
                 RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
@@ -279,16 +278,18 @@ Public Class frmCorrection
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        If btnSave.Text = "Update" Then
+        If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
 
             ShowRemarks()
 
-            Else
+        Else
             SaveData()
         End If
     End Sub
     Private Sub ShowRemarks()
         Try
+            Dim obj As New clsMilkSRNMCC
+            Dim qry As String = ""
             Dim Reason As String = ""
             Dim frm As New FrmFreeTxtBox1
             frm.Text = "Remarks for Retesting"
@@ -296,7 +297,11 @@ Public Class frmCorrection
             If clsCommon.myLen(frm.strRmks) <= 0 Then
                 Exit Sub
             Else
-                Reason = frm.strRmks
+                If frm.strRmks IsNot Nothing Then
+                    obj.Reason = "1"
+
+                End If
+
 
             End If
             SaveData()
@@ -363,10 +368,10 @@ Public Class frmCorrection
                     tran.Rollback()
                     Throw New Exception(ex.Message)
                 End Try
-                Dim qry As String = "select TSPL_MILK_SRN_HEAD.DOC_CODE from  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL" + Environment.NewLine +
-                "left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No" + Environment.NewLine +
-                "left outer join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE" + Environment.NewLine +
-                "left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO" + Environment.NewLine +
+                Dim qry As String = "Select TSPL_MILK_SRN_HEAD.DOC_CODE from  TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL" + Environment.NewLine +
+                "left outer join TSPL_MILK_RECEIPT_DETAIL On TSPL_MILK_RECEIPT_DETAIL.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No" + Environment.NewLine +
+                "left outer join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE" + Environment.NewLine +
+                "left outer join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO" + Environment.NewLine +
                 "where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No='" + obj.Document_No + "'"
                 lblSRNNo.Text = clsDBFuncationality.getSingleValue(qry)
                 If clsCommon.myLen(lblSRNNo.Text) > 0 Then

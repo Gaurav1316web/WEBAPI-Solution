@@ -29,6 +29,9 @@ Public Class rptTruckSheetDailySummaryReport
 
 
     Sub Reset()
+        ToDate.Value = clsCommon.GETSERVERDATE()
+        fromDate.Value = clsCommon.GETSERVERDATE()
+        txtMCC.arrValueMember = Nothing
         EnableDisableControl(True)
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
@@ -51,7 +54,27 @@ Public Class rptTruckSheetDailySummaryReport
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            Dim qry As String = "select  A.Comp_Name, [Doc Date],a.[Milk type], max([MCC Name]) as [MCC Name]
+            Dim MCCName As String = Nothing
+            Dim whrclsRecpt As String = Nothing
+            Dim whrclsRjt As String = Nothing
+            Try
+                If txtMCC.arrValueMember.Count > 1 Then
+                    MCCName = ",'Ganganagar' AS MCCName"
+                    whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                ElseIf txtMCC.arrValueMember.Count <= 0 Then
+                    MCCName = ",'Ganganagar' AS MCCName"
+                    whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                Else
+                    MCCName = ",max ([MCC Name]) as MCCName"
+                    whrclsRjt = "  and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                    whrclsRecpt = " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ")"
+                End If
+            Catch
+                MCCName = ",'Ganganagar' AS MCCName"
+            End Try
+            Dim qry As String = "select  A.Comp_Name, [Doc Date],a.[Milk type] " + MCCName + "
                                 ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet Qty]
                                 ,sum([FAT] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet FAT]
                                 ,sum([SNF] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet SNF] 
@@ -94,11 +117,11 @@ Public Class rptTruckSheetDailySummaryReport
                                  left outer join (select code,max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code
                                  left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per
 
-                                 left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  where 2 = 2  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(fromDate.Text, "dd/MMM/yyyy") + "'  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as date) <= '" + clsCommon.GetPrintDate(ToDate.Text, "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") 
- 
+                                 left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  where 2 = 2  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(fromDate.Text, "dd/MMM/yyyy") + "'  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as date) <= '" + clsCommon.GetPrintDate(ToDate.Text, "dd/MMM/yyyy") + "'" + whrclsRecpt + "  
+
                                  Union All  
-                                 
-                                 Select TSPL_MCC_MASTER.MCC_Type as [MCC Type],case when TSPL_MCC_MASTER.is_Mcc=1 then 'MCC' else 'BMCC' end [Chilling Center] ,TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MILK_SRN_DETAIL.EMP_Amount,TSPL_MILK_SRN_DETAIL.TIP_Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,Case When TSPL_MILK_REJECT_DETAIL.FAT < 5 Then TSPL_MILK_REJECT_DETAIL.FAT Else 0 End [Cow FAT(%)],  Case When TSPL_MILK_REJECT_DETAIL.FAT < 5 Then TSPL_MILK_REJECT_DETAIL.SNF Else 0 End [Cow SNF(%)],  Case When TSPL_MILK_REJECT_DETAIL.FAT > 5 Then TSPL_MILK_REJECT_DETAIL.FAT Else 0 End [Mix FAT(%)],  Case When TSPL_MILK_REJECT_DETAIL.FAT > 5 Then TSPL_MILK_REJECT_DETAIL.SNF Else 0 End [Mix SNF(%)],  Case When TSPL_MILK_REJECT_DETAIL.FAT <= 5 Then TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG Else 0 End [Cow Milk Qty (KG)],  Case When TSPL_MILK_REJECT_DETAIL.FAT > 5 Then TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR Else 0 End [Mix Milk Qty (KG)],  case when TSPL_MILK_REJECT_TYPE.Type is not null  then TSPL_MILK_REJECT_TYPE.Type When Coalesce(TSPL_MILK_REJECT_DETAIL.FAT, 0) <= 0 Then 'M' When Coalesce(TSPL_MILK_REJECT_DETAIL.FAT, 0) <= " + clsCommon.myCstr(SetCowFatPer) + "   Then 'C' Else 'B' End As [Milk Type],  TSPL_MILK_REJECT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_REJECT_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name],isnull(TSPL_MCC_MASTER.plant_code,'') As [Plant Code], isnull(tspl_location_master.location_desc,'') As [Plant Name],  Convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_REJECT_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift,  TSPL_MILK_REJECT_DETAIL.ROUTE_CODE As [Route Code],tspl_mcc_route_master.Supervisor_Name as [SuperVisor Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_REJECT_DETAIL.VEHICLE_CODE As [Vehicle Code], TSPL_MILK_REJECT_DETAIL.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name],TSPL_VENDOR_MASTER.Vendor_Group_Code As [Vendor Group Code],TSPL_VENDOR_GROUP.Group_Desc as [Vendor Group Desc] ,TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_REJECT_DETAIL.SAMPLE_NO As [Sample No],  TSPL_MILK_REJECT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT As [Milk Weight],TSPL_MILK_REJECT_DETAIL.UOM_Code, TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG As [Milk Weight(KG)], TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG As [Milk Weight(LTR)], TSPL_MILK_REJECT_DETAIL.FAT As [FAT(%)], TSPL_MILK_REJECT_DETAIL.SNF As [SNF(%)],0 as CLR, Convert(decimal(18,3), TSPL_MILK_REJECT_DETAIL.FAT * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) As [FAT(KG)],  Convert(decimal(18,3),TSPL_MILK_REJECT_DETAIL.SNF * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) As [SNF(KG)], '' As [Sample Status],  TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate],  TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty], Case When TSPL_MILK_Shift_End_HEAD.DOC_CODE Is Null Then 'Open' Else 'Close' End [Shift Status],  TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Invoice_no, convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as Invoice_Date ,  '' as IS_MANUAL ,'' as MACHINE_NO ,'' as IS_MILK_SAMPLE_MANUAL,TSPL_MILK_SRN_HEAD.Purchase_Order_No,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_REJECT_TYPE.description as RejectType,  case when TSPL_MILK_REJECT_DETAIL.Is_Return=0 then '' when TSPL_MILK_REJECT_DETAIL.Is_Return=1 then 'Return' when TSPL_MILK_REJECT_DETAIL.Is_Return=2 then 'Drain' when TSPL_MILK_REJECT_DETAIL.Is_Return=3 then 'COB'  end as RejectReason,TSPL_MILK_REJECT_DETAIL.Defaulter  
+
+                                 Select TSPL_MCC_MASTER.MCC_Type as [MCC Type],case when TSPL_MCC_MASTER.is_Mcc=1 then 'MCC' else 'BMCC' end [Chilling Center] ,TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MILK_SRN_DETAIL.EMP_Amount,TSPL_MILK_SRN_DETAIL.TIP_Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,Case When TSPL_MILK_REJECT_DETAIL.FAT < 5 Then TSPL_MILK_REJECT_DETAIL.FAT Else 0 End [Cow FAT(%)],  Case When TSPL_MILK_REJECT_DETAIL.FAT < 5 Then TSPL_MILK_REJECT_DETAIL.SNF Else 0 End [Cow SNF(%)],  Case When TSPL_MILK_REJECT_DETAIL.FAT > 5 Then TSPL_MILK_REJECT_DETAIL.FAT Else 0 End [Mix FAT(%)],  Case When TSPL_MILK_REJECT_DETAIL.FAT > 5 Then TSPL_MILK_REJECT_DETAIL.SNF Else 0 End [Mix SNF(%)],  Case When TSPL_MILK_REJECT_DETAIL.FAT <= 5 Then TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG Else 0 End [Cow Milk Qty (KG)],  Case When TSPL_MILK_REJECT_DETAIL.FAT > 5 Then TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR Else 0 End [Mix Milk Qty (KG)],  case when TSPL_MILK_REJECT_TYPE.Type is not null  then TSPL_MILK_REJECT_TYPE.Type When Coalesce(TSPL_MILK_REJECT_DETAIL.FAT, 0) <= 0 Then 'M' When Coalesce(TSPL_MILK_REJECT_DETAIL.FAT, 0) <= " + clsCommon.myCstr(SetCowFatPer) + "   Then 'C' Else 'M' End As [Milk Type],  TSPL_MILK_REJECT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_REJECT_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name],isnull(TSPL_MCC_MASTER.plant_code,'') As [Plant Code], isnull(tspl_location_master.location_desc,'') As [Plant Name],  Convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_REJECT_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift,  TSPL_MILK_REJECT_DETAIL.ROUTE_CODE As [Route Code],tspl_mcc_route_master.Supervisor_Name as [SuperVisor Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_REJECT_DETAIL.VEHICLE_CODE As [Vehicle Code], TSPL_MILK_REJECT_DETAIL.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name],TSPL_VENDOR_MASTER.Vendor_Group_Code As [Vendor Group Code],TSPL_VENDOR_GROUP.Group_Desc as [Vendor Group Desc] ,TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_REJECT_DETAIL.SAMPLE_NO As [Sample No],  TSPL_MILK_REJECT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT As [Milk Weight],TSPL_MILK_REJECT_DETAIL.UOM_Code, TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG As [Milk Weight(KG)], TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG As [Milk Weight(LTR)], TSPL_MILK_REJECT_DETAIL.FAT As [FAT(%)], TSPL_MILK_REJECT_DETAIL.SNF As [SNF(%)],0 as CLR, Convert(decimal(18,3), TSPL_MILK_REJECT_DETAIL.FAT * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) As [FAT(KG)],  Convert(decimal(18,3),TSPL_MILK_REJECT_DETAIL.SNF * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) As [SNF(KG)], '' As [Sample Status],  TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate],  TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty], Case When TSPL_MILK_Shift_End_HEAD.DOC_CODE Is Null Then 'Open' Else 'Close' End [Shift Status],  TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Invoice_no, convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as Invoice_Date ,  '' as IS_MANUAL ,'' as MACHINE_NO ,'' as IS_MILK_SAMPLE_MANUAL,TSPL_MILK_SRN_HEAD.Purchase_Order_No,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_REJECT_TYPE.description as RejectType,  case when TSPL_MILK_REJECT_DETAIL.Is_Return=0 then '' when TSPL_MILK_REJECT_DETAIL.Is_Return=1 then 'Return' when TSPL_MILK_REJECT_DETAIL.Is_Return=2 then 'Drain' when TSPL_MILK_REJECT_DETAIL.Is_Return=3 then 'COB'  end as RejectReason,TSPL_MILK_REJECT_DETAIL.Defaulter  
                                  ,TSPL_MILK_PRICE_SNF_DEDUCTION.Amount as SNF_Ded_Value,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE) as decimal(18,2)) as SNF_Ded_Rate,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE)*TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2)) as SNF_Ded_Amount 
                                  ,TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code,[Transporter Code], [Transporter Name],isnull(TSPL_MILK_PURCHASE_INVOICE_DETAIL.Handling_Charges_Amount,0) as Handling_Charges_Amount 
                                  ,(isnull(TSPL_MILK_SRN_DETAIL.VSP_Commission_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Commission_Amount)  as VSP_Commission_Amount ,(isnull(TSPL_MILK_SRN_DETAIL.VSP_Deduction_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Deduction_Amount)  as VSP_Deduction_Amount,TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,case when isnull( TSPL_MILK_SRN_DETAIL.Sub_Standard,0)=1 then 'Sub Standard' else '' end as SubStandard,t1.Vehicle ,TSPL_COMPANY_MASTER.Comp_Name
@@ -112,7 +135,7 @@ Public Class rptTruckSheetDailySummaryReport
                                  Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
                                  Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_REJECT_HEAD.MCC_CODE 
                                  Left Outer Join TSPL_VLC_MASTER_HEAD On  TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE 
-   
+
                                  Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_REJECT_DETAIL.VSP_CODE 
                                   left outer join TSPL_VENDOR_GROUP on TSPL_VENDOR_MASTER.Vendor_Group_Code = TSPL_VENDOR_GROUP.Ven_Group_Code 
                                  Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_REJECT_DETAIL.ROUTE_CODE 
@@ -121,24 +144,24 @@ Public Class rptTruckSheetDailySummaryReport
                                  Left Outer Join TSPL_MILK_Shift_End_Route_DETAIL On TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE = TSPL_MILK_Shift_End_HEAD.DOC_CODE  And TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE = TSPL_MCC_ROUTE_MASTER.Route_Code  left outer join (select code,max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code 
                                  left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per 
                                  left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type  where 2=2 
- 
-                                 and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(fromDate.Text, "dd/MMM/yyyy") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(ToDate.Text, "dd/MMM/yyyy") + "' and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") 
- 
+
+                                 and TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(fromDate.Text, "dd/MMM/yyyy") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(ToDate.Text, "dd/MMM/yyyy") + "'" + whrclsRjt + " 
+
                                  ) As final where 2=2   ) as  pp group by PP.Comp_Name, [Milk Type],  [Doc Date],[Shift],pp.RejectType ) as aa )a where 1=1
                                  group by Comp_Name, [Milk Type], [Doc Date]
                                  order by [Doc Date] "
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptTruckSheetDailySummaryReport", "")
-                frmCRV = Nothing
-            Else
-                clsCommon.MyMessageBoxShow("No Data Found")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                If dt2 IsNot Nothing And dt2.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt2, "rptTruckSheetDailySummaryReport", "")
+                    frmCRV = Nothing
+                Else
+                    clsCommon.MyMessageBoxShow("No Data Found")
+                End If
+            Catch ex As Exception
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -220,15 +243,17 @@ Public Class rptTruckSheetDailySummaryReport
                               sum([Milk Weight]* case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet Qty]
                             ,sum([FAT] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet FAT]		
                             ,sum([SNF] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) as [Sweet SNF] 
-                            , CAST(SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) / SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) * 100 AS DECIMAL(18, 2)) AS [Sweet FAT(%)]			
-                             ,cast(sum([SNF] * case when len(isnull(RejectType,''))>0 then 0 else 1 end) / sum([Milk Weight]* case when len(isnull(RejectType,''))>0 then 0 else 1 end) * 100 AS decimal(18, 2)) as [Sweet SNF(%)] 	
+                            ,CASE  WHEN SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) = 0 THEN 0
+                             ELSE CAST(SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) / NULLIF(SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END), 0) * 100 AS DECIMAL(18, 2)) END AS [Sweet FAT(%)]			
+                             ,CASE  WHEN SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) = 0 THEN 0
+                              ELSE CAST(SUM([SNF] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END) / NULLIF(SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 THEN 0 ELSE 1 END), 0) * 100 AS DECIMAL(18, 2)) END AS [Sweet SNF(%)]
                             ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR Qty]
-                             ,CASE    WHEN (SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END)) = 0 THEN 0
+                             ,CASE WHEN (SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END)) = 0 THEN 0
                               ELSE CAST(ISNULL(SUM([FAT] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END), 0)
-                                  / ISNULL(SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END), 0)* 100 AS DECIMAL(18, 2))
-                                    END AS [SOUR FAT(%)] 
-                            ,CASE WHEN (sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) )=0  THEN 0 ELSE cast (
-                             ISNULL(sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end),0) / ISNULL(sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end),0)* 100 as decimal (18, 2) ) END AS[SOUR SNF(%)]
+                               / NULLIF(ISNULL(SUM([Milk Weight] * CASE WHEN LEN(ISNULL(RejectType, '')) > 0 AND RejectType = 'SOUR' THEN 1 ELSE 0 END), 0), 0) * 100 AS DECIMAL(18, 2))
+                              END AS [SOUR FAT(%)] 
+                             ,CASE WHEN (sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) )=0  THEN 0 ELSE cast (
+                             ISNULL(sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end),0) / NULLIF(ISNULL(sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end),0),0)* 100 as decimal (18, 2) ) END AS[SOUR SNF(%)]
                             ,sum([FAT]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR FAT] 
                             ,sum([SNF]* case when len(isnull(RejectType,''))>0 and RejectType='SOUR' then 1 else 0 end) as [SOUR SNF]
                             ,sum([Milk Weight]* case when len(isnull(RejectType,''))>0 and RejectType='CURD' then 1 else 0 end) as [CURD Qty]

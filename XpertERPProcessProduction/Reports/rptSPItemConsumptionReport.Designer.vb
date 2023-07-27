@@ -22,10 +22,10 @@ Partial Class rptSPItemConsumptionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -209,16 +209,16 @@ Partial Class rptSPItemConsumptionReport
         '
         Me.ddlReportsType.DropDownAnimationEnabled = True
         Me.ddlReportsType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Tag = ""
-        RadListDataItem1.Text = "Batch-Wise"
-        RadListDataItem1.TextWrap = False
-        RadListDataItem2.Tag = ""
-        RadListDataItem2.Text = "BOM-Wise"
-        RadListDataItem2.TextWrap = False
-        RadListDataItem3.Text = "Item-Wise"
-        Me.ddlReportsType.Items.Add(RadListDataItem1)
-        Me.ddlReportsType.Items.Add(RadListDataItem2)
-        Me.ddlReportsType.Items.Add(RadListDataItem3)
+        RadListDataItem4.Tag = ""
+        RadListDataItem4.Text = "Batch-Wise"
+        RadListDataItem4.TextWrap = False
+        RadListDataItem5.Tag = ""
+        RadListDataItem5.Text = "BOM-Wise"
+        RadListDataItem5.TextWrap = False
+        RadListDataItem6.Text = "Item-Wise"
+        Me.ddlReportsType.Items.Add(RadListDataItem4)
+        Me.ddlReportsType.Items.Add(RadListDataItem5)
+        Me.ddlReportsType.Items.Add(RadListDataItem6)
         Me.ddlReportsType.Location = New System.Drawing.Point(83, 12)
         Me.ddlReportsType.Name = "ddlReportsType"
         Me.ddlReportsType.Size = New System.Drawing.Size(125, 20)
@@ -413,7 +413,7 @@ Partial Class rptSPItemConsumptionReport
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(670, 266)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(670, 251)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gv1
@@ -433,13 +433,13 @@ Partial Class rptSPItemConsumptionReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.ReadOnly = True
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(670, 266)
+        Me.gv1.Size = New System.Drawing.Size(670, 251)
         Me.gv1.TabIndex = 5
         '
         'RadMenu1

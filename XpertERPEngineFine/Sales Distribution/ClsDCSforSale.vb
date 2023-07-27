@@ -33,7 +33,9 @@ Public Class ClsDCSforSale
     Public Function SaveData(ByVal obj As ClsDCSforSale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
-
+            If clsCommon.myLen(obj.Code) <= 0 And isNewEntry = False Then
+                isNewEntry = True
+            End If
             Dim coll As New Hashtable()
             'Dim objCommonVar As Object = New ClsDCSforSale()
             clsCommon.AddColumnsForChange(coll, "Name", obj.Name)

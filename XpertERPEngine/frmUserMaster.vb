@@ -134,14 +134,14 @@ Public Class FrmUserMaster
             fndCustCode.MyReadOnly = False
             fndDisRetailerCode.MyReadOnly = False
             lblDisRetailer.Text = "Distributer"
-            CmbLoginType.SelectedValue = "Select"
+            CmbLoginType.SelectedValue = ""
             RadPanel1.Visible = True
         ElseIf isCheckCustomerType = True Then
             PickDetailsFromPOSGroupMaster()
             fndCustCode.MyReadOnly = False
             fndDisRetailerCode.MyReadOnly = False
             lblDisRetailer.Text = "POS Details"
-            CmbLoginType.SelectedValue = "Select"
+            CmbLoginType.SelectedValue = ""
             RadPanel1.Visible = True
         End If
         LoadAppUserSaleType()
@@ -155,7 +155,8 @@ Public Class FrmUserMaster
             RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Visible
             LoadBlankCustomerGrid()
             gvCustomer.Rows.AddNew()
-            If CmbLoginType.Text = "SuperUser" Or CmbLoginType.Text = "Super User" Then
+            If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "SuperUser") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Then
                 RadPageViewPage2.Enabled = True
             Else
                 RadPageViewPage2.Enabled = False
@@ -167,6 +168,7 @@ Public Class FrmUserMaster
             rmImportCustomerMapping.Visibility = ElementVisibility.Collapsed
             RadMenuItem1.Visibility = ElementVisibility.Collapsed
         End If
+        LoadEntryUOM()
         LoadBlankUserGrid()
         gvUser.Rows.AddNew()
         txt_Mob_No.Text = ""
@@ -177,6 +179,17 @@ Public Class FrmUserMaster
             fndUserCode.Value = clsCommon.myCstr(Me.Tag)
             usercodeTextChanged()
         End If
+    End Sub
+
+    Private Sub LoadEntryUOM()
+        Try
+            cboEntryUOM.DataSource = clsItemUOMDetails.GetEntryUOM()
+            cboEntryUOM.ValueMember = "Code"
+            cboEntryUOM.DisplayMember = "Name"
+            cboEntryUOM.SelectedValue = "0"
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 #End Region
 #Region "KeyPress Events"
@@ -285,7 +298,7 @@ Public Class FrmUserMaster
                 btnDelete.Enabled = False
                 If isCheckCustomerType = True Then
                     lblDisRetailer.Text = "POS Details"
-                    CmbLoginType.Text = "Select"
+                    CmbLoginType.SelectedValue = ""
                     fndCustCode.Value = ""
                     lblCustCode.Text = ""
                     fndDisRetailerCode.Value = ""
@@ -301,7 +314,7 @@ Public Class FrmUserMaster
 #Region "Methods"
     Private Sub funfill()
 
-        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin from tspl_user_master where  User_Code ='" + fndUserCode.Value + "'"
+        Dim str As String = "select USER_NAME ,password ,Emp_Code,Emp_Name,User_Type,Level1_Code,Level2_Code,Level3_Code,Level4_Code, ApprovalLevel,E_Mail, Default_Location, Vendor_Code, Login_Type,Cust_Code,Distributor_Retailer_Code,Segment_code,View_Milk_Receipt_Sample,Department_Head,Licence_Reserved,Mob_No,InActive,isnull(InActive_Date,'') as InActive_Date,User_APP_Type,User_APP_Sale_Type,tspl_user_master.MP_Code,tspl_user_master.HR_Admin,isnull(TSPL_USER_MASTER.Entry_UOM,0) as Entry_UOM from TSPL_USER_MASTER where  User_Code ='" + fndUserCode.Value + "'"
         Dim dr As DataTable
         dr = clsDBFuncationality.GetDataTable(str)
         For Each row As DataRow In dr.Rows
@@ -366,7 +379,7 @@ Public Class FrmUserMaster
                 dtInActive.Value = dtInActive.MinDate
 
             End If
-
+            cboEntryUOM.SelectedValue = clsCommon.myCstr(row("Entry_UOM"))
 
             'Add By : Prabhakar'
             If PanelCNF = True Then
@@ -374,20 +387,20 @@ Public Class FrmUserMaster
                 lblCustCode.Text = ""
                 fndDisRetailerCode.Value = ""
                 lblRetailerCode.Text = ""
-                CmbLoginType.Text = row("Login_Type").ToString()
-                If (CmbLoginType.Text = "CNF" Or CmbLoginType.Text = "Parlor") Then
-
+                CmbLoginType.SelectedValue = clsCommon.myCstr(row("Login_Type"))
+                If (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal OrElse
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
                     fndCustCode.Value = row("Cust_Code").ToString()
                     lblCustCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustCode.Value + "'")
                 End If
 
-                If CmbLoginType.Text = "Distributer" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
 
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
                     lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
                 End If
 
-                If CmbLoginType.Text = "Retailer" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
                     lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
                 End If
@@ -395,8 +408,9 @@ Public Class FrmUserMaster
             End If
 
             If isCheckCustomerType = True Then
-                CmbLoginType.Text = row("Login_Type").ToString()
-                If (CmbLoginType.Text = "CNF" Or CmbLoginType.Text = "Parlor") Then
+                CmbLoginType.SelectedValue = clsCommon.myCstr(row("Login_Type"))
+                If (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal OrElse
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
 
                     fndCustCode.Value = row("Cust_Code").ToString()
                     lblCustCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustCode.Value + "'")
@@ -406,7 +420,7 @@ Public Class FrmUserMaster
                     lblRetailerCode.Text = ""
                 End If
 
-                If CmbLoginType.Text = "Distributer" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
 
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
                     lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
@@ -415,7 +429,7 @@ Public Class FrmUserMaster
                     fndCustCode.Value = ""
                     lblCustCode.Text = ""
                 End If
-                If CmbLoginType.Text = "Retailer" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
                     lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
                     fndCustCode.Enabled = False
@@ -423,7 +437,6 @@ Public Class FrmUserMaster
                     fndCustCode.Value = ""
                     lblCustCode.Text = ""
                 End If
-
             End If
             txtDefaultLocation.Value = clsCommon.myCstr(row("Default_Location"))
             lblLocationName.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtDefaultLocation.Value + "'")
@@ -438,7 +451,7 @@ Public Class FrmUserMaster
 
         If ChkSuperUser = True AndAlso PanelCNF = True Then
 
-            If CmbLoginType.Text = "SuperUser" Or CmbLoginType.Text = "Super User" Then
+            If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "SuperUser") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Then
                 RadPageViewPage2.Enabled = True
                 FillCustomerGrid(fndUserCode.Value)
             Else
@@ -619,25 +632,32 @@ Public Class FrmUserMaster
                     clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Vendor_Code = '" + fndVendor.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 End If
                 'Prabhakar Ticket : BM00000009802' 
-                If PanelCNF = True AndAlso (CmbLoginType.Text = "CNF" Or CmbLoginType.Text = "Parlor" Or CmbLoginType.Text = "Distributer" Or CmbLoginType.Text = "Retailer" Or CmbLoginType.Text = "Driver" Or CmbLoginType.Text = "Super User") Then
-                    If (CmbLoginType.Text = "CNF" Or CmbLoginType.Text = "Parlor") Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                If PanelCNF = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Or
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Driver") = CompairStringResult.Equal Or
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal) Then
+                    If (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
+                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
+                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                     End If
-                    If CmbLoginType.Text = "Distributer" Or CmbLoginType.Text = "Retailer" Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
+                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                     End If
-                    If CmbLoginType.Text = "Super User" Or CmbLoginType.Text = "Driver" Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "' where User_Code ='" + fndUserCode.Value + "'")
+                    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Or
+                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Driver") = CompairStringResult.Equal Then
+                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "' where User_Code ='" + fndUserCode.Value + "'")
                     End If
-                    ' clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "',Cust_Code='" + fndCustCode.Value + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 End If
 
                 If isCheckCustomerType = True Then
                     If MatchLevel() = 1 Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                     End If
                     If MatchLevel() > 1 Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                     End If
                 End If
             End If
@@ -712,6 +732,7 @@ Public Class FrmUserMaster
         clsCommon.AddColumnsForChange(coll, "User_APP_Type", CboAppUserType.SelectedValue, True)
         clsCommon.AddColumnsForChange(coll, "User_APP_Sale_Type", CmbAppUserSaleType.SelectedValue, True)
         clsCommon.AddColumnsForChange(coll, "MP_Code", txtMP.Value, True)
+        clsCommon.AddColumnsForChange(coll, "Entry_UOM", clsCommon.myCDecimal(cboEntryUOM.SelectedValue), True)
         clsCommonFunctionality.UpdateDataTable(coll, "TSPL_USER_MASTER", OMInsertOrUpdate.Update, "User_Code='" + fndUserCode.Value + "'")
     End Sub
 
@@ -897,25 +918,31 @@ Public Class FrmUserMaster
                 updateExtraColumns()
 
                 'Prabhakar Ticket : BM00000009802' 
-                If PanelCNF = True AndAlso (CmbLoginType.Text = "CNF" Or CmbLoginType.Text = "Parlor" Or CmbLoginType.Text = "Distributer" Or CmbLoginType.Text = "Retailer") Then
-                    If (CmbLoginType.Text = "CNF" Or CmbLoginType.Text = "Parlor") Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                If PanelCNF = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
+                    If (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
+                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
+                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                     End If
-                    If CmbLoginType.Text = "Distributer" Or CmbLoginType.Text = "Retailer" Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
+                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                     End If
                 End If
                 If isCheckCustomerType = True Then
                     If MatchLevel() = 1 Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                     End If
                     If MatchLevel() > 1 Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                     End If
                 End If
 
-                If CmbLoginType.Text = "Super User" Or CmbLoginType.Text = "Driver" Then
-                    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "' where User_Code ='" + fndUserCode.Value + "'")
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Or
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Driver") = CompairStringResult.Equal Then
+                    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "' where User_Code ='" + fndUserCode.Value + "'")
                 End If
 
                 If ChkSuperUser = True AndAlso PanelCNF = True Then
@@ -1036,10 +1063,11 @@ Public Class FrmUserMaster
         dtInActive.Value = connectSql.serverDate()
         CboAppUserType.SelectedValue = ""
         CmbAppUserSaleType.SelectedValue = ""
+        cboEntryUOM.SelectedValue = "0"
         'Add By : Prabhakar Ticket : BM00000009802'
         If PanelCNF = True Then
             lblDisRetailer.Text = "Distributer"
-            CmbLoginType.Text = "Select"
+            CmbLoginType.SelectedValue = ""
             fndCustCode.Value = ""
             lblCustCode.Text = ""
             fndDisRetailerCode.Value = ""
@@ -1052,7 +1080,7 @@ Public Class FrmUserMaster
             LoadBlankCustomerGrid()
             gvCustomer.Rows.AddNew()
 
-            If CmbLoginType.Text = "Super User" Then
+            If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Then
                 RadPageViewPage2.Enabled = True
             Else
                 RadPageViewPage2.Enabled = False
@@ -1061,7 +1089,7 @@ Public Class FrmUserMaster
         End If
         If isCheckCustomerType = True Then
             lblDisRetailer.Text = "POS Details"
-            CmbLoginType.Text = "Select"
+            CmbLoginType.SelectedValue = ""
             fndCustCode.Value = ""
             lblCustCode.Text = ""
             fndDisRetailerCode.Value = ""
@@ -1188,28 +1216,28 @@ Public Class FrmUserMaster
                 '    CmbLoginType.Focus()
                 '    Throw New Exception("Please select Type.")
                 'End If
-                If CmbLoginType.Text = "CNF" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Then
                     If clsCommon.myLen(fndCustCode.Value) <= 0 Then
                         fndCustCode.Focus()
                         Throw New Exception("Customer Code cannot be left blank.")
                     End If
                 End If
 
-                If CmbLoginType.Text = "Parlor" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Then
                     If clsCommon.myLen(fndCustCode.Value) <= 0 Then
                         fndCustCode.Focus()
                         Throw New Exception("Customer Code cannot be left blank.")
                     End If
                 End If
 
-                If CmbLoginType.Text = "Distributer" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
                     If clsCommon.myLen(fndDisRetailerCode.Value) <= 0 Then
                         fndDisRetailerCode.Focus()
                         Throw New Exception("Distributer Code cannot be left blank.")
                     End If
 
                 End If
-                If CmbLoginType.Text = "Retailer" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
                     If clsCommon.myLen(fndDisRetailerCode.Value) <= 0 Then
                         fndDisRetailerCode.Focus()
                         Throw New Exception("Retailer Code cannot be left blank.")
@@ -1761,7 +1789,8 @@ Public Class FrmUserMaster
             fndUserCode.Value = clsCommon.myCstr(dt.Rows(0)("User Code"))
             txtUserName.Text = clsCommon.myCstr(dt.Rows(0)("User Name"))
             If ChkSuperUser = True AndAlso PanelCNF = True Then
-                If CmbLoginType.Text = "SuperUser" Or CmbLoginType.Text = "Super User" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "SuperUser") = CompairStringResult.Equal Or
+                clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Then
                     RadPageViewPage2.Enabled = True
                     FillCustomerGrid(fndUserCode.Value)
                 Else
@@ -1812,7 +1841,8 @@ Public Class FrmUserMaster
             '    FillCustomerGrid(fndUserCode.Value)
             'End If
             If ChkSuperUser = True AndAlso PanelCNF = True Then
-                If CmbLoginType.Text = "SuperUser" Or CmbLoginType.Text = "Super User" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "SuperUser") = CompairStringResult.Equal Or
+                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Then
                     RadPageViewPage2.Enabled = True
                     FillCustomerGrid(fndUserCode.Value)
                 Else
@@ -1965,26 +1995,26 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
 
     Private Sub CmbLoginType_SelectedIndexChanged(sender As Object, e As Data.PositionChangedEventArgs) Handles CmbLoginType.SelectedIndexChanged
         Try
-            If clsCommon.myLen(CmbLoginType.Text) > 0 Then
+            If clsCommon.myLen(CmbLoginType.SelectedValue) > 0 Then
                 fndCustCode.MyReadOnly = False
                 fndDisRetailerCode.MyReadOnly = False
             End If
-            If CmbLoginType.Text = "Select" Then
+            If clsCommon.myLen(CmbLoginType.SelectedValue) <= 0 Then
                 fndCustCode.MyReadOnly = False
                 fndDisRetailerCode.MyReadOnly = False
             End If
             If PanelCNF = True Then
-                If CmbLoginType.Text = "CNF" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF")=CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = True
                     fndDisRetailerCode.MyReadOnly = False
                 End If
-                If CmbLoginType.Text = "Distributer" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = False
                     fndDisRetailerCode.MyReadOnly = True
                     lblDisRetailer.Text = "Distributer"
                 End If
 
-                If CmbLoginType.Text = "Retail" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retail") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = False
                     fndDisRetailerCode.MyReadOnly = True
                     lblDisRetailer.Text = "Retail"
@@ -1997,7 +2027,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 End If
 
                 If ChkSuperUser = True AndAlso PanelCNF = True Then
-                    If CmbLoginType.Text = "SuperUser" Or CmbLoginType.Text = "Super User" Then
+                    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "SuperUser") = CompairStringResult.Equal Or
+                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Then
                         RadPageViewPage2.Enabled = True
                         FillCustomerGrid(fndUserCode.Value)
                     Else
@@ -2017,7 +2048,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
     End Sub
 
     Private Sub fndDisRetailerCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDisRetailerCode._MYValidating
-        If PanelCNF = True And (CmbLoginType.Text = "Distributer" Or CmbLoginType.Text = "Retailer") Then
+        If PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+            clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
             Try
                 Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_SECONDARY_CUSTOMER_MASTER "
                 fndDisRetailerCode.Value = clsCommon.ShowSelectForm("Fndr", qry, "Code", "", fndDisRetailerCode.Value, "Code", isButtonClicked)
@@ -2030,10 +2062,11 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             Catch ex As Exception
                 clsCommon.MyMessageBoxShow(ex.Message)
             End Try
-        ElseIf isCheckCustomerType = True And (CmbLoginType.Text = "Distributer" Or CmbLoginType.Text = "Retailer") Then
+        ElseIf isCheckCustomerType = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+            clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
             Try
                 Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_SECONDARY_CUSTOMER_MASTER "
-                fndDisRetailerCode.Value = clsCommon.ShowSelectForm("Fndr1", qry, "Code", " POS_type='" + CmbLoginType.SelectedValue + "' ", fndDisRetailerCode.Value, "Code", isButtonClicked)
+                fndDisRetailerCode.Value = clsCommon.ShowSelectForm("Fndr1", qry, "Code", " POS_type='" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "' ", fndDisRetailerCode.Value, "Code", isButtonClicked)
                 If clsCommon.myLen(fndDisRetailerCode.Value) > 0 Then
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "' ")
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -2047,7 +2080,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
     End Sub
 
     Private Sub fndCustCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustCode._MYValidating
-        If (PanelCNF = True And (CmbLoginType.Text = "CNF" Or CmbLoginType.Text = "Parlor")) OrElse (isCheckCustomerType AndAlso MatchLevel() = 1) Then
+        If (PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal)) OrElse (isCheckCustomerType AndAlso MatchLevel() = 1) Then
             Try
                 Dim qry As String = "select Cust_Code as Code, Customer_Name as Name from TSPL_CUSTOMER_MASTER "
                 fndCustCode.Value = clsCommon.ShowSelectForm("CustomerFndr", qry, "Code", "STATUS='N'", fndCustCode.Value, "Code", isButtonClicked)
@@ -2068,25 +2101,25 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         Try
             If PanelCNF = True Then
                 PanalCNFReset()
-                If clsCommon.myLen(CmbLoginType.Text) < 0 Then
+                If clsCommon.myLen(CmbLoginType.SelectedValue) < 0 Then
                     fndCustCode.MyReadOnly = False
                     fndDisRetailerCode.MyReadOnly = False
                 End If
-                If CmbLoginType.Text = "Select" Then
+                If clsCommon.myLen(CmbLoginType.SelectedValue) <= 0 Then
                     fndCustCode.MyReadOnly = True
                     fndDisRetailerCode.MyReadOnly = True
                 End If
-                If CmbLoginType.Text = "CNF" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = False
                     fndDisRetailerCode.MyReadOnly = True
                 End If
-                If CmbLoginType.Text = "Distributer" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = True
                     fndDisRetailerCode.MyReadOnly = False
                     lblDisRetailer.Text = "Distributer"
                 End If
 
-                If CmbLoginType.Text = "Retail" Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retail") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = True
                     fndDisRetailerCode.MyReadOnly = False
                     lblDisRetailer.Text = "Retail"
@@ -2094,7 +2127,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 End If
                 If ChkSuperUser = True AndAlso PanelCNF = True Then
 
-                    If CmbLoginType.Text = "SuperUser" Or CmbLoginType.Text = "Super User" Then
+                    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "SuperUser") = CompairStringResult.Equal Or
+                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Then
                         RadPageViewPage2.Enabled = True
                         FillCustomerGrid(fndUserCode.Value)
                     Else
@@ -2250,7 +2284,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
 
     Private Sub SaveCustomerMapping()
         Try
-            If CmbLoginType.Text = "SuperUser" Or CmbLoginType.Text = "Super User" Then
+            If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "SuperUser") = CompairStringResult.Equal Or
+                clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Then
                 clsDBFuncationality.ExecuteNonQuery(" delete from TSPL_USER_CUSTOMER_MAPPING where User_Code = '" + fndUserCode.Value + "' ")
                 For Each grow As GridViewRowInfo In gvCustomer.Rows
                     If IsDBNull(grow.Cells(colSelect).Value) = False Then
@@ -2297,12 +2332,17 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
 
     Private Sub PickDetailsFromPOSGroupMaster()
         Try
-            Dim qry As String = "Select GROUP_CODE,DESCRIPTION from TSPL_POS_GROUP_MASTER order by LEVEL"
+            Dim qry As String = "select GROUP_CODE as Code,DESCRIPTION as Name from (
+select '' as GROUP_CODE,'Select' as DESCRIPTION,-1 as LEVEL
+union all
+Select GROUP_CODE,DESCRIPTION,LEVEL from TSPL_POS_GROUP_MASTER 
+)xx
+order by LEVEL"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             CmbLoginType.DataSource = dt
-            CmbLoginType.ValueMember = "GROUP_CODE"
-            CmbLoginType.DisplayMember = "DESCRIPTION"
-            CmbLoginType.Text = "Select"
+            CmbLoginType.ValueMember = "Code"
+            CmbLoginType.DisplayMember = "Name"
+            CmbLoginType.SelectedValue = ""
         Catch ex As Exception
         End Try
     End Sub
@@ -2310,7 +2350,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
     Private Function MatchLevel() As Decimal
         Dim level As Decimal
         Try
-            Dim qry As String = "Select max(LEVEL) as level from TSPL_POS_GROUP_MASTER Where GROUP_CODE='" + CmbLoginType.SelectedValue + "'"
+            Dim qry As String = "Select max(LEVEL) as level from TSPL_POS_GROUP_MASTER Where GROUP_CODE='" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "'"
             level = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
             If level = 1 Then
                 fndCustCode.Enabled = True

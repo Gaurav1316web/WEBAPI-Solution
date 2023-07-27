@@ -922,4 +922,8 @@ Public Class clsPriceComponentMapping
         End Try
     End Function
 
+    Public Shared Function GetName(ByVal curcode As String, ByVal tran As SqlTransaction) As String
+        Dim qry As String = "Select max(Price_Code_Desc) as Price_Code_Desc from TSPL_PRICE_COMPONENT_MAPPING  where Price_Code='" + curcode + "'"
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, tran))
+    End Function
 End Class

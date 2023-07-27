@@ -22,17 +22,20 @@ Partial Class frmSRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition16 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition18 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition19 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition21 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txttender = New common.Controls.MyTextBox()
+        Me.RadLabel13 = New common.Controls.MyLabel()
+        Me.labtender = New common.Controls.MyLabel()
         Me.MyLabel19 = New common.Controls.MyLabel()
         Me.MyDateTimePicker1 = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -91,7 +94,6 @@ Partial Class frmSRN
         Me.txtDept = New common.UserControls.txtFinder()
         Me.lblRMDANo = New common.Controls.MyLabel()
         Me.RadLabel21 = New common.Controls.MyLabel()
-        Me.RadLabel13 = New common.Controls.MyLabel()
         Me.RadLabel8 = New common.Controls.MyLabel()
         Me.RadLabel5 = New common.Controls.MyLabel()
         Me.RadLabel20 = New common.Controls.MyLabel()
@@ -242,6 +244,9 @@ Partial Class frmSRN
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txttender, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.labtender, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -298,7 +303,6 @@ Partial Class frmSRN
         CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRMDANo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -497,6 +501,8 @@ Partial Class frmSRN
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txttender)
+        Me.RadPageViewPage1.Controls.Add(Me.labtender)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel19)
         Me.RadPageViewPage1.Controls.Add(Me.MyDateTimePicker1)
         Me.RadPageViewPage1.Controls.Add(Me.chkExemptSecurityDedution)
@@ -586,6 +592,50 @@ Partial Class frmSRN
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1105, 498)
         Me.RadPageViewPage1.Text = "Store Received Note"
         '
+        'txttender
+        '
+        Me.txttender.CalculationExpression = Nothing
+        Me.txttender.FieldCode = Nothing
+        Me.txttender.FieldDesc = Nothing
+        Me.txttender.FieldMaxLength = 0
+        Me.txttender.FieldName = Nothing
+        Me.txttender.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txttender.isCalculatedField = False
+        Me.txttender.IsSourceFromTable = False
+        Me.txttender.IsSourceFromValueList = False
+        Me.txttender.IsUnique = False
+        Me.txttender.Location = New System.Drawing.Point(817, 44)
+        Me.txttender.MaxLength = 50
+        Me.txttender.MendatroryField = False
+        Me.txttender.MyLinkLable1 = Me.RadLabel13
+        Me.txttender.MyLinkLable2 = Nothing
+        Me.txttender.Name = "txttender"
+        Me.txttender.ReferenceFieldDesc = Nothing
+        Me.txttender.ReferenceFieldName = Nothing
+        Me.txttender.ReferenceTableName = Nothing
+        Me.txttender.Size = New System.Drawing.Size(115, 18)
+        Me.txttender.TabIndex = 362
+        '
+        'RadLabel13
+        '
+        Me.RadLabel13.FieldName = Nothing
+        Me.RadLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel13.Location = New System.Drawing.Point(538, 88)
+        Me.RadLabel13.Name = "RadLabel13"
+        Me.RadLabel13.Size = New System.Drawing.Size(41, 16)
+        Me.RadLabel13.TabIndex = 46
+        Me.RadLabel13.Text = "GR No"
+        '
+        'labtender
+        '
+        Me.labtender.FieldName = Nothing
+        Me.labtender.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.labtender.Location = New System.Drawing.Point(753, 43)
+        Me.labtender.Name = "labtender"
+        Me.labtender.Size = New System.Drawing.Size(60, 16)
+        Me.labtender.TabIndex = 361
+        Me.labtender.Text = "Tender No"
+        '
         'MyLabel19
         '
         Me.MyLabel19.FieldName = Nothing
@@ -621,7 +671,7 @@ Partial Class frmSRN
         Me.MyDateTimePicker1.ReferenceFieldDesc = Nothing
         Me.MyDateTimePicker1.ReferenceFieldName = Nothing
         Me.MyDateTimePicker1.ReferenceTableName = Nothing
-        Me.MyDateTimePicker1.Size = New System.Drawing.Size(126, 18)
+        Me.MyDateTimePicker1.Size = New System.Drawing.Size(152, 18)
         Me.MyDateTimePicker1.TabIndex = 359
         Me.MyDateTimePicker1.TabStop = False
         Me.MyDateTimePicker1.Text = "13/06/2011 11:29 AM"
@@ -959,7 +1009,7 @@ Partial Class frmSRN
         Me.gvRGP.MasterTemplate.AllowDeleteRow = False
         Me.gvRGP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRGP.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvRGP.MasterTemplate.ViewDefinition = TableViewDefinition15
+        Me.gvRGP.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvRGP.Name = "gvRGP"
         Me.gvRGP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvRGP.ShowGroupPanel = False
@@ -997,7 +1047,7 @@ Partial Class frmSRN
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition16
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1305,7 +1355,7 @@ Partial Class frmSRN
         Me.dtpInvoice.IsSourceFromTable = False
         Me.dtpInvoice.IsSourceFromValueList = False
         Me.dtpInvoice.IsUnique = False
-        Me.dtpInvoice.Location = New System.Drawing.Point(937, 42)
+        Me.dtpInvoice.Location = New System.Drawing.Point(937, 44)
         Me.dtpInvoice.MendatroryField = False
         Me.dtpInvoice.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpInvoice.MyLinkLable1 = Nothing
@@ -1529,16 +1579,6 @@ Partial Class frmSRN
         Me.RadLabel21.TabIndex = 33
         Me.RadLabel21.Text = "Gate Entry No"
         '
-        'RadLabel13
-        '
-        Me.RadLabel13.FieldName = Nothing
-        Me.RadLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel13.Location = New System.Drawing.Point(538, 88)
-        Me.RadLabel13.Name = "RadLabel13"
-        Me.RadLabel13.Size = New System.Drawing.Size(41, 16)
-        Me.RadLabel13.TabIndex = 46
-        Me.RadLabel13.Text = "GR No"
-        '
         'RadLabel8
         '
         Me.RadLabel8.FieldName = Nothing
@@ -1744,7 +1784,7 @@ Partial Class frmSRN
         '
         Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel3.Location = New System.Drawing.Point(741, 23)
+        Me.RadLabel3.Location = New System.Drawing.Point(752, 23)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 16)
         Me.RadLabel3.TabIndex = 49
@@ -1866,7 +1906,7 @@ Partial Class frmSRN
         Me.txtInvNo.ReferenceFieldDesc = Nothing
         Me.txtInvNo.ReferenceFieldName = Nothing
         Me.txtInvNo.ReferenceTableName = Nothing
-        Me.txtInvNo.Size = New System.Drawing.Size(322, 18)
+        Me.txtInvNo.Size = New System.Drawing.Size(152, 18)
         Me.txtInvNo.TabIndex = 15
         '
         'txtVendorNo
@@ -2009,7 +2049,7 @@ Partial Class frmSRN
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(812, 23)
+        Me.txtDesc.Location = New System.Drawing.Point(817, 23)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel3
@@ -2018,7 +2058,7 @@ Partial Class frmSRN
         Me.txtDesc.ReferenceFieldDesc = Nothing
         Me.txtDesc.ReferenceFieldName = Nothing
         Me.txtDesc.ReferenceTableName = Nothing
-        Me.txtDesc.Size = New System.Drawing.Size(222, 18)
+        Me.txtDesc.Size = New System.Drawing.Size(220, 18)
         Me.txtDesc.TabIndex = 14
         '
         'btnAddNew
@@ -2077,7 +2117,7 @@ Partial Class frmSRN
         Me.gv_c_form.MasterTemplate.EnableGrouping = False
         Me.gv_c_form.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_c_form.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_c_form.MasterTemplate.ViewDefinition = TableViewDefinition17
+        Me.gv_c_form.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv_c_form.Name = "gv_c_form"
         Me.gv_c_form.ShowGroupPanel = False
         Me.gv_c_form.ShowHeaderCellButtons = True
@@ -2117,7 +2157,7 @@ Partial Class frmSRN
         Me.gv_roadpermit.MasterTemplate.EnableGrouping = False
         Me.gv_roadpermit.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_roadpermit.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_roadpermit.MasterTemplate.ViewDefinition = TableViewDefinition18
+        Me.gv_roadpermit.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv_roadpermit.Name = "gv_roadpermit"
         Me.gv_roadpermit.ShowGroupPanel = False
         Me.gv_roadpermit.ShowHeaderCellButtons = True
@@ -2465,7 +2505,7 @@ Partial Class frmSRN
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition19
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -2526,7 +2566,7 @@ Partial Class frmSRN
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition20
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -2596,7 +2636,7 @@ Partial Class frmSRN
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
         Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition21
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvACInsurance.ShowGroupPanel = False
@@ -3484,6 +3524,9 @@ Partial Class frmSRN
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txttender, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.labtender, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyDateTimePicker1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3541,7 +3584,6 @@ Partial Class frmSRN
         CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRMDANo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3898,5 +3940,7 @@ Partial Class frmSRN
     Friend WithEvents chkExemptSecurityDedution As RadCheckBox
     Friend WithEvents MyLabel19 As common.Controls.MyLabel
     Friend WithEvents MyDateTimePicker1 As common.Controls.MyDateTimePicker
+    Friend WithEvents txttender As common.Controls.MyTextBox
+    Friend WithEvents labtender As common.Controls.MyLabel
 End Class
 

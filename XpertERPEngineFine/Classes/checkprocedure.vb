@@ -691,6 +691,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FATSNFGainLoss, "FAT/SNF Gain Loss", "1.07.03.41", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptProductReceivingReport, "Product Receiving Report", "1.07.03.42", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerWiseStockReco, "Customer Wise Stock Reco", "1.07.03.43", clsUserMgtCode.SubModuleMaterialReport, 37)
+
+        'InsertDefaultValue(clsUserMgtCode.rptStockReport, " Stocks Report", "1.07.03.45", clsUserMgtCode.SubModuleMaterialReport, 37)
         '
         '--------------Purchase----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModulePurchase, "Purchase", "1.08", clsUserMgtCode.ExpertERP, "M", 23)
@@ -827,6 +829,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmTenderTrackingReport, "Tender Tracking Report", "1.08.03.44", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmERPStatusTrackingReport, "ERP Status Tracking Report", "1.08.03.45", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptrlPenaltyRegister, "Penalty Register Report", "1.08.03.46", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptPerformanceReport, "Performance Report", "1.08.03.47", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 
@@ -1157,7 +1160,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmProductionVarianceSTD, "Production Variance", "1.12.04.08", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailStandardProduction, "Standard Production Audit Trail Report", "1.12.04.09", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         InsertDefaultValue(clsUserMgtCode.rptSPItemConsumptionReport, "Material Consumption Report", "1.12.04.10", clsUserMgtCode.SubModuleProductionReportSTD, 37)
-        InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.11", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        InsertDefaultValue(clsUserMgtCode.ProductionReport, "Production Report", "1.12.04.11", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.13", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         '--------------Dairy Production----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleProductionDairy, "Dairy Production", "1.29", clsUserMgtCode.ExpertERP, "M", 23)
 
@@ -1542,8 +1547,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, "DBT NEFT Uploader", "1.17.02.48", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", False, True, Nothing)
         InsertDefaultValue(clsUserMgtCode.FrmCreateBMCDCSbyMobile, "BMC DCS Mobile", "1.17.02.49", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.DBTNEFTReject, "DBT NEFT Reject", "1.17.02.50", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.52", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.DBTPayment, "DBT Payment", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.52", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.53", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
 
         '=========================================================================================
         '--Reportsmdi

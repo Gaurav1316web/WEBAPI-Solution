@@ -26,6 +26,8 @@ Partial Class FrmApprovalAlert_Child
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
@@ -33,10 +35,6 @@ Partial Class FrmApprovalAlert_Child
         Me.txtmax_app_lvl = New common.Controls.MyLabel()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.txtAuthRemark = New common.Controls.MyLabel()
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.txtAuthIssue_Date = New common.Controls.MyLabel()
         Me.lblModule = New common.Controls.MyLabel()
         Me.txtAuth_Status = New common.Controls.MyLabel()
@@ -69,10 +67,16 @@ Partial Class FrmApprovalAlert_Child
         Me.cboApproval = New common.Controls.MyComboBox()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv = New common.UserControls.MyRadGridView()
+        Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.gv1 = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -83,7 +87,6 @@ Partial Class FrmApprovalAlert_Child
         CType(Me.txtCurrentLevel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtmax_app_lvl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAuthRemark, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAuthIssue_Date, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblModule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAuth_Status, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -118,10 +121,12 @@ Partial Class FrmApprovalAlert_Child
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Attachments.SuspendLayout()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -260,39 +265,6 @@ Partial Class FrmApprovalAlert_Child
         Me.txtAuthRemark.Name = "txtAuthRemark"
         Me.txtAuthRemark.Size = New System.Drawing.Size(505, 77)
         Me.txtAuthRemark.TabIndex = 53
-        Me.txtAuthRemark.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'RadMenu1
-        '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenufile})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(732, 20)
-        Me.RadMenu1.TabIndex = 25
-        Me.RadMenu1.Text = "RadMenu1"
-        '
-        'rdmenufile
-        '
-        Me.rdmenufile.AccessibleDescription = "RadMenuItem1"
-        Me.rdmenufile.AccessibleName = "RadMenuItem1"
-        Me.rdmenufile.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdmenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
-        Me.rdmenufile.Name = "rdmenufile"
-        Me.rdmenufile.Text = "File"
-        '
-        'RadMenuItem1
-        '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "Save Layout"
-        '
-        'RadMenuItem2
-        '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
-        Me.RadMenuItem2.Name = "RadMenuItem2"
-        Me.RadMenuItem2.Text = "Delete Layout"
         '
         'txtAuthIssue_Date
         '
@@ -304,7 +276,6 @@ Partial Class FrmApprovalAlert_Child
         Me.txtAuthIssue_Date.Name = "txtAuthIssue_Date"
         Me.txtAuthIssue_Date.Size = New System.Drawing.Size(193, 20)
         Me.txtAuthIssue_Date.TabIndex = 52
-        Me.txtAuthIssue_Date.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblModule
         '
@@ -326,7 +297,6 @@ Partial Class FrmApprovalAlert_Child
         Me.txtAuth_Status.Name = "txtAuth_Status"
         Me.txtAuth_Status.Size = New System.Drawing.Size(193, 20)
         Me.txtAuth_Status.TabIndex = 51
-        Me.txtAuth_Status.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel9
         '
@@ -428,7 +398,6 @@ Partial Class FrmApprovalAlert_Child
         Me.txtDoc_Code.Name = "txtDoc_Code"
         Me.txtDoc_Code.Size = New System.Drawing.Size(179, 20)
         Me.txtDoc_Code.TabIndex = 45
-        Me.txtDoc_Code.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel2
         '
@@ -460,7 +429,6 @@ Partial Class FrmApprovalAlert_Child
         Me.txtDoc_Qty.Name = "txtDoc_Qty"
         Me.txtDoc_Qty.Size = New System.Drawing.Size(193, 20)
         Me.txtDoc_Qty.TabIndex = 21
-        Me.txtDoc_Qty.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtDoc_Status
         '
@@ -472,7 +440,6 @@ Partial Class FrmApprovalAlert_Child
         Me.txtDoc_Status.Name = "txtDoc_Status"
         Me.txtDoc_Status.Size = New System.Drawing.Size(193, 20)
         Me.txtDoc_Status.TabIndex = 46
-        Me.txtDoc_Status.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel1
         '
@@ -504,7 +471,6 @@ Partial Class FrmApprovalAlert_Child
         Me.txtDocIssue_Date.Name = "txtDocIssue_Date"
         Me.txtDocIssue_Date.Size = New System.Drawing.Size(193, 20)
         Me.txtDocIssue_Date.TabIndex = 49
-        Me.txtDocIssue_Date.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtDoc_Amt
         '
@@ -516,7 +482,6 @@ Partial Class FrmApprovalAlert_Child
         Me.txtDoc_Amt.Name = "txtDoc_Amt"
         Me.txtDoc_Amt.Size = New System.Drawing.Size(193, 20)
         Me.txtDoc_Amt.TabIndex = 47
-        Me.txtDoc_Amt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel3
         '
@@ -548,20 +513,19 @@ Partial Class FrmApprovalAlert_Child
         Me.txtDoc_Date.Name = "txtDoc_Date"
         Me.txtDoc_Date.Size = New System.Drawing.Size(193, 20)
         Me.txtDoc_Date.TabIndex = 48
-        Me.txtDoc_Date.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadPageView1
         '
         Me.RadPageView1.BackColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(205, Byte), Integer), CType(CType(201, Byte), Integer))
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.Attachments)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.Attachments
         Me.RadPageView1.Size = New System.Drawing.Size(728, 153)
         Me.RadPageView1.TabIndex = 46
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -627,6 +591,7 @@ Partial Class FrmApprovalAlert_Child
         Me.cboApproval.AutoCompleteDisplayMember = Nothing
         Me.cboApproval.AutoCompleteValueMember = Nothing
         Me.cboApproval.CalculationExpression = Nothing
+        Me.cboApproval.DropDownAnimationEnabled = True
         Me.cboApproval.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboApproval.FieldCode = Nothing
         Me.cboApproval.FieldDesc = Nothing
@@ -676,7 +641,9 @@ Partial Class FrmApprovalAlert_Child
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -684,7 +651,24 @@ Partial Class FrmApprovalAlert_Child
         Me.gv.Size = New System.Drawing.Size(707, 105)
         Me.gv.TabIndex = 0
         Me.gv.TabStop = False
-        Me.gv.Text = "RadGridView1"
+        '
+        'Attachments
+        '
+        Me.Attachments.Controls.Add(Me.UcAttachment1)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
+        Me.Attachments.Location = New System.Drawing.Point(10, 37)
+        Me.Attachments.Name = "Attachments"
+        Me.Attachments.Size = New System.Drawing.Size(707, 105)
+        Me.Attachments.Text = "Attachment"
+        '
+        'UcAttachment1
+        '
+        Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
+        Me.UcAttachment1.Name = "UcAttachment1"
+        Me.UcAttachment1.Size = New System.Drawing.Size(707, 105)
+        Me.UcAttachment1.TabIndex = 2
+        Me.UcAttachment1.TabStop = False
         '
         'btnClose
         '
@@ -727,11 +711,39 @@ Partial Class FrmApprovalAlert_Child
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Approve"
         '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenufile})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(732, 20)
+        Me.RadMenu1.TabIndex = 25
+        '
+        'rdmenufile
+        '
+        Me.rdmenufile.AccessibleDescription = "RadMenuItem1"
+        Me.rdmenufile.AccessibleName = "RadMenuItem1"
+        Me.rdmenufile.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rdmenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
+        Me.rdmenufile.Name = "rdmenufile"
+        Me.rdmenufile.Text = "File"
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Save Layout"
+        '
+        'RadMenuItem2
+        '
+        Me.RadMenuItem2.Name = "RadMenuItem2"
+        Me.RadMenuItem2.Text = "Delete Layout"
+        '
         'gv1
         '
         Me.gv1.AllowAddNewRow = False
         Me.gv1.AllowDeleteRow = False
         Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.ViewDefinition = TableViewDefinition2
         '
         'FrmApprovalAlert_Child
         '
@@ -759,7 +771,6 @@ Partial Class FrmApprovalAlert_Child
         CType(Me.txtCurrentLevel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtmax_app_lvl, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAuthRemark, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAuthIssue_Date, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblModule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAuth_Status, System.ComponentModel.ISupportInitialize).EndInit()
@@ -795,10 +806,12 @@ Partial Class FrmApprovalAlert_Child
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Attachments.ResumeLayout(False)
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -853,5 +866,7 @@ Partial Class FrmApprovalAlert_Child
     Friend WithEvents txtmax_app_lvl As common.Controls.MyLabel
     Friend WithEvents txtCurrentLevel As common.Controls.MyLabel
     Friend WithEvents LinkLabel2 As System.Windows.Forms.LinkLabel
+    Friend WithEvents Attachments As RadPageViewPage
+    Friend WithEvents UcAttachment1 As ucAttachment
 End Class
 

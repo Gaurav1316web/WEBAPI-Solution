@@ -69,7 +69,7 @@ Public Class ucAttachment
                     End If
                 Next
                 If isDeleteFirst Then
-                    clsDBFuncationality.ExecuteNonQuery("delete from TSPL_ATTACHMENTS where TransactionId='" + StrTransaction_ID + "' ", trans)
+                    clsDBFuncationality.ExecuteNonQuery("delete from TSPL_ATTACHMENTS where FormId='" + Form_ID + "' and TransactionId='" + StrTransaction_ID + "' ", trans)
                 End If
             End If
 
