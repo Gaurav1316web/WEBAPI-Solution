@@ -12,6 +12,7 @@ Public Class rptSalesReport
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Public arrBatchNo As ArrayList
     Dim arrLoc As String = Nothing
+    Dim FORMTYPE As String = Nothing
 
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.rptItemConsumptionReport)
@@ -25,7 +26,9 @@ Public Class rptSalesReport
     Sub Reset()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = txtToDate.Value.AddMonths(-1)
-        TxtMultiLocation.arrValueMember = Nothing
+        txtBillToLocation.Value = Nothing
+        lblBillToLocation.Text = ""
+        'TxtMultiLocation.arrValueMember = Nothing
         Gv1.DataSource = Nothing
     End Sub
 
@@ -47,8 +50,8 @@ Public Class rptSalesReport
         Dim dt As New DataTable()
         Try
             Dim whr As String = ""
-            If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
-                whr += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In  (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ") "
+            If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
+                whr += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In  ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
             Else
                 'whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
                 'If clsCommon.myLen(arrLoc) > 0 Then
@@ -56,7 +59,8 @@ Public Class rptSalesReport
                 'End If
             End If
             qry = "   Select * from (SELECT  Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Document_Date,ISNULL ([MILKUNION], 0) as [MILKUNION] ,ISNULL ([GOSHALA], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOVT], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([OTHER], 0) as [OTHER],
-  (ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0)) as [Total Sale]
+  (ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0)) as [Total Sale],
+((ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0))/50) as [Total BagSale]
   FROM
                                    (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Quantity,price_CodeNon								   
 								   FROM TSPL_SD_SALE_INVOICE_DETAIL
@@ -129,35 +133,39 @@ Public Class rptSalesReport
 
         Gv1.Columns("Document_Date").Width = 100
         Gv1.Columns("Document_Date").IsVisible = True
-        Gv1.Columns("Document_Date").HeaderText = "Document Date"
+        Gv1.Columns("Document_Date").HeaderText = "Invoice Date"
 
-        Gv1.Columns("MILKUNION").Width = 100
+        Gv1.Columns("MILKUNION").Width = 150
         Gv1.Columns("MILKUNION").IsVisible = True
-        Gv1.Columns("MILKUNION").HeaderText = "MILK UNION"
+        Gv1.Columns("MILKUNION").HeaderText = "MILK UNION(qtl)"
 
-        Gv1.Columns("GOSHALA").Width = 100
+        Gv1.Columns("GOSHALA").Width = 150
         Gv1.Columns("GOSHALA").IsVisible = True
-        Gv1.Columns("GOSHALA").HeaderText = "GOSHALA"
+        Gv1.Columns("GOSHALA").HeaderText = "GOSHALA(qtl)"
 
-        Gv1.Columns("DCS").Width = 100
+        Gv1.Columns("DCS").Width = 150
         Gv1.Columns("DCS").IsVisible = True
-        Gv1.Columns("DCS").HeaderText = "DCS"
+        Gv1.Columns("DCS").HeaderText = "DCS(qtl)"
 
-        Gv1.Columns("GOVT").Width = 100
+        Gv1.Columns("GOVT").Width = 150
         Gv1.Columns("GOVT").IsVisible = True
-        Gv1.Columns("GOVT").HeaderText = "GOVT"
+        Gv1.Columns("GOVT").HeaderText = "GOVT(qtl)"
 
-        Gv1.Columns("KVSS").Width = 100
+        Gv1.Columns("KVSS").Width = 150
         Gv1.Columns("KVSS").IsVisible = True
-        Gv1.Columns("KVSS").HeaderText = "KVSS"
+        Gv1.Columns("KVSS").HeaderText = "KVSS(qtl)"
 
-        Gv1.Columns("OTHER").Width = 100
+        Gv1.Columns("OTHER").Width = 150
         Gv1.Columns("OTHER").IsVisible = True
-        Gv1.Columns("OTHER").HeaderText = "OTHER"
+        Gv1.Columns("OTHER").HeaderText = "OTHER(qtl)"
 
-        Gv1.Columns("Total Sale").Width = 100
+        Gv1.Columns("Total Sale").Width = 150
         Gv1.Columns("Total Sale").IsVisible = True
-        Gv1.Columns("Total Sale").HeaderText = "Total Sale"
+        Gv1.Columns("Total Sale").HeaderText = "Total Sale(qtl)"
+
+        Gv1.Columns("Total BagSale").Width = 150
+        Gv1.Columns("Total BagSale").IsVisible = True
+        Gv1.Columns("Total BagSale").HeaderText = "Total BagSale(qtl)"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
@@ -182,23 +190,26 @@ Public Class rptSalesReport
         Dim item7 As New GridViewSummaryItem("MILKUNION", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item7)
 
+        Dim item8 As New GridViewSummaryItem("Total BagSale", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item8)
+
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
     End Sub
 
-    Private Sub TxtMultiLocation__My_Click(sender As Object, e As EventArgs) Handles TxtMultiLocation._My_Click
+    'Private Sub TxtMultiLocation__My_Click(sender As Object, e As EventArgs)
 
-        Dim WhrCls As String = " And Location_Type ='Physical'  "
-        If clsCommon.myLen(arrLoc) > 0 Then
-            WhrCls += "  and  Location_Code in (" + arrLoc + ")"
-        End If
+    '    Dim WhrCls As String = " And Location_Type ='Physical'  "
+    '    If clsCommon.myLen(arrLoc) > 0 Then
+    '        WhrCls += "  and  Location_Code in (" + arrLoc + ")"
+    '    End If
 
-        Dim qry As String = "select Location_Code as [Code] ,Location_Desc as [Name] from TSPL_LOCATION_MASTER where 2=2 " + WhrCls + "  "
+    '    Dim qry As String = "select Location_Code as [Code] ,Location_Desc as [Name] from TSPL_LOCATION_MASTER where 2=2 " + WhrCls + "  "
 
-        TxtMultiLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("Pro", qry, "Code", "Name", TxtMultiLocation.arrValueMember, TxtMultiLocation.arrDispalyMember)
+    '    TxtMultiLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("Pro", qry, "Code", "Name", TxtMultiLocation.arrValueMember, TxtMultiLocation.arrDispalyMember)
 
 
-    End Sub
+    'End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try
@@ -212,8 +223,8 @@ Public Class rptSalesReport
                     'arrHeader.Add("Location : " + strLocDesc)
                 End If
 
-                If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
-                    arrHeader.Add(" Location : " + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrDispalyMember))
+                If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
+                    arrHeader.Add(" Location : " + clsCommon.myCstr(lblBillToLocation.Text))
                 End If
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
 
@@ -245,8 +256,8 @@ Public Class rptSalesReport
                     'arrHeader.Add("Location : " + strLocDesc)
                 End If
                 '
-                If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
-                    arrHeader.Add("Location : " + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrDispalyMember))
+                If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
+                    arrHeader.Add("Location : " + clsCommon.myCstr(lblBillToLocation.Text))
                 End If
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")) + " ")
 
@@ -264,8 +275,8 @@ Public Class rptSalesReport
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim whr As String = ""
-            If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
-                whr += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In   (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ") "
+            If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
+                whr += " and TSPL_SD_SALE_INVOICE_DETAIL.Location In   ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
             Else
                 'whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
                 'If clsCommon.myLen(arrLoc) > 0 Then
@@ -304,4 +315,48 @@ Public Class rptSalesReport
         End Try
     End Sub
 
+    Private Sub txtBillToLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBillToLocation._MYValidating
+
+        Try
+            Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+            Dim WhrCls As String
+            If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
+                WhrCls = " Location_Type='Virtual' "
+            Else
+                WhrCls = " (Location_Type='Physical' or Location_Type='WorkOrder')  "
+            End If
+
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+
+            txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
+
+            If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
+            Else
+                lblBillToLocation.Text = ""
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+
+    End Sub
+
+    Private Sub rptSalesReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        Dim WhrCls As String = String.Empty
+        If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
+            WhrCls = " and Location_Type='Virtual' "
+        Else
+            WhrCls = " and Location_Type='Physical' or Location_Type='WorkOrder'  "
+        End If
+        '  If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.mbtnSRN) = CompairStringResult.Equal Then
+        ' txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' " & WhrCls & " "))
+        If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+        End If
+
+    End Sub
 End Class

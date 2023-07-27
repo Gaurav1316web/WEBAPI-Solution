@@ -28,6 +28,8 @@ Public Class rptPerformanceReport
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = txtToDate.Value.AddMonths(-1)
         'TxtMultiLocation.arrValueMember = Nothing
+        txtBillToLocation.Value = Nothing
+        lblBillToLocation.Text = ""
         TxtRAL.arrValueMember = Nothing
         Gv1.DataSource = Nothing
     End Sub
@@ -57,7 +59,7 @@ Public Class rptPerformanceReport
 
             If rdobtnWeighment.Checked Then
 
-                qry = "  SELECT XXY.FROM_DATE,XXY.TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1
+                qry = "  SELECT XXY.LOCATION, XXY.Ref_No,XXY.[Item] as [Item Description]  ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],cast (XXY.Rate as decimal (18,2)) as Rate, cast (XXY.[Quantity Supplied] as decimal (18,2)) as [Quantity Supplied],cast (XXY.[Short/Excess Qty] as decimal (18,2)) as [Short/Excess Qty],XXY.RiskPurchase,cast (XXY.[% Supplied] as decimal (18,2)) as [% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,XXY.FROM_DATE,XXY.TO_DATE
                          from   (select final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.Rate,final.GRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.RiskPurchase,final.[% Supplied],final.Remarks ,final.LOCATION,final.FROM_DATE,final.TO_DATE
                 from (
                 Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
@@ -91,7 +93,7 @@ Public Class rptPerformanceReport
             Else
 
 
-                qry = "  SELECT XXY.FROM_DATE,XXY.TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1
+                qry = "  SELECT XXY.LOCATION, XXY.Ref_No,XXY.[Item] as [Item Description] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],cast (XXY.Rate as decimal (18,2)) as Rate, cast (XXY.[Quantity Supplied] as decimal (18,2)) as [Quantity Supplied],cast (XXY.[Short/Excess Qty] as decimal (18,2)) as [Short/Excess Qty],XXY.RiskPurchase,cast (XXY.[% Supplied] as decimal (18,2)) as [% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,XXY.FROM_DATE,XXY.TO_DATE
                          from   (select final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.SRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.Rate,final.RiskPurchase,final.[% Supplied],final.Remarks,final.FROM_DATE,final.TO_DATE,final.LOCATION
                 from (
                 Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_SRN_DETAIL.Unit_code AS UOM,TSPL_GRN_HEAD.Vendor_Name,
@@ -169,15 +171,15 @@ Public Class rptPerformanceReport
         Gv1.Columns("TO_DATE").IsVisible = True
         Gv1.Columns("TO_DATE").HeaderText = "To Date"
 
-        Gv1.Columns("Ref_No").Width = 100
+        Gv1.Columns("Ref_No").Width = 150
         Gv1.Columns("Ref_No").IsVisible = True
         Gv1.Columns("Ref_No").HeaderText = "RAL No"
 
-        Gv1.Columns("Item").Width = 100
-        Gv1.Columns("Item").IsVisible = True
-        Gv1.Columns("Item").HeaderText = "Item"
+        Gv1.Columns("Item Description").Width = 100
+        Gv1.Columns("Item Description").IsVisible = True
+        Gv1.Columns("Item Description").HeaderText = "Item Description"
 
-        Gv1.Columns("Supplier's Name").Width = 100
+        Gv1.Columns("Supplier's Name").Width = 150
         Gv1.Columns("Supplier's Name").IsVisible = True
         Gv1.Columns("Supplier's Name").HeaderText = "Supplier's Name"
 
@@ -221,7 +223,7 @@ Public Class rptPerformanceReport
         Gv1.Columns("Location_Desc").HeaderText = "Location Description"
 
         Gv1.Columns("LOCATION").Width = 100
-        Gv1.Columns("LOCATION").IsVisible = False
+        Gv1.Columns("LOCATION").IsVisible = True
         Gv1.Columns("LOCATION").HeaderText = "LOCATION"
 
 
