@@ -229,6 +229,26 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
       else 0 end as SNF_AMT,
       TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_FAT_Rate, TSPL_OWN_BMC_GAIN_LOSS_RATE.Gain_SNF_Rate, TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_FAT_Rate, TSPL_OWN_BMC_GAIN_LOSS_RATE.Loss_SNF_Rate, TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date from ( select GetRateCode.*,( SELECT top 1 TSPL_OWN_BMC_GAIN_LOSS_RATE.Code FROM TSPL_OWN_BMC_GAIN_LOSS_RATE WHERE TSPL_OWN_BMC_GAIN_LOSS_RATE.Posted=1 and TSPL_OWN_BMC_GAIN_LOSS_RATE.Inactive=0 and CONVERT(date, TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date, 103) <= CONVERT(date, GetRateCode.Document_Date, 103) order by TSPL_OWN_BMC_GAIN_LOSS_RATE.Start_Date desc ) as GainLossCode from ( SELECT XXXFinal.Document_No, MAX(XXXFinal.Document_Date) AS Document_Date, MAX(XXXFinal.Route_Code) AS Route_Code, MAX(XXXFinal.ROUTE_NAME) AS ROUTE_NAME, MAX(XXXFinal.Tanker_No) AS Tanker_No, MAX(XXXFinal.Vehicle_No) AS Vehicle_No, MAX(Entered_Qty) AS Entered_Qty, ((MAX(Entered_FATKg) / NULLIF(MAX(Entered_Qty), 0)) * 100) AS Entered_FAT, ((MAX(Entered_SNFKg) / NULLIF(MAX(Entered_Qty), 0)) * 100) AS Entered_SNF, MAX(Entered_FATKg) AS Entered_FATKg, MAX(Entered_SNFKg) AS Entered_SNFKg, SUM(XXXFinal.MCC_Qty) AS MCC_Qty, ROUND(((SUM(MCC_FATKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0) AS MCC_FAT, ROUND(((SUM(MCC_SNFKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0) AS MCC_SNF, SUM(MCC_FATKG) AS MCC_FATKG, SUM(MCC_SNFKG) AS MCC_SNFKG, SUM(DCS_Qty) AS DCS_Qty, ROUND(((SUM(DCS_FATKG) / NULLIF(SUM(DCS_Qty), 0)) * 100), 3, 0) AS DCS_FAT, ROUND(((SUM(DCS_SNFKG) / NULLIF(SUM(DCS_Qty), 0)) * 100), 3, 0) AS DCS_SNF, SUM(DCS_FATKG) AS DCS_FATKG, SUM(DCS_SNFKG) AS DCS_SNFKG, SUM(Diff_Qty) AS Diff_Qty, MAX(DCS_FAT) - ROUND(((SUM(MCC_FATKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0) AS Diff_FAT, MAX(DCS_SNF) - ROUND(((SUM(MCC_SNFKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0) AS Diff_SNF, SUM(Diff_FATKG) AS Diff_FATKG, SUM(Diff_SNFKG) AS Diff_SNFKG, SUM(XXXFinal.MCC_Qty)- MAX(Entered_Qty) AS DiffMCCVsEntered_Qty, ROUND(((SUM(MCC_FATKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0)- ((MAX(Entered_FATKg) / NULLIF(MAX(Entered_Qty), 0)) * 100) AS DiffMCCVsEntered_FAT, ROUND(((SUM(MCC_SNFKG) / NULLIF(SUM(MCC_Qty), 0)) * 100), 3, 0)- ((MAX(Entered_SNFKg) / NULLIF(MAX(Entered_Qty), 0)) * 100) AS DiffMCCVsEntered_SNF, SUM(MCC_FATKG)-MAX(Entered_FATKg) AS DiffMCCVsEntered_FATKG, SUM(MCC_SNFKG)-MAX(Entered_SNFKg) AS DiffMCCVsEntered_SNFKG from ( " + qry + " ) XXXFinal group by XXXFinal.Document_No )GetRateCode )GetAllGainLossRate left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=GetAllGainLossRate.GainLossCode ) XXGetAllRecords"
 
+            ElseIf rdbTankerWise.Checked = True Then
+                qry = "SELECT  Max(XXXFinal.tanker_no) AS Tanker_No, Sum (dcs_qty) AS DCS_Qty,  Sum (dcs_fatkg) AS DCS_FATKG, Sum (dcs_snfkg) AS DCS_SNFKG, 
+              sum(entered_qty) AS Entered_Qty, Sum (entered_fatkg)  AS Entered_FATKg,Sum (entered_snfkg) AS Entered_SNFKg, Sum(entered_qty) - Sum(DCS_Qty) AS DiffEnteredVsDCS_Qty, Sum (entered_fatkg) - Sum (dcs_fatkg)  AS
+              DiffEnteredVsDCS_FAT, Sum (entered_snfkg)- Sum (DCS_SNFKG) AS DiffEnteredVsDCS_SNF FROM   (SELECT Max(entered_qty) AS Entered_Qty, Max(entered_fatkg) AS Entered_FATKg, Max(entered_snfkg) AS Entered_SNFKg, Max(document_date) AS Document_Date, document_no, Max(tanker_no)
+              AS Tanker_No, sum(dcs_qty) AS DCS_Qty, Isnull(Sum(dcs_fatkg), 0) AS DCS_FATKG, Isnull(Sum(dcs_snfkg), 0) AS DCS_SNFKG
+              FROM   (SELECT tspl_milk_collection_mcc.entered_qty, tspl_milk_collection_mcc.entered_fatkg, tspl_milk_collection_mcc.entered_snfkg,
+              tspl_milk_collection_mcc_detail.document_no, tspl_milk_collection_mcc.tanker_no, CONVERT (VARCHAR, tspl_milk_collection_mcc.document_date,103)
+              AS Document_Date, Isnull(XXXDCS.qty, 0) AS DCS_Qty, Isnull(XXXDCS.fat, 0) AS DCS_FAT, Isnull(XXXDCS.snf, 0) AS DCS_SNF, Isnull(XXXDCS.fatkg, 0)AS
+              DCS_FATKG, Isnull(XXXDCS.snfkg, 0) AS DCS_SNFKG FROM   tspl_milk_collection_mcc_detail LEFT OUTER JOIN tspl_milk_collection_mcc ON tspl_milk_collection_mcc.document_no =
+              tspl_milk_collection_mcc_detail.document_no LEFT OUTER JOIN tspl_mcc_master ON tspl_mcc_master.mcc_code = tspl_milk_collection_mcc_detail.mcc_code LEFT OUTER JOIN tspl_bulk_route_master
+              ON tspl_bulk_route_master.route_no = tspl_milk_collection_mcc.route_code LEFT OUTER JOIN (SELECT tspl_milk_collection_dcs_mcc_detail.against_milk_collection_mcc_detail,
+              Sum (qty) AS qty, Sum (tspl_milk_collection_dcs_detail.fatkg) AS FATKG, Sum (tspl_milk_collection_dcs_detail.snfkg)AS SNFKG,
+              ( ( Sum (tspl_milk_collection_dcs_detail.fatkg) / NULLIF(Sum (tspl_milk_collection_dcs_detail.qty), 0) ) * 100 ) AS FAT, ( ( Sum (tspl_milk_collection_dcs_detail.snfkg) /
+              NULLIF(Sum (tspl_milk_collection_dcs_detail.qty),0) ) * 100 ) AS SNF FROM   tspl_milk_collection_dcs_detail LEFT OUTER JOIN tspl_milk_collection_dcs_mcc_detail
+              ON tspl_milk_collection_dcs_mcc_detail.document_no = tspl_milk_collection_dcs_detail.document_no LEFT OUTER JOIN tspl_milk_collection_dcs ON tspl_milk_collection_dcs.document_no =
+             tspl_milk_collection_dcs_detail.document_no WHERE  CONVERT(DATE, tspl_milk_collection_dcs.document_date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) AND CONVERT (DATE, tspl_milk_collection_dcs.document_date, 103) <=
+             CONVERT (DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) GROUP  BY tspl_milk_collection_dcs_mcc_detail.against_milk_collection_mcc_detail) XXXDCS ON XXXDCS.against_milk_collection_mcc_detail =
+             tspl_milk_collection_mcc_detail.pk_id WHERE  CONVERT(DATE, tspl_milk_collection_mcc.document_date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) AND CONVERT (DATE, tspl_milk_collection_mcc.document_date, 103)
+             <= CONVERT (DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) ) xyz GROUP  BY  document_no) XXXFinal GROUP  BY  Tanker_No
+             ORDER  BY Tanker_No asc "
             End If
 
 
@@ -275,11 +295,11 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                 Dim MCCSnfKg As New GridViewSummaryItem("MCC_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(MCCSnfKg)
 
-                Dim DCSQty As New GridViewSummaryItem("DCS_Qty", "{0:F2}", GridAggregateFunction.Sum)
+                Dim DCSQty As New GridViewSummaryItem("DCS_Qty", "{0:F0}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(DCSQty)
-                Dim DCSFatKg As New GridViewSummaryItem("DCS_FATKG", "{0:F2}", GridAggregateFunction.Sum)
+                Dim DCSFatKg As New GridViewSummaryItem("DCS_FATKG", "{0:F3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(DCSFatKg)
-                Dim DCSSnfKg As New GridViewSummaryItem("DCS_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
+                Dim DCSSnfKg As New GridViewSummaryItem("DCS_SNFKG", "{0:F3}", GridAggregateFunction.Sum)
                 summaryRowItem.Add(DCSSnfKg)
 
                 Dim DiffQty As New GridViewSummaryItem("Diff_Qty", "{0:F2}", GridAggregateFunction.Sum)
@@ -313,6 +333,24 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                         Dim Amount As New GridViewSummaryItem("AMOUNT", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(Amount)
                     End If
+                    If rdbTankerWise.Checked Then
+                        'Dim Tanker_No As New GridViewSummaryItem("Tanker_No", "{0:F2}", "Total")
+                        'summaryRowItem.Add(Tanker_No)
+                        Dim EnteredQty As New GridViewSummaryItem("Entered_Qty", "{0:F0}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(EnteredQty)
+                        Dim EnteredFatKg As New GridViewSummaryItem("Entered_FATKg", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(EnteredFatKg)
+                        Dim EnteredSnfKg As New GridViewSummaryItem("Entered_SNFKg", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(EnteredSnfKg)
+                        Dim DiffDCSVsEnteredQty As New GridViewSummaryItem("DiffEnteredVsDCS_Qty", "{0:F0}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(DiffDCSVsEnteredQty)
+                        Dim DiffEnteredVsDCSFatKg As New GridViewSummaryItem("DiffEnteredVsDCS_FAT", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(DiffEnteredVsDCSFatKg)
+                        Dim DiffEnteredVsDCSSnfKg As New GridViewSummaryItem("DiffEnteredVsDCS_SNF", "{0:F3}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(DiffEnteredVsDCSSnfKg)
+
+                    End If
+
                     Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
                 End If
                 ControlEnableDisable(False)
@@ -362,7 +400,6 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                 Gv1.Columns("PK_Id").IsVisible = False
             End If
 
-            Gv1.Columns("Document_No").HeaderText = "Document No"
             If rbtnTranpoterGainLoss.Checked Then
                 Gv1.Columns("Document_No").IsVisible = False
                 Gv1.Columns("Vehicle_No").IsVisible = False
@@ -375,19 +412,22 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                 Gv1.Columns("Start_Date").HeaderText = "Start Date"
                 Gv1.Columns("Start_Date").IsVisible = False
             End If
+            If rdbTankerWise.Checked = False Then
+                Gv1.Columns("Document_No").HeaderText = "Document No"
+                Gv1.Columns("Route_Code").HeaderText = "Route Code"
+                Gv1.Columns("ROUTE_NAME").HeaderText = "Route Name"
+                Gv1.Columns("Document_Date").HeaderText = "Document Date"
+                Gv1.Columns("Vehicle_No").HeaderText = "Vehicle No"
+            End If
+            Gv1.Columns("Tanker_No").HeaderText = "Tanker No"
 
-            Gv1.Columns("Document_Date").HeaderText = "Document Date"
             If rdbDetails.Checked = True Then
                 Gv1.Columns("MCC_Code").HeaderText = "MCC Code"
                 Gv1.Columns("MCC_NAME").HeaderText = "MCC Name"
                 Gv1.Columns("UploaderNo").HeaderText = "UploaderNo"
             End If
 
-            Gv1.Columns("Route_Code").HeaderText = "Route Code"
-            Gv1.Columns("ROUTE_NAME").HeaderText = "Route Name"
 
-            Gv1.Columns("Tanker_No").HeaderText = "Tanker No"
-            Gv1.Columns("Vehicle_No").HeaderText = "Vehicle No"
 
             If rdbSummary.Checked = True Then
                 '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
@@ -437,10 +477,33 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                 'Gv1.Columns("Entered_SNF").IsVisible = False
                 Gv1.Columns("Entered_FATKg").IsVisible = False
                 Gv1.Columns("Entered_SNFKg").IsVisible = False
+
+            ElseIf rdbTankerWise.Checked Then
+                Gv1.Columns("Tanker_No").HeaderText = "Tankerno"
+
+                Gv1.Columns("DCS_Qty").HeaderText = "Quantity"
+                Gv1.Columns("DCS_Qty").FormatString = "{0:n0}"
+                Gv1.Columns("DCS_FATKG").HeaderText = "KGFAT"
+                Gv1.Columns("DCS_FATKG").FormatString = "{0:n3}"
+                Gv1.Columns("DCS_SNFKG").HeaderText = "KGSNF"
+                Gv1.Columns("DCS_SNFKG").FormatString = "{0:n3}"
+                Gv1.Columns("Entered_Qty").HeaderText = "Quantity"
+                Gv1.Columns("Entered_Qty").FormatString = "{0:n0}"
+                Gv1.Columns("Entered_FATKg").HeaderText = "KGFAT"
+                Gv1.Columns("Entered_FATKg").FormatString = "{0:n3}"
+                Gv1.Columns("Entered_SNFKg").HeaderText = "KGSNF"
+                Gv1.Columns("Entered_SNFKg").FormatString = "{0:n3}"
+                Gv1.Columns("DiffEnteredVsDCS_Qty").HeaderText = "Quantity"
+                Gv1.Columns("DiffEnteredVsDCS_Qty").FormatString = "{0:n0}"
+                Gv1.Columns("DiffEnteredVsDCS_FAT").HeaderText = "KGFAT"
+                Gv1.Columns("DiffEnteredVsDCS_FAT").FormatString = "{0:n3}"
+                Gv1.Columns("DiffEnteredVsDCS_SNF").HeaderText = "KGSNF"
+                Gv1.Columns("DiffEnteredVsDCS_SNF").FormatString = "{0:n3}"
+
             End If
 
 
-            If rbtnTranpoterGainLoss.Checked = False Then
+            If rbtnTranpoterGainLoss.Checked = False AndAlso rdbTankerWise.Checked = False Then
                 Gv1.Columns("MCC_Qty").HeaderText = "Qty"
                 Gv1.Columns("MCC_Qty").FormatString = "{0:n3}"
                 Gv1.Columns("MCC_FAT").HeaderText = "FAT %"
@@ -582,20 +645,23 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
 
         If Gv1.Rows.Count > 0 Then
             Dim view As New ColumnGroupsViewDefinition()
-
             view.ColumnGroups.Add(New GridViewColumnGroup(" "))
             view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Document_No").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Document_Date").Name)
+
             If rdbDetails.Checked = True Then
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_Code").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("MCC_NAME").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("UploaderNo").Name)
             End If
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Route_Code").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("ROUTE_NAME").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Tanker_No").Name)
-            view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Vehicle_No").Name)
+            If rdbTankerWise.Checked = False Then
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Document_No").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Document_Date").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Route_Code").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("ROUTE_NAME").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Tanker_No").Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Vehicle_No").Name)
+            End If
+
             If rbtnTranpoterGainLoss.Checked Then
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("GainLoss_Code").Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(Gv1.Columns("Loss_FAT_Rate").Name)
@@ -687,6 +753,28 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                 view.ColumnGroups(6).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(6).Rows(0).ColumnNames.Add(Gv1.Columns("AMOUNT").Name)
 
+            ElseIf rdbTankerWise.Checked = True Then
+                view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(Gv1.Columns("Tanker_No").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Details Received from Tanker at BMC"))
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_Qty").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_FATKG").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(Gv1.Columns("DCS_SNFKG").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Details Received at Dairy Dock"))
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_Qty").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_FATKg").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(Gv1.Columns("Entered_SNFKg").Name)
+
+                view.ColumnGroups.Add(New GridViewColumnGroup("Difference"))
+                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsDCS_Qty").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsDCS_FAT").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(Gv1.Columns("DiffEnteredVsDCS_SNF").Name)
             Else
                 view.ColumnGroups.Add(New GridViewColumnGroup("BMC Data"))
                 view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
@@ -782,9 +870,17 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
         Try
             If Gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDailyQtyReport & "'"))
-                arrHeader.Add("Date : " & clsCommon.myCstr(fromDate.Text) + "  To " + clsCommon.myCstr(dtpToDate.Text))
+                If rdbTankerWise.Checked Then
+
+                    arrHeader.Add("                                   " & objCommonVar.CurrentCompanyName)
+                    arrHeader.Add("                                       Tanker KGFAT-KGSNF-Quantity of period " & clsCommon.myCstr(fromDate.Text) + "-" + clsCommon.myCstr(dtpToDate.Text))
+                Else
+                    arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                    arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDailyQtyReport & "'"))
+                    arrHeader.Add("Date : " & clsCommon.myCstr(fromDate.Text) + "  To " + clsCommon.myCstr(dtpToDate.Text))
+
+                End If
+
                 If rdbSummary.Checked = True Then
                     arrHeader.Add("Report Type : " & "Summary")
                 End If
@@ -795,11 +891,50 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                     arrHeader.Add("Document Status : " & "Posted")
                 ElseIf clsCommon.CompairString(cboItemType.SelectedValue, "Unposted") = CompairStringResult.Equal Then
                     arrHeader.Add("Document Status : " & "Unposted")
-                Else
+                ElseIf rdbTankerWise.Checked = False then
                     arrHeader.Add("Document Status : " & "All")
                 End If
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
-                clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                If rdbTankerWise.Checked Then
+                    Dim style As New GridPrintStyle()
+                    style.PrintGrouping = True
+                    style.HeaderCellBackColor = Color.White
+                    style.GroupRowBackColor = Color.White
+                    style.SummaryCellBackColor = Color.White
+                    style.PrintSummaries = True
+                    Gv1.PrintStyle = style
+
+                    Dim doc As New clsMyPrintDocument()
+
+                    doc.Margins.Top = 50
+                    doc.Margins.Bottom = 50
+                    doc.Margins.Left = 50
+                    doc.Margins.Right = 50
+                    doc.HeaderHeight = 90
+                    doc.Landscape = True
+                    doc.AssociatedObject = Gv1
+
+                    doc.DocumentName = objCommonVar.CurrentCompanyName
+
+                    doc.MiddleHeader = objCommonVar.CurrentCompanyName + Environment.NewLine + "    Tanker KGFAT-KGSNF-Quantity of period " & clsCommon.myCstr(fromDate.Text) + "-" + clsCommon.myCstr(dtpToDate.Text)
+                    doc.HeaderFont = New Font("Segoe UI", 10, FontStyle.Bold)
+
+                    doc.AssociatedObject = Gv1
+
+                    doc.RightFooter = "Page [Page #] Of [Total Pages]"
+
+                    Dim dialog As New RadPrintPreviewDialog
+                    dialog.Document = doc
+                    dialog.ToolMenu.Visible = True
+                    dialog.Show()
+
+                    doc.Print()
+                    'doc = Nothing
+                Else
+                    clsCommon.MyExportToPDF("", Gv1, arrHeader, "", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+
+                End If
+
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
