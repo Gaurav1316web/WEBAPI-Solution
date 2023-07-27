@@ -1598,7 +1598,7 @@ Partial Class frmSNSaleInvoice
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnAddNew.Image = CType(resources.GetObject("btnAddNew.Image"), System.Drawing.Image)
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(350, 0)
         Me.btnAddNew.Name = "btnAddNew"
