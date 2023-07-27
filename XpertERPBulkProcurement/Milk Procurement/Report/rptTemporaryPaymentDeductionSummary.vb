@@ -42,12 +42,9 @@ Public Class rptTemporaryPaymentDeductionSummary
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         btnPrint.Text = Nothing
         PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-            If CheckBox1.Checked Then
-                PrintUDPOLD(False)
-            Else
-                PrintUDP(False)
-            End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
+             clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            PrintUDP(False)
         Else
             Print(False)
         End If
@@ -1074,12 +1071,9 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
         Try
             If chkDCSWise.Checked Then
                 PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
-                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
-                    If CheckBox1.Checked Then
-                        PrintUDPOLD(False)
-                    Else
-                        PrintUDP(False)
-                    End If
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
+                    clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                    PrintUDP(False)
                 Else
                     Print(False)
                 End If
