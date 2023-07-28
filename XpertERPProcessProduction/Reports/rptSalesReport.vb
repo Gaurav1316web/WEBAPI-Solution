@@ -137,35 +137,35 @@ Public Class rptSalesReport
 
         Gv1.Columns("MILKUNION").Width = 150
         Gv1.Columns("MILKUNION").IsVisible = True
-        Gv1.Columns("MILKUNION").HeaderText = "MILK UNION(qtl)"
+        Gv1.Columns("MILKUNION").HeaderText = "MILK UNION(Qtl)"
 
         Gv1.Columns("GOSHALA").Width = 150
         Gv1.Columns("GOSHALA").IsVisible = True
-        Gv1.Columns("GOSHALA").HeaderText = "GOSHALA(qtl)"
+        Gv1.Columns("GOSHALA").HeaderText = "GOSHALA(Qtl)"
 
         Gv1.Columns("DCS").Width = 150
         Gv1.Columns("DCS").IsVisible = True
-        Gv1.Columns("DCS").HeaderText = "DCS(qtl)"
+        Gv1.Columns("DCS").HeaderText = "DCS(Qtl)"
 
         Gv1.Columns("GOVT").Width = 150
         Gv1.Columns("GOVT").IsVisible = True
-        Gv1.Columns("GOVT").HeaderText = "GOVT(qtl)"
+        Gv1.Columns("GOVT").HeaderText = "GOVT(Qtl)"
 
         Gv1.Columns("KVSS").Width = 150
         Gv1.Columns("KVSS").IsVisible = True
-        Gv1.Columns("KVSS").HeaderText = "KVSS(qtl)"
+        Gv1.Columns("KVSS").HeaderText = "KVSS(Qtl)"
 
         Gv1.Columns("OTHER").Width = 150
         Gv1.Columns("OTHER").IsVisible = True
-        Gv1.Columns("OTHER").HeaderText = "OTHER(qtl)"
+        Gv1.Columns("OTHER").HeaderText = "OTHER(Qtl)"
 
         Gv1.Columns("Total Sale").Width = 150
         Gv1.Columns("Total Sale").IsVisible = True
-        Gv1.Columns("Total Sale").HeaderText = "Total Sale(qtl)"
+        Gv1.Columns("Total Sale").HeaderText = "Total Sale(Qtl)"
 
         Gv1.Columns("Total BagSale").Width = 150
         Gv1.Columns("Total BagSale").IsVisible = True
-        Gv1.Columns("Total BagSale").HeaderText = "Total BagSale(qtl)"
+        Gv1.Columns("Total BagSale").HeaderText = "Total BagSale(Qtl)"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
@@ -197,19 +197,6 @@ Public Class rptSalesReport
 
     End Sub
 
-    'Private Sub TxtMultiLocation__My_Click(sender As Object, e As EventArgs)
-
-    '    Dim WhrCls As String = " And Location_Type ='Physical'  "
-    '    If clsCommon.myLen(arrLoc) > 0 Then
-    '        WhrCls += "  and  Location_Code in (" + arrLoc + ")"
-    '    End If
-
-    '    Dim qry As String = "select Location_Code as [Code] ,Location_Desc as [Name] from TSPL_LOCATION_MASTER where 2=2 " + WhrCls + "  "
-
-    '    TxtMultiLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("Pro", qry, "Code", "Name", TxtMultiLocation.arrValueMember, TxtMultiLocation.arrDispalyMember)
-
-
-    'End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try

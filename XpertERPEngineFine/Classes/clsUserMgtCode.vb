@@ -1112,7 +1112,7 @@ Public Class clsUserMgtCode
     Public Const rptSaleAccountSetList As String = "ITM-SAL-SET"
     Public Const RptItemSalePurchaseSet As String = "ITM-PUR-SAL"
     Public Const rptCustomerWiseStockReco As String = "CUST-REC-RPT"
-    Public Const rptPerformanceReport As String = "PERF-RPT"
+
     'Public Const rptStockReport As String = "STOCK-RPT"
     ''-----------------------------------------------------Purchase----------------------------------------------------------------------
     '-------------------Setup--------------------------
@@ -2331,6 +2331,8 @@ Public Class clsUserMgtCode
     Public Const FrmTenderTrackingReport As String = "PO_TTRRPT"
     Public Const FrmERPStatusTrackingReport As String = "PO_ERPSTRPT"
     Public Const rptrlPenaltyRegister As String = "RL-PEN-REG"
+    Public Const rptPerformanceReport As String = "PERF-RPT"
+    Public Const VehicleUnloadingReport As String = "VEH-UNL-RPT"
     Public Const RptPOAgainstDocument As String = "PO_AGT"
     Public Const frmBillChecklist As String = "PO_BCL"
     Public Const frmCancelledTransactions_Purchase As String = "PO_CanRPT"

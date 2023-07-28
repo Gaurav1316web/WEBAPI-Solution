@@ -3732,6 +3732,10 @@ Public Class MDI
                         frm = New rptPerformanceReport()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.VehicleUnloadingReport
+                        frm = New VehicleUnloadingReport()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
 
                     Case clsUserMgtCode.frmHSNMaster
                         frm = New frmHSNMaster()

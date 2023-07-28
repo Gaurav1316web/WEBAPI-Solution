@@ -195,12 +195,9 @@ Public Class rptPerformanceReport
         Gv1.Columns("Quantity Supplied").IsVisible = True
         Gv1.Columns("Quantity Supplied").HeaderText = "Quantity Supplied"
 
-
         Gv1.Columns("Short/Excess Qty").Width = 100
         Gv1.Columns("Short/Excess Qty").IsVisible = True
         Gv1.Columns("Short/Excess Qty").HeaderText = "Short/Excess Qty"
-
-
 
         Gv1.Columns("RiskPurchase").Width = 100
         Gv1.Columns("RiskPurchase").IsVisible = True
@@ -326,7 +323,7 @@ Public Class rptPerformanceReport
                     'arrHeader.Add("Location : " + strLocDesc)
                 End If
 
-                arrHeader.Add("Location:" + clsCommon.myCstr(txtBillToLocation.Value))
+                arrHeader.Add("Location:" + clsCommon.myCstr(lblBillToLocation.Text))
 
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("Performance Report", Gv1, arrHeader, "Performance Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)

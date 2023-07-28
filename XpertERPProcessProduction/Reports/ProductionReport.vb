@@ -25,6 +25,7 @@ Public Class ProductionReport
 #End Region
     Sub Reset()
         txtToDate.Value = clsCommon.GETSERVERDATE()
+        'txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = txtToDate.Value.AddMonths(-1)
         txtBillToLocation.Value = Nothing
         lblBillToLocation.Text = ""
