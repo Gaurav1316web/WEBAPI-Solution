@@ -1559,6 +1559,7 @@
     <None Include="Crystal Reports\Purchase\rptRouteList.rpt" />
     <None Include="Crystal Reports\Purchase\rptVendorSecurity.rpt" />
     <None Include="Crystal Reports\Purchase\rptVendorSecurity_summary.rpt" />
+    <None Include="Crystal Reports\Purchase\VehicleUnloadingReport.rpt" />
     <None Include="Crystal Reports\Purchase\VendorLedger.rpt" />
     <None Include="Crystal Reports\Purchase\VendorLedgerItemWise.rpt" />
     <None Include="Crystal Reports\Purchase\VendorLedgerLandScape.rpt" />
