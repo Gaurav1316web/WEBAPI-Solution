@@ -57,11 +57,11 @@ Public Class ProductionReport
                 'whr += "  and  LOCATION_CODE IN (" + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrValueMember) + ") "
                 'End If
             End If
-            qry = " Select * from (SELECT  '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,CONVERT(date, PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
+            qry = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(date, PROD_DATE,103) as PROD_DATE,[Item Code],ITEM_DESCRIPTION,isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
                           isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
                           ((  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) * 50)/1000) as [Total MT]
                           FROM
-                                   (SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Location_Desc,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE as [Item Code],TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_DESCRIPTION,(FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag,TSPL_SPP_PRODUCTION_ENTRY.Shift_Code as shiftcode FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+                                   (SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,TSPL_LOCATION_MASTER.Location_Desc,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE as [Item Code],TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_DESCRIPTION,(FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag,TSPL_SPP_PRODUCTION_ENTRY.Shift_Code as shiftcode FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL
 								   left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE
                                    left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
 								   left join TSPL_ITEM_UOM_DETAIL AS MT_ITEM_UOM_DETAIL on MT_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and MT_ITEM_UOM_DETAIL.UOM_Code='MT'
@@ -285,7 +285,7 @@ Public Class ProductionReport
 
             Dim whr As String = ""
             If txtBillToLocation.Value IsNot Nothing AndAlso txtBillToLocation.Value.Count > 0 Then
-                whr += " and LOCATION_CODE IN (" + clsCommon.myCstr(txtBillToLocation.Value) + ") "
+                whr += " and LOCATION_CODE IN ('" + clsCommon.myCstr(txtBillToLocation.Value) + "') "
             Else
                 'whr += " and TSPL_LOCATION_MASTER.Location_Type='Physical'  "
                 'If clsCommon.myLen(arrLoc) > 0 Then
@@ -293,11 +293,11 @@ Public Class ProductionReport
                 'End If
             End If
 
-            Dim qry As String = " Select * from (SELECT  '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,CONVERT(date, PROD_DATE,103) as PROD_DATE,ITEM_DESCRIPTION,[Item Code],isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
+            Dim qry As String = " Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' as FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "' as ToDate,   LOCATION_CODE,Location_Desc as [Location Description],Add1,Add4,CONVERT(date, PROD_DATE,103) as PROD_DATE,ITEM_DESCRIPTION,[Item Code],isnull ([A-SHIFT], 0)  as [A-SHIFT],isnull ([B-SHIFT], 0) as [B-SHIFT], isnull ([C-SHIFT],0) as [C-SHIFT],
                           isnull ([WHOLEDAY],0) as [WHOLEDAY] , (  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) ) AS [TOTAL BAG],   
                           ((  isnull ([A-SHIFT], 0)  + isnull ([B-SHIFT], 0) + isnull ([C-SHIFT],0) + isnull ([WHOLEDAY],0) * 50)/1000) as [Total MT]
                           FROM
-                                   (SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Location_Desc,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE as [Item Code],TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_DESCRIPTION,(FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag,TSPL_SPP_PRODUCTION_ENTRY.Shift_Code as shiftcode FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+                                   (SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,TSPL_LOCATION_MASTER.Location_Desc,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE as [Item Code],TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_DESCRIPTION,(FINAL_PRODUCTION_QTY/TSPL_ITEM_UOM_DETAIL.Conversion_Factor) as qty_bag,TSPL_SPP_PRODUCTION_ENTRY.Shift_Code as shiftcode FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL
 								   left outer join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE
                                    left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
 								   left join TSPL_ITEM_UOM_DETAIL AS MT_ITEM_UOM_DETAIL on MT_ITEM_UOM_DETAIL.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE and MT_ITEM_UOM_DETAIL.UOM_Code='MT'
@@ -319,45 +319,24 @@ Public Class ProductionReport
         End Try
     End Sub
 
-    Private Sub txtBillToLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBillToLocation._MYValidating
+    Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
 
-        Try
-            Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-            Dim WhrCls As String
-            If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
-                WhrCls = " Location_Type='Virtual' "
-            Else
-                WhrCls = " (Location_Type='Physical' or Location_Type='WorkOrder')  "
-            End If
+        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+        Dim WhrCls As String = " Location_Type='Physical'  "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
 
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-            End If
 
-            txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
+        txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
+        lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
 
-            If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
-            Else
-                lblBillToLocation.Text = ""
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
 
     End Sub
 
-    Private Sub ProductionReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub ProductionReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        Dim WhrCls As String = String.Empty
-        If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
-            WhrCls = " and Location_Type='Virtual' "
-        Else
-            WhrCls = " and Location_Type='Physical' or Location_Type='WorkOrder'  "
-        End If
-        '  If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.mbtnSRN) = CompairStringResult.Equal Then
-        ' txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' " & WhrCls & " "))
+        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
         If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
         End If

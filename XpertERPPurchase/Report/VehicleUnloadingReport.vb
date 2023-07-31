@@ -47,7 +47,6 @@ Public Class VehicleUnloadingReport
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-
         Load_Vehicle_Unloading()
     End Sub
 
@@ -211,52 +210,26 @@ Public Class VehicleUnloadingReport
 
     End Sub
 
-    Private Sub txtBillToLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBillToLocation._MYValidating
+    Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
 
-        Try
-            Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-            Dim WhrCls As String
-            If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
-                WhrCls = " Location_Type='Virtual' "
-            Else
-                WhrCls = " (Location_Type='Physical' or Location_Type='WorkOrder')  "
-            End If
+        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+        Dim WhrCls As String = " Location_Type='Physical'  "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
 
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-            End If
 
-            txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
-
-            If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
-            Else
-                lblBillToLocation.Text = ""
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
-
+        txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
+        lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
 
     End Sub
 
-    Private Sub VehicleUnloadingReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub VehicleUnloadingReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        Dim WhrCls As String = String.Empty
-        If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
-            WhrCls = " and Location_Type='Virtual' "
-        Else
-            WhrCls = " and Location_Type='Physical' or Location_Type='WorkOrder'  "
-        End If
-        '  If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.mbtnSRN) = CompairStringResult.Equal Then
-        ' txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' " & WhrCls & " "))
+        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
         If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
         End If
-
-
-
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click

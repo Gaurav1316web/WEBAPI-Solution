@@ -1162,8 +1162,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AuditTrailStandardProduction, "Standard Production Audit Trail Report", "1.12.04.09", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         InsertDefaultValue(clsUserMgtCode.rptSPItemConsumptionReport, "Material Consumption Report", "1.12.04.10", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         InsertDefaultValue(clsUserMgtCode.ProductionReport, "Production Report", "1.12.04.11", clsUserMgtCode.SubModuleProductionReportSTD, 37)
-        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
-        InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.13", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        'InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         '--------------Dairy Production----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleProductionDairy, "Dairy Production", "1.29", clsUserMgtCode.ExpertERP, "M", 23)
 
@@ -2090,9 +2090,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptProductDOStatus, "Product Sale Delivery Status Report ", "1.26.03.05", clsUserMgtCode.SubModuleProductSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptProductSaleOrderStatus, "Product Sale Order Status Report ", "1.26.03.06", clsUserMgtCode.SubModuleProductSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptsaleRegisterReport, "Sale Register Report ", "1.26.03.07", clsUserMgtCode.SubModuleProductSaleReport, 37)
-        InsertDefaultValue(clsUserMgtCode.RptPartyWiseSale, "Party Wise Sale Report ", "1.26.03.08", clsUserMgtCode.SubModuleProductSaleReport, 37)
-        InsertDefaultValue(clsUserMgtCode.RptGPDetail, "GP Details Report", "1.26.03.09", clsUserMgtCode.SubModuleProductSaleReport, 37)
-        InsertDefaultValue(clsUserMgtCode.AuditTrailProductSale, "Product Sale Audit Trail Report", "1.26.03.10", clsUserMgtCode.SubModuleProductSaleReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.26.03.08", clsUserMgtCode.SubModuleProductSaleReport, 37)
+        InsertDefaultValue(clsUserMgtCode.RptPartyWiseSale, "Party Wise Sale Report ", "1.26.03.09", clsUserMgtCode.SubModuleProductSaleReport, 37)
+        InsertDefaultValue(clsUserMgtCode.RptGPDetail, "GP Details Report", "1.26.03.10", clsUserMgtCode.SubModuleProductSaleReport, 37)
+        InsertDefaultValue(clsUserMgtCode.AuditTrailProductSale, "Product Sale Audit Trail Report", "1.26.03.11", clsUserMgtCode.SubModuleProductSaleReport, 37)
         ' 
         ''-------------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleExportSale, "Export Sale", "1.27", clsUserMgtCode.ExpertERP, "M", 23)
