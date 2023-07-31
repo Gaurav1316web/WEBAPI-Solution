@@ -15,6 +15,7 @@ Public Class clsQualityCheckApprovalForSRN
     Public Item_Type As String = Nothing
     Public QC_Status As String = Nothing
     Public Line_No As Integer = Nothing
+    Public Deduction As String = Nothing
 
 
     Public Arr As List(Of clsQualityCheckApprovalForSRN) = Nothing
@@ -650,7 +651,9 @@ Public Class clsQualityCheckApprovalForSRN
             Dim obj As New clsQualityCheckApprovalForSRN()
             obj.Arr = New List(Of clsQualityCheckApprovalForSRN)
 
-            qry = "select distinct TSPL_QC_CHECK_HEAD.*,tspl_vendor_master.vendor_name from TSPL_QC_CHECK_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_QC_CHECK_DETAIL.Item_Code left outer join  TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_DETAIL.Document_Code=TSPL_QC_CHECK_HEAD.Document_Code   left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_QC_CHECK_HEAD.vendor_code "
+            qry = "select distinct TSPL_QC_CHECK_HEAD.*,tspl_vendor_master.vendor_name ,Deduction from TSPL_QC_CHECK_DETAIL left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_QC_CHECK_DETAIL.Item_Code left outer join  TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_DETAIL.Document_Code=TSPL_QC_CHECK_HEAD.Document_Code   left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_QC_CHECK_HEAD.vendor_code left outer join  (select Document_Code,sum(InputDataDeductionPer) as deduction from TSPL_QC_CHECK_sRN_DETAIL 
+                   group by Document_Code) as TSPL_QC_CHECK_MRN_DETAIL on TSPL_QC_CHECK_MRN_DETAIL.Document_Code=TSPL_QC_CHECK_DETAIL.Document_Code"
+
             qry += " where isnull(TSPL_QC_CHECK_HEAD.Approved_For_SRN,0)<>1 and TSPL_QC_CHECK_HEAD.posted=1  and (2 = case when TSPL_QC_CHECK_DETAIL.QC_Status ='Rejected' then case when isnull(TSPL_ITEM_MASTER.Is_Power_And_Fuel,0)=0 then 2 else 3 end  else 2 end)"
 
             If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
@@ -673,6 +676,7 @@ Public Class clsQualityCheckApprovalForSRN
                     objtr.QC_Status = clsCommon.myCstr(dr("QC_Status"))
                     objtr.SRN_Type = clsCommon.myCstr(dr("SRN_Type"))
                     objtr.Item_Type = clsCommon.myCstr(dr("item_type"))
+                    objtr.Deduction = clsCommon.myCstr(dr("Deduction"))
 
                     obj.Arr.Add(objtr)
                 Next

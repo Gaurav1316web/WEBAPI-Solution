@@ -4085,6 +4085,7 @@ Public Class MDI
                         'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         frm = New RptSaleRegisterReport(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.DispatchChecklist
                         frm = New FrmDispatchChecklist()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -5044,9 +5045,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptsaleRegisterReport
                         frm = New RptSaleRegisterReport(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.rptSalesReport
-                        frm = New rptSalesReport
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    'Case clsUserMgtCode.rptSalesReport
+                    '    frm = New rptSalesReport
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptSalesHierarchyReport
                         frm = New rptSalesHierarchyReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9429,9 +9430,9 @@ Public Class MDI
                     Case clsUserMgtCode.ProductionReport
                         frm = New ProductionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    'Case clsUserMgtCode.rptSalesReport
-                    '    frm = New rptSalesReport
-                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptSalesReport
+                        frm = New rptSalesReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.AuditTrailDairyProduction
                         frm = New rptAuditTrailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

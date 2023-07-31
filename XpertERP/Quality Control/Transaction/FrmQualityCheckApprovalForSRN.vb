@@ -25,6 +25,7 @@ Public Class FrmQualityCheckApprovalForSRN
     Const colQCStatus As String = "QCStatus"
     Const colSRNType As String = "SRNType"
     Const colItemType As String = "ItemType"
+    Const colDeduction As String = "Deduction"
 
     Dim VendorCode As String = ""
     Dim SRNType As String = ""
@@ -149,7 +150,7 @@ Public Class FrmQualityCheckApprovalForSRN
         repoStr.Name = colVendorName
         repoStr.Width = 230
         repoStr.ReadOnly = True
-        repoStr.IsVisible = False
+        repoStr.IsVisible = True
         gv.MasterTemplate.Columns.Add(repoStr)
 
         repoStr = New GridViewTextBoxColumn()
@@ -176,7 +177,7 @@ Public Class FrmQualityCheckApprovalForSRN
         repoStr.Name = colQCStatus
         repoStr.Width = 130
         repoStr.ReadOnly = True
-        repoStr.IsVisible = False
+        repoStr.IsVisible = True
         gv.MasterTemplate.Columns.Add(repoStr)
 
         repoStr = New GridViewTextBoxColumn()
@@ -195,6 +196,15 @@ Public Class FrmQualityCheckApprovalForSRN
         repoStr.Width = 130
         repoStr.ReadOnly = True
         repoStr.IsVisible = False
+        gv.MasterTemplate.Columns.Add(repoStr)
+
+        repoStr = New GridViewTextBoxColumn()
+        repoStr.FormatString = ""
+        repoStr.HeaderText = "Total Deduction %"
+        repoStr.Name = colDeduction
+        repoStr.Width = 130
+        repoStr.ReadOnly = True
+        repoStr.IsVisible = True
         gv.MasterTemplate.Columns.Add(repoStr)
 
         gv.AllowAddNewRow = False
@@ -239,6 +249,7 @@ Public Class FrmQualityCheckApprovalForSRN
                     gv.Rows(gv.Rows.Count - 1).Cells(colBillToLoction).Value = objtr.Bill_To_Location
                     gv.Rows(gv.Rows.Count - 1).Cells(colBillToLoctionName).Value = clsLocation.GetName(objtr.Bill_To_Location, Nothing)
                     gv.Rows(gv.Rows.Count - 1).Cells(colItemType).Value = clsQualityCheckForSRNHead.FullNameOfItemType(objtr.Item_Type)
+                    gv.Rows(gv.Rows.Count - 1).Cells(colDeduction).Value = objtr.Deduction
                 Next
             End If
         Catch ex As Exception
@@ -276,18 +287,18 @@ Public Class FrmQualityCheckApprovalForSRN
                         OldSRNType = clsCommon.myCstr(gv.Rows(ii).Cells(colSRNType).Value)
                         Olditemtype = clsCommon.myCstr(gv.Rows(ii).Cells(colItemType).Value)
 
-                        If clsCommon.myLen(VCode) > 0 AndAlso clsCommon.myCBool(gv.Rows(ii).Cells(colSelect).Value) = True AndAlso clsCommon.CompairString(VCode, OldVCode) <> CompairStringResult.Equal Then
-                            gv.CurrentRow = gv.Rows(ii)
-                            Throw New Exception("Selected document is not of same vendor i.e (" + clsCommon.myCstr(grow.Cells(colVendorName).Value) + ").")
-                        End If
-                        If clsCommon.myLen(SRNType) > 0 AndAlso clsCommon.myCBool(gv.Rows(ii).Cells(colSelect).Value) = True AndAlso clsCommon.CompairString(SRNType, OldSRNType) <> CompairStringResult.Equal Then
-                            gv.CurrentRow = gv.Rows(ii)
-                            Throw New Exception("Selected document is not of same type i.e (" + SRNType + ").")
-                        End If
-                        If clsCommon.myLen(itemtype) > 0 AndAlso clsCommon.myCBool(gv.Rows(ii).Cells(colSelect).Value) = True AndAlso clsCommon.CompairString(itemtype, Olditemtype) <> CompairStringResult.Equal Then
-                            gv.CurrentRow = gv.Rows(ii)
-                            Throw New Exception("Selected document is not of same item type i.e (" + itemtype + ").")
-                        End If
+                        'If clsCommon.myLen(VCode) > 0 AndAlso clsCommon.myCBool(gv.Rows(ii).Cells(colSelect).Value) = True AndAlso clsCommon.CompairString(VCode, OldVCode) <> CompairStringResult.Equal Then
+                        '    gv.CurrentRow = gv.Rows(ii)
+                        '    Throw New Exception("Selected document is not of same vendor i.e (" + clsCommon.myCstr(grow.Cells(colVendorName).Value) + ").")
+                        'End If
+                        'If clsCommon.myLen(SRNType) > 0 AndAlso clsCommon.myCBool(gv.Rows(ii).Cells(colSelect).Value) = True AndAlso clsCommon.CompairString(SRNType, OldSRNType) <> CompairStringResult.Equal Then
+                        '    gv.CurrentRow = gv.Rows(ii)
+                        '    Throw New Exception("Selected document is not of same type i.e (" + SRNType + ").")
+                        'End If
+                        'If clsCommon.myLen(itemtype) > 0 AndAlso clsCommon.myCBool(gv.Rows(ii).Cells(colSelect).Value) = True AndAlso clsCommon.CompairString(itemtype, Olditemtype) <> CompairStringResult.Equal Then
+                        '    gv.CurrentRow = gv.Rows(ii)
+                        '    Throw New Exception("Selected document is not of same item type i.e (" + itemtype + ").")
+                        'End If
                     Next
                 End If
             Next
@@ -367,12 +378,14 @@ Public Class FrmQualityCheckApprovalForSRN
                     frm.QC_Type = QC_Type
                     frm.ShowDialog()
                 End If
-                
+
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
+
+
 
     Private Sub gv_ValueChanging(sender As Object, e As ValueChangingEventArgs) Handles gv.ValueChanging
         Try
@@ -387,16 +400,16 @@ Public Class FrmQualityCheckApprovalForSRN
                     Dim vcode As String = clsCommon.myCstr(gv.CurrentRow.Cells(colVendorCode).Value)
                     Dim srn_type As String = clsCommon.myCstr(gv.CurrentRow.Cells(colSRNType).Value)
 
-                    If clsCommon.myLen(VendorCode) > 0 AndAlso clsCommon.CompairString(VendorCode, vcode) <> CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Selected document is not for vendor " + VendorCode + "")
-                        gv.CurrentRow.Cells(colSelect).Value = False
-                        Exit Sub
-                    End If
-                    If clsCommon.myLen(SRNType) > 0 AndAlso clsCommon.CompairString(SRNType, srn_type) <> CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Selected document is not for type " + SRNType + "")
-                        gv.CurrentRow.Cells(colSelect).Value = False
-                        Exit Sub
-                    End If
+                    'If clsCommon.myLen(VendorCode) > 0 AndAlso clsCommon.CompairString(VendorCode, vcode) <> CompairStringResult.Equal Then
+                    '    clsCommon.MyMessageBoxShow("Selected document is not for vendor " + VendorCode + "")
+                    '    gv.CurrentRow.Cells(colSelect).Value = False
+                    '    Exit Sub
+                    'End If
+                    'If clsCommon.myLen(SRNType) > 0 AndAlso clsCommon.CompairString(SRNType, srn_type) <> CompairStringResult.Equal Then
+                    '    clsCommon.MyMessageBoxShow("Selected document is not for type " + SRNType + "")
+                    '    gv.CurrentRow.Cells(colSelect).Value = False
+                    '    Exit Sub
+                    'End If
 
                     VendorCode = vcode
                     SRNType = srn_type
