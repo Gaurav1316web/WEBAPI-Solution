@@ -1112,7 +1112,7 @@ Public Class clsUserMgtCode
     Public Const rptSaleAccountSetList As String = "ITM-SAL-SET"
     Public Const RptItemSalePurchaseSet As String = "ITM-PUR-SAL"
     Public Const rptCustomerWiseStockReco As String = "CUST-REC-RPT"
-    Public Const rptPerformanceReport As String = "PERF-RPT"
+
     'Public Const rptStockReport As String = "STOCK-RPT"
     ''-----------------------------------------------------Purchase----------------------------------------------------------------------
     '-------------------Setup--------------------------
@@ -2196,6 +2196,7 @@ Public Class clsUserMgtCode
     Public Const frmCSARequest As String = "CSA_REQUEST"
     Public Const frmCSATransfer As String = "CSA_Transfer"
     Public Const rptsaleRegisterReport As String = "SLE_Register"
+    Public Const rptSalesReport As String = "SALES_RPT"
     Public Const rptPurchaseRegisterReport As String = "PUR_Register"
     Public Const rptSalesHierarchyReport As String = "SaleHier-rpt"
     Public Const FrmCSATransferGateOut As String = "CSA_TRSF_GO"
@@ -2331,6 +2332,8 @@ Public Class clsUserMgtCode
     Public Const FrmTenderTrackingReport As String = "PO_TTRRPT"
     Public Const FrmERPStatusTrackingReport As String = "PO_ERPSTRPT"
     Public Const rptrlPenaltyRegister As String = "RL-PEN-REG"
+    Public Const rptPerformanceReport As String = "PERF-RPT"
+    Public Const VehicleUnloadingReport As String = "VEH-UNL-RPT"
     Public Const RptPOAgainstDocument As String = "PO_AGT"
     Public Const frmBillChecklist As String = "PO_BCL"
     Public Const frmCancelledTransactions_Purchase As String = "PO_CanRPT"
@@ -2426,7 +2429,7 @@ Public Class clsUserMgtCode
     Public Const AuditTrailStandardProduction As String = "ADIT_STDPRO"
     Public Const rptSPItemConsumptionReport As String = "MATCONS_RPT"
     Public Const ProductionReport As String = "PRODUC_RPT"
-    Public Const rptSalesReport As String = "SALES_RPT"
+    'Public Const rptSalesReport As String = "SALES_RPT"
     Public Const FrmProductionAndSaleReport As String = "PANDS_RPT"
     Public Const AuditTrailDairyProduction As String = "ADIT_DARYPD"
     Public Const AuditTrailMilkProcurementMCC As String = "ADIT_MPMCC"

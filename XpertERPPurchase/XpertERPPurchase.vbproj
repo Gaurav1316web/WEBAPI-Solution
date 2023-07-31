@@ -357,6 +357,12 @@
     <Compile Include="Report\Store Receipt Note.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\VehicleUnloadingReport.Designer.vb">
+      <DependentUpon>VehicleUnloadingReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\VehicleUnloadingReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\Vendor Rating Rejection.Designer.vb">
       <DependentUpon>Vendor Rating Rejection.vb</DependentUpon>
     </Compile>
@@ -514,6 +520,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\Store Receipt Note.resx">
       <DependentUpon>Store Receipt Note.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\VehicleUnloadingReport.resx">
+      <DependentUpon>VehicleUnloadingReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\Vendor Rating Rejection.resx">
       <DependentUpon>Vendor Rating Rejection.vb</DependentUpon>
