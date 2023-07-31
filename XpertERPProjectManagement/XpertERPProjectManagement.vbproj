@@ -192,6 +192,12 @@
     <Compile Include="Reports\frmProjectProfitReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Reports\ItemStockReport.Designer.vb">
+      <DependentUpon>ItemStockReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ItemStockReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Setup\frmBudgetMaintenance.Designer.vb">
       <DependentUpon>frmBudgetMaintenance.vb</DependentUpon>
     </Compile>
@@ -284,6 +290,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -301,6 +308,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\frmProjectProfitReport.resx">
       <DependentUpon>frmProjectProfitReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\ItemStockReport.resx">
+      <DependentUpon>ItemStockReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setup\frmBudgetMaintenance.resx">
       <DependentUpon>frmBudgetMaintenance.vb</DependentUpon>

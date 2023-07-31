@@ -26,6 +26,8 @@ Public Class FrmQualityCheckApprovalForSRN
     Const colSRNType As String = "SRNType"
     Const colItemType As String = "ItemType"
     Const colDeduction As String = "Deduction"
+    Const colItemCode As String = "ItemCode"
+    Const colItemDescription As String = "ItemDescription"
 
     Dim VendorCode As String = ""
     Dim SRNType As String = ""
@@ -200,6 +202,24 @@ Public Class FrmQualityCheckApprovalForSRN
 
         repoStr = New GridViewTextBoxColumn()
         repoStr.FormatString = ""
+        repoStr.HeaderText = "Item Code"
+        repoStr.Name = colItemCode
+        repoStr.Width = 130
+        repoStr.ReadOnly = True
+        repoStr.IsVisible = True
+        gv.MasterTemplate.Columns.Add(repoStr)
+
+        repoStr = New GridViewTextBoxColumn()
+        repoStr.FormatString = ""
+        repoStr.HeaderText = "Item Description"
+        repoStr.Name = colItemDescription
+        repoStr.Width = 130
+        repoStr.ReadOnly = True
+        repoStr.IsVisible = True
+        gv.MasterTemplate.Columns.Add(repoStr)
+
+        repoStr = New GridViewTextBoxColumn()
+        repoStr.FormatString = ""
         repoStr.HeaderText = "Total Deduction %"
         repoStr.Name = colDeduction
         repoStr.Width = 130
@@ -249,6 +269,8 @@ Public Class FrmQualityCheckApprovalForSRN
                     gv.Rows(gv.Rows.Count - 1).Cells(colBillToLoction).Value = objtr.Bill_To_Location
                     gv.Rows(gv.Rows.Count - 1).Cells(colBillToLoctionName).Value = clsLocation.GetName(objtr.Bill_To_Location, Nothing)
                     gv.Rows(gv.Rows.Count - 1).Cells(colItemType).Value = clsQualityCheckForSRNHead.FullNameOfItemType(objtr.Item_Type)
+                    gv.Rows(gv.Rows.Count - 1).Cells(colItemCode).Value = objtr.Item_Code
+                    gv.Rows(gv.Rows.Count - 1).Cells(colItemDescription).Value = objtr.Item_desc
                     gv.Rows(gv.Rows.Count - 1).Cells(colDeduction).Value = objtr.Deduction
                 Next
             End If
