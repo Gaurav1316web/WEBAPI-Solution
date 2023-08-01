@@ -58,11 +58,11 @@ Public Class rptSalesReport
                 'whr += "  and  LOCATION_CODE IN (" + clsCommon.GetMulcallStringWithComma(TxtMultiLocation.arrValueMember) + ") "
                 'End If
             End If
-            qry = "   Select * from (SELECT  Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Document_Date,ISNULL ([MILKUNION], 0) as [MILKUNION] ,ISNULL ([GOSHALA], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOVT], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([OTHER], 0) as [OTHER],
+            qry = "   Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,Document_Date,ISNULL ([MILKUNION], 0) as [MILKUNION] ,ISNULL ([GOSHALA], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOVT], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([OTHER], 0) as [OTHER],
   (ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0)) as [Total Sale],
 ((ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0))/50) as [Total BagSale]
   FROM
-                                   (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Quantity,price_CodeNon								   
+                                   (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Quantity,price_CodeNon								   
 								   FROM TSPL_SD_SALE_INVOICE_DETAIL
 								     left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
@@ -74,7 +74,7 @@ Public Class rptSalesReport
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
 	                                 WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "
 
-									 group by TSPL_SD_SALE_INVOICE_HEAD.Document_Date,price_CodeNon,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,Location)Tab1
+									 group by TSPL_SD_SALE_INVOICE_HEAD.Document_Date,price_CodeNon,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location)Tab1
                                     PIVOT (SUM(Quantity) FOR price_CodeNon IN ([MILKUNION],[GOSHALA],[DCS],[GOVT],[KVSS],[OTHER]))AS Tab2)tmp  "
 
             If clsCommon.myLen(qry) > 0 Then
@@ -137,35 +137,35 @@ Public Class rptSalesReport
 
         Gv1.Columns("MILKUNION").Width = 150
         Gv1.Columns("MILKUNION").IsVisible = True
-        Gv1.Columns("MILKUNION").HeaderText = "MILK UNION(qtl)"
+        Gv1.Columns("MILKUNION").HeaderText = "MILK UNION(Qtl)"
 
         Gv1.Columns("GOSHALA").Width = 150
         Gv1.Columns("GOSHALA").IsVisible = True
-        Gv1.Columns("GOSHALA").HeaderText = "GOSHALA(qtl)"
+        Gv1.Columns("GOSHALA").HeaderText = "GOSHALA(Qtl)"
 
         Gv1.Columns("DCS").Width = 150
         Gv1.Columns("DCS").IsVisible = True
-        Gv1.Columns("DCS").HeaderText = "DCS(qtl)"
+        Gv1.Columns("DCS").HeaderText = "DCS(Qtl)"
 
         Gv1.Columns("GOVT").Width = 150
         Gv1.Columns("GOVT").IsVisible = True
-        Gv1.Columns("GOVT").HeaderText = "GOVT(qtl)"
+        Gv1.Columns("GOVT").HeaderText = "GOVT(Qtl)"
 
         Gv1.Columns("KVSS").Width = 150
         Gv1.Columns("KVSS").IsVisible = True
-        Gv1.Columns("KVSS").HeaderText = "KVSS(qtl)"
+        Gv1.Columns("KVSS").HeaderText = "KVSS(Qtl)"
 
         Gv1.Columns("OTHER").Width = 150
         Gv1.Columns("OTHER").IsVisible = True
-        Gv1.Columns("OTHER").HeaderText = "OTHER(qtl)"
+        Gv1.Columns("OTHER").HeaderText = "OTHER(Qtl)"
 
         Gv1.Columns("Total Sale").Width = 150
         Gv1.Columns("Total Sale").IsVisible = True
-        Gv1.Columns("Total Sale").HeaderText = "Total Sale(qtl)"
+        Gv1.Columns("Total Sale").HeaderText = "Total Sale(Qtl)"
 
         Gv1.Columns("Total BagSale").Width = 150
         Gv1.Columns("Total BagSale").IsVisible = True
-        Gv1.Columns("Total BagSale").HeaderText = "Total BagSale(qtl)"
+        Gv1.Columns("Total BagSale").HeaderText = "Total BagSale(Qtl)"
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
 
@@ -197,19 +197,6 @@ Public Class rptSalesReport
 
     End Sub
 
-    'Private Sub TxtMultiLocation__My_Click(sender As Object, e As EventArgs)
-
-    '    Dim WhrCls As String = " And Location_Type ='Physical'  "
-    '    If clsCommon.myLen(arrLoc) > 0 Then
-    '        WhrCls += "  and  Location_Code in (" + arrLoc + ")"
-    '    End If
-
-    '    Dim qry As String = "select Location_Code as [Code] ,Location_Desc as [Name] from TSPL_LOCATION_MASTER where 2=2 " + WhrCls + "  "
-
-    '    TxtMultiLocation.arrValueMember = clsCommon.ShowMultipleSelectForm("Pro", qry, "Code", "Name", TxtMultiLocation.arrValueMember, TxtMultiLocation.arrDispalyMember)
-
-
-    'End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
         Try
@@ -284,10 +271,11 @@ Public Class rptSalesReport
                 'End If
             End If
 
-            Dim qry As String = "  Select * from (SELECT  Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Document_Date,ISNULL ([MILKUNION], 0) as [MILKUNION] ,ISNULL ([GOSHALA], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOVT], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([OTHER], 0) as [OTHER],
-  (ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0)) as [Total Sale]
+            Dim qry As String = "  Select * from (SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, Location,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "' As FromDate, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "'  As ToDate,Location_Desc as [Location Description],Add1,Add4,Document_Date,ISNULL ([MILKUNION], 0) as [MILKUNION] ,ISNULL ([GOSHALA], 0) as [GOSHALA] ,ISNULL ([DCS], 0) as [DCS],ISNULL ([GOVT], 0) as [GOVT],ISNULL ([KVSS], 0) as [KVSS], ISNULL ([OTHER], 0) as [OTHER],
+  (ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0)) as [Total Sale],
+((ISNULL ([MILKUNION], 0) + ISNULL ([GOSHALA], 0) + ISNULL ([DCS], 0) + ISNULL ([GOVT], 0) + ISNULL ([KVSS], 0) + ISNULL ([OTHER], 0))/50) as [Total BagSale]
   FROM
-                                   (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Quantity,price_CodeNon								   
+                                   (SELECT TSPL_SD_SALE_INVOICE_DETAIL.Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,sum(TSPL_ITEM_UOM_DETAIL.Conversion_Factor*TSPL_SD_SALE_INVOICE_DETAIL.Qty) as Quantity,price_CodeNon								   
 								   FROM TSPL_SD_SALE_INVOICE_DETAIL
 								     left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_SD_SALE_INVOICE_DETAIL.DOCUMENT_CODE
                                      left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code
@@ -299,13 +287,13 @@ Public Class rptSalesReport
 									 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location
 	                                 WHERE  TSPL_SD_SALE_INVOICE_HEAD.Document_Date >= '" + clsCommon.GetPrintDate(txtFromDate.Value) + "'  and  TSPL_SD_SALE_INVOICE_HEAD.Document_Date <= '" + clsCommon.GetPrintDate(txtToDate.Value) + "'" + whr + "
 
-									 group by TSPL_SD_SALE_INVOICE_HEAD.Document_Date,price_CodeNon,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,Location)Tab1
+									 group by TSPL_SD_SALE_INVOICE_HEAD.Document_Date,price_CodeNon,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4,Location)Tab1
                                     PIVOT (SUM(Quantity) FOR price_CodeNon IN ([MILKUNION],[GOSHALA],[DCS],[GOVT],[KVSS],[OTHER]))AS Tab2)tmp  "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "rptSalesReport", "")
+                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptSalesReport", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No Data Found")
@@ -315,45 +303,24 @@ Public Class rptSalesReport
         End Try
     End Sub
 
-    Private Sub txtBillToLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBillToLocation._MYValidating
+    Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
 
-        Try
-            Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-            Dim WhrCls As String
-            If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
-                WhrCls = " Location_Type='Virtual' "
-            Else
-                WhrCls = " (Location_Type='Physical' or Location_Type='WorkOrder')  "
-            End If
+        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+        Dim WhrCls As String = " Location_Type='Physical'  "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
 
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-            End If
 
-            txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
-
-            If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
-            Else
-                lblBillToLocation.Text = ""
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
+        txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
+        lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
 
     End Sub
 
-    Private Sub rptSalesReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub rptSalesReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
-        Dim WhrCls As String = String.Empty
-        If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
-            WhrCls = " and Location_Type='Virtual' "
-        Else
-            WhrCls = " and Location_Type='Physical' or Location_Type='WorkOrder'  "
-        End If
-        '  If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.mbtnSRN) = CompairStringResult.Equal Then
-        ' txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' " & WhrCls & " "))
+
+        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
         If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
         End If
