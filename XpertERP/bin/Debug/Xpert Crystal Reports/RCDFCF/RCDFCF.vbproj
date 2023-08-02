@@ -1811,6 +1811,7 @@
     <None Include="Crystal Reports\Sales Report\rptCustomerWiseDRCR.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailCustomerWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailItemWise.rpt" />
