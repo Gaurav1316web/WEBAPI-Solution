@@ -399,7 +399,7 @@ Public Class rptPerformanceReport
             End If
 
         Catch ex As Exception
-
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
 
 
