@@ -59,7 +59,7 @@ Public Class rptPerformanceReport
 
             If rdobtnWeighment.Checked Then
 
-                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, XXY.LOCATION, XXY.Ref_No,XXY.[Item] as [Item Description]  ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],cast (XXY.Rate as decimal (18,2)) as Rate, cast (XXY.[Quantity Supplied] as decimal (18,2)) as [Quantity Supplied],cast (XXY.[Short/Excess Qty] as decimal (18,2)) as [Short/Excess Qty],XXY.RiskPurchase,cast (XXY.[% Supplied] as decimal (18,2)) as [% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,XXY.FROM_DATE,XXY.TO_DATE,TSPL_LOCATION_MASTER.Add4
+                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, XXY.LOCATION, XXY.Ref_No,XXY.[Item] as [Item Description]  ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],cast (XXY.Rate as decimal (18,2)) as Rate, cast (XXY.[Quantity Supplied] as decimal (18,2)) as [Quantity Supplied],cast (XXY.[Short/Excess Qty] as decimal (18,2)) as [Short/Excess Qty],XXY.RiskPurchase,cast (XXY.[% Supplied] as decimal (18,2)) as [% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,FORMAT(XXY.FROM_DATE, 'dd/MM/yyyy')as FROM_DATE,FORMAT(XXY.TO_DATE, 'dd/MM/yyyy')as TO_DATE,TSPL_LOCATION_MASTER.Add4
                          from   (select final.HeadName, final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.Rate,final.GRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.RiskPurchase,final.[% Supplied],final.Remarks ,final.LOCATION,final.FROM_DATE,final.TO_DATE
                 from (
                 Select '' as HeadName, TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
@@ -93,7 +93,7 @@ Public Class rptPerformanceReport
             Else
 
 
-                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, XXY.LOCATION, XXY.Ref_No,XXY.[Item] as [Item Description] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],cast (XXY.Rate as decimal (18,2)) as Rate, cast (XXY.[Quantity Supplied] as decimal (18,2)) as [Quantity Supplied],cast (XXY.[Short/Excess Qty] as decimal (18,2)) as [Short/Excess Qty],XXY.RiskPurchase,cast (XXY.[% Supplied] as decimal (18,2)) as [% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,XXY.FROM_DATE,XXY.TO_DATE,TSPL_LOCATION_MASTER.Add4
+                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, XXY.LOCATION, XXY.Ref_No,XXY.[Item] as [Item Description] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],cast (XXY.Rate as decimal (18,2)) as Rate, cast (XXY.[Quantity Supplied] as decimal (18,2)) as [Quantity Supplied],cast (XXY.[Short/Excess Qty] as decimal (18,2)) as [Short/Excess Qty],XXY.RiskPurchase,cast (XXY.[% Supplied] as decimal (18,2)) as [% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,FORMAT(XXY.FROM_DATE, 'dd/MM/yyyy')as FROM_DATE,FORMAT(XXY.TO_DATE, 'dd/MM/yyyy')as TO_DATE,TSPL_LOCATION_MASTER.Add4
                          from   (select final.HeadName, final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.SRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.Rate,final.RiskPurchase,final.[% Supplied],final.Remarks,final.FROM_DATE,final.TO_DATE,final.LOCATION
                 from (
                 Select  '' as HeadName, TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_SRN_DETAIL.Unit_code AS UOM,TSPL_GRN_HEAD.Vendor_Name,
@@ -324,7 +324,7 @@ Public Class rptPerformanceReport
 
             If rdobtnWeighment.Checked Then
 
-                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, XXY.FROM_DATE,XXY.TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4
+                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, FORMAT(XXY.FROM_DATE, 'dd/MM/yyyy')as FROM_DATE,FORMAT(XXY.TO_DATE, 'dd/MM/yyyy')as TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4
                          from   (select final.HeadName, final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.Rate,final.GRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.RiskPurchase,final.[% Supplied],final.Remarks ,final.LOCATION,final.FROM_DATE,final.TO_DATE
                 from (
                 Select  '' as HeadName, TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
@@ -356,7 +356,7 @@ Public Class rptPerformanceReport
 
             Else
 
-                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, XXY.FROM_DATE,XXY.TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4
+                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, FORMAT(XXY.FROM_DATE, 'dd/MM/yyyy')as FROM_DATE,FORMAT(XXY.TO_DATE, 'dd/MM/yyyy')as TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4
                          from   (select final.HeadName, final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.SRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.Rate,final.RiskPurchase,final.[% Supplied],final.Remarks,final.FROM_DATE,final.TO_DATE,final.LOCATION
                 from (
                 Select '' as HeadName, TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_SRN_DETAIL.Unit_code AS UOM,TSPL_GRN_HEAD.Vendor_Name,

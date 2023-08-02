@@ -559,6 +559,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmProspectDetailReport, "Prospect Detail Report", "1.06.03.28", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSaleRegisterForAdv, "Sales Register Report", "1.06.03.28", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailSaleAndDistribution, "Sale And Distribution Audit Trail Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.06.03.30", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
 
@@ -1163,8 +1164,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AuditTrailStandardProduction, "Standard Production Audit Trail Report", "1.12.04.09", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         InsertDefaultValue(clsUserMgtCode.rptSPItemConsumptionReport, "Material Consumption Report", "1.12.04.10", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         InsertDefaultValue(clsUserMgtCode.ProductionReport, "Production Report", "1.12.04.11", clsUserMgtCode.SubModuleProductionReportSTD, 37)
-        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
-        InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.13", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        'InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         '--------------Dairy Production----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleProductionDairy, "Dairy Production", "1.29", clsUserMgtCode.ExpertERP, "M", 23)
 
