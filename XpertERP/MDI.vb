@@ -6846,6 +6846,10 @@ Public Class MDI
                         frm = New rptPendingQCReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.QualitySummaryReport
+                        frm = New QualitySummaryReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmOperationMaster
                         frm = New frmOperationMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9422,6 +9426,11 @@ Public Class MDI
                     Case clsUserMgtCode.ProductionReport
                         frm = New ProductionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+                    'Case clsUserMgtCode.QualitySummaryReport
+                    '    frm = New QualitySummaryReport
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptSalesReport
                         frm = New rptSalesReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

@@ -1161,8 +1161,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AuditTrailStandardProduction, "Standard Production Audit Trail Report", "1.12.04.09", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         InsertDefaultValue(clsUserMgtCode.rptSPItemConsumptionReport, "Material Consumption Report", "1.12.04.10", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         InsertDefaultValue(clsUserMgtCode.ProductionReport, "Production Report", "1.12.04.11", clsUserMgtCode.SubModuleProductionReportSTD, 37)
-        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
-        InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.13", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        'InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.12.04.13", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.14", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         '--------------Dairy Production----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleProductionDairy, "Dairy Production", "1.29", clsUserMgtCode.ExpertERP, "M", 23)
 
@@ -2421,6 +2422,7 @@ Public Class ProgramCodeNew
 
         InsertDefaultValue(clsUserMgtCode.SubModuleQCReport, "Report", "1.23.03", clsUserMgtCode.ModuleQualityControl, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)
+        InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.23.03.02", clsUserMgtCode.SubModuleQCReport, 37)
 
         ''===========================end QC===========================================================
 
