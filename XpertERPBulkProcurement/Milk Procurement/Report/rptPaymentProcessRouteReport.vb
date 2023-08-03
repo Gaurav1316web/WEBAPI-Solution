@@ -2835,14 +2835,74 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
             BaseQry += "  " & whrcls & " " ' where Doc_No = '" + fndDocNo.Value + "'
             Dim dt As New DataTable
             sQuery = BaseQry '+ " order by vsp_code,convert(datetime,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103),shift desc"
+            Dim DCS_ToDate As String = clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR(11), CONVERT(DATE, '" & Todate & "', 103), 106) as date")
+            Dim DCS_FromDate As String = clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR(11), CONVERT(DATE, '" & fromDate & "', 103), 106) as date")
+
+            Dim Sql As String = "select round(cast((Sum(tspl_milk_srn_detail.FAT_KG)* 100)/(sum(MILK_WEIGHT))as float),1) as [Fat%],  round(cast((Sum(tspl_milk_srn_detail.SNF_KG)* 100)/(sum(MILK_WEIGHT))as float),1) as [SNF%] from tspl_milk_receipt_detail LEFT OUTER JOIN tspl_milk_receipt_head
+             ON tspl_milk_receipt_head.doc_code = tspl_milk_receipt_detail.doc_code LEFT OUTER JOIN tspl_milk_sample_head ON tspl_milk_sample_head.milk_receipt_code = tspl_milk_receipt_head.doc_code
+             LEFT OUTER JOIN tspl_milk_sample_detail ON tspl_milk_sample_detail.sample_no = tspl_milk_receipt_detail.sample_no AND tspl_milk_sample_detail.doc_code = tspl_milk_sample_head.doc_code
+             LEFT OUTER JOIN tspl_milk_srn_head ON tspl_milk_srn_head.milk_sample_code = tspl_milk_sample_head.doc_code AND tspl_milk_srn_head.sample_no = tspl_milk_sample_detail.sample_no
+             LEFT OUTER JOIN tspl_milk_srn_detail ON tspl_milk_srn_head.doc_code = tspl_milk_srn_detail.doc_code where tspl_milk_receipt_detail.DOC_DATE >= '" & DCS_FromDate & "' and tspl_milk_receipt_detail.DOC_DATE  <= '" & DCS_ToDate & "'"
+
+            Dim dtFatSnf As DataTable = clsDBFuncationality.GetDataTable(Sql)
+            Dim startDate As New DateTime(txtMonth.Value.Year, txtMonth.Value.Month, 1)
+            Dim endDate As DateTime = startDate.AddMonths(1).AddDays(-1)
+            Dim sbDates As New System.Text.StringBuilder()
+            Dim sbDatesColumn As New System.Text.StringBuilder()
+            Dim chkNullColumn As New System.Text.StringBuilder()
+            For i As Integer = 1 To endDate.Day
+                Dim [date] As String = startDate.AddDays(i - 1).ToString("dd/MMM/yyyy")
+                sbDates.Append([date])
+                sbDatesColumn.Append("[" + [date] + "]")
+                chkNullColumn.Append("isnull(cast(tab2.[" + [date] + "] as int),0)" + "as [Day" + clsCommon.myCstr(i) + "]")
+                If i < endDate.Day Then
+                    sbDates.Append("','")
+                    sbDatesColumn.Append(",")
+                    chkNullColumn.Append(",")
+                End If
+            Next
+
+            Dim result As String = sbDates.ToString()
+            Dim resultColumn As String = sbDatesColumn.ToString()
+            Dim resultChkNull As String = chkNullColumn.ToString()
+            Dim Sqlqry As String = "Select " & resultChkNull & "from (Select isnull(Sum(AllTotal),0)  As  AllTotal, Date
+	          from( Select Sum(Total) As  AllTotal, Date
+				from(select isnull(sum(MILK_WEIGHT),0) as total,DOC_DATE as Date from TSPL_MILK_RECEIPT_DETAIL 
+				where DOC_DATE  in('" & result & "') Group  by DOC_DATE
+                 union 
+				select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total, (TSPL_MILK_REJECT_HEAD.DOC_DATE) as Date from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type
+				where 2=2 and TSPL_MILK_REJECT_HEAD.DOC_DATE in('" & result & "')  Group By TSPL_MILK_REJECT_HEAD.DOC_DATE
+				) xyz  group  by date )abc group  by date )as tab1
+		 PIVOT(SUM(AllTotal) FOR Date IN (" & resultColumn & ")) AS Tab2 "
+            Dim dtDayWise As DataTable = clsDBFuncationality.GetDataTable(Sqlqry)
+            Dim sbDayWiseData As New System.Text.StringBuilder()
+
+            For i As Integer = 0 To dtDayWise.Columns.Count - 1
+                Dim rowDayWise As String = dtDayWise.Rows(0).ItemArray(i).ToString
+                sbDayWiseData.Append(rowDayWise + " as [Day" + clsCommon.myCstr(i + 1) + "]")
+                If i < dtDayWise.Columns.Count Then
+                    sbDayWiseData.Append(",")
+                End If
+            Next i
+            Dim DayWiseResult = sbDayWiseData.ToString()
+            Dim fatPer As Decimal = dtFatSnf.Rows(0)("fat%")
+            Dim SNFPer As Decimal = dtFatSnf.Rows(0)("SNF%")
+            Dim Mor_Kg_Sweet As Decimal = clsDBFuncationality.getSingleValue("select ISnull (sum(cast( MILK_WEIGHT as int)),0) as [KG Sweet]  from tspl_milk_receipt_detail where Cast(doc_date AS DATE) >= '" & DCS_FromDate & "' AND Cast(doc_date AS DATE) <= '" & DCS_ToDate & "'  and shift = 'M' ")
+            Dim Eve_Kg_Sweet As Decimal = clsDBFuncationality.getSingleValue("select ISnull (sum(cast( MILK_WEIGHT as int)),0) as [KG Sweet]  from tspl_milk_receipt_detail where Cast(doc_date AS DATE) >= '" & DCS_FromDate & "' AND Cast(doc_date AS DATE) <= '" & DCS_ToDate & "'  and shift = 'E' ")
+            Dim Mor_kg_Sour As Decimal = clsDBFuncationality.getSingleValue("select Isnull(sum(cast(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT as int)),0) as total from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" & DCS_ToDate & "' and SHIFT = 'M' AND Reject_Type = 'Sour' ")
+            Dim Mor_kg_Curd As Decimal = clsDBFuncationality.getSingleValue("select Isnull(sum(cast(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT as int)),0) as total from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" & DCS_ToDate & "' and SHIFT = 'M' AND Reject_Type = 'Curd' ")
+            Dim Eve_kg_Sour As Decimal = clsDBFuncationality.getSingleValue("select Isnull(sum(cast(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT as int)),0) as total from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" & DCS_ToDate & "' and SHIFT = 'E' AND Reject_Type = 'Sour' ")
+            Dim Eve_kg_Curd As Decimal = clsDBFuncationality.getSingleValue("select Isnull(sum(cast(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT as int)),0) as total from TSPL_MILK_REJECT_DETAIL left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" & DCS_FromDate & "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" & DCS_ToDate & "' and SHIFT = 'E' AND Reject_Type = 'Curd' ")
+            Dim Days As String = clsDBFuncationality.getSingleValue(" SELECT COUNT(DISTINCT DOC_DATE)as Days FROM TSPL_MILK_RECEIPT_DETAIL where Cast(doc_date AS DATE) >= '" & DCS_FromDate & "' and Cast(doc_date AS DATE) <= '" & DCS_ToDate & "'")
 
             Dim DCSSummaryQuery As String = "  ; with CTE as  
-                                                (  
+                                                ( 
                                                  select 1 Number  
                                                  union all  
                                                  select Number +1 from CTE where Number<31 
                                                  ) 
- select '" & CompName & "'  as CompName,'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate, VSP_CODE,max(Vendor_Name) as Vendor_Name, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,sum(FATQTY) * 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) )  as FATPer, Sum(SNFQTY)* 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as SNFPer,max(DAYS_Total) as DAYS_Total, (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max(DAYS_Total) as AVG_QTY, (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as TotalQty ,Sum([1]) as [1],Sum([2]) as [2],Sum([3]) as [3],Sum([4]) as [4],Sum([5]) as [5],Sum([6]) as [6],Sum([7]) as [7],Sum([8]) as [8],Sum([9]) as [9],Sum([10]) as [10],Sum([11]) as [11],Sum([12]) as [12],Sum([13]) as [13],Sum([14]) as [14],Sum([15]) as [15],Sum([16]) as [16],Sum([17]) as [17],Sum([18]) as [18],Sum([19]) as [19],Sum([20]) as [20],Sum([21]) as [21],Sum([22]) as [22],Sum([23]) as [23],Sum([24]) as [24],Sum([25]) as [25],Sum([26]) as [26],Sum([27]) as [27],Sum([28]) as [28],Sum([29]) as [29],Sum([30]) as [30],Sum([31]) as [31] from (
+ select " & DayWiseResult & "  max(XXXDCS.DCS_Code) as DCS_Code ," & Mor_Kg_Sweet & " as [Morning KG Sweet], " & Eve_Kg_Sweet & " as [Evening KG Sweet]," & Mor_kg_Sour & " as Mor_kg_Sour, " & Mor_kg_Curd & " as Mor_kg_Curd, " & Eve_kg_Sour & " as Eve_kg_Sour, " & Eve_kg_Curd & " as Eve_kg_Curd,(" & Mor_Kg_Sweet + Eve_Kg_Sweet + Mor_kg_Sour + Mor_kg_Curd + Eve_kg_Sour + Eve_kg_Curd & ") as Total_Milk_Kg ,(" & Mor_Kg_Sweet + Eve_Kg_Sweet & ") as Total_Sweet_Kg,(" & Mor_kg_Sour + Eve_kg_Sour & ") as Total_Sour_Kg,(" & Mor_kg_Curd + Eve_kg_Curd & ") as Total_Curd_Kg,(" & Mor_Kg_Sweet + Eve_Kg_Sweet + Mor_kg_Sour + Mor_kg_Curd + Eve_kg_Sour + Eve_kg_Curd & ")/" & Days & " as Avg_Milk," & fatPer & " as [Fat%], " & SNFPer & " as [SNF%],'" & CompName & "
+ '  as CompName,'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate, VSP_CODE,max(Vendor_Name) as Vendor_Name, sum(MorningSweetQty) as MorningSweetQty ,sum(MorningSoreQty) as MorningSoreQty,sum(MorningCurdQty) as MorningCurdQty,sum(EveningSweetQty) as EveningSweetQty,sum(EveningSoreQty) as EveningSoreQty ,sum(EveningCurdQty) as EveningCurdQty ,sum(TotalSweetQty) as TotalSweetQty ,sum(TotalSoreQty) as TotalSoreQty ,sum(TotalCurdQty) as TotalCurdQty,sum(FATQTY) * 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) )  as FATPer, Sum(SNFQTY)* 100 / (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as SNFPer,max(DAYS_Total) as DAYS_Total, (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) /max(DAYS_Total) as AVG_QTY, (sum(TotalSweetQty) + sum(TotalSoreQty) + sum(TotalCurdQty) ) as TotalQty ,Sum([1]) as [1],Sum([2]) as [2],Sum([3]) as [3],Sum([4]) as [4],Sum([5]) as [5],Sum([6]) as [6],Sum([7]) as [7],Sum([8]) as [8],Sum([9]) as [9],Sum([10]) as [10],Sum([11]) as [11],Sum([12]) as [12],Sum([13]) as [13],Sum([14]) as [14],Sum([15]) as [15],Sum([16]) as [16],Sum([17]) as [17],Sum([18]) as [18],Sum([19]) as [19],Sum([20]) as [20],Sum([21]) as [21],Sum([22]) as [22],Sum([23]) as [23],Sum([24]) as [24],Sum([25]) as [25],Sum([26]) as [26],Sum([27]) as [27],Sum([28]) as [28],Sum([29]) as [29],Sum([30]) as [30],Sum([31]) as [31] from (
  select Number2, VSP_CODE, Vendor_Name ,MorningSweetQty,MorningSoreQty,MorningCurdQty,EveningSweetQty,EveningSoreQty,EveningCurdQty,TotalSweetQty,TotalSoreQty,TotalCurdQty
  ,FATQTY,SNFQTY,DAYS_Total
  , isnull([1],0) as [1] ,isnull([2],0) as [2],isnull([3],0) as [3],isnull([4],0) as [4],isnull([5],0) as [5],isnull([6],0) as [6],isnull([7],0) as [7],isnull([8],0) as [8],isnull([9],0) as [9],isnull([10],0) as [10],isnull([11],0) as [11],isnull([12],0) as [12],isnull([13],0) as [13],isnull([14],0) as [14],isnull([15],0) as [15],isnull([16],0) as [16],isnull([17],0) as [17],isnull([18],0) as [18],isnull([19],0) as [19],isnull([20],0) as [20],isnull([21],0) as [21],isnull([22],0) as [22],isnull([23],0) as [23],isnull([24],0) as [24],isnull([25],0) as [25],isnull([26],0) as [26],isnull([27],0) as [27],isnull([28],0) as [28],isnull([29],0) as [29],isnull([30],0) as [30],isnull([31],0) as [31]  from (
@@ -2874,7 +2934,9 @@ select * from CTE left outer join
  SUM(Qty)
  FOR Number IN ([1],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31])
 ) AS PivotTable
-) Final where VSP_CODE is not null	group by VSP_CODE "
+) Final   left outer join (select VLC_Code_VLC_Uploader as DCS_Code,VLC_Name from TSPL_VLC_MASTER_HEAD            
+	        )as XXXDCS ON XXXDCS.VLC_Name=Final.Vendor_Name 
+where FINAL.VSP_CODE is not null	group by FINAL.VSP_CODE "
 
             dt = clsDBFuncationality.GetDataTable(DCSSummaryQuery)
 
