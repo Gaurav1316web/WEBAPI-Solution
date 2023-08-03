@@ -6,6 +6,7 @@ Public Class frmPendingShipment
     Public VendorCode As String = Nothing
     Public VendorName As String = Nothing
     Public strCurrCode As String = Nothing
+    Public strBillLocation As String = Nothing
     Public ArrReturn As List(Of clsSNShipmentDetail) = Nothing
     Dim dtAllData As DataTable = Nothing
 
@@ -64,6 +65,8 @@ Public Class frmPendingShipment
         qry += " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code " + Environment.NewLine
         qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code" + Environment.NewLine
         qry += " where TSPL_SD_SHIPMENT_DETAIL.Status=0 and Scheme_Item='N'  and TSPL_SD_SHIPMENT_HEAD.Status=1 " + Environment.NewLine
+        qry += " and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + clsCommon.myCstr(strBillLocation) + "'" + Environment.NewLine
+
         If clsCommon.myLen(VendorCode) > 0 Then
             qry += " and TSPL_SD_SHIPMENT_HEAD.Customer_Code='" + VendorCode + "'"
         End If
