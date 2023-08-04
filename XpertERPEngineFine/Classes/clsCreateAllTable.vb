@@ -51971,7 +51971,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
 
 
             coll = New Dictionary(Of String, String)()
-            coll.Add("Ref_PK_Id", "integer not NULL UNIQUE references TSPL_MP_INCENTIVE_ENTRY_DETAIL (PK_Id) ")
+            coll.Add("Ref_PK_Id", "integer not NULL UNIQUE references TSPL_DBT_NEFT_DETAIL (PK_Id) ")
             coll.Add("Bank_Response", "Varchar(100) NOT null")
             coll.Add("Created_Date", "Datetime NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_BANK_RESPONSE", coll, "", False, False, "", "", "")
