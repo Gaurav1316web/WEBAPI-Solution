@@ -5032,6 +5032,7 @@ Public Class frmSNSaleInvoice
         Dim frm As New frmPendingShipment()
         frm.VendorCode = txtVendorNo.Value
         frm.strCurrCode = txtDocNo.Value
+        frm.strBillLocation = txtBillToLocation.Value
         frm.ShowDialog()
         LoadBlankGrid()
         Dim chkStr As New List(Of String)
