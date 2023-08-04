@@ -5416,7 +5416,7 @@ Public Class frmGRN
 
 
     Function IsValidItem(ByVal obj As clsPurchaseOrderDetail)
-        If clsCommon.myLen(txtTaxGroup.Value) <= 0 Then
+        If clsCommon.myLen(txtTaxGroup.Value) >= 0 Then
             txtTaxGroup.Value = obj.POTax_Group
             SetTaxDetails()
         End If

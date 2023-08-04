@@ -261,7 +261,11 @@ Public Class Xtra
                 Select Case API
                     Case EnumAPI.BankIFSC
                         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                            ''Live
                             baseAddress = clsCommon.myCstr("http://172.21.80.251:8093/MilkProcurement.asmx" & "/" & APIName)
+
+                            ''Local
+                            'baseAddress = clsCommon.myCstr("http://103.122.38.34:8093/MilkProcurement.asmx" & "/" & APIName)
                         Else
                             baseAddress = clsCommon.myCstr("http://103.47.149.49:8093/MilkProcurement.asmx" & "/" & APIName)
                         End If
