@@ -49,6 +49,7 @@ Public Class clsFixedParameterType
     Public Const AndroidMPMaster As String = "Android MP Master"
     Public Const AndroidMPIncetiveEntry As String = "Android MP Incetive Entry"
     Public Const AndroidMilkCollectionBMCDCS As String = "Android Milk Collection BMC DCS"
+    Public Const AndroidDemandBooking As String = "Android Demand Booking"
     Public Const MPIncentiveEntryApplyMonthly As String = "MP Incentive Entry Apply Monthly"
     Public Const MPIncentiveEntryCycleWiseButNEFTMonthly As String = "MP Incentive Entry Cycle Wise But NEFT Monthly"
 
@@ -1352,6 +1353,12 @@ Public Class clsFixedParameterCode
     Public Const TolleranceQty As String = "Tollerance Qty"
     Public Const TolleranceFAT As String = "Tollerance FAT"
     Public Const TolleranceSNF As String = "Tollerance SNF"
+
+    Public Const DashboardDays As String = "Dashboard Days"
+    Public Const UOM As String = "UOM"
+    Public Const Shift As String = "Shift"
+    Public Const AllowFutureDateBooking As String = "Allow Future Date Booking"
+    Public Const ApplyOrderConfirmation As String = "Apply Order Confirmation"
 
     Public Const comtecxpertappsaras As String = "com.tecxpert.app.saras"
     Public Const comTecxpertSarasPro As String = "com.tecxpert.saras_pro"
@@ -2844,6 +2851,12 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreen, "0", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.MultipleEntryScreenAdmin, "1", "0-Sinle Entry Screen;1-Multiple MP Entry Screen")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMPIncetiveEntry, clsFixedParameterCode.QtyDecimalPlaces, "0", "[0,1,2] Qty Decimal Places In MP Incentive Entry")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.DashboardDays, "3", "No of Days To Show Dashboard")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.UOM, "0", "0-Both;1-Crate;2-Pouch")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.Shift, "0", "0-Both;1-Morning;2-Evening")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.AllowFutureDateBooking, "0", "1-True;0-False")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ApplyOrderConfirmation, "0", "1-True;0-False")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
