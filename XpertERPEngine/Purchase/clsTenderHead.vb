@@ -31,7 +31,7 @@ Public Class clsTenderHead
     Public OtherInfo9 As String = Nothing
     Public OtherInfo10 As String = Nothing
 
-    Public Tender_Type As Integer = 0 ''0-RM Tender;1-Risk Purchase;2-Techical Spare Part
+    Public Tender_Type As Integer = 0 ''0-RM Tender;1-Risk Purchase;2-Techical Spare Part;3-Local Purchase
 
     Public Arr As List(Of clsTenderDetail) = Nothing
     Public ArrSchedule As List(Of clsTenderSchedule) = Nothing
