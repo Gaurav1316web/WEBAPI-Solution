@@ -261,6 +261,7 @@ Public Class clsUserMgtCode
     Public Const frmQualityCheckForSRN As String = "QC_CHK_SRN"
     Public Const frmQualityCheckApprovalForSRN As String = "QC_APRV_SRN"
     Public Const rptPendingQCReport As String = "PND_QC_RPT"
+    Public Const QualitySummaryReport As String = "QTY_SUMY_RPT"
     'frmQualityCheckForSRN
     ''==================
 
@@ -2421,6 +2422,7 @@ Public Class clsUserMgtCode
     Public Const AuditTrailCommonServices As String = "ADIT_COMSRV"
     Public Const AuditTrailGeneralLedger As String = "ADIT_GENLEG"
     Public Const AuditTrailSaleAndDistribution As String = "ADIT_SALDBU"
+    Public Const rptSalesReport As String = "SALE-RPT"
     Public Const AuditTrailMaterialManagement As String = "ADIT_MATMGT"
     Public Const AuditTrailPurchase As String = "ADIT_PURCH"
     Public Const AuditTrailTaxDeductedAtSource As String = "ADIT_TAXSC"
@@ -2430,7 +2432,8 @@ Public Class clsUserMgtCode
     Public Const AuditTrailStandardProduction As String = "ADIT_STDPRO"
     Public Const rptSPItemConsumptionReport As String = "MATCONS_RPT"
     Public Const ProductionReport As String = "PRODUC_RPT"
-    Public Const rptSalesReport As String = "SALES_RPT"
+    'Public Const QualitySummaryReport As String = "QTY_SUMY_RPT"
+    'Public Const rptSalesReport As String = "SALES_RPT"
     Public Const FrmProductionAndSaleReport As String = "PANDS_RPT"
     Public Const AuditTrailDairyProduction As String = "ADIT_DARYPD"
     Public Const AuditTrailMilkProcurementMCC As String = "ADIT_MPMCC"
