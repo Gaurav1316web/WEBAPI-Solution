@@ -1252,6 +1252,7 @@ Public Class FrmItemMasterRMOther
         chkMilkPouch.Checked = False
         chkQCSNFBssed.Checked = False
         chkAdvanceRequired.Checked = False
+        chkIsDisplayDemad.Checked = False
         If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.INDUSTRYTYPE, clsFixedParameterCode.INDUSTRYTYPE, Nothing)), "A") = CompairStringResult.Equal Then
             CmbWarrApp.Visible = True
             LblWarrDate.Visible = True
@@ -1416,6 +1417,7 @@ Public Class FrmItemMasterRMOther
                 obj.AlternativeItem = txtAlternativeItem.Value
                 obj.Item_Category_Struct_Code = txtCategoryStructureCode.Value
                 obj.Sku_Seq = clsCommon.myCdbl(txtSeqNo.Text)
+                obj.Is_DisplayDemand = chkIsDisplayDemad.Checked
                 obj.Marketing_Seq = clsCommon.myCdbl(txtMarSeqNo.Text)
                 obj.ApplyRoundingInStdProd = chkApplyRounding.Checked
                 obj.Visual_QC = chkApplyVisualQC.Checked
@@ -2497,6 +2499,7 @@ Public Class FrmItemMasterRMOther
                 txtWeightValue.Text = obj.Weight_Value
                 txtITFCode.Text = obj.ITFCode
                 chkMRP.Checked = obj.Is_MRP
+                chkIsDisplayDemad.Checked = obj.Is_DisplayDemand
                 txtRackNo.Text = obj.Rack_No
                 chkFresh.Checked = obj.Is_FreshItem
                 chkChangeRate.Checked = IIf(obj.Is_Rate_Change_OnDairyDispatch = 1, True, False)
