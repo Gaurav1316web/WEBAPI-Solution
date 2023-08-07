@@ -1221,9 +1221,9 @@ Public Class frmDemandBooking
     Private Sub txtDocNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
             Dim qry As String = "select distinct TSPL_DEMAND_BOOKING_MASTER.Document_No as DocumentNo,convert(varchar(12),TSPL_DEMAND_BOOKING_MASTER.Document_date,103) as Document_date,TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DEMAND_BOOKING_MASTER.Location_Code as [Location Code],TSPL_DEMAND_BOOKING_MASTER.City_Code as [City Code],TripNo AS [Trip No],case when Posted=1 then 'posted' else 'Unposted' end as Posted from TSPL_DEMAND_BOOKING_MASTER"
-            Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
+            'Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
             Reset()
-            LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentNo", whrClas, txtDocNo.Value, "DocumentNo", isButtonClicked), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentNo", "", txtDocNo.Value, "DocumentNo", isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
