@@ -89,22 +89,24 @@ Public Class frmDisplaySquenece
         Me.gv1.MasterTemplate.Columns("Particlar Code").ReadOnly = True
         Me.gv1.MasterTemplate.Columns("Particlar Name").Width = 250    ''Third Column
         Me.gv1.MasterTemplate.Columns("Particlar Name").ReadOnly = True
-        Me.gv1.MasterTemplate.Columns("Display Demand").Width = 100
-        Me.gv1.MasterTemplate.Columns("Display Demand").ReadOnly = True
-        Me.gv1.MasterTemplate.Columns("Display Demand").IsVisible = True
-        If isSelected Then
-            Dim checkBoxColumn As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
-            checkBoxColumn.HeaderText = ""
-            checkBoxColumn.Width = 30
-            checkBoxColumn.Name = "checkBoxColumn1"
-            checkBoxColumn.FieldName = "Display Demand"
-            gv1.Columns.Insert(0, checkBoxColumn)
-            isSelected = False
+        If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Item") = CompairStringResult.Equal Then
+            Me.gv1.MasterTemplate.Columns("Display Demand").Width = 100
+            Me.gv1.MasterTemplate.Columns("Display Demand").ReadOnly = True
+            Me.gv1.MasterTemplate.Columns("Display Demand").IsVisible = True
+            If isSelected Then
+                Dim checkBoxColumn As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+                checkBoxColumn.HeaderText = ""
+                checkBoxColumn.Width = 30
+                checkBoxColumn.Name = "checkBoxColumn1"
+                checkBoxColumn.FieldName = "Display Demand"
+                gv1.Columns.Insert(0, checkBoxColumn)
+                isSelected = False
+            End If
+        ElseIf isSelected = False Then
+            gv1.Columns.RemoveAt(0)
+            isSelected = True
+
         End If
-
-        'gv1.MasterTemplate.Columns.Add(checkBoxColumn)
-
-        'dataGridView1.Columns.Insert(0, checkBoxColumn)
 
         gv1.AllowAddNewRow = False
         gv1.AllowEditRow = True
@@ -175,9 +177,7 @@ Public Class frmDisplaySquenece
                 gv1.DataSource = dt
                 For i As Int16 = 0 To gv1.Rows.Count - 1
                     gv1.Rows(i).Cells("Sno").Value = i + 1
-                    If gv1.Rows(i).Cells("Display Demand").Value = 1 Then
-                        'gv1.Rows(i).Cells("isDisplayDemand").Value = True
-                    End If
+
                 Next
             End If
             IsInsieLoadData = False
