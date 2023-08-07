@@ -198,17 +198,24 @@ Public Class frmVSP_VLCMaster
             findfndbankcode.Value = ""
             findTxtIFSCCode.Visible = True
             findTxtIFSCCode.Value = ""
+            findTxtIFSCCode2.Visible = True
+            findTxtIFSCCode2.Value = ""
             fndbankcode.Visible = False
             TxtIFSCCode.Visible = False
+            txtIFSCCode2.Visible = False
             findfndbankcode2.Visible = True
             findfndbankcode2.Value = ""
+
         Else
             fndbankcode.Visible = True
             TxtIFSCCode.Visible = True
+            txtIFSCCode2.Visible = True
             findfndbankcode.Visible = False
             findfndbankcode.Value = ""
             findTxtIFSCCode.Visible = False
             findTxtIFSCCode.Value = ""
+            findTxtIFSCCode2.Visible = False
+            findTxtIFSCCode2.Value = ""
             findfndbankcode2.Visible = False
             findfndbankcode2.Value = ""
 
@@ -406,6 +413,8 @@ Public Class frmVSP_VLCMaster
         Try
 
             Dim strquery As String = "select bank_code As [Bank Code],description  as [Description]from TSPL_Bank_MASTER where bank_code='" + fndbankcode.Text + "'"
+            'Dim strquery As String = "select bankcode2 As [Bank Code],description  as [Description]from TSPL_Bank_MASTER where BankCode2='" + fndbankcode2.Text + "'"
+
             Dim dr As DataTable
             'Dim strvalue As String
             dr = clsDBFuncationality.GetDataTable(strquery)
@@ -621,9 +630,12 @@ Public Class frmVSP_VLCMaster
                 If EnableBankFromMaster = True Then
                     findfndbankcode.Value = myDr(31).ToString()
                     findTxtIFSCCode.Value = myDr("IFSC_Code").ToString()
+
+
                 Else
                     Me.fndbankcode.Text = myDr(31).ToString()
                     Me.TxtIFSCCode.Text = myDr("IFSC_Code").ToString()
+
                 End If
 
                 If clsCommon.myLen(myDr("Account_Type")) > 0 Then
@@ -676,12 +688,16 @@ Public Class frmVSP_VLCMaster
                 End If
                 findfndbankcode2.Value = clsCommon.myCstr(myDr("BankCode2"))
                 fndbankcode2.Text = clsCommon.myCstr(myDr("BankCode2"))
-                'txtbankcodedes2.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select MCC_NAME from tspl_MCC_MASTER where MCC_Code = '" + txtMCCOwnBMC.Value + "'"))
+                If clsCommon.myLen(findfndbankcode2.Value) > 0 Then
+                    txtbankcodedes2.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select BankCode2 from tspl_vendor_master where BankCode2 = '" + clsCommon.myCstr(findfndbankcode2.Value) + "'"))
+                Else
+                    txtbankcodedes2.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select BankCode2 from tspl_vendor_master where BankCode2 = '" + clsCommon.myCstr(fndbankcode2.Text) + "'"))
+                End If
                 txtCredit2.Text = clsCommon.myCdbl(myDr("Credit2"))
                 txtIFSCCode2.Text = clsCommon.myCstr(myDr("IFSCCode2"))
                 TxtAccNo2.Text = clsCommon.myCstr(myDr("AccNo2"))
                 cmbAccountType2.Text = clsCommon.myCstr(myDr("AccountType2"))
-                TxtBankName2.Text = clsCommon.myCstr(myDr("BankBranch2"))
+                TxtBankName2.Text = clsCommon.myCstr(myDr("BankName2"))
                 TxtSecurityCharges2.Text = clsCommon.myCstr(myDr("SecurityCharges2"))
                 findTxtIFSCCode2.Value = clsCommon.myCstr(myDr("IFSCCode2"))
                 txtBankBranch2.Text = clsCommon.myCstr(myDr("BankBranch2"))
@@ -1018,6 +1034,13 @@ Public Class frmVSP_VLCMaster
 
 
             updateMultipleIncentive(fndvendorNo.Value, trans)
+
+            'If clsCommon.myLen(findfndbankcode2.Value) > 0 OrElse clsCommon.myLen(fndbankcode2.Text) > 0 Then
+            '    Dim qryBankDetail2 As String = "update tspl_vendor_master set BankCode2='" + clsCommon.myCstr(IIf(EnableBankFromMaster = True, findfndbankcode2.Value, fndbankcode2.Text)) + "',BankName2='" + TxtBankName2.Text + "',Credit2='" + clsCommon.myCDecimal(txtCredit2.Text) + "', IFSCCode2='" + clsCommon.myCstr(IIf(EnableBankFromMaster = True, findTxtIFSCCode2.Value, txtIFSCCode2.Text)) + "' where Vendor_Code='" + clsCommon.myCstr(fndvendorNo.Value) + "'"
+            '    clsDBFuncationality.ExecuteNonQuery(qryBankDetail2, trans)
+            'End If
+
+
             'Sanjay
             If chkCreateCustomerAlso.Checked = True Then
                 If CreateCustomer(True, trans) = False Then
@@ -1037,6 +1060,9 @@ Public Class frmVSP_VLCMaster
             End If
 
             UpdateFeild(fndvendorNo.Value, fndvlccode.Text, trans)
+
+
+
             btnsave.Text = "Update"
             btndelete.Enabled = True
             trans.Commit()
@@ -1711,6 +1737,10 @@ Public Class frmVSP_VLCMaster
 
             clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_VENDOR_MASTER_UPDATE", New SqlParameter("@Vendor_Code", fndvendorNo.Value), New SqlParameter("@Vendor_Name", txtvendorname.Text.ToString()), New SqlParameter("@Vendor_Group_Code", fndgroupcode.Value), New SqlParameter("Vendor_Group_Des", txtgroupdes.Text.ToString()), New SqlParameter("@Status", strStatus), New SqlParameter("@OnHold", strHold), New SqlParameter("@transporter", strtrans), New SqlParameter("@Closing_Date", closingdate), New SqlParameter("@Add1", txtAdd1.Text.ToString()), New SqlParameter("@Add2", txtAdd2.Text.ToString()), New SqlParameter("@Add3", txtAdd3.Text.ToString()), New SqlParameter("@City_Code", fndCity.Value), New SqlParameter("@City_Des", txtCity.Text.ToString()), New SqlParameter("@State", txtState.Text.ToString()), New SqlParameter("@Country", txtCountry.Text.ToString()), New SqlParameter("@Phone1", txtPhone1.Text.ToString()), New SqlParameter("@Phone2", txtPhone2.Text.ToString()), New SqlParameter("@Fax", txtfax.Text.ToString()), New SqlParameter("@Email", txtEmail.Text.ToString()), New SqlParameter("@WebSite", txtWeb.Text.ToString()), New SqlParameter("@Contact_Person_Name", ""), New SqlParameter("@Contact_Person_Phone", ""), New SqlParameter("@Contact_Person_Fax", ""), New SqlParameter("@Contact_Person_Website", ""), New SqlParameter("@Contact_Person_Email", ""), New SqlParameter("@Terms_Code", TermsCode), New SqlParameter("@Terms_Code_Des", TermsCodeDesc), New SqlParameter("@Vendor_Account", AccountSetCode), New SqlParameter("@Vendor_Account_Set_Des", AccountSetCodeDesc), New SqlParameter("@Payment_Code", ""), New SqlParameter("@Payment_Code_Des", ""), New SqlParameter("@Vendor_Type_Code", fndvendortype.Value), New SqlParameter("@Vendor_Type_Des", txtvendortypedes.Text.ToString()), New SqlParameter("@Bank_Code", IIf(EnableBankFromMaster = True, findfndbankcode.Value, fndbankcode.Text)), New SqlParameter("@Bank_Code_Des", txtbankcodedes.Text.ToString()), New SqlParameter("@Service_Tax_No", ""), New SqlParameter("@Lst_No", ""), New SqlParameter("@Tin_No", ""), New SqlParameter("@Credit_Limit", CrLimit), New SqlParameter("@Tax_Group", TaxGroupCode), New SqlParameter("@Tax_Group_Des", TaxGroupDesc), New SqlParameter("@TAX1", strTax1), New SqlParameter("@TAX1_Rate", strTax1_Rate), New SqlParameter("@TAX2", strTax2), New SqlParameter("@TAX2_Rate", strTax2_Rate), New SqlParameter("@TAX3", strTax3), New SqlParameter("@TAX3_Rate", strTax3_Rate), New SqlParameter("@TAX4", strTax4), New SqlParameter("@TAX4_Rate", strTax4_Rate), New SqlParameter("@TAX5", strTax5), New SqlParameter("@TAX5_Rate", strTax5_Rate), New SqlParameter("@TAX6", strTax6), New SqlParameter("@TAX6_Rate", strTax6_Rate), New SqlParameter("@TAX7", strTax7), New SqlParameter("@TAX7_Rate", strTax7_Rate), New SqlParameter("@TAX8", strTax8), New SqlParameter("@TAX8_Rate", strTax8_Rate), New SqlParameter("@TAX9", strTax9), New SqlParameter("@TAX9_Rate", strTax9_Rate), New SqlParameter("@TAX10", strTax10), New SqlParameter("@TAX10_Rate", strTax10_Rate), New SqlParameter("@Remarks1", ""), New SqlParameter("@Remarks2", ""), New SqlParameter("@Additional1", ""), New SqlParameter("@Additional2", ""), New SqlParameter("@Additional3", ""), New SqlParameter("@cst", ""), New SqlParameter("@ecc", ""), New SqlParameter("@range", ""), New SqlParameter("@collectorate", txtcollect.Text.ToString()), New SqlParameter("@pan", txtpan.Text.ToString()), New SqlParameter("@Modify_By", userCode), New SqlParameter("@Modify_Date", connectSql.serverDate(trans)), New SqlParameter("@Comp_Code", companyCode), New SqlParameter("@is_Gross_Receipt", IsGrossReceipt), New SqlParameter("@InterBranch ", strInterBranch), New SqlParameter("@Branch_Name ", TxtBankBranch.Text.ToString()), New SqlParameter("@Account_No ", TxtAccNo.Text.ToString()), New SqlParameter("@Bank_Name ", TxtBankName.Text.ToString()), New SqlParameter("@IFSC_Code ", IIf(EnableBankFromMaster = True, findTxtIFSCCode.Value, TxtIFSCCode.Text.ToString())), New SqlParameter("@Account_Type ", clsCommon.myCstr(cmbAccountType.SelectedValue)))
 
+            'Dim qryBD As String = "Select tspl_vendor_master set BankCode2 ='" + clsCommon.myCstr(IIf(EnableBankFromMaster = True, findfndbankcode2.Value, fndbankcode2.Text)) + "' , BankName2='" + TxtBankName2.Text + "' where Vendor_Code='" + fndvendorNo.Value + "' "
+            Dim qryBD As String = "Update tspl_vendor_master set BankCode2 ='" + clsCommon.myCstr(IIf(EnableBankFromMaster = True, findfndbankcode2.Value, fndbankcode2.Text)) + "' where Vendor_Code='" + fndvendorNo.Value + "' "
+
+            clsDBFuncationality.ExecuteNonQuery(qryBD, trans)
             'Dim strCmd11 As String
             clsDBFuncationality.ExecuteNonQuery(GetUpdateQry(strTagAsFranchise, joint_name), trans) ', srvc_type
 
@@ -2507,13 +2537,13 @@ Public Class frmVSP_VLCMaster
             strIFSCCode = ""
         End If
 
-        Dim strBankCode2 = ""
+        Dim strbank As String = ""
         If fndbankcode2.Visible = True Then
-            strBankCode2 = fndbankcode2.Text
+            strbank = findfndbankcode2.Value
         ElseIf findfndbankcode2.Visible = True Then
-            strBankCode2 = findfndbankcode2.Value
+            strbank = findfndbankcode2.Value
         Else
-            strBankCode2 = ""
+            strbank = ""
         End If
 
 
@@ -2524,11 +2554,11 @@ Public Class frmVSP_VLCMaster
             qry += " Company_Bank = null "
         End If
         'qry += " , Registered_PDCS_CLUSTER = '" + strRegistered_PDCS_CLUSTER + "' , StartDate = '" + clsCommon.GetPrintDate(txtStartDate.Value, "dd/MMM/yyyy") + "' , isOwnBMC = '" + isOwnBMC + "' , MCCOwnBMC = '" + MCCOwnBMC + "' , BankCode2 = '" + strBankCode2 + "' ,  Credit2 =  '" + clsCommon.myCstr(clsCommon.myCdbl(txtCredit2.Text)) + "' , IFSCCode2 = '" + strIFSCCode + "', AccNo2 = '" + TxtAccNo2.Text + "' , AccountType2 = '" + cmbAccountType2.Text + "', BankBranch2 = '" + TxtBankName2.Text + "', SecurityCharges2 = '" + clsCommon.myCstr(clsCommon.myCdbl(TxtSecurityCharges2.Text)) + "' , SupervisorOrRP = '" + clsCommon.myCstr(txtSupervisiorRP.Value) + "' ,RegistrationNo = '" + txtRegistrationNo.Text + "' , RegistrationDate = '" + clsCommon.GetPrintDate(txtRegistrationDate.Value, "dd/MMM/yyyy") + "'  where Vendor_Code = '" + strVendorCode + "'  "
-        qry += " , Registered_PDCS_CLUSTER = '" + strRegistered_PDCS_CLUSTER + "' , StartDate = '" + clsCommon.GetPrintDate(txtStartDate.Value, "dd/MMM/yyyy") + "' , BankCode2 = '" + strBankCode2 + "' ,  Credit2 =  '" + clsCommon.myCstr(clsCommon.myCdbl(txtCredit2.Text)) + "' , IFSCCode2 = '" + strIFSCCode + "', AccNo2 = '" + TxtAccNo2.Text + "' , AccountType2 = '" + cmbAccountType2.Text + "', BankBranch2 = '" + TxtBankName2.Text + "', SecurityCharges2 = '" + clsCommon.myCstr(clsCommon.myCdbl(TxtSecurityCharges2.Text)) + "' , SupervisorOrRP = '" + clsCommon.myCstr(txtSupervisiorRP.Value) + "' ,RegistrationNo = '" + txtRegistrationNo.Text + "' , RegistrationDate = '" + clsCommon.GetPrintDate(txtRegistrationDate.Value, "dd/MMM/yyyy") + "'  where Vendor_Code = '" + strVendorCode + "'  "
+        qry += " , Registered_PDCS_CLUSTER = '" + strRegistered_PDCS_CLUSTER + "' , StartDate = '" + clsCommon.GetPrintDate(txtStartDate.Value, "dd/MMM/yyyy") + "' , BankCode2 = '" + strbank + "' ,  Credit2 =  '" + clsCommon.myCstr(clsCommon.myCdbl(txtCredit2.Text)) + "' , IFSCCode2 = '" + strIFSCCode + "', AccNo2 = '" + TxtAccNo2.Text + "' , AccountType2 = '" + cmbAccountType2.Text + "', BankBranch2 = '" + TxtBankName2.Text + "', SecurityCharges2 = '" + clsCommon.myCstr(clsCommon.myCdbl(TxtSecurityCharges2.Text)) + "' , SupervisorOrRP = '" + clsCommon.myCstr(txtSupervisiorRP.Value) + "' ,RegistrationNo = '" + txtRegistrationNo.Text + "' , RegistrationDate = '" + clsCommon.GetPrintDate(txtRegistrationDate.Value, "dd/MMM/yyyy") + "'  where Vendor_Code = '" + strVendorCode + "'  "
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         ' 
         If clsCommon.myLen(strVlcCode) > 0 Then
-            qry = " update TSPL_VLC_MASTER_HEAD set Registered_PDCS_CLUSTER = '" + strRegistered_PDCS_CLUSTER + "' , StartDate = '" + clsCommon.GetPrintDate(txtStartDate.Value, "dd/MMM/yyyy") + "' , isOwnBMC = '" + isOwnBMC + "', MCCOwnBMC = '" + MCCOwnBMC + "', BankCode2 = '" + strBankCode2 + "' ,  Credit2 = '" + txtCredit2.Text + "' , IFSCCode2 = '" + strIFSCCode + "', AccNo2 = '" + TxtAccNo2.Text + "' , AccountType2 = '" + cmbAccountType2.Text + "', BankBranch2 = '" + TxtBankName2.Text + "', SecurityCharges2 = '" + TxtSecurityCharges2.Text + "', SupervisorOrRP = '" + clsCommon.myCstr(txtSupervisiorRP.Value) + "' where vlc_Code = '" + strVlcCode + "' "
+            qry = " update TSPL_VLC_MASTER_HEAD set Registered_PDCS_CLUSTER = '" + strRegistered_PDCS_CLUSTER + "' , StartDate = '" + clsCommon.GetPrintDate(txtStartDate.Value, "dd/MMM/yyyy") + "' , isOwnBMC = '" + isOwnBMC + "', MCCOwnBMC = '" + MCCOwnBMC + "', BankCode2 = '" + strbank + "' ,  Credit2 = '" + txtCredit2.Text + "' , IFSCCode2 = '" + strIFSCCode + "', AccNo2 = '" + TxtAccNo2.Text + "' , AccountType2 = '" + cmbAccountType2.Text + "', BankBranch2 = '" + TxtBankName2.Text + "', SecurityCharges2 = '" + TxtSecurityCharges2.Text + "', SupervisorOrRP = '" + clsCommon.myCstr(txtSupervisiorRP.Value) + "' where vlc_Code = '" + strVlcCode + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         End If
 
@@ -2760,6 +2790,7 @@ Public Class frmVSP_VLCMaster
         Me.txtvendortypedes.Text = ""
         Me.fndbankcode.Text = ""
         Me.txtbankcodedes.Text = ""
+        Me.txtbankcodedes2.Text = ""
         Me.txtCredit.Text = "0.00"
         Me.txtcollect.Text = ""
         Me.txtpan.Text = ""
@@ -3267,7 +3298,7 @@ Public Class frmVSP_VLCMaster
         End If
     End Sub
 
-    'Numerics Validation---------------------------------------------
+    'Numerics Validation-                                               --------------------------------------------
     Private Sub txtPhone1_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         If ((e.KeyChar >= Chr(48) And e.KeyChar <= Chr(57)) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(48) Or e.KeyChar = Chr(45)) Then
         Else
@@ -3579,29 +3610,42 @@ Public Class frmVSP_VLCMaster
                     Errorcontrol.ResetError(findTxtIFSCCode)
                 End If
 
-            Else
-                If clsCommon.myLen(fndbankcode.Text) = 0 Then
+
+                If clsCommon.myLen(findfndbankcode2.Value) = 0 Then
                     myMessages.blankValue("Please Enter Bank Code")
                     pageCus.SelectedPage = RadPageViewPage2
-                    fndbankcode.Focus()
-                    fndbankcode.Select()
-                    Errorcontrol.SetError(fndbankcode, "Please Enter Bank Code")
+                    fndbankcode2.Focus()
+                    findfndbankcode2.Select()
+                    Errorcontrol.SetError(findfndbankcode2, "Please Enter Bank Code")
                     Return
                 Else
-                    Errorcontrol.ResetError(fndbankcode)
+                    Errorcontrol.ResetError(findTxtIFSCCode2)
                 End If
-
-                ''richa agarwal 27/03/2015
-                If clsCommon.myLen(TxtIFSCCode.Text) = 0 Then
+                If clsCommon.myLen(findTxtIFSCCode2.Value) = 0 Then
                     myMessages.blankValue("Please Enter IFSC Code")
                     pageCus.SelectedPage = RadPageViewPage2
-                    TxtIFSCCode.Focus()
-                    TxtIFSCCode.Select()
-                    Errorcontrol.SetError(TxtIFSCCode, "Please Enter IFSC Code")
+                    findTxtIFSCCode2.Focus()
+                    findTxtIFSCCode2.Select()
+                    Errorcontrol.SetError(findTxtIFSCCode2, "Please Enter IFSC Code")
                     Return
                 Else
-                    Errorcontrol.ResetError(TxtIFSCCode)
+                    Errorcontrol.ResetError(findTxtIFSCCode2)
                 End If
+
+            Else
+                'If clsCommon.myLen(fndbankcode.Text) = 0 Then
+                '    myMessages.blankValue("Please Enter Bank Code")
+                '    pageCus.SelectedPage = RadPageViewPage2
+                '    fndbankcode.Focus()
+                '    fndbankcode.Select()
+                '    Errorcontrol.SetError(fndbankcode, "Please Enter Bank Code")
+                '    Return
+                'Else
+                '    Errorcontrol.ResetError(fndbankcode)
+                'End If
+
+                '''richa agarwal 27/03/2015
+
                 ''--------------------
             End If
 
@@ -3929,6 +3973,8 @@ Public Class frmVSP_VLCMaster
                         obj.Account_Type2 = clsCommon.myCstr(grow.Cells("Account Type 2").Value)
                         obj.Security_Charges2 = clsCommon.myCDecimal(grow.Cells("Security Charges 2").Value)
                         obj.Company_Bank = clsCommon.myCstr(grow.Cells("Company Bank").Value)
+                        'obj.BankCode2 = clsCommon.myCstr(grow.Cells("BankCode2").Value)
+                        'obj.IFSCCode2 = clsCommon.myCstr(grow.Cells("IFSCCode2").Value)
                         'findfndbankcode.Value = clsCommon.myCstr(grow.Cells("Bank Code 1").Value)
                         'txtbankcodedes.Text = clsCommon.myCstr(grow.Cells("Bank Name 1").Value)
                         'txtCredit.Text = clsCommon.myCstr(grow.Cells("Credit Limit 1").Value)
@@ -4500,6 +4546,7 @@ Public Class frmVSP_VLCMaster
                 'fndBankState.Value = obj.state_code
                 'txtBankStateName.Text = obj.state_name
                 'TxtIFSCCode.Value = obj.IFSC_Code
+
             End If
         Else
             '' txtBankBranchName.Text = ""
@@ -4515,7 +4562,7 @@ Public Class frmVSP_VLCMaster
     Sub GetBankDetails2(ByVal isBUttonclicked As Boolean)
 
         If isBUttonclicked Then
-            findfndbankcode.Value = clsVendorBankMaster.GetFinder("", findfndbankcode2.Value, isBUttonclicked)
+            findfndbankcode2.Value = clsVendorBankMaster.GetFinder("", findfndbankcode2.Value, isBUttonclicked)
         End If
         If clsCommon.myLen(findfndbankcode2.Value) > 0 Then
             Dim obj As clsVendorBankMaster
@@ -4524,6 +4571,7 @@ Public Class frmVSP_VLCMaster
                 txtbankcodedes2.Text = obj.Bank_Name
                 TxtBankName2.Text = obj.Bank_Name
                 txtBankBranch2.Text = obj.Branch_Name
+
             End If
         Else
 
@@ -4696,6 +4744,19 @@ Public Class frmVSP_VLCMaster
             Dim frm As New FrmVendorBankMaster '= Nothing
             frm.SetUserMgmt(clsUserMgtCode.VendorBankMaster)
             frm.BankCode = IIf(EnableBankFromMaster = True, findfndbankcode.Value, fndbankcode.Text)
+            frm.WindowState = FormWindowState.Maximized
+            frm.Show()
+        Else
+            clsCommon.MyMessageBoxShow("Please select bank Code")
+        End If
+
+    End Sub
+
+    Private Sub txtBankBranchCode2__MYOpenMasterForm(sender As Object, e As EventArgs, isButtonClicked As Boolean)
+        If clsCommon.myLen(IIf(EnableBankFromMaster = True, findfndbankcode2.Value, fndbankcode2.Text)) > 0 Then
+            Dim frm As New FrmVendorBankMaster '= Nothing
+            frm.SetUserMgmt(clsUserMgtCode.VendorBankMaster)
+            frm.BankCode = IIf(EnableBankFromMaster = True, findfndbankcode2.Value, fndbankcode2.Text)
             frm.WindowState = FormWindowState.Maximized
             frm.Show()
         Else
@@ -4895,6 +4956,7 @@ Public Class frmVSP_VLCMaster
         GetBankDetails(isButtonClicked)
     End Sub
 
+
     Private Sub findTxtIFSCCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles findTxtIFSCCode._MYValidating
         If clsCommon.myLen(findfndbankcode.Value) > 0 Then
             Dim qry As String = "Select Bank_IFSC_Code as IFSCCode,Branch_Name  from TSPL_Vendor_Bank_Branch_Details "
@@ -4904,6 +4966,18 @@ Public Class frmVSP_VLCMaster
             clsCommon.MyMessageBoxShow("Please select Bank Code first")
         End If
     End Sub
+
+    Private Sub findTxtIFSCCode2__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles findTxtIFSCCode2._MYValidating
+        If clsCommon.myLen(findfndbankcode2.Value) > 0 Then
+            Dim qry As String = "Select Bank_IFSC_Code as IFSCCode,Branch_Name  from TSPL_Vendor_Bank_Branch_Details "
+            findTxtIFSCCode2.Value = clsCommon.ShowSelectForm("FormIFSCCode", qry, "IFSCCode", " Bank_Code ='" & findfndbankcode2.Value & "' ", findTxtIFSCCode2.Value, "", isButtonClicked)
+            txtBankBranch2.Text = clsDBFuncationality.getSingleValue("Select Branch_Name from TSPL_Vendor_Bank_Branch_Details where Bank_Code ='" & findfndbankcode2.Value & "' and Bank_IFSC_Code='" & findTxtIFSCCode2.Value & "' ")
+        Else
+            clsCommon.MyMessageBoxShow("Please select Bank Code first")
+        End If
+    End Sub
+
+
 
     Private Sub fndVSPCopy__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndVSPCopy._MYValidating
         Try
@@ -5257,6 +5331,7 @@ Public Class frmVSP_VLCMaster
                         Dim strBrachName As String = String.Empty
                         Dim strIFSCCode As String = String.Empty
                         Dim strbank As String = String.Empty
+                        Dim strBankCode2 As String = String.Empty
                         Dim qry As String = Nothing
                         Dim statecode As String = String.Empty
                         Dim state As String = String.Empty
@@ -5339,6 +5414,9 @@ Public Class frmVSP_VLCMaster
                             If clsCommon.myLen(strBrachName) > 100 Then
                                 Throw New Exception("Branch Name should be max 100 character")
                             End If
+
+
+
 
                             If objCommonVar.ApplyDefaultsInMaster = True Then
                                 CityCode = clsCommon.myCstr(clsCityMaster.GetDefault(trans))
@@ -6364,6 +6442,10 @@ Public Class frmVSP_VLCMaster
     End Sub
 
     Private Sub txtRegistrationDate_ValueChanged(sender As Object, e As EventArgs) Handles txtRegistrationDate.ValueChanged
+
+    End Sub
+
+    Private Sub findfndbankcode_Load(sender As Object, e As EventArgs) Handles findfndbankcode.Load
 
     End Sub
 
