@@ -47,6 +47,7 @@ Public Class frmMPDCSIncentiveReco
     Dim arrLoc As String = Nothing
 
     Dim strICode As String = ""
+    Dim SettRefreshDBTReco As Boolean = False
     Dim SettDCSMPIncetiveReco As Boolean = False
     Dim SettMatchingUOM As String = ""
     Dim SettAllowMPQtyGreaterThanDCSQty As Boolean = False
@@ -68,6 +69,7 @@ Public Class frmMPDCSIncentiveReco
         UcAttachment1.settAutoAttachment = True
 
         strICode = clsFixedParameter.GetData(clsFixedParameterType.MCCDefaultMilkItem, clsFixedParameterCode.MilkSetting, Nothing)
+        SettRefreshDBTReco = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RefreshDBTReco, clsFixedParameterCode.RefreshDBTReco, Nothing)) > 0)
         SettApplyZoneOnDBT = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyZoneInDBT, clsFixedParameterCode.ApplyZoneInDBT, Nothing)) > 0)
         txtZone.MendatroryField = SettApplyZoneOnDBT
         SettDCSMPIncetiveReco = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DCSRecoCondition, clsFixedParameterCode.MandatoryDCSMPIncetiveReco, Nothing)) = 1)
@@ -115,7 +117,7 @@ Public Class frmMPDCSIncentiveReco
         If e.Alt AndAlso e.KeyCode = Keys.N Then
             Reset()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnsave.Enabled Then
-            SaveData()
+            SaveData(False)
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btndelete.Enabled Then
             DeleteData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnclose.Enabled Then
@@ -846,25 +848,32 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         txtSnfPer.Tag = 0
         txtSnfPer.Value = 0
     End Sub
-    Private Function AllowToSave() As Boolean
+    Private Function AllowToSave(ByVal isByPost As Boolean) As Boolean
         If AllowFutureDateTransaction(txtdate.Value, Nothing) = False Then
             txtdate.Focus()
             Return False
         End If
-        If SettApplyZoneOnDBT Then
-            If clsCommon.myLen(txtZone.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select " + txtZone.MyLinkLable2.Text)
-                txtZone.Focus()
-                Return False
+        If Not isByPost Then
+            If SettApplyZoneOnDBT Then
+                If clsCommon.myLen(txtZone.Value) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Please select " + txtZone.MyLinkLable2.Text)
+                    txtZone.Focus()
+                    Return False
+                End If
             End If
         End If
         UcAttachment1.AllowToSave()
         SetToDate()
+        If Not isNewEntry Then
+            If SettRefreshDBTReco Then
+                RefershFarmerInfo()
+            End If
+        End If
         Return True
     End Function
-    Sub SaveData()
+    Sub SaveData(ByVal isByPost As Boolean)
         Try
-            If AllowToSave() Then
+            If AllowToSave(isByPost) Then
                 Dim obj As New clsMPDCSInsentiveReco()
                 obj.Document_Code = txtDocumentNo.Value
                 obj.Document_Date = txtdate.Value
@@ -900,9 +909,11 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
                         objTr.Diff_FAT = clsCommon.myCDecimal(grow.Cells(colDiffFAT).Value)
                         objTr.Diff_SNF = clsCommon.myCDecimal(grow.Cells(colDiffSNF).Value)
                         objTr.Diff_Amount = clsCommon.myCDecimal(grow.Cells(colDiffAmt).Value)
-                        If SettApplyZoneOnDBT Then
-                            If Not clsCommon.CompairString(clsCommon.myCstr(clsCommon.myCstr(grow.Cells(colZoneCode).Value)), txtZone.Value) = CompairStringResult.Equal Then
-                                Throw New Exception("Zone Should be [" + txtZone.Value + "] at [" + clsCommon.myCstr(obj.arr.Count + 1) + "]")
+                        If Not isByPost Then
+                            If SettApplyZoneOnDBT Then
+                                If Not clsCommon.CompairString(clsCommon.myCstr(clsCommon.myCstr(grow.Cells(colZoneCode).Value)), txtZone.Value) = CompairStringResult.Equal Then
+                                    Throw New Exception("Zone Should be [" + txtZone.Value + "] at [" + clsCommon.myCstr(obj.arr.Count + 1) + "]")
+                                End If
                             End If
                         End If
                         obj.arr.Add(objTr)
@@ -916,15 +927,21 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
                     clsMPDCSInsentiveReco.SaveData(obj, isNewEntry, trans)
                     UcAttachment1.SaveData(obj.Document_Code, True, trans)
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
-                    LoadData(obj.Document_Code, NavigatorType.Current)
+                    If Not isByPost Then
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+                        LoadData(obj.Document_Code, NavigatorType.Current)
+                    End If
                 Catch ex As Exception
                     trans.Rollback()
                     Throw New Exception(ex.Message)
                 End Try
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            If isByPost Then
+                Throw New Exception("Error while updating data " + ex.Message)
+            Else
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End If
         End Try
     End Sub
     Private Sub DeleteData()
@@ -1063,7 +1080,7 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         Reset()
     End Sub
     Private Sub btnsave_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnsave.Click
-        SaveData()
+        SaveData(False)
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         Try
@@ -1072,6 +1089,9 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
             Dim dt As DataTable = Nothing
 
             If (myMessages.postConfirm()) Then
+                If SettRefreshDBTReco Then
+                    SaveData(True)
+                End If
                 clsMPDCSInsentiveReco.PostData(txtDocumentNo.Value)
                 clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtDocumentNo.Value, NavigatorType.Current)
@@ -1175,6 +1195,10 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
     End Sub
 
     Private Sub RadButton5_Click(sender As Object, e As EventArgs) Handles RadButton5.Click
+        RefershFarmerInfo()
+    End Sub
+
+    Private Sub RefershFarmerInfo()
         For ii As Integer = 0 To gvItem.Rows.Count - 1
             FillFarmerInfo(ii)
         Next

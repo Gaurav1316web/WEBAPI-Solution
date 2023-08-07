@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const RefreshDBTReco As String = "Refresh DBT Reco"
     Public Const DistributorWiseBilling As String = "Distributor Wise Billing"
     Public Const AndroidSaleOrder As String = "Android Sale Order"
     Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
@@ -1287,6 +1288,7 @@ Public Class clsFixedParameterType
     Public Const PrefixForUserMaster = "Prefix For User Master"
 End Class
 Public Class clsFixedParameterCode
+    Public Const RefreshDBTReco As String = "Refresh DBT Reco"
     Public Const DistributorWiseBilling As String = "Distributor Wise Billing"
     Public Const BackDays As String = "Back Days"
     Public Const MaximumBackDays As String = "Maximum Back Days"
@@ -2773,6 +2775,7 @@ Public Class clsFixedParameter
     End Function
 
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.RefreshDBTReco, clsFixedParameterCode.RefreshDBTReco, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, "0", "0:OFF;1:ON")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidSaleOrder, clsFixedParameterCode.BackDays, "3", "Back Days of From Date")
@@ -4399,6 +4402,7 @@ Public Class clsFixedParameterProgramMapping
 
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.DCSMPIncentiveReco, clsFixedParameterType.RefreshDBTReco, clsFixedParameterCode.RefreshDBTReco, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, EnumControlType.CheckBox)
 
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, EnumControlType.CheckBox)
