@@ -277,6 +277,7 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.chkIsDisplayDemad = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -485,6 +486,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsDisplayDemad, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -507,7 +509,7 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(934, 599)
+        Me.SplitContainer1.Size = New System.Drawing.Size(998, 599)
         Me.SplitContainer1.SplitterDistance = 570
         Me.SplitContainer1.TabIndex = 0
         '
@@ -527,12 +529,13 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(934, 570)
+        Me.RadPageView1.Size = New System.Drawing.Size(998, 570)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsDisplayDemad)
         Me.RadPageViewPage1.Controls.Add(Me.chkFGforCF)
         Me.RadPageViewPage1.Controls.Add(Me.chkRAL)
         Me.RadPageViewPage1.Controls.Add(Me.gbTaxType)
@@ -656,7 +659,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(71.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(913, 522)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(977, 522)
         Me.RadPageViewPage1.Text = "Item Detail"
         '
         'chkFGforCF
@@ -3837,7 +3840,7 @@ Partial Class FrmItemMasterRMOther
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(853, 2)
+        Me.btnClose.Location = New System.Drawing.Point(917, 2)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(71, 21)
         Me.btnClose.TabIndex = 2
@@ -3970,7 +3973,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(934, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(998, 20)
         Me.RadMenu1.TabIndex = 1
         '
         'OpenFileDialog1
@@ -3978,11 +3981,22 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
+        'chkIsDisplayDemad
+        '
+        Me.chkIsDisplayDemad.Location = New System.Drawing.Point(853, 143)
+        Me.chkIsDisplayDemad.MyLinkLable1 = Nothing
+        Me.chkIsDisplayDemad.MyLinkLable2 = Nothing
+        Me.chkIsDisplayDemad.Name = "chkIsDisplayDemad"
+        Me.chkIsDisplayDemad.Size = New System.Drawing.Size(95, 18)
+        Me.chkIsDisplayDemad.TabIndex = 197
+        Me.chkIsDisplayDemad.Tag1 = Nothing
+        Me.chkIsDisplayDemad.Text = "Display Demad"
+        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(934, 619)
+        Me.ClientSize = New System.Drawing.Size(998, 619)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmItemMasterRMOther"
@@ -4211,6 +4225,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsDisplayDemad, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4448,5 +4463,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents chkApplyRounding As Controls.MyCheckBox
     Friend WithEvents chkRAL As Controls.MyCheckBox
     Friend WithEvents chkFGforCF As Controls.MyCheckBox
+    Friend WithEvents chkIsDisplayDemad As Controls.MyCheckBox
 End Class
 
