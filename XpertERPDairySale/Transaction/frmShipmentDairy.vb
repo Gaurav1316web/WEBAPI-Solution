@@ -573,7 +573,9 @@ Public Class frmShipmentDairy
         '    rmInvoice.Visibility = False
         'End If
         IsFormLoad = False
-
+        lblSalesman.Visible = False
+        RadGroupBox5.Visible = False
+        Panel2.Visible = False
     End Sub
 
     Sub SetMultiCurrencyVisibility()
