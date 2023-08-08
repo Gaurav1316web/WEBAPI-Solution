@@ -1,12 +1,7 @@
 ﻿' '' '' ''Created By richa
-Imports Common
-Imports System.Globalization
 Imports System.Data.SqlClient
 Imports System.IO
-Imports System.Text.RegularExpressions
-Imports System.Net.Mail
-Imports System.Net.WebClient
-Imports System.Net
+Imports common
 
 Public Class frmDemandBooking
     Inherits FrmMainTranScreen
@@ -88,7 +83,7 @@ Public Class frmDemandBooking
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -140,7 +135,6 @@ Public Class frmDemandBooking
     End Sub
 
     Private Sub FrmBookingEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
         Try
             gv1.EnterKeyMode = RadGridViewEnterKeyMode.EnterMovesToNextRow
             blnPageLoad = True
@@ -227,7 +221,7 @@ Public Class frmDemandBooking
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -605,7 +599,7 @@ Public Class frmDemandBooking
                 gv1.ViewDefinition = view
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -683,7 +677,8 @@ Public Class frmDemandBooking
             txtPCount.Text = "0"
             txtPAmt.Text = "0"
             txtDocAmt.Text = "0"
-
+            chkMorningPosted.Checked = False
+            chkEveningPosted.Checked = False
             RadGroupBox1.Enabled = True
             txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
             If clsCommon.myLen(txtLocation.Value) > 0 Then
@@ -699,7 +694,7 @@ Public Class frmDemandBooking
 
             RefreshFormName()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -724,7 +719,7 @@ Public Class frmDemandBooking
         Catch ex As Exception
             isInsideLoadData = False
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             'Finally
             '    isInsideLoadData = False
             '    isCellValueChangedOpen = False
@@ -753,8 +748,9 @@ Public Class frmDemandBooking
             If clsCommon.myLen(txtVehicleNo.Value) <= 0 Then
                 Throw New Exception("Please select Vehicle")
             End If
+            isInsideLoadData = True
             UpdateAllTotals()
-
+            isInsideLoadData = False
             Dim dblQuantityCount As Double = 0
             Dim dblQuantityMORNINGCount As Double = 0
             Dim dblQuantityEveningCount As Double = 0
@@ -785,28 +781,21 @@ Public Class frmDemandBooking
                         Throw New Exception("Please enter Morning Cut Off time for Route " & lblRouteDesc.Text & "")
                     End If
                     If clsCommon.myLen(strMorningShiftTime) > 0 Then
-                        'Dim MorningCutOffTime As DateTime = clsCommon.myCDate(strMorningShiftTime)
-                        'Dim Morningvalue As Integer = DateTime.Compare(MorningCutOffTime, clsCommon.GETSERVERDATE())
                         Morningvalue = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select datediff(minute,cast(MorningCutOff_Time as time),cast('" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "hh:mm tt") + "' as time)) as aa from TSPL_ROUTE_MASTER where route_no='" & txtRouteNo.Value & "'"))
                         If Morningvalue > 0 Then
                             Throw New Exception("You cannot create Demand Booking due to Morning cut off is over")
                         End If
                     End If
                 End If
-
                 If dblQuantityEveningCount > 0 Then
                     If clsCommon.myLen(strEveningShiftTime) <= 0 Then
                         Throw New Exception("Please enter Evening Cut Off time for Route " & lblRouteDesc.Text & "")
                     End If
-
                     If clsCommon.myLen(strEveningShiftTime) > 0 Then
-                        'Dim EveningCutOffTime As DateTime = clsCommon.myCDate(strEveningShiftTime)
-                        'Dim eveningvalue As Integer = DateTime.Compare(EveningCutOffTime, clsCommon.GETSERVERDATE())
                         eveningvalue = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select datediff(minute,cast(EveningCutOff_Time as time),cast('" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "hh:mm tt") + "' as time)) as aa from TSPL_ROUTE_MASTER where route_no='" & txtRouteNo.Value & "'"))
                         If eveningvalue > 0 Then
                             Throw New Exception("You cannot create Demand Booking due to Evening cut off is over")
                         End If
-
                     End If
                 End If
             End If
@@ -814,13 +803,7 @@ Public Class frmDemandBooking
             '' to check cut off time on update 
             If chkIndividualCustomer.Checked = False AndAlso clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0 AndAlso UseCutOffTimeonRouteForERP = True Then
                 Morningvalue = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select datediff(minute,cast(MorningCutOff_Time as time),cast('" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "hh:mm tt") + "' as time)) as aa from TSPL_ROUTE_MASTER where route_no='" & txtRouteNo.Value & "'"))
-                'If Morningvalue > 0 Then
-                '    Throw New Exception("You cannot create Demand Booking due to Morning cut off is over")
-                'End If
                 eveningvalue = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select datediff(minute,cast(EveningCutOff_Time as time),cast('" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "hh:mm tt") + "' as time)) as aa from TSPL_ROUTE_MASTER where route_no='" & txtRouteNo.Value & "'"))
-                'If eveningvalue > 0 Then
-                '    Throw New Exception("You cannot create Demand Booking due to Evening cut off is over")
-                'End If
                 If Morningvalue > 0 OrElse eveningvalue > 0 Then
                     For ii As Integer = 0 To gv1.Rows.Count - 1
                         Dim strItemValueExist As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colItemExist).Value)
@@ -841,40 +824,19 @@ Public Class frmDemandBooking
                                     End If
                                 End If
                             End If
-
                         End If
-
                     Next
                 End If
-
-
             End If
 
             '' to check gatepass or truck sheet generated
             If clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0 Then
                 Dim strDocNoForGatePassOrTrucksheetGeneratedMorning As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & txtDocNo.Value & "' and (IsGatePassGenerated='Y' or IsTruckSheetGenerated ='Y') and ShiftType='Evening' "))
                 Dim strDocNoForGatePassOrTrucksheetGeneratedEvening As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & txtDocNo.Value & "' and (IsGatePassGenerated='Y' or IsTruckSheetGenerated ='Y') and ShiftType='Morning' "))
-
                 If clsCommon.myLen(clsCommon.myCstr(strDocNoForGatePassOrTrucksheetGeneratedMorning)) > 0 And clsCommon.myLen(clsCommon.myCstr(strDocNoForGatePassOrTrucksheetGeneratedEvening)) > 0 Then
                     Throw New Exception("Demand cannot be updated because its Gate Pass/Trucksheet has generated for both shifts.")
                 End If
-
             End If
-
-            'If clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0 Then
-            '    Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select IsGatePassGenerated,IsTruckSheetGenerated from tspl_demand_booking_master where document_no='" & txtDocNo.Value & "'")
-            '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            '        If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("IsGatePassGenerated")), "Y") = CompairStringResult.Equal Then
-            '            Throw New Exception("Demand cannot be updated because its gate pass has generated.")
-            '        End If
-            '        If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("IsTruckSheetGenerated")), "Y") = CompairStringResult.Equal Then
-            '            Throw New Exception("Demand cannot be updated because its Truck Sheet has generated.")
-            '        End If
-            '    End If
-            'End If
-
-
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -884,7 +846,7 @@ Public Class frmDemandBooking
         Try
             SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -897,7 +859,6 @@ Public Class frmDemandBooking
             Dim LineNo As Integer = 1
 
             If (AllowToSave(Nothing)) Then
-
                 Dim obj As New clsDemandBookingSale()
                 obj.Document_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
@@ -935,9 +896,13 @@ Public Class frmDemandBooking
                 ''richa 4 Aug,2021 optimization related
                 Dim intLine As Integer = 0
                 For dblrows As Integer = 0 To gv1.Rows.Count - 1
-
                     If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colItemExist).Value), "Yes") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)) > 0 Then
-
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), "Morning") = CompairStringResult.Equal AndAlso chkMorningPosted.Checked Then
+                            Continue For
+                        End If
+                        If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), "Evening") = CompairStringResult.Equal AndAlso chkEveningPosted.Checked Then
+                            Continue For
+                        End If
                         Dim k As Integer = 1
                         For dblcolumns As Integer = 7 To gv1.Columns.Count - 8
                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -985,7 +950,6 @@ Public Class frmDemandBooking
                                             End If
 
                                             ''to convert into litre
-                                            'Dim IsStockingUnit_Ltr As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Stocking_Unit from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code  ='" & clsCommon.myCstr(obj1.Unit_code) & "'"))
                                             Dim CrateConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code='Ltr' "))
                                             Dim ItemConvFactor_Ltr As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
 
@@ -1029,7 +993,7 @@ Public Class frmDemandBooking
                     End If
                 Next
                 If (obj.SaveData(obj, isNewEntry)) = True Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_No, NavigatorType.Current)
                     Return True
                 End If
@@ -1040,7 +1004,7 @@ Public Class frmDemandBooking
             blnSaveTotalQTy = True
         Catch ex As Exception
             blnSaveTotalQTy = True
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False
@@ -1148,7 +1112,8 @@ Public Class frmDemandBooking
                 Else
                     rdbnFreshAmbientBoth.IsChecked = True
                 End If
-
+                chkMorningPosted.Checked = (obj.Posted_Morning = 1)
+                chkEveningPosted.Checked = (obj.Posted_Evening = 1)
                 Dim dblMorningCount As Integer = 0
                 Dim dblEveningCount As Integer = 0
                 isLoadData = True
@@ -1195,7 +1160,7 @@ Public Class frmDemandBooking
             SetRouteColumns()
             RefreshFormName()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
             isLoadData = False
@@ -1214,7 +1179,7 @@ Public Class frmDemandBooking
 
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1225,7 +1190,7 @@ Public Class frmDemandBooking
             Reset()
             LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentNo", "", txtDocNo.Value, "DocumentNo", isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1239,7 +1204,7 @@ Public Class frmDemandBooking
         Try
             DeleteData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DeleteData()
@@ -1259,12 +1224,12 @@ Public Class frmDemandBooking
                 End If
                 If (clsDemandBookingSale.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -1282,14 +1247,14 @@ Public Class frmDemandBooking
             Export()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Export()
         If gv1.Rows.Count > 0 Then
             ExportToExcel()
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
     End Sub
     Private Sub ExportToExcel()
@@ -1308,7 +1273,7 @@ Public Class frmDemandBooking
             clsCommon.MyExportToExcelGrid("Booking Entry", gv1, arrHeader, Me.Text)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -1355,7 +1320,7 @@ Public Class frmDemandBooking
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1396,7 +1361,7 @@ Public Class frmDemandBooking
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function GetQuery() As String
@@ -1430,7 +1395,7 @@ Public Class frmDemandBooking
 
     Private Sub btnreverse_Click(sender As Object, e As EventArgs) Handles btnreverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR DELETE 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -1443,12 +1408,12 @@ Public Class frmDemandBooking
                 End If
                 If clsDemandBookingSale.ReverseAndUnpost(txtDocNo.Value) Then
                     saveCancelLog(Reason, "Reverse And Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1461,7 +1426,7 @@ Public Class frmDemandBooking
             lblTotalCrate.Text = ""
             lblDocumentAmt.Text = ""
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRouteNo._MYValidating
@@ -1476,7 +1441,7 @@ Public Class frmDemandBooking
             RefreshFormName()
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1535,7 +1500,7 @@ Public Class frmDemandBooking
             End If
             setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1686,108 +1651,15 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 HideUnhideRowsAndColumnsOFGrid()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    'Private Sub HideUnhideColumnsOFGrid()
-    '    Try
-    '        For dblcolumns As Integer = 6 To gv1.Columns.Count - 4
-    '            Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
-    '            If obj1 IsNot Nothing Then
-    '                If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then
-    '                    If rbtn_Fresh.IsChecked Then
-    '                        If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
-    '                            gv1.Columns(dblcolumns).IsVisible = True
-    '                        Else
-    '                            gv1.Columns(dblcolumns).IsVisible = False
-    '                        End If
-    '                    ElseIf rbtn_Ambient.IsChecked Then
-    '                        If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Ambient") = CompairStringResult.Equal Then
-    '                            gv1.Columns(dblcolumns).IsVisible = True
-    '                        Else
-    '                            gv1.Columns(dblcolumns).IsVisible = False
-    '                        End If
-    '                    Else
-    '                        gv1.Columns(dblcolumns).IsVisible = True
-    '                    End If
-    '                End If
 
-    '            End If
-    '        Next
-
-
-    '    Catch ex As Exception
-    '        Throw New Exception(ex.Message)
-    '    End Try
-    'End Sub
-
-    'Private Sub HideUnhideRowsAndColumnsOFGrid()
-    '    Try
-    '        isLoadData = True
-    '        For dblrows As Integer = 0 To gv1.Rows.Count - 1
-    '            If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)) > 0 Then
-    '                For dblcolumns As Integer = 6 To gv1.Columns.Count - 4
-    '                    Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
-    '                    If obj1 IsNot Nothing Then
-    '                        If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then
-    '                            If rbtnMorning.IsChecked Then
-    '                                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), "Evening") = CompairStringResult.Equal Then
-    '                                    'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-    '                                    gv1.Rows(dblrows).IsVisible = False
-    '                                Else
-    '                                    gv1.Rows(dblrows).IsVisible = True
-    '                                End If
-
-    '                            ElseIf rbtnEvening.IsChecked Then
-    '                                If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), "Morning") = CompairStringResult.Equal Then
-    '                                    'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-    '                                    gv1.Rows(dblrows).IsVisible = False
-    '                                Else
-    '                                    gv1.Rows(dblrows).IsVisible = True
-    '                                End If
-    '                            Else
-    '                                gv1.Rows(dblrows).IsVisible = True
-    '                            End If
-    '                            If rbtn_Fresh.IsChecked Then
-    '                                If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal Then
-    '                                    gv1.Columns(dblcolumns).IsVisible = True
-    '                                Else
-    '                                    'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-    '                                    gv1.Columns(dblcolumns).IsVisible = False
-    '                                End If
-    '                            ElseIf rbtn_Ambient.IsChecked Then
-    '                                If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Ambient") = CompairStringResult.Equal Then
-    '                                    gv1.Columns(dblcolumns).IsVisible = True
-    '                                Else
-    '                                    'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
-    '                                    gv1.Columns(dblcolumns).IsVisible = False
-    '                                End If
-    '                            Else
-    '                                gv1.Columns(dblcolumns).IsVisible = True
-    '                            End If
-    '                        End If
-    '                    End If
-    '                Next
-    '            End If
-
-    '        Next
-    '        isLoadData = False
-    '        UpdateAllTotals()
-    '    Catch ex As Exception
-    '        Throw New Exception(ex.Message)
-    '    Finally
-    '        isLoadData = False
-    '    End Try
-    'End Sub
     Private Sub HideUnhideRowsAndColumnsOFGrid()
         Try
             isLoadData = True
-            'Dim TotalCount As Decimal = 0
-            'Dim TotalPAmt As Decimal = 0
-            'Dim TotalCeart As Decimal = 0
-            'Dim TotalMAmt As Decimal = 0
-            'Dim TotalLiter As Decimal = 0
+
             Dim dblTotalCount As Decimal = 0
             Dim dblTotalPAmt As Decimal = 0
             Dim dblTotalCeart As Decimal = 0
@@ -1963,8 +1835,6 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             k = 1
             strItemValueExist = "No"
             strItemUpdateAfterSave = "No"
-            ' For dblcolumns As Integer = 6 To gv1.Columns.Count - 4
-            'Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
             k = k + 1
             If obj1 IsNot Nothing Then
@@ -2239,7 +2109,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         Try
             UpdateAllTotals()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2297,7 +2167,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2417,18 +2287,18 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
 
         Dim desc As String = Nothing
         Try
-
             If (myMessages.postConfirm()) Then
-                ' SaveData()
-                If (clsDemandBookingSale.PostData(MyBase.Form_ID, txtDocNo.Value)) Then
-
+                If rbtnMorningEveningBoth.IsChecked Then
+                    Throw New Exception("Please select morning/evening")
+                End If
+                If (clsDemandBookingSale.PostData(MyBase.Form_ID, txtDocNo.Value, IIf(rbtnMorning.IsChecked, 1, 2))) Then
                     msg = "Successfully posted"
-                    common.clsCommon.MyMessageBoxShow(msg)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             msg = Nothing
             qry = Nothing
@@ -2442,7 +2312,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 HideUnhideRowsAndColumnsOFGrid()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2453,7 +2323,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 HideUnhideRowsAndColumnsOFGrid()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2465,7 +2335,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             txtPCount.Text = ""
             txtPAmt.Text = ""
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2475,20 +2345,20 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 HideUnhideRowsAndColumnsOFGrid()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub Btn_TruckSheet_Click(sender As Object, e As EventArgs) Handles btn_TruckSheet.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select document", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select document", Me.Text)
                 txtDocNo.Focus()
                 Exit Sub
             End If
 
             If rbtnMorningEveningBoth.IsChecked = True Then
-                common.clsCommon.MyMessageBoxShow("Please select Morning/Evening Shift", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Morning/Evening Shift", Me.Text)
                 rbtnMorning.Focus()
                 Exit Sub
             End If
@@ -2575,7 +2445,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             btn_TruckSheet.Enabled = False
             btn_TSCancel.Enabled = True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2601,7 +2471,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim dtDataExistProduct As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name)) AS Size from " + ItemInUseProduct)
 
             If (dtDataExist Is Nothing OrElse dtDataExist.Rows.Count = 0) AndAlso (dtDataExistProduct Is Nothing OrElse dtDataExistProduct.Rows.Count = 0) Then
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
 
@@ -2935,7 +2805,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             transportSql.exportdata(GVTruckSheet, "", "Truck Sheet", , arrHeader, False, False, True)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(GVTruckSheet)
         End Try
@@ -2964,7 +2834,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim dtDataExistProduct As DataTable = clsDBFuncationality.GetDataTable("select distinct isnull(TSPL_ITEM_MASTER.Alies_Name_Hindi,'')  Alies_Name,sku_seq,SUBSTRING(TSPL_ITEM_MASTER.Alies_Name, LEN(TSPL_ITEM_MASTER.Alies_Name) -  CHARINDEX(' ', REVERSE(TSPL_ITEM_MASTER.Alies_Name))+2,LEN(TSPL_ITEM_MASTER.Alies_Name)) AS Size from " + ItemInUseProduct)
 
             If (dtDataExist Is Nothing OrElse dtDataExist.Rows.Count = 0) AndAlso (dtDataExistProduct Is Nothing OrElse dtDataExistProduct.Rows.Count = 0) Then
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
                 Exit Sub
             End If
 
@@ -3396,7 +3266,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
 
         Catch ex As Exception
             doc = Nothing
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(GVTruckSheet)
         End Try
@@ -3406,12 +3276,12 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
     Private Sub Btn_Gatepass_Click(sender As Object, e As EventArgs) Handles btn_Gatepass.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select document", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select document", Me.Text)
                 txtDocNo.Focus()
                 Exit Sub
             End If
             If rbtnMorningEveningBoth.IsChecked = True Then
-                common.clsCommon.MyMessageBoxShow("Please select Morning/Evening Shift", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Morning/Evening Shift", Me.Text)
                 rbtnMorning.Focus()
                 Exit Sub
             End If
@@ -3495,7 +3365,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             btn_Gatepass.Enabled = False
             btn_GPCancel.Enabled = True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Shared Sub PrintGatePass(ByVal StrFormType As String, ByVal StrDocCode As String, ByVal StrShift As String)
@@ -3546,7 +3416,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             If clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0 Then
 
                 If rbtnMorningEveningBoth.IsChecked = True Then
-                    common.clsCommon.MyMessageBoxShow("Please select Morning/Evening Shift", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Morning/Evening Shift", Me.Text)
                     rbtnMorning.Focus()
                     Exit Sub
                 End If
@@ -3564,7 +3434,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
 
                 Dim StrQry As String = "update TSPL_DEMAND_BOOKING_DETAIL set IsGatePassGenerated='N',GPCode='' where document_no='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'"
                 If clsDBFuncationality.ExecuteNonQuery(StrQry) Then
-                    common.clsCommon.MyMessageBoxShow("Gate Pass Cancel Successfully", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Gate Pass Cancel Successfully", Me.Text)
                     btn_Gatepass.Enabled = True
                     btn_GPCancel.Enabled = False
                     'LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -3584,14 +3454,14 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             If clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0 Then
 
                 If rbtnMorningEveningBoth.IsChecked = True Then
-                    common.clsCommon.MyMessageBoxShow("Please select Morning/Evening Shift", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select Morning/Evening Shift", Me.Text)
                     rbtnMorning.Focus()
                     Exit Sub
                 End If
 
                 Dim StrQry As String = "update TSPL_DEMAND_BOOKING_DETAIL set IsTruckSheetGenerated='N' where document_no='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'"
                 If clsDBFuncationality.ExecuteNonQuery(StrQry) Then
-                    common.clsCommon.MyMessageBoxShow("Truck Sheet Cancel Successfully", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Truck Sheet Cancel Successfully", Me.Text)
                     btn_TruckSheet.Enabled = True
                     SplitButtonTruckSheet.Enabled = True
                     btn_TSCancel.Enabled = False
@@ -3608,37 +3478,19 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         Try
             If e.Column.Index >= 7 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
                 ' If isLoadData = False Then
-                If (chkEveningGatepassTruckSheetGenerated.Checked = True) And clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colShiftName).Value), "Evening ") = CompairStringResult.Equal Then
+                If (chkEveningGatepassTruckSheetGenerated.Checked OrElse chkEveningPosted.Checked) And clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colShiftName).Value), "Evening ") = CompairStringResult.Equal Then
                     gv1.CurrentRow.Cells(e.ColumnIndex).ReadOnly = True
                 End If
-                If (chkMorningGatepassTruckSheetGenerated.Checked = True) And clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colShiftName).Value), "Morning ") = CompairStringResult.Equal Then
+                If (chkMorningGatepassTruckSheetGenerated.Checked OrElse chkMorningPosted.Checked) And clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colShiftName).Value), "Morning ") = CompairStringResult.Equal Then
                     gv1.CurrentRow.Cells(e.ColumnIndex).ReadOnly = True
                 End If
                 e.CellElement.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-
             End If
-
-
         Catch ex As Exception
         End Try
     End Sub
 
-    'Private Sub gv1_PrintCellPaint(sender As Object, e As PrintCellPaintEventArgs) Handles gv1.PrintCellPaint
-    '    If e.Row.Index >= 0 Then
-    '        Dim cell As GridViewCellInfo = gv1.Rows(e.Row.Index).Cells(e.Column.Index)
 
-    '        If cell.Style.BorderTopColor = Color.Transparent Then
-    '            e.Graphics.DrawLine(Pens.White, New Point(e.CellRect.Left + 1, e.CellRect.Top), New Point(e.CellRect.Right - 1, e.CellRect.Top))
-    '        End If
-    '        If cell.Style.BorderLeftColor = Color.Transparent Then
-    '            e.Graphics.DrawLine(Pens.White, New Point(e.CellRect.Left, e.CellRect.Top), New Point(e.CellRect.Left - 1, e.CellRect.Bottom))
-    '        End If
-    '        If cell.Style.ForeColor = Color.Transparent Then
-    '            Dim r As New Rectangle(e.CellRect.X + 1, e.CellRect.Y + 1, e.CellRect.Width - 2, e.CellRect.Height - 2)
-    '            e.Graphics.FillRectangle(Brushes.White, r)
-    '        End If
-    '    End If
-    'End Sub
     Private Sub MergeHorizontally(radGridView As RadGridView, startColumnIndex As Integer, endColumnIndex As Integer)
         For Each item As GridViewRowInfo In radGridView.Rows
             For i As Integer = startColumnIndex To endColumnIndex - 1
@@ -3764,7 +3616,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
 
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -3780,13 +3632,13 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
     Private Sub TruckSheet(ByVal exporter As EnumExportTo)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select document", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select document", Me.Text)
                 txtDocNo.Focus()
                 Exit Sub
             End If
 
             If rbtnMorningEveningBoth.IsChecked = True Then
-                common.clsCommon.MyMessageBoxShow("Please select Morning/Evening Shift", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Morning/Evening Shift", Me.Text)
                 rbtnMorning.Focus()
                 Exit Sub
             End If
@@ -3802,7 +3654,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             SplitButtonTruckSheet.Enabled = False
             btn_TSCancel.Enabled = True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
