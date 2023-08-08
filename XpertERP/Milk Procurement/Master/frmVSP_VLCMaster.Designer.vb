@@ -32,6 +32,7 @@ Partial Class frmVSP_VLCMaster
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadPrintWatermark1 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.lblMCCName = New common.Controls.MyLabel()
@@ -88,9 +89,9 @@ Partial Class frmVSP_VLCMaster
         Me.lblCompanyBank = New common.Controls.MyTextBox()
         Me.MyLabel44 = New common.Controls.MyLabel()
         Me.gbBank2Details = New System.Windows.Forms.GroupBox()
-        Me.findfndbankcode2 = New common.UserControls.txtFinder()
         Me.txtIFSCCode2 = New common.Controls.MyTextBox()
         Me.MyLabel26 = New common.Controls.MyLabel()
+        Me.findfndbankcode2 = New common.UserControls.txtFinder()
         Me.findTxtIFSCCode2 = New common.UserControls.txtFinder()
         Me.fndbankcode2 = New common.Controls.MyTextBox()
         Me.MyLabel31 = New common.Controls.MyLabel()
@@ -107,11 +108,9 @@ Partial Class frmVSP_VLCMaster
         Me.MyLabel36 = New common.Controls.MyLabel()
         Me.MyLabel37 = New common.Controls.MyLabel()
         Me.txtCredit2 = New common.Controls.MyTextBox()
-        Me.TxtIFSCCode = New common.Controls.MyTextBox()
-        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.findfndbankcode = New common.UserControls.txtFinder()
-        Me.findTxtIFSCCode = New common.UserControls.txtFinder()
         Me.fndbankcode = New common.Controls.MyTextBox()
+        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.TxtSecurityCharges = New common.Controls.MyTextBox()
         Me.cmbAccountType = New common.Controls.MyComboBox()
@@ -127,6 +126,8 @@ Partial Class frmVSP_VLCMaster
         Me.RadLabel30 = New common.Controls.MyLabel()
         Me.txtCredit = New common.Controls.MyTextBox()
         Me.GroupBox5 = New System.Windows.Forms.GroupBox()
+        Me.TxtIFSCCode = New common.Controls.MyTextBox()
+        Me.findTxtIFSCCode = New common.UserControls.txtFinder()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.txtVidhanSabha = New common.UserControls.txtFinder()
         Me.lblVidhanSabha = New common.Controls.MyLabel()
@@ -301,6 +302,7 @@ Partial Class frmVSP_VLCMaster
         Me.DtpEndBillingDate = New common.Controls.MyDateTimePicker()
         Me.DtpBillingDate = New common.Controls.MyDateTimePicker()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.ClsMyPrintDocument1 = New XpertERPEngine.clsMyPrintDocument()
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -368,9 +370,8 @@ Partial Class frmVSP_VLCMaster
         CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCredit2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtIFSCCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.fndbankcode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtSecurityCharges, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbAccountType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -385,6 +386,8 @@ Partial Class frmVSP_VLCMaster
         CType(Me.lblbankcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel30, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCredit, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox5.SuspendLayout()
+        CType(Me.TxtIFSCCode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
         CType(Me.lblVidhanSabha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1405,9 +1408,7 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage2.Controls.Add(Me.lblCompanyBank)
         Me.RadPageViewPage2.Controls.Add(Me.MyLabel44)
         Me.RadPageViewPage2.Controls.Add(Me.gbBank2Details)
-        Me.RadPageViewPage2.Controls.Add(Me.TxtIFSCCode)
         Me.RadPageViewPage2.Controls.Add(Me.findfndbankcode)
-        Me.RadPageViewPage2.Controls.Add(Me.findTxtIFSCCode)
         Me.RadPageViewPage2.Controls.Add(Me.fndbankcode)
         Me.RadPageViewPage2.Controls.Add(Me.MyLabel16)
         Me.RadPageViewPage2.Controls.Add(Me.TxtSecurityCharges)
@@ -1442,7 +1443,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtCompanyBank.IsSourceFromTable = False
         Me.txtCompanyBank.IsSourceFromValueList = False
         Me.txtCompanyBank.IsUnique = False
-        Me.txtCompanyBank.Location = New System.Drawing.Point(117, 277)
+        Me.txtCompanyBank.Location = New System.Drawing.Point(114, 275)
         Me.txtCompanyBank.MendatroryField = False
         Me.txtCompanyBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCompanyBank.MyLinkLable1 = Nothing
@@ -1495,8 +1496,8 @@ Partial Class frmVSP_VLCMaster
         '
         'gbBank2Details
         '
-        Me.gbBank2Details.Controls.Add(Me.findfndbankcode2)
         Me.gbBank2Details.Controls.Add(Me.txtIFSCCode2)
+        Me.gbBank2Details.Controls.Add(Me.findfndbankcode2)
         Me.gbBank2Details.Controls.Add(Me.findTxtIFSCCode2)
         Me.gbBank2Details.Controls.Add(Me.fndbankcode2)
         Me.gbBank2Details.Controls.Add(Me.MyLabel31)
@@ -1520,6 +1521,40 @@ Partial Class frmVSP_VLCMaster
         Me.gbBank2Details.TabIndex = 316
         Me.gbBank2Details.TabStop = False
         Me.gbBank2Details.Text = "Bank 2 Details"
+        '
+        'txtIFSCCode2
+        '
+        Me.txtIFSCCode2.CalculationExpression = Nothing
+        Me.txtIFSCCode2.FieldCode = Nothing
+        Me.txtIFSCCode2.FieldDesc = Nothing
+        Me.txtIFSCCode2.FieldMaxLength = 0
+        Me.txtIFSCCode2.FieldName = Nothing
+        Me.txtIFSCCode2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtIFSCCode2.isCalculatedField = False
+        Me.txtIFSCCode2.IsSourceFromTable = False
+        Me.txtIFSCCode2.IsSourceFromValueList = False
+        Me.txtIFSCCode2.IsUnique = False
+        Me.txtIFSCCode2.Location = New System.Drawing.Point(115, 68)
+        Me.txtIFSCCode2.MaxLength = 50
+        Me.txtIFSCCode2.MendatroryField = False
+        Me.txtIFSCCode2.MyLinkLable1 = Me.MyLabel26
+        Me.txtIFSCCode2.MyLinkLable2 = Nothing
+        Me.txtIFSCCode2.Name = "txtIFSCCode2"
+        Me.txtIFSCCode2.ReferenceFieldDesc = Nothing
+        Me.txtIFSCCode2.ReferenceFieldName = Nothing
+        Me.txtIFSCCode2.ReferenceTableName = Nothing
+        Me.txtIFSCCode2.Size = New System.Drawing.Size(211, 18)
+        Me.txtIFSCCode2.TabIndex = 76
+        '
+        'MyLabel26
+        '
+        Me.MyLabel26.FieldName = Nothing
+        Me.MyLabel26.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel26.Location = New System.Drawing.Point(332, 45)
+        Me.MyLabel26.Name = "MyLabel26"
+        Me.MyLabel26.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel26.TabIndex = 71
+        Me.MyLabel26.Text = "Bank Name"
         '
         'findfndbankcode2
         '
@@ -1547,40 +1582,6 @@ Partial Class frmVSP_VLCMaster
         Me.findfndbankcode2.TabIndex = 77
         Me.findfndbankcode2.Value = ""
         '
-        'txtIFSCCode2
-        '
-        Me.txtIFSCCode2.CalculationExpression = Nothing
-        Me.txtIFSCCode2.FieldCode = Nothing
-        Me.txtIFSCCode2.FieldDesc = Nothing
-        Me.txtIFSCCode2.FieldMaxLength = 0
-        Me.txtIFSCCode2.FieldName = Nothing
-        Me.txtIFSCCode2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtIFSCCode2.isCalculatedField = False
-        Me.txtIFSCCode2.IsSourceFromTable = False
-        Me.txtIFSCCode2.IsSourceFromValueList = False
-        Me.txtIFSCCode2.IsUnique = False
-        Me.txtIFSCCode2.Location = New System.Drawing.Point(114, 68)
-        Me.txtIFSCCode2.MaxLength = 50
-        Me.txtIFSCCode2.MendatroryField = False
-        Me.txtIFSCCode2.MyLinkLable1 = Me.MyLabel26
-        Me.txtIFSCCode2.MyLinkLable2 = Nothing
-        Me.txtIFSCCode2.Name = "txtIFSCCode2"
-        Me.txtIFSCCode2.ReferenceFieldDesc = Nothing
-        Me.txtIFSCCode2.ReferenceFieldName = Nothing
-        Me.txtIFSCCode2.ReferenceTableName = Nothing
-        Me.txtIFSCCode2.Size = New System.Drawing.Size(211, 18)
-        Me.txtIFSCCode2.TabIndex = 76
-        '
-        'MyLabel26
-        '
-        Me.MyLabel26.FieldName = Nothing
-        Me.MyLabel26.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel26.Location = New System.Drawing.Point(332, 45)
-        Me.MyLabel26.Name = "MyLabel26"
-        Me.MyLabel26.Size = New System.Drawing.Size(65, 16)
-        Me.MyLabel26.TabIndex = 71
-        Me.MyLabel26.Text = "Bank Name"
-        '
         'findTxtIFSCCode2
         '
         Me.findTxtIFSCCode2.CalculationExpression = Nothing
@@ -1592,7 +1593,7 @@ Partial Class frmVSP_VLCMaster
         Me.findTxtIFSCCode2.IsSourceFromTable = False
         Me.findTxtIFSCCode2.IsSourceFromValueList = False
         Me.findTxtIFSCCode2.IsUnique = False
-        Me.findTxtIFSCCode2.Location = New System.Drawing.Point(114, 67)
+        Me.findTxtIFSCCode2.Location = New System.Drawing.Point(114, 66)
         Me.findTxtIFSCCode2.MendatroryField = False
         Me.findTxtIFSCCode2.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findTxtIFSCCode2.MyLinkLable1 = Nothing
@@ -1878,40 +1879,6 @@ Partial Class frmVSP_VLCMaster
         Me.txtCredit2.Text = "0.00"
         Me.txtCredit2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'TxtIFSCCode
-        '
-        Me.TxtIFSCCode.CalculationExpression = Nothing
-        Me.TxtIFSCCode.FieldCode = Nothing
-        Me.TxtIFSCCode.FieldDesc = Nothing
-        Me.TxtIFSCCode.FieldMaxLength = 0
-        Me.TxtIFSCCode.FieldName = Nothing
-        Me.TxtIFSCCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtIFSCCode.isCalculatedField = False
-        Me.TxtIFSCCode.IsSourceFromTable = False
-        Me.TxtIFSCCode.IsSourceFromValueList = False
-        Me.TxtIFSCCode.IsUnique = False
-        Me.TxtIFSCCode.Location = New System.Drawing.Point(117, 60)
-        Me.TxtIFSCCode.MaxLength = 50
-        Me.TxtIFSCCode.MendatroryField = False
-        Me.TxtIFSCCode.MyLinkLable1 = Me.MyLabel15
-        Me.TxtIFSCCode.MyLinkLable2 = Nothing
-        Me.TxtIFSCCode.Name = "TxtIFSCCode"
-        Me.TxtIFSCCode.ReferenceFieldDesc = Nothing
-        Me.TxtIFSCCode.ReferenceFieldName = Nothing
-        Me.TxtIFSCCode.ReferenceTableName = Nothing
-        Me.TxtIFSCCode.Size = New System.Drawing.Size(211, 18)
-        Me.TxtIFSCCode.TabIndex = 57
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(335, 37)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(65, 16)
-        Me.MyLabel15.TabIndex = 52
-        Me.MyLabel15.Text = "Bank Name"
-        '
         'findfndbankcode
         '
         Me.findfndbankcode.CalculationExpression = Nothing
@@ -1938,32 +1905,6 @@ Partial Class frmVSP_VLCMaster
         Me.findfndbankcode.TabIndex = 58
         Me.findfndbankcode.Value = ""
         '
-        'findTxtIFSCCode
-        '
-        Me.findTxtIFSCCode.CalculationExpression = Nothing
-        Me.findTxtIFSCCode.FieldCode = Nothing
-        Me.findTxtIFSCCode.FieldDesc = Nothing
-        Me.findTxtIFSCCode.FieldMaxLength = 0
-        Me.findTxtIFSCCode.FieldName = Nothing
-        Me.findTxtIFSCCode.isCalculatedField = False
-        Me.findTxtIFSCCode.IsSourceFromTable = False
-        Me.findTxtIFSCCode.IsSourceFromValueList = False
-        Me.findTxtIFSCCode.IsUnique = False
-        Me.findTxtIFSCCode.Location = New System.Drawing.Point(117, 59)
-        Me.findTxtIFSCCode.MendatroryField = False
-        Me.findTxtIFSCCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.findTxtIFSCCode.MyLinkLable1 = Nothing
-        Me.findTxtIFSCCode.MyLinkLable2 = Nothing
-        Me.findTxtIFSCCode.MyReadOnly = False
-        Me.findTxtIFSCCode.MyShowMasterFormButton = False
-        Me.findTxtIFSCCode.Name = "findTxtIFSCCode"
-        Me.findTxtIFSCCode.ReferenceFieldDesc = Nothing
-        Me.findTxtIFSCCode.ReferenceFieldName = Nothing
-        Me.findTxtIFSCCode.ReferenceTableName = Nothing
-        Me.findTxtIFSCCode.Size = New System.Drawing.Size(211, 19)
-        Me.findTxtIFSCCode.TabIndex = 59
-        Me.findTxtIFSCCode.Value = ""
-        '
         'fndbankcode
         '
         Me.fndbankcode.CalculationExpression = Nothing
@@ -1987,6 +1928,16 @@ Partial Class frmVSP_VLCMaster
         Me.fndbankcode.ReferenceTableName = Nothing
         Me.fndbankcode.Size = New System.Drawing.Size(211, 18)
         Me.fndbankcode.TabIndex = 56
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(335, 37)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel15.TabIndex = 52
+        Me.MyLabel15.Text = "Bank Name"
         '
         'MyLabel16
         '
@@ -2237,12 +2188,64 @@ Partial Class frmVSP_VLCMaster
         '
         'GroupBox5
         '
+        Me.GroupBox5.Controls.Add(Me.TxtIFSCCode)
+        Me.GroupBox5.Controls.Add(Me.findTxtIFSCCode)
         Me.GroupBox5.Location = New System.Drawing.Point(3, -3)
         Me.GroupBox5.Name = "GroupBox5"
         Me.GroupBox5.Size = New System.Drawing.Size(916, 132)
         Me.GroupBox5.TabIndex = 320
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Bank 1 Details"
+        '
+        'TxtIFSCCode
+        '
+        Me.TxtIFSCCode.CalculationExpression = Nothing
+        Me.TxtIFSCCode.FieldCode = Nothing
+        Me.TxtIFSCCode.FieldDesc = Nothing
+        Me.TxtIFSCCode.FieldMaxLength = 0
+        Me.TxtIFSCCode.FieldName = Nothing
+        Me.TxtIFSCCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtIFSCCode.isCalculatedField = False
+        Me.TxtIFSCCode.IsSourceFromTable = False
+        Me.TxtIFSCCode.IsSourceFromValueList = False
+        Me.TxtIFSCCode.IsUnique = False
+        Me.TxtIFSCCode.Location = New System.Drawing.Point(114, 62)
+        Me.TxtIFSCCode.MaxLength = 50
+        Me.TxtIFSCCode.MendatroryField = False
+        Me.TxtIFSCCode.MyLinkLable1 = Me.MyLabel15
+        Me.TxtIFSCCode.MyLinkLable2 = Nothing
+        Me.TxtIFSCCode.Name = "TxtIFSCCode"
+        Me.TxtIFSCCode.ReferenceFieldDesc = Nothing
+        Me.TxtIFSCCode.ReferenceFieldName = Nothing
+        Me.TxtIFSCCode.ReferenceTableName = Nothing
+        Me.TxtIFSCCode.Size = New System.Drawing.Size(211, 18)
+        Me.TxtIFSCCode.TabIndex = 57
+        '
+        'findTxtIFSCCode
+        '
+        Me.findTxtIFSCCode.CalculationExpression = Nothing
+        Me.findTxtIFSCCode.FieldCode = Nothing
+        Me.findTxtIFSCCode.FieldDesc = Nothing
+        Me.findTxtIFSCCode.FieldMaxLength = 0
+        Me.findTxtIFSCCode.FieldName = Nothing
+        Me.findTxtIFSCCode.isCalculatedField = False
+        Me.findTxtIFSCCode.IsSourceFromTable = False
+        Me.findTxtIFSCCode.IsSourceFromValueList = False
+        Me.findTxtIFSCCode.IsUnique = False
+        Me.findTxtIFSCCode.Location = New System.Drawing.Point(114, 63)
+        Me.findTxtIFSCCode.MendatroryField = False
+        Me.findTxtIFSCCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.findTxtIFSCCode.MyLinkLable1 = Nothing
+        Me.findTxtIFSCCode.MyLinkLable2 = Nothing
+        Me.findTxtIFSCCode.MyReadOnly = False
+        Me.findTxtIFSCCode.MyShowMasterFormButton = False
+        Me.findTxtIFSCCode.Name = "findTxtIFSCCode"
+        Me.findTxtIFSCCode.ReferenceFieldDesc = Nothing
+        Me.findTxtIFSCCode.ReferenceFieldName = Nothing
+        Me.findTxtIFSCCode.ReferenceTableName = Nothing
+        Me.findTxtIFSCCode.Size = New System.Drawing.Size(211, 19)
+        Me.findTxtIFSCCode.TabIndex = 59
+        Me.findTxtIFSCCode.Value = ""
         '
         'RadPageViewPage3
         '
@@ -5102,6 +5105,18 @@ Partial Class frmVSP_VLCMaster
         Me.RadMenu1.Size = New System.Drawing.Size(1078, 20)
         Me.RadMenu1.TabIndex = 0
         '
+        'ClsMyPrintDocument1
+        '
+        Me.ClsMyPrintDocument1.FooterFont = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ClsMyPrintDocument1.HeaderFont = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ClsMyPrintDocument1.LeftLowerFont = Nothing
+        Me.ClsMyPrintDocument1.LeftLowerText = Nothing
+        Me.ClsMyPrintDocument1.LeftMiddleFont = Nothing
+        Me.ClsMyPrintDocument1.LeftMiddleText = Nothing
+        Me.ClsMyPrintDocument1.LeftUpperFont = Nothing
+        Me.ClsMyPrintDocument1.LeftUpperText = Nothing
+        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark1
+        '
         'frmVSP_VLCMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5188,9 +5203,8 @@ Partial Class frmVSP_VLCMaster
         CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCredit2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtIFSCCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.fndbankcode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtSecurityCharges, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbAccountType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5205,6 +5219,9 @@ Partial Class frmVSP_VLCMaster
         CType(Me.lblbankcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel30, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCredit, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox5.ResumeLayout(False)
+        Me.GroupBox5.PerformLayout()
+        CType(Me.TxtIFSCCode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.RadPageViewPage3.PerformLayout()
         CType(Me.lblVidhanSabha, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5464,7 +5481,6 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents btnExportMultipleMaster As RadButton
     Friend WithEvents btnImportMultipleMaster As RadButton
     Friend WithEvents gbBank2Details As GroupBox
-    Friend WithEvents txtIFSCCode2 As common.Controls.MyTextBox
     Friend WithEvents MyLabel26 As common.Controls.MyLabel
     Friend WithEvents findfndbankcode2 As common.UserControls.txtFinder
     Friend WithEvents findTxtIFSCCode2 As common.UserControls.txtFinder
@@ -5646,5 +5662,7 @@ Partial Class frmVSP_VLCMaster
     Friend WithEvents lblMCCName As common.Controls.MyLabel
     Friend WithEvents ExportData As RadMenuItem
     Friend WithEvents ExportBlankSheet As RadMenuItem
+    Friend WithEvents ClsMyPrintDocument1 As clsMyPrintDocument
+    Friend WithEvents txtIFSCCode2 As common.Controls.MyTextBox
 End Class
 

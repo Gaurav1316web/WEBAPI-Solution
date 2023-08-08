@@ -16,11 +16,13 @@ Public Class frmDisplaySquenece
     Dim StrQuery As String = Nothing
     Dim IsInsideLoadData As Boolean = True
     Dim Prev As Integer = 0
-     Dim IsInsieLoadData As Boolean
+    Dim IsInsieLoadData As Boolean
+    Dim isSelected As Boolean = True
     Private Sub frmDisplaySquenece_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C for Closing The Window")
         SetUserMgmtNew()
         LoadModuleType()
+
     End Sub
 
 
@@ -70,6 +72,8 @@ Public Class frmDisplaySquenece
        Sub LoadBlankGrid()
         gv1.Rows.Clear()
         gv1.Columns.Clear()
+
+
         gv1.AllowAddNewRow = False
 
     End Sub
@@ -85,6 +89,24 @@ Public Class frmDisplaySquenece
         Me.gv1.MasterTemplate.Columns("Particlar Code").ReadOnly = True
         Me.gv1.MasterTemplate.Columns("Particlar Name").Width = 250    ''Third Column
         Me.gv1.MasterTemplate.Columns("Particlar Name").ReadOnly = True
+        If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Item") = CompairStringResult.Equal Then
+            Me.gv1.MasterTemplate.Columns("Display Demand").Width = 100
+            Me.gv1.MasterTemplate.Columns("Display Demand").ReadOnly = True
+            Me.gv1.MasterTemplate.Columns("Display Demand").IsVisible = True
+            If isSelected Then
+                Dim checkBoxColumn As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+                checkBoxColumn.HeaderText = ""
+                checkBoxColumn.Width = 30
+                checkBoxColumn.Name = "checkBoxColumn1"
+                checkBoxColumn.FieldName = "Display Demand"
+                gv1.Columns.Insert(0, checkBoxColumn)
+                isSelected = False
+            End If
+        ElseIf isSelected = False Then
+            gv1.Columns.RemoveAt(0)
+            isSelected = True
+
+        End If
 
         gv1.AllowAddNewRow = False
         gv1.AllowEditRow = True
@@ -141,7 +163,7 @@ Public Class frmDisplaySquenece
             IsInsieLoadData = True
             If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Item") = CompairStringResult.Equal Then
                 qry = "SELECT CAST(isnull(TSPL_ITEM_MASTER.Sku_Seq,0) as integer) as Sno ,TSPL_ITEM_MASTER.Item_code [Particlar Code] 
-                    ,TSPL_ITEM_MASTER.Alies_Name [Particlar Name] from TSPL_ITEM_MASTER
+                    ,TSPL_ITEM_MASTER.Alies_Name [Particlar Name],TSPL_ITEM_MASTER.Is_DisplayDemand as [Display Demand] from TSPL_ITEM_MASTER
                      ORDER BY TSPL_ITEM_MASTER.Sku_Seq  "
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Customer") = CompairStringResult.Equal Then
                 qry = "SELECT CAST(isnull(Display_Seq,0) as integer) as Sno ,tspl_customer_master.cust_code [Particlar Code] 
@@ -155,6 +177,7 @@ Public Class frmDisplaySquenece
                 gv1.DataSource = dt
                 For i As Int16 = 0 To gv1.Rows.Count - 1
                     gv1.Rows(i).Cells("Sno").Value = i + 1
+
                 Next
             End If
             IsInsieLoadData = False
@@ -209,7 +232,15 @@ Public Class frmDisplaySquenece
             qry = ""
             If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Item") = CompairStringResult.Equal Then
                 For irow As Integer = 0 To gv1.Rows.Count - 1
-                    qry = "update TSPL_ITEM_MASTER set Sku_Seq ='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Sno").Value) + "' where Item_code='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Particlar Code").Value) + "'"
+                    qry = "update TSPL_ITEM_MASTER set Sku_Seq ='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Sno").Value) + "'"
+                    qry += ", Is_DisplayDemand='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Display Demand").Value) + "' "
+                    'If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(irow).Cells("checkBoxColumn1").Value), "True") = CompairStringResult.Equal Then
+                    '    qry += ", Is_DisplayDemand=1 "
+                    'Else
+                    '    qry += ", Is_DisplayDemand=0 "
+
+                    'End If
+                    qry += " where Item_code='" + clsCommon.myCstr(gv1.Rows(irow).Cells("Particlar Code").Value) + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 Next
 

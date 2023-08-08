@@ -5971,7 +5971,7 @@ Public Class frmSaleReturnDairy
 
 
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name,Loc_Short_Name as [Short Name] from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = "  Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N'  "
+        Dim WhrCls As String = "  Location_Type='Physical' and Location_Category not in('MCC') and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N'  "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If

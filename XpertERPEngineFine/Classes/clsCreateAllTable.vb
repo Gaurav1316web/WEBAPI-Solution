@@ -2195,6 +2195,7 @@ Public Class clsCreateAllTable
             coll.Add("ApplyRoundingInStdProd", " integer not null default 0")
             coll.Add("RAL", "integer NUll")
             coll.Add("FG_for_CF", "integer not null default 0")
+            coll.Add("Is_DisplayDemand", "integer not NULL default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()

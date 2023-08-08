@@ -395,6 +395,10 @@ Public Class clsCustomerMaster
     Public Customer_Category As String = String.Empty
     Public Bank_Name As String
     Public IFSC_Code As String
+
+    'Public IFSCCode2 As String
+    'Public BankCode2 As String
+
     Public Branch_Name As String
     Public Account_No As String
     Public IsTCSnotApplicable As Integer = 0
@@ -670,6 +674,10 @@ Public Class clsCustomerMaster
                 clsCommon.AddColumnsForChange(coll, "Customer_Category", obj.Customer_Category, True)
                 clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name, True)
                 clsCommon.AddColumnsForChange(coll, "IFSC_Code", obj.IFSC_Code, True)
+
+                'clsCommon.AddColumnsForChange(coll, "BankCode2", obj.BankCode2, True)
+                'clsCommon.AddColumnsForChange(coll, "IFSCCode2", obj.IFSCCode2, True)
+
                 clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Branch_Name, True)
                 clsCommon.AddColumnsForChange(coll, "Account_No", obj.Account_No, True)
                 clsCommon.AddColumnsForChange(coll, "IsTCSnotApplicable", obj.IsTCSnotApplicable, True)
@@ -713,7 +721,7 @@ Public Class clsCustomerMaster
                         Msg += "Please Select only a Single DataBase"
                         Throw New Exception(Msg)
                     Else
-                        Dim arrDBName1 As New List(Of String)
+                        Dim arrDBName1 As New List(Of String)               
                         Dim dtDb As DataTable = clsDBFuncationality.GetDataTable("Select DataBase_Name  from TSPL_COMPANY_MASTER Where DataBase_Name not in (" + clsCommon.GetMulcallString(arrDBName) + ")", trans)
                         For Each drdb As DataRow In dtDb.Rows
                             arrDBName1.Add(clsCommon.myCstr(drdb("DataBase_Name")))

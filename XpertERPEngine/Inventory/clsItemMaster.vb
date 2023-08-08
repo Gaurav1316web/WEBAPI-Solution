@@ -58,6 +58,7 @@ Public Class clsItemMaster
     Public Is_Ambient As Boolean = False
     Public Tax_Exempted As Integer = 0
     Public Sku_Seq As Int64 = 0
+    Public Is_DisplayDemand As Boolean = False
     Public shelflife As String = Nothing
     Public Min_shelf_life As String = Nothing
     Public RemainingQtyToPurchase As Double = 0
@@ -1441,6 +1442,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Active", IIf(obj.Active, 1, 0))
             clsCommon.AddColumnsForChange(coll, "AlternativeItem", obj.AlternativeItem)
             clsCommon.AddColumnsForChange(coll, "Sku_Seq", clsCommon.myCdbl(obj.Sku_Seq))
+            clsCommon.AddColumnsForChange(coll, "Is_DisplayDemand", clsCommon.myCdbl(obj.Is_DisplayDemand))
             clsCommon.AddColumnsForChange(coll, "ItemSpecification", obj.ItemSpecification)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -1682,6 +1684,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Weight_UOM = clsCommon.myCstr(dt.Rows(0)("Weight_UOM"))
                 obj.Weight_Value = clsCommon.myCdbl(dt.Rows(0)("Weight_Value"))
                 obj.Sku_Seq = clsCommon.myCdbl(dt.Rows(0)("Sku_Seq"))
+                obj.Is_DisplayDemand = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_DisplayDemand")) = 1, True, False)
                 obj.ITFCode = clsCommon.myCstr(dt.Rows(0)("ITF_CODE"))
                 obj.Is_MRP = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_MRP")) = 1, True, False)
                 obj.AllowSRNWithoutShortReject = clsCommon.myCdbl(dt.Rows(0)("AllowSRNWithoutShortReject"))

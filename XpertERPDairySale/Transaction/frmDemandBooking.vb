@@ -657,6 +657,7 @@ Public Class frmDemandBooking
             SplitButtonTruckSheet.Enabled = False
             btn_TSCancel.Enabled = True
             btn_Gatepass.Enabled = False
+            btnPrint.Enabled = False
             btn_TSCancel.Enabled = False
             btn_GPCancel.Enabled = False
             txtcustomersearch.Text = ""
@@ -1054,6 +1055,7 @@ Public Class frmDemandBooking
                 btn_Gatepass.Enabled = False
                 btn_TSCancel.Enabled = False
                 btn_GPCancel.Enabled = False
+                btnPrint.Enabled = False
             Else
                 Dim strDocNoForGatePass As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & txtDocNo.Value & "' and ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "' and IsGatePassGenerated='Y'"))
                 Dim strDocNoForTrucksheet As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Document_No  from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & txtDocNo.Value & "' and ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "' and  IsTruckSheetGenerated ='Y'"))
@@ -1073,6 +1075,7 @@ Public Class frmDemandBooking
                     SplitButtonTruckSheet.Enabled = True
                     btn_TSCancel.Enabled = False
                 End If
+                btnPrint.Enabled = True
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -1876,7 +1879,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
 
                     End If
 
-                    End If
+                End If
 
             Next
             For dblcolumns As Integer = 7 To gv1.Columns.Count - 8
@@ -2774,7 +2777,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
     pivot (  sum(TotalLtr_ItemWise) for Alies_Name#L in (" + strItemL + ") ) as zpivotLtr_ItemWise
     pivot (  sum(TotalAmt_ItemWise) for Alies_Name#A in (" + strItemA + ") ) as zpivotAmt_ItemWise "
             ElseIf rbtn_Ambient.IsChecked = True Then
-                    Qry += " pivot (  sum(TotalAmt_ItemWise) for Alies_Name#A in (" + strItemA + ") ) as zpivotAmt_ItemWise
+                Qry += " pivot (  sum(TotalAmt_ItemWise) for Alies_Name#A in (" + strItemA + ") ) as zpivotAmt_ItemWise
     pivot (  sum(ProdQ) for Alies_Name#ProdQ in (" + strProdQ + ") ) as zpivotProdQ "
             End If
 
@@ -3734,8 +3737,8 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
 
 
                 Dim qry As String = ""
-                        Dim strCustomerDesc As String = ""
-                        Dim strCustomerCode As String = ""
+                Dim strCustomerDesc As String = ""
+                Dim strCustomerCode As String = ""
                 ' Dim strCustomer = clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value)
 
                 Dim strCustomer = clsCommon.myCstr(gv1.Rows(jj).Cells(colCustName).Value).ToLower()
@@ -3806,7 +3809,58 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         End Try
     End Sub
 
+    Private Sub btnPrint1_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            myMessages.blankValue("Booking not found to Print")
+        End If
+        Dim ShiftType As String = ""
+        Dim Previous_Shift As String = ""
+        Dim Previous_Date As String
+        If rbtnEvening.IsChecked = True Then
+            ShiftType = "Evening"
+            Previous_Shift = "Morning"
+            Previous_Date = txtDate.Value
+        Else
+            ShiftType = "Morning"
+            Previous_Shift = "Evening"
+            Previous_Date = clsDBFuncationality.getSingleValue("select CONVERT(varchar, DATEADD(DAY, -1, convert(Nvarchar, '" & txtDate.Value & "' ,112)),21) as Previous_Date")
+        End If
+        Dim Comp_Name As String = clsDBFuncationality.getSingleValue("select Comp_Name from TSPL_COMPANY_MASTER where Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'")
 
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("Please select Booking No")
+            End If
+            Dim qry As String = "	Select * from(Select tmp.Cust_Code, Sum([TM500ML])[TM500ML],Sum([DTM 500 Ml])[DTM 500 ML], Sum([SM 500 ML])[SM 500 ML] ,Sum([GOLD 500 Ml])[GOLD 500 ML],
+	        SUM([DTM 200 Ml])[DTM 200 ML] , Sum([TM 1Ltr])[TM 1Ltr],SUM ([PCHCH 500])[PCHCH 500],SUM ([TM (CS 1 Ltr)])[TM (CS 1 Ltr)] , Sum([TM 6Ltr])[TM 6Ltr],
+	        SUM([DTM 6L])[DTM 6L] , Sum([GOLD 6Ltr])[GOLD 6Ltr],SUM ([SKIM 6Ltr])[SKIM 6Ltr] , Sum([SM 6LTR])[SM 6LTR],
+	        ShiftType , sum(ItemNetAmount) as Total_Amt , Sum(tmp.TotalCrates_ItemWise)TotalCrates_ItemWise	,CONVERT(VARCHAR,GETDATE(),105) As Date, '" & Comp_Name & "' as Comp_Name, '" & txtRouteNo.Value & "' as Route_No
+	        , '" & lblTransporterName.Text & "' as transporter_name , '" & lblVehicleNo.Text & "' as Description from
+	        (SELECT Cust_Code  , IsNull([TM500ML],0)[TM500ML], isnull([DTM 500 Ml],0)[DTM 500 ML], ISNULL([SM 500 ML],0)[SM 500 ML] ,IsNull([GOLD 500 Ml],0)[GOLD 500 ML] ,
+	        IsNull([DTM 200 Ml],0)[DTM 200 ML], IsNull([TM 1Ltr],0)[TM 1Ltr], IsNull([PCHCH 500],0)[PCHCH 500], IsNull([TM (CS 1 Ltr)],0)[TM (CS 1 Ltr)] , IsNull([TM 6Ltr],0)[TM 6Ltr],IsNull([DTM 6L],0)[DTM 6L],
+	        IsNull([GOLD 6Ltr],0)[GOLD 6Ltr], IsNull([SKIM 6Ltr],0)[SKIM 6Ltr] , IsNull([SM 6LTR],0)[SM 6LTR] , ShiftType , ItemNetAmount , TotalCrates_ItemWise FROM
+	        (SELECT Cust_Code,Qty, ShiftType,ItemNetAmount , TotalCrates_ItemWise , short_description FROM TSPL_DEMAND_BOOKING_DETAIL
+	        left outer join tspl_item_master on  TSPL_DEMAND_BOOKING_DETAIL.item_code=tspl_item_master.item_code  
+	        where ShiftType = '" & ShiftType & "' and Document_No = '" & txtDocNo.Value & "' 
+	        )tab1
+	        PIVOT(SUM(qty) FOR short_description IN ([TM500ML],[DTM 500 ML],[SM 500 ML],[GOLD 500 ML] ,[DTM 200 ML],[TM 1Ltr],[PCHCH 500],[TM (CS 1 Ltr)],[TM 6Ltr],[DTM 6L],
+	        [GOLD 6Ltr],[SKIM 6Ltr],[SM 6LTR])) AS Tab2 )tmp
+	        group by tmp.Cust_Code,tmp.ShiftType)As tmp1
+	        left outer join 
+	        (select Cust_Code as Code,Sum(Isnull(TotalCrates_ItemWise,0))Previous_Shift_Crate from TSPL_DEMAND_BOOKING_DETAIL
+            left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No
+            where TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" & Previous_Shift & "'  and Document_Date = '" & Previous_Date & "' and TSPL_DEMAND_BOOKING_MASTER.Document_No = '" & txtDocNo.Value & "'
+	        Group By Cust_Code)as Previous ON Previous.Code=tmp1.Cust_Code order by Cust_Code"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim frmCRV As New frmCrystalReportViewer()
+            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
+            frmCRV = Nothing
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+
+    End Sub
 End Class
 
 Public Class ItemValueClass
