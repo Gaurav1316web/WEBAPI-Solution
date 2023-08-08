@@ -747,7 +747,7 @@ Partial Class frmCustomer
         Me.pageCus.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.pvpCustomFields
+        Me.pageCus.SelectedPage = Me.RadPageViewPage1
         Me.pageCus.Size = New System.Drawing.Size(1047, 472)
         Me.pageCus.TabIndex = 12
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -818,9 +818,9 @@ Partial Class frmCustomer
         Me.RadPageViewPage1.Controls.Add(Me.lblCusGrp)
         Me.RadPageViewPage1.Controls.Add(Me.txtCusgrp)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1026, 430)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1026, 424)
         Me.RadPageViewPage1.Text = "Address"
         '
         'CboCustomerStatus
@@ -2002,9 +2002,9 @@ Partial Class frmCustomer
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel13)
         Me.RadPageViewPage2.Controls.Add(Me.txtContactName)
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(92.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1026, 430)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1026, 424)
         Me.RadPageViewPage2.Text = "Contact Person"
         '
         'txtResidentialAdd2
@@ -2535,7 +2535,7 @@ Partial Class frmCustomer
         '
         Me.RadLabel16.FieldName = Nothing
         Me.RadLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel16.Location = New System.Drawing.Point(8, 76)
+        Me.RadLabel16.Location = New System.Drawing.Point(9, 60)
         Me.RadLabel16.Name = "RadLabel16"
         Me.RadLabel16.Size = New System.Drawing.Size(25, 16)
         Me.RadLabel16.TabIndex = 81
@@ -4515,9 +4515,9 @@ Partial Class frmCustomer
         Me.RadPageViewPage5.Controls.Add(Me.RadLabel39)
         Me.RadPageViewPage5.Controls.Add(Me.txtRemarks1)
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(93.0!, 28.0!)
-        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(1026, 430)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1026, 424)
         Me.RadPageViewPage5.Text = "Additional Info."
         '
         'RadGroupBox4
