@@ -1244,6 +1244,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptCompanyAddress.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptCPDPriceMaster.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptCSADeliverySale.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptDemandBooking.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDispatchBulkSale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDSBoking.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptFormA2MT.rpt" />

@@ -2484,6 +2484,7 @@ Public Class clsUserMgtCode
     Public Const frmNotepadFileMatching As String = "NOT-MIS-MAT"
     Public Const frmDemandBooking As String = "DEM_BOO_TRN"
     Public Const frmDemandAdjustment As String = "DEM-ADJ-TRN"
+    Public Const frmDemandApproval As String = "DEM-APR-TRN"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean
