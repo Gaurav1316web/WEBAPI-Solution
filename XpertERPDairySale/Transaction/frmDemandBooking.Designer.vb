@@ -94,6 +94,7 @@ Partial Class frmDemandBooking
         Me.btnAssessment = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnreverse = New Telerik.WinControls.UI.RadButton()
@@ -176,6 +177,7 @@ Partial Class frmDemandBooking
         CType(Me.btnAssessment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -1049,6 +1051,7 @@ Partial Class frmDemandBooking
         Me.SplitPanel2.Controls.Add(Me.btnAssessment)
         Me.SplitPanel2.Controls.Add(Me.btnPost)
         Me.SplitPanel2.Controls.Add(Me.btnDelete)
+        Me.SplitPanel2.Controls.Add(Me.btnPrint)
         Me.SplitPanel2.Controls.Add(Me.btnClose)
         Me.SplitPanel2.Controls.Add(Me.btnSave)
         Me.SplitPanel2.Controls.Add(Me.btnreverse)
@@ -1158,6 +1161,17 @@ Partial Class frmDemandBooking
         Me.btnDelete.TabIndex = 13
         Me.btnDelete.Text = "Delete"
         '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(224, 11)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(69, 20)
+        Me.btnPrint.TabIndex = 14
+        Me.btnPrint.Text = "Print"
+
+        '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -1165,7 +1179,7 @@ Partial Class frmDemandBooking
         Me.btnClose.Location = New System.Drawing.Point(1052, 11)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 20)
-        Me.btnClose.TabIndex = 14
+        Me.btnClose.TabIndex = 15
         Me.btnClose.Text = "Close"
         '
         'btnSave
@@ -1321,6 +1335,7 @@ Partial Class frmDemandBooking
         CType(Me.btnAssessment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1334,6 +1349,7 @@ Partial Class frmDemandBooking
     Friend WithEvents SplitPanel1 As Telerik.WinControls.UI.SplitPanel
     Friend WithEvents SplitPanel2 As Telerik.WinControls.UI.SplitPanel
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
