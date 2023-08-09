@@ -22,6 +22,7 @@ Partial Class frmBillOfMaterialCosting
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBillOfMaterialCosting))
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -108,6 +109,7 @@ Partial Class frmBillOfMaterialCosting
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnCC = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -193,6 +195,7 @@ Partial Class frmBillOfMaterialCosting
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -208,7 +211,7 @@ Partial Class frmBillOfMaterialCosting
         Me.txtCode.MyMaxLength = 100
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(322, 21)
+        Me.txtCode.Size = New System.Drawing.Size(307, 22)
         Me.txtCode.TabIndex = 0
         Me.txtCode.Value = ""
         '
@@ -280,6 +283,7 @@ Partial Class frmBillOfMaterialCosting
         '
         'SplitPanel1
         '
+        Me.SplitPanel1.Controls.Add(Me.btnCC)
         Me.SplitPanel1.Controls.Add(Me.lblLocation)
         Me.SplitPanel1.Controls.Add(Me.txtLocation)
         Me.SplitPanel1.Controls.Add(Me.RadLabel6)
@@ -562,10 +566,10 @@ Partial Class frmBillOfMaterialCosting
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(449, 11)
+        Me.UsLock1.Location = New System.Drawing.Point(459, 11)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(98, 20)
+        Me.UsLock1.Size = New System.Drawing.Size(88, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 8
         '
@@ -608,11 +612,14 @@ Partial Class frmBillOfMaterialCosting
         '
         'btnNew
         '
-        Me.btnNew.Location = New System.Drawing.Point(431, 11)
+        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(415, 10)
         Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(14, 20)
+        Me.btnNew.Size = New System.Drawing.Size(20, 22)
         Me.btnNew.TabIndex = 1
         Me.btnNew.Text = " "
+        Me.btnNew.TextAlignment = System.Drawing.ContentAlignment.TopRight
         '
         'btnBrowse
         '
@@ -891,7 +898,7 @@ Partial Class frmBillOfMaterialCosting
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.pageComponent
+        Me.RadPageView1.SelectedPage = Me.pageGeneral
         Me.RadPageView1.Size = New System.Drawing.Size(1034, 348)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1290,6 +1297,15 @@ Partial Class frmBillOfMaterialCosting
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
+        'btnCC
+        '
+        Me.btnCC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCC.Location = New System.Drawing.Point(435, 10)
+        Me.btnCC.Name = "btnCC"
+        Me.btnCC.Size = New System.Drawing.Size(21, 22)
+        Me.btnCC.TabIndex = 1516
+        Me.btnCC.Text = "cc"
+        '
         'frmBillOfMaterialCosting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1388,6 +1404,7 @@ Partial Class frmBillOfMaterialCosting
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1468,4 +1485,5 @@ Partial Class frmBillOfMaterialCosting
     Friend WithEvents RadLabel6 As common.Controls.MyLabel
     Friend WithEvents txtLocation As common.UserControls.txtFinder
     Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents btnCC As RadButton
 End Class
