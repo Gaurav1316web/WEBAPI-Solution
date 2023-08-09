@@ -401,6 +401,11 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         txtFromDate.Enabled = True
         txtToDate.Enabled = True
     End Sub
+
+    'Private Sub btnclose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnclose.Click
+    '    CloseForm()
+    'End Sub
+
     Private Sub btnclose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnclose.Click
         CloseForm()
     End Sub

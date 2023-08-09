@@ -2223,6 +2223,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmNotepadFileMatching, "Notepad Mismatch", "1.36.02.24", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, "Demand", "1.36.02.25", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandAdjustment, "Demand Adjustment", "1.36.02.26", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDemandApproval, "Demand Approval", "1.36.02.27", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         '' end of transaction
 
         '--Reports
