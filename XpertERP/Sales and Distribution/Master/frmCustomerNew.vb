@@ -798,6 +798,7 @@ Public Class frmCustomer
         dtpAggMade.Value = clsCommon.GETSERVERDATE()
         dtpAggClose.Value = clsCommon.GETSERVERDATE()
         txtDOB.Value = clsCommon.GETSERVERDATE()
+        funNew()
     End Sub
     ''richa  ERO/01/07/21-001425
     Sub VisibleChecboxRelatedToTCSRateImpact()
@@ -2694,6 +2695,13 @@ Public Class frmCustomer
         txtDOB.Value = clsCommon.GETSERVERDATE()
         CboCustomerStatus.Text = "Select"
         CboMaritalStatus.Text = "Select"
+        fndCity.Value = clsDBFuncationality.getSingleValue("select City_Code from TSPL_CITY_MASTER where IsDefault=1")
+        txtCity.Text = clsDBFuncationality.getSingleValue("SELECT [City_Name] FROM [TSPL_CITY_MASTER] where [City_Code]='" + fndCity.Value + "' ")
+        fndstate.Value = clsDBFuncationality.getSingleValue("select STATE_CODE from TSPL_STATE_MASTER where isDefault=1")
+        txtStateName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  state_name  from TSPL_STATE_MASTER where state_code ='" + fndstate.Value + "'"))
+        fndCountry.Value = clsDBFuncationality.getSingleValue("select COUNTRY_CODE from TSPL_COUNTRY_MASTER")
+        TxtCountryName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select COUNTRY_NAME from TSPL_COUNTRY_MASTER where COUNTRY_CODE ='" + fndCountry.Value + "'"))
+
     End Sub
 
     Private Sub ShowCustomerInfo()

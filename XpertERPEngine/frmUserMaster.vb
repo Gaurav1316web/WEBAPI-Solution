@@ -632,24 +632,28 @@ Public Class FrmUserMaster
                     clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Vendor_Code = '" + fndVendor.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 End If
                 'Prabhakar Ticket : BM00000009802' 
-                If PanelCNF = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
-                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or
-                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
-                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Or
-                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Driver") = CompairStringResult.Equal Or
-                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal) Then
-                    If (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
-                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
-                    End If
-                    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
-                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
-                    End If
-                    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Or
-                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Driver") = CompairStringResult.Equal Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "' where User_Code ='" + fndUserCode.Value + "'")
-                    End If
+                'If PanelCNF = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Driver") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal) Then
+                '    If (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
+                '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
+                '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                '    End If
+                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
+                '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                '    End If
+                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal Or
+                '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Driver") = CompairStringResult.Equal Then
+                '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "' where User_Code ='" + fndUserCode.Value + "'")
+                '    End If
+                'End If
+
+                If PanelCNF = True Then
+                    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code=" + IIf(clsCommon.myLen(fndCustCode.Value) > 0, "'" + fndCustCode.Value + "'", " null ") + ",Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "'  where User_Code ='" + fndUserCode.Value + "'")
                 End If
 
                 If isCheckCustomerType = True Then
@@ -918,19 +922,23 @@ Public Class FrmUserMaster
                 updateExtraColumns()
 
                 'Prabhakar Ticket : BM00000009802' 
-                If PanelCNF = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
-                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or
-                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
-                    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
-                    If (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
-                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
-                    End If
-                    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
-                        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
-                        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
-                    End If
+                'If PanelCNF = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
+                '    If (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
+                '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
+                '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                '    End If
+                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
+                '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
+                '    End If
+                'End If
+                If PanelCNF Then
+                    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code=" + IIf(clsCommon.myLen(fndCustCode.Value) > 0, "'" + fndCustCode.Value + "'", " null ") + ",Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "'  where User_Code ='" + fndUserCode.Value + "'")
                 End If
+
                 If isCheckCustomerType = True Then
                     If MatchLevel() = 1 Then
                         clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")

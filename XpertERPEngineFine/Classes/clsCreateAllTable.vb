@@ -2195,6 +2195,7 @@ Public Class clsCreateAllTable
             coll.Add("ApplyRoundingInStdProd", " integer not null default 0")
             coll.Add("RAL", "integer NUll")
             coll.Add("FG_for_CF", "integer not null default 0")
+            coll.Add("Is_DisplayDemand", "integer not NULL default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -7947,6 +7948,9 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_OPEN_MCC_SHIFT", coll, Nothing, False, False, "", "MCC_SHIFT_CODE", "MCC_SHIFT_DATE")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_OPEN_MCC_SHIFT_SYNC", coll, Nothing, False, False)
 
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEMAND_BOOKING_MASTER' and COLUMN_NAME='Posted_Morning'"
+            dt = clsDBFuncationality.GetDataTable(qry)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
             coll.Add("Document_Date", "datetime not NULL")
@@ -7967,6 +7971,12 @@ Public Class clsCreateAllTable
             coll.Add("TotalQtyInLtr", "decimal(18,2) null")
             coll.Add("DocumentAmount", "decimal(18,2) null")
             coll.Add("Posting_Date", "Datetime NULL")
+            coll.Add("Posted_Morning", "integer null")
+            coll.Add("Posted_Morning_By", "varchar(12) NULL")
+            coll.Add("Posted_Morning_Date", "Datetime NULL")
+            coll.Add("Posted_Evening", "integer null")
+            coll.Add("Posted_Evening_By", "varchar(12) NULL")
+            coll.Add("Posted_Evening_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -7989,7 +7999,16 @@ Public Class clsCreateAllTable
             coll.Add("IsTruckSheetGenerated", "char(1) not null default 'N'")
             coll.Add("Production_Remarks", "varchar(200) NULL")
             coll.Add("GPCode", "varchar(30) NULL")
+            coll.Add("Is_Posted", "char(1) not null default 'N'")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "")
+
+            If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
+                qry = "Update TSPL_DEMAND_BOOKING_MASTER set Posted_Morning=Posted,Posted_Evening=Posted "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+
+                qry = "Update TSPL_DEMAND_BOOKING_DETAIL set Is_Posted=(select case when TSPL_DEMAND_BOOKING_MASTER.Posted=1 then 'Y' else 'N' end from TSPL_DEMAND_BOOKING_MASTER where TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No ) "
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
