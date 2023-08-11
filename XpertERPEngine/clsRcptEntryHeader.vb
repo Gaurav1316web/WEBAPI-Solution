@@ -22,6 +22,7 @@ Public Class clsRcptEntryHeader
     Public Receipt_Type As String = Nothing
     Public IsApplyDocAuto As Integer = 0
     Public Cust_Code As String = Nothing
+    Public Against_RCDF_Loadin As String = Nothing
     Public Customer_Name As String = Nothing
     Public Entry_Desc As String = Nothing
     Public Reference As String = Nothing
@@ -180,23 +181,30 @@ Public Class clsRcptEntryHeader
             Else
                 clsERPFuncationality.ValidateLocationSegment(objCommonVar.CurrentCompanyCode, "Receivables", "Receipt Entry", LocSegmentCode, obj.Receipt_Date, trans)
             End If
+            Dim qry As String = ""
 
 
 
             '-----------------------------------------------------------------------------------------------
             If clsCommon.myLen(obj.Receipt_No) > 0 Then
-                Dim isPosted As String = clsDBFuncationality.getSingleValue("Select Posted from TSPL_RECEIPT_HEADER Where Receipt_No='" + obj.Receipt_No + "'", trans)
-                If clsCommon.CompairString(isPosted, "Y") = CompairStringResult.Equal Then
+                qry = clsDBFuncationality.getSingleValue("Select Posted from TSPL_RECEIPT_HEADER Where Receipt_No='" + obj.Receipt_No + "'", trans)
+                If clsCommon.CompairString(qry, "Y") = CompairStringResult.Equal Then
                     Throw New Exception("Document already posted")
                 End If
             End If
-
+            If clsCommon.myLen(obj.Against_RCDF_Loadin) > 0 Then
+                qry = "select Customer_code from TSPL_RCDF_LOAD_IN where Document_Code='" + obj.Against_RCDF_Loadin + "' "
+                qry = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+                If Not clsCommon.CompairString(qry, obj.Cust_Code) = CompairStringResult.Equal Then
+                    Throw New Exception("Loadin Customer is [" + qry + "] but Receipt entry customer is [" + obj.Cust_Code + "].Both Should be same")
+                End If
+            End If
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(EnumSaveType.History, objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_RECEIPT_HEADER", "Receipt_No", "TSPL_RECEIPT_DETAIL", "Receipt_No", "TSPL_RECEIPT_DETAIL_GST", "Receipt_No", "TSPL_RECEIPT_DETAIL_Refund", "Receipt_No", "", "", "", "", "", "", trans)
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Receipt_No, "TSPL_bank_book", "SOURCEDOC_NO", trans)
             End If
 
-            Dim qry As String = "DELETE TSPL_RECEIPT_DETAIL WHERE Receipt_No ='" + obj.Receipt_No + "'"
+            qry = "DELETE TSPL_RECEIPT_DETAIL WHERE Receipt_No ='" + obj.Receipt_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "DELETE TSPL_RECEIPT_DETAIL_GST WHERE Receipt_No ='" + obj.Receipt_No + "'"
@@ -210,6 +218,7 @@ Public Class clsRcptEntryHeader
             clsCommon.AddColumnsForChange(coll, "Bank_Code", obj.Bank_Code)
             clsCommon.AddColumnsForChange(coll, "Receipt_Type", obj.Receipt_Type)
             clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
+            clsCommon.AddColumnsForChange(coll, "Against_RCDF_Loadin", obj.Against_RCDF_Loadin, True)
             clsCommon.AddColumnsForChange(coll, "Rec_Route_Code", obj.Rec_Route_Code, True)
             clsCommon.AddColumnsForChange(coll, "Rec_Zone_Code", obj.Rec_Zone_Code, True)
             clsCommon.AddColumnsForChange(coll, "isCardSale", obj.isCardSale)
@@ -825,7 +834,7 @@ Public Class clsRcptEntryHeader
         Dim isCustomerFinderLocationWiseARReceipt As Boolean = False
         Dim strJointCond As String = ""
 
-        Dim qry As String = "SELECT TSPL_RECEIPT_HEADER.isCardSale,TSPL_RECEIPT_HEADER.TapalNo,TSPL_RECEIPT_HEADER.DateAndTime,TSPL_RECEIPT_HEADER.AC_Payee,TSPL_RECEIPT_HEADER.cheque_in_favour_of,TSPL_RECEIPT_HEADER.ReceiptAgainstSO_DO,TSPL_RECEIPT_HEADER.SO_Location_Code,TSPL_RECEIPT_HEADER.Booking_Code,TSPL_RECEIPT_HEADER.Against_CSA_Transfer_Code,TSPL_RECEIPT_HEADER.SecurityDepositType,TSPL_RECEIPT_HEADER. memorandum_amt,TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, TSPL_RECEIPT_HEADER.Receipt_Post_Date,  TSPL_RECEIPT_HEADER.Entry_Desc, TSPL_RECEIPT_HEADER.Bank_Code,TSPL_RECEIPT_HEADER. Receipt_Type, TSPL_RECEIPT_HEADER.Cust_Code," &
+        Dim qry As String = "SELECT TSPL_RECEIPT_HEADER.Against_RCDF_Loadin, TSPL_RECEIPT_HEADER.isCardSale,TSPL_RECEIPT_HEADER.TapalNo,TSPL_RECEIPT_HEADER.DateAndTime,TSPL_RECEIPT_HEADER.AC_Payee,TSPL_RECEIPT_HEADER.cheque_in_favour_of,TSPL_RECEIPT_HEADER.ReceiptAgainstSO_DO,TSPL_RECEIPT_HEADER.SO_Location_Code,TSPL_RECEIPT_HEADER.Booking_Code,TSPL_RECEIPT_HEADER.Against_CSA_Transfer_Code,TSPL_RECEIPT_HEADER.SecurityDepositType,TSPL_RECEIPT_HEADER. memorandum_amt,TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, TSPL_RECEIPT_HEADER.Receipt_Post_Date,  TSPL_RECEIPT_HEADER.Entry_Desc, TSPL_RECEIPT_HEADER.Bank_Code,TSPL_RECEIPT_HEADER. Receipt_Type, TSPL_RECEIPT_HEADER.Cust_Code," &
         " TSPL_RECEIPT_HEADER.Customer_Name, TSPL_RECEIPT_HEADER.Reference, TSPL_RECEIPT_HEADER.Narration   , TSPL_RECEIPT_HEADER.Payment_Code, TSPL_RECEIPT_HEADER.Cheque_No, TSPL_RECEIPT_HEADER.Cheque_Date, TSPL_RECEIPT_HEADER.Cheque_From, TSPL_RECEIPT_HEADER.From_Branch, TSPL_RECEIPT_HEADER.Receipt_Amount," &
         " TSPL_RECEIPT_HEADER.Cust_Account, TSPL_RECEIPT_HEADER.Apply_By, TSPL_RECEIPT_HEADER.Apply_To, TSPL_RECEIPT_HEADER.Posted,TSPL_RECEIPT_HEADER.Foreign_Bank_Charges_Amt ,TSPL_RECEIPT_HEADER.Bank_Charges_Amt," &
         " TSPL_RECEIPT_HEADER.Level1_User_code, TSPL_RECEIPT_HEADER.Level2_User_code, TSPL_RECEIPT_HEADER.Level3_User_code, TSPL_RECEIPT_HEADER.Level4_User_code, TSPL_RECEIPT_HEADER.Level5_User_code," &
@@ -905,6 +914,7 @@ Public Class clsRcptEntryHeader
             obj.Entry_Desc = clsCommon.myCstr(dt.Rows(0)("Entry_Desc"))
             obj.Cust_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Code"))
             obj.Distr_Code = clsCommon.myCstr(dt.Rows(0)("Distr_Code"))
+            obj.Against_RCDF_Loadin = clsCommon.myCstr(dt.Rows(0)("Against_RCDF_Loadin"))
             obj.Customer_Name = clsDBFuncationality.getSingleValue("Select Customer_Name from TSPL_CUSTOMER_MASTER Where Cust_Code='" + obj.Cust_Code + "'", trans)
             obj.Reference = clsCommon.myCstr(dt.Rows(0)("Reference"))
             obj.Narration = clsCommon.myCstr(dt.Rows(0)("Narration"))
