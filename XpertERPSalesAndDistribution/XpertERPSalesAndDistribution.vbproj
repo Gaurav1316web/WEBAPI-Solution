@@ -67,6 +67,10 @@
     <Reference Include="ActiveDatabaseSoftware.MSSQLMetadataProvider2">
       <HintPath>..\XpertERP\bin\Debug\ActiveDatabaseSoftware.MSSQLMetadataProvider2.dll</HintPath>
     </Reference>
+    <Reference Include="CgtFpAccessCSD200Dotnet, Version=2.4.0.0, Culture=neutral, PublicKeyToken=8c0485f223e60602, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\CgtFpAccessCSD200Dotnet.dll</HintPath>
+    </Reference>
     <Reference Include="Comm64, Version=6.4.0.30, Culture=neutral, PublicKeyToken=dd445fe4659af8f3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERP\bin\Debug\Comm64.DLL</HintPath>
@@ -90,19 +94,54 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\XpertERP\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.Accessibility, Version=1.1.0.0, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\XpertERP\bin\Debug\Interop.Accessibility.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.Shell32, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5bb2a467cbec794e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\XpertERP\bin\Debug\Interop.Shell32.dll</HintPath>
+    </Reference>
     <Reference Include="LinkShell">
       <HintPath>..\XpertERP\bin\Debug\LinkShell.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AnalysisServices.AdomdClient, Version=10.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\XpertERP\bin\Debug\Microsoft.Office.Interop.Excel.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.Office.Interop.Outlook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.VisualStudio.Shell.Interop.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Microsoft.VisualStudio.Shell.Interop.8.0.dll</HintPath>
+    </Reference>
     <Reference Include="msmdvbanet">
       <HintPath>..\XpertERP\bin\Debug\msmdvbanet.dll</HintPath>
     </Reference>
     <Reference Include="New TallyModule">
       <HintPath>..\XpertERP\bin\Debug\New TallyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\XpertERP\bin\Debug\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OrgChartGenerator">
       <HintPath>..\XpertERP\bin\Debug\OrgChartGenerator.dll</HintPath>
@@ -738,6 +777,12 @@
       <DependentUpon>rptSaleRegisterReportWithCSASalePattiProductPackWise.vb</DependentUpon>
     </Compile>
     <Compile Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePattiProductPackWise.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSalesReport.Designer.vb">
+      <DependentUpon>rptSalesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSalesReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Product Sale\Report\rptSKUWiseSale.Designer.vb">
@@ -2045,6 +2090,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePattiProductPackWise.resx">
       <DependentUpon>rptSaleRegisterReportWithCSASalePattiProductPackWise.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptSalesReport.resx">
+      <DependentUpon>rptSalesReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Product Sale\Report\rptSKUWiseSale.resx">
       <DependentUpon>rptSKUWiseSale.vb</DependentUpon>

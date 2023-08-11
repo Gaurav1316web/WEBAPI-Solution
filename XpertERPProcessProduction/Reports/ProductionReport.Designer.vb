@@ -26,7 +26,8 @@ Partial Class ProductionReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.TxtMultiLocation = New common.UserControls.txtMultiSelectFinder()
+        Me.lblBillToLocation = New common.Controls.MyLabel()
+        Me.txtBillToLocation = New common.UserControls.txtFinder()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
@@ -48,6 +49,7 @@ Partial Class ProductionReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,7 +101,8 @@ Partial Class ProductionReport
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.TxtMultiLocation)
+        Me.RadPageViewPage1.Controls.Add(Me.lblBillToLocation)
+        Me.RadPageViewPage1.Controls.Add(Me.txtBillToLocation)
         Me.RadPageViewPage1.Controls.Add(Me.Label3)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
@@ -108,18 +111,43 @@ Partial Class ProductionReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 363)
         Me.RadPageViewPage1.Text = "Filters"
         '
-        'TxtMultiLocation
+        'lblBillToLocation
         '
-        Me.TxtMultiLocation.arrDispalyMember = Nothing
-        Me.TxtMultiLocation.arrValueMember = Nothing
-        Me.TxtMultiLocation.Location = New System.Drawing.Point(81, 94)
-        Me.TxtMultiLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMultiLocation.MyLinkLable1 = Nothing
-        Me.TxtMultiLocation.MyLinkLable2 = Nothing
-        Me.TxtMultiLocation.MyNullText = "All"
-        Me.TxtMultiLocation.Name = "TxtMultiLocation"
-        Me.TxtMultiLocation.Size = New System.Drawing.Size(318, 19)
-        Me.TxtMultiLocation.TabIndex = 22
+        Me.lblBillToLocation.AutoSize = False
+        Me.lblBillToLocation.BorderVisible = True
+        Me.lblBillToLocation.FieldName = Nothing
+        Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBillToLocation.Location = New System.Drawing.Point(176, 89)
+        Me.lblBillToLocation.Name = "lblBillToLocation"
+        Me.lblBillToLocation.Size = New System.Drawing.Size(187, 18)
+        Me.lblBillToLocation.TabIndex = 42
+        Me.lblBillToLocation.TextWrap = False
+        '
+        'txtBillToLocation
+        '
+        Me.txtBillToLocation.CalculationExpression = Nothing
+        Me.txtBillToLocation.FieldCode = Nothing
+        Me.txtBillToLocation.FieldDesc = Nothing
+        Me.txtBillToLocation.FieldMaxLength = 0
+        Me.txtBillToLocation.FieldName = Nothing
+        Me.txtBillToLocation.isCalculatedField = False
+        Me.txtBillToLocation.IsSourceFromTable = False
+        Me.txtBillToLocation.IsSourceFromValueList = False
+        Me.txtBillToLocation.IsUnique = False
+        Me.txtBillToLocation.Location = New System.Drawing.Point(71, 89)
+        Me.txtBillToLocation.MendatroryField = True
+        Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBillToLocation.MyLinkLable1 = Nothing
+        Me.txtBillToLocation.MyLinkLable2 = Nothing
+        Me.txtBillToLocation.MyReadOnly = False
+        Me.txtBillToLocation.MyShowMasterFormButton = False
+        Me.txtBillToLocation.Name = "txtBillToLocation"
+        Me.txtBillToLocation.ReferenceFieldDesc = Nothing
+        Me.txtBillToLocation.ReferenceFieldName = Nothing
+        Me.txtBillToLocation.ReferenceTableName = Nothing
+        Me.txtBillToLocation.Size = New System.Drawing.Size(99, 18)
+        Me.txtBillToLocation.TabIndex = 41
+        Me.txtBillToLocation.Value = ""
         '
         'Label3
         '
@@ -321,6 +349,7 @@ Partial Class ProductionReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -349,7 +378,6 @@ Partial Class ProductionReport
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
     Friend WithEvents Label3 As Label
-    Friend WithEvents TxtMultiLocation As common.UserControls.txtMultiSelectFinder
     Friend WithEvents btnSplitExport As RadSplitButton
     Friend WithEvents rmiExcel As RadMenuItem
     Friend WithEvents rmiPDF As RadMenuItem
@@ -358,4 +386,6 @@ Partial Class ProductionReport
     Friend WithEvents btnGo As RadButton
     Friend WithEvents Gv1 As RadGridView
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents lblBillToLocation As common.Controls.MyLabel
+    Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
 End Class

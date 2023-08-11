@@ -30,7 +30,6 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtDeduction = New common.UserControls.txtFinder()
         Me.chkDCSWise = New System.Windows.Forms.CheckBox()
@@ -146,7 +145,6 @@ Partial Class rptTemporaryPaymentDeductionSummary
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.CheckBox1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.txtDeduction)
         Me.RadPageViewPage1.Controls.Add(Me.chkDCSWise)
@@ -159,17 +157,6 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(833, 278)
         Me.RadPageViewPage1.Text = "Filters"
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(379, 131)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(48, 17)
-        Me.CheckBox1.TabIndex = 446
-        Me.CheckBox1.Text = "OLD"
-        Me.CheckBox1.UseVisualStyleBackColor = True
-        Me.CheckBox1.Visible = False
         '
         'MyLabel1
         '
@@ -550,7 +537,6 @@ Partial Class rptTemporaryPaymentDeductionSummary
     Friend WithEvents txtMCC As common.UserControls.txtFinder
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtDeduction As common.UserControls.txtFinder
-    Friend WithEvents CheckBox1 As CheckBox
     Friend WithEvents btnPrint As RadButton
 End Class
 

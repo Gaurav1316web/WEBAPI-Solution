@@ -1556,9 +1556,11 @@
     <None Include="Crystal Reports\Purchase\QuickSettlement.rpt" />
     <None Include="Crystal Reports\Purchase\rptAPInvoice.rpt" />
     <None Include="Crystal Reports\Purchase\rptAPInvoice_old.rpt" />
+    <None Include="Crystal Reports\Purchase\rptPerformanceReport.rpt" />
     <None Include="Crystal Reports\Purchase\rptRouteList.rpt" />
     <None Include="Crystal Reports\Purchase\rptVendorSecurity.rpt" />
     <None Include="Crystal Reports\Purchase\rptVendorSecurity_summary.rpt" />
+    <None Include="Crystal Reports\Purchase\VehicleUnloadingReport.rpt" />
     <None Include="Crystal Reports\Purchase\VendorLedger.rpt" />
     <None Include="Crystal Reports\Purchase\VendorLedgerItemWise.rpt" />
     <None Include="Crystal Reports\Purchase\VendorLedgerLandScape.rpt" />
@@ -1809,6 +1811,7 @@
     <None Include="Crystal Reports\Sales Report\rptCustomerWiseDRCR.rpt" />
     <None Include="Crystal Reports\Sales Report\rptDayShiftWiseDmand.rpt" />
     <None Include="Crystal Reports\Sales Report\rptGatePassVsActual.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptItemStockReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptMonthlyInvoicePrint.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailCustomerWise.rpt" />
     <None Include="Crystal Reports\Sales Report\rptNetSaleDetailItemWise.rpt" />
@@ -1836,6 +1839,7 @@
     <None Include="Crystal Reports\Sales Report\rptSalesman.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSalesman_original.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSalesNew.rpt" />
+    <None Include="Crystal Reports\Sales Report\rptSalesReport.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSalesSummaryNew.rpt" />
     <None Include="Crystal Reports\Sales Report\rptSaleSummaryAgainstPO.rpt" />
     <None Include="Crystal Reports\Sales Report\rptVendorGroupWiseSale.rpt" />

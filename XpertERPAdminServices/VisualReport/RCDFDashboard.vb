@@ -1161,6 +1161,8 @@ ORDER BY  TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.It
     Private Sub LegendElement_VisualItemCreating(sender As Object, e As LegendItemElementCreatingEventArgs)
         e.ItemElement = New CustomLegendItemElement(e.LegendItem)
     End Sub
+
+
 End Class
 
 Public Class CustomPalette

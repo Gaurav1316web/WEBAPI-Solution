@@ -39,6 +39,7 @@ Partial Class rptDailyQtyReport
         Me.MyLabel39 = New common.Controls.MyLabel()
         Me.cboItemType = New common.Controls.MyComboBox()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbTankerWise = New System.Windows.Forms.RadioButton()
         Me.rbtnTranpoterGainLoss = New System.Windows.Forms.RadioButton()
         Me.rbtnDock = New System.Windows.Forms.RadioButton()
         Me.rdbDetails = New System.Windows.Forms.RadioButton()
@@ -329,6 +330,7 @@ Partial Class rptDailyQtyReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rdbTankerWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnTranpoterGainLoss)
         Me.RadGroupBox1.Controls.Add(Me.rbtnDock)
         Me.RadGroupBox1.Controls.Add(Me.rdbDetails)
@@ -337,8 +339,18 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox1.Location = New System.Drawing.Point(369, 9)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(350, 42)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(450, 42)
         Me.RadGroupBox1.TabIndex = 406
+        '
+        'rdbTankerWise
+        '
+        Me.rdbTankerWise.AutoSize = True
+        Me.rdbTankerWise.Location = New System.Drawing.Point(350, 14)
+        Me.rdbTankerWise.Name = "rdbTankerWise"
+        Me.rdbTankerWise.Size = New System.Drawing.Size(128, 17)
+        Me.rdbTankerWise.TabIndex = 7
+        Me.rdbTankerWise.Text = "Tanker Wise"
+        Me.rdbTankerWise.UseVisualStyleBackColor = True
         '
         'rbtnTranpoterGainLoss
         '
@@ -705,5 +717,6 @@ Partial Class rptDailyQtyReport
     Friend WithEvents lblToleranceSNF As common.Controls.MyLabel
     Friend WithEvents lblToleranceFAT As common.Controls.MyLabel
     Friend WithEvents rbtnTranpoterGainLoss As RadioButton
+    Friend WithEvents rdbTankerWise As RadioButton
 End Class
 

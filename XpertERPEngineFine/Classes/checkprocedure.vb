@@ -559,6 +559,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmProspectDetailReport, "Prospect Detail Report", "1.06.03.28", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSaleRegisterForAdv, "Sales Register Report", "1.06.03.28", clsUserMgtCode.SubModuleSaleNewReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailSaleAndDistribution, "Sale And Distribution Audit Trail Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleNewReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.06.03.30", clsUserMgtCode.SubModuleSaleNewReport, 37)
 
 
 
@@ -691,7 +692,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FATSNFGainLoss, "FAT/SNF Gain Loss", "1.07.03.41", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptProductReceivingReport, "Product Receiving Report", "1.07.03.42", clsUserMgtCode.SubModuleMaterialReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerWiseStockReco, "Customer Wise Stock Reco", "1.07.03.43", clsUserMgtCode.SubModuleMaterialReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptPerformanceReport, "Performance Report", "1.07.03.44", clsUserMgtCode.SubModuleMaterialReport, 37)
+        InsertDefaultValue(clsUserMgtCode.ItemStockReport, "Item Stock Report", "1.07.03.44", clsUserMgtCode.SubModuleMaterialReport, 37)
+
         'InsertDefaultValue(clsUserMgtCode.rptStockReport, " Stocks Report", "1.07.03.45", clsUserMgtCode.SubModuleMaterialReport, 37)
         '
         '--------------Purchase----------------------------------
@@ -829,6 +831,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmTenderTrackingReport, "Tender Tracking Report", "1.08.03.44", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.FrmERPStatusTrackingReport, "ERP Status Tracking Report", "1.08.03.45", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptrlPenaltyRegister, "Penalty Register Report", "1.08.03.46", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptPerformanceReport, "Performance Report", "1.08.03.47", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.VehicleUnloadingReport, "Vehicle Unloading Report", "1.08.03.48", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 
@@ -1160,8 +1164,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AuditTrailStandardProduction, "Standard Production Audit Trail Report", "1.12.04.09", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         InsertDefaultValue(clsUserMgtCode.rptSPItemConsumptionReport, "Material Consumption Report", "1.12.04.10", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         InsertDefaultValue(clsUserMgtCode.ProductionReport, "Production Report", "1.12.04.11", clsUserMgtCode.SubModuleProductionReportSTD, 37)
-        InsertDefaultValue(clsUserMgtCode.rptSalesReport, "Sales Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
-        InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.13", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+        'InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
+
+        InsertDefaultValue(clsUserMgtCode.FrmProductionAndSaleReport, "Production And Sale Report", "1.12.04.12", clsUserMgtCode.SubModuleProductionReportSTD, 37)
         '--------------Dairy Production----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleProductionDairy, "Dairy Production", "1.29", clsUserMgtCode.ExpertERP, "M", 23)
 
@@ -2088,9 +2093,11 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptProductDOStatus, "Product Sale Delivery Status Report ", "1.26.03.05", clsUserMgtCode.SubModuleProductSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptProductSaleOrderStatus, "Product Sale Order Status Report ", "1.26.03.06", clsUserMgtCode.SubModuleProductSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptsaleRegisterReport, "Sale Register Report ", "1.26.03.07", clsUserMgtCode.SubModuleProductSaleReport, 37)
+
         InsertDefaultValue(clsUserMgtCode.RptPartyWiseSale, "Party Wise Sale Report ", "1.26.03.08", clsUserMgtCode.SubModuleProductSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.RptGPDetail, "GP Details Report", "1.26.03.09", clsUserMgtCode.SubModuleProductSaleReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailProductSale, "Product Sale Audit Trail Report", "1.26.03.10", clsUserMgtCode.SubModuleProductSaleReport, 37)
+
         ' 
         ''-------------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleExportSale, "Export Sale", "1.27", clsUserMgtCode.ExpertERP, "M", 23)
@@ -2216,6 +2223,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmNotepadFileMatching, "Notepad Mismatch", "1.36.02.24", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, "Demand", "1.36.02.25", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemandAdjustment, "Demand Adjustment", "1.36.02.26", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDemandApproval, "Demand Approval", "1.36.02.27", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         '' end of transaction
 
         '--Reports
@@ -2420,6 +2428,7 @@ Public Class ProgramCodeNew
 
         InsertDefaultValue(clsUserMgtCode.SubModuleQCReport, "Report", "1.23.03", clsUserMgtCode.ModuleQualityControl, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)
+        InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.23.03.02", clsUserMgtCode.SubModuleQCReport, 37)
 
         ''===========================end QC===========================================================
 

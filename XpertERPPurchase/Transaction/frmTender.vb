@@ -96,6 +96,10 @@ Public Class frmTender
         dr("Code") = "2"
         dr("Name") = "Techical Spare Part"
         dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "3"
+        dr("Name") = "Local Purchase"
+        dt.Rows.Add(dr)
 
 
         cboTenderType.DataSource = dt

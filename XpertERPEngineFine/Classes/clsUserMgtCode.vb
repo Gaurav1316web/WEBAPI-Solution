@@ -261,6 +261,7 @@ Public Class clsUserMgtCode
     Public Const frmQualityCheckForSRN As String = "QC_CHK_SRN"
     Public Const frmQualityCheckApprovalForSRN As String = "QC_APRV_SRN"
     Public Const rptPendingQCReport As String = "PND_QC_RPT"
+    Public Const QualitySummaryReport As String = "QTY_SUMY_RPT"
     'frmQualityCheckForSRN
     ''==================
 
@@ -1112,7 +1113,8 @@ Public Class clsUserMgtCode
     Public Const rptSaleAccountSetList As String = "ITM-SAL-SET"
     Public Const RptItemSalePurchaseSet As String = "ITM-PUR-SAL"
     Public Const rptCustomerWiseStockReco As String = "CUST-REC-RPT"
-    Public Const rptPerformanceReport As String = "PERF-RPT"
+    Public Const ItemStockReport As String = "ITEM_STO_RPT"
+
     'Public Const rptStockReport As String = "STOCK-RPT"
     ''-----------------------------------------------------Purchase----------------------------------------------------------------------
     '-------------------Setup--------------------------
@@ -2331,6 +2333,8 @@ Public Class clsUserMgtCode
     Public Const FrmTenderTrackingReport As String = "PO_TTRRPT"
     Public Const FrmERPStatusTrackingReport As String = "PO_ERPSTRPT"
     Public Const rptrlPenaltyRegister As String = "RL-PEN-REG"
+    Public Const rptPerformanceReport As String = "PERF-RPT"
+    Public Const VehicleUnloadingReport As String = "VEH-UNL-RPT"
     Public Const RptPOAgainstDocument As String = "PO_AGT"
     Public Const frmBillChecklist As String = "PO_BCL"
     Public Const frmCancelledTransactions_Purchase As String = "PO_CanRPT"
@@ -2417,6 +2421,7 @@ Public Class clsUserMgtCode
     Public Const AuditTrailCommonServices As String = "ADIT_COMSRV"
     Public Const AuditTrailGeneralLedger As String = "ADIT_GENLEG"
     Public Const AuditTrailSaleAndDistribution As String = "ADIT_SALDBU"
+    Public Const rptSalesReport As String = "SALE-RPT"
     Public Const AuditTrailMaterialManagement As String = "ADIT_MATMGT"
     Public Const AuditTrailPurchase As String = "ADIT_PURCH"
     Public Const AuditTrailTaxDeductedAtSource As String = "ADIT_TAXSC"
@@ -2426,7 +2431,7 @@ Public Class clsUserMgtCode
     Public Const AuditTrailStandardProduction As String = "ADIT_STDPRO"
     Public Const rptSPItemConsumptionReport As String = "MATCONS_RPT"
     Public Const ProductionReport As String = "PRODUC_RPT"
-    Public Const rptSalesReport As String = "SALES_RPT"
+    'Public Const QualitySummaryReport As String = "QTY_SUMY_RPT"
     Public Const FrmProductionAndSaleReport As String = "PANDS_RPT"
     Public Const AuditTrailDairyProduction As String = "ADIT_DARYPD"
     Public Const AuditTrailMilkProcurementMCC As String = "ADIT_MPMCC"
@@ -2477,6 +2482,7 @@ Public Class clsUserMgtCode
     Public Const frmNotepadFileMatching As String = "NOT-MIS-MAT"
     Public Const frmDemandBooking As String = "DEM_BOO_TRN"
     Public Const frmDemandAdjustment As String = "DEM-ADJ-TRN"
+    Public Const frmDemandApproval As String = "DEM-APR-TRN"
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean

@@ -62,7 +62,7 @@ Public Class clsfrmVLCMaster
     Public AccNo2 As String = Nothing
     Public Security_Charges2 As Decimal = 0
     Public Company_Bank As String = Nothing
-
+    Public BankName2 As String = Nothing
 
 
 

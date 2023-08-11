@@ -4243,6 +4243,7 @@ Public Class frmSRN
         txtSubLocation.Enabled = True
         txtSubLocation.Value = ""
         lblSubLocation.Text = ""
+        txttender.Text = Nothing
         isAgainstTender = False
     End Sub
     Function checkVendorItemPrice() As Boolean
@@ -5663,6 +5664,7 @@ Public Class frmSRN
                 txtVendorNo.Value = obj.Vendor_Code
                 lblVendorName.Text = obj.Vendor_Name
                 txtRefNo.Text = obj.Ref_No
+                txttender.Text = obj.TenderNo
                 If clsCommon.myLen(obj.Challan_Date) > 0 Then
                     dtpChallan.Value = obj.Challan_Date
                     dtpChallan.Checked = True
@@ -5736,7 +5738,7 @@ Public Class frmSRN
                 txtCarrier.Text = obj.Carrier
                 txtVehicleNo.Text = obj.VehicleNo
                 txtGRNo.Text = obj.GRNo
-                'MyDateTimePicker1.Text = obj.GRDate
+                MyDateTimePicker1.Text = obj.GRN_Date
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
                     txtGEDate.Value = obj.GEDate
@@ -11541,8 +11543,8 @@ b:                          ' Next
         ShowJE(MyBase.Form_ID, txtDocNo.Value)
     End Sub
 
-    Private Sub MyDateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles MyDateTimePicker1.ValueChanged
-        txtDate.Text = clsCommon.myCDate(MyDateTimePicker1.Text)
-    End Sub
+    'Private Sub MyDateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles MyDateTimePicker1.ValueChanged
+    '    txtDate.Text = clsCommon.myCDate(MyDateTimePicker1.Text)
+    'End Sub
 
 End Class

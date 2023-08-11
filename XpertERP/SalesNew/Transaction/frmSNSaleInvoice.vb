@@ -5032,6 +5032,7 @@ Public Class frmSNSaleInvoice
         Dim frm As New frmPendingShipment()
         frm.VendorCode = txtVendorNo.Value
         frm.strCurrCode = txtDocNo.Value
+        frm.strBillLocation = txtBillToLocation.Value
         frm.ShowDialog()
         LoadBlankGrid()
         Dim chkStr As New List(Of String)
@@ -6929,11 +6930,11 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
             Dim frmDCSPrint As New frmCrystalReportViewer()
             Dim qry As String = "Select XFinal.*,cast((XFinal.CF_AMT+XFinal.Frieght_Amt)as decimal(18,2)) as Total_Amt,TSPL_LOCATION_MASTER.Location_Desc as Location_Desc,TSPL_LOCATION_MASTER.Add1 as Add1
 from(
-select XX.Dispatch_Date,XX.DCS_Name,XX.C_No,XX.GRNO,xx.Zone,XX.SADA,XX.SADA_Cost,XX.GOLD,XX.GOLD_Cost,XX.BPP,XX.BPP_Cost,XX.TruckNo,XX.ChallanNo,
+select Convert(Varchar(10),XX.Dispatch_Date,105) as Dispatch_Date,XX.DCS_Name,XX.C_No,XX.GRNO,xx.Zone,XX.SADA,XX.SADA_Cost,XX.GOLD,XX.GOLD_Cost,XX.BPP,XX.BPP_Cost,XX.TruckNo,XX.ChallanNo,
 cast((XX.SADA+XX.GOLD+XX.BPP) as decimal(18,2))as Bags,cast((((XX.SADA*XX.CF_Bag)+(XX.GOLD*XX.CF_Bag)+(XX.BPP*XX.CF_Bag))/XX.CF_MT) as decimal(18,2))as MT,
 cast(((XX.SADA_Cost*XX.SADA)+(XX.GOLD_Cost*XX.GOLD)+(XX.BPP_Cost*XX.BPP))as decimal(18,2)) as CF_AMT,Cast(XX.Frieght_Rate as decimal(18,2)) as Frieght,
 cast(((((XX.SADA*XX.CF_Bag)+(XX.GOLD*XX.CF_Bag)+(XX.BPP*XX.CF_Bag))/XX.CF_QTL)*XX.Frieght_Rate)as decimal(18,2))as Frieght_Amt,
-XX.Document_Date as Bill_Date,XX.Bill,XX.Location_code
+Convert(Varchar(10),XX.Document_Date,105)as Bill_Date,XX.Bill,XX.Location_code,XX.TranspoterName
 
 --XX.Frieght_Rate
 from(
@@ -6961,7 +6962,8 @@ TSPL_SD_SALE_INVOICE_HEAD.Document_Date,
 max(Right(TSPL_SD_SALE_INVOICE_HEAD.Document_Code,6))as Bill,
 max(TSPL_SD_SALE_INVOICE_DETAIL.Document_Code) as Document_Code,
 max(TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code) as Shipment_Code,
-max(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) as Location_code
+max(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) as Location_code,
+max(TSPL_SD_SHIPMENT_HEAD.Carrier)as TranspoterName
 from TSPL_SD_SHIPMENT_HEAD
 left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
 left join TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL on TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code AND

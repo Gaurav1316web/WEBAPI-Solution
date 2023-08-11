@@ -487,8 +487,9 @@ Public Class clsMPIncentiveEntryDetail
                     clsCommon.AddColumnsForChange(coll, "MP_Code", obj.MP_Code)
                     clsCommon.AddColumnsForChange(coll, "MP_Account_No", obj.MP_Account_No)
                     clsCommon.AddColumnsForChange(coll, "MP_Bank", obj.MP_Bank)
+                    Dim CycleNo As Integer = 1
                     If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryApplyMonthly, clsFixedParameterCode.MPIncentiveEntryApplyMonthly, trans)) > 0) Then
-                        clsCommon.AddColumnsForChange(coll, "Cycle_No", 1)
+                        'clsCommon.AddColumnsForChange(coll, "Cycle_No", CycleNo)
                     Else
                         qry = "select TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE from TSPL_MCC_MASTER 
                                 left outer join TSPL_PAYMENT_CYCLE_MASTER on TSPL_PAYMENT_CYCLE_MASTER.PC_CODE=TSPL_MCC_MASTER.Payment_Cycle
@@ -499,14 +500,26 @@ Public Class clsMPIncentiveEntryDetail
                         End If
                         If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PC_TYPE")), "Day") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PC_TYPE")), "Week") = CompairStringResult.Equal Then
                             Dim NoOfDays As Integer = clsCommon.myCdbl(dt.Rows(0)("PC_VALUE"))
-                            Dim CycleNo As Integer = (FromDate.Day / NoOfDays) + 1
-                            clsCommon.AddColumnsForChange(coll, "Cycle_No", CycleNo)
+                            CycleNo = (FromDate.Day / NoOfDays) + 1
+                            'clsCommon.AddColumnsForChange(coll, "Cycle_No", CycleNo)
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PC_TYPE")), "Month") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PC_TYPE")), "Year") = CompairStringResult.Equal Then
-                            clsCommon.AddColumnsForChange(coll, "Cycle_No", 1)
+                            'clsCommon.AddColumnsForChange(coll, "Cycle_No", CycleNo)
                         End If
                     End If
+                    clsCommon.AddColumnsForChange(coll, "Cycle_No", CycleNo)
                     clsCommon.AddColumnsForChange(coll, "Cycle_Month", FromDate.Month)
                     clsCommon.AddColumnsForChange(coll, "Cycle_Year", FromDate.Year)
+
+                    qry = "select ISNULL(TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Status,0) as Status from TSPL_DCS_MP_INCENTIVE_RECO_DETAIL  
+left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code = TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code 
+where Cycle_Year = " + clsCommon.myCstr(FromDate.Year) + " and Cycle_Month = " + clsCommon.myCstr(FromDate.Month) + " and Cycle_No = " + clsCommon.myCstr(CycleNo) + " and VLC_Code = '" + obj.VLC_Code + "'"
+                    Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
+                        If clsCommon.myCDecimal(dtTemp.Rows(0)("Status")) = 1 Then
+                            Throw New Exception("DBT RECO Processed.You can't be modify")
+                        End If
+                    End If
+
                     clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
                     clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
                     clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
@@ -564,6 +577,8 @@ select 1 from TSPL_DBT_NEFT_DETAIL_INVALID where Against_MP_Incentive_TR='" + cl
                         qry = "select max(PK_Id) from TSPL_MP_INCENTIVE_ENTRY_DETAIL where Document_Code ='" + strDocNo + "'"
                         obj.PK_Id = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
                     End If
+
+
                     clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.PK_Id, "TSPL_MP_INCENTIVE_ENTRY_DETAIL", "PK_Id", trans)
                 Next
 

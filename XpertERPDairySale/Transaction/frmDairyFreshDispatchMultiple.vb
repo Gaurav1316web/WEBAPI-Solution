@@ -2171,10 +2171,11 @@ Public Class frmDairyFreshDispatchMultiple
         repoIsTaxable10.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv1.MasterTemplate.Columns.Add(repoIsTaxable10)
 
-        Dim count As Integer = 2
-        If rbtnTaxable.IsChecked = True Then
-            count = 3
-        End If
+        Dim count As Integer = 10
+        'If rbtnTaxable.IsChecked = True Then
+        '    count = 3
+        'End If
+
         For ii As Integer = 1 To count
             Dim repoCheckBox As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
             repoCheckBox.HeaderText = "Is Tax On Base Amount " + clsCommon.myCstr(ii)

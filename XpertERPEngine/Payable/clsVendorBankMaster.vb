@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Public Class clsVendorBankMaster
 #Region "Variables"
     Public Bank_code As String = Nothing
+    Public BankCode2 As String = Nothing
     Public Bank_Name As String = Nothing
     Public Branch_Code As String = Nothing
     Public Branch_Name As String = Nothing
@@ -193,7 +194,8 @@ Public Class clsVendorBankBranchDetail
     Public Branch_Name As String = Nothing
     Public Bank_IFSC_Code As String = Nothing
     Public Bank_Swift_Code As String = Nothing
-  
+
+
     Public Shared Function saveData(ByVal arrObj As List(Of clsVendorBankBranchDetail), ByVal strBankNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim issaved As Boolean = True

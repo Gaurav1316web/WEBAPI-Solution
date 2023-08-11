@@ -395,6 +395,10 @@ Public Class clsCustomerMaster
     Public Customer_Category As String = String.Empty
     Public Bank_Name As String
     Public IFSC_Code As String
+
+    'Public IFSCCode2 As String
+    'Public BankCode2 As String
+
     Public Branch_Name As String
     Public Account_No As String
     Public IsTCSnotApplicable As Integer = 0
@@ -670,6 +674,10 @@ Public Class clsCustomerMaster
                 clsCommon.AddColumnsForChange(coll, "Customer_Category", obj.Customer_Category, True)
                 clsCommon.AddColumnsForChange(coll, "Bank_Name", obj.Bank_Name, True)
                 clsCommon.AddColumnsForChange(coll, "IFSC_Code", obj.IFSC_Code, True)
+
+                'clsCommon.AddColumnsForChange(coll, "BankCode2", obj.BankCode2, True)
+                'clsCommon.AddColumnsForChange(coll, "IFSCCode2", obj.IFSCCode2, True)
+
                 clsCommon.AddColumnsForChange(coll, "Branch_Name", obj.Branch_Name, True)
                 clsCommon.AddColumnsForChange(coll, "Account_No", obj.Account_No, True)
                 clsCommon.AddColumnsForChange(coll, "IsTCSnotApplicable", obj.IsTCSnotApplicable, True)
@@ -713,7 +721,7 @@ Public Class clsCustomerMaster
                         Msg += "Please Select only a Single DataBase"
                         Throw New Exception(Msg)
                     Else
-                        Dim arrDBName1 As New List(Of String)
+                        Dim arrDBName1 As New List(Of String)               
                         Dim dtDb As DataTable = clsDBFuncationality.GetDataTable("Select DataBase_Name  from TSPL_COMPANY_MASTER Where DataBase_Name not in (" + clsCommon.GetMulcallString(arrDBName) + ")", trans)
                         For Each drdb As DataRow In dtDb.Rows
                             arrDBName1.Add(clsCommon.myCstr(drdb("DataBase_Name")))
@@ -3327,7 +3335,7 @@ Public Class clsCustomerMaster
             Else
                 BaseQryForCustomer = clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, ConvRate, strCustomer, False, strfromdate, strtodate, False, False, False, Nothing)
 
-                BaseQry = " Select convert(varchar,FinalGroup.DocDate,103) as Date ,FinalGroup.acode ,max(FinalGroup.AName) as Aname,sum(FinalGroup.DrAmt) as DrAmt,sum(FinalGroup.CrAmt) as Cr_Amt,sum(FinalGroup.CanDebit) as CanDebit,sum(FinalGroup.CanCredit) as CanCredit,sum(FinalGroup.CrateDebit) as CrateDebit,sum(FinalGroup.CrateCredit) as CrateCredit from ( Select final.DocDate , max(ACode) as acode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, SUM(convert(decimal(18,2),DrAmt*  Final.ConvRate)) as DrAmt, " &
+                BaseQry = " Select convert(varchar,FinalGroup.DocDate,103) as Date ,FinalGroup.acode ,max(FinalGroup.AName) as Aname,sum(FinalGroup.DrAmt) as DrAmt,sum(FinalGroup.CrAmt) as Cr_Amt,sum(FinalGroup.CanDebit) as CanDebit,sum(FinalGroup.CanCredit) as CanCredit,sum(FinalGroup.CrateDebit) as CrateDebit,sum(FinalGroup.CrateCredit) as CrateCredit from ( Select max(final.DocDate) as DocDate , max(ACode) as acode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, SUM(convert(decimal(18,2),DrAmt*  Final.ConvRate)) as DrAmt, " &
                 " SUM(convert(decimal(18,2),CrAmt)) as CrAmt,0 as CanDebit,0 as CanCredit,0 as CrateDebit,0 as CrateCredit " &
                 " FROM ( " & BaseQryForCustomer & " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code " + Environment.NewLine &
                 " Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " + Environment.NewLine &

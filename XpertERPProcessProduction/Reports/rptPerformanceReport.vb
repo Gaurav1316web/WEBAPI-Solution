@@ -28,6 +28,8 @@ Public Class rptPerformanceReport
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = txtToDate.Value.AddMonths(-1)
         'TxtMultiLocation.arrValueMember = Nothing
+        txtBillToLocation.Value = Nothing
+        lblBillToLocation.Text = ""
         TxtRAL.arrValueMember = Nothing
         Gv1.DataSource = Nothing
     End Sub
@@ -57,10 +59,10 @@ Public Class rptPerformanceReport
 
             If rdobtnWeighment.Checked Then
 
-                qry = "  SELECT XXY.FROM_DATE,XXY.TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1
-                         from   (select final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.Rate,final.GRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.RiskPurchase,final.[% Supplied],final.Remarks ,final.LOCATION,final.FROM_DATE,final.TO_DATE
+                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, XXY.LOCATION, XXY.Ref_No,XXY.[Item] as [Item Description]  ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],cast (XXY.Rate as decimal (18,2)) as Rate, cast (XXY.[Quantity Supplied] as decimal (18,2)) as [Quantity Supplied],cast (XXY.[Short/Excess Qty] as decimal (18,2)) as [Short/Excess Qty],XXY.RiskPurchase,cast (XXY.[% Supplied] as decimal (18,2)) as [% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,FORMAT(XXY.FROM_DATE, 'dd/MM/yyyy')as FROM_DATE,FORMAT(XXY.TO_DATE, 'dd/MM/yyyy')as TO_DATE,TSPL_LOCATION_MASTER.Add4
+                         from   (select final.HeadName, final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.Rate,final.GRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.RiskPurchase,final.[% Supplied],final.Remarks ,final.LOCATION,final.FROM_DATE,final.TO_DATE
                 from (
-                Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
+                Select '' as HeadName, TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
                 cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
                 max(TendorSeqNo) as TendorSeqNo,
                 SUM(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) AS GRNQTY,
@@ -91,10 +93,10 @@ Public Class rptPerformanceReport
             Else
 
 
-                qry = "  SELECT XXY.FROM_DATE,XXY.TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1
-                         from   (select final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.SRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.Rate,final.RiskPurchase,final.[% Supplied],final.Remarks,final.FROM_DATE,final.TO_DATE,final.LOCATION
+                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, XXY.LOCATION, XXY.Ref_No,XXY.[Item] as [Item Description] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],cast (XXY.Rate as decimal (18,2)) as Rate, cast (XXY.[Quantity Supplied] as decimal (18,2)) as [Quantity Supplied],cast (XXY.[Short/Excess Qty] as decimal (18,2)) as [Short/Excess Qty],XXY.RiskPurchase,cast (XXY.[% Supplied] as decimal (18,2)) as [% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,FORMAT(XXY.FROM_DATE, 'dd/MM/yyyy')as FROM_DATE,FORMAT(XXY.TO_DATE, 'dd/MM/yyyy')as TO_DATE,TSPL_LOCATION_MASTER.Add4
+                         from   (select final.HeadName, final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.SRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.Rate,final.RiskPurchase,final.[% Supplied],final.Remarks,final.FROM_DATE,final.TO_DATE,final.LOCATION
                 from (
-                Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_SRN_DETAIL.Unit_code AS UOM,TSPL_GRN_HEAD.Vendor_Name,
+                Select  '' as HeadName, TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_SRN_DETAIL.Unit_code AS UOM,TSPL_GRN_HEAD.Vendor_Name,
                 cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
                 max(TendorSeqNo) as TendorSeqNo,
                 SUM(SRN_Qty) AS SRNQTY,
@@ -115,7 +117,7 @@ Public Class rptPerformanceReport
 				left outer join (SELECT DocumentCode,Location_Code,Vendor_Code,Item_Code,MIN(FROM_DATE) AS FROM_DATE,MAX(TO_DATE) AS TO_DATE  FROM TSPL_TENDER_SCHEDULE  GROUP BY DocumentCode,Location_Code,Vendor_Code,Item_Code) as TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_SCHEDULE.Location_Code=TSPL_TENDER_DETAIL.Location AND TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code AND TSPL_TENDER_SCHEDULE.Item_Code=TSPL_TENDER_DETAIL.Item_Code
                 GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_TENDER_DETAIL.Unit_code) 
 	                RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_SRN_HEAD.Bill_To_Location AND RM_RAL.ITEM_CODE=TSPL_SRN_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_SRN_DETAIL.Unit_code
-                where  TSPL_SRN_HEAD.Bill_To_Location= 'AJMR' 
+                where  TSPL_SRN_HEAD.Bill_To_Location= '" + clsCommon.myCstr(txtBillToLocation.Value) + "' 
 				   
 				GROUP BY TSPL_SRN_HEAD.Bill_To_Location ,TSPL_GRN_HEAD.Ref_No,TSPL_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SRN_DETAIL.Unit_code ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_SRN_DETAIL.Unit_code,RAL_QTY
                         ) final) XXY 
@@ -169,15 +171,15 @@ Public Class rptPerformanceReport
         Gv1.Columns("TO_DATE").IsVisible = True
         Gv1.Columns("TO_DATE").HeaderText = "To Date"
 
-        Gv1.Columns("Ref_No").Width = 100
+        Gv1.Columns("Ref_No").Width = 150
         Gv1.Columns("Ref_No").IsVisible = True
         Gv1.Columns("Ref_No").HeaderText = "RAL No"
 
-        Gv1.Columns("Item").Width = 100
-        Gv1.Columns("Item").IsVisible = True
-        Gv1.Columns("Item").HeaderText = "Item"
+        Gv1.Columns("Item Description").Width = 100
+        Gv1.Columns("Item Description").IsVisible = True
+        Gv1.Columns("Item Description").HeaderText = "Item Description"
 
-        Gv1.Columns("Supplier's Name").Width = 100
+        Gv1.Columns("Supplier's Name").Width = 150
         Gv1.Columns("Supplier's Name").IsVisible = True
         Gv1.Columns("Supplier's Name").HeaderText = "Supplier's Name"
 
@@ -193,12 +195,9 @@ Public Class rptPerformanceReport
         Gv1.Columns("Quantity Supplied").IsVisible = True
         Gv1.Columns("Quantity Supplied").HeaderText = "Quantity Supplied"
 
-
         Gv1.Columns("Short/Excess Qty").Width = 100
         Gv1.Columns("Short/Excess Qty").IsVisible = True
         Gv1.Columns("Short/Excess Qty").HeaderText = "Short/Excess Qty"
-
-
 
         Gv1.Columns("RiskPurchase").Width = 100
         Gv1.Columns("RiskPurchase").IsVisible = True
@@ -221,7 +220,7 @@ Public Class rptPerformanceReport
         Gv1.Columns("Location_Desc").HeaderText = "Location Description"
 
         Gv1.Columns("LOCATION").Width = 100
-        Gv1.Columns("LOCATION").IsVisible = False
+        Gv1.Columns("LOCATION").IsVisible = True
         Gv1.Columns("LOCATION").HeaderText = "LOCATION"
 
 
@@ -235,45 +234,22 @@ Public Class rptPerformanceReport
 
     End Sub
 
-    Private Sub txtBillToLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBillToLocation._MYValidating
+    Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
 
-        Try
-            Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-            Dim WhrCls As String
-            If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
-                WhrCls = " Location_Type='Virtual' "
-            Else
-                WhrCls = " (Location_Type='Physical' or Location_Type='WorkOrder')  "
-            End If
+        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
+        Dim WhrCls As String = " Location_Type='Physical'  "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
 
-            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-            End If
 
-            txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
-
-            If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-                lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
-            Else
-                lblBillToLocation.Text = ""
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
+        txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
+        lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
 
     End Sub
 
-    Private Sub rptPerformanceReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-        Dim WhrCls As String = String.Empty
-        If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.FrmSRNMT) = CompairStringResult.Equal Then
-            WhrCls = " and Location_Type='Virtual' "
-        Else
-            WhrCls = " and Location_Type='Physical' or Location_Type='WorkOrder'  "
-        End If
-        '  If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.mbtnSRN) = CompairStringResult.Equal Then
-        ' txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' " & WhrCls & " "))
+    Private Sub rptPerformanceReport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
         If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
         End If
@@ -324,7 +300,7 @@ Public Class rptPerformanceReport
                     'arrHeader.Add("Location : " + strLocDesc)
                 End If
 
-                arrHeader.Add("Location:" + clsCommon.myCstr(txtBillToLocation.Value))
+                arrHeader.Add("Location:" + clsCommon.myCstr(lblBillToLocation.Text))
 
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("Performance Report", Gv1, arrHeader, "Performance Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
@@ -348,10 +324,10 @@ Public Class rptPerformanceReport
 
             If rdobtnWeighment.Checked Then
 
-                qry = "  SELECT XXY.FROM_DATE,XXY.TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1
-                         from   (select final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.Rate,final.GRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.RiskPurchase,final.[% Supplied],final.Remarks ,final.LOCATION,final.FROM_DATE,final.TO_DATE
+                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, FORMAT(XXY.FROM_DATE, 'dd/MM/yyyy')as FROM_DATE,FORMAT(XXY.TO_DATE, 'dd/MM/yyyy')as TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4
+                         from   (select final.HeadName, final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.Rate,final.GRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.RiskPurchase,final.[% Supplied],final.Remarks ,final.LOCATION,final.FROM_DATE,final.TO_DATE
                 from (
-                Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
+                Select  '' as HeadName, TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_GRN_HEAD.Vendor_Name,
                 cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
                 max(TendorSeqNo) as TendorSeqNo,
                 SUM(TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) AS GRNQTY,
@@ -380,10 +356,10 @@ Public Class rptPerformanceReport
 
             Else
 
-                qry = "  SELECT XXY.FROM_DATE,XXY.TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1
-                         from   (select final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.SRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.Rate,final.RiskPurchase,final.[% Supplied],final.Remarks,final.FROM_DATE,final.TO_DATE,final.LOCATION
+                qry = "  SELECT 'RAJASTHAN CO-OPERATIVE DAIRY FEDERATION LIMITED' as HeadName, FORMAT(XXY.FROM_DATE, 'dd/MM/yyyy')as FROM_DATE,FORMAT(XXY.TO_DATE, 'dd/MM/yyyy')as TO_DATE, XXY.Ref_No,XXY.[Item] ,XXY.UOM,XXY.[Supplier's Name], XXY.[Quantity Approved],XXY.Rate, XXY.[Quantity Supplied],XXY.[Short/Excess Qty],XXY.RiskPurchase,XXY.[% Supplied],XXY.Remarks ,XXY.LOCATION,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add4
+                         from   (select final.HeadName, final.Ref_No,final.ITEM_DESC as [Item],final.UOM,final.Vendor_Name as [Supplier's Name],final.RAL_QTY as [Quantity Approved],final.SRNQTY as [Quantity Supplied],final.Pending_Qty as [Short/Excess Qty],final.Rate,final.RiskPurchase,final.[% Supplied],final.Remarks,final.FROM_DATE,final.TO_DATE,final.LOCATION
                 from (
-                Select  TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_SRN_DETAIL.Unit_code AS UOM,TSPL_GRN_HEAD.Vendor_Name,
+                Select '' as HeadName, TSPL_GRN_HEAD.Ref_No ,TSPL_ITEM_MASTER.Short_Description As 'ITEM_DESC',TSPL_SRN_DETAIL.Unit_code AS UOM,TSPL_GRN_HEAD.Vendor_Name,
                 cast(RM_RAL.RAL_QTY as numeric (18,0)) as 'RAL_QTY',
                 max(TendorSeqNo) as TendorSeqNo,
                 SUM(SRN_Qty) AS SRNQTY,
@@ -404,7 +380,7 @@ Public Class rptPerformanceReport
 				left outer join (SELECT DocumentCode,Location_Code,Vendor_Code,Item_Code,MIN(FROM_DATE) AS FROM_DATE,MAX(TO_DATE) AS TO_DATE  FROM TSPL_TENDER_SCHEDULE  GROUP BY DocumentCode,Location_Code,Vendor_Code,Item_Code) as TSPL_TENDER_SCHEDULE ON TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_SCHEDULE.Location_Code=TSPL_TENDER_DETAIL.Location AND TSPL_TENDER_SCHEDULE.Vendor_Code=TSPL_TENDER_DETAIL.Vendor_Code AND TSPL_TENDER_SCHEDULE.Item_Code=TSPL_TENDER_DETAIL.Item_Code
                 GROUP BY TSPL_TENDER_DETAIL.Location ,TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_DETAIL.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_TENDER_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_TENDER_DETAIL.Unit_code) 
 	                RM_RAL ON RM_RAL.RAL=TSPL_GRN_HEAD.Ref_No AND RM_RAL.LOCATION=TSPL_SRN_HEAD.Bill_To_Location AND RM_RAL.ITEM_CODE=TSPL_SRN_DETAIL.Item_Code AND RM_RAL.VENDORCODE=TSPL_GRN_HEAD.Vendor_Code  AND RM_RAL.UOM=TSPL_SRN_DETAIL.Unit_code
-                where  TSPL_SRN_HEAD.Bill_To_Location= 'AJMR' 
+                where  TSPL_SRN_HEAD.Bill_To_Location= '" + clsCommon.myCstr(txtBillToLocation.Value) + "' 
 				   
 				GROUP BY TSPL_SRN_HEAD.Bill_To_Location ,TSPL_GRN_HEAD.Ref_No,TSPL_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Short_Description,TSPL_SRN_DETAIL.Unit_code ,TSPL_GRN_HEAD.Vendor_Code ,TSPL_GRN_HEAD.Vendor_Name ,TSPL_SRN_DETAIL.Unit_code,RAL_QTY
                         ) final) XXY 
@@ -416,14 +392,14 @@ Public Class rptPerformanceReport
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "rptPerformanceReport", "")
+                frmCRV.funreport(CrystalReportFolder.Purchase, dt, "rptPerformanceReport", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No Data Found")
             End If
 
         Catch ex As Exception
-
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
 
 

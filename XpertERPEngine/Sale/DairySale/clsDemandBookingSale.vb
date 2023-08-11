@@ -19,6 +19,10 @@ Public Class clsDemandBookingSale
     Public TotalQtyInCrates As Decimal =0
     Public TotalQtyInLtr As Decimal =0
     Public DocumentAmount As Decimal = 0
+
+    Public Posted_Morning As Integer = 0
+    Public Posted_Evening As Integer = 0
+
     Public Arr As List(Of clsDemandBookingSaleDetail) = Nothing
 #End Region
 
@@ -35,60 +39,44 @@ Public Class clsDemandBookingSale
     End Function
     Public Function SaveData(ByVal obj As clsDemandBookingSale, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
-            Dim isSaved As Boolean = True
             Dim ShiftType As String = ""
             If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
-
-                Dim dtshift As DataTable = clsDBFuncationality.GetDataTable("select distinct ShiftType from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & obj.Document_No & "' and (IsGatePassGenerated='N' and IsTruckSheetGenerated ='N')", trans)
+                Dim dtshift As DataTable = clsDBFuncationality.GetDataTable("select distinct ShiftType from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & obj.Document_No & "' and (IsGatePassGenerated='N' and IsTruckSheetGenerated ='N' and Is_Posted='N')", trans)
                 If dtshift IsNot Nothing AndAlso dtshift.Rows.Count = 1 Then
                     For Each dr As DataRow In dtshift.Rows
                         If clsCommon.CompairString(clsCommon.myCstr(dr("ShiftType")), "Morning") = CompairStringResult.Equal Then
                             qry = "delete from TSPL_BOOKING_DETAIL where document_No in (select document_No from tspl_booking_matser where Against_DemandBooking_No='" + obj.Document_No + "' and GatePass_Type ='AM') "
-                            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                             qry = "delete from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" + obj.Document_No + "'  and GatePass_Type ='AM'"
-                            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            ''qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' and ShiftType='Morning'"
                             qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' and ShiftType='Morning' ) "
-                            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
                             ShiftType = "Morning"
                         End If
                         If clsCommon.CompairString(clsCommon.myCstr(dr("ShiftType")), "Evening") = CompairStringResult.Equal Then
                             qry = "delete from TSPL_BOOKING_DETAIL where document_No in (select document_No from tspl_booking_matser where Against_DemandBooking_No='" + obj.Document_No + "' and GatePass_Type ='PM') "
-                            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                             qry = "delete from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" + obj.Document_No + "'  and GatePass_Type ='PM'"
-                            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                            ''qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' and ShiftType='Evening'"
                             qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' and ShiftType='Evening' ) "
-                            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
                             ShiftType = "Evening"
                         End If
-
                     Next
                 Else
                     qry = "delete from TSPL_BOOKING_DETAIL where Against_DemandBooking_No = '" + obj.Document_No + "' "
-                    isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                     qry = "delete from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" + obj.Document_No + "'"
-                    isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                    ''qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "'"
                     qry = "delete from TSPL_DEMAND_BOOKING_DETAIL where tr_code in (select tr_code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + obj.Document_No + "' ) "
-                    isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 End If
-
-            End If
-
-            Dim strDocNo As String = ""
-            If isNewEntry Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBooking, "", obj.Location_Code)
-            End If
-
-            If (clsCommon.myLen(obj.Document_No) <= 0) Then
-                Throw New Exception("Error in Document Code Generation")
             End If
 
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", obj.Location_Code, obj.Document_Date, trans)
@@ -110,28 +98,29 @@ Public Class clsDemandBookingSale
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
 
             If isNewEntry Then
+                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_Date, clsDocType.frmDemandBooking, "", obj.Location_Code)
+                If (clsCommon.myLen(obj.Document_No) <= 0) Then
+                    Throw New Exception("Error in Document Code Generation")
+                End If
                 clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
             End If
 
-            isSaved = isSaved AndAlso clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, Arr, trans, obj.Location_Code, ShiftType)
+            clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, Arr, trans, obj.Location_Code)
             createDairyBookingDoc(obj.Document_No, trans, isNewEntry, ShiftType)
-            'qry = "update TSPL_DEMAND_BOOKING_DETAIL set IsItemUpdate=0 where Document_No='" + obj.Document_No + "'"
-            'isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            Return isSaved
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+        Return True
     End Function
     Private Shared Function createDairyBookingDoc(ByVal strDemandBookingNo As String, ByVal trans As SqlTransaction, ByVal isDemandBookingNewEntry As Boolean, ByVal UpdatedShiftType As String)
-
         Dim obj As New clsBookingEntryDairySale()
         Dim objTr As New clsBookingDetailDairySale()
-
         Try
             If clsCommon.myLen(clsCommon.myCstr(strDemandBookingNo)) > 0 Then
                 Dim strBookingDocNo As String = String.Empty
@@ -148,20 +137,10 @@ Public Class clsDemandBookingSale
                 Dim LineNo As Integer = 1
                 Dim strwhrcls As String = ""
                 If isDemandBookingNewEntry = False Then
-                    'strwhrcls = " and tspl_demand_booking_detail.IsItemUpdate=1 "
                     If clsCommon.myLen(UpdatedShiftType) > 0 Then
-                        'If clsCommon.CompairString(UpdatedShiftType), "Morning") = CompairStringResult.Equal Then
                         strwhrcls = " and tspl_demand_booking_detail.ShiftType='" & UpdatedShiftType & "' "
-                        'End If
-
                     End If
-
                 End If
-
-                '                Dim dt As DataTable = clsDBFuncationality.GetDataTable("select tspl_demand_booking_detail.*,tspl_demand_booking_master.Route_No,tspl_demand_booking_master.Location_Code,tspl_demand_booking_master.Document_Date   from tspl_demand_booking_detail 
-                'left outer join tspl_demand_booking_master on tspl_demand_booking_master.document_no=tspl_demand_booking_detail.Document_No
-                'where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' " & strwhrcls & " 
-                'order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftType desc", trans)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("select tspl_demand_booking_detail.*,tspl_demand_booking_master.Route_No,tspl_demand_booking_master.Location_Code,tspl_demand_booking_master.Document_Date,tspl_demand_booking_master.Created_By   from tspl_demand_booking_detail 
 left outer join tspl_demand_booking_master on tspl_demand_booking_master.document_no=tspl_demand_booking_detail.Document_No
 where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' " & strwhrcls & " 
@@ -169,14 +148,10 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                 Dim dtmain As DataTable = clsDBFuncationality.GetDataTable("select '' as DemandBookingSrNo,'' as Document_No,'' as 	Line_No,'' as	Cust_Code,'' as 	Item_Code,'' as 	Qty,'' as 	Unit_code,'' as 	Vehicle_Code,'' as 	Item_Rate,'' as DocumentAmount	,'' as Price_code	,'' as ShiftType	,'' as Route_No	,'' as Location_Code,'' as Document_Date,'' as TR_Code,'' as Created_By ", trans)
                 dtmain.Rows.RemoveAt(0)
                 For Each dr As DataRow In dt.Rows
-
                     If clsCommon.CompairString(clsCommon.myCDate(strdocdate), clsCommon.myCDate(dr("Document_Date"))) = CompairStringResult.Equal And clsCommon.CompairString(CustomerCode, clsCommon.myCstr(dr("Cust_Code"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strShiftType, clsCommon.myCstr(dr("ShiftType"))) = CompairStringResult.Equal Then
-                        'DocAmount = DocAmount + clsCommon.myCdbl(dr("TotalAmt"))
                     Else
                         CustomerCount = CustomerCount + 1
                     End If
-
-
                     CustomerCode = clsCommon.myCstr(dr("Cust_Code"))
                     strShiftType = clsCommon.myCstr(dr("ShiftType"))
                     strdocdate = clsCommon.myCDate(dr("Document_Date"))
@@ -184,25 +159,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                 Next
                 For Each dr1 As DataRow In dtmain.Rows
                     Dim intCurrInvNo As Integer = clsCommon.myCdbl(dr1("DemandBookingSrNo"))
-
                     If clsCommon.CompairString(strcountno, clsCommon.myCstr(dr1("DemandBookingSrNo"))) <> CompairStringResult.Equal Then
-                        'If isDemandBookingNewEntry = False Then
-                        '    Dim qry1 As String = "select distinct TSPL_BOOKING_MATSER.Document_no from TSPL_BOOKING_DETAIL inner join TSPL_BOOKING_MATSER on TSPL_BOOKING_MATSER.Document_no=TSPL_BOOKING_DETAIL.Document_no where TSPL_BOOKING_DETAIL.Against_DemandBooking_No ='" & clsCommon.myCstr(dr1("Document_No")) & "' and TSPL_BOOKING_DETAIL.Cust_Code ='" & clsCommon.myCstr(dr1("Cust_Code")) & "' "
-                        '    If clsCommon.CompairString(clsCommon.myCstr(dr1("ShiftType")), "Morning") = CompairStringResult.Equal Then
-                        '        strdocdate = clsCommon.myCDate(clsCommon.GetPrintDate(clsCommon.myCstr(dr1("Document_Date")), "dd/MMM/yyyy")).AddDays(1)
-                        '    Else
-                        '        strdocdate = clsCommon.myCDate(clsCommon.GetPrintDate(clsCommon.myCstr(dr1("Document_Date")), "dd/MMM/yyyy"))
-                        '    End If
-                        '    qry1 += " and convert(date,TSPL_BOOKING_MATSER .document_date,103)='" & clsCommon.GetPrintDate(strdocdate, "dd/MMM/yyyy") & "'"
-                        '    strBookingDocNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1, trans))
-                        '    If clsCommon.myLen(clsCommon.myCstr(strBookingDocNo)) > 0 Then
-
-                        '        clsDBFuncationality.ExecuteNonQuery("delete from TSPL_BOOKING_DETAIL where Document_No='" + strBookingDocNo + "'", trans)
-
-                        '        clsDBFuncationality.ExecuteNonQuery("delete from TSPL_BOOKING_MATSER where Document_No='" + strBookingDocNo + "'", trans)
-                        '    End If
-                        'End If
-
                         LineNo = 1
                         DocuAmount = 0
                         TotalCrate = 0
@@ -223,11 +180,8 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                         obj.From_Screen_code = clsUserMgtCode.frmDairyBookingCustomer
                         obj.Against_DemandBooking_No = clsCommon.myCstr(dr1("Document_No"))
 
-
                         ''for detail table
                         obj.Arr = New List(Of clsBookingDetailDairySale)
-
-
                         If clsCommon.myCdbl(dr1("Qty")) > 0 Then
                             objTr = New clsBookingDetailDairySale()
                             objTr.Line_No = LineNo
@@ -277,13 +231,11 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                                         objTr.SchemeType = objtrScheme.schm_Type
                                         objTr.Scheme_Qty = objtrScheme.Schm_Qty
                                     Next
-
                                 End If
                             End If
 
 
                             'crate conversion
-
                             Dim dblTotalCrateRowWise As Double = 0
                             If clsCommon.myLen(clsCommon.myCstr(objTr.Item_Code)) > 0 Then
                                 Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(objTr.Item_Code) & "'", trans))
@@ -298,16 +250,10 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                                             TotalCrate = TotalCrate + Math.Floor(DispatchQty / CrateConvFactor)
 
                                         End If
-                                    Else
-                                        'Throw New Exception("Please fill conversion factor for this unit at line no." & i + 1 & "" & Environment.NewLine)
                                     End If
                                 End If
                             End If
-
                             ''end of crate Conversion
-
-
-
                             Dim dt3 As New DataTable()
                             Dim dblRate As Double = 0
                             Dim dblTotal As Double = 0
@@ -369,10 +315,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                             obj.Arr.Add(objTr)
 
                             LineNo = LineNo + 1
-
-
                         End If
-
                     Else
                         If clsCommon.myCdbl(dr1("Qty")) > 0 Then
                             objTr = New clsBookingDetailDairySale()
@@ -430,7 +373,6 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
 
 
                             'crate conversion
-
                             Dim dblTotalCrateRowWise As Double = 0
                             If clsCommon.myLen(clsCommon.myCstr(objTr.Item_Code)) > 0 Then
                                 Dim ItemCrateType As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IS_CrateType  from TSPL_ITEM_MASTER Where Item_Code  ='" & clsCommon.myCstr(objTr.Item_Code) & "'", trans))
@@ -443,17 +385,13 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                                         Dim DispatchQty As Double = clsCommon.myCdbl(objTr.Booking_Qty) * ItemConvFactor
                                         If DispatchQty >= CrateConvFactor Then
                                             TotalCrate = TotalCrate + Math.Floor(DispatchQty / CrateConvFactor)
-
                                         End If
                                     Else
                                         'Throw New Exception("Please fill conversion factor for this unit at line no." & i + 1 & "" & Environment.NewLine)
                                     End If
                                 End If
                             End If
-
                             ''end of crate Conversion
-
-
 
                             Dim dt3 As New DataTable()
                             Dim dblRate As Double = 0
@@ -499,7 +437,6 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                                 objTr.OrgRate = clsCommon.myCdbl(dt3.Rows(0).Item("Item_Selling_Price"))
                                 objTr.DocumentAmount = Math.Round(clsCommon.myCdbl(objTr.Booking_Qty) * clsCommon.myCdbl(objTr.Item_Rate), 2)
 
-
                                 objTr.Price_with_Tax = clsCommon.myCdbl(dblItemBasicPrice)
                                 objTr.Amount_with_Tax = dblItemBasicPrice * clsCommon.myCdbl(objTr.Booking_Qty)
                                 objTr.Booking_Status = 1
@@ -516,8 +453,6 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                             obj.Arr.Add(objTr)
 
                             LineNo = LineNo + 1
-
-
                         End If
                     End If
                     strcountno = intCurrInvNo
@@ -531,27 +466,22 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                         obj.TotalCrate = TotalCrate
                         obj.SaveData(obj, True, trans, "")
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_DETAIL set DocumentAmount =" & DocuAmount & ", Total_Qty =" & totalQty & " where Document_No ='" & obj.Document_No & "' and Scheme_Item='N'", trans)
-
                         clsDBFuncationality.ExecuteNonQuery("update TSPL_BOOKING_MATSER set Created_Date ='" & clsCommon.GetPrintDate(clsCommon.myCDate(dr1("Document_Date")), "dd/MMM/yyyy hh:mm tt") & "',Modified_Date ='" & clsCommon.GetPrintDate(clsCommon.myCDate(dr1("Document_Date")), "dd/MMM/yyyy hh:mm tt") & "',Created_By ='" & clsCommon.myCstr(dr1("Created_By")) & "' where Document_No ='" & obj.Document_No & "'", trans)
-
                     End If
                     intCounter += 1
                 Next
-
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
-
         Return obj
-
     End Function
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType) As clsDemandBookingSale
         Return GetData(strDocumentNo, NavType, Nothing)
     End Function
     Public Shared Function GetData(ByVal strDocNo As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsDemandBookingSale
         Dim obj As clsDemandBookingSale = Nothing
-        Dim qry = "SELECT  *  FROM TSPL_DEMAND_BOOKING_MASTER where 2=2 "
+        Dim qry = "SELECT  TSPL_DEMAND_BOOKING_MASTER.*  FROM TSPL_DEMAND_BOOKING_MASTER where 2=2 "
         Dim whrCls As String = ""
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrCls = " AND Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
@@ -579,6 +509,8 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
             obj.ShiftType = clsCommon.myCstr(dt.Rows(0)("ShiftType"))
             obj.ItemType = clsCommon.myCstr(dt.Rows(0)("ItemType"))
             obj.Posted = clsCommon.myCdbl(dt.Rows(0)("Posted"))
+            obj.Posted_Morning = clsCommon.myCdbl(dt.Rows(0)("Posted_Morning"))
+            obj.Posted_Evening = clsCommon.myCdbl(dt.Rows(0)("Posted_Evening"))
             obj.TripNo = clsCommon.myCstr(dt.Rows(0)("TripNo"))
             obj.IsIndividualCustomer = clsCommon.myCdbl(dt.Rows(0)("IsIndividualCustomer"))
             obj.TotalQtyInCrates = clsCommon.myCdbl(dt.Rows(0)("TotalQtyInCrates"))
@@ -615,6 +547,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                     objTr.TotalLtr_ItemWise = clsCommon.myCdbl(dr("TotalLtr_ItemWise"))
                     objTr.IsTruckSheetGenerated = clsCommon.myCstr(dr("IsTruckSheetGenerated"))
                     objTr.IsGatePassGenerated = clsCommon.myCstr(dr("IsGatePassGenerated"))
+                    objTr.Is_Posted = clsCommon.myCstr(dr("Is_Posted"))
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -668,10 +601,10 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
         End If
         Return isSaved
     End Function
-    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String) As Boolean
+    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal intShift As Integer) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            PostData(FormId, strDocNo, trans)
+            PostData(FormId, strDocNo, intShift, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -679,39 +612,66 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
         End Try
         Return True
     End Function
-    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
-
+    Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal intShift As Integer, ByVal trans As SqlTransaction) As Boolean
         Try
-            Dim isSaved As Boolean = True
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Demand Booking No not found to Post")
             End If
+            If Not (intShift = 1 OrElse intShift = 2) Then
+                'intShift=1:Morning;2:Evening;
+                Throw New Exception("Shift Should be 1(Morning) or 2 (Evening)")
+            End If
             Dim obj As clsDemandBookingSale = clsDemandBookingSale.GetData(strDocNo, NavigatorType.Current, trans)
-
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", obj.Location_Code, obj.Document_Date, trans)
-
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-
-
-            Dim dtBooking As DataTable = clsDBFuncationality.GetDataTable("select Document_no from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" & strDocNo & "'", trans)
+            Dim StrGatePassType As String = ""
+            Dim StrShiftType As String = ""
+            If obj.Posted = 1 Then
+                Throw New Exception("Docuemnt is already posted")
+            ElseIf intShift = 1 Then
+                StrGatePassType = "AM"
+                StrShiftType = "Morning"
+                If obj.Posted_Morning = 1 Then
+                    Throw New Exception("Morning shift is already posted")
+                End If
+            ElseIf intShift = 2 Then
+                StrGatePassType = "PM"
+                StrShiftType = "Evening"
+                If obj.Posted_Evening = 1 Then
+                    Throw New Exception("Evening shift is already posted")
+                End If
+            End If
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Dairy Sale", "Demand Booking", obj.Location_Code, obj.Document_Date, trans)
+            Dim coll As New Hashtable()
+            Dim dtBooking As DataTable = clsDBFuncationality.GetDataTable("select Document_no from TSPL_BOOKING_MATSER where Against_DemandBooking_No='" & strDocNo & "' AND GatePass_Type='" + StrGatePassType + "' ", trans)
             If dtBooking IsNot Nothing AndAlso dtBooking.Rows.Count > 0 Then
                 For Each dr As DataRow In dtBooking.Rows
                     Dim strCustomerCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_code from tspl_booking_detail where Document_no='" & clsCommon.myCstr(dr("Document_no")) & "' ", trans))
                     clsBulkPostingDairySale.PostingAndDOCreation(clsCommon.myCstr(dr("Document_no")), strCustomerCode, trans)
+
+                    coll = New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Is_Posted", "Y")
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Update, "Document_No='" + strDocNo + "' and ShiftType = '" + StrShiftType + "'", trans)
                 Next
             End If
 
-
-            Dim qry = "Update TSPL_DEMAND_BOOKING_MASTER set Posted=1, " &
-            "Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modified_By='" + objCommonVar.CurrentUserCode + "', " &
-            "Modified_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "' " &
-            " where Document_No='" + strDocNo + "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-
-
+            Dim dtNow As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt")
+            coll = New Hashtable()
+            If intShift = 1 Then
+                clsCommon.AddColumnsForChange(coll, "Posted_Morning", 1)
+                clsCommon.AddColumnsForChange(coll, "Posted_Morning_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Posted_Morning_Date", dtNow)
+            ElseIf intShift = 2 Then
+                clsCommon.AddColumnsForChange(coll, "Posted_Evening", 1)
+                clsCommon.AddColumnsForChange(coll, "Posted_Evening_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Posted_Evening_Date", dtNow)
+            End If
+            If obj.Posted_Morning = 1 Or obj.Posted_Morning = 1 Then
+                clsCommon.AddColumnsForChange(coll, "Posted", 1)
+                clsCommon.AddColumnsForChange(coll, "Posting_Date", dtNow)
+            End If
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -782,6 +742,7 @@ Public Class clsDemandBookingSaleDetail
     Public ItemNetAmount As Decimal = 0
     Public IsGatePassGenerated As String = "N"
     Public IsTruckSheetGenerated As String = "N"
+    Public Is_Posted As String = Nothing
     Public Qty As Double = 0
     Public Rate As Double = 0
     Public Price_Code As String = Nothing
@@ -791,60 +752,30 @@ Public Class clsDemandBookingSaleDetail
     Public IsItemUpdate As Integer = 0
 
 #End Region
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal DocDate As Date, ByVal Arr As List(Of clsDemandBookingSaleDetail), ByVal trans As SqlTransaction, ByVal strLocCode As String, ByVal UpdateShiftType As String) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal DocDate As Date, ByVal Arr As List(Of clsDemandBookingSaleDetail), ByVal trans As SqlTransaction, ByVal strLocCode As String) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsDemandBookingSaleDetail In Arr
-
-                If clsCommon.myLen(clsCommon.myCstr(UpdateShiftType)) > 0 Then
-                    'If clsCommon.CompairString(UpdateShiftType, obj.ShiftType) = CompairStringResult.Equal Then
-                    Dim coll As New Hashtable()
-                        obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "")
-                        clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
-                        clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
-                        clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
-                        clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
-                        clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
-                        clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
-                        clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
-                        clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Rate)
-                        clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
-                        clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
-                        clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
-                        clsCommon.AddColumnsForChange(coll, "IsItemUpdate", obj.IsItemUpdate)
-                        clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", obj.TotalCrates_ItemWise)
-                        clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", obj.TotalLtr_ItemWise)
-                        clsCommon.AddColumnsForChange(coll, "ItemNetAmount", obj.ItemNetAmount)
-                        clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", obj.IsGatePassGenerated)
-                        clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
-                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
-                    'End If
-                Else
-                    Dim coll As New Hashtable()
-                    obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "")
-                    clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
-                    clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
-                    clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
-                    clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
-                    clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
-                    clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
-                    clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
-                    clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Rate)
-                    clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
-                    clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
-                    clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
-                    clsCommon.AddColumnsForChange(coll, "IsItemUpdate", obj.IsItemUpdate)
-                    clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", obj.TotalCrates_ItemWise)
-                    clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", obj.TotalLtr_ItemWise)
-                    clsCommon.AddColumnsForChange(coll, "ItemNetAmount", obj.ItemNetAmount)
-                    clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", obj.IsGatePassGenerated)
-                    clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
-                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
-
-                End If
-
-
+                Dim coll As New Hashtable()
+                obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "")
+                clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
+                clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
+                clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
+                clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                clsCommon.AddColumnsForChange(coll, "Item_Rate", obj.Rate)
+                clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code)
+                clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
+                clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
+                clsCommon.AddColumnsForChange(coll, "IsItemUpdate", obj.IsItemUpdate)
+                clsCommon.AddColumnsForChange(coll, "TotalCrates_ItemWise", obj.TotalCrates_ItemWise)
+                clsCommon.AddColumnsForChange(coll, "TotalLtr_ItemWise", obj.TotalLtr_ItemWise)
+                clsCommon.AddColumnsForChange(coll, "ItemNetAmount", obj.ItemNetAmount)
+                clsCommon.AddColumnsForChange(coll, "IsGatePassGenerated", obj.IsGatePassGenerated)
+                clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
-
         End If
         Return True
     End Function
