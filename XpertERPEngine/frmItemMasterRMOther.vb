@@ -329,6 +329,9 @@ Public Class FrmItemMasterRMOther
         txtRackNo.Text = ""
         txtPartNo.Value = ""
         txtDescription.Text = ""
+        txtItemDescHindi.Text = ""
+        txtShortDescHindi.Text = ""
+        txtAliesNameHindi.Text = ""
         txtBrand.Text = ""
         txttype.Text = ""
         txtReleasedBy.Text = ""
@@ -1377,11 +1380,14 @@ Public Class FrmItemMasterRMOther
                 obj.AllowSRNWithoutShortReject = IIf(chkAllowSRNwoShort.Checked = True, 1, 0)
                 obj.Item_Code = txtCode.Value
                 obj.Item_Desc = txtDesc.Text
+                obj.Item_Desc_Hindi = txtItemDescHindi.Text
                 obj.Part_No = clsCommon.myCstr(txtPartNo.Value).Replace("'", "`")
                 obj.Drawing_No = clsCommon.myCstr(txtdrawing_no.Text).Replace("'", "`")
                 obj.Item_Short_Desc = txtShortDescription.Text
+                obj.Item_Short_Desc_Hindi = txtShortDescHindi.Text
                 '==============Added by preeti Gupta Against Ticket No[ERO/10/05/18-000302]=============
                 obj.Alies_Name = txtAliesName.Text
+                obj.Alies_Name_Hindi = txtAliesNameHindi.Text
                 obj.Alies_Name2 = txtAliesName2.Text
                 obj.Alies_Name3 = txtAliesName3.Text
                 obj.Crate = ChkCrate.Checked
@@ -2418,6 +2424,7 @@ Public Class FrmItemMasterRMOther
                 LoadItemCSAType()
                 txtCode.Value = obj.Item_Code
                 txtDesc.Text = obj.Item_Desc
+                txtItemDescHindi.Text = obj.Item_Desc_Hindi
                 txtdrawing_no.Text = obj.Drawing_No
                 txtPartNo.Value = obj.Part_No
                 txt_shelflife.Text = clsCommon.myCstr(obj.shelflife)
@@ -2426,7 +2433,9 @@ Public Class FrmItemMasterRMOther
                     LoadDataPartNo(txtPartNo.Value, NavigatorType.Current)
                 End If
                 txtShortDescription.Text = obj.Item_Short_Desc
+                txtShortDescHindi.Text = obj.Item_Short_Desc_Hindi
                 txtAliesName.Text = obj.Alies_Name
+                txtAliesNameHindi.Text = obj.Alies_Name_Hindi
                 txtAliesName2.Text = obj.Alies_Name2
                 txtAliesName3.Text = obj.Alies_Name3
                 chkCAN.Checked = obj.Can
