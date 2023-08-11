@@ -1144,7 +1144,7 @@ Public Class frmVSP_VLCMaster
             Dim StrVdrNo As String = ""
             Dim StrTempVSPName As String = clsCommon.myCstr(txtvendorname.Text).Replace(" ", "")
             StrTempVSPName = StrTempVSPName.Replace("'", "")
-            qry = "select count(*) from TSPL_VENDOR_MASTER  where Vendor_Name ='" + StrTempVSPName + "' and form_type='VSP'"
+            qry = "select count(*) from TSPL_VENDOR_MASTER Inner Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code where TSPL_VENDOR_MASTER.Vendor_Name ='" + StrTempVSPName + "' and TSPL_VENDOR_MASTER.form_type='VSP' And TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(txtVLCCodeVlcUploader.Text) + "'"
             check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
             If check <= 0 Then
                 coll = New Hashtable()
@@ -1174,9 +1174,6 @@ Public Class frmVSP_VLCMaster
                 StrVdrNo = clsERPFuncationality.GetNextCode(trans, clsCommon.GETSERVERDATE(trans), clsDocType.PTMMASTER, "", "")
                 clsCommon.AddColumnsForChange(coll, "Vendor_Code", StrVdrNo)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Insert, "", trans)
-            Else
-                qry = "select Vendor_Code  from TSPL_VENDOR_MASTER  where Vendor_Name ='" + StrTempVSPName + "' and form_type='VSP'"
-                StrVdrNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
             End If
             ''end of Primary Transporter Master
 

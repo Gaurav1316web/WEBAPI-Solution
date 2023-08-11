@@ -6499,7 +6499,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Reports\frmDailyReceipNoteSummary.resx">
       <DependentUpon>frmDailyReceipNoteSummary.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Reports\frmGRNReport.resx">
       <DependentUpon>frmGRNReport.vb</DependentUpon>

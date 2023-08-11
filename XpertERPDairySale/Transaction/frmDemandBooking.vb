@@ -3683,26 +3683,34 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Please select Booking No")
             End If
-            Dim qry As String = "	Select * from(Select tmp.Cust_Code, Sum([TM500ML])[TM500ML],Sum([DTM 500 Ml])[DTM 500 ML], Sum([SM 500 ML])[SM 500 ML] ,Sum([GOLD 500 Ml])[GOLD 500 ML],
-	        SUM([DTM 200 Ml])[DTM 200 ML] , Sum([TM 1Ltr])[TM 1Ltr],SUM ([PCHCH 500])[PCHCH 500],SUM ([TM (CS 1 Ltr)])[TM (CS 1 Ltr)] , Sum([TM 6Ltr])[TM 6Ltr],
-	        SUM([DTM 6L])[DTM 6L] , Sum([GOLD 6Ltr])[GOLD 6Ltr],SUM ([SKIM 6Ltr])[SKIM 6Ltr] , Sum([SM 6LTR])[SM 6LTR],
-	        ShiftType , sum(ItemNetAmount) as Total_Amt , Sum(tmp.TotalCrates_ItemWise)TotalCrates_ItemWise	,CONVERT(VARCHAR,GETDATE(),105) As Date, '" & Comp_Name & "' as Comp_Name, '" & txtRouteNo.Value & "' as Route_No
-	        , '" & lblTransporterName.Text & "' as transporter_name , '" & lblVehicleNo.Text & "' as Description from
-	        (SELECT Cust_Code  , IsNull([TM500ML],0)[TM500ML], isnull([DTM 500 Ml],0)[DTM 500 ML], ISNULL([SM 500 ML],0)[SM 500 ML] ,IsNull([GOLD 500 Ml],0)[GOLD 500 ML] ,
-	        IsNull([DTM 200 Ml],0)[DTM 200 ML], IsNull([TM 1Ltr],0)[TM 1Ltr], IsNull([PCHCH 500],0)[PCHCH 500], IsNull([TM (CS 1 Ltr)],0)[TM (CS 1 Ltr)] , IsNull([TM 6Ltr],0)[TM 6Ltr],IsNull([DTM 6L],0)[DTM 6L],
-	        IsNull([GOLD 6Ltr],0)[GOLD 6Ltr], IsNull([SKIM 6Ltr],0)[SKIM 6Ltr] , IsNull([SM 6LTR],0)[SM 6LTR] , ShiftType , ItemNetAmount , TotalCrates_ItemWise FROM
-	        (SELECT Cust_Code,Qty, ShiftType,ItemNetAmount , TotalCrates_ItemWise , short_description FROM TSPL_DEMAND_BOOKING_DETAIL
-	        left outer join tspl_item_master on  TSPL_DEMAND_BOOKING_DETAIL.item_code=tspl_item_master.item_code  
-	        where ShiftType = '" & ShiftType & "' and Document_No = '" & txtDocNo.Value & "' 
-	        )tab1
-	        PIVOT(SUM(qty) FOR short_description IN ([TM500ML],[DTM 500 ML],[SM 500 ML],[GOLD 500 ML] ,[DTM 200 ML],[TM 1Ltr],[PCHCH 500],[TM (CS 1 Ltr)],[TM 6Ltr],[DTM 6L],
-	        [GOLD 6Ltr],[SKIM 6Ltr],[SM 6LTR])) AS Tab2 )tmp
-	        group by tmp.Cust_Code,tmp.ShiftType)As tmp1
-	        left outer join 
-	        (select Cust_Code as Code,Sum(Isnull(TotalCrates_ItemWise,0))Previous_Shift_Crate from TSPL_DEMAND_BOOKING_DETAIL
-            left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No
-            where TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" & Previous_Shift & "'  and Document_Date = '" & Previous_Date & "' and TSPL_DEMAND_BOOKING_MASTER.Document_No = '" & txtDocNo.Value & "'
-	        Group By Cust_Code)as Previous ON Previous.Code=tmp1.Cust_Code order by Cust_Code"
+            '   Dim qry As String = "	Select * from(Select tmp.Cust_Code, Sum([TM500ML])[TM500ML],Sum([DTM 500 Ml])[DTM 500 ML], Sum([SM 500 ML])[SM 500 ML] ,Sum([GOLD 500 Ml])[GOLD 500 ML],
+            'SUM([DTM 200 Ml])[DTM 200 ML] , Sum([TM 1Ltr])[TM 1Ltr],SUM ([PCHCH 500])[PCHCH 500],SUM ([TM (CS 1 Ltr)])[TM (CS 1 Ltr)] , Sum([TM 6Ltr])[TM 6Ltr],
+            'SUM([DTM 6L])[DTM 6L] , Sum([GOLD 6Ltr])[GOLD 6Ltr],SUM ([SKIM 6Ltr])[SKIM 6Ltr] , Sum([SM 6LTR])[SM 6LTR],
+            'ShiftType , sum(ItemNetAmount) as Total_Amt , Sum(tmp.TotalCrates_ItemWise)TotalCrates_ItemWise	,CONVERT(VARCHAR,GETDATE(),105) As Date, '" & Comp_Name & "' as Comp_Name, '" & txtRouteNo.Value & "' as Route_No
+            ', '" & lblTransporterName.Text & "' as transporter_name , '" & lblVehicleNo.Text & "' as Description from
+            '(SELECT Cust_Code  , IsNull([TM500ML],0)[TM500ML], isnull([DTM 500 Ml],0)[DTM 500 ML], ISNULL([SM 500 ML],0)[SM 500 ML] ,IsNull([GOLD 500 Ml],0)[GOLD 500 ML] ,
+            'IsNull([DTM 200 Ml],0)[DTM 200 ML], IsNull([TM 1Ltr],0)[TM 1Ltr], IsNull([PCHCH 500],0)[PCHCH 500], IsNull([TM (CS 1 Ltr)],0)[TM (CS 1 Ltr)] , IsNull([TM 6Ltr],0)[TM 6Ltr],IsNull([DTM 6L],0)[DTM 6L],
+            'IsNull([GOLD 6Ltr],0)[GOLD 6Ltr], IsNull([SKIM 6Ltr],0)[SKIM 6Ltr] , IsNull([SM 6LTR],0)[SM 6LTR] , ShiftType , ItemNetAmount , TotalCrates_ItemWise FROM
+            '(SELECT Cust_Code,Qty, ShiftType,ItemNetAmount , TotalCrates_ItemWise , short_description FROM TSPL_DEMAND_BOOKING_DETAIL
+            'left outer join tspl_item_master on  TSPL_DEMAND_BOOKING_DETAIL.item_code=tspl_item_master.item_code  
+            'where ShiftType = '" & ShiftType & "' and Document_No = '" & txtDocNo.Value & "' 
+            ')tab1
+            'PIVOT(SUM(qty) FOR short_description IN ([TM500ML],[DTM 500 ML],[SM 500 ML],[GOLD 500 ML] ,[DTM 200 ML],[TM 1Ltr],[PCHCH 500],[TM (CS 1 Ltr)],[TM 6Ltr],[DTM 6L],
+            '[GOLD 6Ltr],[SKIM 6Ltr],[SM 6LTR])) AS Tab2 )tmp
+            'group by tmp.Cust_Code,tmp.ShiftType)As tmp1
+            'left outer join 
+            '(select Cust_Code as Code,Sum(Isnull(TotalCrates_ItemWise,0))Previous_Shift_Crate from TSPL_DEMAND_BOOKING_DETAIL
+            '   left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No
+            '   where TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" & Previous_Shift & "'  and Document_Date = '" & Previous_Date & "' and TSPL_DEMAND_BOOKING_MASTER.Document_No = '" & txtDocNo.Value & "'
+            'Group By Cust_Code)as Previous ON Previous.Code=tmp1.Cust_Code order by Cust_Code"
+            Dim qry As String = "select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
+TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,
+TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_DEMAND_BOOKING_MASTER.Route_No,'" & Comp_Name & "' as CompanyName,'" & lblTransporterName.Text & "' as TranspoterName,TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate
+from TSPL_DEMAND_BOOKING_MASTER
+left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'
+"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
