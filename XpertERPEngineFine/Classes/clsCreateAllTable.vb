@@ -22955,7 +22955,6 @@ Public Class clsCreateAllTable
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
             coll.Add("IDate", "Date NOT NULL")
-            coll.Add("Route_Code", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("Arrive_Time", "DateTime NOT NULL")
             coll.Add("Dispatch_Time", "DateTime NOT NULL")
             coll.Add("Truck_Sheet_SNo", "Varchar(20) null")
@@ -22967,12 +22966,24 @@ Public Class clsCreateAllTable
             coll.Add("Modify_By", "varchar(12) NULL")
             coll.Add("Modify_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
-
+            Try
+                Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_MILK_COLLECTION_BMCDCS'"))
+                If chkValuesDetail = 1 Then
+                    Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_MILK_COLLECTION_BMCDCS' and b.COLUMN_NAME='Route_Code' ORDER BY A.TABLE_NAME")
+                    If clsCommon.myLen(QryForeign) > 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ACQUISITION_DETAIL drop constraint " & QryForeign & "")
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_MILK_COLLECTION_BMCDCS drop column Route_Code")
+                    End If
+                End If
+            Catch ex As Exception
+            End Try
             coll = New Dictionary(Of String, String)
             coll.Add("REF_PK_ID", "integer NOT NULL references TSPL_MILK_COLLECTION_BMCDCS(PK_ID)")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Vehicle_No", "Varchar(20) not null")
+            coll.Add("Route_Code", "Varchar(30) not null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("Trip_No", "Integer NULL")
+            coll.Add("Sample_No", "Integer NULL")
             coll.Add("Qty", "Decimal(18,2) null")
             coll.Add("FAT", "Decimal(18,2) null")
             coll.Add("SNF", "Decimal(18,2) null")
