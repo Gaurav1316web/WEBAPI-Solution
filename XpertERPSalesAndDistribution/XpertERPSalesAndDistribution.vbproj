@@ -779,6 +779,12 @@
     <Compile Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePattiProductPackWise.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Product Sale\Report\rptSalesReport.Designer.vb">
+      <DependentUpon>rptSalesReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Product Sale\Report\rptSalesReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Product Sale\Report\rptSKUWiseSale.Designer.vb">
       <DependentUpon>rptSKUWiseSale.vb</DependentUpon>
     </Compile>
@@ -2084,6 +2090,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Product Sale\Report\rptSaleRegisterReportWithCSASalePattiProductPackWise.resx">
       <DependentUpon>rptSaleRegisterReportWithCSASalePattiProductPackWise.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Product Sale\Report\rptSalesReport.resx">
+      <DependentUpon>rptSalesReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Product Sale\Report\rptSKUWiseSale.resx">
       <DependentUpon>rptSKUWiseSale.vb</DependentUpon>

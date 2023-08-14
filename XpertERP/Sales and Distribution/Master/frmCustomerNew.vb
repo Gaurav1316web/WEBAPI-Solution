@@ -1332,6 +1332,7 @@ Public Class frmCustomer
             obj.FSSAI_NO = clsCommon.myCstr(txtAccessOfficer.Text)
             obj.Cust_Code = clsCommon.myCstr(fndCustomer.Value)
             obj.Customer_Name = clsCommon.myCstr(txtCustomerName.Text)
+            obj.Customer_Name_Hindi = txtCustomerNameHindi.Text
             obj.Alies_Name = clsCommon.myCstr(txtAliesName.Text)
             obj.OldName = TxtOldname.Text
             obj.Zone_Code = fndZone.Value
@@ -2028,6 +2029,7 @@ Public Class frmCustomer
                 TxtAccNo.Text = clsCommon.myCstr(myDr("Account_No"))
 
                 Me.txtCustomerName.Text = myDr(0)
+                Me.txtCustomerNameHindi.Text = clsCommon.myCstr(myDr("Customer_Name_Hindi"))
                 Me.txtAdd1.Text = clsCommon.myCstr(myDr(1))
                 Me.txtAdd2.Text = clsCommon.myCstr(myDr(2))
                 Me.txtAdd3.Text = clsCommon.myCstr(myDr(3))
@@ -2539,6 +2541,7 @@ Public Class frmCustomer
         Me.fndCity.Value = ""
         Me.txtSalesPerson.Text = ""
         Me.txtCustomerName.Text = ""
+        Me.txtCustomerNameHindi.Text = ""
         Me.dtpAggMade.Value = clsCommon.GETSERVERDATE()
         Me.dtpAggClose.Value = clsCommon.GETSERVERDATE()
         Me.txtCusgrp.Text = ""

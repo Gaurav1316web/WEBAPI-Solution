@@ -105,6 +105,8 @@ Partial Class frmDemandBooking
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkMorningPosted = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkEveningPosted = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -182,6 +184,8 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -203,6 +207,8 @@ Partial Class frmDemandBooking
         '
         'SplitPanel1
         '
+        Me.SplitPanel1.Controls.Add(Me.chkEveningPosted)
+        Me.SplitPanel1.Controls.Add(Me.chkMorningPosted)
         Me.SplitPanel1.Controls.Add(Me.MyLabel3)
         Me.SplitPanel1.Controls.Add(Me.txtDocAmt)
         Me.SplitPanel1.Controls.Add(Me.rgbMilk)
@@ -687,11 +693,12 @@ Partial Class frmDemandBooking
         'btnUpdateCrateAndAmt
         '
         Me.btnUpdateCrateAndAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateCrateAndAmt.Location = New System.Drawing.Point(853, 140)
+        Me.btnUpdateCrateAndAmt.Location = New System.Drawing.Point(948, 121)
         Me.btnUpdateCrateAndAmt.Name = "btnUpdateCrateAndAmt"
-        Me.btnUpdateCrateAndAmt.Size = New System.Drawing.Size(157, 18)
+        Me.btnUpdateCrateAndAmt.Size = New System.Drawing.Size(127, 35)
         Me.btnUpdateCrateAndAmt.TabIndex = 152
         Me.btnUpdateCrateAndAmt.Text = "Update Crate and Amount"
+        Me.btnUpdateCrateAndAmt.TextWrap = True
         Me.btnUpdateCrateAndAmt.Visible = False
         '
         'btnGo
@@ -1242,6 +1249,24 @@ Partial Class frmDemandBooking
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
         '
+        'chkMorningPosted
+        '
+        Me.chkMorningPosted.Location = New System.Drawing.Point(840, 119)
+        Me.chkMorningPosted.Name = "chkMorningPosted"
+        Me.chkMorningPosted.ReadOnly = True
+        Me.chkMorningPosted.Size = New System.Drawing.Size(100, 18)
+        Me.chkMorningPosted.TabIndex = 1469
+        Me.chkMorningPosted.Text = "Morning Posted"
+        '
+        'chkEveningPosted
+        '
+        Me.chkEveningPosted.Location = New System.Drawing.Point(840, 140)
+        Me.chkEveningPosted.Name = "chkEveningPosted"
+        Me.chkEveningPosted.ReadOnly = True
+        Me.chkEveningPosted.Size = New System.Drawing.Size(97, 18)
+        Me.chkEveningPosted.TabIndex = 1470
+        Me.chkEveningPosted.Text = "Evening Posted"
+        '
         'frmDemandBooking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1340,6 +1365,8 @@ Partial Class frmDemandBooking
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkMorningPosted, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkEveningPosted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1426,5 +1453,7 @@ Partial Class frmDemandBooking
     Friend WithEvents txtPAmt As common.Controls.MyLabel
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtDocAmt As common.Controls.MyLabel
+    Friend WithEvents chkEveningPosted As RadCheckBox
+    Friend WithEvents chkMorningPosted As RadCheckBox
 End Class
 

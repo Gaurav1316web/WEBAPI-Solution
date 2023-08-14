@@ -11,16 +11,14 @@ Public Class frmDemandApproval
             Dim whrcls As String = "" ' "Route_No is not null and TSPL_CUSTOMER_MASTER.Area_Code='" + clsCommon.myCstr() + "'"
             txtRoute.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", whrcls, txtRoute.Value, "", isButtonClicked)
             lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRoute.Value, Nothing))
-
+            lblDistributorNameDesc.Text = clsDBFuncationality.getSingleValue("select  Customer_Name from TSPL_CUSTOMER_MASTER where Route_No='" + clsCommon.myCstr(txtRoute.Value) + "' and Zone_Code='" + clsCommon.myCstr(txtZone.Value) + "' and IsDistributor ='Y' ")
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub frmDemandApproval_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        txtDate.Value = clsCommon.GETSERVERDATE()
-        rbtnMorning.IsChecked = True
-
+        Reset()
     End Sub
     Sub Reset()
         txtZone.Value = ""
@@ -28,11 +26,17 @@ Public Class frmDemandApproval
         txtRoute.Enabled = True
         lblZoneDesc.Text = ""
         lblRouteDesc.Text = ""
+        lblDistributorNameDesc.Text = ""
+        lblSAmtDesc.Text = ""
+        lblBAmtDesc.Text = ""
+        lblDocAmtDesc.Text = ""
+        lblDiffAmtDesc.Text = ""
         rbtnMorning.IsChecked = True
         txtDate.Value = clsCommon.GETSERVERDATE()
+        GV1.DataSource = Nothing
         GV1.Rows.Clear()
         GV1.Columns.Clear()
-        GV1.DataSource = Nothing
+
     End Sub
 
     Private Sub txtZone__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtZone._MYValidating
@@ -61,28 +65,34 @@ Public Class frmDemandApproval
         Next
         GV1.Columns("Sl_No").HeaderText = "S.N"
         GV1.Columns("Sl_No").IsVisible = True
-
+        GV1.Columns("TR_Code").HeaderText = "TR_Code"
+        GV1.Columns("TR_Code").IsVisible = False
+        GV1.Columns("Document_No").HeaderText = "Document No"
+        GV1.Columns("Document_No").IsVisible = False
         GV1.Columns("Cust_Code").HeaderText = "Cust Code"
         GV1.Columns("Cust_Code").IsVisible = True
+        GV1.Columns("Customer_Name").HeaderText = "Customer Name"
+        GV1.Columns("Customer_Name").IsVisible = True
         GV1.Columns("Item_Code").HeaderText = "Item Code"
-        GV1.Columns("Item_Code").IsVisible = True
-        GV1.Columns("Item_Name").HeaderText = "Item Name"
-        GV1.Columns("Item_Name").IsVisible = True
-        GV1.Columns("ShiftType").HeaderText = "Shift "
-        GV1.Columns("ShiftType").IsVisible = True
-        GV1.Columns("DQty").HeaderText = "Demand Qty"
-        GV1.Columns("DQty").IsVisible = False
-        GV1.Columns("Qty").HeaderText = "Total Qty"
+        GV1.Columns("Item_Code").IsVisible = False
+        GV1.Columns("Item_Desc").HeaderText = "Item Desc "
+        GV1.Columns("Item_Desc").IsVisible = True
+        GV1.Columns("Qty").HeaderText = "Qty"
         GV1.Columns("Qty").IsVisible = True
-        GV1.Columns("Qty").FormatString = "{0:n2}"
-        GV1.Columns("Item_Rate").HeaderText = "Item Rate"
-        GV1.Columns("Item_Rate").IsVisible = True
-        GV1.Columns("Item_Rate").FormatString = "{0:n2}"
+        GV1.Columns("Unit_Code").HeaderText = "Unit Code"
+        GV1.Columns("Unit_Code").IsVisible = True
+        GV1.Columns("ItemNetAmount").HeaderText = "Item Net Amt"
+        GV1.Columns("ItemNetAmount").IsVisible = True
+        GV1.Columns("ItemNetAmount").ReadOnly = True
+        GV1.Columns("ItemNetAmount").FormatString = "{0:n2}"
 
         Dim summaryRowItemB As New GridViewSummaryRowItem()
         Dim TotalQty As New GridViewSummaryItem("Qty", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItemB.Add(TotalQty)
+        Dim TotalAmt As New GridViewSummaryItem("ItemNetAmount", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItemB.Add(TotalAmt)
         GV1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItemB)
+
 
 
 
@@ -98,42 +108,88 @@ Public Class frmDemandApproval
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            '            Dim dt As New DataTable()
-            '            Dim strQry As String = "select ROW_NUMBER() Over (Order by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code) As Sl_No,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Alies_Name as Item_Name,TSPL_DEMAND_BOOKING_DETAIL.ShiftType, TSPL_DEMAND_BOOKING_DETAIL.Qty as DQty, TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate"
-            '            If rbtnQty.IsChecked Then
-            '                strQry += ",0 as Adj_Qty"
-            '            ElseIf rbtnPre.IsChecked Then
-            '                strQry += ",0 as Adj_Per"
-            '            End If
-            '            strQry += " From TSPL_DEMAND_BOOKING_MASTER
-            'Left Join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
-            'Left Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-            'where TSPL_DEMAND_BOOKING_MASTER.Created_Date ='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + clsCommon.myCstr(txtRoute.Value) + "'"
-            '            If rbtnMorning.IsChecked Then
-            '                strQry += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType ='Morning'"
-            '            ElseIf rbtnEvening.IsChecked Then
-            '                strQry += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType ='Evening'"
-            '            End If
+            Dim custCode As String = clsDBFuncationality.getSingleValue("select  Cust_Code from TSPL_CUSTOMER_MASTER where Route_No='" + clsCommon.myCstr(txtRoute.Value) + "' and Zone_Code='" + clsCommon.myCstr(txtZone.Value) + "' and IsDistributor ='Y'")
 
-            '            dt = clsDBFuncationality.GetDataTable(strQry)
-            '            GV1.MasterTemplate.SummaryRowsBottom.Clear()
-            '            GV1.DataSource = Nothing
-            '            GV1.Rows.Clear()
-            '            GV1.Columns.Clear()
-            '            GV1.GroupDescriptors.Clear()
-            '            GV1.MasterTemplate.SummaryRowsBottom.Clear()
-            '            GV1.MasterView.Refresh()
+            Dim SecurityAmtQry As String = "Select (SUM(Opening)+SUM(Debit)-SUM(Credit)) as Closing from (
+Select  max(type) as type,Opening.Customer_Code, MAX(CM.Customer_Name) as Customer_Name, '' as Document_No, NULL as Document_Date, 'Opening' as DocType,  Case When SecurityDepositType='S' Then 'Security' When SecurityDepositType='C' Then 'Crate Security' When SecurityDepositType='R' Then 'Refrigerator Security' Else 'Others' end as SecurityDepositType, (SUM(Debit)-SUM(Credit)) as Opening, 0 as Debit, 0 as  Credit, Loc_code,max(Location_Desc) as Location_Desc,Opening.Cust_Group_Code,max(Cust_Group_Desc) as Cust_Group_Desc,isnull(max(CM.Zone_Code),'') as [Zone Code],isnull(max(TSPL_ZONE_MASTER.Description),'') as [Zone Desc] from (
+select 'AR Invoice Entry' as Type,TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Document_Date, Case When TSPL_Customer_Invoice_Head.Document_Type='D' Then 'Debit Note' When TSPL_Customer_Invoice_Head.Document_Type='C' Then 'Credit Note' End as DocType, TSPL_Customer_Invoice_Head.Customer_Code, TSPL_Customer_Invoice_Head.SecurityDepositType, case when TSPL_Customer_Invoice_Head.Document_Type='C' then TSPL_Customer_Invoice_Head.Document_Total Else 0 end as Debit, case when TSPL_Customer_Invoice_Head.Document_Type='D' then TSPL_Customer_Invoice_Head.Document_Total Else 0 end Credit, Case When TSPL_Customer_Invoice_Head.Status=1 Then 'Y' Else 'N' End as Posted,Loc_code,Location_Desc ,TSPL_CUSTOMeR_MASTer.Cust_Group_Code, Cust_Group_Desc from TSPL_Customer_Invoice_Head left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_Customer_Invoice_Head.Loc_Code left join TSPL_CUSTOMeR_MASTer on TSPL_CUSTOMeR_MASTer.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code left join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code =TSPL_CUSTOMeR_MASTer.Cust_Group_Code  where TSPL_Customer_Invoice_Head.SecurityDeposit='Y'
+ UNION ALL
+ select 'Receipt Entry' as Type ,TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, Case When Receipt_Type='P' Then 'Advance' When Receipt_Type='O' Then 'On Account' When Receipt_Type='M' Then 'Misc Receipt' When Receipt_Type='F' Then 'Refund' When Receipt_Type='S' Then 'Misc Refund' End as DocType, TSPL_RECEIPT_HEADER.Cust_Code, TSPL_RECEIPT_HEADER.SecurityDepositType, case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then Receipt_Amount Else 0 end as  Debit, case when TSPL_RECEIPT_HEADER.Receipt_Type<>'F' then Receipt_Amount Else 0 end as Credit, TSPL_RECEIPT_HEADER.Posted,Location_GL_Code as Loc_code,Location_Desc,TSPL_CUSTOMeR_MASTer.Cust_Group_Code, Cust_Group_Desc from TSPL_RECEIPT_HEADER left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_RECEIPT_HEADER.Location_GL_Code  left join TSPL_CUSTOMeR_MASTer on TSPL_CUSTOMeR_MASTer.Cust_Code =TSPL_RECEIPT_HEADER.Cust_Code left join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code =TSPL_CUSTOMeR_MASTer.Cust_Group_Code  where TSPL_RECEIPT_HEADER.SecurityDeposit='Y'
+ UNION ALL
+ select 'Bank Reverse Entry' as Type, TSPL_BANK_REVERSE.Reverse_Code, TSPL_BANK_REVERSE.Reversal_Date, 'Bank Reverse' as DocType, TSPL_RECEIPT_HEADER.Cust_Code, TSPL_RECEIPT_HEADER.SecurityDepositType, case when TSPL_RECEIPT_HEADER.Receipt_Type<>'F' then Receipt_Amount Else 0 end as  Debit, case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then Receipt_Amount Else 0 end as Credit, Case When TSPL_BANK_REVERSE.Post='P' Then 'Y' Else 'N' End as Posted ,Location_GL_Code as Loc_code,Location_Desc,TSPL_CUSTOMeR_MASTer.Cust_Group_Code, Cust_Group_Desc From TSPL_BANK_REVERSE LEFT OUTER JOIN TSPL_RECEIPT_HEADER ON TSPL_RECEIPT_HEADER.Receipt_No=TSPL_BANK_REVERSE.Document_No left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_RECEIPT_HEADER.Location_GL_Code left join TSPL_CUSTOMeR_MASTer on TSPL_CUSTOMeR_MASTer.Cust_Code =TSPL_BANK_REVERSE.Cust_Code left join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code =TSPL_CUSTOMeR_MASTer.Cust_Group_Code Where Reverse_Document='Receipts' AND TSPL_RECEIPT_HEADER.SecurityDeposit='Y'
+) Opening LEFT OUTER JOIN TSPL_CUSTOMER_MASTER CM ON CM.Cust_Code=Opening.Customer_Code left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=cm.Zone_Code  WHERE CONVERT(Date, Document_Date,103)<CONVERT(Date,'08/07/2023',103)  AND Posted='Y' AND Customer_Code in ('D12345') Group By Opening.Customer_Code,Loc_code,Opening.Cust_Group_Code,SecurityDepositType
+ UNION ALL--=========================MAIN UNION===============================
+Select xxx.type, XXX.Customer_Code, CM.Customer_Name, Document_No, Document_Date, DocType, Case When SecurityDepositType='S' Then 'Security' When SecurityDepositType='C' Then 'Crate Security' When SecurityDepositType='R' Then 'Refrigerator Security' Else 'Others' End as SecurityDepositType, 0 as Opening, Debit, Credit,Loc_code,Location_Desc,XXX.Cust_Group_Code,Cust_Group_Desc,isnull(CM.Zone_Code,'') as [Zone Code],isnull(TSPL_ZONE_MASTER.Description,'') as [Zone Desc] from (
+select 'AR Invoice Entry' as Type,TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Document_Date, Case When TSPL_Customer_Invoice_Head.Document_Type='D' Then 'Debit Note' When TSPL_Customer_Invoice_Head.Document_Type='C' Then 'Credit Note' End as DocType, TSPL_Customer_Invoice_Head.Customer_Code, TSPL_Customer_Invoice_Head.SecurityDepositType, case when TSPL_Customer_Invoice_Head.Document_Type='C' then TSPL_Customer_Invoice_Head.Document_Total Else 0 end as Debit, case when TSPL_Customer_Invoice_Head.Document_Type='D' then TSPL_Customer_Invoice_Head.Document_Total Else 0 end Credit, Case When TSPL_Customer_Invoice_Head.Status=1 Then 'Y' Else 'N' End as Posted,Loc_code,Location_Desc ,TSPL_CUSTOMeR_MASTer.Cust_Group_Code, Cust_Group_Desc from TSPL_Customer_Invoice_Head left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_Customer_Invoice_Head.Loc_Code left join TSPL_CUSTOMeR_MASTer on TSPL_CUSTOMeR_MASTer.Cust_Code =TSPL_Customer_Invoice_Head.Customer_Code left join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code =TSPL_CUSTOMeR_MASTer.Cust_Group_Code  where TSPL_Customer_Invoice_Head.SecurityDeposit='Y'
+ UNION ALL
+ select 'Receipt Entry' as Type ,TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, Case When Receipt_Type='P' Then 'Advance' When Receipt_Type='O' Then 'On Account' When Receipt_Type='M' Then 'Misc Receipt' When Receipt_Type='F' Then 'Refund' When Receipt_Type='S' Then 'Misc Refund' End as DocType, TSPL_RECEIPT_HEADER.Cust_Code, TSPL_RECEIPT_HEADER.SecurityDepositType, case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then Receipt_Amount Else 0 end as  Debit, case when TSPL_RECEIPT_HEADER.Receipt_Type<>'F' then Receipt_Amount Else 0 end as Credit, TSPL_RECEIPT_HEADER.Posted,Location_GL_Code as Loc_code,Location_Desc,TSPL_CUSTOMeR_MASTer.Cust_Group_Code, Cust_Group_Desc from TSPL_RECEIPT_HEADER left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_RECEIPT_HEADER.Location_GL_Code  left join TSPL_CUSTOMeR_MASTer on TSPL_CUSTOMeR_MASTer.Cust_Code =TSPL_RECEIPT_HEADER.Cust_Code left join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code =TSPL_CUSTOMeR_MASTer.Cust_Group_Code  where TSPL_RECEIPT_HEADER.SecurityDeposit='Y'
+ UNION ALL
+ select 'Bank Reverse Entry' as Type, TSPL_BANK_REVERSE.Reverse_Code, TSPL_BANK_REVERSE.Reversal_Date, 'Bank Reverse' as DocType, TSPL_RECEIPT_HEADER.Cust_Code, TSPL_RECEIPT_HEADER.SecurityDepositType, case when TSPL_RECEIPT_HEADER.Receipt_Type<>'F' then Receipt_Amount Else 0 end as  Debit, case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then Receipt_Amount Else 0 end as Credit, Case When TSPL_BANK_REVERSE.Post='P' Then 'Y' Else 'N' End as Posted ,Location_GL_Code as Loc_code,Location_Desc,TSPL_CUSTOMeR_MASTer.Cust_Group_Code, Cust_Group_Desc From TSPL_BANK_REVERSE LEFT OUTER JOIN TSPL_RECEIPT_HEADER ON TSPL_RECEIPT_HEADER.Receipt_No=TSPL_BANK_REVERSE.Document_No left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_RECEIPT_HEADER.Location_GL_Code left join TSPL_CUSTOMeR_MASTer on TSPL_CUSTOMeR_MASTer.Cust_Code =TSPL_BANK_REVERSE.Cust_Code left join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code =TSPL_CUSTOMeR_MASTer.Cust_Group_Code Where Reverse_Document='Receipts' AND TSPL_RECEIPT_HEADER.SecurityDeposit='Y'
+) XXX LEFT OUTER JOIN TSPL_CUSTOMER_MASTER CM ON CM.Cust_Code=XXX.Customer_Code left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=cm.Zone_Code WHERE Document_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' AND Document_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "'  AND Posted='Y' AND Customer_Code in ('" & custCode & "')
+) YYY Group By Customer_Code ORDER BY Customer_Code
+
+"
+            lblSAmtDesc.Text = clsDBFuncationality.getSingleValue(SecurityAmtQry)
+            Dim docQry As String = "select sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount) as NetTotal
+from TSPL_DEMAND_BOOKING_DETAIL 
+left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+where TSPL_DEMAND_BOOKING_MASTER.Document_Date='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + clsCommon.myCstr(txtRoute.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Posted=1
+and TSPL_CUSTOMER_MASTER.Zone_Code='" + clsCommon.myCstr(txtZone.Value) + "'"
+            If rbtnMorning.IsChecked Then
+                docQry += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType ='Morning'"
+            ElseIf rbtnEvening.IsChecked Then
+                docQry += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType ='Evening'"
+
+            End If
+            lblDocAmtDesc.Text = clsDBFuncationality.getSingleValue(docQry)
+            Dim OutStandingAmtQry As String = "Select  ( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))  as BalAmt From ( " &
+                    "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
+                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
+                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
+                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
+                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", "'" & custCode & "'", True, clsCommon.GetPrintDate(txtDate.Value.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, Nothing, False) & "   " &
+                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
+                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
+                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & custCode & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
+                    ") XXX GROUP BY ACode ORDER BY ACode"
+            lblBAmtDesc.Text = clsDBFuncationality.getSingleValue(OutStandingAmtQry)
+            lblDiffAmtDesc.Text = clsCommon.myCDecimal(lblSAmtDesc.Text) + clsCommon.myCDecimal(lblBAmtDesc.Text) + clsCommon.myCDecimal(lblDocAmtDesc.Text)
+            Dim dt As New DataTable()
+            Dim strQry As String = "select ROW_NUMBER() Over (Order by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code) As Sl_No,TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Document_No,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount
+from TSPL_DEMAND_BOOKING_DETAIL 
+left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+where TSPL_DEMAND_BOOKING_MASTER.Document_Date='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + clsCommon.myCstr(txtRoute.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Posted=1
+and TSPL_CUSTOMER_MASTER.Zone_Code='" + clsCommon.myCstr(txtZone.Value) + "'
+"
+            If rbtnMorning.IsChecked Then
+                strQry += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType ='Morning'"
+            ElseIf rbtnEvening.IsChecked Then
+                strQry += " and TSPL_DEMAND_BOOKING_DETAIL.ShiftType ='Evening'"
+            End If
+
+            dt = clsDBFuncationality.GetDataTable(strQry)
+            GV1.MasterTemplate.SummaryRowsBottom.Clear()
+            GV1.DataSource = Nothing
+            GV1.Rows.Clear()
+            GV1.Columns.Clear()
+            GV1.GroupDescriptors.Clear()
+            GV1.MasterTemplate.SummaryRowsBottom.Clear()
+            GV1.MasterView.Refresh()
 
 
-            '            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            '                clsCommon.MyMessageBoxShow(Me, "Demand Not Found", Me.Text)
-            '                Exit Sub
-            '            Else
-            '                GV1.DataSource = dt
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Demand Not Found", Me.Text)
+                Exit Sub
+            Else
+                GV1.DataSource = dt
 
-            '                SetGridFormat()
+                SetGridFormat()
 
-            '            End If
+            End If
 
 
         Catch ex As Exception

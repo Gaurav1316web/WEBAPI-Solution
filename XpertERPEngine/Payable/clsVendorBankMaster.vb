@@ -5,7 +5,6 @@ Public Class clsVendorBankMaster
 #Region "Variables"
     Public Bank_code As String = Nothing
     Public BankCode2 As String = Nothing
-
     Public Bank_Name As String = Nothing
     Public Branch_Code As String = Nothing
     Public Branch_Name As String = Nothing
