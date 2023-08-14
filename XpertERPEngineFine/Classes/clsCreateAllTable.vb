@@ -17774,8 +17774,10 @@ Public Class clsCreateAllTable
             coll.Add("Document_Code", "Varchar(30) not null references TSPL_RCDF_LOAD_IN(Document_Code)")
             coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty_BAG", "Decimal(18,2) null")
-            coll.Add("Qty_KG", "Decimal(18,2) null")
-            coll.Add("Qty_MT", "Decimal(18,2) null")
+            coll.Add("Qty_KG", "Decimal(18,3) null")
+            coll.Add("Qty_MT", "Decimal(18,3) null")
+            coll.Add("Rate", "Decimal(18,2) null")
+            coll.Add("Amount", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_LOAD_IN_ITEM", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
