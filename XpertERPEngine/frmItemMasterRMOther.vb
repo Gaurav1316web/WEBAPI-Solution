@@ -1,7 +1,5 @@
 ﻿Imports System.Data.SqlClient
 Imports System.IO
-
-
 Public Class FrmItemMasterRMOther
     Inherits FrmMainTranScreen
     ''check In Prabhakar 19/06/2020
@@ -91,11 +89,27 @@ Public Class FrmItemMasterRMOther
     Dim UpdateItemMasterConversationWithoutValidation As Boolean = False
     Dim AllowDuplicateItemShortDescriptionInItemMaster As Boolean = False
 #End Region
-
     Private Sub FrmItemMasterRMOther_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Dim coll As New Dictionary(Of String, String)()
+        coll.Add("NIR_QC", "integer NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
+        coll = New Dictionary(Of String, String)
+        coll.Add("NIR_QC", "integer NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, False, True, "", "MRN_No", "MRN_Date")
 
-
+        coll = New Dictionary(Of String, String)
+        coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
+        coll.Add("Document_Date", "DateTime not NULL")
+        coll.Add("Against_MRN", "Varchar(30) not null References TSPL_MRN_HEAD(MRN_No)")
+        coll.Add("Created_By", "varchar(12) not NULL References TSPL_USER_MASTER(User_Code)")
+        coll.Add("Created_Date", "Datetime NOT NULL")
+        coll.Add("Modify_By", "varchar(12) not NULL References TSPL_USER_MASTER(User_Code)")
+        coll.Add("Modify_Date", "Datetime NOT NULL")
+        coll.Add("Status", "integer not null default 0")
+        coll.Add("Posted_By", "varchar(12) NULL References TSPL_USER_MASTER(User_Code)")
+        coll.Add("Posted_Date", "Datetime NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC", coll, Nothing, False, True, "", "MRN_No", "MRN_Date")
 
         AllowDuplicateItemShortDescriptionInItemMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowDuplicateItemShortDescriptionInItemMaster, clsFixedParameterCode.AllowDuplicateItemShortDescriptionInItemMaster, Nothing)) = 1, True, False)
         AllowItemConversionAutomation = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowItemConversionAutomation, clsFixedParameterCode.AllowItemConversionAutomation, Nothing))
@@ -226,8 +240,6 @@ Public Class FrmItemMasterRMOther
         End If
 
     End Sub
-
-
     Sub LoadBlankGridCat()
         gvCategory.Rows.Clear()
         gvCategory.Columns.Clear()
@@ -311,9 +323,9 @@ Public Class FrmItemMasterRMOther
         gvCategory.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gvCategory.MasterTemplate.ShowRowHeaderColumn = False
     End Sub
-
     Private Sub BlankAllConrols()
         chkFGforCF.Checked = False
+        chkNIRQC.Checked = False
         chkAllowSRNwoShort.Checked = False
         chkIsReqBatch.Checked = False
         chkRAL.Checked = False
@@ -329,6 +341,9 @@ Public Class FrmItemMasterRMOther
         txtRackNo.Text = ""
         txtPartNo.Value = ""
         txtDescription.Text = ""
+        txtItemDescHindi.Text = ""
+        txtShortDescHindi.Text = ""
+        txtAliesNameHindi.Text = ""
         txtBrand.Text = ""
         txttype.Text = ""
         txtReleasedBy.Text = ""
@@ -479,7 +494,6 @@ Public Class FrmItemMasterRMOther
         fndScrapItem.Visible = False
         chkLeakageNotApplicable.Checked = False
     End Sub
-
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -498,7 +512,6 @@ Public Class FrmItemMasterRMOther
         'btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
     End Sub
-
     Private Sub FrmItemMasterRMOther_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso MyBase.isModifyFlag AndAlso btnNew.Enabled Then
             BlankAllConrols()
@@ -519,12 +532,10 @@ Public Class FrmItemMasterRMOther
             End If
         End If
     End Sub
-
     Public Sub SetLength()
         txtCode.MyMaxLength = 50
         txtDesc.MaxLength = 100
     End Sub
-
     Sub LoadBlankQCParameterGrid()
         gv_param.Rows.Clear()
         gv_param.Columns.Clear()
@@ -640,7 +651,6 @@ Public Class FrmItemMasterRMOther
         gv_param.MasterTemplate.ShowRowHeaderColumn = False
         gv_param.Rows.AddNew()
     End Sub
-
     Sub LoadBlankGridPurQCParameter()
         gvPurQCPar.Rows.Clear()
         gvPurQCPar.Columns.Clear()
@@ -688,14 +698,11 @@ Public Class FrmItemMasterRMOther
         gvPurQCPar.MasterTemplate.ShowRowHeaderColumn = False
         gvPurQCPar.Rows.AddNew()
     End Sub
-
     Function LoadComboboxParam() As DataTable
         Dim qry As String = "select * from (select '' as Code,'None' as Name union all select 'YES' as Code,'YES' as Name union all select 'NO' as Code,'NO' as Name)a"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Return dt
     End Function
-
-
     Sub applyNLevelCategorySetting()
         Dim qry As String = "select IsNLevelCatForItem from TSPL_INV_PARAMETERS"
         Dim dt As DataTable
@@ -737,7 +744,6 @@ Public Class FrmItemMasterRMOther
         'End If
 
     End Sub
-
     Private Sub ItemConversionAutomation(ByVal IntRowNo As Integer)
         Dim dblConvF As Double = 0
         Dim strStockingUnit = clsCommon.myCstr(gvUOM.Rows(0).Cells(UOMColUnit).Value)
@@ -822,7 +828,6 @@ Public Class FrmItemMasterRMOther
         End If
 
     End Sub
-
     Private Sub ReadOnlyUOMGrid(ByVal IntRowNo As Integer)
         gvUOM.Rows(IntRowNo).Cells(UOMColUnit).ReadOnly = IIf(clsCommon.myCdbl(gvUOM.Rows(IntRowNo).Cells(UOMColStockUnitChangable).Value) = "1", True, False)
         gvUOM.Rows(IntRowNo).Cells(UOMColConvFact).ReadOnly = IIf(clsCommon.myCdbl(gvUOM.Rows(IntRowNo).Cells(UOMColStockUnitChangable).Value) = "1", True, False)
@@ -840,9 +845,6 @@ Public Class FrmItemMasterRMOther
             End If
         End If
     End Sub
-
-
-
     Sub LoadBlankGridUOM()
         gvUOM.Rows.Clear()
         gvUOM.Columns.Clear()
@@ -1030,7 +1032,6 @@ Public Class FrmItemMasterRMOther
         gvUOM.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gvUOM.MasterTemplate.ShowRowHeaderColumn = False
     End Sub
-
     Sub LoadDatabase()
         Dim qry As String = "SELECT Comp_Code,Comp_Name,DataBase_Name from TSPL_COMPANY_MASTER where len(isnull(DataBase_Name,''))>0 and Comp_Code not in ('" + objCommonVar.CurrentCompanyCode + "')"
         Dim ArrHide As List(Of String) = New List(Of String)
@@ -1040,7 +1041,6 @@ Public Class FrmItemMasterRMOther
         cbgDatabase.DataSource = clsDBFuncationality.GetDataTable(qry)
         cbgDatabase.ValueMember = "DataBase_Name"
     End Sub
-
     Function GetStockUnit() As DataTable
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
@@ -1060,7 +1060,6 @@ Public Class FrmItemMasterRMOther
 
         Return dt
     End Function
-
     Sub LoadType()
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
@@ -1091,7 +1090,6 @@ Public Class FrmItemMasterRMOther
         cboType.ValueMember = "Code"
         cboType.DisplayMember = "Name"
     End Sub
-
     Sub LoadUsedas()
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
@@ -1122,7 +1120,6 @@ Public Class FrmItemMasterRMOther
         cmbUsedAs.ValueMember = "Code"
         cmbUsedAs.DisplayMember = "Name"
     End Sub
-
     Sub LoadItemType()
         ''Note If Do Any change please also change in LoadItemTypeQuery function
         Dim dt As New DataTable()
@@ -1176,7 +1173,6 @@ Public Class FrmItemMasterRMOther
         cboItemType.ValueMember = "Code"
         cboItemType.DisplayMember = "Name"
     End Sub
-
     Public Shared Function LoadItemTypeQuery() As String
         ''Note If Do Any change please also change in LoadItemType function
         'Dim qry As String = "select 'R' as Code,'Raw Material' as Name" & _
@@ -1193,7 +1189,6 @@ Public Class FrmItemMasterRMOther
         Dim qry As String = " SELECT ITEM_TYPE_CODE AS Code, ITEM_TYPE_NAME  as Name FROM TSPL_ITEM_TYPE_MASTER  "
         Return qry
     End Function
-
     Sub LoadItemProductType()
         Dim dt As DataTable = clsItemMaster.LoadItemProductType()
 
@@ -1201,7 +1196,6 @@ Public Class FrmItemMasterRMOther
         fndProductType.ValueMember = "Code"
         fndProductType.DisplayMember = "Name"
     End Sub
-
     Sub LoadWarrantyDate()
         Dim dt As DataTable = clsItemMaster.LoadWarrantyDate()
 
@@ -1209,7 +1203,6 @@ Public Class FrmItemMasterRMOther
         CmbWarrApp.ValueMember = "Code"
         CmbWarrApp.DisplayMember = "Name"
     End Sub
-
     Sub LoadItemSubType()
         Dim dt As New DataTable()
         dt.Columns.Add("Code", GetType(String))
@@ -1230,11 +1223,9 @@ Public Class FrmItemMasterRMOther
         cboItemSubType.ValueMember = "Code"
         cboItemSubType.DisplayMember = "Name"
     End Sub
-
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
         AddNew()
     End Sub
-
     Sub AddNew()
         BlankAllConrols()
         gvUOM.Rows.AddNew()
@@ -1300,19 +1291,16 @@ Public Class FrmItemMasterRMOther
         chkInsurance.Checked = False
         RadGroupBoxInsurance.Enabled = False
     End Sub
-
     Private Sub txtStructurer__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtStructurer._MYValidating
         Dim qry As String = "select Structure_Code as [Code],Structure_Descq as [Description]  from TSPL_STRUCTURE_MASTER"
         txtStructurer.Value = clsCommon.ShowSelectForm("IMStruCode", qry, "Code", "", txtStructurer.Value, "", isButtonClicked)
         lblStructurer.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Structure_Descq from TSPL_STRUCTURE_MASTER where Structure_Code='" + txtStructurer.Value + "'"))
     End Sub
-
     Private Sub txtPurchaseACSet__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPurchaseACSet._MYValidating
         Dim qry As String = "select Purchase_Class_Code as [Code], Purchase_Class_Desc as [Description] from dbo.TSPL_PURCHASE_ACCOUNTS"
         txtPurchaseACSet.Value = clsCommon.ShowSelectForm("IMPurchaseACSet", qry, "Code", "", txtPurchaseACSet.Value, "", isButtonClicked)
         lblPurchaseACSet.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Purchase_Class_Desc  from TSPL_PURCHASE_ACCOUNTS where Purchase_Class_Code ='" + txtPurchaseACSet.Value + "'"))
     End Sub
-
     Private Sub FndHSNCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles FndHSNCode._MYValidating
         Try
             Dim qry As String = "select Code as [Code], Description as [Description] from dbo.TSPL_HSN_MASTER"
@@ -1322,31 +1310,26 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtSaleAcSet__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtSaleAcSet._MYValidating
         Dim qry As String = " select Sales_Class_Code as [SalesAccountSet], Sales_Class_Desc as [Description] from TSPL_SALES_ACCOUNTS"
         txtSaleAcSet.Value = clsCommon.ShowSelectForm("IMSaleACSEt", qry, "SalesAccountSet", "", txtSaleAcSet.Value, "", isButtonClicked)
         lblSaleAcSet.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sales_Class_Desc  from TSPL_SALES_ACCOUNTS where Sales_Class_Code='" + txtSaleAcSet.Value + "'"))
     End Sub
-
     Private Sub txtCategory__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCategory._MYValidating
         Dim qry As String = "select category_code as [ItemCategory],category_name as [Description] from tspl_Item_category"
         txtCategory.Value = clsCommon.ShowSelectForm("IMCategroy", qry, "ItemCategory", "", txtCategory.Value, "", isButtonClicked)
         lblCategory.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  category_name from tspl_Item_category where category_code='" + txtCategory.Value + "'"))
     End Sub
-
     Private Sub txtUOM__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtUOM._MYValidating
         Dim qry As String = "select unit_code as [Code], unit_desc as [Description] from tspl_unit_master"
         txtUOM.Value = clsCommon.ShowSelectForm("IMUOM", qry, "Code", "", txtUOM.Value, "", isButtonClicked)
         lblUOM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select unit_desc from tspl_unit_master where unit_code ='" + txtUOM.Value + "'"))
     End Sub
-
     Private Sub txtSubCategory__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtSubCategory._MYValidating
         Dim Qry As String = "select Sub_Category_Code as [Code], Description  from TSPL_ITEM_SUB_CATEGORY "
         txtSubCategory.Value = clsCommon.ShowSelectForm("fnsubcat", Qry, "Code", "Category_Code='" + txtCategory.Value + "'", txtSubCategory.Value, "Code", isButtonClicked)
         lblSubCategory.Text = clsDBFuncationality.getSingleValue("select Description  from TSPL_ITEM_SUB_CATEGORY where Sub_Category_Code='" + txtSubCategory.Value + "'")
     End Sub
-
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         If btnSave.Text = "Update" Then
             Dim frm As New FrmPWD(Nothing)
@@ -1362,7 +1345,6 @@ Public Class FrmItemMasterRMOther
         End If
 
     End Sub
-
     Sub Savedata()
         Try
             If AllowToSave() Then
@@ -1377,11 +1359,14 @@ Public Class FrmItemMasterRMOther
                 obj.AllowSRNWithoutShortReject = IIf(chkAllowSRNwoShort.Checked = True, 1, 0)
                 obj.Item_Code = txtCode.Value
                 obj.Item_Desc = txtDesc.Text
+                obj.Item_Desc_Hindi = txtItemDescHindi.Text
                 obj.Part_No = clsCommon.myCstr(txtPartNo.Value).Replace("'", "`")
                 obj.Drawing_No = clsCommon.myCstr(txtdrawing_no.Text).Replace("'", "`")
                 obj.Item_Short_Desc = txtShortDescription.Text
+                obj.Item_Short_Desc_Hindi = txtShortDescHindi.Text
                 '==============Added by preeti Gupta Against Ticket No[ERO/10/05/18-000302]=============
                 obj.Alies_Name = txtAliesName.Text
+                obj.Alies_Name_Hindi = txtAliesNameHindi.Text
                 obj.Alies_Name2 = txtAliesName2.Text
                 obj.Alies_Name3 = txtAliesName3.Text
                 obj.Crate = ChkCrate.Checked
@@ -1457,6 +1442,7 @@ Public Class FrmItemMasterRMOther
                     obj.Tax_Exempted = 2
                 End If
                 obj.FG_for_CF = IIf(chkFGforCF.Checked = True, 1, 0)
+                obj.NIR_QC = chkNIRQC.Checked
                 ' Ticket No - BM00000003041 3/July/2014 by Puran
                 obj.Is_Scheme_Item = chkSchemeItem.Checked
                 obj.Distributor_Commission = clsCommon.myCdbl(txtDistbtr_Amt.Text)
@@ -1660,7 +1646,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
-
     Private Function GetDatabase() As List(Of String)
         Dim ArrDB As New List(Of String)()
         ArrDB.Add(objCommonVar.CurrDatabase)
@@ -1673,7 +1658,6 @@ Public Class FrmItemMasterRMOther
         End If
         Return ArrDB
     End Function
-
     Public Sub ItemShortDesp()
         Try
             Dim col As New AutoCompleteStringCollection
@@ -1694,7 +1678,6 @@ Public Class FrmItemMasterRMOther
             myMessages.myExceptions(ex)
         End Try
     End Sub
-
     Private Function AllowToSave() As Boolean
         Try
             If chkDoNotCheckOnSave.Checked Then
@@ -2268,7 +2251,6 @@ Public Class FrmItemMasterRMOther
         Return True
         AllowTo = False
     End Function
-
     Function strQtyForIsUOMUsed(ByVal strUOM As String, ByVal isUOMInclude As Boolean) As String
         Dim strUOMIncludeOrExclude = " not in "
         If isUOMInclude Then
@@ -2304,7 +2286,6 @@ Public Class FrmItemMasterRMOther
         qry += "select Stock_UOM from TSPL_INVENTORY_MOVEMENT where Item_Code='" + txtCode.Value + "' " + IIf(isIncludeUOM, " and Stock_UOM " + strUOMIncludeOrExclude + " (" + strUOM + ")", "")
         Return qry
     End Function
-
     Private Sub gvUOM_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gvUOM.CellFormatting
         If e.Column Is gvUOM.Columns(UOMItemCost) Then
             If clsCommon.CompairString(clsCommon.myCstr(gvUOM.CurrentRow.Cells(UOMColStockUnit).Value), "Y") = CompairStringResult.Equal Then
@@ -2315,7 +2296,6 @@ Public Class FrmItemMasterRMOther
         End If
 
     End Sub
-
     Private Sub gvUOM_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvUOM.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -2334,7 +2314,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub OpenUOMCodeList(ByVal isButtonClick As Boolean)
         gvUOM.CurrentRow.Cells(UOMColUnitDesc).Value = ""
         gvUOM.CurrentRow.Cells(UOMColConvFact).Value = 0
@@ -2360,7 +2339,6 @@ Public Class FrmItemMasterRMOther
             End If
         End If
     End Sub
-
     Private Sub gvUOM_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gvUOM.CurrentColumnChanged
         If gvUOM.RowCount > 0 Then
             Dim intCurrRow As Integer = gvUOM.CurrentRow.Index
@@ -2370,19 +2348,16 @@ Public Class FrmItemMasterRMOther
             End If
         End If
     End Sub
-
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         If UpdateItemMasterConversationWithoutValidation = True Then
             clsFixedParameter.UpdateData("UpdateItemMasterConversationWithoutValidation", "UpdateItemMasterConversationWithoutValidation", "0", Nothing)
         End If
         Me.Close()
     End Sub
-
     Private Sub txtCode__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtCode._MYNavigator
         LoadData(txtCode.Value, NavType)
 
     End Sub
-
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim str As String = "select count(*) from tspl_item_master where item_code ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
@@ -2402,7 +2377,6 @@ Public Class FrmItemMasterRMOther
         '    txtCode.MyReadOnly = True
         'End If
     End Sub
-
     Public Sub LoadData(ByVal strCode As String, ByVal NavType As common.NavigatorType)
         Try
             BlankAllConrols()
@@ -2418,6 +2392,7 @@ Public Class FrmItemMasterRMOther
                 LoadItemCSAType()
                 txtCode.Value = obj.Item_Code
                 txtDesc.Text = obj.Item_Desc
+                txtItemDescHindi.Text = obj.Item_Desc_Hindi
                 txtdrawing_no.Text = obj.Drawing_No
                 txtPartNo.Value = obj.Part_No
                 txt_shelflife.Text = clsCommon.myCstr(obj.shelflife)
@@ -2426,7 +2401,9 @@ Public Class FrmItemMasterRMOther
                     LoadDataPartNo(txtPartNo.Value, NavigatorType.Current)
                 End If
                 txtShortDescription.Text = obj.Item_Short_Desc
+                txtShortDescHindi.Text = obj.Item_Short_Desc_Hindi
                 txtAliesName.Text = obj.Alies_Name
+                txtAliesNameHindi.Text = obj.Alies_Name_Hindi
                 txtAliesName2.Text = obj.Alies_Name2
                 txtAliesName3.Text = obj.Alies_Name3
                 chkCAN.Checked = obj.Can
@@ -2452,6 +2429,7 @@ Public Class FrmItemMasterRMOther
                 fndCSA_AC_Code.Value = obj.Cust_Account
                 txtCSA_AC_Name.Text = obj.Cust_Account_Name
                 chkFGforCF.Checked = IIf(obj.FG_for_CF = 1, True, False)
+                chkNIRQC.Checked = obj.NIR_QC
                 chkSchemeItem.Checked = obj.Is_Scheme_Item
                 txtDistbtr_Amt.Text = obj.Distributor_Commission
                 txtCNF_Amt.Text = obj.CNF_Commission
@@ -2787,7 +2765,6 @@ Public Class FrmItemMasterRMOther
             IsFormLoaded = True
         End Try
     End Sub
-
     Private Sub releaseObject(ByVal obj As Object)
         Try
             System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
@@ -2798,7 +2775,6 @@ Public Class FrmItemMasterRMOther
             GC.Collect()
         End Try
     End Sub
-
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         Try
             If deletedata() Then
@@ -2810,7 +2786,6 @@ Public Class FrmItemMasterRMOther
         End Try
 
     End Sub
-
     Public Function deletedata() As Boolean
         If txtCode.Value <> "" Then
             If myMessages.deleteConfirm() Then
@@ -2928,21 +2903,18 @@ Public Class FrmItemMasterRMOther
         End If
         Return False
     End Function
-
     Private Sub RadMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiClose.Click
         If UpdateItemMasterConversationWithoutValidation = True Then
             clsFixedParameter.UpdateData("UpdateItemMasterConversationWithoutValidation", "UpdateItemMasterConversationWithoutValidation", "0", Nothing)
         End If
         Me.Close()
     End Sub
-
     Private Sub fndChptr__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndChptr._MYValidating
         Dim Qry As String = "select Chapter_Head_Code as Code,Description from TSPL_CHAPTER_HEAD "
         fndChptr.Value = clsCommon.ShowSelectForm("fnsubcat", Qry, "Code", "", txtSubCategory.Value, "Code", isButtonClicked)
         lblchptrdesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_CHAPTER_HEAD where Chapter_Head_Code='" + fndChptr.Value + "'")
 
     End Sub
-
     Private Sub txtAlternativeItem__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtAlternativeItem._MYValidating
         Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(txtAlternativeItem.Value), "cboItemType.SelectedValue", True, isButtonClicked, "", "")
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
@@ -2954,7 +2926,6 @@ Public Class FrmItemMasterRMOther
         End If
 
     End Sub
-
     Private Sub txtCategoryStructureCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCategoryStructureCode._MYValidating
         Dim qry As String = "select ITEM_CATEGORY_STRUCT_CODE as Code,DESCRIPTION from TSPL_ITEM_CATEGORY_STRUCTURE"
         txtCategoryStructureCode.Value = clsCommon.ShowSelectForm("ITEMMASTERCATSTRU", qry, "Code", " isnull(form_type,'Item')='Item'", txtCategoryStructureCode.Value, "Code", isButtonClicked)
@@ -2981,7 +2952,6 @@ Public Class FrmItemMasterRMOther
             lblCategoryStructureCode.Text = ""
         End If
     End Sub
-
     Private Sub gvCategory_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvCategory.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -2998,7 +2968,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub OpenCatValueList(ByVal isButtonClick As Boolean)
         gvCategory.CurrentRow.Cells(CatcolValueDesc).Value = ""
         Dim qry As String = " select CODE,DESCRIPTION,Bin_No from TSPL_ITEM_CATEGORY_LEVEL_VALUES"
@@ -3009,11 +2978,9 @@ Public Class FrmItemMasterRMOther
         qry = "select Bin_No from TSPL_ITEM_CATEGORY_LEVEL_VALUES where ITEM_CATEGORY_CODE='" + clsCommon.myCstr(gvCategory.CurrentRow.Cells(CatcolCode).Value) + "' and CODE='" + clsCommon.myCstr(gvCategory.CurrentRow.Cells(CatcolValue).Value) + "' and isnull(form_type,'Item')='Item'"
         gvCategory.CurrentRow.Cells(CatBinNo).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
     End Sub
-
     Private Sub txtUOM_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtUOM.Load
 
     End Sub
-
     Private Sub gvUOM_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvUOM.UserDeletingRow
         If clsCommon.myCdbl(gvUOM.CurrentRow.Cells(UOMColStockUnitChangable).Value) = 1 Then
             If Not chkDoNotCheckOnSave.Checked Then
@@ -3022,7 +2989,6 @@ Public Class FrmItemMasterRMOther
             End If
         End If
     End Sub
-
     Private Sub gvUOM_RowFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.RowFormattingEventArgs) Handles gvUOM.RowFormatting
         Try
             'e.RowElement.Enabled = IIf(clsCommon.myCdbl(e.RowElement.RowInfo.Cells(UOMColStockUnitChangable).Value) = "1", False, True)
@@ -3030,7 +2996,6 @@ Public Class FrmItemMasterRMOther
         Catch ex As Exception
         End Try
     End Sub
-
     Private Sub txtWarranty__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtWarranty._MYValidating
         Dim qry As String = "select Code,Name from TSPL_WARRANTY_MASTER"
         txtWarranty.Value = clsCommon.ShowSelectForm("IMWarCode", qry, "Code", "", txtWarranty.Value, "", isButtonClicked)
@@ -3042,13 +3007,11 @@ Public Class FrmItemMasterRMOther
             CmbWarrApp.Enabled = False
         End If
     End Sub
-
     Private Sub txtWeightUOM__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtWeightUOM._MYValidating
         Dim qry As String = "Select Unit_Code as Code, Unit_Desc as Description from TSPL_UNIT_MASTER"
         txtWeightUOM.Value = clsCommon.ShowSelectForm("WeightUOMfndnder@IM", qry, "Code", "Weight_Type='Y'", txtWeightUOM.Value, "Code", isButtonClicked)
         lblWeightUOMDesc.Text = clsUOMInfo.GetUnitDesc(txtWeightUOM.Value, Nothing)
     End Sub
-
     Public Sub New()
 
         ' This call is required by the Windows Form Designer.
@@ -3057,7 +3020,6 @@ Public Class FrmItemMasterRMOther
         ' Add any initialization after the InitializeComponent() call.
 
     End Sub
-
     Private Sub rmiItemDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiItemDetails.Click
         Try
             '----------------------for n-level category-----------------------------------
@@ -3103,7 +3065,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub rmiExportUOMDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiExportUOMDetails.Click
         Try
             qry = "Select TSPL_ITEM_MASTER.Item_Code as [Item Code], UOM_Code as [UOM], Conversion_Factor as [Conversion Factor], Stocking_Unit as [Stocking Unit],Default_UOM As [Default UOM], Weight,Gross_Weight,Net_Weight,Job_Work_Rate,Pieces,TSPL_ITEM_UOM_DETAIL.Item_Cost as [Item Cost],(case when Custom_Conversion=1 then 'Y' else 'N' end) as [Custom Conversion] from TSPL_ITEM_MASTER LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code "
@@ -3114,7 +3075,6 @@ Public Class FrmItemMasterRMOther
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "UOM")
         End Try
     End Sub
-
     Private Sub rmiExportCategoryStructure_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiExportCategoryStructure.Click
         Try
             qry = "select  TSPL_ITEM_MASTER.Item_Code as [Item Code], TSPL_ITEM_CATEGORY_STRUCT_DETAIL.ITEM_CATEGORY_STRUCT_CODE as [Category Structure],TSPL_ITEM_CATEGORY_STRUCT_DETAIL.line_no, TSPL_ITEM_CATEGORY_STRUCT_DETAIL.ITEM_CATEGORY_CODE as [Category Code], TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values as [Category Value] from TSPL_ITEM_MASTER " &
@@ -3129,7 +3089,6 @@ Public Class FrmItemMasterRMOther
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "UOM")
         End Try
     End Sub
-
     Private Sub rmiImportItemDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiImportItemDetails.Click
         Try
             ImportItemDetail()
@@ -3137,7 +3096,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub rmiImportUOMDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiImportUOMDetails.Click
         Try
             ImportItemUOMDetails()
@@ -3145,7 +3103,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub rmiImportCategoryStructure_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiImportCategoryStructure.Click
         Try
             ImportItemCategoryStructure()
@@ -3153,7 +3110,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub ImportItemDetail()
         Dim gv As New RadGridView()
         Me.Controls.Add(gv)
@@ -3712,7 +3668,6 @@ Public Class FrmItemMasterRMOther
         End If
         Me.Controls.Remove(gv)
     End Sub
-
     Private Sub ImportItemUOMDetails()
         Dim gv1 As New RadGridView()
         Me.Controls.Add(gv1)
@@ -3903,7 +3858,6 @@ Public Class FrmItemMasterRMOther
             End Try
         End If
     End Sub
-
     Private Sub ImportItemCategoryStructure()
         Dim gv1 As New RadGridView()
         Me.Controls.Add(gv1)
@@ -4019,7 +3973,6 @@ Public Class FrmItemMasterRMOther
         End If
 
     End Sub
-
     Private Sub gv_param_CellDoubleClick(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv_param.CellDoubleClick
         Try
             If e.Column Is gv_param.Columns(colActualvalue) AndAlso clsCommon.myLen(clsCommon.myCstr(gv_param.CurrentRow.Cells(colparamCode).Value)) > 0 Then
@@ -4047,7 +4000,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub gv_param_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv_param.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -4077,7 +4029,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub OpenQCParameters(ByVal isButtonClicked As Boolean)
         Dim qry As String = "select a.* from (select ROW_NUMBER() over (partition by tspl_parameter_range_master_qc.code order by tspl_parameter_range_master_qc.Effective_Date desc) as sno,tspl_parameter_master.nature,tspl_parameter_range_master_qc.Code,tspl_parameter_master.Description,tspl_parameter_range_master_qc.effective_date as [Effective Date],tspl_parameter_range_master_qc.lower_range as [Lower Range],tspl_parameter_range_master_qc.upper_range as [Upper Range],tspl_parameter_range_master_qc.Status,tspl_parameter_range_master_qc.value1 as [Value-1],tspl_parameter_range_master_qc.value2 as [Value-2] from tspl_parameter_range_master_qc left outer join tspl_parameter_master on tspl_parameter_range_master_qc.code=tspl_parameter_master.code where tspl_parameter_range_master_qc.trans_id='PRODUCTION')a where a.sno='1'"
         Dim dr As DataRow = clsCommon.ShowSelectFormForRow("ItemQCFND", qry)
@@ -4119,7 +4070,6 @@ Public Class FrmItemMasterRMOther
             gv_param.CurrentRow.Cells(colActualRange).Value = Nothing
         End If
     End Sub
-
     Private Sub gv_param_CurrentColumnChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv_param.CurrentColumnChanged
         If gv_param.RowCount > 0 Then
             Dim intCurrRow As Integer = gv_param.CurrentRow.Index
@@ -4129,7 +4079,6 @@ Public Class FrmItemMasterRMOther
             End If
         End If
     End Sub
-
     Private Sub btnparam_import_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnparam_import.Click
         Dim gv1 As New RadGridView()
         Me.Controls.Add(gv1)
@@ -4299,7 +4248,6 @@ Public Class FrmItemMasterRMOther
         End If
         Me.Controls.Remove(gv1)
     End Sub
-
     Private Sub btnparam_export_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnparam_export.Click
         Dim qry As String = "select count(*) from TSPL_ITEM_QC_PARAMETER_MASTER"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
@@ -4312,7 +4260,6 @@ Public Class FrmItemMasterRMOther
         ListImpExpColumnsMandatory = New List(Of String)({"item_code", "code"})
         transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory)
     End Sub
-
     Private Sub BtnBrowse_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnBrowse.Click
         Try
             If OpenFileDialog1.ShowDialog() = Windows.Forms.DialogResult.OK Then
@@ -4329,7 +4276,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
-
     Public Function GetPhoto(ByVal filePath As String) As Byte()
         Dim stream As FileStream = New FileStream(filePath, FileMode.Open, FileAccess.Read)
         Dim reader As BinaryReader = New BinaryReader(stream)
@@ -4338,7 +4284,6 @@ Public Class FrmItemMasterRMOther
         stream.Close()
         Return photo
     End Function
-
     Sub LoadItemCSAType()
         Dim qry As String = Nothing
         qry = "select distinct code,Name  from( " &
@@ -4357,7 +4302,6 @@ Public Class FrmItemMasterRMOther
         cboCSAType.DisplayMember = "Name"
         'Return dt
     End Sub
-
     Private Sub btnSerializedExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSerializedExport.Click
         Try
             qry = "Select Item_Code as [Item Code], Is_Serial_Item as [Is Serialized Item] ,isnull(Serial_Counter,'') as [Serial Counter] ,isnull(WARRANTY_CODE,'') as [Warranty Code],isnull(Asset_Life,0) as [Asset Life],isnull(Warranty_Period,0) as [Warranty Period] from TSPL_ITEM_MASTER "
@@ -4367,7 +4311,6 @@ Public Class FrmItemMasterRMOther
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnSerializedImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSerializedImport.Click
         Dim gv1 As New RadGridView()
         Me.Controls.Add(gv1)
@@ -4461,7 +4404,6 @@ Public Class FrmItemMasterRMOther
         End If
         Me.Controls.Remove(gv1)
     End Sub
-
     Private Function ItemConversionAutomationImport(ByVal IntRowNo As Integer, ByVal strStockingUnit As String, ByVal strUnit As String, ByVal strWeightUom As String, ByVal dblWeightValue As Double, ByVal strStructure As String, ByVal lineNo As Double, ByVal Trans As SqlTransaction) As Double
         IntRowNo = IntRowNo - 1
         Dim dblConvF As Double = 0
@@ -4518,7 +4460,6 @@ Public Class FrmItemMasterRMOther
         End If
         Return dblConvF
     End Function
-
     Private Sub rmWholeImport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmWholeImport.Click
         Dim gv1 As New RadGridView()
         Me.Controls.Add(gv1)
@@ -5706,7 +5647,6 @@ ExitLOOP:
             End Try
         End If
     End Sub
-
     Private Sub rmWholeExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmWholeExport.Click
         Try
             Dim code As String = ""
@@ -5788,7 +5728,6 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub chkIsSerailzedInventory_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkIsSerailzedInventory.CheckStateChanged
         Try
             txtNextAutoSerialCounter.Text = 0
@@ -5796,7 +5735,6 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub fndGLAcc__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndGLAcc._MYValidating
         Dim Qry As String = "select  Account_Code , Description  from TSPL_GL_ACCOUNTS "
         fndGLAcc.Value = clsCommon.ShowSelectForm("fndInventoryControl", Qry, "Account_Code", " ", fndGLAcc.Value, "Account_Code", isButtonClicked)
@@ -5809,7 +5747,6 @@ ExitLOOP:
         End If
 
     End Sub
-
     Private Sub cboItemType_SelectedIndexChanged(sender As Object, e As UI.Data.PositionChangedEventArgs) Handles cboItemType.SelectedIndexChanged
 
         If IsFormLoaded Then
@@ -5866,7 +5803,6 @@ ExitLOOP:
             txt_tolerance.Enabled = True
         End If
     End Sub
-
     Private Sub LoadDataPartNo(ByVal strCode As String, ByVal NavType As NavigatorType)
         Dim obj As New clsPartNoMaster()
         Try
@@ -5890,7 +5826,6 @@ ExitLOOP:
             obj = Nothing
         End Try
     End Sub
-
     Private Sub txtPartNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPartNo._MYValidating
         'Dim qry As String = "select count(*) from tspl_part_no_master where code='" + txtPartNo.Value + "'"
         'Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
@@ -5906,13 +5841,11 @@ ExitLOOP:
         LoadDataPartNo(txtPartNo.Value, NavigatorType.Current)
         'End If
     End Sub
-
     Private Sub fndCSA_AC_Code__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCSA_AC_Code._MYValidating
         Dim qry As String = "select Cust_Account as Code,Cust_Acct_Desc as [Description],Receivable_Control_acct as [Debitor Account],Receipts_Discount_acct as [Discount Account],Advance_acct as [Advance A/c],Write_Offs as [Write Off],Container_Deposit as [Container Deposit],SECURITY_ACCOUNT as [Security A/c],BANK_GUARANTEE as [Bank Guarantee A/c],GSOC_Acct as [GSOC A/c],Consignment_Acct as [Consignment A/c],Gain_Acct as [Gain A/c],Loss_Acct as [Loss A/c] from TSPL_CUSTOMER_ACCOUNT_SET"
         fndCSA_AC_Code.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("CSASALEAC", qry, "Code", "", fndCSA_AC_Code.Value, "", isButtonClicked))
         txtCSA_AC_Name.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Acct_Desc from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account='" + fndCSA_AC_Code.Value + "'"))
     End Sub
-
     Private Sub cboItemType_SelectedValueChanged(sender As Object, e As EventArgs) Handles cboItemType.SelectedValueChanged
         If clsCommon.CompairString(clsCommon.myCstr(cboItemType.SelectedValue), "F") = CompairStringResult.Equal Then
             MyLabel32.Visible = True
@@ -5922,17 +5855,14 @@ ExitLOOP:
             txt_shelflife.Visible = False
         End If
     End Sub
-
     Private Sub txt_tolerance_TextChanged(sender As Object, e As EventArgs) Handles txt_tolerance.TextChanged
         If txt_tolerance.Text.Contains("-") Then
             txt_tolerance.Text = ""
         End If
     End Sub
-
     Private Sub RadMenu1_Click(sender As Object, e As EventArgs) Handles RadMenu1.Click
 
     End Sub
-
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
@@ -5944,7 +5874,6 @@ ExitLOOP:
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
     Private Sub ChkCrate_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles ChkCrate.ToggleStateChanged
         If ChkCrate.Checked = True Then
             chkCAN.Enabled = False
@@ -5952,7 +5881,6 @@ ExitLOOP:
             chkCAN.Enabled = True
         End If
     End Sub
-
     Private Sub chkCAN_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkCAN.ToggleStateChanged
         If chkCAN.Checked = True Then
             ChkCrate.Enabled = False
@@ -5960,7 +5888,6 @@ ExitLOOP:
             ChkCrate.Enabled = True
         End If
     End Sub
-
     Private Sub ChkCrateType_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles ChkCrateType.ToggleStateChanged
         '====================Added by preeti Gupta Against ticket no[BHA/12/06/18-000050]==========
         If ChkCrateType.Checked = True Then
@@ -5970,7 +5897,6 @@ ExitLOOP:
         End If
         '====================Added by preeti Gupta Against ticket no[BHA/12/06/18-000050]==========
     End Sub
-
     Private Sub chkIsCanType_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkIsCanType.ToggleStateChanged
         If chkIsCanType.Checked = True Then
             ChkCrateType.Enabled = False
@@ -5978,7 +5904,6 @@ ExitLOOP:
             ChkCrateType.Enabled = True
         End If
     End Sub
-
     Private Sub chkScrapItem_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkScrapItem.ToggleStateChanged
         If chkScrapItem.Checked = True Then
             fndScrapItem.Visible = True
@@ -5987,7 +5912,6 @@ ExitLOOP:
             fndScrapItem.Value = ""
         End If
     End Sub
-
     Private Sub fndScrapItem__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndScrapItem._MYValidating
         Try
             Dim wher As String = " tspl_item_master.Item_Code not in ( '" + clsCommon.myCstr(txtCode.Value) + "' ) and tspl_item_master.Item_Code not in (select Scrap_Item_Code from tspl_item_master  where Scrap_Item_Code is not null) and tspl_item_master.Structure_Code = '" + txtStructurer.Value + "' "
@@ -5999,7 +5923,6 @@ ExitLOOP:
 
 
     End Sub
-
     Private Sub RadPageView1_SelectedPageChanged(sender As Object, e As EventArgs) Handles RadPageView1.SelectedPageChanged
         'Ticket No-TEC/06/08/19-000980
         Try
@@ -6026,7 +5949,6 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub gvPurQCPar_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvPurQCPar.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -6042,7 +5964,6 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub OpenPurchaseQCParameters(ByVal isButtonClicked As Boolean)
         Dim qry As String = ""
         If SettItemWiseQualityCheckInGeneralPurchase = True Then
@@ -6060,7 +5981,6 @@ ExitLOOP:
             gvPurQCPar.CurrentRow.Cells(colPurQCParamSpecification).Value = Nothing
         End If
     End Sub
-
     Private Sub gvPurQCPar_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvPurQCPar.CurrentColumnChanged
         If gvPurQCPar.RowCount > 0 Then
             Dim intCurrRow As Integer = gvPurQCPar.CurrentRow.Index
@@ -6071,7 +5991,6 @@ ExitLOOP:
             End If
         End If
     End Sub
-
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         Try
             If SettItemWiseQualityCheckInGeneralPurchase Then
@@ -6085,7 +6004,6 @@ ExitLOOP:
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "UOM")
         End Try
     End Sub
-
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
         Try
             If SettItemWiseQualityCheckInGeneralPurchase Then
@@ -6187,7 +6105,6 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub LoadBlankGridSchedule()
         gvSchedule.Rows.Clear()
         gvSchedule.Columns.Clear()
@@ -6255,7 +6172,6 @@ ExitLOOP:
         gvSchedule.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gvSchedule.MasterTemplate.ShowRowHeaderColumn = False
     End Sub
-
     Private Sub gvSchedule_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvSchedule.CurrentColumnChanged
         If gvSchedule.RowCount > 0 Then
             Dim intCurrRow As Integer = gvSchedule.CurrentRow.Index
@@ -6266,7 +6182,6 @@ ExitLOOP:
             End If
         End If
     End Sub
-
     Private Sub gvSchedule_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gvSchedule.CellValidated
         Try
             SetScheduleGridFocus()
@@ -6274,7 +6189,6 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub SetScheduleGridFocus()
         If gvSchedule.CurrentCell IsNot Nothing Then
             If gvSchedule.CurrentCell.ColumnInfo.Name = ColScheduleDays Then
@@ -6291,7 +6205,6 @@ ExitLOOP:
             End If
         End If
     End Sub
-
     Private Sub gvSchedule_UserDeletedRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gvSchedule.UserDeletedRow
         RefeshScheduleSNO()
     End Sub
@@ -6305,7 +6218,6 @@ ExitLOOP:
             gvSchedule.Rows(ii - 1).Cells(ColScheduleSNo).Value = ii
         Next
     End Sub
-
     Private Sub gvSchedule_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSchedule.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -6321,7 +6233,6 @@ ExitLOOP:
             common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
-
     Private Sub ShowPenalty()
         Try
             Dim dt As DataTable = New DataTable()
@@ -6379,9 +6290,6 @@ ExitLOOP:
         End Try
 
     End Sub
-
-
-
     Private Sub gvSchedule_KeyDown(sender As Object, e As KeyEventArgs) Handles gvSchedule.KeyDown
         If e.KeyCode = Keys.Enter Then
             gvSchedule.BeginEdit()
@@ -6389,7 +6297,6 @@ ExitLOOP:
             ShowPenalty()
         End If
     End Sub
-
     Private Sub ShowRemarks()
         Try
             Dim Reason As String = ""

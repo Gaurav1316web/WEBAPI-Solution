@@ -1140,6 +1140,7 @@ Public Class clsUserMgtCode
     Public Const POWeighment As String = "PO-WHT"
     Public Const POUnloading As String = "PO-UND"
     Public Const mbtnMRN As String = "PO-MRN"
+    Public Const NIRQC As String = "PO-NIR-QC"
     Public Const mbtnSRN As String = "PO-SRN"
     Public Const SRNReturn As String = "PO-SRN-RET"
     Public Const mbtnPurchaseInvoice As String = "PO-INV"

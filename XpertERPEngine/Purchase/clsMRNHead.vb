@@ -813,7 +813,15 @@ Public Class clsMRNHead
                 End If
             Next
 
-            qry = "Update TSPL_MRN_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where MRN_No='" + strDocNo + "'"
+            Dim intNIR_QC As Integer = 0
+            qry = "select 1 from TSPL_MRN_DETAIL
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code
+where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR_QC,0)=1"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                intNIR_QC = 1
+            End If
+            qry = "Update TSPL_MRN_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "',NIR_QC=" + clsCommon.myCstr(intNIR_QC) + " where MRN_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             If objCommonVar.InternalSMSEmailinPurchaseModule = True Then
