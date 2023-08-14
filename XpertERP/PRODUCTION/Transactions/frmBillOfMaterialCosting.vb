@@ -2909,4 +2909,32 @@ Public Class frmBillOfMaterialCosting
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
+
+    Private Sub btnCC_Click(sender As Object, e As EventArgs) Handles btnCC.Click
+
+        Try
+            'isLoadCopy = True
+            Dim qry As String = "SELECT T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
+            qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T1.PROD_QUANTITY,T1.PROD_ITEM_UNIT_CODE,"
+            qry += " T1.MIN_BATCH_SIZE,T1.MODIFIED_BY AS APPROVED_BY,T1.Created_By FROM TSPL_MF_BOM_HEAD  T1 INNER JOIN TSPL_ITEM_MASTER T2  ON T1.PROD_ITEM_CODE=T2.ITEM_CODE "
+
+            Dim strTender As String = clsCommon.ShowSelectForm("TSPL_MF_BOM_HEAD", qry, "Code", "", txtCode.Value, " convert(date, BOM_DATE,103) desc , Code desc ", True)
+            If clsCommon.myLen(strTender) > 0 Then
+                LoadData(strTender, NavigatorType.Current)
+                txtCode.Value = ""
+                txtCode.MyReadOnly = False
+                isNewEntry = True
+                btnsave.Text = "Save"
+                'lblTenderSeqNo.Text = ""
+                btnsave.Enabled = True
+                btndelete.Enabled = False
+                btnPost.Enabled = False
+                UsLock1.Status = ERPTransactionStatus.Pending
+            End If
+
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
 End Class

@@ -1340,6 +1340,7 @@ Public Class FrmReceipttNew
                 End If
 
                 obj.Cust_Code = clsCommon.myCstr(fndCustomer.Value)
+                obj.Against_RCDF_Loadin = txtLoadIn.Value
                 obj.Distr_Code = clsCommon.myCstr(txtDistr_Code.Text)
                 '' Anubhooti 30-Oct-2014 BM00000003904
                 Dim OutstandingAmt As Decimal = 0
@@ -2698,6 +2699,7 @@ Public Class FrmReceipttNew
                 End If
 
                 fndCustomer.Value = obj.Cust_Code
+                txtLoadIn.Value = obj.Against_RCDF_Loadin
                 txtCusName.Text = obj.Customer_Name
                 txtDistr_Code.Text = obj.Distr_Code
                 If clsCommon.myLen(obj.DateAndTime) > 0 Then
@@ -3338,6 +3340,7 @@ Public Class FrmReceipttNew
         txtEntrDesc.Text = ""
         fndCustomer.Value = ""
         txtCusName.Text = ""
+        txtLoadIn.Value = ""
         dtPost.Value = connectSql.serverDate()
         dtCheque.Value = connectSql.serverDate()
         txtChkNo.Text = ""
@@ -8159,5 +8162,13 @@ Public Class FrmReceipttNew
 
     Private Sub btnOpenBankCashBook_Click(sender As Object, e As EventArgs) Handles btnOpenBankCashBook.Click
         clsOpenBankCashBook.ShowBankCashBookDatails(fndRcptNo.Value)
+    End Sub
+
+    Private Sub txtLoadIn__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtLoadIn._MYValidating
+        Dim Qry As String = "select TSPL_RCDF_LOAD_IN.Document_Code,TSPL_RCDF_LOAD_IN.Document_Date,TSPL_RCDF_LOAD_IN.Location_Code,TSPL_RCDF_LOAD_IN.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_RCDF_LOAD_IN.Vehicle_No 
+from TSPL_RCDF_LOAD_IN
+left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RCDF_LOAD_IN.Customer_Code"
+        Dim strWhrcls As String = "TSPL_RCDF_LOAD_IN.Status=0 and TSPL_RCDF_LOAD_IN.Customer_Code='" + fndCustomer.Value + "'"
+        txtLoadIn.Value = clsCommon.ShowSelectForm("RCDFLoadin", Qry, "Document_Code", strWhrcls, txtLoadIn.Value, "Document_Code", isButtonClicked)
     End Sub
 End Class
