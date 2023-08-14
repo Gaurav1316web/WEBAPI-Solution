@@ -48,7 +48,9 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtAliesNameHindi = New common.Controls.MyTextBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.MyLabel43 = New common.Controls.MyLabel()
         Me.txtShortDescHindi = New common.Controls.MyTextBox()
         Me.MyLabel45 = New common.Controls.MyLabel()
         Me.txtItemDescHindi = New common.Controls.MyTextBox()
@@ -96,6 +98,8 @@ Partial Class FrmItemMasterRMOther
         Me.chkIsCanType = New common.Controls.MyCheckBox()
         Me.chkCAN = New common.Controls.MyCheckBox()
         Me.ChkCrate = New common.Controls.MyCheckBox()
+        Me.txtAliesName = New common.Controls.MyTextBox()
+        Me.MyLabel34 = New common.Controls.MyLabel()
         Me.chkPowerAndFuel = New common.Controls.MyCheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblHSNDesc = New common.Controls.MyLabel()
@@ -280,17 +284,16 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.MyLabel34 = New common.Controls.MyLabel()
-        Me.txtAliesName = New common.Controls.MyTextBox()
-        Me.MyLabel43 = New common.Controls.MyLabel()
-        Me.txtAliesNameHindi = New common.Controls.MyTextBox()
+        Me.chkNIRQC = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtAliesNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtShortDescHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtItemDescHindi, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -337,6 +340,8 @@ Partial Class FrmItemMasterRMOther
         CType(Me.chkIsCanType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkCAN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChkCrate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAliesName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkPowerAndFuel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
@@ -495,10 +500,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAliesName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAliesNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkNIRQC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -547,7 +549,9 @@ Partial Class FrmItemMasterRMOther
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkNIRQC)
         Me.RadPageViewPage1.Controls.Add(Me.txtAliesNameHindi)
+        Me.RadPageViewPage1.Controls.Add(Me.chkChilledFreezen)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel43)
         Me.RadPageViewPage1.Controls.Add(Me.txtShortDescHindi)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel45)
@@ -579,7 +583,6 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Controls.Add(Me.chkMRP)
         Me.RadPageViewPage1.Controls.Add(Me.TxtProdTolerance)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel36)
-        Me.RadPageViewPage1.Controls.Add(Me.chkChilledFreezen)
         Me.RadPageViewPage1.Controls.Add(Me.ChkAllowQC)
         Me.RadPageViewPage1.Controls.Add(Me.numMinSelfLife)
         Me.RadPageViewPage1.Controls.Add(Me.lblMinSelfLife)
@@ -680,6 +683,28 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Size = New System.Drawing.Size(977, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
         '
+        'txtAliesNameHindi
+        '
+        Me.txtAliesNameHindi.CalculationExpression = Nothing
+        Me.txtAliesNameHindi.FieldCode = Nothing
+        Me.txtAliesNameHindi.FieldDesc = Nothing
+        Me.txtAliesNameHindi.FieldMaxLength = 0
+        Me.txtAliesNameHindi.FieldName = Nothing
+        Me.txtAliesNameHindi.isCalculatedField = False
+        Me.txtAliesNameHindi.IsSourceFromTable = False
+        Me.txtAliesNameHindi.IsSourceFromValueList = False
+        Me.txtAliesNameHindi.IsUnique = False
+        Me.txtAliesNameHindi.Location = New System.Drawing.Point(526, 144)
+        Me.txtAliesNameHindi.MendatroryField = False
+        Me.txtAliesNameHindi.MyLinkLable1 = Me.MyLabel2
+        Me.txtAliesNameHindi.MyLinkLable2 = Nothing
+        Me.txtAliesNameHindi.Name = "txtAliesNameHindi"
+        Me.txtAliesNameHindi.ReferenceFieldDesc = Nothing
+        Me.txtAliesNameHindi.ReferenceFieldName = Nothing
+        Me.txtAliesNameHindi.ReferenceTableName = Nothing
+        Me.txtAliesNameHindi.Size = New System.Drawing.Size(163, 20)
+        Me.txtAliesNameHindi.TabIndex = 201
+        '
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
@@ -688,6 +713,15 @@ Partial Class FrmItemMasterRMOther
         Me.MyLabel2.Size = New System.Drawing.Size(89, 18)
         Me.MyLabel2.TabIndex = 61
         Me.MyLabel2.Text = "Item Description"
+        '
+        'MyLabel43
+        '
+        Me.MyLabel43.FieldName = Nothing
+        Me.MyLabel43.Location = New System.Drawing.Point(429, 144)
+        Me.MyLabel43.Name = "MyLabel43"
+        Me.MyLabel43.Size = New System.Drawing.Size(92, 18)
+        Me.MyLabel43.TabIndex = 200
+        Me.MyLabel43.Text = "Alies Name Hindi"
         '
         'txtShortDescHindi
         '
@@ -764,7 +798,7 @@ Partial Class FrmItemMasterRMOther
         '
         'chkFGforCF
         '
-        Me.chkFGforCF.Location = New System.Drawing.Point(843, 20)
+        Me.chkFGforCF.Location = New System.Drawing.Point(738, 22)
         Me.chkFGforCF.MyLinkLable1 = Nothing
         Me.chkFGforCF.MyLinkLable2 = Nothing
         Me.chkFGforCF.Name = "chkFGforCF"
@@ -824,7 +858,7 @@ Partial Class FrmItemMasterRMOther
         '
         Me.GroupBox1.Controls.Add(Me.chkAmbient)
         Me.GroupBox1.Controls.Add(Me.chkFresh)
-        Me.GroupBox1.Location = New System.Drawing.Point(732, -7)
+        Me.GroupBox1.Location = New System.Drawing.Point(729, -7)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(151, 30)
         Me.GroupBox1.TabIndex = 4
@@ -1200,7 +1234,7 @@ Partial Class FrmItemMasterRMOther
         '
         'chkChilledFreezen
         '
-        Me.chkChilledFreezen.Location = New System.Drawing.Point(741, 20)
+        Me.chkChilledFreezen.Location = New System.Drawing.Point(813, 22)
         Me.chkChilledFreezen.MyLinkLable1 = Nothing
         Me.chkChilledFreezen.MyLinkLable2 = Nothing
         Me.chkChilledFreezen.Name = "chkChilledFreezen"
@@ -1361,6 +1395,37 @@ Partial Class FrmItemMasterRMOther
         Me.ChkCrate.TabIndex = 20
         Me.ChkCrate.Tag1 = Nothing
         Me.ChkCrate.Text = "CRATE"
+        '
+        'txtAliesName
+        '
+        Me.txtAliesName.CalculationExpression = Nothing
+        Me.txtAliesName.FieldCode = Nothing
+        Me.txtAliesName.FieldDesc = Nothing
+        Me.txtAliesName.FieldMaxLength = 0
+        Me.txtAliesName.FieldName = Nothing
+        Me.txtAliesName.isCalculatedField = False
+        Me.txtAliesName.IsSourceFromTable = False
+        Me.txtAliesName.IsSourceFromValueList = False
+        Me.txtAliesName.IsUnique = False
+        Me.txtAliesName.Location = New System.Drawing.Point(526, 122)
+        Me.txtAliesName.MendatroryField = False
+        Me.txtAliesName.MyLinkLable1 = Me.MyLabel2
+        Me.txtAliesName.MyLinkLable2 = Nothing
+        Me.txtAliesName.Name = "txtAliesName"
+        Me.txtAliesName.ReferenceFieldDesc = Nothing
+        Me.txtAliesName.ReferenceFieldName = Nothing
+        Me.txtAliesName.ReferenceTableName = Nothing
+        Me.txtAliesName.Size = New System.Drawing.Size(162, 20)
+        Me.txtAliesName.TabIndex = 51
+        '
+        'MyLabel34
+        '
+        Me.MyLabel34.FieldName = Nothing
+        Me.MyLabel34.Location = New System.Drawing.Point(429, 123)
+        Me.MyLabel34.Name = "MyLabel34"
+        Me.MyLabel34.Size = New System.Drawing.Size(63, 18)
+        Me.MyLabel34.TabIndex = 75
+        Me.MyLabel34.Text = "Alies Name"
         '
         'chkPowerAndFuel
         '
@@ -4041,67 +4106,16 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
-        'MyLabel34
+        'chkNIRQC
         '
-        Me.MyLabel34.FieldName = Nothing
-        Me.MyLabel34.Location = New System.Drawing.Point(429, 123)
-        Me.MyLabel34.Name = "MyLabel34"
-        Me.MyLabel34.Size = New System.Drawing.Size(63, 18)
-        Me.MyLabel34.TabIndex = 75
-        Me.MyLabel34.Text = "Alies Name"
-        '
-        'txtAliesName
-        '
-        Me.txtAliesName.CalculationExpression = Nothing
-        Me.txtAliesName.FieldCode = Nothing
-        Me.txtAliesName.FieldDesc = Nothing
-        Me.txtAliesName.FieldMaxLength = 0
-        Me.txtAliesName.FieldName = Nothing
-        Me.txtAliesName.isCalculatedField = False
-        Me.txtAliesName.IsSourceFromTable = False
-        Me.txtAliesName.IsSourceFromValueList = False
-        Me.txtAliesName.IsUnique = False
-        Me.txtAliesName.Location = New System.Drawing.Point(526, 122)
-        Me.txtAliesName.MendatroryField = False
-        Me.txtAliesName.MyLinkLable1 = Me.MyLabel2
-        Me.txtAliesName.MyLinkLable2 = Nothing
-        Me.txtAliesName.Name = "txtAliesName"
-        Me.txtAliesName.ReferenceFieldDesc = Nothing
-        Me.txtAliesName.ReferenceFieldName = Nothing
-        Me.txtAliesName.ReferenceTableName = Nothing
-        Me.txtAliesName.Size = New System.Drawing.Size(162, 20)
-        Me.txtAliesName.TabIndex = 51
-        '
-        'MyLabel43
-        '
-        Me.MyLabel43.FieldName = Nothing
-        Me.MyLabel43.Location = New System.Drawing.Point(429, 144)
-        Me.MyLabel43.Name = "MyLabel43"
-        Me.MyLabel43.Size = New System.Drawing.Size(92, 18)
-        Me.MyLabel43.TabIndex = 200
-        Me.MyLabel43.Text = "Alies Name Hindi"
-        '
-        'txtAliesNameHindi
-        '
-        Me.txtAliesNameHindi.CalculationExpression = Nothing
-        Me.txtAliesNameHindi.FieldCode = Nothing
-        Me.txtAliesNameHindi.FieldDesc = Nothing
-        Me.txtAliesNameHindi.FieldMaxLength = 0
-        Me.txtAliesNameHindi.FieldName = Nothing
-        Me.txtAliesNameHindi.isCalculatedField = False
-        Me.txtAliesNameHindi.IsSourceFromTable = False
-        Me.txtAliesNameHindi.IsSourceFromValueList = False
-        Me.txtAliesNameHindi.IsUnique = False
-        Me.txtAliesNameHindi.Location = New System.Drawing.Point(526, 144)
-        Me.txtAliesNameHindi.MendatroryField = False
-        Me.txtAliesNameHindi.MyLinkLable1 = Me.MyLabel2
-        Me.txtAliesNameHindi.MyLinkLable2 = Nothing
-        Me.txtAliesNameHindi.Name = "txtAliesNameHindi"
-        Me.txtAliesNameHindi.ReferenceFieldDesc = Nothing
-        Me.txtAliesNameHindi.ReferenceFieldName = Nothing
-        Me.txtAliesNameHindi.ReferenceTableName = Nothing
-        Me.txtAliesNameHindi.Size = New System.Drawing.Size(163, 20)
-        Me.txtAliesNameHindi.TabIndex = 201
+        Me.chkNIRQC.Location = New System.Drawing.Point(837, 42)
+        Me.chkNIRQC.MyLinkLable1 = Nothing
+        Me.chkNIRQC.MyLinkLable2 = Nothing
+        Me.chkNIRQC.Name = "chkNIRQC"
+        Me.chkNIRQC.Size = New System.Drawing.Size(57, 18)
+        Me.chkNIRQC.TabIndex = 202
+        Me.chkNIRQC.Tag1 = Nothing
+        Me.chkNIRQC.Text = "NIR QC"
         '
         'FrmItemMasterRMOther
         '
@@ -4123,7 +4137,9 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtAliesNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtShortDescHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtItemDescHindi, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4172,6 +4188,8 @@ Partial Class FrmItemMasterRMOther
         CType(Me.chkIsCanType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkCAN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChkCrate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAliesName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkPowerAndFuel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
@@ -4339,10 +4357,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAliesName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAliesNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkNIRQC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4587,5 +4602,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents MyLabel43 As Controls.MyLabel
     Friend WithEvents txtAliesName As Controls.MyTextBox
     Friend WithEvents MyLabel34 As Controls.MyLabel
+    Friend WithEvents chkNIRQC As Controls.MyCheckBox
 End Class
 

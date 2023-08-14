@@ -6033,6 +6033,9 @@ Public Class MDI
                     Case clsUserMgtCode.mbtnMRN
                         frm = New frmMRN()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.NIRQC
+                        frm = New frmNIRQC()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.mbtnSRN
                         frm = New frmSRN(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
