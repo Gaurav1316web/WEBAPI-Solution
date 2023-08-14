@@ -40615,6 +40615,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Template_Remarks", "varchar(200) null")
             coll.Add("Template_Status", "varchar(1) null") 'A-Accepted,R-Rejected,U-Under Deviation
             coll.Add("IsCancel", "int not null default 0")
+            coll.Add("partial_rejected", "int not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_HEAD", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
 
             ''QC MRN

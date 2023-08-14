@@ -14,6 +14,7 @@ Public Class frmQCTemplateEntry
     Public Acceptedstatus As String = Nothing
     Public Template_Remarks As String = Nothing
     Public Template_Status As String = Nothing
+    Public partial_rejected As Int16 = 0
     Public strVendorCode As String = Nothing
 
     Dim ButtonToolTip As New ToolTip()
@@ -551,6 +552,7 @@ Public Class frmQCTemplateEntry
                 rbtnApp.IsChecked = IIf(obj.Template_Status = "A", True, False)
                 rbtnRej.IsChecked = IIf(obj.Template_Status = "R", True, False)
                 rbtnUD.IsChecked = IIf(obj.Template_Status = "U", True, False)
+                chkStatus.Checked = IIf(obj.partial_rejected = 0, False, True)
                 If SettItemWiseQualityCheckInGeneralPurchase Then
                     isInsdieToggle = False
                 End If
@@ -747,6 +749,8 @@ Public Class frmQCTemplateEntry
                     obj = New clsQualityCheckForSRNDetail()
 
                     obj.Document_Code = clsCommon.myCstr(txtDocNo.Value)
+
+
                     obj.Line_no = CInt(clsCommon.myCdbl(grow.Cells(colLineNo).Value))
                     obj.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
                     obj.MRN_No = clsCommon.myCstr(grow.Cells(colMRNNo).Value)
@@ -796,6 +800,12 @@ Public Class frmQCTemplateEntry
                 ElseIf rbtnUD.IsChecked Then
                     Template_Status = "U"
                 End If
+                If chkStatus.Checked = True Then
+                    partial_rejected = 1
+                Else
+                    partial_rejected = 0
+                End If
+
                 Acceptedstatus = txtAccept.Text
                 If Not SettItemWiseQualityCheckInGeneralPurchase Then
                     '' added funcionality 13/10/2017
@@ -1527,6 +1537,7 @@ Public Class frmQCTemplateEntry
         Try
             If txtAccept.Text = "Accepted" Then
                 chkStatus.Enabled = False
+                chkStatus.Checked = False
             ElseIf txtAccept.Text = "Rejected" Then
                 chkStatus.Enabled = True
             Else
