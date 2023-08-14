@@ -258,6 +258,7 @@ Public Class clsUserMgtCode
     '==trnasaction==
     Public Const SubModuleQCTransaction As String = "SMQCTRANS"
     Public Const SubModuleQCReport As String = "SMQCRPT"
+    Public Const VisualRandomQC As String = "Vs-Rn-QC"
     Public Const frmQualityCheckForSRN As String = "QC_CHK_SRN"
     Public Const frmQualityCheckApprovalForSRN As String = "QC_APRV_SRN"
     Public Const rptPendingQCReport As String = "PND_QC_RPT"
@@ -1135,6 +1136,7 @@ Public Class clsUserMgtCode
     Public Const mbtnPurchaseOrder As String = "PO-ODR"
     'Public Const SetPOSchedule As String = "SET-PO-SCH"
     Public Const mbtnGRN As String = "PO-GRN"
+    'Public Const VisualRandomQC As String = "Vs-Rn-QC"
     Public Const POWeighment As String = "PO-WHT"
     Public Const POUnloading As String = "PO-UND"
     Public Const mbtnMRN As String = "PO-MRN"

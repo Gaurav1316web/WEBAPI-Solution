@@ -729,6 +729,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, "Purchase Order", "1.08.02.08", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, "erp@1234", Nothing, "Advance", "Internal", "", "", "")
         'InsertDefaultValue(clsUserMgtCode.SetPOSchedule, "Set PO Schedule", "1.08.02.09", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, False, False, False, "", Nothing, "", "", "", "", "")
         InsertDefaultValue(clsUserMgtCode.mbtnGRN, "Gate Received Note", "1.08.02.10", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, False, "umang@123", Nothing, "", "Internal", "", "", "")
+        'InsertDefaultValue(clsUserMgtCode.VisualRandomQC, "Visual Random QC", "1.08.02.11", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, False, "umang@123", Nothing, "", "Internal", "", "", "")
+
         InsertDefaultValue(clsUserMgtCode.POWeighment, "PO Weighment", "1.08.02.11", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
         InsertDefaultValue(clsUserMgtCode.POUnloading, "PO Unloading", "1.08.02.12", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
         InsertDefaultValue(clsUserMgtCode.mbtnMRN, "Material Received Note", "1.08.02.13", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, "umang@321", Nothing, "", "Internal", "", "", "")
@@ -745,16 +747,16 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmMaterialQuotationComparison, "Material Quotation Comparison", "1.08.02.24", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.ScrapSale, "Material Sales", "1.08.02.25", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, False, Nothing, Nothing, "", "Internal", "", "", "")
         'InsertDefaultValue(clsUserMgtCode.FrmItemConversion, "Item Conversion", "1.08.02.26", clsUserMgtCode.SubModulePurchaseTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmStoreRequistion, "Store Requisition", "1.08.02.27", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, 0, "", "", "", True, True, Nothing)
-        InsertDefaultValue(clsUserMgtCode.frmPurchaseSchedule, "Purchase Schedule", "1.08.02.28", clsUserMgtCode.SubModulePurchaseTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmStoreRequistion, "Store Requisition", "1.08.02.26", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, 0, "", "", "", True, True, Nothing)
+        InsertDefaultValue(clsUserMgtCode.frmPurchaseSchedule, "Purchase Schedule", "1.08.02.27", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.FrmBulkCloser, "Bulk Closer", "1.08.02.29", clsUserMgtCode.SubModulePurchaseTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.FrmScrapSaleGateOut, "Misc. Sale Gate Out", "1.08.02.30", clsUserMgtCode.SubModulePurchaseTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmScrapSaleGateOut, "Misc. Sale Gate Out", "1.08.02.28", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.JobWorkDispatch, "Job Work Dispatch", "1.08.02.31", clsUserMgtCode.SubModulePurchaseTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.mbtnPurchaseJobWork, "Purchase JobWork", "1.08.02.32", clsUserMgtCode.SubModulePurchaseTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.mbtnPurchaseJobWork, "Purchase JobWork", "1.08.02.29", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.SRNReturnListCancellation, "SRN Return List For Cancellation", "1.08.02.33", clsUserMgtCode.SubModulePurchaseTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.ScrapSaleRetrun, "Material Sales Return", "1.08.02.34", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, False, Nothing, Nothing, "", "Internal", "", "", "")
-        InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryMISSAle, "Sale Return Gate Entry Misc Sale", "1.08.02.35", clsUserMgtCode.SubModulePurchaseTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmTender, "Tender", "1.08.02.36", clsUserMgtCode.SubModulePurchaseTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.ScrapSaleRetrun, "Material Sales Return", "1.08.02.30", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, False, Nothing, Nothing, "", "Internal", "", "", "")
+        InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryMISSAle, "Sale Return Gate Entry Misc Sale", "1.08.02.31", clsUserMgtCode.SubModulePurchaseTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmTender, "Tender", "1.08.02.32", clsUserMgtCode.SubModulePurchaseTransaction, 8)
 
         'richa
         'InsertDefaultValue(clsUserMgtCode.frmItemQuantityInformation, "Item Quantity Information ", "1.08.03.17", clsUserMgtCode.SubModulePurchaseTransaction, 8)
@@ -2423,8 +2425,10 @@ Public Class ProgramCodeNew
         ''Transaction
         InsertDefaultValue(clsUserMgtCode.SubModuleQCTransaction, "Transaction", "1.23.02", clsUserMgtCode.ModuleQualityControl, "SM", 26)
         'Public Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strSNo As String, ByVal strParent_Code As String, ByVal strType As String, ByVal ImageNumber As Integer, IsRunFromOtherAsm As Integer, AddAs As String, AsmPath As String, FormName As String, ByVal Is_SMS_Applied As Boolean, ByVal Is_EMAIL_Applied As Boolean, ByVal Is_Notification_Applied As Boolean, ByVal trans As SqlTransaction) As Boolean
-        InsertDefaultValue(clsUserMgtCode.frmQualityCheckForSRN, "Incoming Quality Check Entry", "1.23.02.01", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
-        InsertDefaultValue(clsUserMgtCode.frmQualityCheckApprovalForSRN, "Incoming Quality Approval Entry", "1.23.02.02", clsUserMgtCode.SubModuleQCTransaction, 27)
+        InsertDefaultValue(clsUserMgtCode.VisualRandomQC, "Visual Random QC", "1.23.02.01", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
+
+        InsertDefaultValue(clsUserMgtCode.frmQualityCheckForSRN, "Incoming Quality Check Entry", "1.23.02.02", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
+        InsertDefaultValue(clsUserMgtCode.frmQualityCheckApprovalForSRN, "Incoming Quality Approval Entry", "1.23.02.03", clsUserMgtCode.SubModuleQCTransaction, 27)
 
         InsertDefaultValue(clsUserMgtCode.SubModuleQCReport, "Report", "1.23.03", clsUserMgtCode.ModuleQualityControl, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)
