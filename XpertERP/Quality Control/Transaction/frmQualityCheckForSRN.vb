@@ -60,6 +60,7 @@ Public Class FrmQualityCheckForSRN
     Public strDocumentCode As String = Nothing
     Dim Template_Remarks As String = Nothing
     Dim Template_Status As String = Nothing
+    Public partial_rejected As Int16 = 0
     Dim SettItemWiseQualityCheckInGeneralPurchase As Boolean = False
 #End Region
 
@@ -925,7 +926,7 @@ Public Class FrmQualityCheckForSRN
                 obj.QC_Status = clsCommon.myCstr(txtAccept.Text)
                 obj.Template_Status = Template_Status
                 obj.Template_Remarks = Template_Remarks
-
+                obj.partial_rejected = partial_rejected
                 obj.Arr_MRN = New List(Of clsQualityCheckForSRN_MRNDetail)
                 obj.Arr_item = New List(Of clsQualityCheckForSRNDetail)
                 obj.Arr = New List(Of clsQualityCheckDetail)
@@ -1652,6 +1653,7 @@ Public Class FrmQualityCheckForSRN
                 Next
                 Template_Remarks = frm.Template_Remarks
                 Template_Status = frm.Template_Status
+                partial_rejected = frm.partial_rejected
             End If
 
         Catch ex As Exception
