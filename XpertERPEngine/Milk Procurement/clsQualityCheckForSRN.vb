@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Public Class clsQualityCheckForSRNHead
 #Region "variables"
     Public Document_Code As String = Nothing
+    Public partial_rejected As Int16 = 0
     Public Document_Date As Date = Nothing
     Public Description As String = Nothing
     Public Vendor_Code As String = Nothing
@@ -103,6 +104,7 @@ Public Class clsQualityCheckForSRNHead
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Template_Remarks", obj.Template_Remarks)
             clsCommon.AddColumnsForChange(coll, "Template_Status", obj.Template_Status)
+            clsCommon.AddColumnsForChange(coll, "partial_rejected", obj.partial_rejected)
 
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -267,7 +269,9 @@ Public Class clsQualityCheckForSRNHead
                 obj.QC_Status = clsCommon.myCstr(dt.Rows(0)("QC_Status"))
                 obj.Posted = CInt(clsCommon.myCdbl(dt.Rows(0)("posted")))
                 obj.Template_Remarks = clsCommon.myCstr(dt.Rows(0)("Template_Remarks"))
-                obj.Template_Status = clsCommon.myCstr(dt.Rows(0)("Template_Status"))
+                obj.partial_rejected = Convert.ToInt16(dt.Rows(0)("partial_rejected"))
+
+
 
                 qry = "select TSPL_QC_CHECK_SRN_DETAIL.*,tspl_item_master.item_desc,tspl_item_master.part_no,tspl_item_master.drawing_no,tspl_qc_log_sheet_master.description as param_desc from TSPL_QC_CHECK_SRN_DETAIL left outer join tspl_item_master on tspl_item_master.item_code=TSPL_QC_CHECK_SRN_DETAIL.item_code left outer join tspl_qc_log_sheet_master on tspl_qc_log_sheet_master.code=TSPL_QC_CHECK_SRN_DETAIL.qc_param_code and tspl_qc_log_sheet_master.trans_id='standard'"
                 qry += " where TSPL_QC_CHECK_SRN_DETAIL.document_code='" + obj.Document_Code + "'"

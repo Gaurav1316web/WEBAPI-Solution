@@ -8170,5 +8170,10 @@ from TSPL_RCDF_LOAD_IN
 left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RCDF_LOAD_IN.Customer_Code"
         Dim strWhrcls As String = "TSPL_RCDF_LOAD_IN.Status=0 and TSPL_RCDF_LOAD_IN.Customer_Code='" + fndCustomer.Value + "'"
         txtLoadIn.Value = clsCommon.ShowSelectForm("RCDFLoadin", Qry, "Document_Code", strWhrcls, txtLoadIn.Value, "Document_Code", isButtonClicked)
+
+        If clsCommon.myLen(txtLoadIn.Value) > 0 Then
+            Qry = "select sum(Amount) as Amount from  TSPL_RCDF_LOAD_IN_ITEM where Document_Code='" + txtLoadIn.Value + "'"
+            txtUnApplAmt.Text = clsCommon.myFormat(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(Qry)))
+        End If
     End Sub
 End Class

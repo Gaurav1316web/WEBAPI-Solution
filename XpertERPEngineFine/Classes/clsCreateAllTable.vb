@@ -2196,6 +2196,7 @@ Public Class clsCreateAllTable
             coll.Add("RAL", "integer NUll")
             coll.Add("FG_for_CF", "integer not null default 0")
             coll.Add("Is_DisplayDemand", "integer not NULL default 0")
+            coll.Add("NIR_QC", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -17774,8 +17775,10 @@ Public Class clsCreateAllTable
             coll.Add("Document_Code", "Varchar(30) not null references TSPL_RCDF_LOAD_IN(Document_Code)")
             coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty_BAG", "Decimal(18,2) null")
-            coll.Add("Qty_KG", "Decimal(18,2) null")
-            coll.Add("Qty_MT", "Decimal(18,2) null")
+            coll.Add("Qty_KG", "Decimal(18,3) null")
+            coll.Add("Qty_MT", "Decimal(18,3) null")
+            coll.Add("Rate", "Decimal(18,2) null")
+            coll.Add("Amount", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_LOAD_IN_ITEM", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)()
@@ -40612,6 +40615,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Template_Remarks", "varchar(200) null")
             coll.Add("Template_Status", "varchar(1) null") 'A-Accepted,R-Rejected,U-Under Deviation
             coll.Add("IsCancel", "int not null default 0")
+            coll.Add("partial_rejected", "int not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_QC_CHECK_HEAD", coll, Nothing, False, False, "", "Document_Code", "Document_Date")
 
             ''QC MRN

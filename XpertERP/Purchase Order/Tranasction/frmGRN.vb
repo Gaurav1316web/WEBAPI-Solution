@@ -3138,7 +3138,58 @@ Public Class frmGRN
         lblSubLocation.Text = ""
         UcAttachment1.BlankAllControls()
     End Sub
+    Private Sub frmGRN_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Dim id As String = Form_ID
+        Try
+            'If clsCommon.CompairString(Form_ID, clsUserMgtCode.frmGRN) = CompairStringResult.Equal Then
+            'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(Form_ID, clsUserMgtCode.mbtnGRN) = CompairStringResult.Equal Then
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Hidden
+                RadPageView1.Pages("RadPageViewPage7").Item.Visibility = ElementVisibility.Hidden
+                btnRejected.Visible = False
+                'RadPageViewPage5.Visible = False
+                'RadPageViewPage7.Visible = False
 
+            ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.VisualRandomQC) = CompairStringResult.Equal Then
+                txtDocNo.Value = clsCommon.GETSERVERDATE()
+                'txtDCSDate.Value = txtShiftDate.Value
+                'cboShift.SelectedValue = "M"
+                RadGroupBox1.Enabled = False
+                RadGroupBox2.Enabled = True
+                'ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
+                'ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+                'txtShiftDate.Focus()
+                'LoadShift()
+                'chkAddMissingSample.Visible = False
+                RadPageViewPage1.Text = "Visual Random QC"
+                RadGroupBox1.HeaderText = "Visual Random QC"
+                RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
+                RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
+                RadPageView1.Pages("RadPageViewPage4").Item.Visibility = ElementVisibility.Collapsed
+                RadPageView1.Pages("RadPageViewPage6").Item.Visibility = ElementVisibility.Collapsed
+                'RadPageView1.Pages("UcAttachment1").Item.Visibility = ElementVisibility.Collapsed
+                'RadPageView1.Pages("SplitContainer1.Panel2").Item.Visibility = ElementVisibility.Collapsed
+                'SplitContainer1.Panel2Collapsed = True
+                btnClose.Visible = True
+                btnPrint.Visible = True
+                btnPrint.Location = New Point(5, 4)
+                btnRejected.Visible = True
+                btnRejected.Location = New Point(78, 4)
+                btnSave.Visible = False
+                btnPost.Visible = False
+                btnDelete.Visible = False
+                RadButton1.Visible = False
+                btn_Amendment.Visible = False
+                btnUnpost.Visible = False
+                'End If
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+
+
+    End Sub
     Function AllowToSave() As Boolean
         Dim dt As DataTable
         If AutoClosePO Or AutoClosePOBasedOnSRNQtyWithTolerance Then
@@ -7121,6 +7172,10 @@ inner join tspl_tender_header on tspl_tender_header.DocumentCode=TSPL_GRN_HEAD.R
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
+
+    End Sub
+
+    Private Sub GBVisualQCSecond_Enter(sender As Object, e As EventArgs) Handles GBVisualQCSecond.Enter
 
     End Sub
 End Class
