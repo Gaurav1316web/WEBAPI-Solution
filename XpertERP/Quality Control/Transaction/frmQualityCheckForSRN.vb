@@ -1565,9 +1565,10 @@ Public Class FrmQualityCheckForSRN
                                             ,TSPL_GRN_HEAD.Ref_No as [RAL No] ,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment No],convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as [Weighment Date]
                                             From TSPL_MRN_Head
                                             Left Join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_MRN_Head.Against_GRN
-                                            Left Join TSPL_GRN_HEAD on  TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
+                                            Left Join TSPL_GRN_HEAD on  TSPL_MRN_Head.Against_GRN=TSPL_GRN_HEAD.GRN_No
+                                            left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.grn_no=TSPL_GRN_HEAD.grn_no    
                                             Left Join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
-                                            Left outer join tspl_item_master on tspl_item_master.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code
+                                            Left outer join tspl_item_master on tspl_item_master.Item_Code=TSPL_GRN_DETAIL.Item_Code
                                             where TSPL_GRN_HEAD.GRN_No ='" + clsCommon.myCstr(grow.Cells(colGRNDocNo).Value) + "'"
                         Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(strSql)
                         If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
