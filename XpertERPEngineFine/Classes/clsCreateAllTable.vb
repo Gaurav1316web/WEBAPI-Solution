@@ -23014,7 +23014,7 @@ Public Class clsCreateAllTable
                 If chkValuesDetail = 1 Then
                     Dim QryForeign As String = clsDBFuncationality.getSingleValue("SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='TSPL_MILK_COLLECTION_BMCDCS' and b.COLUMN_NAME='Route_Code' ORDER BY A.TABLE_NAME")
                     If clsCommon.myLen(QryForeign) > 0 Then
-                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_ACQUISITION_DETAIL drop constraint " & QryForeign & "")
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_MILK_COLLECTION_BMCDCS drop constraint " & QryForeign & "")
                         clsDBFuncationality.ExecuteNonQuery("alter table TSPL_MILK_COLLECTION_BMCDCS drop column Route_Code")
                     End If
                 End If

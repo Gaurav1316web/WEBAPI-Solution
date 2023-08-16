@@ -2437,6 +2437,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
                         objTr.Gaze_Reading_Code = clsCommon.myCstr(lst.Arr_BMCDCS_Trip(ii).Gaze_Reading_Code)
                         objTr.Gaze_Reading = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Gaze_Reading)
                         objTr.Silo_Capacity = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Silo_Capacity)
+                        objTr.Sample_No = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).Sample_No)
                         objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(lst.Arr_BMCDCS_Trip(ii).PK_ID)
                         Arr.Add(objTr)
                     End If
