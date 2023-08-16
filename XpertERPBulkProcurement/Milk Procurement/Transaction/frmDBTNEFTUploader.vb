@@ -586,13 +586,21 @@ where 2=2 "
         Dim qry As String = "Select " + TableName + ".SNo as [" + clsDBTNEFTPerforma.colSlNo + "]," + TableName + ".Against_MP_Incentive_TR AS [" + clsDBTNEFTPerforma.colAgainstMPIncetive + "]," + TableName + ".VLC_Uploader_Code AS [" + clsDBTNEFTPerforma.colSociety + "]
                 ," + TableName + ".MP_Uploader_Code AS [" + clsDBTNEFTPerforma.colMPUploaderCode + "]"
 
-        If clsCommon.CompairString(objCommonVar.CurrDatabase, "BKN") = CompairStringResult.Equal Then
-            qry += " ,CASE  WHEN (TSPL_DBT_NEFT_DETAIL.Amount) % 1 >= 0.5    THEN CEILING(TSPL_DBT_NEFT_DETAIL.Amount)  Else FLOOR(TSPL_DBT_NEFT_DETAIL.Amount) End As Amount "
-        Else
-            qry += " ," + TableName + ".Amount AS [" + clsDBTNEFTPerforma.colAmount + "]"
-        End If
-        
-        
+        'If clsCommon.CompairString(objCommonVar.CurrDatabase, "BKN") = CompairStringResult.Equal Then
+        '    qry += " ,CASE  WHEN (TSPL_DBT_NEFT_DETAIL.Amount) % 1 >= 0.5    THEN CEILING(TSPL_DBT_NEFT_DETAIL.Amount)  Else FLOOR(TSPL_DBT_NEFT_DETAIL.Amount) End As Amount "
+        'Else
+        '    qry += " ," + TableName + ".Amount AS [" + clsDBTNEFTPerforma.colAmount + "]"
+        'End If
+
+
+        'Dim value As Double = 15.35
+        'Dim roundedValue As Double = Math.Ceiling(value)
+
+        'Console.WriteLine("Original Value: " & value)
+        'Console.WriteLine("Rounded Up Value: " & roundedValue)
+
+
+
         qry += "," + TableName + ".MP_IFSC_No AS [" + clsDBTNEFTPerforma.colMPIFSCCode + "]
                 ," + TableName + ".MP_Account_No AS [" + clsDBTNEFTPerforma.colMPAccountNo + "]," + TableName + ".MP_Name AS [" + clsDBTNEFTPerforma.colMPName + "]
                 ,TSPL_VLC_MASTER_HEAD.VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],TSPL_ZONE_MASTER.Description as [" + clsDBTNEFTPerforma.colZoneName + "],TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "]
