@@ -13084,7 +13084,7 @@ Public Class clsCreateAllTable
             coll.Add("JA_acc", "nvarchar(20) NULL")
             coll.Add("JA_bankName", "varchar(50) NULL")
             coll.Add("JA_ifsc", "varchar(20) NULL")
-            coll.Add("JA_bankBranch", "varchar(50) NULL")
+            coll.Add("JA_bankBranch", "varchar(200) NULL")
             coll.Add("JA_micr", "varchar(20) NULL")
             coll.Add("JA_voterId", "varchar(20) NULL")
             coll.Add("JA_panNo", "varchar(20) NULL")
