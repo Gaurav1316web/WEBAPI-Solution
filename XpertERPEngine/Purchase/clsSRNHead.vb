@@ -2524,7 +2524,7 @@ Public Class clsSRNHead
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Purchase Order No not found to Delete")
         End If
-        Dim obj As clsSRNHead = clsSRNHead.GetData(strCode, NavigatorType.Current)
+        Dim obj As clsSRNHead = clsSRNHead.GetData(strCode, NavigatorType.Current, trans)
 
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.SRN_No) > 0) Then
             Try

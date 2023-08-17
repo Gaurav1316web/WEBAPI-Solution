@@ -112,7 +112,7 @@ Public Class clsNIRQC
                 Throw New Exception("Already Post on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
             If obj.QC_Status = 1 Then
-                CreateSRN(obj.MRN_No, trans)
+                CreateSRN(obj, trans)
             End If
             Dim qry As String = "Update TSPL_NIR_QC set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -123,16 +123,16 @@ Public Class clsNIRQC
         End Try
         Return True
     End Function
-    Private Shared Function CreateSRN(ByVal MRN_No As String, ByVal trans As SqlTransaction) As Boolean
-        Dim objMRN As clsMRNHead = clsMRNHead.GetData(MRN_No, NavigatorType.Current, trans)
+    Private Shared Function CreateSRN(ByVal objNIRQc As clsNIRQC, ByVal trans As SqlTransaction) As Boolean
+        Dim objMRN As clsMRNHead = clsMRNHead.GetData(objNIRQc.MRN_No, NavigatorType.Current, trans)
         If objMRN IsNot Nothing AndAlso clsCommon.myLen(objMRN.MRN_No) > 0 Then
             Dim obj As clsSRNHead = New clsSRNHead()
-            obj.SRN_Date = clsCommon.GETSERVERDATE(trans)
+            obj.SRN_Date = objNIRQc.Document_Date
             obj.Vendor_Code = objMRN.Vendor_Code
             obj.Vendor_Name = objMRN.Vendor_Name
             obj.Ref_No = objMRN.Ref_No
-            obj.Inv_Date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy")
-            obj.Challan_Date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy")
+            obj.Inv_Date = clsCommon.GetPrintDate(obj.SRN_Date, "dd/MMM/yyyy")
+            obj.Challan_Date = clsCommon.GetPrintDate(obj.SRN_Date, "dd/MMM/yyyy")
             obj.Total_Tax_Amt = objMRN.Total_Tax_Amt
             obj.Inv_No = Nothing
             obj.is_RGP_Non_Inventory = False
