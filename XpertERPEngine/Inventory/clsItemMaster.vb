@@ -2,6 +2,7 @@
 Public Class clsItemMaster
 #Region "Variables"
     Public FG_for_CF As Integer = 0
+    Public NIR_QC As Boolean = False
     Public AllowSRNWithoutShortReject As Integer = 0
     Public Is_Scheme_Item As Boolean = False
     Public Distributor_Commission As Decimal = Nothing
@@ -120,6 +121,11 @@ Public Class clsItemMaster
     Public ApplyRoundingInStdProd As Boolean = False
     Public Visual_QC As Boolean = False
     Public Security_Deduction As Decimal
+    Public Item_Desc_Hindi As String = Nothing
+    Public Item_Short_Desc_Hindi As String = Nothing
+    Public Alies_Name_Hindi As String = Nothing
+
+
 #End Region
     ''Richa 20201616
     '==================================
@@ -780,39 +786,39 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
 
     Public Shared Function IsItemUsedWithUOM(ByVal strItemCode As String, ByVal strUOM As String, ByVal trans As SqlTransaction) As Boolean
         Try
-            Dim qry As String = "Select SUM(Used) From (" & _
-                " Select COUNT(*) as Used from TSPL_ADJUSTMENT_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_Code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_TRANSFER_DETAIL WHERE Item_Code='" + strItemCode + "' AND UOM='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_ITEM_PRICE_MASTER WHERE Item_Code='" + strItemCode + "' AND UOM='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used From TSPL_SCRAPINVOICE_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_SD_SALES_Quotation_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_SD_SALES_ORDER_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_SD_SHIPMENT_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_SD_SALE_INVOICE_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_PURCHASE_ORDER_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_SRN_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_RGP_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_IssueReturn_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-             " UNION" & _
-                " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT where Item_Code = '" + strItemCode + "' AND UOM = '" + strUOM + "' " & _
-             " UNION" & _
+            Dim qry As String = "Select SUM(Used) From (" &
+                " Select COUNT(*) as Used from TSPL_ADJUSTMENT_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_Code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_TRANSFER_DETAIL WHERE Item_Code='" + strItemCode + "' AND UOM='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_ITEM_PRICE_MASTER WHERE Item_Code='" + strItemCode + "' AND UOM='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used From TSPL_SCRAPINVOICE_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_SD_SALES_Quotation_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_SD_SALES_ORDER_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_SD_SHIPMENT_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_SD_SALE_INVOICE_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_PURCHASE_ORDER_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_SRN_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_RGP_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_IssueReturn_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+             " UNION" &
+                " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT where Item_Code = '" + strItemCode + "' AND UOM = '" + strUOM + "' " &
+             " UNION" &
                 " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT_NEW where Item_Code = '" + strItemCode + "' AND UOM = '" + strUOM + "' "
             Dim checkStockingUom As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count (*) from tspl_item_uom_detail where Item_Code = '" + strItemCode + "' and Stocking_Unit ='Y' and UOM_Code ='" + strUOM + "' "))
             If checkStockingUom = True Then
-                qry = qry + " UNION" & _
-                    " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT where Item_Code = '" + strItemCode + "' AND Stock_UOM ='" + strUOM + "'  " & _
-                 " UNION" & _
+                qry = qry + " UNION" &
+                    " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT where Item_Code = '" + strItemCode + "' AND Stock_UOM ='" + strUOM + "'  " &
+                 " UNION" &
                     " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT_NEW where Item_Code = '" + strItemCode + "' AND Stock_UOM = '" + strUOM + "' "
             End If
             qry = qry + " ) XXX"
@@ -824,37 +830,37 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
     ' Ticket No : BHA/23/08/18-000478 By Prabhakar
     Public Shared Function IsItemUsedWithUOMForStockingCheck(ByVal strItemCode As String, ByVal strUOM As String, ByVal trans As SqlTransaction) As Boolean
         Try
-            Dim qry As String = "Select SUM(Used) From (" & _
-                " Select COUNT(*) as Used from TSPL_ADJUSTMENT_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_Code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_TRANSFER_DETAIL WHERE Item_Code='" + strItemCode + "' AND UOM='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_ITEM_PRICE_MASTER WHERE Item_Code='" + strItemCode + "' AND UOM='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used From TSPL_SCRAPINVOICE_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_SD_SALES_Quotation_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_SD_SALES_ORDER_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_SD_SHIPMENT_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_SD_SALE_INVOICE_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_PURCHASE_ORDER_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_SRN_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_RGP_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-            " UNION" & _
-                " Select COUNT(*) as Used from TSPL_IssueReturn_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" & _
-             " UNION" & _
-                " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT where Item_Code = '" + strItemCode + "' AND UOM = '" + strUOM + "' " & _
-             " UNION" & _
+            Dim qry As String = "Select SUM(Used) From (" &
+                " Select COUNT(*) as Used from TSPL_ADJUSTMENT_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_Code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_TRANSFER_DETAIL WHERE Item_Code='" + strItemCode + "' AND UOM='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_ITEM_PRICE_MASTER WHERE Item_Code='" + strItemCode + "' AND UOM='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used From TSPL_SCRAPINVOICE_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_SD_SALES_Quotation_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_SD_SALES_ORDER_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_SD_SHIPMENT_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_SD_SALE_INVOICE_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_PURCHASE_ORDER_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_SRN_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_RGP_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+            " UNION" &
+                " Select COUNT(*) as Used from TSPL_IssueReturn_DETAIL WHERE Item_Code='" + strItemCode + "' AND Unit_code='" + strUOM + "'" &
+             " UNION" &
+                " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT where Item_Code = '" + strItemCode + "' AND UOM = '" + strUOM + "' " &
+             " UNION" &
                 " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT_NEW where Item_Code = '" + strItemCode + "' AND UOM = '" + strUOM + "' "
-            qry = qry + " UNION" & _
-                    " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT where Item_Code = '" + strItemCode + "' AND Stock_UOM in (select UOM_Code from tspl_item_uom_detail where Item_Code = '" + strItemCode + "' and Stocking_Unit ='Y')  " & _
-                 " UNION" & _
+            qry = qry + " UNION" &
+                    " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT where Item_Code = '" + strItemCode + "' AND Stock_UOM in (select UOM_Code from tspl_item_uom_detail where Item_Code = '" + strItemCode + "' and Stocking_Unit ='Y')  " &
+                 " UNION" &
                     " select COUNT(*) as Used from TSPL_INVENTORY_MOVEMENT_NEW where Item_Code = '" + strItemCode + "' AND Stock_UOM in (select UOM_Code from tspl_item_uom_detail where Item_Code = '" + strItemCode + "' and Stocking_Unit ='Y') "
             qry = qry + " ) XXX"
             Return IIf(clsDBFuncationality.getSingleValue(qry, trans) > 0, True, False)
@@ -976,9 +982,9 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
 
     End Function
     Public Shared Function GetReturnableConGLAC(ByVal strICode As String, ByVal trans As SqlTransaction) As String
-        Dim qry As String = "select isnull(TSPL_SALES_ACCOUNTS.Returnable_Container,'') as Returnable_Container  " & _
-         " from TSPL_SALES_ACCOUNTS " & _
-         " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Sale_Class_Code=TSPL_SALES_ACCOUNTS.Sales_Class_Code " & _
+        Dim qry As String = "select isnull(TSPL_SALES_ACCOUNTS.Returnable_Container,'') as Returnable_Container  " &
+         " from TSPL_SALES_ACCOUNTS " &
+         " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Sale_Class_Code=TSPL_SALES_ACCOUNTS.Sales_Class_Code " &
          " where TSPL_ITEM_MASTER.Item_Code='" + strICode + "'"
         Return clsDBFuncationality.getSingleValue(qry, trans)
 
@@ -1026,8 +1032,8 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
     End Function
     Public Shared Function GetItemFatSNF(ByVal strICode As String, ByVal trans As SqlTransaction) As MIlkComponentType
         Dim obj As New MIlkComponentType
-        Dim qry As String = " select QCPM.Item_Code,PM.Type,QCPM.Actual_Range from TSPL_ITEM_QC_PARAMETER_MASTER QCPM " & _
-                            " inner join (SELECT * FROM  TSPL_PARAMETER_MASTER WHERE Type IN ('FAT','SNF')) PM on QCPM.Code=PM.Code " & _
+        Dim qry As String = " select QCPM.Item_Code,PM.Type,QCPM.Actual_Range from TSPL_ITEM_QC_PARAMETER_MASTER QCPM " &
+                            " inner join (SELECT * FROM  TSPL_PARAMETER_MASTER WHERE Type IN ('FAT','SNF')) PM on QCPM.Code=PM.Code " &
                             " WHERE QCPM.Item_Code='" + strICode + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt.Rows.Count = 0 Then
@@ -1508,6 +1514,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Is_Advance_Required", IIf(obj.Is_Advance_Required, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Leakage_Not_Applicable", IIf(obj.Is_Leakage_Not_Applicable, 1, 0))
             clsCommon.AddColumnsForChange(coll, "FG_for_CF", obj.FG_for_CF)
+            clsCommon.AddColumnsForChange(coll, "NIR_QC", IIf(obj.NIR_QC, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Insurance", obj.Is_Insurance)
             If obj.Is_Insurance = 1 Then
                 clsCommon.AddColumnsForChange(coll, "InsuranceNo", obj.InsuranceNo, True)
@@ -1523,6 +1530,10 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Visual_QC", IIf(obj.Visual_QC, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Security_Deduction", obj.Security_Deduction)
             clsCommon.AddColumnsForChange(coll, "ApplyRoundingInStdProd", IIf(obj.ApplyRoundingInStdProd, 1, 0))
+
+            clsCommon.AddColumnsForChange(coll, "Item_Desc_Hindi", obj.Item_Desc_Hindi, True, True)
+            clsCommon.AddColumnsForChange(coll, "Short_Description_Hindi", obj.Item_Short_Desc_Hindi, True, True)
+            clsCommon.AddColumnsForChange(coll, "Alies_Name_Hindi", obj.Alies_Name_Hindi, True, True)
             If isNewEntry Then
                 ' If clsCommon.myLen(obj.Item_Code) <= 0 Then 
                 ' Ticket No : ERO/11/07/19-000679 By Prabhakar
@@ -1598,8 +1609,8 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
 
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ITEM_QC_PARAMETER_MASTER", OMInsertOrUpdate.Insert, "", trans)
-                qry = " update TSPL_ITEM_MASTER set STD_FatPer=QC.Fat_Per,STD_SNFPer=QC.SNF_Per from (select Item_Code,MAX(Fat_Per) as Fat_Per,MAX(SNF_Per) as SNF_Per from ( select Item_QCP.Item_Code,Item_QCP.Code as Parameter_Code,(case when QCP.Type='FAT' then Item_QCP.Actual_Range else 0 end) as Fat_Per, " & _
-                      " (case when QCP.Type='SNF' then Item_QCP.Actual_Range else 0  end) as SNF_Per from TSPL_ITEM_QC_PARAMETER_MASTER Item_QCP  left join TSPL_PARAMETER_MASTER QCP  on Item_QCP.Code=QCP.Code where Item_QCP.Item_Code='" + itemcode + "') as QC  group by Item_Code) QC " & _
+                qry = " update TSPL_ITEM_MASTER set STD_FatPer=QC.Fat_Per,STD_SNFPer=QC.SNF_Per from (select Item_Code,MAX(Fat_Per) as Fat_Per,MAX(SNF_Per) as SNF_Per from ( select Item_QCP.Item_Code,Item_QCP.Code as Parameter_Code,(case when QCP.Type='FAT' then Item_QCP.Actual_Range else 0 end) as Fat_Per, " &
+                      " (case when QCP.Type='SNF' then Item_QCP.Actual_Range else 0  end) as SNF_Per from TSPL_ITEM_QC_PARAMETER_MASTER Item_QCP  left join TSPL_PARAMETER_MASTER QCP  on Item_QCP.Code=QCP.Code where Item_QCP.Item_Code='" + itemcode + "') as QC  group by Item_Code) QC " &
                       " where TSPL_ITEM_MASTER.Item_Code=QC.Item_Code and TSPL_ITEM_MASTER.Item_Code='" + itemcode + "'"
 
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1642,10 +1653,13 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Min_shelf_life = clsCommon.myCstr(dt.Rows(0)("Min_shelf_life"))
                 obj.Item_Code = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
                 obj.Item_Desc = clsCommon.myCstr(dt.Rows(0)("Item_Desc"))
+                obj.Item_Desc_Hindi = clsCommon.myCstr(dt.Rows(0)("Item_Desc_Hindi"))
                 obj.Part_No = clsCommon.myCstr(dt.Rows(0)("Part_No"))
                 obj.Drawing_No = clsCommon.myCstr(dt.Rows(0)("Drawing_No"))
                 obj.Item_Short_Desc = clsCommon.myCstr(dt.Rows(0)("Short_Description"))
+                obj.Item_Short_Desc_Hindi = clsCommon.myCstr(dt.Rows(0)("Short_Description_Hindi"))
                 obj.Alies_Name = clsCommon.myCstr(dt.Rows(0)("Alies_Name"))
+                obj.Alies_Name_Hindi = clsCommon.myCstr(dt.Rows(0)("Alies_Name_Hindi"))
                 obj.Alies_Name2 = clsCommon.myCstr(dt.Rows(0)("Alies_Name2"))
                 obj.Alies_Name3 = clsCommon.myCstr(dt.Rows(0)("Alies_Name3"))
                 obj.std_pur_rate = clsCommon.myCdbl(dt.Rows(0)("Purchase_Price"))
@@ -1702,6 +1716,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
 
                 obj.HSNCode = clsCommon.myCstr(dt.Rows(0)("HSN_Code"))
                 obj.FG_for_CF = clsCommon.myCdbl(dt.Rows(0)("FG_for_CF"))
+                obj.NIR_QC = (clsCommon.myCdbl(dt.Rows(0)("NIR_QC")) = 1)
                 obj.Cust_Account = clsCommon.myCstr(dt.Rows(0)("Cust_Account"))
                 obj.Cust_Account_Name = clsCommon.myCstr(dt.Rows(0)("cust_acct_desc"))
 
@@ -2100,8 +2115,8 @@ Public Class clsItemMasterQCParameter
         Dim obj As New clsItemMasterQCParameter
         obj.FATRate = 0
         obj.SNFRate = 0
-        Dim qry As String = "select TSPL_PARAMETER_MASTER.Type, TSPL_ITEM_QC_PARAMETER_MASTER.StandardRate, TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range from TSPL_ITEM_QC_PARAMETER_MASTER " + Environment.NewLine + _
-                   "left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code" + Environment.NewLine + _
+        Dim qry As String = "select TSPL_PARAMETER_MASTER.Type, TSPL_ITEM_QC_PARAMETER_MASTER.StandardRate, TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range from TSPL_ITEM_QC_PARAMETER_MASTER " + Environment.NewLine +
+                   "left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code" + Environment.NewLine +
                    "where Item_Code='" + Item_Code + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -2179,24 +2194,24 @@ Public Class clsItemUpdateDetail
                         arrItem.Add(obj.Item_Code)
                         If clsCommon.myLen(obj.Structure_Code) > 0 Then
                             ',Weight_UOM = '" & obj.Weight_UOM & "'
-                            qry = "update tspl_item_master set Structure_Code='" & obj.Structure_Code & "',Weight_Value='" & obj.Weight_Value & "'" & _
-                                ",Purchase_Class_Code='" & obj.Purchase_Account_Set & "',Sale_Class_Code='" & obj.Sale_Account_Set & "',Is_Batch_Item='" & obj.Batch_Wise & "', Product_Type ='" & obj.Product_Type & "' , Cheapter_Heads = '" & obj.Cheapter_Heads & "' " & _
+                            qry = "update tspl_item_master set Structure_Code='" & obj.Structure_Code & "',Weight_Value='" & obj.Weight_Value & "'" &
+                                ",Purchase_Class_Code='" & obj.Purchase_Account_Set & "',Sale_Class_Code='" & obj.Sale_Account_Set & "',Is_Batch_Item='" & obj.Batch_Wise & "', Product_Type ='" & obj.Product_Type & "' , Cheapter_Heads = '" & obj.Cheapter_Heads & "' " &
                                 " where item_code='" & obj.Item_Code & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.Stocking_UOM) > 0 Then
-                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Stocking_Conversion & "'" & _
-                          " where item_code='" & obj.Item_Code & "'" & _
-                          " and UOM_Code='" & obj.Stocking_UOM & "'" & _
+                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Stocking_Conversion & "'" &
+                          " where item_code='" & obj.Item_Code & "'" &
+                          " and UOM_Code='" & obj.Stocking_UOM & "'" &
                           " and stocking_unit='Y'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.Default_UOM) > 0 Then
-                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Default_Conversion & "'" & _
-                                  " where item_code='" & obj.Item_Code & "'" & _
-                                  " and UOM_Code='" & obj.Default_UOM & "'" & _
+                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Default_Conversion & "'" &
+                                  " where item_code='" & obj.Item_Code & "'" &
+                                  " and UOM_Code='" & obj.Default_UOM & "'" &
                                   " and Default_UOM=1 "
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
@@ -2230,45 +2245,45 @@ Public Class clsItemUpdateDetail
 
 
                         If clsCommon.myLen(obj.Weight_UOM1) > 0 Then
-                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Weight_Conversion1 & "'" & _
-                                " from tspl_item_uom_detail left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.unit_code = tspl_item_uom_detail.UOM_code " & _
-                                 " where item_code='" & obj.Item_Code & "'" & _
-                                  " and UOM_Code='" & obj.Weight_UOM1 & "'" & _
-                                  " and TSPL_UNIT_MASTER.Weight_Type='Y' " & _
-                                 " and tspl_item_uom_detail.Stocking_unit='N'" & _
+                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Weight_Conversion1 & "'" &
+                                " from tspl_item_uom_detail left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.unit_code = tspl_item_uom_detail.UOM_code " &
+                                 " where item_code='" & obj.Item_Code & "'" &
+                                  " and UOM_Code='" & obj.Weight_UOM1 & "'" &
+                                  " and TSPL_UNIT_MASTER.Weight_Type='Y' " &
+                                 " and tspl_item_uom_detail.Stocking_unit='N'" &
                                  " and tspl_item_uom_detail.Default_UOM=0"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.Weight_UOM2) > 0 Then
-                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Weight_Conversion2 & "'" & _
-                                " from tspl_item_uom_detail left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.unit_code = tspl_item_uom_detail.UOM_code " & _
-                                 " where item_code='" & obj.Item_Code & "'" & _
-                                  " and UOM_Code='" & obj.Weight_UOM2 & "'" & _
-                                  " and TSPL_UNIT_MASTER.Weight_Type='Y' " & _
-                                 " and tspl_item_uom_detail.Stocking_unit='N'" & _
+                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Weight_Conversion2 & "'" &
+                                " from tspl_item_uom_detail left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.unit_code = tspl_item_uom_detail.UOM_code " &
+                                 " where item_code='" & obj.Item_Code & "'" &
+                                  " and UOM_Code='" & obj.Weight_UOM2 & "'" &
+                                  " and TSPL_UNIT_MASTER.Weight_Type='Y' " &
+                                 " and tspl_item_uom_detail.Stocking_unit='N'" &
                                  " and tspl_item_uom_detail.Default_UOM=0"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.Other_UOM1) > 0 Then
-                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Other_Conversion1 & "'" & _
-                                " from tspl_item_uom_detail left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.unit_code = tspl_item_uom_detail.UOM_code " & _
-                                 " where item_code='" & obj.Item_Code & "'" & _
-                                  " and UOM_Code='" & obj.Other_UOM1 & "'" & _
-                                  " and TSPL_UNIT_MASTER.Weight_Type='N' " & _
-                                  " and tspl_item_uom_detail.Stocking_unit='N' " & _
+                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Other_Conversion1 & "'" &
+                                " from tspl_item_uom_detail left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.unit_code = tspl_item_uom_detail.UOM_code " &
+                                 " where item_code='" & obj.Item_Code & "'" &
+                                  " and UOM_Code='" & obj.Other_UOM1 & "'" &
+                                  " and TSPL_UNIT_MASTER.Weight_Type='N' " &
+                                  " and tspl_item_uom_detail.Stocking_unit='N' " &
                                    " and tspl_item_uom_detail.Default_UOM=0 "
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.Other_UOM2) > 0 Then
-                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Other_Conversion2 & "'" & _
-                                " from tspl_item_uom_detail left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.unit_code = tspl_item_uom_detail.UOM_code " & _
-                                 " where item_code='" & obj.Item_Code & "'" & _
-                                  " and UOM_Code='" & obj.Other_UOM2 & "'" & _
-                                  " and TSPL_UNIT_MASTER.Weight_Type='N' " & _
-                                  " and tspl_item_uom_detail.Stocking_unit='N' " & _
+                            qry = "update TSPL_ITEM_UOM_DETAIL set conversion_factor='" & obj.Other_Conversion2 & "'" &
+                                " from tspl_item_uom_detail left join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.unit_code = tspl_item_uom_detail.UOM_code " &
+                                 " where item_code='" & obj.Item_Code & "'" &
+                                  " and UOM_Code='" & obj.Other_UOM2 & "'" &
+                                  " and TSPL_UNIT_MASTER.Weight_Type='N' " &
+                                  " and tspl_item_uom_detail.Stocking_unit='N' " &
                                    " and tspl_item_uom_detail.Default_UOM=0 "
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
@@ -2276,8 +2291,8 @@ Public Class clsItemUpdateDetail
                         If clsCommon.myLen(obj.FatRate) > 0 Then
                             Dim check As String = clsDBFuncationality.getSingleValue("select TSPL_PARAMETER_MASTER.code from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_ITEM_QC_PARAMETER_MASTER.Code=TSPL_PARAMETER_MASTER.Code where Item_Code='" & obj.Item_Code & "'  and TSPL_PARAMETER_MASTER.Description='Fat %'", trans)
                             If clsCommon.myLen(check) > 0 Then
-                                qry = "update TSPL_ITEM_QC_PARAMETER_MASTER set StandardRate='" & obj.FatRate & "'" & _
-                   " where item_code='" & obj.Item_Code & "'" & _
+                                qry = "update TSPL_ITEM_QC_PARAMETER_MASTER set StandardRate='" & obj.FatRate & "'" &
+                   " where item_code='" & obj.Item_Code & "'" &
                    " and Code='" & check & "'"
                                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                             End If
@@ -2286,8 +2301,8 @@ Public Class clsItemUpdateDetail
                         If clsCommon.myLen(obj.SNfRate) > 0 Then
                             Dim check2 As String = clsDBFuncationality.getSingleValue("select TSPL_PARAMETER_MASTER.code from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_ITEM_QC_PARAMETER_MASTER.Code=TSPL_PARAMETER_MASTER.Code where Item_Code='" & obj.Item_Code & "'  and TSPL_PARAMETER_MASTER.Description='SNF %'", trans)
                             If clsCommon.myLen(check2) > 0 Then
-                                qry = "update TSPL_ITEM_QC_PARAMETER_MASTER set StandardRate='" & obj.SNfRate & "'" & _
-                     " where item_code='" & obj.Item_Code & "'" & _
+                                qry = "update TSPL_ITEM_QC_PARAMETER_MASTER set StandardRate='" & obj.SNfRate & "'" &
+                     " where item_code='" & obj.Item_Code & "'" &
                      " and Code='" & check2 & "'"
                                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                             End If
@@ -2297,22 +2312,22 @@ Public Class clsItemUpdateDetail
                 Next
                 ''By Balwinder for correct All item stock unit in Inventory Movement and Inventory Movement Against Ticket no-BHA/29/10/18-000645
                 If arrItem IsNot Nothing AndAlso arrItem.Count > 0 Then
-                    qry = "update TSPL_INVENTORY_MOVEMENT set Stock_UOM=xx.NewUOM  from TSPL_INVENTORY_MOVEMENT" + Environment.NewLine + _
-                     "inner join (" + Environment.NewLine + _
-                    "select TabstockUnit.UOM_Code as NewUOM,Stock_UOM as OLDUOM, TSPL_INVENTORY_MOVEMENT.* from TSPL_INVENTORY_MOVEMENT" + Environment.NewLine + _
-                    "left outer join (select Item_Code,UOM_Code from TSPL_ITEM_UOM_DETAIL where Stocking_Unit='Y') as TabstockUnit on TabstockUnit.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code" + Environment.NewLine + _
-                    "where UOM_Code<>Stock_UOM and TSPL_INVENTORY_MOVEMENT.Item_Code in (" + clsCommon.GetMulcallString(arrItem) + ") " + Environment.NewLine + _
+                    qry = "update TSPL_INVENTORY_MOVEMENT set Stock_UOM=xx.NewUOM  from TSPL_INVENTORY_MOVEMENT" + Environment.NewLine +
+                     "inner join (" + Environment.NewLine +
+                    "select TabstockUnit.UOM_Code as NewUOM,Stock_UOM as OLDUOM, TSPL_INVENTORY_MOVEMENT.* from TSPL_INVENTORY_MOVEMENT" + Environment.NewLine +
+                    "left outer join (select Item_Code,UOM_Code from TSPL_ITEM_UOM_DETAIL where Stocking_Unit='Y') as TabstockUnit on TabstockUnit.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code" + Environment.NewLine +
+                    "where UOM_Code<>Stock_UOM and TSPL_INVENTORY_MOVEMENT.Item_Code in (" + clsCommon.GetMulcallString(arrItem) + ") " + Environment.NewLine +
                     ")xx on xx.Trans_Id=TSPL_INVENTORY_MOVEMENT.Trans_Id and xx.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and xx.Trans_Type=TSPL_INVENTORY_MOVEMENT.Trans_Type"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                     qry = "update TSPL_INVENTORY_MOVEMENT set Stock_Qty=Qty*(select Conversion_Factor from TSPL_ITEM_UOM_DETAIL where TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_INVENTORY_MOVEMENT.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_INVENTORY_MOVEMENT.UOM ) where TSPL_INVENTORY_MOVEMENT.Item_Code in (" + clsCommon.GetMulcallString(arrItem) + ") "
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                    qry = "update TSPL_INVENTORY_MOVEMENT_NEW set Stock_UOM=xx.NewUOM  from TSPL_INVENTORY_MOVEMENT_NEW" + Environment.NewLine + _
-                    "inner join (" + Environment.NewLine + _
-                    "select TabstockUnit.UOM_Code as NewUOM,Stock_UOM as OLDUOM, TSPL_INVENTORY_MOVEMENT_NEW.* from TSPL_INVENTORY_MOVEMENT_NEW" + Environment.NewLine + _
-                    "left outer join (select Item_Code,UOM_Code from TSPL_ITEM_UOM_DETAIL where Stocking_Unit='Y') as TabstockUnit on TabstockUnit.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code" + Environment.NewLine + _
-                    "where UOM_Code<>Stock_UOM and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code in (" + clsCommon.GetMulcallString(arrItem) + ")" + Environment.NewLine + _
+                    qry = "update TSPL_INVENTORY_MOVEMENT_NEW set Stock_UOM=xx.NewUOM  from TSPL_INVENTORY_MOVEMENT_NEW" + Environment.NewLine +
+                    "inner join (" + Environment.NewLine +
+                    "select TabstockUnit.UOM_Code as NewUOM,Stock_UOM as OLDUOM, TSPL_INVENTORY_MOVEMENT_NEW.* from TSPL_INVENTORY_MOVEMENT_NEW" + Environment.NewLine +
+                    "left outer join (select Item_Code,UOM_Code from TSPL_ITEM_UOM_DETAIL where Stocking_Unit='Y') as TabstockUnit on TabstockUnit.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code" + Environment.NewLine +
+                    "where UOM_Code<>Stock_UOM and TSPL_INVENTORY_MOVEMENT_NEW.Item_Code in (" + clsCommon.GetMulcallString(arrItem) + ")" + Environment.NewLine +
                     ")xx on xx.Trans_Id=TSPL_INVENTORY_MOVEMENT_NEW.Trans_Id and xx.Item_Code=TSPL_INVENTORY_MOVEMENT_NEW.Item_Code and xx.Trans_Type=TSPL_INVENTORY_MOVEMENT_NEW.Trans_Type"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -2376,18 +2391,18 @@ Public Class clsItemSalePurchaseSetDetail
                         Dim qry As String = ""
                         If clsCommon.myLen(obj.SaleReturn) > 0 Then
                             ',Weight_UOM = '" & obj.Weight_UOM & "'
-                            qry = "update tspl_sales_accounts set Sales_Return_Account='" & obj.SaleReturn & "'" & _
+                            qry = "update tspl_sales_accounts set Sales_Return_Account='" & obj.SaleReturn & "'" &
                                  " where Sales_Class_Code='" & obj.SalesSetCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.COGS) > 0 Then
-                            qry = "update tspl_sales_accounts set COGT_AC='" & obj.COGS & "'" & _
+                            qry = "update tspl_sales_accounts set COGT_AC='" & obj.COGS & "'" &
                           " where Sales_Class_Code='" & obj.SalesSetCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
                         If clsCommon.myLen(obj.SaleAccount) > 0 Then
-                            qry = "update tspl_sales_accounts set Sales_Account='" & obj.SaleAccount & "'" & _
+                            qry = "update tspl_sales_accounts set Sales_Account='" & obj.SaleAccount & "'" &
                           " where Sales_Class_Code='" & obj.SalesSetCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
@@ -2431,19 +2446,19 @@ Public Class clsItemSetDetail
                         Dim qry As String = ""
                         If clsCommon.myLen(obj.SalesSetCode) > 0 Then
                             ',Weight_UOM = '" & obj.Weight_UOM & "'
-                            qry = "update tspl_item_master set Sale_Class_Code='" & obj.SalesSetCode & "'" & _
+                            qry = "update tspl_item_master set Sale_Class_Code='" & obj.SalesSetCode & "'" &
                                  " where item_code='" & obj.Item_Code & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.AccountCode) > 0 Then
-                            qry = "update TSPL_ITEM_Master set Purchase_Class_Code='" & obj.AccountCode & "'" & _
+                            qry = "update TSPL_ITEM_Master set Purchase_Class_Code='" & obj.AccountCode & "'" &
                           " where item_code='" & obj.Item_Code & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.ConsigmentAc) > 0 Then
-                            qry = "update TSPL_ITEM_Master set GL_Account='" & obj.ConsigmentAc & "'" & _
+                            qry = "update TSPL_ITEM_Master set GL_Account='" & obj.ConsigmentAc & "'" &
                           " where item_code='" & obj.Item_Code & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
@@ -2481,28 +2496,28 @@ Public Class clsItemPurchaseSetDetail
                     If clsCommon.myLen(obj.Item_Code) > 0 Then
                         Dim qry As String = ""
                         If clsCommon.myLen(obj.InventoryCode) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Inv_Control_Account='" & obj.InventoryCode & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Inv_Control_Account='" & obj.InventoryCode & "'" &
                                  " where Purchase_Class_Code='" & obj.PurchaseSetCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.PayableCode) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Inv_Payable_Clearing='" & obj.PayableCode & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Inv_Payable_Clearing='" & obj.PayableCode & "'" &
                                     " where Purchase_Class_Code='" & obj.PurchaseSetCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
                         If clsCommon.myLen(obj.AdjCode) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Adjustment_Account='" & obj.AdjCode & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Adjustment_Account='" & obj.AdjCode & "'" &
                                     " where Purchase_Class_Code='" & obj.PurchaseSetCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
                         If clsCommon.myLen(obj.WIPCode) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set WIP_Account='" & obj.WIPCode & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set WIP_Account='" & obj.WIPCode & "'" &
                                     " where Purchase_Class_Code='" & obj.PurchaseSetCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
                         If clsCommon.myLen(obj.RMCode) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set RM_Consumption='" & obj.RMCode & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set RM_Consumption='" & obj.RMCode & "'" &
                                     " where Purchase_Class_Code='" & obj.PurchaseSetCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
@@ -2608,206 +2623,206 @@ Public Class clsPurchaseAccountSets
                     If clsCommon.myLen(obj.colItemCode) > 0 Then
                         Dim qry As String = ""
                         If clsCommon.myLen(obj.colInventory) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Inv_Control_Account='" & obj.colInventory & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Inv_Control_Account='" & obj.colInventory & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
                         If clsCommon.myLen(obj.colPayableClearing) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Inv_Payable_Clearing='" & obj.colPayableClearing & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Inv_Payable_Clearing='" & obj.colPayableClearing & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
                         If clsCommon.myLen(obj.colAdj) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Adjustment_Account='" & obj.colAdj & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Adjustment_Account='" & obj.colAdj & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
                         If clsCommon.myLen(obj.colInvControlEmpties) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Non_Stock_Clearing='" & obj.colInvControlEmpties & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Non_Stock_Clearing='" & obj.colInvControlEmpties & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
                         If clsCommon.myLen(obj.colTransferClearing) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Transfer_Clearing='" & obj.colTransferClearing & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Transfer_Clearing='" & obj.colTransferClearing & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.ColShipment) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Shipment_Clearing='" & obj.ColShipment & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Shipment_Clearing='" & obj.ColShipment & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colDisassembly) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Disassembly_Expense='" & obj.colDisassembly & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Disassembly_Expense='" & obj.colDisassembly & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colPhyisalInvAdj) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Physical_Inv_Adjustment='" & obj.colPhyisalInvAdj & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Physical_Inv_Adjustment='" & obj.colPhyisalInvAdj & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colCreditDebitNote) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Credit_Debit_Note_Clearing='" & obj.colCreditDebitNote & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Credit_Debit_Note_Clearing='" & obj.colCreditDebitNote & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colRGPClearing) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Reserve_Stock='" & obj.colRGPClearing & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Reserve_Stock='" & obj.colRGPClearing & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colBreakage) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Breakage_Gl_Account='" & obj.colBreakage & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Breakage_Gl_Account='" & obj.colBreakage & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colWIPAccount) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set WIP_Account='" & obj.colWIPAccount & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set WIP_Account='" & obj.colWIPAccount & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colRM) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set RM_Consumption='" & obj.colRM & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set RM_Consumption='" & obj.colRM & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colRejected) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Other_1='" & obj.colRejected & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Other_1='" & obj.colRejected & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colShortage) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Other_2='" & obj.colShortage & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Other_2='" & obj.colShortage & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colLossAccount) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Loss_Ac='" & obj.colLossAccount & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Loss_Ac='" & obj.colLossAccount & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colPurchaseControl) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Purchase_Control_Account='" & obj.colPurchaseControl & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Purchase_Control_Account='" & obj.colPurchaseControl & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colGainLossAccount) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Transfer_Gain_Loss_Ac='" & obj.colGainLossAccount & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Transfer_Gain_Loss_Ac='" & obj.colGainLossAccount & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colJobWorkAC) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Job_Work_Ac='" & obj.colJobWorkAC & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Job_Work_Ac='" & obj.colJobWorkAC & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colStockTrasnferIn) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Stock_Transfer_In='" & obj.colStockTrasnferIn & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Stock_Transfer_In='" & obj.colStockTrasnferIn & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colStockTrasnfer) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Stock_Transfer_Acc='" & obj.colStockTrasnfer & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Stock_Transfer_Acc='" & obj.colStockTrasnfer & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colProvision) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Provision_Clearing='" & obj.colProvision & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Provision_Clearing='" & obj.colProvision & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colChillingCharges) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Chilling_Charges='" & obj.colChillingCharges & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Chilling_Charges='" & obj.colChillingCharges & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colFrieghtCharges) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Freight_Charges='" & obj.colFrieghtCharges & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Freight_Charges='" & obj.colFrieghtCharges & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colPurchaseAccount) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Purchase_Account='" & obj.colPurchaseAccount & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Purchase_Account='" & obj.colPurchaseAccount & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colPurchaseSetOff) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Purchase_Set_Off='" & obj.colPurchaseSetOff & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Purchase_Set_Off='" & obj.colPurchaseSetOff & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colPurchaseJobWork) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Purchase_JobWork='" & obj.colPurchaseJobWork & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Purchase_JobWork='" & obj.colPurchaseJobWork & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colDifferenceAccount) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Difference_Account='" & obj.colDifferenceAccount & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Difference_Account='" & obj.colDifferenceAccount & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colJobWork) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Stock_Transfer_JobWork='" & obj.colJobWork & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Stock_Transfer_JobWork='" & obj.colJobWork & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colHandlingCharges) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Handling_Charge='" & obj.colHandlingCharges & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Handling_Charge='" & obj.colHandlingCharges & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colStoreConsumption) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Store_Consumption_Acc='" & obj.colStoreConsumption & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Store_Consumption_Acc='" & obj.colStoreConsumption & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colFAAccount) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set FA_CLEARING_AC='" & obj.colFAAccount & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set FA_CLEARING_AC='" & obj.colFAAccount & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colPurchaseLoss) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Purchase_Loss='" & obj.colPurchaseLoss & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Purchase_Loss='" & obj.colPurchaseLoss & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
 
                         If clsCommon.myLen(obj.colWreckage) > 0 Then
-                            qry = "update TSPL_PURCHASE_ACCOUNTS set Wrekage_Account='" & obj.colWreckage & "'" & _
+                            qry = "update TSPL_PURCHASE_ACCOUNTS set Wrekage_Account='" & obj.colWreckage & "'" &
                                  " where Purchase_Class_Code='" & obj.colAccountCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If
                         If clsCommon.myLen(obj.ConsignmentAc) > 0 Then
-                            qry = "update TSPL_ITEM_MASTER set GL_Account='" & obj.ConsignmentAc & "'" & _
+                            qry = "update TSPL_ITEM_MASTER set GL_Account='" & obj.ConsignmentAc & "'" &
                                  " where ITEM_CODE='" & obj.colItemCode & "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         End If

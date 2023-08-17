@@ -60,6 +60,7 @@ Public Class FrmQualityCheckForSRN
     Public strDocumentCode As String = Nothing
     Dim Template_Remarks As String = Nothing
     Dim Template_Status As String = Nothing
+    Public partial_rejected As Int16 = 0
     Dim SettItemWiseQualityCheckInGeneralPurchase As Boolean = False
 #End Region
 
@@ -832,6 +833,15 @@ Public Class FrmQualityCheckForSRN
                     status += 1
                 End If
                 If clsCommon.myLen(icode) > 0 AndAlso Not arrMRN.Contains(icode) Then
+                    If clsCommon.CompairString(txtAccept.Text, "Rejected") = CompairStringResult.Equal Then
+                        Dim qry As String = "select isnull(NIR_QC,0) as NIR_QC from TSPL_MRN_Head where MRN_No='" + icode + "'  "
+                        Dim intStatus As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
+                        If intStatus = 1 Then
+                            clsCommon.MyMessageBoxShow("You can't reject MRN [" + icode + "] becuase NIR QC applied.")
+                            Return False
+                        End If
+                    End If
+
                     arrMRN.Add(icode)
                 End If
             Next
@@ -925,7 +935,7 @@ Public Class FrmQualityCheckForSRN
                 obj.QC_Status = clsCommon.myCstr(txtAccept.Text)
                 obj.Template_Status = Template_Status
                 obj.Template_Remarks = Template_Remarks
-
+                obj.partial_rejected = partial_rejected
                 obj.Arr_MRN = New List(Of clsQualityCheckForSRN_MRNDetail)
                 obj.Arr_item = New List(Of clsQualityCheckForSRNDetail)
                 obj.Arr = New List(Of clsQualityCheckDetail)
@@ -1070,11 +1080,17 @@ Public Class FrmQualityCheckForSRN
             gv_MRN.Rows.Clear()
 
             Dim qry As String = "select distinct MRN_No as MRN_No,MAX(GRN_No) as GRN_No,max(MRN_Date) as MRN_Date,Max(Grn_date) as GRN_date from ( select Final1.* from (" + Environment.NewLine &
-                      " select pod.Bin_No,TSPL_MRN_Head.Vendor_Code as Vendor,TSPL_MRN_DETAIL.Item_Code as ICode,TSPL_MRN_DETAIL.Row_Type as IType,TSPL_MRN_DETAIL.MRN_Qty as Qty,0 as Unapproved,TSPL_MRN_DETAIL.Unit_Code as Unit,TSPL_MRN_DETAIL.Location as Location,1 as RI,TSPL_MRN_DETAIL.Item_Cost as Rate,1 as Chk,TSPL_MRN_Head.Tax_Group,TSPL_MRN_DETAIL.TAX1_Rate,TSPL_MRN_DETAIL.TAX2_Rate,TSPL_MRN_DETAIL.TAX3_Rate,TSPL_MRN_DETAIL.TAX4_Rate,TSPL_MRN_DETAIL.TAX5_Rate,TSPL_MRN_DETAIL.TAX6_Rate,TSPL_MRN_DETAIL.TAX7_Rate,TSPL_MRN_DETAIL.TAX8_Rate,TSPL_MRN_DETAIL.TAX9_Rate,TSPL_MRN_DETAIL.TAX10_Rate,TSPL_MRN_DETAIL.TAX1_Amt,TSPL_MRN_DETAIL.TAX2_Amt,TSPL_MRN_DETAIL.TAX3_Amt,TSPL_MRN_DETAIL.TAX4_Amt,TSPL_MRN_DETAIL.TAX5_Amt,TSPL_MRN_DETAIL.TAX6_Amt,TSPL_MRN_DETAIL.TAX7_Amt,TSPL_MRN_DETAIL.TAX8_Amt,TSPL_MRN_DETAIL.TAX9_Amt,TSPL_MRN_DETAIL.TAX10_Amt ,TSPL_MRN_Head.MRN_Date as TransDate,ISNULL(TSPL_MRN_DETAIL.Assessable,0) AS Assessable,ISNULL(TSPL_MRN_DETAIL.MRP,0) as MRP,0 as DamageQty,pod.Abatementrate,TSPL_MRN_HEAD.MRN_No,gh.GRN_No,MRN_Date,Grn_date from TSPL_MRN_DETAIL left outer join TSPL_MRN_Head on TSPL_MRN_Head.mrn_no=TSPL_MRN_DETAIL.MRN_No left join TSPL_GRN_HEAD gh on gh.GRN_No=TSPL_MRN_Head.Against_GRN left join TSPL_PURCHASE_ORDER_DETAIL pod on coalesce(TSPL_MRN_DETAIL.PO_ID,'')=coalesce(pod.PurchaseOrder_No,'') and pod.Item_Code=TSPL_MRN_DETAIL.Item_Code left join TSPL_SRN_DETAIL sd on sd.MRN_Id=TSPL_MRN_DETAIL.MRN_No and sd.Item_Code=TSPL_MRN_DETAIL.Item_Code where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.Status=1 "
+                      " select pod.Bin_No,TSPL_MRN_Head.Vendor_Code as Vendor,TSPL_MRN_DETAIL.Item_Code as ICode,TSPL_MRN_DETAIL.Row_Type as IType,TSPL_MRN_DETAIL.MRN_Qty as Qty,0 as Unapproved,TSPL_MRN_DETAIL.Unit_Code as Unit,TSPL_MRN_DETAIL.Location as Location,1 as RI,TSPL_MRN_DETAIL.Item_Cost as Rate,1 as Chk,TSPL_MRN_Head.Tax_Group,TSPL_MRN_DETAIL.TAX1_Rate,TSPL_MRN_DETAIL.TAX2_Rate,TSPL_MRN_DETAIL.TAX3_Rate,TSPL_MRN_DETAIL.TAX4_Rate,TSPL_MRN_DETAIL.TAX5_Rate,TSPL_MRN_DETAIL.TAX6_Rate,TSPL_MRN_DETAIL.TAX7_Rate,TSPL_MRN_DETAIL.TAX8_Rate,TSPL_MRN_DETAIL.TAX9_Rate,TSPL_MRN_DETAIL.TAX10_Rate,TSPL_MRN_DETAIL.TAX1_Amt,TSPL_MRN_DETAIL.TAX2_Amt,TSPL_MRN_DETAIL.TAX3_Amt,TSPL_MRN_DETAIL.TAX4_Amt,TSPL_MRN_DETAIL.TAX5_Amt,TSPL_MRN_DETAIL.TAX6_Amt,TSPL_MRN_DETAIL.TAX7_Amt,TSPL_MRN_DETAIL.TAX8_Amt,TSPL_MRN_DETAIL.TAX9_Amt,TSPL_MRN_DETAIL.TAX10_Amt ,TSPL_MRN_Head.MRN_Date as TransDate,ISNULL(TSPL_MRN_DETAIL.Assessable,0) AS Assessable,ISNULL(TSPL_MRN_DETAIL.MRP,0) as MRP,0 as DamageQty,pod.Abatementrate,TSPL_MRN_HEAD.MRN_No,gh.GRN_No,MRN_Date,Grn_date 
+from TSPL_MRN_DETAIL 
+left outer join TSPL_MRN_Head on TSPL_MRN_Head.mrn_no=TSPL_MRN_DETAIL.MRN_No 
+left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_Head.MRN_No
+left join TSPL_GRN_HEAD gh on gh.GRN_No=TSPL_MRN_Head.Against_GRN 
+left join TSPL_PURCHASE_ORDER_DETAIL pod on coalesce(TSPL_MRN_DETAIL.PO_ID,'')=coalesce(pod.PurchaseOrder_No,'') and pod.Item_Code=TSPL_MRN_DETAIL.Item_Code left join TSPL_SRN_DETAIL sd on sd.MRN_Id=TSPL_MRN_DETAIL.MRN_No and sd.Item_Code=TSPL_MRN_DETAIL.Item_Code 
+where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.Status=1 
+and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_NIR_QC.QC_Status,0)=1 and isnull(TSPL_NIR_QC.Status,0)=1  then 2 else 3 end)  else 2 end)  "
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") <> CompairStringResult.Equal Then
-                qry += "  and coalesce(sd.SRN_Qty,0) < coalesce(TSPL_MRN_DETAIL.MRN_Qty,0) and TSPL_MRN_HEAD.IsCancel=0 "
+                qry += "  and coalesce(sd.SRN_Qty,0) <= coalesce(TSPL_MRN_DETAIL.MRN_Qty,0) and TSPL_MRN_HEAD.IsCancel=0 "
             End If
-
             If clsCommon.myLen(fndVendor_code.Value) > 0 Then
                 qry += " and TSPL_MRN_Head.Vendor_Code='" + fndVendor_code.Value + "'" + Environment.NewLine
             End If
@@ -1089,11 +1105,19 @@ Public Class FrmQualityCheckForSRN
                 qry += " and TSPL_MRN_HEAD.MRN_No='" + strMRN + "'"
             End If
             qry += " union all" + Environment.NewLine &
-            " select null as Bin_No,vendor_code as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  from TSPL_SRN_DETAIL  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_HEAD.Status=1 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0  " + Environment.NewLine &
+            " select null as Bin_No,TSPL_SRN_HEAD.vendor_code as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  
+            from TSPL_SRN_DETAIL  
+            left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  
+            left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_SRN_DETAIL.MRN_Id
+            where TSPL_SRN_HEAD.Status=1 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0  and isnull( TSPL_MRN_HEAD.NIR_QC,0)=0 " + Environment.NewLine &
             " union all  " + Environment.NewLine &
             " select null as Bin_No,vendor_code as Vendor,TSPL_QC_CHECK_DETAIL.Item_Code as ICode,'' as IType,0 as Qty,(isnull(TSPL_QC_CHECK_DETAIL.OK_Qty,0)+isnull(TSPL_QC_CHECK_DETAIL.Reject_Qty,0)) as Unapproved,TSPL_QC_CHECK_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty,0 as AbatementRate,TSPL_QC_CHECK_DETAIL.MRN_No as MRN_No,'',null,null from TSPL_QC_CHECK_DETAIL left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.document_code=TSPL_QC_CHECK_DETAIL.document_code where isnull(TSPL_QC_CHECK_HEAD.Approved_For_SRN,0)<>1 and len(isnull(TSPL_QC_CHECK_DETAIL.MRN_No,''))>0 and TSPL_QC_CHECK_HEAD.IsCancel=0  " + Environment.NewLine &
             " union all  " + Environment.NewLine &
-            " select null as Bin_No,vendor_code as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,0  as Qty,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  from TSPL_SRN_DETAIL  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_HEAD.Status=0 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0 " + Environment.NewLine &
+            " select null as Bin_No,TSPL_SRN_HEAD.vendor_code as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,0  as Qty,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  
+            from TSPL_SRN_DETAIL  
+            left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  
+            left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_SRN_DETAIL.MRN_Id
+            where TSPL_SRN_HEAD.Status=0 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0 and isnull( TSPL_MRN_HEAD.NIR_QC,0)=0 " + Environment.NewLine &
             " )Final1 where 2=2 "
             If SettItemWiseQualityCheckInGeneralPurchase Then
                 qry += " and final1.icode in (select distinct TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.Item_Code from TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER) "
@@ -1363,21 +1387,40 @@ Public Class FrmQualityCheckForSRN
     Private Function GetPendingMRNItems(ByVal MRN_No As String) As List(Of String)
         Dim str As New List(Of String)
         Dim qry As String = "select (icode) as icode,mrn_no from ( " + Environment.NewLine &
-                      " select pod.Bin_No,TSPL_MRN_Head.Vendor_Code as Vendor,TSPL_MRN_DETAIL.Item_Code as ICode,TSPL_MRN_DETAIL.Row_Type as IType,TSPL_MRN_DETAIL.MRN_Qty as Qty,0 as Unapproved,TSPL_MRN_DETAIL.Unit_Code as Unit,TSPL_MRN_DETAIL.Location as Location,1 as RI,TSPL_MRN_DETAIL.Item_Cost as Rate,1 as Chk,TSPL_MRN_Head.Tax_Group,TSPL_MRN_DETAIL.TAX1_Rate,TSPL_MRN_DETAIL.TAX2_Rate,TSPL_MRN_DETAIL.TAX3_Rate,TSPL_MRN_DETAIL.TAX4_Rate,TSPL_MRN_DETAIL.TAX5_Rate,TSPL_MRN_DETAIL.TAX6_Rate,TSPL_MRN_DETAIL.TAX7_Rate,TSPL_MRN_DETAIL.TAX8_Rate,TSPL_MRN_DETAIL.TAX9_Rate,TSPL_MRN_DETAIL.TAX10_Rate,TSPL_MRN_DETAIL.TAX1_Amt,TSPL_MRN_DETAIL.TAX2_Amt,TSPL_MRN_DETAIL.TAX3_Amt,TSPL_MRN_DETAIL.TAX4_Amt,TSPL_MRN_DETAIL.TAX5_Amt,TSPL_MRN_DETAIL.TAX6_Amt,TSPL_MRN_DETAIL.TAX7_Amt,TSPL_MRN_DETAIL.TAX8_Amt,TSPL_MRN_DETAIL.TAX9_Amt,TSPL_MRN_DETAIL.TAX10_Amt ,TSPL_MRN_Head.MRN_Date as TransDate,ISNULL(TSPL_MRN_DETAIL.Assessable,0) AS Assessable,ISNULL(TSPL_MRN_DETAIL.MRP,0) as MRP,0 as DamageQty,pod.Abatementrate,TSPL_MRN_HEAD.MRN_No,gh.GRN_No,MRN_Date,Grn_date from TSPL_MRN_DETAIL left outer join TSPL_MRN_Head on TSPL_MRN_Head.mrn_no=TSPL_MRN_DETAIL.MRN_No left join TSPL_GRN_HEAD gh on gh.GRN_No=TSPL_MRN_Head.Against_GRN left join TSPL_PURCHASE_ORDER_DETAIL pod on coalesce(TSPL_MRN_DETAIL.PO_ID,'')=coalesce(pod.PurchaseOrder_No,'') and pod.Item_Code=TSPL_MRN_DETAIL.Item_Code left join TSPL_SRN_DETAIL sd on sd.MRN_Id=TSPL_MRN_DETAIL.MRN_No and sd.Item_Code=TSPL_MRN_DETAIL.Item_Code where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.Status=1 "
+                      " select pod.Bin_No,TSPL_MRN_Head.Vendor_Code as Vendor,TSPL_MRN_DETAIL.Item_Code as ICode,TSPL_MRN_DETAIL.Row_Type as IType,TSPL_MRN_DETAIL.MRN_Qty as Qty,0 as Unapproved,TSPL_MRN_DETAIL.Unit_Code as Unit,TSPL_MRN_DETAIL.Location as Location,1 as RI,TSPL_MRN_DETAIL.Item_Cost as Rate,1 as Chk,TSPL_MRN_Head.Tax_Group,TSPL_MRN_DETAIL.TAX1_Rate,TSPL_MRN_DETAIL.TAX2_Rate,TSPL_MRN_DETAIL.TAX3_Rate,TSPL_MRN_DETAIL.TAX4_Rate,TSPL_MRN_DETAIL.TAX5_Rate,TSPL_MRN_DETAIL.TAX6_Rate,TSPL_MRN_DETAIL.TAX7_Rate,TSPL_MRN_DETAIL.TAX8_Rate,TSPL_MRN_DETAIL.TAX9_Rate,TSPL_MRN_DETAIL.TAX10_Rate,TSPL_MRN_DETAIL.TAX1_Amt,TSPL_MRN_DETAIL.TAX2_Amt,TSPL_MRN_DETAIL.TAX3_Amt,TSPL_MRN_DETAIL.TAX4_Amt,TSPL_MRN_DETAIL.TAX5_Amt,TSPL_MRN_DETAIL.TAX6_Amt,TSPL_MRN_DETAIL.TAX7_Amt,TSPL_MRN_DETAIL.TAX8_Amt,TSPL_MRN_DETAIL.TAX9_Amt,TSPL_MRN_DETAIL.TAX10_Amt ,TSPL_MRN_Head.MRN_Date as TransDate,ISNULL(TSPL_MRN_DETAIL.Assessable,0) AS Assessable,ISNULL(TSPL_MRN_DETAIL.MRP,0) as MRP,0 as DamageQty,pod.Abatementrate,TSPL_MRN_HEAD.MRN_No,gh.GRN_No,MRN_Date,Grn_date 
+from TSPL_MRN_DETAIL 
+left outer join TSPL_MRN_Head on TSPL_MRN_Head.mrn_no=TSPL_MRN_DETAIL.MRN_No 
+left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_Head.MRN_No 
+left join TSPL_GRN_HEAD gh on gh.GRN_No=TSPL_MRN_Head.Against_GRN 
+left join TSPL_PURCHASE_ORDER_DETAIL pod on coalesce(TSPL_MRN_DETAIL.PO_ID,'')=coalesce(pod.PurchaseOrder_No,'') and pod.Item_Code=TSPL_MRN_DETAIL.Item_Code 
+left join TSPL_SRN_DETAIL sd on sd.MRN_Id=TSPL_MRN_DETAIL.MRN_No and sd.Item_Code=TSPL_MRN_DETAIL.Item_Code 
+where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.Status=1 
+and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_NIR_QC.QC_Status,0)=1 and isnull(TSPL_NIR_QC.Status,0)=1  then 2 else 3 end)  else 2 end)"
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") <> CompairStringResult.Equal Then
-            qry += "  and coalesce(sd.SRN_Qty,0) < coalesce(TSPL_MRN_DETAIL.MRN_Qty,0) "
+            qry += "  and coalesce(sd.SRN_Qty,0) <= coalesce(TSPL_MRN_DETAIL.MRN_Qty,0) "
         End If
 
         If clsCommon.myLen(fndVendor_code.Value) > 0 Then
             qry += " and TSPL_MRN_Head.Vendor_Code='" + fndVendor_code.Value + "'" + Environment.NewLine
         End If
+
         qry += " union all" + Environment.NewLine &
-        " select null as Bin_No,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  from TSPL_SRN_DETAIL  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_HEAD.Status=1 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0  " + Environment.NewLine &
-        " union all  " + Environment.NewLine &
+        " select null as Bin_No,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  
+        from TSPL_SRN_DETAIL  
+        left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  
+        left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_SRN_DETAIL.MRN_Id
+        where TSPL_SRN_HEAD.Status=1 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0  
+        and isnull( TSPL_MRN_HEAD.NIR_QC,0)=0 
+        union all  " + Environment.NewLine &
         " select null as Bin_No,null as Vendor,TSPL_QC_CHECK_DETAIL.Item_Code as ICode,'' as IType,0 as Qty,(isnull(TSPL_QC_CHECK_DETAIL.OK_Qty,0)+isnull(TSPL_QC_CHECK_DETAIL.Reject_Qty,0)) as Unapproved,TSPL_QC_CHECK_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty,0 as AbatementRate,TSPL_QC_CHECK_DETAIL.MRN_No as MRN_No,'',null,null from TSPL_QC_CHECK_DETAIL left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.document_code=TSPL_QC_CHECK_DETAIL.document_code where isnull(TSPL_QC_CHECK_HEAD.Approved_For_SRN,0)<>1 and len(isnull(TSPL_QC_CHECK_DETAIL.MRN_No,''))>0  " + Environment.NewLine &
         " union all  " + Environment.NewLine &
-        " select null as Bin_No,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,0  as Qty,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  from TSPL_SRN_DETAIL  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_HEAD.Status=0 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0 " + Environment.NewLine &
-        " )Final GROUP BY MRN_NO,ICode,Unit,MRP having SUM(Chk)>0 "
+        " select null as Bin_No,null as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,0  as Qty,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  
+        from TSPL_SRN_DETAIL  
+        left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  
+        left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_SRN_DETAIL.MRN_Id
+        where TSPL_SRN_HEAD.Status=0 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0 
+        and isnull( TSPL_MRN_HEAD.NIR_QC,0)=0 
+         )Final GROUP BY MRN_NO,ICode,Unit,MRP having SUM(Chk)>0 "
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") <> CompairStringResult.Equal Then
             qry += " and SUM((Qty *RI)-Unapproved-DamageQty) <>0 "
         End If
@@ -1564,9 +1607,10 @@ Public Class FrmQualityCheckForSRN
                                             ,TSPL_GRN_HEAD.Ref_No as [RAL No] ,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment No],convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as [Weighment Date]
                                             From TSPL_MRN_Head
                                             Left Join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_MRN_Head.Against_GRN
-                                            Left Join TSPL_GRN_HEAD on  TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
+                                            Left Join TSPL_GRN_HEAD on  TSPL_MRN_Head.Against_GRN=TSPL_GRN_HEAD.GRN_No
+                                            left outer join TSPL_GRN_DETAIL on TSPL_GRN_DETAIL.grn_no=TSPL_GRN_HEAD.grn_no    
                                             Left Join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
-                                            Left outer join tspl_item_master on tspl_item_master.Item_Code=TSPL_PO_WEIGHTMENT_DETAIL.Item_Code
+                                            Left outer join tspl_item_master on tspl_item_master.Item_Code=TSPL_GRN_DETAIL.Item_Code
                                             where TSPL_GRN_HEAD.GRN_No ='" + clsCommon.myCstr(grow.Cells(colGRNDocNo).Value) + "'"
                         Dim dtDetail As DataTable = clsDBFuncationality.GetDataTable(strSql)
                         If dtDetail IsNot Nothing AndAlso dtDetail.Rows.Count > 0 Then
@@ -1652,6 +1696,7 @@ Public Class FrmQualityCheckForSRN
                 Next
                 Template_Remarks = frm.Template_Remarks
                 Template_Status = frm.Template_Status
+                partial_rejected = frm.partial_rejected
             End If
 
         Catch ex As Exception
@@ -1791,7 +1836,14 @@ Public Class FrmQualityCheckForSRN
                     ,max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code) as [Weighment No]
                     ,convert(varchar,max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date),103) as [Weighment Date]
                     from ( select Final1.* from (" + Environment.NewLine &
-                    " select TSPL_MRN_Head.VehicleNo, pod.Bin_No,TSPL_MRN_Head.Vendor_Code as Vendor,TSPL_MRN_DETAIL.Item_Code as ICode,TSPL_MRN_DETAIL.Row_Type as IType,TSPL_MRN_DETAIL.MRN_Qty as Qty,0 as Unapproved,TSPL_MRN_DETAIL.Unit_Code as Unit,TSPL_MRN_DETAIL.Location as Location,1 as RI,TSPL_MRN_DETAIL.Item_Cost as Rate,1 as Chk,TSPL_MRN_Head.Tax_Group,TSPL_MRN_DETAIL.TAX1_Rate,TSPL_MRN_DETAIL.TAX2_Rate,TSPL_MRN_DETAIL.TAX3_Rate,TSPL_MRN_DETAIL.TAX4_Rate,TSPL_MRN_DETAIL.TAX5_Rate,TSPL_MRN_DETAIL.TAX6_Rate,TSPL_MRN_DETAIL.TAX7_Rate,TSPL_MRN_DETAIL.TAX8_Rate,TSPL_MRN_DETAIL.TAX9_Rate,TSPL_MRN_DETAIL.TAX10_Rate,TSPL_MRN_DETAIL.TAX1_Amt,TSPL_MRN_DETAIL.TAX2_Amt,TSPL_MRN_DETAIL.TAX3_Amt,TSPL_MRN_DETAIL.TAX4_Amt,TSPL_MRN_DETAIL.TAX5_Amt,TSPL_MRN_DETAIL.TAX6_Amt,TSPL_MRN_DETAIL.TAX7_Amt,TSPL_MRN_DETAIL.TAX8_Amt,TSPL_MRN_DETAIL.TAX9_Amt,TSPL_MRN_DETAIL.TAX10_Amt ,TSPL_MRN_Head.MRN_Date as TransDate,ISNULL(TSPL_MRN_DETAIL.Assessable,0) AS Assessable,ISNULL(TSPL_MRN_DETAIL.MRP,0) as MRP,0 as DamageQty,pod.Abatementrate,TSPL_MRN_HEAD.MRN_No,gh.GRN_No,MRN_Date,Grn_date from TSPL_MRN_DETAIL left outer join TSPL_MRN_Head on TSPL_MRN_Head.mrn_no=TSPL_MRN_DETAIL.MRN_No left join TSPL_GRN_HEAD gh on gh.GRN_No=TSPL_MRN_Head.Against_GRN left join TSPL_PURCHASE_ORDER_DETAIL pod on coalesce(TSPL_MRN_DETAIL.PO_ID,'')=coalesce(pod.PurchaseOrder_No,'') and pod.Item_Code=TSPL_MRN_DETAIL.Item_Code left join TSPL_SRN_DETAIL sd on sd.MRN_Id=TSPL_MRN_DETAIL.MRN_No and sd.Item_Code=TSPL_MRN_DETAIL.Item_Code where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.Status=1 AND gh.IsSkipPurchaseQC=0 "
+                    " select TSPL_MRN_Head.VehicleNo, pod.Bin_No,TSPL_MRN_Head.Vendor_Code as Vendor,TSPL_MRN_DETAIL.Item_Code as ICode,TSPL_MRN_DETAIL.Row_Type as IType,TSPL_MRN_DETAIL.MRN_Qty as Qty,0 as Unapproved,TSPL_MRN_DETAIL.Unit_Code as Unit,TSPL_MRN_DETAIL.Location as Location,1 as RI,TSPL_MRN_DETAIL.Item_Cost as Rate,1 as Chk,TSPL_MRN_Head.Tax_Group,TSPL_MRN_DETAIL.TAX1_Rate,TSPL_MRN_DETAIL.TAX2_Rate,TSPL_MRN_DETAIL.TAX3_Rate,TSPL_MRN_DETAIL.TAX4_Rate,TSPL_MRN_DETAIL.TAX5_Rate,TSPL_MRN_DETAIL.TAX6_Rate,TSPL_MRN_DETAIL.TAX7_Rate,TSPL_MRN_DETAIL.TAX8_Rate,TSPL_MRN_DETAIL.TAX9_Rate,TSPL_MRN_DETAIL.TAX10_Rate,TSPL_MRN_DETAIL.TAX1_Amt,TSPL_MRN_DETAIL.TAX2_Amt,TSPL_MRN_DETAIL.TAX3_Amt,TSPL_MRN_DETAIL.TAX4_Amt,TSPL_MRN_DETAIL.TAX5_Amt,TSPL_MRN_DETAIL.TAX6_Amt,TSPL_MRN_DETAIL.TAX7_Amt,TSPL_MRN_DETAIL.TAX8_Amt,TSPL_MRN_DETAIL.TAX9_Amt,TSPL_MRN_DETAIL.TAX10_Amt ,TSPL_MRN_Head.MRN_Date as TransDate,ISNULL(TSPL_MRN_DETAIL.Assessable,0) AS Assessable,ISNULL(TSPL_MRN_DETAIL.MRP,0) as MRP,0 as DamageQty,pod.Abatementrate,TSPL_MRN_HEAD.MRN_No,gh.GRN_No,MRN_Date,Grn_date 
+from TSPL_MRN_DETAIL 
+left outer join TSPL_MRN_Head on TSPL_MRN_Head.mrn_no=TSPL_MRN_DETAIL.MRN_No 
+left join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_Head.MRN_No 
+left join TSPL_GRN_HEAD gh on gh.GRN_No=TSPL_MRN_Head.Against_GRN 
+left join TSPL_PURCHASE_ORDER_DETAIL pod on coalesce(TSPL_MRN_DETAIL.PO_ID,'')=coalesce(pod.PurchaseOrder_No,'') and pod.Item_Code=TSPL_MRN_DETAIL.Item_Code 
+left join TSPL_SRN_DETAIL sd on sd.MRN_Id=TSPL_MRN_DETAIL.MRN_No and sd.Item_Code=TSPL_MRN_DETAIL.Item_Code 
+where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.Status=1 AND gh.IsSkipPurchaseQC=0 "
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") <> CompairStringResult.Equal AndAlso objCommonVar.RCDFCFP = False Then
                 qry += "  and coalesce(sd.SRN_Qty,0) < coalesce(TSPL_MRN_DETAIL.MRN_Qty,0) and TSPL_MRN_HEAD.IsCancel=0 "
             End If
@@ -1805,12 +1857,21 @@ Public Class FrmQualityCheckForSRN
             If objCommonVar.ApplyLocationFilterBasedOnPermission = True AndAlso clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 qry += "  and TSPL_MRN_Head.bill_to_location in (" + objCommonVar.strCurrUserLocations + ")"
             End If
+            qry += " and 2= (case when isnull(TSPL_MRN_Head.NIR_QC,0)=1 then (case when isnull(TSPL_NIR_QC.QC_Status,0)=1 and isnull(TSPL_NIR_QC.Status,0)=1  then 2 else 3 end)  else 2 end) "
             qry += " union all" + Environment.NewLine &
-            " select '' as VehicleNo,null as Bin_No,vendor_code as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  from TSPL_SRN_DETAIL  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_HEAD.Status=1 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0  " + Environment.NewLine &
+            " select '' as VehicleNo,null as Bin_No,TSPL_SRN_HEAD.vendor_code as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Qty,0 as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  
+            from TSPL_SRN_DETAIL  
+            left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  
+            left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_SRN_DETAIL.MRN_Id
+            where TSPL_SRN_HEAD.Status=1 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0  and isnull( TSPL_MRN_HEAD.NIR_QC,0)=0" + Environment.NewLine &
             " union all  " + Environment.NewLine &
             " select '' as VehicleNo,null as Bin_No,vendor_code as Vendor,TSPL_QC_CHECK_DETAIL.Item_Code as ICode,'' as IType,0 as Qty,(isnull(TSPL_QC_CHECK_DETAIL.OK_Qty,0)+isnull(TSPL_QC_CHECK_DETAIL.Reject_Qty,0)) as Unapproved,TSPL_QC_CHECK_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,0 as Assessable,0 as MRP,0 as DamageQty,0 as AbatementRate,TSPL_QC_CHECK_DETAIL.MRN_No as MRN_No,'',null,null from TSPL_QC_CHECK_DETAIL left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.document_code=TSPL_QC_CHECK_DETAIL.document_code where isnull(TSPL_QC_CHECK_HEAD.Approved_For_SRN,0)<>1 and len(isnull(TSPL_QC_CHECK_DETAIL.MRN_No,''))>0 and TSPL_QC_CHECK_HEAD.IsCancel=0  " + Environment.NewLine &
             " union all  " + Environment.NewLine &
-            " select '' as VehicleNo,null as Bin_No,vendor_code as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,0  as Qty,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  from TSPL_SRN_DETAIL  left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  where TSPL_SRN_HEAD.Status=0 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0 " + Environment.NewLine &
+            " select '' as VehicleNo,null as Bin_No,TSPL_SRN_HEAD.vendor_code as Vendor,TSPL_SRN_DETAIL.Item_Code as ICode,'' as IType,0  as Qty,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.Leak_Qty+TSPL_SRN_DETAIL.Burst_Qty+TSPL_SRN_DETAIL.Short_Qty+TSPL_SRN_DETAIL.Rejected_Qty) as Unapproved,TSPL_SRN_DETAIL.Unit_code as Unit,'' as Location,-1 as RI,0 as Rate,0 as Chk,'' as Tax_Group,0 as TAX1_Rate,0 as TAX2_Rate,0 as TAX3_Rate,0 as TAX4_Rate,0 as TAX5_Rate,0 as TAX6_Rate,0 as TAX7_Rate,0 as TAX8_Rate,0 as TAX9_Rate,0 as TAX10_Rate ,0 as  TAX1_Amt,0 as  TAX2_Amt,0 as  TAX3_Amt,0 as  TAX4_Amt,0 as  TAX5_Amt,0 as  TAX6_Amt,0 as  TAX7_Amt,0 as  TAX8_Amt,0 as  TAX9_Amt,0 as  TAX10_Amt,null as TransDate,isnull(TSPL_SRN_DETAIL.Assessable,0) as Assessable,isnull(TSPL_SRN_DETAIL.MRP,0) as MRP,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)) as DamageQty,TSPL_SRN_DETAIL.AbatementRate,TSPL_SRN_DETAIL.MRN_Id as MRN_No,'',null,null  
+            from TSPL_SRN_DETAIL  
+            left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No  
+            left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_SRN_DETAIL.MRN_Id
+            where TSPL_SRN_HEAD.Status=0 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))>0 and isnull( TSPL_MRN_HEAD.NIR_QC,0)=0" + Environment.NewLine &
             " )Final1 where 2=2 "
             If SettItemWiseQualityCheckInGeneralPurchase Then
                 qry += " and final1.icode in (select distinct TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.Item_Code from TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER) "
@@ -1823,7 +1884,7 @@ Public Class FrmQualityCheckForSRN
                  group by MRN_No,Final.GRN_No,Final.Grn_date,ICode,Unit,MRP having SUM(Chk)>0  "
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal OrElse objCommonVar.RCDFCFP = True Then
                 qry = qry & " and MRN_No not in (select distinct MRN_No from TSPL_QC_CHECK_DETAIL ) "
-                qry = qry & " and MRN_No not in (select distinct MRN_Id from TSPL_SRN_DETAIL where isnull(MRN_Id,'')<>'')  "
+                qry = qry & " and MRN_No not in (select distinct MRN_Id from TSPL_SRN_DETAIL left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.MRN_No=TSPL_SRN_DETAIL.MRN_Id  where  isnull( TSPL_MRN_HEAD.NIR_QC,0)=0 and isnull(TSPL_SRN_DETAIL.MRN_Id,'')<>'')  "
             Else
                 qry += " and SUM((Qty *RI)-Unapproved-DamageQty) <>0 "
             End If

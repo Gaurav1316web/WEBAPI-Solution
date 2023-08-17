@@ -48,6 +48,14 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtAliesNameHindi = New common.Controls.MyTextBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.MyLabel43 = New common.Controls.MyLabel()
+        Me.txtShortDescHindi = New common.Controls.MyTextBox()
+        Me.MyLabel45 = New common.Controls.MyLabel()
+        Me.txtItemDescHindi = New common.Controls.MyTextBox()
+        Me.MyLabel44 = New common.Controls.MyLabel()
+        Me.chkIsDisplayDemad = New common.Controls.MyCheckBox()
         Me.chkFGforCF = New common.Controls.MyCheckBox()
         Me.chkRAL = New common.Controls.MyCheckBox()
         Me.gbTaxType = New System.Windows.Forms.GroupBox()
@@ -62,7 +70,6 @@ Partial Class FrmItemMasterRMOther
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.chkQCSNFBssed = New common.Controls.MyCheckBox()
         Me.txtAliesName3 = New common.Controls.MyTextBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtAliesName2 = New common.Controls.MyTextBox()
         Me.MyLabel41 = New common.Controls.MyLabel()
         Me.MyLabel40 = New common.Controls.MyLabel()
@@ -277,13 +284,21 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.chkIsDisplayDemad = New common.Controls.MyCheckBox()
+        Me.chkNIRQC = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtAliesNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtShortDescHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtItemDescHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsDisplayDemad, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFGforCF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkRAL, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbTaxType.SuspendLayout()
@@ -298,7 +313,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkQCSNFBssed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAliesName3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAliesName2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -486,7 +500,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkIsDisplayDemad, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkNIRQC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -509,8 +523,8 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(998, 599)
-        Me.SplitContainer1.SplitterDistance = 570
+        Me.SplitContainer1.Size = New System.Drawing.Size(998, 630)
+        Me.SplitContainer1.SplitterDistance = 601
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -529,12 +543,20 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(998, 570)
+        Me.RadPageView1.Size = New System.Drawing.Size(998, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkNIRQC)
+        Me.RadPageViewPage1.Controls.Add(Me.txtAliesNameHindi)
+        Me.RadPageViewPage1.Controls.Add(Me.chkChilledFreezen)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel43)
+        Me.RadPageViewPage1.Controls.Add(Me.txtShortDescHindi)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel45)
+        Me.RadPageViewPage1.Controls.Add(Me.txtItemDescHindi)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel44)
         Me.RadPageViewPage1.Controls.Add(Me.chkIsDisplayDemad)
         Me.RadPageViewPage1.Controls.Add(Me.chkFGforCF)
         Me.RadPageViewPage1.Controls.Add(Me.chkRAL)
@@ -561,7 +583,6 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Controls.Add(Me.chkMRP)
         Me.RadPageViewPage1.Controls.Add(Me.TxtProdTolerance)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel36)
-        Me.RadPageViewPage1.Controls.Add(Me.chkChilledFreezen)
         Me.RadPageViewPage1.Controls.Add(Me.ChkAllowQC)
         Me.RadPageViewPage1.Controls.Add(Me.numMinSelfLife)
         Me.RadPageViewPage1.Controls.Add(Me.lblMinSelfLife)
@@ -659,12 +680,125 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(71.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(977, 522)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(977, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
+        '
+        'txtAliesNameHindi
+        '
+        Me.txtAliesNameHindi.CalculationExpression = Nothing
+        Me.txtAliesNameHindi.FieldCode = Nothing
+        Me.txtAliesNameHindi.FieldDesc = Nothing
+        Me.txtAliesNameHindi.FieldMaxLength = 0
+        Me.txtAliesNameHindi.FieldName = Nothing
+        Me.txtAliesNameHindi.isCalculatedField = False
+        Me.txtAliesNameHindi.IsSourceFromTable = False
+        Me.txtAliesNameHindi.IsSourceFromValueList = False
+        Me.txtAliesNameHindi.IsUnique = False
+        Me.txtAliesNameHindi.Location = New System.Drawing.Point(526, 144)
+        Me.txtAliesNameHindi.MendatroryField = False
+        Me.txtAliesNameHindi.MyLinkLable1 = Me.MyLabel2
+        Me.txtAliesNameHindi.MyLinkLable2 = Nothing
+        Me.txtAliesNameHindi.Name = "txtAliesNameHindi"
+        Me.txtAliesNameHindi.ReferenceFieldDesc = Nothing
+        Me.txtAliesNameHindi.ReferenceFieldName = Nothing
+        Me.txtAliesNameHindi.ReferenceTableName = Nothing
+        Me.txtAliesNameHindi.Size = New System.Drawing.Size(163, 20)
+        Me.txtAliesNameHindi.TabIndex = 201
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Location = New System.Drawing.Point(3, 28)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(89, 18)
+        Me.MyLabel2.TabIndex = 61
+        Me.MyLabel2.Text = "Item Description"
+        '
+        'MyLabel43
+        '
+        Me.MyLabel43.FieldName = Nothing
+        Me.MyLabel43.Location = New System.Drawing.Point(429, 144)
+        Me.MyLabel43.Name = "MyLabel43"
+        Me.MyLabel43.Size = New System.Drawing.Size(92, 18)
+        Me.MyLabel43.TabIndex = 200
+        Me.MyLabel43.Text = "Alies Name Hindi"
+        '
+        'txtShortDescHindi
+        '
+        Me.txtShortDescHindi.CalculationExpression = Nothing
+        Me.txtShortDescHindi.FieldCode = Nothing
+        Me.txtShortDescHindi.FieldDesc = Nothing
+        Me.txtShortDescHindi.FieldMaxLength = 0
+        Me.txtShortDescHindi.FieldName = Nothing
+        Me.txtShortDescHindi.isCalculatedField = False
+        Me.txtShortDescHindi.IsSourceFromTable = False
+        Me.txtShortDescHindi.IsSourceFromValueList = False
+        Me.txtShortDescHindi.IsUnique = False
+        Me.txtShortDescHindi.Location = New System.Drawing.Point(132, 93)
+        Me.txtShortDescHindi.MendatroryField = False
+        Me.txtShortDescHindi.MyLinkLable1 = Me.MyLabel2
+        Me.txtShortDescHindi.MyLinkLable2 = Nothing
+        Me.txtShortDescHindi.Name = "txtShortDescHindi"
+        Me.txtShortDescHindi.ReferenceFieldDesc = Nothing
+        Me.txtShortDescHindi.ReferenceFieldName = Nothing
+        Me.txtShortDescHindi.ReferenceTableName = Nothing
+        Me.txtShortDescHindi.Size = New System.Drawing.Size(295, 20)
+        Me.txtShortDescHindi.TabIndex = 63
+        '
+        'MyLabel45
+        '
+        Me.MyLabel45.FieldName = Nothing
+        Me.MyLabel45.Location = New System.Drawing.Point(3, 94)
+        Me.MyLabel45.Name = "MyLabel45"
+        Me.MyLabel45.Size = New System.Drawing.Size(92, 18)
+        Me.MyLabel45.TabIndex = 64
+        Me.MyLabel45.Text = "Short Desc. Hindi"
+        '
+        'txtItemDescHindi
+        '
+        Me.txtItemDescHindi.CalculationExpression = Nothing
+        Me.txtItemDescHindi.FieldCode = Nothing
+        Me.txtItemDescHindi.FieldDesc = Nothing
+        Me.txtItemDescHindi.FieldMaxLength = 0
+        Me.txtItemDescHindi.FieldName = Nothing
+        Me.txtItemDescHindi.isCalculatedField = False
+        Me.txtItemDescHindi.IsSourceFromTable = False
+        Me.txtItemDescHindi.IsSourceFromValueList = False
+        Me.txtItemDescHindi.IsUnique = False
+        Me.txtItemDescHindi.Location = New System.Drawing.Point(132, 49)
+        Me.txtItemDescHindi.MendatroryField = False
+        Me.txtItemDescHindi.MyLinkLable1 = Me.MyLabel44
+        Me.txtItemDescHindi.MyLinkLable2 = Nothing
+        Me.txtItemDescHindi.Name = "txtItemDescHindi"
+        Me.txtItemDescHindi.ReferenceFieldDesc = Nothing
+        Me.txtItemDescHindi.ReferenceFieldName = Nothing
+        Me.txtItemDescHindi.ReferenceTableName = Nothing
+        Me.txtItemDescHindi.Size = New System.Drawing.Size(295, 20)
+        Me.txtItemDescHindi.TabIndex = 62
+        '
+        'MyLabel44
+        '
+        Me.MyLabel44.FieldName = Nothing
+        Me.MyLabel44.Location = New System.Drawing.Point(3, 50)
+        Me.MyLabel44.Name = "MyLabel44"
+        Me.MyLabel44.Size = New System.Drawing.Size(88, 18)
+        Me.MyLabel44.TabIndex = 63
+        Me.MyLabel44.Text = "Item Desc. Hindi"
+        '
+        'chkIsDisplayDemad
+        '
+        Me.chkIsDisplayDemad.Location = New System.Drawing.Point(853, 187)
+        Me.chkIsDisplayDemad.MyLinkLable1 = Nothing
+        Me.chkIsDisplayDemad.MyLinkLable2 = Nothing
+        Me.chkIsDisplayDemad.Name = "chkIsDisplayDemad"
+        Me.chkIsDisplayDemad.Size = New System.Drawing.Size(95, 18)
+        Me.chkIsDisplayDemad.TabIndex = 197
+        Me.chkIsDisplayDemad.Tag1 = Nothing
+        Me.chkIsDisplayDemad.Text = "Display Demad"
         '
         'chkFGforCF
         '
-        Me.chkFGforCF.Location = New System.Drawing.Point(843, 20)
+        Me.chkFGforCF.Location = New System.Drawing.Point(738, 22)
         Me.chkFGforCF.MyLinkLable1 = Nothing
         Me.chkFGforCF.MyLinkLable2 = Nothing
         Me.chkFGforCF.Name = "chkFGforCF"
@@ -689,9 +823,9 @@ Partial Class FrmItemMasterRMOther
         Me.gbTaxType.Controls.Add(Me.rbtnTaxExempted)
         Me.gbTaxType.Controls.Add(Me.rbtnExcisable)
         Me.gbTaxType.Controls.Add(Me.rbtnNA)
-        Me.gbTaxType.Location = New System.Drawing.Point(734, 36)
+        Me.gbTaxType.Location = New System.Drawing.Point(734, 37)
         Me.gbTaxType.Name = "gbTaxType"
-        Me.gbTaxType.Size = New System.Drawing.Size(97, 59)
+        Me.gbTaxType.Size = New System.Drawing.Size(97, 62)
         Me.gbTaxType.TabIndex = 13
         Me.gbTaxType.TabStop = False
         Me.gbTaxType.Text = "TAX TYPE"
@@ -724,7 +858,7 @@ Partial Class FrmItemMasterRMOther
         '
         Me.GroupBox1.Controls.Add(Me.chkAmbient)
         Me.GroupBox1.Controls.Add(Me.chkFresh)
-        Me.GroupBox1.Location = New System.Drawing.Point(732, -7)
+        Me.GroupBox1.Location = New System.Drawing.Point(729, -7)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(151, 30)
         Me.GroupBox1.TabIndex = 4
@@ -805,7 +939,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtAliesName3.IsSourceFromTable = False
         Me.txtAliesName3.IsSourceFromValueList = False
         Me.txtAliesName3.IsUnique = False
-        Me.txtAliesName3.Location = New System.Drawing.Point(689, 485)
+        Me.txtAliesName3.Location = New System.Drawing.Point(802, 144)
         Me.txtAliesName3.MendatroryField = False
         Me.txtAliesName3.MyLinkLable1 = Me.MyLabel2
         Me.txtAliesName3.MyLinkLable2 = Nothing
@@ -815,15 +949,6 @@ Partial Class FrmItemMasterRMOther
         Me.txtAliesName3.ReferenceTableName = Nothing
         Me.txtAliesName3.Size = New System.Drawing.Size(163, 20)
         Me.txtAliesName3.TabIndex = 193
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Location = New System.Drawing.Point(3, 28)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(89, 18)
-        Me.MyLabel2.TabIndex = 61
-        Me.MyLabel2.Text = "Item Description"
         '
         'txtAliesName2
         '
@@ -836,7 +961,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtAliesName2.IsSourceFromTable = False
         Me.txtAliesName2.IsSourceFromValueList = False
         Me.txtAliesName2.IsUnique = False
-        Me.txtAliesName2.Location = New System.Drawing.Point(689, 461)
+        Me.txtAliesName2.Location = New System.Drawing.Point(802, 121)
         Me.txtAliesName2.MendatroryField = False
         Me.txtAliesName2.MyLinkLable1 = Me.MyLabel2
         Me.txtAliesName2.MyLinkLable2 = Nothing
@@ -850,7 +975,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel41
         '
         Me.MyLabel41.FieldName = Nothing
-        Me.MyLabel41.Location = New System.Drawing.Point(611, 486)
+        Me.MyLabel41.Location = New System.Drawing.Point(723, 145)
         Me.MyLabel41.Name = "MyLabel41"
         Me.MyLabel41.Size = New System.Drawing.Size(72, 18)
         Me.MyLabel41.TabIndex = 191
@@ -859,7 +984,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel40
         '
         Me.MyLabel40.FieldName = Nothing
-        Me.MyLabel40.Location = New System.Drawing.Point(611, 462)
+        Me.MyLabel40.Location = New System.Drawing.Point(723, 122)
         Me.MyLabel40.Name = "MyLabel40"
         Me.MyLabel40.Size = New System.Drawing.Size(72, 18)
         Me.MyLabel40.TabIndex = 190
@@ -878,7 +1003,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtMarSeqNo.IsSourceFromTable = False
         Me.txtMarSeqNo.IsSourceFromValueList = False
         Me.txtMarSeqNo.IsUnique = False
-        Me.txtMarSeqNo.Location = New System.Drawing.Point(691, 164)
+        Me.txtMarSeqNo.Location = New System.Drawing.Point(691, 208)
         Me.txtMarSeqNo.MendatroryField = False
         Me.txtMarSeqNo.MyLinkLable1 = Me.MyLabel24
         Me.txtMarSeqNo.MyLinkLable2 = Nothing
@@ -895,7 +1020,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel24
         '
         Me.MyLabel24.FieldName = Nothing
-        Me.MyLabel24.Location = New System.Drawing.Point(752, 143)
+        Me.MyLabel24.Location = New System.Drawing.Point(752, 182)
         Me.MyLabel24.Name = "MyLabel24"
         Me.MyLabel24.Size = New System.Drawing.Size(43, 18)
         Me.MyLabel24.TabIndex = 28
@@ -904,7 +1029,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel39
         '
         Me.MyLabel39.FieldName = Nothing
-        Me.MyLabel39.Location = New System.Drawing.Point(588, 165)
+        Me.MyLabel39.Location = New System.Drawing.Point(588, 209)
         Me.MyLabel39.Name = "MyLabel39"
         Me.MyLabel39.Size = New System.Drawing.Size(97, 18)
         Me.MyLabel39.TabIndex = 188
@@ -912,7 +1037,7 @@ Partial Class FrmItemMasterRMOther
         '
         'chkSkipGST
         '
-        Me.chkSkipGST.Location = New System.Drawing.Point(606, 100)
+        Me.chkSkipGST.Location = New System.Drawing.Point(606, 101)
         Me.chkSkipGST.MyLinkLable1 = Nothing
         Me.chkSkipGST.MyLinkLable2 = Nothing
         Me.chkSkipGST.Name = "chkSkipGST"
@@ -923,7 +1048,7 @@ Partial Class FrmItemMasterRMOther
         '
         'chkAdvanceRequired
         '
-        Me.chkAdvanceRequired.Location = New System.Drawing.Point(489, 100)
+        Me.chkAdvanceRequired.Location = New System.Drawing.Point(489, 101)
         Me.chkAdvanceRequired.MyLinkLable1 = Nothing
         Me.chkAdvanceRequired.MyLinkLable2 = Nothing
         Me.chkAdvanceRequired.Name = "chkAdvanceRequired"
@@ -954,7 +1079,7 @@ Partial Class FrmItemMasterRMOther
         Me.LblGLAcc.IsSourceFromTable = False
         Me.LblGLAcc.IsSourceFromValueList = False
         Me.LblGLAcc.IsUnique = False
-        Me.LblGLAcc.Location = New System.Drawing.Point(588, 368)
+        Me.LblGLAcc.Location = New System.Drawing.Point(588, 412)
         Me.LblGLAcc.MendatroryField = False
         Me.LblGLAcc.MyLinkLable1 = Me.MyLabel2
         Me.LblGLAcc.MyLinkLable2 = Nothing
@@ -977,7 +1102,7 @@ Partial Class FrmItemMasterRMOther
         Me.lblUOM.IsSourceFromTable = False
         Me.lblUOM.IsSourceFromValueList = False
         Me.lblUOM.IsUnique = False
-        Me.lblUOM.Location = New System.Drawing.Point(589, 345)
+        Me.lblUOM.Location = New System.Drawing.Point(589, 389)
         Me.lblUOM.MendatroryField = False
         Me.lblUOM.MyLinkLable1 = Me.MyLabel2
         Me.lblUOM.MyLinkLable2 = Nothing
@@ -1000,7 +1125,7 @@ Partial Class FrmItemMasterRMOther
         Me.lblSubCategory.IsSourceFromTable = False
         Me.lblSubCategory.IsSourceFromValueList = False
         Me.lblSubCategory.IsUnique = False
-        Me.lblSubCategory.Location = New System.Drawing.Point(588, 321)
+        Me.lblSubCategory.Location = New System.Drawing.Point(588, 365)
         Me.lblSubCategory.MendatroryField = False
         Me.lblSubCategory.MyLinkLable1 = Me.MyLabel2
         Me.lblSubCategory.MyLinkLable2 = Nothing
@@ -1024,7 +1149,7 @@ Partial Class FrmItemMasterRMOther
         Me.lblAlternativeItemName.IsSourceFromTable = False
         Me.lblAlternativeItemName.IsSourceFromValueList = False
         Me.lblAlternativeItemName.IsUnique = False
-        Me.lblAlternativeItemName.Location = New System.Drawing.Point(588, 391)
+        Me.lblAlternativeItemName.Location = New System.Drawing.Point(588, 435)
         Me.lblAlternativeItemName.MendatroryField = False
         Me.lblAlternativeItemName.MyLinkLable1 = Me.MyLabel2
         Me.lblAlternativeItemName.MyLinkLable2 = Nothing
@@ -1047,7 +1172,7 @@ Partial Class FrmItemMasterRMOther
         Me.lblCategory.IsSourceFromTable = False
         Me.lblCategory.IsSourceFromValueList = False
         Me.lblCategory.IsUnique = False
-        Me.lblCategory.Location = New System.Drawing.Point(589, 299)
+        Me.lblCategory.Location = New System.Drawing.Point(589, 343)
         Me.lblCategory.MendatroryField = False
         Me.lblCategory.MyLinkLable1 = Me.MyLabel2
         Me.lblCategory.MyLinkLable2 = Nothing
@@ -1084,7 +1209,7 @@ Partial Class FrmItemMasterRMOther
         Me.TxtProdTolerance.IsSourceFromTable = False
         Me.TxtProdTolerance.IsSourceFromValueList = False
         Me.TxtProdTolerance.IsUnique = False
-        Me.TxtProdTolerance.Location = New System.Drawing.Point(691, 253)
+        Me.TxtProdTolerance.Location = New System.Drawing.Point(691, 297)
         Me.TxtProdTolerance.MendatroryField = False
         Me.TxtProdTolerance.MyLinkLable1 = Me.MyLabel36
         Me.TxtProdTolerance.MyLinkLable2 = Nothing
@@ -1101,7 +1226,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel36
         '
         Me.MyLabel36.FieldName = Nothing
-        Me.MyLabel36.Location = New System.Drawing.Point(588, 254)
+        Me.MyLabel36.Location = New System.Drawing.Point(588, 298)
         Me.MyLabel36.Name = "MyLabel36"
         Me.MyLabel36.Size = New System.Drawing.Size(103, 18)
         Me.MyLabel36.TabIndex = 98
@@ -1109,7 +1234,7 @@ Partial Class FrmItemMasterRMOther
         '
         'chkChilledFreezen
         '
-        Me.chkChilledFreezen.Location = New System.Drawing.Point(741, 20)
+        Me.chkChilledFreezen.Location = New System.Drawing.Point(813, 22)
         Me.chkChilledFreezen.MyLinkLable1 = Nothing
         Me.chkChilledFreezen.MyLinkLable2 = Nothing
         Me.chkChilledFreezen.Name = "chkChilledFreezen"
@@ -1142,7 +1267,7 @@ Partial Class FrmItemMasterRMOther
         Me.numMinSelfLife.IsSourceFromTable = False
         Me.numMinSelfLife.IsSourceFromValueList = False
         Me.numMinSelfLife.IsUnique = False
-        Me.numMinSelfLife.Location = New System.Drawing.Point(691, 142)
+        Me.numMinSelfLife.Location = New System.Drawing.Point(691, 186)
         Me.numMinSelfLife.MendatroryField = False
         Me.numMinSelfLife.MyLinkLable1 = Me.lblMinSelfLife
         Me.numMinSelfLife.MyLinkLable2 = Nothing
@@ -1159,7 +1284,7 @@ Partial Class FrmItemMasterRMOther
         'lblMinSelfLife
         '
         Me.lblMinSelfLife.FieldName = Nothing
-        Me.lblMinSelfLife.Location = New System.Drawing.Point(588, 143)
+        Me.lblMinSelfLife.Location = New System.Drawing.Point(588, 187)
         Me.lblMinSelfLife.Name = "lblMinSelfLife"
         Me.lblMinSelfLife.Size = New System.Drawing.Size(108, 18)
         Me.lblMinSelfLife.TabIndex = 94
@@ -1178,7 +1303,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtCorrectionFactor.IsSourceFromTable = False
         Me.txtCorrectionFactor.IsSourceFromValueList = False
         Me.txtCorrectionFactor.IsUnique = False
-        Me.txtCorrectionFactor.Location = New System.Drawing.Point(691, 230)
+        Me.txtCorrectionFactor.Location = New System.Drawing.Point(691, 274)
         Me.txtCorrectionFactor.MendatroryField = False
         Me.txtCorrectionFactor.MyLinkLable1 = Me.MyLabel35
         Me.txtCorrectionFactor.MyLinkLable2 = Nothing
@@ -1195,7 +1320,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel35
         '
         Me.MyLabel35.FieldName = Nothing
-        Me.MyLabel35.Location = New System.Drawing.Point(588, 231)
+        Me.MyLabel35.Location = New System.Drawing.Point(588, 275)
         Me.MyLabel35.Name = "MyLabel35"
         Me.MyLabel35.Size = New System.Drawing.Size(93, 18)
         Me.MyLabel35.TabIndex = 97
@@ -1212,7 +1337,7 @@ Partial Class FrmItemMasterRMOther
         Me.fndScrapItem.IsSourceFromTable = False
         Me.fndScrapItem.IsSourceFromValueList = False
         Me.fndScrapItem.IsUnique = False
-        Me.fndScrapItem.Location = New System.Drawing.Point(679, 98)
+        Me.fndScrapItem.Location = New System.Drawing.Point(679, 100)
         Me.fndScrapItem.MendatroryField = True
         Me.fndScrapItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndScrapItem.MyLinkLable1 = Me.MyLabel7
@@ -1231,7 +1356,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel7
         '
         Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Location = New System.Drawing.Point(301, 300)
+        Me.MyLabel7.Location = New System.Drawing.Point(301, 344)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(77, 18)
         Me.MyLabel7.TabIndex = 82
@@ -1251,7 +1376,7 @@ Partial Class FrmItemMasterRMOther
         '
         'chkCAN
         '
-        Me.chkCAN.Location = New System.Drawing.Point(429, 100)
+        Me.chkCAN.Location = New System.Drawing.Point(429, 101)
         Me.chkCAN.MyLinkLable1 = Nothing
         Me.chkCAN.MyLinkLable2 = Nothing
         Me.chkCAN.Name = "chkCAN"
@@ -1282,7 +1407,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtAliesName.IsSourceFromTable = False
         Me.txtAliesName.IsSourceFromValueList = False
         Me.txtAliesName.IsUnique = False
-        Me.txtAliesName.Location = New System.Drawing.Point(132, 345)
+        Me.txtAliesName.Location = New System.Drawing.Point(526, 122)
         Me.txtAliesName.MendatroryField = False
         Me.txtAliesName.MyLinkLable1 = Me.MyLabel2
         Me.txtAliesName.MyLinkLable2 = Nothing
@@ -1296,7 +1421,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel34
         '
         Me.MyLabel34.FieldName = Nothing
-        Me.MyLabel34.Location = New System.Drawing.Point(3, 346)
+        Me.MyLabel34.Location = New System.Drawing.Point(429, 123)
         Me.MyLabel34.Name = "MyLabel34"
         Me.MyLabel34.Size = New System.Drawing.Size(63, 18)
         Me.MyLabel34.TabIndex = 75
@@ -1320,7 +1445,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadGroupBox2.Controls.Add(Me.MyLabel33)
         Me.RadGroupBox2.Controls.Add(Me.FndHSNCode)
         Me.RadGroupBox2.HeaderText = "GST"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(0, 417)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(0, 458)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Size = New System.Drawing.Size(677, 40)
         Me.RadGroupBox2.TabIndex = 56
@@ -1397,7 +1522,7 @@ Partial Class FrmItemMasterRMOther
         Me.txt_shelflife.IsSourceFromTable = False
         Me.txt_shelflife.IsSourceFromValueList = False
         Me.txt_shelflife.IsUnique = False
-        Me.txt_shelflife.Location = New System.Drawing.Point(516, 142)
+        Me.txt_shelflife.Location = New System.Drawing.Point(516, 186)
         Me.txt_shelflife.MendatroryField = False
         Me.txt_shelflife.MyLinkLable1 = Me.MyLabel32
         Me.txt_shelflife.MyLinkLable2 = Nothing
@@ -1414,7 +1539,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel32
         '
         Me.MyLabel32.FieldName = Nothing
-        Me.MyLabel32.Location = New System.Drawing.Point(429, 143)
+        Me.MyLabel32.Location = New System.Drawing.Point(429, 187)
         Me.MyLabel32.Name = "MyLabel32"
         Me.MyLabel32.Size = New System.Drawing.Size(85, 18)
         Me.MyLabel32.TabIndex = 93
@@ -1433,7 +1558,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtCNF_Amt.IsSourceFromTable = False
         Me.txtCNF_Amt.IsSourceFromValueList = False
         Me.txtCNF_Amt.IsUnique = False
-        Me.txtCNF_Amt.Location = New System.Drawing.Point(691, 207)
+        Me.txtCNF_Amt.Location = New System.Drawing.Point(691, 251)
         Me.txtCNF_Amt.MendatroryField = False
         Me.txtCNF_Amt.MyLinkLable1 = Me.MyLabel31
         Me.txtCNF_Amt.MyLinkLable2 = Nothing
@@ -1450,7 +1575,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel31
         '
         Me.MyLabel31.FieldName = Nothing
-        Me.MyLabel31.Location = New System.Drawing.Point(588, 208)
+        Me.MyLabel31.Location = New System.Drawing.Point(588, 252)
         Me.MyLabel31.Name = "MyLabel31"
         Me.MyLabel31.Size = New System.Drawing.Size(92, 18)
         Me.MyLabel31.TabIndex = 96
@@ -1469,7 +1594,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtDistbtr_Amt.IsSourceFromTable = False
         Me.txtDistbtr_Amt.IsSourceFromValueList = False
         Me.txtDistbtr_Amt.IsUnique = False
-        Me.txtDistbtr_Amt.Location = New System.Drawing.Point(691, 185)
+        Me.txtDistbtr_Amt.Location = New System.Drawing.Point(691, 229)
         Me.txtDistbtr_Amt.MendatroryField = False
         Me.txtDistbtr_Amt.MyLinkLable1 = Me.MyLabel30
         Me.txtDistbtr_Amt.MyLinkLable2 = Nothing
@@ -1486,7 +1611,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel30
         '
         Me.MyLabel30.FieldName = Nothing
-        Me.MyLabel30.Location = New System.Drawing.Point(588, 186)
+        Me.MyLabel30.Location = New System.Drawing.Point(588, 230)
         Me.MyLabel30.Name = "MyLabel30"
         Me.MyLabel30.Size = New System.Drawing.Size(92, 18)
         Me.MyLabel30.TabIndex = 95
@@ -1494,7 +1619,7 @@ Partial Class FrmItemMasterRMOther
         '
         'chkSchemeItem
         '
-        Me.chkSchemeItem.Location = New System.Drawing.Point(759, 163)
+        Me.chkSchemeItem.Location = New System.Drawing.Point(759, 207)
         Me.chkSchemeItem.MyLinkLable1 = Nothing
         Me.chkSchemeItem.MyLinkLable2 = Nothing
         Me.chkSchemeItem.Name = "chkSchemeItem"
@@ -1527,7 +1652,7 @@ Partial Class FrmItemMasterRMOther
         Me.txt_tolerance.IsSourceFromTable = False
         Me.txt_tolerance.IsSourceFromValueList = False
         Me.txt_tolerance.IsUnique = False
-        Me.txt_tolerance.Location = New System.Drawing.Point(425, 253)
+        Me.txt_tolerance.Location = New System.Drawing.Point(425, 297)
         Me.txt_tolerance.MendatroryField = False
         Me.txt_tolerance.MyLinkLable1 = Me.MyLabel28
         Me.txt_tolerance.MyLinkLable2 = Nothing
@@ -1544,7 +1669,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel28
         '
         Me.MyLabel28.FieldName = Nothing
-        Me.MyLabel28.Location = New System.Drawing.Point(300, 254)
+        Me.MyLabel28.Location = New System.Drawing.Point(300, 298)
         Me.MyLabel28.Name = "MyLabel28"
         Me.MyLabel28.Size = New System.Drawing.Size(74, 18)
         Me.MyLabel28.TabIndex = 84
@@ -1577,7 +1702,7 @@ Partial Class FrmItemMasterRMOther
         Me.CSA_Panel.Controls.Add(Me.MyLabel29)
         Me.CSA_Panel.Controls.Add(Me.txtCSA_AC_Name)
         Me.CSA_Panel.Controls.Add(Me.fndCSA_AC_Code)
-        Me.CSA_Panel.Location = New System.Drawing.Point(429, 121)
+        Me.CSA_Panel.Location = New System.Drawing.Point(429, 165)
         Me.CSA_Panel.Name = "CSA_Panel"
         Me.CSA_Panel.Size = New System.Drawing.Size(423, 21)
         Me.CSA_Panel.TabIndex = 178
@@ -1637,7 +1762,7 @@ Partial Class FrmItemMasterRMOther
         Me.fndGLAcc.IsSourceFromTable = False
         Me.fndGLAcc.IsSourceFromValueList = False
         Me.fndGLAcc.IsUnique = False
-        Me.fndGLAcc.Location = New System.Drawing.Point(425, 368)
+        Me.fndGLAcc.Location = New System.Drawing.Point(425, 412)
         Me.fndGLAcc.MendatroryField = False
         Me.fndGLAcc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndGLAcc.MyLinkLable1 = Nothing
@@ -1656,7 +1781,7 @@ Partial Class FrmItemMasterRMOther
         '
         Me.Panel2.Controls.Add(Me.txtdrawing_no)
         Me.Panel2.Controls.Add(Me.MyLabel26)
-        Me.Panel2.Location = New System.Drawing.Point(0, 389)
+        Me.Panel2.Location = New System.Drawing.Point(0, 410)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(295, 25)
         Me.Panel2.TabIndex = 171
@@ -1697,7 +1822,7 @@ Partial Class FrmItemMasterRMOther
         'rdlblGLAcc
         '
         Me.rdlblGLAcc.FieldName = Nothing
-        Me.rdlblGLAcc.Location = New System.Drawing.Point(301, 368)
+        Me.rdlblGLAcc.Location = New System.Drawing.Point(301, 412)
         Me.rdlblGLAcc.Name = "rdlblGLAcc"
         Me.rdlblGLAcc.Size = New System.Drawing.Size(63, 18)
         Me.rdlblGLAcc.TabIndex = 79
@@ -1716,7 +1841,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtSeqNo.IsSourceFromTable = False
         Me.txtSeqNo.IsSourceFromValueList = False
         Me.txtSeqNo.IsUnique = False
-        Me.txtSeqNo.Location = New System.Drawing.Point(796, 142)
+        Me.txtSeqNo.Location = New System.Drawing.Point(796, 186)
         Me.txtSeqNo.MendatroryField = False
         Me.txtSeqNo.MyLinkLable1 = Me.MyLabel24
         Me.txtSeqNo.MyLinkLable2 = Nothing
@@ -1752,7 +1877,7 @@ Partial Class FrmItemMasterRMOther
         Me.cmbUsedAs.Items.Add(RadListDataItem1)
         Me.cmbUsedAs.Items.Add(RadListDataItem2)
         Me.cmbUsedAs.Items.Add(RadListDataItem3)
-        Me.cmbUsedAs.Location = New System.Drawing.Point(425, 231)
+        Me.cmbUsedAs.Location = New System.Drawing.Point(425, 275)
         Me.cmbUsedAs.MendatroryField = True
         Me.cmbUsedAs.MyLinkLable1 = Me.MyLabel23
         Me.cmbUsedAs.MyLinkLable2 = Nothing
@@ -1766,7 +1891,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel23
         '
         Me.MyLabel23.FieldName = Nothing
-        Me.MyLabel23.Location = New System.Drawing.Point(299, 231)
+        Me.MyLabel23.Location = New System.Drawing.Point(299, 275)
         Me.MyLabel23.Name = "MyLabel23"
         Me.MyLabel23.Size = New System.Drawing.Size(45, 18)
         Me.MyLabel23.TabIndex = 85
@@ -1786,7 +1911,7 @@ Partial Class FrmItemMasterRMOther
         'lblCSaType
         '
         Me.lblCSaType.FieldName = Nothing
-        Me.lblCSaType.Location = New System.Drawing.Point(3, 368)
+        Me.lblCSaType.Location = New System.Drawing.Point(3, 389)
         Me.lblCSaType.Name = "lblCSaType"
         Me.lblCSaType.Size = New System.Drawing.Size(90, 18)
         Me.lblCSaType.TabIndex = 76
@@ -1814,7 +1939,7 @@ Partial Class FrmItemMasterRMOther
         Me.cboCSAType.Items.Add(RadListDataItem4)
         Me.cboCSAType.Items.Add(RadListDataItem5)
         Me.cboCSAType.Items.Add(RadListDataItem6)
-        Me.cboCSAType.Location = New System.Drawing.Point(132, 368)
+        Me.cboCSAType.Location = New System.Drawing.Point(132, 389)
         Me.cboCSAType.MaxLength = 30
         Me.cboCSAType.MendatroryField = True
         Me.cboCSAType.MyLinkLable1 = Me.MyLabel10
@@ -1829,7 +1954,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel10
         '
         Me.MyLabel10.FieldName = Nothing
-        Me.MyLabel10.Location = New System.Drawing.Point(3, 165)
+        Me.MyLabel10.Location = New System.Drawing.Point(3, 209)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(56, 18)
         Me.MyLabel10.TabIndex = 67
@@ -1846,7 +1971,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtShortDescription.IsSourceFromTable = False
         Me.txtShortDescription.IsSourceFromValueList = False
         Me.txtShortDescription.IsUnique = False
-        Me.txtShortDescription.Location = New System.Drawing.Point(132, 50)
+        Me.txtShortDescription.Location = New System.Drawing.Point(132, 71)
         Me.txtShortDescription.MendatroryField = False
         Me.txtShortDescription.MyLinkLable1 = Me.MyLabel2
         Me.txtShortDescription.MyLinkLable2 = Nothing
@@ -1860,7 +1985,7 @@ Partial Class FrmItemMasterRMOther
         'lblShortDescription
         '
         Me.lblShortDescription.FieldName = Nothing
-        Me.lblShortDescription.Location = New System.Drawing.Point(3, 51)
+        Me.lblShortDescription.Location = New System.Drawing.Point(3, 72)
         Me.lblShortDescription.Name = "lblShortDescription"
         Me.lblShortDescription.Size = New System.Drawing.Size(93, 18)
         Me.lblShortDescription.TabIndex = 62
@@ -1879,7 +2004,7 @@ Partial Class FrmItemMasterRMOther
         '
         'BtnBrowse
         '
-        Me.BtnBrowse.Location = New System.Drawing.Point(691, 276)
+        Me.BtnBrowse.Location = New System.Drawing.Point(691, 320)
         Me.BtnBrowse.Name = "BtnBrowse"
         Me.BtnBrowse.Size = New System.Drawing.Size(161, 21)
         Me.BtnBrowse.TabIndex = 58
@@ -1888,7 +2013,7 @@ Partial Class FrmItemMasterRMOther
         'PicImage
         '
         Me.PicImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PicImage.Location = New System.Drawing.Point(691, 299)
+        Me.PicImage.Location = New System.Drawing.Point(691, 343)
         Me.PicImage.Name = "PicImage"
         Me.PicImage.Size = New System.Drawing.Size(161, 153)
         Me.PicImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -1906,7 +2031,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtRackNo.IsSourceFromTable = False
         Me.txtRackNo.IsSourceFromValueList = False
         Me.txtRackNo.IsUnique = False
-        Me.txtRackNo.Location = New System.Drawing.Point(132, 230)
+        Me.txtRackNo.Location = New System.Drawing.Point(132, 274)
         Me.txtRackNo.MendatroryField = False
         Me.txtRackNo.MyLinkLable1 = Me.lblRackNo
         Me.txtRackNo.MyLinkLable2 = Nothing
@@ -1921,7 +2046,7 @@ Partial Class FrmItemMasterRMOther
         'lblRackNo
         '
         Me.lblRackNo.FieldName = Nothing
-        Me.lblRackNo.Location = New System.Drawing.Point(3, 231)
+        Me.lblRackNo.Location = New System.Drawing.Point(3, 275)
         Me.lblRackNo.Name = "lblRackNo"
         Me.lblRackNo.Size = New System.Drawing.Size(48, 18)
         Me.lblRackNo.TabIndex = 70
@@ -1940,7 +2065,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtstnd_pur_rate.IsSourceFromTable = False
         Me.txtstnd_pur_rate.IsSourceFromValueList = False
         Me.txtstnd_pur_rate.IsUnique = False
-        Me.txtstnd_pur_rate.Location = New System.Drawing.Point(425, 207)
+        Me.txtstnd_pur_rate.Location = New System.Drawing.Point(425, 251)
         Me.txtstnd_pur_rate.MendatroryField = False
         Me.txtstnd_pur_rate.MyLinkLable1 = Me.MyLabel20
         Me.txtstnd_pur_rate.MyLinkLable2 = Nothing
@@ -1957,7 +2082,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel20
         '
         Me.MyLabel20.FieldName = Nothing
-        Me.MyLabel20.Location = New System.Drawing.Point(299, 208)
+        Me.MyLabel20.Location = New System.Drawing.Point(299, 252)
         Me.MyLabel20.Name = "MyLabel20"
         Me.MyLabel20.Size = New System.Drawing.Size(123, 18)
         Me.MyLabel20.TabIndex = 86
@@ -1974,7 +2099,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtITFCode.IsSourceFromTable = False
         Me.txtITFCode.IsSourceFromValueList = False
         Me.txtITFCode.IsUnique = False
-        Me.txtITFCode.Location = New System.Drawing.Point(425, 185)
+        Me.txtITFCode.Location = New System.Drawing.Point(425, 229)
         Me.txtITFCode.MendatroryField = False
         Me.txtITFCode.MyLinkLable1 = Me.MyLabel19
         Me.txtITFCode.MyLinkLable2 = Nothing
@@ -1988,7 +2113,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel19
         '
         Me.MyLabel19.FieldName = Nothing
-        Me.MyLabel19.Location = New System.Drawing.Point(299, 186)
+        Me.MyLabel19.Location = New System.Drawing.Point(299, 230)
         Me.MyLabel19.Name = "MyLabel19"
         Me.MyLabel19.Size = New System.Drawing.Size(50, 18)
         Me.MyLabel19.TabIndex = 87
@@ -2007,7 +2132,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtWeightValue.IsSourceFromTable = False
         Me.txtWeightValue.IsSourceFromValueList = False
         Me.txtWeightValue.IsUnique = False
-        Me.txtWeightValue.Location = New System.Drawing.Point(132, 299)
+        Me.txtWeightValue.Location = New System.Drawing.Point(132, 343)
         Me.txtWeightValue.MendatroryField = False
         Me.txtWeightValue.MyLinkLable1 = Me.MyLabel18
         Me.txtWeightValue.MyLinkLable2 = Nothing
@@ -2024,7 +2149,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel18
         '
         Me.MyLabel18.FieldName = Nothing
-        Me.MyLabel18.Location = New System.Drawing.Point(3, 300)
+        Me.MyLabel18.Location = New System.Drawing.Point(3, 344)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(73, 18)
         Me.MyLabel18.TabIndex = 73
@@ -2036,7 +2161,7 @@ Partial Class FrmItemMasterRMOther
         Me.lblWeightUOMDesc.BorderVisible = True
         Me.lblWeightUOMDesc.FieldName = Nothing
         Me.lblWeightUOMDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblWeightUOMDesc.Location = New System.Drawing.Point(300, 277)
+        Me.lblWeightUOMDesc.Location = New System.Drawing.Point(300, 321)
         Me.lblWeightUOMDesc.Name = "lblWeightUOMDesc"
         Me.lblWeightUOMDesc.Size = New System.Drawing.Size(386, 18)
         Me.lblWeightUOMDesc.TabIndex = 83
@@ -2052,7 +2177,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtWeightUOM.IsSourceFromTable = False
         Me.txtWeightUOM.IsSourceFromValueList = False
         Me.txtWeightUOM.IsUnique = False
-        Me.txtWeightUOM.Location = New System.Drawing.Point(132, 276)
+        Me.txtWeightUOM.Location = New System.Drawing.Point(132, 320)
         Me.txtWeightUOM.MendatroryField = True
         Me.txtWeightUOM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtWeightUOM.MyLinkLable1 = Me.MyLabel16
@@ -2070,7 +2195,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel16
         '
         Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Location = New System.Drawing.Point(3, 277)
+        Me.MyLabel16.Location = New System.Drawing.Point(3, 321)
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(72, 18)
         Me.MyLabel16.TabIndex = 72
@@ -2081,7 +2206,7 @@ Partial Class FrmItemMasterRMOther
         Me.lblchptrdesc.AutoSize = False
         Me.lblchptrdesc.BorderVisible = True
         Me.lblchptrdesc.FieldName = Nothing
-        Me.lblchptrdesc.Location = New System.Drawing.Point(294, 142)
+        Me.lblchptrdesc.Location = New System.Drawing.Point(294, 186)
         Me.lblchptrdesc.Name = "lblchptrdesc"
         Me.lblchptrdesc.Size = New System.Drawing.Size(132, 20)
         Me.lblchptrdesc.TabIndex = 89
@@ -2090,7 +2215,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel13
         '
         Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Location = New System.Drawing.Point(3, 186)
+        Me.MyLabel13.Location = New System.Drawing.Point(3, 230)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(75, 18)
         Me.MyLabel13.TabIndex = 68
@@ -2118,7 +2243,7 @@ Partial Class FrmItemMasterRMOther
         Me.cboItemSubType.Items.Add(RadListDataItem7)
         Me.cboItemSubType.Items.Add(RadListDataItem8)
         Me.cboItemSubType.Items.Add(RadListDataItem9)
-        Me.cboItemSubType.Location = New System.Drawing.Point(132, 186)
+        Me.cboItemSubType.Location = New System.Drawing.Point(132, 230)
         Me.cboItemSubType.MendatroryField = True
         Me.cboItemSubType.MyLinkLable1 = Me.MyLabel10
         Me.cboItemSubType.MyLinkLable2 = Nothing
@@ -2140,7 +2265,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtAlternativeItem.IsSourceFromTable = False
         Me.txtAlternativeItem.IsSourceFromValueList = False
         Me.txtAlternativeItem.IsUnique = False
-        Me.txtAlternativeItem.Location = New System.Drawing.Point(425, 391)
+        Me.txtAlternativeItem.Location = New System.Drawing.Point(425, 435)
         Me.txtAlternativeItem.MendatroryField = False
         Me.txtAlternativeItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtAlternativeItem.MyLinkLable1 = Me.lblAlteernativeItem
@@ -2158,7 +2283,7 @@ Partial Class FrmItemMasterRMOther
         'lblAlteernativeItem
         '
         Me.lblAlteernativeItem.FieldName = Nothing
-        Me.lblAlteernativeItem.Location = New System.Drawing.Point(301, 392)
+        Me.lblAlteernativeItem.Location = New System.Drawing.Point(301, 436)
         Me.lblAlteernativeItem.Name = "lblAlteernativeItem"
         Me.lblAlteernativeItem.Size = New System.Drawing.Size(86, 18)
         Me.lblAlteernativeItem.TabIndex = 78
@@ -2187,7 +2312,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtItemSpecification.IsSourceFromTable = False
         Me.txtItemSpecification.IsSourceFromValueList = False
         Me.txtItemSpecification.IsUnique = False
-        Me.txtItemSpecification.Location = New System.Drawing.Point(132, 462)
+        Me.txtItemSpecification.Location = New System.Drawing.Point(132, 503)
         Me.txtItemSpecification.MendatroryField = False
         Me.txtItemSpecification.Multiline = True
         Me.txtItemSpecification.MyLinkLable1 = Me.lblItemSpecification
@@ -2202,7 +2327,7 @@ Partial Class FrmItemMasterRMOther
         'lblItemSpecification
         '
         Me.lblItemSpecification.FieldName = Nothing
-        Me.lblItemSpecification.Location = New System.Drawing.Point(3, 463)
+        Me.lblItemSpecification.Location = New System.Drawing.Point(3, 504)
         Me.lblItemSpecification.Name = "lblItemSpecification"
         Me.lblItemSpecification.Size = New System.Drawing.Size(95, 18)
         Me.lblItemSpecification.TabIndex = 77
@@ -2219,7 +2344,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtLastModiDate.IsSourceFromTable = False
         Me.txtLastModiDate.IsSourceFromValueList = False
         Me.txtLastModiDate.IsUnique = False
-        Me.txtLastModiDate.Location = New System.Drawing.Point(132, 322)
+        Me.txtLastModiDate.Location = New System.Drawing.Point(132, 366)
         Me.txtLastModiDate.MendatroryField = False
         Me.txtLastModiDate.MyLinkLable1 = Me.lblLastModiDate
         Me.txtLastModiDate.MyLinkLable2 = Nothing
@@ -2234,7 +2359,7 @@ Partial Class FrmItemMasterRMOther
         'lblLastModiDate
         '
         Me.lblLastModiDate.FieldName = Nothing
-        Me.lblLastModiDate.Location = New System.Drawing.Point(3, 323)
+        Me.lblLastModiDate.Location = New System.Drawing.Point(3, 367)
         Me.lblLastModiDate.Name = "lblLastModiDate"
         Me.lblLastModiDate.Size = New System.Drawing.Size(119, 18)
         Me.lblLastModiDate.TabIndex = 74
@@ -2253,7 +2378,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtRate.IsSourceFromTable = False
         Me.txtRate.IsSourceFromValueList = False
         Me.txtRate.IsUnique = False
-        Me.txtRate.Location = New System.Drawing.Point(425, 164)
+        Me.txtRate.Location = New System.Drawing.Point(425, 208)
         Me.txtRate.MendatroryField = False
         Me.txtRate.MyLinkLable1 = Me.lblRate
         Me.txtRate.MyLinkLable2 = Nothing
@@ -2270,7 +2395,7 @@ Partial Class FrmItemMasterRMOther
         'lblRate
         '
         Me.lblRate.FieldName = Nothing
-        Me.lblRate.Location = New System.Drawing.Point(299, 165)
+        Me.lblRate.Location = New System.Drawing.Point(299, 209)
         Me.lblRate.Name = "lblRate"
         Me.lblRate.Size = New System.Drawing.Size(28, 18)
         Me.lblRate.TabIndex = 88
@@ -2289,7 +2414,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtCost.IsSourceFromTable = False
         Me.txtCost.IsSourceFromValueList = False
         Me.txtCost.IsUnique = False
-        Me.txtCost.Location = New System.Drawing.Point(132, 253)
+        Me.txtCost.Location = New System.Drawing.Point(132, 297)
         Me.txtCost.MendatroryField = False
         Me.txtCost.MyLinkLable1 = Me.MyLabel11
         Me.txtCost.MyLinkLable2 = Nothing
@@ -2306,7 +2431,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel11
         '
         Me.MyLabel11.FieldName = Nothing
-        Me.MyLabel11.Location = New System.Drawing.Point(3, 254)
+        Me.MyLabel11.Location = New System.Drawing.Point(3, 298)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(28, 18)
         Me.MyLabel11.TabIndex = 71
@@ -2332,7 +2457,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtSubCategory.IsSourceFromTable = False
         Me.txtSubCategory.IsSourceFromValueList = False
         Me.txtSubCategory.IsUnique = False
-        Me.txtSubCategory.Location = New System.Drawing.Point(425, 322)
+        Me.txtSubCategory.Location = New System.Drawing.Point(425, 366)
         Me.txtSubCategory.MendatroryField = True
         Me.txtSubCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSubCategory.MyLinkLable1 = Me.MyLabel8
@@ -2351,7 +2476,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel8
         '
         Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Location = New System.Drawing.Point(301, 323)
+        Me.MyLabel8.Location = New System.Drawing.Point(301, 367)
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(99, 18)
         Me.MyLabel8.TabIndex = 81
@@ -2363,7 +2488,7 @@ Partial Class FrmItemMasterRMOther
         Me.lblSaleAcSet.AutoSize = False
         Me.lblSaleAcSet.BorderVisible = True
         Me.lblSaleAcSet.FieldName = Nothing
-        Me.lblSaleAcSet.Location = New System.Drawing.Point(294, 119)
+        Me.lblSaleAcSet.Location = New System.Drawing.Point(294, 163)
         Me.lblSaleAcSet.Name = "lblSaleAcSet"
         Me.lblSaleAcSet.Size = New System.Drawing.Size(132, 20)
         Me.lblSaleAcSet.TabIndex = 90
@@ -2374,7 +2499,7 @@ Partial Class FrmItemMasterRMOther
         Me.lblPurchaseACSet.AutoSize = False
         Me.lblPurchaseACSet.BorderVisible = True
         Me.lblPurchaseACSet.FieldName = Nothing
-        Me.lblPurchaseACSet.Location = New System.Drawing.Point(294, 96)
+        Me.lblPurchaseACSet.Location = New System.Drawing.Point(294, 140)
         Me.lblPurchaseACSet.Name = "lblPurchaseACSet"
         Me.lblPurchaseACSet.Size = New System.Drawing.Size(132, 20)
         Me.lblPurchaseACSet.TabIndex = 91
@@ -2385,7 +2510,7 @@ Partial Class FrmItemMasterRMOther
         Me.lblStructurer.AutoSize = False
         Me.lblStructurer.BorderVisible = True
         Me.lblStructurer.FieldName = Nothing
-        Me.lblStructurer.Location = New System.Drawing.Point(294, 73)
+        Me.lblStructurer.Location = New System.Drawing.Point(294, 117)
         Me.lblStructurer.Name = "lblStructurer"
         Me.lblStructurer.Size = New System.Drawing.Size(132, 20)
         Me.lblStructurer.TabIndex = 92
@@ -2402,7 +2527,7 @@ Partial Class FrmItemMasterRMOther
         Me.fndChptr.IsSourceFromTable = False
         Me.fndChptr.IsSourceFromValueList = False
         Me.fndChptr.IsUnique = False
-        Me.fndChptr.Location = New System.Drawing.Point(132, 142)
+        Me.fndChptr.Location = New System.Drawing.Point(132, 186)
         Me.fndChptr.MendatroryField = True
         Me.fndChptr.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndChptr.MyLinkLable1 = Me.MyLabel12
@@ -2420,7 +2545,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel12
         '
         Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Location = New System.Drawing.Point(3, 143)
+        Me.MyLabel12.Location = New System.Drawing.Point(3, 187)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(95, 18)
         Me.MyLabel12.TabIndex = 66
@@ -2437,7 +2562,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtUOM.IsSourceFromTable = False
         Me.txtUOM.IsSourceFromValueList = False
         Me.txtUOM.IsUnique = False
-        Me.txtUOM.Location = New System.Drawing.Point(425, 345)
+        Me.txtUOM.Location = New System.Drawing.Point(425, 389)
         Me.txtUOM.MendatroryField = True
         Me.txtUOM.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtUOM.MyLinkLable1 = Me.MyLabel9
@@ -2455,7 +2580,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel9
         '
         Me.MyLabel9.FieldName = Nothing
-        Me.MyLabel9.Location = New System.Drawing.Point(301, 346)
+        Me.MyLabel9.Location = New System.Drawing.Point(301, 390)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(86, 18)
         Me.MyLabel9.TabIndex = 80
@@ -2483,7 +2608,7 @@ Partial Class FrmItemMasterRMOther
         Me.cboItemType.Items.Add(RadListDataItem10)
         Me.cboItemType.Items.Add(RadListDataItem11)
         Me.cboItemType.Items.Add(RadListDataItem12)
-        Me.cboItemType.Location = New System.Drawing.Point(132, 165)
+        Me.cboItemType.Location = New System.Drawing.Point(132, 209)
         Me.cboItemType.MendatroryField = True
         Me.cboItemType.MyLinkLable1 = Me.MyLabel10
         Me.cboItemType.MyLinkLable2 = Nothing
@@ -2505,7 +2630,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtCategory.IsSourceFromTable = False
         Me.txtCategory.IsSourceFromValueList = False
         Me.txtCategory.IsUnique = False
-        Me.txtCategory.Location = New System.Drawing.Point(425, 299)
+        Me.txtCategory.Location = New System.Drawing.Point(425, 343)
         Me.txtCategory.MendatroryField = True
         Me.txtCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCategory.MyLinkLable1 = Me.MyLabel7
@@ -2532,7 +2657,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtSaleAcSet.IsSourceFromTable = False
         Me.txtSaleAcSet.IsSourceFromValueList = False
         Me.txtSaleAcSet.IsUnique = False
-        Me.txtSaleAcSet.Location = New System.Drawing.Point(132, 119)
+        Me.txtSaleAcSet.Location = New System.Drawing.Point(132, 163)
         Me.txtSaleAcSet.MendatroryField = True
         Me.txtSaleAcSet.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSaleAcSet.MyLinkLable1 = Me.lblSaleAcSet
@@ -2550,7 +2675,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel6
         '
         Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Location = New System.Drawing.Point(3, 120)
+        Me.MyLabel6.Location = New System.Drawing.Point(3, 164)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(90, 18)
         Me.MyLabel6.TabIndex = 65
@@ -2567,7 +2692,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtPurchaseACSet.IsSourceFromTable = False
         Me.txtPurchaseACSet.IsSourceFromValueList = False
         Me.txtPurchaseACSet.IsUnique = False
-        Me.txtPurchaseACSet.Location = New System.Drawing.Point(132, 96)
+        Me.txtPurchaseACSet.Location = New System.Drawing.Point(132, 140)
         Me.txtPurchaseACSet.MendatroryField = True
         Me.txtPurchaseACSet.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPurchaseACSet.MyLinkLable1 = Me.lblPurchaseACSet
@@ -2585,7 +2710,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel5
         '
         Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(3, 97)
+        Me.MyLabel5.Location = New System.Drawing.Point(3, 141)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(114, 18)
         Me.MyLabel5.TabIndex = 64
@@ -2602,7 +2727,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtStructurer.IsSourceFromTable = False
         Me.txtStructurer.IsSourceFromValueList = False
         Me.txtStructurer.IsUnique = False
-        Me.txtStructurer.Location = New System.Drawing.Point(132, 73)
+        Me.txtStructurer.Location = New System.Drawing.Point(132, 117)
         Me.txtStructurer.MendatroryField = True
         Me.txtStructurer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtStructurer.MyLinkLable1 = Me.lblStructurer
@@ -2620,7 +2745,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Location = New System.Drawing.Point(3, 74)
+        Me.MyLabel4.Location = New System.Drawing.Point(3, 118)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(81, 18)
         Me.MyLabel4.TabIndex = 63
@@ -2641,7 +2766,7 @@ Partial Class FrmItemMasterRMOther
         Me.cboType.IsSourceFromTable = False
         Me.cboType.IsSourceFromValueList = False
         Me.cboType.IsUnique = False
-        Me.cboType.Location = New System.Drawing.Point(132, 207)
+        Me.cboType.Location = New System.Drawing.Point(132, 251)
         Me.cboType.MendatroryField = True
         Me.cboType.MyLinkLable1 = Me.MyLabel3
         Me.cboType.MyLinkLable2 = Nothing
@@ -2656,7 +2781,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Location = New System.Drawing.Point(3, 208)
+        Me.MyLabel3.Location = New System.Drawing.Point(3, 252)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel3.TabIndex = 69
@@ -3981,22 +4106,22 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
-        'chkIsDisplayDemad
+        'chkNIRQC
         '
-        Me.chkIsDisplayDemad.Location = New System.Drawing.Point(853, 143)
-        Me.chkIsDisplayDemad.MyLinkLable1 = Nothing
-        Me.chkIsDisplayDemad.MyLinkLable2 = Nothing
-        Me.chkIsDisplayDemad.Name = "chkIsDisplayDemad"
-        Me.chkIsDisplayDemad.Size = New System.Drawing.Size(95, 18)
-        Me.chkIsDisplayDemad.TabIndex = 197
-        Me.chkIsDisplayDemad.Tag1 = Nothing
-        Me.chkIsDisplayDemad.Text = "Display Demad"
+        Me.chkNIRQC.Location = New System.Drawing.Point(837, 42)
+        Me.chkNIRQC.MyLinkLable1 = Nothing
+        Me.chkNIRQC.MyLinkLable2 = Nothing
+        Me.chkNIRQC.Name = "chkNIRQC"
+        Me.chkNIRQC.Size = New System.Drawing.Size(57, 18)
+        Me.chkNIRQC.TabIndex = 202
+        Me.chkNIRQC.Tag1 = Nothing
+        Me.chkNIRQC.Text = "NIR QC"
         '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(998, 619)
+        Me.ClientSize = New System.Drawing.Size(998, 650)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmItemMasterRMOther"
@@ -4012,6 +4137,14 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtAliesNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtShortDescHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtItemDescHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsDisplayDemad, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFGforCF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkRAL, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbTaxType.ResumeLayout(False)
@@ -4028,7 +4161,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkQCSNFBssed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAliesName3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAliesName2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4225,7 +4357,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkIsDisplayDemad, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkNIRQC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4411,8 +4543,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents chkPowerAndFuel As common.Controls.MyCheckBox
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
     Friend WithEvents chkChilledFreezen As common.Controls.MyCheckBox
-    Friend WithEvents txtAliesName As common.Controls.MyTextBox
-    Friend WithEvents MyLabel34 As common.Controls.MyLabel
     Friend WithEvents chkCAN As common.Controls.MyCheckBox
     Friend WithEvents ChkCrate As common.Controls.MyCheckBox
     Friend WithEvents chkIsCanType As common.Controls.MyCheckBox
@@ -4464,5 +4594,14 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents chkRAL As Controls.MyCheckBox
     Friend WithEvents chkFGforCF As Controls.MyCheckBox
     Friend WithEvents chkIsDisplayDemad As Controls.MyCheckBox
+    Friend WithEvents txtItemDescHindi As Controls.MyTextBox
+    Friend WithEvents MyLabel44 As Controls.MyLabel
+    Friend WithEvents txtShortDescHindi As Controls.MyTextBox
+    Friend WithEvents MyLabel45 As Controls.MyLabel
+    Friend WithEvents txtAliesNameHindi As Controls.MyTextBox
+    Friend WithEvents MyLabel43 As Controls.MyLabel
+    Friend WithEvents txtAliesName As Controls.MyTextBox
+    Friend WithEvents MyLabel34 As Controls.MyLabel
+    Friend WithEvents chkNIRQC As Controls.MyCheckBox
 End Class
 
