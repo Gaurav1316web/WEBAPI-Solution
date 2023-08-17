@@ -55,6 +55,7 @@ Public Class frmNIRQC
         cboVisualQCStatus.DisplayMember = "Name"
     End Sub
     Sub AddNew()
+        RadButton1.Visible = False
         isNewEntry = True
         txtCode.Value = Nothing
         txtCode.Focus()
@@ -86,6 +87,7 @@ Public Class frmNIRQC
         lblBillToLocationName.Text = ""
         lblItem.Text = ""
         lblItemName.Text = ""
+        lblVehicleNo.Text = ""
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         AddNew()
@@ -175,6 +177,14 @@ Public Class frmNIRQC
             PostData()
         ElseIf e.Alt And e.KeyCode = Keys.C Then
             Me.Close()
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "sirc"
+            frm.strCode = "sireversandcreate"
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                RadButton1.Visible = True
+            End If
         End If
     End Sub
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs)
@@ -216,7 +226,7 @@ and not exists(select 1 from TSPL_NIR_QC where TSPL_NIR_QC.MRN_No=TSPL_MRN_DETAI
     End Sub
     Private Sub LoadMRNData()
         BlankMRNFields()
-        Dim qry As String = "select TSPL_MRN_HEAD.Against_GRN,TSPL_GRN_HEAD.GRN_Date ,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_MRN_HEAD.Vendor_Code,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_MRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc
+        Dim qry As String = "select TSPL_MRN_HEAD.Against_GRN,TSPL_GRN_HEAD.GRN_Date ,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_MRN_HEAD.Vendor_Code,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_MRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MRN_HEAD.VehicleNo
 from TSPL_MRN_DETAIL
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code 
 left outer join TSPL_MRN_HEAD  on TSPL_MRN_HEAD.MRN_No=TSPL_MRN_DETAIL.MRN_No
@@ -243,6 +253,7 @@ where TSPL_MRN_DETAIL.MRN_No='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=1
             lblBillToLocationName.Text = clsCommon.myCstr(dt.Rows(0)("Location_Desc"))
             lblItem.Text = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
             lblItemName.Text = clsCommon.myCstr(dt.Rows(0)("Item_Desc"))
+            lblVehicleNo.Text = clsCommon.myCstr(dt.Rows(0)("VehicleNo"))
         End If
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
@@ -258,6 +269,20 @@ where TSPL_MRN_DETAIL.MRN_No='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=1
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow("Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    clsNIRQC.ReverseAndUnpost(txtCode.Value)
+                    clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly", Me.Text)
+                    LoadData(txtCode.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
 End Class

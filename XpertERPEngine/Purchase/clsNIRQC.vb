@@ -111,7 +111,9 @@ Public Class clsNIRQC
             If (obj.Status = ERPTransactionStatus.Approved) Then
                 Throw New Exception("Already Post on :" + clsCommon.GetPrintDate(obj.Posted_Date, "dd/MM/yyyy"))
             End If
-            CreateSRN(obj.MRN_No, trans)
+            If obj.QC_Status = 1 Then
+                CreateSRN(obj.MRN_No, trans)
+            End If
             Dim qry As String = "Update TSPL_NIR_QC set Status=1, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "'  where Document_No='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             trans.Commit()
@@ -480,5 +482,40 @@ Public Class clsNIRQC
         Dim qry As String = "select TSPL_NIR_QC.Document_No,TSPL_NIR_QC.Document_Date,case when TSPL_NIR_QC.QC_Status=1 then 'OK' else 'Not OK' end as QC_Status,TSPL_NIR_QC.QC_Remarks,case when Status=1 then 'Approved' else 'Pending' end as Status  from TSPL_NIR_QC"
         Dim Str As String = clsCommon.ShowSelectForm("NIRQCFnd", qry, "Document_No", whrcls, curcode, "Document_No", isButtonClicked)
         Return Str
+    End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim obj As clsNIRQC = clsNIRQC.GetData(strCode, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_No) <= 0) Then
+                Throw New Exception("Document No not found to Post")
+            End If
+            If Not (obj.Status = ERPTransactionStatus.Approved) Then
+                Throw New Exception("Transaction status should be posted.")
+            End If
+            Dim qry As String
+            Dim dt As DataTable
+            If obj.QC_Status = 1 Then
+                qry = "select distinct TSPL_SRN_DETAIL.SRN_No,TSPL_SRN_HEAD.Status from TSPL_SRN_DETAIL 
+left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No where TSPL_SRN_DETAIL.MRN_Id ='" + obj.MRN_No + "'"
+                dt = New DataTable()
+                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        If clsCommon.myCDecimal(dr("Status")) = 1 Then
+                            clsSRNHead.ReverseAndUnpost(clsCommon.myCstr(dr("SRN_No")), trans)
+                        End If
+                        clsSRNHead.DeleteData(clsCommon.myCstr(dr("SRN_No")), trans)
+                    Next
+                End If
+            End If
+            qry = "update TSPL_NIR_QC set Status=0,Posted_Date=null,Posted_By=null where Document_No='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
     End Function
 End Class

@@ -2509,14 +2509,23 @@ Public Class clsSRNHead
         Next
         Return ""
     End Function
-
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
-        Dim isSaved As Boolean = False
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            DeleteData(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function DeleteData(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Purchase Order No not found to Delete")
         End If
         Dim obj As clsSRNHead = clsSRNHead.GetData(strCode, NavigatorType.Current)
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.SRN_No) > 0) Then
             Try
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase", "Store receipt Note", obj.Bill_To_Location, obj.SRN_Date, trans)
@@ -2528,14 +2537,14 @@ Public Class clsSRNHead
 
                 HistoryUpdate(strCode, trans)
                 Dim qry As String = "delete from TSPL_SRN_DETAIL where SRN_No='" + strCode + "'"
-                isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                isSaved = isSaved AndAlso clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
+                clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
 
                 qry = "update TSPL_CFORM_ISSUE_RECEIVE_DETAIL set srn_no='' where srn_no='" + strCode + "'"
-                isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 qry = "update TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL set srn_no='' where srn_no='" + strCode + "'"
-                isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                 qry = "delete from TSPL_RGP_BOM_DETAIL where srn_no='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -2550,19 +2559,15 @@ Public Class clsSRNHead
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
                 qry = "delete from TSPL_SRN_HEAD where SRN_No='" + strCode + "'"
-                isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                If (isSaved) Then
-                    trans.Commit()
-                Else
-                    trans.Rollback()
-                End If
+
             Catch ex As Exception
-                trans.Rollback()
+
                 Throw New Exception(ex.Message)
             End Try
         End If
-        Return isSaved
+        Return True
     End Function
 
     Public Shared Function IsValidVendorForSRN(ByVal Arr As List(Of String), ByVal strVendorCode As String) As Boolean
@@ -2673,10 +2678,18 @@ Public Class clsSRNHead
         End If
         Return dtAfterModify
     End Function
-
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
-
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim Qry As String = "select Status,Confirmatory_PO from TSPL_SRN_HEAD where SRN_No='" + strCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
@@ -2743,28 +2756,31 @@ Public Class clsSRNHead
             Qry = "Update TSPL_SRN_HEAD set Status = 0 where SRN_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(strCode), "TSPL_SRN_HEAD", "SRN_No", trans)
-            trans.Commit()
+
         Catch ex As Exception
-            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
 
     Public Shared Function GenerateSRNDeduction(ByVal strSRNNo As String, ByVal strICode As String, ByVal trans As SqlTransaction) As Boolean
-        Dim qry As String = "select TSPL_SRN_HEAD.Against_QC_Code,TSPL_SRN_DETAIL.PO_ID,TSPL_SRN_DETAIL.Row_Type,TSPL_SRN_DETAIL.SRN_Qty,TSPL_SRN_DETAIL.Leak_Qty,TSPL_SRN_DETAIL.Burst_Qty,TSPL_SRN_DETAIL.Short_Qty,TSPL_SRN_HEAD.Vendor_Code,TSPL_SRN_HEAD.isExemptSecurityDedution ,TSPL_SRN_DETAIL.GRN_ID,TSPL_SRN_DETAIL.Item_Net_Amt 
+        'TSPL_SRN_HEAD.Against_QC_Code
+        Dim qry As String = "select TSPL_QC_CHECK_HEAD.Document_Code as Against_QC_Code,TSPL_SRN_DETAIL.PO_ID,TSPL_SRN_DETAIL.Row_Type,TSPL_SRN_DETAIL.SRN_Qty,TSPL_SRN_DETAIL.Leak_Qty,TSPL_SRN_DETAIL.Burst_Qty,TSPL_SRN_DETAIL.Short_Qty,TSPL_SRN_HEAD.Vendor_Code,TSPL_SRN_HEAD.isExemptSecurityDedution ,TSPL_SRN_DETAIL.GRN_ID,TSPL_SRN_DETAIL.Item_Net_Amt 
 from TSPL_SRN_DETAIL
 left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No
+left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_SRN_HEAD.Against_GRN	
 where TSPL_SRN_HEAD.SRN_No='" + strSRNNo + "' and TSPL_SRN_DETAIL.Item_Code='" + strICode + "'"
         Dim dtSRN As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dtSRN IsNot Nothing AndAlso dtSRN.Rows.Count > 0 Then
             If clsCommon.myLen(dtSRN.Rows(0)("Against_QC_Code")) > 0 Then
+                'left outer join TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.document_code=TSPL_SRN_HEAD.Against_QC_Code and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=TSPL_SRN_DETAIL.Item_Code
                 qry = "insert into TSPL_SRN_DEDUCTION (SRN_No,Item_Code,Amt,Ded_Per,Ded_Amt)
 select SRN_No,Item_Code,Amount,InputDataDeductionPer,(Amount*InputDataDeductionPer/100) as DedAmt  from (
 select SRN_No,Item_Code,max(Amount) as Amount,sum(isnull(InputDataDeductionPer,0)) as InputDataDeductionPer from (
 select TSPL_SRN_HEAD.SRN_No,TSPL_QC_CHECK_SRN_DETAIL.Item_Code,TSPL_SRN_DETAIL.Item_Net_Amt as Amount,TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer from TSPL_SRN_DETAIL 
 left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No
-left outer join TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.document_code=TSPL_SRN_HEAD.Against_QC_Code and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=TSPL_SRN_DETAIL.Item_Code
+left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_SRN_HEAD.Against_GRN	
+left outer join TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.document_code=TSPL_QC_CHECK_HEAD.document_code and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=TSPL_SRN_DETAIL.Item_Code
 where TSPL_SRN_HEAD.SRN_No='" + strSRNNo + "' 
 )x group by SRN_No,Item_Code
 )xx where (Amount*InputDataDeductionPer/100)>0 "
