@@ -21,7 +21,7 @@
             Arr = New List(Of clsBMCDCSMobile)
             Dim strQry As String = "select XXX.* from
 (select max(XX.REF_PK_ID) as REF_PK_ID,max(XX.PK_ID) as PK_ID,max(XX.IDate)as Document_Date,max(XX.Route_Code) as Route_Code,max(XX.MCC_Code)as MCC_Code, max(XX.Vehicle_No) as Vehicle_No,sum(XX.Qty) as Qty,sum(XX.FATKG)as FATKG, sum(XX.SNFKG) as SNFKG,XX.Trip_No
-                from ( select TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID as PK_ID,TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID as REF_PK_ID, TSPL_MILK_COLLECTION_BMCDCS.Route_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty,TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG from TSPL_MILK_COLLECTION_BMCDCS
+                from ( select TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID as PK_ID,TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID as REF_PK_ID, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty,TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG from TSPL_MILK_COLLECTION_BMCDCS
             left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID ) XX where convert ( date, XX.IDate, 103 ) = convert (date, '" + clsCommon.GetPrintDate(IDate, "dd/MMM/yyyy") + "', 103) group by XX.Vehicle_No,XX.Route_Code,XX.Trip_No )XXX
   where not exists(select * from TSPL_MILK_COLLECTION_MCC_DETAIL where TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=XXX.PK_ID )"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
@@ -82,6 +82,8 @@ Public Class clsBMCDCS_Trip
     Public Gaze_Reading_Code As String = ""
     Public Gaze_Reading As Decimal = 0
     Public Silo_Capacity As Integer = 0
+    Public Sample_No As Integer = 0
+
     Public MCC_Code As String = ""
     Public Shared Function GetBMCDCS_Trip(ByVal Route_Code As String, ByVal Document_Date As DateTime, ByVal Trip_No As Integer) As List(Of clsBMCDCS_Trip)
         Dim obj As clsBMCDCSMobile = New clsBMCDCSMobile()
@@ -97,9 +99,9 @@ TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNF,
 TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG,
 TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading_Code,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Gaze_Reading,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Silo_Capacity,
 TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,
-TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp from TSPL_MILK_COLLECTION_BMCDCS_TRIP
+TSPL_MILK_COLLECTION_BMCDCS_TRIP.Temp,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Sample_No from TSPL_MILK_COLLECTION_BMCDCS_TRIP
 left join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID= TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID
-where TSPL_MILK_COLLECTION_BMCDCS.Route_Code=" + clsCommon.myCstr(Route_Code) + " and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "' and TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No=" + clsCommon.myCstr(Trip_No)
+where TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code=" + clsCommon.myCstr(Route_Code) + " and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "' and TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No=" + clsCommon.myCstr(Trip_No)
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQry)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -121,6 +123,7 @@ where TSPL_MILK_COLLECTION_BMCDCS.Route_Code=" + clsCommon.myCstr(Route_Code) + 
                     Obj_Trip.Gaze_Reading_Code = clsCommon.myCstr(dr("Gaze_Reading_Code"))
                     Obj_Trip.Gaze_Reading = clsCommon.myCDecimal(dr("Gaze_Reading"))
                     Obj_Trip.Silo_Capacity = clsCommon.myCDecimal(dr("Silo_Capacity"))
+                    Obj_Trip.Sample_No = clsCommon.myCDecimal(dr("Sample_No"))
                     obj.Arr_BMCDCS_Trip.Add(Obj_Trip)
                 Next
             End If

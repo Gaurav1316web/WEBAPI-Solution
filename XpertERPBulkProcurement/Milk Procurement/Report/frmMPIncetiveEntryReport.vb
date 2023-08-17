@@ -1220,6 +1220,12 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
         End Try
     End Sub
 
+    '    Dim value As Double = 15.35
+    'Dim roundedValue As Double = Math.Ceiling(value)
+
+    'Console.WriteLine("Original Value: " & value)
+    'Console.WriteLine("Rounded Up Value: " & roundedValue)
+
     Private Sub txtBlock__My_Click(sender As Object, e As EventArgs) Handles txtBlock._My_Click
         Dim qry As String = " select TSPL_BLOCK_MASTER.BLOCK_CODE as Code , TSPL_BLOCK_MASTER.BLOCK_NAME as Name from TSPL_BLOCK_MASTER "
         txtBlock.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSelBlock@MPIncentiveEntryRPT", qry, "Code", "Code", txtBlock.arrValueMember, txtBlock.arrDispalyMember)

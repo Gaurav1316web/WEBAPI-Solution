@@ -1182,6 +1182,12 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsInventoryMovement.SaveData("SD-SH", obj.Document_Code, obj.Document_Date, clsCommon.GetPrintDate(obj.Document_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
 
             obj.Sale_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from  TSPL_SD_SALE_INVOICE_HEad where Against_Shipment_No='" + obj.Document_Code + "'", trans))
+            CreateJournalEntry(obj.Document_Code, trans, strVoucherNoRecreatedOnly)
+
+            qry = "Update TSPL_SD_SHIPMENT_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "',Sale_Invoice_No ='" + obj.Sale_Invoice_No + "' "
+            qry += " where Document_Code='" + strDocNo + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
 
             If obj.Is_Create_Auto_Invoice Then
                 If clsCommon.myLen(obj.Sale_Invoice_No) <= 0 Then
@@ -1191,18 +1197,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 End If
                 clsSNInvoiceHead.PostData("", obj.Sale_Invoice_No, trans)
             End If
-
-
-
-            CreateJournalEntry(obj.Document_Code, trans, strVoucherNoRecreatedOnly)
-
-            qry = "Update TSPL_SD_SHIPMENT_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "',Sale_Invoice_No ='" + obj.Sale_Invoice_No + "' "
-            qry += " where Document_Code='" + strDocNo + "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-
         Catch ex As Exception
-
             Throw New Exception(ex.Message)
         End Try
         Return True

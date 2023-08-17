@@ -233,6 +233,7 @@ Public Class clsDocType
     Public Const MRN As String = "Material Receipt Note"
     Public Const SRN As String = "Store Receipt Note"
     Public Const SRNReturn As String = "Store Receipt Note Return"
+    Public Const NIRQC As String = "NIR QC"
     Public Const TransferReturn As String = "Transfer Return"
     Public Const GatePasstransfer As String = "Gate Pass Transfer"
     Public Const MTSRN As String = "Merchant SRN"
@@ -873,7 +874,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)
-
+            InsertDefaultValue(clsDocType.NIRQC,"", False, False)
             InsertDefaultValue(clsDocType.MTSRN, clsDocTransactionType.POFinishedGoods, False, True)
             InsertDefaultValue(clsDocType.MTSRN, clsDocTransactionType.POSemiFinishedGoods, False, True)
             InsertDefaultValue(clsDocType.MTSRN, clsDocTransactionType.POOther, False, True)

@@ -90,27 +90,6 @@ Public Class FrmItemMasterRMOther
     Dim AllowDuplicateItemShortDescriptionInItemMaster As Boolean = False
 #End Region
     Private Sub FrmItemMasterRMOther_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("NIR_QC", "integer NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("NIR_QC", "integer NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, False, True, "", "MRN_No", "MRN_Date")
-
-        coll = New Dictionary(Of String, String)
-        coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
-        coll.Add("Document_Date", "DateTime not NULL")
-        coll.Add("Against_MRN", "Varchar(30) not null References TSPL_MRN_HEAD(MRN_No)")
-        coll.Add("Created_By", "varchar(12) not NULL References TSPL_USER_MASTER(User_Code)")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modify_By", "varchar(12) not NULL References TSPL_USER_MASTER(User_Code)")
-        coll.Add("Modify_Date", "Datetime NOT NULL")
-        coll.Add("Status", "integer not null default 0")
-        coll.Add("Posted_By", "varchar(12) NULL References TSPL_USER_MASTER(User_Code)")
-        coll.Add("Posted_Date", "Datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC", coll, Nothing, False, True, "", "MRN_No", "MRN_Date")
-
         AllowDuplicateItemShortDescriptionInItemMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowDuplicateItemShortDescriptionInItemMaster, clsFixedParameterCode.AllowDuplicateItemShortDescriptionInItemMaster, Nothing)) = 1, True, False)
         AllowItemConversionAutomation = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowItemConversionAutomation, clsFixedParameterCode.AllowItemConversionAutomation, Nothing))
         AllowDoNotShowDairyTypeItems = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotShowDairyTypeItems, clsFixedParameterCode.DoNotShowDairyTypeItems, Nothing)) = 1, True, False)
