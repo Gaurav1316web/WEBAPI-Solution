@@ -1699,6 +1699,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmAutoAdditionDeductionReport, "Auto Addition/Deduction Report", "1.17.03.105", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "Truck Sheet Daily Summary Report", "1.17.03.106", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "Temporary Payment Deduction Summary", "1.17.03.107", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptAutoMultipleAdditionDeduction, "Auto Multiple Addition Deduction", "1.17.03.108", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup
