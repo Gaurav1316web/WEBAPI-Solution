@@ -30,6 +30,7 @@ Public Class clsSNInvoiceHead
     Public Tax_Group As String = Nothing
     Public TaxGroupName As String = Nothing 'Not a table field
     Public Bill_To_Location As String = Nothing
+    Public Trans_type As String = Nothing
     Public BillToLocationName As String = Nothing 'Not a table field
     Public Ship_To_Location As String = Nothing
     Public ShipToLocationName As String = Nothing 'Not a table field
@@ -959,6 +960,39 @@ Public Class clsSNInvoiceHead
                 End If
                 clsReceiptHeader.ReciepEntryWithPostOfInvoice(strARInvNo, strBankCode, strPaymentCode, trans)
             End If
+
+            'Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
+            'If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isnull(Status,0) from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) = 0 Then
+            '    Throw New Exception("Sale Invoice No [" + strDocNo + "] is Unposted")
+            'End If
+            'If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isnull(Status,0) from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Against_Shipment_No + "'", trans)) = 0 Then
+            '    Throw New Exception("Shipment No [" + obj.Against_Shipment_No + "] is Unposted")
+            'End If
+            'If clsCommon.myLen(strARInvNo) <= 0 Then
+            '    Throw New Exception("AR Invoice Not Found For Sales Invoice No [" + strDocNo + "]")
+            'End If
+            ''Throw New Exception("BALWINDER Sales Invoice No [" + strDocNo + "]")
+            'If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.is_taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
+            '    If clsCommon.myLen(clsPSInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
+            '        clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, False)
+            '        If clsCommon.myLen(clsPSInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
+            '            Throw New Exception("IRN No For Sales Invoice No [" + strDocNo + "] is not generated")
+            '        End If
+            '    End If
+            '    If objCommonVar.GenerateEWayBillWithEInvoice Then
+            '        If clsCommon.myLen(clsPSInvoiceHead.GetEWayBillNo(strDocNo, trans)) <= 0 Then
+            '            clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
+            '            If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) <= 0 Then
+            '                Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
+            '            End If
+            '        End If
+            '    End If
+            'ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
+            '    Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
+            '    If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then
+            '        clsPSInvoiceHead.EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans)
+            '    End If
+            'End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

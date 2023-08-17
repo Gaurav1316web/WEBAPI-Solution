@@ -1583,9 +1583,9 @@ where TSPL_SD_SALE_INVOICE_head.Document_Code ='" & strDocNo & "'"
                 End If
             ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
                 Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
-            If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then
-                clsPSInvoiceHead.EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans)
-            End If
+                If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then
+                    clsPSInvoiceHead.EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans)
+                End If
             End If
 
         Catch ex As Exception
@@ -1595,10 +1595,10 @@ where TSPL_SD_SALE_INVOICE_head.Document_Code ='" & strDocNo & "'"
         Return True
     End Function
 
-    Private Shared Function GetIRNNo(strDocNo As String, trans As SqlTransaction) As String
+    Public Shared Function GetIRNNo(strDocNo As String, trans As SqlTransaction) As String
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(IRN_No,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
     End Function
-    Private Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
+    Public Shared Function GetEWayBillNo(strDocNo As String, trans As SqlTransaction) As String
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans))
     End Function
 
