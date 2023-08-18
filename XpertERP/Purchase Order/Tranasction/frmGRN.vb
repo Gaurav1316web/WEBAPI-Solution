@@ -3151,16 +3151,11 @@ Public Class frmGRN
                 'RadPageViewPage7.Visible = False
 
             ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.VisualRandomQC) = CompairStringResult.Equal Then
-                txtDocNo.Value = clsCommon.GETSERVERDATE()
+                txtDocNo.Value = ""
+                'txtDocNo.Value = clsCommon.GETSERVERDATE()
                 'txtDCSDate.Value = txtShiftDate.Value
                 'cboShift.SelectedValue = "M"
                 RadGroupBox1.Enabled = False
-                RadGroupBox2.Enabled = True
-                'ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
-                'ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
-                'txtShiftDate.Focus()
-                'LoadShift()
-                'chkAddMissingSample.Visible = False
                 RadPageViewPage1.Text = "Visual Random QC"
                 RadGroupBox1.HeaderText = "Visual Random QC"
                 RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed

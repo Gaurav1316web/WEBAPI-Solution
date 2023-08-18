@@ -222,7 +222,7 @@ from (" + BaseQry + ")xx
 left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code
 group by Document_Type,DeductionCode,TSPL_VENDOR_MASTER.Vendor_Code
-)xxx where (OP+Sale-AMTDeducted)>0"
+)xxx"  'where (OP+Sale-AMTDeducted)>0"
         Else
             qry = "select case when Document_Type='D' then 'Deduction' else 'Addition'  end Type ,(DeductionCode+'-'+DeductionName) as DeductionName,(OP+Sale) as [Opening+Sale],AMTDeducted as [Amt Deducted],(OP+Sale-AMTDeducted) as [Balance Amount] from (
 select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as DeductionName
