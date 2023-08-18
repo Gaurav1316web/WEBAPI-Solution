@@ -17,6 +17,9 @@ Public Class RCDFDashboard
     Dim dtRMStock As DataTable = Nothing
     Dim dtRMSupply As DataTable = Nothing
     Dim dtRMInPlant As DataTable = Nothing
+
+    Dim VdrAC As DataTable = Nothing
+    Dim VDRCUS As DataTableClearEventArgs = Nothing
 #End Region
 
     Private Sub SetUserMgmtNew()
@@ -135,7 +138,7 @@ Public Class RCDFDashboard
 
             ii += 1
             clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (Total)), "Loading ACCOUNT Data..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Total) & "")
-            'Load_Report_ItemType()
+            'Load_Report_Account()
 
             clsCommon.ProgressBarPercentHide()
             EnableDisableCntrl(False)
@@ -1161,8 +1164,6 @@ ORDER BY  TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.It
     Private Sub LegendElement_VisualItemCreating(sender As Object, e As LegendItemElementCreatingEventArgs)
         e.ItemElement = New CustomLegendItemElement(e.LegendItem)
     End Sub
-
-
 End Class
 
 Public Class CustomPalette
