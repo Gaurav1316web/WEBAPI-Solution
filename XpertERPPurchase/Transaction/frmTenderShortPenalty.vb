@@ -89,7 +89,11 @@ Public Class frmTenderShortPenalty
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myCBool(gv1.Rows(ii).Cells("UserStatus").Value) Then
                     If clsCommon.myCDecimal(gv1.Rows(ii).Cells("FinalStatus").Value) = 0 Then
-                        Throw New Exception("Invalid GRN [" + clsCommon.myCstr(gv1.Rows(ii).Cells("GRN_No").Value) + "] Because SRN should be Posted")
+                        If clsCommon.myCDecimal(gv1.Rows(ii).Cells("NIRQCStatus").Value) = 0 Then
+                            Throw New Exception("QC of GRN [" + clsCommon.myCstr(gv1.Rows(ii).Cells("GRN_No").Value) + "] is Pending/Not Generated But NIR QC Genrated")
+                        Else
+                            Throw New Exception("Invalid GRN [" + clsCommon.myCstr(gv1.Rows(ii).Cells("GRN_No").Value) + "] Because SRN should be Posted")
+                        End If
                     End If
                     If ii > 0 Then
                         If Not clsCommon.myCBool(gv1.Rows(ii - 1).Cells("UserStatus").Value) Then
@@ -639,7 +643,7 @@ left outer join TSPL_SRN_TENDER on TSPL_SRN_TENDER.SRN_No=TSPL_SRN_HEAD.SRN_No a
 left outer join TSPL_TENDER_SCHEDULE_PENALTY on  TSPL_TENDER_SCHEDULE_PENALTY.PK_Id=TSPL_SRN_TENDER.Against_Tender_Schedule_Penalty_PK_Id
 left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo
 left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
-where TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + txtTenderNo.Value + "' and TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected'  and TSPL_GRN_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_GRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_GRN_HEAD.Bill_To_Location='" + txtBillToLocation.Value + "' and ISNULL( TSPL_GRN_HEAD.IsCancel,0)=0  " + WhrCls
+where TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + txtTenderNo.Value + "' and  isnull(TSPL_QC_CHECK_HEAD.QC_Status,'')<>'Rejected'  and TSPL_GRN_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_GRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_GRN_HEAD.Bill_To_Location='" + txtBillToLocation.Value + "' and ISNULL( TSPL_GRN_HEAD.IsCancel,0)=0  " + WhrCls
         qry += " Order by CONVERT(date, TSPL_GRN_HEAD.GRN_Date,103),isnull(TSPL_SRN_HEAD.Status,0) desc"
         Return qry
     End Function
