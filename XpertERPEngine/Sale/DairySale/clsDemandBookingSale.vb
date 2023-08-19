@@ -41,7 +41,7 @@ Public Class clsDemandBookingSale
         Try
             Dim ShiftType As String = ""
             If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
-                Dim dtshift As DataTable = clsDBFuncationality.GetDataTable("select distinct ShiftType from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & obj.Document_No & "' and (IsGatePassGenerated='N' and IsTruckSheetGenerated ='N' and Is_Posted='N')", trans)
+                Dim dtshift As DataTable = clsDBFuncationality.GetDataTable("select distinct ShiftType from TSPL_DEMAND_BOOKING_DETAIL where document_No='" & obj.Document_No & "' and (IsGatePassGenerated='N' and IsTruckSheetGenerated ='N')", trans)
                 If dtshift IsNot Nothing AndAlso dtshift.Rows.Count = 1 Then
                     For Each dr As DataRow In dtshift.Rows
                         If clsCommon.CompairString(clsCommon.myCstr(dr("ShiftType")), "Morning") = CompairStringResult.Equal Then
@@ -110,7 +110,7 @@ Public Class clsDemandBookingSale
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
             End If
 
-            clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, Arr, trans, obj.Location_Code)
+            clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans, obj.Location_Code, ShiftType)
             createDairyBookingDoc(obj.Document_No, trans, isNewEntry, ShiftType)
 
         Catch ex As Exception
@@ -752,9 +752,14 @@ Public Class clsDemandBookingSaleDetail
     Public IsItemUpdate As Integer = 0
 
 #End Region
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal DocDate As Date, ByVal Arr As List(Of clsDemandBookingSaleDetail), ByVal trans As SqlTransaction, ByVal strLocCode As String) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal DocDate As Date, ByVal Arr As List(Of clsDemandBookingSaleDetail), ByVal trans As SqlTransaction, ByVal strLocCode As String, ByVal ShiftType As String) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsDemandBookingSaleDetail In Arr
+                If clsCommon.myLen(ShiftType) > 0 Then
+                    If Not clsCommon.CompairString(ShiftType, obj.ShiftType) = CompairStringResult.Equal Then
+                        Continue For
+                    End If
+                End If
                 Dim coll As New Hashtable()
                 obj.TR_CODE = clsERPFuncationality.GetNextCode(trans, DocDate, clsDocType.Detail, clsDocTransactionType.Detail, "")
                 clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
