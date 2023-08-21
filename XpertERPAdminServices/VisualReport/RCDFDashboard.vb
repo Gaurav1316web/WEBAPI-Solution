@@ -17,6 +17,9 @@ Public Class RCDFDashboard
     Dim dtRMStock As DataTable = Nothing
     Dim dtRMSupply As DataTable = Nothing
     Dim dtRMInPlant As DataTable = Nothing
+
+    Dim VdrAC As DataTable = Nothing
+    Dim VDRCUS As DataTableClearEventArgs = Nothing
 #End Region
 
     Private Sub SetUserMgmtNew()
@@ -135,7 +138,7 @@ Public Class RCDFDashboard
 
             ii += 1
             clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (Total)), "Loading ACCOUNT Data..." & clsCommon.myCstr(ii) & "/" & clsCommon.myCstr(Total) & "")
-            'Load_Report_ItemType()
+            'Load_Report_Account()
 
             clsCommon.ProgressBarPercentHide()
             EnableDisableCntrl(False)
@@ -289,7 +292,7 @@ Public Class RCDFDashboard
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " and TSPL_SD_SALE_INVOICE_DETAIL.Location='" + txtLocation.Value + "' "
                 End If
-                sQuery += " union
+                sQuery += " union all
                 select convert(date, thedate,103) as PROD_DATE,CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon 
                 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
                 CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 6  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA') then 5 WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('DCS') then 4
@@ -476,7 +479,7 @@ Public Class RCDFDashboard
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " and TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE='" + txtLocation.Value + "' "
                 End If
-                sQuery += "  union
+                sQuery += "  union all
                 select convert(date, thedate,103) as PROD_DATE,TSPL_ITEM_MASTER.Item_Code,
                 case when TSPL_ITEM_MASTER.ITEM_CODE in ('FG0001','FG0002','FG0003') then  substring(TSPL_ITEM_MASTER.ITEM_CODE, 6,1) else '0' end as sr_no, 
                 TSPL_ITEM_MASTER.Short_Description AS 'ITEM_DESC',0 as FINAL_PRODUCTION_QTY
@@ -1161,8 +1164,6 @@ ORDER BY  TSPL_GRN_HEAD.Bill_To_Location,TSPL_GRN_HEAD.Ref_No,TSPL_GRN_DETAIL.It
     Private Sub LegendElement_VisualItemCreating(sender As Object, e As LegendItemElementCreatingEventArgs)
         e.ItemElement = New CustomLegendItemElement(e.LegendItem)
     End Sub
-
-
 End Class
 
 Public Class CustomPalette

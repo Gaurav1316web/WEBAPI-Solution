@@ -352,6 +352,8 @@ Partial Class frmCustomer
         Me.lblAliesName = New common.Controls.MyLabel()
         Me.txtAliesName = New common.Controls.MyTextBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel34 = New common.Controls.MyLabel()
+        Me.txtCustomerNameHindi = New common.Controls.MyTextBox()
         Me.chkTCSnotApplicable = New Telerik.WinControls.UI.RadCheckBox()
         Me.btnCC = New Telerik.WinControls.UI.RadButton()
         Me.lblSubsidy = New common.Controls.MyLabel()
@@ -361,6 +363,7 @@ Partial Class frmCustomer
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
+        Me.chkIsRepeatOrder = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -608,6 +611,8 @@ Partial Class frmCustomer
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCustomerNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTCSnotApplicable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubsidy, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -619,6 +624,7 @@ Partial Class frmCustomer
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkIsRepeatOrder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -754,6 +760,7 @@ Partial Class frmCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkIsRepeatOrder)
         Me.RadPageViewPage1.Controls.Add(Me.CboCustomerStatus)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel24)
         Me.RadPageViewPage1.Controls.Add(Me.chkTCSGreaterthan50K)
@@ -3692,7 +3699,7 @@ Partial Class frmCustomer
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(721, 29)
+        Me.MyLabel2.Location = New System.Drawing.Point(778, 29)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(130, 16)
         Me.MyLabel2.TabIndex = 73
@@ -5076,7 +5083,7 @@ Partial Class frmCustomer
         'chkInterBranch
         '
         Me.chkInterBranch.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkInterBranch.Location = New System.Drawing.Point(875, 73)
+        Me.chkInterBranch.Location = New System.Drawing.Point(932, 73)
         Me.chkInterBranch.Name = "chkInterBranch"
         Me.chkInterBranch.Size = New System.Drawing.Size(82, 16)
         Me.chkInterBranch.TabIndex = 4
@@ -5128,7 +5135,7 @@ Partial Class frmCustomer
         RadListDataItem28.Text = "Tax"
         Me.CmbTransaction.Items.Add(RadListDataItem27)
         Me.CmbTransaction.Items.Add(RadListDataItem28)
-        Me.CmbTransaction.Location = New System.Drawing.Point(443, 49)
+        Me.CmbTransaction.Location = New System.Drawing.Point(501, 49)
         Me.CmbTransaction.MendatroryField = True
         Me.CmbTransaction.MyLinkLable1 = Me.lblTransaction
         Me.CmbTransaction.MyLinkLable2 = Nothing
@@ -5154,7 +5161,7 @@ Partial Class frmCustomer
         Me.dtpAggMade.IsSourceFromTable = False
         Me.dtpAggMade.IsSourceFromValueList = False
         Me.dtpAggMade.IsUnique = False
-        Me.dtpAggMade.Location = New System.Drawing.Point(854, 5)
+        Me.dtpAggMade.Location = New System.Drawing.Point(911, 5)
         Me.dtpAggMade.MendatroryField = False
         Me.dtpAggMade.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpAggMade.MyLinkLable1 = Me.MyLabel1
@@ -5174,7 +5181,7 @@ Partial Class frmCustomer
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(721, 6)
+        Me.MyLabel1.Location = New System.Drawing.Point(778, 6)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(120, 16)
         Me.MyLabel1.TabIndex = 71
@@ -5194,7 +5201,7 @@ Partial Class frmCustomer
         Me.dtpAggClose.IsSourceFromTable = False
         Me.dtpAggClose.IsSourceFromValueList = False
         Me.dtpAggClose.IsUnique = False
-        Me.dtpAggClose.Location = New System.Drawing.Point(854, 28)
+        Me.dtpAggClose.Location = New System.Drawing.Point(911, 28)
         Me.dtpAggClose.MendatroryField = False
         Me.dtpAggClose.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpAggClose.MyLinkLable1 = Me.MyLabel2
@@ -5221,7 +5228,7 @@ Partial Class frmCustomer
         Me.fndCustCurrency.IsSourceFromTable = False
         Me.fndCustCurrency.IsSourceFromValueList = False
         Me.fndCustCurrency.IsUnique = False
-        Me.fndCustCurrency.Location = New System.Drawing.Point(622, 50)
+        Me.fndCustCurrency.Location = New System.Drawing.Point(672, 50)
         Me.fndCustCurrency.MendatroryField = False
         Me.fndCustCurrency.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndCustCurrency.MyLinkLable1 = Nothing
@@ -5240,7 +5247,7 @@ Partial Class frmCustomer
         '
         Me.lblBaseCurrency.FieldName = Nothing
         Me.lblBaseCurrency.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBaseCurrency.Location = New System.Drawing.Point(558, 51)
+        Me.lblBaseCurrency.Location = New System.Drawing.Point(616, 51)
         Me.lblBaseCurrency.Name = "lblBaseCurrency"
         Me.lblBaseCurrency.Size = New System.Drawing.Size(52, 16)
         Me.lblBaseCurrency.TabIndex = 75
@@ -5249,7 +5256,7 @@ Partial Class frmCustomer
         'chkIsDistributor
         '
         Me.chkIsDistributor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsDistributor.Location = New System.Drawing.Point(721, 51)
+        Me.chkIsDistributor.Location = New System.Drawing.Point(778, 51)
         Me.chkIsDistributor.Name = "chkIsDistributor"
         Me.chkIsDistributor.Size = New System.Drawing.Size(72, 16)
         Me.chkIsDistributor.TabIndex = 11
@@ -5258,7 +5265,7 @@ Partial Class frmCustomer
         'chkCSA
         '
         Me.chkCSA.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkCSA.Location = New System.Drawing.Point(721, 73)
+        Me.chkCSA.Location = New System.Drawing.Point(778, 73)
         Me.chkCSA.Name = "chkCSA"
         Me.chkCSA.Size = New System.Drawing.Size(43, 16)
         Me.chkCSA.TabIndex = 76
@@ -5316,6 +5323,8 @@ Partial Class frmCustomer
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel34)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtCustomerNameHindi)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkTCSnotApplicable)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnCC)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblSubsidy)
@@ -5349,10 +5358,44 @@ Partial Class frmCustomer
         Me.SplitContainer1.SplitterDistance = 94
         Me.SplitContainer1.TabIndex = 79
         '
+        'MyLabel34
+        '
+        Me.MyLabel34.FieldName = Nothing
+        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel34.Location = New System.Drawing.Point(366, 30)
+        Me.MyLabel34.Name = "MyLabel34"
+        Me.MyLabel34.Size = New System.Drawing.Size(130, 16)
+        Me.MyLabel34.TabIndex = 1371
+        Me.MyLabel34.Text = "Customer Name(हिन्दी में)"
+        Me.MyLabel34.TextAlignment = System.Drawing.ContentAlignment.TopLeft
+        '
+        'txtCustomerNameHindi
+        '
+        Me.txtCustomerNameHindi.CalculationExpression = Nothing
+        Me.txtCustomerNameHindi.FieldCode = Nothing
+        Me.txtCustomerNameHindi.FieldDesc = Nothing
+        Me.txtCustomerNameHindi.FieldMaxLength = 0
+        Me.txtCustomerNameHindi.FieldName = Nothing
+        Me.txtCustomerNameHindi.isCalculatedField = False
+        Me.txtCustomerNameHindi.IsSourceFromTable = False
+        Me.txtCustomerNameHindi.IsSourceFromValueList = False
+        Me.txtCustomerNameHindi.IsUnique = False
+        Me.txtCustomerNameHindi.Location = New System.Drawing.Point(501, 27)
+        Me.txtCustomerNameHindi.MaxLength = 50
+        Me.txtCustomerNameHindi.MendatroryField = False
+        Me.txtCustomerNameHindi.MyLinkLable1 = Me.MyLabel34
+        Me.txtCustomerNameHindi.MyLinkLable2 = Nothing
+        Me.txtCustomerNameHindi.Name = "txtCustomerNameHindi"
+        Me.txtCustomerNameHindi.ReferenceFieldDesc = Nothing
+        Me.txtCustomerNameHindi.ReferenceFieldName = Nothing
+        Me.txtCustomerNameHindi.ReferenceTableName = Nothing
+        Me.txtCustomerNameHindi.Size = New System.Drawing.Size(264, 20)
+        Me.txtCustomerNameHindi.TabIndex = 1370
+        '
         'chkTCSnotApplicable
         '
         Me.chkTCSnotApplicable.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkTCSnotApplicable.Location = New System.Drawing.Point(799, 51)
+        Me.chkTCSnotApplicable.Location = New System.Drawing.Point(856, 51)
         Me.chkTCSnotApplicable.Name = "chkTCSnotApplicable"
         Me.chkTCSnotApplicable.Size = New System.Drawing.Size(116, 16)
         Me.chkTCSnotApplicable.TabIndex = 1369
@@ -5390,7 +5433,7 @@ Partial Class frmCustomer
         Me.txtSubsidy.IsSourceFromTable = False
         Me.txtSubsidy.IsSourceFromValueList = False
         Me.txtSubsidy.IsUnique = False
-        Me.txtSubsidy.Location = New System.Drawing.Point(443, 71)
+        Me.txtSubsidy.Location = New System.Drawing.Point(501, 71)
         Me.txtSubsidy.MaxLength = 50
         Me.txtSubsidy.MendatroryField = False
         Me.txtSubsidy.MyLinkLable1 = Nothing
@@ -5407,7 +5450,7 @@ Partial Class frmCustomer
         'rbtnManualCust
         '
         Me.rbtnManualCust.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnManualCust.Location = New System.Drawing.Point(770, 73)
+        Me.rbtnManualCust.Location = New System.Drawing.Point(827, 73)
         Me.rbtnManualCust.Name = "rbtnManualCust"
         Me.rbtnManualCust.Size = New System.Drawing.Size(99, 16)
         Me.rbtnManualCust.TabIndex = 81
@@ -5476,6 +5519,15 @@ Partial Class frmCustomer
         Me.btnGetHistory.Size = New System.Drawing.Size(80, 18)
         Me.btnGetHistory.TabIndex = 16
         Me.btnGetHistory.Text = "Show History"
+        '
+        'chkIsRepeatOrder
+        '
+        Me.chkIsRepeatOrder.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsRepeatOrder.Location = New System.Drawing.Point(725, 60)
+        Me.chkIsRepeatOrder.Name = "chkIsRepeatOrder"
+        Me.chkIsRepeatOrder.Size = New System.Drawing.Size(89, 16)
+        Me.chkIsRepeatOrder.TabIndex = 5
+        Me.chkIsRepeatOrder.Text = "Repeat Order"
         '
         'frmCustomer
         '
@@ -5752,6 +5804,8 @@ Partial Class frmCustomer
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCustomerNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTCSnotApplicable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubsidy, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5763,6 +5817,7 @@ Partial Class frmCustomer
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.btnGetHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkIsRepeatOrder, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -6064,5 +6119,8 @@ Partial Class frmCustomer
     Friend WithEvents Panel2 As Panel
     Friend WithEvents txtArea As common.UserControls.txtFinder
     Friend WithEvents MyLabel35 As common.Controls.MyLabel
+    Friend WithEvents MyLabel34 As common.Controls.MyLabel
+    Friend WithEvents txtCustomerNameHindi As common.Controls.MyTextBox
+    Friend WithEvents chkIsRepeatOrder As RadCheckBox
 End Class
 

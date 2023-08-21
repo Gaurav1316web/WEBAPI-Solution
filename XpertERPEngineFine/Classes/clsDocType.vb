@@ -226,12 +226,14 @@ Public Class clsDocType
     Public Const PaymentAdjustmentEntry As String = "Adjustment Entry (Payment)"
     Public Const QuickSettlement As String = "Quick SettleMent"
     Public Const GRN As String = "Gate Receipt Note"
+
     Public Const POWeightment As String = "PO Weightment"
     Public Const POWeightmentOG As String = "PO Weightment OG"
     Public Const TenderShortPenalty As String = "Tender Short Penalty"
     Public Const MRN As String = "Material Receipt Note"
     Public Const SRN As String = "Store Receipt Note"
     Public Const SRNReturn As String = "Store Receipt Note Return"
+    Public Const NIRQC As String = "NIR QC"
     Public Const TransferReturn As String = "Transfer Return"
     Public Const GatePasstransfer As String = "Gate Pass Transfer"
     Public Const MTSRN As String = "Merchant SRN"
@@ -834,6 +836,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.POWeightment, clsDocTransactionType.POImport, False, True)
 
             InsertDefaultValue(clsDocType.POWeightmentOG, clsDocTransactionType.POOutgoing, False, False)
+            InsertDefaultValue(clsDocType.POWeightmentOG, clsDocTransactionType.RCDFLoadin, False, False)
 
             InsertDefaultValue(clsDocType.MRN, clsDocTransactionType.POJobWork, False, True)
             InsertDefaultValue(clsDocType.MRN, clsDocTransactionType.POJobWorkOutward, False, True)
@@ -871,7 +874,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)
-
+            InsertDefaultValue(clsDocType.NIRQC,"", False, False)
             InsertDefaultValue(clsDocType.MTSRN, clsDocTransactionType.POFinishedGoods, False, True)
             InsertDefaultValue(clsDocType.MTSRN, clsDocTransactionType.POSemiFinishedGoods, False, True)
             InsertDefaultValue(clsDocType.MTSRN, clsDocTransactionType.POOther, False, True)
@@ -2038,7 +2041,7 @@ Public Class clsDocTransactionType
     Public Const PODomestic As String = "Domestic"
     Public Const POImport As String = "Import"
     Public Const POOutgoing As String = "Outgoing"
-
+    Public Const RCDFLoadin As String = "RCDF Loadin"
     Public Const RGPWise As String = "RGP Wise"
 
     Public Const POOther As String = "Other"

@@ -146,7 +146,7 @@ Partial Class rptMultipleDeductionReport
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Margin = New System.Windows.Forms.Padding(4)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(785, 340)
         Me.RadPageView1.TabIndex = 11
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None

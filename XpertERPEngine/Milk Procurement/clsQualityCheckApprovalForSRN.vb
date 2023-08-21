@@ -117,7 +117,10 @@ Public Class clsQualityCheckApprovalForSRN
                 arrQcNo = New List(Of String)
                 arrQcNo = arrdocumentcode
 
-                qry = "select mrn_no,PO_NO from TSPL_QC_CHECK_DETAIL where document_code in (" + clsCommon.GetMulcallString(arrdocumentcode) + ")"
+                qry = "select TSPL_QC_CHECK_DETAIL.mrn_no,TSPL_QC_CHECK_DETAIL.PO_NO 
+from TSPL_QC_CHECK_DETAIL 
+left outer join TSPL_MRN_Head on TSPL_MRN_Head.MRN_No=TSPL_QC_CHECK_DETAIL.MRN_No
+where isnull(TSPL_MRN_Head.NIR_QC,0)=0 and TSPL_QC_CHECK_DETAIL.document_code in (" + clsCommon.GetMulcallString(arrdocumentcode) + ")"
                 dt = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
                 arrdocumentcode = New List(Of String)

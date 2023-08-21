@@ -1332,6 +1332,7 @@ Public Class frmCustomer
             obj.FSSAI_NO = clsCommon.myCstr(txtAccessOfficer.Text)
             obj.Cust_Code = clsCommon.myCstr(fndCustomer.Value)
             obj.Customer_Name = clsCommon.myCstr(txtCustomerName.Text)
+            obj.Customer_Name_Hindi = txtCustomerNameHindi.Text
             obj.Alies_Name = clsCommon.myCstr(txtAliesName.Text)
             obj.OldName = TxtOldname.Text
             obj.Zone_Code = fndZone.Value
@@ -1359,6 +1360,11 @@ Public Class frmCustomer
                 obj.CheckCreditLimit = 1
             Else
                 obj.CheckCreditLimit = 0
+            End If
+            If chkIsRepeatOrder.Checked = True Then
+                obj.IsReorder = 1
+            Else
+                obj.IsReorder = 0
             End If
 
             If chkTCSnotApplicable.Checked = True Then
@@ -2028,6 +2034,7 @@ Public Class frmCustomer
                 TxtAccNo.Text = clsCommon.myCstr(myDr("Account_No"))
 
                 Me.txtCustomerName.Text = myDr(0)
+                Me.txtCustomerNameHindi.Text = clsCommon.myCstr(myDr("Customer_Name_Hindi"))
                 Me.txtAdd1.Text = clsCommon.myCstr(myDr(1))
                 Me.txtAdd2.Text = clsCommon.myCstr(myDr(2))
                 Me.txtAdd3.Text = clsCommon.myCstr(myDr(3))
@@ -2117,6 +2124,12 @@ Public Class frmCustomer
                     chkInActive.Checked = False
                 ElseIf strStatus = "Y" Then
                     chkInActive.Checked = True
+                End If
+                Dim isRepeatorder As Integer = clsCommon.myCDecimal(myDr("IsReorder"))
+                If isRepeatorder = 1 Then
+                    chkIsRepeatOrder.Checked = True
+                Else
+                    chkIsRepeatOrder.Checked = False
                 End If
 
                 Dim strHold As String = myDr(54).ToString
@@ -2476,7 +2489,7 @@ Public Class frmCustomer
     Private Sub GetItemDetails(ByVal customer As String)
         gvItems.DataSource = Nothing
         gvItems.Rows.Clear()
-        Dim sql As String = "select CID.Item_Code,CID.Unit_Code,CID.Disc_Amt,IM.Item_Desc,CID.Valid_Upto ,CID.Start_Date from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS CID " & _
+        Dim sql As String = "select CID.Item_Code,CID.Unit_Code,CID.Disc_Amt,IM.Item_Desc,CID.Valid_Upto ,CID.Start_Date from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS CID " &
         " INNER JOIN TSPL_ITEM_MASTER IM ON CID.Item_Code=IM.Item_Code WHERE Cust_Code='" + customer + "'"
         Dim itemDS As DataSet = connectSql.RunSQLReturnDS(sql)
         If itemDS.Tables(0).Rows.Count > 0 Then
@@ -2539,6 +2552,7 @@ Public Class frmCustomer
         Me.fndCity.Value = ""
         Me.txtSalesPerson.Text = ""
         Me.txtCustomerName.Text = ""
+        Me.txtCustomerNameHindi.Text = ""
         Me.dtpAggMade.Value = clsCommon.GETSERVERDATE()
         Me.dtpAggClose.Value = clsCommon.GETSERVERDATE()
         Me.txtCusgrp.Text = ""
@@ -2552,6 +2566,7 @@ Public Class frmCustomer
         chkInActive.Checked = False
         chkInActive.Enabled = False
         chkcredit.Checked = False
+        chkIsRepeatOrder.Checked = False
         Me.txtPriceCode.Value = ""
         Me.fndstate.Value = ""
 
@@ -2826,6 +2841,7 @@ Public Class frmCustomer
                 Else
                     chkcredit.Checked = False
                 End If
+
 
                 If obj.Inter_Branch = "Y" Then
                     chkInterBranch.Checked = True
@@ -3956,7 +3972,7 @@ Public Class frmCustomer
     End Sub
     Private Sub fnTaxGrp()
         Try
-            strCmd = " SELECT TSPL_TAX_GROUP_DETAILS.Tax_Code as [Tax] FROM TSPL_TAX_GROUP_MASTER INNER JOIN TSPL_TAX_GROUP_DETAILS ON TSPL_TAX_GROUP_MASTER.Tax_Group_Code = TSPL_TAX_GROUP_DETAILS.Tax_Group_Code" & _
+            strCmd = " SELECT TSPL_TAX_GROUP_DETAILS.Tax_Code as [Tax] FROM TSPL_TAX_GROUP_MASTER INNER JOIN TSPL_TAX_GROUP_DETAILS ON TSPL_TAX_GROUP_MASTER.Tax_Group_Code = TSPL_TAX_GROUP_DETAILS.Tax_Group_Code" &
                       " where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + fndTxGrp.Value + "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='S' order by TSPL_TAX_GROUP_DETAILS.Trans_Code"
 
             myDs = connectSql.RunSQLReturnDS(strCmd)
@@ -4247,7 +4263,7 @@ Public Class frmCustomer
         Dim col1 As GridViewMultiComboBoxColumn = TryCast(gvItems.Columns("itemCode"), GridViewMultiComboBoxColumn)
         Dim col As GridViewComboBoxColumn = TryCast(gvItems.Columns("unitCode"), GridViewComboBoxColumn)
         If gvItems.CurrentColumn.Name = "unitCode" Then
-            sql = "SELECT DISTINCT U.Unit_Code, U.Unit_Desc, U.Conv_Factor FROM TSPL_UNIT_MASTER AS U INNER JOIN TSPL_ITEM_PRICE_MASTER AS P " & _
+            sql = "SELECT DISTINCT U.Unit_Code, U.Unit_Desc, U.Conv_Factor FROM TSPL_UNIT_MASTER AS U INNER JOIN TSPL_ITEM_PRICE_MASTER AS P " &
    " ON U.Unit_Code=P.UOM WHERE P.Item_Code='" + gvItems.CurrentRow.Cells("itemCode").Value + "' ORDER BY U.Unit_Code"
             ds = connectSql.RunSQLReturnDS(sql)
             ' colUnitCode.DisplayMember = "Unit_Code"
@@ -4875,7 +4891,7 @@ Public Class frmCustomer
 
     Private Sub fndCusgrp__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCusgrp._MYValidating
 
-        Dim qry As String = " SELECT Cust_Group_Code as [CustomerGruopCode],Cust_Group_Desc as [Description]," & _
+        Dim qry As String = " SELECT Cust_Group_Code as [CustomerGruopCode],Cust_Group_Desc as [Description]," &
                             " Tax_Group as [Tax Group],Cust_Account as [Account Set],Terms_Code as [Terms Code] FROM [TSPL_CUSTOMER_GROUP_MASTER] "
         fndCusgrp.Value = clsCommon.ShowSelectForm("CUSGRP_CODE", qry, "CustomerGruopCode", "", fndCusgrp.Value, "", isButtonClicked)
         txtCusgrp.Text = clsDBFuncationality.getSingleValue(" SELECT Cust_Group_Desc as [Description] FROM [TSPL_CUSTOMER_GROUP_MASTER] where Cust_Group_Code='" + fndCusgrp.Value + "'")
@@ -4938,7 +4954,7 @@ Public Class frmCustomer
 
     Private Sub fndTxGrp__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndTxGrp._MYValidating
 
-        Dim qry As String = "SELECT [Tax_Group_Code] AS [TaxGroupCode],[Tax_Group_Desc] as [Description]," & _
+        Dim qry As String = "SELECT [Tax_Group_Code] AS [TaxGroupCode],[Tax_Group_Desc] as [Description]," &
                        " (select case when [Tax_Group_Type]='S' then 'Sale' else 'Purchase' end) as [Type] FROM [TSPL_TAX_GROUP_MASTER] "
 
         If GstApplicable And ShowOnlyActiveTaxRateGroup Then
@@ -5049,7 +5065,7 @@ Public Class frmCustomer
     End Sub
 
     Private Sub fndCustomer__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndCustomer._MYNavigator
-        Dim qst As String = "select Cust_Code as [Customer Code],Customer_Name as [Name],Cust_Group_Code as [Customer Group],(select case when Status='N' then 'Active' else 'In.Active' end ) as [Status] from TSPL_CUSTOMER_MASTER  where CUSTOMER_FORM_TYPE='ALL' "
+        Dim qst As String = "select Cust_Code as [Customer Code],Customer_Name as [Name],Cust_Group_Code as [Customer Group],(select case when Status='N' then 'Active' else 'In.Active' end ) as [Status],isReorder from TSPL_CUSTOMER_MASTER  where CUSTOMER_FORM_TYPE='ALL' "
         Select Case NavType
             Case NavigatorType.Current
                 qst += " and TSPL_CUSTOMER_MASTER .Cust_Code in ('" + fndCustomer.Value + "')"
@@ -5749,7 +5765,7 @@ Public Class frmCustomer
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndCustomer.Value, "Cust_Code", "TSPL_CUSTOMER_MASTER")
 
-          
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try

@@ -6033,6 +6033,9 @@ Public Class MDI
                     Case clsUserMgtCode.mbtnMRN
                         frm = New frmMRN()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.NIRQC
+                        frm = New frmNIRQC()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.mbtnSRN
                         frm = New frmSRN(strProgramCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -6245,10 +6248,19 @@ Public Class MDI
                         frm = New RptPurchaseMaterialRegister()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    'Case clsUserMgtCode.mbtnGRN
+                    '    frm = New frmGRN
+                    '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.mbtnGRN
                         frm = New frmGRN
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.VisualRandomQC
+                        frm = New frmGRN
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
                     'Pankaj------------------------GRN Report ------------------------------------------
+
                     Case clsUserMgtCode.POWeighment
                         frm = New frmPOWeighment
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8229,6 +8241,11 @@ Public Class MDI
                     Case clsUserMgtCode.rptTemporaryPaymentDeductionSummary
                         frm = New rptTemporaryPaymentDeductionSummary
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
+                    Case clsUserMgtCode.rptAutoMultipleAdditionDeduction
+                        frm = New rptAutoMultipleAdditionDeduction
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
                     Case clsUserMgtCode.frmPaymentProcessFarmer
                         frm = New frmPaymentProcessFarmer
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
