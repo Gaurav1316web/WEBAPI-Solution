@@ -13084,7 +13084,7 @@ Public Class clsCreateAllTable
             coll.Add("JA_acc", "nvarchar(20) NULL")
             coll.Add("JA_bankName", "varchar(50) NULL")
             coll.Add("JA_ifsc", "varchar(20) NULL")
-            coll.Add("JA_bankBranch", "varchar(50) NULL")
+            coll.Add("JA_bankBranch", "varchar(200) NULL")
             coll.Add("JA_micr", "varchar(20) NULL")
             coll.Add("JA_voterId", "varchar(20) NULL")
             coll.Add("JA_panNo", "varchar(20) NULL")
@@ -21134,6 +21134,7 @@ Public Class clsCreateAllTable
             coll.Add("Tax_Calculation_Type", "integer not null default 0")
             coll.Add("Total_Add_Charge_Insurance", "decimal(18,2) NULL")
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
+            coll.Add("NIR_QC", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, False, True, "", "MRN_No", "MRN_Date")
 
 
@@ -21401,6 +21402,21 @@ Public Class clsCreateAllTable
             coll.Add("Item_Amt_After_Insurance", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_DETAIL", coll, Nothing, False, True, "TSPL_MRN_HEAD", "MRN_No", "")
 
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("Document_No", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Document_Date", "DateTime not NULL")
+            coll.Add("QC_Status", "integer not null default 0")
+            coll.Add("QC_Remarks", "Varchar(100) null")
+            coll.Add("MRN_No", "Varchar(30) not null unique References TSPL_MRN_HEAD(MRN_No)")
+            coll.Add("Created_By", "varchar(12) not NULL References TSPL_USER_MASTER(User_Code)")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modify_By", "varchar(12) not NULL References TSPL_USER_MASTER(User_Code)")
+            coll.Add("Modify_Date", "Datetime NOT NULL")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Posted_By", "varchar(12) NULL References TSPL_USER_MASTER(User_Code)")
+            coll.Add("Posted_Date", "Datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NIR_QC", coll, Nothing, True, False, "", "Document_No", "Document_Date")
             coll = New Dictionary(Of String, String)
             coll.Add("MRN_No", "Varchar(30) not null ")
             coll.Add("Line_No", "integer not null default 0")

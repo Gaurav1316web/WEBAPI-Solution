@@ -734,7 +734,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.POWeighment, "PO Weighment", "1.08.02.11", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
         InsertDefaultValue(clsUserMgtCode.POUnloading, "PO Unloading", "1.08.02.12", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
         InsertDefaultValue(clsUserMgtCode.mbtnMRN, "Material Received Note", "1.08.02.13", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, "umang@321", Nothing, "", "Internal", "", "", "")
-        InsertDefaultValue(clsUserMgtCode.NIRQC, "NIR QC", "1.08.02.14", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, "umang@321", Nothing, "", "Internal", "", "", "")
+
         InsertDefaultValue(clsUserMgtCode.mbtnSRN, "Store Received Note", "1.08.02.15", clsUserMgtCode.SubModulePurchaseTransaction, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, False, Nothing, Nothing, "", "Internal", "", "", "")
         InsertDefaultValue(clsUserMgtCode.SRNReturn, "Store Received Note Return", "1.08.02.16", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.TenderShortPenalty, "Tender Short Penalty", "1.08.02.17", clsUserMgtCode.SubModulePurchaseTransaction, 8)
@@ -1702,6 +1702,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmAutoAdditionDeductionReport, "Auto Addition/Deduction Report", "1.17.03.105", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "Truck Sheet Daily Summary Report", "1.17.03.106", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "Temporary Payment Deduction Summary", "1.17.03.107", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptAutoMultipleAdditionDeduction, "Auto Multiple Addition Deduction", "1.17.03.108", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup
@@ -2427,9 +2428,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleQCTransaction, "Transaction", "1.23.02", clsUserMgtCode.ModuleQualityControl, "SM", 26)
         'Public Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strSNo As String, ByVal strParent_Code As String, ByVal strType As String, ByVal ImageNumber As Integer, IsRunFromOtherAsm As Integer, AddAs As String, AsmPath As String, FormName As String, ByVal Is_SMS_Applied As Boolean, ByVal Is_EMAIL_Applied As Boolean, ByVal Is_Notification_Applied As Boolean, ByVal trans As SqlTransaction) As Boolean
         InsertDefaultValue(clsUserMgtCode.VisualRandomQC, "Visual Random QC", "1.23.02.01", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
-
-        InsertDefaultValue(clsUserMgtCode.frmQualityCheckForSRN, "Incoming Quality Check Entry", "1.23.02.02", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
-        InsertDefaultValue(clsUserMgtCode.frmQualityCheckApprovalForSRN, "Incoming Quality Approval Entry", "1.23.02.03", clsUserMgtCode.SubModuleQCTransaction, 27)
+        InsertDefaultValue(clsUserMgtCode.NIRQC, "NIR QC", "1.23.02.02", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
+        InsertDefaultValue(clsUserMgtCode.frmQualityCheckForSRN, "Incoming Quality Check Entry", "1.23.02.03", clsUserMgtCode.SubModuleQCTransaction, "", 27, 0, "", "", "", True, True, True, Nothing, Nothing, "", "Internal", "", "", "")
+        InsertDefaultValue(clsUserMgtCode.frmQualityCheckApprovalForSRN, "Incoming Quality Approval Entry", "1.23.02.04", clsUserMgtCode.SubModuleQCTransaction, 27)
 
         InsertDefaultValue(clsUserMgtCode.SubModuleQCReport, "Report", "1.23.03", clsUserMgtCode.ModuleQualityControl, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)

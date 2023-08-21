@@ -1073,7 +1073,49 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
             PostData(FormId, strDocNo, trans)
             trans.Commit()
         Catch ex As Exception
+            Dim strEx As String = ex.Message
+            Dim qry As String = "select IRN_No,qr_code,ack_no,ack_date,EWayBillNo, EwayBillDate,EwayBillValidDate,EWayBillRemarks from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + strDocNo + "'"
+            Dim dtPortalInfo As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             trans.Rollback()
+            Try
+                If dtPortalInfo IsNot Nothing AndAlso dtPortalInfo.Rows.Count > 0 Then
+                    Dim coll As New Hashtable()
+                    If clsCommon.myLen(dtPortalInfo.Rows(0)("IRN_No")) > 0 Then
+                        clsCommon.AddColumnsForChange(coll, "IRN_No", clsCommon.myCstr(dtPortalInfo.Rows(0)("IRN_No")))
+                        clsCommon.AddColumnsForChange(coll, "qr_code", clsCommon.myCstr(dtPortalInfo.Rows(0)("qr_code")))
+                        clsCommon.AddColumnsForChange(coll, "ack_no", dtPortalInfo.Rows(0)("ack_no"))
+                        If dtPortalInfo.Rows(0)("ack_date") IsNot DBNull.Value Then
+                            clsCommon.AddColumnsForChange(coll, "ack_date", clsCommon.GetPrintDate(clsCommon.myCDate(dtPortalInfo.Rows(0)("ack_date")), "dd/MMM/yyyy hh:mm:ss tt"))
+                        End If
+                    End If
+
+                    If clsCommon.myLen(dtPortalInfo.Rows(0)("EWayBillNo")) > 0 Then
+                        clsCommon.AddColumnsForChange(coll, "EWayBillNo", clsCommon.myCstr(dtPortalInfo.Rows(0)("EWayBillNo")))
+                        If dtPortalInfo.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
+                            clsCommon.AddColumnsForChange(coll, "EwayBillDate", clsCommon.GetPrintDate(clsCommon.myCDate(dtPortalInfo.Rows(0)("EwayBillDate")), "dd/MMM/yyyy hh:mm:ss tt"))
+                        End If
+                        If dtPortalInfo.Rows(0)("EwayBillValidDate") IsNot DBNull.Value Then
+                            clsCommon.AddColumnsForChange(coll, "EwayBillValidDate", clsCommon.GetPrintDate(clsCommon.myCDate(dtPortalInfo.Rows(0)("EwayBillValidDate")), "dd/MMM/yyyy hh:mm:ss tt"))
+                        End If
+                        clsCommon.AddColumnsForChange(coll, "EWayBillRemarks", clsCommon.myCstr(dtPortalInfo.Rows(0)("EWayBillRemarks")))
+                    End If
+
+                    If coll.Count > 0 Then
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "Against_Shipment_No='" + strDocNo + "'")
+                    End If
+                End If
+            Catch ex2 As Exception
+                strEx += Environment.NewLine + "Portal Info [" + ex2.Message + "]"
+            End Try
+            Try
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Error_Msg", strEx)
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_EXCEPTION", OMInsertOrUpdate.Insert, "")
+            Catch ex1 As Exception
+            End Try
             Throw New Exception(ex.Message)
         End Try
         Return True
@@ -1182,6 +1224,12 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsInventoryMovement.SaveData("SD-SH", obj.Document_Code, obj.Document_Date, clsCommon.GetPrintDate(obj.Document_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
 
             obj.Sale_Invoice_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from  TSPL_SD_SALE_INVOICE_HEad where Against_Shipment_No='" + obj.Document_Code + "'", trans))
+            CreateJournalEntry(obj.Document_Code, trans, strVoucherNoRecreatedOnly)
+
+            qry = "Update TSPL_SD_SHIPMENT_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "',Sale_Invoice_No ='" + obj.Sale_Invoice_No + "' "
+            qry += " where Document_Code='" + strDocNo + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
 
             If obj.Is_Create_Auto_Invoice Then
                 If clsCommon.myLen(obj.Sale_Invoice_No) <= 0 Then
@@ -1191,18 +1239,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 End If
                 clsSNInvoiceHead.PostData("", obj.Sale_Invoice_No, trans)
             End If
-
-
-
-            CreateJournalEntry(obj.Document_Code, trans, strVoucherNoRecreatedOnly)
-
-            qry = "Update TSPL_SD_SHIPMENT_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "',Sale_Invoice_No ='" + obj.Sale_Invoice_No + "' "
-            qry += " where Document_Code='" + strDocNo + "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-
         Catch ex As Exception
-
             Throw New Exception(ex.Message)
         End Try
         Return True
