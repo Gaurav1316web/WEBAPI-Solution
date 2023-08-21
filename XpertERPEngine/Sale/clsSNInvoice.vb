@@ -908,7 +908,52 @@ Public Class clsSNInvoiceHead
             PostData(FormId, strDocNo, trans)
             trans.Commit()
         Catch ex As Exception
+            'trans.Rollback()
+            'Throw New Exception(ex.Message)
+
+            Dim strEx As String = ex.Message
+            Dim qry As String = "select IRN_No,qr_code,ack_no,ack_date,EWayBillNo, EwayBillDate,EwayBillValidDate,EWayBillRemarks from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + strDocNo + "'"
+            Dim dtPortalInfo As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             trans.Rollback()
+            Try
+                If dtPortalInfo IsNot Nothing AndAlso dtPortalInfo.Rows.Count > 0 Then
+                    Dim coll As New Hashtable()
+                    If clsCommon.myLen(dtPortalInfo.Rows(0)("IRN_No")) > 0 Then
+                        clsCommon.AddColumnsForChange(coll, "IRN_No", clsCommon.myCstr(dtPortalInfo.Rows(0)("IRN_No")))
+                        clsCommon.AddColumnsForChange(coll, "qr_code", clsCommon.myCstr(dtPortalInfo.Rows(0)("qr_code")))
+                        clsCommon.AddColumnsForChange(coll, "ack_no", dtPortalInfo.Rows(0)("ack_no"))
+                        If dtPortalInfo.Rows(0)("ack_date") IsNot DBNull.Value Then
+                            clsCommon.AddColumnsForChange(coll, "ack_date", clsCommon.GetPrintDate(clsCommon.myCDate(dtPortalInfo.Rows(0)("ack_date")), "dd/MMM/yyyy hh:mm:ss tt"))
+                        End If
+                    End If
+
+                    If clsCommon.myLen(dtPortalInfo.Rows(0)("EWayBillNo")) > 0 Then
+                        clsCommon.AddColumnsForChange(coll, "EWayBillNo", clsCommon.myCstr(dtPortalInfo.Rows(0)("EWayBillNo")))
+                        If dtPortalInfo.Rows(0)("EwayBillDate") IsNot DBNull.Value Then
+                            clsCommon.AddColumnsForChange(coll, "EwayBillDate", clsCommon.GetPrintDate(clsCommon.myCDate(dtPortalInfo.Rows(0)("EwayBillDate")), "dd/MMM/yyyy hh:mm:ss tt"))
+                        End If
+                        If dtPortalInfo.Rows(0)("EwayBillValidDate") IsNot DBNull.Value Then
+                            clsCommon.AddColumnsForChange(coll, "EwayBillValidDate", clsCommon.GetPrintDate(clsCommon.myCDate(dtPortalInfo.Rows(0)("EwayBillValidDate")), "dd/MMM/yyyy hh:mm:ss tt"))
+                        End If
+                        clsCommon.AddColumnsForChange(coll, "EWayBillRemarks", clsCommon.myCstr(dtPortalInfo.Rows(0)("EWayBillRemarks")))
+                    End If
+
+                    If coll.Count > 0 Then
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_HEAD", OMInsertOrUpdate.Update, "Document_Code='" + strDocNo + "'")
+                    End If
+                End If
+            Catch ex2 As Exception
+                strEx += Environment.NewLine + "Portal Info [" + ex2.Message + "]"
+            End Try
+            Try
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "Error_Msg", strEx)
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SALE_INVOICE_EXCEPTION", OMInsertOrUpdate.Insert, "")
+            Catch ex1 As Exception
+            End Try
             Throw New Exception(ex.Message)
         End Try
 
@@ -961,38 +1006,38 @@ Public Class clsSNInvoiceHead
                 clsReceiptHeader.ReciepEntryWithPostOfInvoice(strARInvNo, strBankCode, strPaymentCode, trans)
             End If
 
-            'Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
-            'If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isnull(Status,0) from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) = 0 Then
-            '    Throw New Exception("Sale Invoice No [" + strDocNo + "] is Unposted")
-            'End If
-            'If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isnull(Status,0) from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Against_Shipment_No + "'", trans)) = 0 Then
-            '    Throw New Exception("Shipment No [" + obj.Against_Shipment_No + "] is Unposted")
-            'End If
-            'If clsCommon.myLen(strARInvNo) <= 0 Then
-            '    Throw New Exception("AR Invoice Not Found For Sales Invoice No [" + strDocNo + "]")
-            'End If
-            ''Throw New Exception("BALWINDER Sales Invoice No [" + strDocNo + "]")
-            'If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.is_taxable), "1") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then
-            '    If clsCommon.myLen(clsPSInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
-            '        clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, False)
-            '        If clsCommon.myLen(clsPSInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
-            '            Throw New Exception("IRN No For Sales Invoice No [" + strDocNo + "] is not generated")
-            '        End If
-            '    End If
-            '    If objCommonVar.GenerateEWayBillWithEInvoice Then
-            '        If clsCommon.myLen(clsPSInvoiceHead.GetEWayBillNo(strDocNo, trans)) <= 0 Then
-            '            clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
-            '            If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) <= 0 Then
-            '                Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
-            '            End If
-            '        End If
-            '    End If
-            'ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
-            '    Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
-            '    If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then
-            '        clsPSInvoiceHead.EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans)
-            '    End If
-            'End If
+            Dim ECustomerType = clsERPFuncationality.GetCustomerEInvoiceType(obj.Customer_Code, trans)
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isnull(Status,0) from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) = 0 Then
+                Throw New Exception("Sale Invoice No [" + strDocNo + "] is Unposted")
+            End If
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isnull(Status,0) from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + obj.Against_Shipment_No + "'", trans)) = 0 Then
+                Throw New Exception("Shipment No [" + obj.Against_Shipment_No + "] is Unposted")
+            End If
+            If clsCommon.myLen(strARInvNo) <= 0 Then
+                Throw New Exception("AR Invoice Not Found For Sales Invoice No [" + strDocNo + "]")
+            End If
+            'Throw New Exception("BALWINDER Sales Invoice No [" + strDocNo + "]")
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then ''AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.is_taxable), "1") = CompairStringResult.Equal
+                If clsCommon.myLen(clsPSInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
+                    clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, False)
+                    If clsCommon.myLen(clsPSInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
+                        Throw New Exception("IRN No For Sales Invoice No [" + strDocNo + "] is not generated")
+                    End If
+                End If
+                If objCommonVar.GenerateEWayBillWithEInvoice Then
+                    If clsCommon.myLen(clsPSInvoiceHead.GetEWayBillNo(strDocNo, trans)) <= 0 Then
+                        clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, True)
+                        If clsCommon.myLen(clsDBFuncationality.getSingleValue("select  isnull(EWayBillNo,'') from TSPL_SD_SALE_INVOICE_head where Document_Code='" + strDocNo + "'", trans)) <= 0 Then
+                            Throw New Exception("E-Way Bill For Sales Invoice No [" + strDocNo + "] is not generated")
+                        End If
+                    End If
+                End If
+            ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(obj.Trans_type, "MCC") = CompairStringResult.Equal Then
+                Dim EnableDynamicQRCodeForB2CInvoice As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.EnableDynamicQRCodeForB2CInvoice, clsFixedParameterCode.EnableDynamicQRCodeForB2CInvoice, trans)) = 1, True, False))
+                If EnableDynamicQRCodeForB2CInvoice = True AndAlso clsERPFuncationality.GetQRCodeStatus(obj.Document_Date, trans) = True Then
+                    clsPSInvoiceHead.EInvoice_ImplementationFor_CustomerType_BC(obj.Document_Code, obj.Bill_To_Location, trans)
+                End If
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

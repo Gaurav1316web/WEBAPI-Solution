@@ -28,6 +28,8 @@ Partial Class frmNIRQC
         Me.txtRemarks = New common.Controls.MyTextBox()
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.lblVehicleNo = New common.Controls.MyLabel()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblItem = New common.Controls.MyLabel()
@@ -55,13 +57,12 @@ Partial Class frmNIRQC
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.lblVehicleNo = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -69,6 +70,8 @@ Partial Class frmNIRQC
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItem, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,13 +97,12 @@ Partial Class frmNIRQC
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -131,6 +133,7 @@ Partial Class frmNIRQC
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -227,6 +230,27 @@ Partial Class frmNIRQC
         Me.GroupBox1.Size = New System.Drawing.Size(612, 163)
         Me.GroupBox1.TabIndex = 3
         Me.GroupBox1.TabStop = False
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(297, 63)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(61, 16)
+        Me.MyLabel2.TabIndex = 20
+        Me.MyLabel2.Text = "Vehicle No"
+        '
+        'lblVehicleNo
+        '
+        Me.lblVehicleNo.AutoSize = False
+        Me.lblVehicleNo.BorderVisible = True
+        Me.lblVehicleNo.FieldName = Nothing
+        Me.lblVehicleNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVehicleNo.Location = New System.Drawing.Point(397, 62)
+        Me.lblVehicleNo.Name = "lblVehicleNo"
+        Me.lblVehicleNo.Size = New System.Drawing.Size(210, 18)
+        Me.lblVehicleNo.TabIndex = 19
         '
         'MyLabel5
         '
@@ -574,10 +598,18 @@ Partial Class frmNIRQC
         Me.btnAddNew.Size = New System.Drawing.Size(22, 19)
         Me.btnAddNew.TabIndex = 0
         '
+        'btnPrint
+        '
+        Me.btnPrint.Location = New System.Drawing.Point(217, 6)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(69, 22)
+        Me.btnPrint.TabIndex = 6
+        Me.btnPrint.Text = "Print"
+        '
         'RadButton1
         '
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(217, 6)
+        Me.RadButton1.Location = New System.Drawing.Point(288, 6)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(69, 23)
         Me.RadButton1.TabIndex = 5
@@ -628,27 +660,6 @@ Partial Class frmNIRQC
         Me.btnClose.TabIndex = 2
         Me.btnClose.Text = "Close"
         '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(297, 63)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(61, 16)
-        Me.MyLabel2.TabIndex = 20
-        Me.MyLabel2.Text = "Vehicle No"
-        '
-        'lblVehicleNo
-        '
-        Me.lblVehicleNo.AutoSize = False
-        Me.lblVehicleNo.BorderVisible = True
-        Me.lblVehicleNo.FieldName = Nothing
-        Me.lblVehicleNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVehicleNo.Location = New System.Drawing.Point(397, 62)
-        Me.lblVehicleNo.Name = "lblVehicleNo"
-        Me.lblVehicleNo.Size = New System.Drawing.Size(210, 18)
-        Me.lblVehicleNo.TabIndex = 19
-        '
         'frmNIRQC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -670,6 +681,8 @@ Partial Class frmNIRQC
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItem, System.ComponentModel.ISupportInitialize).EndInit()
@@ -695,13 +708,12 @@ Partial Class frmNIRQC
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -746,5 +758,6 @@ Partial Class frmNIRQC
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents lblVehicleNo As common.Controls.MyLabel
+    Friend WithEvents btnPrint As RadButton
 End Class
 
