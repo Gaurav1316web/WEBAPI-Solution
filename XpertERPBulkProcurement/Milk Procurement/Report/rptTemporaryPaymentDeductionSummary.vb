@@ -752,6 +752,8 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         If rdbOldCurrent.Checked Then
+            Gv1.Columns("DeductionName").HeaderText = "Deduction Name"
+            Gv1.Columns("Amt Deducted").HeaderText = "Amt Deducted/Paid"
             Gv1.Columns("Opening+Sale").FormatString = "{0:n2}"
             Dim item1 As New GridViewSummaryItem("Opening+Sale", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item1)
