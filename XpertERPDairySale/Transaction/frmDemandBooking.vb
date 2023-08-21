@@ -935,23 +935,18 @@ Public Class frmDemandBooking
                 If IsRepeatOrder = 1 Then
                     Dim isSave As Boolean = False
                     If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
-                        isSave = clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, Nothing, obj.Location_Code)
+                        isSave = clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, Nothing, obj.Location_Code, obj.ShiftType)
                         If isSave Then
-                            If rbtnMorning.IsChecked Then
-                                clsCommon.MyMessageBoxShow(Me, "Morning Demand Data Saved Successfully", Me.Text)
-                            ElseIf rbtnEvening.IsChecked Then
-                                clsCommon.MyMessageBoxShow(Me, "Evening Demand Data Saved Successfully", Me.Text)
-                            End If
+
+                            clsCommon.MyMessageBoxShow(Me, "" + clsCommon.myCstr(obj.ShiftType) + " Demand Data Saved Successfully", Me.Text)
+
                         Else
                             clsCommon.MyMessageBoxShow(Me, "Somthing Went Worng", Me.Text)
                         End If
                     Else
                         If (obj.SaveData(obj, isNewEntry)) = True Then
-                            If rbtnMorning.IsChecked Then
-                                clsCommon.MyMessageBoxShow(Me, "Morning Demand Data Saved Successfully", Me.Text)
-                            ElseIf rbtnEvening.IsChecked Then
-                                clsCommon.MyMessageBoxShow(Me, "Evening Demand Data Saved Successfully", Me.Text)
-                            End If
+                            clsCommon.MyMessageBoxShow(Me, "" + clsCommon.myCstr(obj.ShiftType) + " Demand Data Saved Successfully", Me.Text)
+
                         End If
                     End If
                 Else
