@@ -672,6 +672,18 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                 clsCommon.AddColumnsForChange(coll, "Posting_Date", dtNow)
             End If
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
+            ''
+            '            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandApproval, clsFixedParameterCode.ApplyDemandApproval, trans)) = 1 Then
+            '                Dim qry As String = "Delete from TSPL_TRANSACTION_APPROVAL where Document_No='" & obj.Document_No & "' "
+            '                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            '                Dim Cust_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Distributor_Code from TSPL_CUSTOMER_MASTER where Cust_Code=(SELECT top 1 cust_code  FROM TSPL_DEMAND_BOOKING_DETAIL where document_no='" & obj.Document_No & "')", trans))
+            '                qry = "insert into TSPL_TRANSACTION_APPROVAL(Screen_Name,Program_Code,Document_No,Doc_Date,approval_type,Approve,Created_By,Created_Date,Modified_By,Modified_Date,Comp_Code,Cust_Code,Loc_Code) values ('Demand Booking','" & clsUserMgtCode.frmDemandBooking & "','" & obj.Document_No & "',
+            ''" & clsCommon.GetPrintDate(obj.Document_Date, "dd-MMM-yyyy") & "','Credit Limit',0,'" + objCommonVar.CurrentUserCode + "',
+            '               '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',
+            '               '" + objCommonVar.CurrentUserCode + "','" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "',
+            '                '" & objCommonVar.CurrentCompanyCode & "','" & Cust_Code & "','" & obj.Location_Code & "')"
+            '                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            '            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

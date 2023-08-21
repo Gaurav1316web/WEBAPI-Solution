@@ -14119,6 +14119,7 @@ Public Class clsCreateAllTable
             coll.Add("DOB", "Date NULL")
             coll.Add("Customer_Name_Hindi", "nvarchar(400) NULL")
             coll.Add("Display_Seq", "decimal (18,2) NULL")
+            coll.Add("IsReorder", "int null default 0")
             'KUNAL >DATE 9-DEC-2016
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)

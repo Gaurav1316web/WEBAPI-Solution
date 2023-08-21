@@ -1450,7 +1450,7 @@ Public Class frmDairyBookingCustomer
         chkSampling.Checked = False
         ItemTypePanel.Enabled = True
         'LoadBookingType()
-        cmbBookingType.Text = "Select"
+        cmbBookingType.Text = "CASH"
         cmbGatePassType.Text = "Select"
         cmbGatePassType.Enabled = False
         lblBoothStation.Text = ""
