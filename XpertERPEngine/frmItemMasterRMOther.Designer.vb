@@ -48,8 +48,15 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtAliesNameHindi = New common.Controls.MyTextBox()
+        Me.gbBuyBack = New System.Windows.Forms.GroupBox()
+        Me.lblBBValue = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.rbtnBBPer = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnBBAmount = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnBBNA = New Telerik.WinControls.UI.RadRadioButton()
+        Me.chkNIRQC = New common.Controls.MyCheckBox()
+        Me.txtAliesNameHindi = New common.Controls.MyTextBox()
+        Me.chkChilledFreezen = New common.Controls.MyCheckBox()
         Me.MyLabel43 = New common.Controls.MyLabel()
         Me.txtShortDescHindi = New common.Controls.MyTextBox()
         Me.MyLabel45 = New common.Controls.MyLabel()
@@ -87,7 +94,6 @@ Partial Class FrmItemMasterRMOther
         Me.chkMRP = New common.Controls.MyCheckBox()
         Me.TxtProdTolerance = New common.MyNumBox()
         Me.MyLabel36 = New common.Controls.MyLabel()
-        Me.chkChilledFreezen = New common.Controls.MyCheckBox()
         Me.ChkAllowQC = New common.Controls.MyCheckBox()
         Me.numMinSelfLife = New common.MyNumBox()
         Me.lblMinSelfLife = New common.Controls.MyLabel()
@@ -284,15 +290,22 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.chkNIRQC = New common.Controls.MyCheckBox()
+        Me.txtBBValue = New common.MyNumBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.txtAliesNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbBuyBack.SuspendLayout()
+        CType(Me.lblBBValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnBBPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnBBAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnBBNA, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkNIRQC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAliesNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkChilledFreezen, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtShortDescHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -330,7 +343,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.chkMRP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtProdTolerance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkChilledFreezen, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChkAllowQC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.numMinSelfLife, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMinSelfLife, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -500,7 +512,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkNIRQC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBBValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -523,7 +535,7 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(998, 630)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1108, 630)
         Me.SplitContainer1.SplitterDistance = 601
         Me.SplitContainer1.TabIndex = 0
         '
@@ -543,12 +555,13 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(998, 601)
+        Me.RadPageView1.Size = New System.Drawing.Size(1108, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.gbBuyBack)
         Me.RadPageViewPage1.Controls.Add(Me.chkNIRQC)
         Me.RadPageViewPage1.Controls.Add(Me.txtAliesNameHindi)
         Me.RadPageViewPage1.Controls.Add(Me.chkChilledFreezen)
@@ -680,8 +693,75 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(71.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(977, 553)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1087, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
+        '
+        'gbBuyBack
+        '
+        Me.gbBuyBack.Controls.Add(Me.txtBBValue)
+        Me.gbBuyBack.Controls.Add(Me.lblBBValue)
+        Me.gbBuyBack.Controls.Add(Me.rbtnBBPer)
+        Me.gbBuyBack.Controls.Add(Me.rbtnBBAmount)
+        Me.gbBuyBack.Controls.Add(Me.rbtnBBNA)
+        Me.gbBuyBack.Location = New System.Drawing.Point(842, 37)
+        Me.gbBuyBack.Name = "gbBuyBack"
+        Me.gbBuyBack.Size = New System.Drawing.Size(248, 75)
+        Me.gbBuyBack.TabIndex = 203
+        Me.gbBuyBack.TabStop = False
+        Me.gbBuyBack.Text = "Buy Back"
+        '
+        'lblBBValue
+        '
+        Me.lblBBValue.FieldName = Nothing
+        Me.lblBBValue.Location = New System.Drawing.Point(6, 41)
+        Me.lblBBValue.Name = "lblBBValue"
+        Me.lblBBValue.Size = New System.Drawing.Size(72, 18)
+        Me.lblBBValue.TabIndex = 191
+        Me.lblBBValue.Text = "BuyBack Amt"
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Location = New System.Drawing.Point(3, 28)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(89, 18)
+        Me.MyLabel2.TabIndex = 61
+        Me.MyLabel2.Text = "Item Description"
+        '
+        'rbtnBBPer
+        '
+        Me.rbtnBBPer.Location = New System.Drawing.Point(164, 15)
+        Me.rbtnBBPer.Name = "rbtnBBPer"
+        Me.rbtnBBPer.Size = New System.Drawing.Size(77, 18)
+        Me.rbtnBBPer.TabIndex = 1
+        Me.rbtnBBPer.Text = "Buy Back %"
+        '
+        'rbtnBBAmount
+        '
+        Me.rbtnBBAmount.Location = New System.Drawing.Point(50, 15)
+        Me.rbtnBBAmount.Name = "rbtnBBAmount"
+        Me.rbtnBBAmount.Size = New System.Drawing.Size(108, 18)
+        Me.rbtnBBAmount.TabIndex = 2
+        Me.rbtnBBAmount.Text = "Buy Back Amount"
+        '
+        'rbtnBBNA
+        '
+        Me.rbtnBBNA.Location = New System.Drawing.Point(4, 14)
+        Me.rbtnBBNA.Name = "rbtnBBNA"
+        Me.rbtnBBNA.Size = New System.Drawing.Size(40, 18)
+        Me.rbtnBBNA.TabIndex = 0
+        Me.rbtnBBNA.Text = "N/A"
+        '
+        'chkNIRQC
+        '
+        Me.chkNIRQC.Location = New System.Drawing.Point(891, 3)
+        Me.chkNIRQC.MyLinkLable1 = Nothing
+        Me.chkNIRQC.MyLinkLable2 = Nothing
+        Me.chkNIRQC.Name = "chkNIRQC"
+        Me.chkNIRQC.Size = New System.Drawing.Size(57, 18)
+        Me.chkNIRQC.TabIndex = 202
+        Me.chkNIRQC.Tag1 = Nothing
+        Me.chkNIRQC.Text = "NIR QC"
         '
         'txtAliesNameHindi
         '
@@ -705,14 +785,16 @@ Partial Class FrmItemMasterRMOther
         Me.txtAliesNameHindi.Size = New System.Drawing.Size(163, 20)
         Me.txtAliesNameHindi.TabIndex = 201
         '
-        'MyLabel2
+        'chkChilledFreezen
         '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Location = New System.Drawing.Point(3, 28)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(89, 18)
-        Me.MyLabel2.TabIndex = 61
-        Me.MyLabel2.Text = "Item Description"
+        Me.chkChilledFreezen.Location = New System.Drawing.Point(813, 22)
+        Me.chkChilledFreezen.MyLinkLable1 = Nothing
+        Me.chkChilledFreezen.MyLinkLable2 = Nothing
+        Me.chkChilledFreezen.Name = "chkChilledFreezen"
+        Me.chkChilledFreezen.Size = New System.Drawing.Size(96, 18)
+        Me.chkChilledFreezen.TabIndex = 9
+        Me.chkChilledFreezen.Tag1 = Nothing
+        Me.chkChilledFreezen.Text = "Chilled Freezen"
         '
         'MyLabel43
         '
@@ -939,7 +1021,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtAliesName3.IsSourceFromTable = False
         Me.txtAliesName3.IsSourceFromValueList = False
         Me.txtAliesName3.IsUnique = False
-        Me.txtAliesName3.Location = New System.Drawing.Point(802, 144)
+        Me.txtAliesName3.Location = New System.Drawing.Point(775, 144)
         Me.txtAliesName3.MendatroryField = False
         Me.txtAliesName3.MyLinkLable1 = Me.MyLabel2
         Me.txtAliesName3.MyLinkLable2 = Nothing
@@ -961,7 +1043,7 @@ Partial Class FrmItemMasterRMOther
         Me.txtAliesName2.IsSourceFromTable = False
         Me.txtAliesName2.IsSourceFromValueList = False
         Me.txtAliesName2.IsUnique = False
-        Me.txtAliesName2.Location = New System.Drawing.Point(802, 121)
+        Me.txtAliesName2.Location = New System.Drawing.Point(775, 121)
         Me.txtAliesName2.MendatroryField = False
         Me.txtAliesName2.MyLinkLable1 = Me.MyLabel2
         Me.txtAliesName2.MyLinkLable2 = Nothing
@@ -975,7 +1057,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel41
         '
         Me.MyLabel41.FieldName = Nothing
-        Me.MyLabel41.Location = New System.Drawing.Point(723, 145)
+        Me.MyLabel41.Location = New System.Drawing.Point(696, 145)
         Me.MyLabel41.Name = "MyLabel41"
         Me.MyLabel41.Size = New System.Drawing.Size(72, 18)
         Me.MyLabel41.TabIndex = 191
@@ -984,7 +1066,7 @@ Partial Class FrmItemMasterRMOther
         'MyLabel40
         '
         Me.MyLabel40.FieldName = Nothing
-        Me.MyLabel40.Location = New System.Drawing.Point(723, 122)
+        Me.MyLabel40.Location = New System.Drawing.Point(696, 122)
         Me.MyLabel40.Name = "MyLabel40"
         Me.MyLabel40.Size = New System.Drawing.Size(72, 18)
         Me.MyLabel40.TabIndex = 190
@@ -1037,7 +1119,7 @@ Partial Class FrmItemMasterRMOther
         '
         'chkSkipGST
         '
-        Me.chkSkipGST.Location = New System.Drawing.Point(606, 101)
+        Me.chkSkipGST.Location = New System.Drawing.Point(602, 101)
         Me.chkSkipGST.MyLinkLable1 = Nothing
         Me.chkSkipGST.MyLinkLable2 = Nothing
         Me.chkSkipGST.Name = "chkSkipGST"
@@ -1232,17 +1314,6 @@ Partial Class FrmItemMasterRMOther
         Me.MyLabel36.TabIndex = 98
         Me.MyLabel36.Text = "Prod. Tolerance (%)"
         '
-        'chkChilledFreezen
-        '
-        Me.chkChilledFreezen.Location = New System.Drawing.Point(813, 22)
-        Me.chkChilledFreezen.MyLinkLable1 = Nothing
-        Me.chkChilledFreezen.MyLinkLable2 = Nothing
-        Me.chkChilledFreezen.Name = "chkChilledFreezen"
-        Me.chkChilledFreezen.Size = New System.Drawing.Size(96, 18)
-        Me.chkChilledFreezen.TabIndex = 9
-        Me.chkChilledFreezen.Tag1 = Nothing
-        Me.chkChilledFreezen.Text = "Chilled Freezen"
-        '
         'ChkAllowQC
         '
         Me.ChkAllowQC.Location = New System.Drawing.Point(429, 36)
@@ -1337,7 +1408,7 @@ Partial Class FrmItemMasterRMOther
         Me.fndScrapItem.IsSourceFromTable = False
         Me.fndScrapItem.IsSourceFromValueList = False
         Me.fndScrapItem.IsUnique = False
-        Me.fndScrapItem.Location = New System.Drawing.Point(679, 100)
+        Me.fndScrapItem.Location = New System.Drawing.Point(672, 100)
         Me.fndScrapItem.MendatroryField = True
         Me.fndScrapItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndScrapItem.MyLinkLable1 = Me.MyLabel7
@@ -1348,7 +1419,7 @@ Partial Class FrmItemMasterRMOther
         Me.fndScrapItem.ReferenceFieldDesc = Nothing
         Me.fndScrapItem.ReferenceFieldName = Nothing
         Me.fndScrapItem.ReferenceTableName = Nothing
-        Me.fndScrapItem.Size = New System.Drawing.Size(181, 20)
+        Me.fndScrapItem.Size = New System.Drawing.Size(158, 20)
         Me.fndScrapItem.TabIndex = 23
         Me.fndScrapItem.Value = ""
         Me.fndScrapItem.Visible = False
@@ -3965,7 +4036,7 @@ Partial Class FrmItemMasterRMOther
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(917, 2)
+        Me.btnClose.Location = New System.Drawing.Point(1027, 2)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(71, 21)
         Me.btnClose.TabIndex = 2
@@ -4098,7 +4169,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(998, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1108, 20)
         Me.RadMenu1.TabIndex = 1
         '
         'OpenFileDialog1
@@ -4106,22 +4177,38 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
-        'chkNIRQC
+        'txtBBValue
         '
-        Me.chkNIRQC.Location = New System.Drawing.Point(837, 42)
-        Me.chkNIRQC.MyLinkLable1 = Nothing
-        Me.chkNIRQC.MyLinkLable2 = Nothing
-        Me.chkNIRQC.Name = "chkNIRQC"
-        Me.chkNIRQC.Size = New System.Drawing.Size(57, 18)
-        Me.chkNIRQC.TabIndex = 202
-        Me.chkNIRQC.Tag1 = Nothing
-        Me.chkNIRQC.Text = "NIR QC"
+        Me.txtBBValue.BackColor = System.Drawing.Color.White
+        Me.txtBBValue.CalculationExpression = Nothing
+        Me.txtBBValue.DecimalPlaces = 2
+        Me.txtBBValue.FieldCode = Nothing
+        Me.txtBBValue.FieldDesc = Nothing
+        Me.txtBBValue.FieldMaxLength = 0
+        Me.txtBBValue.FieldName = Nothing
+        Me.txtBBValue.isCalculatedField = False
+        Me.txtBBValue.IsSourceFromTable = False
+        Me.txtBBValue.IsSourceFromValueList = False
+        Me.txtBBValue.IsUnique = False
+        Me.txtBBValue.Location = New System.Drawing.Point(81, 41)
+        Me.txtBBValue.MendatroryField = False
+        Me.txtBBValue.MyLinkLable1 = Me.MyLabel30
+        Me.txtBBValue.MyLinkLable2 = Nothing
+        Me.txtBBValue.Name = "txtBBValue"
+        Me.txtBBValue.ReferenceFieldDesc = Nothing
+        Me.txtBBValue.ReferenceFieldName = Nothing
+        Me.txtBBValue.ReferenceTableName = Nothing
+        Me.txtBBValue.Size = New System.Drawing.Size(161, 20)
+        Me.txtBBValue.TabIndex = 37
+        Me.txtBBValue.Text = "0"
+        Me.txtBBValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtBBValue.Value = 0R
         '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(998, 650)
+        Me.ClientSize = New System.Drawing.Size(1108, 650)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmItemMasterRMOther"
@@ -4137,8 +4224,16 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.txtAliesNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gbBuyBack.ResumeLayout(False)
+        Me.gbBuyBack.PerformLayout()
+        CType(Me.lblBBValue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnBBPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnBBAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnBBNA, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkNIRQC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAliesNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkChilledFreezen, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtShortDescHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4178,7 +4273,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.chkMRP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtProdTolerance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkChilledFreezen, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChkAllowQC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.numMinSelfLife, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMinSelfLife, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4357,7 +4451,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkNIRQC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBBValue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4603,5 +4697,11 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents txtAliesName As Controls.MyTextBox
     Friend WithEvents MyLabel34 As Controls.MyLabel
     Friend WithEvents chkNIRQC As Controls.MyCheckBox
+    Friend WithEvents gbBuyBack As GroupBox
+    Friend WithEvents lblBBValue As Controls.MyLabel
+    Friend WithEvents rbtnBBPer As RadRadioButton
+    Friend WithEvents rbtnBBAmount As RadRadioButton
+    Friend WithEvents rbtnBBNA As RadRadioButton
+    Friend WithEvents txtBBValue As MyNumBox
 End Class
 

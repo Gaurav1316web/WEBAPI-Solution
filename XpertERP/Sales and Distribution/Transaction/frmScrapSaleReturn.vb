@@ -1677,7 +1677,7 @@ Public Class frmScrapSaleReturn
         End If
         ''============================================================================
 
-        Dim obj As ClsScrapSaleDetail = ClsScrapSaleDetail.FinderItemGST(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), strItemType, isButtonClick, dtpshipment.Value, chkTaxable.Checked)
+        Dim obj As ClsScrapSaleDetail = ClsScrapSaleDetail.FinderItemGST(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), strItemType, isButtonClick, dtpshipment.Value, chkTaxable.Checked, False)
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
             gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
             gv1.CurrentRow.Cells(colIName).Value = obj.Item_Desc
