@@ -80,11 +80,13 @@ Public Class rptMultipleDeductionReport
 
         Gv1.Columns("Deduction Code").IsVisible = True
         Gv1.Columns("Deduction Code").Width = 100
-        Gv1.Columns("Deduction Code").HeaderText = "Deduction Code"
+        Gv1.Columns("Deduction Code").HeaderText = "Addition/Deduction Code"
+        Gv1.MasterTemplate.Columns("Deduction Code").TextAlignment = ContentAlignment.MiddleCenter
 
         Gv1.Columns("Deduction Desc").IsVisible = True
         Gv1.Columns("Deduction Desc").Width = 100
         Gv1.Columns("Deduction Desc").HeaderText = "Deduction Desc"
+        Gv1.MasterTemplate.Columns("Deduction Desc").TextAlignment = ContentAlignment.MiddleCenter
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         'Dim intCount As Integer = 0
@@ -298,8 +300,8 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DED
                 Exit Sub
             End If
             Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMultipleDeductionReport & "'"))
-            arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy")) + " ")
+            arrHeader.Add("Name : Addition/Deduction Report")
+            arrHeader.Add(("Date Range:  " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy")) + " ")
             arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
 
             If txtLocation.arrDispalyMember IsNot Nothing AndAlso txtLocation.arrDispalyMember.Count > 0 Then
@@ -315,8 +317,42 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DED
                 transportSql.applyExportTemplate(Gv1, clsUserMgtCode.rptMultipleDeductionReport)
                 clsCommon.MyExportToExcelGrid("Multiple Deduction Report", Gv1, arrHeader, Me.Text)
             Else
-                transportSql.applyExportTemplate(Gv1, clsUserMgtCode.rptMultipleDeductionReport)
-                clsCommon.MyExportToPDF("Multiple Deduction Report", Gv1, arrHeader, Me.Text, clsUserMgtCode.rptMultipleDeductionReport, objCommonVar.CurrentUserCode)
+
+                transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
+                Dim style As New GridPrintStyle()
+                style.PrintGrouping = True
+                style.HeaderCellBackColor = Color.White
+                style.GroupRowBackColor = Color.White
+                style.SummaryCellBackColor = Color.White
+                style.PrintSummaries = True
+                Gv1.PrintStyle = style
+
+                Dim doc As New clsMyPrintDocument()
+
+                doc.Margins.Top = 50
+                doc.Margins.Bottom = 50
+                doc.Margins.Left = 50
+                doc.Margins.Right = 50
+                doc.HeaderHeight = 90
+                doc.Landscape = True
+                doc.AssociatedObject = Gv1
+
+                doc.DocumentName = objCommonVar.CurrentCompanyName
+                doc.LeftHeader = "Name : Addition/Deduction Report" + Environment.NewLine + "Date Range:  " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + " " +
+Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
+                doc.HeaderFont = New Font("Segoe UI", 10, FontStyle.Regular)
+
+                doc.AssociatedObject = Gv1
+
+                doc.RightFooter = "Page [Page #] Of [Total Pages]"
+
+                Dim dialog As New RadPrintPreviewDialog
+                dialog.Document = doc
+                dialog.ToolMenu.Visible = True
+                dialog.Show()
+
+                doc.Print()
+                'clsCommon.MyExportToPDF("Addition/Deduction Report", Gv1, arrHeader, Me.Text, clsUserMgtCode.rptMultipleDeductionReport, objCommonVar.CurrentUserCode)
             End If
 
         Catch ex As Exception

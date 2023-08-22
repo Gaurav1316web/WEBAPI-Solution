@@ -323,6 +323,7 @@ Public Class frmScrapSale
         chkCashSale.Checked = False
         chkCashSale.Enabled = True
         chkScrapSale.Enabled = True
+        chkBuyBack.Checked = False
         dtpshipment.Value = clsCommon.GETSERVERDATE()
         dtppost.Text = clsCommon.GETSERVERDATE()
         dtpexp.Text = clsCommon.GETSERVERDATE()
@@ -1677,7 +1678,7 @@ Public Class frmScrapSale
                 End If
                 ''============================================================================
 
-                Dim obj As ClsScrapSaleDetail = ClsScrapSaleDetail.FinderItemGST(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), strFAItemType, isButtonClick, dtpshipment.Value, chkTaxable.Checked)
+                Dim obj As ClsScrapSaleDetail = ClsScrapSaleDetail.FinderItemGST(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), strFAItemType, isButtonClick, dtpshipment.Value, chkTaxable.Checked, chkBuyBack.Checked)
 
 
                 If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
@@ -1922,6 +1923,8 @@ Public Class frmScrapSale
         ''richa agarwal 18/03/2015
         LoadInvoiceType()
         btnReverse.Visible = False
+        chkBuyBack.Visible = True
+        chkBuyBack.Checked = False
         RadDropDownButton1.Visible = True
         ''------------------
         ''For Custom Fields
@@ -2399,6 +2402,7 @@ Public Class frmScrapSale
                 obj.Freight_Distance = txtFreightDistance.Value
                 obj.ToLoc_Code = fndShipToLocation.Value
                 obj.Is_Taxable = chkTaxable.Checked
+                obj.IsBuyBack = chkBuyBack.Checked
                 If chkinvoice.Checked = True Then
                     obj.CreateInvoice = 1
                 Else
@@ -2762,6 +2766,7 @@ Public Class frmScrapSale
                 txtDueDate.Value = obj.Due_Date
                 chkInterBranch.Checked = obj.Inter_Branch
                 chkTaxable.Checked = obj.Is_Taxable
+                chkBuyBack.Checked = obj.IsBuyBack
 
                 txtEWayBillNo.Text = obj.EWayBillNo
                 If obj.EWayBillDate Is Nothing Then
