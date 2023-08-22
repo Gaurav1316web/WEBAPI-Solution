@@ -22,6 +22,7 @@ Public Class frmCorrection
 
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim id As String = Form_ID
+        RadPageView1.Pages("RadPageViewPage6").Item.Visibility = ElementVisibility.Collapsed
 
         Try
             If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
@@ -57,7 +58,7 @@ Public Class frmCorrection
                 ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
                 ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
                 txtShiftDate.Value = clsCommon.GETSERVERDATE()
-                txtDCSDate.Value = txtShiftDate.Value
+                txtBMCDate.Value = txtShiftDate.Value
                 cboShift.SelectedValue = "M"
                 RadGroupBox1.Enabled = False
                 RadGroupBox2.Enabled = True
@@ -76,7 +77,7 @@ Public Class frmCorrection
                 LoadShiftFrom()
             ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
                 txtShiftDate.Value = clsCommon.GETSERVERDATE()
-                txtDCSDate.Value = txtShiftDate.Value
+                txtBMCDate.Value = txtShiftDate.Value
                 cboShift.SelectedValue = "M"
                 RadGroupBox1.Enabled = False
                 RadGroupBox2.Enabled = True
@@ -138,9 +139,9 @@ Public Class frmCorrection
     End Sub
 
     Sub LoadMilkTypeBMC()
-        cboDCSCorrMilkType.DataSource = clsMilkReceiptMCC.GetReject(True)
-        cboDCSCorrMilkType.ValueMember = "Code"
-        cboDCSCorrMilkType.DisplayMember = "Name"
+        cboBMCCorrMilkType.DataSource = clsMilkReceiptMCC.GetReject(True)
+        cboBMCCorrMilkType.ValueMember = "Code"
+        cboBMCCorrMilkType.DisplayMember = "Name"
     End Sub
 
     Private Sub LoadShift()
@@ -774,7 +775,7 @@ where TSPL_MILK_SRN_HEAD.Against_Reject_No is null and TSPL_MILK_SRN_HEAD.MCC_CO
         TxtMultiSelectFinder8.arrValueMember = clsCommon.ShowMultipleSelectForm("BulkMCC@Uti1", qry, "MCC_Code", "MCC_NAME", TxtMultiSelectFinder8.arrValueMember, TxtMultiSelectFinder8.arrDispalyMember)
     End Sub
 
-    Private Sub txtRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDCSRouteNo._MYValidating
+    Private Sub txtRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBMCRouteNo._MYValidating
         Try
             Dim qry As String = " select ROUTE_NO as Code,ROUTE_NAME as Name from  TSPL_BULK_ROUTE_MASTER "
             Dim whrCls As String = ""
@@ -782,8 +783,8 @@ where TSPL_MILK_SRN_HEAD.Against_Reject_No is null and TSPL_MILK_SRN_HEAD.MCC_CO
                 whrCls = "exists(select 1 from TSPL_BULK_ROUTE_MASTER_MCC where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO=TSPL_BULK_ROUTE_MASTER.ROUTE_NO )"
             End If
 
-            txtDCSRouteNo.Value = clsCommon.ShowSelectForm("dd22ShUp1", qry, "Code", whrCls, txtDCSRouteNo.Value, "Code", isButtonClicked)
-            lblDCSRoute.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ROUTE_NAME from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + txtDCSRouteNo.Value + "'"))
+            txtBMCRouteNo.Value = clsCommon.ShowSelectForm("dd22ShUp1", qry, "Code", whrCls, txtBMCRouteNo.Value, "Code", isButtonClicked)
+            lblBMCRoute.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ROUTE_NAME from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + txtBMCRouteNo.Value + "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -791,42 +792,42 @@ where TSPL_MILK_SRN_HEAD.Against_Reject_No is null and TSPL_MILK_SRN_HEAD.MCC_CO
 
 
 
-    Private Sub txtDCSBMC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDCSBMC._MYValidating
+    Private Sub txtDCSBMC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBMCBMC._MYValidating
         Try
-            If clsCommon.myLen(txtDCSRouteNo.Value) <= 0 Then
-                txtDCSRouteNo.Focus()
+            If clsCommon.myLen(txtBMCRouteNo.Value) <= 0 Then
+                txtBMCRouteNo.Focus()
                 Throw New Exception("Please provide Route code ")
             End If
             Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 "
             If Not SettShowAllMCC Then
-                whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtDCSRouteNo.Value + "' "
+                whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtBMCRouteNo.Value + "' "
             End If
-            txtDCSBMC.Value = clsMccMaster.getFinderUploader(whr, txtDCSBMC.Value, isButtonClicked)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(txtDCSBMC.Value) + "'")
+            txtBMCBMC.Value = clsMccMaster.getFinderUploader(whr, txtBMCBMC.Value, isButtonClicked)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(txtBMCBMC.Value) + "'")
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                txtDCSBMC.Tag = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
-                lblDCSBMC.Text = clsCommon.myCstr(dt.Rows(0)("MCC_NAME"))
+                txtBMCBMC.Tag = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
+                lblBMCBMC.Text = clsCommon.myCstr(dt.Rows(0)("MCC_NAME"))
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    Private Sub txtDCSCorrBMC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDCSCorrBMC._MYValidating
+    Private Sub txtDCSCorrBMC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBMCCorrBMC._MYValidating
         Try
-            If clsCommon.myLen(txtDCSRouteNo.Value) <= 0 Then
-                txtDCSRouteNo.Focus()
+            If clsCommon.myLen(txtBMCRouteNo.Value) <= 0 Then
+                txtBMCRouteNo.Focus()
                 Throw New Exception("Please provide Route code ")
             End If
             Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 "
             If Not SettShowAllMCC Then
-                whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtDCSRouteNo.Value + "' "
+                whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtBMCRouteNo.Value + "' "
             End If
-            txtDCSCorrBMC.Value = clsMccMaster.getFinderUploader(whr, txtDCSCorrBMC.Value, isButtonClicked)
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(txtDCSCorrBMC.Value) + "'")
+            txtBMCCorrBMC.Value = clsMccMaster.getFinderUploader(whr, txtBMCCorrBMC.Value, isButtonClicked)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(txtBMCCorrBMC.Value) + "'")
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                txtDCSCorrBMC.Tag = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
-                lblDCSCorrBMC.Text = clsCommon.myCstr(dt.Rows(0)("MCC_NAME"))
+                txtBMCCorrBMC.Tag = clsCommon.myCstr(dt.Rows(0)("MCC_Code"))
+                lblBMCCorrBMC.Text = clsCommon.myCstr(dt.Rows(0)("MCC_NAME"))
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -835,12 +836,12 @@ where TSPL_MILK_SRN_HEAD.Against_Reject_No is null and TSPL_MILK_SRN_HEAD.MCC_CO
 
     Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
         Try
-            If clsCommon.myLen(txtDCSRouteNo.Value) <= 0 Then
-                txtDCSRouteNo.Focus()
+            If clsCommon.myLen(txtBMCRouteNo.Value) <= 0 Then
+                txtBMCRouteNo.Focus()
                 Throw New Exception("Please enter Route")
             End If
-            If clsCommon.myLen(txtDCSBMC.Value) <= 0 Then
-                txtDCSBMC.Focus()
+            If clsCommon.myLen(txtBMCBMC.Value) <= 0 Then
+                txtBMCBMC.Focus()
                 Throw New Exception("Please enter BMC")
             End If
 
@@ -849,7 +850,7 @@ where TSPL_MILK_SRN_HEAD.Against_Reject_No is null and TSPL_MILK_SRN_HEAD.MCC_CO
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join  TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code"
-            Dim whr As String = " TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_MCC.Route_Code='" + txtDCSRouteNo.Value + "' and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code='" + clsCommon.myCstr(txtDCSBMC.Tag) + "'  and convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,106)='" + clsCommon.GetPrintDate(txtDCSDate.Value, "dd/MMM/yyyy") + "' "
+            Dim whr As String = " TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_MCC.Route_Code='" + txtBMCRouteNo.Value + "' and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code='" + clsCommon.myCstr(txtBMCBMC.Tag) + "'  and convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,106)='" + clsCommon.GetPrintDate(txtBMCDate.Value, "dd/MMM/yyyy") + "' "
 
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + " Where " + whr)
@@ -866,19 +867,19 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
             End If
             If clsCommon.myLen(strPK_Id) > 0 Then
                 dt = clsDBFuncationality.GetDataTable(qry + " where " + whr + " and TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id='" + strPK_Id + "'")
-                lblDCSDocNo.Text = clsCommon.myCstr(dt.Rows(0)("Document_No"))
-                lblDCSSno.Text = clsCommon.myCstr(dt.Rows(0)("SNo"))
-                lblDCSDetailNo.Text = clsCommon.myCstr(dt.Rows(0)("PK_Id"))
-                txtDCSCorrQty.Value = clsCommon.myCdbl(dt.Rows(0)("Qty"))
-                txtDCSCorrFAT.Value = clsCommon.myCdbl(dt.Rows(0)("FAT"))
-                txtDCSCorrSNF.Value = clsCommon.myCdbl(dt.Rows(0)("SNF"))
-                cboDCSCorrMilkType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("Milk_Type"))
-                txtDCSCorrBMC.Value = txtDCSBMC.Value
-                txtDCSCorrBMC.Tag = txtDCSBMC.Tag
-                lblDCSCorrBMC.Text = lblDCSBMC.Text
+                lblBMCDocNo.Text = clsCommon.myCstr(dt.Rows(0)("Document_No"))
+                lblBMCSno.Text = clsCommon.myCstr(dt.Rows(0)("SNo"))
+                lblBMCDetailNo.Text = clsCommon.myCstr(dt.Rows(0)("PK_Id"))
+                txtBMCCorrQty.Value = clsCommon.myCdbl(dt.Rows(0)("Qty"))
+                txtBMCCorrFAT.Value = clsCommon.myCdbl(dt.Rows(0)("FAT"))
+                txtBMCCorrSNF.Value = clsCommon.myCdbl(dt.Rows(0)("SNF"))
+                cboBMCCorrMilkType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("Milk_Type"))
+                txtBMCCorrBMC.Value = txtBMCBMC.Value
+                txtBMCCorrBMC.Tag = txtBMCBMC.Tag
+                lblBMCCorrBMC.Text = lblBMCBMC.Text
                 RadGroupBox3.Enabled = False
                 RadGroupBox4.Enabled = True
-                lblStatus.Text = IIf(Convert.ToInt32(dt.Compute("MAX([IsUpdatedFromCorrection])", "")) >= 1, "Upadated", "")
+                lblBMCStatus.Text = IIf(Convert.ToInt32(dt.Compute("MAX([IsUpdatedFromCorrection])", "")) >= 1, "Upadated", "")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
@@ -887,29 +888,29 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
 
     Private Sub RadButton5_Click(sender As Object, e As EventArgs) Handles RadButton5.Click
         Try
-            If clsCommon.myLen(lblDCSDocNo.Text) <= 0 Then
+            If clsCommon.myLen(lblBMCDocNo.Text) <= 0 Then
                 Throw New Exception("Document No can't be blank")
             End If
-            If clsCommon.myLen(lblDCSDetailNo.Text) <= 0 Then
+            If clsCommon.myLen(lblBMCDetailNo.Text) <= 0 Then
                 Throw New Exception("DCSNo can't be blank")
             End If
-            If clsCommon.myLen(txtDCSCorrBMC.Value) <= 0 Then
-                Throw New Exception("Please select " + txtDCSCorrBMC.MyLinkLable1.Text)
+            If clsCommon.myLen(txtBMCCorrBMC.Value) <= 0 Then
+                Throw New Exception("Please select " + txtBMCCorrBMC.MyLinkLable1.Text)
             End If
-            If clsCommon.myLen(cboDCSCorrMilkType.SelectedValue) <= 0 Then
-                Throw New Exception("Please select " + cboDCSCorrMilkType.MyLinkLable1.Text)
+            If clsCommon.myLen(cboBMCCorrMilkType.SelectedValue) <= 0 Then
+                Throw New Exception("Please select " + cboBMCCorrMilkType.MyLinkLable1.Text)
             End If
-            If txtDCSCorrQty.Value < 0 Then
+            If txtBMCCorrQty.Value < 0 Then
                 Throw New Exception("Qty Can't be -ve")
             End If
-            If txtDCSCorrFAT.Value < 0 Then
+            If txtBMCCorrFAT.Value < 0 Then
                 Throw New Exception("FAT % Can't be -ve")
             End If
-            If txtDCSCorrSNF.Value < 0 Then
+            If txtBMCCorrSNF.Value < 0 Then
                 Throw New Exception("SNF % Can't be -ve")
             End If
-            Dim qry As String = "PK_Id=" + lblDCSDetailNo.Text + ""
-            Dim Arr As List(Of clsMilkCollectionMCCDetail) = clsMilkCollectionMCCDetail.GetData(lblDCSDocNo.Text, qry, Nothing)
+            Dim qry As String = "PK_Id=" + lblBMCDetailNo.Text + ""
+            Dim Arr As List(Of clsMilkCollectionMCCDetail) = clsMilkCollectionMCCDetail.GetData(lblBMCDocNo.Text, qry, Nothing)
             If Arr Is Nothing OrElse Arr.Count <= 0 Then
                 Throw New Exception("Please select Valid document to correct")
             End If
@@ -925,20 +926,20 @@ left outer join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE
 left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO=TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO
 left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
-where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + lblDCSDetailNo.Text + ""
+where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + lblBMCDetailNo.Text + ""
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Throw New Exception("Milk Purchase Invoice Generated [" + clsCommon.myCstr(dt.Rows(0)("DOC_CODE")) + "]")
             End If
 
-            Arr(0).MCC_Code = txtDCSCorrBMC.Tag
-            Arr(0).Milk_Type = (cboDCSCorrMilkType.SelectedValue)
-            Arr(0).Qty = txtDCSCorrQty.Value
-            Arr(0).FAT = txtDCSCorrFAT.Value
-            Arr(0).SNF = txtDCSCorrSNF.Value
+            Arr(0).MCC_Code = txtBMCCorrBMC.Tag
+            Arr(0).Milk_Type = (cboBMCCorrMilkType.SelectedValue)
+            Arr(0).Qty = txtBMCCorrQty.Value
+            Arr(0).FAT = txtBMCCorrFAT.Value
+            Arr(0).SNF = txtBMCCorrSNF.Value
             Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
             Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
-            clsMilkCollectionMCCDetail.SaveData(lblDCSDocNo.Text, txtDCSDate.Value, Arr, True, Nothing)
+            clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, Nothing)
 
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
 
@@ -948,23 +949,85 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
     End Sub
 
     Private Sub RadButton4_Click(sender As Object, e As EventArgs) Handles RadButton4.Click
-        lblStatus.Text = ""
-        lblDCSDocNo.Text = Nothing
-        txtDCSCorrQty.Value = Nothing
-        txtDCSCorrQty.Tag = Nothing
-        txtDCSCorrFAT.Value = Nothing
-        txtDCSCorrFAT.Tag = Nothing
-        txtDCSCorrSNF.Value = Nothing
-        txtDCSCorrSNF.Tag = Nothing
-        cboDCSCorrMilkType.SelectedValue = Nothing
-        cboDCSCorrMilkType.Tag = Nothing
-        txtDCSCorrBMC.Value = Nothing
-        txtDCSCorrBMC.Tag = Nothing
-        lblDCSSno.Text = Nothing
-        lblDCSDetailNo.Text = Nothing
+        lblBMCStatus.Text = ""
+        lblBMCDocNo.Text = Nothing
+        txtBMCCorrQty.Value = Nothing
+        txtBMCCorrQty.Tag = Nothing
+        txtBMCCorrFAT.Value = Nothing
+        txtBMCCorrFAT.Tag = Nothing
+        txtBMCCorrSNF.Value = Nothing
+        txtBMCCorrSNF.Tag = Nothing
+        cboBMCCorrMilkType.SelectedValue = Nothing
+        cboBMCCorrMilkType.Tag = Nothing
+        txtBMCCorrBMC.Value = Nothing
+        txtBMCCorrBMC.Tag = Nothing
+        lblBMCSno.Text = Nothing
+        lblBMCDetailNo.Text = Nothing
         RadGroupBox3.Enabled = True
         RadGroupBox4.Enabled = False
     End Sub
 
+    Private Sub txtBMCTankerRoute__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBMCTankerRoute._MYValidating
+        Try
+            Dim qry As String = " select ROUTE_NO as Code,ROUTE_NAME as Name from  TSPL_BULK_ROUTE_MASTER "
+            Dim whrCls As String = ""
+            If Not SettShowAllMCC Then
+                whrCls = "exists(select 1 from TSPL_BULK_ROUTE_MASTER_MCC where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO=TSPL_BULK_ROUTE_MASTER.ROUTE_NO )"
+            End If
 
+            txtBMCTankerRoute.Value = clsCommon.ShowSelectForm("dd33ShUp1", qry, "Code", whrCls, txtBMCTankerRoute.Value, "Code", isButtonClicked)
+            lblBMCTankerRoute.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ROUTE_NAME from TSPL_BULK_ROUTE_MASTER where ROUTE_NO='" + txtBMCTankerRoute.Value + "'"))
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub RadButton6_Click(sender As Object, e As EventArgs) Handles RadButton6.Click
+        Try
+            If clsCommon.myLen(txtBMCTankerRoute.Value) <= 0 Then
+                txtBMCTankerRoute.Focus()
+                Throw New Exception("Please enter Route")
+            End If
+
+
+            Dim qry As String = "select TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as MCC, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNo,TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+,TSPL_MILK_COLLECTION_MCC_DETAIL.IsUpdatedFromCorrection
+from TSPL_MILK_COLLECTION_MCC_DETAIL
+left outer join  TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code"
+            Dim whr As String = " TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_MCC.Route_Code='" + txtBMCTankerRoute.Value + "' and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code='" + clsCommon.myCstr(txtBMCBMC.Tag) + "'  and convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,106)='" + clsCommon.GetPrintDate(txtBMCDate.Value, "dd/MMM/yyyy") + "' "
+
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + " Where " + whr)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("No DCS Milk Collection found")
+            End If
+            Dim strPK_Id As String = ""
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If dt.Rows.Count = 1 Then
+                    strPK_Id = clsCommon.myCstr(dt.Rows(0)("PK_Id"))
+                Else
+                    strPK_Id = clsCommon.ShowSelectForm("DCSCorrf", qry, "PK_Id", whr, strPK_Id, "PK_Id", True)
+                End If
+            End If
+            If clsCommon.myLen(strPK_Id) > 0 Then
+                dt = clsDBFuncationality.GetDataTable(qry + " where " + whr + " and TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id='" + strPK_Id + "'")
+                lblBMCDocNo.Text = clsCommon.myCstr(dt.Rows(0)("Document_No"))
+                lblBMCSno.Text = clsCommon.myCstr(dt.Rows(0)("SNo"))
+                lblBMCDetailNo.Text = clsCommon.myCstr(dt.Rows(0)("PK_Id"))
+                txtBMCCorrQty.Value = clsCommon.myCdbl(dt.Rows(0)("Qty"))
+                txtBMCCorrFAT.Value = clsCommon.myCdbl(dt.Rows(0)("FAT"))
+                txtBMCCorrSNF.Value = clsCommon.myCdbl(dt.Rows(0)("SNF"))
+                cboBMCCorrMilkType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("Milk_Type"))
+                txtBMCCorrBMC.Value = txtBMCBMC.Value
+                txtBMCCorrBMC.Tag = txtBMCBMC.Tag
+                lblBMCCorrBMC.Text = lblBMCBMC.Text
+                RadGroupBox3.Enabled = False
+                RadGroupBox4.Enabled = True
+                lblBMCStatus.Text = IIf(Convert.ToInt32(dt.Compute("MAX([IsUpdatedFromCorrection])", "")) >= 1, "Upadated", "")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
