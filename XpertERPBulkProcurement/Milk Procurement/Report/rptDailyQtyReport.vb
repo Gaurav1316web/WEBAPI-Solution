@@ -184,7 +184,7 @@ left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No
                 End If
 
 
-                qry = "Select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SNo,tmp.Shift_Date As SDate ,tmp.Shift As Shift,No_Of_Cans As Qty,Milk_Weight As Milk_Wtd,FAT as FAT,SNF as SNF,((Milk_Weight*FAT)/100) As Fat_KG,((Milk_Weight*SNF)/100) As SNF_KG,'' As Rate,'' As Amt,tmp.VLC_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As DCS_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Code As DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Name  As DCS_Name
+                qry = "Select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SNo,CONVERT(varchar(10), tmp.Shift_Date, 103) As SDate ,tmp.Shift As Shift,No_Of_Cans As Qty,Milk_Weight As Milk_Wtd,FAT as FAT,SNF as SNF,convert(decimal(18,2),((Milk_Weight*FAT)/100)) As Fat_KG,convert(decimal(18,2),((Milk_Weight*SNF)/100)) As SNF_KG,'' As Rate,'' As Amt,tmp.VLC_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As DCS_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Code As DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Name  As DCS_Name
                         ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader  As BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_Code As BMC_Code,TSPL_MCC_MASTER.MCC_NAME As BMC_Name
                         from(
                         Select Shift_Date,Shift,No_Of_Cans,Milk_Weight,FAT,SNF,VLC_Code  from TSPL_MILK_SHIFT_UPLOADER_DETAIL
@@ -926,7 +926,8 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                     doc.Print()
                     'doc = Nothing
                 Else
-                    clsCommon.MyExportToPDF("", Gv1, arrHeader, "", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                    Gv1.Columns("Milk_Wtd").Width = 60
+                    clsCommon.MyExportToPDF("Daily Quantity Report", Gv1, arrHeader, "", PageSetupReport_ID, objCommonVar.CurrentUserCode)
 
                 End If
 

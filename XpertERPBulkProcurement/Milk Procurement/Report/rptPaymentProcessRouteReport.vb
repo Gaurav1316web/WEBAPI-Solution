@@ -2420,15 +2420,15 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                 dtMain.Rows.Add(newBlankRow1)
                 newBlankRow2 = dtMain.NewRow
                 dtMain.Rows.Add(newBlankRow2)
-                Dim GSumSWEET As Decimal = clsCommon.myCdbl(dt.Compute("sum(SweetQty)", ""))
-                Dim GSumSOUR As Decimal = clsCommon.myCdbl(dt.Compute("sum(SourQty)", ""))
-                Dim GSumCURD As Decimal = clsCommon.myCdbl(dt.Compute("sum(CurdQty)", ""))
-                Dim GSumQty As Decimal = clsCommon.myCdbl(dt.Compute("sum(Qty)", ""))
-                Dim GSumKGFAT As Decimal = clsCommon.myCdbl(dt.Compute("sum(FATQTY)", ""))
-                Dim GSumKGSNF As Decimal = clsCommon.myCdbl(dt.Compute("sum(SNFQTY)", ""))
+                Dim GSumSWEET As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(SweetQty)", "")), 2)
+                Dim GSumSOUR As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(SourQty)", "")), 2)
+                Dim GSumCURD As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(CurdQty)", "")), 2)
+                Dim GSumQty As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Qty)", "")), 2)
+                Dim GSumKGFAT As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(FATQTY)", "")), 2)
+                Dim GSumKGSNF As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(SNFQTY)", "")), 2)
 
-                Dim GMilkAmt As Decimal = clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", ""))
-                Dim GHeadLoadAmt As Decimal = clsCommon.myCdbl(dt.Compute("sum(Head_Load_Amount)", ""))
+                Dim GMilkAmt As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(SRN_Net_Amount)", "")), 2)
+                Dim GHeadLoadAmt As Decimal = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Head_Load_Amount)", "")), 2)
 
                 Dim GAVGFAT As Decimal = 0
                 Dim GAVGSNF As Decimal = 0
@@ -2436,14 +2436,14 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                     GAVGFAT = Math.Round(clsCommon.myCdbl((GSumKGFAT * 100) / GSumQty), 2)
                     GAVGSNF = Math.Round(clsCommon.myCdbl((GSumKGSNF * 100) / GSumQty), 2)
                 End If
-                Dim GSumPayment As Decimal = clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", ""))
-                Dim GSumDeduction As Decimal = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", ""))
+                Dim GSumPayment As Decimal = Math.Round(clsCommon.myCdbl(dtAdditionTemp.Compute("sum(Amount)", "")), 2)
+                Dim GSumDeduction As Decimal = Math.Round(clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "")), 2)
                 Dim GSumNETPAYABLE As Decimal = 0
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-                    GSumNETPAYABLE = clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "")), 0)
+                    GSumNETPAYABLE = Math.Round(clsCommon.myRoundOFF(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "")), 0), 2)
 
                 Else
-                    GSumNETPAYABLE = clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", ""))
+                    GSumNETPAYABLE = Math.Round(clsCommon.myCdbl(dt.Compute("sum(Payable_Amount)", "")), 2)
 
                 End If
                 Dim Gsumtotal As Decimal = GMilkAmt + GSumPayment
@@ -2481,13 +2481,13 @@ select TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as VSP_Code ,TSPL_MULTIPLE_DEDUCTION
                     For t As Integer = 0 To dtDeductionHeader.Rows.Count - 1
                         Math.DivRem((t + 1), 4, TempReminder)
                         If TempReminder = 1 Then
-                            dtMain.Rows(RowIndexForTotal).Item("Deduction1") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "'"))
+                            dtMain.Rows(RowIndexForTotal).Item("Deduction1") = Math.Round(clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "'")), 2)
                         ElseIf TempReminder = 2 Then
-                            dtMain.Rows(RowIndexForTotal).Item("Deduction2") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "'"))
+                            dtMain.Rows(RowIndexForTotal).Item("Deduction2") = Math.Round(clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "'")), 2)
                         ElseIf TempReminder = 3 Then
-                            dtMain.Rows(RowIndexForTotal).Item("Deduction3") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "'"))
+                            dtMain.Rows(RowIndexForTotal).Item("Deduction3") = Math.Round(clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "'")), 2)
                         ElseIf TempReminder = 0 Then
-                            dtMain.Rows(RowIndexForTotal).Item("Deduction4") = clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "'"))
+                            dtMain.Rows(RowIndexForTotal).Item("Deduction4") = Math.Round(clsCommon.myCdbl(dtDeductionTemp.Compute("sum(Amount)", "Ded_Code='" + clsCommon.myCstr(dtDeductionHeader.Rows(t).Item("Ded_Code")) + "'")), 2)
                             RowIndexForTotal = RowIndexForTotal + 1
                         End If
                     Next
