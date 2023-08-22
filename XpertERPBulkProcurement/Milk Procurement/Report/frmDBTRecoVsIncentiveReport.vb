@@ -214,8 +214,13 @@ Public Class frmDBTRecoVsIncentiveReport
                     Qry = "select INCENTIVE.[Zone Code],max(INCENTIVE.[Zone Name]) AS [Zone Name],
                     isnull(sum(INCENTIVE.RecoQty),0) as [Reco Qty]
                     , isnull(sum(INCENTIVE.MPCount),0) as [MP Count]
-                    ,isnull(sum(INCENTIVE.Qty),0) as [Incentive Qty]
-                    ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1 then 'Match' else 'Not Match' end) as [Status]
+                    ,isnull(sum(INCENTIVE.Qty),0) as [Incentive Qty]"
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))=0 then 'Match' else 'Not Match' end) as [Status] "
+                    Else
+                        Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1 then 'Match' else 'Not Match' end) as [Status]  "
+                    End If
+                    Qry += "                  
                      from (" + QryINCENTIVE_RECO +
                     " union all " + QryINCENTIVE + " )INCENTIVE 
                     group by INCENTIVE.Cycle_Year,INCENTIVE.Cycle_Month,INCENTIVE.[Zone Code]"
@@ -223,8 +228,14 @@ Public Class frmDBTRecoVsIncentiveReport
                     Qry = "select INCENTIVE.VLC_Code_VLC_Uploader as [DCS Code],max(INCENTIVE.[Vendor Name]) AS [DCS Name],INCENTIVE.Vendor_Code as [Code],
                     isnull(sum(INCENTIVE.RecoQty),0) as [Reco Qty]
                     , isnull(sum(INCENTIVE.MPCount),0) as [MP Count]
-                    ,isnull(sum(INCENTIVE.Qty),0) as [Incentive Qty]
-                    ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1 then 'Match' else 'Not Match' end) as [Status]
+                    ,isnull(sum(INCENTIVE.Qty),0) as [Incentive Qty]"
+
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))=0 then 'Match' else 'Not Match' end) as [Status] "
+                    Else
+                        Qry += " ,(case when abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))<1 then 'Match' else 'Not Match' end) as [Status]  "
+                    End If
+                    Qry += "               
                      from (" + QryINCENTIVE_RECO +
                     " union all " + QryINCENTIVE + " )INCENTIVE 
                     group by INCENTIVE.Cycle_Year,INCENTIVE.Cycle_Month,INCENTIVE.Vendor_Code,INCENTIVE.VLC_Code_VLC_Uploader"
