@@ -217,8 +217,11 @@ Public Class FrmItemMasterRMOther
             txtCode.Value = clsCommon.myCstr(Me.Tag)
             LoadData(txtCode.Value, NavigatorType.Current)
         End If
+        lblBBValue.Visible = False
+        txtBBValue.Visible = False
 
     End Sub
+
     Sub LoadBlankGridCat()
         gvCategory.Rows.Clear()
         gvCategory.Columns.Clear()
@@ -339,6 +342,10 @@ Public Class FrmItemMasterRMOther
         txtCode.Value = ""
         File_Name = ""
         PicImage.Image = Nothing
+        rbtnBBNA.IsChecked = True
+        lblBBValue.Visible = False
+        txtBBValue.Visible = False
+        txtBBValue.Text = ""
         'If clsCommon.myLen(auto_icode_seperator) <= 0 Then
         '    txtCode.MyReadOnly = False
         'End If
@@ -1386,7 +1393,17 @@ Public Class FrmItemMasterRMOther
                 obj.ApplyRoundingInStdProd = chkApplyRounding.Checked
                 obj.Visual_QC = chkApplyVisualQC.Checked
                 obj.Security_Deduction = txtSecurityDedPer.Value
+                If rbtnBBNA.IsChecked Then
+                    obj.BuyBackType = 0
 
+                ElseIf rbtnBBAmount.IsChecked Then
+                    obj.BuyBackType = 1
+                    obj.BuyBackValue = txtBBValue.Text
+                ElseIf rbtnBBPer.IsChecked Then
+                    obj.BuyBackType = 2
+                    obj.BuyBackValue = txtBBValue.Text
+
+                End If
 
                 obj.ArrUomDetails = New List(Of clsItemUOMDetails)()
                 '' newly added column SubItemType
@@ -2189,7 +2206,28 @@ Public Class FrmItemMasterRMOther
                     Return False
                 End If
             End If
-
+            If rbtnBBAmount.IsChecked Then
+                If clsCommon.myLen(txtBBValue.Text) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Amount cann't be empty", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                    txtBBValue.Focus()
+                    Return False
+                ElseIf clsCommon.myCDecimal(txtBBValue.Text) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Amount must be greater then Zero", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                    txtBBValue.Focus()
+                    Return False
+                End If
+            End If
+            If rbtnBBPer.IsChecked Then
+                If clsCommon.myLen(txtBBValue.Text) <= 0 Then
+                    clsCommon.MyMessageBoxShow(Me, "Percentage cann't be empty", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                    txtBBValue.Focus()
+                    Return False
+                ElseIf clsCommon.myCDecimal(txtBBValue.Text) <= 0 Or clsCommon.myCDecimal(txtBBValue.Text) > 100 Then
+                    clsCommon.MyMessageBoxShow(Me, "Percentage must be Between 1 to 100", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+                    txtBBValue.Focus()
+                    Return False
+                End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             AllowTo = False
@@ -2390,6 +2428,24 @@ Public Class FrmItemMasterRMOther
                 txtstnd_pur_rate.Text = obj.std_pur_rate
                 txtUOM.Value = obj.Unit_Code
                 txtCost.Value = obj.Cost
+                'Load buyBackTye and Value
+                If obj.BuyBackType = 1 Then
+                    rbtnBBAmount.IsChecked = True
+                    txtBBValue.Text = obj.BuyBackValue
+                    lblBBValue.Visible = True
+                    lblBBValue.Text = "Amount"
+                    txtBBValue.Visible = True
+                ElseIf obj.BuyBackType = 2 Then
+                    rbtnBBAmount.IsChecked = True
+                    txtBBValue.Text = obj.BuyBackValue
+                    lblBBValue.Visible = True
+                    lblBBValue.Text = "Precentage"
+                    txtBBValue.Visible = True
+                Else
+                    rbtnBBNA.IsChecked = True
+                    lblBBValue.Visible = False
+                    txtBBValue.Visible = False
+                End If
                 'txt_tolerance.Value = obj.Tolerance
                 TxtProdTolerance.Value = obj.Production_Tolerance
                 fndChptr.Value = obj.Cheapter_Heads
@@ -6293,6 +6349,24 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub rbtnBBNA_Click(sender As Object, e As EventArgs) Handles rbtnBBNA.Click
+        lblBBValue.Visible = False
+        txtBBValue.Visible = False
+    End Sub
+
+    Private Sub rbtnBBAmount_Click(sender As Object, e As EventArgs) Handles rbtnBBAmount.Click
+        lblBBValue.Visible = True
+        lblBBValue.Text = "Amount"
+        txtBBValue.Visible = True
+    End Sub
+
+    Private Sub rbtnBBPer_Click(sender As Object, e As EventArgs) Handles rbtnBBPer.Click
+        lblBBValue.Visible = True
+        lblBBValue.Text = "Percentage"
+        txtBBValue.Visible = True
+    End Sub
+
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
         obj.Program_Code = Form_ID
