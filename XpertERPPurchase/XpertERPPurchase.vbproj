@@ -369,6 +369,12 @@
     <Compile Include="Report\Vendor Rating Rejection.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmCorrectionforWrongEntry.Designer.vb">
+      <DependentUpon>frmCorrectionforWrongEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCorrectionforWrongEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmGSTunitMeasure.Designer.vb">
       <DependentUpon>frmGSTunitMeasure.vb</DependentUpon>
     </Compile>
@@ -538,6 +544,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\Vendor Rating Rejection.resx">
       <DependentUpon>Vendor Rating Rejection.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmCorrectionforWrongEntry.resx">
+      <DependentUpon>frmCorrectionforWrongEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmGSTunitMeasure.resx">
       <DependentUpon>frmGSTunitMeasure.vb</DependentUpon>
