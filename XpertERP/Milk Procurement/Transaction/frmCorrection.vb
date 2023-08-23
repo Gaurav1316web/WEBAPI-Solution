@@ -22,8 +22,6 @@ Public Class frmCorrection
 
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim id As String = Form_ID
-        RadPageView1.Pages("RadPageViewPage6").Item.Visibility = ElementVisibility.Collapsed
-
         Try
             If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
@@ -59,6 +57,7 @@ Public Class frmCorrection
                 ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
                 txtShiftDate.Value = clsCommon.GETSERVERDATE()
                 txtBMCDate.Value = txtShiftDate.Value
+                txtBMCTankerDate.Value = txtShiftDate.Value
                 cboShift.SelectedValue = "M"
                 RadGroupBox1.Enabled = False
                 RadGroupBox2.Enabled = True
@@ -66,6 +65,7 @@ Public Class frmCorrection
 
                 RadGroupBox3.Enabled = True
                 RadGroupBox4.Enabled = False
+                RadButton7.PerformClick()
 
                 txtVLCCMFromDate.Value = txtShiftDate.Value
                 txtVLCCMToDate.Value = txtShiftDate.Value
@@ -90,7 +90,7 @@ Public Class frmCorrection
                 RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
                 RadPageView1.Pages("RadPageViewPage4").Item.Visibility = ElementVisibility.Collapsed
                 RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
-
+                RadPageView1.Pages("RadPageViewPage6").Item.Visibility = ElementVisibility.Collapsed
 
 
             End If
@@ -990,44 +990,114 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
             End If
 
 
-            Dim qry As String = "select TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as MCC, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNo,TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
-,TSPL_MILK_COLLECTION_MCC_DETAIL.IsUpdatedFromCorrection
-from TSPL_MILK_COLLECTION_MCC_DETAIL
-left outer join  TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
-left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code"
-            Dim whr As String = " TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_MCC.Route_Code='" + txtBMCTankerRoute.Value + "' and TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code='" + clsCommon.myCstr(txtBMCBMC.Tag) + "'  and convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,106)='" + clsCommon.GetPrintDate(txtBMCDate.Value, "dd/MMM/yyyy") + "' "
+            Dim qry As String = "select TSPL_MILK_COLLECTION_MCC.Document_No,TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC.Route_Code,TSPL_MILK_COLLECTION_MCC.Tanker_No,TSPL_MILK_COLLECTION_MCC.Vehicle_No,TSPL_MILK_COLLECTION_MCC.Entered_Qty
+,cast(TSPL_MILK_COLLECTION_MCC.Entered_FATKg*100/TSPL_MILK_COLLECTION_MCC.Entered_Qty as decimal(18,2)) as FATPer
+,TSPL_MILK_COLLECTION_MCC.Entered_FATKg as FATKg
+,cast(TSPL_MILK_COLLECTION_MCC.Entered_SNFKg*100/TSPL_MILK_COLLECTION_MCC.Entered_Qty as decimal(18,2)) as SNFPer
+,TSPL_MILK_COLLECTION_MCC.Entered_SNFKg as SNFKG
+from  TSPL_MILK_COLLECTION_MCC"
+            Dim whr As String = " CONVERT(Date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(txtBMCTankerDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_COLLECTION_MCC.Route_Code='" + txtBMCTankerRoute.Value + "' and Status=1"
 
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry + " Where " + whr)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                Throw New Exception("No DCS Milk Collection found")
+                Throw New Exception("No BMC Milk Collection found")
             End If
             Dim strPK_Id As String = ""
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 If dt.Rows.Count = 1 Then
-                    strPK_Id = clsCommon.myCstr(dt.Rows(0)("PK_Id"))
+                    strPK_Id = clsCommon.myCstr(dt.Rows(0)("Document_No"))
                 Else
-                    strPK_Id = clsCommon.ShowSelectForm("DCSCorrf", qry, "PK_Id", whr, strPK_Id, "PK_Id", True)
+                    strPK_Id = clsCommon.ShowSelectForm("BMCfindco", qry, "Document_No", whr, strPK_Id, "Document_No", True)
                 End If
             End If
             If clsCommon.myLen(strPK_Id) > 0 Then
-                dt = clsDBFuncationality.GetDataTable(qry + " where " + whr + " and TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id='" + strPK_Id + "'")
-                lblBMCDocNo.Text = clsCommon.myCstr(dt.Rows(0)("Document_No"))
-                lblBMCSno.Text = clsCommon.myCstr(dt.Rows(0)("SNo"))
-                lblBMCDetailNo.Text = clsCommon.myCstr(dt.Rows(0)("PK_Id"))
-                txtBMCCorrQty.Value = clsCommon.myCdbl(dt.Rows(0)("Qty"))
-                txtBMCCorrFAT.Value = clsCommon.myCdbl(dt.Rows(0)("FAT"))
-                txtBMCCorrSNF.Value = clsCommon.myCdbl(dt.Rows(0)("SNF"))
-                cboBMCCorrMilkType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("Milk_Type"))
-                txtBMCCorrBMC.Value = txtBMCBMC.Value
-                txtBMCCorrBMC.Tag = txtBMCBMC.Tag
-                lblBMCCorrBMC.Text = lblBMCBMC.Text
-                RadGroupBox3.Enabled = False
-                RadGroupBox4.Enabled = True
-                lblBMCStatus.Text = IIf(Convert.ToInt32(dt.Compute("MAX([IsUpdatedFromCorrection])", "")) >= 1, "Upadated", "")
+                dt = clsDBFuncationality.GetDataTable(qry + " where " + whr + " and TSPL_MILK_COLLECTION_MCC.Document_No='" + strPK_Id + "'")
+
+                lblBMCTankerDocNo.Text = clsCommon.myCstr(dt.Rows(0)("Document_No"))
+                lblBMCTankerTripNo.Text = clsCommon.myCstr(dt.Rows(0)("Trip_No"))
+                txtBMCTankerQty.Value = clsCommon.myCDecimal(dt.Rows(0)("Entered_Qty"))
+                txtBMCTankerFAT.Value = clsCommon.myCdbl(dt.Rows(0)("FATPer"))
+                lblBMCTankerFATKG.Text = clsCommon.myCdbl(dt.Rows(0)("FATKg"))
+                txtBMCTankerSNF.Value = clsCommon.myCdbl(dt.Rows(0)("SNFPer"))
+                lblBMCTankerSNFKG.Text = clsCommon.myCdbl(dt.Rows(0)("SNFKG"))
+                RadGroupBox5.Enabled = False
+                RadGroupBox6.Enabled = True
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub txtBMCTankerFAT_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtBMCTankerFAT.Validating
+        lblBMCTankerFATKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerFAT.Value / 100), 3, MidpointRounding.ToEven)
+    End Sub
+
+    Private Sub txtBMCTankerSNF_TextChanged(sender As Object, e As EventArgs) Handles txtBMCTankerSNF.TextChanged
+        lblBMCTankerSNFKG.Text = Math.Round((txtBMCTankerQty.Value * txtBMCTankerSNF.Value / 100), 3, MidpointRounding.ToEven)
+    End Sub
+
+    Private Sub RadButton7_Click(sender As Object, e As EventArgs) Handles RadButton7.Click
+        lblBMCTankerDocNo.Text = ""
+        lblBMCTankerTripNo.Text = ""
+        lblBMCDetailNo.Text = ""
+        txtBMCTankerQty.Value = Nothing
+        txtBMCTankerFAT.Value = Nothing
+        lblBMCTankerFATKG.Text = Nothing
+        txtBMCTankerSNF.Value = Nothing
+        lblBMCTankerSNFKG.Text = Nothing
+        RadGroupBox5.Enabled = True
+        RadGroupBox6.Enabled = False
+    End Sub
+    Private Sub RadButton8_Click(sender As Object, e As EventArgs) Handles RadButton8.Click
+        Try
+            If clsCommon.myLen(lblBMCTankerDocNo.Text) <= 0 Then
+                Throw New Exception("Document No can't be blank")
+            End If
+            If txtBMCTankerQty.Value <= 0 Then
+                Throw New Exception("Qty Can't be Zero/-ve")
+            End If
+            If txtBMCTankerFAT.Value <= 0 Then
+                Throw New Exception("FAT % Can't be Zero/-ve")
+            End If
+            If txtBMCTankerSNF.Value <= 0 Then
+                Throw New Exception("SNF % Can't be Zero/-ve")
+            End If
+            If clsCommon.myCDecimal(lblBMCTankerFATKG.Text) <= 0 Then
+                Throw New Exception("FAT KG Can't be Zero/-ve")
+            End If
+            If clsCommon.myCDecimal(lblBMCTankerSNFKG.Text) <= 0 Then
+                Throw New Exception("SNF KG Can't be Zero/-ve")
+            End If
+
+            Dim qry As String = "select TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE
+from TSPL_MILK_COLLECTION_MCC_DETAIL
+left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id 
+left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No
+left outer join TSPL_MILK_COLLECTION_DCS_DETAIL on TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No or TSPL_MILK_RECEIPT_DETAIL.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No 
+left outer join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE
+left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO=TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO
+left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + lblBMCTankerDocNo.Text + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Throw New Exception("Milk Purchase Invoice Generated [" + clsCommon.myCstr(dt.Rows(0)("DOC_CODE")) + "]")
+            End If
+            Dim obj As New clsMilkCollectionMCC
+            obj.Document_No = lblBMCTankerDocNo.Text
+            obj.Entered_Qty = txtBMCTankerQty.Value
+            obj.Entered_FATKg = clsCommon.myCDecimal(lblBMCTankerFATKG.Text)
+            obj.Entered_SNFKg = clsCommon.myCDecimal(lblBMCTankerSNFKG.Text)
+            clsMilkCollectionMCC.CorrectionData(obj)
+            clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
 End Class

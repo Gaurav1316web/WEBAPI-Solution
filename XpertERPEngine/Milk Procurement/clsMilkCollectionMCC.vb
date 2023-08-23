@@ -287,6 +287,26 @@ select PK_Id from TSPL_MILK_COLLECTION_MCC_DETAIL where Document_No='" + strDocN
         Return True
     End Function
 
+    Public Shared Function CorrectionData(ByVal obj As clsMilkCollectionMCC) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            HistoryUpdate(obj.Document_No, trans)
+
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Entered_Qty", obj.Entered_Qty)
+            clsCommon.AddColumnsForChange(coll, "Entered_FATKg", obj.Entered_FATKg)
+            clsCommon.AddColumnsForChange(coll, "Entered_SNFKg", obj.Entered_SNFKg)
+            clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC", OMInsertOrUpdate.Update, "TSPL_MILK_COLLECTION_MCC.Document_No='" + obj.Document_No + "'", trans)
+            trans.Commit()
+        Catch err As Exception
+            trans.Rollback()
+            Throw New Exception(err.Message)
+        End Try
+        Return True
+    End Function
+
 End Class
 
 Public Class clsMilkCollectionMCCDetail
