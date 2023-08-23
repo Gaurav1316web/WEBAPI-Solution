@@ -136,6 +136,7 @@ Public Class ClsScrapSaleHead
     Public Total_Net_Weight As Double = 0
     Public Doc_Type As String
     Public Is_Taxable As Boolean = False
+    Public IsBuyBack As Boolean = False
 
     Public EWayBillNo As String
     Public EWayBillDate As Date? = Nothing
@@ -465,6 +466,7 @@ Public Class ClsScrapSaleHead
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Is_Taxable", IIf(obj.Is_Taxable, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "IsBuyBack", IIf(obj.IsBuyBack, 1, 0))
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "shipment_No", obj.shipment_No)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -699,6 +701,7 @@ Public Class ClsScrapSaleHead
             obj.Total_Net_Weight = clsCommon.myCdbl(dt.Rows(0)("Total_Net_Weight"))
 
             obj.Is_Taxable = If(clsCommon.myCdbl(dt.Rows(0)("Is_Taxable")) > 0, True, False)
+            obj.IsBuyBack = If(clsCommon.myCdbl(dt.Rows(0)("IsBuyBack")) > 0, True, False)
             obj.EWayBillNo = clsCommon.myCstr(dt.Rows(0)("EWayBillNo"))
             If dt.Rows(0)("EWayBillDate") IsNot DBNull.Value Then
                 obj.EWayBillDate = clsCommon.myCDate(dt.Rows(0)("EWayBillDate"))
@@ -1194,7 +1197,7 @@ Public Class ClsScrapSaleDetail
         Return obj
     End Function
 
-    Public Shared Function FinderItemGST(ByVal strCode As String, ByVal strItemType As String, ByVal isButtonClicked As Boolean, ByVal transDate As Date, ByVal isTaxable As Boolean) As ClsScrapSaleDetail
+    Public Shared Function FinderItemGST(ByVal strCode As String, ByVal strItemType As String, ByVal isButtonClicked As Boolean, ByVal transDate As Date, ByVal isTaxable As Boolean, ByVal isBuyBack As Boolean) As ClsScrapSaleDetail
         Dim obj As ClsScrapSaleDetail = Nothing
         Dim qry As String = "select Item_Code as Code,Item_Desc as Name ,TSPL_Item_Category.Category_Name as [Item Category] ,TSPL_ITEM_SUB_CATEGORY.Description as [Sub Category],TSPL_ITEM_MASTER.ITF_CODE as [ITF CODE] from  TSPL_ITEM_MASTER"
         qry += " left outer join TSPL_Item_Category on TSPL_Item_Category.Category_Code =TSPL_ITEM_MASTER.item_category "
@@ -1206,6 +1209,10 @@ Public Class ClsScrapSaleDetail
         End If
         If clsERPFuncationality.GetGSTStatus(transDate) Then
             WhrCls += " and TSPL_ITEM_MASTER.IsTaxable='" + IIf(isTaxable, "1", "0") + "'"
+
+        End If
+        If isBuyBack Then
+            WhrCls += " and TSPL_ITEM_MASTER.BuyBackType in(1,2)"
 
         End If
 

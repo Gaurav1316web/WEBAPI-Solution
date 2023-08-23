@@ -28,7 +28,7 @@ Public Class FrmGRNReport
         chkGRNNoAll.IsChecked = True
         chkVendorAll.IsChecked = True
         chkLocationAll.IsChecked = True
-
+        chkTrackingReport.IsChecked = True
         'If objCommonVar.CurrentUser <> "ADMIN" Then
         '    If funSetUserAccess() = False Then Exit Sub
         'End If
@@ -174,6 +174,10 @@ Public Class FrmGRNReport
                 ,TSPL_PO_WEIGHTMENT_HEAD.Type as [Weighment Type]
 				,(case when TSPL_PO_WEIGHTMENT_HEAD.Status=1 then 'Posted' when TSPL_PO_WEIGHTMENT_HEAD.Status=0 then 'UnPosted' end) as [Weighment Status]
                 ,convert(varchar, TSPL_MRN_HEAD.MRN_Date,103) as [MRN Date],TSPL_MRN_HEAD.MRN_No as [MRN No]
+	            ,TSPL_NIR_QC.Document_No as [NIR QC No],TSPL_NIR_QC.Document_Date as [NIR QC Date],
+				(case when TSPL_NIR_QC.QC_Status='1'then 'Ok' when TSPL_NIR_QC.QC_Status='0'  then'Not Ok' end)  as [NIR QC Status],
+				(case when  TSPL_NIR_QC.Status='1'then 'Posted' when TSPL_NIR_QC.Status='0' then  'Unposted'end) AS [NIR Status],
+				TSPL_NIR_QC.QC_Remarks as [NIR QC Remark]
                 ,convert(varchar, TSPL_QC_CHECK_HEAD.Document_Date,103) as [Chemical QC Date],TSPL_QC_CHECK_HEAD.Document_Code as [Chemical QC No]
                 ,TSPL_QC_CHECK_HEAD.QC_Status AS [Chemical QC Result]
                 ,(case when TSPL_QC_CHECK_HEAD.Posted=1 then 'Posted' when TSPL_QC_CHECK_HEAD.Posted=0 then 'UnPosted' end) as [Chemical QC Status]
@@ -197,6 +201,7 @@ Public Class FrmGRNReport
                 left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code=TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
                 and TSPL_PO_WEIGHTMENT_DETAIL.Item_Code=TSPL_GRN_DETAIL.item_code
                 left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No
+                LEFT OUTER JOIN TSPL_NIR_QC ON TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No  
                 left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
                 left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.Against_GRN=TSPL_GRN_HEAD.GRN_No and TSPL_SRN_HEAD.Against_MRN=TSPL_MRN_HEAD.MRN_No
      			left outer join TSPL_PI_DETAIL on TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_HEAD.SRN_No

@@ -124,6 +124,9 @@ Public Class clsItemMaster
     Public Item_Desc_Hindi As String = Nothing
     Public Item_Short_Desc_Hindi As String = Nothing
     Public Alies_Name_Hindi As String = Nothing
+    Public BuyBackType As Integer = 0
+    Public BuyBackValue As Decimal = 0
+
 
 
 #End Region
@@ -1534,6 +1537,8 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Item_Desc_Hindi", obj.Item_Desc_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "Short_Description_Hindi", obj.Item_Short_Desc_Hindi, True, True)
             clsCommon.AddColumnsForChange(coll, "Alies_Name_Hindi", obj.Alies_Name_Hindi, True, True)
+            clsCommon.AddColumnsForChange(coll, "BuyBackType", obj.BuyBackType, True, True)
+            clsCommon.AddColumnsForChange(coll, "BuyBackValue", obj.BuyBackValue, True, True)
             If isNewEntry Then
                 ' If clsCommon.myLen(obj.Item_Code) <= 0 Then 
                 ' Ticket No : ERO/11/07/19-000679 By Prabhakar
@@ -1699,6 +1704,8 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Weight_Value = clsCommon.myCdbl(dt.Rows(0)("Weight_Value"))
                 obj.Sku_Seq = clsCommon.myCdbl(dt.Rows(0)("Sku_Seq"))
                 obj.Is_DisplayDemand = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_DisplayDemand")) = 1, True, False)
+                obj.BuyBackType = clsCommon.myCdbl(dt.Rows(0)("BuyBackType"))
+                obj.BuyBackValue = clsCommon.myCdbl(dt.Rows(0)("BuyBackValue"))
                 obj.ITFCode = clsCommon.myCstr(dt.Rows(0)("ITF_CODE"))
                 obj.Is_MRP = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_MRP")) = 1, True, False)
                 obj.AllowSRNWithoutShortReject = clsCommon.myCdbl(dt.Rows(0)("AllowSRNWithoutShortReject"))

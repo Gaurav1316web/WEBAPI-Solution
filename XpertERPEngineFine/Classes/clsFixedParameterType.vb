@@ -1286,6 +1286,9 @@ Public Class clsFixedParameterType
     Public Const ItemCostTolerancePercentage = "ItemCostTolerancePercentage"
     Public Const HeadLoadDescriptionInPaymentProcessPrint = "HeadLoadDescriptionInPaymentProcessPrint"
     Public Const PrefixForUserMaster = "Prefix For User Master"
+    Public Const ApplyDemandApproval = "ApplyDemandApproval"
+    Public Const ApplyDemandAll = "ApplyDemandAll"
+    Public Const ApplyDemandCustomerWise = "ApplyDemandCustomerWise"
 End Class
 Public Class clsFixedParameterCode
     Public Const RefreshDBTReco As String = "Refresh DBT Reco"
@@ -2688,6 +2691,10 @@ Public Class clsFixedParameterCode
     Public Const ItemCostTolerancePercentage = "ItemCostTolerancePercentage"
     Public Const HeadLoadDescriptionInPaymentProcessPrint = "HeadLoadDescriptionInPaymentProcessPrint"
     Public Const PrefixForUserMaster = "Prefix For User Master"
+    Public Const ApplyDemandApproval = "ApplyDemandApproval"
+    Public Const ApplyDemandAll = "ApplyDemandAll"
+    Public Const ApplyDemandCustomerWise = "ApplyDemandCustomerWise"
+
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4365,6 +4372,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ItemCostTolerancePercentage, clsFixedParameterCode.ItemCostTolerancePercentage, "0", "Enter Item Cost Tolerance In Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.HeadLoadDescriptionInPaymentProcessPrint, clsFixedParameterCode.HeadLoadDescriptionInPaymentProcessPrint, "Head Load", "Head Load Description In Payment Process Print")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PrefixForUserMaster, clsFixedParameterCode.PrefixForUserMaster, clsFixedParameter.GetUserCode(), "Prefix For User Master Code")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDemandApproval, clsFixedParameterCode.ApplyDemandApproval, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, "0", "0:Off, 1:On;")
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
         Return True
@@ -6365,5 +6375,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.HeadLoadDescriptionInPaymentProcessPrint, clsFixedParameterCode.HeadLoadDescriptionInPaymentProcessPrint, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.AutoCreateSaleInvoice, clsFixedParameterCode.AutoCreateSaleInvoice, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.userMaster, clsFixedParameterType.PrefixForUserMaster, clsFixedParameterCode.PrefixForUserMaster, EnumControlType.TextBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandApproval, clsFixedParameterType.ApplyDemandApproval, clsFixedParameterCode.ApplyDemandApproval, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, EnumControlType.CheckBox)
     End Sub
 End Class

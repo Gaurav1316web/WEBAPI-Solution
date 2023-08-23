@@ -22,9 +22,18 @@ Partial Class frmDemandApproval
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.rgbSecurity = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblDocAmtDesc = New common.Controls.MyLabel()
+        Me.lblSAmtDesc = New common.Controls.MyLabel()
+        Me.lblDiffAmtDesc = New common.Controls.MyLabel()
+        Me.lblBAmtDesc = New common.Controls.MyLabel()
+        Me.lblDiffAmt = New common.Controls.MyLabel()
+        Me.lblBAmt = New common.Controls.MyLabel()
+        Me.lblDocAmt = New common.Controls.MyLabel()
+        Me.lblSAmt = New common.Controls.MyLabel()
         Me.lblDistributorNameDesc = New common.Controls.MyLabel()
         Me.lblDistributorName = New common.Controls.MyLabel()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
@@ -41,24 +50,25 @@ Partial Class frmDemandApproval
         Me.lblDate = New common.Controls.MyLabel()
         Me.GV1 = New Telerik.WinControls.UI.RadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnReject = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.rgbSecurity = New Telerik.WinControls.UI.RadGroupBox()
-        Me.lblDiffAmt = New common.Controls.MyLabel()
-        Me.lblBAmt = New common.Controls.MyLabel()
-        Me.lblDocAmt = New common.Controls.MyLabel()
-        Me.lblSAmt = New common.Controls.MyLabel()
-        Me.lblSAmtDesc = New common.Controls.MyLabel()
-        Me.lblBAmtDesc = New common.Controls.MyLabel()
-        Me.lblDocAmtDesc = New common.Controls.MyLabel()
-        Me.lblDiffAmtDesc = New common.Controls.MyLabel()
+        Me.btnApprove = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.rgbSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbSecurity.SuspendLayout()
+        CType(Me.lblDocAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDiffAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDiffAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDistributorNameDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -75,19 +85,9 @@ Partial Class frmDemandApproval
         CType(Me.GV1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GV1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReject, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rgbSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.rgbSecurity.SuspendLayout()
-        CType(Me.lblDiffAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblBAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDocAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblBAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDocAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDiffAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnApprove, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -107,9 +107,9 @@ Partial Class frmDemandApproval
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReject)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnApprove)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 407
         Me.SplitContainer1.TabIndex = 1
@@ -145,6 +145,111 @@ Partial Class frmDemandApproval
         Me.SplitContainer2.Size = New System.Drawing.Size(800, 407)
         Me.SplitContainer2.SplitterDistance = 120
         Me.SplitContainer2.TabIndex = 0
+        '
+        'rgbSecurity
+        '
+        Me.rgbSecurity.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbSecurity.Controls.Add(Me.lblDocAmtDesc)
+        Me.rgbSecurity.Controls.Add(Me.lblSAmtDesc)
+        Me.rgbSecurity.Controls.Add(Me.lblDiffAmtDesc)
+        Me.rgbSecurity.Controls.Add(Me.lblBAmtDesc)
+        Me.rgbSecurity.Controls.Add(Me.lblDiffAmt)
+        Me.rgbSecurity.Controls.Add(Me.lblBAmt)
+        Me.rgbSecurity.Controls.Add(Me.lblDocAmt)
+        Me.rgbSecurity.Controls.Add(Me.lblSAmt)
+        Me.rgbSecurity.HeaderText = "Customer Security"
+        Me.rgbSecurity.Location = New System.Drawing.Point(555, 3)
+        Me.rgbSecurity.Name = "rgbSecurity"
+        Me.rgbSecurity.Size = New System.Drawing.Size(237, 105)
+        Me.rgbSecurity.TabIndex = 161
+        Me.rgbSecurity.Text = "Customer Security"
+        '
+        'lblDocAmtDesc
+        '
+        Me.lblDocAmtDesc.AutoSize = False
+        Me.lblDocAmtDesc.BorderVisible = True
+        Me.lblDocAmtDesc.FieldName = Nothing
+        Me.lblDocAmtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDocAmtDesc.Location = New System.Drawing.Point(96, 58)
+        Me.lblDocAmtDesc.Name = "lblDocAmtDesc"
+        Me.lblDocAmtDesc.Size = New System.Drawing.Size(136, 18)
+        Me.lblDocAmtDesc.TabIndex = 163
+        Me.lblDocAmtDesc.TextWrap = False
+        '
+        'lblSAmtDesc
+        '
+        Me.lblSAmtDesc.AutoSize = False
+        Me.lblSAmtDesc.BorderVisible = True
+        Me.lblSAmtDesc.FieldName = Nothing
+        Me.lblSAmtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSAmtDesc.Location = New System.Drawing.Point(96, 17)
+        Me.lblSAmtDesc.Name = "lblSAmtDesc"
+        Me.lblSAmtDesc.Size = New System.Drawing.Size(136, 18)
+        Me.lblSAmtDesc.TabIndex = 161
+        Me.lblSAmtDesc.TextWrap = False
+        '
+        'lblDiffAmtDesc
+        '
+        Me.lblDiffAmtDesc.AutoSize = False
+        Me.lblDiffAmtDesc.BorderVisible = True
+        Me.lblDiffAmtDesc.FieldName = Nothing
+        Me.lblDiffAmtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDiffAmtDesc.Location = New System.Drawing.Point(96, 78)
+        Me.lblDiffAmtDesc.Name = "lblDiffAmtDesc"
+        Me.lblDiffAmtDesc.Size = New System.Drawing.Size(136, 18)
+        Me.lblDiffAmtDesc.TabIndex = 162
+        Me.lblDiffAmtDesc.TextWrap = False
+        '
+        'lblBAmtDesc
+        '
+        Me.lblBAmtDesc.AutoSize = False
+        Me.lblBAmtDesc.BorderVisible = True
+        Me.lblBAmtDesc.FieldName = Nothing
+        Me.lblBAmtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBAmtDesc.Location = New System.Drawing.Point(96, 37)
+        Me.lblBAmtDesc.Name = "lblBAmtDesc"
+        Me.lblBAmtDesc.Size = New System.Drawing.Size(136, 18)
+        Me.lblBAmtDesc.TabIndex = 160
+        Me.lblBAmtDesc.TextWrap = False
+        '
+        'lblDiffAmt
+        '
+        Me.lblDiffAmt.FieldName = Nothing
+        Me.lblDiffAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDiffAmt.Location = New System.Drawing.Point(5, 81)
+        Me.lblDiffAmt.Name = "lblDiffAmt"
+        Me.lblDiffAmt.Size = New System.Drawing.Size(46, 16)
+        Me.lblDiffAmt.TabIndex = 158
+        Me.lblDiffAmt.Text = "Diff Amt"
+        '
+        'lblBAmt
+        '
+        Me.lblBAmt.FieldName = Nothing
+        Me.lblBAmt.Location = New System.Drawing.Point(5, 36)
+        Me.lblBAmt.Name = "lblBAmt"
+        Me.lblBAmt.Size = New System.Drawing.Size(92, 18)
+        Me.lblBAmt.TabIndex = 159
+        Me.lblBAmt.Text = "Outstanding Amt"
+        '
+        'lblDocAmt
+        '
+        Me.lblDocAmt.FieldName = Nothing
+        Me.lblDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDocAmt.Location = New System.Drawing.Point(5, 59)
+        Me.lblDocAmt.Name = "lblDocAmt"
+        Me.lblDocAmt.Size = New System.Drawing.Size(55, 16)
+        Me.lblDocAmt.TabIndex = 157
+        Me.lblDocAmt.Text = "Doc Total"
+        '
+        'lblSAmt
+        '
+        Me.lblSAmt.FieldName = Nothing
+        Me.lblSAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblSAmt.Location = New System.Drawing.Point(5, 17)
+        Me.lblSAmt.Name = "lblSAmt"
+        Me.lblSAmt.Size = New System.Drawing.Size(76, 16)
+        Me.lblSAmt.TabIndex = 156
+        Me.lblSAmt.Text = "Security Amt"
         '
         'lblDistributorNameDesc
         '
@@ -353,7 +458,7 @@ Partial Class frmDemandApproval
         '
         '
         '
-        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.GV1.Name = "GV1"
         Me.GV1.Size = New System.Drawing.Size(800, 283)
         Me.GV1.TabIndex = 0
@@ -367,137 +472,32 @@ Partial Class frmDemandApproval
         Me.btnClose.TabIndex = 1
         Me.btnClose.Text = "Close"
         '
-        'btnDelete
+        'btnReject
         '
-        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDelete.Location = New System.Drawing.Point(179, 7)
-        Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(74, 24)
-        Me.btnDelete.TabIndex = 1
-        Me.btnDelete.Text = "Delete"
+        Me.btnReject.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReject.Location = New System.Drawing.Point(168, 7)
+        Me.btnReject.Name = "btnReject"
+        Me.btnReject.Size = New System.Drawing.Size(74, 24)
+        Me.btnReject.TabIndex = 1
+        Me.btnReject.Text = "Reject"
         '
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Location = New System.Drawing.Point(101, 7)
+        Me.btnReset.Location = New System.Drawing.Point(90, 7)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(74, 24)
         Me.btnReset.TabIndex = 1
         Me.btnReset.Text = "Reset"
         '
-        'btnSave
+        'btnApprove
         '
-        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(24, 7)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(74, 24)
-        Me.btnSave.TabIndex = 0
-        Me.btnSave.Text = "Save"
-        '
-        'rgbSecurity
-        '
-        Me.rgbSecurity.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.rgbSecurity.Controls.Add(Me.lblDocAmtDesc)
-        Me.rgbSecurity.Controls.Add(Me.lblSAmtDesc)
-        Me.rgbSecurity.Controls.Add(Me.lblDiffAmtDesc)
-        Me.rgbSecurity.Controls.Add(Me.lblBAmtDesc)
-        Me.rgbSecurity.Controls.Add(Me.lblDiffAmt)
-        Me.rgbSecurity.Controls.Add(Me.lblBAmt)
-        Me.rgbSecurity.Controls.Add(Me.lblDocAmt)
-        Me.rgbSecurity.Controls.Add(Me.lblSAmt)
-        Me.rgbSecurity.HeaderText = "Customer Security"
-        Me.rgbSecurity.Location = New System.Drawing.Point(555, 3)
-        Me.rgbSecurity.Name = "rgbSecurity"
-        Me.rgbSecurity.Size = New System.Drawing.Size(237, 105)
-        Me.rgbSecurity.TabIndex = 161
-        Me.rgbSecurity.Text = "Customer Security"
-        '
-        'lblDiffAmt
-        '
-        Me.lblDiffAmt.FieldName = Nothing
-        Me.lblDiffAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDiffAmt.Location = New System.Drawing.Point(5, 81)
-        Me.lblDiffAmt.Name = "lblDiffAmt"
-        Me.lblDiffAmt.Size = New System.Drawing.Size(46, 16)
-        Me.lblDiffAmt.TabIndex = 158
-        Me.lblDiffAmt.Text = "Diff Amt"
-        '
-        'lblBAmt
-        '
-        Me.lblBAmt.FieldName = Nothing
-        Me.lblBAmt.Location = New System.Drawing.Point(5, 36)
-        Me.lblBAmt.Name = "lblBAmt"
-        Me.lblBAmt.Size = New System.Drawing.Size(92, 18)
-        Me.lblBAmt.TabIndex = 159
-        Me.lblBAmt.Text = "Outstanding Amt"
-        '
-        'lblDocAmt
-        '
-        Me.lblDocAmt.FieldName = Nothing
-        Me.lblDocAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocAmt.Location = New System.Drawing.Point(5, 59)
-        Me.lblDocAmt.Name = "lblDocAmt"
-        Me.lblDocAmt.Size = New System.Drawing.Size(55, 16)
-        Me.lblDocAmt.TabIndex = 157
-        Me.lblDocAmt.Text = "Doc Total"
-        '
-        'lblSAmt
-        '
-        Me.lblSAmt.FieldName = Nothing
-        Me.lblSAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblSAmt.Location = New System.Drawing.Point(5, 17)
-        Me.lblSAmt.Name = "lblSAmt"
-        Me.lblSAmt.Size = New System.Drawing.Size(76, 16)
-        Me.lblSAmt.TabIndex = 156
-        Me.lblSAmt.Text = "Security Amt"
-        '
-        'lblSAmtDesc
-        '
-        Me.lblSAmtDesc.AutoSize = False
-        Me.lblSAmtDesc.BorderVisible = True
-        Me.lblSAmtDesc.FieldName = Nothing
-        Me.lblSAmtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSAmtDesc.Location = New System.Drawing.Point(96, 17)
-        Me.lblSAmtDesc.Name = "lblSAmtDesc"
-        Me.lblSAmtDesc.Size = New System.Drawing.Size(136, 18)
-        Me.lblSAmtDesc.TabIndex = 161
-        Me.lblSAmtDesc.TextWrap = False
-        '
-        'lblBAmtDesc
-        '
-        Me.lblBAmtDesc.AutoSize = False
-        Me.lblBAmtDesc.BorderVisible = True
-        Me.lblBAmtDesc.FieldName = Nothing
-        Me.lblBAmtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBAmtDesc.Location = New System.Drawing.Point(96, 37)
-        Me.lblBAmtDesc.Name = "lblBAmtDesc"
-        Me.lblBAmtDesc.Size = New System.Drawing.Size(136, 18)
-        Me.lblBAmtDesc.TabIndex = 160
-        Me.lblBAmtDesc.TextWrap = False
-        '
-        'lblDocAmtDesc
-        '
-        Me.lblDocAmtDesc.AutoSize = False
-        Me.lblDocAmtDesc.BorderVisible = True
-        Me.lblDocAmtDesc.FieldName = Nothing
-        Me.lblDocAmtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocAmtDesc.Location = New System.Drawing.Point(96, 58)
-        Me.lblDocAmtDesc.Name = "lblDocAmtDesc"
-        Me.lblDocAmtDesc.Size = New System.Drawing.Size(136, 18)
-        Me.lblDocAmtDesc.TabIndex = 163
-        Me.lblDocAmtDesc.TextWrap = False
-        '
-        'lblDiffAmtDesc
-        '
-        Me.lblDiffAmtDesc.AutoSize = False
-        Me.lblDiffAmtDesc.BorderVisible = True
-        Me.lblDiffAmtDesc.FieldName = Nothing
-        Me.lblDiffAmtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDiffAmtDesc.Location = New System.Drawing.Point(96, 78)
-        Me.lblDiffAmtDesc.Name = "lblDiffAmtDesc"
-        Me.lblDiffAmtDesc.Size = New System.Drawing.Size(136, 18)
-        Me.lblDiffAmtDesc.TabIndex = 162
-        Me.lblDiffAmtDesc.TextWrap = False
+        Me.btnApprove.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnApprove.Location = New System.Drawing.Point(13, 7)
+        Me.btnApprove.Name = "btnApprove"
+        Me.btnApprove.Size = New System.Drawing.Size(74, 24)
+        Me.btnApprove.TabIndex = 0
+        Me.btnApprove.Text = "Approve"
         '
         'frmDemandApproval
         '
@@ -518,6 +518,17 @@ Partial Class frmDemandApproval
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.rgbSecurity, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbSecurity.ResumeLayout(False)
+        Me.rgbSecurity.PerformLayout()
+        CType(Me.lblDocAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDiffAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDiffAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDistributorNameDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDistributorName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -535,20 +546,9 @@ Partial Class frmDemandApproval
         CType(Me.GV1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GV1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReject, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rgbSecurity, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.rgbSecurity.ResumeLayout(False)
-        Me.rgbSecurity.PerformLayout()
-        CType(Me.lblDiffAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblBAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDocAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblBAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDocAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDiffAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnApprove, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -570,9 +570,9 @@ Partial Class frmDemandApproval
     Friend WithEvents lblDate As common.Controls.MyLabel
     Friend WithEvents GV1 As RadGridView
     Friend WithEvents btnClose As RadButton
-    Friend WithEvents btnDelete As RadButton
+    Friend WithEvents btnReject As RadButton
     Friend WithEvents btnReset As RadButton
-    Friend WithEvents btnSave As RadButton
+    Friend WithEvents btnApprove As RadButton
     Friend WithEvents lblDistributorNameDesc As common.Controls.MyLabel
     Friend WithEvents lblDistributorName As common.Controls.MyLabel
     Friend WithEvents rgbSecurity As RadGroupBox
