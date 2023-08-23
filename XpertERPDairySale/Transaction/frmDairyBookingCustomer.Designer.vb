@@ -22,14 +22,14 @@ Partial Class frmDairyBookingCustomer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -161,6 +161,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.btnGatePassPrint = New Telerik.WinControls.UI.RadButton()
         Me.lblCreatedByValue = New common.Controls.MyLabel()
         Me.btn_QtyReset = New Telerik.WinControls.UI.RadButton()
         Me.lblCreatedBy = New common.Controls.MyLabel()
@@ -198,7 +199,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnGatePassPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -326,6 +326,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGatePassPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCreatedByValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_QtyReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCreatedBy, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -362,7 +363,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGatePassPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -416,7 +416,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1098, 455)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -539,6 +538,7 @@ Partial Class frmDairyBookingCustomer
         Me.cmbGatePassType.AutoCompleteDisplayMember = Nothing
         Me.cmbGatePassType.AutoCompleteValueMember = Nothing
         Me.cmbGatePassType.CalculationExpression = Nothing
+        Me.cmbGatePassType.DropDownAnimationEnabled = True
         Me.cmbGatePassType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbGatePassType.FieldCode = Nothing
         Me.cmbGatePassType.FieldDesc = Nothing
@@ -548,12 +548,12 @@ Partial Class frmDairyBookingCustomer
         Me.cmbGatePassType.IsSourceFromTable = False
         Me.cmbGatePassType.IsSourceFromValueList = False
         Me.cmbGatePassType.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "AM"
-        RadListDataItem6.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem4)
-        Me.cmbGatePassType.Items.Add(RadListDataItem5)
-        Me.cmbGatePassType.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "AM"
+        RadListDataItem3.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem1)
+        Me.cmbGatePassType.Items.Add(RadListDataItem2)
+        Me.cmbGatePassType.Items.Add(RadListDataItem3)
         Me.cmbGatePassType.Location = New System.Drawing.Point(323, 149)
         Me.cmbGatePassType.MendatroryField = False
         Me.cmbGatePassType.MyLinkLable1 = Nothing
@@ -707,7 +707,6 @@ Partial Class frmDairyBookingCustomer
         Me.txtBOstatus.Name = "txtBOstatus"
         Me.txtBOstatus.Size = New System.Drawing.Size(86, 18)
         Me.txtBOstatus.TabIndex = 1451
-        Me.txtBOstatus.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtBOstatus.TextWrap = False
         '
         'txtDOStatus
@@ -720,7 +719,6 @@ Partial Class frmDairyBookingCustomer
         Me.txtDOStatus.Name = "txtDOStatus"
         Me.txtDOStatus.Size = New System.Drawing.Size(82, 18)
         Me.txtDOStatus.TabIndex = 1453
-        Me.txtDOStatus.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtDOStatus.TextWrap = False
         '
         'MyLabel7
@@ -744,7 +742,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblLoginUserZone.Name = "lblLoginUserZone"
         Me.lblLoginUserZone.Size = New System.Drawing.Size(156, 18)
         Me.lblLoginUserZone.TabIndex = 1495
-        Me.lblLoginUserZone.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLoginUserZone.TextWrap = False
         '
         'MyLabel13
@@ -787,7 +784,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblroutename.Name = "lblroutename"
         Me.lblroutename.Size = New System.Drawing.Size(156, 18)
         Me.lblroutename.TabIndex = 147
-        Me.lblroutename.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblroutename.TextWrap = False
         '
         'lblroutecode
@@ -800,7 +796,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblroutecode.Name = "lblroutecode"
         Me.lblroutecode.Size = New System.Drawing.Size(63, 18)
         Me.lblroutecode.TabIndex = 149
-        Me.lblroutecode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblroutecode.TextWrap = False
         '
         'lblPriceCode
@@ -853,7 +848,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblUploadingDate.Name = "lblUploadingDate"
         Me.lblUploadingDate.Size = New System.Drawing.Size(148, 18)
         Me.lblUploadingDate.TabIndex = 1489
-        Me.lblUploadingDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblUploadingDate.TextWrap = False
         '
         'lblCreatedDateAndTime
@@ -866,7 +860,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblCreatedDateAndTime.Name = "lblCreatedDateAndTime"
         Me.lblCreatedDateAndTime.Size = New System.Drawing.Size(148, 18)
         Me.lblCreatedDateAndTime.TabIndex = 1481
-        Me.lblCreatedDateAndTime.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCreatedDateAndTime.TextWrap = False
         '
         'lblvehicle
@@ -899,7 +892,6 @@ Partial Class frmDairyBookingCustomer
         Me.LblUpdatedVehicleDesc.Name = "LblUpdatedVehicleDesc"
         Me.LblUpdatedVehicleDesc.Size = New System.Drawing.Size(116, 18)
         Me.LblUpdatedVehicleDesc.TabIndex = 1459
-        Me.LblUpdatedVehicleDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblUpdatedVehicleDesc.TextWrap = False
         '
         'lblvehiclecode
@@ -912,7 +904,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblvehiclecode.Name = "lblvehiclecode"
         Me.lblvehiclecode.Size = New System.Drawing.Size(63, 18)
         Me.lblvehiclecode.TabIndex = 146
-        Me.lblvehiclecode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblvehiclecode.TextWrap = False
         '
         'LblUpdatedVehicleCode
@@ -925,7 +916,6 @@ Partial Class frmDairyBookingCustomer
         Me.LblUpdatedVehicleCode.Name = "LblUpdatedVehicleCode"
         Me.LblUpdatedVehicleCode.Size = New System.Drawing.Size(75, 18)
         Me.LblUpdatedVehicleCode.TabIndex = 1458
-        Me.LblUpdatedVehicleCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblUpdatedVehicleCode.TextWrap = False
         '
         'lblvehicleName
@@ -938,7 +928,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblvehicleName.Name = "lblvehicleName"
         Me.lblvehicleName.Size = New System.Drawing.Size(156, 18)
         Me.lblvehicleName.TabIndex = 148
-        Me.lblvehicleName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblvehicleName.TextWrap = False
         '
         'lblDO
@@ -961,7 +950,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblDONumber.Name = "lblDONumber"
         Me.lblDONumber.Size = New System.Drawing.Size(156, 18)
         Me.lblDONumber.TabIndex = 157
-        Me.lblDONumber.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDONumber.TextWrap = False
         '
         'MyLabel8
@@ -984,7 +972,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblCancelStatus.Name = "lblCancelStatus"
         Me.lblCancelStatus.Size = New System.Drawing.Size(148, 18)
         Me.lblCancelStatus.TabIndex = 1456
-        Me.lblCancelStatus.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCancelStatus.TextWrap = False
         '
         'lblShipToLocation
@@ -998,7 +985,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblShipToLocation.Name = "lblShipToLocation"
         Me.lblShipToLocation.Size = New System.Drawing.Size(227, 18)
         Me.lblShipToLocation.TabIndex = 1492
-        Me.lblShipToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblShipToLocation.TextWrap = False
         '
         'chkSampling
@@ -1292,7 +1278,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblBoothStation.Name = "lblBoothStation"
         Me.lblBoothStation.Size = New System.Drawing.Size(347, 18)
         Me.lblBoothStation.TabIndex = 1442
-        Me.lblBoothStation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBoothStation.TextWrap = False
         Me.lblBoothStation.Visible = False
         '
@@ -1335,6 +1320,7 @@ Partial Class frmDairyBookingCustomer
         Me.cmbBookingType.AutoCompleteDisplayMember = Nothing
         Me.cmbBookingType.AutoCompleteValueMember = Nothing
         Me.cmbBookingType.CalculationExpression = Nothing
+        Me.cmbBookingType.DropDownAnimationEnabled = True
         Me.cmbBookingType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbBookingType.FieldCode = Nothing
         Me.cmbBookingType.FieldDesc = Nothing
@@ -1344,16 +1330,14 @@ Partial Class frmDairyBookingCustomer
         Me.cmbBookingType.IsSourceFromTable = False
         Me.cmbBookingType.IsSourceFromValueList = False
         Me.cmbBookingType.IsUnique = False
-        RadListDataItem7.Text = "Select"
-        RadListDataItem8.Text = "CR"
-        RadListDataItem9.Text = "CASH"
-        RadListDataItem12.Text = "SO"
-        RadListDataItem13.Text = "FESTIVE OFFER"
+        RadListDataItem4.Text = "CASH"
+        RadListDataItem5.Text = "CR"
+        RadListDataItem6.Text = "SO"
+        RadListDataItem7.Text = "FESTIVE OFFER"
+        Me.cmbBookingType.Items.Add(RadListDataItem4)
+        Me.cmbBookingType.Items.Add(RadListDataItem5)
+        Me.cmbBookingType.Items.Add(RadListDataItem6)
         Me.cmbBookingType.Items.Add(RadListDataItem7)
-        Me.cmbBookingType.Items.Add(RadListDataItem8)
-        Me.cmbBookingType.Items.Add(RadListDataItem9)
-        Me.cmbBookingType.Items.Add(RadListDataItem12)
-        Me.cmbBookingType.Items.Add(RadListDataItem13)
         Me.cmbBookingType.Location = New System.Drawing.Point(78, 108)
         Me.cmbBookingType.MendatroryField = False
         Me.cmbBookingType.MyLinkLable1 = Nothing
@@ -1466,7 +1450,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblSalesman.Name = "lblSalesman"
         Me.lblSalesman.Size = New System.Drawing.Size(227, 18)
         Me.lblSalesman.TabIndex = 1441
-        Me.lblSalesman.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblSalesman.TextWrap = False
         Me.lblSalesman.Visible = False
         '
@@ -1517,7 +1500,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(227, 18)
         Me.lblLocation.TabIndex = 154
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'txtLocation
@@ -1566,7 +1548,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblRouteDesc.Name = "lblRouteDesc"
         Me.lblRouteDesc.Size = New System.Drawing.Size(227, 18)
         Me.lblRouteDesc.TabIndex = 144
-        Me.lblRouteDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRouteDesc.TextWrap = False
         '
         'txtDate
@@ -1622,10 +1603,12 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1633,7 +1616,6 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.Size = New System.Drawing.Size(1052, 174)
         Me.gv1.TabIndex = 17
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'lblVendorName
         '
@@ -1645,7 +1627,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(227, 18)
         Me.lblVendorName.TabIndex = 10
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'txtRouteNo
@@ -2174,6 +2155,16 @@ Partial Class frmDairyBookingCustomer
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'btnGatePassPrint
+        '
+        Me.btnGatePassPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGatePassPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGatePassPrint.Location = New System.Drawing.Point(735, 36)
+        Me.btnGatePassPrint.Name = "btnGatePassPrint"
+        Me.btnGatePassPrint.Size = New System.Drawing.Size(93, 22)
+        Me.btnGatePassPrint.TabIndex = 1502
+        Me.btnGatePassPrint.Text = "Gate Pass Print"
+        '
         'lblCreatedByValue
         '
         Me.lblCreatedByValue.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -2514,27 +2505,20 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1098, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Setting"
-        Me.RadMenuItem2.AccessibleName = "Setting"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3, Me.RadMenuItem1, Me.RadMenuItem4, Me.RadMenuItem5})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Setting"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "E-Mail/SMS Setting"
-        Me.RadMenuItem3.AccessibleName = "E-Mail/SMS Setting"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "E-Mail/SMS Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
@@ -2551,16 +2535,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.AccessibleName = "RadMenuItem5"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
-        '
-        'btnGatePassPrint
-        '
-        Me.btnGatePassPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGatePassPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGatePassPrint.Location = New System.Drawing.Point(735, 36)
-        Me.btnGatePassPrint.Name = "btnGatePassPrint"
-        Me.btnGatePassPrint.Size = New System.Drawing.Size(93, 22)
-        Me.btnGatePassPrint.TabIndex = 1502
-        Me.btnGatePassPrint.Text = "Gate Pass Print"
         '
         'frmDairyBookingCustomer
         '
@@ -2713,6 +2687,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGatePassPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCreatedByValue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_QtyReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCreatedBy, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2754,7 +2729,6 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGatePassPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

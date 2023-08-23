@@ -31,6 +31,8 @@ Partial Class RCDFDashboard
         Dim CartesianArea2 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
         Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
@@ -68,6 +70,11 @@ Partial Class RCDFDashboard
         Me.gvQualitySummary = New Telerik.WinControls.UI.RadGridView()
         Me.lblQualitySummary = New common.Controls.MyLabel()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer7 = New System.Windows.Forms.SplitContainer()
+        Me.gvAccountVendor = New Telerik.WinControls.UI.RadGridView()
+        Me.lblvendor = New common.Controls.MyLabel()
+        Me.gvAccountCustomer = New Telerik.WinControls.UI.RadGridView()
+        Me.lblCustomer = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -123,6 +130,16 @@ Partial Class RCDFDashboard
         CType(Me.gvQualitySummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvQualitySummary.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQualitySummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage4.SuspendLayout()
+        Me.SplitContainer7.Panel1.SuspendLayout()
+        Me.SplitContainer7.Panel2.SuspendLayout()
+        Me.SplitContainer7.SuspendLayout()
+        CType(Me.gvAccountVendor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvAccountVendor.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblvendor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvAccountCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvAccountCustomer.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -315,7 +332,7 @@ Partial Class RCDFDashboard
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.PageBackColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(67, Byte), Integer), CType(CType(138, Byte), Integer))
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1149, 497)
         Me.RadPageView1.TabIndex = 1
         Me.RadPageView1.ViewMode = Telerik.WinControls.UI.PageViewMode.Backstage
@@ -676,12 +693,84 @@ Partial Class RCDFDashboard
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.SplitContainer7)
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(222.0!, 45.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(5, 60)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1140, 433)
         Me.RadPageViewPage4.Text = "ACCOUNT"
         Me.RadPageViewPage4.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'SplitContainer7
+        '
+        Me.SplitContainer7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer7.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer7.Name = "SplitContainer7"
+        '
+        'SplitContainer7.Panel1
+        '
+        Me.SplitContainer7.Panel1.Controls.Add(Me.gvAccountVendor)
+        Me.SplitContainer7.Panel1.Controls.Add(Me.lblvendor)
+        '
+        'SplitContainer7.Panel2
+        '
+        Me.SplitContainer7.Panel2.Controls.Add(Me.gvAccountCustomer)
+        Me.SplitContainer7.Panel2.Controls.Add(Me.lblCustomer)
+        Me.SplitContainer7.Size = New System.Drawing.Size(1140, 433)
+        Me.SplitContainer7.SplitterDistance = 574
+        Me.SplitContainer7.TabIndex = 23
+        '
+        'gvAccountVendor
+        '
+        Me.gvAccountVendor.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvAccountVendor.Location = New System.Drawing.Point(0, 20)
+        '
+        '
+        '
+        Me.gvAccountVendor.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvAccountVendor.Name = "gvAccountVendor"
+        Me.gvAccountVendor.Size = New System.Drawing.Size(574, 413)
+        Me.gvAccountVendor.TabIndex = 16
+        '
+        'lblvendor
+        '
+        Me.lblvendor.AutoSize = False
+        Me.lblvendor.Dock = System.Windows.Forms.DockStyle.Top
+        Me.lblvendor.FieldName = Nothing
+        Me.lblvendor.Font = New System.Drawing.Font("Segoe UI", 10.0!)
+        Me.lblvendor.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.lblvendor.Location = New System.Drawing.Point(0, 0)
+        Me.lblvendor.Name = "lblvendor"
+        Me.lblvendor.Size = New System.Drawing.Size(574, 20)
+        Me.lblvendor.TabIndex = 21
+        Me.lblvendor.Text = "VENDOR LEGDER"
+        Me.lblvendor.TextAlignment = System.Drawing.ContentAlignment.TopCenter
+        '
+        'gvAccountCustomer
+        '
+        Me.gvAccountCustomer.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvAccountCustomer.Location = New System.Drawing.Point(0, 20)
+        '
+        '
+        '
+        Me.gvAccountCustomer.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvAccountCustomer.Name = "gvAccountCustomer"
+        Me.gvAccountCustomer.Size = New System.Drawing.Size(562, 413)
+        Me.gvAccountCustomer.TabIndex = 16
+        '
+        'lblCustomer
+        '
+        Me.lblCustomer.AutoSize = False
+        Me.lblCustomer.Dock = System.Windows.Forms.DockStyle.Top
+        Me.lblCustomer.FieldName = Nothing
+        Me.lblCustomer.Font = New System.Drawing.Font("Segoe UI", 10.0!)
+        Me.lblCustomer.ForeColor = System.Drawing.Color.WhiteSmoke
+        Me.lblCustomer.Location = New System.Drawing.Point(0, 0)
+        Me.lblCustomer.Name = "lblCustomer"
+        Me.lblCustomer.Size = New System.Drawing.Size(562, 20)
+        Me.lblCustomer.TabIndex = 22
+        Me.lblCustomer.Text = "CUSTOMER LEDGER"
+        Me.lblCustomer.TextAlignment = System.Drawing.ContentAlignment.TopCenter
         '
         'RCDFDashboard
         '
@@ -751,6 +840,16 @@ Partial Class RCDFDashboard
         CType(Me.gvQualitySummary.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvQualitySummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblQualitySummary, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage4.ResumeLayout(False)
+        Me.SplitContainer7.Panel1.ResumeLayout(False)
+        Me.SplitContainer7.Panel2.ResumeLayout(False)
+        Me.SplitContainer7.ResumeLayout(False)
+        CType(Me.gvAccountVendor.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvAccountVendor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblvendor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvAccountCustomer.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvAccountCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -771,7 +870,6 @@ Partial Class RCDFDashboard
     Friend WithEvents gvProdution As RadGridView
     Friend WithEvents cvProdution As RadChartView
     Friend WithEvents RadPageViewPage3 As RadPageViewPage
-    Friend WithEvents RadPageViewPage4 As RadPageViewPage
     Friend WithEvents RadLabel15 As common.Controls.MyLabel
     Friend WithEvents txtLocation As common.UserControls.txtFinder
     Friend WithEvents SplitContainer3 As SplitContainer
@@ -786,11 +884,17 @@ Partial Class RCDFDashboard
     Friend WithEvents gvRMStock As RadGridView
     Friend WithEvents lblRMStock As common.Controls.MyLabel
     Friend WithEvents SplitContainer6 As SplitContainer
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents RadPageViewPage4 As RadPageViewPage
     Friend WithEvents gvRMSupply As RadGridView
     Friend WithEvents lblRMSupply As common.Controls.MyLabel
     Friend WithEvents gvRMInPlant As RadGridView
     Friend WithEvents lblRMInPlant As common.Controls.MyLabel
-    Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents lblCustomer As common.Controls.MyLabel
+    Friend WithEvents lblvendor As common.Controls.MyLabel
+    Friend WithEvents SplitContainer7 As SplitContainer
+    Friend WithEvents gvAccountVendor As RadGridView
+    Friend WithEvents gvAccountCustomer As RadGridView
 End Class
 
