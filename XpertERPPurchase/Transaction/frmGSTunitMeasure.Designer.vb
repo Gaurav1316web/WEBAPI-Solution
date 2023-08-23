@@ -46,11 +46,11 @@ Partial Class frmGSTunitMeasure
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadSplitContainer2 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
-        Me.txtCode1 = New common.UserControls.txtNavigator()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
-        Me.txtName1 = New common.Controls.MyTextBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.txtName1 = New common.Controls.MyTextBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.btnreset = New Telerik.WinControls.UI.RadButton()
+        Me.txtCode1 = New common.UserControls.txtNavigator()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
@@ -63,7 +63,8 @@ Partial Class frmGSTunitMeasure
         Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
         Me.btnSave1 = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete1 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton6 = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose1 = New Telerik.WinControls.UI.RadButton()
+        Me.Splitter2 = New System.Windows.Forms.Splitter()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadMenu2.SuspendLayout()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,10 +85,10 @@ Partial Class frmGSTunitMeasure
         Me.RadSplitContainer2.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtName1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtName1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -98,7 +99,7 @@ Partial Class frmGSTunitMeasure
         Me.SplitPanel2.SuspendLayout()
         CType(Me.btnSave1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -365,11 +366,11 @@ Partial Class frmGSTunitMeasure
         '
         'SplitPanel1
         '
-        Me.SplitPanel1.Controls.Add(Me.txtCode1)
-        Me.SplitPanel1.Controls.Add(Me.RadButton3)
-        Me.SplitPanel1.Controls.Add(Me.txtName1)
         Me.SplitPanel1.Controls.Add(Me.MyLabel6)
+        Me.SplitPanel1.Controls.Add(Me.txtName1)
         Me.SplitPanel1.Controls.Add(Me.MyLabel5)
+        Me.SplitPanel1.Controls.Add(Me.btnreset)
+        Me.SplitPanel1.Controls.Add(Me.txtCode1)
         Me.SplitPanel1.Location = New System.Drawing.Point(0, 0)
         Me.SplitPanel1.Name = "SplitPanel1"
         '
@@ -381,40 +382,14 @@ Partial Class frmGSTunitMeasure
         Me.SplitPanel1.TabStop = False
         Me.SplitPanel1.Text = "SplitPanel1"
         '
-        'txtCode1
+        'MyLabel6
         '
-        Me.txtCode1.FieldName = Nothing
-        Me.txtCode1.Location = New System.Drawing.Point(85, 10)
-        Me.txtCode1.MendatroryField = False
-        Me.txtCode1.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.txtCode1.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtCode1.MyLinkLable1 = Me.MyLabel5
-        Me.txtCode1.MyLinkLable2 = Nothing
-        Me.txtCode1.MyMaxLength = 12
-        Me.txtCode1.MyReadOnly = False
-        Me.txtCode1.Name = "txtCode1"
-        Me.txtCode1.Size = New System.Drawing.Size(252, 20)
-        Me.txtCode1.TabIndex = 25
-        Me.txtCode1.Value = ""
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(13, 13)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(32, 18)
-        Me.MyLabel5.TabIndex = 21
-        Me.MyLabel5.Text = "Code"
-        '
-        'RadButton3
-        '
-        Me.RadButton3.Image = CType(resources.GetObject("RadButton3.Image"), System.Drawing.Image)
-        Me.RadButton3.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.RadButton3.Location = New System.Drawing.Point(339, 10)
-        Me.RadButton3.Name = "RadButton3"
-        Me.RadButton3.Size = New System.Drawing.Size(19, 21)
-        Me.RadButton3.TabIndex = 24
-        Me.RadButton3.Text = " "
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Location = New System.Drawing.Point(12, 37)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(36, 18)
+        Me.MyLabel6.TabIndex = 22
+        Me.MyLabel6.Text = "Name"
         '
         'txtName1
         '
@@ -427,7 +402,7 @@ Partial Class frmGSTunitMeasure
         Me.txtName1.IsSourceFromTable = False
         Me.txtName1.IsSourceFromValueList = False
         Me.txtName1.IsUnique = False
-        Me.txtName1.Location = New System.Drawing.Point(85, 36)
+        Me.txtName1.Location = New System.Drawing.Point(71, 40)
         Me.txtName1.MaxLength = 100
         Me.txtName1.MendatroryField = True
         Me.txtName1.MyLinkLable1 = Me.MyLabel6
@@ -439,14 +414,40 @@ Partial Class frmGSTunitMeasure
         Me.txtName1.Size = New System.Drawing.Size(359, 20)
         Me.txtName1.TabIndex = 23
         '
-        'MyLabel6
+        'MyLabel5
         '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Location = New System.Drawing.Point(12, 37)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(36, 18)
-        Me.MyLabel6.TabIndex = 22
-        Me.MyLabel6.Text = "Name"
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Location = New System.Drawing.Point(13, 13)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(32, 18)
+        Me.MyLabel5.TabIndex = 21
+        Me.MyLabel5.Text = "Code"
+        '
+        'btnreset
+        '
+        Me.btnreset.Image = CType(resources.GetObject("btnreset.Image"), System.Drawing.Image)
+        Me.btnreset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnreset.Location = New System.Drawing.Point(324, 13)
+        Me.btnreset.Name = "btnreset"
+        Me.btnreset.Size = New System.Drawing.Size(19, 21)
+        Me.btnreset.TabIndex = 24
+        Me.btnreset.Text = " "
+        '
+        'txtCode1
+        '
+        Me.txtCode1.FieldName = Nothing
+        Me.txtCode1.Location = New System.Drawing.Point(71, 12)
+        Me.txtCode1.MendatroryField = False
+        Me.txtCode1.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.txtCode1.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCode1.MyLinkLable1 = Me.MyLabel5
+        Me.txtCode1.MyLinkLable2 = Nothing
+        Me.txtCode1.MyMaxLength = 12
+        Me.txtCode1.MyReadOnly = False
+        Me.txtCode1.Name = "txtCode1"
+        Me.txtCode1.Size = New System.Drawing.Size(252, 20)
+        Me.txtCode1.TabIndex = 25
+        Me.txtCode1.Value = ""
         '
         'RadSplitContainer1
         '
@@ -556,7 +557,7 @@ Partial Class frmGSTunitMeasure
         '
         Me.SplitPanel2.Controls.Add(Me.btnSave1)
         Me.SplitPanel2.Controls.Add(Me.btnDelete1)
-        Me.SplitPanel2.Controls.Add(Me.RadButton6)
+        Me.SplitPanel2.Controls.Add(Me.btnClose1)
         Me.SplitPanel2.Location = New System.Drawing.Point(0, 0)
         Me.SplitPanel2.Name = "SplitPanel2"
         '
@@ -587,22 +588,31 @@ Partial Class frmGSTunitMeasure
         Me.btnDelete1.TabIndex = 7
         Me.btnDelete1.Text = "Delete"
         '
-        'RadButton6
+        'btnClose1
         '
-        Me.RadButton6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadButton6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton6.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.RadButton6.Location = New System.Drawing.Point(467, 3)
-        Me.RadButton6.Name = "RadButton6"
-        Me.RadButton6.Size = New System.Drawing.Size(68, 18)
-        Me.RadButton6.TabIndex = 8
-        Me.RadButton6.Text = "Close"
+        Me.btnClose1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose1.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnClose1.Location = New System.Drawing.Point(467, 3)
+        Me.btnClose1.Name = "btnClose1"
+        Me.btnClose1.Size = New System.Drawing.Size(68, 18)
+        Me.btnClose1.TabIndex = 8
+        Me.btnClose1.Text = "Close"
+        '
+        'Splitter2
+        '
+        Me.Splitter2.Location = New System.Drawing.Point(0, 20)
+        Me.Splitter2.Name = "Splitter2"
+        Me.Splitter2.Size = New System.Drawing.Size(3, 479)
+        Me.Splitter2.TabIndex = 26
+        Me.Splitter2.TabStop = False
         '
         'frmGSTunitMeasure
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(941, 499)
+        Me.Controls.Add(Me.Splitter2)
         Me.Controls.Add(Me.RadSplitContainer3)
         Me.Controls.Add(Me.RadGroupBox1)
         Me.Controls.Add(Me.RadMenu2)
@@ -633,10 +643,10 @@ Partial Class frmGSTunitMeasure
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitPanel1.ResumeLayout(False)
         Me.SplitPanel1.PerformLayout()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtName1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtName1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -647,7 +657,7 @@ Partial Class frmGSTunitMeasure
         Me.SplitPanel2.ResumeLayout(False)
         CType(Me.btnSave1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -686,12 +696,13 @@ Partial Class frmGSTunitMeasure
     Friend WithEvents SplitPanel1 As SplitPanel
     Friend WithEvents txtCode1 As common.UserControls.txtNavigator
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
-    Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents btnreset As RadButton
     Friend WithEvents txtName1 As common.Controls.MyTextBox
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents RadSplitContainer3 As RadSplitContainer
     Friend WithEvents SplitPanel2 As SplitPanel
     Friend WithEvents btnDelete1 As RadButton
-    Friend WithEvents RadButton6 As RadButton
+    Friend WithEvents btnClose1 As RadButton
     Friend WithEvents btnSave1 As RadButton
+    Friend WithEvents Splitter2 As Splitter
 End Class
