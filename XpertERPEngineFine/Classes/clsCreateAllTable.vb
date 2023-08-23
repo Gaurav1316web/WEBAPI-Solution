@@ -2197,6 +2197,9 @@ Public Class clsCreateAllTable
             coll.Add("FG_for_CF", "integer not null default 0")
             coll.Add("Is_DisplayDemand", "integer not NULL default 0")
             coll.Add("NIR_QC", "integer NULL")
+            coll.Add("BuyBackType", "integer null default 0")
+            coll.Add("BuyBackValue", "Decimal(18,2) null")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -31490,6 +31493,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Is_CashSale", "char(1) default 'N'")
             coll.Add("RoundOffAmount", "decimal(18, 2) default 0")
             coll.Add("Is_Taxable", "Integer not null default 0")
+            coll.Add("IsBuyBack", "Integer not null default 0")
             coll.Add("EWayBillNo", "Varchar(30) null")
             coll.Add("EWayBillDate", "Datetime NULL")
             coll.Add("Electronic_Ref_No", "varchar(10) NULL")

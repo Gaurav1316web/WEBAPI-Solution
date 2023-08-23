@@ -1,19 +1,8 @@
-﻿Imports common
-
-Imports System.Net.Cache
-Imports System.Net.Security
-Imports System.Runtime.Serialization
-Imports System.Security.Cryptography.X509Certificates
-Imports System.Web
-Imports System.Windows.Forms
-Imports Telerik.WinControls
-Imports System.ComponentModel
-Imports System.Data.SqlClient
+﻿Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Net
-
-Imports Newtonsoft.Json.Linq
 Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
 
 Public Class ClsEInvoiceOFAPIs
 #Region "Variables"

@@ -22,12 +22,12 @@ Partial Class frmCorrection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -99,35 +99,60 @@ Partial Class frmCorrection
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.lblDCSRoute = New common.Controls.MyLabel()
+        Me.lblBMCRoute = New common.Controls.MyLabel()
         Me.MyLabel16 = New common.Controls.MyLabel()
-        Me.txtDCSDate = New common.Controls.MyDateTimePicker()
-        Me.txtDCSBMC = New common.UserControls.txtFinder()
+        Me.txtBMCDate = New common.Controls.MyDateTimePicker()
+        Me.txtBMCBMC = New common.UserControls.txtFinder()
         Me.MyLabel14 = New common.Controls.MyLabel()
-        Me.lblDCSBMC = New common.Controls.MyLabel()
-        Me.txtDCSRouteNo = New common.UserControls.txtFinder()
+        Me.lblBMCBMC = New common.Controls.MyLabel()
+        Me.txtBMCRouteNo = New common.UserControls.txtFinder()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.lblStatus = New common.Controls.MyLabel()
+        Me.lblBMCStatus = New common.Controls.MyLabel()
         Me.MyLabel19 = New common.Controls.MyLabel()
-        Me.lblDCSDetailNo = New common.Controls.MyLabel()
+        Me.lblBMCDetailNo = New common.Controls.MyLabel()
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.MyLabel18 = New common.Controls.MyLabel()
-        Me.lblDCSSno = New common.Controls.MyLabel()
+        Me.lblBMCSno = New common.Controls.MyLabel()
         Me.MyLabel21 = New common.Controls.MyLabel()
-        Me.lblDCSDocNo = New common.Controls.MyLabel()
-        Me.lblDCSCorrBMC = New common.Controls.MyLabel()
-        Me.cboDCSCorrMilkType = New common.Controls.MyComboBox()
+        Me.lblBMCDocNo = New common.Controls.MyLabel()
+        Me.lblBMCCorrBMC = New common.Controls.MyLabel()
+        Me.cboBMCCorrMilkType = New common.Controls.MyComboBox()
         Me.MyLabel24 = New common.Controls.MyLabel()
         Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel25 = New common.Controls.MyLabel()
         Me.RadButton5 = New Telerik.WinControls.UI.RadButton()
-        Me.txtDCSCorrBMC = New common.UserControls.txtFinder()
+        Me.txtBMCCorrBMC = New common.UserControls.txtFinder()
         Me.MyLabel26 = New common.Controls.MyLabel()
-        Me.txtDCSCorrQty = New common.MyNumBox()
+        Me.txtBMCCorrQty = New common.MyNumBox()
         Me.MyLabel27 = New common.Controls.MyLabel()
-        Me.txtDCSCorrSNF = New common.MyNumBox()
+        Me.txtBMCCorrSNF = New common.MyNumBox()
         Me.MyLabel28 = New common.Controls.MyLabel()
-        Me.txtDCSCorrFAT = New common.MyNumBox()
+        Me.txtBMCCorrFAT = New common.MyNumBox()
+        Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadButton6 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.lblBMCTankerRoute = New common.Controls.MyLabel()
+        Me.MyLabel20 = New common.Controls.MyLabel()
+        Me.txtBMCTankerDate = New common.Controls.MyDateTimePicker()
+        Me.txtBMCTankerRoute = New common.UserControls.txtFinder()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel23 = New common.Controls.MyLabel()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.lblBMCTankerSNFKG = New common.Controls.MyLabel()
+        Me.MyLabel32 = New common.Controls.MyLabel()
+        Me.lblBMCTankerFATKG = New common.Controls.MyLabel()
+        Me.lblBMCTankerTripNo = New common.Controls.MyLabel()
+        Me.MyLabel35 = New common.Controls.MyLabel()
+        Me.lblBMCTankerDocNo = New common.Controls.MyLabel()
+        Me.RadButton7 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton8 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel43 = New common.Controls.MyLabel()
+        Me.txtBMCTankerQty = New common.MyNumBox()
+        Me.MyLabel44 = New common.Controls.MyLabel()
+        Me.txtBMCTankerSNF = New common.MyNumBox()
+        Me.MyLabel45 = New common.Controls.MyLabel()
+        Me.txtBMCTankerFAT = New common.MyNumBox()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -200,33 +225,59 @@ Partial Class frmCorrection
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDCSRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDCSDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBMCDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDCSBMC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
-        CType(Me.lblStatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDCSDetailNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCDetailNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDCSSno, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCSno, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDCSDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDCSCorrBMC, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboDCSCorrMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCCorrBMC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboBMCCorrMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDCSCorrQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBMCCorrQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDCSCorrSNF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBMCCorrSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDCSCorrFAT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBMCCorrFAT, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage6.SuspendLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCTankerRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBMCTankerDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCTankerSNFKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCTankerFATKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCTankerTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCTankerDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBMCTankerQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBMCTankerSNF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -258,10 +309,11 @@ Partial Class frmCorrection
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage6)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -345,10 +397,10 @@ Partial Class frmCorrection
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem7.Text = "M"
-        RadListDataItem8.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem7)
-        Me.cboShift.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem1)
+        Me.cboShift.Items.Add(RadListDataItem2)
         Me.cboShift.Location = New System.Drawing.Point(273, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -598,10 +650,10 @@ Partial Class frmCorrection
         Me.cboMilkType.IsSourceFromTable = False
         Me.cboMilkType.IsSourceFromValueList = False
         Me.cboMilkType.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboMilkType.Items.Add(RadListDataItem1)
-        Me.cboMilkType.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboMilkType.Items.Add(RadListDataItem3)
+        Me.cboMilkType.Items.Add(RadListDataItem4)
         Me.cboMilkType.Location = New System.Drawing.Point(71, 94)
         Me.cboMilkType.MendatroryField = True
         Me.cboMilkType.MyLinkLable1 = Me.MyLabel4
@@ -1273,13 +1325,13 @@ Partial Class frmCorrection
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox3.Controls.Add(Me.RadButton3)
         Me.RadGroupBox3.Controls.Add(Me.MyLabel12)
-        Me.RadGroupBox3.Controls.Add(Me.lblDCSRoute)
+        Me.RadGroupBox3.Controls.Add(Me.lblBMCRoute)
         Me.RadGroupBox3.Controls.Add(Me.MyLabel16)
-        Me.RadGroupBox3.Controls.Add(Me.txtDCSDate)
-        Me.RadGroupBox3.Controls.Add(Me.txtDCSBMC)
-        Me.RadGroupBox3.Controls.Add(Me.txtDCSRouteNo)
+        Me.RadGroupBox3.Controls.Add(Me.txtBMCDate)
+        Me.RadGroupBox3.Controls.Add(Me.txtBMCBMC)
+        Me.RadGroupBox3.Controls.Add(Me.txtBMCRouteNo)
         Me.RadGroupBox3.Controls.Add(Me.MyLabel14)
-        Me.RadGroupBox3.Controls.Add(Me.lblDCSBMC)
+        Me.RadGroupBox3.Controls.Add(Me.lblBMCBMC)
         Me.RadGroupBox3.HeaderText = "Filter"
         Me.RadGroupBox3.Location = New System.Drawing.Point(3, 3)
         Me.RadGroupBox3.Name = "RadGroupBox3"
@@ -1307,15 +1359,15 @@ Partial Class frmCorrection
         Me.MyLabel12.TabIndex = 8
         Me.MyLabel12.Text = "Shift Date"
         '
-        'lblDCSRoute
+        'lblBMCRoute
         '
-        Me.lblDCSRoute.AutoSize = False
-        Me.lblDCSRoute.BorderVisible = True
-        Me.lblDCSRoute.FieldName = Nothing
-        Me.lblDCSRoute.Location = New System.Drawing.Point(234, 37)
-        Me.lblDCSRoute.Name = "lblDCSRoute"
-        Me.lblDCSRoute.Size = New System.Drawing.Size(260, 21)
-        Me.lblDCSRoute.TabIndex = 11
+        Me.lblBMCRoute.AutoSize = False
+        Me.lblBMCRoute.BorderVisible = True
+        Me.lblBMCRoute.FieldName = Nothing
+        Me.lblBMCRoute.Location = New System.Drawing.Point(234, 37)
+        Me.lblBMCRoute.Name = "lblBMCRoute"
+        Me.lblBMCRoute.Size = New System.Drawing.Size(260, 21)
+        Me.lblBMCRoute.TabIndex = 11
         '
         'MyLabel16
         '
@@ -1327,62 +1379,62 @@ Partial Class frmCorrection
         Me.MyLabel16.TabIndex = 6
         Me.MyLabel16.Text = "Route"
         '
-        'txtDCSDate
+        'txtBMCDate
         '
-        Me.txtDCSDate.CalculationExpression = Nothing
-        Me.txtDCSDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtDCSDate.FieldCode = Nothing
-        Me.txtDCSDate.FieldDesc = Nothing
-        Me.txtDCSDate.FieldMaxLength = 0
-        Me.txtDCSDate.FieldName = Nothing
-        Me.txtDCSDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDCSDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtDCSDate.isCalculatedField = False
-        Me.txtDCSDate.IsSourceFromTable = False
-        Me.txtDCSDate.IsSourceFromValueList = False
-        Me.txtDCSDate.IsUnique = False
-        Me.txtDCSDate.Location = New System.Drawing.Point(71, 16)
-        Me.txtDCSDate.MendatroryField = True
-        Me.txtDCSDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDCSDate.MyLinkLable1 = Me.MyLabel12
-        Me.txtDCSDate.MyLinkLable2 = Nothing
-        Me.txtDCSDate.Name = "txtDCSDate"
-        Me.txtDCSDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDCSDate.ReferenceFieldDesc = Nothing
-        Me.txtDCSDate.ReferenceFieldName = Nothing
-        Me.txtDCSDate.ReferenceTableName = Nothing
-        Me.txtDCSDate.Size = New System.Drawing.Size(156, 18)
-        Me.txtDCSDate.TabIndex = 0
-        Me.txtDCSDate.TabStop = False
-        Me.txtDCSDate.Text = "03/05/2011"
-        Me.txtDCSDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        Me.txtBMCDate.CalculationExpression = Nothing
+        Me.txtBMCDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtBMCDate.FieldCode = Nothing
+        Me.txtBMCDate.FieldDesc = Nothing
+        Me.txtBMCDate.FieldMaxLength = 0
+        Me.txtBMCDate.FieldName = Nothing
+        Me.txtBMCDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBMCDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtBMCDate.isCalculatedField = False
+        Me.txtBMCDate.IsSourceFromTable = False
+        Me.txtBMCDate.IsSourceFromValueList = False
+        Me.txtBMCDate.IsUnique = False
+        Me.txtBMCDate.Location = New System.Drawing.Point(71, 16)
+        Me.txtBMCDate.MendatroryField = True
+        Me.txtBMCDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtBMCDate.MyLinkLable1 = Me.MyLabel12
+        Me.txtBMCDate.MyLinkLable2 = Nothing
+        Me.txtBMCDate.Name = "txtBMCDate"
+        Me.txtBMCDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtBMCDate.ReferenceFieldDesc = Nothing
+        Me.txtBMCDate.ReferenceFieldName = Nothing
+        Me.txtBMCDate.ReferenceTableName = Nothing
+        Me.txtBMCDate.Size = New System.Drawing.Size(156, 18)
+        Me.txtBMCDate.TabIndex = 0
+        Me.txtBMCDate.TabStop = False
+        Me.txtBMCDate.Text = "03/05/2011"
+        Me.txtBMCDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
         '
-        'txtDCSBMC
+        'txtBMCBMC
         '
-        Me.txtDCSBMC.CalculationExpression = Nothing
-        Me.txtDCSBMC.FieldCode = Nothing
-        Me.txtDCSBMC.FieldDesc = Nothing
-        Me.txtDCSBMC.FieldMaxLength = 0
-        Me.txtDCSBMC.FieldName = Nothing
-        Me.txtDCSBMC.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtDCSBMC.isCalculatedField = False
-        Me.txtDCSBMC.IsSourceFromTable = False
-        Me.txtDCSBMC.IsSourceFromValueList = False
-        Me.txtDCSBMC.IsUnique = False
-        Me.txtDCSBMC.Location = New System.Drawing.Point(71, 61)
-        Me.txtDCSBMC.MendatroryField = True
-        Me.txtDCSBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDCSBMC.MyLinkLable1 = Me.MyLabel14
-        Me.txtDCSBMC.MyLinkLable2 = Me.lblDCSBMC
-        Me.txtDCSBMC.MyReadOnly = False
-        Me.txtDCSBMC.MyShowMasterFormButton = False
-        Me.txtDCSBMC.Name = "txtDCSBMC"
-        Me.txtDCSBMC.ReferenceFieldDesc = Nothing
-        Me.txtDCSBMC.ReferenceFieldName = Nothing
-        Me.txtDCSBMC.ReferenceTableName = Nothing
-        Me.txtDCSBMC.Size = New System.Drawing.Size(159, 21)
-        Me.txtDCSBMC.TabIndex = 2
-        Me.txtDCSBMC.Value = ""
+        Me.txtBMCBMC.CalculationExpression = Nothing
+        Me.txtBMCBMC.FieldCode = Nothing
+        Me.txtBMCBMC.FieldDesc = Nothing
+        Me.txtBMCBMC.FieldMaxLength = 0
+        Me.txtBMCBMC.FieldName = Nothing
+        Me.txtBMCBMC.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtBMCBMC.isCalculatedField = False
+        Me.txtBMCBMC.IsSourceFromTable = False
+        Me.txtBMCBMC.IsSourceFromValueList = False
+        Me.txtBMCBMC.IsUnique = False
+        Me.txtBMCBMC.Location = New System.Drawing.Point(71, 61)
+        Me.txtBMCBMC.MendatroryField = True
+        Me.txtBMCBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBMCBMC.MyLinkLable1 = Me.MyLabel14
+        Me.txtBMCBMC.MyLinkLable2 = Me.lblBMCBMC
+        Me.txtBMCBMC.MyReadOnly = False
+        Me.txtBMCBMC.MyShowMasterFormButton = False
+        Me.txtBMCBMC.Name = "txtBMCBMC"
+        Me.txtBMCBMC.ReferenceFieldDesc = Nothing
+        Me.txtBMCBMC.ReferenceFieldName = Nothing
+        Me.txtBMCBMC.ReferenceTableName = Nothing
+        Me.txtBMCBMC.Size = New System.Drawing.Size(159, 21)
+        Me.txtBMCBMC.TabIndex = 2
+        Me.txtBMCBMC.Value = ""
         '
         'MyLabel14
         '
@@ -1394,66 +1446,66 @@ Partial Class frmCorrection
         Me.MyLabel14.TabIndex = 7
         Me.MyLabel14.Text = "BMC"
         '
-        'lblDCSBMC
+        'lblBMCBMC
         '
-        Me.lblDCSBMC.AutoSize = False
-        Me.lblDCSBMC.BorderVisible = True
-        Me.lblDCSBMC.FieldName = Nothing
-        Me.lblDCSBMC.Location = New System.Drawing.Point(234, 61)
-        Me.lblDCSBMC.Name = "lblDCSBMC"
-        Me.lblDCSBMC.Size = New System.Drawing.Size(260, 21)
-        Me.lblDCSBMC.TabIndex = 10
+        Me.lblBMCBMC.AutoSize = False
+        Me.lblBMCBMC.BorderVisible = True
+        Me.lblBMCBMC.FieldName = Nothing
+        Me.lblBMCBMC.Location = New System.Drawing.Point(234, 61)
+        Me.lblBMCBMC.Name = "lblBMCBMC"
+        Me.lblBMCBMC.Size = New System.Drawing.Size(260, 21)
+        Me.lblBMCBMC.TabIndex = 10
         '
-        'txtDCSRouteNo
+        'txtBMCRouteNo
         '
-        Me.txtDCSRouteNo.CalculationExpression = Nothing
-        Me.txtDCSRouteNo.FieldCode = Nothing
-        Me.txtDCSRouteNo.FieldDesc = Nothing
-        Me.txtDCSRouteNo.FieldMaxLength = 0
-        Me.txtDCSRouteNo.FieldName = Nothing
-        Me.txtDCSRouteNo.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtDCSRouteNo.isCalculatedField = False
-        Me.txtDCSRouteNo.IsSourceFromTable = False
-        Me.txtDCSRouteNo.IsSourceFromValueList = False
-        Me.txtDCSRouteNo.IsUnique = False
-        Me.txtDCSRouteNo.Location = New System.Drawing.Point(71, 37)
-        Me.txtDCSRouteNo.MendatroryField = True
-        Me.txtDCSRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDCSRouteNo.MyLinkLable1 = Me.MyLabel16
-        Me.txtDCSRouteNo.MyLinkLable2 = Nothing
-        Me.txtDCSRouteNo.MyReadOnly = False
-        Me.txtDCSRouteNo.MyShowMasterFormButton = False
-        Me.txtDCSRouteNo.Name = "txtDCSRouteNo"
-        Me.txtDCSRouteNo.ReferenceFieldDesc = Nothing
-        Me.txtDCSRouteNo.ReferenceFieldName = Nothing
-        Me.txtDCSRouteNo.ReferenceTableName = Nothing
-        Me.txtDCSRouteNo.Size = New System.Drawing.Size(159, 21)
-        Me.txtDCSRouteNo.TabIndex = 3
-        Me.txtDCSRouteNo.Value = ""
+        Me.txtBMCRouteNo.CalculationExpression = Nothing
+        Me.txtBMCRouteNo.FieldCode = Nothing
+        Me.txtBMCRouteNo.FieldDesc = Nothing
+        Me.txtBMCRouteNo.FieldMaxLength = 0
+        Me.txtBMCRouteNo.FieldName = Nothing
+        Me.txtBMCRouteNo.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtBMCRouteNo.isCalculatedField = False
+        Me.txtBMCRouteNo.IsSourceFromTable = False
+        Me.txtBMCRouteNo.IsSourceFromValueList = False
+        Me.txtBMCRouteNo.IsUnique = False
+        Me.txtBMCRouteNo.Location = New System.Drawing.Point(71, 37)
+        Me.txtBMCRouteNo.MendatroryField = True
+        Me.txtBMCRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBMCRouteNo.MyLinkLable1 = Me.MyLabel16
+        Me.txtBMCRouteNo.MyLinkLable2 = Nothing
+        Me.txtBMCRouteNo.MyReadOnly = False
+        Me.txtBMCRouteNo.MyShowMasterFormButton = False
+        Me.txtBMCRouteNo.Name = "txtBMCRouteNo"
+        Me.txtBMCRouteNo.ReferenceFieldDesc = Nothing
+        Me.txtBMCRouteNo.ReferenceFieldName = Nothing
+        Me.txtBMCRouteNo.ReferenceTableName = Nothing
+        Me.txtBMCRouteNo.Size = New System.Drawing.Size(159, 21)
+        Me.txtBMCRouteNo.TabIndex = 3
+        Me.txtBMCRouteNo.Value = ""
         '
         'RadGroupBox4
         '
         Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.lblStatus)
+        Me.RadGroupBox4.Controls.Add(Me.lblBMCStatus)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel19)
-        Me.RadGroupBox4.Controls.Add(Me.lblDCSDetailNo)
+        Me.RadGroupBox4.Controls.Add(Me.lblBMCDetailNo)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel13)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel18)
-        Me.RadGroupBox4.Controls.Add(Me.lblDCSSno)
+        Me.RadGroupBox4.Controls.Add(Me.lblBMCSno)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel21)
-        Me.RadGroupBox4.Controls.Add(Me.lblDCSDocNo)
-        Me.RadGroupBox4.Controls.Add(Me.lblDCSCorrBMC)
-        Me.RadGroupBox4.Controls.Add(Me.cboDCSCorrMilkType)
+        Me.RadGroupBox4.Controls.Add(Me.lblBMCDocNo)
+        Me.RadGroupBox4.Controls.Add(Me.lblBMCCorrBMC)
+        Me.RadGroupBox4.Controls.Add(Me.cboBMCCorrMilkType)
         Me.RadGroupBox4.Controls.Add(Me.RadButton4)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel24)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel25)
         Me.RadGroupBox4.Controls.Add(Me.RadButton5)
-        Me.RadGroupBox4.Controls.Add(Me.txtDCSCorrBMC)
+        Me.RadGroupBox4.Controls.Add(Me.txtBMCCorrBMC)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel26)
-        Me.RadGroupBox4.Controls.Add(Me.txtDCSCorrQty)
+        Me.RadGroupBox4.Controls.Add(Me.txtBMCCorrQty)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel27)
-        Me.RadGroupBox4.Controls.Add(Me.txtDCSCorrSNF)
-        Me.RadGroupBox4.Controls.Add(Me.txtDCSCorrFAT)
+        Me.RadGroupBox4.Controls.Add(Me.txtBMCCorrSNF)
+        Me.RadGroupBox4.Controls.Add(Me.txtBMCCorrFAT)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel28)
         Me.RadGroupBox4.HeaderText = "Correction"
         Me.RadGroupBox4.Location = New System.Drawing.Point(3, 91)
@@ -1462,16 +1514,16 @@ Partial Class frmCorrection
         Me.RadGroupBox4.TabIndex = 3
         Me.RadGroupBox4.Text = "Correction"
         '
-        'lblStatus
+        'lblBMCStatus
         '
-        Me.lblStatus.AutoSize = False
-        Me.lblStatus.BorderVisible = True
-        Me.lblStatus.Enabled = False
-        Me.lblStatus.FieldName = Nothing
-        Me.lblStatus.Location = New System.Drawing.Point(331, 21)
-        Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(123, 21)
-        Me.lblStatus.TabIndex = 22
+        Me.lblBMCStatus.AutoSize = False
+        Me.lblBMCStatus.BorderVisible = True
+        Me.lblBMCStatus.Enabled = False
+        Me.lblBMCStatus.FieldName = Nothing
+        Me.lblBMCStatus.Location = New System.Drawing.Point(331, 21)
+        Me.lblBMCStatus.Name = "lblBMCStatus"
+        Me.lblBMCStatus.Size = New System.Drawing.Size(123, 21)
+        Me.lblBMCStatus.TabIndex = 22
         '
         'MyLabel19
         '
@@ -1483,15 +1535,15 @@ Partial Class frmCorrection
         Me.MyLabel19.TabIndex = 21
         Me.MyLabel19.Text = "DNo"
         '
-        'lblDCSDetailNo
+        'lblBMCDetailNo
         '
-        Me.lblDCSDetailNo.AutoSize = False
-        Me.lblDCSDetailNo.BorderVisible = True
-        Me.lblDCSDetailNo.FieldName = Nothing
-        Me.lblDCSDetailNo.Location = New System.Drawing.Point(207, 45)
-        Me.lblDCSDetailNo.Name = "lblDCSDetailNo"
-        Me.lblDCSDetailNo.Size = New System.Drawing.Size(102, 21)
-        Me.lblDCSDetailNo.TabIndex = 20
+        Me.lblBMCDetailNo.AutoSize = False
+        Me.lblBMCDetailNo.BorderVisible = True
+        Me.lblBMCDetailNo.FieldName = Nothing
+        Me.lblBMCDetailNo.Location = New System.Drawing.Point(207, 45)
+        Me.lblBMCDetailNo.Name = "lblBMCDetailNo"
+        Me.lblBMCDetailNo.Size = New System.Drawing.Size(102, 21)
+        Me.lblBMCDetailNo.TabIndex = 20
         '
         'MyLabel13
         '
@@ -1513,15 +1565,15 @@ Partial Class frmCorrection
         Me.MyLabel18.TabIndex = 18
         Me.MyLabel18.Text = "BMC Name"
         '
-        'lblDCSSno
+        'lblBMCSno
         '
-        Me.lblDCSSno.AutoSize = False
-        Me.lblDCSSno.BorderVisible = True
-        Me.lblDCSSno.FieldName = Nothing
-        Me.lblDCSSno.Location = New System.Drawing.Point(207, 21)
-        Me.lblDCSSno.Name = "lblDCSSno"
-        Me.lblDCSSno.Size = New System.Drawing.Size(102, 21)
-        Me.lblDCSSno.TabIndex = 16
+        Me.lblBMCSno.AutoSize = False
+        Me.lblBMCSno.BorderVisible = True
+        Me.lblBMCSno.FieldName = Nothing
+        Me.lblBMCSno.Location = New System.Drawing.Point(207, 21)
+        Me.lblBMCSno.Name = "lblBMCSno"
+        Me.lblBMCSno.Size = New System.Drawing.Size(102, 21)
+        Me.lblBMCSno.TabIndex = 16
         '
         'MyLabel21
         '
@@ -1533,56 +1585,56 @@ Partial Class frmCorrection
         Me.MyLabel21.TabIndex = 14
         Me.MyLabel21.Text = "Doc No"
         '
-        'lblDCSDocNo
+        'lblBMCDocNo
         '
-        Me.lblDCSDocNo.AutoSize = False
-        Me.lblDCSDocNo.BorderVisible = True
-        Me.lblDCSDocNo.FieldName = Nothing
-        Me.lblDCSDocNo.Location = New System.Drawing.Point(71, 21)
-        Me.lblDCSDocNo.Name = "lblDCSDocNo"
-        Me.lblDCSDocNo.Size = New System.Drawing.Size(102, 21)
-        Me.lblDCSDocNo.TabIndex = 13
+        Me.lblBMCDocNo.AutoSize = False
+        Me.lblBMCDocNo.BorderVisible = True
+        Me.lblBMCDocNo.FieldName = Nothing
+        Me.lblBMCDocNo.Location = New System.Drawing.Point(71, 21)
+        Me.lblBMCDocNo.Name = "lblBMCDocNo"
+        Me.lblBMCDocNo.Size = New System.Drawing.Size(102, 21)
+        Me.lblBMCDocNo.TabIndex = 13
         '
-        'lblDCSCorrBMC
+        'lblBMCCorrBMC
         '
-        Me.lblDCSCorrBMC.AutoSize = False
-        Me.lblDCSCorrBMC.BorderVisible = True
-        Me.lblDCSCorrBMC.FieldName = Nothing
-        Me.lblDCSCorrBMC.Location = New System.Drawing.Point(71, 144)
-        Me.lblDCSCorrBMC.Name = "lblDCSCorrBMC"
-        Me.lblDCSCorrBMC.Size = New System.Drawing.Size(239, 21)
-        Me.lblDCSCorrBMC.TabIndex = 12
+        Me.lblBMCCorrBMC.AutoSize = False
+        Me.lblBMCCorrBMC.BorderVisible = True
+        Me.lblBMCCorrBMC.FieldName = Nothing
+        Me.lblBMCCorrBMC.Location = New System.Drawing.Point(71, 144)
+        Me.lblBMCCorrBMC.Name = "lblBMCCorrBMC"
+        Me.lblBMCCorrBMC.Size = New System.Drawing.Size(239, 21)
+        Me.lblBMCCorrBMC.TabIndex = 12
         '
-        'cboDCSCorrMilkType
+        'cboBMCCorrMilkType
         '
-        Me.cboDCSCorrMilkType.AutoCompleteDisplayMember = Nothing
-        Me.cboDCSCorrMilkType.AutoCompleteValueMember = Nothing
-        Me.cboDCSCorrMilkType.CalculationExpression = Nothing
-        Me.cboDCSCorrMilkType.DropDownAnimationEnabled = True
-        Me.cboDCSCorrMilkType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboDCSCorrMilkType.FieldCode = Nothing
-        Me.cboDCSCorrMilkType.FieldDesc = Nothing
-        Me.cboDCSCorrMilkType.FieldMaxLength = 0
-        Me.cboDCSCorrMilkType.FieldName = Nothing
-        Me.cboDCSCorrMilkType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboDCSCorrMilkType.isCalculatedField = False
-        Me.cboDCSCorrMilkType.IsSourceFromTable = False
-        Me.cboDCSCorrMilkType.IsSourceFromValueList = False
-        Me.cboDCSCorrMilkType.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboDCSCorrMilkType.Items.Add(RadListDataItem3)
-        Me.cboDCSCorrMilkType.Items.Add(RadListDataItem4)
-        Me.cboDCSCorrMilkType.Location = New System.Drawing.Point(71, 94)
-        Me.cboDCSCorrMilkType.MendatroryField = True
-        Me.cboDCSCorrMilkType.MyLinkLable1 = Me.MyLabel24
-        Me.cboDCSCorrMilkType.MyLinkLable2 = Nothing
-        Me.cboDCSCorrMilkType.Name = "cboDCSCorrMilkType"
-        Me.cboDCSCorrMilkType.ReferenceFieldDesc = Nothing
-        Me.cboDCSCorrMilkType.ReferenceFieldName = Nothing
-        Me.cboDCSCorrMilkType.ReferenceTableName = Nothing
-        Me.cboDCSCorrMilkType.Size = New System.Drawing.Size(239, 18)
-        Me.cboDCSCorrMilkType.TabIndex = 3
+        Me.cboBMCCorrMilkType.AutoCompleteDisplayMember = Nothing
+        Me.cboBMCCorrMilkType.AutoCompleteValueMember = Nothing
+        Me.cboBMCCorrMilkType.CalculationExpression = Nothing
+        Me.cboBMCCorrMilkType.DropDownAnimationEnabled = True
+        Me.cboBMCCorrMilkType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboBMCCorrMilkType.FieldCode = Nothing
+        Me.cboBMCCorrMilkType.FieldDesc = Nothing
+        Me.cboBMCCorrMilkType.FieldMaxLength = 0
+        Me.cboBMCCorrMilkType.FieldName = Nothing
+        Me.cboBMCCorrMilkType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboBMCCorrMilkType.isCalculatedField = False
+        Me.cboBMCCorrMilkType.IsSourceFromTable = False
+        Me.cboBMCCorrMilkType.IsSourceFromValueList = False
+        Me.cboBMCCorrMilkType.IsUnique = False
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem5)
+        Me.cboBMCCorrMilkType.Items.Add(RadListDataItem6)
+        Me.cboBMCCorrMilkType.Location = New System.Drawing.Point(71, 94)
+        Me.cboBMCCorrMilkType.MendatroryField = True
+        Me.cboBMCCorrMilkType.MyLinkLable1 = Me.MyLabel24
+        Me.cboBMCCorrMilkType.MyLinkLable2 = Nothing
+        Me.cboBMCCorrMilkType.Name = "cboBMCCorrMilkType"
+        Me.cboBMCCorrMilkType.ReferenceFieldDesc = Nothing
+        Me.cboBMCCorrMilkType.ReferenceFieldName = Nothing
+        Me.cboBMCCorrMilkType.ReferenceTableName = Nothing
+        Me.cboBMCCorrMilkType.Size = New System.Drawing.Size(239, 18)
+        Me.cboBMCCorrMilkType.TabIndex = 3
         '
         'MyLabel24
         '
@@ -1624,32 +1676,32 @@ Partial Class frmCorrection
         Me.RadButton5.TabIndex = 5
         Me.RadButton5.Text = "Apply"
         '
-        'txtDCSCorrBMC
+        'txtBMCCorrBMC
         '
-        Me.txtDCSCorrBMC.CalculationExpression = Nothing
-        Me.txtDCSCorrBMC.FieldCode = Nothing
-        Me.txtDCSCorrBMC.FieldDesc = Nothing
-        Me.txtDCSCorrBMC.FieldMaxLength = 0
-        Me.txtDCSCorrBMC.FieldName = Nothing
-        Me.txtDCSCorrBMC.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtDCSCorrBMC.isCalculatedField = False
-        Me.txtDCSCorrBMC.IsSourceFromTable = False
-        Me.txtDCSCorrBMC.IsSourceFromValueList = False
-        Me.txtDCSCorrBMC.IsUnique = False
-        Me.txtDCSCorrBMC.Location = New System.Drawing.Point(71, 117)
-        Me.txtDCSCorrBMC.MendatroryField = True
-        Me.txtDCSCorrBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDCSCorrBMC.MyLinkLable1 = Me.MyLabel25
-        Me.txtDCSCorrBMC.MyLinkLable2 = Nothing
-        Me.txtDCSCorrBMC.MyReadOnly = False
-        Me.txtDCSCorrBMC.MyShowMasterFormButton = False
-        Me.txtDCSCorrBMC.Name = "txtDCSCorrBMC"
-        Me.txtDCSCorrBMC.ReferenceFieldDesc = Nothing
-        Me.txtDCSCorrBMC.ReferenceFieldName = Nothing
-        Me.txtDCSCorrBMC.ReferenceTableName = Nothing
-        Me.txtDCSCorrBMC.Size = New System.Drawing.Size(239, 21)
-        Me.txtDCSCorrBMC.TabIndex = 4
-        Me.txtDCSCorrBMC.Value = ""
+        Me.txtBMCCorrBMC.CalculationExpression = Nothing
+        Me.txtBMCCorrBMC.FieldCode = Nothing
+        Me.txtBMCCorrBMC.FieldDesc = Nothing
+        Me.txtBMCCorrBMC.FieldMaxLength = 0
+        Me.txtBMCCorrBMC.FieldName = Nothing
+        Me.txtBMCCorrBMC.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtBMCCorrBMC.isCalculatedField = False
+        Me.txtBMCCorrBMC.IsSourceFromTable = False
+        Me.txtBMCCorrBMC.IsSourceFromValueList = False
+        Me.txtBMCCorrBMC.IsUnique = False
+        Me.txtBMCCorrBMC.Location = New System.Drawing.Point(71, 117)
+        Me.txtBMCCorrBMC.MendatroryField = True
+        Me.txtBMCCorrBMC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBMCCorrBMC.MyLinkLable1 = Me.MyLabel25
+        Me.txtBMCCorrBMC.MyLinkLable2 = Nothing
+        Me.txtBMCCorrBMC.MyReadOnly = False
+        Me.txtBMCCorrBMC.MyShowMasterFormButton = False
+        Me.txtBMCCorrBMC.Name = "txtBMCCorrBMC"
+        Me.txtBMCCorrBMC.ReferenceFieldDesc = Nothing
+        Me.txtBMCCorrBMC.ReferenceFieldName = Nothing
+        Me.txtBMCCorrBMC.ReferenceTableName = Nothing
+        Me.txtBMCCorrBMC.Size = New System.Drawing.Size(239, 21)
+        Me.txtBMCCorrBMC.TabIndex = 4
+        Me.txtBMCCorrBMC.Value = ""
         '
         'MyLabel26
         '
@@ -1661,33 +1713,33 @@ Partial Class frmCorrection
         Me.MyLabel26.TabIndex = 10
         Me.MyLabel26.Text = "Qty"
         '
-        'txtDCSCorrQty
+        'txtBMCCorrQty
         '
-        Me.txtDCSCorrQty.BackColor = System.Drawing.Color.White
-        Me.txtDCSCorrQty.CalculationExpression = Nothing
-        Me.txtDCSCorrQty.DecimalPlaces = 3
-        Me.txtDCSCorrQty.FieldCode = Nothing
-        Me.txtDCSCorrQty.FieldDesc = Nothing
-        Me.txtDCSCorrQty.FieldMaxLength = 0
-        Me.txtDCSCorrQty.FieldName = Nothing
-        Me.txtDCSCorrQty.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtDCSCorrQty.isCalculatedField = False
-        Me.txtDCSCorrQty.IsSourceFromTable = False
-        Me.txtDCSCorrQty.IsSourceFromValueList = False
-        Me.txtDCSCorrQty.IsUnique = False
-        Me.txtDCSCorrQty.Location = New System.Drawing.Point(71, 45)
-        Me.txtDCSCorrQty.MendatroryField = False
-        Me.txtDCSCorrQty.MyLinkLable1 = Me.MyLabel26
-        Me.txtDCSCorrQty.MyLinkLable2 = Nothing
-        Me.txtDCSCorrQty.Name = "txtDCSCorrQty"
-        Me.txtDCSCorrQty.ReferenceFieldDesc = Nothing
-        Me.txtDCSCorrQty.ReferenceFieldName = Nothing
-        Me.txtDCSCorrQty.ReferenceTableName = Nothing
-        Me.txtDCSCorrQty.Size = New System.Drawing.Size(102, 20)
-        Me.txtDCSCorrQty.TabIndex = 0
-        Me.txtDCSCorrQty.Text = "0"
-        Me.txtDCSCorrQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDCSCorrQty.Value = 0R
+        Me.txtBMCCorrQty.BackColor = System.Drawing.Color.White
+        Me.txtBMCCorrQty.CalculationExpression = Nothing
+        Me.txtBMCCorrQty.DecimalPlaces = 3
+        Me.txtBMCCorrQty.FieldCode = Nothing
+        Me.txtBMCCorrQty.FieldDesc = Nothing
+        Me.txtBMCCorrQty.FieldMaxLength = 0
+        Me.txtBMCCorrQty.FieldName = Nothing
+        Me.txtBMCCorrQty.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtBMCCorrQty.isCalculatedField = False
+        Me.txtBMCCorrQty.IsSourceFromTable = False
+        Me.txtBMCCorrQty.IsSourceFromValueList = False
+        Me.txtBMCCorrQty.IsUnique = False
+        Me.txtBMCCorrQty.Location = New System.Drawing.Point(71, 45)
+        Me.txtBMCCorrQty.MendatroryField = False
+        Me.txtBMCCorrQty.MyLinkLable1 = Me.MyLabel26
+        Me.txtBMCCorrQty.MyLinkLable2 = Nothing
+        Me.txtBMCCorrQty.Name = "txtBMCCorrQty"
+        Me.txtBMCCorrQty.ReferenceFieldDesc = Nothing
+        Me.txtBMCCorrQty.ReferenceFieldName = Nothing
+        Me.txtBMCCorrQty.ReferenceTableName = Nothing
+        Me.txtBMCCorrQty.Size = New System.Drawing.Size(102, 20)
+        Me.txtBMCCorrQty.TabIndex = 0
+        Me.txtBMCCorrQty.Text = "0"
+        Me.txtBMCCorrQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtBMCCorrQty.Value = 0R
         '
         'MyLabel27
         '
@@ -1699,33 +1751,33 @@ Partial Class frmCorrection
         Me.MyLabel27.TabIndex = 9
         Me.MyLabel27.Text = "FAT"
         '
-        'txtDCSCorrSNF
+        'txtBMCCorrSNF
         '
-        Me.txtDCSCorrSNF.BackColor = System.Drawing.Color.White
-        Me.txtDCSCorrSNF.CalculationExpression = Nothing
-        Me.txtDCSCorrSNF.DecimalPlaces = 2
-        Me.txtDCSCorrSNF.FieldCode = Nothing
-        Me.txtDCSCorrSNF.FieldDesc = Nothing
-        Me.txtDCSCorrSNF.FieldMaxLength = 0
-        Me.txtDCSCorrSNF.FieldName = Nothing
-        Me.txtDCSCorrSNF.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtDCSCorrSNF.isCalculatedField = False
-        Me.txtDCSCorrSNF.IsSourceFromTable = False
-        Me.txtDCSCorrSNF.IsSourceFromValueList = False
-        Me.txtDCSCorrSNF.IsUnique = False
-        Me.txtDCSCorrSNF.Location = New System.Drawing.Point(207, 68)
-        Me.txtDCSCorrSNF.MendatroryField = False
-        Me.txtDCSCorrSNF.MyLinkLable1 = Me.MyLabel28
-        Me.txtDCSCorrSNF.MyLinkLable2 = Nothing
-        Me.txtDCSCorrSNF.Name = "txtDCSCorrSNF"
-        Me.txtDCSCorrSNF.ReferenceFieldDesc = Nothing
-        Me.txtDCSCorrSNF.ReferenceFieldName = Nothing
-        Me.txtDCSCorrSNF.ReferenceTableName = Nothing
-        Me.txtDCSCorrSNF.Size = New System.Drawing.Size(102, 20)
-        Me.txtDCSCorrSNF.TabIndex = 2
-        Me.txtDCSCorrSNF.Text = "0"
-        Me.txtDCSCorrSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDCSCorrSNF.Value = 0R
+        Me.txtBMCCorrSNF.BackColor = System.Drawing.Color.White
+        Me.txtBMCCorrSNF.CalculationExpression = Nothing
+        Me.txtBMCCorrSNF.DecimalPlaces = 2
+        Me.txtBMCCorrSNF.FieldCode = Nothing
+        Me.txtBMCCorrSNF.FieldDesc = Nothing
+        Me.txtBMCCorrSNF.FieldMaxLength = 0
+        Me.txtBMCCorrSNF.FieldName = Nothing
+        Me.txtBMCCorrSNF.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtBMCCorrSNF.isCalculatedField = False
+        Me.txtBMCCorrSNF.IsSourceFromTable = False
+        Me.txtBMCCorrSNF.IsSourceFromValueList = False
+        Me.txtBMCCorrSNF.IsUnique = False
+        Me.txtBMCCorrSNF.Location = New System.Drawing.Point(207, 68)
+        Me.txtBMCCorrSNF.MendatroryField = False
+        Me.txtBMCCorrSNF.MyLinkLable1 = Me.MyLabel28
+        Me.txtBMCCorrSNF.MyLinkLable2 = Nothing
+        Me.txtBMCCorrSNF.Name = "txtBMCCorrSNF"
+        Me.txtBMCCorrSNF.ReferenceFieldDesc = Nothing
+        Me.txtBMCCorrSNF.ReferenceFieldName = Nothing
+        Me.txtBMCCorrSNF.ReferenceTableName = Nothing
+        Me.txtBMCCorrSNF.Size = New System.Drawing.Size(102, 20)
+        Me.txtBMCCorrSNF.TabIndex = 2
+        Me.txtBMCCorrSNF.Text = "0"
+        Me.txtBMCCorrSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtBMCCorrSNF.Value = 0R
         '
         'MyLabel28
         '
@@ -1737,33 +1789,399 @@ Partial Class frmCorrection
         Me.MyLabel28.TabIndex = 8
         Me.MyLabel28.Text = "SNF"
         '
-        'txtDCSCorrFAT
+        'txtBMCCorrFAT
         '
-        Me.txtDCSCorrFAT.BackColor = System.Drawing.Color.White
-        Me.txtDCSCorrFAT.CalculationExpression = Nothing
-        Me.txtDCSCorrFAT.DecimalPlaces = 2
-        Me.txtDCSCorrFAT.FieldCode = Nothing
-        Me.txtDCSCorrFAT.FieldDesc = Nothing
-        Me.txtDCSCorrFAT.FieldMaxLength = 0
-        Me.txtDCSCorrFAT.FieldName = Nothing
-        Me.txtDCSCorrFAT.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtDCSCorrFAT.isCalculatedField = False
-        Me.txtDCSCorrFAT.IsSourceFromTable = False
-        Me.txtDCSCorrFAT.IsSourceFromValueList = False
-        Me.txtDCSCorrFAT.IsUnique = False
-        Me.txtDCSCorrFAT.Location = New System.Drawing.Point(71, 68)
-        Me.txtDCSCorrFAT.MendatroryField = False
-        Me.txtDCSCorrFAT.MyLinkLable1 = Me.MyLabel27
-        Me.txtDCSCorrFAT.MyLinkLable2 = Nothing
-        Me.txtDCSCorrFAT.Name = "txtDCSCorrFAT"
-        Me.txtDCSCorrFAT.ReferenceFieldDesc = Nothing
-        Me.txtDCSCorrFAT.ReferenceFieldName = Nothing
-        Me.txtDCSCorrFAT.ReferenceTableName = Nothing
-        Me.txtDCSCorrFAT.Size = New System.Drawing.Size(102, 20)
-        Me.txtDCSCorrFAT.TabIndex = 1
-        Me.txtDCSCorrFAT.Text = "0"
-        Me.txtDCSCorrFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDCSCorrFAT.Value = 0R
+        Me.txtBMCCorrFAT.BackColor = System.Drawing.Color.White
+        Me.txtBMCCorrFAT.CalculationExpression = Nothing
+        Me.txtBMCCorrFAT.DecimalPlaces = 2
+        Me.txtBMCCorrFAT.FieldCode = Nothing
+        Me.txtBMCCorrFAT.FieldDesc = Nothing
+        Me.txtBMCCorrFAT.FieldMaxLength = 0
+        Me.txtBMCCorrFAT.FieldName = Nothing
+        Me.txtBMCCorrFAT.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtBMCCorrFAT.isCalculatedField = False
+        Me.txtBMCCorrFAT.IsSourceFromTable = False
+        Me.txtBMCCorrFAT.IsSourceFromValueList = False
+        Me.txtBMCCorrFAT.IsUnique = False
+        Me.txtBMCCorrFAT.Location = New System.Drawing.Point(71, 68)
+        Me.txtBMCCorrFAT.MendatroryField = False
+        Me.txtBMCCorrFAT.MyLinkLable1 = Me.MyLabel27
+        Me.txtBMCCorrFAT.MyLinkLable2 = Nothing
+        Me.txtBMCCorrFAT.Name = "txtBMCCorrFAT"
+        Me.txtBMCCorrFAT.ReferenceFieldDesc = Nothing
+        Me.txtBMCCorrFAT.ReferenceFieldName = Nothing
+        Me.txtBMCCorrFAT.ReferenceTableName = Nothing
+        Me.txtBMCCorrFAT.Size = New System.Drawing.Size(102, 20)
+        Me.txtBMCCorrFAT.TabIndex = 1
+        Me.txtBMCCorrFAT.Text = "0"
+        Me.txtBMCCorrFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtBMCCorrFAT.Value = 0R
+        '
+        'RadPageViewPage6
+        '
+        Me.RadPageViewPage6.Controls.Add(Me.RadGroupBox5)
+        Me.RadPageViewPage6.Controls.Add(Me.RadGroupBox6)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(156.0!, 28.0!)
+        Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage6.Name = "RadPageViewPage6"
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(646, 376)
+        Me.RadPageViewPage6.Text = "BMC Tanker Milk Correction "
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.RadButton6)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel15)
+        Me.RadGroupBox5.Controls.Add(Me.lblBMCTankerRoute)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel20)
+        Me.RadGroupBox5.Controls.Add(Me.txtBMCTankerDate)
+        Me.RadGroupBox5.Controls.Add(Me.txtBMCTankerRoute)
+        Me.RadGroupBox5.HeaderText = "Filter"
+        Me.RadGroupBox5.Location = New System.Drawing.Point(3, 3)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Size = New System.Drawing.Size(566, 64)
+        Me.RadGroupBox5.TabIndex = 4
+        Me.RadGroupBox5.Text = "Filter"
+        '
+        'RadButton6
+        '
+        Me.RadButton6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadButton6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton6.Location = New System.Drawing.Point(495, 37)
+        Me.RadButton6.Name = "RadButton6"
+        Me.RadButton6.Size = New System.Drawing.Size(66, 21)
+        Me.RadButton6.TabIndex = 4
+        Me.RadButton6.Text = ">>"
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(5, 17)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(56, 16)
+        Me.MyLabel15.TabIndex = 8
+        Me.MyLabel15.Text = "Shift Date"
+        '
+        'lblBMCTankerRoute
+        '
+        Me.lblBMCTankerRoute.AutoSize = False
+        Me.lblBMCTankerRoute.BorderVisible = True
+        Me.lblBMCTankerRoute.FieldName = Nothing
+        Me.lblBMCTankerRoute.Location = New System.Drawing.Point(234, 37)
+        Me.lblBMCTankerRoute.Name = "lblBMCTankerRoute"
+        Me.lblBMCTankerRoute.Size = New System.Drawing.Size(260, 21)
+        Me.lblBMCTankerRoute.TabIndex = 11
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel20.Location = New System.Drawing.Point(5, 38)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(36, 18)
+        Me.MyLabel20.TabIndex = 6
+        Me.MyLabel20.Text = "Route"
+        '
+        'txtBMCTankerDate
+        '
+        Me.txtBMCTankerDate.CalculationExpression = Nothing
+        Me.txtBMCTankerDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtBMCTankerDate.FieldCode = Nothing
+        Me.txtBMCTankerDate.FieldDesc = Nothing
+        Me.txtBMCTankerDate.FieldMaxLength = 0
+        Me.txtBMCTankerDate.FieldName = Nothing
+        Me.txtBMCTankerDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBMCTankerDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtBMCTankerDate.isCalculatedField = False
+        Me.txtBMCTankerDate.IsSourceFromTable = False
+        Me.txtBMCTankerDate.IsSourceFromValueList = False
+        Me.txtBMCTankerDate.IsUnique = False
+        Me.txtBMCTankerDate.Location = New System.Drawing.Point(71, 16)
+        Me.txtBMCTankerDate.MendatroryField = True
+        Me.txtBMCTankerDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtBMCTankerDate.MyLinkLable1 = Me.MyLabel15
+        Me.txtBMCTankerDate.MyLinkLable2 = Nothing
+        Me.txtBMCTankerDate.Name = "txtBMCTankerDate"
+        Me.txtBMCTankerDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtBMCTankerDate.ReferenceFieldDesc = Nothing
+        Me.txtBMCTankerDate.ReferenceFieldName = Nothing
+        Me.txtBMCTankerDate.ReferenceTableName = Nothing
+        Me.txtBMCTankerDate.Size = New System.Drawing.Size(156, 18)
+        Me.txtBMCTankerDate.TabIndex = 0
+        Me.txtBMCTankerDate.TabStop = False
+        Me.txtBMCTankerDate.Text = "03/05/2011"
+        Me.txtBMCTankerDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        '
+        'txtBMCTankerRoute
+        '
+        Me.txtBMCTankerRoute.CalculationExpression = Nothing
+        Me.txtBMCTankerRoute.FieldCode = Nothing
+        Me.txtBMCTankerRoute.FieldDesc = Nothing
+        Me.txtBMCTankerRoute.FieldMaxLength = 0
+        Me.txtBMCTankerRoute.FieldName = Nothing
+        Me.txtBMCTankerRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtBMCTankerRoute.isCalculatedField = False
+        Me.txtBMCTankerRoute.IsSourceFromTable = False
+        Me.txtBMCTankerRoute.IsSourceFromValueList = False
+        Me.txtBMCTankerRoute.IsUnique = False
+        Me.txtBMCTankerRoute.Location = New System.Drawing.Point(71, 37)
+        Me.txtBMCTankerRoute.MendatroryField = True
+        Me.txtBMCTankerRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBMCTankerRoute.MyLinkLable1 = Me.MyLabel20
+        Me.txtBMCTankerRoute.MyLinkLable2 = Nothing
+        Me.txtBMCTankerRoute.MyReadOnly = False
+        Me.txtBMCTankerRoute.MyShowMasterFormButton = False
+        Me.txtBMCTankerRoute.Name = "txtBMCTankerRoute"
+        Me.txtBMCTankerRoute.ReferenceFieldDesc = Nothing
+        Me.txtBMCTankerRoute.ReferenceFieldName = Nothing
+        Me.txtBMCTankerRoute.ReferenceTableName = Nothing
+        Me.txtBMCTankerRoute.Size = New System.Drawing.Size(159, 21)
+        Me.txtBMCTankerRoute.TabIndex = 3
+        Me.txtBMCTankerRoute.Value = ""
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel23)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel17)
+        Me.RadGroupBox6.Controls.Add(Me.lblBMCTankerSNFKG)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel32)
+        Me.RadGroupBox6.Controls.Add(Me.lblBMCTankerFATKG)
+        Me.RadGroupBox6.Controls.Add(Me.lblBMCTankerTripNo)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel35)
+        Me.RadGroupBox6.Controls.Add(Me.lblBMCTankerDocNo)
+        Me.RadGroupBox6.Controls.Add(Me.RadButton7)
+        Me.RadGroupBox6.Controls.Add(Me.RadButton8)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel43)
+        Me.RadGroupBox6.Controls.Add(Me.txtBMCTankerQty)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel44)
+        Me.RadGroupBox6.Controls.Add(Me.txtBMCTankerSNF)
+        Me.RadGroupBox6.Controls.Add(Me.txtBMCTankerFAT)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel45)
+        Me.RadGroupBox6.HeaderText = "Correction"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(3, 73)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Size = New System.Drawing.Size(320, 149)
+        Me.RadGroupBox6.TabIndex = 5
+        Me.RadGroupBox6.Text = "Correction"
+        '
+        'MyLabel23
+        '
+        Me.MyLabel23.FieldName = Nothing
+        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel23.Location = New System.Drawing.Point(175, 92)
+        Me.MyLabel23.Name = "MyLabel23"
+        Me.MyLabel23.Size = New System.Drawing.Size(48, 16)
+        Me.MyLabel23.TabIndex = 21
+        Me.MyLabel23.Text = "SNF KG"
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(175, 69)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(45, 16)
+        Me.MyLabel17.TabIndex = 21
+        Me.MyLabel17.Text = "FAT Kg"
+        '
+        'lblBMCTankerSNFKG
+        '
+        Me.lblBMCTankerSNFKG.AutoSize = False
+        Me.lblBMCTankerSNFKG.BorderVisible = True
+        Me.lblBMCTankerSNFKG.FieldName = Nothing
+        Me.lblBMCTankerSNFKG.Location = New System.Drawing.Point(224, 90)
+        Me.lblBMCTankerSNFKG.Name = "lblBMCTankerSNFKG"
+        Me.lblBMCTankerSNFKG.Size = New System.Drawing.Size(85, 21)
+        Me.lblBMCTankerSNFKG.TabIndex = 20
+        Me.lblBMCTankerSNFKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'MyLabel32
+        '
+        Me.MyLabel32.FieldName = Nothing
+        Me.MyLabel32.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel32.Location = New System.Drawing.Point(175, 47)
+        Me.MyLabel32.Name = "MyLabel32"
+        Me.MyLabel32.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel32.TabIndex = 19
+        Me.MyLabel32.Text = "Trip No"
+        '
+        'lblBMCTankerFATKG
+        '
+        Me.lblBMCTankerFATKG.AutoSize = False
+        Me.lblBMCTankerFATKG.BorderVisible = True
+        Me.lblBMCTankerFATKG.FieldName = Nothing
+        Me.lblBMCTankerFATKG.Location = New System.Drawing.Point(224, 67)
+        Me.lblBMCTankerFATKG.Name = "lblBMCTankerFATKG"
+        Me.lblBMCTankerFATKG.Size = New System.Drawing.Size(85, 21)
+        Me.lblBMCTankerFATKG.TabIndex = 20
+        Me.lblBMCTankerFATKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblBMCTankerTripNo
+        '
+        Me.lblBMCTankerTripNo.AutoSize = False
+        Me.lblBMCTankerTripNo.BorderVisible = True
+        Me.lblBMCTankerTripNo.FieldName = Nothing
+        Me.lblBMCTankerTripNo.Location = New System.Drawing.Point(224, 45)
+        Me.lblBMCTankerTripNo.Name = "lblBMCTankerTripNo"
+        Me.lblBMCTankerTripNo.Size = New System.Drawing.Size(85, 21)
+        Me.lblBMCTankerTripNo.TabIndex = 16
+        Me.lblBMCTankerTripNo.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'MyLabel35
+        '
+        Me.MyLabel35.FieldName = Nothing
+        Me.MyLabel35.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel35.Location = New System.Drawing.Point(5, 23)
+        Me.MyLabel35.Name = "MyLabel35"
+        Me.MyLabel35.Size = New System.Drawing.Size(44, 16)
+        Me.MyLabel35.TabIndex = 14
+        Me.MyLabel35.Text = "Doc No"
+        '
+        'lblBMCTankerDocNo
+        '
+        Me.lblBMCTankerDocNo.AutoSize = False
+        Me.lblBMCTankerDocNo.BorderVisible = True
+        Me.lblBMCTankerDocNo.FieldName = Nothing
+        Me.lblBMCTankerDocNo.Location = New System.Drawing.Point(71, 21)
+        Me.lblBMCTankerDocNo.Name = "lblBMCTankerDocNo"
+        Me.lblBMCTankerDocNo.Size = New System.Drawing.Size(238, 21)
+        Me.lblBMCTankerDocNo.TabIndex = 13
+        '
+        'RadButton7
+        '
+        Me.RadButton7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadButton7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton7.Location = New System.Drawing.Point(166, 121)
+        Me.RadButton7.Name = "RadButton7"
+        Me.RadButton7.Size = New System.Drawing.Size(91, 21)
+        Me.RadButton7.TabIndex = 6
+        Me.RadButton7.Text = "Reset"
+        '
+        'RadButton8
+        '
+        Me.RadButton8.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton8.Location = New System.Drawing.Point(74, 121)
+        Me.RadButton8.Name = "RadButton8"
+        Me.RadButton8.Size = New System.Drawing.Size(88, 21)
+        Me.RadButton8.TabIndex = 5
+        Me.RadButton8.Text = "Apply"
+        '
+        'MyLabel43
+        '
+        Me.MyLabel43.FieldName = Nothing
+        Me.MyLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel43.Location = New System.Drawing.Point(5, 47)
+        Me.MyLabel43.Name = "MyLabel43"
+        Me.MyLabel43.Size = New System.Drawing.Size(24, 16)
+        Me.MyLabel43.TabIndex = 10
+        Me.MyLabel43.Text = "Qty"
+        '
+        'txtBMCTankerQty
+        '
+        Me.txtBMCTankerQty.BackColor = System.Drawing.Color.White
+        Me.txtBMCTankerQty.CalculationExpression = Nothing
+        Me.txtBMCTankerQty.DecimalPlaces = 3
+        Me.txtBMCTankerQty.FieldCode = Nothing
+        Me.txtBMCTankerQty.FieldDesc = Nothing
+        Me.txtBMCTankerQty.FieldMaxLength = 0
+        Me.txtBMCTankerQty.FieldName = Nothing
+        Me.txtBMCTankerQty.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtBMCTankerQty.isCalculatedField = False
+        Me.txtBMCTankerQty.IsSourceFromTable = False
+        Me.txtBMCTankerQty.IsSourceFromValueList = False
+        Me.txtBMCTankerQty.IsUnique = False
+        Me.txtBMCTankerQty.Location = New System.Drawing.Point(71, 45)
+        Me.txtBMCTankerQty.MendatroryField = False
+        Me.txtBMCTankerQty.MyLinkLable1 = Me.MyLabel43
+        Me.txtBMCTankerQty.MyLinkLable2 = Nothing
+        Me.txtBMCTankerQty.Name = "txtBMCTankerQty"
+        Me.txtBMCTankerQty.ReferenceFieldDesc = Nothing
+        Me.txtBMCTankerQty.ReferenceFieldName = Nothing
+        Me.txtBMCTankerQty.ReferenceTableName = Nothing
+        Me.txtBMCTankerQty.Size = New System.Drawing.Size(102, 20)
+        Me.txtBMCTankerQty.TabIndex = 0
+        Me.txtBMCTankerQty.Text = "0"
+        Me.txtBMCTankerQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtBMCTankerQty.Value = 0R
+        '
+        'MyLabel44
+        '
+        Me.MyLabel44.FieldName = Nothing
+        Me.MyLabel44.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel44.Location = New System.Drawing.Point(5, 70)
+        Me.MyLabel44.Name = "MyLabel44"
+        Me.MyLabel44.Size = New System.Drawing.Size(28, 16)
+        Me.MyLabel44.TabIndex = 9
+        Me.MyLabel44.Text = "FAT"
+        '
+        'txtBMCTankerSNF
+        '
+        Me.txtBMCTankerSNF.BackColor = System.Drawing.Color.White
+        Me.txtBMCTankerSNF.CalculationExpression = Nothing
+        Me.txtBMCTankerSNF.DecimalPlaces = 2
+        Me.txtBMCTankerSNF.FieldCode = Nothing
+        Me.txtBMCTankerSNF.FieldDesc = Nothing
+        Me.txtBMCTankerSNF.FieldMaxLength = 0
+        Me.txtBMCTankerSNF.FieldName = Nothing
+        Me.txtBMCTankerSNF.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtBMCTankerSNF.isCalculatedField = False
+        Me.txtBMCTankerSNF.IsSourceFromTable = False
+        Me.txtBMCTankerSNF.IsSourceFromValueList = False
+        Me.txtBMCTankerSNF.IsUnique = False
+        Me.txtBMCTankerSNF.Location = New System.Drawing.Point(71, 90)
+        Me.txtBMCTankerSNF.MendatroryField = False
+        Me.txtBMCTankerSNF.MyLinkLable1 = Me.MyLabel45
+        Me.txtBMCTankerSNF.MyLinkLable2 = Nothing
+        Me.txtBMCTankerSNF.Name = "txtBMCTankerSNF"
+        Me.txtBMCTankerSNF.ReferenceFieldDesc = Nothing
+        Me.txtBMCTankerSNF.ReferenceFieldName = Nothing
+        Me.txtBMCTankerSNF.ReferenceTableName = Nothing
+        Me.txtBMCTankerSNF.Size = New System.Drawing.Size(102, 20)
+        Me.txtBMCTankerSNF.TabIndex = 2
+        Me.txtBMCTankerSNF.Text = "0"
+        Me.txtBMCTankerSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtBMCTankerSNF.Value = 0R
+        '
+        'MyLabel45
+        '
+        Me.MyLabel45.FieldName = Nothing
+        Me.MyLabel45.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel45.Location = New System.Drawing.Point(5, 92)
+        Me.MyLabel45.Name = "MyLabel45"
+        Me.MyLabel45.Size = New System.Drawing.Size(29, 16)
+        Me.MyLabel45.TabIndex = 8
+        Me.MyLabel45.Text = "SNF"
+        '
+        'txtBMCTankerFAT
+        '
+        Me.txtBMCTankerFAT.BackColor = System.Drawing.Color.White
+        Me.txtBMCTankerFAT.CalculationExpression = Nothing
+        Me.txtBMCTankerFAT.DecimalPlaces = 2
+        Me.txtBMCTankerFAT.FieldCode = Nothing
+        Me.txtBMCTankerFAT.FieldDesc = Nothing
+        Me.txtBMCTankerFAT.FieldMaxLength = 0
+        Me.txtBMCTankerFAT.FieldName = Nothing
+        Me.txtBMCTankerFAT.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtBMCTankerFAT.isCalculatedField = False
+        Me.txtBMCTankerFAT.IsSourceFromTable = False
+        Me.txtBMCTankerFAT.IsSourceFromValueList = False
+        Me.txtBMCTankerFAT.IsUnique = False
+        Me.txtBMCTankerFAT.Location = New System.Drawing.Point(71, 68)
+        Me.txtBMCTankerFAT.MendatroryField = False
+        Me.txtBMCTankerFAT.MyLinkLable1 = Me.MyLabel44
+        Me.txtBMCTankerFAT.MyLinkLable2 = Nothing
+        Me.txtBMCTankerFAT.Name = "txtBMCTankerFAT"
+        Me.txtBMCTankerFAT.ReferenceFieldDesc = Nothing
+        Me.txtBMCTankerFAT.ReferenceFieldName = Nothing
+        Me.txtBMCTankerFAT.ReferenceTableName = Nothing
+        Me.txtBMCTankerFAT.Size = New System.Drawing.Size(102, 20)
+        Me.txtBMCTankerFAT.TabIndex = 1
+        Me.txtBMCTankerFAT.Text = "0"
+        Me.txtBMCTankerFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtBMCTankerFAT.Value = 0R
         '
         'btnclose
         '
@@ -1864,34 +2282,62 @@ Partial Class frmCorrection
         Me.RadGroupBox3.PerformLayout()
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDCSRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDCSDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBMCDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDCSBMC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
-        CType(Me.lblStatus, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDCSDetailNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCDetailNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDCSSno, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCSno, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDCSDocNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDCSCorrBMC, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboDCSCorrMilkType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCDocNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCCorrBMC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboBMCCorrMilkType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDCSCorrQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBMCCorrQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDCSCorrSNF, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBMCCorrSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDCSCorrFAT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBMCCorrFAT, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage6.ResumeLayout(False)
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCTankerRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBMCTankerDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCTankerSNFKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCTankerFATKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCTankerTripNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCTankerDocNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBMCTankerQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBMCTankerSNF, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -1967,35 +2413,60 @@ Partial Class frmCorrection
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents RadButton3 As RadButton
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
-    Friend WithEvents lblDCSRoute As common.Controls.MyLabel
+    Friend WithEvents lblBMCRoute As common.Controls.MyLabel
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
-    Friend WithEvents txtDCSDate As common.Controls.MyDateTimePicker
-    Friend WithEvents txtDCSBMC As common.UserControls.txtFinder
+    Friend WithEvents txtBMCDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtBMCBMC As common.UserControls.txtFinder
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
-    Friend WithEvents lblDCSBMC As common.Controls.MyLabel
-    Friend WithEvents txtDCSRouteNo As common.UserControls.txtFinder
+    Friend WithEvents lblBMCBMC As common.Controls.MyLabel
+    Friend WithEvents txtBMCRouteNo As common.UserControls.txtFinder
     Friend WithEvents RadGroupBox4 As RadGroupBox
     Friend WithEvents MyLabel19 As common.Controls.MyLabel
-    Friend WithEvents lblDCSDetailNo As common.Controls.MyLabel
+    Friend WithEvents lblBMCDetailNo As common.Controls.MyLabel
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents MyLabel18 As common.Controls.MyLabel
-    Friend WithEvents lblDCSSno As common.Controls.MyLabel
+    Friend WithEvents lblBMCSno As common.Controls.MyLabel
     Friend WithEvents MyLabel21 As common.Controls.MyLabel
-    Friend WithEvents lblDCSDocNo As common.Controls.MyLabel
-    Friend WithEvents lblDCSCorrBMC As common.Controls.MyLabel
-    Friend WithEvents cboDCSCorrMilkType As common.Controls.MyComboBox
+    Friend WithEvents lblBMCDocNo As common.Controls.MyLabel
+    Friend WithEvents lblBMCCorrBMC As common.Controls.MyLabel
+    Friend WithEvents cboBMCCorrMilkType As common.Controls.MyComboBox
     Friend WithEvents MyLabel24 As common.Controls.MyLabel
     Friend WithEvents RadButton4 As RadButton
     Friend WithEvents MyLabel25 As common.Controls.MyLabel
     Friend WithEvents RadButton5 As RadButton
-    Friend WithEvents txtDCSCorrBMC As common.UserControls.txtFinder
+    Friend WithEvents txtBMCCorrBMC As common.UserControls.txtFinder
     Friend WithEvents MyLabel26 As common.Controls.MyLabel
-    Friend WithEvents txtDCSCorrQty As common.MyNumBox
+    Friend WithEvents txtBMCCorrQty As common.MyNumBox
     Friend WithEvents MyLabel27 As common.Controls.MyLabel
-    Friend WithEvents txtDCSCorrSNF As common.MyNumBox
+    Friend WithEvents txtBMCCorrSNF As common.MyNumBox
     Friend WithEvents MyLabel28 As common.Controls.MyLabel
-    Friend WithEvents txtDCSCorrFAT As common.MyNumBox
+    Friend WithEvents txtBMCCorrFAT As common.MyNumBox
     Friend WithEvents chkAdjustOwnBMCFATSNF As common.Controls.MyCheckBox
     Friend WithEvents chkDeleteBMCCollection As common.Controls.MyCheckBox
-    Friend WithEvents lblStatus As common.Controls.MyLabel
+    Friend WithEvents lblBMCStatus As common.Controls.MyLabel
+    Friend WithEvents RadPageViewPage6 As RadPageViewPage
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents RadButton6 As RadButton
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents lblBMCTankerRoute As common.Controls.MyLabel
+    Friend WithEvents MyLabel20 As common.Controls.MyLabel
+    Friend WithEvents txtBMCTankerDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtBMCTankerRoute As common.UserControls.txtFinder
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents MyLabel32 As common.Controls.MyLabel
+    Friend WithEvents lblBMCTankerTripNo As common.Controls.MyLabel
+    Friend WithEvents MyLabel35 As common.Controls.MyLabel
+    Friend WithEvents lblBMCTankerDocNo As common.Controls.MyLabel
+    Friend WithEvents RadButton7 As RadButton
+    Friend WithEvents RadButton8 As RadButton
+    Friend WithEvents MyLabel43 As common.Controls.MyLabel
+    Friend WithEvents txtBMCTankerQty As common.MyNumBox
+    Friend WithEvents MyLabel44 As common.Controls.MyLabel
+    Friend WithEvents txtBMCTankerSNF As common.MyNumBox
+    Friend WithEvents MyLabel45 As common.Controls.MyLabel
+    Friend WithEvents txtBMCTankerFAT As common.MyNumBox
+    Friend WithEvents MyLabel23 As common.Controls.MyLabel
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents lblBMCTankerSNFKG As common.Controls.MyLabel
+    Friend WithEvents lblBMCTankerFATKG As common.Controls.MyLabel
 End Class

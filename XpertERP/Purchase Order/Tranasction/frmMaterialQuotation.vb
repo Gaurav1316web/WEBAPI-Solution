@@ -719,7 +719,7 @@ Public Class frmMaterialQuotation
         End If
         ' ''============================================================================
 
-        Dim obj As ClsScrapSaleDetail = ClsScrapSaleDetail.FinderItemGST(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), strItemType, isButtonClick, txtDate.Value, chkTaxable.Checked)
+        Dim obj As ClsScrapSaleDetail = ClsScrapSaleDetail.FinderItemGST(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), strItemType, isButtonClick, txtDate.Value, chkTaxable.Checked, False)
 
 
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
