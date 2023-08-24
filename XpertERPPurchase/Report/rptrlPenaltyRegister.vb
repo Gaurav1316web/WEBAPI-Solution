@@ -373,13 +373,13 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
                 gvSchedule.DataSource = Nothing
                 gvSchedule.Rows.Clear()
                 gvSchedule.Columns.Clear()
-                clsCommon.MyMessageBoxShow("No Data Found")
+                ' clsCommon.MyMessageBoxShow("No Data Found")
                 Exit Sub
             End If
 
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
 
         End Try
 
@@ -418,14 +418,44 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
 
     End Sub
 
+    Private Sub Printbtn_Click(sender As Object, e As EventArgs) Handles Printbtn.Click
+        Try
+            Dim strqry As String = "    select  TSPL_TENDER_HEADER.DocumentCode,TSPL_TENDER_HEADER.DocumentDate ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo AS RAL,TSPL_GRN_DETAIL.Item_Code as 'Item Code',TSPL_GRN_DETAIL.Item_Desc as 'Item Description',TSPL_GRN_HEAD.Vendor_Code as 'Vendor Code' ,TSPL_GRN_HEAD.Vendor_Name AS 'Vendor Name',TSPL_GRN_HEAD.GRN_No as 'GRN No',convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as 'GRN Date',TSPL_GRN_HEAD.VehicleNo,TSPL_SRN_HEAD.SRN_No as 'SRN No',convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  'SRN Date', TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as 'Weightment Code',convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as 'Weighment Date',TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight as 'Gross Weight',TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight as 'Tare Weight',TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight as 'Extra Weight',TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as 'Net Weight',isNull(TSPL_SRN_DETAIL.SRN_Qty,0) as 'SRN Qty',TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_TENDER_SCHEDULE.schedule_from_date,TSPL_TENDER_SCHEDULE.schedule_to_date,TSPL_TENDER_SCHEDULE.Schedule_No,TSPL_TENDER_SCHEDULE.Schedule_Qty ,TSPL_TENDER_SCHEDULE.Schedule_Qty_Per,TSPL_TENDER_SCHEDULE.Schedule_Short,TSPL_TENDER_SCHEDULE.Schedule_Short_Per,TSPL_TENDER_DETAIL.Qty,TSPL_TENDER_DETAIL.Rate,tspl_location_master.Location_Desc,TSPL_company_master.Logo_Img,TSPL_company_master.Logo_Img2,NoOfSchedule,Schedule_No_Min
+                        from TSPL_GRN_DETAIL
+                    left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No
+                    left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id
+                    left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.GRN_ID=TSPL_GRN_HEAD.GRN_No and TSPL_SRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
+                    left outer join TSPL_SRN_HEAD on  TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
+                    left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
+					left join tspl_location_master on tspl_location_master.location_code=TSPL_GRN_HEAD.Bill_To_Location
+                    left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code= TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code and  TSPL_PO_WEIGHTMENT_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
+                    left outer join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION_SECURITY.Item_Code=TSPL_SRN_DETAIL.Item_Code
+                    left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION.Item_Code=TSPL_SRN_DETAIL.Item_Code
+                    left outer join TSPL_SRN_TENDER on TSPL_SRN_TENDER.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_TENDER.Item_Code=TSPL_SRN_DETAIL.Item_Code and isnull(TSPL_SRN_TENDER.Penalty,0)>0
+                     left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo
+					 left join TSPL_company_master on TSPL_company_master.comp_code=TSPL_TENDER_HEADER.comp_code
+					 LEFT JOIN (select DOCUMENTCODE,QTY,Rate from tspl_tender_detail where documentcode='" + txtTenderNo.Value + "'and item_code='" + txtItem.Value + "' and vendor_code='" + txtVendorNo.Value + "'and location='" + txtLocation.Value + "')TSPL_TENDER_DETAIL ON TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
+					 left outer join  ( select DocumentCode,max(From_Date) as schedule_from_date,max(To_Date) as schedule_to_date,max(Schedule_Qty) as Schedule_Qty,max(Schedule_Qty_Per) as Schedule_Qty_Per,max(Schedule_Short) as Schedule_Short,max(Schedule_Short_Per) as Schedule_Short_Per,max(Schedule_No ) as Schedule_No,count(*) as NoOfSchedule,min(Schedule_No) as Schedule_No_Min from TSPL_TENDER_SCHEDULE where TSPL_TENDER_SCHEDULE.DocumentCode='" + txtTenderNo.Value + "' and 
+					 TSPL_TENDER_SCHEDULE.Item_Code='" + txtItem.Value + "'and
+					 TSPL_TENDER_SCHEDULE.Vendor_Code='" + txtVendorNo.Value + "' and
+					 TSPL_TENDER_SCHEDULE.Location_Code='" + txtLocation.Value + "' GROUP BY DocumentCode) TSPL_TENDER_SCHEDULE on TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
+                    left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
+                    where TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + txtTenderNo.Value + "'and TSPL_QC_CHECK_HEAD.QC_Status<>'Rejected'  and TSPL_GRN_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_GRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "'and TSPL_GRN_HEAD.Bill_To_Location='" + txtLocation.Value + "' and ISNULL( TSPL_GRN_HEAD.IsCancel,0)=0 
+					and TSPL_SRN_HEAD.Status=1
+                    Order by CONVERT(date, TSPL_GRN_HEAD.GRN_Date,103) "
+            Dim dt As DataTable
+            dt = clsDBFuncationality.GetDataTable(strqry)
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
 
+                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ItemRmReport", "ItemWisePrint")
+                frmCRV = Nothing
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
 
-
-
-
-
-
-
-
-
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
+    End Sub
 End Class
