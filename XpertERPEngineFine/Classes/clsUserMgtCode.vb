@@ -1021,6 +1021,7 @@ Public Class clsUserMgtCode
     Public Const CustomerLocationMapping As String = "CUS-LOC-MAP"
     Public Const itemPurchaseAccount As String = "ITEM-PUR-ACC"
     Public Const itemSaleAccount As String = "ITEM-SAL-ACC"
+    Public Const GSTunitMeasure As String = "GST-U-M"
     Public Const unitMaster As String = "UNIT-M"
     Public Const packType As String = "PACKTYPE-M"
     Public Const ItemLocationDetails As String = "ITEM-LOC"
@@ -1149,6 +1150,7 @@ Public Class clsUserMgtCode
 
     Public Const frmTender As String = "Pur-Tender"
     Public Const TenderShortPenalty As String = "TND-SHT-PNL"
+    Public Const frmCorrectionforWrongEntry As String = "CF-WRNG-ENT"
 
     'Sanjay BHA/09/05/18-000014
     Public Const frmMaterialQuotation As String = "SCRAP-QU"

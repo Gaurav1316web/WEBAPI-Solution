@@ -137,8 +137,12 @@ Partial Class frmCorrection
         Me.txtBMCTankerDate = New common.Controls.MyDateTimePicker()
         Me.txtBMCTankerRoute = New common.UserControls.txtFinder()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel23 = New common.Controls.MyLabel()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.lblBMCTankerSNFKG = New common.Controls.MyLabel()
         Me.MyLabel32 = New common.Controls.MyLabel()
-        Me.MyLabel34 = New common.Controls.MyLabel()
+        Me.lblBMCTankerFATKG = New common.Controls.MyLabel()
+        Me.lblBMCTankerTripNo = New common.Controls.MyLabel()
         Me.MyLabel35 = New common.Controls.MyLabel()
         Me.lblBMCTankerDocNo = New common.Controls.MyLabel()
         Me.RadButton7 = New Telerik.WinControls.UI.RadButton()
@@ -150,10 +154,6 @@ Partial Class frmCorrection
         Me.MyLabel45 = New common.Controls.MyLabel()
         Me.txtBMCTankerFAT = New common.MyNumBox()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel17 = New common.Controls.MyLabel()
-        Me.MyLabel22 = New common.Controls.MyLabel()
-        Me.MyLabel23 = New common.Controls.MyLabel()
-        Me.MyLabel29 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -262,8 +262,12 @@ Partial Class frmCorrection
         CType(Me.txtBMCTankerDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCTankerSNFKG, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCTankerFATKG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBMCTankerTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBMCTankerDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton7, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -275,10 +279,6 @@ Partial Class frmCorrection
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -313,7 +313,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage6
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1945,10 +1945,10 @@ Partial Class frmCorrection
         Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox6.Controls.Add(Me.MyLabel23)
         Me.RadGroupBox6.Controls.Add(Me.MyLabel17)
-        Me.RadGroupBox6.Controls.Add(Me.MyLabel29)
+        Me.RadGroupBox6.Controls.Add(Me.lblBMCTankerSNFKG)
         Me.RadGroupBox6.Controls.Add(Me.MyLabel32)
-        Me.RadGroupBox6.Controls.Add(Me.MyLabel22)
-        Me.RadGroupBox6.Controls.Add(Me.MyLabel34)
+        Me.RadGroupBox6.Controls.Add(Me.lblBMCTankerFATKG)
+        Me.RadGroupBox6.Controls.Add(Me.lblBMCTankerTripNo)
         Me.RadGroupBox6.Controls.Add(Me.MyLabel35)
         Me.RadGroupBox6.Controls.Add(Me.lblBMCTankerDocNo)
         Me.RadGroupBox6.Controls.Add(Me.RadButton7)
@@ -1966,6 +1966,37 @@ Partial Class frmCorrection
         Me.RadGroupBox6.TabIndex = 5
         Me.RadGroupBox6.Text = "Correction"
         '
+        'MyLabel23
+        '
+        Me.MyLabel23.FieldName = Nothing
+        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel23.Location = New System.Drawing.Point(175, 92)
+        Me.MyLabel23.Name = "MyLabel23"
+        Me.MyLabel23.Size = New System.Drawing.Size(48, 16)
+        Me.MyLabel23.TabIndex = 21
+        Me.MyLabel23.Text = "SNF KG"
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(175, 69)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(45, 16)
+        Me.MyLabel17.TabIndex = 21
+        Me.MyLabel17.Text = "FAT Kg"
+        '
+        'lblBMCTankerSNFKG
+        '
+        Me.lblBMCTankerSNFKG.AutoSize = False
+        Me.lblBMCTankerSNFKG.BorderVisible = True
+        Me.lblBMCTankerSNFKG.FieldName = Nothing
+        Me.lblBMCTankerSNFKG.Location = New System.Drawing.Point(224, 90)
+        Me.lblBMCTankerSNFKG.Name = "lblBMCTankerSNFKG"
+        Me.lblBMCTankerSNFKG.Size = New System.Drawing.Size(85, 21)
+        Me.lblBMCTankerSNFKG.TabIndex = 20
+        Me.lblBMCTankerSNFKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
         'MyLabel32
         '
         Me.MyLabel32.FieldName = Nothing
@@ -1976,15 +2007,27 @@ Partial Class frmCorrection
         Me.MyLabel32.TabIndex = 19
         Me.MyLabel32.Text = "Trip No"
         '
-        'MyLabel34
+        'lblBMCTankerFATKG
         '
-        Me.MyLabel34.AutoSize = False
-        Me.MyLabel34.BorderVisible = True
-        Me.MyLabel34.FieldName = Nothing
-        Me.MyLabel34.Location = New System.Drawing.Point(224, 45)
-        Me.MyLabel34.Name = "MyLabel34"
-        Me.MyLabel34.Size = New System.Drawing.Size(85, 21)
-        Me.MyLabel34.TabIndex = 16
+        Me.lblBMCTankerFATKG.AutoSize = False
+        Me.lblBMCTankerFATKG.BorderVisible = True
+        Me.lblBMCTankerFATKG.FieldName = Nothing
+        Me.lblBMCTankerFATKG.Location = New System.Drawing.Point(224, 67)
+        Me.lblBMCTankerFATKG.Name = "lblBMCTankerFATKG"
+        Me.lblBMCTankerFATKG.Size = New System.Drawing.Size(85, 21)
+        Me.lblBMCTankerFATKG.TabIndex = 20
+        Me.lblBMCTankerFATKG.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblBMCTankerTripNo
+        '
+        Me.lblBMCTankerTripNo.AutoSize = False
+        Me.lblBMCTankerTripNo.BorderVisible = True
+        Me.lblBMCTankerTripNo.FieldName = Nothing
+        Me.lblBMCTankerTripNo.Location = New System.Drawing.Point(224, 45)
+        Me.lblBMCTankerTripNo.Name = "lblBMCTankerTripNo"
+        Me.lblBMCTankerTripNo.Size = New System.Drawing.Size(85, 21)
+        Me.lblBMCTankerTripNo.TabIndex = 16
+        Me.lblBMCTankerTripNo.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         '
         'MyLabel35
         '
@@ -2150,46 +2193,6 @@ Partial Class frmCorrection
         Me.btnclose.TabIndex = 0
         Me.btnclose.Text = "Close"
         '
-        'MyLabel17
-        '
-        Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel17.Location = New System.Drawing.Point(175, 69)
-        Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(45, 16)
-        Me.MyLabel17.TabIndex = 21
-        Me.MyLabel17.Text = "FAT Kg"
-        '
-        'MyLabel22
-        '
-        Me.MyLabel22.AutoSize = False
-        Me.MyLabel22.BorderVisible = True
-        Me.MyLabel22.FieldName = Nothing
-        Me.MyLabel22.Location = New System.Drawing.Point(224, 67)
-        Me.MyLabel22.Name = "MyLabel22"
-        Me.MyLabel22.Size = New System.Drawing.Size(85, 21)
-        Me.MyLabel22.TabIndex = 20
-        '
-        'MyLabel23
-        '
-        Me.MyLabel23.FieldName = Nothing
-        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel23.Location = New System.Drawing.Point(175, 92)
-        Me.MyLabel23.Name = "MyLabel23"
-        Me.MyLabel23.Size = New System.Drawing.Size(48, 16)
-        Me.MyLabel23.TabIndex = 21
-        Me.MyLabel23.Text = "SNF KG"
-        '
-        'MyLabel29
-        '
-        Me.MyLabel29.AutoSize = False
-        Me.MyLabel29.BorderVisible = True
-        Me.MyLabel29.FieldName = Nothing
-        Me.MyLabel29.Location = New System.Drawing.Point(224, 90)
-        Me.MyLabel29.Name = "MyLabel29"
-        Me.MyLabel29.Size = New System.Drawing.Size(85, 21)
-        Me.MyLabel29.TabIndex = 20
-        '
         'frmCorrection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2319,8 +2322,12 @@ Partial Class frmCorrection
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
         Me.RadGroupBox6.PerformLayout()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCTankerSNFKG, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCTankerFATKG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBMCTankerTripNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBMCTankerDocNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton7, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2332,10 +2339,6 @@ Partial Class frmCorrection
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2451,7 +2454,7 @@ Partial Class frmCorrection
     Friend WithEvents txtBMCTankerRoute As common.UserControls.txtFinder
     Friend WithEvents RadGroupBox6 As RadGroupBox
     Friend WithEvents MyLabel32 As common.Controls.MyLabel
-    Friend WithEvents MyLabel34 As common.Controls.MyLabel
+    Friend WithEvents lblBMCTankerTripNo As common.Controls.MyLabel
     Friend WithEvents MyLabel35 As common.Controls.MyLabel
     Friend WithEvents lblBMCTankerDocNo As common.Controls.MyLabel
     Friend WithEvents RadButton7 As RadButton
@@ -2464,6 +2467,6 @@ Partial Class frmCorrection
     Friend WithEvents txtBMCTankerFAT As common.MyNumBox
     Friend WithEvents MyLabel23 As common.Controls.MyLabel
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
-    Friend WithEvents MyLabel29 As common.Controls.MyLabel
-    Friend WithEvents MyLabel22 As common.Controls.MyLabel
+    Friend WithEvents lblBMCTankerSNFKG As common.Controls.MyLabel
+    Friend WithEvents lblBMCTankerFATKG As common.Controls.MyLabel
 End Class
