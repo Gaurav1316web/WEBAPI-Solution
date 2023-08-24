@@ -372,7 +372,7 @@ where TSPL_Receipt_Adjustment_Header.Description ='Return Adjustment Against Bul
         clsCommon.CompairString(strSourceTransaction, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal OrElse
      clsCommon.CompairString(strSourceTransaction, clsUserMgtCode.MilkVSPIssuePayment) = CompairStringResult.Equal Then
 
-                str += "select TSPL_JOURNAL_MASTER.Voucher_No,TSPL_JOURNAL_MASTER.Source_Code from TSPL_MILK_PURCHASE_INVOICE_HEAD
+            str += "select TSPL_JOURNAL_MASTER.Voucher_No,TSPL_JOURNAL_MASTER.Source_Code from TSPL_MILK_PURCHASE_INVOICE_HEAD
 inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE
 inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_JOURNAL_MASTER.Source_Code='AP-IN'
  where TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE='" + strSourceDoc + "' and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)='" + clsCommon.myCstr(txtFromDateTag) + "'
@@ -380,13 +380,13 @@ inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_VENDOR_
  select TSPL_JOURNAL_MASTER.Voucher_No,TSPL_JOURNAL_MASTER.Source_Code from TSPL_MILK_PURCHASE_INVOICE_HEAD
 inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.RefDocNo=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE 
 inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_VENDOR_INVOICE_HEAD.Document_No  
- where TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE='" + strSourceDoc + "' and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)='" + clsCommon.myCstr(txtFromDateTag) + "' and TSPL_VENDOR_INVOICE_HEAD.RefDocType in ('DED-MAP','VSP-COM','VSP-QLT','VSP-DIT','PRO-VFC','PRO-VFD','PRO-STD','PRO-LCS','VSP-CMP','VSP-PVK','NCM-DED','CM-DED','Milk_DE','Milk_HE','Milk_OW','VSP-MP','OWD-CRE','OWD-CRD','OWD-DBT','DCS-ADD ','DCS-DED','DCS-QAT','DCS-LYT')
+ where TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE='" + strSourceDoc + "' and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)='" + clsCommon.myCstr(txtFromDateTag) + "' and TSPL_VENDOR_INVOICE_HEAD.RefDocType in ('DED-MAP','VSP-COM','VSP-QLT','VSP-DIT','PRO-VFC','PRO-VFD','PRO-STD','PRO-LCS','VSP-CMP','VSP-PVK','NCM-DED','CM-DED','Milk_DE','Milk_HE','Milk_OW','VSP-MP','OWD-CRE','OWD-CRD','OWD-DBT','DCS-ADD ','DCS-DED','DCS-QAT','DCS-LYT','OWD-RJM')
  union all
 select TSPL_JOURNAL_MASTER.Voucher_No,TSPL_JOURNAL_MASTER.Source_Code from TSPL_MILK_PURCHASE_INVOICE_HEAD
 inner join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Reference=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE 
 inner join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_PAYMENT_HEADER.Payment_No  
 where TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE='" + strSourceDoc + "' and convert(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)='" + clsCommon.myCstr(txtFromDateTag) + "'  and TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document for Asset Lost'"
-            End If
+        End If
             Return str
     End Function
 End Class

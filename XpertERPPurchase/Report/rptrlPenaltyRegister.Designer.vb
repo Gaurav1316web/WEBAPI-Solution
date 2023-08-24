@@ -23,8 +23,8 @@ Partial Class rptrlPenaltyRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -52,13 +52,14 @@ Partial Class rptrlPenaltyRegister
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gvSchedule = New common.UserControls.MyRadGridView()
-        Me.RadLabel29 = New common.Controls.MyLabel()
         Me.radbtnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.RadLabel29 = New common.Controls.MyLabel()
+        Me.Printbtn = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -90,11 +91,12 @@ Partial Class rptrlPenaltyRegister
         Me.SplitContainer2.SuspendLayout()
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.radbtnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Printbtn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -111,6 +113,7 @@ Partial Class rptrlPenaltyRegister
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.Printbtn)
         Me.SplitContainer1.Panel2.Controls.Add(Me.radbtnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreset)
@@ -455,7 +458,7 @@ Partial Class rptrlPenaltyRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv.Name = "gv"
         Me.gv.ReadOnly = True
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -506,7 +509,7 @@ Partial Class rptrlPenaltyRegister
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSchedule.ShowGroupPanel = False
@@ -515,22 +518,11 @@ Partial Class rptrlPenaltyRegister
         Me.gvSchedule.TabIndex = 19
         Me.gvSchedule.TabStop = False
         '
-        'RadLabel29
-        '
-        Me.RadLabel29.FieldName = Nothing
-        Me.RadLabel29.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel29.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel29.Location = New System.Drawing.Point(8, 6)
-        Me.RadLabel29.Name = "RadLabel29"
-        Me.RadLabel29.Size = New System.Drawing.Size(150, 13)
-        Me.RadLabel29.TabIndex = 1521
-        Me.RadLabel29.Text = "Press F5 To View Penalty Details"
-        '
         'radbtnExp
         '
         Me.radbtnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.radbtnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.radbtnExp.Location = New System.Drawing.Point(152, 11)
+        Me.radbtnExp.Location = New System.Drawing.Point(224, 11)
         Me.radbtnExp.Name = "radbtnExp"
         Me.radbtnExp.Size = New System.Drawing.Size(65, 23)
         Me.radbtnExp.TabIndex = 166
@@ -574,6 +566,27 @@ Partial Class rptrlPenaltyRegister
         Me.btnclose.Size = New System.Drawing.Size(65, 23)
         Me.btnclose.TabIndex = 164
         Me.btnclose.Text = "Close"
+        '
+        'RadLabel29
+        '
+        Me.RadLabel29.FieldName = Nothing
+        Me.RadLabel29.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel29.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel29.Location = New System.Drawing.Point(12, 3)
+        Me.RadLabel29.Name = "RadLabel29"
+        Me.RadLabel29.Size = New System.Drawing.Size(150, 13)
+        Me.RadLabel29.TabIndex = 1521
+        Me.RadLabel29.Text = "Press F5 To View Penalty Details"
+        Me.RadLabel29.Visible = False
+        '
+        'Printbtn
+        '
+        Me.Printbtn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Printbtn.Location = New System.Drawing.Point(153, 11)
+        Me.Printbtn.Name = "Printbtn"
+        Me.Printbtn.Size = New System.Drawing.Size(65, 23)
+        Me.Printbtn.TabIndex = 167
+        Me.Printbtn.Text = "Print"
         '
         'rptrlPenaltyRegister
         '
@@ -620,11 +633,12 @@ Partial Class rptrlPenaltyRegister
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.radbtnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Printbtn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -664,4 +678,5 @@ Partial Class rptrlPenaltyRegister
     Friend WithEvents lblPending As common.Controls.MyLabel
     Friend WithEvents lblReceived As common.Controls.MyLabel
     Friend WithEvents RadLabel29 As common.Controls.MyLabel
+    Friend WithEvents Printbtn As RadButton
 End Class
