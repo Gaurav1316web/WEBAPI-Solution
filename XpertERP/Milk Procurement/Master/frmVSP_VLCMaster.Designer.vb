@@ -23,16 +23,16 @@ Partial Class frmVSP_VLCMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadPrintWatermark2 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadPrintWatermark1 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.lblMCCName = New common.Controls.MyLabel()
@@ -557,7 +557,7 @@ Partial Class frmVSP_VLCMaster
         Me.pageCus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage1
+        Me.pageCus.SelectedPage = Me.RadPageViewPage2
         Me.pageCus.Size = New System.Drawing.Size(1078, 444)
         Me.pageCus.TabIndex = 5
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -820,14 +820,14 @@ Partial Class frmVSP_VLCMaster
         Me.CmbHeadLoadServiceBasis.IsSourceFromTable = False
         Me.CmbHeadLoadServiceBasis.IsSourceFromValueList = False
         Me.CmbHeadLoadServiceBasis.IsUnique = False
-        RadListDataItem9.Text = "Select"
-        RadListDataItem10.Text = "%(Percentage)"
-        RadListDataItem11.Text = "Rate/Kg"
-        RadListDataItem12.Text = "Rate/Ltr"
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem9)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem10)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem11)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem12)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "%(Percentage)"
+        RadListDataItem3.Text = "Rate/Kg"
+        RadListDataItem4.Text = "Rate/Ltr"
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem1)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem2)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem3)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem4)
         Me.CmbHeadLoadServiceBasis.Location = New System.Drawing.Point(588, 208)
         Me.CmbHeadLoadServiceBasis.MendatroryField = True
         Me.CmbHeadLoadServiceBasis.MyLinkLable1 = Me.MyLabel54
@@ -1289,10 +1289,10 @@ Partial Class frmVSP_VLCMaster
         Me.cmbGender.IsSourceFromTable = False
         Me.cmbGender.IsSourceFromValueList = False
         Me.cmbGender.IsUnique = False
-        RadListDataItem1.Text = "Male"
-        RadListDataItem2.Text = "Female"
-        Me.cmbGender.Items.Add(RadListDataItem1)
-        Me.cmbGender.Items.Add(RadListDataItem2)
+        RadListDataItem5.Text = "Male"
+        RadListDataItem6.Text = "Female"
+        Me.cmbGender.Items.Add(RadListDataItem5)
+        Me.cmbGender.Items.Add(RadListDataItem6)
         Me.cmbGender.Location = New System.Drawing.Point(178, 134)
         Me.cmbGender.MendatroryField = True
         Me.cmbGender.MyLinkLable1 = Me.MyLabel29
@@ -1331,10 +1331,10 @@ Partial Class frmVSP_VLCMaster
         Me.ddlGender.IsSourceFromTable = False
         Me.ddlGender.IsSourceFromValueList = False
         Me.ddlGender.IsUnique = False
-        RadListDataItem3.Text = "Male"
-        RadListDataItem4.Text = "Female"
-        Me.ddlGender.Items.Add(RadListDataItem3)
-        Me.ddlGender.Items.Add(RadListDataItem4)
+        RadListDataItem7.Text = "Male"
+        RadListDataItem8.Text = "Female"
+        Me.ddlGender.Items.Add(RadListDataItem7)
+        Me.ddlGender.Items.Add(RadListDataItem8)
         Me.ddlGender.Location = New System.Drawing.Point(747, 463)
         Me.ddlGender.MendatroryField = True
         Me.ddlGender.MyLinkLable1 = Me.MyLabel27
@@ -1534,7 +1534,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtIFSCCode2.IsSourceFromTable = False
         Me.txtIFSCCode2.IsSourceFromValueList = False
         Me.txtIFSCCode2.IsUnique = False
-        Me.txtIFSCCode2.Location = New System.Drawing.Point(115, 68)
+        Me.txtIFSCCode2.Location = New System.Drawing.Point(115, 66)
         Me.txtIFSCCode2.MaxLength = 50
         Me.txtIFSCCode2.MendatroryField = False
         Me.txtIFSCCode2.MyLinkLable1 = Me.MyLabel26
@@ -1567,7 +1567,7 @@ Partial Class frmVSP_VLCMaster
         Me.findfndbankcode2.IsSourceFromTable = False
         Me.findfndbankcode2.IsSourceFromValueList = False
         Me.findfndbankcode2.IsUnique = False
-        Me.findfndbankcode2.Location = New System.Drawing.Point(114, 14)
+        Me.findfndbankcode2.Location = New System.Drawing.Point(114, 16)
         Me.findfndbankcode2.MendatroryField = False
         Me.findfndbankcode2.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findfndbankcode2.MyLinkLable1 = Nothing
@@ -1890,7 +1890,7 @@ Partial Class frmVSP_VLCMaster
         Me.findfndbankcode.IsSourceFromTable = False
         Me.findfndbankcode.IsSourceFromValueList = False
         Me.findfndbankcode.IsUnique = False
-        Me.findfndbankcode.Location = New System.Drawing.Point(117, 6)
+        Me.findfndbankcode.Location = New System.Drawing.Point(117, 8)
         Me.findfndbankcode.MendatroryField = False
         Me.findfndbankcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findfndbankcode.MyLinkLable1 = Nothing
@@ -2209,7 +2209,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtIFSCCode.IsSourceFromTable = False
         Me.TxtIFSCCode.IsSourceFromValueList = False
         Me.TxtIFSCCode.IsUnique = False
-        Me.TxtIFSCCode.Location = New System.Drawing.Point(114, 62)
+        Me.TxtIFSCCode.Location = New System.Drawing.Point(114, 63)
         Me.TxtIFSCCode.MaxLength = 50
         Me.TxtIFSCCode.MendatroryField = False
         Me.TxtIFSCCode.MyLinkLable1 = Me.MyLabel15
@@ -5115,7 +5115,7 @@ Partial Class frmVSP_VLCMaster
         Me.ClsMyPrintDocument1.LeftMiddleText = Nothing
         Me.ClsMyPrintDocument1.LeftUpperFont = Nothing
         Me.ClsMyPrintDocument1.LeftUpperText = Nothing
-        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark2
+        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark1
         '
         'frmVSP_VLCMaster
         '
