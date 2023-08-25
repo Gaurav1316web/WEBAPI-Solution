@@ -1507,7 +1507,7 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
         End If
 
 
-        Dim strRefDocType As String = "('DED-MAP','TIP-DED','VSP-COM','VSP-CMP','VSP-QLT','VSP-PVK','VSP-DIT','PRO-VFC','PRO-VFD','NCM-DED','CM-DED','ASL-DED','PRO-LCS','PRO-STD','OWD-CRE','OWD-CRD','OWD-DBT','DCS-ADD','DCS-DED','DCS-QAT','DCS-LYT','VSP-NGT')"
+        Dim strRefDocType As String = "('DED-MAP','TIP-DED','VSP-COM','VSP-CMP','VSP-QLT','VSP-PVK','VSP-DIT','PRO-VFC','PRO-VFD','NCM-DED','CM-DED','ASL-DED','PRO-LCS','PRO-STD','OWD-CRE','OWD-CRD','OWD-DBT','DCS-ADD','DCS-DED','DCS-QAT','DCS-LYT','VSP-NGT','OWD-RJM')"
         'Delete deduction Entry
 
         qry = "delete from TSPL_INVENTORY_MOVEMENT_NEW where Trans_Type='IC-AD' and source_doc_no in ( select Adjustment_No from TSPL_ADJUSTMENT_HEADER where Against_AP_Invoice_No in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocNo in " + strWhr + " and RefDocType in " + strRefDocType + "))"
@@ -1605,6 +1605,9 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         qry = "delete from TSPL_MILK_PURCHASE_INVOICE_OWN_BMC where InvoiceNo in " + strWhr + ""
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        qry = "delete from TSPL_MILK_PURCHASE_INVOICE_OWN_BMC_REJECT where InvoiceNo in " + strWhr + ""
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         qry = "delete from TSPL_MILK_PURCHASE_INVOICE_OWN_BMC_EXPANSE where InvoiceNo in " + strWhr + ""

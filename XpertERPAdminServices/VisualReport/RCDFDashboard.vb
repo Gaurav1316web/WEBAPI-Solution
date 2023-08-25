@@ -512,7 +512,7 @@ Public Class RCDFDashboard
                 gvAccountVendor.AllowAddNewRow = False
 
                 gvAccountVendor.GroupDescriptors.Clear()
-                gvAccountVendor.TableElement.TableHeaderHeight = 40
+                gvAccountVendor.TableElement.TableHeaderHeight = 35
                 gvAccountVendor.MasterTemplate.ShowRowHeaderColumn = False
                 gvAccountVendor.DataSource = dtAccountVendor
                 gvAccountVendor.Columns("VCode").HeaderText = "Account Code"

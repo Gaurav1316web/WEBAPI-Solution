@@ -61,8 +61,10 @@ Public Class clsfrmVLCMaster
     Public Account_Type2 As String = Nothing
     Public AccNo2 As String = Nothing
     Public Security_Charges2 As Decimal = 0
+    Public Bank_Branch2 As String = Nothing
     Public Company_Bank As String = Nothing
     Public BankName2 As String = Nothing
+    Public Bank2_Credit2 As Decimal = 0
 
 
 
@@ -189,7 +191,14 @@ Public Class clsfrmVLCMaster
             Else
                 clsCommon.AddColumnsForChange(coll, "OwnBMCDate", Nothing, True)
             End If
-
+            'clsCommon.AddColumnsForChange(coll, "BankCode2", obj.Bank_Code2)
+            'clsCommon.AddColumnsForChange(coll, "BankName2", obj.Bank_Name2)
+            'clsCommon.AddColumnsForChange(coll, "Credit2", obj.Bank2_Credit2)
+            'clsCommon.AddColumnsForChange(coll, "IFSCCode2", obj.IFSC_Code2)
+            'clsCommon.AddColumnsForChange(coll, "AccNo2", obj.AccNo2)
+            'clsCommon.AddColumnsForChange(coll, "AccountType2", obj.Account_Type2)
+            'clsCommon.AddColumnsForChange(coll, "BankBranch2", obj.Bank_Branch2)
+            'clsCommon.AddColumnsForChange(coll, "SecurityCharges2", obj.Security_Charges2)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.myCstr(clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy")))

@@ -10434,6 +10434,9 @@ Public Class clsCreateAllTable
             coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MCC_GROUP_OF_DEDUCTION", coll)
 
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEDUCTION_MASTER' and COLUMN_NAME='Own_BMC_Milk_Reject_Type'"
+            dt = clsDBFuncationality.GetDataTable(qry)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30)not null PRIMARY KEY")
             coll.Add("Description", "Varchar(100) not null")
@@ -10470,8 +10473,14 @@ Public Class clsCreateAllTable
             coll.Add("Is_Addition", "integer not null default 0")
             coll.Add("Is_Own_BMC_Shortage", "integer not null default 0")
             coll.Add("Is_Own_BMC_Excess", "integer not null default 0")
+            coll.Add("Own_BMC_Milk_Reject_Type", "varchar(30) NULL REFERENCES TSPL_MILK_REJECT_TYPE(Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                qry = "CREATE UNIQUE INDEX Unique_Own_BMC_Milk_Reject_Type ON TSPL_DEDUCTION_MASTER (Own_BMC_Milk_Reject_Type) WHERE Own_BMC_Milk_Reject_Type IS NOT NULL;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
             coll = New Dictionary(Of String, String)()
             coll.Add("Target_Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Target_Desc", "varchar(200) NOT NULL")
@@ -24106,6 +24115,21 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_OWN_BMC", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
             clsDBFuncationality.ExecuteNonQuery("alter table TSPL_MILK_PURCHASE_INVOICE_OWN_BMC alter column Planning_Code varchar(30) null")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("InvoiceNo", "Varchar(30) not null references TSPL_MILK_PURCHASE_INVOICE_HEAD(DOC_CODE)")
+            coll.Add("Doc_Date", "DATE Not NULL")
+            coll.Add("Against_Milk_Collection_MCC_Detail", "integer NOT NULL unique references TSPL_MILK_COLLECTION_MCC_DETAIL(PK_Id)")
+            coll.Add("Milk_Type", "Varchar(30) not null references TSPL_MILK_REJECT_TYPE(Code)")
+            coll.Add("Applicable_On", "integer NULL")
+            coll.Add("Avg_FAT", "DECIMAL(18,1) NULL")
+            coll.Add("Avg_SNF", "DECIMAL(18,1) NULL")
+            coll.Add("Price_Code", "Varchar(30) null")
+            coll.Add("Base_Value", "DECIMAL(18,2) NULL")
+            coll.Add("Base_Rate", "DECIMAL(18,2) NULL")
+            coll.Add("Amount", "DECIMAL(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_OWN_BMC_REJECT", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")

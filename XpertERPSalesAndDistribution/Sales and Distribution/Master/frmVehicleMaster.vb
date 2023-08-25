@@ -47,7 +47,7 @@ Public Class frmVehicleMaster
         InitializeComponent()
         userCode = user
         companyCode = company
-     
+
     End Sub
     Public Sub SetLength()
         fndVehicle_id.MyMaxLength = 12
@@ -407,7 +407,7 @@ Public Class frmVehicleMaster
     Private Sub rbtnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnReset.Click
         funReset()
     End Sub
-  
+
     'This is Reset Function Used To Clear All Fields Of Current Windows Form
     Private Sub funReset()
         Dim AllowMandFields As String = ""
@@ -508,7 +508,7 @@ Public Class frmVehicleMaster
         'fndTransporter.txtValue.ThemeClassName = Office2010BlueTheme
         'fndTransporter.ValueBoxElement.TextBoxItem.BackColor = Office2010Blue
     End Sub
-   
+
     'It Validate User To Press The Keys 
     Private Sub fndVehicle_id_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         'fndVehicle_id.Value.CharacterCasing = CharacterCasing.Upper
@@ -986,7 +986,7 @@ Public Class frmVehicleMaster
             funReset()
         End If
     End Sub
-  
+
     Sub fndTransporter_Leave()
         If rbtnHire.IsChecked = True Then
             fndTransporter.Enabled = True
@@ -1006,7 +1006,7 @@ Public Class frmVehicleMaster
 
 
     End Sub
-    
+
     'It Validate User To Press The Keys 
     Private Sub fndTransporter_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         ' fndTransporter.txtValue.CharacterCasing = CharacterCasing.Upper
@@ -1025,23 +1025,25 @@ Public Class frmVehicleMaster
         fndTransporter.Enabled = True
     End Sub
 
+
+
     Private Sub fndVehicle_id__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndVehicle_id._MYValidating
 
         Dim str As String = "select count(*) from TSPL_GL_SEGMENT_CODE where segment_code ='" + fndVehicle_id.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
-        'If no = 0 Then
-        '    fndVehicle_id.MyReadOnly = False
-        'Else
-        '    fndVehicle_id.MyReadOnly = True
-        'End If
+        If no = 0 Then
+            fndVehicle_id.MyReadOnly = False
+        Else
+            fndVehicle_id.MyReadOnly = True
+        End If
 
-        'If fndVehicle_id.MyReadOnly OrElse isButtonClicked Then
+        If fndVehicle_id.MyReadOnly OrElse isButtonClicked Then
 
-        ' Dim qry As String = "select Segment_code as[segmentcode],Description from TSPL_GL_SEGMENT_CODE  "
-        'fndVehicle_id.Value = clsCommon.ShowSelectForm("GroupCodFND", qry, "Segmentcode", "Seg_No='2'", fndVehicle_id.Value, "", isButtonClicked)
-        fndVehicle_id.Value = clsGLSegmentCode.getFinder("Seg_No='2'", fndVehicle_id.Value, isButtonClicked)
-        LoadData(fndVehicle_id.Value, NavigatorType.Current)
-        ' End If
+            ' Dim qry As String = "select Segment_code as[segmentcode],Description from TSPL_GL_SEGMENT_CODE  "
+            'fndVehicle_id.Value = clsCommon.ShowSelectForm("GroupCodFND", qry, "Segmentcode", "Seg_No='2'", fndVehicle_id.Value, "", isButtonClicked)
+            fndVehicle_id.Value = clsGLSegmentCode.getFinder("Seg_No='2'", fndVehicle_id.Value, isButtonClicked)
+            LoadData(fndVehicle_id.Value, NavigatorType.Current)
+        End If
 
 
     End Sub
@@ -1205,11 +1207,11 @@ Public Class frmVehicleMaster
 
         End If
         fndTransporter_Leave()
-        
+
 
     End Sub
 
-   
+
     Private Sub fndVehicle_id_KeyPress1(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles fndVehicle_id.KeyPress
         If Asc(e.KeyChar) = Keys.Space Then
             e.Handled = False
@@ -1227,7 +1229,7 @@ Public Class frmVehicleMaster
     End Sub
 
     Private Sub rbtnrental_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnrental.ToggleStateChanged
-      
+
         If rbtnrental.Checked = True Then
             cmbRentalType.Enabled = True
 
@@ -1235,7 +1237,7 @@ Public Class frmVehicleMaster
             txtRentalAmt.Enabled = True
 
             txtRentalAmt.MendatroryField = True
-           
+
         Else
             cmbRentalType.Enabled = False
             cmbRentalType.Text = ""
@@ -1244,12 +1246,12 @@ Public Class frmVehicleMaster
             txtRentalAmt.Text = Nothing
             txtRentalAmt.MendatroryField = False
 
-            
+
         End If
     End Sub
 
     Private Sub rbtnrateltr_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtnrateltr.ToggleStateChanged
-   
+
 
         If rbtnrateltr.Checked = True Then
             cmbLtrKG.Enabled = True
@@ -1258,7 +1260,7 @@ Public Class frmVehicleMaster
             txt_ltr.Enabled = True
 
             txt_ltr.MendatroryField = True
-         
+
         Else
             cmbLtrKG.Enabled = False
             cmbLtrKG.Text = ""
@@ -1267,7 +1269,7 @@ Public Class frmVehicleMaster
             txt_ltr.Text = Nothing
             txt_ltr.MendatroryField = False
 
-           
+
         End If
     End Sub
 
@@ -1284,7 +1286,7 @@ Public Class frmVehicleMaster
 
     Private Sub rbtKmrange_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rbtKmrange.ToggleStateChanged
         If rbtKmrange.Checked = True Then
-            
+
             gv.Enabled = True
         Else
             gv.Enabled = False
