@@ -21,12 +21,6 @@ Public Class rptTemporaryPaymentDeductionSummary
         ToDate.Value = clsCommon.GETSERVERDATE()
         Reset()
         isLoad = False
-
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-            RadGroupBox1.Visible = False
-        Else
-            RadGroupBox1.Visible = True
-        End If
     End Sub
     Sub Reset()
         EnableDisableControl(True)
@@ -35,6 +29,7 @@ Public Class rptTemporaryPaymentDeductionSummary
         Gv1.Columns.Clear()
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
+        rbtnAll.Checked = True
     End Sub
 
     Private Sub EnableDisableControl(ByVal val As Boolean)
