@@ -399,7 +399,7 @@ Public Class frmShipmentDairy
         ShowMulMRPOfSameItemOnDairyBookingCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowMulMRPOfSameItemOnDairyBookingCustomer, clsFixedParameterCode.ShowMulMRPOfSameItemOnDairyBookingCustomer, Nothing)) = 1, True, False)
         AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
         AllowtoChangeTCSBaseAmount = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoChangeTCSBaseAmount, clsFixedParameterCode.AllowtoChangeTCSBaseAmount, Nothing)) = 0, False, True)
-        checkstockMRPwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
+        checkstockmrpwise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, Nothing)) = 0, False, True)
         ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ConsiderPreviousCurrentFYForTCSTaxCustOutstanding, clsFixedParameterCode.ConsiderPreviousCurrentFYForTCSTaxCustOutstanding, Nothing)) = "1", True, False)
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         StockCheckOnPostForDairyDispatchMultiple = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StockCheckOnPostForDairyDispatchMultiple, clsFixedParameterCode.StockCheckOnPostForDairyDispatchMultiple, Nothing)) = 1, True, False)
@@ -2148,8 +2148,8 @@ Public Class frmShipmentDairy
                     End If
                 End If
 
-                qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                If qty <= 0 Then
+                Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                If Qty <= 0 Then
                     ValidateRemark = ValidateRemark & " Please fill quantity for item." + Environment.NewLine
                 End If
 
@@ -5615,7 +5615,7 @@ Public Class frmShipmentDairy
         Else
 
             ''For Open Misc Charges 
-            Dim obj As clsAdditionalCharge = clsAdditionalCharge.getFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), isButtonClick)
+            Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), isButtonClick)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                 gv1.CurrentRow.Cells(colICode).Value = obj.Code
                 gv1.CurrentRow.Cells(colIName).Value = obj.desc
@@ -11233,7 +11233,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
 
                         UpdateAllTotals()
                     ElseIf e.Column Is gvAC.Columns(colACCode) Then
-                        Dim obj As clsAdditionalCharge = clsAdditionalCharge.getFinder(clsCommon.myCstr(gvAC.CurrentRow.Cells(colACCode).Value), False)
+                        Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gvAC.CurrentRow.Cells(colACCode).Value), False)
                         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                             gvAC.CurrentRow.Cells(colACCode).Value = obj.Code
                             gvAC.CurrentRow.Cells(colACName).Value = obj.desc
@@ -11914,6 +11914,33 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
             End If
             frmCRV = Nothing
         End If
+        'PrintInvoiveForAll()
+    End Sub
+
+    Private Sub PrintInvoiveForAll()
+        Try
+            Dim Qry As String = Nothing
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim objMultPrintInvoice As New FrmPrintFreshInvoice
+            If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+                myMessages.blankValue("Invoice not found to Print")
+            Else
+                Dim dtDocdate As Date?
+                dtDocdate = Nothing
+                Dim StrSql = "Select Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceNo.Text & "'"
+                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
+                If dt1.Rows.Count > 0 Then
+                    'IsTaxable = clsCommon.myCdbl(dt1.Rows(0)("is_taxable"))
+                    dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
+                End If
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(txtInvoiceNo.Text)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV = Nothing
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
+        End Try
     End Sub
 
     Private Sub btnDrillDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDrillDown.Click
@@ -14194,7 +14221,7 @@ order by TSPL_DEMAND_BOOKING_DETAIL.TR_Code "
                             myDictionary(strKey).Qty += clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
 
                         Else
-                                Dim obj As New clsSNShipmentDCSItemDetail
+                            Dim obj As New clsSNShipmentDCSItemDetail
                             obj.ICode = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Item_Code").Value)
                             obj.UOM = clsCommon.myCstr(gvDistributor.Rows(ii).Cells("Unit_code").Value)
                             obj.Qty = clsCommon.myCDecimal(gvDistributor.Rows(ii).Cells("Qty").Value)
@@ -14202,7 +14229,7 @@ order by TSPL_DEMAND_BOOKING_DETAIL.TR_Code "
 
                             myDictionary.Add(strKey, obj)
                         End If
-                        End If
+                    End If
                 Next
 
                 If myDictionary.Count > 0 Then
