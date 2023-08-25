@@ -17,20 +17,6 @@ Public Class FrmDeductionMaster
     End Sub
 
     Private Sub FrmDeductionMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim qry As String = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEDUCTION_MASTER' and COLUMN_NAME='Own_BMC_Milk_Reject_Type'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
-
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Own_BMC_Milk_Reject_Type", "varchar(30) NULL REFERENCES TSPL_MILK_REJECT_TYPE(Code)")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
-
-
-        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            qry = "CREATE UNIQUE INDEX Unique_Own_BMC_Milk_Reject_Type ON TSPL_DEDUCTION_MASTER (Own_BMC_Milk_Reject_Type) WHERE Own_BMC_Milk_Reject_Type IS NOT NULL;"
-            clsDBFuncationality.ExecuteNonQuery(qry)
-        End If
-
         SetUserMgmtNew()
         isnewentry = True
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")

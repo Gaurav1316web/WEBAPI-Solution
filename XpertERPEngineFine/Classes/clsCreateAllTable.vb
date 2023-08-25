@@ -10434,6 +10434,9 @@ Public Class clsCreateAllTable
             coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MCC_GROUP_OF_DEDUCTION", coll)
 
+            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_DEDUCTION_MASTER' and COLUMN_NAME='Own_BMC_Milk_Reject_Type'"
+            dt = clsDBFuncationality.GetDataTable(qry)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "Varchar(30)not null PRIMARY KEY")
             coll.Add("Description", "Varchar(100) not null")
@@ -10470,8 +10473,14 @@ Public Class clsCreateAllTable
             coll.Add("Is_Addition", "integer not null default 0")
             coll.Add("Is_Own_BMC_Shortage", "integer not null default 0")
             coll.Add("Is_Own_BMC_Excess", "integer not null default 0")
+            coll.Add("Own_BMC_Milk_Reject_Type", "varchar(30) NULL REFERENCES TSPL_MILK_REJECT_TYPE(Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
+
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                qry = "CREATE UNIQUE INDEX Unique_Own_BMC_Milk_Reject_Type ON TSPL_DEDUCTION_MASTER (Own_BMC_Milk_Reject_Type) WHERE Own_BMC_Milk_Reject_Type IS NOT NULL;"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            End If
             coll = New Dictionary(Of String, String)()
             coll.Add("Target_Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Target_Desc", "varchar(200) NOT NULL")
