@@ -223,6 +223,9 @@ left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrd
 left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_MRN_HEAD.Bill_To_Location"
         Dim whrcls As String = "TSPL_MRN_HEAD.Status=1 and TSPL_GRN_HEAD.IsSkipPurchaseQC=0 and TSPL_MRN_HEAD.NIR_QC=1 and TSPL_ITEM_MASTER.NIR_QC=1
 and not exists(select 1 from TSPL_NIR_QC where TSPL_NIR_QC.MRN_No=TSPL_MRN_DETAIL.MRN_No and TSPL_NIR_QC.Document_No not in ('" + txtCode.Value + "'))  "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls += " and TSPL_MRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
         txtMRNNo.Value = clsCommon.ShowSelectForm("NICQCMRNFnd", qry, "MRN_No", whrcls, txtMRNNo.Value, "", isButtonClicked)
         LoadMRNData()
     End Sub
@@ -311,6 +314,6 @@ where TSPL_MRN_DETAIL.MRN_No ='" + txtMRNNo.Value + "' and TSPL_MRN_HEAD.Status=
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
-            End Try
+        End Try
     End Sub
 End Class

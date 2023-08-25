@@ -1025,6 +1025,8 @@ Public Class frmVehicleMaster
         fndTransporter.Enabled = True
     End Sub
 
+
+
     Private Sub fndVehicle_id__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndVehicle_id._MYValidating
 
         Dim str As String = "select count(*) from TSPL_GL_SEGMENT_CODE where segment_code ='" + fndVehicle_id.Value + "' "
