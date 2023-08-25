@@ -555,7 +555,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                     Throw New Exception("Please set default TIP deduction code")
                 End If
                 objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                objVendorInvDetail.Deduction_Name = clsCommon.myCstr(dtDed.Rows(0)("Description"))
+                objVendorInvDetail.DeductionDesc = clsCommon.myCstr(dtDed.Rows(0)("Description"))
 
                 Dim strInvCtrlAC As String = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                 strInvCtrlAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strInvCtrlAC, strMCC, trans)
@@ -866,7 +866,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                     Throw New Exception("Please set default Advance Interest in deduction Master")
                 End If
                 objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                objVendorInvDetail.Deduction_Name = clsCommon.myCstr(dtDed.Rows(0)("Description"))
+                objVendorInvDetail.DeductionDesc = clsCommon.myCstr(dtDed.Rows(0)("Description"))
 
                 Dim strInvCtrlAC As String = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                 strInvCtrlAC = clsERPFuncationality.ChangeGLAccountLocationSegment(strInvCtrlAC, strMCCCode, trans)
@@ -2587,7 +2587,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                             Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                             objVendorInvDetail.Detail_Line_No = ii
                             objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                            objVendorInvDetail.Deduction_Name = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                            objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
                             objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                             objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                             objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
@@ -2881,7 +2881,7 @@ select  NoteAmt,Local_Sale_Amt
                                 Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                                 objVendorInvDetail.Detail_Line_No = ii
                                 objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                                objVendorInvDetail.Deduction_Name = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                                objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
                                 objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                                 objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                                 objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
@@ -2983,7 +2983,7 @@ select  NoteAmt,Local_Sale_Amt
                                 Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                                 objVendorInvDetail.Detail_Line_No = ii
                                 objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                                objVendorInvDetail.Deduction_Name = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                                objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
                                 objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                                 objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                                 objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
@@ -3084,7 +3084,7 @@ select  NoteAmt,Local_Sale_Amt
                                 Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                                 objVendorInvDetail.Detail_Line_No = ii
                                 objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                                objVendorInvDetail.Deduction_Name = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                                objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
                                 objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                                 objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                                 objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
@@ -3246,7 +3246,7 @@ where '" + clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy") + "'>=TSPL_OW
                             Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                             objVendorInvDetail.Detail_Line_No = ii
                             objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                            objVendorInvDetail.Deduction_Name = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                            objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
                             objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                             objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                             objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
@@ -3446,7 +3446,7 @@ where '" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Document_Date")), "dd/MM
                             Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                             objVendorInvDetail.Detail_Line_No = ii
                             objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                            objVendorInvDetail.Deduction_Name = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                            objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
                             objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                             objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                             objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
@@ -3537,7 +3537,7 @@ where '" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Document_Date")), "dd/MM
                                 Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                                 objVendorInvDetail.Detail_Line_No = ii
                                 objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                                objVendorInvDetail.Deduction_Name = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                                objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
                                 objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                                 objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                                 objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
@@ -3682,7 +3682,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + clsCommon.myCstr(dr("PK_Id")) +
                                 objVendorInvHead.Vendor_Invoice_Date = objVendorInvHead.Invoice_Entry_Date
                                 objVendorInvHead.loc_code = clsLocation.GetSegmentCode(objHead.MCC_CODE, trans) 'obj.MCC_CODE
                                 objVendorInvHead.Description = "AP Debit Note Against Own BMC Milk Reject " + (dr("Milk_Type"))
-                                objVendorInvHead.Remarks = (dr("Milk_Type"))
+                                objVendorInvHead.Remarks = clsCommon.myCstr(dr("Milk_Type"))
                                 objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + objVendorInvHead.Vendor_Code + "'", trans))
                                 If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then
                                     Throw New Exception("Please set the vendor Account Set For Vendor : " + objVendorInvHead.Vendor_Name)
@@ -3712,9 +3712,9 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + clsCommon.myCstr(dr("PK_Id")) +
                                 dblAmount = Math.Abs(clsCommon.myCdbl(dr("Amount")))
                                 If True Then
                                     ''Set AP Invvoice Detail Table
-                                    Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Is_Own_BMC_Shortage=1", trans)
+                                    Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Own_BMC_Milk_Reject_Type='" + clsCommon.myCstr(dr("Milk_Type")) + "'", trans)
                                     If dtDed Is Nothing OrElse dtDed.Rows.Count <= 0 Then
-                                        Throw New Exception("Please set default  Own BMC Shortage in Deduction Master")
+                                        Throw New Exception("Please make Deduction of Own BMC Milk Reject Type [ " + clsCommon.myCstr(dr("Milk_Type")) + " ]")
                                     End If
                                     If clsCommon.myLen(clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))) <= 0 Then
                                         Throw New Exception("Please set GL Account for deduction [" + clsCommon.myCstr(dtDed.Rows(0)("code")) + "]")
@@ -3724,7 +3724,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + clsCommon.myCstr(dr("PK_Id")) +
                                     Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                                     objVendorInvDetail.Detail_Line_No = ii
                                     objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                                    objVendorInvDetail.Deduction_Name = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                                    objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
                                     objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                                     objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                                     objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
@@ -4313,7 +4313,7 @@ where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No
                         Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                         objVendorInvDetail.Detail_Line_No = ii
                         objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                        objVendorInvDetail.Deduction_Name = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                        objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
                         objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                         objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                         objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
@@ -4519,7 +4519,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                                         Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                                         objVendorInvDetail.Detail_Line_No = ii
                                         objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
-                                        objVendorInvDetail.Deduction_Name = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                                        objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
                                         objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
                                         objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                                         objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
@@ -4869,7 +4869,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                 Dim objVendorInvDetail As New clsVedorInvoiceDetail()
                 objVendorInvDetail.Detail_Line_No = ii
                 objVendorInvDetail.DeductionCode = objDedMappingDetail.Deduction_Code
-                objVendorInvDetail.Deduction_Name = objDedMappingDetail.DeductionName
+                objVendorInvDetail.DeductionDesc = objDedMappingDetail.DeductionName
                 objVendorInvDetail.GL_Account_Code = objDedMappingDetail.DeductionGLAccount
                 objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objDedMappingDetail.DeductionGLAccount, trans)
                 Dim dblAmount As Decimal = 0

@@ -31,7 +31,7 @@ Public Class ClsDeductionMaster
     Public VLC_TYPE As Boolean
     Public OTHERS_TYPE As Boolean
     Public Sequence_No As Int64 = 0
-    'Public Trans_Type As String = String.Empty
+    Public Own_BMC_Milk_Reject_Type As String
     Public Is_MILK As Boolean
     Public Is_FEED As Boolean
     Public IS_GHEE As Boolean
@@ -60,6 +60,7 @@ Public Class ClsDeductionMaster
             clsCommon.AddColumnsForChange(coll, "Is_FEED", IIf(obj.Is_FEED, 1, 0))
             clsCommon.AddColumnsForChange(coll, "IS_GHEE", IIf(obj.IS_GHEE, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Addition", IIf(obj.Is_Addition, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Own_BMC_Milk_Reject_Type", obj.Own_BMC_Milk_Reject_Type, True)
             qry = ""
             If obj.Is_Default_Company_Deduction Then
                 If clsCommon.myLen(qry) > 0 Then
@@ -192,7 +193,7 @@ Public Class ClsDeductionMaster
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
@@ -221,6 +222,7 @@ Public Class ClsDeductionMaster
                 obj.Ded_Grp_Code = clsCommon.myCstr(dt1.Rows(0)("Ded_Grp_Code"))
                 obj.GL_Account_Code = clsCommon.myCstr(dt1.Rows(0)("GL_Account_Code"))
                 obj.Security = clsCommon.myCstr(dt1.Rows(0)("Security"))
+                obj.Own_BMC_Milk_Reject_Type = clsCommon.myCstr(dt1.Rows(0)("Own_BMC_Milk_Reject_Type"))
                 obj.Is_Default_Company_Deduction = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_Company_Deduction")) > 0, True, False)
                 obj.Is_Default_VSP_Deduction = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_VSP_Deduction")) > 0, True, False)
                 obj.Is_Default_VSP_Quality_Deduction = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_VSP_Quality_Deduction")) > 0, True, False)

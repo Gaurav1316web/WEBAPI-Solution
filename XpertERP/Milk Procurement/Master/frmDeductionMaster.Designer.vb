@@ -39,6 +39,11 @@ Partial Class FrmDeductionMaster
         Me.chkOTHERS = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkShowFATSNF = New Telerik.WinControls.UI.RadCheckBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtOwnBMCMilkRejectType = New common.UserControls.txtFinder()
+        Me.lblDedGrpName = New common.Controls.MyLabel()
+        Me.chkOwnBMCMilkRejectType = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkOwnBMCExcess = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkOwnBMCShortage = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkPasuVikashKos = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkLocalSale = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkStdDeduction = New Telerik.WinControls.UI.RadCheckBox()
@@ -57,7 +62,6 @@ Partial Class FrmDeductionMaster
         Me.FndGLAcct = New common.UserControls.txtFinder()
         Me.lblGLAcctName = New common.Controls.MyLabel()
         Me.fndDedGrp = New common.UserControls.txtFinder()
-        Me.lblDedGrpName = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.fndCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
@@ -67,8 +71,6 @@ Partial Class FrmDeductionMaster
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.chkOwnBMCShortage = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkOwnBMCExcess = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -84,6 +86,10 @@ Partial Class FrmDeductionMaster
         CType(Me.chkOTHERS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkShowFATSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.lblDedGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkOwnBMCMilkRejectType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkOwnBMCExcess, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkOwnBMCShortage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkPasuVikashKos, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkLocalSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkStdDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -100,7 +106,6 @@ Partial Class FrmDeductionMaster
         CType(Me.lblDedGrp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChkSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblGLAcctName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDedGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -109,8 +114,6 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkOwnBMCShortage, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkOwnBMCExcess, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -182,7 +185,7 @@ Partial Class FrmDeductionMaster
         '
         'chkAddition
         '
-        Me.chkAddition.Location = New System.Drawing.Point(17, 245)
+        Me.chkAddition.Location = New System.Drawing.Point(17, 252)
         Me.chkAddition.Name = "chkAddition"
         Me.chkAddition.Size = New System.Drawing.Size(63, 18)
         Me.chkAddition.TabIndex = 622
@@ -190,7 +193,7 @@ Partial Class FrmDeductionMaster
         '
         'chkFEED
         '
-        Me.chkFEED.Location = New System.Drawing.Point(17, 221)
+        Me.chkFEED.Location = New System.Drawing.Point(17, 228)
         Me.chkFEED.Name = "chkFEED"
         Me.chkFEED.Size = New System.Drawing.Size(45, 18)
         Me.chkFEED.TabIndex = 621
@@ -198,7 +201,7 @@ Partial Class FrmDeductionMaster
         '
         'chkGHEE
         '
-        Me.chkGHEE.Location = New System.Drawing.Point(100, 221)
+        Me.chkGHEE.Location = New System.Drawing.Point(100, 228)
         Me.chkGHEE.Name = "chkGHEE"
         Me.chkGHEE.Size = New System.Drawing.Size(47, 18)
         Me.chkGHEE.TabIndex = 620
@@ -206,7 +209,7 @@ Partial Class FrmDeductionMaster
         '
         'chkMILK
         '
-        Me.chkMILK.Location = New System.Drawing.Point(190, 221)
+        Me.chkMILK.Location = New System.Drawing.Point(190, 228)
         Me.chkMILK.Name = "chkMILK"
         Me.chkMILK.Size = New System.Drawing.Size(45, 18)
         Me.chkMILK.TabIndex = 619
@@ -250,7 +253,7 @@ Partial Class FrmDeductionMaster
         '
         'chkHO
         '
-        Me.chkHO.Location = New System.Drawing.Point(17, 197)
+        Me.chkHO.Location = New System.Drawing.Point(17, 204)
         Me.chkHO.Name = "chkHO"
         Me.chkHO.Size = New System.Drawing.Size(37, 18)
         Me.chkHO.TabIndex = 88
@@ -258,7 +261,7 @@ Partial Class FrmDeductionMaster
         '
         'chkVLC
         '
-        Me.chkVLC.Location = New System.Drawing.Point(100, 197)
+        Me.chkVLC.Location = New System.Drawing.Point(100, 204)
         Me.chkVLC.Name = "chkVLC"
         Me.chkVLC.Size = New System.Drawing.Size(40, 18)
         Me.chkVLC.TabIndex = 87
@@ -266,7 +269,7 @@ Partial Class FrmDeductionMaster
         '
         'chkOTHERS
         '
-        Me.chkOTHERS.Location = New System.Drawing.Point(190, 197)
+        Me.chkOTHERS.Location = New System.Drawing.Point(190, 204)
         Me.chkOTHERS.Name = "chkOTHERS"
         Me.chkOTHERS.Size = New System.Drawing.Size(61, 18)
         Me.chkOTHERS.TabIndex = 86
@@ -274,7 +277,7 @@ Partial Class FrmDeductionMaster
         '
         'chkShowFATSNF
         '
-        Me.chkShowFATSNF.Location = New System.Drawing.Point(17, 174)
+        Me.chkShowFATSNF.Location = New System.Drawing.Point(17, 181)
         Me.chkShowFATSNF.Name = "chkShowFATSNF"
         Me.chkShowFATSNF.Size = New System.Drawing.Size(124, 18)
         Me.chkShowFATSNF.TabIndex = 85
@@ -282,6 +285,8 @@ Partial Class FrmDeductionMaster
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.txtOwnBMCMilkRejectType)
+        Me.GroupBox1.Controls.Add(Me.chkOwnBMCMilkRejectType)
         Me.GroupBox1.Controls.Add(Me.chkOwnBMCExcess)
         Me.GroupBox1.Controls.Add(Me.chkOwnBMCShortage)
         Me.GroupBox1.Controls.Add(Me.chkPasuVikashKos)
@@ -299,10 +304,73 @@ Partial Class FrmDeductionMaster
         Me.GroupBox1.Controls.Add(Me.chkCompany)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 99)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(594, 73)
+        Me.GroupBox1.Size = New System.Drawing.Size(594, 76)
         Me.GroupBox1.TabIndex = 84
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Default Deduction Type"
+        '
+        'txtOwnBMCMilkRejectType
+        '
+        Me.txtOwnBMCMilkRejectType.CalculationExpression = Nothing
+        Me.txtOwnBMCMilkRejectType.FieldCode = Nothing
+        Me.txtOwnBMCMilkRejectType.FieldDesc = Nothing
+        Me.txtOwnBMCMilkRejectType.FieldMaxLength = 0
+        Me.txtOwnBMCMilkRejectType.FieldName = Nothing
+        Me.txtOwnBMCMilkRejectType.isCalculatedField = False
+        Me.txtOwnBMCMilkRejectType.IsSourceFromTable = False
+        Me.txtOwnBMCMilkRejectType.IsSourceFromValueList = False
+        Me.txtOwnBMCMilkRejectType.IsUnique = False
+        Me.txtOwnBMCMilkRejectType.Location = New System.Drawing.Point(401, 52)
+        Me.txtOwnBMCMilkRejectType.MendatroryField = True
+        Me.txtOwnBMCMilkRejectType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtOwnBMCMilkRejectType.MyLinkLable1 = Nothing
+        Me.txtOwnBMCMilkRejectType.MyLinkLable2 = Me.lblDedGrpName
+        Me.txtOwnBMCMilkRejectType.MyReadOnly = False
+        Me.txtOwnBMCMilkRejectType.MyShowMasterFormButton = False
+        Me.txtOwnBMCMilkRejectType.Name = "txtOwnBMCMilkRejectType"
+        Me.txtOwnBMCMilkRejectType.ReferenceFieldDesc = Nothing
+        Me.txtOwnBMCMilkRejectType.ReferenceFieldName = Nothing
+        Me.txtOwnBMCMilkRejectType.ReferenceTableName = Nothing
+        Me.txtOwnBMCMilkRejectType.Size = New System.Drawing.Size(189, 18)
+        Me.txtOwnBMCMilkRejectType.TabIndex = 94
+        Me.txtOwnBMCMilkRejectType.Value = ""
+        Me.txtOwnBMCMilkRejectType.Visible = False
+        '
+        'lblDedGrpName
+        '
+        Me.lblDedGrpName.AutoSize = False
+        Me.lblDedGrpName.BorderVisible = True
+        Me.lblDedGrpName.FieldName = Nothing
+        Me.lblDedGrpName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDedGrpName.Location = New System.Drawing.Point(340, 57)
+        Me.lblDedGrpName.Name = "lblDedGrpName"
+        Me.lblDedGrpName.Size = New System.Drawing.Size(266, 18)
+        Me.lblDedGrpName.TabIndex = 76
+        Me.lblDedGrpName.TextWrap = False
+        '
+        'chkOwnBMCMilkRejectType
+        '
+        Me.chkOwnBMCMilkRejectType.Location = New System.Drawing.Point(243, 52)
+        Me.chkOwnBMCMilkRejectType.Name = "chkOwnBMCMilkRejectType"
+        Me.chkOwnBMCMilkRejectType.Size = New System.Drawing.Size(155, 18)
+        Me.chkOwnBMCMilkRejectType.TabIndex = 93
+        Me.chkOwnBMCMilkRejectType.Text = "Own BMC Milk Reject Type"
+        '
+        'chkOwnBMCExcess
+        '
+        Me.chkOwnBMCExcess.Location = New System.Drawing.Point(132, 52)
+        Me.chkOwnBMCExcess.Name = "chkOwnBMCExcess"
+        Me.chkOwnBMCExcess.Size = New System.Drawing.Size(105, 18)
+        Me.chkOwnBMCExcess.TabIndex = 92
+        Me.chkOwnBMCExcess.Text = "Own BMC Excess"
+        '
+        'chkOwnBMCShortage
+        '
+        Me.chkOwnBMCShortage.Location = New System.Drawing.Point(6, 52)
+        Me.chkOwnBMCShortage.Name = "chkOwnBMCShortage"
+        Me.chkOwnBMCShortage.Size = New System.Drawing.Size(118, 18)
+        Me.chkOwnBMCShortage.TabIndex = 91
+        Me.chkOwnBMCShortage.Text = "Own BMC Shortage"
         '
         'chkPasuVikashKos
         '
@@ -490,18 +558,6 @@ Partial Class FrmDeductionMaster
         Me.fndDedGrp.TabIndex = 75
         Me.fndDedGrp.Value = ""
         '
-        'lblDedGrpName
-        '
-        Me.lblDedGrpName.AutoSize = False
-        Me.lblDedGrpName.BorderVisible = True
-        Me.lblDedGrpName.FieldName = Nothing
-        Me.lblDedGrpName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDedGrpName.Location = New System.Drawing.Point(340, 57)
-        Me.lblDedGrpName.Name = "lblDedGrpName"
-        Me.lblDedGrpName.Size = New System.Drawing.Size(266, 18)
-        Me.lblDedGrpName.TabIndex = 76
-        Me.lblDedGrpName.TextWrap = False
-        '
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
@@ -612,22 +668,6 @@ Partial Class FrmDeductionMaster
         Me.btnClose.TabIndex = 73
         Me.btnClose.Text = "Close"
         '
-        'chkOwnBMCShortage
-        '
-        Me.chkOwnBMCShortage.Location = New System.Drawing.Point(6, 52)
-        Me.chkOwnBMCShortage.Name = "chkOwnBMCShortage"
-        Me.chkOwnBMCShortage.Size = New System.Drawing.Size(118, 18)
-        Me.chkOwnBMCShortage.TabIndex = 91
-        Me.chkOwnBMCShortage.Text = "Own BMC Shortage"
-        '
-        'chkOwnBMCExcess
-        '
-        Me.chkOwnBMCExcess.Location = New System.Drawing.Point(132, 52)
-        Me.chkOwnBMCExcess.Name = "chkOwnBMCExcess"
-        Me.chkOwnBMCExcess.Size = New System.Drawing.Size(105, 18)
-        Me.chkOwnBMCExcess.TabIndex = 92
-        Me.chkOwnBMCExcess.Text = "Own BMC Excess"
-        '
         'FrmDeductionMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -658,6 +698,10 @@ Partial Class FrmDeductionMaster
         CType(Me.chkShowFATSNF, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.lblDedGrpName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkOwnBMCMilkRejectType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkOwnBMCExcess, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkOwnBMCShortage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkPasuVikashKos, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkLocalSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkStdDeduction, System.ComponentModel.ISupportInitialize).EndInit()
@@ -674,7 +718,6 @@ Partial Class FrmDeductionMaster
         CType(Me.lblDedGrp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChkSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblGLAcctName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDedGrpName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
@@ -683,8 +726,6 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkOwnBMCShortage, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkOwnBMCExcess, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -736,5 +777,7 @@ Partial Class FrmDeductionMaster
     Friend WithEvents chkMILK As RadCheckBox
     Friend WithEvents chkOwnBMCExcess As RadCheckBox
     Friend WithEvents chkOwnBMCShortage As RadCheckBox
+    Friend WithEvents txtOwnBMCMilkRejectType As common.UserControls.txtFinder
+    Friend WithEvents chkOwnBMCMilkRejectType As RadCheckBox
 End Class
 
