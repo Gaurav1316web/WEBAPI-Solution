@@ -50,7 +50,7 @@ Public Class RCDFDashboard
 
 
         gvAccountCustomer.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
-        gvAccountCustomer.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
+        gvAccountVendor.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
 
         'cvZone.Views.AddNew()
         'Dim controllerZone As New DrillDownController()
