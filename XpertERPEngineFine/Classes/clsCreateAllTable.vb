@@ -4656,6 +4656,10 @@ Public Class clsCreateAllTable
             coll.Add("Login_DateTime", "Datetime  NULL")
             coll.Add("Logout_DateTime", "Datetime NULL ")
             coll.Add("Comp_Code", "varchar(8) NULL")
+            coll.Add("Latitude", "varchar(20) NULL")
+            coll.Add("Longitude", "varchar(20) NULL")
+            coll.Add("IMEI1", "varchar(20) NULL")
+            coll.Add("IMEI2", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_UserLogin_Info", coll)
 
             coll = New Dictionary(Of String, String)()
