@@ -182,7 +182,7 @@ Public Class clsTenderHead
                     FROM TSPL_TENDER_DETAIL left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_TENDER_DETAIL.Location 
                     left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_Code=TSPL_TENDER_DETAIL.Vendor_Code
                     left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_DETAIL.Item_Code
-                    where tspl_tender_detail.DocumentCode='" + obj.DocumentCode + "' ORDER BY tspl_tender_detail.Line_No"
+                    where tspl_tender_detail.DocumentCode='" + obj.DocumentCode + "'ORDER BY tspl_tender_detail.Line_No"
                 dt = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(qry, trans)
                 If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -204,7 +204,6 @@ Public Class clsTenderHead
                         objTr.Item_Cost = clsCommon.myCdbl(dr("Item_Cost"))
                         objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
                         objTr.Comments = clsCommon.myCstr(dr("Comments"))
-
                         obj.Arr.Add(objTr)
                     Next
                 End If
@@ -260,6 +259,8 @@ Public Class clsTenderHead
 
     Private Shared Function GeneratePO(objTender As clsTenderHead, trans As SqlTransaction) As Boolean
         If objTender.Tender_Type <> 2 Then
+            'If (Qty.Rows.Count > 0) Then
+            'If clsCommon.myCdbl(grow.Cells(colQty).Value) > 0 Then
             Dim qry As String = ""
             '        "select TSPL_TAX_GROUP_MASTER.Tax_Group_Code,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,TSPL_TAX_GROUP_DETAILS.Tax_Code,TSPL_TAX_GROUP_DETAILS.Tax_Code_Desc 
             'from TSPL_TAX_GROUP_DETAILS
@@ -825,6 +826,7 @@ select State_Code from TSPL_VENDOR_MASTER where Vendor_Code='" + objTender.Arr(i
                 obj.PostData(clsUserMgtCode.mbtnPurchaseOrder, obj.PurchaseOrder_No, "", False, False, trans, "", "")
             Next
         End If
+        'End If
         Return True
     End Function
 

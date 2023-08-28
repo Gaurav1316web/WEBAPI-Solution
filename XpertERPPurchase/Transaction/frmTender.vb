@@ -616,7 +616,8 @@ Public Class frmTender
                     Return False
                 End If
 
-                If dblQty <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 Then
+                If dblQty <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 3 Then
+                    'clsCommon.myCDecimal(dblQty) <= 0 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                     Return False
                 End If
@@ -675,7 +676,6 @@ Public Class frmTender
     Private Function SaveData() As Boolean
         Try
             Dim qry As String = ""
-
             If (AllowToSave(Nothing)) Then
 
                 Dim obj As New clsTenderHead()
@@ -707,7 +707,8 @@ Public Class frmTender
                     Dim objTr As New clsTenderDetail()
                     objTr.Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
                     objTr.Rate = clsCommon.myCdbl(grow.Cells(colRate).Value)
-                    If ((objTr.Qty) > 0 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2) AndAlso clsCommon.myCdbl(objTr.Rate) > 0 Then
+                    'If clsCommon.myCdbl(grow.Cells(colQty).Value) > 0 Then
+                    If ((objTr.Qty) > 0 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3) AndAlso clsCommon.myCdbl(objTr.Rate) > 0 Then
                         intLine += 1
                         objTr.Line_No = grow.Cells(colLineNo).Value
                         objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
@@ -720,11 +721,11 @@ Public Class frmTender
                         objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colAmt).Value)
                         objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
                         objTr.Comments = clsCommon.myCstr(grow.Cells(colComments).Value)
-
-
                     End If
+
                     If (clsCommon.myLen(objTr.Location) > 0) AndAlso (clsCommon.myLen(objTr.Vendor_Code) > 0) AndAlso (clsCommon.myLen(objTr.Item_Code) > 0) Then
                         obj.Arr.Add(objTr)
+                        'End If
                     End If
                 Next
 
@@ -1127,7 +1128,7 @@ Public Class frmTender
             'gv2.Rows.Add(grow)
             'gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = intSerialNo
             For Each grow As GridViewRowInfo In gv1.Rows
-                If clsCommon.myLen(grow.Cells(colICode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colVCode).Value) > 0 AndAlso ((clsCommon.myCdbl(grow.Cells(colAmt).Value) > 0) OrElse (clsCommon.myCdbl(grow.Cells(colRate).Value) > 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2)) Then
+                If clsCommon.myLen(grow.Cells(colICode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colLCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colVCode).Value) > 0 AndAlso ((clsCommon.myCdbl(grow.Cells(colAmt).Value) > 0) OrElse (clsCommon.myCdbl(grow.Cells(colRate).Value) > 0 AndAlso (clsCommon.myCDecimal(cboTenderType.SelectedValue) = 2 OrElse clsCommon.myCDecimal(cboTenderType.SelectedValue) = 3))) Then
 
                     gv2.Rows.AddNew()
 
@@ -1182,7 +1183,7 @@ Public Class frmTender
                     Return False
                 End If
 
-                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCdbl(dblQty) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 Then
+                If clsCommon.myLen(strICode) > 0 AndAlso clsCommon.myLen(strLCode) > 0 AndAlso clsCommon.myLen(strVCode) > 0 AndAlso clsCommon.myCdbl(dblQty) <= 0 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 2 AndAlso clsCommon.myCDecimal(cboTenderType.SelectedValue) <> 3 Then
                     common.clsCommon.MyMessageBoxShow(Me, "Please enter Booked Quantity for " + strIName + ". At Line No" + clsCommon.myCstr(ii + 1), Me.Text)
                     Return False
                 End If
