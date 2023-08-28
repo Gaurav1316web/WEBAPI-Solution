@@ -368,7 +368,7 @@ Public Class clsSNShipmentHead
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "Transpoter_Name", obj.Carrier)
+            clsCommon.AddColumnsForChange(coll, "Transporter_Name", obj.Carrier)
             clsCommon.AddColumnsForChange(coll, "Transport_Id", obj.transport_id)
             clsCommon.AddColumnsForChange(coll, "VehicleNo", obj.VehicleNo)
             clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
