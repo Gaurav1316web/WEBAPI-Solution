@@ -31,15 +31,19 @@ Partial Class frmSNShipment
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lbltransporter = New common.Controls.MyLabel()
+        Me.fndtransporter = New common.UserControls.txtFinder()
+        Me.lblRouteNo = New common.Controls.MyLabel()
         Me.txtOrderQty = New common.MyNumBox()
         Me.lblOrderQty = New common.Controls.MyLabel()
         Me.txtWeightmentNo = New common.UserControls.txtMultiSelectFinder()
+        Me.txtBarCode = New common.Controls.MyTextBox()
+        Me.MyLabel16 = New common.Controls.MyLabel()
         Me.MyLabel21 = New common.Controls.MyLabel()
         Me.txtShipToDeliveryAt = New common.Controls.MyTextBox()
         Me.dtpLR_GR_Date = New common.Controls.MyDateTimePicker()
         Me.MyLabel20 = New common.Controls.MyLabel()
         Me.txtBeejakNo = New common.Controls.MyTextBox()
-        Me.MyLabel16 = New common.Controls.MyLabel()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.MyLabel35 = New common.Controls.MyLabel()
         Me.lblTotalOutstansing = New common.Controls.MyLabel()
@@ -82,10 +86,8 @@ Partial Class frmSNShipment
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.lblRouteDesc = New common.Controls.MyLabel()
         Me.txtRouteNo = New common.UserControls.txtFinder()
-        Me.lblRouteNo = New common.Controls.MyLabel()
         Me.txtPriceCode = New common.Controls.MyLabel()
         Me.lblPriceCode = New common.Controls.MyLabel()
-        Me.txtBarCode = New common.Controls.MyTextBox()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.pnlPCJ = New System.Windows.Forms.Panel()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -257,22 +259,23 @@ Partial Class frmSNShipment
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.fndtransporter = New common.UserControls.txtFinder()
-        Me.lbltransporter = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lbltransporter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtOrderQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblOrderQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBarCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtShipToDeliveryAt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpLR_GR_Date, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBeejakNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalOutstansing, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -312,10 +315,8 @@ Partial Class frmSNShipment
         CType(Me.ddlInvoiceType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPriceCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPriceCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtBarCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlPCJ.SuspendLayout()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -472,7 +473,6 @@ Partial Class frmSNShipment
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lbltransporter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -627,6 +627,53 @@ Partial Class frmSNShipment
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1234, 491)
         Me.RadPageViewPage1.Text = "Shipment/Dispatch"
         '
+        'lbltransporter
+        '
+        Me.lbltransporter.AutoSize = False
+        Me.lbltransporter.BorderVisible = True
+        Me.lbltransporter.FieldName = Nothing
+        Me.lbltransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbltransporter.Location = New System.Drawing.Point(770, 112)
+        Me.lbltransporter.Name = "lbltransporter"
+        Me.lbltransporter.Size = New System.Drawing.Size(228, 18)
+        Me.lbltransporter.TabIndex = 38
+        Me.lbltransporter.TextWrap = False
+        '
+        'fndtransporter
+        '
+        Me.fndtransporter.CalculationExpression = Nothing
+        Me.fndtransporter.FieldCode = Nothing
+        Me.fndtransporter.FieldDesc = Nothing
+        Me.fndtransporter.FieldMaxLength = 0
+        Me.fndtransporter.FieldName = Nothing
+        Me.fndtransporter.isCalculatedField = False
+        Me.fndtransporter.IsSourceFromTable = False
+        Me.fndtransporter.IsSourceFromValueList = False
+        Me.fndtransporter.IsUnique = False
+        Me.fndtransporter.Location = New System.Drawing.Point(634, 112)
+        Me.fndtransporter.MendatroryField = False
+        Me.fndtransporter.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndtransporter.MyLinkLable1 = Me.lblRouteNo
+        Me.fndtransporter.MyLinkLable2 = Nothing
+        Me.fndtransporter.MyReadOnly = False
+        Me.fndtransporter.MyShowMasterFormButton = False
+        Me.fndtransporter.Name = "fndtransporter"
+        Me.fndtransporter.ReferenceFieldDesc = Nothing
+        Me.fndtransporter.ReferenceFieldName = Nothing
+        Me.fndtransporter.ReferenceTableName = Nothing
+        Me.fndtransporter.Size = New System.Drawing.Size(130, 19)
+        Me.fndtransporter.TabIndex = 1433
+        Me.fndtransporter.Value = ""
+        '
+        'lblRouteNo
+        '
+        Me.lblRouteNo.FieldName = Nothing
+        Me.lblRouteNo.Location = New System.Drawing.Point(0, 157)
+        Me.lblRouteNo.Name = "lblRouteNo"
+        Me.lblRouteNo.Size = New System.Drawing.Size(54, 18)
+        Me.lblRouteNo.TabIndex = 124
+        Me.lblRouteNo.Text = "Route No"
+        '
         'txtOrderQty
         '
         Me.txtOrderQty.CalculationExpression = Nothing
@@ -675,6 +722,40 @@ Partial Class frmSNShipment
         Me.txtWeightmentNo.Name = "txtWeightmentNo"
         Me.txtWeightmentNo.Size = New System.Drawing.Size(143, 20)
         Me.txtWeightmentNo.TabIndex = 1430
+        '
+        'txtBarCode
+        '
+        Me.txtBarCode.CalculationExpression = Nothing
+        Me.txtBarCode.FieldCode = Nothing
+        Me.txtBarCode.FieldDesc = Nothing
+        Me.txtBarCode.FieldMaxLength = 0
+        Me.txtBarCode.FieldName = Nothing
+        Me.txtBarCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBarCode.isCalculatedField = False
+        Me.txtBarCode.IsSourceFromTable = False
+        Me.txtBarCode.IsSourceFromValueList = False
+        Me.txtBarCode.IsUnique = False
+        Me.txtBarCode.Location = New System.Drawing.Point(634, 92)
+        Me.txtBarCode.MaxLength = 200
+        Me.txtBarCode.MendatroryField = False
+        Me.txtBarCode.MyLinkLable1 = Me.MyLabel16
+        Me.txtBarCode.MyLinkLable2 = Nothing
+        Me.txtBarCode.Name = "txtBarCode"
+        Me.txtBarCode.ReferenceFieldDesc = Nothing
+        Me.txtBarCode.ReferenceFieldName = Nothing
+        Me.txtBarCode.ReferenceTableName = Nothing
+        Me.txtBarCode.Size = New System.Drawing.Size(261, 18)
+        Me.txtBarCode.TabIndex = 18
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(537, 90)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(54, 16)
+        Me.MyLabel16.TabIndex = 59
+        Me.MyLabel16.Text = "Bar Code"
         '
         'MyLabel21
         '
@@ -774,16 +855,6 @@ Partial Class frmSNShipment
         Me.txtBeejakNo.Size = New System.Drawing.Size(218, 18)
         Me.txtBeejakNo.TabIndex = 1422
         Me.txtBeejakNo.TabStop = False
-        '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(537, 90)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(54, 16)
-        Me.MyLabel16.TabIndex = 59
-        Me.MyLabel16.Text = "Bar Code"
         '
         'MyLabel17
         '
@@ -1413,15 +1484,6 @@ Partial Class frmSNShipment
         Me.txtRouteNo.TabIndex = 21
         Me.txtRouteNo.Value = ""
         '
-        'lblRouteNo
-        '
-        Me.lblRouteNo.FieldName = Nothing
-        Me.lblRouteNo.Location = New System.Drawing.Point(0, 157)
-        Me.lblRouteNo.Name = "lblRouteNo"
-        Me.lblRouteNo.Size = New System.Drawing.Size(54, 18)
-        Me.lblRouteNo.TabIndex = 124
-        Me.lblRouteNo.Text = "Route No"
-        '
         'txtPriceCode
         '
         Me.txtPriceCode.AutoSize = False
@@ -1441,30 +1503,6 @@ Partial Class frmSNShipment
         Me.lblPriceCode.Size = New System.Drawing.Size(60, 18)
         Me.lblPriceCode.TabIndex = 121
         Me.lblPriceCode.Text = "Price Code"
-        '
-        'txtBarCode
-        '
-        Me.txtBarCode.CalculationExpression = Nothing
-        Me.txtBarCode.FieldCode = Nothing
-        Me.txtBarCode.FieldDesc = Nothing
-        Me.txtBarCode.FieldMaxLength = 0
-        Me.txtBarCode.FieldName = Nothing
-        Me.txtBarCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBarCode.isCalculatedField = False
-        Me.txtBarCode.IsSourceFromTable = False
-        Me.txtBarCode.IsSourceFromValueList = False
-        Me.txtBarCode.IsUnique = False
-        Me.txtBarCode.Location = New System.Drawing.Point(634, 92)
-        Me.txtBarCode.MaxLength = 200
-        Me.txtBarCode.MendatroryField = False
-        Me.txtBarCode.MyLinkLable1 = Me.MyLabel16
-        Me.txtBarCode.MyLinkLable2 = Nothing
-        Me.txtBarCode.Name = "txtBarCode"
-        Me.txtBarCode.ReferenceFieldDesc = Nothing
-        Me.txtBarCode.ReferenceFieldName = Nothing
-        Me.txtBarCode.ReferenceTableName = Nothing
-        Me.txtBarCode.Size = New System.Drawing.Size(261, 18)
-        Me.txtBarCode.TabIndex = 18
         '
         'MyLabel5
         '
@@ -3826,44 +3864,6 @@ Partial Class frmSNShipment
         WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
         Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
-        'fndtransporter
-        '
-        Me.fndtransporter.CalculationExpression = Nothing
-        Me.fndtransporter.FieldCode = Nothing
-        Me.fndtransporter.FieldDesc = Nothing
-        Me.fndtransporter.FieldMaxLength = 0
-        Me.fndtransporter.FieldName = Nothing
-        Me.fndtransporter.isCalculatedField = False
-        Me.fndtransporter.IsSourceFromTable = False
-        Me.fndtransporter.IsSourceFromValueList = False
-        Me.fndtransporter.IsUnique = False
-        Me.fndtransporter.Location = New System.Drawing.Point(634, 112)
-        Me.fndtransporter.MendatroryField = False
-        Me.fndtransporter.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndtransporter.MyLinkLable1 = Me.lblRouteNo
-        Me.fndtransporter.MyLinkLable2 = Nothing
-        Me.fndtransporter.MyReadOnly = False
-        Me.fndtransporter.MyShowMasterFormButton = False
-        Me.fndtransporter.Name = "fndtransporter"
-        Me.fndtransporter.ReferenceFieldDesc = Nothing
-        Me.fndtransporter.ReferenceFieldName = Nothing
-        Me.fndtransporter.ReferenceTableName = Nothing
-        Me.fndtransporter.Size = New System.Drawing.Size(130, 19)
-        Me.fndtransporter.TabIndex = 1433
-        Me.fndtransporter.Value = ""
-        '
-        'lbltransporter
-        '
-        Me.lbltransporter.AutoSize = False
-        Me.lbltransporter.BorderVisible = True
-        Me.lbltransporter.FieldName = Nothing
-        Me.lbltransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbltransporter.Location = New System.Drawing.Point(770, 112)
-        Me.lbltransporter.Name = "lbltransporter"
-        Me.lbltransporter.Size = New System.Drawing.Size(228, 18)
-        Me.lbltransporter.TabIndex = 38
-        Me.lbltransporter.TextWrap = False
-        '
         'frmSNShipment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3886,14 +3886,17 @@ Partial Class frmSNShipment
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lbltransporter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtOrderQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblOrderQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBarCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtShipToDeliveryAt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpLR_GR_Date, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBeejakNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalOutstansing, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3934,10 +3937,8 @@ Partial Class frmSNShipment
         CType(Me.ddlInvoiceType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPriceCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPriceCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtBarCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlPCJ.ResumeLayout(False)
         Me.pnlPCJ.PerformLayout()
@@ -4108,7 +4109,6 @@ Partial Class frmSNShipment
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lbltransporter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
