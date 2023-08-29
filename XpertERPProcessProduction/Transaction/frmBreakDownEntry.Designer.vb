@@ -27,6 +27,8 @@ Partial Class frmBreakDownEntry
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.txtHours = New common.Controls.MyLabel()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
         Me.RadLabel15 = New common.Controls.MyLabel()
@@ -58,6 +60,8 @@ Partial Class frmBreakDownEntry
         Me.RadPageViewPage1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtHours, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBreakDownname, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -134,6 +138,8 @@ Partial Class frmBreakDownEntry
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel5)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtHours)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel15)
@@ -159,6 +165,26 @@ Partial Class frmBreakDownEntry
         Me.SplitContainer2.Size = New System.Drawing.Size(727, 323)
         Me.SplitContainer2.SplitterDistance = 130
         Me.SplitContainer2.TabIndex = 0
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(491, 105)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(36, 16)
+        Me.MyLabel5.TabIndex = 56
+        Me.MyLabel5.Text = "Hours"
+        '
+        'txtHours
+        '
+        Me.txtHours.AutoSize = False
+        Me.txtHours.BorderVisible = True
+        Me.txtHours.FieldName = Nothing
+        Me.txtHours.Location = New System.Drawing.Point(546, 104)
+        Me.txtHours.Name = "txtHours"
+        Me.txtHours.Size = New System.Drawing.Size(87, 19)
+        Me.txtHours.TabIndex = 55
         '
         'lblLocation
         '
@@ -303,7 +329,7 @@ Partial Class frmBreakDownEntry
         Me.txtend_time.IsSourceFromTable = False
         Me.txtend_time.IsSourceFromValueList = False
         Me.txtend_time.IsUnique = False
-        Me.txtend_time.Location = New System.Drawing.Point(310, 102)
+        Me.txtend_time.Location = New System.Drawing.Point(333, 102)
         Me.txtend_time.MendatroryField = True
         Me.txtend_time.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
         Me.txtend_time.MyLinkLable1 = Me.MyLabel4
@@ -314,7 +340,7 @@ Partial Class frmBreakDownEntry
         Me.txtend_time.ReferenceFieldName = Nothing
         Me.txtend_time.ReferenceTableName = Nothing
         Me.txtend_time.ShowUpDown = True
-        Me.txtend_time.Size = New System.Drawing.Size(132, 20)
+        Me.txtend_time.Size = New System.Drawing.Size(144, 20)
         Me.txtend_time.TabIndex = 6
         Me.txtend_time.TabStop = False
         Me.txtend_time.Text = "13/08/2014 12:23 PM"
@@ -324,7 +350,7 @@ Partial Class frmBreakDownEntry
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel4.Location = New System.Drawing.Point(253, 104)
+        Me.MyLabel4.Location = New System.Drawing.Point(275, 104)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(52, 18)
         Me.MyLabel4.TabIndex = 43
@@ -354,7 +380,7 @@ Partial Class frmBreakDownEntry
         Me.txtstart_time.ReferenceFieldName = Nothing
         Me.txtstart_time.ReferenceTableName = Nothing
         Me.txtstart_time.ShowUpDown = True
-        Me.txtstart_time.Size = New System.Drawing.Size(132, 20)
+        Me.txtstart_time.Size = New System.Drawing.Size(153, 20)
         Me.txtstart_time.TabIndex = 5
         Me.txtstart_time.TabStop = False
         Me.txtstart_time.Text = "13/08/2014 12:23 PM"
@@ -517,6 +543,8 @@ Partial Class frmBreakDownEntry
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtHours, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBreakDownname, System.ComponentModel.ISupportInitialize).EndInit()
@@ -566,5 +594,7 @@ Partial Class frmBreakDownEntry
     Friend WithEvents RadLabel15 As common.Controls.MyLabel
     Friend WithEvents txtLocation As common.UserControls.txtFinder
     Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents txtHours As common.Controls.MyLabel
 End Class
 

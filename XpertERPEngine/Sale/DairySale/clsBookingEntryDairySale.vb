@@ -52,6 +52,7 @@ Public Class clsBookingEntryDairySale
     Public Total_Outstanding As Double = 0
     Public Login_User_Zone_Code As String = Nothing
     Public GatePass_Type As String = String.Empty
+    Public Is_DCS As Integer = 0
 
     Public arrBookingDetailDairySalePaymentMode As List(Of clsBookingDetailDairySalePaymentMode) = Nothing
 #End Region
@@ -188,6 +189,7 @@ Public Class clsBookingEntryDairySale
             clsCommon.AddColumnsForChange(coll, "Total_Outstanding", obj.Total_Outstanding) ' 
             clsCommon.AddColumnsForChange(coll, "Login_User_Zone_Code", obj.Login_User_Zone_Code, True)
             clsCommon.AddColumnsForChange(coll, "GatePass_Type", obj.GatePass_Type, True)
+            clsCommon.AddColumnsForChange(coll, "Is_DCS", obj.Is_DCS, True)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -365,7 +367,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType, ByVal Trans As SqlTransaction, Optional ByVal FormId As String = "") As clsBookingEntryDairySale
         Dim obj As clsBookingEntryDairySale = Nothing
         Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_MATSER.Ship_To_Location,TSPL_BOOKING_MATSER.Created_Date,TSPL_BOOKING_MATSER.AdvanceAmount,TSPL_BOOKING_MATSER.Against_Receipt_No,TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Payment_Mode,TSPL_BOOKING_MATSER.Reference_No,TSPL_BOOKING_MATSER.Counter_No,TSPL_BOOKING_MATSER.IsSampling,TSPL_BOOKING_MATSER.AgainstGatePass,Document_No,Document_Date,Posted,CreateDO_Automatic,location_code,Cust_Group_Code,Is_Taxable,TRANSACTION_TYPE,Ex_Factory_Date,isnull(CustPO_No,'') as CustPO_No,custpo_date,isnull(SalesmanCode,'') as SalesmanCode,Total_Can,total_Box,Total_Crate,isnull(Is_Cancelled,0) as Is_Cancelled, isnull(Booking_Type,'') as Booking_Type,isnull(Card_SALE_No,'') as Card_SALE_No,CardSale_FROM_DATE,CardSale_TO_DATE,Uploading_date " &
-            " ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By " &
+            " ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,Is_DCS " &
             " from TSPL_BOOKING_MATSER where comp_code='" + objCommonVar.CurrentCompanyCode + "' and "
 
         '-------richa 12/08/2014 Ticket No. BM00000003242---------
@@ -422,6 +424,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.Is_Taxable = clsCommon.myCstr(dt.Rows(0)("Is_Taxable"))
             obj.TRANSACTION_TYPE = clsCommon.myCstr(dt.Rows(0)("TRANSACTION_TYPE"))
             obj.Booking_Type = clsCommon.myCstr(dt.Rows(0)("Booking_Type"))
+            obj.Is_DCS = clsCommon.myCdbl(dt.Rows(0)("Is_DCS"))
             If clsCommon.myLen(dt.Rows(0)("Ex_Factory_Date")) > 0 Then
                 obj.Ex_Factory_Date = clsCommon.myCDate(dt.Rows(0)("Ex_Factory_Date"))
             End If
