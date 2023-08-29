@@ -200,6 +200,7 @@ Public Class frmNIRQC
         End Try
     End Sub
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
+
         txtCode.Value = clsNIRQC.getFinder("", txtCode.Value, isButtonClicked)
         If txtCode.Value <> "" Then
             LoadData(txtCode.Value, NavigatorType.Current)

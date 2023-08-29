@@ -75,26 +75,25 @@ Public Class ClsVehicleMaster
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As ClsVehicleMaster
         Dim obj As New ClsVehicleMaster()
-        Dim qry As String = "Select TSPL_GL_SEGMENT_CODE.Segment_code as [Vehicle Id],TSPL_VEHICLE_MASTER.Status,TSPL_VEHICLE_MASTER.price_km,TSPL_VEHICLE_MASTER.price_ltr_kg,TSPL_VEHICLE_MASTER.Rate_type,TSPL_VEHICLE_MASTER.Shift_Charges,TSPL_VEHICLE_MASTER.Avg_Km_Ltr,TSPL_VEHICLE_MASTER.Diesel_Rate,TSPL_VEHICLE_MASTER.Rental_Type,TSPL_VEHICLE_MASTER.Rental_Amount, TSPL_GL_SEGMENT_CODE.Description,  TSPL_VEHICLE_MASTER.Model, " &
-        "TSPL_VEHICLE_MASTER.Vehicle_Weight,TSPL_VEHICLE_MASTER.Vehicle_No,TSPL_VEHICLE_MASTER.CrateCapacity, Case When ISNULL(TSPL_VEHICLE_MASTER.Number,'')='' Then TSPL_GL_SEGMENT_CODE.Description Else TSPL_VEHICLE_MASTER.Number End As Number, TSPL_VEHICLE_MASTER.Vehicle_Type ,TSPL_VEHICLE_MASTER.Vehicle_Reg_No ,TSPL_VEHICLE_MASTER.Vehicle_Chesis_No ," &
+        Dim qry As String = "Select TSPL_VEHICLE_MASTER.Vehicle_id as [Vehicle Id],TSPL_VEHICLE_MASTER.Status,TSPL_VEHICLE_MASTER.price_km,TSPL_VEHICLE_MASTER.price_ltr_kg,TSPL_VEHICLE_MASTER.Rate_type,TSPL_VEHICLE_MASTER.Shift_Charges,TSPL_VEHICLE_MASTER.Avg_Km_Ltr,TSPL_VEHICLE_MASTER.Diesel_Rate,TSPL_VEHICLE_MASTER.Rental_Type,TSPL_VEHICLE_MASTER.Rental_Amount, TSPL_VEHICLE_MASTER.Description,  TSPL_VEHICLE_MASTER.Model, " &
+        "TSPL_VEHICLE_MASTER.Vehicle_Weight,TSPL_VEHICLE_MASTER.Vehicle_No,TSPL_VEHICLE_MASTER.CrateCapacity, Case When ISNULL(TSPL_VEHICLE_MASTER.Number,'')='' Then TSPL_VEHICLE_MASTER.Description Else TSPL_VEHICLE_MASTER.Number End As Number, TSPL_VEHICLE_MASTER.Vehicle_Type ,TSPL_VEHICLE_MASTER.Vehicle_Reg_No ,TSPL_VEHICLE_MASTER.Vehicle_Chesis_No ," &
 "TSPL_VEHICLE_MASTER.Capacity,TSPL_VEHICLE_MASTER.Trans_type,TSPL_VEHICLE_MASTER.transport_id ," &
 "TSPL_VEHICLE_MASTER.RegisteredOn ,TSPL_VEHICLE_MASTER.Vehicle_Brand ,TSPL_VEHICLE_MASTER.Vehicle_Name ,TSPL_VEHICLE_MASTER.Engine_NO ," &
 "TSPL_VEHICLE_MASTER.Insurance_valid_From ,TSPL_VEHICLE_MASTER.insurance_valid_Till,TSPL_VEHICLE_MASTER.Fitness_valid_From ," &
 "TSPL_VEHICLE_MASTER.Fitness_valid_Till ,TSPL_VEHICLE_MASTER.pollutionCheck_valid_From ,TSPL_VEHICLE_MASTER.PollutionCheck_valid_till ," &
-"TSPL_VEHICLE_MASTER.Roadtax_valid_From ,TSPL_VEHICLE_MASTER.Roadtax_valid_till ,TSPL_VEHICLE_MASTER.Location,TSPL_VEHICLE_MASTER.SequenceNo,TSPL_VEHICLE_MASTER.Employee_Id,TSPL_VEHICLE_MASTER.MTCapacity,TSPL_VEHICLE_MASTER.MTValue,TSPL_VEHICLE_MASTER.Is_Additional  from TSPL_GL_SEGMENT_CODE " &
-"LEFT OUTER JOIN TSPL_VEHICLE_MASTER ON TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_GL_SEGMENT_CODE.Segment_code WHERE 2=2 "
-
+"TSPL_VEHICLE_MASTER.Roadtax_valid_From ,TSPL_VEHICLE_MASTER.Roadtax_valid_till ,TSPL_VEHICLE_MASTER.Location,TSPL_VEHICLE_MASTER.SequenceNo,TSPL_VEHICLE_MASTER.Employee_Id,TSPL_VEHICLE_MASTER.MTCapacity,TSPL_VEHICLE_MASTER.MTValue,TSPL_VEHICLE_MASTER.Is_Additional  from TSPL_VEHICLE_MASTER " &
+"WHERE 2=2 "
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_GL_SEGMENT_CODE.Seg_No=2 and  TSPL_GL_SEGMENT_CODE.Segment_code = (select MIN( TSPL_GL_SEGMENT_CODE.Segment_code) from TSPL_GL_SEGMENT_CODE)"
+                qry += " and TSPL_VEHICLE_MASTER.Vehicle_id = (select MIN( TSPL_VEHICLE_MASTER.Vehicle_id) from TSPL_VEHICLE_MASTER)"
             Case NavigatorType.Last
-                qry += " and TSPL_GL_SEGMENT_CODE.Seg_No=2 and  TSPL_GL_SEGMENT_CODE.Segment_code= (select Max( TSPL_GL_SEGMENT_CODE.Segment_code) from TSPL_GL_SEGMENT_CODE)"
+                qry += "  and  TSPL_VEHICLE_MASTER.Vehicle_id= (select Max( TSPL_VEHICLE_MASTER.Vehicle_id) from TSPL_VEHICLE_MASTER)"
             Case NavigatorType.Next
-                qry += " and TSPL_GL_SEGMENT_CODE.Seg_No=2 and  TSPL_GL_SEGMENT_CODE.Segment_code = (select Min( TSPL_GL_SEGMENT_CODE.Segment_code) from TSPL_GL_SEGMENT_CODE where  TSPL_GL_SEGMENT_CODE.Seg_No=2 and TSPL_GL_SEGMENT_CODE.Segment_code>'" + strCode + "')"
+                qry += "  and  TSPL_VEHICLE_MASTER.Vehicle_id = (select Min( TSPL_VEHICLE_MASTER.Vehicle_id) from TSPL_VEHICLE_MASTER where  TSPL_VEHICLE_MASTER.Vehicle_id>'" + strCode + "')"
             Case NavigatorType.Previous
-                qry += " and TSPL_GL_SEGMENT_CODE.Seg_No=2 and  TSPL_GL_SEGMENT_CODE.Segment_code= (select Max( TSPL_GL_SEGMENT_CODE.Segment_code) from TSPL_GL_SEGMENT_CODE where TSPL_GL_SEGMENT_CODE.Seg_No=2 and TSPL_GL_SEGMENT_CODE.Segment_code<'" + strCode + "')"
+                qry += " and  TSPL_VEHICLE_MASTER.Vehicle_id= (select Max( TSPL_VEHICLE_MASTER.Vehicle_id) from TSPL_VEHICLE_MASTER where TSPL_VEHICLE_MASTER.Vehicle_id<'" + strCode + "')"
             Case NavigatorType.Current
-                qry += " and TSPL_GL_SEGMENT_CODE.Seg_No=2 and   TSPL_GL_SEGMENT_CODE.Segment_code = '" + strCode + "'"
+                qry += "  and   TSPL_VEHICLE_MASTER.Vehicle_id = '" + strCode + "'"
         End Select
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

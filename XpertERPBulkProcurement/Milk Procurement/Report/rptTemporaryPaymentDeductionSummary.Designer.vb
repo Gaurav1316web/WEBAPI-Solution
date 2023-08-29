@@ -30,6 +30,10 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnAll = New System.Windows.Forms.RadioButton()
+        Me.rbtnInActive = New System.Windows.Forms.RadioButton()
+        Me.rbtnActive = New System.Windows.Forms.RadioButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtDeduction = New common.UserControls.txtFinder()
         Me.chkDCSWise = New System.Windows.Forms.CheckBox()
@@ -62,6 +66,8 @@ Partial Class rptTemporaryPaymentDeductionSummary
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -145,6 +151,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.txtDeduction)
         Me.RadPageViewPage1.Controls.Add(Me.chkDCSWise)
@@ -157,6 +164,48 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(833, 278)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnAll)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnInActive)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnActive)
+        Me.RadGroupBox1.HeaderText = ""
+        Me.RadGroupBox1.Location = New System.Drawing.Point(382, 99)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(194, 27)
+        Me.RadGroupBox1.TabIndex = 446
+        '
+        'rbtnAll
+        '
+        Me.rbtnAll.AutoSize = True
+        Me.rbtnAll.Location = New System.Drawing.Point(152, 5)
+        Me.rbtnAll.Name = "rbtnAll"
+        Me.rbtnAll.Size = New System.Drawing.Size(38, 17)
+        Me.rbtnAll.TabIndex = 440
+        Me.rbtnAll.Text = "All"
+        Me.rbtnAll.UseVisualStyleBackColor = True
+        '
+        'rbtnInActive
+        '
+        Me.rbtnInActive.AutoSize = True
+        Me.rbtnInActive.Location = New System.Drawing.Point(69, 5)
+        Me.rbtnInActive.Name = "rbtnInActive"
+        Me.rbtnInActive.Size = New System.Drawing.Size(69, 17)
+        Me.rbtnInActive.TabIndex = 439
+        Me.rbtnInActive.Text = "In-Active"
+        Me.rbtnInActive.UseVisualStyleBackColor = True
+        '
+        'rbtnActive
+        '
+        Me.rbtnActive.AutoSize = True
+        Me.rbtnActive.Location = New System.Drawing.Point(5, 5)
+        Me.rbtnActive.Name = "rbtnActive"
+        Me.rbtnActive.Size = New System.Drawing.Size(55, 17)
+        Me.rbtnActive.TabIndex = 438
+        Me.rbtnActive.Text = "Active"
+        Me.rbtnActive.UseVisualStyleBackColor = True
         '
         'MyLabel1
         '
@@ -196,7 +245,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         'chkDCSWise
         '
         Me.chkDCSWise.AutoSize = True
-        Me.chkDCSWise.Location = New System.Drawing.Point(382, 77)
+        Me.chkDCSWise.Location = New System.Drawing.Point(382, 75)
         Me.chkDCSWise.Name = "chkDCSWise"
         Me.chkDCSWise.Size = New System.Drawing.Size(75, 17)
         Me.chkDCSWise.TabIndex = 443
@@ -481,6 +530,9 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -538,5 +590,9 @@ Partial Class rptTemporaryPaymentDeductionSummary
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtDeduction As common.UserControls.txtFinder
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents rbtnAll As RadioButton
+    Friend WithEvents rbtnInActive As RadioButton
+    Friend WithEvents rbtnActive As RadioButton
 End Class
 

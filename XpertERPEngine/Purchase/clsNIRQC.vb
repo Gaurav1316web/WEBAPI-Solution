@@ -479,7 +479,11 @@ Public Class clsNIRQC
         Return True
     End Function
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
-        Dim qry As String = "select TSPL_NIR_QC.Document_No,TSPL_NIR_QC.Document_Date,case when TSPL_NIR_QC.QC_Status=1 then 'OK' else 'Not OK' end as QC_Status,TSPL_NIR_QC.QC_Remarks,case when Status=1 then 'Approved' else 'Pending' end as Status  from TSPL_NIR_QC"
+        Dim qry As String = "select TSPL_NIR_QC.Document_No,TSPL_NIR_QC.Document_Date,case when TSPL_NIR_QC.QC_Status=1 then 'OK' else 'Not OK' end as QC_Status,TSPL_NIR_QC.QC_Remarks,case when TSPL_NIR_QC.Status=1 then 'Approved' else 'Pending' end as Status  ,TSPL_NIR_QC.MRN_No from TSPL_NIR_QC
+                                    left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.mrn_no=TSPL_NIR_QC.mrn_no "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = "  TSPL_MRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
         Dim Str As String = clsCommon.ShowSelectForm("NIRQCFnd", qry, "Document_No", whrcls, curcode, "Document_No", isButtonClicked)
         Return Str
     End Function
