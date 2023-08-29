@@ -31,6 +31,7 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnCC = New Telerik.WinControls.UI.RadButton()
         Me.lblReceiptAmt = New common.Controls.MyLabel()
         Me.lblReceiptAmtDesc = New common.Controls.MyLabel()
         Me.lblUnbilledMilk = New common.Controls.MyLabel()
@@ -49,13 +50,9 @@ Partial Class frmDairyBookingCustomer
         Me.lblOutstandingDesc = New common.Controls.MyLabel()
         Me.lblOutStanding = New common.Controls.MyLabel()
         Me.lblRoute1 = New common.Controls.MyLabel()
-        Me.lblRouteName1 = New common.Controls.MyLabel()
-        Me.lblRouteCode1 = New common.Controls.MyLabel()
         Me.lblPriceCode1 = New common.Controls.MyLabel()
         Me.lblPriceCodeDesc = New common.Controls.MyLabel()
         Me.lblVehicle1 = New common.Controls.MyLabel()
-        Me.lblVehicleCode1 = New common.Controls.MyLabel()
-        Me.lblVehicleName1 = New common.Controls.MyLabel()
         Me.chkDCS = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkSampling = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblLocation = New common.Controls.MyLabel()
@@ -218,13 +215,17 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnCC = New Telerik.WinControls.UI.RadButton()
+        Me.txtRouteCode1 = New common.Controls.MyTextBox()
+        Me.txtRouteName1 = New common.Controls.MyTextBox()
+        Me.txtVehicleName = New common.Controls.MyTextBox()
+        Me.txtVehicleCode = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblReceiptAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblReceiptAmtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUnbilledMilk, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -241,13 +242,9 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblOutstandingDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblOutStanding, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRoute1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRouteName1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRouteCode1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPriceCode1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPriceCodeDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVehicle1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblVehicleCode1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblVehicleName1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSampling, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -403,7 +400,9 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRouteCode1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRouteName1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtVehicleName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -464,6 +463,10 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtVehicleCode)
+        Me.RadPageViewPage1.Controls.Add(Me.txtVehicleName)
+        Me.RadPageViewPage1.Controls.Add(Me.txtRouteName1)
+        Me.RadPageViewPage1.Controls.Add(Me.txtRouteCode1)
         Me.RadPageViewPage1.Controls.Add(Me.btnCC)
         Me.RadPageViewPage1.Controls.Add(Me.lblReceiptAmt)
         Me.RadPageViewPage1.Controls.Add(Me.lblReceiptAmtDesc)
@@ -480,13 +483,9 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Controls.Add(Me.lblOutstandingDesc)
         Me.RadPageViewPage1.Controls.Add(Me.lblOutStanding)
         Me.RadPageViewPage1.Controls.Add(Me.lblRoute1)
-        Me.RadPageViewPage1.Controls.Add(Me.lblRouteName1)
-        Me.RadPageViewPage1.Controls.Add(Me.lblRouteCode1)
         Me.RadPageViewPage1.Controls.Add(Me.lblPriceCode1)
         Me.RadPageViewPage1.Controls.Add(Me.lblPriceCodeDesc)
         Me.RadPageViewPage1.Controls.Add(Me.lblVehicle1)
-        Me.RadPageViewPage1.Controls.Add(Me.lblVehicleCode1)
-        Me.RadPageViewPage1.Controls.Add(Me.lblVehicleName1)
         Me.RadPageViewPage1.Controls.Add(Me.chkDCS)
         Me.RadPageViewPage1.Controls.Add(Me.chkSampling)
         Me.RadPageViewPage1.Controls.Add(Me.lblLocation)
@@ -510,6 +509,15 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1077, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'btnCC
+        '
+        Me.btnCC.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnCC.Location = New System.Drawing.Point(336, 1)
+        Me.btnCC.Name = "btnCC"
+        Me.btnCC.Size = New System.Drawing.Size(20, 21)
+        Me.btnCC.TabIndex = 6
+        Me.btnCC.Text = "CC"
         '
         'lblReceiptAmt
         '
@@ -767,30 +775,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblRoute1.TabIndex = 1489
         Me.lblRoute1.Text = "Route"
         '
-        'lblRouteName1
-        '
-        Me.lblRouteName1.AutoSize = False
-        Me.lblRouteName1.BorderVisible = True
-        Me.lblRouteName1.FieldName = Nothing
-        Me.lblRouteName1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRouteName1.Location = New System.Drawing.Point(748, 22)
-        Me.lblRouteName1.Name = "lblRouteName1"
-        Me.lblRouteName1.Size = New System.Drawing.Size(156, 18)
-        Me.lblRouteName1.TabIndex = 1486
-        Me.lblRouteName1.TextWrap = False
-        '
-        'lblRouteCode1
-        '
-        Me.lblRouteCode1.AutoSize = False
-        Me.lblRouteCode1.BorderVisible = True
-        Me.lblRouteCode1.FieldName = Nothing
-        Me.lblRouteCode1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRouteCode1.Location = New System.Drawing.Point(683, 22)
-        Me.lblRouteCode1.Name = "lblRouteCode1"
-        Me.lblRouteCode1.Size = New System.Drawing.Size(63, 18)
-        Me.lblRouteCode1.TabIndex = 1488
-        Me.lblRouteCode1.TextWrap = False
-        '
         'lblPriceCode1
         '
         Me.lblPriceCode1.FieldName = Nothing
@@ -820,30 +804,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblVehicle1.Size = New System.Drawing.Size(43, 16)
         Me.lblVehicle1.TabIndex = 1490
         Me.lblVehicle1.Text = "Vehicle"
-        '
-        'lblVehicleCode1
-        '
-        Me.lblVehicleCode1.AutoSize = False
-        Me.lblVehicleCode1.BorderVisible = True
-        Me.lblVehicleCode1.FieldName = Nothing
-        Me.lblVehicleCode1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVehicleCode1.Location = New System.Drawing.Point(683, 61)
-        Me.lblVehicleCode1.Name = "lblVehicleCode1"
-        Me.lblVehicleCode1.Size = New System.Drawing.Size(63, 18)
-        Me.lblVehicleCode1.TabIndex = 1485
-        Me.lblVehicleCode1.TextWrap = False
-        '
-        'lblVehicleName1
-        '
-        Me.lblVehicleName1.AutoSize = False
-        Me.lblVehicleName1.BorderVisible = True
-        Me.lblVehicleName1.FieldName = Nothing
-        Me.lblVehicleName1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVehicleName1.Location = New System.Drawing.Point(748, 61)
-        Me.lblVehicleName1.Name = "lblVehicleName1"
-        Me.lblVehicleName1.Size = New System.Drawing.Size(156, 18)
-        Me.lblVehicleName1.TabIndex = 1487
-        Me.lblVehicleName1.TextWrap = False
         '
         'chkDCS
         '
@@ -2864,14 +2824,97 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'btnCC
+        'txtRouteCode1
         '
-        Me.btnCC.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnCC.Location = New System.Drawing.Point(336, 1)
-        Me.btnCC.Name = "btnCC"
-        Me.btnCC.Size = New System.Drawing.Size(20, 21)
-        Me.btnCC.TabIndex = 6
-        Me.btnCC.Text = "CC"
+        Me.txtRouteCode1.CalculationExpression = Nothing
+        Me.txtRouteCode1.FieldCode = Nothing
+        Me.txtRouteCode1.FieldDesc = Nothing
+        Me.txtRouteCode1.FieldMaxLength = 0
+        Me.txtRouteCode1.FieldName = Nothing
+        Me.txtRouteCode1.isCalculatedField = False
+        Me.txtRouteCode1.IsSourceFromTable = False
+        Me.txtRouteCode1.IsSourceFromValueList = False
+        Me.txtRouteCode1.IsUnique = False
+        Me.txtRouteCode1.Location = New System.Drawing.Point(682, 19)
+        Me.txtRouteCode1.MendatroryField = False
+        Me.txtRouteCode1.MyLinkLable1 = Nothing
+        Me.txtRouteCode1.MyLinkLable2 = Nothing
+        Me.txtRouteCode1.Name = "txtRouteCode1"
+        Me.txtRouteCode1.ReferenceFieldDesc = Nothing
+        Me.txtRouteCode1.ReferenceFieldName = Nothing
+        Me.txtRouteCode1.ReferenceTableName = Nothing
+        Me.txtRouteCode1.Size = New System.Drawing.Size(65, 20)
+        Me.txtRouteCode1.TabIndex = 1529
+        '
+        'txtRouteName1
+        '
+        Me.txtRouteName1.CalculationExpression = Nothing
+        Me.txtRouteName1.FieldCode = Nothing
+        Me.txtRouteName1.FieldDesc = Nothing
+        Me.txtRouteName1.FieldMaxLength = 0
+        Me.txtRouteName1.FieldName = Nothing
+        Me.txtRouteName1.isCalculatedField = False
+        Me.txtRouteName1.IsSourceFromTable = False
+        Me.txtRouteName1.IsSourceFromValueList = False
+        Me.txtRouteName1.IsUnique = False
+        Me.txtRouteName1.Location = New System.Drawing.Point(749, 19)
+        Me.txtRouteName1.MendatroryField = False
+        Me.txtRouteName1.MyLinkLable1 = Nothing
+        Me.txtRouteName1.MyLinkLable2 = Nothing
+        Me.txtRouteName1.Name = "txtRouteName1"
+        Me.txtRouteName1.ReferenceFieldDesc = Nothing
+        Me.txtRouteName1.ReferenceFieldName = Nothing
+        Me.txtRouteName1.ReferenceTableName = Nothing
+        Me.txtRouteName1.Size = New System.Drawing.Size(154, 20)
+        Me.txtRouteName1.TabIndex = 1530
+        '
+        'txtVehicleName
+        '
+        Me.txtVehicleName.CalculationExpression = Nothing
+        Me.txtVehicleName.FieldCode = Nothing
+        Me.txtVehicleName.FieldDesc = Nothing
+        Me.txtVehicleName.FieldMaxLength = 0
+        Me.txtVehicleName.FieldName = Nothing
+        Me.txtVehicleName.isCalculatedField = False
+        Me.txtVehicleName.IsSourceFromTable = False
+        Me.txtVehicleName.IsSourceFromValueList = False
+        Me.txtVehicleName.IsUnique = False
+        Me.txtVehicleName.Location = New System.Drawing.Point(775, 62)
+        Me.txtVehicleName.MendatroryField = False
+        Me.txtVehicleName.MyLinkLable1 = Nothing
+        Me.txtVehicleName.MyLinkLable2 = Nothing
+        Me.txtVehicleName.Name = "txtVehicleName"
+        Me.txtVehicleName.ReferenceFieldDesc = Nothing
+        Me.txtVehicleName.ReferenceFieldName = Nothing
+        Me.txtVehicleName.ReferenceTableName = Nothing
+        Me.txtVehicleName.Size = New System.Drawing.Size(131, 20)
+        Me.txtVehicleName.TabIndex = 1532
+        '
+        'txtVehicleCode
+        '
+        Me.txtVehicleCode.CalculationExpression = Nothing
+        Me.txtVehicleCode.FieldCode = Nothing
+        Me.txtVehicleCode.FieldDesc = Nothing
+        Me.txtVehicleCode.FieldMaxLength = 0
+        Me.txtVehicleCode.FieldName = Nothing
+        Me.txtVehicleCode.isCalculatedField = False
+        Me.txtVehicleCode.IsSourceFromTable = False
+        Me.txtVehicleCode.IsSourceFromValueList = False
+        Me.txtVehicleCode.IsUnique = False
+        Me.txtVehicleCode.Location = New System.Drawing.Point(682, 62)
+        Me.txtVehicleCode.MendatroryField = False
+        Me.txtVehicleCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVehicleCode.MyLinkLable1 = Me.lblRouteNo
+        Me.txtVehicleCode.MyLinkLable2 = Nothing
+        Me.txtVehicleCode.MyReadOnly = False
+        Me.txtVehicleCode.MyShowMasterFormButton = False
+        Me.txtVehicleCode.Name = "txtVehicleCode"
+        Me.txtVehicleCode.ReferenceFieldDesc = Nothing
+        Me.txtVehicleCode.ReferenceFieldName = Nothing
+        Me.txtVehicleCode.ReferenceTableName = Nothing
+        Me.txtVehicleCode.Size = New System.Drawing.Size(90, 20)
+        Me.txtVehicleCode.TabIndex = 1533
+        Me.txtVehicleCode.Value = ""
         '
         'frmDairyBookingCustomer
         '
@@ -2895,6 +2938,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblReceiptAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblReceiptAmtDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUnbilledMilk, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2911,13 +2955,9 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblOutstandingDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblOutStanding, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRoute1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRouteName1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRouteCode1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPriceCode1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPriceCodeDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVehicle1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblVehicleCode1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblVehicleName1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSampling, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3087,7 +3127,9 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRouteCode1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRouteName1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtVehicleName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3261,13 +3303,9 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents lblOutstandingDesc As common.Controls.MyLabel
     Friend WithEvents lblOutStanding As common.Controls.MyLabel
     Friend WithEvents lblRoute1 As common.Controls.MyLabel
-    Friend WithEvents lblRouteName1 As common.Controls.MyLabel
-    Friend WithEvents lblRouteCode1 As common.Controls.MyLabel
     Friend WithEvents lblPriceCode1 As common.Controls.MyLabel
     Friend WithEvents lblPriceCodeDesc As common.Controls.MyLabel
     Friend WithEvents lblVehicle1 As common.Controls.MyLabel
-    Friend WithEvents lblVehicleCode1 As common.Controls.MyLabel
-    Friend WithEvents lblVehicleName1 As common.Controls.MyLabel
     Friend WithEvents cmbcashcredit As common.Controls.MyComboBox
     Friend WithEvents lblCredit As common.Controls.MyLabel
     Friend WithEvents lblBoothStation As common.Controls.MyLabel
@@ -3283,5 +3321,9 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents lblUnbilledMilk As common.Controls.MyLabel
     Friend WithEvents lblUnbilledMilkAmt As common.Controls.MyLabel
     Friend WithEvents btnCC As RadButton
+    Friend WithEvents txtVehicleName As common.Controls.MyTextBox
+    Friend WithEvents txtRouteName1 As common.Controls.MyTextBox
+    Friend WithEvents txtRouteCode1 As common.Controls.MyTextBox
+    Friend WithEvents txtVehicleCode As common.UserControls.txtFinder
 End Class
 

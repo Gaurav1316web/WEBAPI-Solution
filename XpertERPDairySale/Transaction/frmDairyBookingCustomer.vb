@@ -226,7 +226,6 @@ Public Class frmDairyBookingCustomer
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New Trasnaction")
         RadPageView1.SelectedPage = RadPageViewPage1
         LoadBlankGrid()
-        CreateTab()
         AddNew()
         lblCredit.Visible = False
         cmbcashcredit.Visible = False
@@ -1228,6 +1227,7 @@ Public Class frmDairyBookingCustomer
         btnGatePassPrint.Visible = False
         lblCancelStatus.Text = ""
         lblCreatedDateAndTime.Text = ""
+        chkDCS.Checked = False
         lblUploadingDate.Text = ""
         Is_Cancelled = 0
         FlagCreateDo = False
@@ -1307,11 +1307,15 @@ Public Class frmDairyBookingCustomer
         chkGatePass.Checked = False
         IsLoadBookingType = False
         chkGatePass.Enabled = True
-        lblRouteCode1.Text = ""
-        lblRouteName1.Text = ""
+        txtRouteCode1.Text = ""
+        txtRouteName1.Text = ""
         lblPriceCodeDesc.Text = ""
-        lblVehicleCode1.Text = ""
-        lblVehicleName1.Text = ""
+        txtVehicleCode.Value = ""
+        txtVehicleName.Text = ""
+        txtRouteCode1.Enabled = False
+        txtRouteName1.Enabled = False
+        txtVehicleCode.Enabled = False
+        txtVehicleName.Enabled = False
         ENABLEDISABLECONTROLS()
         If ShowBookingTypeDropDownonDairyBookingCustomer Then
             txtVendorNo.Focus()
@@ -1370,17 +1374,21 @@ Public Class frmDairyBookingCustomer
                 Return False
             End If
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                If clsCommon.myLen(strRoutecode) = 0 Then
-                    Throw New Exception("Please Map Route for customer ")
-                    blnSaveTotalQTy = False
-                    Exit Function
+                If Not chkDCS.Checked Then
+                    If clsCommon.myLen(strRoutecode) = 0 Then
+                        Throw New Exception("Please Map Route for customer ")
+                        blnSaveTotalQTy = False
+                        Exit Function
+                    End If
                 End If
             End If
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                If clsCommon.myLen(strVehicleCode) = 0 Then
-                    Throw New Exception("Please enter Vehicle ")
-                    blnSaveTotalQTy = False
-                    Exit Function
+                If Not chkDCS.Checked Then
+                    If clsCommon.myLen(strVehicleCode) = 0 Then
+                        Throw New Exception("Please enter Vehicle ")
+                        blnSaveTotalQTy = False
+                        Exit Function
+                    End If
                 End If
             End If
             If clsCommon.myLen(txtLocation.Value) = 0 Then
@@ -1666,7 +1674,7 @@ Public Class frmDairyBookingCustomer
                         objTr.Loc_Code = txtLocation.Value
                         objTr.Total_Qty = TotalQuantity
                         'Dim objBookingitem As clsBookingTemp = TryCast(grow.Cells(ii).Tag, clsBookingTemp)
-                        objTr.Vehicle_Code = strVehicleCode
+                        objTr.Vehicle_Code = txtVehicleCode.Value
                         objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
                         objTr.Short_Description = ""  'clsCommon.myCstr(grow.Cells(colIShortName).Value)
                         objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
@@ -2157,8 +2165,6 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             Dim qry As String = ""
             Dim obj As New clsBookingEntryDairySale
             'Dim intRow As Integer
-            CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
-
             obj = clsBookingEntryDairySale.GetData(strCode, NavTyep, clsUserMgtCode.frmDairyBookingCustomer)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 btnSave.Enabled = True
@@ -2173,12 +2179,16 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 chkSampling.Checked = IIf(obj.IsSampling = 1, True, False)
                 chkGatePass.Checked = IIf(obj.AgainstGatePass = 1, True, False)
                 chkDCS.Checked = IIf(obj.Is_DCS = 1, True, False)
+                If chkDCS.Checked Then
+                    GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
+                Else
+                    CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
+                End If
                 txtLocation.Enabled = False
                 txtVendorNo.Enabled = False
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
                 GetUnbilledAmt(obj.Document_Date, txtVendorNo.Value)
-
                 If clsCommon.myLen(obj.Against_Receipt_No) > 0 Then
                     txtReceipt.Value = obj.Against_Receipt_No
                     lblReceiptAmtDesc.Text = clsDBFuncationality.getSingleValue("select Receipt_Amount from TSPL_RECEIPT_HEADER where Receipt_No='" + obj.Against_Receipt_No + "'")
@@ -2253,6 +2263,8 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(qry)
                 txtVendorNo.Value = clsCommon.myCstr(dt2.Rows(0)("Cust_Code"))
                 lblVendorName.Text = clsCommon.myCstr(dt2.Rows(0)("Customer_Name"))
+                txtVehicleCode.Value = clsCommon.myCstr(dt2.Rows(0)("Vehicle_Code"))
+                txtVehicleName.Text = clsDBFuncationality.getSingleValue("select Vehicle_Name from TSPL_VEHICLE_MASTER where Vehicle_id='" + txtVehicleCode.Value + "'")
                 If clsCommon.CompairString(obj.Booking_Type, "") = CompairStringResult.Equal Then
                     cmbcashcredit.Text = ""
                 ElseIf clsCommon.CompairString(obj.Booking_Type, "PS") = CompairStringResult.Equal Then
@@ -2267,7 +2279,9 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 '====================Added by preeti Gupta Against Ticket no[BHA/01/08/18-000206]=
                 lblBoothStation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(Zone_Code,'') +  case when len(oldname )>0 then ', ' +isnull(oldname,'') else '' end from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"))
                 lblroutecode.Text = clsCommon.myCstr(dt2.Rows(0)("Route_No"))
+                txtRouteCode1.Text = clsCommon.myCstr(dt2.Rows(0)("Route_No"))
                 lblroutename.Text = clsCommon.myCstr(dt2.Rows(0)("Route_Desc"))
+                txtRouteName1.Text = clsCommon.myCstr(dt2.Rows(0)("Route_Desc"))
                 strRoutecode = clsCommon.myCstr(dt2.Rows(0)("Route_No"))
                 strRouteDesc = clsCommon.myCstr(dt2.Rows(0)("Route_Desc"))
                 lblTotRAmt1.Text = clsCommon.myCstr(dt2.Rows(0)("DocumentAmount"))
@@ -2535,10 +2549,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                         End If
                     End If
                     '== Complete
-                    trans.Commit()
-                    Dim msg = "Successfully Posted"
-                    common.clsCommon.MyMessageBoxShow(msg, Me.Text)
-                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                    Dim msg As String = String.Empty
                     ' btnCreateDO.Enabled = True
                     RecordCount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_BOOKING_MATSER "))
                     If RecordCount = 0 Then
@@ -2568,22 +2579,26 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     FlagCreateDo = True
                     'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                     Try
-                        If CreateDO(False, Nothing, txtDocNo.Value) Then
+                        If CreateDO(False, trans, txtDocNo.Value) Then
                             'trans.Commit()
                             If clsCommon.myLen(DOmsg) > 0 Then
                                 common.clsCommon.MyMessageBoxShow(DOmsg, Me.Text)
                             End If
                             If DOCreated = True Then
                                 'Dim msg = "Successfully created"
-                                common.clsCommon.MyMessageBoxShow(msg, Me.Text)
+                                'common.clsCommon.MyMessageBoxShow(msg, Me.Text)
                                 msg = Nothing
                             End If
+                            trans.Commit()
+                            msg = "Successfully Posted"
+                            common.clsCommon.MyMessageBoxShow(msg, Me.Text)
                             LoadData(txtDocNo.Value, NavigatorType.Current)
+                            'LoadData(txtDocNo.Value, NavigatorType.Current)
                         Else
-                            'trans.Rollback()
+                            trans.Rollback()
                         End If
                     Catch ex As Exception
-                        'trans.Rollback()
+                        trans.Rollback()
                         common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
                     Finally
                         qry = Nothing
@@ -2859,14 +2874,11 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 qry += " inner join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code"
             End If
             Dim WhrCls As String = ""
-            'If clsCommon.myLen(txtRouteNo.Value) > 0 Then
-            '    WhrCls = "  TSPL_CUSTOMER_MASTER.Status='N' and TSPL_Customer_Route_Master.Route_No='" & txtRouteNo.Value & "' "
-            'Else
-            '    WhrCls = "  TSPL_CUSTOMER_MASTER.Status='N' "
-            'End If
-            'If chkDCS.Checked Then
-            '    WhrCls += " and TSPL_CUSTOMER_MASTER.Cust_Group_Code='DCS'"
-            'End If
+            If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+                WhrCls = "  TSPL_CUSTOMER_MASTER.Status='N' and TSPL_Customer_Route_Master.Route_No='" & txtRouteNo.Value & "' "
+            Else
+                WhrCls = "  TSPL_CUSTOMER_MASTER.Status='N' "
+            End If
             txtVendorNo.Value = clsCommon.ShowSelectForm("CustomerFnder1", qry, "Code", WhrCls, txtVendorNo.Value, "Code", isButtonClicked)
             lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"))
             setRouteDetail(txtVendorNo.Value, txtRouteNo.Value)
@@ -2881,12 +2893,11 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 qry += " inner join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code"
             End If
             Dim WhrCls As String = ""
-
-            'If clsCommon.myLen(txtRouteNo.Value) > 0 Then
-            '    WhrCls = "  TSPL_CUSTOMER_MASTER.Status='N' and TSPL_CUSTOMER_MASTER.Route_No='" & txtRouteNo.Value & "' "
-            'Else
-            '    WhrCls = "  TSPL_CUSTOMER_MASTER.Status='N' "
-            'End If
+            If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+                WhrCls = "  TSPL_CUSTOMER_MASTER.Status='N' and TSPL_CUSTOMER_MASTER.Route_No='" & txtRouteNo.Value & "' "
+            Else
+                WhrCls = "  TSPL_CUSTOMER_MASTER.Status='N' "
+            End If
             '-------richa 17/12/2019 show customer according to custoer permission Ticket No. ---------
             Dim strwherecls As String = ""
             strwherecls = Xtra.CustomerPermission()
@@ -2904,14 +2915,17 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
                 ''richa VIJ/18/12/19-000123
                 ' CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
-                GetOutStandingBal(txtVendorNo.Value, docdate)
+                If chkDCS.Checked Then
+                    GetOutStandingBal(txtVendorNo.Value, docdate)
+                Else
+                    CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
+                End If
                 GetUnbilledAmt(docdate, txtVendorNo.Value)
                 LoadData(txtVendorNo.Value, docdate)
                 If ShowBookingTypeDropDownonDairyBookingCustomer = True Then
                     LoadBlankGrid()
                     LoadBookingType()
                     LoadItemsFromPreviousBooking()
-
                 End If
                 'Vijaya, Load booking if already exist
                 If clsCommon.myLen(txtDocNo.Value) <= 0 AndAlso chkGatePass.Checked = False Then
@@ -2946,21 +2960,41 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
         If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
             strVehicleCode = clsCommon.myCstr(dt1.Rows(0)("vehicle_code"))
             lblvehiclecode.Text = clsCommon.myCstr(dt1.Rows(0)("vehicle_code"))
-            lblVehicleCode1.Text = clsCommon.myCstr(dt1.Rows(0)("vehicle_code"))
             strVehicleDesc = clsCommon.myCstr(dt1.Rows(0)("Number"))
             lblvehicleName.Text = clsCommon.myCstr(dt1.Rows(0)("Number"))
-            lblVehicleName1.Text = clsCommon.myCstr(dt1.Rows(0)("Number"))
             strRoutecode = clsCommon.myCstr(dt1.Rows(0)("Route_No"))
             lblroutecode.Text = clsCommon.myCstr(dt1.Rows(0)("Route_No"))
-            lblRouteCode1.Text = clsCommon.myCstr(dt1.Rows(0)("Route_No"))
+            txtRouteCode1.Text = clsCommon.myCstr(dt1.Rows(0)("Route_No"))
             strRouteDesc = clsCommon.myCstr(dt1.Rows(0)("Route_Desc"))
             lblroutename.Text = clsCommon.myCstr(dt1.Rows(0)("Route_Desc"))
-            lblRouteName1.Text = clsCommon.myCstr(dt1.Rows(0)("Route_Desc"))
+            txtRouteName1.Text = clsCommon.myCstr(dt1.Rows(0)("Route_Desc"))
             txtRouteNo.Value = clsCommon.myCstr(dt1.Rows(0)("Route_No"))
             lblRouteDesc.Text = clsCommon.myCstr(dt1.Rows(0)("Route_Desc"))
-            Price_code = clsCommon.myCstr(dt1.Rows(0)("price_CodeNon"))
-            txtPriceCode.Text = clsCommon.myCstr(dt1.Rows(0)("price_CodeNon"))
-            lblPriceCodeDesc.Text = clsCommon.myCstr(dt1.Rows(0)("price_CodeNon"))
+            If chkDCS.Checked Then
+                If clsCommon.CompairString(cmbcashcredit.Text, "CASH") = CompairStringResult.Equal Then
+                    lblPriceCodeDesc.Text = clsDBFuncationality.getSingleValue("select VSP_Price_Code_Cash from TSPL_customer_group_master where Default_VSP=1")
+                    Price_code = lblPriceCodeDesc.Text
+                    txtPriceCode.Text = lblPriceCodeDesc.Text
+                ElseIf clsCommon.CompairString(cmbcashcredit.Text, "CREDIT") = CompairStringResult.Equal Then
+                    lblPriceCodeDesc.Text = clsDBFuncationality.getSingleValue("select VSP_Price_Code_Credit from TSPL_customer_group_master where Default_VSP=1")
+                    Price_code = lblPriceCodeDesc.Text
+                    txtPriceCode.Text = lblPriceCodeDesc.Text
+                End If
+                txtRouteCode1.Enabled = True
+                txtRouteName1.Enabled = True
+                txtVehicleCode.Enabled = True
+                txtVehicleName.Enabled = True
+            Else
+                Price_code = clsCommon.myCstr(dt1.Rows(0)("price_CodeNon"))
+                txtPriceCode.Text = clsCommon.myCstr(dt1.Rows(0)("price_CodeNon"))
+                lblPriceCodeDesc.Text = clsCommon.myCstr(dt1.Rows(0)("price_CodeNon"))
+                txtVehicleCode.Value = clsCommon.myCstr(dt1.Rows(0)("vehicle_code"))
+                txtVehicleName.Text = clsCommon.myCstr(dt1.Rows(0)("Number"))
+                txtRouteCode1.Enabled = False
+                txtRouteName1.Enabled = False
+                txtVehicleCode.Enabled = False
+                txtVehicleName.Enabled = False
+            End If
         End If
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
@@ -3483,7 +3517,8 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                                         'Dim tax_on_amt As Decimal = 0
                                         Dim dt As New DataTable()
                                         'Dim dblTotal As Double = 0
-                                        Dim Price_code As String = clsDBFuncationality.getSingleValue("select price_CodeNon from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'", trans)
+
+                                        Dim Price_code As String = lblPriceCodeDesc.Text 'clsDBFuncationality.getSingleValue("select price_CodeNon from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'", trans)
                                         Dim strCustName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER  where Cust_Code='" & txtVendorNo.Value & "'", trans))
                                         qry = "Select RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price,Item_MRP,XXXE.TAX1_Rate, XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
                        "XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, XXXE.TAX10_Rate,XXXE.TAX1 ,XXXE.TAX2,XXXE.TAX3, XXXE.TAX4,XXXE.TAX5,XXXE.TAX6,XXXE.TAX7,XXXE.TAX8,XXXE.TAX9,XXXE.TAX10,XXXE.Against_Plan_TR_Code from ( " &
@@ -4972,7 +5007,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
         Dim obj As clsBookingEntryDairySale = Nothing
         Try
             'CustomerOutstandingAmount(VendorCode, Nothing)
-            Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_MATSER.Ship_To_Location,TSPL_BOOKING_MATSER.Created_Date,TSPL_BOOKING_MATSER.AdvanceAmount,TSPL_BOOKING_MATSER.Against_Receipt_No,TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Payment_Mode,TSPL_BOOKING_MATSER.Reference_No,TSPL_BOOKING_MATSER.Counter_No,TSPL_BOOKING_MATSER.IsSampling,TSPL_BOOKING_MATSER.AgainstGatePass,TSPL_BOOKING_MATSER.Document_No,TSPL_BOOKING_MATSER.Document_Date,TSPL_BOOKING_MATSER.Posted,CreateDO_Automatic,TSPL_BOOKING_MATSER.location_code,Cust_Group_Code,Is_Taxable,TRANSACTION_TYPE,Ex_Factory_Date,isnull(CustPO_No,'') as CustPO_No,custpo_date,isnull(SalesmanCode,'') as SalesmanCode,Total_Can,total_Box,Total_Crate,isnull(Is_Cancelled,0) as Is_Cancelled, isnull(Booking_Type,'') as Booking_Type,isnull(Card_SALE_No,'') as Card_SALE_No,CardSale_FROM_DATE,CardSale_TO_DATE,Uploading_date ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,comp_code,Is_DCS from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No where comp_code='" + objCommonVar.CurrentCompanyCode + "' and convert(date,TSPL_BOOKING_MATSER.Document_Date ,103)=convert(date,'" + clsCommon.GetPrintDate(DocDate) + "',103) and TSPL_BOOKING_DETAIL.Cust_Code='" + VendorCode + "' "
+            Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_MATSER.Ship_To_Location,TSPL_BOOKING_MATSER.Created_Date,TSPL_BOOKING_MATSER.AdvanceAmount,TSPL_BOOKING_MATSER.Against_Receipt_No,TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Payment_Mode,TSPL_BOOKING_MATSER.Reference_No,TSPL_BOOKING_MATSER.Counter_No,TSPL_BOOKING_MATSER.IsSampling,TSPL_BOOKING_MATSER.AgainstGatePass,TSPL_BOOKING_MATSER.Document_No,TSPL_BOOKING_MATSER.Document_Date,TSPL_BOOKING_MATSER.Posted,CreateDO_Automatic,TSPL_BOOKING_MATSER.location_code,Cust_Group_Code,Is_Taxable,TRANSACTION_TYPE,Ex_Factory_Date,isnull(CustPO_No,'') as CustPO_No,custpo_date,isnull(SalesmanCode,'') as SalesmanCode,Total_Can,total_Box,Total_Crate,isnull(Is_Cancelled,0) as Is_Cancelled, isnull(Booking_Type,'') as Booking_Type,isnull(Card_SALE_No,'') as Card_SALE_No,CardSale_FROM_DATE,CardSale_TO_DATE,Uploading_date ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,comp_code,Is_DCS,TSPL_BOOKING_DETAIL.Vehicle_Code from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No where comp_code='" + objCommonVar.CurrentCompanyCode + "' and convert(date,TSPL_BOOKING_MATSER.Document_Date ,103)=convert(date,'" + clsCommon.GetPrintDate(DocDate) + "',103) and TSPL_BOOKING_DETAIL.Cust_Code='" + VendorCode + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, Nothing)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 obj = New clsBookingEntryDairySale
@@ -5034,15 +5069,17 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 obj.Total_Outstanding = clsCommon.myCdbl(dt.Rows(0)("Total_Outstanding"))
                 obj.GatePass_Type = clsCommon.myCstr(dt.Rows(0)("GatePass_Type"))
                 obj.Created_By = clsCommon.myCstr(dt.Rows(0)("Created_By"))
+                txtVehicleCode.Value = clsCommon.myCstr(dt.Rows(0)("Vehicle_Code"))
+                txtVehicleName.Text = clsDBFuncationality.getSingleValue("select Vehicle_Name from TSPL_VEHICLE_MASTER where Vehicle_Id='" + txtVehicleCode.Value + "'")
                 obj.arrBookingDetailDairySalePaymentMode = clsBookingDetailDairySalePaymentMode.getData(obj.Document_No, Nothing)
             End If
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 btnSave.Enabled = True
                 btnPost.Enabled = True
                 btnDelete.Enabled = True
-                isInsideLoadData = True
+                'isInsideLoadData = True
                 btnCopy.Enabled = False
-                isNewEntry = False
+                'isNewEntry = False
                 btnSave.Text = "Update"
                 BlankAllControls()
                 LoadBlankGrid()
@@ -5051,6 +5088,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 chkDCS.Checked = IIf(obj.Is_DCS = 1, True, False)
                 txtLocation.Enabled = False
                 txtVendorNo.Enabled = False
+
                 txtDocNo.Value = obj.Document_No
                 txtDate.Value = obj.Document_Date
                 If clsCommon.myLen(obj.Against_Receipt_No) > 0 Then
@@ -5330,7 +5368,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             Dim whrcls As String = " TSPL_RECEIPT_HEADER.Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'"
             whrcls += " and not exists (select Against_Receipt_No from TSPL_BOOKING_MATSER where TSPL_RECEIPT_HEADER.Receipt_No =TSPL_BOOKING_MATSER.Against_Receipt_No ) and TSPL_RECEIPT_HEADER.Posted='Y'"
             txtReceipt.Value = clsCommon.ShowSelectForm("DBC-Receipt", qry, "Code", whrcls, txtReceipt.Value, "Code", isButtonClicked)
-            lblReceiptAmtDesc.Text = clsDBFuncationality.getSingleValue("select Receipt_Amount from TSPL_RECEIPT_HEADER where Receipt_No='"+clscommon.myCstr(txtReceipt.Value)+"'")
+            lblReceiptAmtDesc.Text = clsDBFuncationality.getSingleValue("select Receipt_Amount from TSPL_RECEIPT_HEADER where Receipt_No='" + clsCommon.myCstr(txtReceipt.Value) + "'")
         Else
             clsCommon.MyMessageBoxShow(Me, "Please Select Customer", Me.Text)
         End If
@@ -5344,85 +5382,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             cmbcashcredit.Visible = False
         End If
     End Sub
-    Public Sub CreateTab()
-        Dim coll As Dictionary(Of String, String)
-        Dim dt As DataTable = Nothing
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
-        coll.Add("Document_Date", "datetime not NULL")
-        coll.Add("Posted", "integer not null default 0")
-        coll.Add("Comp_Code", "varchar(8) NULL")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("CreateDO_Automatic", "integer not null default 0")
-        coll.Add("location_code", "varchar(12) NULL")
-        coll.Add("BookingThrough", "varchar(12) NULL") '' possible Values 1. Mobile 2. Direct 3. Web
-        coll.Add("Main_Booking_No", "varchar(30) NULL")
-        coll.Add("Cust_Group_Code", "varchar(30) NULL")
-        coll.Add("Is_Taxable", "Integer not null default 0")
-        coll.Add("TRANSACTION_TYPE", "varchar(2) NULL")
-        coll.Add("ManualVehicle", "varchar(20) NULL")
-        coll.Add("Ex_Factory_Date", "Date NULL")
-        coll.Add("From_Screen_Code", "varchar(12)  NOT NULL DEFAULT ''")
-        coll.Add("CustPO_No", "varchar(200)  NULL ")
-        coll.Add("custpo_date", "datetime  NULL ")
-        coll.Add("SalesmanCode", "varchar(12) NULL")
-        coll.Add("Total_CAN", "decimal(18,2) null")
-        coll.Add("Total_Box", "decimal(18,2) null")
-        coll.Add("Total_CRATE", "decimal(18,2) null")
-        coll.Add("User_Lock_For_Edit", "Integer not null default 0")
-        coll.Add("LockedBy_UserCode", "varchar(20) NOT NULL DEFAULT ''")
-        coll.Add("IsSampling", "Integer not null default 0")
-        coll.Add("Is_Cancelled", "Integer not null default 0")
-        coll.Add("Booking_Type", "Varchar(15) null")
-        coll.Add("Card_SALE_No", "varchar(30) NULL REFERENCES Tspl_Card_Sale(Card_No)")
-        coll.Add("CardSale_FROM_DATE", "Datetime NULL")
-        coll.Add("CardSale_TO_DATE", "Datetime NULL")
-        coll.Add("Payment_Mode", "varchar(12) NULL")
-        coll.Add("Reference_No", "varchar(100) NUll")
-        coll.Add("Counter_No", "varchar(100) NUll")
-        coll.Add("Against_Booking_No", "varchar(30) NUll")
-        coll.Add("Against_Receipt_No", "varchar(30) NULL REFERENCES TSPL_Receipt_Header(Receipt_No)")
-        coll.Add("AdvanceAmount", "float not null default 0")
-        coll.Add("TruckSheetGenerate", "Integer not null default 0")
-        coll.Add("AgainstGatePass", "Integer not null default 0")
-        coll.Add("Credit_Limit", "decimal(18,2) null")
-        coll.Add("Advance_Security", "decimal(18,2) null")
-        coll.Add("Revese_Adv_Security", "decimal(18,2) null")
-        coll.Add("AR_Credit_Security", "decimal(18,2) null")
-        coll.Add("Pending_Posted_DO", "decimal(18,2) null")
-        coll.Add("UnPostedDispatch", "decimal(18,2) null")
-        coll.Add("Ledger_Outstansing", "decimal(18,2) null")
-        coll.Add("Refund_Security", "decimal(18,2) null")
-        coll.Add("Reverse_Refund_Sec", "decimal(18,2) null")
-        coll.Add("Total_Outstanding", "decimal(18,2) null")
-        coll.Add("Uploading_date", "Datetime NULL")
-        coll.Add("Ship_To_Location", "varchar(12) NULL")
-        coll.Add("isBookingCreatedForNextDay", "Integer not null default 0")
-        coll.Add("Is_CustomerChanged", "Integer Default 0")
-        coll.Add("GatePass_Type", "varchar(2) NUll")
-        coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
-        coll.Add("Is_DCS", "Integer Default 0")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, Nothing, True, False, "", "Document_No", "Document_Date")
-        Try
-            clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
-            clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Modified_Date datetime NOT NULL")
-
-            Dim qry As String = String.Empty
-            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                qry = "CREATE UNIQUE INDEX Unique_Against_Receipt ON TSPL_BOOKING_MATSER (Against_Receipt_No) WHERE Against_Receipt_No IS NOT NULL;"
-                clsDBFuncationality.ExecuteNonQuery(qry)
-            End If
-            qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_BOOKING_MATSER' and COLUMN_NAME='Against_Receipt_No'"
-            dt = clsDBFuncationality.GetDataTable(qry)
-            'clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_BOOKING_MATSER ADD CONSTRAINT unique_key_with_null UNIQUE (Against_Receipt_No)")
-        Catch ex As Exception
-        End Try
-    End Sub
     Public Sub GetUnbilledAmt(ByVal dtDoc As DateTime, ByVal VendorNo As String)
-
         Dim qry As String = "select TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per, TSPL_VLC_MASTER_HEAD.MCC,TSPL_PAYMENT_CYCLE_MASTER.PC_CODE,TSPL_PAYMENT_CYCLE_MASTER.PC_TYPE,TSPL_PAYMENT_CYCLE_MASTER.PC_VALUE" + Environment.NewLine +
         "from TSPL_VENDOR_MASTER" + Environment.NewLine +
         "left outer join TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code" + Environment.NewLine +
@@ -5467,8 +5427,6 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     dtFrom = today.AddDays(-dayDiff)
                     dtTo = dtFrom.AddDays(6)
                 End If
-
-
                 qry = "select convert(decimal(18,2), isnull( sum(Amount*RI),0)) as Amount from (" + Environment.NewLine +
                     "select TSPL_MILK_SRN_HEAD.DOC_CODE,(AMOUNT*TSPL_VENDOR_MASTER.Credit_Limit_On_Milk_Receipt_Per/100) as Amount,1 as RI,1 as Chk from TSPL_MILK_SRN_DETAIL" + Environment.NewLine +
                     "left outer join TSPL_MILK_SRN_HEAD	on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE" + Environment.NewLine +
@@ -5496,12 +5454,9 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
     End Sub
     Public Sub GetOutStandingBal(ByVal VendorNo As String, ByVal dtDoc As DateTime)
         Try
-
-
             Dim fromdate As DateTime = dtDoc.AddDays(-30)
             Dim todate As DateTime = dtDoc
             Dim StrPermission As String = clsERPFuncationality.UserWiseAvailableLocationSegment()
-
             'Dim qry = ""
             Dim qry As String = "With CTETemp as (Select ROW_NUMBER() OVER (PARTITION BY Vendor_Code ORDER BY Vendor_Code, DocDate) as RowNo, '13/Aug/2015 12:50 PM'  as RunDate,'28/07/2023' as fromdate,'28/08/2023' as todate,'Udaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.' as Comp_Name ,'Ahmedabad Road Gordhan Vilas, Sector 14 Hiran Magri' as CompanyAdd , CustomerVendorFinal.* from ( SELECT MAX(FINALCUSTOMERVENDOR.ACode) AS ACode,MAX(FINALCUSTOMERVENDOR.AName)  AS AName,'' AS DocNo,MAX(FINALCUSTOMERVENDOR.DocDate) AS DocDate,'OP' AS DocType  ,'' AS DocNarr,max(FINALCUSTOMERVENDOR.ChequeDetails)as ChequeDetails, MAX(FINALCUSTOMERVENDOR.Currency_Code) as Currency_Code, sUM(FINALCUSTOMERVENDOR.DrAmt) AS DrAmt, SUM(FINALCUSTOMERVENDOR.CrAmt) AS CrAmt, MAX(FINALCUSTOMERVENDOR.Location) AS Location,'' AS SourceCode,'' AS CUSTOMER,FINALCUSTOMERVENDOR.Vendor_Code,max(FINALCUSTOMERVENDOR.AgainstInvoiceNo) as AgainstInvoiceNo FROM ( (SELECT FINALCUSTOMER.ACode AS ACode,FINALCUSTOMER.AName  AS AName,FINALCUSTOMER.DocNo AS DocNo,FINALCUSTOMER.DocDate AS DocDate,FINALCUSTOMER.DocType AS DocType  ,FINALCUSTOMER.DocNarr AS DocNarr,FINALCUSTOMER.ChequeDetails, FINALCUSTOMER.Currency_Code as Currency_Code, FINALCUSTOMER.ConvRate as ConvRate, FINALCUSTOMER.DrAmt AS DrAmt, FINALCUSTOMER.CrAmt AS CrAmt, FINALCUSTOMER.Location AS Location,FINALCUSTOMER.SourceCode AS SourceCode,'' AS CUSTOMER,TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code,FINALCUSTOMER.AgainstInvoiceNo From (Select InnQuery.ACode AS ACode,InnQuery.Child AS Child, tspl_customer_master.customer_name AS AName,InnQuery.DocNo as DocNo,InnQuery.AgainstInvoiceNo AS AgainstInvoiceNo,InnQuery.DocDate ,InnQuery.DocType ,InnQuery.DocNarr ,InnQuery.ChequeDetails ,InnQuery.Currency_Code ,InnQuery.ConvRate, convert(decimal(18,2),InnQuery.DrAmt) as DrAmt,convert(decimal(18,2),InnQuery.CrAmt) as CrAmt,convert(decimal(18,2),InnQuery.Sales) as Sales,case when InnQuery.DocType='IM' then case when InnQuery.CrAmt>0 then  convert(decimal(18,2),InnQuery.CrAmt) else convert(decimal(18,2),InnQuery.DrAmt) * -1 end  else convert(decimal(18,2),InnQuery.CollectionRefund) end  as CollectionRefund , 
  InnQuery.SecurityDrAmt ,InnQuery.SecurityCrAmt ,InnQuery.DrNote,InnQuery.CrNote,InnQuery.Location,InnQuery.SourceCode ,InnQuery.Item_Code,InnQuery.Item_Desc,InnQuery.Receipt_Type,InnQuery.Bank_Code,InnQuery.Cust_Type_Code ,InnQuery.Cust_Type_Desc,InnQuery.Cust_Category_Code ,InnQuery.CUST_CATEGORY_DESC,InnQuery .EXCHANGE_GAIN_AMT ,InnQuery .EXCHANGE_LOSS_AMT   from (Select InnQuery.ACode AS ACode,InnQuery.Child  , InnQuery.AName AS AName,InnQuery.DocNo as DocNo,InnQuery.AgainstInvoiceNo AS AgainstInvoiceNo,InnQuery.DocDate ,InnQuery.DocType ,InnQuery.DocNarr ,InnQuery.ChequeDetails ,InnQuery.Currency_Code ,InnQuery.ConvRate,InnQuery.DrAmt ,
@@ -5517,8 +5472,6 @@ case when len( (isnull(TSPL_RECEIPT_HEADER.Location_GL_Code,'')))<=0 then
  ACode AS ACode,max(Child) as Child, 
 MAX(AName) AS AName,MAX(DocNo) AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceNo,MAX(DocDate) AS DocDate,MAX(DocType) AS DocType  ,MAX(DocNarr) AS DocNarr,MAX(ChequeDetails) AS ChequeDetails, MAX(Currency_Code) as Currency_Code, MAX(ConvRate) as ConvRate, SUM(DrAmt) AS DrAmt, SUM(CrAmt) AS CrAmt, SUM(SecurityDrAmt) as SecurityDrAmt, SUM(SecurityCrAmt) as SecurityCrAmt, SUM(Sales) as Sales,case when MAX(DocType)='IM' then case when SUM(CrAmt)>0 then  SUM(CrAmt) else  0 end  else  Sum(CollectionRefund) end  as CollectionRefund , SUM(DrNote) as DrNote,case when MAX(DocType)='IM' then 0 else  Sum(CrNote) end  as CrNote, Location AS Location, 
  MAX(SourceCode) AS SourceCode,MAX(Item_Code) AS Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(Receipt_Type) AS Receipt_Type,MAX(Bank_Code) AS Bank_Code, MAX(Cust_Type_Code) AS Cust_Type_Code,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC  FROM (  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_Customer_Invoice_Head.Document_No as AgainstInvoiceNo, Receipt_Date as DocDate,case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'UR' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'PR' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'OA' else null end as DocType,case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='S' THEN 'Security' ELSE CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='C' THEN 'Crate Security' ELSE  CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='R' THEN 'Refrigerator' ELSE CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='O' THEN 'Others' END END END END Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,  Case When TSPL_RECEIPT_HEADER.SecurityDeposit<>'Y' Then (case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then Receipt_Amount else 0 end) Else 0 End as DrAmt, Case When TSPL_RECEIPT_HEADER.SecurityDeposit<>'Y' Then (CASE WHEN   TSPL_RECEIPT_HEADER.Receipt_Type='R' AND TSPL_RECEIPT_DETAIL.Receipt_Type<>'C' THEN TSPL_RECEIPT_DETAIL.Applied_Amount  WHEN TSPL_RECEIPT_HEADER.Receipt_Type ='R' AND TSPL_RECEIPT_DETAIL.Receipt_Type='C' THEN  -1 * TSPL_RECEIPT_DETAIL.Applied_Amount when TSPL_RECEIPT_HEADER.Receipt_Type='F' then 0 else Receipt_Amount END) Else 0 End AS CrAmt, Case When TSPL_RECEIPT_HEADER.SecurityDeposit='Y' Then (case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then Receipt_Amount else 0 end) Else 0 End as SecurityDrAmt, Case When TSPL_RECEIPT_HEADER.SecurityDeposit='Y' Then (CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='R' THEN TSPL_RECEIPT_DETAIL.Applied_Amount when TSPL_RECEIPT_HEADER.Receipt_Type='F' then 0 else Receipt_Amount END) Else 0 End AS SecurityCrAmt, 0 as [Sales], case when TSPL_RECEIPT_HEADER.Receipt_Type IN ('F') Then Receipt_Amount*-1 When TSPL_RECEIPT_HEADER.Receipt_Type IN ('R') AND TSPL_RECEIPT_DETAIL.Receipt_Type<>'C' Then TSPL_RECEIPT_DETAIL.Applied_Amount WHEN TSPL_RECEIPT_HEADER.Receipt_Type ='R' AND TSPL_RECEIPT_DETAIL.Receipt_Type='C' THEN  -1 * TSPL_RECEIPT_DETAIL.Applied_Amount Else Receipt_Amount end as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='R' THEN TSPL_Customer_Invoice_Head.Loc_Code  WHEN TSPL_RECEIPT_HEADER.Receipt_Type IN ('O','P','F') THEN CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.Location_GL_Code,'')<>'' THEN TSPL_RECEIPT_HEADER.Location_GL_Code ELSE substring(TSPL_RECEIPT_HEADER.Dr_Account, len(TSPL_RECEIPT_HEADER.Dr_Account)-2,3) END  ELSE substring(TSPL_RECEIPT_HEADER.Dr_Account, len(TSPL_RECEIPT_HEADER.Dr_Account)-2,3) END as [Location], (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_HEADER.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC   from  TSPL_RECEIPT_HEADER  LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_DETAIL.Receipt_No  =  TSPL_RECEIPT_HEADER.Receipt_No  LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No =TSPL_RECEIPT_DETAIL.Document_No  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=Case When TSPL_RECEIPT_HEADER.Receipt_Type='R' Then TSPL_Customer_Invoice_Head.Customer_Code Else TSPL_RECEIPT_HEADER.Cust_Code End LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  where  TSPL_RECEIPT_HEADER.Posted='Y'   and  TSPL_RECEIPT_HEADER.Receipt_Type not in ('M','A','U','K') AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'   and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
-
-
  UNION ALL 
   Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, ''  as AgainstInvoiceNo, Receipt_Date as DocDate,'EXC'  as DocType  , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + 'Exchange Gain/Loss against Journal Entry No  '+isnull(TSPL_JOURNAL_MASTER.Voucher_No,'')    end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, 1 as ConvRate,   TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT as DrAmt, TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT AS CrAmt, 0  as SecurityDrAmt, 0 AS SecurityCrAmt  , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], isnull( TSPL_Customer_Invoice_Head.Loc_Code,'') as [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_HEADER.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER   
  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code  
@@ -5530,7 +5483,6 @@ MAX(AName) AS AName,MAX(DocNo) AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceN
  where  TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type in ('R','A') 
  AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT<>0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT  <>0) 
   and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
-
  UNION ALL 
  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_BANK_REVERSE.Reverse_Code as DocNo, ''  as AgainstInvoiceNo, Reversal_Date as DocDate,'EXC'  as DocType  , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + 'Exchange Gain/Loss against Journal Entry No  '+isnull(TSPL_JOURNAL_MASTER.Voucher_No,'')    end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(TSPL_RECEIPT_HEADER.Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(TSPL_BANK_REVERSE.Cheque_No,''))>0 then 'Cheque No. - ' + TSPL_BANK_REVERSE.Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, 1 as ConvRate,   TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT as DrAmt, TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT AS CrAmt, 0  as SecurityDrAmt, 0 AS SecurityCrAmt  , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote],isnull( TSPL_Customer_Invoice_Head.Loc_Code,'') as [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_BANK_REVERSE.Source_Type As Receipt_Type, TSPL_BANK_REVERSE.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC from TSPL_BANK_REVERSE  
  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BANK_REVERSE.Cust_Code  
@@ -5543,25 +5495,18 @@ MAX(AName) AS AName,MAX(DocNo) AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceN
  where  TSPL_BANK_REVERSE.Reverse_Document='Receipts' AND TSPL_BANK_REVERSE.Post ='P'
  and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT<>0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT  <>0) 
   and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
-
-
  UNION ALL 
  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, ''  as AgainstInvoiceNo, Receipt_Date as DocDate,CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='A' THEN 'IM' else null end as DocType  , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,    case when RD.Receipt_Type='C' then 0 else RD.Applied_Amount  end as DrAmt,case when RD.Receipt_Type='C' then RD.Applied_Amount  else 0  end  AS CrAmt, Receipt_Amount as SecurityDrAmt, 0 AS SecurityCrAmt  , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote],     CASE WHEN (SELECT ISNULL(TRH.Location_GL_Code,'') FROM TSPL_RECEIPT_HEADER TRH WHERE TRH.Receipt_No =TSPL_RECEIPT_HEADER.Applied_Receipt )<>'' THEN (SELECT ISNULL(TRH.Location_GL_Code,'') FROM TSPL_RECEIPT_HEADER TRH WHERE TRH.Receipt_No =TSPL_RECEIPT_HEADER.Applied_Receipt ) ELSE  CASE WHEN (SELECT ISNULL( TSPL_Customer_Invoice_Head.Loc_Code,'') FROM TSPL_Customer_Invoice_Head  WHERE TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_HEADER.Applied_Receipt )<>''  THEN  (SELECT ISNULL( TSPL_Customer_Invoice_Head.Loc_Code,'') FROM TSPL_Customer_Invoice_Head  WHERE TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_HEADER.Applied_Receipt) ELSE  substring(TSPL_BANK_MASTER.BANKACC, len( TSPL_BANK_MASTER.BANKACC)-2,3) END END AS [Location],  
  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_HEADER.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code  LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   LEFT OUTER JOIN TSPL_RECEIPT_DETAIL RD ON TSPL_RECEIPT_HEADER.Receipt_No =RD.Receipt_No  LEFT OUTER JOIN TSPL_Customer_Invoice_Head CIH ON CIH.Document_No=RD.Document_No  left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.bank_Code=TSPL_RECEIPT_HEADER.Bank_Code 
  where  TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type ='A' AND CIH.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'  AND TSPL_RECEIPT_HEADER.Receipt_Type <>'A'     and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
-
- 
  UNION ALL 
  SELECT MAX(ACode) AS Cust_Code,max(Child) as Child,MAX(AName) as AName,DocNo AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceNo,MAX(DocDate) AS DocDate,MAX(DocType) AS DocType,MAX(DocNarr) AS DocNarr,MAX(ChequeDetails) AS ChequeDetails  ,MAX(Currency_Code) AS Currency_Code,MAX(ConvRate) AS ConvRate,SUM(DrAmt) AS DrAmt,SUM(CrAmt) AS CrAmt,MAX(SecurityDrAmt) AS SecurityDrAmt,SUM(SecurityCrAmt) AS SecurityCrAmt  ,MAX([Sales]) AS [Sales],MAX([CollectionRefund]) AS [CollectionRefund],MAX([DrNote]),MAX([CrNote]) AS [CrNote],    [Location], 
  MAX(SourceCode) AS SourceCode,MAX(Item_Code) AS Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(Receipt_Type) AS Receipt_Type,MAX(Bank_Code) AS Bank_Code,MAX(Cust_Type_Code) AS Cust_Type_Code  ,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC  FROM (  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_RECEIPT_DETAIL.Document_No   as AgainstInvoiceNo, Receipt_Date as DocDate,CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='A' THEN 'IM' else null end as DocType , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,    case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then  TSPL_RECEIPT_DETAIL.Applied_Amount ELSE 0  end  as DrAmt,  case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then 0 else TSPL_RECEIPT_DETAIL.Applied_Amount  end as CrAmt,  0 as SecurityDrAmt,TSPL_RECEIPT_DETAIL.Applied_Amount  AS SecurityCrAmt , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote],  ISNULL(TSPL_Customer_Invoice_Head.Loc_Code ,'') AS [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_DETAIL.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER    LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL.Receipt_No   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code     LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE    LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_DETAIL.Document_No   where TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type ='A' AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'  AND TSPL_RECEIPT_HEADER.Receipt_Type <>'A'     and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
  )INV  GROUP BY  DocNo,Location 
-
- 
  UNION ALL 
  SELECT MAX(ACode) AS Cust_Code,max(Child) as Child,MAX(AName) as AName,DocNo AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceNo,MAX(DocDate) AS DocDate,MAX(DocType) AS DocType,MAX(DocNarr) AS DocNarr,MAX(ChequeDetails) AS ChequeDetails  ,MAX(Currency_Code) AS Currency_Code,MAX(ConvRate) AS ConvRate,SUM(DrAmt) AS DrAmt,SUM(CrAmt) AS CrAmt,MAX(SecurityDrAmt) AS SecurityDrAmt,SUM(SecurityCrAmt) AS SecurityCrAmt  ,MAX([Sales]) AS [Sales],MAX([CollectionRefund]) AS [CollectionRefund],MAX([DrNote]),MAX([CrNote]) AS [CrNote],    [Location], 
  MAX(SourceCode) AS SourceCode,MAX(Item_Code) AS Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(Receipt_Type) AS Receipt_Type,MAX(Bank_Code) AS Bank_Code,MAX(Cust_Type_Code) AS Cust_Type_Code  ,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC  FROM (  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_RECEIPT_DETAIL.Document_No   as AgainstInvoiceNo, Receipt_Date as DocDate,CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='A' THEN 'IM'  WHEN TSPL_RECEIPT_HEADER.Receipt_Type='K' THEN 'KN' else null end as DocType , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,    case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then  TSPL_RECEIPT_DETAIL.Applied_Amount ELSE case when TSPL_RECEIPT_DETAIL.Applied_Amount>0 then 0 else TSPL_RECEIPT_DETAIL.Applied_Amount *-1  end  end  as DrAmt,  case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then 0 else case when TSPL_RECEIPT_DETAIL.Applied_Amount>0 then TSPL_RECEIPT_DETAIL.Applied_Amount else 0 end  end as CrAmt,  0 as SecurityDrAmt,TSPL_RECEIPT_DETAIL.Applied_Amount  AS SecurityCrAmt , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote],  ISNULL(TSPL_Customer_Invoice_Head.Loc_Code ,'') AS [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' when TSPL_RECEIPT_HEADER.Receipt_Type='K' then 'AR-KN' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_DETAIL.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER    LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL.Receipt_No   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code     LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE    LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_DETAIL.Document_No   where TSPL_RECEIPT_HEADER.Posted='Y'  AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'  AND TSPL_RECEIPT_HEADER.Receipt_Type <>'K'     and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
  )INV  GROUP BY  DocNo,Location 
-
  UNION ALL  Select TSPL_RECEIPT_HEADER.Cust_Code as ACode,TSPL_RECEIPT_HEADER.Cust_Code as Child,TSPL_RECEIPT_HEADER.Customer_Name as AName, (Select r1.Receipt_No from TSPL_RECEIPT_HEADER r1 where r1 .UnApplied_No  =TSPL_RECEIPT_HEADER.Receipt_No)  as DocNo,'' as AgainstInvoiceNo,TSPL_RECEIPT_HEADER.Receipt_Date as DocDate,'RC' as DocType,'' as DocNarr,(rtrim(TSPL_RECEIPT_HEADER.Entry_Desc) + (case when len(RTRIM(TSPL_RECEIPT_HEADER.Entry_Desc))>0 and len(RTRIM(TSPL_RECEIPT_HEADER.Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(TSPL_RECEIPT_HEADER.Cheque_No,''))>0 then 'Cheque No. - ' + TSPL_RECEIPT_HEADER.Cheque_No +  ' - '+TSPL_RECEIPT_HEADER.Cheque_Date else '' end)) as ChequeDetails, RH.Currency_Code, RH.ConvRate, 0 as DrAmt,  TSPL_RECEIPT_HEADER.Receipt_Amount  AS CrAmt, 0 as SecurityDrAmt, Case When TSPL_RECEIPT_HEADER.SecurityDeposit='Y' Then TSPL_RECEIPT_HEADER.Receipt_Amount Else 0 End  AS SecurityCrAmt, 0 as [Sales], TSPL_RECEIPT_HEADER.Receipt_Amount as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], Right(TSPL_RECEIPT_HEADER.Dr_Account,3) as [Location],  'AR-RC' as SourceCode, '' as Item_Code, '' as Item_Desc, TSPL_RECEIPT_HEADER.Receipt_Type As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC   from  TSPL_RECEIPT_HEADER  LEFT OUTER JOIN TSPL_RECEIPT_HEADER RH ON TSPL_RECEIPT_HEADER.Receipt_No =RH.UnApplied_No   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON RH.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  where  TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type in ('U') AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
  )XX GROUP BY XX.ACode, XX.Location, XX.DocNo,XX.DocType 
   UNION ALL
@@ -5588,18 +5533,14 @@ MAX(AName) AS AName,MAX(DocNo) AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceN
  left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.bank_Code=TSPL_RECEIPT_HEADER.Bank_Code 
  WHERE TSPL_RECEIPT_HEADER.Receipt_Type='A' AND isnull(CIH.Customer_Code,'')<>TSPL_RECEIPT_HEADER.Cust_Code AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
  )z group by DocNo ,Location,ACode
-
  UNION ALL
  SELECT max( TSPL_ADJUSTMENT_HEADER.Customer_CODE) as ACode,max( TSPL_ADJUSTMENT_HEADER.Customer_CODE) as Child,max( TSPL_ADJUSTMENT_HEADER.Customer_NAME ) as AName, Final.Adjustment_No AS DocNo,'' as AgainstInvoiceNo,  CONVERT(DATE,MAX(Final.Adjustment_Date),103) AS DocDate, 'AD' AS DocType, MAX(Final.Description) AS DocNarr, '' AS ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, case when max(Final.Trans_Type) = 'In' then 0 else  SUM(Final.Cost)  end  AS DrAmt , case when max(Final.Trans_Type) ='In' then  SUM(Final.Cost) else 0 end AS CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], case when max(Final.Trans_Type) ='In' then  SUM(Final.Cost)*-1 else SUM(Final.Cost) end as Collectionrefund, 0 as [drNote], 0 as [CrNote], max(Final.Location) as [Location], Max(SourceCode)as SourceCode, Item_Code, MAX(Item_Description) as Item_Desc  ,MAX(Receipt_Type) As Receipt_Type, '' as Bank_Code,MAX(Cust_Type_Code) as Cust_Type_Code,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC  FROM (SELECT  TSPL_ADJUSTMENT_HEADER.Adjustment_No,  TSPL_ADJUSTMENT_HEADER.Adjustment_Date,  TSPL_ADJUSTMENT_HEADER.Description + (CASE WHEN  TSPL_ADJUSTMENT_HEADER.Description = '' THEN '' ELSE ' - ' END) AS Description, case when tspl_customer_master.cust_type_code ='F' or tspl_customer_master.cust_type_code ='S' then 0 else  ISNULL( TSPL_ADJUSTMENT_DETAIL.Breakage_Cost, 0) end  + ISNULL( TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0) AS Cost,  TSPL_ADJUSTMENT_HEADER.Document_No , TSPL_LOCATION_MASTER.Loc_Segment_Code as [Location],TSPL_ADJUSTMENT_HEADER.Trans_Type ,'IC-AD' as SourceCode, TSPL_ADJUSTMENT_DETAIL.Item_Code, TSPL_ADJUSTMENT_DETAIL.Item_Description  ,'' As Receipt_Type , TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    FROM TSPL_ADJUSTMENT_HEADER  LEFT OUTER JOIN  TSPL_ADJUSTMENT_DETAIL ON  TSPL_ADJUSTMENT_HEADER.Adjustment_No =  TSPL_ADJUSTMENT_DETAIL.Adjustment_No Left OUTER JOIN  TSPL_LOCATION_MASTER on  TSPL_ADJUSTMENT_DETAIL.Location_Code= TSPL_LOCATION_MASTER.Location_Code inner join  tspl_customer_master on  tspl_adjustment_header.customer_code= tspl_customer_master.cust_code  LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   WHERE ( ( TSPL_ADJUSTMENT_HEADER.Reference_Document = '') AND ( TSPL_ADJUSTMENT_HEADER.Document_No= '' and  TSPL_ADJUSTMENT_HEADER.Customer_CODE <> '') or TSPL_ADJUSTMENT_HEADER.Reference_Document='Sale Invoice')  AND (ISNULL( TSPL_ADJUSTMENT_DETAIL.Breakage_Cost, 0) + ISNULL( TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0) <> 0)and  TSPL_ADJUSTMENT_HEADER.Posted='Y'   and  convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
  ) AS Final INNER JOIN  TSPL_ADJUSTMENT_HEADER  ON Final.Adjustment_No =  TSPL_ADJUSTMENT_HEADER.Adjustment_No  GROUP BY Final.Adjustment_No, Final.Item_Code
  UNION ALL
 select TSPL_Customer_Invoice_Head.Customer_Code, TSPL_Customer_Invoice_Head.Customer_Code as Child,TSPL_Customer_Invoice_Head.Customer_Name , TSPL_Customer_Invoice_Head.Document_No  AS DocNo, CASE WHEN TSPL_Customer_Invoice_Head.Document_Type ='C' AND len(TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No)>0 THEN (Select Top 1 TSPL_SD_SALE_RETURN_HEAD.Document_Code  FROM TSPL_SD_SALE_RETURN_HEAD where TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No) WHEN (TSPL_Customer_Invoice_Head.Document_Type ='D' OR  TSPL_Customer_Invoice_Head.Document_Type ='I') AND LEN(TSPL_Customer_Invoice_Head.Against_Sale_No)>0 THEN  CASE WHEN LEN(ISNULL( (Select Top 1 ISNULL(TSPL_SD_SALE_INVOICE_HEAD.Document_Code,'')  FROM TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_No),''))>0 THEN (Select Top 1 ISNULL(TSPL_SD_SALE_INVOICE_HEAD.Document_Code,'')  FROM TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_No) ELSE (Select Top 1 ISNULL(TSPL_INVOICE_MASTER_BULKSALE.Document_No,'')  FROM TSPL_INVOICE_MASTER_BULKSALE  where TSPL_INVOICE_MASTER_BULKSALE.Document_No  =TSPL_CUSTOMER_Invoice_Head.Against_Sale_No) END   WHEN TSPL_Customer_Invoice_Head.Document_Type ='I' AND len(TSPL_Customer_Invoice_Head.AgainstScrap)>0 THEN (Select Top 1 TSPL_SCRAPINVOICE_HEAD.invoice_No  FROM TSPL_SCRAPINVOICE_HEAD where TSPL_SCRAPINVOICE_HEAD.invoice_No  =TSPL_CUSTOMER_Invoice_Head.AgainstScrap ) END AS AgainstInvoiceNo,  CONVERT(Date,TSPL_Customer_Invoice_Head.Document_Date,103) as DocDate ,(case when TSPL_Customer_Invoice_Head.Document_Type ='I' then 'IN'  when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'CR'  when TSPL_Customer_Invoice_Head.Document_Type ='D' then 'DR' end) as [DocType], TSPL_Customer_Invoice_Head.Description ,'', TSPL_Customer_Invoice_Head.Currency_Code, TSPL_Customer_Invoice_Head.ConvRate, case when TSPL_Customer_Invoice_Head.Document_Type ='C' then 0 else TSPL_Customer_Invoice_Head.Document_Total end as [DRAmt],case when TSPL_Customer_Invoice_Head.Document_Type ='C' then TSPL_Customer_Invoice_Head.Document_Total else 0 end as [CRAmt], 0 as SecurityDrAmt, 0 as SecurityCrAmt, case when TSPL_Customer_Invoice_Head.Document_Type ='I' Then TSPL_Customer_Invoice_Head.Document_Total Else 0 End as [Sales], 0 as [CollectionRefund], case when TSPL_Customer_Invoice_Head.Document_Type ='D' Then TSPL_Customer_Invoice_Head.Document_Total Else 0 End as [DrNote], Case when TSPL_Customer_Invoice_Head.Document_Type ='C' Then TSPL_Customer_Invoice_Head.Document_Total*-1 Else 0 End as [CrNote], TSPL_Customer_Invoice_Head.Loc_Code, case when TSPL_Customer_Invoice_Head.Document_Type ='I' then 'AR-IN'  when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'AR-CR'  when TSPL_Customer_Invoice_Head.Document_Type ='D' then 'AR-DN' end as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC   from  TSPL_Customer_Invoice_Head  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_Customer_Invoice_Head.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  where TSPL_Customer_Invoice_Head.Status=1    and  convert(date,TSPL_Customer_Invoice_Head.Document_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
-
  UNION ALL
  select TSPL_Receipt_Adjustment_Header.Customer_No  as ACode,TSPL_Receipt_Adjustment_Header.Customer_No as Child, TSPL_Receipt_Adjustment_Header.Customer_Name  as AName, TSPL_Receipt_Adjustment_Header.Adjustment_No  as DocNo,  TSPL_Receipt_Adjustment_Header.ARInvoiceNo as AgainstInvoiceNo, CONVERT(DATE, TSPL_Receipt_Adjustment_Header.Adjustment_Date ,103) as DocDate,'Adjustment' as docType,  TSPL_Receipt_Adjustment_Header.Remarks as DocNarr,  '' as ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, case when TSPL_Customer_Invoice_Head.Document_Type='C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end   as DrAmt ,case when TSPL_Customer_Invoice_Head.Document_Type<>'C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end   as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund],  case when TSPL_Customer_Invoice_Head.Document_Type='C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end *-1 as [DrNote],  case when TSPL_Customer_Invoice_Head.Document_Type<>'C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end  * -1 as [CrNote], TSPL_Customer_Invoice_Head.Loc_Code as Location, '' as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code,  TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC      from TSPL_Receipt_Adjustment_Header  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_Receipt_Adjustment_Header.Customer_No = TSPL_CUSTOMER_MASTER.Cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON ISNULL(TSPL_Customer_Invoice_Head.Document_No ,'') = TSPL_Receipt_Adjustment_Header.ARInvoiceNo   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   where isnull(TSPL_Receipt_Adjustment_Header.Is_Post,'')='Y'   and  convert(date,TSPL_Receipt_Adjustment_Header.Adjustment_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
-
  UNION ALL
-  
  select (coalesce(TSPL_Customer_Invoice_Head.Customer_Code,TSPL_BANK_REVERSE.Cust_Code))   as ACode,(coalesce(TSPL_Customer_Invoice_Head.Customer_Code,TSPL_BANK_REVERSE.Cust_Code))   as Child,(coalesce( TSPL_Customer_Invoice_Head.Customer_Name,TSPL_BANK_REVERSE.Cust_Name))  as AName, TSPL_BANK_REVERSE.Reverse_Code as DocNo, 
  TSPL_Customer_Invoice_Head.Document_No as AgainstInvoiceNo, TSPL_BANK_REVERSE.Reversal_Date as DocDate , 'RV-TA' as DocType,  TSPL_BANK_REVERSE.Document_No as DocNarr, TSPL_BANK_REVERSE.Cheque_No as ChequeDetails, TSPL_Receipt_Header.Currency_Code, TSPL_Receipt_Header.ConvRate,  Case When TSPL_RECEIPT_HEADER.Receipt_Type IN ('R') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  TSPL_RECEIPT_DETAIL.Applied_Amount * -1 ELSE TSPL_RECEIPT_DETAIL.Applied_Amount END When TSPL_RECEIPT_HEADER.Receipt_Type IN ('A') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  0 ELSE TSPL_RECEIPT_DETAIL.Applied_Amount END Else CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type<>'F' THEN TSPL_BANK_REVERSE.Amount  ELSE 0  END End as DrAmt,  CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='F' THEN TSPL_BANK_REVERSE.Amount When TSPL_RECEIPT_HEADER.Receipt_Type IN ('A') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  TSPL_RECEIPT_DETAIL.Applied_Amount ELSE 0 END ELSE 0 END as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales],
  Case When TSPL_RECEIPT_HEADER.Receipt_Type IN ('R','A') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  TSPL_RECEIPT_DETAIL.Applied_Amount * -1 ELSE TSPL_RECEIPT_DETAIL.Applied_Amount END Else TSPL_BANK_REVERSE.Amount End*-1 as [CollectionRefund],  0 as [DrNote], 0 as [CrNote],
@@ -5620,15 +5561,12 @@ substring(TSPL_BANK_MASTER.BANKACC, len( TSPL_BANK_MASTER.BANKACC)-2,3) AS [Loca
  LEFT OUTER JOIN TSPL_RECEIPT_HEADER as UnappliedReceipt ON UnappliedReceipt.Receipt_No = TSPL_RECEIPT_HEADER .UnApplied_No  
  where  TSPL_BANK_REVERSE.Source_Type='AR' and  TSPL_BANK_REVERSE.post='P' AND  ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit ,'')='N' and UnappliedReceipt.Receipt_Type ='U' and isnull(TSPL_RECEIPT_HEADER.Receipt_No ,'')<>'' 
   and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
-
  UNION ALL
  select TSPL_VCGL_Head.VC_Code as ACode,TSPL_VCGL_Head.VC_Code as Child, TSPL_VCGL_Head.VC_Name as AName, TSPL_VCGL_Head.Document_No as DocNo,'' as AgainstInvoiceNo, CONVERT(DATE, TSPL_VCGL_Head.Document_Date,103) as DocDate,'VCGL' as docType,  TSPL_VCGL_Head.Remarks as DocNarr,'' as ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, case when  TSPL_VCGL_Head.Amount_Type='Cr' then  TSPL_VCGL_Head.Amount else 0 end  as DrAmt ,case when  TSPL_VCGL_Head.Amount_Type='Dr' then  TSPL_VCGL_Head.Amount else 0 end as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], case when TSPL_VCGL_Head.Amount_Type='Dr' then TSPL_VCGL_Head.Amount Else 0 End as [DrNote], case when TSPL_VCGL_Head.Amount_Type='Cr' then TSPL_VCGL_Head.Amount*-1 Else 0 End as [CrNote], TSPL_VCGL_Head.Location_Segment as Location, 'VC-GL' as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code,TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC      from TSPL_VCGL_Head  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_VCGL_Head.VC_Code = TSPL_CUSTOMER_MASTER.Cust_Code  LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_VCGL = TSPL_VCGL_Head.Document_No LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  where TSPL_VCGL_Head.Document_Type='C' and  TSPL_VCGL_Head.Status=1 AND ISNULL(TSPL_Customer_Invoice_Head.Against_VCGL,'') =''   and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
-
  UNION ALL
  select TSPL_VCGL_Detail.VCGL_Code as ACode,TSPL_VCGL_Detail.VCGL_Code as Child, TSPL_VCGL_Detail.VCGL_Name as AName, TSPL_VCGL_Head.Document_No as DocNo,'' as AgainstInvoiceNo, CONVERT(DATE, TSPL_VCGL_Head.Document_Date,103) as DocDate,'VCGL' as docType,  TSPL_VCGL_Detail.Remarks as DocNarr,'' as ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, TSPL_VCGL_Detail.Dr_Amount as DrAmt , TSPL_VCGL_Detail.Cr_Amount as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], TSPL_VCGL_Detail.Dr_Amount as DrNote, TSPL_VCGL_Detail.Cr_Amount as [CrNote], TSPL_VCGL_Head.Location_Segment as Location, 'VC-GL' as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type,'' as Bank_Code,TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC     from  TSPL_VCGL_Detail left outer join  TSPL_VCGL_Head on  TSPL_VCGL_Head .Document_No= TSPL_VCGL_Detail.Document_No  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_VCGL_Detail.VCGL_Code = TSPL_CUSTOMER_MASTER.Cust_Code  LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_VCGL = TSPL_VCGL_Detail.Document_No       where TSPL_VCGL_Head.Status=1 and  TSPL_VCGL_Detail.Row_Type='Customer' AND ISNULL(TSPL_Customer_Invoice_Head.Against_VCGL,'') =''   and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
  ) InnQuery 
  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=InnQuery.Bank_Code left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =InnQuery.DocNo where 1=1   and InnQuery.DocType<>'IM'  and InnQuery.DocNo not in ( Select Receipt_No  from TSPL_RECEIPT_HEADER where TSPL_RECEIPT_HEADER.Receipt_Type ='A' and   TSPL_RECEIPT_HEADER.Posted='Y' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT >0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT >0)     and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
-
  Union All
  Select Reverse_Code  from TSPL_BANK_REVERSE where Document_No in ( Select Receipt_No  from TSPL_RECEIPT_HEADER where TSPL_RECEIPT_HEADER.Receipt_Type ='A' and   TSPL_RECEIPT_HEADER.Posted='Y' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT >0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT >0)     and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <'" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "'  
   ) )    )InnQuery    LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code =InnQuery.ACode) FINALCUSTOMER inner jOIN TSPL_CUSTOMER_VENDOR_MAPPING ON TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=FINALCUSTOMER.ACode inner jOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code and TSPL_VENDOR_MASTER.Form_Type in ('VSP'))  Union All (Select case when TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code is null then FinalVENDOR.VCode else TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code end ACode,FinalVENDOR.VName   AS AName,FinalVENDOR.DocNo AS DocNo,FinalVENDOR.DocDate AS DocDate,FinalVENDOR.DocType AS DocType ,FinalVENDOR.DocNarr AS DocNarr ,FinalVENDOR.ChequeDetails  ,FinalVENDOR.CURRENCY_CODE  as Currency_Code,FinalVENDOR.ConvRate  as ConvRate, FinalVENDOR.DrAmt AS DrAmt, FinalVENDOR.CrAmt AS CrAmt, RIGHT(FinalVENDOR.account,3)  AS Location,FinalVENDOR.GLDocType AS SourceCode,'' AS VENDOR ,FinalVENDOR.VCode AS Vendor_Code,FinalVENDOR.PO_SRN  as AgainstInvoiceNo     from (  Select InnQuery.Reference_Doc_No,InnQuery.Emp_type,InnQuery.Emp_Adv_Type,InnQuery.Due_Date, InnQuery.PO_SRN, InnQuery.VCode, TSPL_VENDOR_MASTER.Vendor_Name as VName, InnQuery.DocNo, InnQuery.DocType, InnQuery.DocDate, InnQuery.DocNarr, InnQuery.ChequeDetails, InnQuery.Currency_Code, InnQuery.ConvRate,   CONVERT(DECIMAL(18,2),InnQuery.CrAmt) AS CrAmt,CONVERT(DECIMAL(18,2),InnQuery.DrAmt) AS DrAmt,CONVERT(DECIMAL(18,2),InnQuery.Purchase) AS Purchase,CONVERT(DECIMAL(18,2),InnQuery.Payments) AS Payments ,  InnQuery.drNote, InnQuery.CrNote, InnQuery.Document_Type, InnQuery.Balance_Amount, InnQuery.account,InnQuery.Posting_Date, InnQuery.GLDocType, InnQuery.Comp_Code from (Select InnQuery.Reference_Doc_No,InnQuery.Emp_type,InnQuery.Emp_Adv_Type,InnQuery.Due_Date, InnQuery.PO_SRN, InnQuery.VCode, InnQuery.VName, InnQuery.DocNo, InnQuery.DocType, InnQuery.DocDate, InnQuery.DocNarr, InnQuery.ChequeDetails, InnQuery.Currency_Code, InnQuery.ConvRate, InnQuery.CrAmt  *(case when (DocType)<>'EXC' then   InnQuery.ConvRate else 1 end)  as  CrAmt ,
@@ -5723,9 +5661,6 @@ case when len( (isnull(TSPL_RECEIPT_HEADER.Location_GL_Code,'')))<=0 then
  ACode AS ACode,max(Child) as Child, 
 MAX(AName) AS AName,MAX(DocNo) AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceNo,MAX(DocDate) AS DocDate,MAX(DocType) AS DocType  ,MAX(DocNarr) AS DocNarr,MAX(ChequeDetails) AS ChequeDetails, MAX(Currency_Code) as Currency_Code, MAX(ConvRate) as ConvRate, SUM(DrAmt) AS DrAmt, SUM(CrAmt) AS CrAmt, SUM(SecurityDrAmt) as SecurityDrAmt, SUM(SecurityCrAmt) as SecurityCrAmt, SUM(Sales) as Sales,case when MAX(DocType)='IM' then case when SUM(CrAmt)>0 then  SUM(CrAmt) else  0 end  else  Sum(CollectionRefund) end  as CollectionRefund , SUM(DrNote) as DrNote,case when MAX(DocType)='IM' then 0 else  Sum(CrNote) end  as CrNote, Location AS Location, 
  MAX(SourceCode) AS SourceCode,MAX(Item_Code) AS Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(Receipt_Type) AS Receipt_Type,MAX(Bank_Code) AS Bank_Code, MAX(Cust_Type_Code) AS Cust_Type_Code,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC  FROM (  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_Customer_Invoice_Head.Document_No as AgainstInvoiceNo, Receipt_Date as DocDate,case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'UR' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'PR' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'OA' else null end as DocType,case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='S' THEN 'Security' ELSE CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='C' THEN 'Crate Security' ELSE  CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='R' THEN 'Refrigerator' ELSE CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.SecurityDepositType,'')='O' THEN 'Others' END END END END Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,  Case When TSPL_RECEIPT_HEADER.SecurityDeposit<>'Y' Then (case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then Receipt_Amount else 0 end) Else 0 End as DrAmt, Case When TSPL_RECEIPT_HEADER.SecurityDeposit<>'Y' Then (CASE WHEN   TSPL_RECEIPT_HEADER.Receipt_Type='R' AND TSPL_RECEIPT_DETAIL.Receipt_Type<>'C' THEN TSPL_RECEIPT_DETAIL.Applied_Amount  WHEN TSPL_RECEIPT_HEADER.Receipt_Type ='R' AND TSPL_RECEIPT_DETAIL.Receipt_Type='C' THEN  -1 * TSPL_RECEIPT_DETAIL.Applied_Amount when TSPL_RECEIPT_HEADER.Receipt_Type='F' then 0 else Receipt_Amount END) Else 0 End AS CrAmt, Case When TSPL_RECEIPT_HEADER.SecurityDeposit='Y' Then (case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then Receipt_Amount else 0 end) Else 0 End as SecurityDrAmt, Case When TSPL_RECEIPT_HEADER.SecurityDeposit='Y' Then (CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='R' THEN TSPL_RECEIPT_DETAIL.Applied_Amount when TSPL_RECEIPT_HEADER.Receipt_Type='F' then 0 else Receipt_Amount END) Else 0 End AS SecurityCrAmt, 0 as [Sales], case when TSPL_RECEIPT_HEADER.Receipt_Type IN ('F') Then Receipt_Amount*-1 When TSPL_RECEIPT_HEADER.Receipt_Type IN ('R') AND TSPL_RECEIPT_DETAIL.Receipt_Type<>'C' Then TSPL_RECEIPT_DETAIL.Applied_Amount WHEN TSPL_RECEIPT_HEADER.Receipt_Type ='R' AND TSPL_RECEIPT_DETAIL.Receipt_Type='C' THEN  -1 * TSPL_RECEIPT_DETAIL.Applied_Amount Else Receipt_Amount end as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='R' THEN TSPL_Customer_Invoice_Head.Loc_Code  WHEN TSPL_RECEIPT_HEADER.Receipt_Type IN ('O','P','F') THEN CASE WHEN ISNULL(TSPL_RECEIPT_HEADER.Location_GL_Code,'')<>'' THEN TSPL_RECEIPT_HEADER.Location_GL_Code ELSE substring(TSPL_RECEIPT_HEADER.Dr_Account, len(TSPL_RECEIPT_HEADER.Dr_Account)-2,3) END  ELSE substring(TSPL_RECEIPT_HEADER.Dr_Account, len(TSPL_RECEIPT_HEADER.Dr_Account)-2,3) END as [Location], (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_HEADER.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC   from  TSPL_RECEIPT_HEADER  LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_DETAIL.Receipt_No  =  TSPL_RECEIPT_HEADER.Receipt_No  LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No =TSPL_RECEIPT_DETAIL.Document_No  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=Case When TSPL_RECEIPT_HEADER.Receipt_Type='R' Then TSPL_Customer_Invoice_Head.Customer_Code Else TSPL_RECEIPT_HEADER.Cust_Code End LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  where  TSPL_RECEIPT_HEADER.Posted='Y'   and  TSPL_RECEIPT_HEADER.Receipt_Type not in ('M','A','U','K') AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'   and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
-
-
-
  UNION ALL 
   Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, ''  as AgainstInvoiceNo, Receipt_Date as DocDate,'EXC'  as DocType  , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + 'Exchange Gain/Loss against Journal Entry No  '+isnull(TSPL_JOURNAL_MASTER.Voucher_No,'')    end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, 1 as ConvRate,   TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT as DrAmt, TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT AS CrAmt, 0  as SecurityDrAmt, 0 AS SecurityCrAmt  , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], isnull( TSPL_Customer_Invoice_Head.Loc_Code,'') as [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_HEADER.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER   
  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code  
@@ -5737,8 +5672,6 @@ MAX(AName) AS AName,MAX(DocNo) AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceN
  where  TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type in ('R','A') 
  AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT<>0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT  <>0) 
   and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
-
-
  UNION ALL 
  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_BANK_REVERSE.Reverse_Code as DocNo, ''  as AgainstInvoiceNo, Reversal_Date as DocDate,'EXC'  as DocType  , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + 'Exchange Gain/Loss against Journal Entry No  '+isnull(TSPL_JOURNAL_MASTER.Voucher_No,'')    end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(TSPL_RECEIPT_HEADER.Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(TSPL_BANK_REVERSE.Cheque_No,''))>0 then 'Cheque No. - ' + TSPL_BANK_REVERSE.Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, 1 as ConvRate,   TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT as DrAmt, TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT AS CrAmt, 0  as SecurityDrAmt, 0 AS SecurityCrAmt  , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote],isnull( TSPL_Customer_Invoice_Head.Loc_Code,'') as [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_BANK_REVERSE.Source_Type As Receipt_Type, TSPL_BANK_REVERSE.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC from TSPL_BANK_REVERSE  
  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BANK_REVERSE.Cust_Code  
@@ -5751,24 +5684,18 @@ MAX(AName) AS AName,MAX(DocNo) AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceN
  where  TSPL_BANK_REVERSE.Reverse_Document='Receipts' AND TSPL_BANK_REVERSE.Post ='P'
  and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT<>0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT  <>0) 
   and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
-
-
  UNION ALL 
  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, ''  as AgainstInvoiceNo, Receipt_Date as DocDate,CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='A' THEN 'IM' else null end as DocType  , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,    case when RD.Receipt_Type='C' then 0 else RD.Applied_Amount  end as DrAmt,case when RD.Receipt_Type='C' then RD.Applied_Amount  else 0  end  AS CrAmt, Receipt_Amount as SecurityDrAmt, 0 AS SecurityCrAmt  , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote],     CASE WHEN (SELECT ISNULL(TRH.Location_GL_Code,'') FROM TSPL_RECEIPT_HEADER TRH WHERE TRH.Receipt_No =TSPL_RECEIPT_HEADER.Applied_Receipt )<>'' THEN (SELECT ISNULL(TRH.Location_GL_Code,'') FROM TSPL_RECEIPT_HEADER TRH WHERE TRH.Receipt_No =TSPL_RECEIPT_HEADER.Applied_Receipt ) ELSE  CASE WHEN (SELECT ISNULL( TSPL_Customer_Invoice_Head.Loc_Code,'') FROM TSPL_Customer_Invoice_Head  WHERE TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_HEADER.Applied_Receipt )<>''  THEN  (SELECT ISNULL( TSPL_Customer_Invoice_Head.Loc_Code,'') FROM TSPL_Customer_Invoice_Head  WHERE TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_HEADER.Applied_Receipt) ELSE  substring(TSPL_BANK_MASTER.BANKACC, len( TSPL_BANK_MASTER.BANKACC)-2,3) END END AS [Location],  
  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_HEADER.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code  LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code  LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   LEFT OUTER JOIN TSPL_RECEIPT_DETAIL RD ON TSPL_RECEIPT_HEADER.Receipt_No =RD.Receipt_No  LEFT OUTER JOIN TSPL_Customer_Invoice_Head CIH ON CIH.Document_No=RD.Document_No  left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.bank_Code=TSPL_RECEIPT_HEADER.Bank_Code 
  where  TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type ='A' AND CIH.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'  AND TSPL_RECEIPT_HEADER.Receipt_Type <>'A'     and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
-
  UNION ALL 
  SELECT MAX(ACode) AS Cust_Code,max(Child) as Child,MAX(AName) as AName,DocNo AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceNo,MAX(DocDate) AS DocDate,MAX(DocType) AS DocType,MAX(DocNarr) AS DocNarr,MAX(ChequeDetails) AS ChequeDetails  ,MAX(Currency_Code) AS Currency_Code,MAX(ConvRate) AS ConvRate,SUM(DrAmt) AS DrAmt,SUM(CrAmt) AS CrAmt,MAX(SecurityDrAmt) AS SecurityDrAmt,SUM(SecurityCrAmt) AS SecurityCrAmt  ,MAX([Sales]) AS [Sales],MAX([CollectionRefund]) AS [CollectionRefund],MAX([DrNote]),MAX([CrNote]) AS [CrNote],    [Location], 
  MAX(SourceCode) AS SourceCode,MAX(Item_Code) AS Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(Receipt_Type) AS Receipt_Type,MAX(Bank_Code) AS Bank_Code,MAX(Cust_Type_Code) AS Cust_Type_Code  ,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC  FROM (  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_RECEIPT_DETAIL.Document_No   as AgainstInvoiceNo, Receipt_Date as DocDate,CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='A' THEN 'IM' else null end as DocType , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,    case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then  TSPL_RECEIPT_DETAIL.Applied_Amount ELSE 0  end  as DrAmt,  case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then 0 else TSPL_RECEIPT_DETAIL.Applied_Amount  end as CrAmt,  0 as SecurityDrAmt,TSPL_RECEIPT_DETAIL.Applied_Amount  AS SecurityCrAmt , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote],  ISNULL(TSPL_Customer_Invoice_Head.Loc_Code ,'') AS [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_DETAIL.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER    LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL.Receipt_No   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code     LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE    LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_DETAIL.Document_No   where TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type ='A' AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'  AND TSPL_RECEIPT_HEADER.Receipt_Type <>'A'     and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
  )INV  GROUP BY  DocNo,Location 
-
-
  UNION ALL 
  SELECT MAX(ACode) AS Cust_Code,max(Child) as Child,MAX(AName) as AName,DocNo AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceNo,MAX(DocDate) AS DocDate,MAX(DocType) AS DocType,MAX(DocNarr) AS DocNarr,MAX(ChequeDetails) AS ChequeDetails  ,MAX(Currency_Code) AS Currency_Code,MAX(ConvRate) AS ConvRate,SUM(DrAmt) AS DrAmt,SUM(CrAmt) AS CrAmt,MAX(SecurityDrAmt) AS SecurityDrAmt,SUM(SecurityCrAmt) AS SecurityCrAmt  ,MAX([Sales]) AS [Sales],MAX([CollectionRefund]) AS [CollectionRefund],MAX([DrNote]),MAX([CrNote]) AS [CrNote],    [Location], 
  MAX(SourceCode) AS SourceCode,MAX(Item_Code) AS Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(Receipt_Type) AS Receipt_Type,MAX(Bank_Code) AS Bank_Code,MAX(Cust_Type_Code) AS Cust_Type_Code  ,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC  FROM (  Select TSPL_CUSTOMER_MASTER.Cust_Code as ACode,TSPL_CUSTOMER_MASTER.Cust_Code as Child, TSPL_CUSTOMER_MASTER.Customer_Name as AName, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_RECEIPT_DETAIL.Document_No   as AgainstInvoiceNo, Receipt_Date as DocDate,CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='A' THEN 'IM'  WHEN TSPL_RECEIPT_HEADER.Receipt_Type='K' THEN 'KN' else null end as DocType , case when ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='Y' Then 'Security' Else '' + TSPL_RECEIPT_HEADER.Entry_Desc end as DocNarr, (rtrim(Entry_Desc) + (case when len(RTRIM(Entry_Desc))>0 and len(RTRIM(Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(Cheque_No,''))>0 then 'Cheque No. - ' + Cheque_No +  ' - '+Cheque_Date else '' end)) as ChequeDetails, TSPL_RECEIPT_HEADER.Currency_Code, TSPL_RECEIPT_HEADER.ConvRate,    case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then  TSPL_RECEIPT_DETAIL.Applied_Amount ELSE case when TSPL_RECEIPT_DETAIL.Applied_Amount>0 then 0 else TSPL_RECEIPT_DETAIL.Applied_Amount *-1  end  end  as DrAmt,  case when TSPL_RECEIPT_DETAIL.Receipt_Type='C' then 0 else case when TSPL_RECEIPT_DETAIL.Applied_Amount>0 then TSPL_RECEIPT_DETAIL.Applied_Amount else 0 end  end as CrAmt,  0 as SecurityDrAmt,TSPL_RECEIPT_DETAIL.Applied_Amount  AS SecurityCrAmt , 0 as [Sales], 0  as [CollectionRefund], 0 as [DrNote], 0 as [CrNote],  ISNULL(TSPL_Customer_Invoice_Head.Loc_Code ,'') AS [Location],  (Case when TSPL_RECEIPT_HEADER.Receipt_Type='R' then 'AR-RC' when TSPL_RECEIPT_HEADER.Receipt_Type='f' then 'AR-RF' when TSPL_RECEIPT_HEADER.Receipt_Type='U' then 'AR-UN' when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'AR-PY' when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'AR-OA' when TSPL_RECEIPT_HEADER.Receipt_Type='A' then 'AR-IM' when TSPL_RECEIPT_HEADER.Receipt_Type='K' then 'AR-KN' end) as SourceCode, '' as Item_Code, '' as Item_Desc,TSPL_RECEIPT_DETAIL.Receipt_Type  As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    from TSPL_RECEIPT_HEADER    LEFT OUTER JOIN TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL.Receipt_No   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code     LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE    LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Document_No  =TSPL_RECEIPT_DETAIL.Document_No   where TSPL_RECEIPT_HEADER.Posted='Y'  AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND TSPL_Customer_Invoice_Head.Customer_Code = TSPL_RECEIPT_HEADER.Cust_Code  AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'  AND TSPL_RECEIPT_HEADER.Receipt_Type <>'K'     and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
  )INV  GROUP BY  DocNo,Location 
-
  UNION ALL  Select TSPL_RECEIPT_HEADER.Cust_Code as ACode,TSPL_RECEIPT_HEADER.Cust_Code as Child,TSPL_RECEIPT_HEADER.Customer_Name as AName, (Select r1.Receipt_No from TSPL_RECEIPT_HEADER r1 where r1 .UnApplied_No  =TSPL_RECEIPT_HEADER.Receipt_No)  as DocNo,'' as AgainstInvoiceNo,TSPL_RECEIPT_HEADER.Receipt_Date as DocDate,'RC' as DocType,'' as DocNarr,(rtrim(TSPL_RECEIPT_HEADER.Entry_Desc) + (case when len(RTRIM(TSPL_RECEIPT_HEADER.Entry_Desc))>0 and len(RTRIM(TSPL_RECEIPT_HEADER.Cheque_No))>0  then ' / ' else '' end)  + (case when LEN(ISNULL(TSPL_RECEIPT_HEADER.Cheque_No,''))>0 then 'Cheque No. - ' + TSPL_RECEIPT_HEADER.Cheque_No +  ' - '+TSPL_RECEIPT_HEADER.Cheque_Date else '' end)) as ChequeDetails, RH.Currency_Code, RH.ConvRate, 0 as DrAmt,  TSPL_RECEIPT_HEADER.Receipt_Amount  AS CrAmt, 0 as SecurityDrAmt, Case When TSPL_RECEIPT_HEADER.SecurityDeposit='Y' Then TSPL_RECEIPT_HEADER.Receipt_Amount Else 0 End  AS SecurityCrAmt, 0 as [Sales], TSPL_RECEIPT_HEADER.Receipt_Amount as [CollectionRefund], 0 as [DrNote], 0 as [CrNote], Right(TSPL_RECEIPT_HEADER.Dr_Account,3) as [Location],  'AR-RC' as SourceCode, '' as Item_Code, '' as Item_Desc, TSPL_RECEIPT_HEADER.Receipt_Type As Receipt_Type, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC   from  TSPL_RECEIPT_HEADER  LEFT OUTER JOIN TSPL_RECEIPT_HEADER RH ON TSPL_RECEIPT_HEADER.Receipt_No =RH.UnApplied_No   LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON RH.Cust_Code = TSPL_CUSTOMER_MASTER.Cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  where  TSPL_RECEIPT_HEADER.Posted='Y' and  TSPL_RECEIPT_HEADER.Receipt_Type in ('U') AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
  )XX GROUP BY XX.ACode, XX.Location, XX.DocNo,XX.DocType 
   UNION ALL
@@ -5795,16 +5722,13 @@ MAX(AName) AS AName,MAX(DocNo) AS DocNo,MAX(AgainstInvoiceNo) AS AgainstInvoiceN
  left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.bank_Code=TSPL_RECEIPT_HEADER.Bank_Code 
  WHERE TSPL_RECEIPT_HEADER.Receipt_Type='A' AND isnull(CIH.Customer_Code,'')<>TSPL_RECEIPT_HEADER.Cust_Code AND ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit,'')='N'  and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
  )z group by DocNo ,Location,ACode
-
  UNION ALL
  SELECT max( TSPL_ADJUSTMENT_HEADER.Customer_CODE) as ACode,max( TSPL_ADJUSTMENT_HEADER.Customer_CODE) as Child,max( TSPL_ADJUSTMENT_HEADER.Customer_NAME ) as AName, Final.Adjustment_No AS DocNo,'' as AgainstInvoiceNo,  CONVERT(DATE,MAX(Final.Adjustment_Date),103) AS DocDate, 'AD' AS DocType, MAX(Final.Description) AS DocNarr, '' AS ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, case when max(Final.Trans_Type) = 'In' then 0 else  SUM(Final.Cost)  end  AS DrAmt , case when max(Final.Trans_Type) ='In' then  SUM(Final.Cost) else 0 end AS CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], case when max(Final.Trans_Type) ='In' then  SUM(Final.Cost)*-1 else SUM(Final.Cost) end as Collectionrefund, 0 as [drNote], 0 as [CrNote], max(Final.Location) as [Location], Max(SourceCode)as SourceCode, Item_Code, MAX(Item_Description) as Item_Desc  ,MAX(Receipt_Type) As Receipt_Type, '' as Bank_Code,MAX(Cust_Type_Code) as Cust_Type_Code,MAX(Cust_Type_Desc) AS Cust_Type_Desc,MAX(Cust_Category_Code) AS Cust_Category_Code,MAX(CUST_CATEGORY_DESC) AS CUST_CATEGORY_DESC  FROM (SELECT  TSPL_ADJUSTMENT_HEADER.Adjustment_No,  TSPL_ADJUSTMENT_HEADER.Adjustment_Date,  TSPL_ADJUSTMENT_HEADER.Description + (CASE WHEN  TSPL_ADJUSTMENT_HEADER.Description = '' THEN '' ELSE ' - ' END) AS Description, case when tspl_customer_master.cust_type_code ='F' or tspl_customer_master.cust_type_code ='S' then 0 else  ISNULL( TSPL_ADJUSTMENT_DETAIL.Breakage_Cost, 0) end  + ISNULL( TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0) AS Cost,  TSPL_ADJUSTMENT_HEADER.Document_No , TSPL_LOCATION_MASTER.Loc_Segment_Code as [Location],TSPL_ADJUSTMENT_HEADER.Trans_Type ,'IC-AD' as SourceCode, TSPL_ADJUSTMENT_DETAIL.Item_Code, TSPL_ADJUSTMENT_DETAIL.Item_Description  ,'' As Receipt_Type , TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC    FROM TSPL_ADJUSTMENT_HEADER  LEFT OUTER JOIN  TSPL_ADJUSTMENT_DETAIL ON  TSPL_ADJUSTMENT_HEADER.Adjustment_No =  TSPL_ADJUSTMENT_DETAIL.Adjustment_No Left OUTER JOIN  TSPL_LOCATION_MASTER on  TSPL_ADJUSTMENT_DETAIL.Location_Code= TSPL_LOCATION_MASTER.Location_Code inner join  tspl_customer_master on  tspl_adjustment_header.customer_code= tspl_customer_master.cust_code  LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   WHERE ( ( TSPL_ADJUSTMENT_HEADER.Reference_Document = '') AND ( TSPL_ADJUSTMENT_HEADER.Document_No= '' and  TSPL_ADJUSTMENT_HEADER.Customer_CODE <> '') or TSPL_ADJUSTMENT_HEADER.Reference_Document='Sale Invoice')  AND (ISNULL( TSPL_ADJUSTMENT_DETAIL.Breakage_Cost, 0) + ISNULL( TSPL_ADJUSTMENT_DETAIL.Item_Cost, 0) <> 0)and  TSPL_ADJUSTMENT_HEADER.Posted='Y'   and  convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
  ) AS Final INNER JOIN  TSPL_ADJUSTMENT_HEADER  ON Final.Adjustment_No =  TSPL_ADJUSTMENT_HEADER.Adjustment_No  GROUP BY Final.Adjustment_No, Final.Item_Code
  UNION ALL
 select TSPL_Customer_Invoice_Head.Customer_Code, TSPL_Customer_Invoice_Head.Customer_Code as Child,TSPL_Customer_Invoice_Head.Customer_Name , TSPL_Customer_Invoice_Head.Document_No  AS DocNo, CASE WHEN TSPL_Customer_Invoice_Head.Document_Type ='C' AND len(TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No)>0 THEN (Select Top 1 TSPL_SD_SALE_RETURN_HEAD.Document_Code  FROM TSPL_SD_SALE_RETURN_HEAD where TSPL_SD_SALE_RETURN_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_Return_No) WHEN (TSPL_Customer_Invoice_Head.Document_Type ='D' OR  TSPL_Customer_Invoice_Head.Document_Type ='I') AND LEN(TSPL_Customer_Invoice_Head.Against_Sale_No)>0 THEN  CASE WHEN LEN(ISNULL( (Select Top 1 ISNULL(TSPL_SD_SALE_INVOICE_HEAD.Document_Code,'')  FROM TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_No),''))>0 THEN (Select Top 1 ISNULL(TSPL_SD_SALE_INVOICE_HEAD.Document_Code,'')  FROM TSPL_SD_SALE_INVOICE_HEAD where TSPL_SD_SALE_INVOICE_HEAD.Document_Code =TSPL_CUSTOMER_Invoice_Head.Against_Sale_No) ELSE (Select Top 1 ISNULL(TSPL_INVOICE_MASTER_BULKSALE.Document_No,'')  FROM TSPL_INVOICE_MASTER_BULKSALE  where TSPL_INVOICE_MASTER_BULKSALE.Document_No  =TSPL_CUSTOMER_Invoice_Head.Against_Sale_No) END   WHEN TSPL_Customer_Invoice_Head.Document_Type ='I' AND len(TSPL_Customer_Invoice_Head.AgainstScrap)>0 THEN (Select Top 1 TSPL_SCRAPINVOICE_HEAD.invoice_No  FROM TSPL_SCRAPINVOICE_HEAD where TSPL_SCRAPINVOICE_HEAD.invoice_No  =TSPL_CUSTOMER_Invoice_Head.AgainstScrap ) END AS AgainstInvoiceNo,  CONVERT(Date,TSPL_Customer_Invoice_Head.Document_Date,103) as DocDate ,(case when TSPL_Customer_Invoice_Head.Document_Type ='I' then 'IN'  when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'CR'  when TSPL_Customer_Invoice_Head.Document_Type ='D' then 'DR' end) as [DocType], TSPL_Customer_Invoice_Head.Description ,'', TSPL_Customer_Invoice_Head.Currency_Code, TSPL_Customer_Invoice_Head.ConvRate, case when TSPL_Customer_Invoice_Head.Document_Type ='C' then 0 else TSPL_Customer_Invoice_Head.Document_Total end as [DRAmt],case when TSPL_Customer_Invoice_Head.Document_Type ='C' then TSPL_Customer_Invoice_Head.Document_Total else 0 end as [CRAmt], 0 as SecurityDrAmt, 0 as SecurityCrAmt, case when TSPL_Customer_Invoice_Head.Document_Type ='I' Then TSPL_Customer_Invoice_Head.Document_Total Else 0 End as [Sales], 0 as [CollectionRefund], case when TSPL_Customer_Invoice_Head.Document_Type ='D' Then TSPL_Customer_Invoice_Head.Document_Total Else 0 End as [DrNote], Case when TSPL_Customer_Invoice_Head.Document_Type ='C' Then TSPL_Customer_Invoice_Head.Document_Total*-1 Else 0 End as [CrNote], TSPL_Customer_Invoice_Head.Loc_Code, case when TSPL_Customer_Invoice_Head.Document_Type ='I' then 'AR-IN'  when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'AR-CR'  when TSPL_Customer_Invoice_Head.Document_Type ='D' then 'AR-DN' end as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC   from  TSPL_Customer_Invoice_Head  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_Customer_Invoice_Head.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  where TSPL_Customer_Invoice_Head.Status=1    and  convert(date,TSPL_Customer_Invoice_Head.Document_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_Customer_Invoice_Head.Document_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
-
  UNION ALL
  select TSPL_Receipt_Adjustment_Header.Customer_No  as ACode,TSPL_Receipt_Adjustment_Header.Customer_No as Child, TSPL_Receipt_Adjustment_Header.Customer_Name  as AName, TSPL_Receipt_Adjustment_Header.Adjustment_No  as DocNo,  TSPL_Receipt_Adjustment_Header.ARInvoiceNo as AgainstInvoiceNo, CONVERT(DATE, TSPL_Receipt_Adjustment_Header.Adjustment_Date ,103) as DocDate,'Adjustment' as docType,  TSPL_Receipt_Adjustment_Header.Remarks as DocNarr,  '' as ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, case when TSPL_Customer_Invoice_Head.Document_Type='C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end   as DrAmt ,case when TSPL_Customer_Invoice_Head.Document_Type<>'C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end   as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund],  case when TSPL_Customer_Invoice_Head.Document_Type='C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end *-1 as [DrNote],  case when TSPL_Customer_Invoice_Head.Document_Type<>'C' then TSPL_Receipt_Adjustment_Header.Adjustment_Amount else 0 end  * -1 as [CrNote], TSPL_Customer_Invoice_Head.Loc_Code as Location, '' as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code,  TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC      from TSPL_Receipt_Adjustment_Header  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_Receipt_Adjustment_Header.Customer_No = TSPL_CUSTOMER_MASTER.Cust_Code   LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON ISNULL(TSPL_Customer_Invoice_Head.Document_No ,'') = TSPL_Receipt_Adjustment_Header.ARInvoiceNo   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   where isnull(TSPL_Receipt_Adjustment_Header.Is_Post,'')='Y'   and  convert(date,TSPL_Receipt_Adjustment_Header.Adjustment_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_Receipt_Adjustment_Header.Adjustment_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
-
  UNION ALL
  select (coalesce(TSPL_Customer_Invoice_Head.Customer_Code,TSPL_BANK_REVERSE.Cust_Code))   as ACode,(coalesce(TSPL_Customer_Invoice_Head.Customer_Code,TSPL_BANK_REVERSE.Cust_Code))   as Child,(coalesce( TSPL_Customer_Invoice_Head.Customer_Name,TSPL_BANK_REVERSE.Cust_Name))  as AName, TSPL_BANK_REVERSE.Reverse_Code as DocNo, 
  TSPL_Customer_Invoice_Head.Document_No as AgainstInvoiceNo, TSPL_BANK_REVERSE.Reversal_Date as DocDate , 'RV-TA' as DocType,  TSPL_BANK_REVERSE.Document_No as DocNarr, TSPL_BANK_REVERSE.Cheque_No as ChequeDetails, TSPL_Receipt_Header.Currency_Code, TSPL_Receipt_Header.ConvRate,  Case When TSPL_RECEIPT_HEADER.Receipt_Type IN ('R') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  TSPL_RECEIPT_DETAIL.Applied_Amount * -1 ELSE TSPL_RECEIPT_DETAIL.Applied_Amount END When TSPL_RECEIPT_HEADER.Receipt_Type IN ('A') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  0 ELSE TSPL_RECEIPT_DETAIL.Applied_Amount END Else CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type<>'F' THEN TSPL_BANK_REVERSE.Amount  ELSE 0  END End as DrAmt,  CASE WHEN TSPL_RECEIPT_HEADER.Receipt_Type='F' THEN TSPL_BANK_REVERSE.Amount When TSPL_RECEIPT_HEADER.Receipt_Type IN ('A') Then CASE WHEN TSPL_RECEIPT_DETAIL.Receipt_Type ='C' THEN  TSPL_RECEIPT_DETAIL.Applied_Amount ELSE 0 END ELSE 0 END as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales],
@@ -5826,15 +5750,12 @@ substring(TSPL_BANK_MASTER.BANKACC, len( TSPL_BANK_MASTER.BANKACC)-2,3) AS [Loca
  LEFT OUTER JOIN TSPL_RECEIPT_HEADER as UnappliedReceipt ON UnappliedReceipt.Receipt_No = TSPL_RECEIPT_HEADER .UnApplied_No  
  where  TSPL_BANK_REVERSE.Source_Type='AR' and  TSPL_BANK_REVERSE.post='P' AND  ISNULL(TSPL_RECEIPT_HEADER.SecurityDeposit ,'')='N' and UnappliedReceipt.Receipt_Type ='U' and isnull(TSPL_RECEIPT_HEADER.Receipt_No ,'')<>'' 
   and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_BANK_REVERSE.Reversal_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
-
  UNION ALL
  select TSPL_VCGL_Head.VC_Code as ACode,TSPL_VCGL_Head.VC_Code as Child, TSPL_VCGL_Head.VC_Name as AName, TSPL_VCGL_Head.Document_No as DocNo,'' as AgainstInvoiceNo, CONVERT(DATE, TSPL_VCGL_Head.Document_Date,103) as DocDate,'VCGL' as docType,  TSPL_VCGL_Head.Remarks as DocNarr,'' as ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, case when  TSPL_VCGL_Head.Amount_Type='Cr' then  TSPL_VCGL_Head.Amount else 0 end  as DrAmt ,case when  TSPL_VCGL_Head.Amount_Type='Dr' then  TSPL_VCGL_Head.Amount else 0 end as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], case when TSPL_VCGL_Head.Amount_Type='Dr' then TSPL_VCGL_Head.Amount Else 0 End as [DrNote], case when TSPL_VCGL_Head.Amount_Type='Cr' then TSPL_VCGL_Head.Amount*-1 Else 0 End as [CrNote], TSPL_VCGL_Head.Location_Segment as Location, 'VC-GL' as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type, '' as Bank_Code,TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC      from TSPL_VCGL_Head  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_VCGL_Head.VC_Code = TSPL_CUSTOMER_MASTER.Cust_Code  LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_VCGL = TSPL_VCGL_Head.Document_No LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE  where TSPL_VCGL_Head.Document_Type='C' and  TSPL_VCGL_Head.Status=1 AND ISNULL(TSPL_Customer_Invoice_Head.Against_VCGL,'') =''   and  convert(date,TSPL_VCGL_Head.Document_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
-
  UNION ALL
  select TSPL_VCGL_Detail.VCGL_Code as ACode,TSPL_VCGL_Detail.VCGL_Code as Child, TSPL_VCGL_Detail.VCGL_Name as AName, TSPL_VCGL_Head.Document_No as DocNo,'' as AgainstInvoiceNo, CONVERT(DATE, TSPL_VCGL_Head.Document_Date,103) as DocDate,'VCGL' as docType,  TSPL_VCGL_Detail.Remarks as DocNarr,'' as ChequeDetails, 'INR' as Currency_Code, 1 as ConvRate, TSPL_VCGL_Detail.Dr_Amount as DrAmt , TSPL_VCGL_Detail.Cr_Amount as CrAmt, 0 as SecurityDrAmt, 0 as SecurityCrAmt, 0 as [Sales], 0 as [CollectionRefund], TSPL_VCGL_Detail.Dr_Amount as DrNote, TSPL_VCGL_Detail.Cr_Amount as [CrNote], TSPL_VCGL_Head.Location_Segment as Location, 'VC-GL' as SourceCode, '' as Item_Code, '' as Item_Desc  ,'' As Receipt_Type,'' as Bank_Code,TSPL_CUSTOMER_MASTER.Cust_Type_Code,TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Desc ,TSPL_CUSTOMER_MASTER.Cust_Category_Code,TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC     from  TSPL_VCGL_Detail left outer join  TSPL_VCGL_Head on  TSPL_VCGL_Head .Document_No= TSPL_VCGL_Detail.Document_No  LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_VCGL_Detail.VCGL_Code = TSPL_CUSTOMER_MASTER.Cust_Code  LEFT OUTER JOIN TSPL_CUSTOMER_TYPE_MASTER ON TSPL_CUSTOMER_TYPE_MASTER.Cust_Type_Code = TSPL_CUSTOMER_MASTER.Cust_Type_Code   LEFT OUTER JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_CATEGORY_MASTER.Cust_Category_Code  = TSPL_CUSTOMER_MASTER.CUST_CATEGORY_CODE   LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_VCGL = TSPL_VCGL_Detail.Document_No       where TSPL_VCGL_Head.Status=1 and  TSPL_VCGL_Detail.Row_Type='Customer' AND ISNULL(TSPL_Customer_Invoice_Head.Against_VCGL,'') =''   and  convert(date,TSPL_VCGL_Head.Document_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_VCGL_Head.Document_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
  ) InnQuery 
  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=InnQuery.Bank_Code left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =InnQuery.DocNo where 1=1   and InnQuery.DocType<>'IM'  and InnQuery.DocNo not in ( Select Receipt_No  from TSPL_RECEIPT_HEADER where TSPL_RECEIPT_HEADER.Receipt_Type ='A' and   TSPL_RECEIPT_HEADER.Posted='Y' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT >0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT >0)     and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
-
  Union All
  Select Reverse_Code  from TSPL_BANK_REVERSE where Document_No in ( Select Receipt_No  from TSPL_RECEIPT_HEADER where TSPL_RECEIPT_HEADER.Receipt_Type ='A' and   TSPL_RECEIPT_HEADER.Posted='Y' and (TSPL_RECEIPT_HEADER.EXCHANGE_LOSS_AMT >0 or TSPL_RECEIPT_HEADER.EXCHANGE_GAIN_AMT >0)     and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  >='" + clsCommon.GetPrintDate(fromdate, "dd/MMM/yyyy") + "' and  convert(date,TSPL_RECEIPT_HEADER.Receipt_Date,103)  <='" + clsCommon.GetPrintDate(todate, "dd/MMM/yyyy") + "' 
   ) )    )InnQuery    LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code =InnQuery.ACode) FINALCUSTOMER inner jOIN TSPL_CUSTOMER_VENDOR_MAPPING ON TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code=FINALCUSTOMER.ACode inner jOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=TSPL_CUSTOMER_VENDOR_MAPPING.Vendor_Code and TSPL_VENDOR_MASTER.Form_Type in ('VSP'))  Union All (Select case when TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code is null then FinalVENDOR.VCode else TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code end AS ACode,FinalVENDOR.VName   AS AName,FinalVENDOR.DocNo AS DocNo,FinalVENDOR.DocDate AS DocDate,FinalVENDOR.DocType AS DocType ,FinalVENDOR.DocNarr AS DocNarr ,FinalVENDOR.ChequeDetails  ,FinalVENDOR.CURRENCY_CODE  as Currency_Code,FinalVENDOR.ConvRate  as ConvRate, FinalVENDOR.DrAmt AS DrAmt, FinalVENDOR.CrAmt AS CrAmt, RIGHT(FinalVENDOR.account,3)  AS Location,FinalVENDOR.GLDocType AS SourceCode,'' AS VENDOR ,FinalVENDOR.VCode AS Vendor_Code,FinalVENDOR.PO_SRN  as AgainstInvoiceNo     from (  Select InnQuery.Reference_Doc_No,InnQuery.Emp_type,InnQuery.Emp_Adv_Type,InnQuery.Due_Date, InnQuery.PO_SRN, InnQuery.VCode, TSPL_VENDOR_MASTER.Vendor_Name as VName, InnQuery.DocNo, InnQuery.DocType, InnQuery.DocDate, InnQuery.DocNarr, InnQuery.ChequeDetails, InnQuery.Currency_Code, InnQuery.ConvRate,   CONVERT(DECIMAL(18,2),InnQuery.CrAmt) AS CrAmt,CONVERT(DECIMAL(18,2),InnQuery.DrAmt) AS DrAmt,CONVERT(DECIMAL(18,2),InnQuery.Purchase) AS Purchase,CONVERT(DECIMAL(18,2),InnQuery.Payments) AS Payments ,  InnQuery.drNote, InnQuery.CrNote, InnQuery.Document_Type, InnQuery.Balance_Amount, InnQuery.account,InnQuery.Posting_Date, InnQuery.GLDocType, InnQuery.Comp_Code from (Select InnQuery.Reference_Doc_No,InnQuery.Emp_type,InnQuery.Emp_Adv_Type,InnQuery.Due_Date, InnQuery.PO_SRN, InnQuery.VCode, InnQuery.VName, InnQuery.DocNo, InnQuery.DocType, InnQuery.DocDate, InnQuery.DocNarr, InnQuery.ChequeDetails, InnQuery.Currency_Code, InnQuery.ConvRate, InnQuery.CrAmt  *(case when (DocType)<>'EXC' then   InnQuery.ConvRate else 1 end)  as  CrAmt ,
@@ -5919,14 +5840,12 @@ Select max(Reference_Doc_No) as Reference_Doc_No, MAX(Emp_type) as Emp_type, 'S'
   sum(XXXX.Closing) as OutStandingAmt 
 from 
   (Select CTETemp.RowNo, CTETemp.RunDate ,CTETemp.fromdate,CTETemp.todate,CTETemp.Comp_Name,CTETemp.CompanyAdd, CTETemp.ACode , CTETemp.AName , CTETemp.DocNo,CONVERT(VARCHAR,CTETemp.DocDate,103) as DocDate,CASE WHEN CTETemp.DocNarr LIKE '%Opening Bal%' then 'OP' else CTETemp.DocType end as DocType,  CTETemp.DocNarr,CTETemp.ChequeDetails, CTETemp.Currency_Code, CTETemp.DrAmt , CTETemp.CrAmt,SUM(DrAmt -CrAmt) Over (Partition by CTETemp.Vendor_Code ORDER BY RowNo) as [Closing], CTETemp.Location , CTETemp.SourceCode, CTETemp.Vendor_Code,CTETemp.AgainstInvoiceNo from CTETemp left outer join TSPL_CUSTOMER_MASTER on CTETemp.ACode =TSPL_CUSTOMER_MASTER.Cust_Code  left outer join TSPL_CUSTOMER_GROUP_MASTER  on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code  =TSPL_CUSTOMER_MASTER.Cust_Group_Code left outer jOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code= CTETemp.Vendor_Code where TSPL_VENDOR_MASTER.Form_Type in ('VSP'))XXXX"
-
             Dim dblBal As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, Nothing))
             lblOutstandingDesc.Text = dblBal
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnCC_Click(sender As Object, e As EventArgs) Handles btnCC.Click
         Try
             Dim PreviousDate As Date = clsCommon.GETSERVERDATE()
@@ -6028,6 +5947,42 @@ from
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+    Private Sub txtVehicleCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVehicleCode._MYValidating
+        Try
+            Dim qry As String = "select Vehicle_Id as Code,Vehicle_Name,Model,Number,Description,Capacity from TSPL_VEHICLE_MASTER"
+            Dim Whrcls As String = ""
+            txtVehicleCode.Value = clsCommon.ShowSelectForm("DBC-Vehicle", qry, "Code", Whrcls, txtVehicleCode.Value, "Code", isButtonClicked)
+            txtVehicleName.Text = clsDBFuncationality.getSingleValue("select Vehicle_Name from TSPL_VEHICLE_MASTER where Vehicle_id='" + txtVehicleCode.Value + "'")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Sub cmbcashcredit_TextChanged(sender As Object, e As EventArgs) Handles cmbcashcredit.TextChanged
+        Try
+            If chkDCS.Checked Then
+                If clsCommon.CompairString(cmbcashcredit.Text, "CASH") = CompairStringResult.Equal Then
+                    lblPriceCodeDesc.Text = clsDBFuncationality.getSingleValue("select VSP_Price_Code_Cash from TSPL_customer_group_master where Default_VSP=1")
+                    Price_code = lblPriceCodeDesc.Text
+                    txtPriceCode.Text = lblPriceCodeDesc.Text
+                ElseIf clsCommon.CompairString(cmbcashcredit.Text, "CREDIT") = CompairStringResult.Equal Then
+                    lblPriceCodeDesc.Text = clsDBFuncationality.getSingleValue("select VSP_Price_Code_Credit from TSPL_customer_group_master where Default_VSP=1")
+                    Price_code = lblPriceCodeDesc.Text
+                    txtPriceCode.Text = lblPriceCodeDesc.Text
+                End If
+                txtRouteCode1.Enabled = True
+                txtRouteName1.Enabled = True
+                txtVehicleCode.Enabled = True
+                txtVehicleName.Enabled = True
+            Else
+                txtRouteCode1.Enabled = False
+                txtRouteName1.Enabled = False
+                txtVehicleCode.Enabled = False
+                txtVehicleName.Enabled = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

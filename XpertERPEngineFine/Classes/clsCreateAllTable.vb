@@ -8075,10 +8075,18 @@ Public Class clsCreateAllTable
             coll.Add("Is_CustomerChanged", "Integer Default 0")
             coll.Add("GatePass_Type", "varchar(2) NUll")
             coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
+            coll.Add("Is_DCS", "Integer Default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Modified_Date datetime NOT NULL")
+                'Dim qry As String = String.Empty
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    qry = "CREATE UNIQUE INDEX Unique_Against_Receipt ON TSPL_BOOKING_MATSER (Against_Receipt_No) WHERE Against_Receipt_No IS NOT NULL;"
+                    clsDBFuncationality.ExecuteNonQuery(qry)
+                End If
+                qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_BOOKING_MATSER' and COLUMN_NAME='Against_Receipt_No'"
+                dt = clsDBFuncationality.GetDataTable(qry)
             Catch ex As Exception
 
             End Try
