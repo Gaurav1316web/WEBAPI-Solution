@@ -11810,113 +11810,113 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
 
     'No work done for ticket BHA/25/07/18-000193 .checked on code and rupesh exe .already working fine.
     Private Sub btnPrintInvoice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrintInvoice.Click
-        If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
-        Else
-            'Ticket No- ERO/23/10/19-001076,Sanjay ,Setting -AllowToPrintInvoiceAfterPosting
-            Dim frmCRV As New frmCrystalReportViewer()
-            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AllowToPrintInvoiceAfterPosting & "'")) = 1 Then
-                If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select distinct status from tspl_sd_sale_invoice_head where document_code in ('" & txtInvoiceNo.Text & "')")) = 0 Then
-                    frmCRV.ShowCystalReportToolbar = False
-                End If
-            End If
-            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "WHOLLY") = CompairStringResult.Equal Then
+        'If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
+        '    myMessages.blankValue("Invoice not found to Print")
+        'Else
+        '    'Ticket No- ERO/23/10/19-001076,Sanjay ,Setting -AllowToPrintInvoiceAfterPosting
+        '    Dim frmCRV As New frmCrystalReportViewer()
+        '    If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AllowToPrintInvoiceAfterPosting & "'")) = 1 Then
+        '        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select distinct status from tspl_sd_sale_invoice_head where document_code in ('" & txtInvoiceNo.Text & "')")) = 0 Then
+        '            frmCRV.ShowCystalReportToolbar = False
+        '        End If
+        '    End If
+        '    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "WHOLLY") = CompairStringResult.Equal Then
 
-                Dim Qry As String = " WITH A AS( " &
-                " SELECT IT.ITEM_DESC AS Item_Desc,CRATE_QTY=SUM(Qty),PCS_QTY=(SUM(Qty) *(ISNULL(U.Conversion_Factor,0))),Scheme_Qty=0,SCHEME_PCS_QTY=0,Item_Cost= ROUND((case when ISNULL(U.Conversion_Factor,0)>0 THEN ( CASE WHEN d.Unit_code!='PP' THEN  Item_Cost/ISNULL(U.Conversion_Factor,0) ELSE Item_Cost END ) else Item_Cost end) ,2) ,Amount=SUM(Amount),d.Unit_code,Amt_Less_Discount=SUM(Amt_Less_Discount) FROM TSPL_SD_SALE_INVOICE_DETAIL D  " &
-                " LEFT JOIN TSPL_ITEM_MASTER IT ON D.Item_Code=IT.Item_Code " &
-                " LEFT JOIN TSPL_ITEM_UOM_DETAIL U ON U.Item_Code=D.Item_Code AND D.Unit_code=U.UOM_Code  " &
-                " WHERE  D.Document_Code='" + txtInvoiceNo.Text + "'  and Scheme_Item='N' " &
-                " GROUP BY IT.ITEM_DESC,Item_Cost,U.Conversion_Factor,d.Unit_code " &
-                " UNION ALL " &
-                " SELECT IT.ITEM_DESC AS Item_Desc,CRATE_QTY=0,PCS_QTY=0,Scheme_Qty=SUM(Qty),SCHEME_PCS_QTY=(case when d.Unit_code='CRATES' then (SUM(Qty) *(ISNULL(U.Conversion_Factor,0))) else 0 end),Item_Cost= ROUND((case when ISNULL(U.Conversion_Factor,0)>0 THEN ( CASE WHEN d.Unit_code!='PP' THEN  Item_Cost/ISNULL(U.Conversion_Factor,0) ELSE Item_Cost END ) else Item_Cost end) ,2) ,Amount=SUM(Amount),d.Unit_code,Amt_Less_Discount=SUM(Amt_Less_Discount) FROM TSPL_SD_SALE_INVOICE_DETAIL D  " &
-                " LEFT JOIN TSPL_ITEM_MASTER IT ON D.Item_Code=IT.Item_Code " &
-                " LEFT JOIN TSPL_ITEM_UOM_DETAIL U ON U.Item_Code=D.Item_Code AND D.Unit_code=U.UOM_Code " &
-                " WHERE D. Document_Code='" + txtInvoiceNo.Text + "'  and Scheme_Item='Y' " &
-                " GROUP BY IT.ITEM_DESC,Item_Cost,U.Conversion_Factor,d.Unit_code ,d.Unit_code ) " &
-                " SELECT Comp_Name,COMP_ADDRESS=(CM.Add1+' '+CM.Add2+' '+CM.Add3), STATE=(CM.Phone1 ),CM.Tin_No, " &
-                " LOCATION_ADDRESS=(L.Add1+' '+L.Add2+' '+L.Add3), " &
-                " C.Customer_Name,CUST_ADD=(C.Add1+' '+C.Add2+' '+C.Add3),CT.City_Name,C.PAN, " &
-                " I.Document_Code, " &
-                " Document_Date=CONVERT(VARCHAR(100),Document_Date,103),Cust_PO_Date=CONVERT(VARCHAR(100),Cust_PO_Date,103),I.Against_Shipment_No ,Challan_Date=CONVERT(VARCHAR(100),I.Challan_Date,103),I.VehicleNo,i.discount_amt, " &
-                " A.*,TOTAL_SCHEME_AMOUNT=(SELECT ISNULL(SUM(AMOUNT),0) FROM TSPL_SD_SALE_INVOICE_DETAIL I WHERE  I.Document_Code='" + txtInvoiceNo.Text + "' AND  Scheme_Item='Y'),CM.Logo_Img,I.Created_By " &
-                " FROM TSPL_SD_SALE_INVOICE_HEAD I " &
-                " JOIN TSPL_CUSTOMER_MASTER C ON C.Cust_Code=I.Customer_Code " &
-                " LEFT JOIN TSPL_CITY_MASTER CT ON C.City_Code=CT.City_Code " &
-                " JOIN TSPL_LOCATION_MASTER L ON L.Location_Code=I.Bill_To_Location " &
-                " JOIN TSPL_COMPANY_MASTER CM ON CM.Comp_Code=I.Comp_Code " &
-                " JOIN A A ON 1=1 " &
-                " WHERE I.Document_Code='" + txtInvoiceNo.Text + "' "
+        '        Dim Qry As String = " WITH A AS( " &
+        '        " SELECT IT.ITEM_DESC AS Item_Desc,CRATE_QTY=SUM(Qty),PCS_QTY=(SUM(Qty) *(ISNULL(U.Conversion_Factor,0))),Scheme_Qty=0,SCHEME_PCS_QTY=0,Item_Cost= ROUND((case when ISNULL(U.Conversion_Factor,0)>0 THEN ( CASE WHEN d.Unit_code!='PP' THEN  Item_Cost/ISNULL(U.Conversion_Factor,0) ELSE Item_Cost END ) else Item_Cost end) ,2) ,Amount=SUM(Amount),d.Unit_code,Amt_Less_Discount=SUM(Amt_Less_Discount) FROM TSPL_SD_SALE_INVOICE_DETAIL D  " &
+        '        " LEFT JOIN TSPL_ITEM_MASTER IT ON D.Item_Code=IT.Item_Code " &
+        '        " LEFT JOIN TSPL_ITEM_UOM_DETAIL U ON U.Item_Code=D.Item_Code AND D.Unit_code=U.UOM_Code  " &
+        '        " WHERE  D.Document_Code='" + txtInvoiceNo.Text + "'  and Scheme_Item='N' " &
+        '        " GROUP BY IT.ITEM_DESC,Item_Cost,U.Conversion_Factor,d.Unit_code " &
+        '        " UNION ALL " &
+        '        " SELECT IT.ITEM_DESC AS Item_Desc,CRATE_QTY=0,PCS_QTY=0,Scheme_Qty=SUM(Qty),SCHEME_PCS_QTY=(case when d.Unit_code='CRATES' then (SUM(Qty) *(ISNULL(U.Conversion_Factor,0))) else 0 end),Item_Cost= ROUND((case when ISNULL(U.Conversion_Factor,0)>0 THEN ( CASE WHEN d.Unit_code!='PP' THEN  Item_Cost/ISNULL(U.Conversion_Factor,0) ELSE Item_Cost END ) else Item_Cost end) ,2) ,Amount=SUM(Amount),d.Unit_code,Amt_Less_Discount=SUM(Amt_Less_Discount) FROM TSPL_SD_SALE_INVOICE_DETAIL D  " &
+        '        " LEFT JOIN TSPL_ITEM_MASTER IT ON D.Item_Code=IT.Item_Code " &
+        '        " LEFT JOIN TSPL_ITEM_UOM_DETAIL U ON U.Item_Code=D.Item_Code AND D.Unit_code=U.UOM_Code " &
+        '        " WHERE D. Document_Code='" + txtInvoiceNo.Text + "'  and Scheme_Item='Y' " &
+        '        " GROUP BY IT.ITEM_DESC,Item_Cost,U.Conversion_Factor,d.Unit_code ,d.Unit_code ) " &
+        '        " SELECT Comp_Name,COMP_ADDRESS=(CM.Add1+' '+CM.Add2+' '+CM.Add3), STATE=(CM.Phone1 ),CM.Tin_No, " &
+        '        " LOCATION_ADDRESS=(L.Add1+' '+L.Add2+' '+L.Add3), " &
+        '        " C.Customer_Name,CUST_ADD=(C.Add1+' '+C.Add2+' '+C.Add3),CT.City_Name,C.PAN, " &
+        '        " I.Document_Code, " &
+        '        " Document_Date=CONVERT(VARCHAR(100),Document_Date,103),Cust_PO_Date=CONVERT(VARCHAR(100),Cust_PO_Date,103),I.Against_Shipment_No ,Challan_Date=CONVERT(VARCHAR(100),I.Challan_Date,103),I.VehicleNo,i.discount_amt, " &
+        '        " A.*,TOTAL_SCHEME_AMOUNT=(SELECT ISNULL(SUM(AMOUNT),0) FROM TSPL_SD_SALE_INVOICE_DETAIL I WHERE  I.Document_Code='" + txtInvoiceNo.Text + "' AND  Scheme_Item='Y'),CM.Logo_Img,I.Created_By " &
+        '        " FROM TSPL_SD_SALE_INVOICE_HEAD I " &
+        '        " JOIN TSPL_CUSTOMER_MASTER C ON C.Cust_Code=I.Customer_Code " &
+        '        " LEFT JOIN TSPL_CITY_MASTER CT ON C.City_Code=CT.City_Code " &
+        '        " JOIN TSPL_LOCATION_MASTER L ON L.Location_Code=I.Bill_To_Location " &
+        '        " JOIN TSPL_COMPANY_MASTER CM ON CM.Comp_Code=I.Comp_Code " &
+        '        " JOIN A A ON 1=1 " &
+        '        " WHERE I.Document_Code='" + txtInvoiceNo.Text + "' "
 
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
-                frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptProductionSaleInvoiceWHC", "Sale Report")
-            Else
-                Dim IsTaxable As Double = 0
-                Dim dtDocdate As Date?
-                dtDocdate = Nothing
-                Dim StrSql = "Select Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceNo.Text & "'"
-                Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
-                If dt1.Rows.Count > 0 Then
-                    IsTaxable = clsCommon.myCdbl(dt1.Rows(0)("is_taxable"))
-                    dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
-                End If
-                If IsTaxable = 1 OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
-                    Dim objInvoice As New frmSaleInvoiceProductSale
-                    objInvoice.funPrint(txtInvoiceNo.Text, False, "", "", AllowManualVehicleOnDairyDispatch)
-                Else
-                    AllowSeperateSchemeItemOnPrint = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowSeprateSchemeItemPrintDairySaleInvoice, clsFixedParameterCode.AllowSeprateSchemeItemPrintDairySaleInvoice, Nothing)) = 0, False, True)
-                    If AllowSeperateSchemeItemOnPrint Then
-                        Dim objPrintInvoice As New frmSaleInvoiceProductSale
-                        objPrintInvoice.GetSeperateSchemeItemPrintQry(txtInvoiceNo.Text)
-                    Else
-                        Dim Qry As String = Nothing
-                        Dim objMultPrintInvoice As New FrmPrintFreshInvoice
-                        '====================Added by preeti Gupta=======================
-                        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal Then
-                            ''richa done on 3 April,2019 ERO/04/04/19-000543
-                            If clsCommon.CompairString(CreateFreshInvoiceOnDispatchSave, "1") = CompairStringResult.Equal Then
-                                CreateFreshInvoiceOnDispatchSave = 0
-                            End If
-                            If CreateFreshInvoiceOnDispatchSave = 0 Then
-                                Qry = objMultPrintInvoice.LoadPrintQuery(txtDocNo.Value)
-                                Qry = " Select * from ( " + Qry + " ) XXX LEFT OUTER JOIN (Select '1' as COL1, 1 as COL2,  'ORIGINAL' as CopyType1 UNION Select '1' as COL1, 2 as COL2,  'DUPLICATE' as CopyType1 ) YYY ON YYY.COL1=XXX.CopyType ORDER BY YYY.COL2 ,xxx.Line_No "
-                            Else
-                                Qry = objMultPrintInvoice.LoadPrintQuery(txtInvoiceNo.Text)
-                                Qry = " Select * from ( " + Qry + " ) XXX LEFT OUTER JOIN (Select '1' as COL1, 1 as COL2,  'ORIGINAL' as CopyType1 UNION Select '1' as COL1, 2 as COL2,  'DUPLICATE' as CopyType1 ) YYY ON YYY.COL1=XXX.CopyType ORDER BY YYY.COL2 ,xxx.Line_No "
-                            End If
-                        Else
-                            Qry = objMultPrintInvoice.LoadPrintQuery(txtInvoiceNo.Text)
-                        End If
-                        '================================================
+        '        frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptProductionSaleInvoiceWHC", "Sale Report")
+        '    Else
+        '        Dim IsTaxable As Double = 0
+        '        Dim dtDocdate As Date?
+        '        dtDocdate = Nothing
+        '        Dim StrSql = "Select Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceNo.Text & "'"
+        '        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
+        '        If dt1.Rows.Count > 0 Then
+        '            IsTaxable = clsCommon.myCdbl(dt1.Rows(0)("is_taxable"))
+        '            dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
+        '        End If
+        '        If IsTaxable = 1 OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
+        '            Dim objInvoice As New frmSaleInvoiceProductSale
+        '            objInvoice.funPrint(txtInvoiceNo.Text, False, "", "", AllowManualVehicleOnDairyDispatch)
+        '        Else
+        '            AllowSeperateSchemeItemOnPrint = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowSeprateSchemeItemPrintDairySaleInvoice, clsFixedParameterCode.AllowSeprateSchemeItemPrintDairySaleInvoice, Nothing)) = 0, False, True)
+        '            If AllowSeperateSchemeItemOnPrint Then
+        '                Dim objPrintInvoice As New frmSaleInvoiceProductSale
+        '                objPrintInvoice.GetSeperateSchemeItemPrintQry(txtInvoiceNo.Text)
+        '            Else
+        '                Dim Qry As String = Nothing
+        '                Dim objMultPrintInvoice As New FrmPrintFreshInvoice
+        '                '====================Added by preeti Gupta=======================
+        '                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal Then
+        '                    ''richa done on 3 April,2019 ERO/04/04/19-000543
+        '                    If clsCommon.CompairString(CreateFreshInvoiceOnDispatchSave, "1") = CompairStringResult.Equal Then
+        '                        CreateFreshInvoiceOnDispatchSave = 0
+        '                    End If
+        '                    If CreateFreshInvoiceOnDispatchSave = 0 Then
+        '                        Qry = objMultPrintInvoice.LoadPrintQuery(txtDocNo.Value)
+        '                        Qry = " Select * from ( " + Qry + " ) XXX LEFT OUTER JOIN (Select '1' as COL1, 1 as COL2,  'ORIGINAL' as CopyType1 UNION Select '1' as COL1, 2 as COL2,  'DUPLICATE' as CopyType1 ) YYY ON YYY.COL1=XXX.CopyType ORDER BY YYY.COL2 ,xxx.Line_No "
+        '                    Else
+        '                        Qry = objMultPrintInvoice.LoadPrintQuery(txtInvoiceNo.Text)
+        '                        Qry = " Select * from ( " + Qry + " ) XXX LEFT OUTER JOIN (Select '1' as COL1, 1 as COL2,  'ORIGINAL' as CopyType1 UNION Select '1' as COL1, 2 as COL2,  'DUPLICATE' as CopyType1 ) YYY ON YYY.COL1=XXX.CopyType ORDER BY YYY.COL2 ,xxx.Line_No "
+        '                    End If
+        '                Else
+        '                    Qry = objMultPrintInvoice.LoadPrintQuery(txtInvoiceNo.Text)
+        '                End If
+        '                '================================================
 
 
 
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        '                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
 
-                        If dt.Rows.Count > 0 Then
-                            ' done by priti ERO/12/06/18-000343
-                            If (ShowShipToPartyInDairyDispatch = 1 OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal) Then
-                                ''richa agarwal 23 Nov,2018 ERO/30/11/18-000424 30 Nov,2018 richa 
-                                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal Then
-                                    Dim dtCustomerOutstanding As DataTable = Nothing
-                                    dtCustomerOutstanding = clsCustomerMaster.getCustomerOutstandingOfAmt_Can_Crate("'" & clsCommon.myCstr(dt.Rows(0)("Cust_code")) & "'", clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_date")).AddDays(-1), "dd/MMM/yyyy"), clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_date")), "dd/MMM/yyyy"))
-                                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFreshSaleInvoiceParty", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader(), "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                Else
-                                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFreshSaleInvoiceParty", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                                End If
-                            Else
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFreshSaleInvoice(New)", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-                            End If
-                        End If
-                    End If
-                End If
-            End If
-            frmCRV = Nothing
-        End If
-        '
-        '
-        'PrintInvoiveForAll()
+        '                If dt.Rows.Count > 0 Then
+        '                    ' done by priti ERO/12/06/18-000343
+        '                    If (ShowShipToPartyInDairyDispatch = 1 OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal) Then
+        '                        ''richa agarwal 23 Nov,2018 ERO/30/11/18-000424 30 Nov,2018 richa 
+        '                        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal Then
+        '                            Dim dtCustomerOutstanding As DataTable = Nothing
+        '                            dtCustomerOutstanding = clsCustomerMaster.getCustomerOutstandingOfAmt_Can_Crate("'" & clsCommon.myCstr(dt.Rows(0)("Cust_code")) & "'", clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_date")).AddDays(-1), "dd/MMM/yyyy"), clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Document_date")), "dd/MMM/yyyy"))
+        '                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFreshSaleInvoiceParty", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader(), "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+        '                        Else
+        '                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFreshSaleInvoiceParty", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+        '                        End If
+        '                    Else
+        '                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptFreshSaleInvoice(New)", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+        '                    End If
+        '                End If
+        '            End If
+        '        End If
+        '    End If
+        '    frmCRV = Nothing
+        'End If
+        ''
+        ''
+        PrintInvoiveForAll()
     End Sub
 
     Private Sub PrintInvoiveForAll()
