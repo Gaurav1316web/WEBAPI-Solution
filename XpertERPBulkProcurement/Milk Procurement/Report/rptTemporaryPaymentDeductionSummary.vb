@@ -519,9 +519,11 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
 
             Dim subQry As String = Nothing
             Dim subDCSQry As String = Nothing
+            Dim subQrderBy As String = Nothing
             If chkDCSWise.Checked = True Then
                 subDCSQry = ",Max(VSP_Uploader_Code) as DCSCode,Max(Vendor_NAME) As 'DCS Name'"
-                subQry = ",Final.Vendor_CODE"
+                subQry = ",Final.Vendor_CODE,Final.VSP_Uploader_Code"
+                subQrderBy = "Convert(int,VSP_Uploader_Code),"
             End If
 
             Dim whrActiveInactive As String = Nothing
@@ -589,7 +591,7 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         inner join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No
                         inner join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
                         where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ") and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0 " + subMCCQry1 + "" + whrActiveInactive + "
-                        ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " having  sum(Amount)>0 order by [Type] desc "
+                        ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " having  sum(Amount)>0 order by " + subQrderBy + " [Type] desc "
 
             ElseIf rdbCurrentStanding.Checked = True Then  ''3
                 Dim subNewQry As String = Nothing
