@@ -557,7 +557,7 @@ Partial Class frmVSP_VLCMaster
         Me.pageCus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage2
+        Me.pageCus.SelectedPage = Me.RadPageViewPage1
         Me.pageCus.Size = New System.Drawing.Size(1078, 444)
         Me.pageCus.TabIndex = 5
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1410,6 +1410,7 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage2.Controls.Add(Me.gbBank2Details)
         Me.RadPageViewPage2.Controls.Add(Me.findfndbankcode)
         Me.RadPageViewPage2.Controls.Add(Me.fndbankcode)
+        Me.RadPageViewPage2.Controls.Add(Me.MyLabel15)
         Me.RadPageViewPage2.Controls.Add(Me.MyLabel16)
         Me.RadPageViewPage2.Controls.Add(Me.TxtSecurityCharges)
         Me.RadPageViewPage2.Controls.Add(Me.cmbAccountType)
@@ -1419,7 +1420,6 @@ Partial Class frmVSP_VLCMaster
         Me.RadPageViewPage2.Controls.Add(Me.MyLabel13)
         Me.RadPageViewPage2.Controls.Add(Me.TxtBankBranch)
         Me.RadPageViewPage2.Controls.Add(Me.MyLabel14)
-        Me.RadPageViewPage2.Controls.Add(Me.MyLabel15)
         Me.RadPageViewPage2.Controls.Add(Me.TxtBankName)
         Me.RadPageViewPage2.Controls.Add(Me.txtbankcodedes)
         Me.RadPageViewPage2.Controls.Add(Me.lblbankcode)
@@ -1534,7 +1534,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtIFSCCode2.IsSourceFromTable = False
         Me.txtIFSCCode2.IsSourceFromValueList = False
         Me.txtIFSCCode2.IsUnique = False
-        Me.txtIFSCCode2.Location = New System.Drawing.Point(115, 68)
+        Me.txtIFSCCode2.Location = New System.Drawing.Point(115, 66)
         Me.txtIFSCCode2.MaxLength = 50
         Me.txtIFSCCode2.MendatroryField = False
         Me.txtIFSCCode2.MyLinkLable1 = Me.MyLabel26
@@ -1567,7 +1567,7 @@ Partial Class frmVSP_VLCMaster
         Me.findfndbankcode2.IsSourceFromTable = False
         Me.findfndbankcode2.IsSourceFromValueList = False
         Me.findfndbankcode2.IsUnique = False
-        Me.findfndbankcode2.Location = New System.Drawing.Point(114, 14)
+        Me.findfndbankcode2.Location = New System.Drawing.Point(114, 16)
         Me.findfndbankcode2.MendatroryField = False
         Me.findfndbankcode2.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findfndbankcode2.MyLinkLable1 = Nothing
@@ -1890,7 +1890,7 @@ Partial Class frmVSP_VLCMaster
         Me.findfndbankcode.IsSourceFromTable = False
         Me.findfndbankcode.IsSourceFromValueList = False
         Me.findfndbankcode.IsUnique = False
-        Me.findfndbankcode.Location = New System.Drawing.Point(117, 6)
+        Me.findfndbankcode.Location = New System.Drawing.Point(117, 8)
         Me.findfndbankcode.MendatroryField = False
         Me.findfndbankcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findfndbankcode.MyLinkLable1 = Nothing
@@ -2209,7 +2209,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtIFSCCode.IsSourceFromTable = False
         Me.TxtIFSCCode.IsSourceFromValueList = False
         Me.TxtIFSCCode.IsUnique = False
-        Me.TxtIFSCCode.Location = New System.Drawing.Point(114, 62)
+        Me.TxtIFSCCode.Location = New System.Drawing.Point(114, 63)
         Me.TxtIFSCCode.MaxLength = 50
         Me.TxtIFSCCode.MendatroryField = False
         Me.TxtIFSCCode.MyLinkLable1 = Me.MyLabel15

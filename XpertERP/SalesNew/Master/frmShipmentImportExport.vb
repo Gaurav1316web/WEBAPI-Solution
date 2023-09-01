@@ -79,6 +79,7 @@ Public Class frmShipmentImportExport
     Public Due_Date As DateTime? = Nothing
     Public Posting_Date As DateTime? = Nothing
     Public Carrier As String = Nothing
+    Public transport_id As String = Nothing
     Public VehicleNo As String = Nothing
     Public Vehicle_Code As String = Nothing
     Public GRNo As String = Nothing

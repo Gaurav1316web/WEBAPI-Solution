@@ -43,15 +43,6 @@ Partial Class frmGSTunitMeasure
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.MyTextBox2 = New common.Controls.MyTextBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.RadSplitContainer2 = New Telerik.WinControls.UI.RadSplitContainer()
-        Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
-        Me.txtCode1 = New common.UserControls.txtNavigator()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
-        Me.txtName1 = New common.Controls.MyTextBox()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.TxtNavigator3 = New common.UserControls.txtNavigator()
@@ -59,11 +50,17 @@ Partial Class frmGSTunitMeasure
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.RadSplitContainer3 = New Telerik.WinControls.UI.RadSplitContainer()
-        Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
+        Me.Splitter2 = New System.Windows.Forms.Splitter()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtcode1 = New common.UserControls.txtNavigator()
+        Me.lblcode = New common.Controls.MyLabel()
+        Me.btnNew1 = New Telerik.WinControls.UI.RadButton()
+        Me.txtName1 = New common.Controls.MyTextBox()
+        Me.lblName = New common.Controls.MyLabel()
         Me.btnSave1 = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete1 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton6 = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose1 = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadMenu2.SuspendLayout()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -78,27 +75,20 @@ Partial Class frmGSTunitMeasure
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyTextBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        CType(Me.RadSplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadSplitContainer2.SuspendLayout()
-        CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitPanel1.SuspendLayout()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtName1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadSplitContainer3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadSplitContainer3.SuspendLayout()
-        CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitPanel2.SuspendLayout()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.lblcode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtName1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,7 +117,7 @@ Partial Class frmGSTunitMeasure
         Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
         Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu2.Name = "RadMenu2"
-        Me.RadMenu2.Size = New System.Drawing.Size(941, 20)
+        Me.RadMenu2.Size = New System.Drawing.Size(512, 20)
         Me.RadMenu2.TabIndex = 16
         '
         'Splitter1
@@ -339,127 +329,6 @@ Partial Class frmGSTunitMeasure
         Me.MyLabel4.TabIndex = 1
         Me.MyLabel4.Text = "Description"
         '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.RadSplitContainer2)
-        Me.RadGroupBox1.Controls.Add(Me.RadSplitContainer1)
-        Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 26)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(545, 92)
-        Me.RadGroupBox1.TabIndex = 17
-        '
-        'RadSplitContainer2
-        '
-        Me.RadSplitContainer2.Controls.Add(Me.SplitPanel1)
-        Me.RadSplitContainer2.Location = New System.Drawing.Point(10, 9)
-        Me.RadSplitContainer2.Name = "RadSplitContainer2"
-        '
-        '
-        '
-        Me.RadSplitContainer2.RootElement.MinSize = New System.Drawing.Size(25, 25)
-        Me.RadSplitContainer2.Size = New System.Drawing.Size(519, 75)
-        Me.RadSplitContainer2.TabIndex = 23
-        Me.RadSplitContainer2.TabStop = False
-        '
-        'SplitPanel1
-        '
-        Me.SplitPanel1.Controls.Add(Me.txtCode1)
-        Me.SplitPanel1.Controls.Add(Me.RadButton3)
-        Me.SplitPanel1.Controls.Add(Me.txtName1)
-        Me.SplitPanel1.Controls.Add(Me.MyLabel6)
-        Me.SplitPanel1.Controls.Add(Me.MyLabel5)
-        Me.SplitPanel1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitPanel1.Name = "SplitPanel1"
-        '
-        '
-        '
-        Me.SplitPanel1.RootElement.MinSize = New System.Drawing.Size(25, 25)
-        Me.SplitPanel1.Size = New System.Drawing.Size(519, 75)
-        Me.SplitPanel1.TabIndex = 0
-        Me.SplitPanel1.TabStop = False
-        Me.SplitPanel1.Text = "SplitPanel1"
-        '
-        'txtCode1
-        '
-        Me.txtCode1.FieldName = Nothing
-        Me.txtCode1.Location = New System.Drawing.Point(85, 10)
-        Me.txtCode1.MendatroryField = False
-        Me.txtCode1.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.txtCode1.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtCode1.MyLinkLable1 = Me.MyLabel5
-        Me.txtCode1.MyLinkLable2 = Nothing
-        Me.txtCode1.MyMaxLength = 12
-        Me.txtCode1.MyReadOnly = False
-        Me.txtCode1.Name = "txtCode1"
-        Me.txtCode1.Size = New System.Drawing.Size(252, 20)
-        Me.txtCode1.TabIndex = 25
-        Me.txtCode1.Value = ""
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(13, 13)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(32, 18)
-        Me.MyLabel5.TabIndex = 21
-        Me.MyLabel5.Text = "Code"
-        '
-        'RadButton3
-        '
-        Me.RadButton3.Image = CType(resources.GetObject("RadButton3.Image"), System.Drawing.Image)
-        Me.RadButton3.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.RadButton3.Location = New System.Drawing.Point(339, 10)
-        Me.RadButton3.Name = "RadButton3"
-        Me.RadButton3.Size = New System.Drawing.Size(19, 21)
-        Me.RadButton3.TabIndex = 24
-        Me.RadButton3.Text = " "
-        '
-        'txtName1
-        '
-        Me.txtName1.CalculationExpression = Nothing
-        Me.txtName1.FieldCode = Nothing
-        Me.txtName1.FieldDesc = Nothing
-        Me.txtName1.FieldMaxLength = 0
-        Me.txtName1.FieldName = Nothing
-        Me.txtName1.isCalculatedField = False
-        Me.txtName1.IsSourceFromTable = False
-        Me.txtName1.IsSourceFromValueList = False
-        Me.txtName1.IsUnique = False
-        Me.txtName1.Location = New System.Drawing.Point(85, 36)
-        Me.txtName1.MaxLength = 100
-        Me.txtName1.MendatroryField = True
-        Me.txtName1.MyLinkLable1 = Me.MyLabel6
-        Me.txtName1.MyLinkLable2 = Nothing
-        Me.txtName1.Name = "txtName1"
-        Me.txtName1.ReferenceFieldDesc = Nothing
-        Me.txtName1.ReferenceFieldName = Nothing
-        Me.txtName1.ReferenceTableName = Nothing
-        Me.txtName1.Size = New System.Drawing.Size(359, 20)
-        Me.txtName1.TabIndex = 23
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Location = New System.Drawing.Point(12, 37)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(36, 18)
-        Me.MyLabel6.TabIndex = 22
-        Me.MyLabel6.Text = "Name"
-        '
-        'RadSplitContainer1
-        '
-        Me.RadSplitContainer1.Location = New System.Drawing.Point(10, 128)
-        Me.RadSplitContainer1.Name = "RadSplitContainer1"
-        '
-        '
-        '
-        Me.RadSplitContainer1.RootElement.MinSize = New System.Drawing.Size(25, 25)
-        Me.RadSplitContainer1.Size = New System.Drawing.Size(587, 34)
-        Me.RadSplitContainer1.TabIndex = 22
-        Me.RadSplitContainer1.TabStop = False
-        '
         'TextBox1
         '
         Me.TextBox1.Location = New System.Drawing.Point(48, 25)
@@ -539,41 +408,123 @@ Partial Class frmGSTunitMeasure
         Me.btnClose.TabIndex = 5
         Me.btnClose.Text = "Close"
         '
-        'RadSplitContainer3
+        'Splitter2
         '
-        Me.RadSplitContainer3.Controls.Add(Me.SplitPanel2)
-        Me.RadSplitContainer3.Location = New System.Drawing.Point(1, 123)
-        Me.RadSplitContainer3.Name = "RadSplitContainer3"
+        Me.Splitter2.Location = New System.Drawing.Point(0, 20)
+        Me.Splitter2.Name = "Splitter2"
+        Me.Splitter2.Size = New System.Drawing.Size(3, 113)
+        Me.Splitter2.TabIndex = 26
+        Me.Splitter2.TabStop = False
         '
+        'SplitContainer1
         '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(3, 20)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        Me.RadSplitContainer3.RootElement.MinSize = New System.Drawing.Size(25, 25)
-        Me.RadSplitContainer3.Size = New System.Drawing.Size(545, 25)
-        Me.RadSplitContainer3.TabIndex = 18
-        Me.RadSplitContainer3.TabStop = False
+        'SplitContainer1.Panel1
         '
-        'SplitPanel2
+        Me.SplitContainer1.Panel1.Controls.Add(Me.GroupBox1)
         '
-        Me.SplitPanel2.Controls.Add(Me.btnSave1)
-        Me.SplitPanel2.Controls.Add(Me.btnDelete1)
-        Me.SplitPanel2.Controls.Add(Me.RadButton6)
-        Me.SplitPanel2.Location = New System.Drawing.Point(0, 0)
-        Me.SplitPanel2.Name = "SplitPanel2"
+        'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave1)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete1)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose1)
+        Me.SplitContainer1.Size = New System.Drawing.Size(509, 113)
+        Me.SplitContainer1.SplitterDistance = 84
+        Me.SplitContainer1.TabIndex = 27
         '
+        'GroupBox1
         '
-        Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(25, 25)
-        Me.SplitPanel2.Size = New System.Drawing.Size(545, 25)
-        Me.SplitPanel2.TabIndex = 0
-        Me.SplitPanel2.TabStop = False
-        Me.SplitPanel2.Text = "SplitPanel2"
+        Me.GroupBox1.Controls.Add(Me.txtcode1)
+        Me.GroupBox1.Controls.Add(Me.btnNew1)
+        Me.GroupBox1.Controls.Add(Me.txtName1)
+        Me.GroupBox1.Controls.Add(Me.lblName)
+        Me.GroupBox1.Controls.Add(Me.lblcode)
+        Me.GroupBox1.Location = New System.Drawing.Point(4, 4)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(500, 77)
+        Me.GroupBox1.TabIndex = 0
+        Me.GroupBox1.TabStop = False
+        '
+        'txtcode1
+        '
+        Me.txtcode1.FieldName = Nothing
+        Me.txtcode1.Location = New System.Drawing.Point(78, 7)
+        Me.txtcode1.MendatroryField = False
+        Me.txtcode1.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.txtcode1.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtcode1.MyLinkLable1 = Me.lblcode
+        Me.txtcode1.MyLinkLable2 = Nothing
+        Me.txtcode1.MyMaxLength = 12
+        Me.txtcode1.MyReadOnly = False
+        Me.txtcode1.Name = "txtcode1"
+        Me.txtcode1.Size = New System.Drawing.Size(252, 20)
+        Me.txtcode1.TabIndex = 25
+        Me.txtcode1.Value = ""
+        '
+        'lblcode
+        '
+        Me.lblcode.FieldName = Nothing
+        Me.lblcode.Location = New System.Drawing.Point(5, 10)
+        Me.lblcode.Name = "lblcode"
+        Me.lblcode.Size = New System.Drawing.Size(32, 18)
+        Me.lblcode.TabIndex = 21
+        Me.lblcode.Text = "Code"
+        '
+        'btnNew1
+        '
+        Me.btnNew1.Image = CType(resources.GetObject("btnNew1.Image"), System.Drawing.Image)
+        Me.btnNew1.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew1.Location = New System.Drawing.Point(332, 7)
+        Me.btnNew1.Name = "btnNew1"
+        Me.btnNew1.Size = New System.Drawing.Size(19, 21)
+        Me.btnNew1.TabIndex = 24
+        Me.btnNew1.Text = " "
+        '
+        'txtName1
+        '
+        Me.txtName1.CalculationExpression = Nothing
+        Me.txtName1.FieldCode = Nothing
+        Me.txtName1.FieldDesc = Nothing
+        Me.txtName1.FieldMaxLength = 0
+        Me.txtName1.FieldName = Nothing
+        Me.txtName1.isCalculatedField = False
+        Me.txtName1.IsSourceFromTable = False
+        Me.txtName1.IsSourceFromValueList = False
+        Me.txtName1.IsUnique = False
+        Me.txtName1.Location = New System.Drawing.Point(78, 33)
+        Me.txtName1.MaxLength = 100
+        Me.txtName1.MendatroryField = True
+        Me.txtName1.MyLinkLable1 = Me.lblName
+        Me.txtName1.MyLinkLable2 = Nothing
+        Me.txtName1.Name = "txtName1"
+        Me.txtName1.ReferenceFieldDesc = Nothing
+        Me.txtName1.ReferenceFieldName = Nothing
+        Me.txtName1.ReferenceTableName = Nothing
+        Me.txtName1.Size = New System.Drawing.Size(359, 20)
+        Me.txtName1.TabIndex = 23
+        '
+        'lblName
+        '
+        Me.lblName.FieldName = Nothing
+        Me.lblName.Location = New System.Drawing.Point(5, 34)
+        Me.lblName.Name = "lblName"
+        Me.lblName.Size = New System.Drawing.Size(36, 18)
+        Me.lblName.TabIndex = 22
+        Me.lblName.Text = "Name"
         '
         'btnSave1
         '
-        Me.btnSave1.Location = New System.Drawing.Point(9, 2)
+        Me.btnSave1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSave1.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnSave1.Location = New System.Drawing.Point(3, 3)
         Me.btnSave1.Name = "btnSave1"
-        Me.btnSave1.Size = New System.Drawing.Size(70, 22)
-        Me.btnSave1.TabIndex = 9
+        Me.btnSave1.Size = New System.Drawing.Size(68, 18)
+        Me.btnSave1.TabIndex = 6
         Me.btnSave1.Text = "Save"
         '
         'btnDelete1
@@ -581,30 +532,30 @@ Partial Class frmGSTunitMeasure
         Me.btnDelete1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnDelete1.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnDelete1.Location = New System.Drawing.Point(81, 3)
+        Me.btnDelete1.Location = New System.Drawing.Point(74, 3)
         Me.btnDelete1.Name = "btnDelete1"
         Me.btnDelete1.Size = New System.Drawing.Size(68, 18)
         Me.btnDelete1.TabIndex = 7
         Me.btnDelete1.Text = "Delete"
         '
-        'RadButton6
+        'btnClose1
         '
-        Me.RadButton6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadButton6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton6.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.RadButton6.Location = New System.Drawing.Point(467, 3)
-        Me.RadButton6.Name = "RadButton6"
-        Me.RadButton6.Size = New System.Drawing.Size(68, 18)
-        Me.RadButton6.TabIndex = 8
-        Me.RadButton6.Text = "Close"
+        Me.btnClose1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose1.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnClose1.Location = New System.Drawing.Point(436, 3)
+        Me.btnClose1.Name = "btnClose1"
+        Me.btnClose1.Size = New System.Drawing.Size(68, 18)
+        Me.btnClose1.TabIndex = 8
+        Me.btnClose1.Text = "Close"
         '
         'frmGSTunitMeasure
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(941, 499)
-        Me.Controls.Add(Me.RadSplitContainer3)
-        Me.Controls.Add(Me.RadGroupBox1)
+        Me.ClientSize = New System.Drawing.Size(512, 133)
+        Me.Controls.Add(Me.SplitContainer1)
+        Me.Controls.Add(Me.Splitter2)
         Me.Controls.Add(Me.RadMenu2)
         Me.Name = "frmGSTunitMeasure"
         '
@@ -626,28 +577,21 @@ Partial Class frmGSTunitMeasure
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyTextBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        CType(Me.RadSplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadSplitContainer2.ResumeLayout(False)
-        CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitPanel1.ResumeLayout(False)
-        Me.SplitPanel1.PerformLayout()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtName1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadSplitContainer3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadSplitContainer3.ResumeLayout(False)
-        CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitPanel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.lblcode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtName1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -673,25 +617,22 @@ Partial Class frmGSTunitMeasure
     Friend WithEvents RadButton2 As RadButton
     Friend WithEvents MyTextBox2 As common.Controls.MyTextBox
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
-    Friend WithEvents RadGroupBox1 As RadGroupBox
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents RadSplitContainer1 As RadSplitContainer
     Friend WithEvents TxtNavigator3 As common.UserControls.txtNavigator
     Friend WithEvents TxtNavigator5 As common.UserControls.txtNavigator
-    Friend WithEvents RadSplitContainer2 As RadSplitContainer
     Friend WithEvents btnSave As RadButton
     Friend WithEvents btnDelete As RadButton
     Friend WithEvents btnClose As RadButton
-    Friend WithEvents SplitPanel1 As SplitPanel
-    Friend WithEvents txtCode1 As common.UserControls.txtNavigator
-    Friend WithEvents MyLabel5 As common.Controls.MyLabel
-    Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents Splitter2 As Splitter
+    Friend WithEvents SplitContainer1 As SplitContainer
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents txtcode1 As common.UserControls.txtNavigator
+    Friend WithEvents lblcode As common.Controls.MyLabel
+    Friend WithEvents btnNew1 As RadButton
     Friend WithEvents txtName1 As common.Controls.MyTextBox
-    Friend WithEvents MyLabel6 As common.Controls.MyLabel
-    Friend WithEvents RadSplitContainer3 As RadSplitContainer
-    Friend WithEvents SplitPanel2 As SplitPanel
-    Friend WithEvents btnDelete1 As RadButton
-    Friend WithEvents RadButton6 As RadButton
+    Friend WithEvents lblName As common.Controls.MyLabel
     Friend WithEvents btnSave1 As RadButton
+    Friend WithEvents btnDelete1 As RadButton
+    Friend WithEvents btnClose1 As RadButton
 End Class

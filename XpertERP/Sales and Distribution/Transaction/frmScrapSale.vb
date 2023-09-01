@@ -293,7 +293,7 @@ Public Class frmScrapSale
         txtDocNo.MyMaxLength = 30
         txtcustdesc.MaxLength = 50
         txtlocation.MaxLength = 50
-        txtdescription.MaxLength = 200
+        'txtdescription.MaxLength = 200
         txtref.MaxLength = 200
         txtscrapinvoice.MaxLength = 30
         txtponumber.MaxLength = 30
@@ -312,7 +312,7 @@ Public Class frmScrapSale
         'txtinvoice.Text = ""
         fndcustNo.Value = ""
         txtcustdesc.Text = ""
-        txtvehicle_mannual_no.Text = ""
+        'txtvehicle_mannual_no.Text = ""
         txtTransporter_Code.Value = Nothing
         txtTransporter_desc.Text = ""
         txtnrg.Value = ""
@@ -327,7 +327,7 @@ Public Class frmScrapSale
         dtpshipment.Value = clsCommon.GETSERVERDATE()
         dtppost.Text = clsCommon.GETSERVERDATE()
         dtpexp.Text = clsCommon.GETSERVERDATE()
-        txtdescription.Text = ""
+        'txtdescription.Text = ""
         txtref.Text = ""
         txtTaxGroup.Value = ""
         lblTaxGrpName.Text = ""
@@ -2011,18 +2011,18 @@ Public Class frmScrapSale
             Return False
         End If
 
-        If isALlowVehicleGateOutValidation = True Then
-            If clsCommon.myLen(txtvehicle_mannual_no.Text) > 0 Then
-                Dim qry1 As String = String.Empty
-                qry1 = " SELECT Stuff((SELECT N', ' + TSPL_SCRAPSALE_HEAD.shipment_No FROM TSPL_SCRAPSALE_HEAD left join TSPL_SCRAPSALE_GATE_OUT on TSPL_SCRAPSALE_HEAD.shipment_No=TSPL_SCRAPSALE_GATE_OUT.Shipment_No  where TSPL_SCRAPSALE_HEAD.Vehicle_code='" & txtvehicle_mannual_no.Text & "' and  TSPL_SCRAPSALE_GATE_OUT.Shipment_No is null FOR XML PATH(''),TYPE).value('text()[1]','nvarchar(max)'),1,2,N'') "
-                Dim result As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1))
-                If clsCommon.myLen(result) > 0 Then
-                    common.clsCommon.MyMessageBoxShow("Vehicle No ('" & txtvehicle_mannual_no.Text & "') used in other Shipment No. You can create new Shipment with Vehicle No ('" & txtvehicle_mannual_no.Text & "')  After  Gate Out following Shipment No : '" & result & "'")
-                    Return False
+        'If isALlowVehicleGateOutValidation = True Then
+        '    If clsCommon.myLen(txtvehicle_mannual_no.Text) > 0 Then
+        '        Dim qry1 As String = String.Empty
+        '        qry1 = " SELECT Stuff((SELECT N', ' + TSPL_SCRAPSALE_HEAD.shipment_No FROM TSPL_SCRAPSALE_HEAD left join TSPL_SCRAPSALE_GATE_OUT on TSPL_SCRAPSALE_HEAD.shipment_No=TSPL_SCRAPSALE_GATE_OUT.Shipment_No  where TSPL_SCRAPSALE_HEAD.Vehicle_code='" & txtvehicle_mannual_no.Text & "' and  TSPL_SCRAPSALE_GATE_OUT.Shipment_No is null FOR XML PATH(''),TYPE).value('text()[1]','nvarchar(max)'),1,2,N'') "
+        '        Dim result As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1))
+        '        If clsCommon.myLen(result) > 0 Then
+        '            common.clsCommon.MyMessageBoxShow("Vehicle No ('" & txtvehicle_mannual_no.Text & "') used in other Shipment No. You can create new Shipment with Vehicle No ('" & txtvehicle_mannual_no.Text & "')  After  Gate Out following Shipment No : '" & result & "'")
+        '            Return False
 
-                End If
-            End If
-        End If
+        '        End If
+        '    End If
+        'End If
 
 
         For i As Integer = 0 To gv1.Rows.Count - 1
@@ -2167,7 +2167,7 @@ Public Class frmScrapSale
             End If
         End If
 
-        txtFreightDistance.Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Distance from TSPL_LOCATION_DISTANCE_MAPPING where TransType='S' and Location_Code='" & fndLocation.Value & "' and Customer_Code='" & fndcustNo.Value & "'", Nothing))
+        ' txtFreightDistance.Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Distance from TSPL_LOCATION_DISTANCE_MAPPING where TransType='S' and Location_Code='" & fndLocation.Value & "' and Customer_Code='" & fndcustNo.Value & "'", Nothing))
         Dim ECustomerType As String = clsERPFuncationality.GetCustomerEInvoiceType(fndcustNo.Value, Nothing)
         If objCommonVar.GenerateEWayBillWithEInvoice = True AndAlso clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(dtpshipment.Value) = True Then
             If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
@@ -2398,7 +2398,7 @@ Public Class frmScrapSale
                 obj.Loc_Name = txtlocation.Text
                 obj.Transporter_code = txtTransporter_Code.Value
                 obj.Transporter_Name = txtTransporter_desc.Text
-                obj.Vehicle_code = txtvehicle_mannual_no.Text
+                obj.Vehicle_code = TxtVehicleCode.Text
                 obj.Freight_Distance = txtFreightDistance.Value
                 obj.ToLoc_Code = fndShipToLocation.Value
                 obj.Is_Taxable = chkTaxable.Checked
@@ -2423,7 +2423,7 @@ Public Class frmScrapSale
                 End If
                 ''--------------
                 obj.Inter_Branch = chkInterBranch.Checked
-                obj.Description = txtdescription.Text
+                'obj.Description = txtdescription.Text
                 obj.reff = txtref.Text
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.Tax_Desc = lblTaxGrpName.Text
@@ -2715,7 +2715,7 @@ Public Class frmScrapSale
                 fndLocation.Value = obj.Loc_Code
                 txtlocation.Text = obj.Loc_Name
                 TxtVehicleCode.Value = obj.Vehicle_Id
-                txtvehicle_mannual_no.Text = obj.Vehicle_code
+                'txt.Text = obj.Vehicle_code
                 txtTransporter_Code.Value = obj.Transporter_code
                 txtTransporter_desc.Text = obj.Transporter_Name
                 txtFreightDistance.Value = obj.Freight_Distance
@@ -2750,7 +2750,7 @@ Public Class frmScrapSale
 
                 lblActualTCSTaxBaseAmt.Text = clsCommon.myFormat(obj.ActualTCSBaseAmount)
                 txttcstaxbaseamount.Value = clsCommon.myCdbl(obj.ChangedTCSBaseAmount)
-                txtdescription.Text = obj.Description
+                'txtdescription.Text = obj.Description
                 txtref.Text = obj.reff
                 txtTaxGroup.Value = obj.Tax_Group
                 lblTaxGrpName.Text = obj.Tax_Desc
@@ -3727,10 +3727,13 @@ Public Class frmScrapSale
     End Sub
 
     Private Sub TxtVehicleCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles TxtVehicleCode._MYValidating
-        Dim qry As String = "Select Segment_code as Code, Description from TSPL_GL_SEGMENT_CODE "
-        Dim WhrCls As String = "Seg_No=2"
+        Dim qry As String = "Select distinct  vehicle_id as Code ,Description,Transport_id ,Vendor_Name from TSPL_VEHICLE_MASTER left outer join TSPL_VENDOR_MASTER on tspl_vehicle_master.transport_id=TSPL_VENDOR_MASTER.vendor_code "
+        Dim WhrCls As String = ""
         TxtVehicleCode.Value = clsCommon.ShowSelectForm("VehicleFND", qry, "Code", WhrCls, TxtVehicleCode.Value, "Code", isButtonClicked)
         txtVehicleDesc.Text = ClsScrapSaleHead.GetVehicleDesc(TxtVehicleCode.Value, Nothing)
+        'lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(TxtVehicleCode.Value) + "'")
+        txtTransporter_desc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name as Name from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + TxtVehicleCode.Value + "'"))
+        txtTransporter_Code.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Code as Code from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + TxtVehicleCode.Value + "'"))
     End Sub
 
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
@@ -5065,7 +5068,7 @@ left join TSPL_STATE_MASTER as  FromState on FromState.State_Code=FromLocation.S
                         txtcustdesc.Text = clsCommon.myCstr(dr("Customer_Name"))
                         fndLocation.Value = clsCommon.myCstr(dr("Location"))
                         txtlocation.Text = clsCommon.myCstr(dr("Location_Desc"))
-                        txtdescription.Text = clsCommon.myCstr(dr("Reason"))
+                        'txtdescription.Text = clsCommon.myCstr(dr("Reason"))
                         txtref.Text = clsCommon.myCstr(dr("Remarks"))
                         TxtVehicleCode.Value = clsCommon.myCstr(dr("Vehicle_Id"))
                         txtVehicleDesc.Text = clsCommon.myCstr(dr("Description"))

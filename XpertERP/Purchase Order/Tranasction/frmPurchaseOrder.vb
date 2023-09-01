@@ -3206,7 +3206,7 @@ Public Class frmPurchaseOrder
                 cboItemType.Focus()
                 Exit Sub
             End If
-            If clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso clsCommon.myCDecimal(txtTenderNo.Tag) = 2 Then
+            If clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso (clsCommon.myCDecimal(txtTenderNo.Tag) = 2 OrElse clsCommon.myCDecimal(txtTenderNo.Tag) = 3) Then
                 Dim obj As clsTenderDetail = clsTenderDetail.GetFinder(txtTenderNo.Value, txtVendorNo.Value)
                 If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
                     gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
@@ -6494,6 +6494,13 @@ Public Class frmPurchaseOrder
                 End If
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsPurchaseOrderDetail In obj.Arr
+
+                        'If objCommonVar.RCDFCFP = True Then
+                        '    If chkTender.Checked = False AndAlso objTr.PurchaseOrder_Qty <= 0 Then
+                        '        Continue For
+                        '    End If
+                        'End If
+
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
@@ -7005,6 +7012,12 @@ Public Class frmPurchaseOrder
         '    whrClas += "  TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade=1 "
         'End If
         whrClas += " TSPL_PURCHASE_ORDER_HEAD.From_Screen_Code='" + FORMTYPE + "'"
+
+        If objCommonVar.RCDFCFP = True Then
+            whrClas += " And PO_Total_Amt>0 "
+        End If
+
+
         LoadData(clsCommon.ShowSelectForm("POOrderNoFndd", qry, "PONO", whrClas, txtDocNo.Value, "PurchaseOrder_Date desc", isButtonClicked), NavigatorType.Current)
         btnCopy.Enabled = False
     End Sub
@@ -7276,7 +7289,7 @@ Public Class frmPurchaseOrder
 
         txtVendorNo.Value = clsCommon.ShowSelectForm("POVendorFndr", qry, "Code", whrCls, txtVendorNo.Value, "Code", isButtonClicked)
         ''lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorNo.Value + "'"))
-        qry = "select  Vendor_Code,Vendor_Name,Terms_Code,Terms_Code_Desc ,Vendor_Account ,Tax_Group,Tax_Group_Desc,GSTRegistered,TSPL_VENDOR_MASTER.add1 +case when len(TSPL_VENDOR_MASTER.add2)>0 then ', '+TSPL_VENDOR_MASTER.add2 else '' end +case when LEN(isnull(TSPL_VENDOR_MASTER.Add3,''))>0 then ', '+isnull(TSPL_VENDOR_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_VENDOR_MASTER.City_Code_Desc)>0 then ', '+TSPL_VENDOR_MASTER.City_Code_Desc else ' ' end + case when len(TSPL_VENDOR_MASTER.State )>0 then TSPL_VENDOR_MASTER.State else '' end  as Address,TSPL_VENDOR_MASTER.Phone1 as Phone from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtVendorNo.Value + "'"
+        qry = "select  Vendor_Code,Vendor_Name,Terms_Code,Terms_Code_Desc ,Vendor_Account ,Tax_Group,Tax_Group_Desc,GSTRegistered,TSPL_VENDOR_MASTER.add1 +case when len(TSPL_VENDOR_MASTER.add2)>0 then ', '+TSPL_VENDOR_MASTER.add2 else '' end +case when LEN(isnull(TSPL_VENDOR_MASTER.Add3,''))>0 then ', '+isnull(TSPL_VENDOR_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_VENDOR_MASTER.City_Code_Desc)>0 then ', '+TSPL_VENDOR_MASTER.City_Code_Desc else ' ' end + case when len(TSPL_VENDOR_MASTER.State )>0 then TSPL_VENDOR_MASTER.State else '' end  as Address,TSPL_VENDOR_MASTER.Phone1 as Phone from TSPL_VENDOR_MASTER where Vendor_Code ='" + txtVendorNo.Value + "' and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Vendor_Name"))
@@ -10233,7 +10246,7 @@ Public Class frmPurchaseOrder
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                 Throw New Exception("Please select vendor")
             End If
-            txtTenderNo.Value = clsTenderHead.getFinder("Tender_Type=2 and Posted=1 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "') ", txtTenderNo.Value, isButtonClicked)
+            txtTenderNo.Value = clsTenderHead.getFinder("Tender_Type in (2,3) and Posted=1 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "') ", txtTenderNo.Value, isButtonClicked)
             txtTenderNo.Tag = clsTenderHead.GetTenderType(txtTenderNo.Value, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message)

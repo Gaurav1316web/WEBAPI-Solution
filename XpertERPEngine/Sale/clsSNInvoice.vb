@@ -86,6 +86,7 @@ Public Class clsSNInvoiceHead
     Public Due_Date As DateTime? = Nothing
     Public Posting_Date As DateTime? = Nothing
     Public Carrier As String = Nothing
+    Public transport_id As String = Nothing
     Public VehicleNo As String = Nothing
     Public Vehicle_Code As String = Nothing
     Public GRNo As String = Nothing
@@ -155,7 +156,7 @@ Public Class clsSNInvoiceHead
 
 #End Region
 
-    
+
     Public Function SaveData(ByVal obj As clsSNInvoiceHead, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
@@ -308,9 +309,12 @@ Public Class clsSNInvoiceHead
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "Carrier", obj.Carrier)
+            clsCommon.AddColumnsForChange(coll, "Transporter_Name", obj.Carrier)
+            clsCommon.AddColumnsForChange(coll, "Transport_Code", obj.transport_id)
+            ' clsCommon.AddColumnsForChange(coll, "Transporter_Name", obj.transport_id)
+
+            'clsCommon.AddColumnsForChange(coll, "Description", obj.Vehicle_Code)
             clsCommon.AddColumnsForChange(coll, "VehicleNo", obj.VehicleNo)
-            clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
             clsCommon.AddColumnsForChange(coll, "GRNo", obj.GRNo)
             clsCommon.AddColumnsForChange(coll, "GENo", obj.GENo)
             clsCommon.AddColumnsForChange(coll, "Dept", obj.Dept)
@@ -410,12 +414,12 @@ Public Class clsSNInvoiceHead
             For Each dr As DataRow In dt.Rows
                 'Criteria, Notification, Validation
                 If clsCommon.CompairString(dr("Criteria"), "Credit days") = CompairStringResult.Equal Then
-                    qry = "Select COUNT(*) as Days From(" & _
-            " Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Balance_Amt from TSPL_SD_SALE_INVOICE_HEAD" & _
-            " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" & _
-            " WHERE ISNULL(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' AND TSPL_Customer_Invoice_Head.Status=1 AND TSPL_Customer_Invoice_Head.Customer_Code='" + obj.Customer_Code + "' AND TSPL_SD_SALE_INVOICE_HEAD.Due_Date<'" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "' AND TSPL_Customer_Invoice_Head.Balance_Amt<>0" & _
-                    " UNION ALL" & _
-            " Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt from TSPL_SD_SALE_INVOICE_HEAD WHERE TSPL_SD_SALE_INVOICE_HEAD.Status<>1 AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='" + obj.Customer_Code + "' AND CONVERT(Date, TSPL_SD_SALE_INVOICE_HEAD.Due_Date,103)<='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "' AND Document_Code<>'" + obj.Document_Code + "' AND Total_Amt>0" & _
+                    qry = "Select COUNT(*) as Days From(" &
+            " Select TSPL_Customer_Invoice_Head.Document_No, TSPL_Customer_Invoice_Head.Balance_Amt from TSPL_SD_SALE_INVOICE_HEAD" &
+            " LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" &
+            " WHERE ISNULL(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' AND TSPL_Customer_Invoice_Head.Status=1 AND TSPL_Customer_Invoice_Head.Customer_Code='" + obj.Customer_Code + "' AND TSPL_SD_SALE_INVOICE_HEAD.Due_Date<'" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "' AND TSPL_Customer_Invoice_Head.Balance_Amt<>0" &
+                    " UNION ALL" &
+            " Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt from TSPL_SD_SALE_INVOICE_HEAD WHERE TSPL_SD_SALE_INVOICE_HEAD.Status<>1 AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='" + obj.Customer_Code + "' AND CONVERT(Date, TSPL_SD_SALE_INVOICE_HEAD.Due_Date,103)<='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "' AND Document_Code<>'" + obj.Document_Code + "' AND Total_Amt>0" &
             " ) XXX"
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > 0 Then
                         If clsCommon.CompairString(dr("Validation"), "Required Approval") = CompairStringResult.Equal Then
@@ -437,12 +441,12 @@ Public Class clsSNInvoiceHead
                     End If
 
                 ElseIf clsCommon.CompairString(dr("Criteria"), "Credit Amount") = CompairStringResult.Equal Then
-                    qry = "Select SUM(Balance_Amt) From(" & _
-        " Select TSPL_Customer_Invoice_Head.Document_No, Against_Sale_No, TSPL_Customer_Invoice_Head.Balance_Amt, TSPL_Customer_Invoice_Head.Customer_Code" & _
-        " from TSPL_Customer_Invoice_Head WHERE ISNULL(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' AND TSPL_Customer_Invoice_Head.Status=1" & _
-        " AND TSPL_Customer_Invoice_Head.Customer_Code='" + obj.Customer_Code + "'" & _
-             " UNION ALL" & _
-        " Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt, TSPL_SD_SALE_INVOICE_HEAD.Customer_Code from TSPL_SD_SALE_INVOICE_HEAD WHERE TSPL_SD_SALE_INVOICE_HEAD.Status<>1 AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='" + obj.Customer_Code + "' AND Document_Code<>'" + obj.Document_Code + "'" & _
+                    qry = "Select SUM(Balance_Amt) From(" &
+        " Select TSPL_Customer_Invoice_Head.Document_No, Against_Sale_No, TSPL_Customer_Invoice_Head.Balance_Amt, TSPL_Customer_Invoice_Head.Customer_Code" &
+        " from TSPL_Customer_Invoice_Head WHERE ISNULL(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' AND TSPL_Customer_Invoice_Head.Status=1" &
+        " AND TSPL_Customer_Invoice_Head.Customer_Code='" + obj.Customer_Code + "'" &
+             " UNION ALL" &
+        " Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Total_Amt, TSPL_SD_SALE_INVOICE_HEAD.Customer_Code from TSPL_SD_SALE_INVOICE_HEAD WHERE TSPL_SD_SALE_INVOICE_HEAD.Status<>1 AND TSPL_SD_SALE_INVOICE_HEAD.Customer_Code='" + obj.Customer_Code + "' AND Document_Code<>'" + obj.Document_Code + "'" &
         " ) XXX"
                     If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) > CreditLimit Then
                         If clsCommon.CompairString(dr("Validation"), "Required Approval") = CompairStringResult.Equal Then
@@ -481,7 +485,7 @@ Public Class clsSNInvoiceHead
 
     Public Shared Function GetData(ByVal strPONo As String, ByVal NavType As NavigatorType, ByVal strInvoiceType As String, ByVal trans As SqlTransaction) As clsSNInvoiceHead
         Dim obj As clsSNInvoiceHead = Nothing
-        Dim qry As String = "SELECT TSPL_SD_SALE_INVOICE_HEAD.Electronic_Ref_No,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_SD_SALE_INVOICE_HEAD.is_taxable,TSPL_SD_SALE_INVOICE_HEAD.Is_Delivered,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_PerAmt,TSPL_SD_SALE_INVOICE_HEAD.cust_po_date,TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No,TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code,TSPL_SD_SALE_INVOICE_HEAD.price_group_code,TSPL_SD_SALE_INVOICE_HEAD.Invoice_Type,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_Per,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_Amt,TSPL_SD_SALE_INVOICE_HEAD.TotCashDiscAmt,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,TSPL_SD_SALE_INVOICE_HEAD.Price_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Status,TSPL_SD_SALE_INVOICE_HEAD.On_Hold,TSPL_SD_SALE_INVOICE_HEAD.Ref_No,TSPL_SD_SALE_INVOICE_HEAD.Description,TSPL_SD_SALE_INVOICE_HEAD.Remarks,TSPL_SD_SALE_INVOICE_HEAD.Tax_Group,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location,TSPL_SD_SALE_INVOICE_HEAD.TAX1,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX2,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX3,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX4,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX5,TSPL_SD_SALE_INVOICE_HEAD.TAX5_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX5_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX6,TSPL_SD_SALE_INVOICE_HEAD.TAX6_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX6_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX7,TSPL_SD_SALE_INVOICE_HEAD.TAX7_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX7_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX7_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX8,TSPL_SD_SALE_INVOICE_HEAD.TAX8_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX8_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX8_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX9,TSPL_SD_SALE_INVOICE_HEAD.TAX9_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX9_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX9_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX10,TSPL_SD_SALE_INVOICE_HEAD.TAX10_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX10_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX10_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.Discount_Base,TSPL_SD_SALE_INVOICE_HEAD.Discount_Amt,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,TSPL_SD_SALE_INVOICE_HEAD.Total_Tax_Amt,TSPL_SD_SALE_INVOICE_HEAD.Comments,TSPL_SD_SALE_INVOICE_HEAD.Comp_Code,TSPL_SD_SALE_INVOICE_HEAD.Terms_Code,TSPL_SD_SALE_INVOICE_HEAD.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,(select top 1 TSPL_TAX_GROUP_MASTER.Tax_Group_Desc from TSPL_TAX_GROUP_MASTER where TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S') as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SD_SALE_INVOICE_HEAD.Posting_Date,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,TSPL_SD_SALE_INVOICE_HEAD.Carrier,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_HEAD.GRNo,TSPL_SD_SALE_INVOICE_HEAD.GENo,TSPL_SD_SALE_INVOICE_HEAD.GEDate, TSPL_SD_SALE_INVOICE_HEAD.Dept,TSPL_SD_SALE_INVOICE_HEAD.Dept_Desc,TSPL_SD_SALE_INVOICE_HEAD.Item_Type,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No ,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code4,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name4,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt4,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code5,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name5,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt5,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code6,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name6,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt6,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code7,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name7,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt7,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code8,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name8,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt8,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code9 ,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name9,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt9 ,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code10 ,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name10,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt10,TSPL_SD_SALE_INVOICE_HEAD.Total_Add_Charge,TSPL_SD_SALE_INVOICE_HEAD.Tax_Calculation_Type,TSPL_SD_SALE_INVOICE_HEAD.Challan_No, TSPL_SD_SALE_INVOICE_HEAD.Challan_Date, TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,TSPL_SD_SALE_INVOICE_HEAD.Inv_No,TSPL_SD_SALE_INVOICE_HEAD.Is_Internal ,TSPL_SD_SALE_INVOICE_HEAD.Is_Create_Auto_Receipt ,TSPL_SD_SALE_INVOICE_HEAD.Salesman_Code ,TSPL_SD_SALE_INVOICE_HEAD.Salesman_Name, "
+        Dim qry As String = "SELECT TSPL_SD_SALE_INVOICE_HEAD.Electronic_Ref_No,TSPL_SD_SALE_INVOICE_HEAD.EWayBillNo,TSPL_SD_SALE_INVOICE_HEAD.EWayBillDate,TSPL_SD_SALE_INVOICE_HEAD.is_taxable,TSPL_SD_SALE_INVOICE_HEAD.Is_Delivered,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_PerAmt,TSPL_SD_SALE_INVOICE_HEAD.cust_po_date,TSPL_SD_SALE_INVOICE_HEAD.Cust_PO_No,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_HEAD.price_group_code,TSPL_SD_SALE_INVOICE_HEAD.Invoice_Type,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_Per,TSPL_SD_SALE_INVOICE_HEAD.HeadDisc_Amt,TSPL_SD_SALE_INVOICE_HEAD.TotCashDiscAmt,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,TSPL_SD_SALE_INVOICE_HEAD.Price_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.Status,TSPL_SD_SALE_INVOICE_HEAD.On_Hold,TSPL_SD_SALE_INVOICE_HEAD.Ref_No,TSPL_SD_SALE_INVOICE_HEAD.Description,TSPL_SD_SALE_INVOICE_HEAD.Remarks,TSPL_SD_SALE_INVOICE_HEAD.Tax_Group,TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location,TSPL_SD_SALE_INVOICE_HEAD.Ship_To_Location,TSPL_SD_SALE_INVOICE_HEAD.TAX1,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX1_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX2,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX2_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX3,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX4,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX5,TSPL_SD_SALE_INVOICE_HEAD.TAX5_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX5_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX6,TSPL_SD_SALE_INVOICE_HEAD.TAX6_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX6_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX7,TSPL_SD_SALE_INVOICE_HEAD.TAX7_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX7_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX7_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX8,TSPL_SD_SALE_INVOICE_HEAD.TAX8_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX8_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX8_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX9,TSPL_SD_SALE_INVOICE_HEAD.TAX9_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX9_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX9_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX10,TSPL_SD_SALE_INVOICE_HEAD.TAX10_Rate,TSPL_SD_SALE_INVOICE_HEAD.TAX10_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX10_Base_Amt,TSPL_SD_SALE_INVOICE_HEAD.Discount_Base,TSPL_SD_SALE_INVOICE_HEAD.Discount_Amt,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount,TSPL_SD_SALE_INVOICE_HEAD.Total_Tax_Amt,TSPL_SD_SALE_INVOICE_HEAD.Comments,TSPL_SD_SALE_INVOICE_HEAD.Comp_Code,TSPL_SD_SALE_INVOICE_HEAD.Terms_Code,TSPL_SD_SALE_INVOICE_HEAD.Due_Date ,TSPL_LOCATION_MASTER.Location_Desc as BillToLocationName,TSPL_SHIP_TO_LOCATION.Ship_To_Desc as ShipToLocationName,(select top 1 TSPL_TAX_GROUP_MASTER.Tax_Group_Desc from TSPL_TAX_GROUP_MASTER where TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_SD_SALE_INVOICE_HEAD.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S') as TaxGroupName,TSPL_TERMS_MASTER.Terms_Desc as TermsName,TSPL_SD_SALE_INVOICE_HEAD.Posting_Date,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,TSPL_SD_SALE_INVOICE_HEAD.Carrier,TSPL_SD_SALE_INVOICE_HEAD.Transporter_Name,TSPL_SD_SALE_INVOICE_HEAD.Transport_Code,TSPL_SD_SALE_INVOICE_HEAD.GRNo,TSPL_SD_SALE_INVOICE_HEAD.GENo,TSPL_SD_SALE_INVOICE_HEAD.GEDate, TSPL_SD_SALE_INVOICE_HEAD.Dept,TSPL_SD_SALE_INVOICE_HEAD.Dept_Desc,TSPL_SD_SALE_INVOICE_HEAD.Item_Type,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No ,TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt1,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt2,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt3,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code4,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name4,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt4,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code5,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name5,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt5,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code6,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name6,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt6,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code7,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name7,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt7,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code8,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name8,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt8,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code9 ,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name9,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt9 ,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Code10 ,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name10,TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt10,TSPL_SD_SALE_INVOICE_HEAD.Total_Add_Charge,TSPL_SD_SALE_INVOICE_HEAD.Tax_Calculation_Type,TSPL_SD_SALE_INVOICE_HEAD.Challan_No, TSPL_SD_SALE_INVOICE_HEAD.Challan_Date, TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,TSPL_SD_SALE_INVOICE_HEAD.Inv_No,TSPL_SD_SALE_INVOICE_HEAD.Is_Internal ,TSPL_SD_SALE_INVOICE_HEAD.Is_Create_Auto_Receipt ,TSPL_SD_SALE_INVOICE_HEAD.Salesman_Code ,TSPL_SD_SALE_INVOICE_HEAD.Salesman_Name, "
         qry += " TSPL_SD_SALE_INVOICE_HEAD.CURRENCY_CODE,TSPL_SD_SALE_INVOICE_HEAD.CONVRATE,TSPL_SD_SALE_INVOICE_HEAD.APPLICABLEFROM,Against_C_Form,TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
         qry += "  FROM TSPL_SD_SALE_INVOICE_HEAD"
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location "
@@ -623,9 +627,10 @@ Public Class clsSNInvoiceHead
             obj.Against_C_Form = IIf(clsCommon.myCdbl(dt.Rows(0)("Against_C_Form")) = 1, True, False)
 
             obj.Challan_No = clsCommon.myCdbl(dt.Rows(0)("Challan_No"))
-            obj.Carrier = clsCommon.myCstr(dt.Rows(0)("Carrier"))
-            obj.Vehicle_Code = clsCommon.myCstr(dt.Rows(0)("Vehicle_Code"))
+            obj.Carrier = clsCommon.myCstr(dt.Rows(0)("Transporter_Name"))
+            obj.transport_id = clsCommon.myCstr(dt.Rows(0)("Transport_Code"))
             obj.VehicleNo = clsCommon.myCstr(dt.Rows(0)("VehicleNo"))
+            ' obj.Vehicle_Code = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.GRNo = clsCommon.myCstr(dt.Rows(0)("GRNo"))
             obj.GENo = clsCommon.myCstr(dt.Rows(0)("GENo"))
             If dt.Rows(0)("GEDate") IsNot DBNull.Value Then
@@ -715,37 +720,37 @@ Public Class clsSNInvoiceHead
             End If
             '' END CURRENCYCONVERSION 
 
-            qry = "SELECT  TSPL_SD_SALE_INVOICE_DETAIL.Is_Mannual_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Document_Code,TSPL_SD_SALE_INVOICE_DETAIL.Line_No, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Status,TSPL_SD_SALE_INVOICE_DETAIL.Row_Type,TSPL_SD_SALE_INVOICE_DETAIL.status, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.Qty, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Free_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code,TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Balance_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Location, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost,TSPL_SD_SALE_INVOICE_DETAIL.TAX1,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX2,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX3,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX4,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX5,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX6,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Rate, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX7,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX8,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Rate, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX9,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX10,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Amount,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Disc_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Base_Amt, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Base_Amt, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Base_Amt, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Base_Amt, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.MRP,TSPL_SD_SALE_INVOICE_DETAIL.Batch_No,TSPL_SD_SALE_INVOICE_DETAIL.MFG_Date, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Expiry_Date,TSPL_SD_SALE_INVOICE_DETAIL.Specification,TSPL_SD_SALE_INVOICE_DETAIL.Remarks, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Assessable,TSPL_SD_SALE_INVOICE_DETAIL.AssessableAmt," & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Applicable,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,TSPL_SD_SALE_INVOICE_DETAIL.Item_Tax,TSPL_SD_SALE_INVOICE_DETAIL.Total_MRP_Amt, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Cust_Discount, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Total_Cust_Discount,TSPL_SD_SALE_INVOICE_DETAIL.ActualRate,TSPL_SD_SALE_INVOICE_DETAIL.Cust_DiscountQty, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.Price_code,TSPL_SD_SALE_INVOICE_DETAIL.Abatement_Per,TSPL_SD_SALE_INVOICE_DETAIL.Abatement_Amt, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,TSPL_SD_SALE_INVOICE_DETAIL.Item_Weight,TSPL_SD_SALE_INVOICE_DETAIL.Price_Date, " & _
-            "TSPL_SD_SALE_INVOICE_DETAIL.TotalItem_Weight,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,TSPL_SD_SALE_INVOICE_DETAIL.Purchase_Cost,TSPL_SD_SALE_INVOICE_DETAIL.OrgRate,  " & _
+            qry = "SELECT  TSPL_SD_SALE_INVOICE_DETAIL.Is_Mannual_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Document_Code,TSPL_SD_SALE_INVOICE_DETAIL.Line_No, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Status,TSPL_SD_SALE_INVOICE_DETAIL.Row_Type,TSPL_SD_SALE_INVOICE_DETAIL.status, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.Qty, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Free_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code,TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Balance_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Location, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost,TSPL_SD_SALE_INVOICE_DETAIL.TAX1,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX2,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX3,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX4,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX5,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX6,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Rate, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX7,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX8,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Rate, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX9,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX10,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Rate, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Amount,TSPL_SD_SALE_INVOICE_DETAIL.Disc_Per, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Disc_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_LOCATION_MASTER.Location_Desc as LocationName,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Base_Amt, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Base_Amt, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Base_Amt, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TAX8_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Base_Amt,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_Base_Amt, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.MRP,TSPL_SD_SALE_INVOICE_DETAIL.Batch_No,TSPL_SD_SALE_INVOICE_DETAIL.MFG_Date, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Expiry_Date,TSPL_SD_SALE_INVOICE_DETAIL.Specification,TSPL_SD_SALE_INVOICE_DETAIL.Remarks, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Assessable,TSPL_SD_SALE_INVOICE_DETAIL.AssessableAmt," &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Applicable,TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Code, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item,TSPL_SD_SALE_INVOICE_DETAIL.Item_Tax,TSPL_SD_SALE_INVOICE_DETAIL.Total_MRP_Amt, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Cust_Discount, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Total_Cust_Discount,TSPL_SD_SALE_INVOICE_DETAIL.ActualRate,TSPL_SD_SALE_INVOICE_DETAIL.Cust_DiscountQty, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.Price_code,TSPL_SD_SALE_INVOICE_DETAIL.Abatement_Per,TSPL_SD_SALE_INVOICE_DETAIL.Abatement_Amt, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.FOC_Item,TSPL_SD_SALE_INVOICE_DETAIL.Item_Weight,TSPL_SD_SALE_INVOICE_DETAIL.Price_Date, " &
+            "TSPL_SD_SALE_INVOICE_DETAIL.TotalItem_Weight,TSPL_SD_SALE_INVOICE_DETAIL.Conv_Factor,TSPL_SD_SALE_INVOICE_DETAIL.Purchase_Cost,TSPL_SD_SALE_INVOICE_DETAIL.OrgRate,  " &
             "TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscPer,TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscPerAmt,TSPL_SD_SALE_INVOICE_DETAIL.Bin_No,TSPL_SD_SALE_INVOICE_DETAIL.vendor_code,TSPL_SD_SALE_INVOICE_DETAIL.vendor_desc,TSPL_SD_SALE_INVOICE_DETAIL.PrincipleCode,TSPL_SD_SALE_INVOICE_DETAIL.PrincipleDesc,TSPL_SD_SALE_INVOICE_DETAIL.Markup_On,TSPL_SD_SALE_INVOICE_DETAIL.Markup_Percent,TSPL_SD_SALE_INVOICE_DETAIL.Landing_Cost,TSPL_SD_SALE_INVOICE_DETAIL.HeadDiscAmt,TSPL_SD_SALE_INVOICE_DETAIL.CustDiscPer,TSPL_SD_SALE_INVOICE_DETAIL.CasdDiscScheme_Code "
             qry += " FROM TSPL_SD_SALE_INVOICE_DETAIL "
             qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SALE_INVOICE_DETAIL.Location "
@@ -1750,26 +1755,26 @@ Public Class clsSNInvoiceHead
 
     Function GetTaxRateTypeDT(ByVal DocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Dim qry As String = ""
-        qry = " select distinct * from (" & _
-              " select distinct TAX1 as Tax_RateType_Name,TAX1_Rate as Tax_RateType_Rate,sum(TAX1_Amt) as Tax_RateType_Amount  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX1,TAX1_Rate " & _
-              " union all " & _
-              " select distinct TAX2,TAX2_Rate,sum(TAX2_Amt) as TAX2_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX2,TAX2_Rate " & _
-              " union all " & _
-              " select distinct TAX3,TAX3_Rate,sum(TAX3_Amt) as TAX3_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX3,TAX3_Rate " & _
-              " union all " & _
-              " select distinct TAX4,TAX4_Rate,sum(TAX4_Amt) as TAX4_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX4,TAX4_Rate " & _
-              " union all " & _
-              " select distinct TAX5,TAX5_Rate,sum(TAX5_Amt) as TAX5_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX5,TAX5_Rate " & _
-              " union all " & _
-              " select distinct TAX6,TAX6_Rate,sum(TAX6_Amt) as TAX6_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX6,TAX6_Rate " & _
-              " union all " & _
-              " select distinct TAX7,TAX7_Rate,sum(TAX7_Amt) as TAX7_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX7,TAX7_Rate " & _
-              " union all " & _
-              " select distinct TAX8,TAX8_Rate,sum(TAX8_Amt) as TAX8_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX8,TAX8_Rate " & _
-              " union all " & _
-              " select distinct TAX9,TAX9_Rate,sum(TAX9_Amt) as TAX9_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX9,TAX9_Rate " & _
-              " union all " & _
-              " select distinct TAX10,TAX10_Rate,sum(TAX10_Amt) as TAX1_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX10,TAX10_Rate " & _
+        qry = " select distinct * from (" &
+              " select distinct TAX1 as Tax_RateType_Name,TAX1_Rate as Tax_RateType_Rate,sum(TAX1_Amt) as Tax_RateType_Amount  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX1,TAX1_Rate " &
+              " union all " &
+              " select distinct TAX2,TAX2_Rate,sum(TAX2_Amt) as TAX2_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX2,TAX2_Rate " &
+              " union all " &
+              " select distinct TAX3,TAX3_Rate,sum(TAX3_Amt) as TAX3_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX3,TAX3_Rate " &
+              " union all " &
+              " select distinct TAX4,TAX4_Rate,sum(TAX4_Amt) as TAX4_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX4,TAX4_Rate " &
+              " union all " &
+              " select distinct TAX5,TAX5_Rate,sum(TAX5_Amt) as TAX5_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX5,TAX5_Rate " &
+              " union all " &
+              " select distinct TAX6,TAX6_Rate,sum(TAX6_Amt) as TAX6_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX6,TAX6_Rate " &
+              " union all " &
+              " select distinct TAX7,TAX7_Rate,sum(TAX7_Amt) as TAX7_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX7,TAX7_Rate " &
+              " union all " &
+              " select distinct TAX8,TAX8_Rate,sum(TAX8_Amt) as TAX8_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX8,TAX8_Rate " &
+              " union all " &
+              " select distinct TAX9,TAX9_Rate,sum(TAX9_Amt) as TAX9_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX9,TAX9_Rate " &
+              " union all " &
+              " select distinct TAX10,TAX10_Rate,sum(TAX10_Amt) as TAX1_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX10,TAX10_Rate " &
               " ) as tax where Tax_RateType_Name is not null and Tax_RateType_Amount>0"
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -2104,11 +2109,11 @@ Public Class clsSNInvoiceDetail
                 clsCommon.AddColumnsForChange(coll, "Assessable", obj.Assessable)
                 clsCommon.AddColumnsForChange(coll, "AssessableAmt", obj.AssessableAmt)
 
-                Dim strSql As String = "select top 1 TSPL_ITEM_PRICE_MASTER.Price_Amount1 ,TSPL_ITEM_PRICE_MASTER.Price_Amount2 , " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Amount3 ,TSPL_ITEM_PRICE_MASTER.Price_Amount4 ,TSPL_ITEM_PRICE_MASTER.Price_Amount5 , " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Amount6 ,TSPL_ITEM_PRICE_MASTER.Price_Amount7 ,TSPL_ITEM_PRICE_MASTER.Price_Amount8 , " & _
-             "TSPL_ITEM_PRICE_MASTER.Price_Amount9 ,TSPL_ITEM_PRICE_MASTER.Price_Amount10 from TSPL_ITEM_PRICE_MASTER " & _
-            "where  TSPL_ITEM_PRICE_MASTER.Price_Code='" & obj.Price_code & "' and  TSPL_ITEM_PRICE_MASTER.Item_Code='" & obj.Item_Code & "' and  " & _
+                Dim strSql As String = "select top 1 TSPL_ITEM_PRICE_MASTER.Price_Amount1 ,TSPL_ITEM_PRICE_MASTER.Price_Amount2 , " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Amount3 ,TSPL_ITEM_PRICE_MASTER.Price_Amount4 ,TSPL_ITEM_PRICE_MASTER.Price_Amount5 , " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Amount6 ,TSPL_ITEM_PRICE_MASTER.Price_Amount7 ,TSPL_ITEM_PRICE_MASTER.Price_Amount8 , " &
+             "TSPL_ITEM_PRICE_MASTER.Price_Amount9 ,TSPL_ITEM_PRICE_MASTER.Price_Amount10 from TSPL_ITEM_PRICE_MASTER " &
+            "where  TSPL_ITEM_PRICE_MASTER.Price_Code='" & obj.Price_code & "' and  TSPL_ITEM_PRICE_MASTER.Item_Code='" & obj.Item_Code & "' and  " &
             "TSPL_ITEM_PRICE_MASTER.Item_Basic_Net=" & obj.MRP & " and TSPL_ITEM_PRICE_MASTER.UOM='" & obj.Unit_code & "' "
                 Dim dt = New DataTable()
                 dt = clsDBFuncationality.GetDataTable(strSql, trans)
@@ -2173,10 +2178,10 @@ Public Class clsSNInvoiceDetail
     End Function
 
     Public Shared Function GetBalanceSRNQty(ByVal strSRNCode As String, ByVal strICode As String, ByVal strCurrPINNo As String, ByVal strUOM As String, ByVal dblMRP As Double, ByVal dblAssessable As Double) As Double
-        Dim qry As String = "select SUM(qty * RI) as Balance from(  " & _
-            " select TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as ICode,TSPL_SD_SALE_INVOICE_DETAIL.Qty as Qty,1 as RI from TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code where TSPL_SD_SALE_INVOICE_DETAIL.Status=0 and TSPL_SD_SALE_INVOICE_HEAD.Status=1 and TSPL_SD_SALE_INVOICE_DETAIL.Document_Code ='" + strSRNCode + "' and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code='" + strICode + "' and  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SD_SALE_INVOICE_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_SD_SALE_INVOICE_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' " & _
-            " union all " & _
-            " select TSPL_PI_DETAIL.Item_Code as ICode,TSPL_PI_DETAIL.PI_Qty as Qty,-1 as RI from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No where TSPL_PI_DETAIL.SRN_Id='" + strSRNCode + "'   and TSPL_PI_DETAIL.Item_Code='" + strICode + "'  and  TSPL_PI_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PI_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PI_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'  and TSPL_PI_DETAIL.PI_No not in ('" + strCurrPINNo + "')  " & _
+        Dim qry As String = "select SUM(qty * RI) as Balance from(  " &
+            " select TSPL_SD_SALE_INVOICE_DETAIL.Item_Code as ICode,TSPL_SD_SALE_INVOICE_DETAIL.Qty as Qty,1 as RI from TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_DETAIL.Document_Code where TSPL_SD_SALE_INVOICE_DETAIL.Status=0 and TSPL_SD_SALE_INVOICE_HEAD.Status=1 and TSPL_SD_SALE_INVOICE_DETAIL.Document_Code ='" + strSRNCode + "' and TSPL_SD_SALE_INVOICE_DETAIL.Item_Code='" + strICode + "' and  TSPL_SD_SALE_INVOICE_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SD_SALE_INVOICE_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_SD_SALE_INVOICE_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' " &
+            " union all " &
+            " select TSPL_PI_DETAIL.Item_Code as ICode,TSPL_PI_DETAIL.PI_Qty as Qty,-1 as RI from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_HEAD.PI_No=TSPL_PI_DETAIL.PI_No where TSPL_PI_DETAIL.SRN_Id='" + strSRNCode + "'   and TSPL_PI_DETAIL.Item_Code='" + strICode + "'  and  TSPL_PI_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PI_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PI_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'  and TSPL_PI_DETAIL.PI_No not in ('" + strCurrPINNo + "')  " &
             " )Final "
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
     End Function

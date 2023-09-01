@@ -50,7 +50,7 @@ Public Class RCDFDashboard
 
 
         gvAccountCustomer.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
-        gvAccountCustomer.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
+        gvAccountVendor.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
 
         'cvZone.Views.AddNew()
         'Dim controllerZone As New DrillDownController()
@@ -512,7 +512,7 @@ Public Class RCDFDashboard
                 gvAccountVendor.AllowAddNewRow = False
 
                 gvAccountVendor.GroupDescriptors.Clear()
-                gvAccountVendor.TableElement.TableHeaderHeight = 40
+                gvAccountVendor.TableElement.TableHeaderHeight = 35
                 gvAccountVendor.MasterTemplate.ShowRowHeaderColumn = False
                 gvAccountVendor.DataSource = dtAccountVendor
                 gvAccountVendor.Columns("VCode").HeaderText = "Account Code"

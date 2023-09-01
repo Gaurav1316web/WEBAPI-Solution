@@ -1036,14 +1036,11 @@ Public Class frmVSP_VLCMaster
                 clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
             End If
 
-
             updateMultipleIncentive(fndvendorNo.Value, trans)
-
             'If clsCommon.myLen(findfndbankcode2.Value) > 0 OrElse clsCommon.myLen(fndbankcode2.Text) > 0 Then
-            '    Dim qryBankDetail2 As String = "update tspl_vendor_master set BankCode2='" + clsCommon.myCstr(IIf(EnableBankFromMaster = True, findfndbankcode2.Value, fndbankcode2.Text)) + "',BankName2='" + TxtBankName2.Text + "',Credit2='" + clsCommon.myCDecimal(txtCredit2.Text) + "', IFSCCode2='" + clsCommon.myCstr(IIf(EnableBankFromMaster = True, findTxtIFSCCode2.Value, txtIFSCCode2.Text)) + "' where Vendor_Code='" + clsCommon.myCstr(fndvendorNo.Value) + "'"
+            '    Dim qryBankDetail2 As String = "update tspl_vendor_master set BankCode2='" + clsCommon.myCstr(IIf(EnableBankFromMaster = True, findfndbankcode2.Value, fndbankcode2.Text)) + "',BankName2='" + TxtBankName2.Text + "',Credit2='" + clsCommon.myCDecimal(txtCredit2.Text) + "', IFSCCode2='" + clsCommon.myCstr(IIf(EnableBankFromMaster = True, findTxtIFSCCode2.Value, txtIFSCCode2.Text)) + "',SecurityCharges2='" + clsCommon.myCstr(TxtSecurityCharges2.Text) + "',AccountType2='" + clsCommon.myCstr(cmbAccountType2.SelectedValue) + "',AccNo2='" + TxtAccNo2.Text + "',BankBranch2='" + txtBankBranch2.Text + "' where Vendor_Code='" + clsCommon.myCstr(fndvendorNo.Value) + "'"
             '    clsDBFuncationality.ExecuteNonQuery(qryBankDetail2, trans)
             'End If
-
 
             'Sanjay
             If chkCreateCustomerAlso.Checked = True Then
@@ -1062,17 +1059,12 @@ Public Class frmVSP_VLCMaster
                     CreateDefaultUserMaster(trans)
                 End If
             End If
-
             UpdateFeild(fndvendorNo.Value, fndvlccode.Text, trans)
-
-
-
             btnsave.Text = "Update"
             btndelete.Enabled = True
             trans.Commit()
             UcAttachment1.SaveData(fndvendorNo.Value)
             myMessages.insert()
-
         Catch ex As Exception
             trans.Rollback()
             myMessages.myExceptions(ex)
@@ -1274,6 +1266,17 @@ Public Class frmVSP_VLCMaster
                 obj.TFOwnBMC = False
                 obj.OwnBMCDate = Nothing
             End If
+
+            'obj.Bank_Code2 = clsCommon.myCstr(IIf(EnableBankFromMaster = True, findfndbankcode2.Value, fndbankcode2.Text))
+            'obj.Bank_Name2 = TxtBankName2.Text
+            'obj.IFSC_Code2 = clsCommon.myCstr(IIf(EnableBankFromMaster = True, findTxtIFSCCode2.Value, txtIFSCCode2.Text))
+            'obj.Account_Type2 = clsCommon.myCstr(cmbAccountType2.SelectedValue)
+            'obj.AccNo2 = TxtAccNo2.Text
+            'obj.Security_Charges2 = clsCommon.myCstr(TxtSecurityCharges2.Text)
+            'obj.Bank2_Credit2 = clsCommon.myCDecimal(txtCredit2.Text)
+            'obj.Bank_Branch2 = txtBankBranch2.Text
+
+
 
             Dim arr As New List(Of clsfrmVLCMaster)
             obj.Form_ID = MyBase.Form_ID
@@ -2529,19 +2532,20 @@ Public Class frmVSP_VLCMaster
             isOwnBMC = 1
             MCCOwnBMC = clsCommon.myCstr(txtMCCOwnBMC.Value)
         End If
+
         Dim strIFSCCode As String = ""
-        If txtIFSCCode2.Visible = True Then
+        If clsCommon.myLen(txtIFSCCode2.Text) > 0 Then
             strIFSCCode = txtIFSCCode2.Text
-        ElseIf findTxtIFSCCode2.Visible = True Then
+        ElseIf clsCommon.myLen(findTxtIFSCCode2.Value) > 0 Then
             strIFSCCode = findTxtIFSCCode2.Value
         Else
             strIFSCCode = ""
         End If
 
         Dim strbank As String = ""
-        If fndbankcode2.Visible = True Then
-            strbank = findfndbankcode2.Value
-        ElseIf findfndbankcode2.Visible = True Then
+        If clsCommon.myLen(fndbankcode2.Text) > 0 Then
+            strbank = fndbankcode2.Text
+        ElseIf clsCommon.myLen(findfndbankcode2.Value) > 0 Then
             strbank = findfndbankcode2.Value
         Else
             strbank = ""
@@ -2933,7 +2937,7 @@ Public Class frmVSP_VLCMaster
         txtTIPMix.Value = TIPRateMix
 
         If objCommonVar.ApplyDefaultsInMaster = True Then
-            chkCreateCustomerAlso.Checked = True
+            chkCreateCustomerAlso.Checked = False
             fndgroupcode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Ven_Group_Code from Tspl_vendor_group where Default_VSP=1"))
             If clsCommon.myLen(fndgroupcode.Value) > 0 Then
                 txtgroupdes.Text = clsDBFuncationality.getSingleValue("Select group_desc from tspl_vendor_group where ven_group_code='" + fndgroupcode.Value + "'")
@@ -3592,7 +3596,6 @@ Public Class frmVSP_VLCMaster
                 Errorcontrol.ResetError(cmbvsppayment)
             End If
 
-
             If EnableBankFromMaster = True Then
                 If clsCommon.myLen(findfndbankcode.Value) = 0 Then
                     myMessages.blankValue("Please Enter Bank Code")
@@ -3615,43 +3618,49 @@ Public Class frmVSP_VLCMaster
                 Else
                     Errorcontrol.ResetError(findTxtIFSCCode)
                 End If
-
-
-                If clsCommon.myLen(findfndbankcode2.Value) = 0 Then
-                    myMessages.blankValue("Please Enter Bank Code")
-                    pageCus.SelectedPage = RadPageViewPage2
-                    fndbankcode2.Focus()
-                    findfndbankcode2.Select()
-                    Errorcontrol.SetError(findfndbankcode2, "Please Enter Bank Code")
-                    Return
-                Else
-                    Errorcontrol.ResetError(findTxtIFSCCode2)
-                End If
-                If clsCommon.myLen(findTxtIFSCCode2.Value) = 0 Then
-                    myMessages.blankValue("Please Enter IFSC Code")
-                    pageCus.SelectedPage = RadPageViewPage2
-                    findTxtIFSCCode2.Focus()
-                    findTxtIFSCCode2.Select()
-                    Errorcontrol.SetError(findTxtIFSCCode2, "Please Enter IFSC Code")
-                    Return
-                Else
-                    Errorcontrol.ResetError(findTxtIFSCCode2)
-                End If
-
-            Else
-                'If clsCommon.myLen(fndbankcode.Text) = 0 Then
+                'If clsCommon.myLen(findfndbankcode2.Value) = 0 Then
                 '    myMessages.blankValue("Please Enter Bank Code")
                 '    pageCus.SelectedPage = RadPageViewPage2
-                '    fndbankcode.Focus()
-                '    fndbankcode.Select()
-                '    Errorcontrol.SetError(fndbankcode, "Please Enter Bank Code")
+                '    fndbankcode2.Focus()
+                '    findfndbankcode2.Select()
+                '    Errorcontrol.SetError(findfndbankcode2, "Please Enter Bank Code")
                 '    Return
                 'Else
-                '    Errorcontrol.ResetError(fndbankcode)
+                '    Errorcontrol.ResetError(findTxtIFSCCode2)
                 'End If
+                'If clsCommon.myLen(findTxtIFSCCode2.Value) = 0 Then
+                '    myMessages.blankValue("Please Enter IFSC Code")
+                '    pageCus.SelectedPage = RadPageViewPage2
+                '    findTxtIFSCCode2.Focus()
+                '    findTxtIFSCCode2.Select()
+                '    Errorcontrol.SetError(findTxtIFSCCode2, "Please Enter IFSC Code")
+                '    Return
+                'Else
+                '    Errorcontrol.ResetError(findTxtIFSCCode2)
+                'End If
+            Else
+                If clsCommon.myLen(fndbankcode.Text) = 0 Then
+                    myMessages.blankValue("Please Enter Bank Code")
+                    pageCus.SelectedPage = RadPageViewPage2
+                    fndbankcode.Focus()
+                    fndbankcode.Select()
+                    Errorcontrol.SetError(fndbankcode, "Please Enter Bank Code")
+                    Return
+                Else
+                    Errorcontrol.ResetError(fndbankcode)
+                End If
 
+                If clsCommon.myLen(TxtIFSCCode.Text) = 0 Then
+                    myMessages.blankValue("Please Enter IFSC Code")
+                    pageCus.SelectedPage = RadPageViewPage2
+                    TxtIFSCCode.Focus()
+                    TxtIFSCCode.Select()
+                    Errorcontrol.SetError(TxtIFSCCode, "Please Enter IFSC Code")
+                    Return
+                Else
+                    Errorcontrol.ResetError(TxtIFSCCode)
+                End If
                 '''richa agarwal 27/03/2015
-
                 ''--------------------
             End If
 

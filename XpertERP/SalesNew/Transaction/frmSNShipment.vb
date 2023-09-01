@@ -409,7 +409,7 @@ Public Class frmSNShipment
         txtDesc.MaxLength = 200
         txtComment.MaxLength = 2000
         txtRefNo.MaxLength = 50
-        txtCarrier.MaxLength = 50
+        'txtCarrier.MaxLength = 50
         txtGRNo.MaxLength = 50
         txtGENo.MaxLength = 50
 
@@ -489,7 +489,7 @@ Public Class frmSNShipment
         lblTotRAmt.Text = ""
         lblTotRAmt1.Text = ""
         UsLock1.Status = ERPTransactionStatus.Pending
-        txtCarrier.Text = ""
+        lbltransporter.Text = ""
         txtVehicleCode.Value = ""
         lblVehicleNo.Text = ""
         txtGRNo.Text = ""
@@ -502,6 +502,7 @@ Public Class frmSNShipment
         cboItemType.SelectedIndex = 2
         cboItemType.Enabled = True
         txtBillToLocation.Enabled = True
+        fndtransporter.Value = ""
         txtReqNo.Value = ""
         chkVendorGrossReceipt.Checked = False
         lblAddCharges1.Text = ""
@@ -3867,9 +3868,10 @@ Public Class frmSNShipment
                 obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
                 obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
 
-                obj.Carrier = txtCarrier.Text
-                obj.Vehicle_Code = txtVehicleCode.Value
-                obj.VehicleNo = lblVehicleNo.Text
+                obj.Carrier = lbltransporter.Text
+                obj.transport_id = fndtransporter.Value
+                obj.VehicleNo = txtVehicleCode.Value
+                'obj.VehicleNo =
                 obj.GRNo = txtGRNo.Text
                 obj.GENo = txtGENo.Text
 
@@ -4253,9 +4255,10 @@ Public Class frmSNShipment
                 lblShipToLocation.Text = obj.ShipToLocationName
                 lblTaxGrpName.Text = obj.TaxGroupName
                 lblTermName.Text = obj.TermsName
-                txtCarrier.Text = obj.Carrier
-                lblVehicleNo.Text = obj.VehicleNo
-                txtVehicleCode.Value = obj.Vehicle_Code
+                lbltransporter.Text = obj.Carrier
+                fndtransporter.Value = obj.transport_id
+                txtVehicleCode.Value = obj.VehicleNo
+                'txtVehicleCode.Value = obj.Vehicle_Code
                 txtGRNo.Text = obj.GRNo
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
@@ -4924,8 +4927,8 @@ Public Class frmSNShipment
                     obj.DOC_Total_Amt = clsCommon.myCdbl(lblAmtWithDiscount.Text)
 
                     obj.TransferOutNo = ""
-                    obj.Vehicle_Code = txtVehicleCode.Value
-                    obj.Vehicle_No = lblVehicleNo.Text
+                    obj.Vehicle_No = txtVehicleCode.Value
+                    'obj.Vehicle_No = lblVehicleNo.Text
                     obj.Km_Reading = 1
                     obj.Is_AgainstFormF = 0
                     obj.Type = ""
@@ -5095,7 +5098,7 @@ Public Class frmSNShipment
                         objIn.DOC_Total_Amt = objTransfer.DOC_Total_Amt
 
                         objIn.TransferOutNo = strTransferOut
-                        objIn.Vehicle_Code = objTransfer.Vehicle_Code
+                        'objIn.Vehicle_Code = objTransfer.Vehicle_Code
                         objIn.Vehicle_No = objTransfer.Vehicle_No
                         objIn.Km_Reading = 1
                         objIn.Is_AgainstFormF = 0
@@ -5773,8 +5776,8 @@ Public Class frmSNShipment
         Dim WhrCls As String = " Location_Type='Physical'  "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-        Else
-            WhrCls += "  and  Location_Code in ('RCDF')"
+            'Else
+            '    WhrCls += "  and  Location_Code in ('RCDF')"
         End If
         txtBillToLocation.Value = clsCommon.ShowSelectForm("ShipmentMasteidfndr", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
         lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
@@ -7412,9 +7415,13 @@ Public Class frmSNShipment
 
     Private Sub txtVehicleCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtVehicleCode._MYValidating
         Try
-            Dim qry As String = "Select distinct  vehicle_id ,Description from TSPL_VEHICLE_MASTER"
+            Dim qry As String = "Select distinct  vehicle_id ,Description,Transport_id ,Vendor_Name from TSPL_VEHICLE_MASTER
+                                 left outer join TSPL_VENDOR_MASTER on tspl_vehicle_master.transport_id=TSPL_VENDOR_MASTER.vendor_code"
             txtVehicleCode.Value = clsCommon.ShowSelectForm("Vehicle No", qry, "vehicle_id", "", txtVehicleCode.Value, "vehicle_id", isButtonClicked)
             lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
+            lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name as Name from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + txtVehicleCode.Value + "'"))
+            fndtransporter.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Code as Code from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + txtVehicleCode.Value + "'"))
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -8144,7 +8151,7 @@ Public Class frmSNShipment
 
     Private Sub Export_Head_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Export_Head.Click
         Dim sQuery As String = "select Document_Code as [Document Code],RANK() over(order by Document_Code desc) as [S No],Document_Date AS [Document Date],Customer_Code as [Customer Code],Description,Remarks,Bill_To_Location as [Bill To Location]," _
-        & " Ship_To_Location as [Ship To Location],Tax_Group as [Tax Group],PROJECT_ID as [Project Id],Carrier,VehicleNo,Vehicle_Code" _
+        & " Ship_To_Location as [Ship To Location],Tax_Group as [Tax Group],PROJECT_ID as [Project Id],Carrier,Transport_Id,VehicleNo" _
         & " as [Vehicle Code],GRNo,GENo,GEDate,Dept,Salesman_Code as [Salesman Code],Salesman_Name as [Salesman Name],Price_code as [Price Code]," _
         & " Route_No as [Route No],Add_Charge_Code1,Add_Charge_Amt1,Add_Charge_Code2,Add_Charge_Amt2,Add_Charge_Code3,Add_Charge_Amt3" _
         & " ,Add_Charge_Code4,Add_Charge_Amt4,Add_Charge_Code5,Add_Charge_Amt5,Add_Charge_Code6,Add_Charge_Amt6,Add_Charge_Code7,Add_Charge_Amt7" _
@@ -8248,9 +8255,10 @@ Public Class frmSNShipment
                 lblTaxGrpName.Text = obj.TaxGroupName
                 lblTermName.Text = obj.TermsName
 
-                txtCarrier.Text = obj.Carrier
-                lblVehicleNo.Text = obj.VehicleNo
-                txtVehicleCode.Value = obj.Vehicle_Code
+                lbltransporter.Text = obj.Carrier
+                fndtransporter.Value = obj.transport_id
+                txtVehicleCode.Value = obj.VehicleNo
+                'txtVehicleCode.Value = obj.Vehicle_Code
                 txtGRNo.Text = obj.GRNo
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
@@ -9307,6 +9315,15 @@ where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) 
 
         Next
 
+    End Sub
+
+    Private Sub fndtransporter__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndtransporter._MYValidating
+        If isButtonClicked Then
+            Dim qry As String = "select Transport_Id as [Transport Id],Transporter_Name as [Transporter Name] from TSPL_TRANSPORT_MASTER"
+            fndtransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndtransporter.Value, "", isButtonClicked)
+            lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transporter_Name as Name from TSPL_TRANSPORT_MASTER where Transport_Id ='" + fndtransporter.Value + "'"))
+
+        End If
     End Sub
 End Class
 
