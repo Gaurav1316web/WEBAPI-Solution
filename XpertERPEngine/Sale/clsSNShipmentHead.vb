@@ -371,7 +371,7 @@ Public Class clsSNShipmentHead
             clsCommon.AddColumnsForChange(coll, "Transporter_Name", obj.Carrier)
             clsCommon.AddColumnsForChange(coll, "Transport_Id", obj.transport_id)
             clsCommon.AddColumnsForChange(coll, "VehicleNo", obj.VehicleNo)
-            clsCommon.AddColumnsForChange(coll, "Vehicle_Code", obj.Vehicle_Code)
+            'clsCommon.AddColumnsForChange(coll, "Description", obj.Vehicle_Code)
             clsCommon.AddColumnsForChange(coll, "GRNo", obj.GRNo)
             clsCommon.AddColumnsForChange(coll, "GENo", obj.GENo)
             clsCommon.AddColumnsForChange(coll, "Dept", obj.Dept)
@@ -739,7 +739,7 @@ Public Class clsSNShipmentHead
             obj.Carrier = clsCommon.myCstr(dt.Rows(0)("transporter_name"))
             obj.transport_id = clsCommon.myCstr(dt.Rows(0)("Transport_Id"))
             obj.VehicleNo = clsCommon.myCstr(dt.Rows(0)("VehicleNo"))
-            obj.Vehicle_Code = clsCommon.myCstr(dt.Rows(0)("Vehicle_Code"))
+            'obj.Vehicle_Code = clsCommon.myCstr(dt.Rows(0)("Description"))
             obj.GRNo = clsCommon.myCstr(dt.Rows(0)("GRNo"))
             obj.GENo = clsCommon.myCstr(dt.Rows(0)("GENo"))
             If dt.Rows(0)("GEDate") IsNot DBNull.Value Then
@@ -1396,7 +1396,7 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
         obj.Challan_No = objShipment.Challan_No
         obj.Carrier = objShipment.Carrier
         obj.transport_id = objShipment.transport_id
-        obj.Vehicle_Code = objShipment.Vehicle_Code
+        'obj.Vehicle_Code = objShipment.Vehicle_Code
         obj.VehicleNo = objShipment.VehicleNo
         obj.GRNo = objShipment.GRNo
         obj.GENo = objShipment.GENo

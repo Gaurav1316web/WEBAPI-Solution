@@ -100,6 +100,16 @@ Public Class frmDBTRecoVsIncentiveReport
                     whre += " and TSPL_VENDOR_MASTER.Zone_Code in  (" + objCommonVar.strCurrUserZones + ")"
                 End If
 
+                Dim qryStatus As String = Nothing
+                If rbtnMatch.IsChecked Then
+                    qryStatus = " where Status='Match' "
+                ElseIf rbtnNotMatch.IsChecked Then
+                    qryStatus = " where Status='Not Match' "
+                Else
+                    qryStatus = Nothing
+                End If
+
+
                 Dim QryINCENTIVE_RECO As String = "select yy.Cycle_Year,yy.Cycle_Month
                 ,isnull(sum(yy.Qty),0) as RecoQty
                 ,yy.Zone_Code as [Zone Code], max(yy.Zone_Name) as [Zone Name]
@@ -211,7 +221,7 @@ Public Class frmDBTRecoVsIncentiveReport
                 'End If
 
                 If clsCommon.CompairString(ddlType.SelectedValue, "Zone Wise") = CompairStringResult.Equal Then
-                    Qry = "select INCENTIVE.[Zone Code],max(INCENTIVE.[Zone Name]) AS [Zone Name],
+                    Qry = "Select * from (select INCENTIVE.[Zone Code],max(INCENTIVE.[Zone Name]) AS [Zone Name],
                     isnull(sum(INCENTIVE.RecoQty),0) as [Reco Qty]
                     , isnull(sum(INCENTIVE.MPCount),0) as [MP Count]
                     ,isnull(sum(INCENTIVE.Qty),0) as [Incentive Qty]"
@@ -225,7 +235,7 @@ Public Class frmDBTRecoVsIncentiveReport
                     " union all " + QryINCENTIVE + " )INCENTIVE 
                     group by INCENTIVE.Cycle_Year,INCENTIVE.Cycle_Month,INCENTIVE.[Zone Code]"
                 ElseIf clsCommon.CompairString(ddlType.SelectedValue, "DCS Wise") = CompairStringResult.Equal Then
-                    Qry = "select INCENTIVE.VLC_Code_VLC_Uploader as [DCS Code],max(INCENTIVE.[Vendor Name]) AS [DCS Name],INCENTIVE.Vendor_Code as [Code],
+                    Qry = "Select * from (select INCENTIVE.VLC_Code_VLC_Uploader as [DCS Code],max(INCENTIVE.[Vendor Name]) AS [DCS Name],INCENTIVE.Vendor_Code as [Code],
                     isnull(sum(INCENTIVE.RecoQty),0) as [Reco Qty]
                     , isnull(sum(INCENTIVE.MPCount),0) as [MP Count]
                     ,isnull(sum(INCENTIVE.Qty),0) as [Incentive Qty]"
@@ -245,7 +255,7 @@ Public Class frmDBTRecoVsIncentiveReport
                 ElseIf rbtnNotMatch.IsChecked = True Then
                     Qry += " having abs(isnull(sum(INCENTIVE.RecoQty),0)-isnull(sum(INCENTIVE.Qty),0))>=1"
                 End If
-
+                Qry += ") abc" + qryStatus
                 dt = Nothing
                 dt = clsDBFuncationality.GetDataTable(Qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
