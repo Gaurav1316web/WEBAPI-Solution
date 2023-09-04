@@ -2473,7 +2473,7 @@ Public Class clsEkoPro
                         qry += " and TSPL_FAT_SNF_UPLOADER_VLC.VLC_Code='" & vlcCode & "'"
                     End If
                     qry += " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPLOADER_VLC.VLC_Code
-left outer join  (select Code,max(FAT) as MaxFAT ,max(SNF) as MaxSNF from TSPL_FAT_SNF_UPLOADER_MASTER group by Code) as TabMAXFATSNF on TabMAXFATSNF.Code=TSPL_FAT_SNF_UPLOADER_MASTER.Code
+left outer join  (select Code,IIF(" & FatPer & ">xx.MaxFAT, xx.MaxFAT, " & FatPer & ") as MaxFAT,IIF(" & GetSNFForPrice(SNFPer) & " > xx.MaxSNF, xx.MaxSNF, " & GetSNFForPrice(SNFPer) & ") as MaxSNF  from (select Code,max(FAT) as MaxFAT ,max(SNF) as MaxSNF from TSPL_FAT_SNF_UPLOADER_MASTER group by Code )xx) as TabMAXFATSNF on TabMAXFATSNF.Code=TSPL_FAT_SNF_UPLOADER_MASTER.Code
                 where  posted='1'"
                     If objCommonVar.DisplayTypeInMilkReceipt Then
                         qry += " and TSPL_FAT_SNF_UPLOADER_MASTER.Dock_Collection_Milk_Type='" + strMilkType + "' "
@@ -2482,8 +2482,7 @@ left outer join  (select Code,max(FAT) as MaxFAT ,max(SNF) as MaxSNF from TSPL_F
                     Else
                         qry += " and TSPL_FAT_SNF_UPLOADER_MASTER.Dock_Collection_Milk_Type='M' "
                     End If
-                    qry += "  and TSPL_FAT_SNF_UPLOADER_MASTER.fat= (case when " & FatPer & ">TabMAXFATSNF.MaxFAT then TabMAXFATSNF.MaxFAT else " & FatPer & " end ) 
- and  TSPL_FAT_SNF_UPLOADER_MASTER.SNF=(case when " & GetSNFForPrice(SNFPer) & ">TabMAXFATSNF.MaxSNF then TabMAXFATSNF.MaxSNF else " & GetSNFForPrice(SNFPer) & " end ) 
+                    qry += " and TSPL_FAT_SNF_UPLOADER_MASTER.fat=TabMAXFATSNF.MaxFAT and TSPL_FAT_SNF_UPLOADER_MASTER.SNF=TabMAXFATSNF.MaxSNF 
  and (date< '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' or (date= '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' and Price_code_shift>='" & Shift & "')) and ( TSPL_FAT_SNF_UPLOADER_MASTER.In_Active_From is null or TSPL_FAT_SNF_UPLOADER_MASTER.In_Active_From > '" & clsCommon.GetPrintDate(Doc_Date, "dd/MMM/yyyy") & "' ) " + Environment.NewLine +
                     " order by date desc ,TSPL_FAT_SNF_UPLOADER_MASTER.code desc"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
