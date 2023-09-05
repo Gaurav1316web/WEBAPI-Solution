@@ -2578,9 +2578,9 @@ Partial Class frmSNShipment
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer2)
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1234, 491)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1234, 495)
         Me.RadPageViewPage3.Text = "Additional Charges"
         '
         'SplitContainer2
@@ -2598,8 +2598,8 @@ Partial Class frmSNShipment
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadLabel31)
         Me.SplitContainer2.Panel2.Controls.Add(Me.lblAddCharges)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1234, 491)
-        Me.SplitContainer2.SplitterDistance = 443
+        Me.SplitContainer2.Size = New System.Drawing.Size(1234, 495)
+        Me.SplitContainer2.SplitterDistance = 447
         Me.SplitContainer2.TabIndex = 0
         '
         'gvAC
@@ -2622,7 +2622,7 @@ Partial Class frmSNShipment
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
-        Me.gvAC.Size = New System.Drawing.Size(1234, 443)
+        Me.gvAC.Size = New System.Drawing.Size(1234, 447)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
         '
@@ -2654,9 +2654,9 @@ Partial Class frmSNShipment
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
-        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
+        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 31)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1234, 491)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1234, 495)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'UcCustomFields1
@@ -2664,7 +2664,7 @@ Partial Class frmSNShipment
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1234, 491)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1234, 495)
         Me.UcCustomFields1.TabIndex = 1
         '
         'Attachments

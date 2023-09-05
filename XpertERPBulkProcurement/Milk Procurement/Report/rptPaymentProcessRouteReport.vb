@@ -2933,69 +2933,10 @@ select * from CTE left outer join
 where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
 
             dt = clsDBFuncationality.GetDataTable(DCSSummaryQuery)
-            Dim AvgDCS As String = "convert(decimal(18,2),(round(sum(Total)/" + Days + " , 0)))"
-            Dim strCompanyCityCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select City_Code from TSPL_COMPANY_MASTER where Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'"))
-            Dim DCSSubReportQuery As String = "Select " + Days + " as Days,'" & CompName & "'  as CompName,'" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate,'" + strCompanyCityCode + "' as City_Code, SUM([<51Qty])AS [<51Qty], SUM([<51DCS])AS [<51DCS], SUM([51-150Qty]) AS [51-150Qty] , SUM([51-150DCS])AS [51-150DCS],SUM([151-300Qty])AS [151-300Qty],SUM([151-300DCS])AS [151-300DCS], Sum([301-500Qty]) As [301-500Qty], Sum([301-500DCS]) As [301-500DCS],Sum([>500Qty]) As [>500Qty] , Sum([>500DCS]) As [>500DCS] , sum ([<51DCS]+ [51-150DCS] + [151-300DCS] + [301-500DCS] + [>500DCS]) as Total_DCS
-,sum ([<51Qty]+ [51-150Qty] + [151-300Qty] + [301-500Qty] + [>500Qty]) as Total_Qty
-from(
-select  SUM(Milk_Weight)As [<51Qty] , count(DCS) AS [<51DCS] ,0 AS [51-150Qty] , 0 AS [51-150DCS],
-0 AS [151-300Qty] ,0 AS [151-300DCS],0 AS [301-500Qty] , 0 AS [301-500DCS],0 AS [>500Qty], 0 AS [>500DCS]  from (Select " + AvgDCS + " As  Avg_Day , sum(total) as Milk_Weight , count(VLC_Code_VLC_Uploader) as DCS
-				from(select isnull(sum(MILK_WEIGHT),0) as total, VLC_Code_VLC_Uploader from TSPL_MILK_RECEIPT_DETAIL 
-				Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE where (convert (date,DOC_DATE,103))  >= convert (date, '" + startDate + "' ,103) and (convert (date,DOC_DATE,103)) <= convert (date, '" + endDate + "' ,103) group by VLC_Code_VLC_Uploader
-				union 
-				select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL
-				Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE
-				left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) >=convert (date, '" + startDate + "' ,103) AND (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) <=convert (date, '" + endDate + "' ,103) group by VLC_Code_VLC_Uploader ) xyz
-									group by VLC_Code_VLC_Uploader )abc where avg_day < 51
-UNION
-select  0 AS [<51Qty] , 0 AS [<51DCS] ,SUM(Milk_Weight) AS [51-150Qty] , count(DCS)AS [51-150DCS],
- 0 AS [151-300Qty] ,0 AS [151-300DCS],0 AS [301-500Qty], 0 As [301-500DCS] ,0 AS [>500Qty], 0 AS [>500DCS]
-from (Select " + AvgDCS + " As  Avg_Day , sum(total) as Milk_Weight , count(VLC_Code_VLC_Uploader) as DCS
-				from(select isnull(sum(MILK_WEIGHT),0) as total, VLC_Code_VLC_Uploader from TSPL_MILK_RECEIPT_DETAIL 
-				Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE where (convert (date,DOC_DATE,103))  >= convert (date, '" + startDate + "' ,103) and (convert (date,DOC_DATE,103)) <= convert (date, '" + endDate + "' ,103) group by VLC_Code_VLC_Uploader
-				union 
-				select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL
-				Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE
-				left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) >= convert (date, '" + startDate + "' ,103) AND (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) <=convert (date, '" + endDate + "' ,103) group by VLC_Code_VLC_Uploader ) xyz
-									group by VLC_Code_VLC_Uploader )abc where avg_day >= 51 AND Avg_Day < 150
-UNION
-select  0 AS [<51Qty] , 0 AS [<51DCS] ,0 AS [51-150Qty], 0 AS [51-150DCS],SUM(Milk_Weight)AS [151-300Qty] , count(DCS)AS [151-300DCS] ,
-0 AS [301-500Qty] , 0 AS [301-500DCS],0 AS [>500Qty], 0 AS [>500DCS] from (Select " + AvgDCS + " As  Avg_Day , sum(total) as Milk_Weight , count(VLC_Code_VLC_Uploader) as DCS
-				from(select isnull(sum(MILK_WEIGHT),0) as total, VLC_Code_VLC_Uploader from TSPL_MILK_RECEIPT_DETAIL 
-				Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE where (convert (date,DOC_DATE,103))  >= convert (date, '" + startDate + "' ,103) and (convert (date,DOC_DATE,103)) <= convert (date, '" + endDate + "' ,103) group by VLC_Code_VLC_Uploader
-				union 
-				select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL
-				Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE
-				left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) >=convert (date, '" + startDate + "' ,103) AND (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) <= convert (date, '" + endDate + "' ,103) group by VLC_Code_VLC_Uploader ) xyz			
-group by VLC_Code_VLC_Uploader )abc 
-where avg_day >= 151 AND Avg_Day < 300
-UNION
-select  0 AS [<51Qty] , 0 AS [<51DCS],0 AS [51-150Qty], 0 AS [51-150DCS],0 AS [151-300Qty] ,0 AS [151-300DCS],SUM(Milk_Weight) As [301-500Qty], count(DCS) As [301-500DCS],
-0 AS [>500Qty], 0 AS [>500DCS] from (Select convert(decimal(18,2),
-(round(sum(Total)/15 , 0))) As  Avg_Day , sum(total) as Milk_Weight , count(VLC_Code_VLC_Uploader) as DCS
-				from(select isnull(sum(MILK_WEIGHT),0) as total, VLC_Code_VLC_Uploader from TSPL_MILK_RECEIPT_DETAIL 
-				Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE where (convert (date,DOC_DATE,103))  >= convert (date, '" + startDate + "' ,103) and (convert (date,DOC_DATE,103)) <= convert (date, '" + endDate + "' ,103) group by VLC_Code_VLC_Uploader
-				union 
-				select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL
-				Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE
-				left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) >=convert (date, '" + startDate + "' ,103) AND (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) <=convert (date, '" + endDate + "' ,103) group by VLC_Code_VLC_Uploader ) xyz
-				
-					group by VLC_Code_VLC_Uploader )abc 
-where avg_day >= 301 AND Avg_Day < 500
- union 
-select  0 AS [<51Qty] , 0 AS [<51DCS] ,0 AS [51-150Qty], 0 AS [51-150DCS], 0 AS [151-300Qty] ,0 AS [151-300DCS],0 AS [301-500Qty], 0 As [301-500DCS],SUM(Milk_Weight) As [>500Qty] , count(DCS) As [>500DCS]  from (Select " + AvgDCS + " As  Avg_Day , sum(total) as Milk_Weight , count(VLC_Code_VLC_Uploader) as DCS
-				from(select isnull(sum(MILK_WEIGHT),0) as total, VLC_Code_VLC_Uploader from TSPL_MILK_RECEIPT_DETAIL 
-				Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE where (convert (date,DOC_DATE,103))  >= convert (date, '" + startDate + "' ,103) and (convert (date,DOC_DATE,103)) <= convert (date, '" + endDate + "' ,103) group by VLC_Code_VLC_Uploader
-				union 
-				select Isnull(sum(TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT),0) as total , VLC_Code_VLC_Uploader from TSPL_MILK_REJECT_DETAIL
-				Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_REJECT_DETAIL.VLC_CODE
-				left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" + startDate + "' AND (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) >=convert (date, '" + startDate + "' ,103) AND (convert (date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103)) <= convert (date, '" + endDate + "' ,103) group by VLC_Code_VLC_Uploader ) xyz				
-					group by VLC_Code_VLC_Uploader )abc where avg_day > 500				
-					) abcd"
-            Dim dtSubReport As DataTable = clsDBFuncationality.GetDataTable(DCSSubReportQuery)
+
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtSubReport, "rptDCSSummaryMontholyWise", "", "rptSubDCSSummaryMonthlyWise", Nothing)
+                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDCSSummaryMontholyWise", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow("No Data Found")
