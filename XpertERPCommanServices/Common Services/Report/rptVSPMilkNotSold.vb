@@ -22,17 +22,18 @@ Public Class rptVSPMilkNotSold
 
     Private Sub RptInventoryMovement_Load(sender As Object, e As EventArgs) Handles Me.Load
         isLoad = True
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-            Dim qry As String = "Select  Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Dim arr As New ArrayList
-                For Each dr As DataRow In dt.Rows
-                    arr.Add(clsCommon.myCstr(dr("Code")))
-                Next
-                txtMultiDeduction.arrValueMember = arr
-            End If
-        End If
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+        '    ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
+        '    Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0)"
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '        Dim arr As New ArrayList
+        '        For Each dr As DataRow In dt.Rows
+        '            arr.Add(clsCommon.myCstr(dr("Code")))
+        '        Next
+        '        txtMultiDeduction.arrValueMember = arr
+        '    End If
+        'End If
         dtpToDate.Value = clsCommon.GETSERVERDATE()
         dtpFromDate.Value = dtpToDate.Value.AddMonths(-1)
         isLoad = False
@@ -48,18 +49,22 @@ Public Class rptVSPMilkNotSold
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
-
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
-            Dim qry As String = "Select  Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Dim arr As New ArrayList
-                For Each dr As DataRow In dt.Rows
-                    arr.Add(clsCommon.myCstr(dr("Code")))
-                Next
-                txtMultiDeduction.arrValueMember = arr
-            End If
+        chkDeduction.Checked = False
+        If clsCommon.myLen(txtMultiDeduction.arrValueMember) > 0 Then
+            txtMultiDeduction.arrValueMember.Clear()
         End If
+        'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+        '    ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
+        '    Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0)"
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+        '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '        Dim arr As New ArrayList
+        '        For Each dr As DataRow In dt.Rows
+        '            arr.Add(clsCommon.myCstr(dr("Code")))
+        '        Next
+        '        txtMultiDeduction.arrValueMember = arr
+        '    End If
+        'End If
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -527,24 +532,49 @@ Public Class rptVSPMilkNotSold
         End Try
     End Sub
 
-    Private Sub chkDeduction_Click(sender As Object, e As EventArgs) Handles chkDeduction.Click
-        Try
-            If chkDeduction.Checked = False Then
-                MyLabel3.Visible = True
-                txtMultiDeduction.Visible = True
-            Else
-                MyLabel3.Visible = False
-                txtMultiDeduction.Visible = False
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
-    End Sub
 
     Private Sub txtMultiDeduction__My_Click(sender As Object, e As EventArgs) Handles txtMultiDeduction._My_Click
         Try
             Dim qry As String = "Select Distinct Code,Description From TSPL_DEDUCTION_MASTER Left Outer Join TSPL_PAYMENT_PROCESS_DEDUCTION On TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code"
             txtMultiDeduction.arrValueMember = clsCommon.ShowMultipleSelectForm("VSPMilkDedMulSelect", qry, "Code", "Description", txtMultiDeduction.arrValueMember, txtMultiDeduction.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub chkDeduction_CheckStateChanged(sender As Object, e As EventArgs) Handles chkDeduction.CheckStateChanged
+        Try
+            If chkDeduction.Checked Then
+                If clsCommon.myLen(txtPaymentCycleCode.Value) > 0 Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
+                        Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select  TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL
+                                        Inner Join TSPL_MULTIPLE_DEDUCTION_HEAD On TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
+                                        Inner Join TSPL_VLC_MASTER_HEAD ON  TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code
+                                        where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0 And 
+				                    	TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and TSPL_VLC_MASTER_HEAD.MCC='BMC/000004' 
+		                                And TSPL_VLC_MASTER_HEAD.VSP_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')) "
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            Dim arr As New ArrayList
+                            For Each dr As DataRow In dt.Rows
+                                arr.Add(clsCommon.myCstr(dr("Code")))
+                            Next
+                            txtMultiDeduction.arrValueMember = arr
+                        End If
+                    End If
+                    MyLabel3.Visible = True
+                    txtMultiDeduction.Visible = True
+                Else
+                    clsCommon.MyMessageBoxShow("Select Payment Cycle")
+                    chkDeduction.Checked = False
+                    MyLabel3.Visible = False
+                    txtMultiDeduction.Visible = False
+                End If
+            Else
+                MyLabel3.Visible = False
+                txtMultiDeduction.Visible = False
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try

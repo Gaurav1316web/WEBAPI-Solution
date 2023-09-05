@@ -370,7 +370,7 @@ Public Class frmSNSaleInvoice
         txtDesc.MaxLength = 200
         txtComment.MaxLength = 200
         txtRefNo.MaxLength = 50
-        lbltransporter.MaxLength = 50
+        txtCarrier.MaxLength = 50
         txtGRNo.MaxLength = 50
         txtGENo.MaxLength = 50
         txtPONo.MaxLength = 200
@@ -479,17 +479,9 @@ Public Class frmSNSaleInvoice
         lblTotRAmt.Text = ""
         lblTotRAmt1.Text = ""
         UsLock1.Status = ERPTransactionStatus.Pending
-        lbltransporter.Text = ""
-        fndtransporter.Value = ""
-        txtVehicleCode.Value = ""
-        EinvoiceAckNo.Text = ""
-        EInvoiceIRNNo.Text = ""
-        EInvoiceQrCode.Text = ""
-        txtAckDate.Value = clsCommon.GETSERVERDATE()
-
-        '  lbltransporter.Text = ""
-        ' lblVehicleNo.Text = ""
-        'txtVehcileCode.Text = ""
+        txtCarrier.Text = ""
+        txtVehicleNo.Text = ""
+        txtVehcileCode.Text = ""
         txtGRNo.Text = ""
         txtGENo.Text = ""
         txtGEDate.Checked = False
@@ -3325,11 +3317,9 @@ Public Class frmSNSaleInvoice
                 obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
                 obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
 
-                obj.Carrier = lbltransporter.Text
-                obj.transport_id = fndtransporter.Value      ' fndtransporter.Value = obj.transport_id
-                obj.VehicleNo = txtVehicleCode.Value
-                'obj.VehicleNo = lblVehicleNo.Text
-                'obj.Vehicle_Code = txtVehcileCode.Text
+                obj.Carrier = txtCarrier.Text
+                obj.VehicleNo = txtVehicleNo.Text
+                obj.Vehicle_Code = txtVehcileCode.Text
                 obj.GRNo = txtGRNo.Text
                 obj.GENo = txtGENo.Text
 
@@ -3714,11 +3704,9 @@ Public Class frmSNSaleInvoice
                 txtMannaulInvoiceNo.Value = obj.Mannual_Document_Code
                 TxtInvoiceManualNoWithPrefix.Text = obj.InvoiceManualNowithPrefix
                 '--------------------------------
-                lbltransporter.Text = obj.Carrier
-                fndtransporter.Value = obj.transport_id
-                txtVehicleCode.Value = obj.VehicleNo
-                'lblVehicleNo.Text = obj.VehicleNo
-                ' txtVehcileCode.Text = obj.Vehicle_Code
+                txtCarrier.Text = obj.Carrier
+                txtVehicleNo.Text = obj.VehicleNo
+                txtVehcileCode.Text = obj.Vehicle_Code
                 txtGRNo.Text = obj.GRNo
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
@@ -5122,10 +5110,15 @@ Public Class frmSNSaleInvoice
                         txtDept.Value = objOrderHead.Dept
                         lblDept.Text = objOrderHead.Dept_Desc
                     End If
-                    'If (clsCommon.myLen(txtVehcileCode.Text) <= 0) Then
-                    '    txtVehcileCode.Text = objOrderHead.Vehicle_Code
-                    '    txtVehicleNo.Text = objOrderHead.VehicleNo
-                    'End If
+                    If (clsCommon.myLen(txtVehcileCode.Text) <= 0) Then
+                        txtVehcileCode.Text = objOrderHead.Vehicle_Code
+                        txtVehicleNo.Text = objOrderHead.VehicleNo
+                    End If
+
+                    If (clsCommon.myLen(txtCarrier.Value) <= 0) Then
+                        txtCarrier.Value = objOrderHead.transport_id
+                        lblCarrier.Text = objOrderHead.Carrier
+                    End If
 
                     txtBillToLocation.Value = objOrderHead.Bill_To_Location
                     txtBillToLocation.Enabled = False
@@ -6603,7 +6596,6 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
         ShowCurrencyDetail()
     End Sub
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRouteNo._MYValidating
-
         Dim qry As String = "Select Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
         txtRouteNo.Value = clsCommon.ShowSelectForm("ShipRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
         fndRouteNo_TextChanged()
@@ -7055,38 +7047,5 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
 
     Private Sub btnDCSPrint_Click(sender As Object, e As EventArgs) Handles btnDCSPrint.Click
         DispatchInvoicePrint()
-    End Sub
-
-    Private Sub fndVehicleCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVehicleCode._MYValidating
-        Try
-            Dim qry As String = "Select distinct  vehicle_id ,Description from TSPL_VEHICLE_MASTER
-                                 left outer join TSPL_VENDOR_MASTER on tspl_vehicle_master.transport_id=TSPL_VENDOR_MASTER.vendor_code"
-            txtVehicleCode.Value = clsCommon.ShowSelectForm("Vehicle No", qry, "vehicle_id", "", txtVehicleCode.Value, "vehicle_id", isButtonClicked)
-            lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
-            lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name as Name from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + txtVehicleCode.Value + "'"))
-            fndtransporter.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Code as Code from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + txtVehicleCode.Value + "'"))
-            txtForm38.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select vehicle_id  from TSPL_VEHICLE_MASTER where Vehicle_id ='" + txtVehicleCode.Value + "'"))
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub fndtransporter__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndtransporter._MYValidating
-        If isButtonClicked Then
-            Dim qry As String = "select Transport_Id as [Transport Id],Transporter_Name as [Transporter Name] from TSPL_TRANSPORT_MASTER"
-            fndtransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndtransporter.Value, "", isButtonClicked)
-            lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transporter_Name as Name from TSPL_TRANSPORT_MASTER where Transport_Id ='" + fndtransporter.Value + "'"))
-
-        End If
-    End Sub
-
-
-
-    Private Sub EinvoiceBtnUpdate_Click(sender As Object, e As EventArgs) Handles EinvoiceBtnUpdate.Click
-        UpdateEInvoice()
-    End Sub
-
-    Private Sub btnEWaybillUpdate_Click(sender As Object, e As EventArgs) Handles btnEWaybillUpdate.Click
-        UpdateEwaybillNo()
     End Sub
 End Class
