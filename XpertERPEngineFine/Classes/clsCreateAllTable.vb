@@ -1414,6 +1414,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SALARY_STRUCTURE", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -14912,6 +14913,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SALSTRUCT_PAYHEADS", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
@@ -14970,7 +14972,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
-
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_EMPLOYEE_SALARY", coll, "unique (EMP_CODE,REVISION_NO)")
 
             coll = New Dictionary(Of String, String)()
@@ -15020,6 +15022,7 @@ Public Class clsCreateAllTable
             coll.Add("Alloted_Days", "numeric(5,2)  NULL")
             coll.Add("PerPresentDays", "numeric(5,2)  NULL")
             coll.Add("AutoAllotDuringSalaryGen", "bit  NULL")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LEAVE_SETTING", coll)
 
 

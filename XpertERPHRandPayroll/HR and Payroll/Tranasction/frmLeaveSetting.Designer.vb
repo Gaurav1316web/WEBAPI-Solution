@@ -24,6 +24,7 @@ Partial Class frmLeaveSetting
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLeaveSetting))
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -38,6 +39,9 @@ Partial Class frmLeaveSetting
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblLocationName = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
+        Me.MyLabel17 = New common.Controls.MyLabel()
         Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvCTC = New common.UserControls.MyRadGridView()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
@@ -75,6 +79,7 @@ Partial Class frmLeaveSetting
         Me.txtName = New common.Controls.MyTextBox()
         Me.lblempcode = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkAutoAllot = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtPresentDays = New common.MyNumBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
@@ -96,12 +101,13 @@ Partial Class frmLeaveSetting
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.chkAutoAllot = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox7.SuspendLayout()
         CType(Me.gvCTC, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -146,6 +152,7 @@ Partial Class frmLeaveSetting
         CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkAutoAllot, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPresentDays, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -166,7 +173,6 @@ Partial Class frmLeaveSetting
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAutoAllot, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -179,7 +185,7 @@ Partial Class frmLeaveSetting
         Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(807, 555)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(807, 568)
         Me.RadGroupBox3.TabIndex = 58
         '
         'SplitContainer1
@@ -192,6 +198,9 @@ Partial Class frmLeaveSetting
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblLocationName)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.fndLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel17)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox7)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox6)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnNew)
@@ -209,9 +218,55 @@ Partial Class frmLeaveSetting
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(787, 525)
-        Me.SplitContainer1.SplitterDistance = 489
+        Me.SplitContainer1.Size = New System.Drawing.Size(787, 538)
+        Me.SplitContainer1.SplitterDistance = 502
         Me.SplitContainer1.TabIndex = 0
+        '
+        'lblLocationName
+        '
+        Me.lblLocationName.AutoSize = False
+        Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
+        Me.lblLocationName.Location = New System.Drawing.Point(360, 31)
+        Me.lblLocationName.Name = "lblLocationName"
+        Me.lblLocationName.Size = New System.Drawing.Size(374, 19)
+        Me.lblLocationName.TabIndex = 258
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(137, 31)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.MyLabel17
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(219, 19)
+        Me.fndLocation.TabIndex = 256
+        Me.fndLocation.Value = ""
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel17.Location = New System.Drawing.Point(16, 32)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(49, 18)
+        Me.MyLabel17.TabIndex = 257
+        Me.MyLabel17.Text = "Location"
         '
         'RadGroupBox7
         '
@@ -221,10 +276,10 @@ Partial Class frmLeaveSetting
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox7.Controls.Add(Me.gvCTC)
         Me.RadGroupBox7.HeaderText = "Salary Slab for Leave Allotment (Yearly)"
-        Me.RadGroupBox7.Location = New System.Drawing.Point(16, 391)
+        Me.RadGroupBox7.Location = New System.Drawing.Point(16, 399)
         Me.RadGroupBox7.Name = "RadGroupBox7"
         Me.RadGroupBox7.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox7.Size = New System.Drawing.Size(718, 91)
+        Me.RadGroupBox7.Size = New System.Drawing.Size(718, 97)
         Me.RadGroupBox7.TabIndex = 120
         Me.RadGroupBox7.Text = "Salary Slab for Leave Allotment (Yearly)"
         '
@@ -238,20 +293,21 @@ Partial Class frmLeaveSetting
         Me.gvCTC.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvCTC.Location = New System.Drawing.Point(10, 20)
         '
-        'gvCTC
+        '
         '
         Me.gvCTC.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvCTC.MasterTemplate.AllowAddNewRow = False
         Me.gvCTC.MasterTemplate.AllowDeleteRow = False
         Me.gvCTC.MasterTemplate.AutoGenerateColumns = False
         Me.gvCTC.MasterTemplate.EnableGrouping = False
+        Me.gvCTC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCTC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCTC.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvCTC.Name = "gvCTC"
         Me.gvCTC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCTC.ShowHeaderCellButtons = True
-        Me.gvCTC.Size = New System.Drawing.Size(698, 61)
+        Me.gvCTC.Size = New System.Drawing.Size(698, 67)
         Me.gvCTC.TabIndex = 6
-        Me.gvCTC.Text = "RadGridView1"
         '
         'RadGroupBox6
         '
@@ -262,7 +318,7 @@ Partial Class frmLeaveSetting
         Me.RadGroupBox6.Controls.Add(Me.MyLabel3)
         Me.RadGroupBox6.Controls.Add(Me.cboRoundoffType)
         Me.RadGroupBox6.HeaderText = "Leave Encashment"
-        Me.RadGroupBox6.Location = New System.Drawing.Point(377, 314)
+        Me.RadGroupBox6.Location = New System.Drawing.Point(377, 319)
         Me.RadGroupBox6.Name = "RadGroupBox6"
         Me.RadGroupBox6.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox6.Size = New System.Drawing.Size(357, 78)
@@ -313,7 +369,7 @@ Partial Class frmLeaveSetting
         Me.txtminleavebal.TabIndex = 2
         Me.txtminleavebal.Text = "0"
         Me.txtminleavebal.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtminleavebal.Value = 0.0R
+        Me.txtminleavebal.Value = 0R
         '
         'MyLabel3
         '
@@ -330,6 +386,7 @@ Partial Class frmLeaveSetting
         Me.cboRoundoffType.AutoCompleteDisplayMember = Nothing
         Me.cboRoundoffType.AutoCompleteValueMember = Nothing
         Me.cboRoundoffType.CalculationExpression = Nothing
+        Me.cboRoundoffType.DropDownAnimationEnabled = True
         Me.cboRoundoffType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboRoundoffType.FieldCode = Nothing
         Me.cboRoundoffType.FieldDesc = Nothing
@@ -354,7 +411,7 @@ Partial Class frmLeaveSetting
         'btnNew
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.Location = New System.Drawing.Point(341, 15)
+        Me.btnNew.Location = New System.Drawing.Point(341, 9)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(15, 20)
         Me.btnNew.TabIndex = 1
@@ -372,7 +429,7 @@ Partial Class frmLeaveSetting
         Me.RadGroupBox5.Controls.Add(Me.txtExceeding)
         Me.RadGroupBox5.Controls.Add(Me.MyLabel10)
         Me.RadGroupBox5.HeaderText = "Lapse Setting"
-        Me.RadGroupBox5.Location = New System.Drawing.Point(377, 164)
+        Me.RadGroupBox5.Location = New System.Drawing.Point(377, 173)
         Me.RadGroupBox5.Name = "RadGroupBox5"
         Me.RadGroupBox5.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox5.Size = New System.Drawing.Size(357, 144)
@@ -405,7 +462,7 @@ Partial Class frmLeaveSetting
         Me.txtLapseAfterDays.TabIndex = 5
         Me.txtLapseAfterDays.Text = "0"
         Me.txtLapseAfterDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtLapseAfterDays.Value = 0.0R
+        Me.txtLapseAfterDays.Value = 0R
         '
         'MyLabel4
         '
@@ -440,6 +497,7 @@ Partial Class frmLeaveSetting
         Me.cboMonth.AutoCompleteDisplayMember = Nothing
         Me.cboMonth.AutoCompleteValueMember = Nothing
         Me.cboMonth.CalculationExpression = Nothing
+        Me.cboMonth.DropDownAnimationEnabled = True
         Me.cboMonth.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboMonth.FieldCode = Nothing
         Me.cboMonth.FieldDesc = Nothing
@@ -507,7 +565,7 @@ Partial Class frmLeaveSetting
         Me.txtExceeding.TabIndex = 3
         Me.txtExceeding.Text = "0"
         Me.txtExceeding.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtExceeding.Value = 0.0R
+        Me.txtExceeding.Value = 0R
         '
         'MyLabel10
         '
@@ -531,7 +589,7 @@ Partial Class frmLeaveSetting
         Me.RadGroupBox2.Controls.Add(Me.rdbAvailConfirmDate)
         Me.RadGroupBox2.Controls.Add(Me.rdbAvailJoinDate)
         Me.RadGroupBox2.HeaderText = "Leave Avail Setting"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(377, 40)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(377, 50)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(357, 120)
@@ -563,7 +621,7 @@ Partial Class frmLeaveSetting
         Me.txtAvailDays.TabIndex = 6
         Me.txtAvailDays.Text = "0"
         Me.txtAvailDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAvailDays.Value = 0.0R
+        Me.txtAvailDays.Value = 0R
         '
         'MyLabel5
         '
@@ -600,7 +658,7 @@ Partial Class frmLeaveSetting
         Me.txtAvailMonths.TabIndex = 4
         Me.txtAvailMonths.Text = "0"
         Me.txtAvailMonths.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAvailMonths.Value = 0.0R
+        Me.txtAvailMonths.Value = 0R
         '
         'MyLabel6
         '
@@ -653,7 +711,7 @@ Partial Class frmLeaveSetting
         Me.RadGroupBox4.Controls.Add(Me.txtCFLower)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel8)
         Me.RadGroupBox4.HeaderText = "Carry Over Setting"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(16, 282)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(16, 287)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox4.Size = New System.Drawing.Size(357, 110)
@@ -694,7 +752,7 @@ Partial Class frmLeaveSetting
         Me.txtCFUpper.TabIndex = 2
         Me.txtCFUpper.Text = "0"
         Me.txtCFUpper.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCFUpper.Value = 0.0R
+        Me.txtCFUpper.Value = 0R
         '
         'MyLabel9
         '
@@ -732,7 +790,7 @@ Partial Class frmLeaveSetting
         Me.txtCFLower.TabIndex = 1
         Me.txtCFLower.Text = "0"
         Me.txtCFLower.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCFLower.Value = 0.0R
+        Me.txtCFLower.Value = 0R
         '
         'MyLabel8
         '
@@ -748,7 +806,7 @@ Partial Class frmLeaveSetting
         '
         Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel18.Location = New System.Drawing.Point(397, 16)
+        Me.MyLabel18.Location = New System.Drawing.Point(397, 12)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(70, 16)
         Me.MyLabel18.TabIndex = 55
@@ -766,7 +824,7 @@ Partial Class frmLeaveSetting
         Me.txtName.IsSourceFromTable = False
         Me.txtName.IsSourceFromValueList = False
         Me.txtName.IsUnique = False
-        Me.txtName.Location = New System.Drawing.Point(473, 13)
+        Me.txtName.Location = New System.Drawing.Point(473, 9)
         Me.txtName.MaxLength = 49
         Me.txtName.MendatroryField = False
         Me.txtName.MyLinkLable1 = Me.MyLabel8
@@ -776,14 +834,14 @@ Partial Class frmLeaveSetting
         Me.txtName.ReferenceFieldDesc = Nothing
         Me.txtName.ReferenceFieldName = Nothing
         Me.txtName.ReferenceTableName = Nothing
-        Me.txtName.Size = New System.Drawing.Size(208, 18)
+        Me.txtName.Size = New System.Drawing.Size(261, 18)
         Me.txtName.TabIndex = 2
         '
         'lblempcode
         '
         Me.lblempcode.FieldName = Nothing
         Me.lblempcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblempcode.Location = New System.Drawing.Point(16, 16)
+        Me.lblempcode.Location = New System.Drawing.Point(16, 11)
         Me.lblempcode.Name = "lblempcode"
         Me.lblempcode.Size = New System.Drawing.Size(70, 16)
         Me.lblempcode.TabIndex = 119
@@ -811,12 +869,20 @@ Partial Class frmLeaveSetting
         Me.RadGroupBox1.Controls.Add(Me.rdbconfirmDate)
         Me.RadGroupBox1.Controls.Add(Me.rdbJoiningDate)
         Me.RadGroupBox1.HeaderText = "Leave Allotment Setting"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(16, 40)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(16, 50)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(357, 233)
         Me.RadGroupBox1.TabIndex = 3
         Me.RadGroupBox1.Text = "Leave Allotment Setting"
+        '
+        'chkAutoAllot
+        '
+        Me.chkAutoAllot.Location = New System.Drawing.Point(24, 202)
+        Me.chkAutoAllot.Name = "chkAutoAllot"
+        Me.chkAutoAllot.Size = New System.Drawing.Size(198, 18)
+        Me.chkAutoAllot.TabIndex = 143
+        Me.chkAutoAllot.Text = "Auto Allot during Salary Generation"
         '
         'MyLabel16
         '
@@ -854,7 +920,7 @@ Partial Class frmLeaveSetting
         Me.txtPresentDays.TabIndex = 140
         Me.txtPresentDays.Text = "0"
         Me.txtPresentDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPresentDays.Value = 0.0R
+        Me.txtPresentDays.Value = 0R
         '
         'MyLabel15
         '
@@ -892,7 +958,7 @@ Partial Class frmLeaveSetting
         Me.txtAllotedDays.TabIndex = 138
         Me.txtAllotedDays.Text = "0"
         Me.txtAllotedDays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAllotedDays.Value = 0.0R
+        Me.txtAllotedDays.Value = 0R
         '
         'MyLabel14
         '
@@ -919,6 +985,7 @@ Partial Class frmLeaveSetting
         Me.cboAllotType.AutoCompleteDisplayMember = Nothing
         Me.cboAllotType.AutoCompleteValueMember = Nothing
         Me.cboAllotType.CalculationExpression = Nothing
+        Me.cboAllotType.DropDownAnimationEnabled = True
         Me.cboAllotType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboAllotType.FieldCode = Nothing
         Me.cboAllotType.FieldDesc = Nothing
@@ -961,6 +1028,7 @@ Partial Class frmLeaveSetting
         Me.cboPeriodicity.AutoCompleteDisplayMember = Nothing
         Me.cboPeriodicity.AutoCompleteValueMember = Nothing
         Me.cboPeriodicity.CalculationExpression = Nothing
+        Me.cboPeriodicity.DropDownAnimationEnabled = True
         Me.cboPeriodicity.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboPeriodicity.FieldCode = Nothing
         Me.cboPeriodicity.FieldDesc = Nothing
@@ -1011,7 +1079,7 @@ Partial Class frmLeaveSetting
         Me.txtdays.TabIndex = 6
         Me.txtdays.Text = "0"
         Me.txtdays.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtdays.Value = 0.0R
+        Me.txtdays.Value = 0R
         '
         'MyLabel2
         '
@@ -1048,7 +1116,7 @@ Partial Class frmLeaveSetting
         Me.txtmonths.TabIndex = 4
         Me.txtmonths.Text = "0"
         Me.txtmonths.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtmonths.Value = 0.0R
+        Me.txtmonths.Value = 0R
         '
         'MyLabel1
         '
@@ -1095,7 +1163,7 @@ Partial Class frmLeaveSetting
         'txtCode
         '
         Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(137, 15)
+        Me.txtCode.Location = New System.Drawing.Point(137, 8)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -1138,19 +1206,11 @@ Partial Class frmLeaveSetting
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'chkAutoAllot
-        '
-        Me.chkAutoAllot.Location = New System.Drawing.Point(24, 202)
-        Me.chkAutoAllot.Name = "chkAutoAllot"
-        Me.chkAutoAllot.Size = New System.Drawing.Size(198, 18)
-        Me.chkAutoAllot.TabIndex = 143
-        Me.chkAutoAllot.Text = "Auto Allot during Salary Generation"
-        '
         'frmLeaveSetting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(807, 555)
+        Me.ClientSize = New System.Drawing.Size(807, 568)
         Me.Controls.Add(Me.RadGroupBox3)
         Me.Name = "frmLeaveSetting"
         '
@@ -1164,6 +1224,8 @@ Partial Class frmLeaveSetting
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox7.ResumeLayout(False)
         CType(Me.gvCTC.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1213,6 +1275,7 @@ Partial Class frmLeaveSetting
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkAutoAllot, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPresentDays, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1233,7 +1296,6 @@ Partial Class frmLeaveSetting
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAutoAllot, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1299,4 +1361,7 @@ Partial Class frmLeaveSetting
     Friend WithEvents txtPresentDays As common.MyNumBox
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents chkAutoAllot As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents lblLocationName As common.Controls.MyLabel
+    Friend WithEvents fndLocation As common.UserControls.txtFinder
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
 End Class

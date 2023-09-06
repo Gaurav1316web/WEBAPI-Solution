@@ -7,7 +7,8 @@ Public Class clsSalaryStructure
     Public SALARY_STRUCTURE_CODE As String
     Public SALARY_STRUCTURE_NAME As String
     Public SAL_PRINT_NAME As String
-    #End Region
+    Public Location_Code As String
+#End Region
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsSalaryStructure
         Return GetData(strCode, NavType, Nothing)
@@ -32,7 +33,7 @@ Public Class clsSalaryStructure
     End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsSalaryStructure
         Dim obj As clsSalaryStructure = Nothing
-        Dim qry As String = "select SALARY_STRUCTURE_CODE, SALARY_STRUCTURE_NAME, SAL_PRINT_NAME from TSPL_SALARY_STRUCTURE where 2=2"
+        Dim qry As String = "select SALARY_STRUCTURE_CODE, SALARY_STRUCTURE_NAME, SAL_PRINT_NAME,Location_Code from TSPL_SALARY_STRUCTURE where 2=2"
         Select Case NavType
             Case NavigatorType.First
                 qry += " and SALARY_STRUCTURE_CODE = (select MIN(SALARY_STRUCTURE_CODE) from TSPL_SALARY_STRUCTURE)"
@@ -52,6 +53,7 @@ Public Class clsSalaryStructure
             obj.SALARY_STRUCTURE_CODE = clsCommon.myCstr(dt.Rows(0)("SALARY_STRUCTURE_CODE"))
             obj.SALARY_STRUCTURE_NAME = clsCommon.myCstr(dt.Rows(0)("SALARY_STRUCTURE_NAME"))
             obj.SAL_PRINT_NAME = clsCommon.myCstr(dt.Rows(0)("SAL_PRINT_NAME"))
+            obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
         End If
         Return obj
 
@@ -66,6 +68,7 @@ Public Class clsSalaryStructure
             clsCommon.AddColumnsForChange(coll, "SAL_PRINT_NAME", obj.SAL_PRINT_NAME)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "SALARY_STRUCTURE_CODE", obj.SALARY_STRUCTURE_CODE)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)

@@ -5470,8 +5470,15 @@ Public Class frmSNShipment
                     strCustomer = txtCustomer.Value
                 End If
                 Dim qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
+                Dim WhrCls As String = " Tax_Group_Type='S' "
+                If chkIsTaxable.Checked Then
+                    WhrCls += " and Is_Tax_Exempted=0"
+                Else
+                    WhrCls += " and Is_Tax_Exempted=1"
+                End If
+                txtTaxGroup.Value = clsCommon.ShowSelectForm("Dispatchfndid", qry, "Code", WhrCls, txtTaxGroup.Value, "Code", isButtonClicked)
 
-                txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(txtBillToLocation.Value, strCustomer, "S", txtTaxGroup.Value, isButtonClicked)
+                'txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(txtBillToLocation.Value, strCustomer, "S", txtTaxGroup.Value, isButtonClicked)
                 SetTaxDetails()
             Else
                 Throw New Exception("Please select Location First")
