@@ -19,6 +19,7 @@ Public Class clsMapPayHeadsToSalaStructure
     Public DESCRIPTION As String
     Public Shared ObjList As List(Of clsMapPayHeadsToSalaStructure)
     Public IsHiddenComponent As Boolean
+    Public Location_Code As String
 
 #End Region
 
@@ -46,10 +47,13 @@ Public Class clsMapPayHeadsToSalaStructure
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsMapPayHeadsToSalaStructure
         Dim obj As New clsMapPayHeadsToSalaStructure()
         Dim objtr As New clsMapPayHeadsToSalaStructure()
-
+        Dim whrQry As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrQry = " and Location_Code=" + objCommonVar.strCurrUserLocations + ""
+        End If
         ObjList = New List(Of clsMapPayHeadsToSalaStructure)
 
-        Dim qry As String = "select SALARY_STRUCTURE_CODE,SALARY_STRUCTURE_NAME from TSPL_SALARY_STRUCTURE where 2=2"
+        Dim qry As String = "select SALARY_STRUCTURE_CODE,SALARY_STRUCTURE_NAME,Location_Code from TSPL_SALARY_STRUCTURE where 2=2 " + whrQry
         Select Case NavType
             Case NavigatorType.First
                 qry += " and SALARY_STRUCTURE_CODE = (select MIN(SALARY_STRUCTURE_CODE) from TSPL_SALARY_STRUCTURE)"
@@ -67,10 +71,15 @@ Public Class clsMapPayHeadsToSalaStructure
             obj.SALARY_STRUCTURE_NAME = dt.Rows(0)("SALARY_STRUCTURE_NAME")
             obj.SALARY_STRUCTURE_CODE = dt.Rows(0)("SALARY_STRUCTURE_CODE")
             strCode = dt.Rows(0)("SALARY_STRUCTURE_CODE")
+            obj.Location_Code = dt.Rows(0)("Location_Code")
         End If
+        'Dim whrQry1 As String = Nothing
+        'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And  Then
+        '    whrQry1 = " and TSPL_SALSTRUCT_PAYHEADS.Location_Code='" + objCommonVar.strCurrUserLocations + "'"
+        'End If
 
         qry = "select TSPL_SALSTRUCT_PAYHEADS.*,TSPL_PAYHEAD_MASTER.PAY_HEAD_NAME from TSPL_SALSTRUCT_PAYHEADS left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_SALSTRUCT_PAYHEADS.PAY_HEAD_CODE where 2=2"
-        qry += " and TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE = '" + strCode + "' order by TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE,TSPL_SALSTRUCT_PAYHEADS.LINE_NO"
+        qry += " and TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE = '" + strCode + "'" + whrQry + " order by TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE,TSPL_SALSTRUCT_PAYHEADS.LINE_NO"
         dt = New DataTable()
         dt = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -98,6 +107,7 @@ Public Class clsMapPayHeadsToSalaStructure
                 Else
                     objtr.VALID_TO = Nothing
                 End If
+                objtr.Location_Code = clsCommon.myCstr(dr("Location_Code"))
                 ObjList.Add(objtr)
             Next
         End If
@@ -143,7 +153,7 @@ Public Class clsMapPayHeadsToSalaStructure
 
                 clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
-
+                clsCommon.AddColumnsForChange(coll, "Location_Code", Obj.Location_Code)
                 qry = "SELECT Count(*) FROM TSPL_SALSTRUCT_PAYHEADS where SALARY_STRUCTURE_CODE = '" & Obj.SALARY_STRUCTURE_CODE & "' and PAY_HEAD_CODE = '" & Obj.PAY_HEAD_CODE & "'"
                 Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
                 If check = 0 Then
@@ -155,10 +165,10 @@ Public Class clsMapPayHeadsToSalaStructure
                 End If
             Next
             '' update all employee salary sequence 
-            qry = " UPDATE TSPL_EMPLOYEE_SALARY_PAYHEADS SET TSPL_EMPLOYEE_SALARY_PAYHEADS.LINE_NO=TSPL_SALSTRUCT_PAYHEADS.LINE_NO FROM  " & _
-                " TSPL_SALSTRUCT_PAYHEADS INNER JOIN TSPL_EMPLOYEE_SALARY " & _
-                " ON TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE=TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE  " & _
-                " WHERE(TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE = TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE)  " & _
+            qry = " UPDATE TSPL_EMPLOYEE_SALARY_PAYHEADS SET TSPL_EMPLOYEE_SALARY_PAYHEADS.LINE_NO=TSPL_SALSTRUCT_PAYHEADS.LINE_NO FROM  " &
+                " TSPL_SALSTRUCT_PAYHEADS INNER JOIN TSPL_EMPLOYEE_SALARY " &
+                " ON TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE=TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE  " &
+                " WHERE(TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE = TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE)  " &
                 " AND TSPL_SALSTRUCT_PAYHEADS.PAY_HEAD_CODE=TSPL_EMPLOYEE_SALARY_PAYHEADS.PAY_HEAD_CODE AND TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE='" & strCode & "' "
 
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)

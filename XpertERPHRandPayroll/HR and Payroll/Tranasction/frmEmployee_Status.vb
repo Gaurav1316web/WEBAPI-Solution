@@ -384,8 +384,15 @@ Public Class frmEmployee_Status
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
-
-        Dim str As String = "select count(*) from TSPL_EMPLOYEE_STATUS where EMP_STATUS_CODE ='" + txtCode.Value + "' "
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " where T2.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        End If
+        Dim whrQry As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrQry = " and LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        End If
+        Dim str As String = "select count(*) from TSPL_EMPLOYEE_STATUS where EMP_STATUS_CODE ='" + txtCode.Value + "' " + whrQry
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
             txtCode.MyReadOnly = False
@@ -398,11 +405,11 @@ Public Class frmEmployee_Status
             Dim qry As String = ""
             If chkRevisionNo.Checked = True Then
                 qry = "select * from (select max(T1.EMP_STATUS_CODE) AS Code,T1.EMP_CODE,max(T2.EMP_NAME) AS EMPLOYEE_NAME,max(T1.APPLICABLE_FROM) as APPLICABLE_FROM  from TSPL_EMPLOYEE_STATUS T1  "
-                qry += " LEFT JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.EMP_CODE=T2.EMP_CODE"
+                qry += " LEFT JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.EMP_CODE=T2.EMP_CODE " + whrcls
                 qry += " group by t1.EMP_CODE)as final "
             Else
                 qry = "select T1.EMP_STATUS_CODE AS Code,T1.EMP_CODE,T2.EMP_NAME AS EMPLOYEE_NAME,T1.APPLICABLE_FROM  from TSPL_EMPLOYEE_STATUS T1 " _
-           & " LEFT JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.EMP_CODE=T2.EMP_CODE"
+           & " LEFT JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.EMP_CODE=T2.EMP_CODE " + whrcls
             End If
             txtCode.Value = clsCommon.ShowSelectForm("EMP_STATUS", qry, "Code", "", txtCode.Value, "Code", isButtonClicked)
             If txtCode.Value <> "" Then
@@ -496,7 +503,13 @@ Public Class frmEmployee_Status
 
     Private Sub findBranch__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findBranch._MYValidating
         Try
-            findBranch.Value = clsLocation.getFinder("Location_Type='Physical'", Me.findBranch.Value, isButtonClicked)
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls = " Location_Type='Physical' And LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            Else
+                whrcls = " Location_Type='Physical'"
+            End If
+            findBranch.Value = clsLocation.getFinder(whrcls, Me.findBranch.Value, isButtonClicked)
             lblBranchName.Text = clsLocation.GetName(findBranch.Value, Nothing)
         Catch ex As Exception
         End Try
@@ -579,12 +592,12 @@ Public Class frmEmployee_Status
 
     Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click
         Dim str As String
-        str = "select emp_status.Status_Code as [Code],emp_status.EMP_CODE as [Employee Code],WORKING_STATUS as [Working Status],REVISION_NO as [Revision No],convert(varchar,APPLICABLE_FROM,103) as [Applicable From],DESIGNATION_ID as [Designation Code],DEVISION_CODE as [Devision Code],DEPARTMENT_CODE as [Department Code],GRADE_CODE as [Grade Code],REPORTING_PERSON_CODE as [Reporting Person Code]," & _
-              " ATTENDANCE_CODE as [Attendance Code],BANK_ACC_NO as [Bank Account No],NAME_IN_ACCOUNT as [Name In Account],PAYMENT_MODE as [Payment Mode],BANK_CODE as [Bank Code],IS_PF_APPL as [Is PF Applicable],EPF_RATE AS [EPF RATE],Max_Amount_EPF as [Max Amount PF],PF_NO as [PF No],IS_ESI_APPL as [Is ESI Applicable],ESI_RATE AS [ESI RATE],Max_Amount_ESI as [Max Amount ESI],ESI_NO as [ESI No],IS_OT_APPL as [Is OT Applicable],OT_CODE as [OT Code],IS_BONUS_APPL as [Is Bonus Applicable],BONUS_CODE as [Bonus Code], " & _
-              " EPS_TO_EPF as [EPS To EPF],SHIFT_CODE as [Shift Code],SHIFT_CHANG_TYPE as [Shift Change Type],CONV_RATE_CODE as [Conveyance Rate Code],CONV_TYPE as [Conveyance Type],IS_OD_APPL as [Is OD Applicable] ,PF_Calculation_Type as [PF Calculation Type],Professional_Tax_Applicable as [Professional Tax Applicable(Y/N)] from (select max(EMP_STATUS_CODE) as Status_Code,EMP_CODE from TSPL_EMPLOYEE_STATUS group by EMP_CODE) as emp_status " & _
-              " left join ( " & _
-              " select EMP_STATUS_CODE,EMP_CODE,REVISION_NO,APPLICABLE_FROM,DESIGNATION_ID,DEVISION_CODE,DEPARTMENT_CODE,GRADE_CODE,REPORTING_PERSON_CODE, " & _
-              " ATTENDANCE_CODE,BANK_ACC_NO,NAME_IN_ACCOUNT,PAYMENT_MODE,BANK_CODE,IS_PF_APPL,EPF_RATE,Max_Amount_EPF,PF_NO,IS_ESI_APPL,ESI_RATE,Max_Amount_ESI,ESI_NO,IS_OT_APPL,OT_CODE,IS_BONUS_APPL,BONUS_CODE, " & _
+        str = "select emp_status.Status_Code as [Code],emp_status.EMP_CODE as [Employee Code],WORKING_STATUS as [Working Status],REVISION_NO as [Revision No],convert(varchar,APPLICABLE_FROM,103) as [Applicable From],DESIGNATION_ID as [Designation Code],DEVISION_CODE as [Devision Code],DEPARTMENT_CODE as [Department Code],GRADE_CODE as [Grade Code],REPORTING_PERSON_CODE as [Reporting Person Code]," &
+              " ATTENDANCE_CODE as [Attendance Code],BANK_ACC_NO as [Bank Account No],NAME_IN_ACCOUNT as [Name In Account],PAYMENT_MODE as [Payment Mode],BANK_CODE as [Bank Code],IS_PF_APPL as [Is PF Applicable],EPF_RATE AS [EPF RATE],Max_Amount_EPF as [Max Amount PF],PF_NO as [PF No],IS_ESI_APPL as [Is ESI Applicable],ESI_RATE AS [ESI RATE],Max_Amount_ESI as [Max Amount ESI],ESI_NO as [ESI No],IS_OT_APPL as [Is OT Applicable],OT_CODE as [OT Code],IS_BONUS_APPL as [Is Bonus Applicable],BONUS_CODE as [Bonus Code], " &
+              " EPS_TO_EPF as [EPS To EPF],SHIFT_CODE as [Shift Code],SHIFT_CHANG_TYPE as [Shift Change Type],CONV_RATE_CODE as [Conveyance Rate Code],CONV_TYPE as [Conveyance Type],IS_OD_APPL as [Is OD Applicable] ,PF_Calculation_Type as [PF Calculation Type],Professional_Tax_Applicable as [Professional Tax Applicable(Y/N)] from (select max(EMP_STATUS_CODE) as Status_Code,EMP_CODE from TSPL_EMPLOYEE_STATUS group by EMP_CODE) as emp_status " &
+              " left join ( " &
+              " select EMP_STATUS_CODE,EMP_CODE,REVISION_NO,APPLICABLE_FROM,DESIGNATION_ID,DEVISION_CODE,DEPARTMENT_CODE,GRADE_CODE,REPORTING_PERSON_CODE, " &
+              " ATTENDANCE_CODE,BANK_ACC_NO,NAME_IN_ACCOUNT,PAYMENT_MODE,BANK_CODE,IS_PF_APPL,EPF_RATE,Max_Amount_EPF,PF_NO,IS_ESI_APPL,ESI_RATE,Max_Amount_ESI,ESI_NO,IS_OT_APPL,OT_CODE,IS_BONUS_APPL,BONUS_CODE, " &
               " WORKING_STATUS,EPS_TO_EPF,SHIFT_CODE,SHIFT_CHANG_TYPE,CONV_RATE_CODE,CONV_TYPE,IS_OD_APPL,PF_Calculation_Type,case when Professional_Tax_Applicable=1 then 'Y' else 'N' end as Professional_Tax_Applicable from TSPL_EMPLOYEE_STATUS) as Emp  on emp_status.Status_Code=Emp.EMP_STATUS_CODE "
         transportSql.ExporttoExcelWithoutFilter(str, "", "", Me)
 

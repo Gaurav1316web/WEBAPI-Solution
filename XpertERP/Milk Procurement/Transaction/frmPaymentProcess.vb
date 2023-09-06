@@ -5741,6 +5741,71 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             End If
         End If
 
+        If RadPageView1.SelectedPage.Text = "Invoices" Then
+            If gvInvoice IsNot Nothing AndAlso gvInvoice.Rows.Count > 0 Then
+                gvInvoice.Columns(colSelect).IsVisible = False
+                Dim arr As List(Of String) = New List(Of String)
+                arr.Add("Location  : " & fndLoc.Value & " ( " & txtLocName.Text & " ) ")
+                arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
+                clsCommon.MyExportToExcelGrid("Invoices Details", gvInvoice, arr, "Invoices")
+                gvInvoice.Columns(colSelect).IsVisible = True
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found to export")
+            End If
+        End If
+
+        If RadPageView1.SelectedPage.Text = "MCC Sale" Then
+            If gvMccSale IsNot Nothing AndAlso gvMccSale.Rows.Count > 0 Then
+                gvMccSale.Columns(colSelect).IsVisible = False
+                Dim arr As List(Of String) = New List(Of String)
+                arr.Add("Location  : " & fndLoc.Value & " ( " & txtLocName.Text & " ) ")
+                arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
+                clsCommon.MyExportToExcelGrid("MCC Sale Details", gvMccSale, arr, "MCC Sale")
+                gvMccSale.Columns(colSelect).IsVisible = True
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found to export")
+            End If
+        End If
+
+        If RadPageView1.SelectedPage.Text = "MCC Sale Return" Then
+            If GvMccSaleReturn IsNot Nothing AndAlso GvMccSaleReturn.Rows.Count > 0 Then
+                GvMccSaleReturn.Columns(colSelect).IsVisible = False
+                Dim arr As List(Of String) = New List(Of String)
+                arr.Add("Location  : " & fndLoc.Value & " ( " & txtLocName.Text & " ) ")
+                arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
+                clsCommon.MyExportToExcelGrid("MCC Sale Return Details", GvMccSaleReturn, arr, "MCC Sale Return")
+                GvMccSaleReturn.Columns(colSelect).IsVisible = True
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found to export")
+            End If
+        End If
+
+        If RadPageView1.SelectedPage.Text = "Item Issue" Then
+            If gvItemIssue IsNot Nothing AndAlso gvItemIssue.Rows.Count > 0 Then
+                gvItemIssue.Columns(colSelect).IsVisible = False
+                Dim arr As List(Of String) = New List(Of String)
+                arr.Add("Location  : " & fndLoc.Value & " ( " & txtLocName.Text & " ) ")
+                arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
+                clsCommon.MyExportToExcelGrid("Item Issue Details", gvItemIssue, arr, "Item Issue")
+                gvItemIssue.Columns(colSelect).IsVisible = True
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found to export")
+            End If
+        End If
+
+        If RadPageView1.SelectedPage.Text = "Item Issue Return" Then
+            If gvItemIssueReturn IsNot Nothing AndAlso gvItemIssueReturn.Rows.Count > 0 Then
+                gvItemIssueReturn.Columns(colSelect).IsVisible = False
+                Dim arr As List(Of String) = New List(Of String)
+                arr.Add("Location  : " & fndLoc.Value & " ( " & txtLocName.Text & " ) ")
+                arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
+                clsCommon.MyExportToExcelGrid("Item Issue Return Details", gvItemIssueReturn, arr, "Item Issue Return")
+                gvItemIssueReturn.Columns(colSelect).IsVisible = True
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found to export")
+            End If
+        End If
+
         If RadPageView1.SelectedPage.Text = "Deductions" Then
             If gvDeduction IsNot Nothing AndAlso gvDeduction.Rows.Count > 0 Then
                 gvDeduction.Columns(colSelect).IsVisible = False
@@ -5767,6 +5832,32 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
             End If
         End If
 
+        If RadPageView1.SelectedPage.Text = "Advance Payment" Then
+            If gvAdvancePayment IsNot Nothing AndAlso gvAdvancePayment.Rows.Count > 0 Then
+                gvAdvancePayment.Columns(colSelect).IsVisible = False
+                Dim arr As List(Of String) = New List(Of String)
+                arr.Add("Location  : " & fndLoc.Value & " ( " & txtLocName.Text & " ) ")
+                arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
+                clsCommon.MyExportToExcelGrid("Advance Payment Details", gvAdvancePayment, arr, "Advance Payment")
+                gvAdvancePayment.Columns(colSelect).IsVisible = True
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found to export")
+            End If
+        End If
+
+        If RadPageView1.SelectedPage.Text = "Asset Lost" Then
+            If gvAssetLost IsNot Nothing AndAlso gvAssetLost.Rows.Count > 0 Then
+                gvAssetLost.Columns(colSelect).IsVisible = False
+                Dim arr As List(Of String) = New List(Of String)
+                arr.Add("Location  : " & fndLoc.Value & " ( " & txtLocName.Text & " ) ")
+                arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
+                clsCommon.MyExportToExcelGrid("Asset Lost Details", gvAssetLost, arr, "Asset Lost")
+                gvAssetLost.Columns(colSelect).IsVisible = True
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found to export")
+            End If
+        End If
+
         If RadPageView1.SelectedPage.Text = "Saving" Then
             If gvSaving IsNot Nothing AndAlso gvSaving.Rows.Count > 0 Then
                 gvSaving.Columns(colSelect).IsVisible = False
@@ -5777,6 +5868,19 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 gvSaving.Columns(colSelect).IsVisible = True
             Else
                 clsCommon.MyMessageBoxShow("No Data Found To Export")
+            End If
+        End If
+
+        If RadPageView1.SelectedPage.Text = "Compulsory" Then
+            If gvCompulsory IsNot Nothing AndAlso gvCompulsory.Rows.Count > 0 Then
+                gvCompulsory.Columns(colSelect).IsVisible = False
+                Dim arr As List(Of String) = New List(Of String)
+                arr.Add("Location  : " & fndLoc.Value & " ( " & txtLocName.Text & " ) ")
+                arr.Add("Date Range : " & dtpFromDate.Value & " To " & dtpToDate.Value)
+                clsCommon.MyExportToExcelGrid("Compulsory Details", gvCompulsory, arr, "Compulsory")
+                gvCompulsory.Columns(colSelect).IsVisible = True
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found to export")
             End If
         End If
 
