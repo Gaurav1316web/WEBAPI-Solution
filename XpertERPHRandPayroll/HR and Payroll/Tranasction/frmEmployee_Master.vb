@@ -505,7 +505,7 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = txtFamilyAge
                     Throw New Exception(ex.Message)
                 End Try
-                
+
 
 
 
@@ -531,7 +531,7 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = Languages
                     Throw New Exception(ex.Message)
                 End Try
-                
+
 
 
 
@@ -568,7 +568,7 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = Qualification
                     Throw New Exception(ex.Message)
                 End Try
-                
+
 
 
 
@@ -630,7 +630,7 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = Experience
                     Throw New Exception(ex.Message)
                 End Try
-                
+
 
 
 
@@ -668,7 +668,7 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = Documents
                     Throw New Exception(ex.Message)
                 End Try
-                
+
 
                 '' asset details: KDIL new requirement
                 Try
@@ -699,7 +699,7 @@ Public Class frmEmployee_Master
                     RadPageView1.SelectedPage = RadPageViewPage1
                     Throw New Exception(ex.Message)
                 End Try
-                
+
 
 
                 If grpFranchise.Visible Then
@@ -1389,8 +1389,15 @@ Public Class frmEmployee_Master
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
-
-        Dim str As String = "select count(*) from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" + txtCode.Value + "' "
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        End If
+        Dim whrQry As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrQry = " and LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        End If
+        Dim str As String = "select count(*) from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" + txtCode.Value + "' " + whrQry
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
             txtCode.MyReadOnly = False
@@ -1400,11 +1407,10 @@ Public Class frmEmployee_Master
             txtCode.MyReadOnly = True
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
-
             'Dim qry As String = "select EMP_CODE as Code, Emp_Name as Name, Designation from TSPL_EMPLOYEE_MASTER"
             'txtCode.Value = clsCommon.ShowSelectForm("EMP_MASTER", qry, "Code", "", txtCode.Value, "EMP_CODE", isButtonClicked)
             'txtCode.Value = clsFinder.ShowEmployeeFinder(, , txtCode.Value)
-            txtCode.Value = clsEmployeeMaster.getFinder("", txtCode.Value, isButtonClicked)
+            txtCode.Value = clsEmployeeMaster.getFinder(whrcls, txtCode.Value, isButtonClicked)
             If txtCode.Value <> "" Then
                 LoadData(txtCode.Value, NavigatorType.Current)
             Else
@@ -1441,7 +1447,7 @@ Public Class frmEmployee_Master
 
 #Region "Employee Exp"
 
-    
+
 
     Private Function GetVerificationStatus() As DataTable
         Dim dt As New DataTable()
@@ -1545,7 +1551,13 @@ Public Class frmEmployee_Master
 
     Private Sub txtBranch__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBranch._MYValidating
         'Dim qry As String = "select BRANCH_CODE as Code, BRANCH_NAME as Name,RESPONSIBLE_PERSION_NAME as 'Responsible Persion', BRANCH_ADDRESS as 'Branch Address', CITY_CODE as 'City Code', STATE_CODE as 'State Code' , COUNTRY_CODE as 'Country Code', PHONE_NO as 'Phone No',FAX_NO as 'Fax No', EMAIL_ID as 'Email Id'  from TSPL_BRANCH_MASTER"
-        txtBranch.Value = clsLocation.getFinder("Location_Type='Physical'", Me.txtBranch.Value, isButtonClicked)
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " Location_Type='Physical' And LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        Else
+            whrcls = " Location_Type='Physical'"
+        End If
+        txtBranch.Value = clsLocation.getFinder(whrcls, Me.txtBranch.Value, isButtonClicked)
 
         'txtBranch.Value = clsCommon.ShowSelectForm("BRANCH_MASTER", qry, "Code", "", txtBranch.Value, "BRANCH_CODE", isButtonClicked)
     End Sub
@@ -1589,7 +1601,7 @@ Public Class frmEmployee_Master
 
 #Region "Employee Quli"
 
-   
+
 
 
     Private Sub gvEmpquli_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvEmpQuli.UserDeletingRow
@@ -4134,7 +4146,7 @@ Public Class frmEmployee_Master
     Private Function GetRelation() As DataTable
         Return clsDBFuncationality.GetDataTable("select Code,Description from tspl_fixed_parameter where type='Relation'")
     End Function
-      
+
     Private Sub gvEmpLanguage_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvEmpLanguage.CellValueChanged
         Try
             If (Not isInsideLoadData) Then

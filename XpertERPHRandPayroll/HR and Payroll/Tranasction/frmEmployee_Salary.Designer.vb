@@ -25,6 +25,7 @@ Partial Class frmEmployee_Salary
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEmployee_Salary))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblempcode = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -41,6 +42,9 @@ Partial Class frmEmployee_Salary
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtRevisionNo = New common.MyNumBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblLocationName = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
+        Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtCopySalaryCode = New common.UserControls.txtFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.chkShowAll = New Telerik.WinControls.UI.RadCheckBox()
@@ -72,6 +76,8 @@ Partial Class frmEmployee_Salary
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -151,9 +157,8 @@ Partial Class frmEmployee_Salary
         Me.lblSalStructName.FieldName = Nothing
         Me.lblSalStructName.Location = New System.Drawing.Point(360, 73)
         Me.lblSalStructName.Name = "lblSalStructName"
-        Me.lblSalStructName.Size = New System.Drawing.Size(244, 19)
+        Me.lblSalStructName.Size = New System.Drawing.Size(462, 19)
         Me.lblSalStructName.TabIndex = 201
-        Me.lblSalStructName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblEmpName
         '
@@ -162,9 +167,8 @@ Partial Class frmEmployee_Salary
         Me.lblEmpName.FieldName = Nothing
         Me.lblEmpName.Location = New System.Drawing.Point(360, 52)
         Me.lblEmpName.Name = "lblEmpName"
-        Me.lblEmpName.Size = New System.Drawing.Size(244, 19)
+        Me.lblEmpName.Size = New System.Drawing.Size(462, 19)
         Me.lblEmpName.TabIndex = 200
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtEmpCode
         '
@@ -212,28 +216,29 @@ Partial Class frmEmployee_Salary
         Me.gvSalary.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.gvSalary.ForeColor = System.Drawing.Color.Black
         Me.gvSalary.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvSalary.Location = New System.Drawing.Point(13, 120)
+        Me.gvSalary.Location = New System.Drawing.Point(13, 136)
         '
-        'gvSalary
+        '
         '
         Me.gvSalary.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvSalary.MasterTemplate.AllowAddNewRow = False
         Me.gvSalary.MasterTemplate.AllowDeleteRow = False
         Me.gvSalary.MasterTemplate.AutoGenerateColumns = False
         Me.gvSalary.MasterTemplate.EnableGrouping = False
+        Me.gvSalary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSalary.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSalary.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvSalary.Name = "gvSalary"
         Me.gvSalary.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSalary.ShowHeaderCellButtons = True
-        Me.gvSalary.Size = New System.Drawing.Size(964, 279)
+        Me.gvSalary.Size = New System.Drawing.Size(964, 273)
         Me.gvSalary.TabIndex = 4
-        Me.gvSalary.Text = "RadGridView1"
         '
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(20, 97)
+        Me.MyLabel2.Location = New System.Drawing.Point(20, 117)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(88, 16)
         Me.MyLabel2.TabIndex = 63
@@ -253,7 +258,7 @@ Partial Class frmEmployee_Salary
         Me.dtpApplicableFrom.IsSourceFromTable = False
         Me.dtpApplicableFrom.IsSourceFromValueList = False
         Me.dtpApplicableFrom.IsUnique = False
-        Me.dtpApplicableFrom.Location = New System.Drawing.Point(130, 95)
+        Me.dtpApplicableFrom.Location = New System.Drawing.Point(130, 115)
         Me.dtpApplicableFrom.MendatroryField = False
         Me.dtpApplicableFrom.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpApplicableFrom.MyLinkLable1 = Nothing
@@ -341,7 +346,7 @@ Partial Class frmEmployee_Salary
         Me.txtRevisionNo.TabIndex = 58
         Me.txtRevisionNo.Text = "0"
         Me.txtRevisionNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRevisionNo.Value = 0.0R
+        Me.txtRevisionNo.Value = 0R
         '
         'SplitContainer1
         '
@@ -352,6 +357,9 @@ Partial Class frmEmployee_Salary
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblLocationName)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.fndLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel5)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtCopySalaryCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel4)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkShowAll)
@@ -364,8 +372,54 @@ Partial Class frmEmployee_Salary
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Size = New System.Drawing.Size(970, 431)
-        Me.SplitContainer1.SplitterDistance = 364
+        Me.SplitContainer1.SplitterDistance = 395
         Me.SplitContainer1.TabIndex = 203
+        '
+        'lblLocationName
+        '
+        Me.lblLocationName.AutoSize = False
+        Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
+        Me.lblLocationName.Location = New System.Drawing.Point(350, 74)
+        Me.lblLocationName.Name = "lblLocationName"
+        Me.lblLocationName.Size = New System.Drawing.Size(462, 19)
+        Me.lblLocationName.TabIndex = 255
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(120, 74)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.MyLabel5
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(225, 19)
+        Me.fndLocation.TabIndex = 253
+        Me.fndLocation.Value = ""
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel5.Location = New System.Drawing.Point(10, 75)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(49, 18)
+        Me.MyLabel5.TabIndex = 254
+        Me.MyLabel5.Text = "Location"
         '
         'txtCopySalaryCode
         '
@@ -405,7 +459,7 @@ Partial Class frmEmployee_Salary
         '
         'chkShowAll
         '
-        Me.chkShowAll.Location = New System.Drawing.Point(350, 75)
+        Me.chkShowAll.Location = New System.Drawing.Point(350, 95)
         Me.chkShowAll.Name = "chkShowAll"
         '
         '
@@ -420,7 +474,7 @@ Partial Class frmEmployee_Salary
         '
         Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(229, 31)
+        Me.btnReverse.Location = New System.Drawing.Point(229, 7)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(68, 18)
         Me.btnReverse.TabIndex = 4
@@ -430,7 +484,7 @@ Partial Class frmEmployee_Salary
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(81, 31)
+        Me.btnPost.Location = New System.Drawing.Point(81, 7)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(68, 18)
         Me.btnPost.TabIndex = 1
@@ -440,7 +494,7 @@ Partial Class frmEmployee_Salary
         '
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsave.Location = New System.Drawing.Point(9, 31)
+        Me.btnsave.Location = New System.Drawing.Point(9, 7)
         Me.btnsave.Name = "btnsave"
         Me.btnsave.Size = New System.Drawing.Size(68, 18)
         Me.btnsave.TabIndex = 0
@@ -450,7 +504,7 @@ Partial Class frmEmployee_Salary
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(899, 31)
+        Me.btnclose.Location = New System.Drawing.Point(899, 7)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(68, 18)
         Me.btnclose.TabIndex = 3
@@ -460,7 +514,7 @@ Partial Class frmEmployee_Salary
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(155, 31)
+        Me.btndelete.Location = New System.Drawing.Point(155, 7)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(68, 18)
         Me.btndelete.TabIndex = 2
@@ -483,34 +537,25 @@ Partial Class frmEmployee_Salary
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(990, 20)
         Me.RadMenu2.TabIndex = 60
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
@@ -547,6 +592,8 @@ Partial Class frmEmployee_Salary
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkShowAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
@@ -590,4 +637,7 @@ Partial Class frmEmployee_Salary
     Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtCopySalaryCode As common.UserControls.txtFinder
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents lblLocationName As common.Controls.MyLabel
+    Friend WithEvents fndLocation As common.UserControls.txtFinder
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
 End Class

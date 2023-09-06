@@ -24,6 +24,7 @@ Partial Class frmMapPayHeadsToSalaStructure
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtStructureCodeCopy = New common.UserControls.txtFinder()
@@ -34,6 +35,7 @@ Partial Class frmMapPayHeadsToSalaStructure
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.txtName = New common.Controls.MyTextBox()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -41,7 +43,9 @@ Partial Class frmMapPayHeadsToSalaStructure
         Me.RadMenu = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.lblLocation = New common.Controls.MyLabel()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -54,11 +58,13 @@ Partial Class frmMapPayHeadsToSalaStructure
         CType(Me.lblSalaryStructCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -85,6 +91,9 @@ Partial Class frmMapPayHeadsToSalaStructure
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel9)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.fndLocation)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtStructureCodeCopy)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnnew)
@@ -160,16 +169,18 @@ Partial Class frmMapPayHeadsToSalaStructure
         Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.gv1.ForeColor = System.Drawing.Color.Black
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv1.Location = New System.Drawing.Point(12, 71)
+        Me.gv1.Location = New System.Drawing.Point(12, 91)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AutoGenerateColumns = False
         Me.gv1.MasterTemplate.EnableCustomFiltering = True
         Me.gv1.MasterTemplate.EnableGrouping = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
@@ -207,7 +218,7 @@ Partial Class frmMapPayHeadsToSalaStructure
         '
         Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel18.Location = New System.Drawing.Point(12, 45)
+        Me.MyLabel18.Location = New System.Drawing.Point(12, 62)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(121, 16)
         Me.MyLabel18.TabIndex = 55
@@ -225,7 +236,7 @@ Partial Class frmMapPayHeadsToSalaStructure
         Me.txtName.IsSourceFromTable = False
         Me.txtName.IsSourceFromValueList = False
         Me.txtName.IsUnique = False
-        Me.txtName.Location = New System.Drawing.Point(144, 43)
+        Me.txtName.Location = New System.Drawing.Point(144, 61)
         Me.txtName.MaxLength = 49
         Me.txtName.MendatroryField = False
         Me.txtName.MyLinkLable1 = Me.MyLabel18
@@ -234,8 +245,18 @@ Partial Class frmMapPayHeadsToSalaStructure
         Me.txtName.ReferenceFieldDesc = Nothing
         Me.txtName.ReferenceFieldName = Nothing
         Me.txtName.ReferenceTableName = Nothing
-        Me.txtName.Size = New System.Drawing.Size(275, 18)
+        Me.txtName.Size = New System.Drawing.Size(291, 18)
         Me.txtName.TabIndex = 54
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnHistory.Location = New System.Drawing.Point(159, 14)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 131
+        Me.btnHistory.Text = "&History"
         '
         'btndelete
         '
@@ -274,7 +295,6 @@ Partial Class frmMapPayHeadsToSalaStructure
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(926, 20)
         Me.RadMenu1.TabIndex = 323
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenu
         '
@@ -286,27 +306,61 @@ Partial Class frmMapPayHeadsToSalaStructure
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
         '
-        'btnHistory
+        'lblLocation
         '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(159, 14)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
-        Me.btnHistory.TabIndex = 131
-        Me.btnHistory.Text = "&History"
+        Me.lblLocation.AutoSize = False
+        Me.lblLocation.BorderVisible = True
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(437, 41)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(358, 18)
+        Me.lblLocation.TabIndex = 190
+        Me.lblLocation.TextWrap = False
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(15, 40)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel9.TabIndex = 189
+        Me.MyLabel9.Text = "Location"
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(144, 40)
+        Me.fndLocation.MendatroryField = False
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.MyLabel9
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(291, 19)
+        Me.fndLocation.TabIndex = 188
+        Me.fndLocation.Value = ""
         '
         'frmMapPayHeadsToSalaStructure
         '
@@ -334,11 +388,13 @@ Partial Class frmMapPayHeadsToSalaStructure
         CType(Me.lblSalaryStructCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -362,4 +418,7 @@ Partial Class frmMapPayHeadsToSalaStructure
     Friend WithEvents rmImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
+    Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents fndLocation As common.UserControls.txtFinder
 End Class
