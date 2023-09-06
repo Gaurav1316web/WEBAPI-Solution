@@ -666,7 +666,7 @@ Public Class FrmMPMaster
         End If
         SettNoOFIncentiveForImportExport = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.NoOFIncentiveForMPImportExport, clsFixedParameterCode.NoOFIncentiveForMPImportExport, Nothing))
         UseVLCUploaderCodeMPUploaderCodeInMCCProcurement = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UseVLCUploaderCodeMPUploaderCodeInMCCProcurement, clsFixedParameterCode.UseVLCUploaderCodeMPUploaderCodeInMCCProcurement, Nothing)) = 1, True, False)
-
+        btnUnverifiedJanAdhaar.Enabled = False
     End Sub
 
     Private Sub txtPinCode_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtPinCode.KeyPress
@@ -908,6 +908,12 @@ Public Class FrmMPMaster
             fndMPCode.Value = clsMpMaster.getFinder("", fndMPCode.Value, isButtonClicked)
             If clsCommon.myLen(fndMPCode.Value) > 0 Then
                 loadData(fndMPCode.Value, NavigatorType.Current)
+                Dim isJanAdhaarVerified As Integer = clsDBFuncationality.getSingleValue("select isnull(Jan_Aadhar_No_Verified,0) as Is_Verified from tspl_mp_master  where MP_Code = '" & fndMPCode.Value & "'")
+                If isJanAdhaarVerified = 1 Then
+                    btnUnverifiedJanAdhaar.Enabled = True
+                Else
+                    btnUnverifiedJanAdhaar.Enabled = False
+                End If
                 btnSave.Text = "&Update"
                 btnDelete.Enabled = True
                 fndMPCode.MyReadOnly = True
@@ -2631,4 +2637,48 @@ Public Class FrmMPMaster
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
+
+    Private Sub btnUnverifiedJanAdhaar_Click(sender As Object, e As EventArgs) Handles btnUnverifiedJanAdhaar.Click
+        Dim frm As New FrmPWD(Nothing)
+        frm.strType = clsFixedParameterType.SIRC
+        frm.strCode = clsFixedParameterCode.UpdatePassword
+        frm.ShowDialog()
+        If frm.isPasswordCorrect Then
+            ShowRemarks()
+        End If
+    End Sub
+    Private Sub ShowRemarks()
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim Reason As String = ""
+            Dim frm As New FrmFreeTxtBox1
+            frm.Text = "Remarks for Verified"
+            frm.ShowDialog()
+            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                Exit Sub
+            Else
+                Reason = frm.strRmks
+            End If
+            saveCancelLog(Reason, "Verified", trans)
+            Dim Verified As String = "update tspl_mp_master set Jan_Aadhar_No_Verified = 0 where MP_Code = '" & fndMPCode.Value & "'"
+            clsDBFuncationality.ExecuteNonQuery(Verified, trans)
+
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndMPCode.Value, "tspl_mp_master", "MP_Code", trans)
+            trans.Commit()
+
+        Catch ex As Exception
+            trans.Rollback()
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+    Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
+        Dim obj As New clsCancelLog
+        obj.Program_Code = Form_ID
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.fndMPCode.Value)
+        obj.REASON = Reason
+        obj.ACTIVITY_TYPE = Activity_Type
+        Return clsCancelLog.SaveData(obj, True, trans)
+    End Function
 End Class
