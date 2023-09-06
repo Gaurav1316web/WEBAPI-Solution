@@ -2170,18 +2170,21 @@ Public Class frmScrapSale
         ' txtFreightDistance.Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Distance from TSPL_LOCATION_DISTANCE_MAPPING where TransType='S' and Location_Code='" & fndLocation.Value & "' and Customer_Code='" & fndcustNo.Value & "'", Nothing))
         Dim ECustomerType As String = clsERPFuncationality.GetCustomerEInvoiceType(fndcustNo.Value, Nothing)
         If objCommonVar.GenerateEWayBillWithEInvoice = True AndAlso clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(dtpshipment.Value) = True Then
-            If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
-                Throw New Exception("Please define Freight Distance in EWay Bill Distance Master.")
-            End If
-            If clsCommon.myLen(txtTransporter_desc.Text) <= 0 Then
+            'If clsCommon.myCdbl(txtFreightDistance.Value) <= 0 Then
+            '    Throw New Exception("Please define Freight Distance in EWay Bill Distance Master.")
+            'End If
+            If clsCommon.myLen(txtTransporter_Code.Value) <= 0 Then
                 Throw New Exception("Pls Select Transporter")
                 txtTransporter_Code.Focus()
                 Return False
             End If
             If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select GSTRegistered from tspl_vendor_master where vendor_code='" & txtTransporter_Code.Value & "'", Nothing)) = 0 Then
-                Throw New Exception("Transporter must be registered.")
+                Throw New Exception("Please Update GSTIN in Transpoter/Vendor Master")
                 Return False
             End If
+        ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso chkTaxable.Checked = True Then
+            Throw New Exception("Please Update GSTIN in Customer Master")
+            Return False
         End If
         Return True
     End Function
@@ -3443,10 +3446,16 @@ Public Class frmScrapSale
     Private Sub txtTaxGroup__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTaxGroup._MYValidating
         Dim qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
         Dim WhrCls As String = "Tax_Group_Type='S'"
+        If chkTaxable.Checked Then
+            WhrCls += " and Is_Tax_Exempted=0"
+        Else
+            WhrCls += " and Is_Tax_Exempted=1"
+        End If
         'If chkExcisable.Checked Then
         '    WhrCls += " and Excisable='Y'"
         'End If
         ''richa agarwal 
+        txtTaxGroup.Value = clsCommon.ShowSelectForm("POTaxGroupfndd", qry, "Code", WhrCls, txtTaxGroup.Value, "Code", isButtonClicked)
         Dim strItemcode As String = String.Empty
         Dim count As Double = 0
         For i As Integer = 0 To gv1.Rows.Count - 1
@@ -3468,7 +3477,7 @@ Public Class frmScrapSale
         If clsCommon.myLen(strCustomer) <= 0 Then
             strCustomer = fndcustNo.Value
         End If
-        txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(fndLocation.Value, strCustomer, "S", txtTaxGroup.Value, isButtonClicked)
+        'txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(fndLocation.Value, strCustomer, "S", txtTaxGroup.Value, isButtonClicked)
         Try
             SetTaxDetails()
             If clsCommon.myCdbl(txttcstaxbaseamount.Value) <= 0 Then
@@ -4638,7 +4647,14 @@ left join TSPL_STATE_MASTER as  FromState on FromState.State_Code=FromLocation.S
 
                         ' ==============================Ticket No  ERO/27/11/18-000422 By Prabhakar for  Customer Dashboard on Print ==============================================
                         Dim dtCustomerOutstanding As DataTable = Nothing
-                        dtCustomerOutstanding = clsCustomerMaster.getCustomerOutstandingOfAmt_Can_Crate("'" & clsCommon.myCstr(dt1.Rows(0)("Cust_code")) & "'", clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")).AddDays(-1), "dd/MMM/yyyy"), clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "dd/MMM/yyyy"))
+                        Dim itemSummnary As DataTable = Nothing
+                        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
+                            Dim strQry As String = "select max(TSPL_SCRAPINVOICE_HEAD.invoice_No) as Invoice, max(TSPL_ITEM_MASTER.Item_Desc) AS Item_Name,TSPL_SCRAPSALE_DETAIL.Unit_Code as UOM, SUM( Shipped_Qty *TSPL_ITEM_UOM_DETAIL.Conversion_Factor ) as WeightInKg, sum( ItemAmt ) as Amt from TSPL_SCRAPSALE_HEAD left join TSPL_SCRAPSALE_DETAIL on TSPL_SCRAPSALE_DETAIL.shipment_No = TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_SCRAPINVOICE_HEAD on TSPL_SCRAPINVOICE_HEAD.shipment_No = TSPL_SCRAPSALE_HEAD.shipment_No left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SCRAPSALE_DETAIL.Item_Code left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_SCRAPSALE_DETAIL.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code = 'KG' where TSPL_SCRAPSALE_HEAD.shipment_No = '" & txtDocNo.Value & "' group by TSPL_SCRAPSALE_DETAIL.Item_Code, TSPL_SCRAPSALE_DETAIL.Unit_code"
+                            itemSummnary = clsDBFuncationality.GetDataTable(strQry)
+                        Else
+                            dtCustomerOutstanding = clsCustomerMaster.getCustomerOutstandingOfAmt_Can_Crate("'" & clsCommon.myCstr(dt1.Rows(0)("Cust_code")) & "'", clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")).AddDays(-1), "dd/MMM/yyyy"), clsCommon.GetPrintDate(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "dd/MMM/yyyy"))
+
+                        End If
                         '=============================================================================
 
                         If isPrint Then
@@ -4670,7 +4686,9 @@ left join TSPL_STATE_MASTER as  FromState on FromState.State_Code=FromLocation.S
 
                                             End If
                                         Else
-                                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                            'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF_NT", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+
                                         End If
                                     Else
                                         frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
