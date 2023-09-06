@@ -5122,10 +5122,10 @@ Public Class frmSNSaleInvoice
                     '    txtVehicleNo.Text = objOrderHead.VehicleNo
                     'End If
 
-                    If (clsCommon.myLen(txtCarrier.Value) <= 0) Then
-                        txtCarrier.Value = objOrderHead.transport_id
-                        lblCarrier.Text = objOrderHead.Carrier
-                    End If
+                    'If (clsCommon.myLen(txtCarrier.Value) <= 0) Then
+                    '    txtCarrier.Value = objOrderHead.transport_id
+                    '    lblCarrier.Text = objOrderHead.Carrier
+                    'End If
 
                     txtBillToLocation.Value = objOrderHead.Bill_To_Location
                     txtBillToLocation.Enabled = False
