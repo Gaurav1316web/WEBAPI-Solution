@@ -7,7 +7,7 @@ Imports Telerik.WinControls
 Public Class clsSNShipmentHead
 #Region "Variables"
     Public Electronic_Ref_No As String = Nothing
-    Public EWayBillDate As Date?
+    Public EWayBillDate As DateTime? = Nothing
     Public EWayBillNo As String = Nothing
     Public is_taxable As Integer = 0
     Public Is_Delivered As Integer = 0
