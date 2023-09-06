@@ -1996,6 +1996,11 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         dr("Name") = "Parlor"
         dt.Rows.Add(dr)
 
+        dr = dt.NewRow()
+        dr("Code") = "Crate"
+        dr("Name") = "Crate"
+        dt.Rows.Add(dr)
+
         CmbLoginType.DataSource = dt
         CmbLoginType.ValueMember = "Code"
         CmbLoginType.DisplayMember = "Name"
