@@ -22,24 +22,17 @@ Partial Class frmSNSaleInvoice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSNSaleInvoice))
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.txtVehcileCode = New common.UserControls.txtFinder()
-        Me.lblRouteNo = New common.Controls.MyLabel()
-        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.txtEWayBillDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel43 = New common.Controls.MyLabel()
-        Me.txtElecttefNo = New common.Controls.MyTextBox()
-        Me.MyLabel38 = New common.Controls.MyLabel()
-        Me.txtEWayBillNo = New common.Controls.MyTextBox()
-        Me.MyLabel42 = New common.Controls.MyLabel()
-        Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
+        Me.fndtransporter = New common.UserControls.txtFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.lblSalesman = New common.Controls.MyLabel()
+        Me.txtVehicleCode = New common.UserControls.txtFinder()
         Me.chkIsTaxable = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtpodate = New common.Controls.MyDateTimePicker()
         Me.dtpInvoice = New common.Controls.MyDateTimePicker()
@@ -223,16 +216,8 @@ Partial Class frmSNSaleInvoice
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox5.SuspendLayout()
-        CType(Me.txtEWayBillDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtElecttefNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtpodate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -538,7 +523,7 @@ Partial Class frmSNSaleInvoice
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1261, 394)
         Me.RadPageViewPage1.Text = "Sale Invoice"
         '
-        'txtVehcileCode
+        'fndtransporter
         '
         Me.fndtransporter.CalculationExpression = Nothing
         Me.fndtransporter.FieldCode = Nothing
@@ -564,16 +549,17 @@ Partial Class frmSNSaleInvoice
         Me.fndtransporter.TabIndex = 1418
         Me.fndtransporter.Value = ""
         '
-        'lblRouteNo
+        'MyLabel1
         '
-        Me.lblRouteNo.FieldName = Nothing
-        Me.lblRouteNo.Location = New System.Drawing.Point(0, 148)
-        Me.lblRouteNo.Name = "lblRouteNo"
-        Me.lblRouteNo.Size = New System.Drawing.Size(54, 18)
-        Me.lblRouteNo.TabIndex = 124
-        Me.lblRouteNo.Text = "Route No"
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(-1, 107)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel1.TabIndex = 54
+        Me.MyLabel1.Text = "Salesman"
         '
-        'RadGroupBox5
+        'lblSalesman
         '
         Me.lblSalesman.AutoSize = False
         Me.lblSalesman.BorderVisible = True
@@ -3188,43 +3174,13 @@ Partial Class frmSNSaleInvoice
         WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
         Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
-        'lblCarrier
+        'UcCustomFields1
         '
-        Me.lblCarrier.AutoSize = False
-        Me.lblCarrier.BorderVisible = True
-        Me.lblCarrier.FieldName = Nothing
-        Me.lblCarrier.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCarrier.Location = New System.Drawing.Point(810, 96)
-        Me.lblCarrier.Name = "lblCarrier"
-        Me.lblCarrier.Size = New System.Drawing.Size(182, 18)
-        Me.lblCarrier.TabIndex = 1434
-        Me.lblCarrier.TextWrap = False
-        '
-        'txtCarrier
-        '
-        Me.txtCarrier.CalculationExpression = Nothing
-        Me.txtCarrier.FieldCode = Nothing
-        Me.txtCarrier.FieldDesc = Nothing
-        Me.txtCarrier.FieldMaxLength = 0
-        Me.txtCarrier.FieldName = Nothing
-        Me.txtCarrier.isCalculatedField = False
-        Me.txtCarrier.IsSourceFromTable = False
-        Me.txtCarrier.IsSourceFromValueList = False
-        Me.txtCarrier.IsUnique = False
-        Me.txtCarrier.Location = New System.Drawing.Point(642, 95)
-        Me.txtCarrier.MendatroryField = False
-        Me.txtCarrier.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCarrier.MyLinkLable1 = Me.lblRouteNo
-        Me.txtCarrier.MyLinkLable2 = Nothing
-        Me.txtCarrier.MyReadOnly = False
-        Me.txtCarrier.MyShowMasterFormButton = False
-        Me.txtCarrier.Name = "txtCarrier"
-        Me.txtCarrier.ReferenceFieldDesc = Nothing
-        Me.txtCarrier.ReferenceFieldName = Nothing
-        Me.txtCarrier.ReferenceTableName = Nothing
-        Me.txtCarrier.Size = New System.Drawing.Size(164, 20)
-        Me.txtCarrier.TabIndex = 1435
-        Me.txtCarrier.Value = ""
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1261, 390)
+        Me.UcCustomFields1.TabIndex = 1
         '
         'frmSNSaleInvoice
         '
@@ -3248,17 +3204,8 @@ Partial Class frmSNSaleInvoice
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox5.ResumeLayout(False)
-        Me.RadGroupBox5.PerformLayout()
-        CType(Me.txtEWayBillDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtElecttefNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsTaxable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtpodate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpInvoice, System.ComponentModel.ISupportInitialize).EndInit()
