@@ -295,154 +295,171 @@ Public Class ClsEInvoiceOFAPIs
                             objInvDetails.DocDtls.Add("Dt", clsCommon.myCDate(dtDetails.Rows(0)("DocDate")))
 
                             ''Seller Info 
-                            objInvDetails.SellerDtls.Add("Gstin", clsCommon.myCstr(dtDetails.Rows(0)("SellerGSTINNo")))
+                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerGSTINNo"))) = 15 Then
+                                objInvDetails.SellerDtls.Add("Gstin", clsCommon.myCstr(dtDetails.Rows(0)("SellerGSTINNo")))
+                            Else
+                                Throw New Exception("Seller GSTIN No. not Found/Invalid!")
+
+                            End If
+
                             objInvDetails.SellerDtls.Add("LglNm", clsCommon.myCstr(dtDetails.Rows(0)("SellerLglNm")))
                             objInvDetails.SellerDtls.Add("TrdNm", clsCommon.myCstr(dtDetails.Rows(0)("SellerTrdNm")))
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerAdd1"))) > 0 Then
-                                objInvDetails.SellerDtls.Add("Addr1", clsCommon.myCstr(dtDetails.Rows(0)("SellerAdd1")))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerAdd2"))) > 0 Then
-                                objInvDetails.SellerDtls.Add("Addr2", clsCommon.myCstr(dtDetails.Rows(0)("SellerAdd2")))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerLoc"))) > 0 Then
-                                objInvDetails.SellerDtls.Add("Loc", clsCommon.myCstr(dtDetails.Rows(0)("SellerLoc")))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerPincode"))) > 0 Then
-                                objInvDetails.SellerDtls.Add("Pin", dtDetails.Rows(0)("SellerPincode"))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerStcd"))) > 0 Then
-                                objInvDetails.SellerDtls.Add("Stcd", clsCommon.myCstr(dtDetails.Rows(0)("SellerStcd")))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerPhone"))) > 0 Then
-                                Dim strPhone As String = clsCommon.myCstr(dtDetails.Rows(0)("SellerPhone"))
-                                If strPhone.Contains(")") Then
-                                    Dim strindex As Integer = strPhone.IndexOf(")") + 1
-                                    strPhone = strPhone.Substring(strindex, strPhone.Length - strindex)
-                                    strPhone = strPhone.Replace("_", "")
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerAdd1"))) > 0 Then
+                                    objInvDetails.SellerDtls.Add("Addr1", clsCommon.myCstr(dtDetails.Rows(0)("SellerAdd1")))
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerAdd2"))) > 0 Then
+                                    objInvDetails.SellerDtls.Add("Addr2", clsCommon.myCstr(dtDetails.Rows(0)("SellerAdd2")))
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerLoc"))) > 0 Then
+                                    objInvDetails.SellerDtls.Add("Loc", clsCommon.myCstr(dtDetails.Rows(0)("SellerLoc")))
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerPincode"))) = 6 Then
+                                    objInvDetails.SellerDtls.Add("Pin", dtDetails.Rows(0)("SellerPincode"))
                                 Else
-                                    strPhone = strPhone.Replace("_", "")
+                                    Throw New Exception("Seller Pincode not Found/Invalid!")
                                 End If
-                                If clsCommon.myLen(strPhone) > 0 Then
-                                    objInvDetails.SellerDtls.Add("Ph", strPhone)
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerStcd"))) > 0 Then
+                                    objInvDetails.SellerDtls.Add("Stcd", clsCommon.myCstr(dtDetails.Rows(0)("SellerStcd")))
                                 End If
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerEmail"))) > 0 Then
-                                objInvDetails.SellerDtls.Add("Em", clsCommon.myCstr(dtDetails.Rows(0)("SellerEmail")))
-                            End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerPhone"))) > 0 Then
+                                    Dim strPhone As String = clsCommon.myCstr(dtDetails.Rows(0)("SellerPhone"))
+                                    If strPhone.Contains(")") Then
+                                        Dim strindex As Integer = strPhone.IndexOf(")") + 1
+                                        strPhone = strPhone.Substring(strindex, strPhone.Length - strindex)
+                                        strPhone = strPhone.Replace("_", "")
+                                    Else
+                                        strPhone = strPhone.Replace("_", "")
+                                    End If
+                                    If clsCommon.myLen(strPhone) > 0 Then
+                                        objInvDetails.SellerDtls.Add("Ph", strPhone)
+                                    End If
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("SellerEmail"))) > 0 Then
+                                    objInvDetails.SellerDtls.Add("Em", clsCommon.myCstr(dtDetails.Rows(0)("SellerEmail")))
+                                End If
 
 
                             ''Buyer Info 
-                            objInvDetails.BuyerDtls.Add("Gstin", clsCommon.myCstr(dtDetails.Rows(0)("BuyerGSTINNo")))
+                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerGSTINNo"))) = 15 Then
+                                objInvDetails.BuyerDtls.Add("Gstin", clsCommon.myCstr(dtDetails.Rows(0)("BuyerGSTINNo")))
+
+                            Else
+                                Throw New Exception("Buyer GSTIN No. not Found/Invalid!")
+
+                            End If
                             objInvDetails.BuyerDtls.Add("LglNm", clsCommon.myCstr(dtDetails.Rows(0)("BuyerLglNm")))
                             objInvDetails.BuyerDtls.Add("TrdNm", clsCommon.myCstr(dtDetails.Rows(0)("BuyerTrdNm")))
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerPOS"))) > 0 Then
-                                objInvDetails.BuyerDtls.Add("Pos", clsCommon.myCstr(dtDetails.Rows(0)("BuyerPOS")))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerAdd1"))) > 0 Then
-                                objInvDetails.BuyerDtls.Add("Addr1", clsCommon.myCstr(dtDetails.Rows(0)("BuyerAdd1")))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerAdd2"))) > 0 Then
-                                objInvDetails.BuyerDtls.Add("Addr2", clsCommon.myCstr(dtDetails.Rows(0)("BuyerAdd2")))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerLoc"))) > 0 Then
-                                objInvDetails.BuyerDtls.Add("Loc", clsCommon.myCstr(dtDetails.Rows(0)("BuyerLoc")))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerPincode"))) > 0 Then
-                                objInvDetails.BuyerDtls.Add("Pin", dtDetails.Rows(0)("BuyerPincode"))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerStcd"))) > 0 Then
-                                objInvDetails.BuyerDtls.Add("Stcd", clsCommon.myCstr(dtDetails.Rows(0)("BuyerStcd")))
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerPhone"))) > 0 Then
-                                Dim strPhone As String = clsCommon.myCstr(dtDetails.Rows(0)("BuyerPhone"))
-                                If strPhone.Contains(")") Then
-                                    Dim strindex As Integer = strPhone.IndexOf(")") + 1
-                                    strPhone = strPhone.Substring(strindex, strPhone.Length - strindex)
-                                    strPhone = strPhone.Replace("_", "")
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerPOS"))) > 0 Then
+                                    objInvDetails.BuyerDtls.Add("Pos", clsCommon.myCstr(dtDetails.Rows(0)("BuyerPOS")))
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerAdd1"))) > 0 Then
+                                    objInvDetails.BuyerDtls.Add("Addr1", clsCommon.myCstr(dtDetails.Rows(0)("BuyerAdd1")))
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerAdd2"))) > 0 Then
+                                    objInvDetails.BuyerDtls.Add("Addr2", clsCommon.myCstr(dtDetails.Rows(0)("BuyerAdd2")))
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerLoc"))) > 0 Then
+                                    objInvDetails.BuyerDtls.Add("Loc", clsCommon.myCstr(dtDetails.Rows(0)("BuyerLoc")))
+                                End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerPincode"))) = 6 Then
+                                    objInvDetails.BuyerDtls.Add("Pin", dtDetails.Rows(0)("BuyerPincode"))
                                 Else
-                                    strPhone = strPhone.Replace("_", "")
+                                    Throw New Exception("Buyer Pincode not Found/Invalid!")
+
                                 End If
-                                If clsCommon.myLen(strPhone) > 0 Then
-                                    objInvDetails.BuyerDtls.Add("Ph", strPhone)
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerStcd"))) > 0 Then
+                                    objInvDetails.BuyerDtls.Add("Stcd", clsCommon.myCstr(dtDetails.Rows(0)("BuyerStcd")))
                                 End If
-                            End If
-                            If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerEmail"))) > 0 Then
-                                objInvDetails.BuyerDtls.Add("Em", clsCommon.myCstr(dtDetails.Rows(0)("BuyerEmail")))
-                            End If
-
-                            For Each dr As DataRow In dtDetails.Rows
-                                Dim objItemList As New ClsItemList()
-                                objItemList.SlNo = clsCommon.myCstr(dr("ItemSlNo"))
-                                objItemList.IsServc = clsCommon.myCstr(dr("ItemIsServc"))
-                                objItemList.PrdDesc = clsCommon.myCstr(dr("ItemPrdDesc"))
-                                objItemList.HsnCd = clsCommon.myCstr(dr("ItemHsnCd"))
-                                objItemList.Qty = clsCommon.myCdbl(dr("ItemQty"))
-
-                                If clsCommon.CompairString(clsCommon.myCstr(dr("ItemIsServc")).ToUpper, "Y") = CompairStringResult.Equal Then
-                                    objItemList.Unit = "OTH"
-                                Else
-                                    'If clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "CASE") = CompairStringResult.Equal Then
-                                    '    objItemList.Unit = "CTN"
-                                    'ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "KG") = CompairStringResult.Equal Then
-                                    '    objItemList.Unit = "KGS"
-                                    'ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "JAR") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "POUCH") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "TIN") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "PKT") = CompairStringResult.Equal Then
-                                    '    objItemList.Unit = "PCS"
-                                    'ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "BOTTLE") = CompairStringResult.Equal Then
-                                    '    objItemList.Unit = "BTL"
-                                    'Else
-                                    '    objItemList.Unit = clsCommon.myCstr(dr("ItemUnit")).ToUpper
-                                    'End If
-                                    objItemList.Unit = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(GST_UNIT_CODE ,'') FROM TSPL_UNIT_MASTER WHERE UNIT_CODE='" & clsCommon.myCstr(dr("ItemUnit")).ToUpper & "'", trans))
-                                End If
-
-                                objItemList.UnitPrice = Math.Round(clsCommon.myCdbl(dr("ItemUnitPrice")), 3)
-                                objItemList.TotAmt = clsCommon.myCdbl(dr("ItemTotAmt"))
-                                objItemList.Discount = clsCommon.myCdbl(dr("ItemDiscount"))
-                                objItemList.AssAmt = clsCommon.myCdbl(dr("ItemAssAmt"))
-                                objItemList.GstRt = clsCommon.myCdbl(dr("ItemGstRt"))
-                                objItemList.SgstAmt = clsCommon.myCdbl(dr("ItemSgstAmt"))
-                                objItemList.IgstAmt = clsCommon.myCdbl(dr("ItemIgstAmt"))
-                                objItemList.CgstAmt = clsCommon.myCdbl(dr("ItemCgstAmt"))
-                                objItemList.OthChrg = clsCommon.myCdbl(dr("ItemOthChrg"))
-                                objItemList.TotItemVal = clsCommon.myCdbl(dr("ItemTotItemVal"))
-                                objInvDetails.ItemList.Add(objItemList)
-                            Next
-
-                            ''ValDtls info
-                            Dim ValDtlsDiscount As Double = 0
-                            objInvDetails.ValDtls.Add("AssVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsAssVal")))
-                            objInvDetails.ValDtls.Add("CgstVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsCgstVal")))
-                            objInvDetails.ValDtls.Add("SgstVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsSgstVal")))
-                            objInvDetails.ValDtls.Add("IgstVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsIgstVal")))
-                            ''objInvDetails.ValDtls.Add("Discount", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsDiscount")))
-                            objInvDetails.ValDtls.Add("Discount", clsCommon.myCdbl(ValDtlsDiscount))
-                            objInvDetails.ValDtls.Add("OthChrg", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsOthChrg")))
-                            objInvDetails.ValDtls.Add("TotInvVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsTotInvVal")))
-                            objInvDetails.ValDtls.Add("RndOffAmt", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsRndOffAmt")))
-
-                            'EwbDtls info
-                            If objCommonVar.GenerateEWayBillWithEInvoice = True Then
-                                If Not stopEWayBill Then
-                                    If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("EwbTransId"))) > 0 Then
-                                        objInvDetails.EwbDtls.Add("TransId", clsCommon.myCstr(dtDetails.Rows(0)("EwbTransId")))
-                                        objInvDetails.EwbDtls.Add("TransName", clsCommon.myCstr(dtDetails.Rows(0)("EwbTransName")))
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerPhone"))) > 0 Then
+                                    Dim strPhone As String = clsCommon.myCstr(dtDetails.Rows(0)("BuyerPhone"))
+                                    If strPhone.Contains(")") Then
+                                        Dim strindex As Integer = strPhone.IndexOf(")") + 1
+                                        strPhone = strPhone.Substring(strindex, strPhone.Length - strindex)
+                                        strPhone = strPhone.Replace("_", "")
+                                    Else
+                                        strPhone = strPhone.Replace("_", "")
                                     End If
-                                    'objInvDetails.EwbDtls.Add("Distance", Convert.ToInt32(dtDetails.Rows(0)("EwbDistance")))
-                                    objInvDetails.EwbDtls.Add("Distance", 0)
-                                    If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("EwbVehNo"))) > 0 Then
-                                        objInvDetails.EwbDtls.Add("VehNo", clsCommon.myCstr(dtDetails.Rows(0)("EwbVehNo")))
+                                    If clsCommon.myLen(strPhone) > 0 Then
+                                        objInvDetails.BuyerDtls.Add("Ph", strPhone)
                                     End If
-                                    objInvDetails.EwbDtls.Add("VehType", "R")
-                                    objInvDetails.EwbDtls.Add("TransMode", "1")
                                 End If
-                            End If
+                                If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("BuyerEmail"))) > 0 Then
+                                    objInvDetails.BuyerDtls.Add("Em", clsCommon.myCstr(dtDetails.Rows(0)("BuyerEmail")))
+                                End If
 
-                            strInvoiceDetails = JsonConvert.SerializeObject(objInvDetails)
-                            If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "CLEARTAX") = CompairStringResult.Equal Then
-                                strInvoiceDetails = "[{" + """transaction"":" + strInvoiceDetails + "}]"
+                                For Each dr As DataRow In dtDetails.Rows
+                                    Dim objItemList As New ClsItemList()
+                                    objItemList.SlNo = clsCommon.myCstr(dr("ItemSlNo"))
+                                    objItemList.IsServc = clsCommon.myCstr(dr("ItemIsServc"))
+                                    objItemList.PrdDesc = clsCommon.myCstr(dr("ItemPrdDesc"))
+                                    objItemList.HsnCd = clsCommon.myCstr(dr("ItemHsnCd"))
+                                    objItemList.Qty = clsCommon.myCdbl(dr("ItemQty"))
+
+                                    If clsCommon.CompairString(clsCommon.myCstr(dr("ItemIsServc")).ToUpper, "Y") = CompairStringResult.Equal Then
+                                        objItemList.Unit = "OTH"
+                                    Else
+                                        'If clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "CASE") = CompairStringResult.Equal Then
+                                        '    objItemList.Unit = "CTN"
+                                        'ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "KG") = CompairStringResult.Equal Then
+                                        '    objItemList.Unit = "KGS"
+                                        'ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "JAR") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "POUCH") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "TIN") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "PKT") = CompairStringResult.Equal Then
+                                        '    objItemList.Unit = "PCS"
+                                        'ElseIf clsCommon.CompairString(clsCommon.myCstr(dr("ItemUnit")).ToUpper, "BOTTLE") = CompairStringResult.Equal Then
+                                        '    objItemList.Unit = "BTL"
+                                        'Else
+                                        '    objItemList.Unit = clsCommon.myCstr(dr("ItemUnit")).ToUpper
+                                        'End If
+                                        objItemList.Unit = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(GST_UNIT_CODE ,'') FROM TSPL_UNIT_MASTER WHERE UNIT_CODE='" & clsCommon.myCstr(dr("ItemUnit")).ToUpper & "'", trans))
+                                    End If
+
+                                    objItemList.UnitPrice = Math.Round(clsCommon.myCdbl(dr("ItemUnitPrice")), 3)
+                                    objItemList.TotAmt = clsCommon.myCdbl(dr("ItemTotAmt"))
+                                    objItemList.Discount = clsCommon.myCdbl(dr("ItemDiscount"))
+                                    objItemList.AssAmt = clsCommon.myCdbl(dr("ItemAssAmt"))
+                                    objItemList.GstRt = clsCommon.myCdbl(dr("ItemGstRt"))
+                                    objItemList.SgstAmt = clsCommon.myCdbl(dr("ItemSgstAmt"))
+                                    objItemList.IgstAmt = clsCommon.myCdbl(dr("ItemIgstAmt"))
+                                    objItemList.CgstAmt = clsCommon.myCdbl(dr("ItemCgstAmt"))
+                                    objItemList.OthChrg = clsCommon.myCdbl(dr("ItemOthChrg"))
+                                    objItemList.TotItemVal = clsCommon.myCdbl(dr("ItemTotItemVal"))
+                                    objInvDetails.ItemList.Add(objItemList)
+                                Next
+
+                                ''ValDtls info
+                                Dim ValDtlsDiscount As Double = 0
+                                objInvDetails.ValDtls.Add("AssVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsAssVal")))
+                                objInvDetails.ValDtls.Add("CgstVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsCgstVal")))
+                                objInvDetails.ValDtls.Add("SgstVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsSgstVal")))
+                                objInvDetails.ValDtls.Add("IgstVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsIgstVal")))
+                                ''objInvDetails.ValDtls.Add("Discount", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsDiscount")))
+                                objInvDetails.ValDtls.Add("Discount", clsCommon.myCdbl(ValDtlsDiscount))
+                                objInvDetails.ValDtls.Add("OthChrg", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsOthChrg")))
+                                objInvDetails.ValDtls.Add("TotInvVal", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsTotInvVal")))
+                                objInvDetails.ValDtls.Add("RndOffAmt", clsCommon.myCdbl(dtDetails.Rows(0)("ValDtlsRndOffAmt")))
+
+                                'EwbDtls info
+                                If objCommonVar.GenerateEWayBillWithEInvoice = True Then
+                                    If Not stopEWayBill Then
+                                        If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("EwbTransId"))) > 0 Then
+                                            objInvDetails.EwbDtls.Add("TransId", clsCommon.myCstr(dtDetails.Rows(0)("EwbTransId")))
+                                            objInvDetails.EwbDtls.Add("TransName", clsCommon.myCstr(dtDetails.Rows(0)("EwbTransName")))
+                                        End If
+                                        'objInvDetails.EwbDtls.Add("Distance", Convert.ToInt32(dtDetails.Rows(0)("EwbDistance")))
+                                        objInvDetails.EwbDtls.Add("Distance", 0)
+                                        If clsCommon.myLen(clsCommon.myCstr(dtDetails.Rows(0)("EwbVehNo"))) > 0 Then
+                                            objInvDetails.EwbDtls.Add("VehNo", clsCommon.myCstr(dtDetails.Rows(0)("EwbVehNo")))
+                                        End If
+                                        objInvDetails.EwbDtls.Add("VehType", "R")
+                                        objInvDetails.EwbDtls.Add("TransMode", "1")
+                                    End If
+                                End If
+
+                                strInvoiceDetails = JsonConvert.SerializeObject(objInvDetails)
+                                If clsCommon.CompairString(strEInvoiceVendor.ToUpper(), "CLEARTAX") = CompairStringResult.Equal Then
+                                    strInvoiceDetails = "[{" + """transaction"":" + strInvoiceDetails + "}]"
+                                End If
+                                streamWriter.Write(strInvoiceDetails)
                             End If
-                            streamWriter.Write(strInvoiceDetails)
-                        End If
                     End Using
 
                     Try
