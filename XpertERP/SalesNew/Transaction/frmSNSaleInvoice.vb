@@ -370,7 +370,7 @@ Public Class frmSNSaleInvoice
         txtDesc.MaxLength = 200
         txtComment.MaxLength = 200
         txtRefNo.MaxLength = 50
-        'txtCarrier.MaxLength = 50
+        lbltransporter.MaxLength = 50
         txtGRNo.MaxLength = 50
         txtGENo.MaxLength = 50
         txtPONo.MaxLength = 200
@@ -440,8 +440,11 @@ Public Class frmSNSaleInvoice
         txtDiscAmt.Text = 0
         chkDiscountOnRate.IsChecked = True
         lblInvoiceDiscAmt.Text = ""
-        txtElecttefNo.Text = ""
+        '  txtElecttefNo.Text = ""
         txtEWayBillNo.Text = ""
+        txtEWayBillRemarks.Text = ""
+        txtEwayValidDate.Value = clsCommon.GETSERVERDATE()
+        txtEWayBillDate.Value = clsCommon.GETSERVERDATE()
         txtEWayBillDate.Checked = False
         chkIsTaxable.Checked = False
         txtForm38.Text = ""
@@ -476,10 +479,17 @@ Public Class frmSNSaleInvoice
         lblTotRAmt.Text = ""
         lblTotRAmt1.Text = ""
         UsLock1.Status = ERPTransactionStatus.Pending
-        txtCarrier.Value = ""
-        lblCarrier.Text = ""
-        txtVehicleNo.Text = ""
-        txtVehcileCode.Value = ""
+        lbltransporter.Text = ""
+        fndtransporter.Value = ""
+        txtVehicleCode.Value = ""
+        EinvoiceAckNo.Text = ""
+        EInvoiceIRNNo.Text = ""
+        EInvoiceQrCode.Text = ""
+        txtAckDate.Value = clsCommon.GETSERVERDATE()
+
+        '  lbltransporter.Text = ""
+        ' lblVehicleNo.Text = ""
+        'txtVehcileCode.Text = ""
         txtGRNo.Text = ""
         txtGENo.Text = ""
         txtGEDate.Checked = False
@@ -3197,7 +3207,7 @@ Public Class frmSNSaleInvoice
                 Dim obj As New clsSNInvoiceHead()
                 obj.is_taxable = IIf(chkIsTaxable.Checked, 1, 0)
                 'obj.EWayBillNo = txtEWayBillNo.Text
-                'obj.EWayBillDate = txtEWayBillDate.Value
+                'obj.EWayBillDate =     .Value
                 'obj.Electronic_Ref_No = txtElecttefNo.Text
                 obj.Form_38_No = txtForm38.Text
                 obj.Cust_PO_No = txtPONo.Text
@@ -3313,10 +3323,11 @@ Public Class frmSNSaleInvoice
                 obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
                 obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
 
-                obj.Carrier = lblCarrier.Text
-                obj.transport_id = txtCarrier.Value
-                obj.VehicleNo = txtVehicleNo.Text
-                obj.Vehicle_Code = txtVehcileCode.Value
+                obj.Carrier = lbltransporter.Text
+                obj.transport_id = fndtransporter.Value      ' fndtransporter.Value = obj.transport_id
+                obj.VehicleNo = txtVehicleCode.Value
+                'obj.VehicleNo = lblVehicleNo.Text
+                'obj.Vehicle_Code = txtVehcileCode.Text
                 obj.GRNo = txtGRNo.Text
                 obj.GENo = txtGENo.Text
 
@@ -3409,7 +3420,7 @@ Public Class frmSNSaleInvoice
                 obj.Is_Create_Auto_Receipt = chkCreateAutoReceipt.Checked
                 obj.Document_Code = clsCommon.myCstr(txtDocNo.Value)
                 obj.EWayBillNo = txtEWayBillNo.Text
-                obj.Electronic_Ref_No = txtElecttefNo.Text
+                'obj.Electronic_Ref_No = txtElecttefNo.Text
                 If txtEWayBillDate.Checked Then
                     obj.EWayBillDate = txtEWayBillDate.Value
                 End If
@@ -3620,13 +3631,30 @@ Public Class frmSNSaleInvoice
                 txtDate.Enabled = False
                 txtVendorNo.Enabled = False
                 chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
-
-                txtEWayBillNo.Text = obj.EWayBillNo
-                If obj.EWayBillDate IsNot Nothing Then
-                    txtEWayBillDate.Value = obj.EWayBillDate
-                    txtEWayBillDate.Checked = True
+                If clsCommon.myLen(obj.EWayBillNo) > 0 Then
+                    txtEWayBillNo.Text = obj.EWayBillNo
+                    txtEWayBillRemarks.Text = obj.EwayBillRemarks
+                    txtEwayValidDate.Value = obj.EwayBillValidDate
+                    btnEWaybillUpdate.Enabled = False
+                    If obj.EWayBillDate IsNot Nothing Then
+                        txtEWayBillDate.Value = obj.EWayBillDate
+                        txtEWayBillDate.Checked = True
+                    End If
+                Else
+                    btnEWaybillUpdate.Enabled = True
                 End If
-                txtElecttefNo.Text = obj.Electronic_Ref_No
+
+                If clsCommon.myLen(obj.EInvoiceIRNNo) > 0 Then
+                    EInvoiceIRNNo.Text = obj.EInvoiceIRNNo
+                    EinvoiceAckNo.Text = obj.EInvoiceAckNo
+                    txtAckDate.Value = obj.EInvoiceAckDate
+                    EInvoiceQrCode.Text = obj.EInvoiceQRCode
+                    EinvoiceBtnUpdate.Enabled = False
+                Else
+                    EinvoiceBtnUpdate.Enabled = True
+                End If
+
+                'txtElecttefNo.Text = obj.Electronic_Ref_No
                 chkIsTaxable.Checked = IIf(obj.is_taxable = 1, True, False)
                 lblVendorName.Text = obj.Customer_Name
                 txtRefNo.Text = obj.Ref_No
@@ -3681,15 +3709,11 @@ Public Class frmSNSaleInvoice
                 txtMannaulInvoiceNo.Value = obj.Mannual_Document_Code
                 TxtInvoiceManualNoWithPrefix.Text = obj.InvoiceManualNowithPrefix
                 '--------------------------------
-                lblCarrier.Text = obj.Carrier
-                txtCarrier.Value = obj.transport_id
-                txtVehicleNo.Text = obj.VehicleNo
-                If (clsCommon.myLen(obj.Vehicle_Code) > 0) Then
-                    txtVehcileCode.Value = obj.Vehicle_Code
-                Else
-                    txtVehcileCode.Value = clsDBFuncationality.getSingleValue("Select Vehicle_Id  from TSPL_Vehicle_MASTER where Number='" + obj.VehicleNo + "'")
-                End If
-                'txtVehcileCode.Value = obj.Vehicle_Code
+                lbltransporter.Text = obj.Carrier
+                fndtransporter.Value = obj.transport_id
+                txtVehicleCode.Value = obj.VehicleNo
+                'lblVehicleNo.Text = obj.VehicleNo
+                ' txtVehcileCode.Text = obj.Vehicle_Code
                 txtGRNo.Text = obj.GRNo
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
@@ -5061,7 +5085,7 @@ Public Class frmSNSaleInvoice
                         txtEWayBillDate.Value = objOrderHead.EWayBillDate
                         txtEWayBillDate.Checked = True
                     End If
-                    txtElecttefNo.Text = objOrderHead.Electronic_Ref_No
+                    'txtElecttefNo.Text = objOrderHead.Electronic_Ref_No
                     '' currency details
                     txtCurrencyCode.Value = objOrderHead.CURRENCY_CODE
                     Me.txtConversionRate.Text = objOrderHead.ConvRate
@@ -5093,14 +5117,10 @@ Public Class frmSNSaleInvoice
                         txtDept.Value = objOrderHead.Dept
                         lblDept.Text = objOrderHead.Dept_Desc
                     End If
-                    If (clsCommon.myLen(txtVehcileCode.Text) <= 0) Then
-                        If (clsCommon.myLen(objOrderHead.Vehicle_Code) > 0) Then
-                            txtVehcileCode.Value = objOrderHead.Vehicle_Code
-                        Else
-                            txtVehcileCode.Value = clsDBFuncationality.getSingleValue("Select Vehicle_Id  from TSPL_Vehicle_MASTER where Number='" + objOrderHead.VehicleNo + "'")
-                        End If
-                        txtVehicleNo.Text = objOrderHead.VehicleNo
-                    End If
+                    'If (clsCommon.myLen(txtVehcileCode.Text) <= 0) Then
+                    '    txtVehcileCode.Text = objOrderHead.Vehicle_Code
+                    '    txtVehicleNo.Text = objOrderHead.VehicleNo
+                    'End If
 
                     If (clsCommon.myLen(txtCarrier.Value) <= 0) Then
                         txtCarrier.Value = objOrderHead.transport_id
@@ -6874,23 +6894,39 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
             Dim obj As New clsSNInvoiceHead
             obj.Document_Code = clsCommon.myCstr(txtDocNo.Value)
             obj.EWayBillNo = txtEWayBillNo.Text
-            obj.Electronic_Ref_No = txtElecttefNo.Text
-            If txtEWayBillDate.Checked Then
-                obj.EWayBillDate = txtEWayBillDate.Value
-            End If
+            obj.EwayBillRemarks = txtEWayBillRemarks.Text
+            obj.EwayBillValidDate = txtEwayValidDate.Value
+
+
+
+            ' obj.Electronic_Ref_No = txtElecttefNo.Text
+            'If txtEWayBillDate.Checked Then
+            obj.EWayBillDate = txtEWayBillDate.Value
+            'End If
             clsSNInvoiceHead.UpdateAfterPosting(obj, Nothing)
-            ''    clsCommon.MyMessageBoxShow("Information updated successfully.")
+            clsCommon.MyMessageBoxShow("E-WayBill Updated successfully.")
             ''End If
             ''End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
-    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
-        UpdateEwaybillNo()
-
+    Sub UpdateEInvoice()
+        Try
+            Dim obj As New clsSNInvoiceHead
+            obj.Document_Code = clsCommon.myCstr(txtDocNo.Value)
+            obj.EInvoiceIRNNo = EInvoiceIRNNo.Text
+            obj.EInvoiceAckNo = EinvoiceAckNo.Text
+            obj.EInvoiceAckDate = txtAckDate.Value
+            obj.EInvoiceQRCode = EInvoiceQrCode.Text
+            clsSNInvoiceHead.UpdateEInvoiceAfterPosting(obj, Nothing)
+            clsCommon.MyMessageBoxShow("E-Invoice Updated Successfully")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
     End Sub
+
+
     Private Function SetRateWiseTax_New(ByVal strShipFrm As String) As DataTable
         Dim qry As String = Nothing
         qry = "SELECT (HSN_Code) AS HSN_Code,'%' as per, max(document_code) as document_code,Tax,Rate,SUM(TaxAmt) as TaxAmt,sum(BaseAmt) as BaseAmt,sum(TaxableValue) as TotalTaxableamt,sum(Qty) as Qty  from (" &
@@ -7020,42 +7056,36 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
         DispatchInvoicePrint()
     End Sub
 
-    Private Sub txtVehcileCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVehcileCode._MYValidating
+    Private Sub fndVehicleCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVehicleCode._MYValidating
         Try
-            Dim qry As String = "Select Vehicle_Id as [Vehicle Code],Number As [Vehicle Number], Description from TSPL_Vehicle_MASTER"
-            txtVehcileCode.Value = clsCommon.ShowSelectForm("VehicleFinder", qry, "Vehicle Code", "", "Vehicle Code", "", isButtonClicked)
-            fndVehicle_TextChanged()
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-    Private Sub fndVehicle_TextChanged()
-        Dim sql As String = "Select Vehicle_Id ,Number, Description from TSPL_Vehicle_MASTER where Vehicle_Id='" + txtVehcileCode.Value + "'"
-        Dim dr1 As DataTable = clsDBFuncationality.GetDataTable(sql)
-        If dr1 IsNot Nothing AndAlso dr1.Rows.Count > 0 Then
-            txtVehicleNo.Text = dr1.Rows(0)(1).ToString()
-        Else
-            txtVehicleNo.Text = String.Empty
-        End If
-    End Sub
-
-    Private Sub txtCarrier__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCarrier._MYValidating
-        Try
-            Dim qry As String = "select Transport_ID As [Transport Code],Transporter_Name As [Transporter Name],state as [State],Phone As [Phone Number] from TSPL_TRANSPORT_MASTER"
-            txtCarrier.Value = clsCommon.ShowSelectForm("VehicleFinder", qry, "Transport Code", "", "Transport Code", "", isButtonClicked)
-            fndCarrier_TextChanged()
+            Dim qry As String = "Select distinct  vehicle_id ,Description from TSPL_VEHICLE_MASTER
+                                 left outer join TSPL_VENDOR_MASTER on tspl_vehicle_master.transport_id=TSPL_VENDOR_MASTER.vendor_code"
+            txtVehicleCode.Value = clsCommon.ShowSelectForm("Vehicle No", qry, "vehicle_id", "", txtVehicleCode.Value, "vehicle_id", isButtonClicked)
+            lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
+            lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name as Name from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + txtVehicleCode.Value + "'"))
+            fndtransporter.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Code as Code from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + txtVehicleCode.Value + "'"))
+            txtForm38.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select vehicle_id from TSPL_VEHICLE_MASTER where Vehicle_id ='" + txtVehicleCode.Value + "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    Private Sub fndCarrier_TextChanged()
-        Dim sql As String = "select Transport_ID,Transporter_Name,state,Phone from TSPL_TRANSPORT_MASTER where Transport_ID='" + txtCarrier.Value + "'"
-        Dim dr1 As DataTable = clsDBFuncationality.GetDataTable(sql)
-        If dr1 IsNot Nothing AndAlso dr1.Rows.Count > 0 Then
-            lblCarrier.Text = dr1.Rows(0)(1).ToString()
-        Else
-            lblCarrier.Text = String.Empty
+    Private Sub fndtransporter__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndtransporter._MYValidating
+        If isButtonClicked Then
+            Dim qry As String = "select Transport_Id as [Transport Id],Transporter_Name as [Transporter Name] from TSPL_TRANSPORT_MASTER"
+            fndtransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndtransporter.Value, "", isButtonClicked)
+            lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transporter_Name as Name from TSPL_TRANSPORT_MASTER where Transport_Id ='" + fndtransporter.Value + "'"))
+
         End If
+    End Sub
+
+
+
+    Private Sub EinvoiceBtnUpdate_Click(sender As Object, e As EventArgs) Handles EinvoiceBtnUpdate.Click
+        UpdateEInvoice()
+    End Sub
+
+    Private Sub btnEWaybillUpdate_Click(sender As Object, e As EventArgs) Handles btnEWaybillUpdate.Click
+        UpdateEwaybillNo()
     End Sub
 End Class

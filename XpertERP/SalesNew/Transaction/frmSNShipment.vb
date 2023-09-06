@@ -7421,7 +7421,7 @@ Public Class frmSNShipment
             lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
             lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name as Name from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + txtVehicleCode.Value + "'"))
             fndtransporter.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Code as Code from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + txtVehicleCode.Value + "'"))
-
+            txtForm38.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select vehicle_id from TSPL_VEHICLE_MASTER where Vehicle_id ='" + txtVehicleCode.Value + "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
