@@ -1070,7 +1070,7 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
                 Throw New Exception("AR Invoice Not Found For Sales Invoice No [" + strDocNo + "]")
             End If
             'Throw New Exception("BALWINDER Sales Invoice No [" + strDocNo + "]")
-            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True Then ''AndAlso clsCommon.CompairString(clsCommon.myCstr(obj.is_taxable), "1") = CompairStringResult.Equal
+            If clsCommon.CompairString(ECustomerType, "BB") = CompairStringResult.Equal AndAlso clsERPFuncationality.GetEInvoiceStatus(obj.Document_Date, trans) = True AndAlso obj.is_taxable = 1 Then ''
                 If clsCommon.myLen(clsPSInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
                     clsPSInvoiceHead.EInvoice_Implementation(obj.Document_Code, obj.Bill_To_Location, trans, False)
                     If clsCommon.myLen(clsPSInvoiceHead.GetIRNNo(strDocNo, trans)) <= 0 Then
