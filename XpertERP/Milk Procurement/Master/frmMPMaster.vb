@@ -2646,6 +2646,7 @@ Public Class FrmMPMaster
         If frm.isPasswordCorrect Then
             ShowRemarks()
         End If
+        btnUnverifiedJanAdhaar.Enabled = False
     End Sub
     Private Sub ShowRemarks()
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -2662,13 +2663,13 @@ Public Class FrmMPMaster
             saveCancelLog(Reason, "Verified", trans)
             Dim Verified As String = "update tspl_mp_master set Jan_Aadhar_No_Verified = 0 where MP_Code = '" & fndMPCode.Value & "'"
             clsDBFuncationality.ExecuteNonQuery(Verified, trans)
-
+            clsCommon.MyMessageBoxShow(Me, "This is Unverified Successfully")
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndMPCode.Value, "tspl_mp_master", "MP_Code", trans)
             trans.Commit()
 
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

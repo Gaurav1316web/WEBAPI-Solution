@@ -3719,7 +3719,7 @@ Partial Class FrmMPMaster
         '
         Me.btnUnverifiedJanAdhaar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnUnverifiedJanAdhaar.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnverifiedJanAdhaar.Location = New System.Drawing.Point(276, 3)
+        Me.btnUnverifiedJanAdhaar.Location = New System.Drawing.Point(276, 1)
         Me.btnUnverifiedJanAdhaar.Name = "btnUnverifiedJanAdhaar"
         Me.btnUnverifiedJanAdhaar.Size = New System.Drawing.Size(118, 22)
         Me.btnUnverifiedJanAdhaar.TabIndex = 5
