@@ -55,6 +55,8 @@ Partial Class frmDBTNEFTUploader
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.UcAttachment2 = New XpertERPEngine.ucAttachment()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnPrintBankLetter = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
@@ -65,8 +67,6 @@ Partial Class frmDBTNEFTUploader
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
-        Me.UcAttachment2 = New XpertERPEngine.ucAttachment()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -101,6 +101,9 @@ Partial Class frmDBTNEFTUploader
         Me.Panel1.SuspendLayout()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
         CType(Me.btnPrintBankLetter, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNEFTUploader, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -108,9 +111,6 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer3.Panel1.SuspendLayout()
-        Me.SplitContainer3.Panel2.SuspendLayout()
-        Me.SplitContainer3.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -478,7 +478,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.Attachments
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(825, 321)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -487,9 +487,9 @@ Partial Class frmDBTNEFTUploader
         '
         Me.RadPageViewPage3.Controls.Add(Me.gvFarmer)
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(84.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(804, 277)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(804, 273)
         Me.RadPageViewPage3.Text = "Valid Farmers"
         '
         'gvFarmer
@@ -505,7 +505,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvFarmer.Name = "gvFarmer"
         Me.gvFarmer.ShowHeaderCellButtons = True
-        Me.gvFarmer.Size = New System.Drawing.Size(804, 277)
+        Me.gvFarmer.Size = New System.Drawing.Size(804, 273)
         Me.gvFarmer.TabIndex = 1
         Me.gvFarmer.TabStop = False
         '
@@ -513,9 +513,9 @@ Partial Class frmDBTNEFTUploader
         '
         Me.RadPageViewPage1.Controls.Add(Me.gvItem)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(804, 277)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(804, 273)
         Me.RadPageViewPage1.Text = "Valid"
         '
         'gvItem
@@ -531,7 +531,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
-        Me.gvItem.Size = New System.Drawing.Size(804, 277)
+        Me.gvItem.Size = New System.Drawing.Size(804, 273)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
         '
@@ -588,6 +588,33 @@ Partial Class frmDBTNEFTUploader
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(804, 273)
         Me.Attachments.Text = "Attachment"
+        '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.UcAttachment2)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.UcAttachment1)
+        Me.SplitContainer3.Size = New System.Drawing.Size(804, 273)
+        Me.SplitContainer3.SplitterDistance = 136
+        Me.SplitContainer3.TabIndex = 2
+        '
+        'UcAttachment2
+        '
+        Me.UcAttachment2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcAttachment2.Location = New System.Drawing.Point(0, 0)
+        Me.UcAttachment2.Name = "UcAttachment2"
+        Me.UcAttachment2.Size = New System.Drawing.Size(804, 136)
+        Me.UcAttachment2.TabIndex = 2
+        Me.UcAttachment2.TabStop = False
         '
         'UcAttachment1
         '
@@ -675,33 +702,6 @@ Partial Class frmDBTNEFTUploader
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'SplitContainer3
-        '
-        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer3.Name = "SplitContainer3"
-        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer3.Panel1
-        '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.UcAttachment2)
-        '
-        'SplitContainer3.Panel2
-        '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.UcAttachment1)
-        Me.SplitContainer3.Size = New System.Drawing.Size(804, 273)
-        Me.SplitContainer3.SplitterDistance = 136
-        Me.SplitContainer3.TabIndex = 2
-        '
-        'UcAttachment2
-        '
-        Me.UcAttachment2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcAttachment2.Location = New System.Drawing.Point(0, 0)
-        Me.UcAttachment2.Name = "UcAttachment2"
-        Me.UcAttachment2.Size = New System.Drawing.Size(804, 136)
-        Me.UcAttachment2.TabIndex = 2
-        Me.UcAttachment2.TabStop = False
-        '
         'frmDBTNEFTUploader
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -749,6 +749,9 @@ Partial Class frmDBTNEFTUploader
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        Me.SplitContainer3.ResumeLayout(False)
         CType(Me.btnPrintBankLetter, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNEFTUploader, System.ComponentModel.ISupportInitialize).EndInit()
@@ -756,9 +759,6 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer3.Panel1.ResumeLayout(False)
-        Me.SplitContainer3.Panel2.ResumeLayout(False)
-        Me.SplitContainer3.ResumeLayout(False)
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

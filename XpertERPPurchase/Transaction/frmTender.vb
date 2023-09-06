@@ -116,8 +116,6 @@ Public Class frmTender
     End Sub
 
     Sub BlankAllControls()
-        gvSchedule.Rows.Clear()
-        gv1.Rows.Clear()
         txtDocNo.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtScheduleStartDate.Value = txtDate.Value
@@ -543,7 +541,6 @@ Public Class frmTender
         btnPost.Enabled = True
         btnDelete.Enabled = True
 
-
         txtDate.Focus()
         gv1.Rows.AddNew()
         txtDate.Enabled = True
@@ -892,7 +889,6 @@ Public Class frmTender
 
 
     Private Sub btnPost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPost.Click
-        SavingData(True)
         PostData()
     End Sub
 
@@ -902,36 +898,11 @@ Public Class frmTender
             If AllowToSaveRAL_Type(Nothing) = False Then
                 Exit Sub
             End If
-
-            Dim dblRalFlag As Double = 0
-            For ii As Integer = 0 To gv2.Rows.Count - 1
-                Dim strICode As String = clsCommon.myCstr(gv2.Rows(ii).Cells(colICode).Value)
-                dblRalFlag = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select ISNULL(RAL,0) FROM TSPL_ITEM_MASTER WHERE ITEM_CODE='" + strICode + "'"))
-                If dblRalFlag = 1 Then
-                    Exit For
-                End If
-            Next
-
-            If dblRalFlag = 1 Then
-                If gvSchedule.Rows.Count() <= 0 Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please update schedule .")
-                    RadPageView1.SelectedPage = RadPageViewPage3
+            If gvSchedule.Rows.Count() <= 0 Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Post Document without Schedule." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                     Exit Sub
-
                 End If
-
-            Else
-
-                If gvSchedule.Rows.Count() <= 0 Then
-                    If common.clsCommon.MyMessageBoxShow(Me, "Post Document without Schedule." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                        Exit Sub
-                    End If
-                End If
-
             End If
-
-
-
             If (myMessages.postConfirm()) Then
                 If clsCommon.myLen(txtDocNo.Value) > 0 Then
                     clsTenderHead.PostData(txtDocNo.Value)

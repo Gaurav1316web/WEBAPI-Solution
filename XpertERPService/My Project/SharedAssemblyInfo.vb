@@ -10,7 +10,7 @@ Imports System.Runtime.InteropServices
 
 
 <Assembly: AssemblyTitle("XPERT ERP")>
-<Assembly: AssemblyDescription("04-09-2023")>
+<Assembly: AssemblyDescription("01-09-2023")>
 <Assembly: AssemblyCompany("Tecxpert Software Private Limited")>
 
 <Assembly: AssemblyCopyright("Copyright © Tecxpert 2008-2023")>
