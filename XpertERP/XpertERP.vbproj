@@ -733,12 +733,6 @@
     <Compile Include="frmCompany.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLicenceActivate.Designer.vb">
-      <DependentUpon>frmLicenceActivate.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmLicenceActivate.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="frmServerConfig.Designer.vb">
       <DependentUpon>frmServerConfig.vb</DependentUpon>
     </Compile>
@@ -5650,9 +5644,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmCompany.resx">
       <DependentUpon>frmCompany.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmLicenceActivate.resx">
-      <DependentUpon>frmLicenceActivate.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmServerConfig.resx">
       <DependentUpon>frmServerConfig.vb</DependentUpon>
