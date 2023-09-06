@@ -4786,13 +4786,7 @@ Public Class frmSNSaleInvoice
 
     Private Sub txtTaxGroup__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTaxGroup._MYValidating
         Dim qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
-        Dim WhrCls As String = " Tax_Group_Type='S' "
-        If chkIsTaxable.Checked Then
-            WhrCls += " and Is_Tax_Exempted=0"
-        Else
-            WhrCls += " and Is_Tax_Exempted=1"
-        End If
-        txtTaxGroup.Value = clsCommon.ShowSelectForm("Shipmentfndid", qry, "Code", WhrCls, txtTaxGroup.Value, "Code", isButtonClicked)
+        txtTaxGroup.Value = clsCommon.ShowSelectForm("Shipmentfndid", qry, "Code", "Tax_Group_Type='S'", txtTaxGroup.Value, "Code", isButtonClicked)
         SetTaxDetails()
 
     End Sub
@@ -5126,11 +5120,6 @@ Public Class frmSNSaleInvoice
                     'If (clsCommon.myLen(txtVehcileCode.Text) <= 0) Then
                     '    txtVehcileCode.Text = objOrderHead.Vehicle_Code
                     '    txtVehicleNo.Text = objOrderHead.VehicleNo
-                    'End If
-
-                    'If (clsCommon.myLen(txtCarrier.Value) <= 0) Then
-                    '    txtCarrier.Value = objOrderHead.transport_id
-                    '    lblCarrier.Text = objOrderHead.Carrier
                     'End If
 
                     txtBillToLocation.Value = objOrderHead.Bill_To_Location
@@ -6609,6 +6598,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
         ShowCurrencyDetail()
     End Sub
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRouteNo._MYValidating
+
         Dim qry As String = "Select Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
         txtRouteNo.Value = clsCommon.ShowSelectForm("ShipRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
         fndRouteNo_TextChanged()
