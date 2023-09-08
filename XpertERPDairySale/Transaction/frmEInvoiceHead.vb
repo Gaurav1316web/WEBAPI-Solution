@@ -53,17 +53,17 @@ Public Class frmEInvoiceHead
             qry = "select url, username, password, ip_address , client_id, client_secret, GSTin, RequiredFor, VendorName, Location_Code, code from TSPL_EINVOICEHEADER_INFO where code = " & strCode
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                txtUrl.Text = clsCommon.myCstr(dt("url"))
-                txtUserName.Text = clsCommon.myCstr(dt("username"))
-                txtPassword.Text = clsCommon.myCstr(dt("password"))
-                txtIPAddr.Text = clsCommon.myCstr(dt("ip_address"))
-                txtClientID.Text = clsCommon.myCstr(dt("client_id"))
-                txtClientSecret.Text = clsCommon.myCstr(dt("client_secret"))
-                txtGSTin.Text = clsCommon.myCstr(dt("GSTin"))
-                txtReqFor.Text = clsCommon.myCstr(dt("RequiredFor"))
-                txtVendorName.Text = clsCommon.myCstr(dt("VendorName"))
-                txtLocation.Value = clsCommon.myCstr(dt("Location_Code"))
-                txtLocDes.Text = clsCommon.myCstr(dt("Location_Code"))
+                txtUrl.Text = clsCommon.myCstr(dt.Rows(0)("url"))
+                txtUserName.Text = clsCommon.myCstr(dt.Rows(0)("username"))
+                txtPassword.Text = clsCommon.myCstr(dt.Rows(0)("password"))
+                txtIPAddr.Text = clsCommon.myCstr(dt.Rows(0)("ip_address"))
+                txtClientID.Text = clsCommon.myCstr(dt.Rows(0)("client_id"))
+                txtClientSecret.Text = clsCommon.myCstr(dt.Rows(0)("client_secret"))
+                txtGSTin.Text = clsCommon.myCstr(dt.Rows(0)("GSTin"))
+                txtReqFor.Text = clsCommon.myCstr(dt.Rows(0)("RequiredFor"))
+                txtVendorName.Text = clsCommon.myCstr(dt.Rows(0)("VendorName"))
+                txtLocation.Value = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+                txtLocDes.Text = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
             End If
         End If
 
