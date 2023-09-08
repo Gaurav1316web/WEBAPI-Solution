@@ -73,6 +73,7 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_FOR_SALE_Frieght_Detail", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "INT null")
             coll.Add("Comp_code", "VARCHAR(30) NULL")
             coll.Add("Url", "VARCHAR(200) NULL")
             coll.Add("username", "VARCHAR(100) NULL")
@@ -85,6 +86,26 @@ Public Class clsCreateAllTable
             coll.Add("VendorName", "VARCHAR(50) NULL")
             coll.Add("Location_Code", "VARCHAR(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_EInvoiceHeader_Info", coll)
+
+            Dim sqlStr As String = "SELECT count(1) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'TSPL_EINVOICEHEADER_INFO' AND COLUMN_NAME = 'Code' "
+            Dim CodeExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sqlStr))
+            If CodeExist = 1 Then
+                Dim qst As String = "select count(1) from TSPL_EINVOICEHEADER_INFO"
+                Dim DataExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+                If DataExist > 0 Then
+                    Dim str As String = "update TSPL_EINVOICEHEADER_INFO  set TSPL_EINVOICEHEADER_INFO.Code = xxx.rownumber from (SELECT TSPL_EINVOICEHEADER_INFO.*, ROW_NUMBER()
+               OVER(ORDER BY code) AS rownumber  FROM TSPL_EINVOICEHEADER_INFO )xxx inner join TSPL_EINVOICEHEADER_INFO on 
+               TSPL_EINVOICEHEADER_INFO.Url = xxx.Url and  TSPL_EINVOICEHEADER_INFO.username = xxx.username and  TSPL_EINVOICEHEADER_INFO.password = xxx.password and 
+               TSPL_EINVOICEHEADER_INFO.ip_address = xxx.ip_address and  TSPL_EINVOICEHEADER_INFO.client_id = xxx.client_id and TSPL_EINVOICEHEADER_INFO.client_secret = xxx.client_secret and 
+              TSPL_EINVOICEHEADER_INFO.GSTin = xxx.GSTin and TSPL_EINVOICEHEADER_INFO.RequiredFor = xxx.RequiredFor and  TSPL_EINVOICEHEADER_INFO.VendorName = xxx.VendorName and 
+              TSPL_EINVOICEHEADER_INFO.Location_Code = xxx.Location_Code"
+                    clsDBFuncationality.ExecuteNonQuery(str)
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO drop column code")
+                    clsDBFuncationality.ExecuteNonQuery(" ALTER TABLE TSPL_EINVOICEHEADER_INFO Add  code int  IDENTITY(1,1) NOT NULL;")
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO Add PRIMARY KEY (code);")
+
+                End If
+            End If
 
             coll = New Dictionary(Of String, String)()
             coll.Add("AuthToken", "VARCHAR(70) NULL")

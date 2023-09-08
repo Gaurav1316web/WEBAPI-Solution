@@ -26220,4 +26220,10 @@ select Source_Doc_No,sum(Avg_Cost) as Avg_Cost  from TSPL_INVENTORY_MOVEMENT whe
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+    Private Sub btnUpdateEInvoiceHead_Click(sender As Object, e As EventArgs) Handles btnUpdateEInvoiceHead.Click
+        Dim frm As New frmEInvoiceHead
+        frm.Height = 300
+        frm.Width = 350
+        frm.Show()
+    End Sub
 End Class
