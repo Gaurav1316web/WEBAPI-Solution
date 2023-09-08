@@ -3080,7 +3080,14 @@ Public Class frmSNSaleInvoice
             '    cboItemType.Focus()
             '    Return False
             'End If
-
+            If chkIsTaxable.Checked Then
+                ' Check if the vehicle number is empty
+                If clsCommon.myLen(txtVehicleCode.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow("Please select Vehicle No")
+                    txtVehicleCode.Focus()
+                    Return False
+                End If
+            End If
             If AllowChangeInvoiceType Then
                 If clsCommon.myLen(ddlInvoiceType.SelectedValue) <= 0 Then
                     common.clsCommon.MyMessageBoxShow("Please select invoice  Type for creating invoice")
@@ -3205,7 +3212,16 @@ Public Class frmSNSaleInvoice
             If (AllowToSave()) Then
 
                 Dim obj As New clsSNInvoiceHead()
+                'If clsCommon.myLen(chkIsTaxable.Checked) = 1 Then
+                '    obj.is_taxable = chkIsTaxable.Checked
+                'ElseIf clsCommon.myLen(chkIsTaxable.Checked) = 0 Then
                 obj.is_taxable = IIf(chkIsTaxable.Checked, 1, 0)
+                'End If
+                'If chkIsTaxable.Checked Then
+                ' Show a message or take any other action to indicate that saving is not allowed
+                '  common.clsCommon.MyMessageBoxShow("Saving is not allowed when 'Is Taxable' is checked.")
+                '    Exit Sub ' Exit the SaveData sub to prevent saving
+                'End If
                 'obj.EWayBillNo = txtEWayBillNo.Text
                 'obj.EWayBillDate =     .Value
                 'obj.Electronic_Ref_No = txtElecttefNo.Text

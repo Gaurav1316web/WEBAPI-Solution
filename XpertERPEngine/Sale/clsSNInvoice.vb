@@ -322,7 +322,10 @@ Public Class clsSNInvoiceHead
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Transporter_Name", obj.Carrier)
-            clsCommon.AddColumnsForChange(coll, "Transport_Code", obj.transport_id)
+            If clsCommon.myLen(obj.transport_id) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Transport_Code", obj.transport_id)
+            End If
+
             ' clsCommon.AddColumnsForChange(coll, "Transporter_Name", obj.transport_id)
 
             'clsCommon.AddColumnsForChange(coll, "Description", obj.Vehicle_Code)
