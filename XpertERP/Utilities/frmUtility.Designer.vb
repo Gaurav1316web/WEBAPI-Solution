@@ -82,6 +82,7 @@ Partial Class FrmUtility
         Me.RadButton143 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton271 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton144 = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdateEInvoiceHead = New Telerik.WinControls.UI.RadButton()
         Me.RadButton234 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton79 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton136 = New Telerik.WinControls.UI.RadButton()
@@ -837,7 +838,8 @@ Partial Class FrmUtility
         CType(Me.txtBlankTransDataDate, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton143, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton271, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton144, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.RadButton144, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdateEInvoiceHead, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton234, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton79, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.RadButton136, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1961,6 +1963,7 @@ Partial Class FrmUtility
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton143)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton271)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton144)
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.btnUpdateEInvoiceHead)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton234)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton79)
         Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadButton136)
@@ -2063,6 +2066,14 @@ Partial Class FrmUtility
         Me.RadButton144.Size = New System.Drawing.Size(147, 23)
         Me.RadButton144.TabIndex = 67
         Me.RadButton144.Text = "Test Null"
+        '
+        'btnUpdateEInvoiceHead
+        '
+        Me.btnUpdateEInvoiceHead.Location = New System.Drawing.Point(666, 496)
+        Me.btnUpdateEInvoiceHead.Name = "btnUpdateEInvoiceHead"
+        Me.btnUpdateEInvoiceHead.Size = New System.Drawing.Size(147, 23)
+        Me.btnUpdateEInvoiceHead.TabIndex = 67
+        Me.btnUpdateEInvoiceHead.Text = "UpdateEInvoiceHead"
         '
         'RadButton234
         '
@@ -9768,7 +9779,8 @@ Partial Class FrmUtility
         CType(Me.txtBlankTransDataDate, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton143, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton271, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton144, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton144, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdateEInvoiceHead, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton234, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton79, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.RadButton136, System.ComponentModel.ISupportInitialize).EndInit
@@ -10478,9 +10490,9 @@ Partial Class FrmUtility
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
-        Me.ResumeLayout(false)
+        Me.ResumeLayout(False)
 
-End Sub
+    End Sub
     Friend WithEvents btnCreateAdjustment As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadLabel4 As common.Controls.MyLabel
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
@@ -10836,6 +10848,7 @@ End Sub
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
     Friend WithEvents txtNewBank As common.UserControls.txtFinder
     Friend WithEvents RadButton144 As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnUpdateEInvoiceHead As Telerik.WinControls.UI.RadButton
     Friend WithEvents GroupBox52 As System.Windows.Forms.GroupBox
     Friend WithEvents RadButton148 As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadButton149 As Telerik.WinControls.UI.RadButton
