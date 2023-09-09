@@ -4544,7 +4544,7 @@ Public Class frmSNSaleInvoice
                 End If
 
                 If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                    funPrint(txtDocNo.Value)
+                    funPrintNew(txtDocNo.Value)
                 End If
             End If
 
