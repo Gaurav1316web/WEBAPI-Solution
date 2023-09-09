@@ -29,7 +29,7 @@ Public Class frmLeaveApplication
             obj.EMP_CODE = txtEmpCode.Value
             obj.LEAVE_CODE = txtLeaveCode.Value
             obj.PAY_PERIOD_CODE = txtPayPeriod.Value
-
+            obj.Location_Code = fndLocation.Value
             If clsCommon.myLen(dtpApplicableFrom.Text) > 0 Then
                 obj.APPLICATION_DATE = clsCommon.GetPrintDate(dtpApplicableFrom.Value, "dd/MMM/yyyy")
             Else
@@ -111,6 +111,13 @@ Public Class frmLeaveApplication
             txtLeaveCode__MYValidating(Nothing, Nothing, False)
             txtPayPeriod__MYValidating(Nothing, Nothing, False)
             txtEmpCode__MYValidating(Nothing, Nothing, False)
+            If clsCommon.myLen(obj.Location_Code) > 0 Then
+                fndLocation.Value = obj.Location_Code
+                lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+            Else
+                fndLocation.Value = ""
+                lblLocationName.Text = ""
+            End If
         End If
     End Sub
 
@@ -245,6 +252,13 @@ Public Class frmLeaveApplication
 
     Private Sub frmLeaveApplication_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
+        End If
         'LoadGridColumns()
         RadMenuItem1.Visibility = ElementVisibility.Collapsed
         funReset()
@@ -257,9 +271,7 @@ Public Class frmLeaveApplication
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
-
     End Sub
-
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmLeaveApplication)
         If Not (MyBase.isReadFlag) Then
@@ -276,6 +288,13 @@ Public Class frmLeaveApplication
     End Sub
 
     Sub funReset()
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
+        End If
         isNewEntry = True
         txtCode.MyReadOnly = False
         txtCode.Value = Nothing
@@ -313,17 +332,20 @@ Public Class frmLeaveApplication
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim StrJoin As String = ""
         Dim StrWhere As String = ""
-
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " And tspl_user_master.Default_Location=" + objCommonVar.strCurrUserLocations + ""
+        End If
         If objCommonVar.IsLoginUserHRAdmin = True Then
             StrJoin = ""
             StrWhere = ""
         Else
             StrJoin = " LEFT JOIN tspl_user_master ON TSPL_LEAVE_APPLICATION.EMP_CODE=tspl_user_master.EMP_CODE "
-            StrWhere = " tspl_user_master.user_code='" + objCommonVar.CurrentUserCode + "' "
+            StrWhere = " tspl_user_master.user_code='" + objCommonVar.CurrentUserCode + "' " + whrcls
         End If
 
         Dim str As String = "select count(*) from TSPL_LEAVE_APPLICATION " + StrJoin + " where 1=1 " + IIf(clsCommon.myLen(StrWhere) > 0, " and " + StrWhere, "") + " and LVAPPLICATION_CODE ='" + txtCode.Value + "' "
-        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Str))
+        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
             txtCode.MyReadOnly = False
             'txtCode.Value = ""
@@ -455,13 +477,17 @@ Public Class frmLeaveApplication
     Private Sub txtEmpCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtEmpCode._MYValidating
         Dim StrJoin As String = ""
         Dim StrWhere As String = ""
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " And tspl_user_master.Default_Location=" + objCommonVar.strCurrUserLocations + ""
+        End If
 
         If objCommonVar.IsLoginUserHRAdmin = True Then
             StrJoin = ""
             StrWhere = ""
         Else
             StrJoin = " LEFT JOIN tspl_user_master ON TSPL_EMPLOYEE_MASTER.EMP_CODE=tspl_user_master.EMP_CODE "
-            StrWhere = " tspl_user_master.user_code='" + objCommonVar.CurrentUserCode + "' "
+            StrWhere = " tspl_user_master.user_code='" + objCommonVar.CurrentUserCode + "' " + whrcls
         End If
         Dim qry As String = " select TSPL_EMPLOYEE_MASTER.EMP_CODE as Code,  TSPL_EMPLOYEE_MASTER.Emp_Name as Name from TSPL_EMPLOYEE_MASTER " + StrJoin + " "
         txtEmpCode.Value = clsCommon.ShowSelectForm("EMP_FND", qry, "Code", StrWhere, txtEmpCode.Value, "TSPL_EMPLOYEE_MASTER.EMP_CODE", isButtonClicked)
@@ -517,8 +543,8 @@ Public Class frmLeaveApplication
             'If clsCommon.myLen(txtLeaveCode.Value) > 0 Then
             '    Qry += " where final.[Leave Code] = '" + txtLeaveCode.Value + "' "
             'End If
-            Qry = " SELECT EMP_CODE AS [Employee Code],lStatus.LEAVE_CODE as [Leave Code],TSPL_LEAVE_MASTER.LEAVE_TYPE as [Leave Type],OPENING as [Opening Balance],ALLOTED as [Allotted]," & _
-                  " AVAILED as [Availed],ADJUSTMENT_PLUS as [Adjustment Plus],ADJUSTMENT_MINUS as [Adjustment Minus],BALANCE as [Balance] " & _
+            Qry = " SELECT EMP_CODE AS [Employee Code],lStatus.LEAVE_CODE as [Leave Code],TSPL_LEAVE_MASTER.LEAVE_TYPE as [Leave Type],OPENING as [Opening Balance],ALLOTED as [Allotted]," &
+                  " AVAILED as [Availed],ADJUSTMENT_PLUS as [Adjustment Plus],ADJUSTMENT_MINUS as [Adjustment Minus],BALANCE as [Balance] " &
                   " FROM TSPL_FUN_LEAVE_STATUS('" & Me.txtPayPeriod.Value & "') as lStatus inner join TSPL_LEAVE_MASTER on lStatus.LEAVE_CODE=TSPL_LEAVE_MASTER.LEAVE_CODE where EMP_CODE='" & Me.txtEmpCode.Value & "'"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -800,5 +826,20 @@ Public Class frmLeaveApplication
         Dim frm As New FrmMailReceipt
         frm.Form_Id = MyBase.Form_ID
         frm.Show()
+    End Sub
+
+    Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
+        Try
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            End If
+            Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
+            fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
+            ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
     End Sub
 End Class

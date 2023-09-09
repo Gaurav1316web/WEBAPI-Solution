@@ -86,7 +86,7 @@ Public Class clsMonthAttendance
         Dim obj As New clsMonthAttendance()
         Dim qry As String = "SELECT MA.*,(DATEDIFF(DAY,TPM.date_from,TPM.date_to)+1) as TOTAL_DAYS, " _
         & " TPM.PAY_PERIOD_NAME,TPM.DATE_FROM,TPM.DATE_TO  FROM TSPL_MONTHLY_ATTENDANCE MA" _
-        & " INNER JOIN TSPL_PAYPERIOD_MASTER TPM ON MA.PAY_PERIOD_CODE=TPM.PAY_PERIOD_CODE  where 2=2"
+        & " INNER JOIN TSPL_PAYPERIOD_MASTER TPM ON MA.PAY_PERIOD_CODE=TPM.PAY_PERIOD_CODE  where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and MTA_CODE = (select MIN(MTA_CODE) from TSPL_MONTHLY_ATTENDANCE)"

@@ -25,39 +25,42 @@ Partial Class frmConveyanceClaim
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmConveyanceClaim))
-        Me.lblPayPeriod = New common.Controls.MyLabel
-        Me.txtPayPeriod = New common.UserControls.txtFinder
-        Me.MyLabel5 = New common.Controls.MyLabel
-        Me.lblEmpName = New common.Controls.MyLabel
-        Me.txtEmpCode = New common.UserControls.txtFinder
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.lblRateDesc = New common.Controls.MyLabel
-        Me.fndRateCode = New common.UserControls.txtFinder
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.MyLabel9 = New common.Controls.MyLabel
-        Me.lblClaimAmount = New common.Controls.MyLabel
-        Me.MyLabel8 = New common.Controls.MyLabel
-        Me.lblConvRate = New common.Controls.MyLabel
-        Me.MyLabel6 = New common.Controls.MyLabel
-        Me.lblConvType = New common.Controls.MyLabel
-        Me.txtDist = New common.MyNumBox
-        Me.lblOT_RATE = New common.Controls.MyLabel
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
+        Me.lblPayPeriod = New common.Controls.MyLabel()
+        Me.txtPayPeriod = New common.UserControls.txtFinder()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.lblEmpName = New common.Controls.MyLabel()
+        Me.txtEmpCode = New common.UserControls.txtFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.lblRateDesc = New common.Controls.MyLabel()
+        Me.fndRateCode = New common.UserControls.txtFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.lblClaimAmount = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.lblConvRate = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.lblConvType = New common.Controls.MyLabel()
+        Me.txtDist = New common.MyNumBox()
+        Me.lblOT_RATE = New common.Controls.MyLabel()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.lblLocation = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
         CType(Me.lblPayPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblEmpName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,6 +85,8 @@ Partial Class frmConveyanceClaim
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -89,15 +94,24 @@ Partial Class frmConveyanceClaim
         '
         Me.lblPayPeriod.AutoSize = False
         Me.lblPayPeriod.BorderVisible = True
-        Me.lblPayPeriod.Location = New System.Drawing.Point(316, 185)
+        Me.lblPayPeriod.FieldName = Nothing
+        Me.lblPayPeriod.Location = New System.Drawing.Point(323, 185)
         Me.lblPayPeriod.Name = "lblPayPeriod"
-        Me.lblPayPeriod.Size = New System.Drawing.Size(189, 18)
+        Me.lblPayPeriod.Size = New System.Drawing.Size(259, 18)
         Me.lblPayPeriod.TabIndex = 7
-        Me.lblPayPeriod.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblPayPeriod.Visible = False
         '
         'txtPayPeriod
         '
+        Me.txtPayPeriod.CalculationExpression = Nothing
+        Me.txtPayPeriod.FieldCode = Nothing
+        Me.txtPayPeriod.FieldDesc = Nothing
+        Me.txtPayPeriod.FieldMaxLength = 0
+        Me.txtPayPeriod.FieldName = Nothing
+        Me.txtPayPeriod.isCalculatedField = False
+        Me.txtPayPeriod.IsSourceFromTable = False
+        Me.txtPayPeriod.IsSourceFromValueList = False
+        Me.txtPayPeriod.IsUnique = False
         Me.txtPayPeriod.Location = New System.Drawing.Point(131, 185)
         Me.txtPayPeriod.MendatroryField = True
         Me.txtPayPeriod.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -106,13 +120,17 @@ Partial Class frmConveyanceClaim
         Me.txtPayPeriod.MyReadOnly = True
         Me.txtPayPeriod.MyShowMasterFormButton = False
         Me.txtPayPeriod.Name = "txtPayPeriod"
-        Me.txtPayPeriod.Size = New System.Drawing.Size(181, 18)
+        Me.txtPayPeriod.ReferenceFieldDesc = Nothing
+        Me.txtPayPeriod.ReferenceFieldName = Nothing
+        Me.txtPayPeriod.ReferenceTableName = Nothing
+        Me.txtPayPeriod.Size = New System.Drawing.Size(189, 18)
         Me.txtPayPeriod.TabIndex = 6
         Me.txtPayPeriod.Value = ""
         Me.txtPayPeriod.Visible = False
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Location = New System.Drawing.Point(12, 185)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(88, 18)
@@ -124,14 +142,23 @@ Partial Class frmConveyanceClaim
         '
         Me.lblEmpName.AutoSize = False
         Me.lblEmpName.BorderVisible = True
-        Me.lblEmpName.Location = New System.Drawing.Point(316, 49)
+        Me.lblEmpName.FieldName = Nothing
+        Me.lblEmpName.Location = New System.Drawing.Point(323, 49)
         Me.lblEmpName.Name = "lblEmpName"
-        Me.lblEmpName.Size = New System.Drawing.Size(189, 18)
+        Me.lblEmpName.Size = New System.Drawing.Size(259, 18)
         Me.lblEmpName.TabIndex = 3
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtEmpCode
         '
+        Me.txtEmpCode.CalculationExpression = Nothing
+        Me.txtEmpCode.FieldCode = Nothing
+        Me.txtEmpCode.FieldDesc = Nothing
+        Me.txtEmpCode.FieldMaxLength = 0
+        Me.txtEmpCode.FieldName = Nothing
+        Me.txtEmpCode.isCalculatedField = False
+        Me.txtEmpCode.IsSourceFromTable = False
+        Me.txtEmpCode.IsSourceFromValueList = False
+        Me.txtEmpCode.IsUnique = False
         Me.txtEmpCode.Location = New System.Drawing.Point(131, 49)
         Me.txtEmpCode.MendatroryField = True
         Me.txtEmpCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -140,12 +167,16 @@ Partial Class frmConveyanceClaim
         Me.txtEmpCode.MyReadOnly = False
         Me.txtEmpCode.MyShowMasterFormButton = False
         Me.txtEmpCode.Name = "txtEmpCode"
-        Me.txtEmpCode.Size = New System.Drawing.Size(181, 18)
+        Me.txtEmpCode.ReferenceFieldDesc = Nothing
+        Me.txtEmpCode.ReferenceFieldName = Nothing
+        Me.txtEmpCode.ReferenceTableName = Nothing
+        Me.txtEmpCode.Size = New System.Drawing.Size(190, 18)
         Me.txtEmpCode.TabIndex = 2
         Me.txtEmpCode.Value = ""
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Location = New System.Drawing.Point(12, 49)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(84, 18)
@@ -156,14 +187,23 @@ Partial Class frmConveyanceClaim
         '
         Me.lblRateDesc.AutoSize = False
         Me.lblRateDesc.BorderVisible = True
-        Me.lblRateDesc.Location = New System.Drawing.Point(316, 119)
+        Me.lblRateDesc.FieldName = Nothing
+        Me.lblRateDesc.Location = New System.Drawing.Point(323, 119)
         Me.lblRateDesc.Name = "lblRateDesc"
-        Me.lblRateDesc.Size = New System.Drawing.Size(189, 18)
+        Me.lblRateDesc.Size = New System.Drawing.Size(259, 18)
         Me.lblRateDesc.TabIndex = 5
-        Me.lblRateDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndRateCode
         '
+        Me.fndRateCode.CalculationExpression = Nothing
+        Me.fndRateCode.FieldCode = Nothing
+        Me.fndRateCode.FieldDesc = Nothing
+        Me.fndRateCode.FieldMaxLength = 0
+        Me.fndRateCode.FieldName = Nothing
+        Me.fndRateCode.isCalculatedField = False
+        Me.fndRateCode.IsSourceFromTable = False
+        Me.fndRateCode.IsSourceFromValueList = False
+        Me.fndRateCode.IsUnique = False
         Me.fndRateCode.Location = New System.Drawing.Point(131, 119)
         Me.fndRateCode.MendatroryField = True
         Me.fndRateCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -172,12 +212,16 @@ Partial Class frmConveyanceClaim
         Me.fndRateCode.MyReadOnly = True
         Me.fndRateCode.MyShowMasterFormButton = False
         Me.fndRateCode.Name = "fndRateCode"
-        Me.fndRateCode.Size = New System.Drawing.Size(181, 18)
+        Me.fndRateCode.ReferenceFieldDesc = Nothing
+        Me.fndRateCode.ReferenceFieldName = Nothing
+        Me.fndRateCode.ReferenceTableName = Nothing
+        Me.fndRateCode.Size = New System.Drawing.Size(189, 18)
         Me.fndRateCode.TabIndex = 4
         Me.fndRateCode.Value = ""
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Location = New System.Drawing.Point(12, 119)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(58, 18)
@@ -186,6 +230,7 @@ Partial Class frmConveyanceClaim
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(131, 25)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -201,6 +246,7 @@ Partial Class frmConveyanceClaim
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(12, 26)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
@@ -242,27 +288,18 @@ Partial Class frmConveyanceClaim
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
-        Me.RadMenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
-        Me.RadMenuItem2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -275,6 +312,9 @@ Partial Class frmConveyanceClaim
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.fndLocation)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel9)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblClaimAmount)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel8)
@@ -303,12 +343,13 @@ Partial Class frmConveyanceClaim
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(607, 256)
-        Me.SplitContainer1.SplitterDistance = 225
+        Me.SplitContainer1.Size = New System.Drawing.Size(607, 264)
+        Me.SplitContainer1.SplitterDistance = 233
         Me.SplitContainer1.TabIndex = 0
         '
         'MyLabel9
         '
+        Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Location = New System.Drawing.Point(12, 142)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(28, 18)
@@ -319,14 +360,15 @@ Partial Class frmConveyanceClaim
         '
         Me.lblClaimAmount.AutoSize = False
         Me.lblClaimAmount.BorderVisible = True
+        Me.lblClaimAmount.FieldName = Nothing
         Me.lblClaimAmount.Location = New System.Drawing.Point(131, 163)
         Me.lblClaimAmount.Name = "lblClaimAmount"
         Me.lblClaimAmount.Size = New System.Drawing.Size(189, 18)
         Me.lblClaimAmount.TabIndex = 45
-        Me.lblClaimAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel8
         '
+        Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Location = New System.Drawing.Point(12, 163)
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(78, 18)
@@ -337,14 +379,15 @@ Partial Class frmConveyanceClaim
         '
         Me.lblConvRate.AutoSize = False
         Me.lblConvRate.BorderVisible = True
+        Me.lblConvRate.FieldName = Nothing
         Me.lblConvRate.Location = New System.Drawing.Point(131, 142)
         Me.lblConvRate.Name = "lblConvRate"
         Me.lblConvRate.Size = New System.Drawing.Size(189, 18)
         Me.lblConvRate.TabIndex = 43
-        Me.lblConvRate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Location = New System.Drawing.Point(12, 161)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(28, 18)
@@ -355,30 +398,43 @@ Partial Class frmConveyanceClaim
         '
         Me.lblConvType.AutoSize = False
         Me.lblConvType.BorderVisible = True
+        Me.lblConvType.FieldName = Nothing
         Me.lblConvType.Location = New System.Drawing.Point(131, 73)
         Me.lblConvType.Name = "lblConvType"
         Me.lblConvType.Size = New System.Drawing.Size(189, 18)
         Me.lblConvType.TabIndex = 41
-        Me.lblConvType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtDist
         '
         Me.txtDist.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtDist.CalculationExpression = Nothing
         Me.txtDist.DecimalPlaces = 2
+        Me.txtDist.FieldCode = Nothing
+        Me.txtDist.FieldDesc = Nothing
+        Me.txtDist.FieldMaxLength = 0
+        Me.txtDist.FieldName = Nothing
+        Me.txtDist.isCalculatedField = False
+        Me.txtDist.IsSourceFromTable = False
+        Me.txtDist.IsSourceFromValueList = False
+        Me.txtDist.IsUnique = False
         Me.txtDist.Location = New System.Drawing.Point(131, 95)
         Me.txtDist.MaxLength = 6
         Me.txtDist.MendatroryField = True
         Me.txtDist.MyLinkLable1 = Nothing
         Me.txtDist.MyLinkLable2 = Nothing
         Me.txtDist.Name = "txtDist"
+        Me.txtDist.ReferenceFieldDesc = Nothing
+        Me.txtDist.ReferenceFieldName = Nothing
+        Me.txtDist.ReferenceTableName = Nothing
         Me.txtDist.Size = New System.Drawing.Size(189, 20)
         Me.txtDist.TabIndex = 40
         Me.txtDist.Text = "0"
         Me.txtDist.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDist.Value = 0
+        Me.txtDist.Value = 0R
         '
         'lblOT_RATE
         '
+        Me.lblOT_RATE.FieldName = Nothing
         Me.lblOT_RATE.Location = New System.Drawing.Point(13, 96)
         Me.lblOT_RATE.Name = "lblOT_RATE"
         Me.lblOT_RATE.Size = New System.Drawing.Size(49, 18)
@@ -387,6 +443,7 @@ Partial Class frmConveyanceClaim
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Location = New System.Drawing.Point(12, 73)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(94, 18)
@@ -400,40 +457,27 @@ Partial Class frmConveyanceClaim
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(607, 20)
         Me.RadMenu2.TabIndex = 0
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
-        Me.MenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
-        Me.MenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        Me.MenuItemClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnNew
         '
@@ -444,11 +488,57 @@ Partial Class frmConveyanceClaim
         Me.btnNew.TabIndex = 1
         Me.btnNew.Text = " "
         '
+        'lblLocation
+        '
+        Me.lblLocation.AutoSize = False
+        Me.lblLocation.BorderVisible = True
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Location = New System.Drawing.Point(323, 209)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(259, 19)
+        Me.lblLocation.TabIndex = 253
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(13, 210)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel2.TabIndex = 252
+        Me.MyLabel2.Text = "Location"
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(131, 209)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.MyLabel2
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(188, 19)
+        Me.fndLocation.TabIndex = 251
+        Me.fndLocation.Value = ""
+        '
         'frmConveyanceClaim
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(607, 256)
+        Me.ClientSize = New System.Drawing.Size(607, 264)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmConveyanceClaim"
         '
@@ -481,6 +571,8 @@ Partial Class frmConveyanceClaim
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -518,5 +610,8 @@ Partial Class frmConveyanceClaim
     Friend WithEvents lblConvRate As common.Controls.MyLabel
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents fndLocation As common.UserControls.txtFinder
 End Class
 

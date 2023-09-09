@@ -15185,6 +15185,7 @@ Public Class clsCreateAllTable
             coll.Add("Level2_User", "varchar(12) null ")
             coll.Add("Level3_User", "varchar(12) null ")
             coll.Add("Is_Approved", "Integer Default 0")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_LEAVE_APPLICATION", coll, Nothing, False, False)
 
 
@@ -15198,13 +15199,13 @@ Public Class clsCreateAllTable
             coll.Add("LEAVE_REASON", "VARCHAR(200) NOT NULL ")
             coll.Add("ADJUST_ALLOTED", "NUMERIC(5,2) NOT NULL ")
             coll.Add("ADJUST_AVAILED", "NUMERIC(5,2) NOT NULL ")
-
             coll.Add("POSTED", "BIT NOT NULL")
             coll.Add("Posting_Date", "Datetime NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_LEAVE_ADJUSTMENT", coll, Nothing, False, False)
 
 
@@ -15224,6 +15225,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("POSTED", "BIT NOT NULL default 0")
             coll.Add("Posting_Date", "Datetime NULL")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_OT_SHEET", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
@@ -39366,12 +39368,12 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("CONV_RATE_CODE", "Varchar(30)  NULL REFERENCES TSPL_CONVEYANCE_RATE_MASTER(CONV_RATE_CODE)")
             coll.Add("CONV_RATE", "FLOAT  NULL ")
             coll.Add("CLAIM_AMOUNT", "FLOAT  NULL ")
-
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CONVEYANCE_CLAIM", coll, Nothing, False, False)
 
 
