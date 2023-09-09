@@ -97,6 +97,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
+    <Compile Include="Sales Distribution\clsEInvoiceHead.vb" />
     <Compile Include="UserControl1.vb">
       <SubType>UserControl</SubType>
     </Compile>
