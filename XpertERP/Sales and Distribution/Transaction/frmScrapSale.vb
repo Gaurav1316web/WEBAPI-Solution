@@ -282,7 +282,7 @@ Public Class frmScrapSale
             lblSecondryInvNo.Visible = True
             txtVatInvNo.Visible = True
             btnPrint.Text = "Excise"
-            btnPrePrint.Text = "Tax"
+            'btnPrePrint.Text = "Tax"
         End If
         ''-------------------
         If clsCommon.myLen(Me.Tag) > 0 Then
@@ -1925,7 +1925,7 @@ Public Class frmScrapSale
         btnReverse.Visible = False
         chkBuyBack.Visible = True
         chkBuyBack.Checked = False
-        RadDropDownButton1.Visible = True
+        btnPrint.Visible = True
         ''------------------
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -3239,9 +3239,9 @@ Public Class frmScrapSale
                 End If
                 If MaterialSaleInvoiceEnablePrintOnPost = True Then
                     If obj.ispost = 1 Then
-                        RadDropDownButton1.Visible = True
+                        btnPrint.Visible = True
                     Else
-                        RadDropDownButton1.Visible = False
+                        btnPrint.Visible = False
                     End If
                 End If
             Else
@@ -4664,48 +4664,50 @@ Public Class frmScrapSale
 
                         If isPrint Then
                             SetItemWiseTax(dt, InvoiceNo)
-                            If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Excisable")), "Y") = CompairStringResult.Equal Then
-                                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "VIZAG") = CompairStringResult.Equal Then
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapsaleInvoice4ExcisePrintfor VIZAG", "ScrapSaleInvoiceRpt")
-                                Else
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4ExcisePrint", "ScrapSaleInvoiceRpt")
-                                End If
-                            Else
-                                ' Ticket No : SHR/14/06/18-000030 By Prabhakar  , Add client-VIJAYA
-                                If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "PSFI") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
-                                    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, Nothing, "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), Nothing, "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                        Return
-                                    End If
+                            'If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Excisable")), "Y") = CompairStringResult.Equal Then
+                            '    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "VIZAG") = CompairStringResult.Equal Then
+                            '        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapsaleInvoice4ExcisePrintfor VIZAG", "ScrapSaleInvoiceRpt")
+                            '    Else
+                            '        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4ExcisePrint", "ScrapSaleInvoiceRpt")
+                            '    End If
+                            'Else
+                            ' Ticket No : SHR/14/06/18-000030 By Prabhakar  , Add client-VIJAYA
+                            If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "PSFI") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
+                                    'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
+                                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, Nothing, "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), Nothing, "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                    '    Return
+                                    'End If
 
                                     If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date"))) Then
                                         If clsCommon.myCdbl(dt1.Rows(0)("Is_Taxable")) = 1 Then
-                                            If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("frm_State_name")), clsCommon.myCstr(dt1.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                            Else
-                                                If IsMandiTax > 0 Then
-                                                    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState_WithMandi", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                                Else
-                                                    'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                                    frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                        'If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("frm_State_name")), clsCommon.myCstr(dt1.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
+                                        '    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                        'Else
+                                        '    If IsMandiTax > 0 Then
+                                        '        frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState_WithMandi", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                        '    Else
+                                        '        'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
 
-                                                End If
+                                        '    End If
 
-                                            End If
-                                        Else
+                                        'End If
+                                        'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+
+                                    Else
                                             'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                             frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF_NT", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
 
                                         End If
-                                    Else
-                                        frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
-                                        'PurchaseOrderViewer.funreport(dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
-                                    End If
+                                    'Else
+                                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
+                                    '    'PurchaseOrderViewer.funreport(dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
                                 End If
-                            End If
-                        Else
+                                End If
+                            'End If
+                            'Else
                             'EnumTecxpertPaperSize.PaperSize10x12
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4Excise", "ScrapSaleInvoiceRpt")
+                            'frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4Excise", "ScrapSaleInvoiceRpt")
                         End If
                     End If
                 Else
@@ -4911,10 +4913,10 @@ Public Class frmScrapSale
         Return dtAfterModify
     End Function
 
-    Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
-        strPrintType = "Excise"
-        Print(True)
-    End Sub
+    'Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '    strPrintType = "Excise"
+    '    Print(True)
+    'End Sub
 
     'Private Function funSetUserAccess() As Boolean
     '    Try
@@ -5128,7 +5130,7 @@ Public Class frmScrapSale
     End Sub
 
 
-    Private Sub btnPrePrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrePrint.Click
+    Private Sub btnPrePrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         strPrintType = "Tax"
         Print(False)
     End Sub
@@ -5598,10 +5600,17 @@ Public Class frmScrapSale
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "shipment_No", "TSPL_SCRAPSALE_HEAD", "TSPL_SCRAPSALE_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "shipment_No", "TSPL_SCRAPSALE_HEAD", "TSPL_SCRAPSALE_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        strPrintType = "Excise"
+        Print(True)
     End Sub
 End Class
 

@@ -75,6 +75,7 @@ Public Class frmNIRQC
         txtMRNNo.Value = ""
         txtDate.Value = clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
         txtRemarks.Text = ""
+        UsLock1.Status = ERPTransactionStatus.Pending
         BlankMRNFields()
     End Sub
     Sub BlankMRNFields()
@@ -212,6 +213,7 @@ Public Class frmNIRQC
         AddNew()
     End Sub
     Private Sub txtMRNNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMRNNo._MYValidating
+        AddNew()
         Dim qry As String = "select 
 TSPL_MRN_DETAIL.MRN_No,TSPL_MRN_HEAD.MRN_Date,
 TSPL_MRN_HEAD.Against_GRN,TSPL_GRN_HEAD.GRN_Date,TSPL_GRN_HEAD.VehicleNo ,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo,TSPL_MRN_HEAD.Vendor_Code,TSPL_MRN_HEAD.Vendor_Name,TSPL_MRN_HEAD.Bill_To_Location,TSPL_LOCATION_MASTER.Location_Desc,TSPL_MRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc
