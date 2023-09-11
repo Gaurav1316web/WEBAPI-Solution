@@ -4301,9 +4301,9 @@ where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No
 
                     If True Then
                         ''Set AP Invvoice Detail Table
-                        Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Is_Default_VSP_Quality_Deduction=1", trans)
+                        Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Is_Negative_SRN=1", trans)
                         If dtDed Is Nothing OrElse dtDed.Rows.Count <= 0 Then
-                            Throw New Exception("Please set default VSP Quality deduction in Deduction Master")
+                            Throw New Exception("Please set default Negative SRN in Deduction Master")
                         End If
                         If clsCommon.myLen(clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))) <= 0 Then
                             Throw New Exception("Please set GL Account for deduction [" + clsCommon.myCstr(dtDed.Rows(0)("code")) + "]")
