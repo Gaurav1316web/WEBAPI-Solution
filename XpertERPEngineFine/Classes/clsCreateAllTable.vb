@@ -92,7 +92,9 @@ Public Class clsCreateAllTable
             If CodeExist = 1 Then
                 Dim qst As String = "select count(1) from TSPL_EINVOICEHEADER_INFO"
                 Dim DataExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
-                If DataExist > 0 Then
+                Dim is_Identity As Integer = clsDBFuncationality.getSingleValue("SELECT  is_identity FROM sys.columns WHERE [object_id] = object_id('TSPL_EINVOICEHEADER_INFO') and name = 'Code'")
+
+                If DataExist > 0 AndAlso is_Identity = 0 Then
                     Dim str As String = "update TSPL_EINVOICEHEADER_INFO  set TSPL_EINVOICEHEADER_INFO.Code = xxx.rownumber from (SELECT TSPL_EINVOICEHEADER_INFO.*, ROW_NUMBER()
                OVER(ORDER BY code) AS rownumber  FROM TSPL_EINVOICEHEADER_INFO )xxx inner join TSPL_EINVOICEHEADER_INFO on 
                TSPL_EINVOICEHEADER_INFO.Url = xxx.Url and  TSPL_EINVOICEHEADER_INFO.username = xxx.username and  TSPL_EINVOICEHEADER_INFO.password = xxx.password and 
@@ -100,11 +102,10 @@ Public Class clsCreateAllTable
               TSPL_EINVOICEHEADER_INFO.GSTin = xxx.GSTin and TSPL_EINVOICEHEADER_INFO.RequiredFor = xxx.RequiredFor and  TSPL_EINVOICEHEADER_INFO.VendorName = xxx.VendorName and 
               TSPL_EINVOICEHEADER_INFO.Location_Code = xxx.Location_Code"
                     clsDBFuncationality.ExecuteNonQuery(str)
-                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO drop column code")
-                    clsDBFuncationality.ExecuteNonQuery(" ALTER TABLE TSPL_EINVOICEHEADER_INFO Add  code int  IDENTITY(1,1) NOT NULL;")
-                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO Add PRIMARY KEY (code);")
-
                 End If
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO drop column Code")
+                clsDBFuncationality.ExecuteNonQuery(" ALTER TABLE TSPL_EINVOICEHEADER_INFO Add  Code int  IDENTITY(1,1) NOT NULL;")
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO Add PRIMARY KEY (code);")
             End If
 
             coll = New Dictionary(Of String, String)()
