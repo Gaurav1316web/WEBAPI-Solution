@@ -231,8 +231,12 @@ Public Class FrmEmpIncrement
 
     Private Sub fndEmpCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndEmpCode._MYValidating
         Try
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            End If
             Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name,Designation,LOCATION_CODE ,DEPARTMENT_CODE ,DEVISION_CODE  FROM TSPL_EMPLOYEE_MASTER "
-            fndEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", fndEmpCode.Value, "", isButtonClicked)
+            fndEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", whrcls, fndEmpCode.Value, "", isButtonClicked)
             Dim clsemp As clsEmployeeMaster
             clsemp = clsEmployeeMaster.FinderForEmployee(fndEmpCode.Value, Nothing)
             If Not clsemp Is Nothing Then
@@ -253,8 +257,8 @@ Public Class FrmEmpIncrement
                     lblSalaryStructCode.Text = clsDBFuncationality.GetDataTable("select (coalesce(max(SALARY_STRUCTURE_CODE),'')) AS SALARY_STRUCTURE_CODE from TSPL_EMPLOYEE_SALARY where EMP_CODE='" & Me.fndEmpCode.Value & "' and REVISION_NO='" & Current_Rev_No & "'").Rows(0).Item("SALARY_STRUCTURE_CODE")
                     lblSalStructName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select SALARY_STRUCTURE_NAME  from TSPL_SALARY_STRUCTURE where SALARY_STRUCTURE_CODE='" & Me.lblSalaryStructCode.Text & "'"))
                     lblSalaryCode.Text = clsDBFuncationality.GetDataTable("select (coalesce(max(EMP_SAL_CODE),'')) AS EMP_SAL_CODE from TSPL_EMPLOYEE_SALARY where EMP_CODE='" & Me.fndEmpCode.Value & "' and REVISION_NO='" & Current_Rev_No & "'").Rows(0).Item("EMP_SAL_CODE")
-                    LocationCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select LOCATION_CODE  from TSPL_EMPLOYEE_MASTER where EMP_CODE='" & Me.fndEmpCode.Value & "'"))
-                    lblLocationName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER  where  Location_Code='" & Me.LocationCode.Text & "'"))
+                    LocationCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select LOCATION_CODE  from TSPL_EMPLOYEE_MASTER where EMP_CODE='" & Me.fndEmpCode.Value & "'"))
+                    lblLocationName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_LOCATION_MASTER  where  Location_Code='" & Me.LocationCode.Value & "'"))
                     lblDivisionCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEVISION_CODE  from TSPL_EMPLOYEE_MASTER  where Emp_Code='" & Me.fndEmpCode.Value & "'"))
                     lblDivisionName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEVISION_NAME  from TSPL_DEVISION_MASTER  where DEVISION_CODE='" & Me.lblDivisionCode.Text & "'"))
                     Show_salary_struct(lblSalaryCode.Text, NavigatorType.Current)
@@ -353,7 +357,7 @@ Public Class FrmEmpIncrement
             obj.REVISION_NO = clsCommon.myCdbl(Me.txtRevisionNo.Text)
             obj.APPLICABLE_FROM = clsCommon.GetPrintDate(dtpApplicableFrom.Value, "dd/MMM/yyyy")
             obj.SALARY_STRUCTURE_CODE = lblSalaryStructCode.Text
-            obj.location_Code = LocationCode.Text
+            obj.location_Code = LocationCode.Value
             obj.Location_Desc = lblLocationName.Text
             obj.DEVISION_CODE = lblDivisionCode.Text
             obj.Devision_Name = lblDivisionName.Text
@@ -539,8 +543,13 @@ Public Class FrmEmpIncrement
         lblSalaryStructCode.Text = ""
         lblSalStructName.Text = ""
         txtIncrementDate.Text = ""
-        LocationCode.Text = ""
-        lblLocationName.Text = ""
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocationCode.Value = objCommonVar.strCurrUserLocations
+            lblLocationName.Text = clsLocation.GetName(LocationCode.Value, Nothing)
+        Else
+            LocationCode.Value = ""
+            lblLocationName.Text = ""
+        End If
         lblDivisionCode.Text = ""
         lblDivisionName.Text = ""
         btnsave.Text = "Save"
@@ -589,7 +598,7 @@ Public Class FrmEmpIncrement
             lblSalaryCode.Text = obj.EMP_SAL_CODE
             txtRevisionNo.Text = clsCommon.myCdbl(obj.REVISION_NO)
             dtpApplicableFrom.Value = obj.APPLICABLE_FROM
-            LocationCode.Text = obj.location_Code
+            LocationCode.Value = obj.location_Code
             lblLocationName.Text = obj.Location_Desc
             lblDivisionCode.Text = obj.DEVISION_CODE
             lblDivisionName.Text = obj.Devision_Name
@@ -710,6 +719,10 @@ Public Class FrmEmpIncrement
     End Sub
 
     Private Sub fndIncrementCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndIncrementCode._MYValidating
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = "  LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        End If
         Dim str As String = "select count(*) from TSPL_EMPLOYEE_INCREMENT_HEAD where INCREMENT_CODE ='" + fndIncrementCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
@@ -720,7 +733,7 @@ Public Class FrmEmpIncrement
         End If
         If fndIncrementCode.MyReadOnly OrElse isButtonClicked Then
             Dim qry As String = " select INCREMENT_CODE as Code,INCREMENT_DATE as [Date] ,APPLICABLE_FROM as [Applicable From ],EMP_SAL_CODE as [Employee Salary] ,EMP_CODE as [Emp Code],SALARY_STRUCTURE_CODE as [Salary Structure Code] ,location_Code as [Location] ,DEVISION_CODE as [Division] from TSPL_EMPLOYEE_INCREMENT_HEAD "
-            fndIncrementCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_INCREMENT_HEAD", qry, "Code", "", fndIncrementCode.Value, "INCREMENT_CODE", isButtonClicked)
+            fndIncrementCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_INCREMENT_HEAD", qry, "Code", whrcls, fndIncrementCode.Value, "INCREMENT_CODE", isButtonClicked)
             If fndIncrementCode.Value <> "" Then
                 LoadData(fndIncrementCode.Value, NavigatorType.Current)
             Else
@@ -979,6 +992,19 @@ Public Class FrmEmpIncrement
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub LocationCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles LocationCode._MYValidating
+        Try
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls = " TSPL_Location_MASTER.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            End If
+            LocationCode.Value = clsLocation.getFinder(whrcls, Me.LocationCode.Value, isButtonClicked)
+            lblLocationName.Text = clsLocation.GetName(LocationCode.Value, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex, Me.Text)
         End Try
     End Sub
 End Class

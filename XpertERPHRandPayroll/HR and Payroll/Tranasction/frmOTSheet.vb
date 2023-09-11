@@ -33,6 +33,7 @@ Public Class frmOTSheet
                     obj.OT_HOURS = clsCommon.myCdbl(txtOTHours.Text)
                     obj.OT_TOTAL_AMOUNT = clsCommon.myCdbl(txtOTAmount.Text)
                     obj.PAY_PERIOD_CODE = clsCommon.myCstr(txtPayPeriod.Value)
+                    obj.Location_Code = clsCommon.myCstr(fndLocation.Value)
 
                     If (obj.SaveData(obj, isNewEntry)) Then
                         common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
@@ -70,7 +71,13 @@ Public Class frmOTSheet
                 btnPost.Enabled = False
                 UsLock1.Status = ERPTransactionStatus.Pending
             End If
-
+            If clsCommon.myLen(clsCommon.myCstr(obj.Location_Code)) > 0 Then
+                fndLocation.Value = clsCommon.myCstr(obj.Location_Code)
+                lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+            Else
+                fndLocation.Value = ""
+                lblLocationName.Text = ""
+            End If
             txtCode.Value = obj.Code
             txtEmpCode.Value = clsCommon.myCstr(obj.EMP_CODE)
             txtOTCode.Value = clsCommon.myCstr(obj.OT_CODE)
@@ -81,9 +88,7 @@ Public Class frmOTSheet
             txtOTAmount.Text = clsCommon.myCdbl(obj.OT_TOTAL_AMOUNT)
             txtPayPeriod.Value = clsCommon.myCstr(obj.PAY_PERIOD_CODE)
             lblPayPeriod.Text = clsCommon.myCstr(obj.PAY_PERIOD_NAME)
-
         End If
-
     End Sub
 
     Function AllowToSave() As Boolean
@@ -172,8 +177,14 @@ Public Class frmOTSheet
 
     Private Sub frmOTSheet_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
+        End If
         isNewEntry = True
-
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
         ' ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
@@ -183,7 +194,7 @@ Public Class frmOTSheet
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
-        btnPost.Enabled=False
+        btnPost.Enabled = False
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -207,6 +218,13 @@ Public Class frmOTSheet
     End Sub
 
     Sub funReset()
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
+        End If
         isNewEntry = True
         txtCode.MyReadOnly = False
         txtCode.Value = Nothing
@@ -417,5 +435,21 @@ Public Class frmOTSheet
         'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
         txtPayPeriod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtPayPeriod.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblPayPeriod.Text = clsPayPeriodMaster.GetName(txtPayPeriod.Value, Nothing)
+    End Sub
+
+    Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
+        Try
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls = " Location_Type='Physical' And LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            Else
+                whrcls = " Location_Type='Physical' "
+            End If
+            fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex, Me.Text)
+        End Try
+
     End Sub
 End Class

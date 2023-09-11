@@ -25,38 +25,43 @@ Partial Class frmLeaveAdjustment
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLeaveAdjustment))
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.UsLock1 = New common.usLock
-        Me.txtAdjustAvail = New common.MyNumBox
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.txtAdjustAlloted = New common.MyNumBox
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtReason = New common.Controls.MyTextBox
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.dtpAdjustDate = New common.Controls.MyDateTimePicker
-        Me.lblOpeningDate = New common.Controls.MyLabel
-        Me.lblPayPeriodName = New common.Controls.MyLabel
-        Me.lblEmpName = New common.Controls.MyLabel
-        Me.lblLeaveName = New common.Controls.MyLabel
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.txtLeaveCode = New common.UserControls.txtFinder
-        Me.txtPayPeriodCode = New common.UserControls.txtFinder
-        Me.MyLabel4 = New common.Controls.MyLabel
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtEmpCode = New common.UserControls.txtFinder
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblLeaveAdj = New common.Controls.MyLabel
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblLocationName = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.UsLock1 = New common.usLock()
+        Me.txtAdjustAvail = New common.MyNumBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtAdjustAlloted = New common.MyNumBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtReason = New common.Controls.MyTextBox()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.dtpAdjustDate = New common.Controls.MyDateTimePicker()
+        Me.lblOpeningDate = New common.Controls.MyLabel()
+        Me.lblPayPeriodName = New common.Controls.MyLabel()
+        Me.lblEmpName = New common.Controls.MyLabel()
+        Me.lblLeaveName = New common.Controls.MyLabel()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.txtLeaveCode = New common.UserControls.txtFinder()
+        Me.txtPayPeriodCode = New common.UserControls.txtFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtEmpCode = New common.UserControls.txtFinder()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblLeaveAdj = New common.Controls.MyLabel()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAdjustAvail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAdjustAlloted, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -103,6 +108,9 @@ Partial Class frmLeaveAdjustment
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblLocationName)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.fndLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel17)
         Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtAdjustAvail)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtAdjustAlloted)
@@ -135,6 +143,52 @@ Partial Class frmLeaveAdjustment
         Me.SplitContainer1.SplitterDistance = 414
         Me.SplitContainer1.TabIndex = 0
         '
+        'lblLocationName
+        '
+        Me.lblLocationName.AutoSize = False
+        Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
+        Me.lblLocationName.Location = New System.Drawing.Point(381, 109)
+        Me.lblLocationName.Name = "lblLocationName"
+        Me.lblLocationName.Size = New System.Drawing.Size(256, 19)
+        Me.lblLocationName.TabIndex = 264
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(155, 109)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.MyLabel17
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(221, 19)
+        Me.fndLocation.TabIndex = 262
+        Me.fndLocation.Value = ""
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel17.Location = New System.Drawing.Point(11, 109)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(49, 18)
+        Me.MyLabel17.TabIndex = 263
+        Me.MyLabel17.Text = "Location"
+        '
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
@@ -148,21 +202,34 @@ Partial Class frmLeaveAdjustment
         'txtAdjustAvail
         '
         Me.txtAdjustAvail.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtAdjustAvail.CalculationExpression = Nothing
         Me.txtAdjustAvail.DecimalPlaces = 2
-        Me.txtAdjustAvail.Location = New System.Drawing.Point(155, 138)
+        Me.txtAdjustAvail.FieldCode = Nothing
+        Me.txtAdjustAvail.FieldDesc = Nothing
+        Me.txtAdjustAvail.FieldMaxLength = 0
+        Me.txtAdjustAvail.FieldName = Nothing
+        Me.txtAdjustAvail.isCalculatedField = False
+        Me.txtAdjustAvail.IsSourceFromTable = False
+        Me.txtAdjustAvail.IsSourceFromValueList = False
+        Me.txtAdjustAvail.IsUnique = False
+        Me.txtAdjustAvail.Location = New System.Drawing.Point(155, 159)
         Me.txtAdjustAvail.MaxLength = 6
         Me.txtAdjustAvail.MendatroryField = True
         Me.txtAdjustAvail.MyLinkLable1 = Me.MyLabel2
         Me.txtAdjustAvail.MyLinkLable2 = Nothing
         Me.txtAdjustAvail.Name = "txtAdjustAvail"
+        Me.txtAdjustAvail.ReferenceFieldDesc = Nothing
+        Me.txtAdjustAvail.ReferenceFieldName = Nothing
+        Me.txtAdjustAvail.ReferenceTableName = Nothing
         Me.txtAdjustAvail.Size = New System.Drawing.Size(221, 20)
         Me.txtAdjustAvail.TabIndex = 9
         Me.txtAdjustAvail.Text = "0"
         Me.txtAdjustAvail.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdjustAvail.Value = 0
+        Me.txtAdjustAvail.Value = 0R
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(11, 65)
         Me.MyLabel2.Name = "MyLabel2"
@@ -173,22 +240,35 @@ Partial Class frmLeaveAdjustment
         'txtAdjustAlloted
         '
         Me.txtAdjustAlloted.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtAdjustAlloted.CalculationExpression = Nothing
         Me.txtAdjustAlloted.DecimalPlaces = 2
-        Me.txtAdjustAlloted.Location = New System.Drawing.Point(155, 112)
+        Me.txtAdjustAlloted.FieldCode = Nothing
+        Me.txtAdjustAlloted.FieldDesc = Nothing
+        Me.txtAdjustAlloted.FieldMaxLength = 0
+        Me.txtAdjustAlloted.FieldName = Nothing
+        Me.txtAdjustAlloted.isCalculatedField = False
+        Me.txtAdjustAlloted.IsSourceFromTable = False
+        Me.txtAdjustAlloted.IsSourceFromValueList = False
+        Me.txtAdjustAlloted.IsUnique = False
+        Me.txtAdjustAlloted.Location = New System.Drawing.Point(155, 133)
         Me.txtAdjustAlloted.MaxLength = 6
         Me.txtAdjustAlloted.MendatroryField = True
         Me.txtAdjustAlloted.MyLinkLable1 = Me.MyLabel3
         Me.txtAdjustAlloted.MyLinkLable2 = Nothing
         Me.txtAdjustAlloted.Name = "txtAdjustAlloted"
+        Me.txtAdjustAlloted.ReferenceFieldDesc = Nothing
+        Me.txtAdjustAlloted.ReferenceFieldName = Nothing
+        Me.txtAdjustAlloted.ReferenceTableName = Nothing
         Me.txtAdjustAlloted.Size = New System.Drawing.Size(221, 20)
         Me.txtAdjustAlloted.TabIndex = 8
         Me.txtAdjustAlloted.Text = "0"
         Me.txtAdjustAlloted.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdjustAlloted.Value = 0
+        Me.txtAdjustAlloted.Value = 0R
         '
         'MyLabel3
         '
-        Me.MyLabel3.Location = New System.Drawing.Point(11, 113)
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Location = New System.Drawing.Point(11, 134)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(77, 18)
         Me.MyLabel3.TabIndex = 167
@@ -205,18 +285,31 @@ Partial Class frmLeaveAdjustment
         '
         'txtReason
         '
-        Me.txtReason.Location = New System.Drawing.Point(155, 188)
+        Me.txtReason.CalculationExpression = Nothing
+        Me.txtReason.FieldCode = Nothing
+        Me.txtReason.FieldDesc = Nothing
+        Me.txtReason.FieldMaxLength = 0
+        Me.txtReason.FieldName = Nothing
+        Me.txtReason.isCalculatedField = False
+        Me.txtReason.IsSourceFromTable = False
+        Me.txtReason.IsSourceFromValueList = False
+        Me.txtReason.IsUnique = False
+        Me.txtReason.Location = New System.Drawing.Point(155, 209)
         Me.txtReason.MaxLength = 50
         Me.txtReason.MendatroryField = True
         Me.txtReason.MyLinkLable1 = Me.RadLabel3
         Me.txtReason.MyLinkLable2 = Nothing
         Me.txtReason.Name = "txtReason"
+        Me.txtReason.ReferenceFieldDesc = Nothing
+        Me.txtReason.ReferenceFieldName = Nothing
+        Me.txtReason.ReferenceTableName = Nothing
         Me.txtReason.Size = New System.Drawing.Size(221, 20)
         Me.txtReason.TabIndex = 11
         '
         'RadLabel3
         '
-        Me.RadLabel3.Location = New System.Drawing.Point(11, 189)
+        Me.RadLabel3.FieldName = Nothing
+        Me.RadLabel3.Location = New System.Drawing.Point(11, 210)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(74, 18)
         Me.RadLabel3.TabIndex = 174
@@ -224,17 +317,29 @@ Partial Class frmLeaveAdjustment
         '
         'dtpAdjustDate
         '
+        Me.dtpAdjustDate.CalculationExpression = Nothing
         Me.dtpAdjustDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpAdjustDate.FieldCode = Nothing
+        Me.dtpAdjustDate.FieldDesc = Nothing
+        Me.dtpAdjustDate.FieldMaxLength = 0
+        Me.dtpAdjustDate.FieldName = Nothing
         Me.dtpAdjustDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpAdjustDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpAdjustDate.Location = New System.Drawing.Point(155, 164)
+        Me.dtpAdjustDate.isCalculatedField = False
+        Me.dtpAdjustDate.IsSourceFromTable = False
+        Me.dtpAdjustDate.IsSourceFromValueList = False
+        Me.dtpAdjustDate.IsUnique = False
+        Me.dtpAdjustDate.Location = New System.Drawing.Point(155, 185)
         Me.dtpAdjustDate.MendatroryField = True
         Me.dtpAdjustDate.MinDate = New Date(2000, 1, 1, 0, 0, 0, 0)
         Me.dtpAdjustDate.MyLinkLable1 = Me.lblOpeningDate
         Me.dtpAdjustDate.MyLinkLable2 = Nothing
         Me.dtpAdjustDate.Name = "dtpAdjustDate"
         Me.dtpAdjustDate.NullDate = New Date(2000, 1, 1, 0, 0, 0, 0)
-        Me.dtpAdjustDate.Size = New System.Drawing.Size(220, 18)
+        Me.dtpAdjustDate.ReferenceFieldDesc = Nothing
+        Me.dtpAdjustDate.ReferenceFieldName = Nothing
+        Me.dtpAdjustDate.ReferenceTableName = Nothing
+        Me.dtpAdjustDate.Size = New System.Drawing.Size(221, 18)
         Me.dtpAdjustDate.TabIndex = 10
         Me.dtpAdjustDate.TabStop = False
         Me.dtpAdjustDate.Text = "03/05/2011"
@@ -242,8 +347,9 @@ Partial Class frmLeaveAdjustment
         '
         'lblOpeningDate
         '
+        Me.lblOpeningDate.FieldName = Nothing
         Me.lblOpeningDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblOpeningDate.Location = New System.Drawing.Point(11, 165)
+        Me.lblOpeningDate.Location = New System.Drawing.Point(11, 186)
         Me.lblOpeningDate.Name = "lblOpeningDate"
         Me.lblOpeningDate.Size = New System.Drawing.Size(90, 16)
         Me.lblOpeningDate.TabIndex = 172
@@ -253,35 +359,36 @@ Partial Class frmLeaveAdjustment
         '
         Me.lblPayPeriodName.AutoSize = False
         Me.lblPayPeriodName.BorderVisible = True
+        Me.lblPayPeriodName.FieldName = Nothing
         Me.lblPayPeriodName.Location = New System.Drawing.Point(381, 88)
         Me.lblPayPeriodName.Name = "lblPayPeriodName"
-        Me.lblPayPeriodName.Size = New System.Drawing.Size(189, 18)
+        Me.lblPayPeriodName.Size = New System.Drawing.Size(256, 18)
         Me.lblPayPeriodName.TabIndex = 7
-        Me.lblPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblEmpName
         '
         Me.lblEmpName.AutoSize = False
         Me.lblEmpName.BorderVisible = True
+        Me.lblEmpName.FieldName = Nothing
         Me.lblEmpName.Location = New System.Drawing.Point(381, 40)
         Me.lblEmpName.Name = "lblEmpName"
-        Me.lblEmpName.Size = New System.Drawing.Size(189, 18)
+        Me.lblEmpName.Size = New System.Drawing.Size(256, 18)
         Me.lblEmpName.TabIndex = 3
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLeaveName
         '
         Me.lblLeaveName.AutoSize = False
         Me.lblLeaveName.BorderVisible = True
+        Me.lblLeaveName.FieldName = Nothing
         Me.lblLeaveName.Location = New System.Drawing.Point(381, 64)
         Me.lblLeaveName.Name = "lblLeaveName"
-        Me.lblLeaveName.Size = New System.Drawing.Size(189, 18)
+        Me.lblLeaveName.Size = New System.Drawing.Size(256, 18)
         Me.lblLeaveName.TabIndex = 5
-        Me.lblLeaveName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel2
         '
-        Me.RadLabel2.Location = New System.Drawing.Point(11, 139)
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Location = New System.Drawing.Point(11, 160)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(78, 18)
         Me.RadLabel2.TabIndex = 164
@@ -289,32 +396,59 @@ Partial Class frmLeaveAdjustment
         '
         'txtLeaveCode
         '
+        Me.txtLeaveCode.CalculationExpression = Nothing
+        Me.txtLeaveCode.FieldCode = Nothing
+        Me.txtLeaveCode.FieldDesc = Nothing
+        Me.txtLeaveCode.FieldMaxLength = 0
+        Me.txtLeaveCode.FieldName = Nothing
+        Me.txtLeaveCode.isCalculatedField = False
+        Me.txtLeaveCode.IsSourceFromTable = False
+        Me.txtLeaveCode.IsSourceFromValueList = False
+        Me.txtLeaveCode.IsUnique = False
         Me.txtLeaveCode.Location = New System.Drawing.Point(155, 64)
         Me.txtLeaveCode.MendatroryField = True
         Me.txtLeaveCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLeaveCode.MyLinkLable1 = Me.MyLabel2
         Me.txtLeaveCode.MyLinkLable2 = Me.lblLeaveName
         Me.txtLeaveCode.MyReadOnly = False
+        Me.txtLeaveCode.MyShowMasterFormButton = False
         Me.txtLeaveCode.Name = "txtLeaveCode"
+        Me.txtLeaveCode.ReferenceFieldDesc = Nothing
+        Me.txtLeaveCode.ReferenceFieldName = Nothing
+        Me.txtLeaveCode.ReferenceTableName = Nothing
         Me.txtLeaveCode.Size = New System.Drawing.Size(221, 19)
         Me.txtLeaveCode.TabIndex = 4
         Me.txtLeaveCode.Value = ""
         '
         'txtPayPeriodCode
         '
-        Me.txtPayPeriodCode.Location = New System.Drawing.Point(156, 86)
+        Me.txtPayPeriodCode.CalculationExpression = Nothing
+        Me.txtPayPeriodCode.FieldCode = Nothing
+        Me.txtPayPeriodCode.FieldDesc = Nothing
+        Me.txtPayPeriodCode.FieldMaxLength = 0
+        Me.txtPayPeriodCode.FieldName = Nothing
+        Me.txtPayPeriodCode.isCalculatedField = False
+        Me.txtPayPeriodCode.IsSourceFromTable = False
+        Me.txtPayPeriodCode.IsSourceFromValueList = False
+        Me.txtPayPeriodCode.IsUnique = False
+        Me.txtPayPeriodCode.Location = New System.Drawing.Point(155, 86)
         Me.txtPayPeriodCode.MendatroryField = True
         Me.txtPayPeriodCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPayPeriodCode.MyLinkLable1 = Me.MyLabel4
         Me.txtPayPeriodCode.MyLinkLable2 = Me.lblPayPeriodName
         Me.txtPayPeriodCode.MyReadOnly = False
+        Me.txtPayPeriodCode.MyShowMasterFormButton = False
         Me.txtPayPeriodCode.Name = "txtPayPeriodCode"
-        Me.txtPayPeriodCode.Size = New System.Drawing.Size(221, 19)
+        Me.txtPayPeriodCode.ReferenceFieldDesc = Nothing
+        Me.txtPayPeriodCode.ReferenceFieldName = Nothing
+        Me.txtPayPeriodCode.ReferenceTableName = Nothing
+        Me.txtPayPeriodCode.Size = New System.Drawing.Size(222, 19)
         Me.txtPayPeriodCode.TabIndex = 6
         Me.txtPayPeriodCode.Value = ""
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(11, 89)
         Me.MyLabel4.Name = "MyLabel4"
@@ -324,6 +458,7 @@ Partial Class frmLeaveAdjustment
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(11, 41)
         Me.MyLabel1.Name = "MyLabel1"
@@ -333,19 +468,33 @@ Partial Class frmLeaveAdjustment
         '
         'txtEmpCode
         '
+        Me.txtEmpCode.CalculationExpression = Nothing
+        Me.txtEmpCode.FieldCode = Nothing
+        Me.txtEmpCode.FieldDesc = Nothing
+        Me.txtEmpCode.FieldMaxLength = 0
+        Me.txtEmpCode.FieldName = Nothing
+        Me.txtEmpCode.isCalculatedField = False
+        Me.txtEmpCode.IsSourceFromTable = False
+        Me.txtEmpCode.IsSourceFromValueList = False
+        Me.txtEmpCode.IsUnique = False
         Me.txtEmpCode.Location = New System.Drawing.Point(155, 40)
         Me.txtEmpCode.MendatroryField = True
         Me.txtEmpCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtEmpCode.MyLinkLable1 = Me.MyLabel1
         Me.txtEmpCode.MyLinkLable2 = Me.lblEmpName
         Me.txtEmpCode.MyReadOnly = False
+        Me.txtEmpCode.MyShowMasterFormButton = False
         Me.txtEmpCode.Name = "txtEmpCode"
+        Me.txtEmpCode.ReferenceFieldDesc = Nothing
+        Me.txtEmpCode.ReferenceFieldName = Nothing
+        Me.txtEmpCode.ReferenceTableName = Nothing
         Me.txtEmpCode.Size = New System.Drawing.Size(221, 19)
         Me.txtEmpCode.TabIndex = 2
         Me.txtEmpCode.Value = ""
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(155, 15)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -361,6 +510,7 @@ Partial Class frmLeaveAdjustment
         '
         'lblLeaveAdj
         '
+        Me.lblLeaveAdj.FieldName = Nothing
         Me.lblLeaveAdj.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLeaveAdj.Location = New System.Drawing.Point(11, 17)
         Me.lblLeaveAdj.Name = "lblLeaveAdj"
@@ -426,6 +576,8 @@ Partial Class frmLeaveAdjustment
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAdjustAvail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAdjustAlloted, System.ComponentModel.ISupportInitialize).EndInit()
@@ -477,4 +629,7 @@ Partial Class frmLeaveAdjustment
     Friend WithEvents txtAdjustAlloted As common.MyNumBox
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
+    Friend WithEvents lblLocationName As common.Controls.MyLabel
+    Friend WithEvents fndLocation As common.UserControls.txtFinder
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
 End Class

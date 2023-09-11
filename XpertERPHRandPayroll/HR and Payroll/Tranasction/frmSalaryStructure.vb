@@ -139,7 +139,6 @@ Public Class frmSalaryStructure
     End Sub
 
     Private Sub frmSalaryStructure_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'CreateOrAlterTable()
         SetUserMgmtNew()
         isNewEntry = True
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update ")
@@ -150,29 +149,15 @@ Public Class frmSalaryStructure
         '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
-            fndLocation.Value = "RCDF"
+            fndLocation.Value = ""
+            lblLocation.Text = ""
         End If
-        lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
     End Sub
-
-    Private Sub CreateOrAlterTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("SALARY_STRUCTURE_CODE", "Varchar(30) not null PRIMARY KEY")
-        coll.Add("SALARY_STRUCTURE_NAME", "Varchar(100) not null")
-        coll.Add("SAL_PRINT_NAME", "VARCHAR(30)  NULL")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_SALARY_STRUCTURE", coll)
-    End Sub
-
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmSalaryStructure)
         If Not (MyBase.isReadFlag) Then
@@ -202,15 +187,15 @@ Public Class frmSalaryStructure
         btndelete.Enabled = True
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
-            fndLocation.Value = "RCDF"
+            fndLocation.Value = ""
+            lblLocation.Text = ""
         End If
-        lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
         funClose()
-
     End Sub
 
     Sub funClose()

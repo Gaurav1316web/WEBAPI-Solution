@@ -143,7 +143,6 @@ Public Class frmEmployee_Salary
     End Sub
 
     Private Sub frmMonthlyAttendance_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        CreateOrAlterTable()
         SetUserMgmtNew()
         LoadGridColumns()
         isNewEntry = True
@@ -178,28 +177,11 @@ Public Class frmEmployee_Salary
         btnReverse.Visible = False
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
-            fndLocation.Value = "RCDF"
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
         End If
-        lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
-    End Sub
-
-    Private Sub CreateOrAlterTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("EMP_SAL_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY")
-        coll.Add("REVISION_NO", "INTEGER NOT NULL")
-        coll.Add("EMP_CODE", "VARCHAR(12)  NOT NULL REFERENCES TSPL_EMPLOYEE_MASTER(EMP_CODE)")
-        coll.Add("APPLICABLE_FROM", "DATETIME not null")
-        coll.Add("SALARY_STRUCTURE_CODE", "VARCHAR(30)  NULL REFERENCES TSPL_SALARY_STRUCTURE(SALARY_STRUCTURE_CODE)")
-        coll.Add("POSTED", "BIT NOT NULL DEFAULT 0")
-        coll.Add("Posting_Date", "Datetime NULL")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_EMPLOYEE_SALARY", coll, "unique (EMP_CODE,REVISION_NO)")
     End Sub
     '' changes by shivani against ticket no [BM00000008846]
     Public Sub SetUserMgmtNew()
@@ -251,10 +233,12 @@ Public Class frmEmployee_Salary
         Me.txtRevisionNo.Text = 0
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
-            fndLocation.Value = "RCDF"
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
         End If
-        lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+
     End Sub
 
     Private Sub txtCode__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType)

@@ -255,7 +255,6 @@ Public Class frmMapPayHeadsToSalaStructure
     End Sub
 
     Private Sub frmMapPayHeadsToSalaStructure_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'CreateOrAlterTable()
         SetUserMgmtNew()
         LoadGridColumns()
         isNewEntry = True
@@ -267,37 +266,16 @@ Public Class frmMapPayHeadsToSalaStructure
         '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
-            fndLocation.Value = "RCDF"
+            fndLocation.Value = ""
+            lblLocation.Text = ""
         End If
-        lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
     End Sub
 
-    Private Sub CreateOrAlterTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("SALARY_STRUCTURE_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_SALARY_STRUCTURE(SALARY_STRUCTURE_CODE)")
-        coll.Add("LINE_NO", "INTEGER NOT NULL ")
-        coll.Add("PAY_HEAD_CODE", "VARCHAR(30) NOT NULL REFERENCES TSPL_PAYHEAD_MASTER(PAY_HEAD_CODE)")
-        coll.Add("VALID_FROM", "DATETIME NOT NULL")
-        coll.Add("VALID_TO", "DATETIME NOT NULL")
-        coll.Add("HEAD_TYPE", "VARCHAR(10) NOT NULL")
-        coll.Add("SUB_HEAD_TYPE", "VARCHAR(30) NOT NULL")
-        coll.Add("CALC_BASIS", "VARCHAR(100) NOT NULL")
-        coll.Add("PAYHEAD_FORMULA", "VARCHAR(MAX) NOT NULL")
-        coll.Add("RATE_AMOUNT", "NUMERIC(10,3) NOT NULL")
-        coll.Add("DESCRIPTION", "VARCHAR(100) NULL")
-        coll.Add("IsHiddenComponent", "BIT NOT NULL DEFAULT 0")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SALSTRUCT_PAYHEADS", coll, Nothing, True)
-    End Sub
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmMapPayHeadsToSalaStructure)
         If Not (MyBase.isReadFlag) Then

@@ -4544,7 +4544,7 @@ Public Class frmSNSaleInvoice
                 End If
 
                 If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                    funPrint(txtDocNo.Value)
+                    funPrintNew(txtDocNo.Value)
                 End If
             End If
 
@@ -4802,7 +4802,13 @@ Public Class frmSNSaleInvoice
 
     Private Sub txtTaxGroup__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTaxGroup._MYValidating
         Dim qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
-        txtTaxGroup.Value = clsCommon.ShowSelectForm("Shipmentfndid", qry, "Code", "Tax_Group_Type='S'", txtTaxGroup.Value, "Code", isButtonClicked)
+        Dim WhrCls As String = " Tax_Group_Type='S' "
+        If chkIsTaxable.Checked Then
+            WhrCls += " and Is_Tax_Exempted=0"
+        Else
+            WhrCls += " and Is_Tax_Exempted=1"
+        End If
+        txtTaxGroup.Value = clsCommon.ShowSelectForm("Shipmentfndid", qry, "Code", WhrCls, txtTaxGroup.Value, "Code", isButtonClicked)
         SetTaxDetails()
 
     End Sub

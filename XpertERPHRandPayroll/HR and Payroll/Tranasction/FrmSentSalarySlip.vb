@@ -682,7 +682,7 @@ Public Class FrmSentSalarySlip
                                     DrFinal.Item("DuPayHead_name") = clsCommon.myCstr(DrDT1("PAY_HEAD_NAME"))
                                     DrFinal.Item("DuPayHead_amt") = clsCommon.myCdbl(DrDT1("ACTUAL_AMOUNT"))
                                 End If
-                               
+
                                 dtFinal.Rows.Add(DrFinal)
                             Next
 
@@ -732,7 +732,12 @@ Public Class FrmSentSalarySlip
     End Sub
 
     Private Sub txtLocCode__My_Click(sender As Object, e As EventArgs) Handles txtLocCode._My_Click
-        Dim qry As String = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where LOCATION_CODE IN (select DISTINCT LOCATION_CODE from TSPL_GENERATE_SALARY where PAY_PERIOD_CODE='" & txtFromPP1.Value & "') "
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " And LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        End If
+
+        Dim qry As String = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where LOCATION_CODE IN (select DISTINCT LOCATION_CODE from TSPL_GENERATE_SALARY where PAY_PERIOD_CODE='" & txtFromPP1.Value & "') " + whrcls
         txtLocCode.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "Code", "Name", txtLocCode.arrValueMember, txtLocCode.arrDispalyMember)
         LoadEmployee()
     End Sub
@@ -753,8 +758,12 @@ Public Class FrmSentSalarySlip
         Me.Close()
     End Sub
     Sub LoadEmployee()
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " And TSPL_EMPLOYEE_MASTER.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        End If
         'Dim qry As String = "select Emp_Code as [Code] ,Emp_Name as [Name],EMail_ID as [Email] from TSPL_EMPLOYEE_MASTER where LEN(TSPL_EMPLOYEE_MASTER.EMail_ID)>5 "
-        Dim qry As String = " select TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE as [Code],TSPL_EMPLOYEE_MASTER.Emp_Name as [Name],TSPL_EMPLOYEE_MASTER.EMail_ID [Email]  from TSPL_GENERATE_SALARY_ATTENDANCE inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE  left join TSPL_EMPLOYEE_MASTER on TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE where TSPL_GENERATE_SALARY.PAY_PERIOD_CODE='" + txtFromPP1.Value + "' and LEN(TSPL_EMPLOYEE_MASTER.EMail_ID)>5 "
+        Dim qry As String = " select TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE as [Code],TSPL_EMPLOYEE_MASTER.Emp_Name as [Name],TSPL_EMPLOYEE_MASTER.EMail_ID [Email]  from TSPL_GENERATE_SALARY_ATTENDANCE inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE  left join TSPL_EMPLOYEE_MASTER on TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE where TSPL_GENERATE_SALARY.PAY_PERIOD_CODE='" + txtFromPP1.Value + "' and LEN(TSPL_EMPLOYEE_MASTER.EMail_ID)>5 " + whrcls
         If txtLocCode.arrValueMember IsNot Nothing AndAlso txtLocCode.arrValueMember.Count > 0 Then
             qry += " and TSPL_EMPLOYEE_MASTER.Location_code  in (" + clsCommon.GetMulcallString(txtLocCode.arrValueMember) + ") "
         End If
@@ -776,7 +785,6 @@ Public Class FrmSentSalarySlip
     Sub funreset()
         chkLocationAll.CheckState = CheckState.Checked
         rbtnFormat2.IsChecked = True
-
     End Sub
     Private Sub FrmSentSalarySlip_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
