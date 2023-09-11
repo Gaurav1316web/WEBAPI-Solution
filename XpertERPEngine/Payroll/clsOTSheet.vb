@@ -15,6 +15,7 @@ Public Class clsOTSheet
     Public PAY_PERIOD_CODE As String
     Public PAY_PERIOD_NAME As String
     Public POSTED As Boolean
+    Public Location_Code As String
 
 #End Region
 
@@ -52,7 +53,7 @@ Public Class clsOTSheet
             If (obj Is Nothing OrElse clsCommon.myLen(obj.OT_CODE) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-       
+
             Dim qry As String = "Update tspl_ot_sheet set POSTED=1, Posting_Date='" + strPostDate + "',Modified_By='" + objCommonVar.CurrentUserCode + "' where OT_Sheet_Code ='" + strDocNo + "'"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
@@ -95,6 +96,7 @@ Public Class clsOTSheet
             obj.PAY_PERIOD_CODE = clsCommon.myCstr(dt.Rows(0)("PAY_PERIOD_CODE"))
             obj.PAY_PERIOD_NAME = clsCommon.myCstr(dt.Rows(0)("PAY_PERIOD_NAME"))
             obj.POSTED = clsCommon.myCBool(dt.Rows(0)("POSTED"))
+            obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
         End If
         Return obj
 
@@ -113,6 +115,7 @@ Public Class clsOTSheet
             clsCommon.AddColumnsForChange(coll, "PAY_PERIOD_CODE", obj.PAY_PERIOD_CODE)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
             If isNewEntry Then
                 If clsCommon.myLen(obj.Code) <= 0 Then
                     obj.Code = clsERPFuncationality.GetNextCode(Nothing, clsCommon.myCDate(clsCommon.GETSERVERDATE()), clsDocType.OTSheet, "", "")

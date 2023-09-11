@@ -29,6 +29,7 @@ Public Class frmMapPayHeadsToSalaStructure
     Const colVilidTo As String = "VilidTo"
     Const colDescription As String = "Description"
     Const colHiddenComponent As String = "HiddenComponent"
+    Const colLocationCode As String = "Location Code"
 
 
 #End Region
@@ -46,6 +47,7 @@ Public Class frmMapPayHeadsToSalaStructure
                     obj = New clsMapPayHeadsToSalaStructure()
 
                     obj.SALARY_STRUCTURE_CODE = txtCode.Value
+                    obj.Location_Code = fndLocation.Value
                     obj.LINE_NO = Convert.ToInt16(grow.Cells(colLineNo).Value)
                     obj.PAY_HEAD_CODE = clsCommon.myCstr(grow.Cells(colPayHeadCode).Value)
                     obj.HEAD_TYPE = clsCommon.myCstr(grow.Cells(colPayHeadType).Value)
@@ -77,43 +79,55 @@ Public Class frmMapPayHeadsToSalaStructure
     End Sub
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
-        txtCode.MyReadOnly = True
-        btnsave.Enabled = True
-        btndelete.Enabled = True
-        Obj = clsMapPayHeadsToSalaStructure.GetData(strCode, NavTyep)
-        If (Obj IsNot Nothing AndAlso clsCommon.myLen(Obj.SALARY_STRUCTURE_CODE) > 0) Then
-            funReset()
-            isNewEntry = False
-            btnsave.Text = "Update"
-            Dim ii As Int16 = 0
-            LoadGridColumns()
-            txtCode.Value = Obj.SALARY_STRUCTURE_CODE
-            txtName.Text = Obj.SALARY_STRUCTURE_NAME
-            If (clsMapPayHeadsToSalaStructure.ObjList IsNot Nothing AndAlso clsMapPayHeadsToSalaStructure.ObjList.Count > 0) Then
-                For Each obj As clsMapPayHeadsToSalaStructure In clsMapPayHeadsToSalaStructure.ObjList
+        Try
+            txtCode.MyReadOnly = True
+            btnsave.Enabled = True
+            btndelete.Enabled = True
+            Obj = clsMapPayHeadsToSalaStructure.GetData(strCode, NavTyep)
+            If (Obj IsNot Nothing AndAlso clsCommon.myLen(Obj.SALARY_STRUCTURE_CODE) > 0) Then
+                funReset()
+                isNewEntry = False
+                btnsave.Text = "Update"
+                Dim ii As Int16 = 0
+                LoadGridColumns()
+                txtCode.Value = Obj.SALARY_STRUCTURE_CODE
+                If clsCommon.myLen(fndLocation.Value) > 0 Then
+                    fndLocation.Value = Obj.Location_Code
+                    lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+                Else
+                    lblLocation.Text = ""
+                End If
+                txtName.Text = Obj.SALARY_STRUCTURE_NAME
+                If (clsMapPayHeadsToSalaStructure.ObjList IsNot Nothing AndAlso clsMapPayHeadsToSalaStructure.ObjList.Count > 0) Then
+                    For Each obj As clsMapPayHeadsToSalaStructure In clsMapPayHeadsToSalaStructure.ObjList
+                        gv1.Rows.AddNew()
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = obj.LINE_NO
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPayHeadCode).Value = obj.PAY_HEAD_CODE
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPayHeadName).Value = obj.PAY_HEAD_NAME
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPayHeadType).Value = obj.HEAD_TYPE
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPayHeadCategory).Value = obj.SUB_HEAD_TYPE
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCalculationBasis).Value = obj.CALC_BASIS
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colFormula).Value = obj.PAYHEAD_FORMULA
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = obj.RATE_AMOUNT
+                        If obj.VALID_FROM IsNot Nothing Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colVilidFrom).Value = obj.VALID_FROM
+                        End If
+                        If obj.VALID_TO IsNot Nothing Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colVilidTo).Value = obj.VALID_TO
+                        End If
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDescription).Value = obj.DESCRIPTION
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colHiddenComponent).Value = obj.IsHiddenComponent
+                        If clsCommon.myLen(obj.Location_Code) > 0 Then
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = obj.Location_Code
+                        End If
+                    Next
+                Else
                     gv1.Rows.AddNew()
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = obj.LINE_NO
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPayHeadCode).Value = obj.PAY_HEAD_CODE
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPayHeadName).Value = obj.PAY_HEAD_NAME
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPayHeadType).Value = obj.HEAD_TYPE
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colPayHeadCategory).Value = obj.SUB_HEAD_TYPE
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCalculationBasis).Value = obj.CALC_BASIS
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colFormula).Value = obj.PAYHEAD_FORMULA
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = obj.RATE_AMOUNT
-                    If obj.VALID_FROM IsNot Nothing Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVilidFrom).Value = obj.VALID_FROM
-                    End If
-                    If obj.VALID_TO IsNot Nothing Then
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVilidTo).Value = obj.VALID_TO
-                    End If
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDescription).Value = obj.DESCRIPTION
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colHiddenComponent).Value = obj.IsHiddenComponent
-                Next
-            Else
-                gv1.Rows.AddNew()
+                End If
             End If
-        End If
-
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
     End Sub
 
     Function AllowToSave() As Boolean
@@ -250,6 +264,13 @@ Public Class frmMapPayHeadsToSalaStructure
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnnew, "Press Alt+N Adding New ")
         '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocation.Text = ""
+        End If
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
@@ -303,7 +324,7 @@ Public Class frmMapPayHeadsToSalaStructure
             txtCode.MyReadOnly = True
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
-            Dim qry As String = " select SALARY_STRUCTURE_CODE as Code, SALARY_STRUCTURE_NAME as Name, SAL_PRINT_NAME as 'Print Name' from TSPL_SALARY_STRUCTURE "
+            Dim qry As String = " select SALARY_STRUCTURE_CODE as Code, SALARY_STRUCTURE_NAME as Name, SAL_PRINT_NAME as 'Print Name',Location_Code As 'Location Code' from TSPL_SALARY_STRUCTURE "
             txtCode.Value = clsCommon.ShowSelectForm("SALARY_STRUCTURE", qry, "Code", "", txtCode.Value, "SALARY_STRUCTURE_CODE", isButtonClicked)
             If txtCode.Value <> "" Then
                 LoadData(txtCode.Value, NavigatorType.Current)
@@ -464,6 +485,14 @@ Public Class frmMapPayHeadsToSalaStructure
         IsHiddenComponent.ReadOnly = True
         gv1.Columns.Add(IsHiddenComponent)
 
+        Dim LocationCode As GridViewTextBoxColumn
+        LocationCode = New GridViewTextBoxColumn()
+        LocationCode.HeaderText = "Location Code"
+        LocationCode.Name = colLocationCode
+        LocationCode.Width = 50
+        LocationCode.ReadOnly = True
+        gv1.Columns.Add(LocationCode)
+
     End Sub
 
 
@@ -566,9 +595,9 @@ Public Class frmMapPayHeadsToSalaStructure
 
     Private Sub rmExport_Click(sender As Object, e As EventArgs) Handles rmExport.Click
         Dim strDetail As String
-        strDetail = "  select TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE , TSPL_SALSTRUCT_PAYHEADS.LINE_NO , TSPL_SALSTRUCT_PAYHEADS.PAY_HEAD_CODE ,convert (varchar,TSPL_SALSTRUCT_PAYHEADS.VALID_FROM,103) as VALID_FROM , " & _
-                    "  Convert (varchar,TSPL_SALSTRUCT_PAYHEADS.VALID_TO,103) as VALID_TO ,TSPL_SALSTRUCT_PAYHEADS.HEAD_TYPE ,TSPL_SALSTRUCT_PAYHEADS.SUB_HEAD_TYPE ,TSPL_SALSTRUCT_PAYHEADS.CALC_BASIS ,TSPL_SALSTRUCT_PAYHEADS.PAYHEAD_FORMULA ,TSPL_SALSTRUCT_PAYHEADS.RATE_AMOUNT  from TSPL_SALSTRUCT_PAYHEADS " & _
-                    "  " & _
+        strDetail = "  select TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE , TSPL_SALSTRUCT_PAYHEADS.LINE_NO , TSPL_SALSTRUCT_PAYHEADS.PAY_HEAD_CODE ,convert (varchar,TSPL_SALSTRUCT_PAYHEADS.VALID_FROM,103) as VALID_FROM , " &
+                    "  Convert (varchar,TSPL_SALSTRUCT_PAYHEADS.VALID_TO,103) as VALID_TO ,TSPL_SALSTRUCT_PAYHEADS.HEAD_TYPE ,TSPL_SALSTRUCT_PAYHEADS.SUB_HEAD_TYPE ,TSPL_SALSTRUCT_PAYHEADS.CALC_BASIS ,TSPL_SALSTRUCT_PAYHEADS.PAYHEAD_FORMULA ,TSPL_SALSTRUCT_PAYHEADS.RATE_AMOUNT  from TSPL_SALSTRUCT_PAYHEADS " &
+                    "  " &
                     " "
         transportSql.ExporttoExcel(strDetail, "", "SALARY_STRUCTURE_CODE,LINE_NO", Me)
     End Sub
@@ -650,8 +679,8 @@ Public Class frmMapPayHeadsToSalaStructure
                     End If
                     obj.RATE_AMOUNT = clsCommon.myCdbl(strRateAmount)
                     '---------------------------
-                    Qry = "SELECT Count(*) FROM TSPL_SALSTRUCT_PAYHEADS where SALARY_STRUCTURE_CODE = '" & obj.SALARY_STRUCTURE_CODE & "' and PAY_HEAD_CODE = '" & obj.PAY_HEAD_CODE & "'"
-                    Dim checkLineNo As Integer = clsDBFuncationality.getSingleValue(Qry, trans)
+                    qry = "SELECT Count(*) FROM TSPL_SALSTRUCT_PAYHEADS where SALARY_STRUCTURE_CODE = '" & obj.SALARY_STRUCTURE_CODE & "' and PAY_HEAD_CODE = '" & obj.PAY_HEAD_CODE & "'"
+                    Dim checkLineNo As Integer = clsDBFuncationality.getSingleValue(qry, trans)
                     If checkLineNo = 0 Then
                         obj.LINE_NO = clsDBFuncationality.getSingleValue("select Count (*) + 1 from TSPL_SALSTRUCT_PAYHEADS where SALARY_STRUCTURE_CODE = '" + obj.SALARY_STRUCTURE_CODE + "'", trans)
                     Else
@@ -711,8 +740,8 @@ Public Class frmMapPayHeadsToSalaStructure
                     clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
                     clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
 
-                    Qry = "SELECT Count(*) FROM TSPL_SALSTRUCT_PAYHEADS where SALARY_STRUCTURE_CODE = '" & obj.SALARY_STRUCTURE_CODE & "' and PAY_HEAD_CODE = '" & obj.PAY_HEAD_CODE & "'"
-                    Dim check As Integer = clsDBFuncationality.getSingleValue(Qry, trans)
+                    qry = "SELECT Count(*) FROM TSPL_SALSTRUCT_PAYHEADS where SALARY_STRUCTURE_CODE = '" & obj.SALARY_STRUCTURE_CODE & "' and PAY_HEAD_CODE = '" & obj.PAY_HEAD_CODE & "'"
+                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
                     If check = 0 Then
                         clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                         clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
@@ -742,6 +771,21 @@ Public Class frmMapPayHeadsToSalaStructure
             clsERPFuncationalityOLD.ShowHistoryData(txtCode.Value, "SALARY_STRUCTURE_CODE", "TSPL_SALSTRUCT_PAYHEADS")
         Catch ex As Exception
             Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
+        Try
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            End If
+            Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
+            fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
+            ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
 End Class

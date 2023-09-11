@@ -3510,6 +3510,14 @@ Public Class frmSNShipment
                 txtDocNo.Focus()
                 Return False
             End If
+            If chkIsTaxable.Checked Then
+                ' Check if the vehicle number is empty
+                If clsCommon.myLen(txtVehicleCode.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow("Please select Vehicle No")
+                    txtVehicleCode.Focus()
+                    Return False
+                End If
+            End If
             'If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
             '    clsCommon.MyMessageBoxShow("Please select Item Type")
             '    cboItemType.Focus()
@@ -5470,8 +5478,15 @@ Public Class frmSNShipment
                     strCustomer = txtCustomer.Value
                 End If
                 Dim qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
+                Dim WhrCls As String = " Tax_Group_Type='S' "
+                If chkIsTaxable.Checked Then
+                    WhrCls += " and Is_Tax_Exempted=0"
+                Else
+                    WhrCls += " and Is_Tax_Exempted=1"
+                End If
+                txtTaxGroup.Value = clsCommon.ShowSelectForm("Dispatchfndid", qry, "Code", WhrCls, txtTaxGroup.Value, "Code", isButtonClicked)
 
-                txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(txtBillToLocation.Value, strCustomer, "S", txtTaxGroup.Value, isButtonClicked)
+                'txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(txtBillToLocation.Value, strCustomer, "S", txtTaxGroup.Value, isButtonClicked)
                 SetTaxDetails()
             Else
                 Throw New Exception("Please select Location First")
@@ -7415,7 +7430,7 @@ Public Class frmSNShipment
 
     Private Sub txtVehicleCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtVehicleCode._MYValidating
         Try
-            Dim qry As String = "Select distinct  vehicle_id ,Description,Transport_id ,Vendor_Name from TSPL_VEHICLE_MASTER
+            Dim qry As String = "Select distinct  vehicle_id ,Description from TSPL_VEHICLE_MASTER
                                  left outer join TSPL_VENDOR_MASTER on tspl_vehicle_master.transport_id=TSPL_VENDOR_MASTER.vendor_code"
             txtVehicleCode.Value = clsCommon.ShowSelectForm("Vehicle No", qry, "vehicle_id", "", txtVehicleCode.Value, "vehicle_id", isButtonClicked)
             lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")

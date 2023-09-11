@@ -1,15 +1,8 @@
 ﻿''richa VIJ/22/11/19-000079,VIJ/05/12/19-000097
-Imports common
-Imports System.Net.Mail
-Imports System.Net.WebClient
-Imports System.Net
-Imports System.IO
 'Imports Outlook = Microsoft.Office.Interop.Outlook
-Imports System.Globalization
 Imports System.Data.SqlClient
-Imports System.Text.RegularExpressions
-Imports XpertERPEngine
-Imports System
+Imports System.IO
+Imports common
 ''Checkin sanjay 22/06/2020
 Public Class frmDairyBookingCustomer
     Inherits FrmMainTranScreen
@@ -2523,6 +2516,8 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyBookingCustomer, clsCommon.myCstr(dt.Rows(0)("location_code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
                 End If
                 If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                    clsBookingEntryDairySale.CreateDebitNote(txtDocNo.Value, trans)
+
                     Dim qry = "Update TSPL_BOOKING_MATSER set Posted=1, " &
                      "Modified_By='" + objCommonVar.CurrentUserCode + "', " &
                      "Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' " &
@@ -2560,47 +2555,22 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     Else
                         FlagFirstRecord = False
                     End If
-                    'If Is_Cancelled = 1 Then
-                    '    clsCommon.MyMessageBoxShow("Booking Cancelled,Can not Creat/Post DO", Me.Text)
-                    '    Exit Sub
-                    'End If
-                    'If BookingStatus = 1 Then
-                    '    clsCommon.MyMessageBoxShow("Please Post booking before creating DO", Me.Text)
-                    '    Exit Sub
-                    'ElseIf BookingStatus = 2 Then
-                    '    clsCommon.MyMessageBoxShow("Please Approve and post booking before creating DO", Me.Text)
-                    '    Exit Sub
-                    'ElseIf BookingStatus = 3 Then
-                    '    clsCommon.MyMessageBoxShow("Please post booking before creating DO", Me.Text)
-                    '    Exit Sub
-                    'End If
-                    'If DOStatus = 2 Then
-                    '    clsCommon.MyMessageBoxShow("DO is pending for approval.", Me.Text)
-                    '    Exit Sub
-                    'End If
-                    'Dim qry As String = ""
+
                     FlagCreateDo = True
-                    'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-                    'Try
                     If CreateDO(False, trans, txtDocNo.Value) Then
-                        'trans.Commit()
                         If clsCommon.myLen(DOmsg) > 0 Then
                             common.clsCommon.MyMessageBoxShow(DOmsg, Me.Text)
                         End If
                         If DOCreated = True Then
-                            'Dim msg = "Successfully created"
-                            'common.clsCommon.MyMessageBoxShow(msg, Me.Text)
                             msg = Nothing
                         End If
                         trans.Commit()
                         msg = "Successfully Posted"
                         common.clsCommon.MyMessageBoxShow(msg, Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
-                        'LoadData(txtDocNo.Value, NavigatorType.Current)
                     Else
                         trans.Rollback()
                     End If
-
                 Else
                     Throw New Exception("No Data found to Post")
                 End If
@@ -2609,7 +2579,6 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             trans.Rollback()
             common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         Finally
-            'qry = Nothing
             FlagCreateDo = False
         End Try
     End Sub
@@ -2758,7 +2727,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
     End Sub
     ' Ticket : TEC/05/09/19-001000 By Prabhakar
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Document_No as DocumentNo,convert(varchar(12),TSPL_BOOKING_MATSER.Document_date,103) as Document_date,TSPL_CUSTOMER_MASTER.Cust_Code as Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.location_code as Location  ,case when isnull(TSPL_BOOKING_MATSER.Is_Cancelled,0)=1 then 'Cancel' when TSPL_BOOKING_MATSER.Posted=1 then 'posted' else 'Unposted' end as Posted ,case when isnull(TBL_DELIVERY_NO.Delivery_No,'')='' then NULL else TBL_DELIVERY_NO.Delivery_No end as [Delivery No],TSPL_CUSTOMER_MASTER.Cust_Category_Code as [Customer Category Code],TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY as [Booking Type],TSPL_BOOKING_MATSER.against_demandBooking_no as [Against Demand Booking No] from TSPL_BOOKING_MATSER" &
+        Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Document_No as DocumentNo,convert(varchar(12),TSPL_BOOKING_MATSER.Document_date,103) as Document_date,TSPL_CUSTOMER_MASTER.Cust_Code as Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_MATSER.GatePass_Type as ShiftType,TSPL_BOOKING_MATSER.location_code as Location  ,case when isnull(TSPL_BOOKING_MATSER.Is_Cancelled,0)=1 then 'Cancel' when TSPL_BOOKING_MATSER.Posted=1 then 'posted' else 'Unposted' end as Posted ,case when isnull(TBL_DELIVERY_NO.Delivery_No,'')='' then NULL else TBL_DELIVERY_NO.Delivery_No end as [Delivery No],TSPL_CUSTOMER_MASTER.Cust_Category_Code as [Customer Category Code],TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY as [Booking Type],TSPL_BOOKING_MATSER.against_demandBooking_no as [Against Demand Booking No] from TSPL_BOOKING_MATSER" &
          " left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No " &
          " left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code " &
          " left join (select distinct Document_No,isnull (Delivery_No,'') as Delivery_No from TSPL_BOOKING_DETAIL  ) as TBL_DELIVERY_NO on TBL_DELIVERY_NO.Document_No = TSPL_BOOKING_MATSER.Document_No "
@@ -5964,11 +5933,11 @@ from
         Try
             If chkDCS.Checked Then
                 If clsCommon.CompairString(cmbcashcredit.Text, "CASH") = CompairStringResult.Equal Then
-                    lblPriceCodeDesc.Text = clsDBFuncationality.getSingleValue("select VSP_Price_Code_Cash from TSPL_customer_group_master where Default_VSP=1")
+                    lblPriceCodeDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VSP_Price_Code_Cash from TSPL_customer_group_master where Default_VSP=1"))
                     Price_code = lblPriceCodeDesc.Text
                     txtPriceCode.Text = lblPriceCodeDesc.Text
                 ElseIf clsCommon.CompairString(cmbcashcredit.Text, "CREDIT") = CompairStringResult.Equal Then
-                    lblPriceCodeDesc.Text = clsDBFuncationality.getSingleValue("select VSP_Price_Code_Credit from TSPL_customer_group_master where Default_VSP=1")
+                    lblPriceCodeDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VSP_Price_Code_Credit from TSPL_customer_group_master where Default_VSP=1"))
                     Price_code = lblPriceCodeDesc.Text
                     txtPriceCode.Text = lblPriceCodeDesc.Text
                 End If

@@ -73,6 +73,7 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_FOR_SALE_Frieght_Detail", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "INT null")
             coll.Add("Comp_code", "VARCHAR(30) NULL")
             coll.Add("Url", "VARCHAR(200) NULL")
             coll.Add("username", "VARCHAR(100) NULL")
@@ -85,6 +86,27 @@ Public Class clsCreateAllTable
             coll.Add("VendorName", "VARCHAR(50) NULL")
             coll.Add("Location_Code", "VARCHAR(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_EInvoiceHeader_Info", coll)
+
+            Dim sqlStr As String = "SELECT count(1) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'TSPL_EINVOICEHEADER_INFO' AND COLUMN_NAME = 'Code' "
+            Dim CodeExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sqlStr))
+            If CodeExist = 1 Then
+                Dim qst As String = "select count(1) from TSPL_EINVOICEHEADER_INFO"
+                Dim DataExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+                Dim is_Identity As Integer = clsDBFuncationality.getSingleValue("SELECT  is_identity FROM sys.columns WHERE [object_id] = object_id('TSPL_EINVOICEHEADER_INFO') and name = 'Code'")
+
+                If DataExist > 0 AndAlso is_Identity = 0 Then
+                    Dim str As String = "update TSPL_EINVOICEHEADER_INFO  set TSPL_EINVOICEHEADER_INFO.Code = xxx.rownumber from (SELECT TSPL_EINVOICEHEADER_INFO.*, ROW_NUMBER()
+               OVER(ORDER BY code) AS rownumber  FROM TSPL_EINVOICEHEADER_INFO )xxx inner join TSPL_EINVOICEHEADER_INFO on 
+               TSPL_EINVOICEHEADER_INFO.Url = xxx.Url and  TSPL_EINVOICEHEADER_INFO.username = xxx.username and  TSPL_EINVOICEHEADER_INFO.password = xxx.password and 
+               TSPL_EINVOICEHEADER_INFO.ip_address = xxx.ip_address and  TSPL_EINVOICEHEADER_INFO.client_id = xxx.client_id and TSPL_EINVOICEHEADER_INFO.client_secret = xxx.client_secret and 
+              TSPL_EINVOICEHEADER_INFO.GSTin = xxx.GSTin and TSPL_EINVOICEHEADER_INFO.RequiredFor = xxx.RequiredFor and  TSPL_EINVOICEHEADER_INFO.VendorName = xxx.VendorName and 
+              TSPL_EINVOICEHEADER_INFO.Location_Code = xxx.Location_Code"
+                    clsDBFuncationality.ExecuteNonQuery(str)
+                End If
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO drop column Code")
+                clsDBFuncationality.ExecuteNonQuery(" ALTER TABLE TSPL_EINVOICEHEADER_INFO Add  Code int  IDENTITY(1,1) NOT NULL;")
+                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO Add PRIMARY KEY (code);")
+            End If
 
             coll = New Dictionary(Of String, String)()
             coll.Add("AuthToken", "VARCHAR(70) NULL")
@@ -1414,6 +1436,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SALARY_STRUCTURE", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -14912,6 +14935,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_SALSTRUCT_PAYHEADS", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
@@ -14970,7 +14994,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
-
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_EMPLOYEE_SALARY", coll, "unique (EMP_CODE,REVISION_NO)")
 
             coll = New Dictionary(Of String, String)()
@@ -15020,6 +15044,7 @@ Public Class clsCreateAllTable
             coll.Add("Alloted_Days", "numeric(5,2)  NULL")
             coll.Add("PerPresentDays", "numeric(5,2)  NULL")
             coll.Add("AutoAllotDuringSalaryGen", "bit  NULL")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_LEAVE_SETTING", coll)
 
 
@@ -15182,6 +15207,7 @@ Public Class clsCreateAllTable
             coll.Add("Level2_User", "varchar(12) null ")
             coll.Add("Level3_User", "varchar(12) null ")
             coll.Add("Is_Approved", "Integer Default 0")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_LEAVE_APPLICATION", coll, Nothing, False, False)
 
 
@@ -15195,13 +15221,13 @@ Public Class clsCreateAllTable
             coll.Add("LEAVE_REASON", "VARCHAR(200) NOT NULL ")
             coll.Add("ADJUST_ALLOTED", "NUMERIC(5,2) NOT NULL ")
             coll.Add("ADJUST_AVAILED", "NUMERIC(5,2) NOT NULL ")
-
             coll.Add("POSTED", "BIT NOT NULL")
             coll.Add("Posting_Date", "Datetime NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_LEAVE_ADJUSTMENT", coll, Nothing, False, False)
 
 
@@ -15221,6 +15247,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("POSTED", "BIT NOT NULL default 0")
             coll.Add("Posting_Date", "Datetime NULL")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_OT_SHEET", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
@@ -39363,12 +39390,12 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("CONV_RATE_CODE", "Varchar(30)  NULL REFERENCES TSPL_CONVEYANCE_RATE_MASTER(CONV_RATE_CODE)")
             coll.Add("CONV_RATE", "FLOAT  NULL ")
             coll.Add("CLAIM_AMOUNT", "FLOAT  NULL ")
-
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Comp_Code", "varchar(8) NULL REFERENCES TSPL_COMPANY_MASTER(COMP_CODE)")
+            coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CONVEYANCE_CLAIM", coll, Nothing, False, False)
 
 
