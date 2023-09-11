@@ -103,12 +103,15 @@ Public Class clsCreateAllTable
               TSPL_EINVOICEHEADER_INFO.Location_Code = xxx.Location_Code"
                     clsDBFuncationality.ExecuteNonQuery(str)
                 End If
-                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO drop column Code")
-                clsDBFuncationality.ExecuteNonQuery(" ALTER TABLE TSPL_EINVOICEHEADER_INFO Add  Code int  IDENTITY(1,1) NOT NULL;")
-                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO Add PRIMARY KEY (code);")
+                If is_Identity = 0 Then
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO drop column Code")
+                    clsDBFuncationality.ExecuteNonQuery(" ALTER TABLE TSPL_EINVOICEHEADER_INFO Add  Code int  IDENTITY(1,1) NOT NULL;")
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO Add PRIMARY KEY (code);")
+                End If
+
             End If
 
-            coll = New Dictionary(Of String, String)()
+                coll = New Dictionary(Of String, String)()
             coll.Add("AuthToken", "VARCHAR(70) NULL")
             coll.Add("ResponseTime", "datetime NULL")
             coll.Add("Location_Code", "VARCHAR(20) NULL")
