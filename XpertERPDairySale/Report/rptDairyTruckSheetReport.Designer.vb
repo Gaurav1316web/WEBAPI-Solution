@@ -34,9 +34,18 @@ Partial Class rptDairyTruckSheetReport
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnPrintInvoice = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel26 = New common.Controls.MyLabel()
+        Me.txtInvMultiCust = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel24 = New common.Controls.MyLabel()
+        Me.MyLabel25 = New common.Controls.MyLabel()
+        Me.txtInvToDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.txtInvFromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.chkShowEarlyRoute = New Telerik.WinControls.UI.RadCheckBox()
         Me.gbInstitutionDailySalesReport = New Telerik.WinControls.UI.RadGroupBox()
         Me.btnIDSPrintABS = New Telerik.WinControls.UI.RadButton()
@@ -87,6 +96,8 @@ Partial Class rptDairyTruckSheetReport
         Me.txtABSDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
         Me.RGBTSPrint = New Telerik.WinControls.UI.RadGroupBox()
+        Me.cmbGatePassType = New common.Controls.MyComboBox()
+        Me.lblGatePassType = New common.Controls.MyLabel()
         Me.txtRouteNo = New common.UserControls.txtMultiSelectFinder()
         Me.btn_CancelTruckSheet = New Telerik.WinControls.UI.RadButton()
         Me.TxtMultiDistributor = New common.UserControls.txtMultiSelectFinder()
@@ -129,14 +140,20 @@ Partial Class rptDairyTruckSheetReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.cmbGatePassType = New common.Controls.MyComboBox()
-        Me.lblGatePassType = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtInvToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtInvFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkShowEarlyRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gbInstitutionDailySalesReport, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbInstitutionDailySalesReport.SuspendLayout()
@@ -183,6 +200,8 @@ Partial Class rptDairyTruckSheetReport
         CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RGBTSPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RGBTSPrint.SuspendLayout()
+        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_CancelTruckSheet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_DistributorTS, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -218,8 +237,6 @@ Partial Class rptDairyTruckSheetReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -254,11 +271,11 @@ Partial Class rptDairyTruckSheetReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(888, 557)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.chkShowEarlyRoute)
         Me.RadPageViewPage1.Controls.Add(Me.gbInstitutionDailySalesReport)
         Me.RadPageViewPage1.Controls.Add(Me.gbNetSalesReport)
@@ -277,10 +294,108 @@ Partial Class rptDairyTruckSheetReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(867, 509)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.btnPrintInvoice)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel26)
+        Me.RadGroupBox2.Controls.Add(Me.txtInvMultiCust)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel24)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel25)
+        Me.RadGroupBox2.Controls.Add(Me.txtInvToDate)
+        Me.RadGroupBox2.Controls.Add(Me.txtInvFromDate)
+        Me.RadGroupBox2.HeaderText = "Print Invoice"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(441, 3)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(426, 98)
+        Me.RadGroupBox2.TabIndex = 1396
+        Me.RadGroupBox2.Text = "Print Invoice"
+        Me.RadGroupBox2.Visible = False
+        '
+        'btnPrintInvoice
+        '
+        Me.btnPrintInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintInvoice.Location = New System.Drawing.Point(312, 70)
+        Me.btnPrintInvoice.Name = "btnPrintInvoice"
+        Me.btnPrintInvoice.Size = New System.Drawing.Size(109, 22)
+        Me.btnPrintInvoice.TabIndex = 409
+        Me.btnPrintInvoice.Text = "Print Invoice"
+        '
+        'MyLabel26
+        '
+        Me.MyLabel26.FieldName = Nothing
+        Me.MyLabel26.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel26.Location = New System.Drawing.Point(5, 38)
+        Me.MyLabel26.Name = "MyLabel26"
+        Me.MyLabel26.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel26.TabIndex = 407
+        Me.MyLabel26.Text = "Customer"
+        '
+        'txtInvMultiCust
+        '
+        Me.txtInvMultiCust.arrDispalyMember = Nothing
+        Me.txtInvMultiCust.arrValueMember = Nothing
+        Me.txtInvMultiCust.Location = New System.Drawing.Point(63, 38)
+        Me.txtInvMultiCust.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtInvMultiCust.MyLinkLable1 = Nothing
+        Me.txtInvMultiCust.MyLinkLable2 = Nothing
+        Me.txtInvMultiCust.MyNullText = "All"
+        Me.txtInvMultiCust.Name = "txtInvMultiCust"
+        Me.txtInvMultiCust.Size = New System.Drawing.Size(358, 19)
+        Me.txtInvMultiCust.TabIndex = 408
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Location = New System.Drawing.Point(205, 16)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(19, 18)
+        Me.MyLabel24.TabIndex = 3
+        Me.MyLabel24.Text = "To"
+        '
+        'MyLabel25
+        '
+        Me.MyLabel25.FieldName = Nothing
+        Me.MyLabel25.Location = New System.Drawing.Point(5, 16)
+        Me.MyLabel25.Name = "MyLabel25"
+        Me.MyLabel25.Size = New System.Drawing.Size(32, 18)
+        Me.MyLabel25.TabIndex = 2
+        Me.MyLabel25.Text = "From"
+        '
+        'txtInvToDate
+        '
+        Me.txtInvToDate.CustomFormat = "dd/MM/yyyy hh:mmtt"
+        Me.txtInvToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtInvToDate.Location = New System.Drawing.Point(233, 15)
+        Me.txtInvToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtInvToDate.Name = "txtInvToDate"
+        Me.txtInvToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtInvToDate.Size = New System.Drawing.Size(135, 20)
+        Me.txtInvToDate.TabIndex = 1
+        Me.txtInvToDate.TabStop = False
+        Me.txtInvToDate.Text = "24/10/2011 11:59PM"
+        Me.txtInvToDate.Value = New Date(2011, 10, 24, 23, 59, 0, 0)
+        '
+        'txtInvFromDate
+        '
+        Me.txtInvFromDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtInvFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtInvFromDate.Location = New System.Drawing.Point(63, 15)
+        Me.txtInvFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtInvFromDate.Name = "txtInvFromDate"
+        Me.txtInvFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtInvFromDate.Size = New System.Drawing.Size(132, 20)
+        Me.txtInvFromDate.TabIndex = 0
+        Me.txtInvFromDate.TabStop = False
+        Me.txtInvFromDate.Text = "03/05/2011 12:00 AM"
+        Me.txtInvFromDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        '
         'chkShowEarlyRoute
         '
         Me.chkShowEarlyRoute.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkShowEarlyRoute.Location = New System.Drawing.Point(443, 324)
+        Me.chkShowEarlyRoute.Location = New System.Drawing.Point(443, 464)
         Me.chkShowEarlyRoute.Name = "chkShowEarlyRoute"
         Me.chkShowEarlyRoute.Size = New System.Drawing.Size(128, 16)
         Me.chkShowEarlyRoute.TabIndex = 1395
@@ -304,7 +419,7 @@ Partial Class rptDairyTruckSheetReport
         Me.gbInstitutionDailySalesReport.Controls.Add(Me.MyLabel19)
         Me.gbInstitutionDailySalesReport.Controls.Add(Me.btnIDSPrint)
         Me.gbInstitutionDailySalesReport.HeaderText = "Credit Institution Report [DOT MATRIX]"
-        Me.gbInstitutionDailySalesReport.Location = New System.Drawing.Point(441, 164)
+        Me.gbInstitutionDailySalesReport.Location = New System.Drawing.Point(441, 304)
         Me.gbInstitutionDailySalesReport.Name = "gbInstitutionDailySalesReport"
         Me.gbInstitutionDailySalesReport.Size = New System.Drawing.Size(426, 153)
         Me.gbInstitutionDailySalesReport.TabIndex = 414
@@ -375,6 +490,7 @@ Partial Class rptDairyTruckSheetReport
         Me.cmbCustomerCategory.AutoCompleteDisplayMember = Nothing
         Me.cmbCustomerCategory.AutoCompleteValueMember = Nothing
         Me.cmbCustomerCategory.CalculationExpression = Nothing
+        Me.cmbCustomerCategory.DropDownAnimationEnabled = True
         Me.cmbCustomerCategory.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbCustomerCategory.FieldCode = Nothing
         Me.cmbCustomerCategory.FieldDesc = Nothing
@@ -545,7 +661,7 @@ Partial Class rptDairyTruckSheetReport
         Me.gbNetSalesReport.Controls.Add(Me.dtpNSRFromDate)
         Me.gbNetSalesReport.Controls.Add(Me.btnNSRPrint)
         Me.gbNetSalesReport.HeaderText = "Net Sales Report [DOT MATRIX]"
-        Me.gbNetSalesReport.Location = New System.Drawing.Point(443, -2)
+        Me.gbNetSalesReport.Location = New System.Drawing.Point(441, 138)
         Me.gbNetSalesReport.Name = "gbNetSalesReport"
         Me.gbNetSalesReport.Size = New System.Drawing.Size(426, 161)
         Me.gbNetSalesReport.TabIndex = 413
@@ -659,6 +775,7 @@ Partial Class rptDairyTruckSheetReport
         Me.cboNSRType.AutoCompleteDisplayMember = Nothing
         Me.cboNSRType.AutoCompleteValueMember = Nothing
         Me.cboNSRType.CalculationExpression = Nothing
+        Me.cboNSRType.DropDownAnimationEnabled = True
         Me.cboNSRType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboNSRType.FieldCode = Nothing
         Me.cboNSRType.FieldDesc = Nothing
@@ -825,6 +942,7 @@ Partial Class rptDairyTruckSheetReport
         Me.cboABSReportShift.AutoCompleteDisplayMember = Nothing
         Me.cboABSReportShift.AutoCompleteValueMember = Nothing
         Me.cboABSReportShift.CalculationExpression = Nothing
+        Me.cboABSReportShift.DropDownAnimationEnabled = True
         Me.cboABSReportShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboABSReportShift.FieldCode = Nothing
         Me.cboABSReportShift.FieldDesc = Nothing
@@ -860,6 +978,7 @@ Partial Class rptDairyTruckSheetReport
         Me.cboABSReportType.AutoCompleteDisplayMember = Nothing
         Me.cboABSReportType.AutoCompleteValueMember = Nothing
         Me.cboABSReportType.CalculationExpression = Nothing
+        Me.cboABSReportType.DropDownAnimationEnabled = True
         Me.cboABSReportType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboABSReportType.FieldCode = Nothing
         Me.cboABSReportType.FieldDesc = Nothing
@@ -1010,6 +1129,48 @@ Partial Class rptDairyTruckSheetReport
         Me.RGBTSPrint.Size = New System.Drawing.Size(421, 213)
         Me.RGBTSPrint.TabIndex = 409
         Me.RGBTSPrint.Text = "Truck Sheet Print"
+        '
+        'cmbGatePassType
+        '
+        Me.cmbGatePassType.AutoCompleteDisplayMember = Nothing
+        Me.cmbGatePassType.AutoCompleteValueMember = Nothing
+        Me.cmbGatePassType.CalculationExpression = Nothing
+        Me.cmbGatePassType.DropDownAnimationEnabled = True
+        Me.cmbGatePassType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbGatePassType.FieldCode = Nothing
+        Me.cmbGatePassType.FieldDesc = Nothing
+        Me.cmbGatePassType.FieldMaxLength = 0
+        Me.cmbGatePassType.FieldName = Nothing
+        Me.cmbGatePassType.isCalculatedField = False
+        Me.cmbGatePassType.IsSourceFromTable = False
+        Me.cmbGatePassType.IsSourceFromValueList = False
+        Me.cmbGatePassType.IsUnique = False
+        RadListDataItem10.Text = "Select"
+        RadListDataItem11.Text = "AM"
+        RadListDataItem12.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem10)
+        Me.cmbGatePassType.Items.Add(RadListDataItem11)
+        Me.cmbGatePassType.Items.Add(RadListDataItem12)
+        Me.cmbGatePassType.Location = New System.Drawing.Point(121, 115)
+        Me.cmbGatePassType.MendatroryField = False
+        Me.cmbGatePassType.MyLinkLable1 = Nothing
+        Me.cmbGatePassType.MyLinkLable2 = Nothing
+        Me.cmbGatePassType.Name = "cmbGatePassType"
+        Me.cmbGatePassType.ReferenceFieldDesc = Nothing
+        Me.cmbGatePassType.ReferenceFieldName = Nothing
+        Me.cmbGatePassType.ReferenceTableName = Nothing
+        Me.cmbGatePassType.Size = New System.Drawing.Size(59, 20)
+        Me.cmbGatePassType.TabIndex = 1500
+        '
+        'lblGatePassType
+        '
+        Me.lblGatePassType.FieldName = Nothing
+        Me.lblGatePassType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGatePassType.Location = New System.Drawing.Point(17, 117)
+        Me.lblGatePassType.Name = "lblGatePassType"
+        Me.lblGatePassType.Size = New System.Drawing.Size(87, 16)
+        Me.lblGatePassType.TabIndex = 1499
+        Me.lblGatePassType.Text = "Gate Pass Type"
         '
         'txtRouteNo
         '
@@ -1449,14 +1610,15 @@ Partial Class rptDairyTruckSheetReport
         '
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.EnableFiltering = True
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ReadOnly = True
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(849, 502)
         Me.Gv1.TabIndex = 1
-        Me.Gv1.Text = "RadGridView1"
         '
         'RadSplitButton1
         '
@@ -1470,15 +1632,11 @@ Partial Class rptDairyTruckSheetReport
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Excel"
-        Me.RadMenuItem1.AccessibleName = "Excel"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Excel"
         '
         'PDF
         '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         '
@@ -1512,47 +1670,6 @@ Partial Class rptDairyTruckSheetReport
         Me.btnReset.TabIndex = 156
         Me.btnReset.Text = "Reset"
         '
-        'cmbGatePassType
-        '
-        Me.cmbGatePassType.AutoCompleteDisplayMember = Nothing
-        Me.cmbGatePassType.AutoCompleteValueMember = Nothing
-        Me.cmbGatePassType.CalculationExpression = Nothing
-        Me.cmbGatePassType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbGatePassType.FieldCode = Nothing
-        Me.cmbGatePassType.FieldDesc = Nothing
-        Me.cmbGatePassType.FieldMaxLength = 0
-        Me.cmbGatePassType.FieldName = Nothing
-        Me.cmbGatePassType.isCalculatedField = False
-        Me.cmbGatePassType.IsSourceFromTable = False
-        Me.cmbGatePassType.IsSourceFromValueList = False
-        Me.cmbGatePassType.IsUnique = False
-        RadListDataItem10.Text = "Select"
-        RadListDataItem11.Text = "AM"
-        RadListDataItem12.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem10)
-        Me.cmbGatePassType.Items.Add(RadListDataItem11)
-        Me.cmbGatePassType.Items.Add(RadListDataItem12)
-        Me.cmbGatePassType.Location = New System.Drawing.Point(121, 115)
-        Me.cmbGatePassType.MendatroryField = False
-        Me.cmbGatePassType.MyLinkLable1 = Nothing
-        Me.cmbGatePassType.MyLinkLable2 = Nothing
-        Me.cmbGatePassType.Name = "cmbGatePassType"
-        Me.cmbGatePassType.ReferenceFieldDesc = Nothing
-        Me.cmbGatePassType.ReferenceFieldName = Nothing
-        Me.cmbGatePassType.ReferenceTableName = Nothing
-        Me.cmbGatePassType.Size = New System.Drawing.Size(59, 20)
-        Me.cmbGatePassType.TabIndex = 1500
-        '
-        'lblGatePassType
-        '
-        Me.lblGatePassType.FieldName = Nothing
-        Me.lblGatePassType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGatePassType.Location = New System.Drawing.Point(17, 117)
-        Me.lblGatePassType.Name = "lblGatePassType"
-        Me.lblGatePassType.Size = New System.Drawing.Size(87, 16)
-        Me.lblGatePassType.TabIndex = 1499
-        Me.lblGatePassType.Text = "Gate Pass Type"
-        '
         'rptDairyTruckSheetReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1572,6 +1689,15 @@ Partial Class rptDairyTruckSheetReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtInvToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtInvFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkShowEarlyRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gbInstitutionDailySalesReport, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbInstitutionDailySalesReport.ResumeLayout(False)
@@ -1622,6 +1748,8 @@ Partial Class rptDairyTruckSheetReport
         CType(Me.RGBTSPrint, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RGBTSPrint.ResumeLayout(False)
         Me.RGBTSPrint.PerformLayout()
+        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_CancelTruckSheet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_DistributorTS, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1658,8 +1786,6 @@ Partial Class rptDairyTruckSheetReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1761,5 +1887,13 @@ Partial Class rptDairyTruckSheetReport
     Friend WithEvents btnIDSPrintABS As RadButton
     Friend WithEvents cmbGatePassType As common.Controls.MyComboBox
     Friend WithEvents lblGatePassType As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents MyLabel26 As common.Controls.MyLabel
+    Friend WithEvents txtInvMultiCust As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel24 As common.Controls.MyLabel
+    Friend WithEvents MyLabel25 As common.Controls.MyLabel
+    Friend WithEvents txtInvToDate As RadDateTimePicker
+    Friend WithEvents txtInvFromDate As RadDateTimePicker
+    Friend WithEvents btnPrintInvoice As RadButton
 End Class
 
