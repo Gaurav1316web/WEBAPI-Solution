@@ -24,6 +24,7 @@ Public Class ClsDeductionMaster
     Public Is_Default_Local_Sale As Boolean
     Public Is_Default_Pashu_Vikash_Kos As Boolean
     Public Is_Own_BMC_Shortage As Boolean
+    Public Is_Negative_SRN As Boolean
     Public Is_Own_BMC_Excess As Boolean
 
     Public Show_FAT_SNF As Boolean
@@ -146,6 +147,12 @@ Public Class ClsDeductionMaster
                 End If
                 qry += " Is_Own_BMC_Shortage=0 "
             End If
+            If obj.Is_Negative_SRN Then
+                If clsCommon.myLen(qry) > 0 Then
+                    qry += ","
+                End If
+                qry += " Is_Negative_SRN=0 "
+            End If
             If obj.Is_Own_BMC_Excess Then
                 If clsCommon.myLen(qry) > 0 Then
                     qry += ","
@@ -169,6 +176,7 @@ Public Class ClsDeductionMaster
             clsCommon.AddColumnsForChange(coll, "Is_Default_Local_Sale", IIf(obj.Is_Default_Local_Sale, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Default_Pashu_Vikash_Kos", IIf(obj.Is_Default_Pashu_Vikash_Kos, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Own_BMC_Shortage", IIf(obj.Is_Own_BMC_Shortage, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Is_Negative_SRN", IIf(obj.Is_Negative_SRN, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Own_BMC_Excess", IIf(obj.Is_Own_BMC_Excess, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -237,6 +245,7 @@ Public Class ClsDeductionMaster
                 obj.Is_Default_Local_Sale = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_Local_Sale")) > 0, True, False)
                 obj.Is_Default_Pashu_Vikash_Kos = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Default_Pashu_Vikash_Kos")) > 0, True, False)
                 obj.Is_Own_BMC_Shortage = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Own_BMC_Shortage")) > 0, True, False)
+                obj.Is_Negative_SRN = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Negative_SRN")) > 0, True, False)
                 obj.Is_Own_BMC_Excess = IIf(clsCommon.myCdbl(dt1.Rows(0)("Is_Own_BMC_Excess")) > 0, True, False)
                 obj.Show_FAT_SNF = IIf(clsCommon.myCdbl(dt1.Rows(0)("Show_FAT_SNF")) > 0, True, False)
                 obj.HO_TYPE = IIf(clsCommon.myCdbl(dt1.Rows(0)("HO_TYPE")) > 0, True, False)
