@@ -10512,6 +10512,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Own_BMC_Shortage", "integer not null default 0")
             coll.Add("Is_Own_BMC_Excess", "integer not null default 0")
             coll.Add("Own_BMC_Milk_Reject_Type", "varchar(30) NULL REFERENCES TSPL_MILK_REJECT_TYPE(Code)")
+            coll.Add("Is_Negative_SRN", "integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
 

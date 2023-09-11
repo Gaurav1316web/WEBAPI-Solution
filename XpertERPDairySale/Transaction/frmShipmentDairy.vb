@@ -11929,12 +11929,17 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
             Else
                 Dim dtDocdate As Date?
                 dtDocdate = Nothing
-                Dim StrSql = "Select Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceNo.Text & "'"
+                Dim StrSql = "Select Document_Code,Document_Date,Customer_Code,Bill_To_Location,is_taxable,Tax_Group from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" & txtInvoiceNo.Text & "'"
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrSql)
                 If dt1.Rows.Count > 0 Then
                     'IsTaxable = clsCommon.myCdbl(dt1.Rows(0)("is_taxable"))
                     dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
                 End If
+
+
+                'Dim InvQry As String = "Select Document_Code from TSPL_SD_SALE_INVOICE_HEAD where convert(varchar(12),Document_date,103)>='01/08/2023' and convert(varchar(12),Document_date,103)<='10/08/2023'"
+                'clsCommon()
+
                 Qry = objMultPrintInvoice.PrintInvoiceForAll(txtInvoiceNo.Text)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())

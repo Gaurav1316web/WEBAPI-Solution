@@ -4734,4 +4734,17 @@ Public Class rptDairyTruckSheetReport
             btnIDSPrintABS.Enabled = False
         End If
     End Sub
+
+    Private Sub txtInvMultiCust__My_Click(sender As Object, e As EventArgs) Handles txtInvMultiCust._My_Click
+        strQry = " select Cust_Code as [Code] , Customer_Name as [Name] from TSPL_CUSTOMER_MASTER "
+        txtInvMultiCust.arrValueMember = clsCommon.ShowMultipleSelectForm("txtMultCustomer", strQry, "Code", "Name", txtInvMultiCust.arrValueMember, txtInvMultiCust.arrDispalyMember)
+    End Sub
+
+    Private Sub btnPrintInvoice_Click(sender As Object, e As EventArgs) Handles btnPrintInvoice.Click
+        Try
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex, Me.Text)
+        End Try
+    End Sub
 End Class
