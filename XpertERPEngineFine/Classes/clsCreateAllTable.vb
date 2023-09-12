@@ -53358,7 +53358,6 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
         '**************************************************************************************
 
 
-
         Return True
     End Function
 End Class

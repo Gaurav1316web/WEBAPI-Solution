@@ -2183,10 +2183,10 @@ Public Class frmScrapSale
                 TxtVehicleCode.Focus()
                 Return False
             End If
-            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select GSTRegistered from tspl_vendor_master where vendor_code='" & txtTransporter_Code.Value & "'", Nothing)) = 0 Then
-                Throw New Exception("Please Update GSTIN in Transpoter/Vendor Master")
-                Return False
-            End If
+            'If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select GSTRegistered from tspl_vendor_master where vendor_code='" & txtTransporter_Code.Value & "'", Nothing)) = 0 Then
+            '    Throw New Exception("Please Update GSTIN in Transpoter/Vendor Master")
+            '    Return False
+            'End If
         ElseIf clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal AndAlso chkTaxable.Checked = True Then
             Throw New Exception("Please Update GSTIN in Customer Master")
             Return False
