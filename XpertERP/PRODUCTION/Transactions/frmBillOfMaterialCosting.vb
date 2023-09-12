@@ -693,6 +693,8 @@ Public Class frmBillOfMaterialCosting
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
+        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
+        'txtConsmLocOther.Value = txtLocation.Value
         'RadPageView1.Pages(pageOperations.Name).Item.Visibility = ElementVisibility.Collapsed
     End Sub
     Private Sub SetUserMgmtNew()
@@ -713,6 +715,9 @@ Public Class frmBillOfMaterialCosting
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
         Try
             funReset()
+
+            txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
+            'txtConsmLocOther.Value = txtLocation.Value
         Catch ex As Exception
         End Try
     End Sub
@@ -1304,7 +1309,7 @@ Public Class frmBillOfMaterialCosting
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
 
-            Dim qry As String = "SELECT T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
+            Dim qry As String = "SELECT T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.LOCATION_CODE,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
             qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T1.PROD_QUANTITY,T1.PROD_ITEM_UNIT_CODE,"
             qry += " T1.MIN_BATCH_SIZE,T1.MODIFIED_BY AS APPROVED_BY,T1.Created_By FROM TSPL_MF_BOM_HEAD  T1 INNER JOIN TSPL_ITEM_MASTER T2  ON T1.PROD_ITEM_CODE=T2.ITEM_CODE "
             WhrCls = " T1.trans_type='BOM' "
@@ -2896,6 +2901,23 @@ Public Class frmBillOfMaterialCosting
 
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         Try
+            'Dim WhrCls As String = " Location_Type='Physical'  "
+            'If clsCommon.myLen(arrLoc) > 0 Then
+            '    WhrCls += "  and  Location_Code in (" + arrLoc + ")"
+            'End If
+            'txtLocation.Value = clsLocation.getFinder(WhrCls, Me.txtLocation.Value, isButtonClicked)
+            'If clsCommon.myLen(txtLocation.Value) > 0 Then
+            '    lblLocation.Text = clsLocation.GetName(Me.txtLocation.Value, Nothing)
+            'End If
+
+            'Dim qry As String = " select Location_Code as [Code],Location_Desc as [Description],Loc_Short_Name as [Short Name] from TSPL_Location_MASTER"
+            'Dim WhrCls As String = " TSPL_LOCATION_MASTER.IsMainPlant='0' "
+            'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            '    WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            'End If
+            'txtLocation.Value = clsCommon.ShowSelectForm("MulBDELocFndr", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
+            'lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+
             Dim WhrCls As String = " Location_Type='Physical'  "
             If clsCommon.myLen(arrLoc) > 0 Then
                 WhrCls += "  and  Location_Code in (" + arrLoc + ")"
@@ -2904,6 +2926,9 @@ Public Class frmBillOfMaterialCosting
             If clsCommon.myLen(txtLocation.Value) > 0 Then
                 lblLocation.Text = clsLocation.GetName(Me.txtLocation.Value, Nothing)
             End If
+            'txtLocation.Value = clsCommon.ShowSelectForm("MulBDELocFndr", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
+            'lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
