@@ -213,7 +213,11 @@ Public Class clsEmployeeMaster
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsEmployeeMaster
         Dim obj As clsEmployeeMaster = Nothing
-        Dim qry As String = " select TSPL_EMPLOYEE_MASTER.* from TSPL_EMPLOYEE_MASTER where 2=2"
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " And TSPL_EMPLOYEE_MASTER.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        End If
+        Dim qry As String = " select TSPL_EMPLOYEE_MASTER.* from TSPL_EMPLOYEE_MASTER where 2=2" + whrcls
         Select Case NavType
             Case NavigatorType.First
                 qry += " and EMP_CODE = (select MIN(EMP_CODE) from TSPL_EMPLOYEE_MASTER)"
@@ -403,7 +407,7 @@ Public Class clsEmployeeMaster
 
 
             obj.Votercard_No = clsCommon.myCstr(dt.Rows(0)("Votercard_No"))
-            obj.RationCard_No = clsCommon.myCstr(dt.Rows(0)("RationCard_No"))
+            obj.Rationcard_No = clsCommon.myCstr(dt.Rows(0)("RationCard_No"))
             obj.DL_No = clsCommon.myCstr(dt.Rows(0)("DL_No"))
             obj.BioMetricEmpID = clsCommon.myCstr(dt.Rows(0)("BioMetricEmpID"))
             obj.EmpBasisType = clsCommon.myCstr(dt.Rows(0)("EmpBasisType"))
@@ -583,7 +587,7 @@ Public Class clsEmployeeMaster
 
 
             clsCommon.AddColumnsForChange(coll, "Votercard_No", obj.Votercard_No)
-            clsCommon.AddColumnsForChange(coll, "RationCard_No", obj.RationCard_No)
+            clsCommon.AddColumnsForChange(coll, "RationCard_No", obj.Rationcard_No)
             clsCommon.AddColumnsForChange(coll, "DL_No", obj.DL_No)
             clsCommon.AddColumnsForChange(coll, "BioMetricEmpID", obj.BioMetricEmpID)
             clsCommon.AddColumnsForChange(coll, "EmpBasisType", obj.EmpBasisType)
@@ -1034,13 +1038,13 @@ Public Class clsEmployeeMaster
     Public Shared Function GetEMPBdayAnniversaryDT() As DataTable
         Dim serverDate As Date
         serverDate = clsCommon.GETSERVERDATE()
-        Dim qry As String = "select emp.*,TSPL_DEPARTMENT_MASTER.DESCRIPTION as Department_Desc,TSPL_DESIGNATION_MASTER.Designation_Desc from ( " & _
-        " select EMP_CODE,Emp_Name,EMail_ID,DEPARTMENT_CODE,Designation,CONVERT(date,Birth_date,105) as BDay_Anniversary,'B' as Rem_Type  from TSPL_EMPLOYEE_MASTER" & _
-        " where DAY(CONVERT(date,Birth_date,105))=" & serverDate.Day & " and MONTH(CONVERT(date,Birth_date,105))=" & serverDate.Month & " " & _
-        " union all " & _
-        " select EMP_CODE,Emp_Name,EMail_ID,DEPARTMENT_CODE,Designation,CONVERT(date,Birth_date,105) as ANNIVERSARY_DATE,'A' as Rem_Type  from TSPL_EMPLOYEE_MASTER " & _
-        " where DAY(CONVERT(date,ANNIVERSARY_DATE,105))=" & serverDate.Day & " and MONTH(CONVERT(date,ANNIVERSARY_DATE,105))=" & serverDate.Month & " ) as emp " & _
-        " left join TSPL_DEPARTMENT_MASTER on emp.DEPARTMENT_CODE=TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE " & _
+        Dim qry As String = "select emp.*,TSPL_DEPARTMENT_MASTER.DESCRIPTION as Department_Desc,TSPL_DESIGNATION_MASTER.Designation_Desc from ( " &
+        " select EMP_CODE,Emp_Name,EMail_ID,DEPARTMENT_CODE,Designation,CONVERT(date,Birth_date,105) as BDay_Anniversary,'B' as Rem_Type  from TSPL_EMPLOYEE_MASTER" &
+        " where DAY(CONVERT(date,Birth_date,105))=" & serverDate.Day & " and MONTH(CONVERT(date,Birth_date,105))=" & serverDate.Month & " " &
+        " union all " &
+        " select EMP_CODE,Emp_Name,EMail_ID,DEPARTMENT_CODE,Designation,CONVERT(date,Birth_date,105) as ANNIVERSARY_DATE,'A' as Rem_Type  from TSPL_EMPLOYEE_MASTER " &
+        " where DAY(CONVERT(date,ANNIVERSARY_DATE,105))=" & serverDate.Day & " and MONTH(CONVERT(date,ANNIVERSARY_DATE,105))=" & serverDate.Month & " ) as emp " &
+        " left join TSPL_DEPARTMENT_MASTER on emp.DEPARTMENT_CODE=TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE " &
         " left join TSPL_DESIGNATION_MASTER on emp.Designation=TSPL_DESIGNATION_MASTER.Designation_id "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Return dt
@@ -1160,9 +1164,9 @@ Public Class clsEmployeeMaster
         End Try
     End Function
     Public Shared Function CheckUserForHRDepartment(ByVal UserCode As String)
-        Dim qry As String = " select COUNT(TSPL_EMPLOYEE_MASTER.EMP_CODE) as Tot from TSPL_EMPLOYEE_MASTER " & _
-                            " left join TSPL_USER_MASTER on TSPL_EMPLOYEE_MASTER.USER_CODE=TSPL_USER_MASTER.User_Code " & _
-                            " left join TSPL_DEPARTMENT_MASTER on TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE=TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE " & _
+        Dim qry As String = " select COUNT(TSPL_EMPLOYEE_MASTER.EMP_CODE) as Tot from TSPL_EMPLOYEE_MASTER " &
+                            " left join TSPL_USER_MASTER on TSPL_EMPLOYEE_MASTER.USER_CODE=TSPL_USER_MASTER.User_Code " &
+                            " left join TSPL_DEPARTMENT_MASTER on TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE=TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE " &
                             " where TSPL_USER_MASTER.User_Code='" & UserCode & "' and TSPL_DEPARTMENT_MASTER.DEPARTMENT_TYPE='HR'"
         Dim tot As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
         If tot > 0 Then
@@ -1875,9 +1879,9 @@ Public Class clsUserMaster
             If clsCommon.CompairString(objCommonVar.CurrentUserCode, "ADMIN") = CompairStringResult.Equal Then
                 qry = "Select User_Code, User_Name from TSPL_User_MASTER Where 1=1 "
             Else
-                qry = " select  distinct  User_Code, User_Name from (Select User_Code, User_Name from TSPL_User_MASTER Where Level4_Code='" + strUserCode + "' OR User_Code='" + strUserCode + "' " & Environment.NewLine & _
-                " union " & Environment.NewLine & _
-                " select TSPL_USER_MAPPING_DETAIL.Mapped_UserCode AS User_Code,TSPL_User_MASTER.User_Name  from TSPL_USER_MAPPING_DETAIL " & Environment.NewLine & _
+                qry = " select  distinct  User_Code, User_Name from (Select User_Code, User_Name from TSPL_User_MASTER Where Level4_Code='" + strUserCode + "' OR User_Code='" + strUserCode + "' " & Environment.NewLine &
+                " union " & Environment.NewLine &
+                " select TSPL_USER_MAPPING_DETAIL.Mapped_UserCode AS User_Code,TSPL_User_MASTER.User_Name  from TSPL_USER_MAPPING_DETAIL " & Environment.NewLine &
                 "  left outer join TSPL_User_MASTER on TSPL_User_MASTER.User_Code =TSPL_USER_MAPPING_DETAIL.Mapped_UserCode  Where TSPL_USER_MAPPING_DETAIL.User_Code='" + strUserCode + "' ) Final"
             End If
         Catch ex As Exception

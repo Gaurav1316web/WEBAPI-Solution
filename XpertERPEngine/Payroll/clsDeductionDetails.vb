@@ -58,7 +58,6 @@ Public Class clsDeductionDetails
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsDeductionDetails
         Dim obj As New clsDeductionDetails()
         Dim objtr As New clsDeductionPayHeadDetails
-
         obj.Arr = New List(Of clsDeductionPayHeadDetails)
 
         Dim qry As String = "SELECT TAV.*,TPM.PAY_PERIOD_NAME, " _
@@ -237,13 +236,13 @@ Public Class clsDeductionDetails
         Dim dt As DataTable
         Try
             Dim qry As String = ""
-            qry += " SELECT Ded.DEDUCTION_CODE as [Document Code] ,Dedd.PAY_HEAD_CODE as [Deduction Code] ,PHM.PAY_HEAD_NAME as [Deduction Name] ," & _
-                   " Dedd.EMP_CODE  as [Employee Code],EMP.Emp_Name as [Employee Name],EMP.Location_Code as [Location Code],Loc.Location_Desc as [Location Name] ,EMP.DEVISION_CODE as   [Division Code],Div.Devision_Name as [Division Name],pp.PAY_PERIOD_CODE as [Pay Period Code],pp.DESCRIPTION,Dedd.deduction_AMOUNT as [Deduction Amount]  FROM TSPL_DEDUCTION Ded " & _
-                   " INNER JOIN TSPL_DEDUCTION_DETAIL Dedd ON Ded.DEDUCTION_CODE=Dedd.DEDUCTION_CODE " & _
-                   " LEFT JOIN TSPL_PAYPERIOD_MASTER PP ON Ded.PAY_PERIOD_CODE=PP.PAY_PERIOD_CODE " & _
-                   " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON Dedd.EMP_CODE=EMP.EMP_CODE " & _
-                   " LEFT JOIN TSPL_PAYHEAD_MASTER PHM ON Dedd.PAY_HEAD_CODE=PHM.PAY_HEAD_CODE " & _
-                   " left join TSPL_LOCATION_MASTER Loc on EMP.LOCATION_CODE=Loc.Location_Code " & _
+            qry += " SELECT Ded.DEDUCTION_CODE as [Document Code] ,Dedd.PAY_HEAD_CODE as [Deduction Code] ,PHM.PAY_HEAD_NAME as [Deduction Name] ," &
+                   " Dedd.EMP_CODE  as [Employee Code],EMP.Emp_Name as [Employee Name],EMP.Location_Code as [Location Code],Loc.Location_Desc as [Location Name] ,EMP.DEVISION_CODE as   [Division Code],Div.Devision_Name as [Division Name],pp.PAY_PERIOD_CODE as [Pay Period Code],pp.DESCRIPTION,Dedd.deduction_AMOUNT as [Deduction Amount]  FROM TSPL_DEDUCTION Ded " &
+                   " INNER JOIN TSPL_DEDUCTION_DETAIL Dedd ON Ded.DEDUCTION_CODE=Dedd.DEDUCTION_CODE " &
+                   " LEFT JOIN TSPL_PAYPERIOD_MASTER PP ON Ded.PAY_PERIOD_CODE=PP.PAY_PERIOD_CODE " &
+                   " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON Dedd.EMP_CODE=EMP.EMP_CODE " &
+                   " LEFT JOIN TSPL_PAYHEAD_MASTER PHM ON Dedd.PAY_HEAD_CODE=PHM.PAY_HEAD_CODE " &
+                   " left join TSPL_LOCATION_MASTER Loc on EMP.LOCATION_CODE=Loc.Location_Code " &
                    " left join TSPL_DEVISION_MASTER Div on EMP.DEVISION_CODE=Div.DEVISION_CODE where 2=2"
 
             'If clsCommon.myLen(strFromPP) > 0 AndAlso clsCommon.myLen(strToPP) > 0 Then

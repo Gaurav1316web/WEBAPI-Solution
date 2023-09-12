@@ -24,23 +24,26 @@ Partial Class frmSalaryStructure
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.txtPrintName = New common.Controls.MyTextBox
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblSalStructCode = New common.Controls.MyLabel
-        Me.txtName = New common.Controls.MyTextBox
-        Me.MyLabel18 = New common.Controls.MyLabel
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem
+        Me.txtPrintName = New common.Controls.MyTextBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblSalStructCode = New common.Controls.MyLabel()
+        Me.txtName = New common.Controls.MyTextBox()
+        Me.MyLabel18 = New common.Controls.MyLabel()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblLocation = New common.Controls.MyLabel()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.txtPrintName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalStructCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -54,6 +57,8 @@ Partial Class frmSalaryStructure
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -61,20 +66,33 @@ Partial Class frmSalaryStructure
         '
         'txtPrintName
         '
+        Me.txtPrintName.CalculationExpression = Nothing
+        Me.txtPrintName.FieldCode = Nothing
+        Me.txtPrintName.FieldDesc = Nothing
+        Me.txtPrintName.FieldMaxLength = 0
+        Me.txtPrintName.FieldName = Nothing
         Me.txtPrintName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPrintName.Location = New System.Drawing.Point(171, 60)
+        Me.txtPrintName.isCalculatedField = False
+        Me.txtPrintName.IsSourceFromTable = False
+        Me.txtPrintName.IsSourceFromValueList = False
+        Me.txtPrintName.IsUnique = False
+        Me.txtPrintName.Location = New System.Drawing.Point(170, 77)
         Me.txtPrintName.MaxLength = 49
         Me.txtPrintName.MendatroryField = False
         Me.txtPrintName.MyLinkLable1 = Me.MyLabel1
         Me.txtPrintName.MyLinkLable2 = Nothing
         Me.txtPrintName.Name = "txtPrintName"
+        Me.txtPrintName.ReferenceFieldDesc = Nothing
+        Me.txtPrintName.ReferenceFieldName = Nothing
+        Me.txtPrintName.ReferenceTableName = Nothing
         Me.txtPrintName.Size = New System.Drawing.Size(219, 18)
         Me.txtPrintName.TabIndex = 3
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(10, 61)
+        Me.MyLabel1.Location = New System.Drawing.Point(10, 78)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(63, 16)
         Me.MyLabel1.TabIndex = 125
@@ -82,6 +100,7 @@ Partial Class frmSalaryStructure
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(170, 15)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -97,6 +116,7 @@ Partial Class frmSalaryStructure
         '
         'lblSalStructCode
         '
+        Me.lblSalStructCode.FieldName = Nothing
         Me.lblSalStructCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSalStructCode.Location = New System.Drawing.Point(10, 17)
         Me.lblSalStructCode.Name = "lblSalStructCode"
@@ -106,20 +126,33 @@ Partial Class frmSalaryStructure
         '
         'txtName
         '
+        Me.txtName.CalculationExpression = Nothing
+        Me.txtName.FieldCode = Nothing
+        Me.txtName.FieldDesc = Nothing
+        Me.txtName.FieldMaxLength = 0
+        Me.txtName.FieldName = Nothing
         Me.txtName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtName.Location = New System.Drawing.Point(171, 38)
+        Me.txtName.isCalculatedField = False
+        Me.txtName.IsSourceFromTable = False
+        Me.txtName.IsSourceFromValueList = False
+        Me.txtName.IsUnique = False
+        Me.txtName.Location = New System.Drawing.Point(170, 58)
         Me.txtName.MaxLength = 49
         Me.txtName.MendatroryField = False
         Me.txtName.MyLinkLable1 = Me.MyLabel18
         Me.txtName.MyLinkLable2 = Nothing
         Me.txtName.Name = "txtName"
+        Me.txtName.ReferenceFieldDesc = Nothing
+        Me.txtName.ReferenceFieldName = Nothing
+        Me.txtName.ReferenceTableName = Nothing
         Me.txtName.Size = New System.Drawing.Size(219, 18)
         Me.txtName.TabIndex = 2
         '
         'MyLabel18
         '
+        Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel18.Location = New System.Drawing.Point(10, 39)
+        Me.MyLabel18.Location = New System.Drawing.Point(10, 59)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(121, 16)
         Me.MyLabel18.TabIndex = 122
@@ -149,7 +182,7 @@ Partial Class frmSalaryStructure
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(379, 3)
+        Me.btnclose.Location = New System.Drawing.Point(701, 3)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(66, 22)
         Me.btnclose.TabIndex = 2
@@ -174,13 +207,16 @@ Partial Class frmSalaryStructure
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(452, 182)
+        Me.SplitContainer1.Size = New System.Drawing.Size(774, 182)
         Me.SplitContainer1.SplitterDistance = 145
         Me.SplitContainer1.TabIndex = 134
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.lblLocation)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel9)
+        Me.RadGroupBox1.Controls.Add(Me.fndLocation)
         Me.RadGroupBox1.Controls.Add(Me.btnnew)
         Me.RadGroupBox1.Controls.Add(Me.lblSalStructCode)
         Me.RadGroupBox1.Controls.Add(Me.txtName)
@@ -189,11 +225,59 @@ Partial Class frmSalaryStructure
         Me.RadGroupBox1.Controls.Add(Me.MyLabel18)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(3, 26)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(10, 26)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(442, 104)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(757, 104)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'lblLocation
+        '
+        Me.lblLocation.AutoSize = False
+        Me.lblLocation.BorderVisible = True
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(392, 39)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(358, 18)
+        Me.lblLocation.TabIndex = 128
+        Me.lblLocation.TextWrap = False
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(10, 38)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel9.TabIndex = 127
+        Me.MyLabel9.Text = "Location"
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(170, 38)
+        Me.fndLocation.MendatroryField = False
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.MyLabel9
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(220, 19)
+        Me.fndLocation.TabIndex = 126
+        Me.fndLocation.Value = ""
         '
         'btnnew
         '
@@ -209,18 +293,14 @@ Partial Class frmSalaryStructure
         Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
         Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu2.Name = "RadMenu2"
-        Me.RadMenu2.Size = New System.Drawing.Size(452, 20)
+        Me.RadMenu2.Size = New System.Drawing.Size(774, 20)
         Me.RadMenu2.TabIndex = 177
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemImport
         '
@@ -228,7 +308,6 @@ Partial Class frmSalaryStructure
         Me.MenuItemImport.AccessibleName = "RadMenuItem1"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
-        Me.MenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemExport
         '
@@ -236,7 +315,6 @@ Partial Class frmSalaryStructure
         Me.MenuItemExport.AccessibleName = "RadMenuItem2"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
-        Me.MenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemClose
         '
@@ -244,13 +322,12 @@ Partial Class frmSalaryStructure
         Me.MenuItemClose.AccessibleName = "RadMenuItem4"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        Me.MenuItemClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'frmSalaryStructure
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(452, 182)
+        Me.ClientSize = New System.Drawing.Size(774, 182)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmSalaryStructure"
         '
@@ -273,6 +350,8 @@ Partial Class frmSalaryStructure
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
@@ -296,4 +375,7 @@ Partial Class frmSalaryStructure
     Friend WithEvents MenuItemImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuItemExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuItemClose As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents fndLocation As common.UserControls.txtFinder
+    Friend WithEvents lblLocation As common.Controls.MyLabel
 End Class

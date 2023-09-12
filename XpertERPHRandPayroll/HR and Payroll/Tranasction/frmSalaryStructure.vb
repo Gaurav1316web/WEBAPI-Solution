@@ -25,6 +25,7 @@ Public Class frmSalaryStructure
             obj.SALARY_STRUCTURE_CODE = txtCode.Value
             obj.SALARY_STRUCTURE_NAME = txtName.Text
             obj.SAL_PRINT_NAME = txtPrintName.Text
+            obj.Location_Code = fndLocation.Value
             If (obj.SaveData(obj, isNewEntry)) Then
                 common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
                 LoadData(obj.SALARY_STRUCTURE_CODE, NavigatorType.Current)
@@ -46,6 +47,12 @@ Public Class frmSalaryStructure
             isNewEntry = False
             btnsave.Text = "Update"
             txtCode.Value = obj.SALARY_STRUCTURE_CODE
+            fndLocation.Value = obj.Location_Code
+            If clsCommon.myLen(fndLocation.Value) > 0 Then
+                lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+            Else
+                lblLocation.Text = ""
+            End If
             txtPrintName.Text = obj.SAL_PRINT_NAME
             txtName.Text = obj.SALARY_STRUCTURE_NAME
         End If
@@ -140,11 +147,17 @@ Public Class frmSalaryStructure
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnnew, "Press Alt+N Adding New ")
         '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocation.Text = ""
+        End If
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
     End Sub
-
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmSalaryStructure)
         If Not (MyBase.isReadFlag) Then
@@ -172,11 +185,17 @@ Public Class frmSalaryStructure
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = True
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocation.Text = ""
+        End If
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
         funClose()
-
     End Sub
 
     Sub funClose()
@@ -281,4 +300,18 @@ Public Class frmSalaryStructure
         transportSql.ExporttoExcel(str, Me)
     End Sub
 
+    Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
+        Try
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            End If
+            Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
+            fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
+            ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
 End Class

@@ -17,6 +17,7 @@ Public Class clsLeaveApplication
     Public LEAVE_REASON As String
     Public POSTED As Boolean
     Public Posting_Date As DateTime
+    Public Location_Code As String
 
 #End Region
 
@@ -45,13 +46,17 @@ Public Class clsLeaveApplication
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsLeaveApplication
         Dim StrJoin As String = ""
         Dim StrWhere As String = ""
+        Dim whrQry As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrQry = " and tspl_user_master.Default_Location=" + objCommonVar.strCurrUserLocations + ""
+        End If
 
         If objCommonVar.IsLoginUserHRAdmin = True Then
             StrJoin = ""
             StrWhere = ""
         Else
             StrJoin = " LEFT JOIN tspl_user_master ON TSPL_LEAVE_APPLICATION.EMP_CODE=tspl_user_master.EMP_CODE "
-            StrWhere = " and tspl_user_master.user_code='" + objCommonVar.CurrentUserCode + "' "
+            StrWhere = " and tspl_user_master.user_code='" + objCommonVar.CurrentUserCode + "' " + whrQry
         End If
 
         Dim obj As clsLeaveApplication = Nothing
@@ -104,10 +109,11 @@ Public Class clsLeaveApplication
             Else
                 obj.Posting_Date = Nothing
             End If
+            If clsCommon.myLen(dt.Rows(0)("Location_Code")) > 0 Then
+                obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+            End If
         End If
         Return obj
-
-
     End Function
 
     Public Function SaveData(ByVal obj As clsLeaveApplication, ByVal strCode As String, ByVal isNewEntry As Boolean) As Boolean
@@ -126,9 +132,9 @@ Public Class clsLeaveApplication
             clsCommon.AddColumnsForChange(coll, "TOTAL_DAYS", obj.TOTAL_DAYS)
             clsCommon.AddColumnsForChange(coll, "LEAVE_REASON", obj.LEAVE_REASON)
             clsCommon.AddColumnsForChange(coll, "POSTED", "0")
-
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
             If isNewEntry Then
                 If strCode = "" Then
                     obj.LVAPPLICATION_CODE = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(obj.APPLICATION_DATE, "dd/MMM/yyyy"), clsDocType.LeaveApplication, "", "")
@@ -214,7 +220,7 @@ Public Class ClsMailReceipt
                 clsCommon.AddColumnsForChange(coll, "User_Code", obj.User_Code)
 
                 IsSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Mail_Receipt", OMInsertOrUpdate.Insert, "", trans)
-              
+
             Next
             trans.Commit()
         Catch err As Exception

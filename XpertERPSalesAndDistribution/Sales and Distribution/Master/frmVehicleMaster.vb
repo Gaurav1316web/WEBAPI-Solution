@@ -1025,9 +1025,11 @@ Public Class frmVehicleMaster
         fndTransporter.Enabled = True
     End Sub
 
+
+
     Private Sub fndVehicle_id__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndVehicle_id._MYValidating
 
-        Dim str As String = "select count(*) from TSPL_GL_SEGMENT_CODE where segment_code ='" + fndVehicle_id.Value + "' "
+        Dim str As String = "select count(*) from TSPL_Vehicle_master where Vehicle_id ='" + fndVehicle_id.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 Then
             fndVehicle_id.MyReadOnly = False
@@ -1039,7 +1041,7 @@ Public Class frmVehicleMaster
 
             ' Dim qry As String = "select Segment_code as[segmentcode],Description from TSPL_GL_SEGMENT_CODE  "
             'fndVehicle_id.Value = clsCommon.ShowSelectForm("GroupCodFND", qry, "Segmentcode", "Seg_No='2'", fndVehicle_id.Value, "", isButtonClicked)
-            fndVehicle_id.Value = clsGLSegmentCode.getFinder("Seg_No='2'", fndVehicle_id.Value, isButtonClicked)
+            fndVehicle_id.Value = ClsVehicleMaster.getFinder(" ", fndVehicle_id.Value, isButtonClicked)
             LoadData(fndVehicle_id.Value, NavigatorType.Current)
         End If
 

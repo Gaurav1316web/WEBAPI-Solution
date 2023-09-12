@@ -38,6 +38,7 @@ Public Class frmEmployee_Salary
         Dim IsHiddenComponent As New GridViewCheckBoxColumn
         Dim Max_Amount As New GridViewDecimalColumn
         Dim PAYPERIOD_Amount As New GridViewDecimalColumn
+        Dim LocationCode As New GridViewDecimalColumn
 
         LineNo.FormatString = ""
         LineNo.HeaderText = "Line No"
@@ -99,7 +100,6 @@ Public Class frmEmployee_Salary
         PAYPERIOD_Amount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         PAYPERIOD_Amount.ReadOnly = True
         gvSalary.Columns.Add(PAYPERIOD_Amount)
-
     End Sub
 
 
@@ -172,9 +172,16 @@ Public Class frmEmployee_Salary
                 btnsave.Text = "Save"
                 isNewEntry = True
             End If
-            
+
         End If
         btnReverse.Visible = False
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
+        End If
     End Sub
     '' changes by shivani against ticket no [BM00000008846]
     Public Sub SetUserMgmtNew()
@@ -224,6 +231,14 @@ Public Class frmEmployee_Salary
         Me.dtpApplicableFrom.Value = clsCommon.GETSERVERDATE
         txtCopySalaryCode.Value = ""
         Me.txtRevisionNo.Text = 0
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            fndLocation.Value = objCommonVar.strCurrUserLocations
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
+        End If
+
     End Sub
 
     Private Sub txtCode__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType)
@@ -268,10 +283,15 @@ Public Class frmEmployee_Salary
             lblSalStructName.Text = clsCommon.myCstr(obj.SALARY_STRUCT_NAME)
             txtRevisionNo.Text = clsCommon.myCdbl(obj.REVISION_NO)
             dtpApplicableFrom.Value = obj.APPLICABLE_FROM
+            If clsCommon.myLen(obj.Location_Code) > 0 Then
+                fndLocation.Value = obj.Location_Code
+                lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+            Else
+                lblLocationName.Text = ""
+            End If
             If (clsEmployeeSalary.ObjList IsNot Nothing AndAlso clsEmployeeSalary.ObjList.Count > 0) Then
                 For Each obj1 As clsEmpSalaryPayHeadDetails In clsEmployeeSalary.ObjList
                     gvSalary.Rows.AddNew()
-
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colLineNo).Value = obj1.Line_No
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colpayHeadCode).Value = obj1.PayHeadCode
                     gvSalary.Rows(gvSalary.Rows.Count - 1).Cells(colpayHeadName).Value = obj1.PayHeadName
@@ -353,13 +373,12 @@ Public Class frmEmployee_Salary
             obj.REVISION_NO = clsCommon.myCdbl(Me.txtRevisionNo.Text)
             obj.APPLICABLE_FROM = clsCommon.GetPrintDate(dtpApplicableFrom.Value, "dd/MMM/yyyy")
             obj.SALARY_STRUCT_CODE = Me.txtSalaryStruct.Value
-
+            obj.Location_Code = fndLocation.Value
             Dim obj1 As clsEmpSalaryPayHeadDetails
             ObjList = New List(Of clsEmpSalaryPayHeadDetails)
             For Each grow As GridViewRowInfo In gvSalary.Rows
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colpayHeadCode).Value)) > 0 Then
                     obj1 = New clsEmpSalaryPayHeadDetails()
-
                     'obj1.EMP_SAL_CODE = txtCode.Value
                     'obj1.EMP_CODE = clsCommon.myCstr(txtEmpCode.Value)
                     obj1.PayHeadCode = clsCommon.myCstr(grow.Cells(colpayHeadCode).Value)
@@ -370,7 +389,6 @@ Public Class frmEmployee_Salary
                     obj1.IsHiddenComponent = clsCommon.myCdbl(grow.Cells(colHiddenComponent).Value)
                     obj1.MAX_AMOUNT = clsCommon.myCdbl(grow.Cells(colMax_Amount).Value)
                     obj1.PAYPERIOD_AMOUNT = clsCommon.myCdbl(grow.Cells(colPAYPERIOD_Amount).Value)
-
                     ObjList.Add(obj1)
                 End If
             Next
@@ -692,10 +710,10 @@ Public Class frmEmployee_Salary
                 clsDBFuncationality.ExecuteNonQuery(UP_QRY)
 
                 UP_QRY = ""
-                UP_QRY = " UPDATE TSPL_EMPLOYEE_SALARY_PAYHEADS SET TSPL_EMPLOYEE_SALARY_PAYHEADS.LINE_NO=TSPL_SALSTRUCT_PAYHEADS.LINE_NO FROM " & _
-                         " TSPL_SALSTRUCT_PAYHEADS INNER JOIN TSPL_EMPLOYEE_SALARY " & _
-                         " ON TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE=TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE " & _
-                         " WHERE(TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE = TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE) " & _
+                UP_QRY = " UPDATE TSPL_EMPLOYEE_SALARY_PAYHEADS SET TSPL_EMPLOYEE_SALARY_PAYHEADS.LINE_NO=TSPL_SALSTRUCT_PAYHEADS.LINE_NO FROM " &
+                         " TSPL_SALSTRUCT_PAYHEADS INNER JOIN TSPL_EMPLOYEE_SALARY " &
+                         " ON TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE=TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE " &
+                         " WHERE(TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE = TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE) " &
                          " AND TSPL_SALSTRUCT_PAYHEADS.PAY_HEAD_CODE=TSPL_EMPLOYEE_SALARY_PAYHEADS.PAY_HEAD_CODE AND TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE='" & txtSalaryStruct.Value & "' and TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE in (" & clsCommon.GetMulcallString(EMP_SAL_Code) & ")"
                 clsDBFuncationality.ExecuteNonQuery(UP_QRY)
                 UP_QRY = String.Empty
@@ -1016,7 +1034,7 @@ Public Class frmEmployee_Salary
                 Dim qry As String = "select TSPL_EMPLOYEE_SALARY.SALARY_STRUCTURE_CODE from TSPL_EMPLOYEE_SALARY where TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE = '" + txtCopySalaryCode.Value + "'"
                 strCopySalaryStructureCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
             End If
-            
+
 
             Fill_salary_struct_for_Copy_Button(strCopySalaryStructureCode, NavigatorType.Current)
             '---------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1123,4 +1141,18 @@ Public Class frmEmployee_Salary
         isInsideLoadData = False
     End Sub
 
+    Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
+        Try
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            End If
+            Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
+            fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
+            ''fndLocation.Value = clsCommon.ShowSelectForm("SalaryLocation", Qry, "Location_Code", whrcls, "", "Location_Code", isButtonClicked)
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
 End Class

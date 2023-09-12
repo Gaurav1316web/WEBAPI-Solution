@@ -8423,7 +8423,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 clsCommon.MyMessageBoxShow("Select Document Code")
                 Exit Sub
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "PI_No", "TSPL_PI_HEAD", "TSPL_PI_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "PI_No", "TSPL_PI_HEAD", "TSPL_PI_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -8435,6 +8435,23 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
 
     Private Sub btnPrintInv_Click(sender As Object, e As EventArgs) Handles btnPrintInv.Click
         Try
+            Dim ItemCode As String = Nothing
+
+            If gv1.Rows.Count > 0 Then
+                ' For Each rows As GridViewRowInfo In gv1.Rows
+                'If clsCommon.CompairString(ItemCode, (clsCommon.myCstr(rows.Cells(colICode).Value))) <> CompairStringResult.Equal Then
+                '        ItemCode += ",'" + clsCommon.myCstr(rows.Cells(colICode).Value) + "'"
+                '    Else
+                'ItemCode = "'" + clsCommon.myCstr(rows.Cells(colICode).Value) + "'"
+                '    End If
+                Dim arr As New ArrayList
+                For Each rows As GridViewRowInfo In gv1.Rows
+                    arr.Add(clsCommon.myCstr(rows.Cells(colICode).Value))
+                Next
+                ItemCode = clsCommon.GetMulcallString(arr)
+                ' Next
+            End If
+
             Dim qry As String = ""
             '            Dim qry As String = " select isnull (TSPL_SRN_TENDER.Penalty,0) as Penalty ,isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as Ded_Amt,  convert (varchar, min (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MinDate,convert (varchar, max (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MaxDate,
 
@@ -8479,7 +8496,9 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                         left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
                         left outer join TSPL_GRN_HEAD GG on GG.GRN_No = TSPL_SRN_DETAIL.GRN_ID
                         where GG.ref_no=SS.Ref_No
-                        and TSPL_SRN_DETAIL.item_code=SS.Item_Code and GG.BILL_TO_LOCATION=SS.BILL_TO_LOCATION)as SRNQtyInQtl
+                        and TSPL_SRN_DETAIL.item_code=SS.Item_Code and GG.BILL_TO_LOCATION=SS.BILL_TO_LOCATION)as SRNQtyInQtl,
+                           CONVERT(varchar(10), CONVERT(date, ss.schedule_from_date, 111), 105) as schedule_from_date,
+                          CONVERT(varchar(10), CONVERT(date, ss.schedule_to_date, 111), 105) as schedule_to_date
                         FROM (select '' as RAL_Period,isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as Actual_Total_TDS,cast(case when isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0)>0 and isnull(TSPL_PI_DETAIL.Taxable_Amount,0)>0 then
                          ( isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) 
                           / (select sum(isnull(TSPL_PI_DETAIL.Taxable_Amount,0)) from TSPL_PI_DETAIL where PI_NO='" + txtDocNo.Value + "'  ))
@@ -8508,6 +8527,8 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     ,TSPL_PI_DETAIL.TAX1_Rate as dTAX1_Rate, TSPL_PI_DETAIL.TAX2_Rate as dTAX2_Rate, TSPL_PI_DETAIL.TAX3_Rate as dTAX3_Rate ,TSPL_PI_DETAIL.TAX4_Rate as dTAX4_Rate ,TSPL_PI_DETAIL.TAX5_Rate as dTAX5_Rate
                     , TSPL_PI_DETAIL.TAX1_Amt, TSPL_PI_DETAIL.TAX2_Amt, TSPL_PI_DETAIL.TAX3_Amt, TSPL_PI_DETAIL.TAX4_Amt, TSPL_PI_DETAIL.TAX5_Amt
                     ,TSPL_PI_HEAD.Description,TSPL_PI_HEAD.Remarks,TSPL_PI_DETAIL.Item_Cost  
+                          ,TSPL_TENDER_SCHEDULE.schedule_from_date					
+					      ,TSPL_TENDER_SCHEDULE.schedule_to_date
                           from TSPL_PI_DETAIL 
                     left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
                     left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DETAIL.Item_Code = TSPL_PI_DETAIL.Item_Code
@@ -8539,6 +8560,13 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     LEFT JOIN TSPL_TENDER_DETAIL ON TSPL_GRN_HEAD.Ref_No=TSPL_TENDER_DETAIL.DocumentCode AND TSPL_TENDER_DETAIL.Location=TSPL_GRN_HEAD.Bill_To_Location
                     and TSPL_TENDER_DETAIL.Item_Code=TSPL_PI_DETAIL.Item_Code AND TSPL_TENDER_DETAIL.Vendor_Code=TSPL_GRN_HEAD.Vendor_Code
                     left join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No
+                     left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_grn_head.ref_no
+					 left outer join  ( select DocumentCode,min(From_Date) as schedule_from_date,max(To_Date) as schedule_to_date,max(Schedule_Qty) as Schedule_Qty,max(Schedule_Qty_Per) as Schedule_Qty_Per,max(Schedule_Short) as Schedule_Short,max(Schedule_Short_Per) as Schedule_Short_Per,max(Schedule_No ) as Schedule_No,count(*) as NoOfSchedule,min(Schedule_No) as Schedule_No_Min from TSPL_TENDER_SCHEDULE 
+                     where TSPL_TENDER_SCHEDULE.DocumentCode ='" + txtRefNo.Text + "'and 
+					 TSPL_TENDER_SCHEDULE.Item_Code in (" + ItemCode + ")and
+					 TSPL_TENDER_SCHEDULE.Vendor_Code='" + txtVendorNo.Value + "' and
+					 TSPL_TENDER_SCHEDULE.Location_Code='" + txtBillToLocation.Value + "' GROUP BY DocumentCode) TSPL_TENDER_SCHEDULE on
+					 TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
                     where TSPL_PI_HEAD.PI_No = '" + txtDocNo.Value + "' )ss WHERE 1=1 "
             Else
                 qry = " select isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as TDS,isnull (TSPL_SRN_TENDER.Penalty,0) as Penalty ,

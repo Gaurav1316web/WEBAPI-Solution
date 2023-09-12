@@ -272,7 +272,7 @@ Public Class frmSNSaleInvoice
         LoadInvoiceType()
         LoadBlankGridAC()
         AddNew()
-        
+
         SetLength()
         If clsCommon.myLen(strSRNno) > 0 Then
             LoadData(strSRNno, NavigatorType.Current)
@@ -370,7 +370,7 @@ Public Class frmSNSaleInvoice
         txtDesc.MaxLength = 200
         txtComment.MaxLength = 200
         txtRefNo.MaxLength = 50
-        txtCarrier.MaxLength = 50
+        lbltransporter.MaxLength = 50
         txtGRNo.MaxLength = 50
         txtGENo.MaxLength = 50
         txtPONo.MaxLength = 200
@@ -440,8 +440,11 @@ Public Class frmSNSaleInvoice
         txtDiscAmt.Text = 0
         chkDiscountOnRate.IsChecked = True
         lblInvoiceDiscAmt.Text = ""
-        txtElecttefNo.Text = ""
+        '  txtElecttefNo.Text = ""
         txtEWayBillNo.Text = ""
+        txtEWayBillRemarks.Text = ""
+        txtEwayValidDate.Value = clsCommon.GETSERVERDATE()
+        txtEWayBillDate.Value = clsCommon.GETSERVERDATE()
         txtEWayBillDate.Checked = False
         chkIsTaxable.Checked = False
         txtForm38.Text = ""
@@ -476,9 +479,17 @@ Public Class frmSNSaleInvoice
         lblTotRAmt.Text = ""
         lblTotRAmt1.Text = ""
         UsLock1.Status = ERPTransactionStatus.Pending
-        txtCarrier.Text = ""
-        txtVehicleNo.Text = ""
-        txtVehcileCode.Text = ""
+        lbltransporter.Text = ""
+        fndtransporter.Value = ""
+        txtVehicleCode.Value = ""
+        EinvoiceAckNo.Text = ""
+        EInvoiceIRNNo.Text = ""
+        EInvoiceQrCode.Text = ""
+        txtAckDate.Value = clsCommon.GETSERVERDATE()
+
+        '  lbltransporter.Text = ""
+        ' lblVehicleNo.Text = ""
+        'txtVehcileCode.Text = ""
         txtGRNo.Text = ""
         txtGENo.Text = ""
         txtGEDate.Checked = False
@@ -760,7 +771,7 @@ Public Class frmSNSaleInvoice
         ''repoLocationName.Width = 150
         ''gv1.MasterTemplate.Columns.Add(repoLocationName)
 
-       
+
 
         Dim repoRate As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoRate = New GridViewDecimalColumn()
@@ -2144,7 +2155,7 @@ Public Class frmSNSaleInvoice
     Private Sub txtDiscAmt_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDiscAmt.Leave
         CalculateDiscountAmount()
     End Sub
-    
+
     Private Sub txtDiscPer_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtDiscPer.Leave
         CalculateDiscountAmount()
     End Sub
@@ -2327,14 +2338,14 @@ Public Class frmSNSaleInvoice
 
             ElseIf clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colSchemeApplicable).Value), "Yes") = CompairStringResult.Equal Then
 
-                StrSql = "SELECT top 1 TSPL_SCHEME_MASTER_NEW.Scheme_Code,TSPL_SCHEME_MASTER_NEW.Item_Qty,TSPL_SCHEME_MASTER_NEW.Unit_Code " & _
-             "FROM TSPL_SCHEME_MASTER_NEW  left outer JOIN TSPL_SCHEME_DETAIL_NEW  ON  " & _
-             "TSPL_SCHEME_MASTER_NEW.Scheme_Code = TSPL_SCHEME_DETAIL_NEW.Scheme_Code  left outer join " & _
-             "TSPL_SCHEME_BENEFICIARY on TSPL_SCHEME_MASTER_NEW.Scheme_Code=TSPL_SCHEME_BENEFICIARY.Scheme_Code " & _
-             "WHERE  Scheme_Type='Quantitive' and  (TSPL_SCHEME_MASTER_NEW.Item_Code = '" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "') AND TSPL_SCHEME_MASTER_NEW.Start_Date <='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") + "' " & _
-                  " AND (TSPL_SCHEME_MASTER_NEW.End_Date >='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") + "' OR TSPL_SCHEME_MASTER_NEW.End_Date is NULL )   and  " & _
-             "TSPL_SCHEME_MASTER_NEW.Item_Qty <= '" & clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) & "'  AND " & _
-             "TSPL_SCHEME_MASTER_NEW.Unit_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) & "' AND " & _
+                StrSql = "SELECT top 1 TSPL_SCHEME_MASTER_NEW.Scheme_Code,TSPL_SCHEME_MASTER_NEW.Item_Qty,TSPL_SCHEME_MASTER_NEW.Unit_Code " &
+             "FROM TSPL_SCHEME_MASTER_NEW  left outer JOIN TSPL_SCHEME_DETAIL_NEW  ON  " &
+             "TSPL_SCHEME_MASTER_NEW.Scheme_Code = TSPL_SCHEME_DETAIL_NEW.Scheme_Code  left outer join " &
+             "TSPL_SCHEME_BENEFICIARY on TSPL_SCHEME_MASTER_NEW.Scheme_Code=TSPL_SCHEME_BENEFICIARY.Scheme_Code " &
+             "WHERE  Scheme_Type='Quantitive' and  (TSPL_SCHEME_MASTER_NEW.Item_Code = '" & clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) & "') AND TSPL_SCHEME_MASTER_NEW.Start_Date <='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") + "' " &
+                  " AND (TSPL_SCHEME_MASTER_NEW.End_Date >='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") + "' OR TSPL_SCHEME_MASTER_NEW.End_Date is NULL )   and  " &
+             "TSPL_SCHEME_MASTER_NEW.Item_Qty <= '" & clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value) & "'  AND " &
+             "TSPL_SCHEME_MASTER_NEW.Unit_Code='" & clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value) & "' AND " &
              "TSPL_SCHEME_MASTER_NEW.MRP='" & clsCommon.myCdbl(gv1.CurrentRow.Cells(colMRP).Value) & "' AND TSPL_SCHEME_BENEFICIARY.Cust_Code  = '" & txtVendorNo.Value & "' order by Start_Date desc"
 
                 dr1 = clsDBFuncationality.GetDataTable(StrSql)
@@ -2361,20 +2372,20 @@ Public Class frmSNSaleInvoice
                         '"TSPL_SCHEME_DETAIL_NEW.MRP FROM TSPL_SCHEME_MASTER_NEW left outer JOIN TSPL_SCHEME_DETAIL_NEW    ON  " & _
                         '"TSPL_SCHEME_MASTER_NEW.Scheme_Code = TSPL_SCHEME_DETAIL_NEW.Scheme_Code WHERE  " & _
                         '"(TSPL_SCHEME_MASTER_NEW.Scheme_Code = '" & schemeCodeCol & "')"
-                        StrSql = "SELECT TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.Start_Date,TSPL_ITEM_PRICE_MASTER.Price_Code,TSPL_SCHEME_DETAIL_NEW.Item_Code,TSPL_ITEM_MASTER.Item_Desc, " & _
-                        "TSPL_SCHEME_DETAIL_NEW.Qty,TSPL_SCHEME_DETAIL_NEW.Unit_Code, TSPL_SCHEME_DETAIL_NEW.MRP,TSPL_SCHEME_DETAIL_NEW.Price_Date, " & _
-                        "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, TSPL_ITEM_PRICE_MASTER.Tax_group  , TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show,  " & _
-                        "TSPL_ITEM_MASTER.Sku_Seq,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " & _
-                        "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, TAX9_Rate as Tax9Rate, " & _
-                        "TAX10_Rate as Tax10Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,  " & _
-                        "TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,  " & _
-                        "TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,  " & _
-                        "TSPL_ITEM_PRICE_MASTER.TAX10,abatement_rate FROM TSPL_SCHEME_MASTER_NEW left outer JOIN TSPL_SCHEME_DETAIL_NEW  " & _
-                        "ON  TSPL_SCHEME_MASTER_NEW.Scheme_Code = TSPL_SCHEME_DETAIL_NEW.Scheme_Code left outer join  " & _
-                        "TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCHEME_DETAIL_NEW.Item_Code left outer  join tspl_item_price_master on " & _
-                        "tspl_item_price_master.Item_Code=TSPL_SCHEME_DETAIL_NEW.Item_Code and TSPL_ITEM_PRICE_MASTER.UOM=TSPL_SCHEME_DETAIL_NEW.Unit_Code and " & _
-                        "TSPL_ITEM_PRICE_MASTER.Start_Date=TSPL_SCHEME_DETAIL_NEW.Price_Date and " & _
-                        "TSPL_ITEM_PRICE_MASTER.Item_Basic_Net=TSPL_SCHEME_DETAIL_NEW.MRP " & _
+                        StrSql = "SELECT TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.Start_Date,TSPL_ITEM_PRICE_MASTER.Price_Code,TSPL_SCHEME_DETAIL_NEW.Item_Code,TSPL_ITEM_MASTER.Item_Desc, " &
+                        "TSPL_SCHEME_DETAIL_NEW.Qty,TSPL_SCHEME_DETAIL_NEW.Unit_Code, TSPL_SCHEME_DETAIL_NEW.MRP,TSPL_SCHEME_DETAIL_NEW.Price_Date, " &
+                        "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, TSPL_ITEM_PRICE_MASTER.Tax_group  , TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show,  " &
+                        "TSPL_ITEM_MASTER.Sku_Seq,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " &
+                        "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, TAX9_Rate as Tax9Rate, " &
+                        "TAX10_Rate as Tax10Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,  " &
+                        "TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,  " &
+                        "TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,  " &
+                        "TSPL_ITEM_PRICE_MASTER.TAX10,abatement_rate FROM TSPL_SCHEME_MASTER_NEW left outer JOIN TSPL_SCHEME_DETAIL_NEW  " &
+                        "ON  TSPL_SCHEME_MASTER_NEW.Scheme_Code = TSPL_SCHEME_DETAIL_NEW.Scheme_Code left outer join  " &
+                        "TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SCHEME_DETAIL_NEW.Item_Code left outer  join tspl_item_price_master on " &
+                        "tspl_item_price_master.Item_Code=TSPL_SCHEME_DETAIL_NEW.Item_Code and TSPL_ITEM_PRICE_MASTER.UOM=TSPL_SCHEME_DETAIL_NEW.Unit_Code and " &
+                        "TSPL_ITEM_PRICE_MASTER.Start_Date=TSPL_SCHEME_DETAIL_NEW.Price_Date and " &
+                        "TSPL_ITEM_PRICE_MASTER.Item_Basic_Net=TSPL_SCHEME_DETAIL_NEW.MRP " &
                         "WHERE   Scheme_Type='Quantitive' and  (TSPL_SCHEME_MASTER_NEW.Scheme_Code =  '" & schemeCodeCol & "') and TSPL_ITEM_PRICE_MASTER.Price_Code='" & txtPriceCode.Text & "'"
 
                         dr1 = clsDBFuncationality.GetDataTable(StrSql)
@@ -2463,7 +2474,7 @@ Public Class frmSNSaleInvoice
         End Try
 
     End Sub
-    
+
 
     Private Sub setGridFocus()
         Try
@@ -2534,53 +2545,53 @@ Public Class frmSNSaleInvoice
             '    cboItemType.Focus()
             '    Exit Sub
             'End If
-            Dim qry As String = "SELECT Item_Code as Item,Item_Desc as ItemDesc,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate,Item_Basic_Price as BasicRate, " & _
-            "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " & _
-            "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " & _
-            "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " & _
-            "FROM ( SELECT TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,  " & _
-            "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " & _
-            "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " & _
-            "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " & _
-            "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " & _
-            "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " & _
-            "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " & _
-            "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " & _
-            "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " & _
-            "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " & _
-            "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " & _
-            "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " & _
-            ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " & _
-            "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " & _
-            "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  " & _
-            "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " & _
-            ")xxx Where  Price_Code='" & txtPriceCode.Text & "' and  Tax_group='" & txtTaxGroup.Value & "'  AND " & _
-            "Item_Code IN (SELECT Item_Code FROM TSPL_ITEM_LOCATION_DETAILS WHERE Location_Code = '" & txtBillToLocation.Value & "' AND Item_Qty <> 0) " & _
+            Dim qry As String = "SELECT Item_Code as Item,Item_Desc as ItemDesc,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate,Item_Basic_Price as BasicRate, " &
+            "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " &
+            "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " &
+            "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " &
+            "FROM ( SELECT TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,  " &
+            "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " &
+            "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " &
+            "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " &
+            "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " &
+            "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " &
+            "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+            "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " &
+            "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " &
+            "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " &
+            "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " &
+            "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " &
+            ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " &
+            "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " &
+            "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  " &
+            "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " &
+            ")xxx Where  Price_Code='" & txtPriceCode.Text & "' and  Tax_group='" & txtTaxGroup.Value & "'  AND " &
+            "Item_Code IN (SELECT Item_Code FROM TSPL_ITEM_LOCATION_DETAILS WHERE Location_Code = '" & txtBillToLocation.Value & "' AND Item_Qty <> 0) " &
             "Order By Sku_Seq,Start_Date,UOM desc"
 
             If clsCommon.myLen(pivotheader) > 0 Then
-                qry = "select * from (select a.DESCRIPTION,a.cat_value,b.* from (SELECT Item_Code as Item,Item_Desc as ItemDesc,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate,Item_Basic_Price as BasicRate, " & _
-           "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " & _
-           "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " & _
-           "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " & _
-           "FROM ( SELECT TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,  " & _
-           "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " & _
-           "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " & _
-           "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " & _
-           "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " & _
-           "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " & _
-           "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " & _
-           "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " & _
-           "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " & _
-           "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " & _
-           "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " & _
-           "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " & _
-           ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " & _
-           "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " & _
-           "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  " & _
-           "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " & _
-           ")xxx Where  Price_Code='" & txtPriceCode.Text & "' and  Tax_group='" & txtTaxGroup.Value & "'  AND " & _
-           "Item_Code IN (SELECT Item_Code FROM TSPL_ITEM_LOCATION_DETAILS WHERE Location_Code = '" & txtBillToLocation.Value & "' AND Item_Qty <> 0) " & _
+                qry = "select * from (select a.DESCRIPTION,a.cat_value,b.* from (SELECT Item_Code as Item,Item_Desc as ItemDesc,Start_Date AS Start_Date,UOM as Unit,Item_Basic_Net as MRP,abatement_rate,Item_Basic_Price as BasicRate, " &
+           "Weight_Value,markup_on,markup_percent,landing_cost,Purchase_Cost,TAX1_Rate as Tax1Rate,TAX2_Rate as  Tax2Rate,TAX3_Rate as Tax3Rate,TAX4_Rate as Tax4Rate, " &
+           "TAX5_Rate as Tax5Rate,TAX6_Rate as Tax6Rate,TAX7_Rate as Tax7Rate,TAX8_Rate as Tax8Rate, " &
+           "TAX9_Rate as Tax9Rate,TAX10_Rate as Tax10Rate,TAX1 ,TAX2,TAX3,TAX4,TAX5,TAX6,TAX7, TAX8,TAX9,TAX10  " &
+           "FROM ( SELECT TSPL_ITEM_PRICE_MASTER.Purchase_Cost,TSPL_ITEM_MASTER.Weight_Value,TSPL_ITEM_PRICE_MASTER.abatement_rate,TSPL_ITEM_MASTER.Item_Code, TSPL_ITEM_MASTER.Item_Desc,  " &
+           "CONVERT(varchar(10), TSPL_ITEM_PRICE_MASTER.Start_Date, 103) AS Start_Date, TSPL_ITEM_PRICE_MASTER.UOM, " &
+           "TSPL_ITEM_PRICE_MASTER.Price_Code, TSPL_ITEM_PRICE_MASTER.Item_Basic_Net,TSPL_ITEM_MASTER.Batch_No , TSPL_ITEM_PRICE_MASTER.Tax_group  , " &
+           "TSPL_ITEM_PRICE_MASTER.Item_Basic_Price, markup_on,markup_percent,landing_cost, " &
+           "TSPL_ITEM_MASTER.Item_Type, TSPL_ITEM_MASTER.show, TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_PRICE_MASTER.TAX1_Rate, " &
+           "TSPL_ITEM_PRICE_MASTER.TAX2_Rate,TSPL_ITEM_PRICE_MASTER.TAX3_Rate,TSPL_ITEM_PRICE_MASTER.TAX4_Rate,TSPL_ITEM_PRICE_MASTER.TAX5_Rate, " &
+           "TSPL_ITEM_PRICE_MASTER.TAX6_Rate,TSPL_ITEM_PRICE_MASTER.TAX7_Rate,TSPL_ITEM_PRICE_MASTER.TAX8_Rate,TSPL_ITEM_PRICE_MASTER.TAX9_Rate, " &
+           "TSPL_ITEM_PRICE_MASTER.TAX10_Rate,TSPL_ITEM_PRICE_MASTER.TAX1 ,TSPL_ITEM_PRICE_MASTER.TAX2,TSPL_ITEM_PRICE_MASTER.TAX3, " &
+           "TSPL_ITEM_PRICE_MASTER.TAX4,TSPL_ITEM_PRICE_MASTER.TAX5,TSPL_ITEM_PRICE_MASTER.TAX6,TSPL_ITEM_PRICE_MASTER.TAX7, " &
+           "TSPL_ITEM_PRICE_MASTER.TAX8,TSPL_ITEM_PRICE_MASTER.TAX9,TSPL_ITEM_PRICE_MASTER.TAX10   FROM TSPL_ITEM_PRICE_MASTER " &
+           "INNER Join  (SELECT     Item_Code, UOM, MAX(Start_Date) AS MaxDateTime, Item_Basic_Net,  Price_Code, Tax_group  FROM  " &
+           "TSPL_ITEM_PRICE_MASTER  where Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "' GROUP BY Item_Code, UOM, Item_Basic_Net,  Price_Code, Tax_group   " &
+           ")  AS groupedP  ON TSPL_ITEM_PRICE_MASTER.Item_Code = groupedP.Item_Code AND  TSPL_ITEM_PRICE_MASTER.Start_Date = groupedP.MaxDateTime AND " &
+           "TSPL_ITEM_PRICE_MASTER.UOM = groupedP.UOM AND TSPL_ITEM_PRICE_MASTER.Item_Basic_Net = groupedP.Item_Basic_Net  AND  " &
+           "TSPL_ITEM_PRICE_MASTER.Price_Code = groupedP.Price_Code and TSPL_ITEM_PRICE_MASTER.Tax_group = groupedP.Tax_group  " &
+           "INNER JOIN TSPL_ITEM_MASTER AS TSPL_ITEM_MASTER ON TSPL_ITEM_PRICE_MASTER.Item_Code = TSPL_ITEM_MASTER.Item_Code " &
+           ")xxx Where  Price_Code='" & txtPriceCode.Text & "' and  Tax_group='" & txtTaxGroup.Value & "'  AND " &
+           "Item_Code IN (SELECT Item_Code FROM TSPL_ITEM_LOCATION_DETAILS WHERE Location_Code = '" & txtBillToLocation.Value & "' AND Item_Qty <> 0) " &
            ")b left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=b.Item) as s pivot(max(cat_value) for description in (" + pivotheader + "))t"
                 '"Order By Sku_Seq,Start_Date,UOM desc"
             End If
@@ -2652,39 +2663,39 @@ Public Class frmSNSaleInvoice
         End If
 
 
-            '    Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(cboItemType.SelectedValue), True, isButtonClick, "", txtVendorNo.Value)
-            '    If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
-            '        gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
-            '        gv1.CurrentRow.Cells(colIName).Value = obj.Item_Desc
-            '        gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_Code
-            '        gv1.CurrentRow.Cells(colIsEmptyValue).Value = clsItemMaster.IsItemHaveEmptyValue(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value))
+        '    Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(cboItemType.SelectedValue), True, isButtonClick, "", txtVendorNo.Value)
+        '    If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
+        '        gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
+        '        gv1.CurrentRow.Cells(colIName).Value = obj.Item_Desc
+        '        gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_Code
+        '        gv1.CurrentRow.Cells(colIsEmptyValue).Value = clsItemMaster.IsItemHaveEmptyValue(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value))
 
 
-            '    Else
-            '        SetBlankOfItemColumns()
-            '    End If
-            '    ''End If
-            '    Dim objVItem As clsVendorItemDetail = clsVendorItemDetail.GetItemRateAndMRP(txtVendorNo.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value))
-            '    If objVItem IsNot Nothing Then
-            '        gv1.CurrentRow.Cells(colRate).Value = objVItem.item_rate
-            '        gv1.CurrentRow.Cells(colMRP).Value = objVItem.MRP
-            '    Else
+        '    Else
+        '        SetBlankOfItemColumns()
+        '    End If
+        '    ''End If
+        '    Dim objVItem As clsVendorItemDetail = clsVendorItemDetail.GetItemRateAndMRP(txtVendorNo.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value))
+        '    If objVItem IsNot Nothing Then
+        '        gv1.CurrentRow.Cells(colRate).Value = objVItem.item_rate
+        '        gv1.CurrentRow.Cells(colMRP).Value = objVItem.MRP
+        '    Else
 
-            '    End If
-            'Else
-            '    ''For Open Misc Charges 
-            '    Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), isButtonClick)
-            '    If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
-            '        gv1.CurrentRow.Cells(colICode).Value = obj.Code
-            '        gv1.CurrentRow.Cells(colIName).Value = obj.desc
-            '        gv1.CurrentRow.Cells(colUnit).Value = Nothing
-            '        gv1.CurrentRow.Cells(colQty).Value = Nothing
-            '        gv1.CurrentRow.Cells(colRate).Value = Nothing
-            '    Else
-            '        SetBlankOfItemColumns()
-            '    End If
-            '    ''End of Misc Charges 
-            'End If
+        '    End If
+        'Else
+        '    ''For Open Misc Charges 
+        '    Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), isButtonClick)
+        '    If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
+        '        gv1.CurrentRow.Cells(colICode).Value = obj.Code
+        '        gv1.CurrentRow.Cells(colIName).Value = obj.desc
+        '        gv1.CurrentRow.Cells(colUnit).Value = Nothing
+        '        gv1.CurrentRow.Cells(colQty).Value = Nothing
+        '        gv1.CurrentRow.Cells(colRate).Value = Nothing
+        '    Else
+        '        SetBlankOfItemColumns()
+        '    End If
+        '    ''End of Misc Charges 
+        'End If
         SetitemWiseTaxSetting(True, True)
     End Sub
 
@@ -3002,7 +3013,7 @@ Public Class frmSNSaleInvoice
     End Sub
 
     Sub AddNew()
-       
+
         BlankAllControls()
         LoadBlankGrid()
         LoadBlankGridAC()
@@ -3069,7 +3080,14 @@ Public Class frmSNSaleInvoice
             '    cboItemType.Focus()
             '    Return False
             'End If
-
+            If chkIsTaxable.Checked Then
+                ' Check if the vehicle number is empty
+                If clsCommon.myLen(txtVehicleCode.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow("Please select Vehicle No")
+                    txtVehicleCode.Focus()
+                    Return False
+                End If
+            End If
             If AllowChangeInvoiceType Then
                 If clsCommon.myLen(ddlInvoiceType.SelectedValue) <= 0 Then
                     common.clsCommon.MyMessageBoxShow("Please select invoice  Type for creating invoice")
@@ -3194,9 +3212,18 @@ Public Class frmSNSaleInvoice
             If (AllowToSave()) Then
 
                 Dim obj As New clsSNInvoiceHead()
+                'If clsCommon.myLen(chkIsTaxable.Checked) = 1 Then
+                '    obj.is_taxable = chkIsTaxable.Checked
+                'ElseIf clsCommon.myLen(chkIsTaxable.Checked) = 0 Then
                 obj.is_taxable = IIf(chkIsTaxable.Checked, 1, 0)
+                'End If
+                'If chkIsTaxable.Checked Then
+                ' Show a message or take any other action to indicate that saving is not allowed
+                '  common.clsCommon.MyMessageBoxShow("Saving is not allowed when 'Is Taxable' is checked.")
+                '    Exit Sub ' Exit the SaveData sub to prevent saving
+                'End If
                 'obj.EWayBillNo = txtEWayBillNo.Text
-                'obj.EWayBillDate = txtEWayBillDate.Value
+                'obj.EWayBillDate =     .Value
                 'obj.Electronic_Ref_No = txtElecttefNo.Text
                 obj.Form_38_No = txtForm38.Text
                 obj.Cust_PO_No = txtPONo.Text
@@ -3312,9 +3339,11 @@ Public Class frmSNSaleInvoice
                 obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
                 obj.Total_Amt = clsCommon.myCdbl(lblTotRAmt.Text)
 
-                obj.Carrier = txtCarrier.Text
-                obj.VehicleNo = txtVehicleNo.Text
-                obj.Vehicle_Code = txtVehcileCode.Text
+                obj.Carrier = lbltransporter.Text
+                obj.transport_id = fndtransporter.Value      ' fndtransporter.Value = obj.transport_id
+                obj.VehicleNo = txtVehicleCode.Value
+                'obj.VehicleNo = lblVehicleNo.Text
+                'obj.Vehicle_Code = txtVehcileCode.Text
                 obj.GRNo = txtGRNo.Text
                 obj.GENo = txtGENo.Text
 
@@ -3407,7 +3436,7 @@ Public Class frmSNSaleInvoice
                 obj.Is_Create_Auto_Receipt = chkCreateAutoReceipt.Checked
                 obj.Document_Code = clsCommon.myCstr(txtDocNo.Value)
                 obj.EWayBillNo = txtEWayBillNo.Text
-                obj.Electronic_Ref_No = txtElecttefNo.Text
+                'obj.Electronic_Ref_No = txtElecttefNo.Text
                 If txtEWayBillDate.Checked Then
                     obj.EWayBillDate = txtEWayBillDate.Value
                 End If
@@ -3618,17 +3647,34 @@ Public Class frmSNSaleInvoice
                 txtDate.Enabled = False
                 txtVendorNo.Enabled = False
                 chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
-
-                txtEWayBillNo.Text = obj.EWayBillNo
-                If obj.EWayBillDate IsNot Nothing Then
-                    txtEWayBillDate.Value = obj.EWayBillDate
-                    txtEWayBillDate.Checked = True
+                If clsCommon.myLen(obj.EWayBillNo) > 0 Then
+                    txtEWayBillNo.Text = obj.EWayBillNo
+                    txtEWayBillRemarks.Text = obj.EwayBillRemarks
+                    txtEwayValidDate.Value = obj.EwayBillValidDate
+                    btnEWaybillUpdate.Enabled = False
+                    If obj.EWayBillDate IsNot Nothing Then
+                        txtEWayBillDate.Value = obj.EWayBillDate
+                        txtEWayBillDate.Checked = True
+                    End If
+                Else
+                    btnEWaybillUpdate.Enabled = True
                 End If
-                txtElecttefNo.Text = obj.Electronic_Ref_No
+
+                If clsCommon.myLen(obj.EInvoiceIRNNo) > 0 Then
+                    EInvoiceIRNNo.Text = obj.EInvoiceIRNNo
+                    EinvoiceAckNo.Text = obj.EInvoiceAckNo
+                    txtAckDate.Value = obj.EInvoiceAckDate
+                    EInvoiceQrCode.Text = obj.EInvoiceQRCode
+                    EinvoiceBtnUpdate.Enabled = False
+                Else
+                    EinvoiceBtnUpdate.Enabled = True
+                End If
+
+                'txtElecttefNo.Text = obj.Electronic_Ref_No
                 chkIsTaxable.Checked = IIf(obj.is_taxable = 1, True, False)
                 lblVendorName.Text = obj.Customer_Name
                 txtRefNo.Text = obj.Ref_No
-               
+
                 If clsCommon.myLen(obj.Challan_Date) > 0 Then
                     dtpChallan.Value = obj.Challan_Date
                     dtpChallan.Checked = True
@@ -3679,9 +3725,11 @@ Public Class frmSNSaleInvoice
                 txtMannaulInvoiceNo.Value = obj.Mannual_Document_Code
                 TxtInvoiceManualNoWithPrefix.Text = obj.InvoiceManualNowithPrefix
                 '--------------------------------
-                txtCarrier.Text = obj.Carrier
-                txtVehicleNo.Text = obj.VehicleNo
-                txtVehcileCode.Text = obj.Vehicle_Code
+                lbltransporter.Text = obj.Carrier
+                fndtransporter.Value = obj.transport_id
+                txtVehicleCode.Value = obj.VehicleNo
+                'lblVehicleNo.Text = obj.VehicleNo
+                ' txtVehcileCode.Text = obj.Vehicle_Code
                 txtGRNo.Text = obj.GRNo
                 txtGENo.Text = obj.GENo
                 If obj.GEDate.HasValue Then
@@ -4496,7 +4544,7 @@ Public Class frmSNSaleInvoice
                 End If
 
                 If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                    funPrint(txtDocNo.Value)
+                    funPrintNew(txtDocNo.Value)
                 End If
             End If
 
@@ -4725,12 +4773,12 @@ Public Class frmSNSaleInvoice
             End If
             '======================Added by preeti Gupta Against Ticket no[TEC/21/05/18-000243]====================
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                       "TSPL_SD_SALE_INVOICE_HEAD  " + Environment.NewLine + _
-                                       "TSPL_SD_SALE_INVOICE_DETAIL " + Environment.NewLine + _
-                                       "TSPL_Customer_Invoice_Head (For AR Invoice Entry  - After Posting)  " + Environment.NewLine + _
-                                        "TSPL_Customer_Invoice_Detail (For AR Invoice Entry  - After Posting)  " + Environment.NewLine + _
-                                        " TSPL_JOURNAL_MASTER (Journal Voucher Entry - For invoice  - After Posting )  " + Environment.NewLine + _
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                       "TSPL_SD_SALE_INVOICE_HEAD  " + Environment.NewLine +
+                                       "TSPL_SD_SALE_INVOICE_DETAIL " + Environment.NewLine +
+                                       "TSPL_Customer_Invoice_Head (For AR Invoice Entry  - After Posting)  " + Environment.NewLine +
+                                        "TSPL_Customer_Invoice_Detail (For AR Invoice Entry  - After Posting)  " + Environment.NewLine +
+                                        " TSPL_JOURNAL_MASTER (Journal Voucher Entry - For invoice  - After Posting )  " + Environment.NewLine +
                                        "TSPL_JOURNAL_DETAILS (After Posting ")
         End If
     End Sub
@@ -4754,7 +4802,13 @@ Public Class frmSNSaleInvoice
 
     Private Sub txtTaxGroup__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTaxGroup._MYValidating
         Dim qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
-        txtTaxGroup.Value = clsCommon.ShowSelectForm("Shipmentfndid", qry, "Code", "Tax_Group_Type='S'", txtTaxGroup.Value, "Code", isButtonClicked)
+        Dim WhrCls As String = " Tax_Group_Type='S' "
+        If chkIsTaxable.Checked Then
+            WhrCls += " and Is_Tax_Exempted=0"
+        Else
+            WhrCls += " and Is_Tax_Exempted=1"
+        End If
+        txtTaxGroup.Value = clsCommon.ShowSelectForm("Shipmentfndid", qry, "Code", WhrCls, txtTaxGroup.Value, "Code", isButtonClicked)
         SetTaxDetails()
 
     End Sub
@@ -4914,9 +4968,9 @@ Public Class frmSNSaleInvoice
         End If
 
         '''' priti change start here
-        qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " & _
-        "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " & _
-        "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " & _
+        qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
+        "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " &
+        "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " &
         "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' WHERE TSPL_LOCATION_MASTER.Location_Code = '" + Convert.ToString(txtBillToLocation.Value) + "'"
         Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable(qry)
         Dim loc As String = clsCommon.myCstr(dtLocation.Rows(0)("Excisable"))
@@ -4968,13 +5022,13 @@ Public Class frmSNSaleInvoice
                 qry = "select State from TSPL_SHIP_TO_LOCATION where Ship_To_Code='" & strloc & "'"
             Else
                 strloc = txtBillToLocation.Value
-                qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " & _
-                  "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " & _
-                  "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " & _
-                  "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' " & _
+                qry = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
+                  "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " &
+                  "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " &
+                  "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' " &
                   "WHERE TSPL_LOCATION_MASTER.Location_Code = '" + strloc + "'"
             End If
-          
+
             dt = clsDBFuncationality.GetDataTable(qry)
             Dim strLocState As String = clsCommon.myCstr(dt.Rows(0)("State"))
 
@@ -4992,7 +5046,7 @@ Public Class frmSNSaleInvoice
         End If
     End Sub
     Private Sub txtBillToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBillToLocation._MYValidating
-        
+
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
         Dim WhrCls As String = " Location_Type='Physical'  "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
@@ -5016,7 +5070,7 @@ Public Class frmSNSaleInvoice
             txtVendorNo.Focus()
             Exit Sub
         End If
-       
+
         Dim qry As String = " select TSPL_SHIP_TO_LOCATION.Ship_To_Code as [Code],TSPL_SHIP_TO_LOCATION.Ship_To_Desc as [Description],TSPL_SHIP_TO_LOCATION.Ship_To_Type_Code as[Customer Code] ,TSPL_SHIP_TO_LOCATION.Ship_To_Type_Desc  as [Customer Discription], replace(case when ISNULL (TSPL_CUSTOMER_MASTER.Add1,'')='' then '' else TSPL_CUSTOMER_MASTER.add1 +',' end + case when ISNULL (TSPL_CUSTOMER_MASTER.Add2,'')='' then '' else TSPL_CUSTOMER_MASTER.add2 +',' end + case when ISNULL (TSPL_CUSTOMER_MASTER.Add3,'')='' then '' else TSPL_CUSTOMER_MASTER.add3 +',' end  ,',,',',') as [Customer Address] ,replace(case when ISNULL (TSPL_SHIP_TO_LOCATION.Add1,'')='' then '' else TSPL_SHIP_TO_LOCATION.add1 +',' end + case when ISNULL (TSPL_SHIP_TO_LOCATION.Add2,'')='' then '' else TSPL_SHIP_TO_LOCATION.add2 +',' end + case when ISNULL (TSPL_SHIP_TO_LOCATION.Add3,'')='' then '' else TSPL_SHIP_TO_LOCATION.add3 +',' end + case when ISNULL (TSPL_SHIP_TO_LOCATION.Add4,'')='' then '' else TSPL_SHIP_TO_LOCATION.add4 +',' end ,',,',',') as [Ship to Address],TSPL_SHIP_TO_LOCATION.CST_No as [CST NO],TSPL_SHIP_TO_LOCATION.Tin_No as [TIN No]  from TSPL_SHIP_TO_LOCATION left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SHIP_TO_LOCATION.Ship_To_Type_Code "
         txtShipToLocation.Value = clsCommon.ShowSelectForm("ShipmentShindrlter", qry, "Code", "Ship_To_Type_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "' and loc_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'", txtShipToLocation.Value, "Code", isButtonClicked)
         'txtShipToLocation.Value = clsShipToLocation.getFinder("Ship_To_Type_Code='" & clsCommon.myCstr(txtVendorNo.Value) & "' and loc_code='" & clsCommon.myCstr(txtBillToLocation.Value) & "'", txtShipToLocation.Value, isButtonClicked)
@@ -5053,7 +5107,7 @@ Public Class frmSNSaleInvoice
                         txtEWayBillDate.Value = objOrderHead.EWayBillDate
                         txtEWayBillDate.Checked = True
                     End If
-                    txtElecttefNo.Text = objOrderHead.Electronic_Ref_No
+                    'txtElecttefNo.Text = objOrderHead.Electronic_Ref_No
                     '' currency details
                     txtCurrencyCode.Value = objOrderHead.CURRENCY_CODE
                     Me.txtConversionRate.Text = objOrderHead.ConvRate
@@ -5085,10 +5139,10 @@ Public Class frmSNSaleInvoice
                         txtDept.Value = objOrderHead.Dept
                         lblDept.Text = objOrderHead.Dept_Desc
                     End If
-                    If (clsCommon.myLen(txtVehcileCode.Text) <= 0) Then
-                        txtVehcileCode.Text = objOrderHead.Vehicle_Code
-                        txtVehicleNo.Text = objOrderHead.VehicleNo
-                    End If
+                    'If (clsCommon.myLen(txtVehcileCode.Text) <= 0) Then
+                    '    txtVehcileCode.Text = objOrderHead.Vehicle_Code
+                    '    txtVehicleNo.Text = objOrderHead.VehicleNo
+                    'End If
 
                     txtBillToLocation.Value = objOrderHead.Bill_To_Location
                     txtBillToLocation.Enabled = False
@@ -5989,26 +6043,26 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
     ''
     Function GetTaxRateTypeDT(ByVal DocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As DataTable
         Dim qry As String = ""
-        qry = " select distinct * from (" & _
-              " select distinct TAX1 as Tax_RateType_Name,TAX1_Rate as Tax_RateType_Rate,sum(TAX1_Amt) as Tax_RateType_Amount  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX1,TAX1_Rate " & _
-              " union all " & _
-              " select distinct TAX2,TAX2_Rate,sum(TAX2_Amt) as TAX2_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX2,TAX2_Rate " & _
-              " union all " & _
-              " select distinct TAX3,TAX3_Rate,sum(TAX3_Amt) as TAX3_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX3,TAX3_Rate " & _
-              " union all " & _
-              " select distinct TAX4,TAX4_Rate,sum(TAX4_Amt) as TAX4_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX4,TAX4_Rate " & _
-              " union all " & _
-              " select distinct TAX5,TAX5_Rate,sum(TAX5_Amt) as TAX5_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX5,TAX5_Rate " & _
-              " union all " & _
-              " select distinct TAX6,TAX6_Rate,sum(TAX6_Amt) as TAX6_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX6,TAX6_Rate " & _
-              " union all " & _
-              " select distinct TAX7,TAX7_Rate,sum(TAX7_Amt) as TAX7_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX7,TAX7_Rate " & _
-              " union all " & _
-              " select distinct TAX8,TAX8_Rate,sum(TAX8_Amt) as TAX8_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX8,TAX8_Rate " & _
-              " union all " & _
-              " select distinct TAX9,TAX9_Rate,sum(TAX9_Amt) as TAX9_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX9,TAX9_Rate " & _
-              " union all " & _
-              " select distinct TAX10,TAX10_Rate,sum(TAX10_Amt) as TAX1_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX10,TAX10_Rate " & _
+        qry = " select distinct * from (" &
+              " select distinct TAX1 as Tax_RateType_Name,TAX1_Rate as Tax_RateType_Rate,sum(TAX1_Amt) as Tax_RateType_Amount  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX1,TAX1_Rate " &
+              " union all " &
+              " select distinct TAX2,TAX2_Rate,sum(TAX2_Amt) as TAX2_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX2,TAX2_Rate " &
+              " union all " &
+              " select distinct TAX3,TAX3_Rate,sum(TAX3_Amt) as TAX3_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX3,TAX3_Rate " &
+              " union all " &
+              " select distinct TAX4,TAX4_Rate,sum(TAX4_Amt) as TAX4_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX4,TAX4_Rate " &
+              " union all " &
+              " select distinct TAX5,TAX5_Rate,sum(TAX5_Amt) as TAX5_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX5,TAX5_Rate " &
+              " union all " &
+              " select distinct TAX6,TAX6_Rate,sum(TAX6_Amt) as TAX6_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX6,TAX6_Rate " &
+              " union all " &
+              " select distinct TAX7,TAX7_Rate,sum(TAX7_Amt) as TAX7_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX7,TAX7_Rate " &
+              " union all " &
+              " select distinct TAX8,TAX8_Rate,sum(TAX8_Amt) as TAX8_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX8,TAX8_Rate " &
+              " union all " &
+              " select distinct TAX9,TAX9_Rate,sum(TAX9_Amt) as TAX9_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX9,TAX9_Rate " &
+              " union all " &
+              " select distinct TAX10,TAX10_Rate,sum(TAX10_Amt) as TAX1_Amt  from TSPL_SD_SALE_INVOICE_DETAIL where DOCUMENT_CODE='" & DocNo & "' group by TAX10,TAX10_Rate " &
               " ) as tax where Tax_RateType_Name is not null and Tax_RateType_Amount>0"
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -6735,7 +6789,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
     End Sub
 #End Region
 
-   
+
     Private Sub btnSendForApproval_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
@@ -6858,62 +6912,78 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
             Dim obj As New clsSNInvoiceHead
             obj.Document_Code = clsCommon.myCstr(txtDocNo.Value)
             obj.EWayBillNo = txtEWayBillNo.Text
-            obj.Electronic_Ref_No = txtElecttefNo.Text
-            If txtEWayBillDate.Checked Then
-                obj.EWayBillDate = txtEWayBillDate.Value
-            End If
+            obj.EwayBillRemarks = txtEWayBillRemarks.Text
+            obj.EwayBillValidDate = txtEwayValidDate.Value
+
+
+
+            ' obj.Electronic_Ref_No = txtElecttefNo.Text
+            'If txtEWayBillDate.Checked Then
+            obj.EWayBillDate = txtEWayBillDate.Value
+            'End If
             clsSNInvoiceHead.UpdateAfterPosting(obj, Nothing)
-            ''    clsCommon.MyMessageBoxShow("Information updated successfully.")
+            clsCommon.MyMessageBoxShow("E-WayBill Updated successfully.")
             ''End If
             ''End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
-    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
-        UpdateEwaybillNo()
-
+    Sub UpdateEInvoice()
+        Try
+            Dim obj As New clsSNInvoiceHead
+            obj.Document_Code = clsCommon.myCstr(txtDocNo.Value)
+            obj.EInvoiceIRNNo = EInvoiceIRNNo.Text
+            obj.EInvoiceAckNo = EinvoiceAckNo.Text
+            obj.EInvoiceAckDate = txtAckDate.Value
+            obj.EInvoiceQRCode = EInvoiceQrCode.Text
+            clsSNInvoiceHead.UpdateEInvoiceAfterPosting(obj, Nothing)
+            clsCommon.MyMessageBoxShow("E-Invoice Updated Successfully")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
     End Sub
+
+
     Private Function SetRateWiseTax_New(ByVal strShipFrm As String) As DataTable
         Dim qry As String = Nothing
-        qry = "SELECT (HSN_Code) AS HSN_Code,'%' as per, max(document_code) as document_code,Tax,Rate,SUM(TaxAmt) as TaxAmt,sum(BaseAmt) as BaseAmt,sum(TaxableValue) as TotalTaxableamt,sum(Qty) as Qty  from (" & _
-            " select HSN_Code,'%' as per,count1, (document_code) as document_code,Tax,Rate,((Item_Cost*Qty)-(Total_Disc_Amt))*Rate/100 as TaxAmt,(Item_Net_Amt) as BaseAmt,(Basic_AMount)-(Total_Disc_Amt) as TaxableValue,Qty from " & _
-           " (  SELECT TSPL_ITEM_MASTER.HSN_Code  , Item_Cost,count1, document_code, Tax,Main_Qry.Rate,Amt,Qty,Item_Net_Amt,Total_Disc_Amt, " & _
-        " isnull(Qty,0)*isnull(Item_Cost ,0)as Basic_AMount from (   " & _
-            " select  0 as Count1, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt ,  TSPL_SD_SALE_INVOICE_HEAD.document_code,  TSPL_SD_SALE_INVOICE_DETAIL.TAX1 as Tax,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate as Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as Amt,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost, " & _
-        " TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt, TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt" & _
-        " FROM TSPL_SD_SALE_INVOICE_DETAIL" & _
-            " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code " & _
-            " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.TAX1  " & _
-            " where TSPL_SD_SALE_INVOICE_DETAIL.document_code='" & strShipFrm & "'  and  TSPL_TAX_MASTER.Type not in ('E') " & _
-       " union all" & _
-            " select 2 as Count2, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt ,   TSPL_SD_SALE_INVOICE_HEAD.document_code,  TSPL_SD_SALE_INVOICE_DETAIL.TAX2 as Tax,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate as Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt as Amt,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost, " & _
-        " TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt, TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt" & _
-       " FROM TSPL_SD_SALE_INVOICE_DETAIL" & _
-            " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code " & _
-            " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.TAX2 " & _
-            " where TSPL_SD_SALE_INVOICE_DETAIL.document_code='" & strShipFrm & "'  and  TSPL_TAX_MASTER.Type not in ('E') " & _
-       " union all" & _
-           "  select 3 as Count3,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt ,    TSPL_SD_SALE_INVOICE_HEAD.document_code,  TSPL_SD_SALE_INVOICE_DETAIL.TAX3 as Tax,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate as Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt as Amt,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost, " & _
-       " TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt, TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt" & _
-        " FROM TSPL_SD_SALE_INVOICE_DETAIL" & _
-            " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code " & _
-             " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.TAX3 " & _
-            " where TSPL_SD_SALE_INVOICE_DETAIL.document_code='" & strShipFrm & "'  and  TSPL_TAX_MASTER.Type not in ('E') " & _
-        " union all" & _
-            "  select 4 as Count4,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt , TSPL_SD_SALE_INVOICE_HEAD.document_code,  TSPL_SD_SALE_INVOICE_DETAIL.TAX4 as Tax,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate as Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt as Amt,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost, " & _
-            " TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt  FROM TSPL_SD_SALE_INVOICE_DETAIL " & _
-            " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code " & _
-            " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.TAX4 " & _
-            " where TSPL_SD_SALE_INVOICE_DETAIL.document_code='" & strShipFrm & "'  and  TSPL_TAX_MASTER.Type not in ('E') " & _
-       " union all" & _
-            " select 5 as Count5,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt ,   TSPL_SD_SALE_INVOICE_HEAD.document_code,  TSPL_SD_SALE_INVOICE_DETAIL.TAX5 as Tax,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate as Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt as Amt,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost, " & _
-             " TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt FROM TSPL_SD_SALE_INVOICE_DETAIL " & _
-             " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code " & _
-             " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.TAX5 " & _
-             " where TSPL_SD_SALE_INVOICE_DETAIL.document_code='" & strShipFrm & "'  and  TSPL_TAX_MASTER.Type not in ('E') " & _
-             " ) as Main_Qry LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code =Main_Qry.Item_Code  " & _
+        qry = "SELECT (HSN_Code) AS HSN_Code,'%' as per, max(document_code) as document_code,Tax,Rate,SUM(TaxAmt) as TaxAmt,sum(BaseAmt) as BaseAmt,sum(TaxableValue) as TotalTaxableamt,sum(Qty) as Qty  from (" &
+            " select HSN_Code,'%' as per,count1, (document_code) as document_code,Tax,Rate,((Item_Cost*Qty)-(Total_Disc_Amt))*Rate/100 as TaxAmt,(Item_Net_Amt) as BaseAmt,(Basic_AMount)-(Total_Disc_Amt) as TaxableValue,Qty from " &
+           " (  SELECT TSPL_ITEM_MASTER.HSN_Code  , Item_Cost,count1, document_code, Tax,Main_Qry.Rate,Amt,Qty,Item_Net_Amt,Total_Disc_Amt, " &
+        " isnull(Qty,0)*isnull(Item_Cost ,0)as Basic_AMount from (   " &
+            " select  0 as Count1, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt ,  TSPL_SD_SALE_INVOICE_HEAD.document_code,  TSPL_SD_SALE_INVOICE_DETAIL.TAX1 as Tax,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Rate as Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_Amt as Amt,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost, " &
+        " TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt, TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt" &
+        " FROM TSPL_SD_SALE_INVOICE_DETAIL" &
+            " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code " &
+            " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.TAX1  " &
+            " where TSPL_SD_SALE_INVOICE_DETAIL.document_code='" & strShipFrm & "'  and  TSPL_TAX_MASTER.Type not in ('E') " &
+       " union all" &
+            " select 2 as Count2, TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt ,   TSPL_SD_SALE_INVOICE_HEAD.document_code,  TSPL_SD_SALE_INVOICE_DETAIL.TAX2 as Tax,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Rate as Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_Amt as Amt,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost, " &
+        " TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt, TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt" &
+       " FROM TSPL_SD_SALE_INVOICE_DETAIL" &
+            " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code " &
+            " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.TAX2 " &
+            " where TSPL_SD_SALE_INVOICE_DETAIL.document_code='" & strShipFrm & "'  and  TSPL_TAX_MASTER.Type not in ('E') " &
+       " union all" &
+           "  select 3 as Count3,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt ,    TSPL_SD_SALE_INVOICE_HEAD.document_code,  TSPL_SD_SALE_INVOICE_DETAIL.TAX3 as Tax,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate as Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt as Amt,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost, " &
+       " TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt, TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt" &
+        " FROM TSPL_SD_SALE_INVOICE_DETAIL" &
+            " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code " &
+             " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.TAX3 " &
+            " where TSPL_SD_SALE_INVOICE_DETAIL.document_code='" & strShipFrm & "'  and  TSPL_TAX_MASTER.Type not in ('E') " &
+        " union all" &
+            "  select 4 as Count4,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt , TSPL_SD_SALE_INVOICE_HEAD.document_code,  TSPL_SD_SALE_INVOICE_DETAIL.TAX4 as Tax,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Rate as Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt as Amt,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost, " &
+            " TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt  FROM TSPL_SD_SALE_INVOICE_DETAIL " &
+            " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code " &
+            " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.TAX4 " &
+            " where TSPL_SD_SALE_INVOICE_DETAIL.document_code='" & strShipFrm & "'  and  TSPL_TAX_MASTER.Type not in ('E') " &
+       " union all" &
+            " select 5 as Count5,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code  ,TSPL_SD_SALE_INVOICE_DETAIL.Total_Disc_Amt ,   TSPL_SD_SALE_INVOICE_HEAD.document_code,  TSPL_SD_SALE_INVOICE_DETAIL.TAX5 as Tax,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Rate as Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_Amt as Amt,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost, " &
+             " TSPL_SD_SALE_INVOICE_DETAIL.Total_Basic_Amt,TSPL_SD_SALE_INVOICE_DETAIL.Total_Tax_Amt FROM TSPL_SD_SALE_INVOICE_DETAIL " &
+             " left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.document_code=TSPL_SD_SALE_INVOICE_DETAIL.document_code " &
+             " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_SD_SALE_INVOICE_DETAIL.TAX5 " &
+             " where TSPL_SD_SALE_INVOICE_DETAIL.document_code='" & strShipFrm & "'  and  TSPL_TAX_MASTER.Type not in ('E') " &
+             " ) as Main_Qry LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code =Main_Qry.Item_Code  " &
               " ) as pp) AS Final_Qry where Rate <>0 group by Tax,Rate,Count1,HSN_Code order by Count1 ,Rate desc "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         Return dt
@@ -7002,5 +7072,38 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
 
     Private Sub btnDCSPrint_Click(sender As Object, e As EventArgs) Handles btnDCSPrint.Click
         DispatchInvoicePrint()
+    End Sub
+
+    Private Sub fndVehicleCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtVehicleCode._MYValidating
+        Try
+            Dim qry As String = "Select distinct  vehicle_id ,Description from TSPL_VEHICLE_MASTER
+                                 left outer join TSPL_VENDOR_MASTER on tspl_vehicle_master.transport_id=TSPL_VENDOR_MASTER.vendor_code"
+            txtVehicleCode.Value = clsCommon.ShowSelectForm("Vehicle No", qry, "vehicle_id", "", txtVehicleCode.Value, "vehicle_id", isButtonClicked)
+            lblVehicleNo.Text = connectSql.RunScalar("Select Description  from TSPL_VEHICLE_MASTER where Vehicle_Id = '" + Convert.ToString(txtVehicleCode.Value) + "'")
+            lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name as Name from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + txtVehicleCode.Value + "'"))
+            fndtransporter.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Code as Code from TSPL_VENDOR_MASTER left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Transport_id=TSPL_VENDOR_MASTER.vendor_code where Vehicle_id ='" + txtVehicleCode.Value + "'"))
+            txtForm38.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select vehicle_id from TSPL_VEHICLE_MASTER where Vehicle_id ='" + txtVehicleCode.Value + "'"))
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub fndtransporter__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndtransporter._MYValidating
+        If isButtonClicked Then
+            Dim qry As String = "select Transport_Id as [Transport Id],Transporter_Name as [Transporter Name] from TSPL_TRANSPORT_MASTER"
+            fndtransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndtransporter.Value, "", isButtonClicked)
+            lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transporter_Name as Name from TSPL_TRANSPORT_MASTER where Transport_Id ='" + fndtransporter.Value + "'"))
+
+        End If
+    End Sub
+
+
+
+    Private Sub EinvoiceBtnUpdate_Click(sender As Object, e As EventArgs) Handles EinvoiceBtnUpdate.Click
+        UpdateEInvoice()
+    End Sub
+
+    Private Sub btnEWaybillUpdate_Click(sender As Object, e As EventArgs) Handles btnEWaybillUpdate.Click
+        UpdateEwaybillNo()
     End Sub
 End Class

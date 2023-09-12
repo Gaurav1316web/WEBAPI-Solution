@@ -3206,7 +3206,7 @@ Public Class frmPurchaseOrder
                 cboItemType.Focus()
                 Exit Sub
             End If
-            If clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso clsCommon.myCDecimal(txtTenderNo.Tag) = 2 Then
+            If clsCommon.myLen(txtTenderNo.Value) > 0 AndAlso (clsCommon.myCDecimal(txtTenderNo.Tag) = 2 OrElse clsCommon.myCDecimal(txtTenderNo.Tag) = 3) Then
                 Dim obj As clsTenderDetail = clsTenderDetail.GetFinder(txtTenderNo.Value, txtVendorNo.Value)
                 If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
                     gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
@@ -7012,6 +7012,12 @@ Public Class frmPurchaseOrder
         '    whrClas += "  TSPL_PURCHASE_ORDER_HEAD.MT_Is_Merchant_Trade=1 "
         'End If
         whrClas += " TSPL_PURCHASE_ORDER_HEAD.From_Screen_Code='" + FORMTYPE + "'"
+
+        If objCommonVar.RCDFCFP = True Then
+            whrClas += " And PO_Total_Amt>0 "
+        End If
+
+
         LoadData(clsCommon.ShowSelectForm("POOrderNoFndd", qry, "PONO", whrClas, txtDocNo.Value, "PurchaseOrder_Date desc", isButtonClicked), NavigatorType.Current)
         btnCopy.Enabled = False
     End Sub
@@ -10240,7 +10246,7 @@ Public Class frmPurchaseOrder
             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                 Throw New Exception("Please select vendor")
             End If
-            txtTenderNo.Value = clsTenderHead.getFinder("Tender_Type=2 and Posted=1 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "') ", txtTenderNo.Value, isButtonClicked)
+            txtTenderNo.Value = clsTenderHead.getFinder("Tender_Type in (2,3) and Posted=1 and exists (select 1 from TSPL_TENDER_DETAIL where TSPL_TENDER_DETAIL.DocumentCode=TSPL_TENDER_HEADER.DocumentCode and TSPL_TENDER_DETAIL.Vendor_Code='" + txtVendorNo.Value + "') ", txtTenderNo.Value, isButtonClicked)
             txtTenderNo.Tag = clsTenderHead.GetTenderType(txtTenderNo.Value, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message)

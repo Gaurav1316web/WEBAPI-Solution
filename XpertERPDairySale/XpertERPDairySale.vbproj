@@ -187,10 +187,17 @@
     <Compile Include="Master\frmCustomerDeduction.vb">
       <SubType>Form</SubType>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="Master\frmDistributeRateTagging.Designer.vb">
       <DependentUpon>frmDistributeRateTagging.vb</DependentUpon>
     </Compile>
     <Compile Include="Master\frmDistributeRateTagging.vb">
+=======
+    <Compile Include="Master\frmDistributorCommission.designer.vb">
+      <DependentUpon>frmDistributorCommission.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmDistributorCommission.vb">
+>>>>>>> 9123d23d9098e06b268b0392dcee4378a0823486
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Master\frmItemSublocationMapping.Designer.vb">
@@ -587,6 +594,12 @@
     <Compile Include="Transaction\frmDemandBooking.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmEInvoiceHead.Designer.vb">
+      <DependentUpon>frmEInvoiceHead.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmEInvoiceHead.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmGatePassDairySale.Designer.vb">
       <DependentUpon>frmGatePassDairySale.vb</DependentUpon>
     </Compile>
@@ -739,8 +752,13 @@
     <EmbeddedResource Include="Master\frmCustomerDeduction.resx">
       <DependentUpon>frmCustomerDeduction.vb</DependentUpon>
     </EmbeddedResource>
+<<<<<<< HEAD
     <EmbeddedResource Include="Master\frmDistributeRateTagging.resx">
       <DependentUpon>frmDistributeRateTagging.vb</DependentUpon>
+=======
+    <EmbeddedResource Include="Master\frmDistributorCommission.resx">
+      <DependentUpon>frmDistributorCommission.vb</DependentUpon>
+>>>>>>> 9123d23d9098e06b268b0392dcee4378a0823486
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmItemSublocationMapping.resx">
       <DependentUpon>frmItemSublocationMapping.vb</DependentUpon>
@@ -937,6 +955,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmDemandBooking.resx">
       <DependentUpon>frmDemandBooking.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmEInvoiceHead.resx">
+      <DependentUpon>frmEInvoiceHead.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmGatePassDairySale.resx">
       <DependentUpon>frmGatePassDairySale.vb</DependentUpon>

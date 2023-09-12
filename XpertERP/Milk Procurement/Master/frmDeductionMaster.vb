@@ -15,6 +15,17 @@ Public Class FrmDeductionMaster
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
     End Sub
+
+    Private Sub FrmDeductionMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
+        isnewentry = True
+        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
+        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
+        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
+        ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
+        AddNew()
+    End Sub
+
     Sub AddNew()
         ChkSecurity.Checked = False
         fndCode.Value = ""
@@ -36,6 +47,7 @@ Public Class FrmDeductionMaster
         chkAdvanceInterest.Checked = False
         chkPasuVikashKos.Checked = False
         chkOwnBMCShortage.Checked = False
+        chkNegativeSRN.Checked = False
         chkOwnBMCExcess.Checked = False
         chkTIP.Checked = False
         chkVSP.Checked = False
@@ -49,6 +61,8 @@ Public Class FrmDeductionMaster
         chkFEED.Checked = False
         chkGHEE.Checked = False
         chkAddition.Checked = False
+        chkOwnBMCMilkRejectType.Checked = False
+        txtOwnBMCMilkRejectType.Value = ""
         'loadTransType()
     End Sub
     Private Function AllowToSave() As Boolean
@@ -94,7 +108,11 @@ Public Class FrmDeductionMaster
             Else
                 Errorcontrol.ResetError(FndGLAcct)
             End If
-
+            If chkOwnBMCMilkRejectType.Checked Then
+                If clsCommon.myLen(txtOwnBMCMilkRejectType.Value) <= 0 Then
+                    Throw New Exception("Please select Own BMC Milk Reject Type")
+                End If
+            End If
 
             If clsCommon.myLen(txtSeqNo.Text) > 0 And clsCommon.myCdbl(txtSeqNo.Text) > 0 Then
                 Dim recCount As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select COUNT(*) from tspl_deduction_master where Sequence_No=" & clsCommon.myCdbl(txtSeqNo.Text) & " and  code<>'" & fndCode.Value & "'"))
@@ -105,11 +123,10 @@ Public Class FrmDeductionMaster
                     Return False
                 End If
             End If
-
-            Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+        Return True
     End Function
     Sub SaveData()
         If AllowToSave() = True Then
@@ -142,6 +159,7 @@ Public Class FrmDeductionMaster
             obj.Is_Default_Local_Sale = chkLocalSale.Checked
             obj.Is_Default_Pashu_Vikash_Kos = chkPasuVikashKos.Checked
             obj.Is_Own_BMC_Shortage = chkOwnBMCShortage.Checked
+            obj.Is_Negative_SRN = chkNegativeSRN.Checked
             obj.Is_Own_BMC_Excess = chkOwnBMCExcess.Checked
             obj.Is_Default_Advance_Interest = chkAdvanceInterest.Checked
             obj.Is_Default_PRO_Data = chkPROData.Checked
@@ -156,7 +174,9 @@ Public Class FrmDeductionMaster
             obj.Is_FEED = chkFEED.Checked
             obj.IS_GHEE = chkGHEE.Checked
             obj.Is_Addition = chkAddition.Checked
-
+            If chkOwnBMCMilkRejectType.Checked Then
+                obj.Own_BMC_Milk_Reject_Type = txtOwnBMCMilkRejectType.Value
+            End If
 
             Dim qry As Integer = clsDBFuncationality.getSingleValue("select count(Code) from TSPL_DEDUCTION_MASTER where Code='" + obj.Code + "'")
             If (qry = 0) Then
@@ -205,6 +225,7 @@ Public Class FrmDeductionMaster
                 chkLocalSale.Checked = obj.Is_Default_Local_Sale
                 chkPasuVikashKos.Checked = obj.Is_Default_Pashu_Vikash_Kos
                 chkOwnBMCShortage.Checked = obj.Is_Own_BMC_Shortage
+                chkNegativeSRN.Checked = obj.Is_Negative_SRN
                 chkOwnBMCExcess.Checked = obj.Is_Own_BMC_Excess
                 chkAdvanceInterest.Checked = obj.Is_Default_Advance_Interest
                 chkTIP.Checked = obj.Is_Default_TIP
@@ -216,6 +237,12 @@ Public Class FrmDeductionMaster
                 txtSeqNo.Text = obj.Sequence_No
                 lblDedGrpName.Text = clsDBFuncationality.getSingleValue("select Ded_Description from TSPL_DEDUCTION_GROUP where Ded_Code='" & fndDedGrp.Value & "'")
                 lblGLAcctName.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_GL_ACCOUNTS where Account_Code='" & FndGLAcct.Value & "'")
+                If clsCommon.myLen(obj.Own_BMC_Milk_Reject_Type) > 0 Then
+                    txtOwnBMCMilkRejectType.Value = obj.Own_BMC_Milk_Reject_Type
+                    chkOwnBMCMilkRejectType.Checked = True
+                Else
+                    chkOwnBMCMilkRejectType.Checked = False
+                End If
                 'ddlType.SelectedValue = obj.Trans_Type
                 fndCode.MyReadOnly = True
                 btnSave.Text = "Update"
@@ -297,15 +324,7 @@ Public Class FrmDeductionMaster
         AddNew()
     End Sub
 
-    Private Sub FrmDeductionMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        SetUserMgmtNew()
-        isnewentry = True
-        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
-        ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
-        ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
-        ButtonToolTip.SetToolTip(btnNew, "Press Alt+N Adding New ")
-        AddNew()
-    End Sub
+
 
     Private Sub FrmDeductionMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
@@ -448,5 +467,15 @@ Public Class FrmDeductionMaster
             chkFEED.Checked = False
             chkGHEE.Checked = False
         End If
+    End Sub
+
+    Private Sub chkOwnBMCMilkReject_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkOwnBMCMilkRejectType.ToggleStateChanged
+        txtOwnBMCMilkRejectType.Visible = chkOwnBMCMilkRejectType.Checked
+    End Sub
+
+    Private Sub OwnBMCMilkRejectType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtOwnBMCMilkRejectType._MYValidating
+        Dim qry As String = "select Code,Description from TSPL_MILK_REJECT_TYPE"
+        Dim Whr As String = " not exists(select 1 from TSPL_DEDUCTION_MASTER where TSPL_DEDUCTION_MASTER.Own_BMC_Milk_Reject_Type=TSPL_MILK_REJECT_TYPE.Code and TSPL_DEDUCTION_MASTER.Code not in ('" + fndCode.Value + "'))"
+        txtOwnBMCMilkRejectType.Value = clsCommon.ShowSelectForm("fn@Ded@Mre", qry, "Code", Whr, txtOwnBMCMilkRejectType.Value, "Code", isButtonClicked)
     End Sub
 End Class

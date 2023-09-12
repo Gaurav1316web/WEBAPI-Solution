@@ -369,6 +369,8 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\rptProductSaleInvoice - Copy.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptProductSaleInvoice _NonTaxable.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptProductSaleInvoice.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\rptScrapSaleInvoice_RCDFCF_NT.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\rptScrapSaleInvoice_RCDFCF.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptProductSaleInvoiceParty.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptProductSaleInvoice_Challan.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptProductSaleInvoice_Interstate.rpt" />

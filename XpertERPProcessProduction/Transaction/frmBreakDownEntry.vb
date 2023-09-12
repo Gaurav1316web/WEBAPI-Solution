@@ -38,6 +38,7 @@ Public Class frmBreakDownEntry
         lblLocation.Text = ""
         txtBreakDowncode.Value = ""
         txtBreakDownname.Text = ""
+        txtHours.Text = 0
         dtpDate.Text = clsCommon.GETSERVERDATE(Nothing)
         txtstart_time.Text = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd/MM/yyyy hh:mm tt")
         txtend_time.Text = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing), "dd/MM/yyyy hh:mm tt")
@@ -121,7 +122,7 @@ Public Class frmBreakDownEntry
                 Errorcontrol.ResetError(txtend_time)
             End If
 
-            If clsCommon.myCDate(txtend_time.Text) <= clsCommon.myCDate(txtstart_time.Text) Then
+            If clsCommon.myCDate(txtend_time.Text) < clsCommon.myCDate(txtstart_time.Text) Then
                 RadPageView1.SelectedPage = RadPageViewPage1
                 txtend_time.Focus()
                 txtend_time.Select()
@@ -131,12 +132,12 @@ Public Class frmBreakDownEntry
                 Errorcontrol.ResetError(txtend_time)
             End If
 
-            If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select doc_no from TSPL_BREAK_DOWN_ENTRY where TSPL_BREAK_DOWN_ENTRY.Location_Code='" + txtLocation.Value + "' and convert(date,doc_date,103)=convert(date,'" + dtpDate.Value + "',103)"))
-                If clsCommon.myLen(strDocNo) > 0 Then
-                    Throw New Exception("Break Down Entry [" + strDocNo + "] is already exist.")
-                End If
-            End If
+            'If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
+            '    Dim strDocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select doc_no from TSPL_BREAK_DOWN_ENTRY where TSPL_BREAK_DOWN_ENTRY.Location_Code='" + txtLocation.Value + "' and convert(date,doc_date,103)=convert(date,'" + dtpDate.Value + "',103)"))
+            '    If clsCommon.myLen(strDocNo) > 0 Then
+            '        Throw New Exception("Break Down Entry [" + strDocNo + "] is already exist.")
+            '    End If
+            'End If
 
             Return True
         Catch ex As Exception
@@ -226,15 +227,25 @@ Public Class frmBreakDownEntry
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
                 txtstart_time.Text = obj.start_time
                 txtend_time.Text = obj.end_time
-
+                'Dim startTime As DateTime = obj.start_time
+                'Dim endTime As DateTime = obj.end_time
+                'Dim duration As TimeSpan = endTime - startTime
+                'Dim durationHour As Double = duration.TotalHours
+                'txtHours.Text = durationHour.ToString()
+                Dim startTime As DateTime = obj.start_time
+                Dim endTime As DateTime = obj.end_time
+                Dim duration As TimeSpan = endTime - startTime
+                Dim durationHour As Double = duration.TotalHours
+                Dim roundedDurationHour As Double = Math.Round(durationHour, 2)
+                txtHours.Text = roundedDurationHour.ToString()
 
                 btnsave.Enabled = True
                 btndelete.Enabled = True
                 btnsave.Text = "Update"
                 txtCode.MyReadOnly = True
                 'btngo.Enabled = False
-                txtstart_time.Enabled = False
-                txtend_time.Enabled = False
+                txtstart_time.Enabled = True
+                txtend_time.Enabled = True
             Else
                 FunReset()
             End If
@@ -254,8 +265,15 @@ Public Class frmBreakDownEntry
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim qry As String = "select count(*) from TSPL_BREAK_DOWN_ENTRY where doc_no='" + clsCommon.myCstr(txtCode.Value) + "'"
-        Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
+        Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+        Dim WhrCls As String = Nothing
+        'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+        '    Dim WhrCls As String = "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        'End If
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            WhrCls = " TSPL_BREAK_DOWN_ENTRY.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
         If check > 0 Then
             txtCode.MyReadOnly = True
         Else
@@ -263,7 +281,7 @@ Public Class frmBreakDownEntry
         End If
 
         If txtCode.MyReadOnly Or isButtonClicked Then
-            txtCode.Value = clsProductionBreakDown.GetFinder("", txtCode.Value, isButtonClicked)
+            txtCode.Value = clsProductionBreakDown.GetFinder(WhrCls, txtCode.Value, isButtonClicked)
 
             If clsCommon.myLen(txtCode.Value) > 0 Then
                 LoadData(txtCode.Value, NavigatorType.Current)
@@ -300,5 +318,33 @@ Public Class frmBreakDownEntry
         txtLocation.Value = clsCommon.ShowSelectForm("MulBDELocFndr", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
         lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
 
+    End Sub
+
+    Private Sub txtstart_time_ValueChanged(sender As Object, e As EventArgs) Handles txtstart_time.ValueChanged
+        'Dim startTime As DateTime = txtstart_time.Text
+        'Dim endTime As DateTime = txtend_time.Text
+        'Dim duration As TimeSpan = endTime - startTime
+        'Dim durationHour As Double = duration.TotalHours
+        'txtHours.Text = durationHour
+        Dim startTime As DateTime = txtstart_time.Text
+        Dim endTime As DateTime = txtend_time.Text
+        Dim duration As TimeSpan = endTime - startTime
+        Dim durationHour As Double = duration.TotalHours
+        Dim roundedDurationHour As Double = Math.Round(durationHour, 2)
+        txtHours.Text = roundedDurationHour.ToString()
+    End Sub
+
+    Private Sub txtend_time_ValueChanged(sender As Object, e As EventArgs) Handles txtend_time.ValueChanged
+        'Dim startTime As DateTime = txtstart_time.Text
+        'Dim endTime As DateTime = txtend_time.Text
+        'Dim duration As TimeSpan = endTime - startTime
+        'Dim durationHour As Double = duration.TotalHours
+        'txtHours.Text = durationHour
+        Dim startTime As DateTime = txtstart_time.Text
+        Dim endTime As DateTime = txtend_time.Text
+        Dim duration As TimeSpan = endTime - startTime
+        Dim durationHour As Double = duration.TotalHours
+        Dim roundedDurationHour As Double = Math.Round(durationHour, 2)
+        txtHours.Text = roundedDurationHour.ToString()
     End Sub
 End Class

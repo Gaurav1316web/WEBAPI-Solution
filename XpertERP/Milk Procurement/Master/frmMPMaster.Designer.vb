@@ -227,6 +227,7 @@ Partial Class FrmMPMaster
         Me.mnuExit = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExportMPCode = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.btnUnverifiedJanAdhaar = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -394,6 +395,7 @@ Partial Class FrmMPMaster
         Me.RadPageViewPage6.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUnverifiedJanAdhaar, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -406,6 +408,7 @@ Partial Class FrmMPMaster
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+
         '
         'SplitContainer1.Panel1
         '
@@ -415,6 +418,7 @@ Partial Class FrmMPMaster
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUnverifiedJanAdhaar)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -3711,6 +3715,15 @@ Partial Class FrmMPMaster
         Me.btnHistory.Size = New System.Drawing.Size(88, 22)
         Me.btnHistory.TabIndex = 4
         Me.btnHistory.Text = "&History"
+        'btnUnverifiedJanAdhaar
+        '
+        Me.btnUnverifiedJanAdhaar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUnverifiedJanAdhaar.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUnverifiedJanAdhaar.Location = New System.Drawing.Point(276, 1)
+        Me.btnUnverifiedJanAdhaar.Name = "btnUnverifiedJanAdhaar"
+        Me.btnUnverifiedJanAdhaar.Size = New System.Drawing.Size(118, 22)
+        Me.btnUnverifiedJanAdhaar.TabIndex = 5
+        Me.btnUnverifiedJanAdhaar.Text = "Unverified Jan Aadhar"
         '
         'btnClose
         '
@@ -3925,6 +3938,7 @@ Partial Class FrmMPMaster
         Me.RadPageViewPage6.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUnverifiedJanAdhaar, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4097,6 +4111,7 @@ Partial Class FrmMPMaster
     Friend WithEvents lblIncentiveGLAccount As common.Controls.MyTextBox
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents btnUnverifiedJanAdhaar As RadButton
     Friend WithEvents pnlBankDetailsManual As Panel
     Friend WithEvents txtBankIFSC_M As common.Controls.MyTextBox
     Friend WithEvents txtBankCity_M As common.Controls.MyTextBox

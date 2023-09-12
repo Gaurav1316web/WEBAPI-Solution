@@ -22,7 +22,7 @@ Public Class clsLeaveSetting
     Public LAPSE_NEGATIVE As Int16
     Public LAPSE_EXCEEDING As Double
     Public LAPSE_AFTER_DAYS As Double
-
+    Public Location_Code As String
     Public Allot_Periodicity As String
     Public Allot_Type As String
     Public Alloted_Days As Decimal
@@ -52,12 +52,15 @@ Public Class clsLeaveSetting
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsLeaveSetting
         Dim obj As clsLeaveSetting = Nothing
         Dim qry As String = ""
-
+        Dim whrQry As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrQry = " And TSPL_LEAVE_SETTING.Location_Code=" + objCommonVar.strCurrUserLocations + ""
+        End If
         qry += " select TSPL_LEAVE_SETTING.AutoAllotDuringSalaryGen,TSPL_LEAVE_SETTING.Allot_Periodicity,TSPL_LEAVE_SETTING.Allot_Type,TSPL_LEAVE_SETTING.Alloted_Days,TSPL_LEAVE_SETTING.PerPresentDays,TSPL_LEAVE_SETTING.LEAVE_ALLOT_TYPE,TSPL_LEAVE_SETTING.ALLOT_AFTER_MONTHS,TSPL_LEAVE_SETTING.ALLOT_AFTER_DAYS,TSPL_LEAVE_SETTING.LEAVE_AVAIL_TYPE,TSPL_LEAVE_SETTING.AVAIL_AFTER_MONTHS,TSPL_LEAVE_SETTING.AVAIL_AFTER_DAYS,TSPL_LEAVE_SETTING.BAL_ROUND_OFF_TYPE,TSPL_LEAVE_SETTING.LEAVE_ENCASHED,TSPL_LEAVE_SETTING.MIN_BAL,TSPL_LEAVE_SETTING.CARRY_OVER,TSPL_LEAVE_SETTING.CARRY_LOWER_LIM,TSPL_LEAVE_SETTING.CARRY_UPPER_LIM,TSPL_LEAVE_SETTING.LAPSE_UNAVAILED,TSPL_LEAVE_SETTING.LAPSE_MONTH,TSPL_LEAVE_SETTING.LAPSE_NEGATIVE,TSPL_LEAVE_SETTING.LAPSE_EXCEEDING,TSPL_LEAVE_SETTING.LAPSE_AFTER_DAYS, "
-        qry += " TSPL_LEAVE_MASTER.LEAVE_NAME, TSPL_LEAVE_MASTER.LEAVE_CODE "
+        qry += " TSPL_LEAVE_MASTER.LEAVE_NAME, TSPL_LEAVE_MASTER.LEAVE_CODE,TSPL_LEAVE_SETTING.Location_Code "
         qry += " from TSPL_LEAVE_MASTER "
         qry += " LEFT OUTER JOIN TSPL_LEAVE_SETTING ON TSPL_LEAVE_MASTER.LEAVE_CODE = TSPL_LEAVE_SETTING.LEAVE_CODE "
-        qry += " where(2 = 2) "
+        qry += " where(2 = 2) " + whrQry
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_LEAVE_MASTER.LEAVE_CODE = (select MIN(LEAVE_CODE) from TSPL_LEAVE_MASTER)"
@@ -99,6 +102,9 @@ Public Class clsLeaveSetting
             obj.Alloted_Days = clsCommon.myCdbl(dt.Rows(0)("Alloted_Days"))
             obj.PerPresentDays = clsCommon.myCdbl(dt.Rows(0)("PerPresentDays"))
             obj.AutoAllotDuringSalaryGen = clsCommon.myCdbl(dt.Rows(0)("AutoAllotDuringSalaryGen"))
+            If clsCommon.myLen(dt.Rows(0)("Location_Code")) > 0 Then
+                obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+            End If
             obj.objList = clsLeaveSettingSalSlabLeaveAlloted.GetData(obj.Code, trans)
         End If
         Return obj
@@ -143,6 +149,7 @@ Public Class clsLeaveSetting
 
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "LEAVE_CODE", obj.Code)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -153,7 +160,6 @@ Public Class clsLeaveSetting
                     isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LEAVE_SETTING", OMInsertOrUpdate.Insert, "", trans)
                 Else
                     Throw New Exception("This Code Is Already Exist")
-
                 End If
             Else
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_LEAVE_SETTING", OMInsertOrUpdate.Update, "LEAVE_CODE='" + obj.Code + "'", trans)
