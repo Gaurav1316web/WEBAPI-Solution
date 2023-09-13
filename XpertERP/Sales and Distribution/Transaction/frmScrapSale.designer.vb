@@ -139,6 +139,7 @@ Partial Class frmScrapSale
         Me.RadLabel25 = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+<<<<<<< HEAD
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel12 = New common.Controls.MyLabel()
@@ -161,13 +162,13 @@ Partial Class frmScrapSale
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.EInvoiceIRNNo = New common.Controls.MyTextBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
+=======
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
-        Me.RadDropDownButton1 = New Telerik.WinControls.UI.RadDropDownButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPrePrint = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -284,6 +285,7 @@ Partial Class frmScrapSale
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+<<<<<<< HEAD
         Me.RadPageViewPage5.SuspendLayout()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
@@ -308,11 +310,13 @@ Partial Class frmScrapSale
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EInvoiceIRNNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+=======
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadDropDownButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -338,11 +342,11 @@ Partial Class frmScrapSale
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnShowInventory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnInvoiceJE)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.RadDropDownButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
@@ -431,7 +435,11 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(64.0!, 26.0!)
+<<<<<<< HEAD
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+=======
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
+>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1071, 439)
         Me.RadPageViewPage1.Text = "Shipment"
@@ -2069,6 +2077,7 @@ Partial Class frmScrapSale
         Me.RadLabel19.TabIndex = 7
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+<<<<<<< HEAD
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox6)
@@ -2438,6 +2447,16 @@ Partial Class frmScrapSale
         Me.MyLabel16.Size = New System.Drawing.Size(43, 16)
         Me.MyLabel16.TabIndex = 1403
         Me.MyLabel16.Text = "IRN No"
+=======
+        'btnPrint
+        '
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(225, 3)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(77, 22)
+        Me.btnPrint.TabIndex = 5
+        Me.btnPrint.Text = "Print"
+>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
         '
         'btnHistory
         '
@@ -2474,25 +2493,6 @@ Partial Class frmScrapSale
         Me.btnReverse.Size = New System.Drawing.Size(77, 22)
         Me.btnReverse.TabIndex = 4
         Me.btnReverse.Text = "Reverse"
-        '
-        'RadDropDownButton1
-        '
-        Me.RadDropDownButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnPrint, Me.btnPrePrint})
-        Me.RadDropDownButton1.Location = New System.Drawing.Point(225, 3)
-        Me.RadDropDownButton1.Name = "RadDropDownButton1"
-        Me.RadDropDownButton1.Size = New System.Drawing.Size(77, 22)
-        Me.RadDropDownButton1.TabIndex = 3
-        Me.RadDropDownButton1.Text = "Print"
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Text = "Print"
-        '
-        'btnPrePrint
-        '
-        Me.btnPrePrint.Name = "btnPrePrint"
-        Me.btnPrePrint.Text = "Pre-Print"
         '
         'btnPost
         '
@@ -2702,6 +2702,7 @@ Partial Class frmScrapSale
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+<<<<<<< HEAD
         Me.RadPageViewPage5.ResumeLayout(False)
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
@@ -2728,11 +2729,13 @@ Partial Class frmScrapSale
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.EInvoiceIRNNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+=======
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadDropDownButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2824,9 +2827,6 @@ Partial Class frmScrapSale
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents lblInvoiceNo As common.Controls.MyLabel
     Friend WithEvents txtnrg As common.UserControls.txtFinder
-    Friend WithEvents RadDropDownButton1 As Telerik.WinControls.UI.RadDropDownButton
-    Friend WithEvents btnPrint As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents btnPrePrint As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtVehicleDesc As common.Controls.MyTextBox
     Friend WithEvents lblVehicleNo As common.Controls.MyLabel
@@ -2872,6 +2872,7 @@ Partial Class frmScrapSale
     Friend WithEvents txttcstaxbaseamount As common.MyNumBox
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents chkBuyBack As RadCheckBox
+<<<<<<< HEAD
     Friend WithEvents Panel1 As Panel
     Friend WithEvents RadPageViewPage5 As RadPageViewPage
     Friend WithEvents RadGroupBox4 As RadGroupBox
@@ -2895,5 +2896,8 @@ Partial Class frmScrapSale
     Friend WithEvents btnEWaybillUpdate As RadButton
     Friend WithEvents txtEWayBillDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
+=======
+    Friend WithEvents btnPrint As RadButton
+>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
 End Class
 

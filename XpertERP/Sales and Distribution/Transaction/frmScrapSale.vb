@@ -281,12 +281,18 @@ Public Class frmScrapSale
         If CreatVatSeriesOnExciseInvoice = 1 Then
             lblSecondryInvNo.Visible = True
             txtVatInvNo.Visible = True
-            btnPrint.Text = "Excise"
+            'btnPrint.Text = "Excise"
             'btnPrePrint.Text = "Tax"
         End If
         ''-------------------
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+        End If
+        If chkTaxable.Checked = True Then
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+        Else
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+
         End If
     End Sub
     Sub SetLength()
@@ -328,6 +334,10 @@ Public Class frmScrapSale
         dtppost.Text = clsCommon.GETSERVERDATE()
         dtpexp.Text = clsCommon.GETSERVERDATE()
         'txtdescription.Text = ""
+        txtEWayBillNo.Text = ""
+        txtEWayBillRemarks.Text = ""
+        txtEwayValidDate.Value = clsCommon.GETSERVERDATE()
+        txtEWayBillDate.Value = clsCommon.GETSERVERDATE()
         txtref.Text = ""
         txtTaxGroup.Value = ""
         lblTaxGrpName.Text = ""
@@ -367,6 +377,10 @@ Public Class frmScrapSale
         chkExcisable.Enabled = True
         lblGrossWeight.Text = ""
         lblNetWeight.Text = ""
+        EinvoiceAckNo.Text = ""
+        EInvoiceIRNNo.Text = ""
+        EInvoiceQrCode.Text = ""
+        txtAckDate.Value = clsCommon.GETSERVERDATE()
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.BlankAllControls()
@@ -380,7 +394,7 @@ Public Class frmScrapSale
         txtEWayBillDate.Value = dtpshipment.Value
         txtEWayBillNo.ReadOnly = False
         txtEWayBillDate.ReadOnly = False
-        txtElectronicRefNo.Text = ""
+        ' txtElectronicRefNo.Text = ""
         If AllowtoChangeTCSBaseAmount = True Then
             txttcstaxbaseamount.Enabled = True
         Else
@@ -1925,7 +1939,7 @@ Public Class frmScrapSale
         btnReverse.Visible = False
         chkBuyBack.Visible = True
         chkBuyBack.Checked = False
-        btnPrint.Visible = True
+        'btnPrint.Visible = True
         ''------------------
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -1977,6 +1991,14 @@ Public Class frmScrapSale
             common.clsCommon.MyMessageBoxShow("Please select Customer")
             fndcustNo.Focus()
             Return False
+        End If
+        If chkTaxable.Checked Then
+            ' Check if the vehicle number is empty
+            If clsCommon.myLen(TxtVehicleCode.Value) <= 0 Then
+                common.clsCommon.MyMessageBoxShow("Please select Vehicle No")
+                TxtVehicleCode.Focus()
+                Return False
+            End If
         End If
 
         GSTStatus = clsERPFuncationality.GetGSTStatus(dtpshipment.Value)
@@ -2688,6 +2710,37 @@ Public Class frmScrapSale
             fndLocation.Enabled = False
             chkExcisable.Enabled = False
             'fndLocation.Enabled = False
+
+            Dim objin As ClsScrapInvoiceHead = ClsScrapInvoiceHead.GetDataShipment(strCode)
+            If (objin IsNot Nothing AndAlso clsCommon.myLen(objin.shipment_No) > 0) Then
+                If clsCommon.myLen(objin.EWayBillNo) > 0 Then
+                    txtEWayBillNo.Text = objin.EWayBillNo
+                    txtEWayBillRemarks.Text = objin.EwayBillRemarks
+                    If clsCommon.myLen(objin.EwayBillValidDate) > 0 Then
+                        txtEwayValidDate.Value = objin.EwayBillValidDate
+                    End If
+                    btnEWaybillUpdate.Enabled = False
+                    If clsCommon.myLen(objin.EWayBillDate) > 0 Then
+                        txtEWayBillDate.Value = objin.EWayBillDate
+                    End If
+
+                Else
+                    btnEWaybillUpdate.Enabled = True
+                End If
+
+                If clsCommon.myLen(objin.EInvoiceIRNNo) > 0 Then
+                    EInvoiceIRNNo.Text = objin.EInvoiceIRNNo
+                    EinvoiceAckNo.Text = objin.EInvoiceAckNo
+                    If clsCommon.myLen(objin.EInvoiceAckDate) > 0 Then
+                        txtAckDate.Value = objin.EInvoiceAckDate
+                    End If
+                    EInvoiceQrCode.Text = objin.EInvoiceQRCode
+                    EinvoiceBtnUpdate.Enabled = False
+                Else
+                    EinvoiceBtnUpdate.Enabled = True
+                End If
+            End If
+            '  End If
             Dim obj As New ClsScrapSaleHead()
             obj = ClsScrapSaleHead.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.shipment_No) > 0) Then
@@ -2776,14 +2829,34 @@ Public Class frmScrapSale
                 chkTaxable.Checked = obj.Is_Taxable
                 chkBuyBack.Checked = obj.IsBuyBack
 
-                txtEWayBillNo.Text = obj.EWayBillNo
-                If obj.EWayBillDate Is Nothing Then
-                    txtEWayBillDate.Checked = False
-                Else
-                    txtEWayBillDate.Checked = True
-                    txtEWayBillDate.Value = obj.EWayBillDate
-                End If
-                txtElectronicRefNo.Text = obj.Electronic_Ref_No
+                '' If clsCommon.myLen(obj.EWayBillNo) > 0 Then
+                'txtEWayBillNo.Text = obj.EWayBillNo
+                'txtEWayBillRemarks.Text = obj.EwayBillRemarks
+                'If clsCommon.myLen(obj.EwayBillValidDate) > 0 Then
+                '    txtEwayValidDate.Value = obj.EwayBillValidDate
+                'End If
+                ''btnEWaybillUpdate.Enabled = False
+                'If clsCommon.myLen(obj.EWayBillDate) > 0 Then
+                '    txtEWayBillDate.Value = obj.EWayBillDate
+                'End If
+
+                ''Else
+                'btnEWaybillUpdate.Enabled = True
+                ''  End If
+
+                ''If clsCommon.myLen(obj.EInvoiceIRNNo) > 0 Then
+                'EInvoiceIRNNo.Text = obj.EInvoiceIRNNo
+                'EinvoiceAckNo.Text = obj.EInvoiceAckNo
+                'If clsCommon.myLen(obj.EInvoiceAckDate) > 0 Then
+                '    txtAckDate.Value = obj.EInvoiceAckDate
+                'End If
+                'EInvoiceQrCode.Text = obj.EInvoiceQRCode
+                'EinvoiceBtnUpdate.Enabled = False
+                '' Else
+                ''      EinvoiceBtnUpdate.Enabled = True
+                '' End If
+
+                'txtElectronicRefNo.Text = obj.Electronic_Ref_No
                 EInvoiceType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_SCRAPINVOICE_HEAD", "invoice_no", lblInvoiceNo.Text, Nothing)
 
                 If chkTaxable.Checked = True AndAlso clsERPFuncationality.GetEInvoiceStatus(dtpshipment.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
@@ -3239,9 +3312,9 @@ Public Class frmScrapSale
                 End If
                 If MaterialSaleInvoiceEnablePrintOnPost = True Then
                     If obj.ispost = 1 Then
-                        btnPrint.Visible = True
+                        ' btnPrint.Visible = True
                     Else
-                        btnPrint.Visible = False
+                        ' btnPrint.Visible = False
                     End If
                 End If
             Else
@@ -4641,7 +4714,7 @@ Public Class frmScrapSale
                         '     " left outer join TSPL_TAX_MASTER as dtax8 on dtax8.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX8  " &
                         '     " left outer join TSPL_TAX_MASTER as dtax9 on dtax9.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX9 " &
                         '      " left outer join TSPL_TAX_MASTER as dtax10 on dtax10.Tax_Code =TSPL_SCRAPSALE_DETAIL .TAX10 " &
-                        Qry1 +=" left join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_SCRAPSALE_HEAD.Transport_code  left join tspl_customer_master on tspl_customer_master.cust_code=TSPL_SCRAPSALE_HEAD.cust_code "
+                        Qry1 += " left join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_SCRAPSALE_HEAD.Transport_code  left join tspl_customer_master on tspl_customer_master.cust_code=TSPL_SCRAPSALE_HEAD.cust_code "
                         Qry1 += " left join TSPL_STATE_MASTER as Customer_State on tspl_customer_master .State=Customer_State.STATE_CODE "
                         Qry1 += " left join tspl_city_master on tspl_city_master.city_code=tspl_customer_master.city_code  left outer join tspl_company_master on tspl_company_master.comp_code = TSPL_SCRAPSALE_HEAD.Comp_Code  where TSPL_SCRAPSALE_HEAD.shipment_No='" & txtDocNo.Value & "'"
                         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal Then
@@ -5442,26 +5515,7 @@ Public Class frmScrapSale
         End If
     End Sub
 
-    Private Sub btnUpdate_Click(sender As Object, e As EventArgs) Handles btnUpdate.Click
 
-        Try
-            If clsCommon.myLen(txtDocNo.Value) > 0 Then
-                Dim obj As New ClsScrapSaleHead
-                obj.EWayBillNo = txtEWayBillNo.Text
-                If txtEWayBillDate.Checked Then
-                    obj.EWayBillDate = txtEWayBillDate.Value
-                End If
-                obj.Electronic_Ref_No = txtElectronicRefNo.Text
-                If ClsScrapSaleHead.UpdateAfterPosting(obj, txtDocNo.Value, Nothing) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.")
-                End If
-            Else
-                Throw New Exception("Document no not found")
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
-    End Sub
 
     Private Sub dtpshipment_Validating(sender As Object, e As CancelEventArgs) Handles dtpshipment.Validating
         SETGSTControl()
@@ -5605,12 +5659,68 @@ Public Class frmScrapSale
             Throw New Exception(ex.Message)
         End Try
     End Sub
+    Sub UpdateEwaybillNo()
+        Try
 
+            Dim obj As New ClsScrapSaleHead
+                obj.shipment_No = clsCommon.myCstr(txtDocNo.Value)
+                obj.EWayBillNo = txtEWayBillNo.Text
+                obj.EWayBillDate = txtEWayBillDate.Value
+                obj.EwayBillValidDate = txtEwayValidDate.Value
+                obj.EwayBillRemarks = txtEWayBillRemarks.Text
 
+                ' End If
+                '  obj.Electronic_Ref_No = txtElectronicRefNo.Text
+                ClsScrapSaleHead.UpdateAfterPosting(obj, txtDocNo.Value, Nothing)
+                clsCommon.MyMessageBoxShow("E-Waybill updated successfully.")
 
-    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        strPrintType = "Excise"
-        Print(True)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
     End Sub
+    Sub UpdateEInvoice()
+        Try
+
+            Dim obj As New ClsScrapSaleHead
+                obj.shipment_No = clsCommon.myCstr(txtDocNo.Value)
+                obj.EInvoiceIRNNo = EInvoiceIRNNo.Text
+                obj.EInvoiceAckNo = EinvoiceAckNo.Text
+                obj.EInvoiceAckDate = txtAckDate.Value
+                obj.EInvoiceQRCode = EInvoiceQrCode.Text
+                ClsScrapSaleHead.UpdateEInvoiceAfterPosting(obj, txtDocNo.Value, Nothing)
+                clsCommon.MyMessageBoxShow("E-Invoice Updated Successfully")
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnEWaybillUpdate_Click(sender As Object, e As EventArgs) Handles btnEWaybillUpdate.Click
+        UpdateEwaybillNo()
+    End Sub
+
+    Private Sub EinvoiceBtnUpdate_Click(sender As Object, e As EventArgs) Handles EinvoiceBtnUpdate.Click
+        UpdateEInvoice()
+    End Sub
+
+    Private Sub chkTaxable_CheckStateChanged(sender As Object, e As EventArgs) Handles chkTaxable.CheckStateChanged
+        Try
+            If chkTaxable.Checked = True Then
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+            Else
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+
+
+    'Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+    '    strPrintType = "Excise"
+    '    Print(True)
+
+    'End Sub
 End Class
 
