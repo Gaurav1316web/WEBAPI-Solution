@@ -667,7 +667,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                 clsCommon.AddColumnsForChange(coll, "Posted_Evening_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Posted_Evening_Date", dtNow)
             End If
-            If obj.Posted_Morning = 1 Or obj.Posted_Morning = 1 Then
+            If (obj.Posted_Morning = 1 AndAlso obj.Posted_Evening = 1) OrElse Not clsCommon.CompairString(obj.ShiftType, "Both") = CompairStringResult.Equal Then
                 clsCommon.AddColumnsForChange(coll, "Posted", 1)
                 clsCommon.AddColumnsForChange(coll, "Posting_Date", dtNow)
             End If

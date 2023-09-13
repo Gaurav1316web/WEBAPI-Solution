@@ -9678,10 +9678,10 @@ Public Class MDI
     End Sub
 
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
-        Dim frm As New FrmCarousal(Me)
-        frm.MdiParent = Me
-        frm.Show()
-        frm.Focus()
+        'Dim frm As New FrmCarousal(Me)
+        'frm.MdiParent = Me
+        'frm.Show()
+        'frm.Focus()
     End Sub
 
     Private Sub txtUserName_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtUserName.KeyDown, txtPassword.KeyDown
