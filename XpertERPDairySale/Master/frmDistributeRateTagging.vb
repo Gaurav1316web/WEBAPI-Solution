@@ -26,25 +26,7 @@ Public Class frmDistributeRateTagging
 #End Region
 
     Private Sub frmDistributeRateTagging_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Code", "Varchar(30) not null PRIMARY KEY")
-        coll.Add("Start_Date", "Date NOT NULL")
-        coll.Add("End_Date", "Date NULL")
-        coll.Add("Remarks", "Varchar(100) null")
-        coll.Add("Status", "integer NULL")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Post_By", "varchar(12)  NULL")
-        coll.Add("Post_Date", "Datetime  NULL")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_DISTRIBUTOR_ROUTE", coll)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Code", "VARCHAR(30) not null REFERENCES TSPL_DISTRIBUTOR_ROUTE(Code)")
-        coll.Add("Route_No", "VARCHAR(12) not null REFERENCES TSPL_ROUTE_MASTER(Route_No)")
-        coll.Add("Cust_Code", "VARCHAR(12) not null REFERENCES TSPL_CUSTOMER_MASTER(Cust_Code)")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_DISTRIBUTOR_ROUTE_CUSTOMER", coll)
+
         LoadBlankgv_Grid()
         UsLock1.Status = ERPTransactionStatus.Pending
         txtStartDate.Value = clsCommon.GETSERVERDATE()
