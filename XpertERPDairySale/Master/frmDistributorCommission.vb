@@ -15,7 +15,7 @@ Public Class frmDistributorCommission
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
-        CommissionTab()
+        'CommissionTab()
         AddNew()
     End Sub
     Sub LoadBlankGrid()
@@ -34,7 +34,7 @@ Public Class frmDistributorCommission
         repoRouteCode.FormatString = ""
         repoRouteCode.HeaderText = "Route Code"
         repoRouteCode.Name = ColRouteCode
-        repoRouteCode.IsVisible = False
+        repoRouteCode.IsVisible = True
         repoRouteCode.ReadOnly = True
         repoRouteCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         GV1.MasterTemplate.Columns.Add(repoRouteCode)
