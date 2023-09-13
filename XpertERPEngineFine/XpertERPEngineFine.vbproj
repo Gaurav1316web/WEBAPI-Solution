@@ -79,6 +79,7 @@
     <Compile Include="Classes\checkprocedure.vb" />
     <Compile Include="Classes\clsBMCDCSMobile.vb" />
     <Compile Include="Classes\clsCreateAllTable.vb" />
+    <Compile Include="Classes\clsDistributorCommission.vb" />
     <Compile Include="Classes\clsDocType.vb" />
     <Compile Include="Classes\clsEnums.vb" />
     <Compile Include="Classes\clsERPFuncationality.vb" />
