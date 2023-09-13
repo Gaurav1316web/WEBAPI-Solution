@@ -23,29 +23,24 @@ Partial Class frmScrapSale
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmScrapSale))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn2 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.chkBuyBack = New Telerik.WinControls.UI.RadCheckBox()
+        Me.lblTransporter = New common.Controls.MyLabel()
+        Me.txtTransporter_Code = New common.UserControls.txtFinder()
+        Me.txtTransporter_desc = New common.Controls.MyLabel()
         Me.txtFreightDistance = New common.MyNumBox()
         Me.MyLabel59 = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.txtGWeighmentNo = New common.UserControls.txtFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.txtElectronicRefNo = New common.Controls.MyTextBox()
-        Me.MyLabel27 = New common.Controls.MyLabel()
-        Me.txtEWayBillNo = New common.Controls.MyTextBox()
-        Me.MyLabel42 = New common.Controls.MyLabel()
-        Me.txtEWayBillDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel43 = New common.Controls.MyLabel()
-        Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
         Me.chkTaxable = New common.Controls.MyCheckBox()
         Me.chkCashSale = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkScrapSale = New Telerik.WinControls.UI.RadCheckBox()
@@ -60,9 +55,6 @@ Partial Class frmScrapSale
         Me.RadLabel14 = New common.Controls.MyLabel()
         Me.fndcustNo = New common.UserControls.txtFinder()
         Me.dtpshipment = New common.Controls.MyDateTimePicker()
-        Me.lblTransporter = New common.Controls.MyLabel()
-        Me.txtTransporter_desc = New common.Controls.MyLabel()
-        Me.txtTransporter_Code = New common.UserControls.txtFinder()
         Me.lblInvoiceType = New common.Controls.MyLabel()
         Me.ddlInvoiceType = New common.Controls.MyComboBox()
         Me.txtVatInvNo = New common.Controls.MyLabel()
@@ -117,6 +109,7 @@ Partial Class frmScrapSale
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtaddamt = New common.Controls.MyTextBox()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -146,6 +139,28 @@ Partial Class frmScrapSale
         Me.RadLabel25 = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.txtEWayBillDate = New common.Controls.MyDateTimePicker()
+        Me.txtEwayValidDate = New common.Controls.MyDateTimePicker()
+        Me.txtEWayBillRemarks = New common.Controls.MyTextBox()
+        Me.MyLabel19 = New common.Controls.MyLabel()
+        Me.MyLabel18 = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.MyLabel38 = New common.Controls.MyLabel()
+        Me.txtEWayBillNo = New common.Controls.MyTextBox()
+        Me.btnEWaybillUpdate = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtAckDate = New common.Controls.MyDateTimePicker()
+        Me.EinvoiceBtnUpdate = New Telerik.WinControls.UI.RadButton()
+        Me.EInvoiceQrCode = New common.Controls.MyTextBox()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.EinvoiceAckNo = New common.Controls.MyTextBox()
+        Me.MyLabel14 = New common.Controls.MyLabel()
+        Me.EInvoiceIRNNo = New common.Controls.MyTextBox()
+        Me.MyLabel16 = New common.Controls.MyLabel()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
@@ -164,7 +179,6 @@ Partial Class frmScrapSale
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -172,19 +186,12 @@ Partial Class frmScrapSale
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.chkBuyBack, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTransporter_desc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox5.SuspendLayout()
-        CType(Me.txtElectronicRefNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtEWayBillDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkCashSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkScrapSale, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -197,8 +204,6 @@ Partial Class frmScrapSale
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpshipment, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTransporter_desc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblInvoiceType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlInvoiceType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtVatInvNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -279,6 +284,30 @@ Partial Class frmScrapSale
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage5.SuspendLayout()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEWayBillDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEwayValidDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEWayBillRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnEWaybillUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.txtAckDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.EinvoiceBtnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.EInvoiceQrCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.EinvoiceAckNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.EInvoiceIRNNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -330,11 +359,12 @@ Partial Class frmScrapSale
         Me.RadPageView1.Controls.Add(Me.pvpCustomFields)
         Me.RadPageView1.Controls.Add(Me.Attachments)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView1.Size = New System.Drawing.Size(1092, 485)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
@@ -353,7 +383,6 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage1.Controls.Add(Me.txtGWeighmentNo)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
         Me.RadPageViewPage1.Controls.Add(Me.chkTaxable)
         Me.RadPageViewPage1.Controls.Add(Me.chkCashSale)
         Me.RadPageViewPage1.Controls.Add(Me.chkScrapSale)
@@ -401,10 +430,10 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(60.0!, 22.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(64.0!, 26.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1071, 443)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1071, 439)
         Me.RadPageViewPage1.Text = "Shipment"
         '
         'chkBuyBack
@@ -416,6 +445,54 @@ Partial Class frmScrapSale
         Me.chkBuyBack.TabIndex = 1432
         Me.chkBuyBack.Text = "BuyBack"
         Me.chkBuyBack.Visible = False
+        '
+        'lblTransporter
+        '
+        Me.lblTransporter.FieldName = Nothing
+        Me.lblTransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTransporter.Location = New System.Drawing.Point(6, 94)
+        Me.lblTransporter.Name = "lblTransporter"
+        Me.lblTransporter.Size = New System.Drawing.Size(65, 16)
+        Me.lblTransporter.TabIndex = 1428
+        Me.lblTransporter.Text = "Transporter"
+        '
+        'txtTransporter_Code
+        '
+        Me.txtTransporter_Code.CalculationExpression = Nothing
+        Me.txtTransporter_Code.FieldCode = Nothing
+        Me.txtTransporter_Code.FieldDesc = Nothing
+        Me.txtTransporter_Code.FieldMaxLength = 0
+        Me.txtTransporter_Code.FieldName = Nothing
+        Me.txtTransporter_Code.isCalculatedField = False
+        Me.txtTransporter_Code.IsSourceFromTable = False
+        Me.txtTransporter_Code.IsSourceFromValueList = False
+        Me.txtTransporter_Code.IsUnique = False
+        Me.txtTransporter_Code.Location = New System.Drawing.Point(81, 92)
+        Me.txtTransporter_Code.MendatroryField = False
+        Me.txtTransporter_Code.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTransporter_Code.MyLinkLable1 = Me.lblTransporter
+        Me.txtTransporter_Code.MyLinkLable2 = Me.txtTransporter_desc
+        Me.txtTransporter_Code.MyReadOnly = False
+        Me.txtTransporter_Code.MyShowMasterFormButton = False
+        Me.txtTransporter_Code.Name = "txtTransporter_Code"
+        Me.txtTransporter_Code.ReferenceFieldDesc = Nothing
+        Me.txtTransporter_Code.ReferenceFieldName = Nothing
+        Me.txtTransporter_Code.ReferenceTableName = Nothing
+        Me.txtTransporter_Code.Size = New System.Drawing.Size(131, 20)
+        Me.txtTransporter_Code.TabIndex = 1426
+        Me.txtTransporter_Code.Value = ""
+        '
+        'txtTransporter_desc
+        '
+        Me.txtTransporter_desc.AutoSize = False
+        Me.txtTransporter_desc.BorderVisible = True
+        Me.txtTransporter_desc.FieldName = Nothing
+        Me.txtTransporter_desc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTransporter_desc.Location = New System.Drawing.Point(216, 93)
+        Me.txtTransporter_desc.Name = "txtTransporter_desc"
+        Me.txtTransporter_desc.Size = New System.Drawing.Size(387, 18)
+        Me.txtTransporter_desc.TabIndex = 1427
+        Me.txtTransporter_desc.TextWrap = False
         '
         'txtFreightDistance
         '
@@ -502,142 +579,6 @@ Partial Class frmScrapSale
         Me.MyLabel3.TabIndex = 1
         Me.MyLabel3.Text = "F5 For Batch Item"
         '
-        'RadGroupBox5
-        '
-        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadGroupBox5.Controls.Add(Me.txtElectronicRefNo)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel27)
-        Me.RadGroupBox5.Controls.Add(Me.txtEWayBillNo)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel42)
-        Me.RadGroupBox5.Controls.Add(Me.txtEWayBillDate)
-        Me.RadGroupBox5.Controls.Add(Me.btnUpdate)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel43)
-        Me.RadGroupBox5.HeaderText = ""
-        Me.RadGroupBox5.Location = New System.Drawing.Point(716, 368)
-        Me.RadGroupBox5.Name = "RadGroupBox5"
-        Me.RadGroupBox5.Size = New System.Drawing.Size(354, 56)
-        Me.RadGroupBox5.TabIndex = 1433
-        '
-        'txtElectronicRefNo
-        '
-        Me.txtElectronicRefNo.CalculationExpression = Nothing
-        Me.txtElectronicRefNo.FieldCode = Nothing
-        Me.txtElectronicRefNo.FieldDesc = Nothing
-        Me.txtElectronicRefNo.FieldMaxLength = 0
-        Me.txtElectronicRefNo.FieldName = Nothing
-        Me.txtElectronicRefNo.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtElectronicRefNo.isCalculatedField = False
-        Me.txtElectronicRefNo.IsSourceFromTable = False
-        Me.txtElectronicRefNo.IsSourceFromValueList = False
-        Me.txtElectronicRefNo.IsUnique = False
-        Me.txtElectronicRefNo.Location = New System.Drawing.Point(88, 39)
-        Me.txtElectronicRefNo.MaxLength = 10
-        Me.txtElectronicRefNo.MendatroryField = False
-        Me.txtElectronicRefNo.MyLinkLable1 = Nothing
-        Me.txtElectronicRefNo.MyLinkLable2 = Nothing
-        Me.txtElectronicRefNo.Name = "txtElectronicRefNo"
-        Me.txtElectronicRefNo.ReferenceFieldDesc = Nothing
-        Me.txtElectronicRefNo.ReferenceFieldName = Nothing
-        Me.txtElectronicRefNo.ReferenceTableName = Nothing
-        Me.txtElectronicRefNo.Size = New System.Drawing.Size(180, 16)
-        Me.txtElectronicRefNo.TabIndex = 1446
-        '
-        'MyLabel27
-        '
-        Me.MyLabel27.FieldName = Nothing
-        Me.MyLabel27.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel27.Location = New System.Drawing.Point(5, 41)
-        Me.MyLabel27.Name = "MyLabel27"
-        Me.MyLabel27.Size = New System.Drawing.Size(80, 13)
-        Me.MyLabel27.TabIndex = 1447
-        Me.MyLabel27.Text = "Electronic Ref. No"
-        '
-        'txtEWayBillNo
-        '
-        Me.txtEWayBillNo.CalculationExpression = Nothing
-        Me.txtEWayBillNo.FieldCode = Nothing
-        Me.txtEWayBillNo.FieldDesc = Nothing
-        Me.txtEWayBillNo.FieldMaxLength = 0
-        Me.txtEWayBillNo.FieldName = Nothing
-        Me.txtEWayBillNo.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtEWayBillNo.isCalculatedField = False
-        Me.txtEWayBillNo.IsSourceFromTable = False
-        Me.txtEWayBillNo.IsSourceFromValueList = False
-        Me.txtEWayBillNo.IsUnique = False
-        Me.txtEWayBillNo.Location = New System.Drawing.Point(88, 3)
-        Me.txtEWayBillNo.MaxLength = 50
-        Me.txtEWayBillNo.MendatroryField = False
-        Me.txtEWayBillNo.MyLinkLable1 = Me.MyLabel42
-        Me.txtEWayBillNo.MyLinkLable2 = Nothing
-        Me.txtEWayBillNo.Name = "txtEWayBillNo"
-        Me.txtEWayBillNo.ReferenceFieldDesc = Nothing
-        Me.txtEWayBillNo.ReferenceFieldName = Nothing
-        Me.txtEWayBillNo.ReferenceTableName = Nothing
-        Me.txtEWayBillNo.Size = New System.Drawing.Size(261, 16)
-        Me.txtEWayBillNo.TabIndex = 0
-        '
-        'MyLabel42
-        '
-        Me.MyLabel42.FieldName = Nothing
-        Me.MyLabel42.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel42.Location = New System.Drawing.Point(5, 3)
-        Me.MyLabel42.Name = "MyLabel42"
-        Me.MyLabel42.Size = New System.Drawing.Size(59, 13)
-        Me.MyLabel42.TabIndex = 34
-        Me.MyLabel42.Text = "E Waybill No"
-        '
-        'txtEWayBillDate
-        '
-        Me.txtEWayBillDate.CalculationExpression = Nothing
-        Me.txtEWayBillDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtEWayBillDate.FieldCode = Nothing
-        Me.txtEWayBillDate.FieldDesc = Nothing
-        Me.txtEWayBillDate.FieldMaxLength = 0
-        Me.txtEWayBillDate.FieldName = Nothing
-        Me.txtEWayBillDate.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtEWayBillDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtEWayBillDate.isCalculatedField = False
-        Me.txtEWayBillDate.IsSourceFromTable = False
-        Me.txtEWayBillDate.IsSourceFromValueList = False
-        Me.txtEWayBillDate.IsUnique = False
-        Me.txtEWayBillDate.Location = New System.Drawing.Point(88, 21)
-        Me.txtEWayBillDate.MendatroryField = False
-        Me.txtEWayBillDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtEWayBillDate.MyLinkLable1 = Me.MyLabel43
-        Me.txtEWayBillDate.MyLinkLable2 = Nothing
-        Me.txtEWayBillDate.Name = "txtEWayBillDate"
-        Me.txtEWayBillDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtEWayBillDate.ReferenceFieldDesc = Nothing
-        Me.txtEWayBillDate.ReferenceFieldName = Nothing
-        Me.txtEWayBillDate.ReferenceTableName = Nothing
-        Me.txtEWayBillDate.ShowCheckBox = True
-        Me.txtEWayBillDate.Size = New System.Drawing.Size(101, 17)
-        Me.txtEWayBillDate.TabIndex = 1398
-        Me.txtEWayBillDate.TabStop = False
-        Me.txtEWayBillDate.Text = "13/06/2011"
-        Me.txtEWayBillDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel43
-        '
-        Me.MyLabel43.FieldName = Nothing
-        Me.MyLabel43.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel43.Location = New System.Drawing.Point(5, 23)
-        Me.MyLabel43.Name = "MyLabel43"
-        Me.MyLabel43.Size = New System.Drawing.Size(66, 13)
-        Me.MyLabel43.TabIndex = 1399
-        Me.MyLabel43.Text = "E Waybill Date"
-        '
-        'btnUpdate
-        '
-        Me.btnUpdate.Anchor = System.Windows.Forms.AnchorStyles.None
-        Me.btnUpdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdate.Location = New System.Drawing.Point(274, 38)
-        Me.btnUpdate.Name = "btnUpdate"
-        Me.btnUpdate.Size = New System.Drawing.Size(59, 18)
-        Me.btnUpdate.TabIndex = 41
-        Me.btnUpdate.Text = "Update"
-        '
         'chkTaxable
         '
         Me.chkTaxable.Enabled = False
@@ -709,7 +650,7 @@ Partial Class frmScrapSale
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(0, 368)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(0, 364)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 75)
@@ -867,54 +808,6 @@ Partial Class frmScrapSale
         Me.dtpshipment.Text = "05/08/2011  05:38 PM"
         Me.dtpshipment.Value = New Date(2011, 8, 5, 17, 38, 42, 656)
         '
-        'lblTransporter
-        '
-        Me.lblTransporter.FieldName = Nothing
-        Me.lblTransporter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTransporter.Location = New System.Drawing.Point(6, 94)
-        Me.lblTransporter.Name = "lblTransporter"
-        Me.lblTransporter.Size = New System.Drawing.Size(65, 16)
-        Me.lblTransporter.TabIndex = 1428
-        Me.lblTransporter.Text = "Transporter"
-        '
-        'txtTransporter_desc
-        '
-        Me.txtTransporter_desc.AutoSize = False
-        Me.txtTransporter_desc.BorderVisible = True
-        Me.txtTransporter_desc.FieldName = Nothing
-        Me.txtTransporter_desc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTransporter_desc.Location = New System.Drawing.Point(216, 93)
-        Me.txtTransporter_desc.Name = "txtTransporter_desc"
-        Me.txtTransporter_desc.Size = New System.Drawing.Size(387, 18)
-        Me.txtTransporter_desc.TabIndex = 1427
-        Me.txtTransporter_desc.TextWrap = False
-        '
-        'txtTransporter_Code
-        '
-        Me.txtTransporter_Code.CalculationExpression = Nothing
-        Me.txtTransporter_Code.FieldCode = Nothing
-        Me.txtTransporter_Code.FieldDesc = Nothing
-        Me.txtTransporter_Code.FieldMaxLength = 0
-        Me.txtTransporter_Code.FieldName = Nothing
-        Me.txtTransporter_Code.isCalculatedField = False
-        Me.txtTransporter_Code.IsSourceFromTable = False
-        Me.txtTransporter_Code.IsSourceFromValueList = False
-        Me.txtTransporter_Code.IsUnique = False
-        Me.txtTransporter_Code.Location = New System.Drawing.Point(81, 92)
-        Me.txtTransporter_Code.MendatroryField = False
-        Me.txtTransporter_Code.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTransporter_Code.MyLinkLable1 = Me.lblTransporter
-        Me.txtTransporter_Code.MyLinkLable2 = Me.txtTransporter_desc
-        Me.txtTransporter_Code.MyReadOnly = False
-        Me.txtTransporter_Code.MyShowMasterFormButton = False
-        Me.txtTransporter_Code.Name = "txtTransporter_Code"
-        Me.txtTransporter_Code.ReferenceFieldDesc = Nothing
-        Me.txtTransporter_Code.ReferenceFieldName = Nothing
-        Me.txtTransporter_Code.ReferenceTableName = Nothing
-        Me.txtTransporter_Code.Size = New System.Drawing.Size(131, 20)
-        Me.txtTransporter_Code.TabIndex = 1426
-        Me.txtTransporter_Code.Value = ""
-        '
         'lblInvoiceType
         '
         Me.lblInvoiceType.FieldName = Nothing
@@ -958,7 +851,7 @@ Partial Class frmScrapSale
         Me.txtVatInvNo.BorderVisible = True
         Me.txtVatInvNo.FieldName = Nothing
         Me.txtVatInvNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVatInvNo.Location = New System.Drawing.Point(781, 426)
+        Me.txtVatInvNo.Location = New System.Drawing.Point(781, 422)
         Me.txtVatInvNo.Name = "txtVatInvNo"
         Me.txtVatInvNo.Size = New System.Drawing.Size(133, 18)
         Me.txtVatInvNo.TabIndex = 14
@@ -971,7 +864,7 @@ Partial Class frmScrapSale
         Me.lblDocAmount.BorderVisible = True
         Me.lblDocAmount.FieldName = Nothing
         Me.lblDocAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocAmount.Location = New System.Drawing.Point(957, 426)
+        Me.lblDocAmount.Location = New System.Drawing.Point(957, 422)
         Me.lblDocAmount.Name = "lblDocAmount"
         Me.lblDocAmount.Size = New System.Drawing.Size(113, 18)
         Me.lblDocAmount.TabIndex = 14
@@ -1017,7 +910,7 @@ Partial Class frmScrapSale
         Me.MyLabel4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(912, 428)
+        Me.MyLabel4.Location = New System.Drawing.Point(912, 424)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(45, 16)
         Me.MyLabel4.TabIndex = 15
@@ -1427,7 +1320,7 @@ Partial Class frmScrapSale
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 179)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1071, 180)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1071, 176)
         Me.RadGroupBox2.TabIndex = 19
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1447,12 +1340,12 @@ Partial Class frmScrapSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1051, 150)
+        Me.gv1.Size = New System.Drawing.Size(1051, 146)
         Me.gv1.TabIndex = 0
         '
         'RadPageViewPage2
@@ -1465,7 +1358,7 @@ Partial Class frmScrapSale
         Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1071, 439)
@@ -1688,7 +1581,7 @@ Partial Class frmScrapSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -1699,7 +1592,7 @@ Partial Class frmScrapSale
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox3)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1071, 439)
@@ -1733,20 +1626,20 @@ Partial Class frmScrapSale
         '
         '
         Me.gvadd.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn1.HeaderText = "Additional Charges"
-        GridViewTextBoxColumn1.Name = "coladdcode"
-        GridViewTextBoxColumn1.Width = 125
-        GridViewTextBoxColumn2.HeaderText = "Description"
-        GridViewTextBoxColumn2.Name = "coladddesc"
-        GridViewTextBoxColumn2.Width = 300
-        GridViewDecimalColumn1.HeaderText = "Amount"
-        GridViewDecimalColumn1.Name = "coladdamt"
-        GridViewDecimalColumn1.Width = 78
-        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1})
+        GridViewTextBoxColumn3.HeaderText = "Additional Charges"
+        GridViewTextBoxColumn3.Name = "coladdcode"
+        GridViewTextBoxColumn3.Width = 125
+        GridViewTextBoxColumn4.HeaderText = "Description"
+        GridViewTextBoxColumn4.Name = "coladddesc"
+        GridViewTextBoxColumn4.Width = 300
+        GridViewDecimalColumn2.HeaderText = "Amount"
+        GridViewDecimalColumn2.Name = "coladdamt"
+        GridViewDecimalColumn2.Width = 78
+        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewDecimalColumn2})
         Me.gvadd.MasterTemplate.EnableGrouping = False
         Me.gvadd.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvadd.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvadd.Name = "gvadd"
         Me.gvadd.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvadd.ShowHeaderCellButtons = True
@@ -1793,16 +1686,24 @@ Partial Class frmScrapSale
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1071, 439)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1071, 439)
+        Me.UcCustomFields1.TabIndex = 2
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1071, 439)
@@ -1846,7 +1747,7 @@ Partial Class frmScrapSale
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1071, 439)
@@ -2168,6 +2069,376 @@ Partial Class frmScrapSale
         Me.RadLabel19.TabIndex = 7
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'RadPageViewPage5
+        '
+        Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox6)
+        Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox4)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(121.0!, 26.0!)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage5.Name = "RadPageViewPage5"
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1071, 439)
+        Me.RadPageViewPage5.Text = "E-Invoice / E-Waybill"
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel12)
+        Me.RadGroupBox6.Controls.Add(Me.txtEWayBillDate)
+        Me.RadGroupBox6.Controls.Add(Me.txtEwayValidDate)
+        Me.RadGroupBox6.Controls.Add(Me.txtEWayBillRemarks)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel19)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel18)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel8)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel38)
+        Me.RadGroupBox6.Controls.Add(Me.txtEWayBillNo)
+        Me.RadGroupBox6.Controls.Add(Me.btnEWaybillUpdate)
+        Me.RadGroupBox6.HeaderText = "E-Waybill Detail"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(0, 218)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Size = New System.Drawing.Size(683, 138)
+        Me.RadGroupBox6.TabIndex = 1421
+        Me.RadGroupBox6.Text = "E-Waybill Detail"
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(11, 22)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel12.TabIndex = 1413
+        Me.MyLabel12.Text = "E Way Bill No."
+        '
+        'txtEWayBillDate
+        '
+        Me.txtEWayBillDate.CalculationExpression = Nothing
+        Me.txtEWayBillDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtEWayBillDate.FieldCode = Nothing
+        Me.txtEWayBillDate.FieldDesc = Nothing
+        Me.txtEWayBillDate.FieldMaxLength = 0
+        Me.txtEWayBillDate.FieldName = Nothing
+        Me.txtEWayBillDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEWayBillDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtEWayBillDate.isCalculatedField = False
+        Me.txtEWayBillDate.IsSourceFromTable = False
+        Me.txtEWayBillDate.IsSourceFromValueList = False
+        Me.txtEWayBillDate.IsUnique = False
+        Me.txtEWayBillDate.Location = New System.Drawing.Point(136, 39)
+        Me.txtEWayBillDate.MendatroryField = False
+        Me.txtEWayBillDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtEWayBillDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtEWayBillDate.MyLinkLable2 = Nothing
+        Me.txtEWayBillDate.Name = "txtEWayBillDate"
+        Me.txtEWayBillDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtEWayBillDate.ReferenceFieldDesc = Nothing
+        Me.txtEWayBillDate.ReferenceFieldName = Nothing
+        Me.txtEWayBillDate.ReferenceTableName = Nothing
+        Me.txtEWayBillDate.Size = New System.Drawing.Size(126, 18)
+        Me.txtEWayBillDate.TabIndex = 1412
+        Me.txtEWayBillDate.TabStop = False
+        Me.txtEWayBillDate.Text = "13/06/2011 11:29 AM"
+        Me.txtEWayBillDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'txtEwayValidDate
+        '
+        Me.txtEwayValidDate.CalculationExpression = Nothing
+        Me.txtEwayValidDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtEwayValidDate.FieldCode = Nothing
+        Me.txtEwayValidDate.FieldDesc = Nothing
+        Me.txtEwayValidDate.FieldMaxLength = 0
+        Me.txtEwayValidDate.FieldName = Nothing
+        Me.txtEwayValidDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEwayValidDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtEwayValidDate.isCalculatedField = False
+        Me.txtEwayValidDate.IsSourceFromTable = False
+        Me.txtEwayValidDate.IsSourceFromValueList = False
+        Me.txtEwayValidDate.IsUnique = False
+        Me.txtEwayValidDate.Location = New System.Drawing.Point(136, 59)
+        Me.txtEwayValidDate.MendatroryField = False
+        Me.txtEwayValidDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtEwayValidDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtEwayValidDate.MyLinkLable2 = Nothing
+        Me.txtEwayValidDate.Name = "txtEwayValidDate"
+        Me.txtEwayValidDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtEwayValidDate.ReferenceFieldDesc = Nothing
+        Me.txtEwayValidDate.ReferenceFieldName = Nothing
+        Me.txtEwayValidDate.ReferenceTableName = Nothing
+        Me.txtEwayValidDate.Size = New System.Drawing.Size(126, 18)
+        Me.txtEwayValidDate.TabIndex = 1411
+        Me.txtEwayValidDate.TabStop = False
+        Me.txtEwayValidDate.Text = "13/06/2011 11:29 AM"
+        Me.txtEwayValidDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'txtEWayBillRemarks
+        '
+        Me.txtEWayBillRemarks.CalculationExpression = Nothing
+        Me.txtEWayBillRemarks.FieldCode = Nothing
+        Me.txtEWayBillRemarks.FieldDesc = Nothing
+        Me.txtEWayBillRemarks.FieldMaxLength = 0
+        Me.txtEWayBillRemarks.FieldName = Nothing
+        Me.txtEWayBillRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEWayBillRemarks.isCalculatedField = False
+        Me.txtEWayBillRemarks.IsSourceFromTable = False
+        Me.txtEWayBillRemarks.IsSourceFromValueList = False
+        Me.txtEWayBillRemarks.IsUnique = False
+        Me.txtEWayBillRemarks.Location = New System.Drawing.Point(136, 79)
+        Me.txtEWayBillRemarks.MaxLength = 30
+        Me.txtEWayBillRemarks.MendatroryField = False
+        Me.txtEWayBillRemarks.MyLinkLable1 = Nothing
+        Me.txtEWayBillRemarks.MyLinkLable2 = Nothing
+        Me.txtEWayBillRemarks.Name = "txtEWayBillRemarks"
+        Me.txtEWayBillRemarks.ReferenceFieldDesc = Nothing
+        Me.txtEWayBillRemarks.ReferenceFieldName = Nothing
+        Me.txtEWayBillRemarks.ReferenceTableName = Nothing
+        Me.txtEWayBillRemarks.Size = New System.Drawing.Size(291, 18)
+        Me.txtEWayBillRemarks.TabIndex = 1410
+        '
+        'MyLabel19
+        '
+        Me.MyLabel19.FieldName = Nothing
+        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel19.Location = New System.Drawing.Point(11, 81)
+        Me.MyLabel19.Name = "MyLabel19"
+        Me.MyLabel19.Size = New System.Drawing.Size(120, 16)
+        Me.MyLabel19.TabIndex = 1409
+        Me.MyLabel19.Text = "E Waybill Bill Remarks"
+        '
+        'MyLabel18
+        '
+        Me.MyLabel18.FieldName = Nothing
+        Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel18.Location = New System.Drawing.Point(11, 61)
+        Me.MyLabel18.Name = "MyLabel18"
+        Me.MyLabel18.Size = New System.Drawing.Size(113, 16)
+        Me.MyLabel18.TabIndex = 1408
+        Me.MyLabel18.Text = "E Way Bill Valid Date"
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(11, 41)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(85, 16)
+        Me.MyLabel8.TabIndex = 1405
+        Me.MyLabel8.Text = "E Way Bill Date"
+        '
+        'MyLabel38
+        '
+        Me.MyLabel38.FieldName = Nothing
+        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel38.Location = New System.Drawing.Point(20, 119)
+        Me.MyLabel38.Name = "MyLabel38"
+        Me.MyLabel38.Size = New System.Drawing.Size(2, 2)
+        Me.MyLabel38.TabIndex = 1407
+        '
+        'txtEWayBillNo
+        '
+        Me.txtEWayBillNo.CalculationExpression = Nothing
+        Me.txtEWayBillNo.FieldCode = Nothing
+        Me.txtEWayBillNo.FieldDesc = Nothing
+        Me.txtEWayBillNo.FieldMaxLength = 0
+        Me.txtEWayBillNo.FieldName = Nothing
+        Me.txtEWayBillNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEWayBillNo.isCalculatedField = False
+        Me.txtEWayBillNo.IsSourceFromTable = False
+        Me.txtEWayBillNo.IsSourceFromValueList = False
+        Me.txtEWayBillNo.IsUnique = False
+        Me.txtEWayBillNo.Location = New System.Drawing.Point(136, 19)
+        Me.txtEWayBillNo.MaxLength = 30
+        Me.txtEWayBillNo.MendatroryField = False
+        Me.txtEWayBillNo.MyLinkLable1 = Nothing
+        Me.txtEWayBillNo.MyLinkLable2 = Nothing
+        Me.txtEWayBillNo.Name = "txtEWayBillNo"
+        Me.txtEWayBillNo.ReferenceFieldDesc = Nothing
+        Me.txtEWayBillNo.ReferenceFieldName = Nothing
+        Me.txtEWayBillNo.ReferenceTableName = Nothing
+        Me.txtEWayBillNo.Size = New System.Drawing.Size(291, 18)
+        Me.txtEWayBillNo.TabIndex = 1402
+        '
+        'btnEWaybillUpdate
+        '
+        Me.btnEWaybillUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnEWaybillUpdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnEWaybillUpdate.Location = New System.Drawing.Point(136, 107)
+        Me.btnEWaybillUpdate.Name = "btnEWaybillUpdate"
+        Me.btnEWaybillUpdate.Size = New System.Drawing.Size(141, 20)
+        Me.btnEWaybillUpdate.TabIndex = 41
+        Me.btnEWaybillUpdate.Text = "Update"
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.txtAckDate)
+        Me.RadGroupBox4.Controls.Add(Me.EinvoiceBtnUpdate)
+        Me.RadGroupBox4.Controls.Add(Me.EInvoiceQrCode)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel17)
+        Me.RadGroupBox4.Controls.Add(Me.EinvoiceAckNo)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel15)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel14)
+        Me.RadGroupBox4.Controls.Add(Me.EInvoiceIRNNo)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel16)
+        Me.RadGroupBox4.HeaderText = "E-Invoice Detail"
+        Me.RadGroupBox4.Location = New System.Drawing.Point(3, 3)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Size = New System.Drawing.Size(680, 209)
+        Me.RadGroupBox4.TabIndex = 1420
+        Me.RadGroupBox4.Text = "E-Invoice Detail"
+        '
+        'txtAckDate
+        '
+        Me.txtAckDate.CalculationExpression = Nothing
+        Me.txtAckDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtAckDate.FieldCode = Nothing
+        Me.txtAckDate.FieldDesc = Nothing
+        Me.txtAckDate.FieldMaxLength = 0
+        Me.txtAckDate.FieldName = Nothing
+        Me.txtAckDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAckDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtAckDate.isCalculatedField = False
+        Me.txtAckDate.IsSourceFromTable = False
+        Me.txtAckDate.IsSourceFromValueList = False
+        Me.txtAckDate.IsUnique = False
+        Me.txtAckDate.Location = New System.Drawing.Point(84, 60)
+        Me.txtAckDate.MendatroryField = False
+        Me.txtAckDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtAckDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtAckDate.MyLinkLable2 = Nothing
+        Me.txtAckDate.Name = "txtAckDate"
+        Me.txtAckDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtAckDate.ReferenceFieldDesc = Nothing
+        Me.txtAckDate.ReferenceFieldName = Nothing
+        Me.txtAckDate.ReferenceTableName = Nothing
+        Me.txtAckDate.Size = New System.Drawing.Size(126, 18)
+        Me.txtAckDate.TabIndex = 1410
+        Me.txtAckDate.TabStop = False
+        Me.txtAckDate.Text = "13/06/2011 11:29 AM"
+        Me.txtAckDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'EinvoiceBtnUpdate
+        '
+        Me.EinvoiceBtnUpdate.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.EinvoiceBtnUpdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EinvoiceBtnUpdate.Location = New System.Drawing.Point(84, 176)
+        Me.EinvoiceBtnUpdate.Name = "EinvoiceBtnUpdate"
+        Me.EinvoiceBtnUpdate.Size = New System.Drawing.Size(141, 20)
+        Me.EinvoiceBtnUpdate.TabIndex = 41
+        Me.EinvoiceBtnUpdate.Text = "Update"
+        '
+        'EInvoiceQrCode
+        '
+        Me.EInvoiceQrCode.AutoSize = False
+        Me.EInvoiceQrCode.CalculationExpression = Nothing
+        Me.EInvoiceQrCode.FieldCode = Nothing
+        Me.EInvoiceQrCode.FieldDesc = Nothing
+        Me.EInvoiceQrCode.FieldMaxLength = 0
+        Me.EInvoiceQrCode.FieldName = Nothing
+        Me.EInvoiceQrCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EInvoiceQrCode.isCalculatedField = False
+        Me.EInvoiceQrCode.IsSourceFromTable = False
+        Me.EInvoiceQrCode.IsSourceFromValueList = False
+        Me.EInvoiceQrCode.IsUnique = False
+        Me.EInvoiceQrCode.Location = New System.Drawing.Point(84, 80)
+        Me.EInvoiceQrCode.MaxLength = 500
+        Me.EInvoiceQrCode.MendatroryField = False
+        Me.EInvoiceQrCode.Multiline = True
+        Me.EInvoiceQrCode.MyLinkLable1 = Me.MyLabel15
+        Me.EInvoiceQrCode.MyLinkLable2 = Nothing
+        Me.EInvoiceQrCode.Name = "EInvoiceQrCode"
+        Me.EInvoiceQrCode.ReferenceFieldDesc = Nothing
+        Me.EInvoiceQrCode.ReferenceFieldName = Nothing
+        Me.EInvoiceQrCode.ReferenceTableName = Nothing
+        Me.EInvoiceQrCode.Size = New System.Drawing.Size(588, 93)
+        Me.EInvoiceQrCode.TabIndex = 1409
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(11, 63)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(52, 16)
+        Me.MyLabel15.TabIndex = 1407
+        Me.MyLabel15.Text = "Ack Date"
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(11, 85)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(53, 16)
+        Me.MyLabel17.TabIndex = 1408
+        Me.MyLabel17.Text = "QR Code"
+        '
+        'EinvoiceAckNo
+        '
+        Me.EinvoiceAckNo.CalculationExpression = Nothing
+        Me.EinvoiceAckNo.FieldCode = Nothing
+        Me.EinvoiceAckNo.FieldDesc = Nothing
+        Me.EinvoiceAckNo.FieldMaxLength = 0
+        Me.EinvoiceAckNo.FieldName = Nothing
+        Me.EinvoiceAckNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EinvoiceAckNo.isCalculatedField = False
+        Me.EinvoiceAckNo.IsSourceFromTable = False
+        Me.EinvoiceAckNo.IsSourceFromValueList = False
+        Me.EinvoiceAckNo.IsUnique = False
+        Me.EinvoiceAckNo.Location = New System.Drawing.Point(84, 41)
+        Me.EinvoiceAckNo.MaxLength = 30
+        Me.EinvoiceAckNo.MendatroryField = False
+        Me.EinvoiceAckNo.MyLinkLable1 = Me.MyLabel15
+        Me.EinvoiceAckNo.MyLinkLable2 = Nothing
+        Me.EinvoiceAckNo.Name = "EinvoiceAckNo"
+        Me.EinvoiceAckNo.ReferenceFieldDesc = Nothing
+        Me.EinvoiceAckNo.ReferenceFieldName = Nothing
+        Me.EinvoiceAckNo.ReferenceTableName = Nothing
+        Me.EinvoiceAckNo.Size = New System.Drawing.Size(300, 18)
+        Me.EinvoiceAckNo.TabIndex = 1406
+        '
+        'MyLabel14
+        '
+        Me.MyLabel14.FieldName = Nothing
+        Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel14.Location = New System.Drawing.Point(20, 42)
+        Me.MyLabel14.Name = "MyLabel14"
+        Me.MyLabel14.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel14.TabIndex = 1405
+        Me.MyLabel14.Text = "Ack No"
+        '
+        'EInvoiceIRNNo
+        '
+        Me.EInvoiceIRNNo.CalculationExpression = Nothing
+        Me.EInvoiceIRNNo.FieldCode = Nothing
+        Me.EInvoiceIRNNo.FieldDesc = Nothing
+        Me.EInvoiceIRNNo.FieldMaxLength = 0
+        Me.EInvoiceIRNNo.FieldName = Nothing
+        Me.EInvoiceIRNNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.EInvoiceIRNNo.isCalculatedField = False
+        Me.EInvoiceIRNNo.IsSourceFromTable = False
+        Me.EInvoiceIRNNo.IsSourceFromValueList = False
+        Me.EInvoiceIRNNo.IsUnique = False
+        Me.EInvoiceIRNNo.Location = New System.Drawing.Point(84, 22)
+        Me.EInvoiceIRNNo.MaxLength = 30
+        Me.EInvoiceIRNNo.MendatroryField = False
+        Me.EInvoiceIRNNo.MyLinkLable1 = Me.MyLabel16
+        Me.EInvoiceIRNNo.MyLinkLable2 = Nothing
+        Me.EInvoiceIRNNo.Name = "EInvoiceIRNNo"
+        Me.EInvoiceIRNNo.ReferenceFieldDesc = Nothing
+        Me.EInvoiceIRNNo.ReferenceFieldName = Nothing
+        Me.EInvoiceIRNNo.ReferenceTableName = Nothing
+        Me.EInvoiceIRNNo.Size = New System.Drawing.Size(300, 18)
+        Me.EInvoiceIRNNo.TabIndex = 1402
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(18, 23)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel16.TabIndex = 1403
+        Me.MyLabel16.Text = "IRN No"
+        '
         'btnHistory
         '
         Me.btnHistory.Location = New System.Drawing.Point(638, 2)
@@ -2306,14 +2577,6 @@ Partial Class frmScrapSale
         Me.Panel1.Size = New System.Drawing.Size(1092, 517)
         Me.Panel1.TabIndex = 3
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1071, 439)
-        Me.UcCustomFields1.TabIndex = 2
-        '
         'frmScrapSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2336,20 +2599,12 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
         CType(Me.chkBuyBack, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTransporter_desc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox5.ResumeLayout(False)
-        Me.RadGroupBox5.PerformLayout()
-        CType(Me.txtElectronicRefNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtEWayBillDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTaxable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkCashSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkScrapSale, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2362,8 +2617,6 @@ Partial Class frmScrapSale
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpshipment, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTransporter, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTransporter_desc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblInvoiceType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlInvoiceType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtVatInvNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2449,6 +2702,32 @@ Partial Class frmScrapSale
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage5.ResumeLayout(False)
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEWayBillDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEwayValidDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEWayBillRemarks, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnEWaybillUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.txtAckDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.EinvoiceBtnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.EInvoiceQrCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.EinvoiceAckNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.EInvoiceIRNNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2502,7 +2781,6 @@ Partial Class frmScrapSale
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents fndcustNo As common.UserControls.txtFinder
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
-    Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Setting As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents layoutrbtn As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents txtscrapinvoice As common.Controls.MyTextBox
@@ -2579,14 +2857,6 @@ Partial Class frmScrapSale
     Friend WithEvents lblRound_Off As common.Controls.MyLabel
     Friend WithEvents txtRoundOff As common.Controls.MyLabel
     Friend WithEvents chkTaxable As common.Controls.MyCheckBox
-    Friend WithEvents RadGroupBox5 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents txtEWayBillNo As common.Controls.MyTextBox
-    Friend WithEvents MyLabel42 As common.Controls.MyLabel
-    Friend WithEvents txtEWayBillDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel43 As common.Controls.MyLabel
-    Friend WithEvents btnUpdate As Telerik.WinControls.UI.RadButton
-    Friend WithEvents txtElectronicRefNo As common.Controls.MyTextBox
-    Friend WithEvents MyLabel27 As common.Controls.MyLabel
     Friend WithEvents btnInvoiceJE As Telerik.WinControls.UI.RadButton
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents btnShowInventory As Telerik.WinControls.UI.RadButton
@@ -2602,5 +2872,28 @@ Partial Class frmScrapSale
     Friend WithEvents txttcstaxbaseamount As common.MyNumBox
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents chkBuyBack As RadCheckBox
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents RadPageViewPage5 As RadPageViewPage
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents txtAckDate As common.Controls.MyDateTimePicker
+    Friend WithEvents EinvoiceBtnUpdate As RadButton
+    Friend WithEvents EInvoiceQrCode As common.Controls.MyTextBox
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents EinvoiceAckNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel14 As common.Controls.MyLabel
+    Friend WithEvents EInvoiceIRNNo As common.Controls.MyTextBox
+    Friend WithEvents MyLabel16 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox6 As RadGroupBox
+    Friend WithEvents txtEwayValidDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtEWayBillRemarks As common.Controls.MyTextBox
+    Friend WithEvents MyLabel19 As common.Controls.MyLabel
+    Friend WithEvents MyLabel18 As common.Controls.MyLabel
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents MyLabel38 As common.Controls.MyLabel
+    Friend WithEvents txtEWayBillNo As common.Controls.MyTextBox
+    Friend WithEvents btnEWaybillUpdate As RadButton
+    Friend WithEvents txtEWayBillDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
 End Class
 
