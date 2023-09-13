@@ -902,7 +902,7 @@ Public Class frmDemandBooking
                 If IsRepeatOrder = 1 Then
                     Dim isSave As Boolean = False
                     If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
-                        isSave = clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, Nothing, obj.Location_Code, obj.ShiftType)
+                        isSave = clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, Nothing, obj.Location_Code, obj.ShiftType, isNewEntry)
                         If isSave Then
 
                             clsCommon.MyMessageBoxShow(Me, "" + clsCommon.myCstr(obj.ShiftType) + " Demand Data Saved Successfully", Me.Text)

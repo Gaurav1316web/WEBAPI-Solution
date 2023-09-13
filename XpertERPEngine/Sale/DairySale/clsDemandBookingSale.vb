@@ -110,7 +110,7 @@ Public Class clsDemandBookingSale
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_MASTER", OMInsertOrUpdate.Update, "TSPL_DEMAND_BOOKING_MASTER.Document_No='" + obj.Document_No + "'", trans)
             End If
 
-            clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans, obj.Location_Code, ShiftType)
+            clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, trans, obj.Location_Code, ShiftType, isNewEntry)
             createDairyBookingDoc(obj.Document_No, trans, isNewEntry, ShiftType)
 
         Catch ex As Exception
@@ -118,7 +118,7 @@ Public Class clsDemandBookingSale
         End Try
         Return True
     End Function
-    Private Shared Function createDairyBookingDoc(ByVal strDemandBookingNo As String, ByVal trans As SqlTransaction, ByVal isDemandBookingNewEntry As Boolean, ByVal UpdatedShiftType As String)
+    Public Shared Function createDairyBookingDoc(ByVal strDemandBookingNo As String, ByVal trans As SqlTransaction, ByVal isDemandBookingNewEntry As Boolean, ByVal UpdatedShiftType As String)
         Dim obj As New clsBookingEntryDairySale()
         Dim objTr As New clsBookingDetailDairySale()
         Try
@@ -764,7 +764,7 @@ Public Class clsDemandBookingSaleDetail
     Public IsItemUpdate As Integer = 0
 
 #End Region
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal DocDate As Date, ByVal Arr As List(Of clsDemandBookingSaleDetail), ByVal trans As SqlTransaction, ByVal strLocCode As String, ByVal ShiftType As String) As Boolean
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal DocDate As Date, ByVal Arr As List(Of clsDemandBookingSaleDetail), ByVal trans As SqlTransaction, ByVal strLocCode As String, ByVal ShiftType As String, ByVal isNewEntry As Boolean) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsDemandBookingSaleDetail In Arr
                 If clsCommon.myLen(ShiftType) > 0 Then
@@ -793,6 +793,10 @@ Public Class clsDemandBookingSaleDetail
                 clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
+            If Not isNewEntry Then
+                clsDemandBookingSale.createDairyBookingDoc(strDocNo, trans, isNewEntry, ShiftType)
+
+            End If
         End If
         Return True
     End Function
