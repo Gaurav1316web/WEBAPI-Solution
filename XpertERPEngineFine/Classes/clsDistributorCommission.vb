@@ -67,9 +67,9 @@ Public Class clsDistributorCommission
                 Case NavigatorType.Last
                     strQry += " and TSPL_Distributor_Commission_Head.Doc_No = (select Max(Doc_No) from TSPL_Distributor_Commission_Head where 1=1 " + Whrcls + "  )"
                 Case NavigatorType.Next
-                    strQry += " and TSPL_Distributor_Commission_Head.Doc_No = (select Min(Doc_No) from TSPL_Distributor_Commission_Head where Doc_No>" + clsCommon.myCstr(Doc_No) + " " + Whrcls + "   )"
+                    strQry += " and TSPL_Distributor_Commission_Head.Doc_No = (select Min(Doc_No) from TSPL_Distributor_Commission_Head where Doc_No>'" + clsCommon.myCstr(Doc_No) + "' " + Whrcls + "   )"
                 Case NavigatorType.Previous
-                    strQry += " and TSPL_Distributor_Commission_Head.Doc_No = (select Max(Doc_No) from TSPL_Distributor_Commission_Head where Doc_No<" + clsCommon.myCstr(Doc_No) + " " + Whrcls + "  )"
+                    strQry += " and TSPL_Distributor_Commission_Head.Doc_No = (select Max(Doc_No) from TSPL_Distributor_Commission_Head where Doc_No<'" + clsCommon.myCstr(Doc_No) + "' " + Whrcls + "  )"
                 Case NavigatorType.Current
                     strQry += " and TSPL_Distributor_Commission_Head.Doc_No = '" + clsCommon.myCstr(Doc_No) + "'  " + Whrcls + " "
             End Select
@@ -157,7 +157,6 @@ Public Class clsDistributorCommissionDetails
     Public Doc_No As String = Nothing
     Public Route_Code As String = Nothing
     Public Distributor_Code As String = Nothing
-    Public UOM As String = Nothing
     Public Rate As Double = 0
 #End Region
 
@@ -169,7 +168,6 @@ Public Class clsDistributorCommissionDetails
                     clsCommon.AddColumnsForChange(coll, "Doc_No", Doc_No)
                     clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code)
                     clsCommon.AddColumnsForChange(coll, "Distributor_Code", obj.Distributor_Code)
-                    clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
                     clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
 
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Distributor_Commission_Detail", OMInsertOrUpdate.Insert, "", trans)
@@ -187,7 +185,7 @@ Public Class clsDistributorCommissionDetails
 
         Try
             Dim dt As DataTable
-            Dim strQry As String = "select Doc_No,Route_Code,Distributor_Code,UOM,Rate from TSPL_Distributor_Commission_Detail where Doc_No='" & strDocNo & "'"
+            Dim strQry As String = "select Doc_No,Route_Code,Distributor_Code,Rate from TSPL_Distributor_Commission_Detail where Doc_No='" & strDocNo & "'"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -198,7 +196,6 @@ Public Class clsDistributorCommissionDetails
                     objTr.Doc_No = clsCommon.myCstr(dr("Doc_No"))
                     objTr.Route_Code = clsCommon.myCstr(dr("Route_Code"))
                     objTr.Distributor_Code = clsCommon.myCstr(dr("Distributor_Code"))
-                    objTr.UOM = clsCommon.myCstr(dr("UOM"))
                     objTr.Rate = clsCommon.myCDecimal(dr("Rate"))
                     arr.Add(objTr)
                 Next
