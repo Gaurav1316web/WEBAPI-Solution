@@ -92,7 +92,9 @@ Public Class clsCreateAllTable
             If CodeExist = 1 Then
                 Dim qst As String = "select count(1) from TSPL_EINVOICEHEADER_INFO"
                 Dim DataExist = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
-                If DataExist > 0 Then
+                Dim is_Identity As Integer = clsDBFuncationality.getSingleValue("SELECT  is_identity FROM sys.columns WHERE [object_id] = object_id('TSPL_EINVOICEHEADER_INFO') and name = 'Code'")
+
+                If DataExist > 0 AndAlso is_Identity = 0 Then
                     Dim str As String = "update TSPL_EINVOICEHEADER_INFO  set TSPL_EINVOICEHEADER_INFO.Code = xxx.rownumber from (SELECT TSPL_EINVOICEHEADER_INFO.*, ROW_NUMBER()
                OVER(ORDER BY code) AS rownumber  FROM TSPL_EINVOICEHEADER_INFO )xxx inner join TSPL_EINVOICEHEADER_INFO on 
                TSPL_EINVOICEHEADER_INFO.Url = xxx.Url and  TSPL_EINVOICEHEADER_INFO.username = xxx.username and  TSPL_EINVOICEHEADER_INFO.password = xxx.password and 
@@ -100,14 +102,16 @@ Public Class clsCreateAllTable
               TSPL_EINVOICEHEADER_INFO.GSTin = xxx.GSTin and TSPL_EINVOICEHEADER_INFO.RequiredFor = xxx.RequiredFor and  TSPL_EINVOICEHEADER_INFO.VendorName = xxx.VendorName and 
               TSPL_EINVOICEHEADER_INFO.Location_Code = xxx.Location_Code"
                     clsDBFuncationality.ExecuteNonQuery(str)
-                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO drop column code")
-                    clsDBFuncationality.ExecuteNonQuery(" ALTER TABLE TSPL_EINVOICEHEADER_INFO Add  code int  IDENTITY(1,1) NOT NULL;")
-                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO Add PRIMARY KEY (code);")
-
                 End If
+                If is_Identity = 0 Then
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO drop column Code")
+                    clsDBFuncationality.ExecuteNonQuery(" ALTER TABLE TSPL_EINVOICEHEADER_INFO Add  Code int  IDENTITY(1,1) NOT NULL;")
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO Add PRIMARY KEY (code);")
+                End If
+
             End If
 
-            coll = New Dictionary(Of String, String)()
+                coll = New Dictionary(Of String, String)()
             coll.Add("AuthToken", "VARCHAR(70) NULL")
             coll.Add("ResponseTime", "datetime NULL")
             coll.Add("Location_Code", "VARCHAR(20) NULL")
@@ -10508,6 +10512,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Own_BMC_Shortage", "integer not null default 0")
             coll.Add("Is_Own_BMC_Excess", "integer not null default 0")
             coll.Add("Own_BMC_Milk_Reject_Type", "varchar(30) NULL REFERENCES TSPL_MILK_REJECT_TYPE(Code)")
+            coll.Add("Is_Negative_SRN", "integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
 
@@ -28742,6 +28747,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("LR_GR_Date", "Datetime NULL")
             coll.Add("SHIP_TO_DELIVERY_AT", "Varchar(100) null")
             coll.Add("Order_Qty", "decimal(18,2) null")
+            coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")
@@ -28912,6 +28918,9 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("VS_Cash_Amt", "float null")
             coll.Add("VS_ltrInCrate", "float null")
             coll.Add("Sub_Location_code", "varchar(12) NULL")
+            coll.Add("Distributor_Commission_PKID", "int null References TSPL_DISTRIBUTOR_COMMISSION_DETAIL(PK_ID)")
+            coll.Add("Distributor_Commission_Rate", "decimal(18,4) NULL")
+            coll.Add("Distributor_Commission_Amt", "decimal(18,4) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
 
@@ -53351,7 +53360,6 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
         clsCommonFunctionality.CreateOrAlterTable("TSPL_INV_MOVE_DL", coll, " unique (TRANS_DATE,LOCATION_CODE,ITEM_CODE,STOCK_UOM)")
 
         '**************************************************************************************
-
 
 
         Return True

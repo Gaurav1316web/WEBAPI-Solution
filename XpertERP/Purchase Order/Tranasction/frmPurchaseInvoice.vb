@@ -8445,10 +8445,10 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 'ItemCode = "'" + clsCommon.myCstr(rows.Cells(colICode).Value) + "'"
                 '    End If
                 Dim arr As New ArrayList
-                    For Each rows As GridViewRowInfo In gv1.Rows
+                For Each rows As GridViewRowInfo In gv1.Rows
                     arr.Add(clsCommon.myCstr(rows.Cells(colICode).Value))
                 Next
-                    ItemCode = clsCommon.GetMulcallString(arr)
+                ItemCode = clsCommon.GetMulcallString(arr)
                 ' Next
             End If
 

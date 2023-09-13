@@ -7414,6 +7414,9 @@ Public Class MDI
                     Case clsUserMgtCode.VehicleMasterForDairySale
                         frm = New frmVehicleMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDistributorCommission
+                        frm = New frmDistributorCommission
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.VehicleMasterForProductSale
                         frm = New frmVehicleMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8806,12 +8809,17 @@ Public Class MDI
                     Case clsUserMgtCode.CustomerDeduction
                         frm = New frmCustomerDeduction()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmRouteFreightDetailsDS
                         frm = New FrmRouteFreightDetails()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmLocationItemMapping
                         frm = New RptLocationItemMappingDS()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDistributeRateTagging
+                        frm = New frmDistributeRateTagging()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.SaleIncentiveMaster
                         frm = New frmSaleIncentiveMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9678,10 +9686,10 @@ Public Class MDI
     End Sub
 
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
-        Dim frm As New FrmCarousal(Me)
-        frm.MdiParent = Me
-        frm.Show()
-        frm.Focus()
+        'Dim frm As New FrmCarousal(Me)
+        'frm.MdiParent = Me
+        'frm.Show()
+        'frm.Focus()
     End Sub
 
     Private Sub txtUserName_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtUserName.KeyDown, txtPassword.KeyDown

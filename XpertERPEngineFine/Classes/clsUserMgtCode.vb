@@ -178,6 +178,7 @@ Public Class clsUserMgtCode
     Public Const frmRouteFreightDetailsDS As String = "SFDMst"
     Public Const SaleIncentiveMaster As String = "SaleINCMst"
     Public Const CustomerDeduction As String = "CUST-DED"
+
     'Public Const frmCustCategoryWiseDefaultItemUomMaster As String = "CUST-CAT-UOM"
     'Public Const frmTranspoterDeductionMaster As String = "TRAN-DED_MST"
     'Public Const frmItemSublocationMapping As String = "ITM_SLOC_MP"
@@ -2329,6 +2330,7 @@ Public Class clsUserMgtCode
     Public Const frmEmptyWtEntry As String = "EMT-WT"
     '=========================================Preeti===========
     Public Const frmLocationItemMapping As String = "Loc_ITM_MAP"
+    Public Const frmDistributeRateTagging As String = "DIS-R-T"
 
     '=========Sanjeet(21/112016)=====================
     ' Public Const FrmTruckSheetRouteWiseRpt As String = "TSHT_RTWise"
@@ -2458,6 +2460,7 @@ Public Class clsUserMgtCode
     Public Const rptProductionStatusReport As String = "PRO_STS_RPT"
     Public Const frmProductionUtilityCost As String = "PRO_UC_RPT"
     Public Const VehicleMasterForDairySale As String = "VM_DS"
+    Public Const frmDistributorCommission As String = "Dis-COM-MST"
     Public Const VehicleMasterForProductSale As String = "VM_PS"
     Public Const frmMRPForProduction As String = "PP_MRP"
     Public Const frmPriceMasterPS As String = "PRC-MST-PS"
