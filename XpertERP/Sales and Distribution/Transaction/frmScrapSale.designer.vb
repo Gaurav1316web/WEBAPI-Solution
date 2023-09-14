@@ -23,12 +23,12 @@ Partial Class frmScrapSale
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmScrapSale))
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn2 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -139,7 +139,6 @@ Partial Class frmScrapSale
         Me.RadLabel25 = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
-        '<<<<<<< HEAD
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel12 = New common.Controls.MyLabel()
@@ -162,9 +161,7 @@ Partial Class frmScrapSale
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.EInvoiceIRNNo = New common.Controls.MyTextBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
-        '=======
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-'>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
@@ -285,7 +282,6 @@ Partial Class frmScrapSale
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
-        '<<<<<<< HEAD
         Me.RadPageViewPage5.SuspendLayout()
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox6.SuspendLayout()
@@ -310,9 +306,7 @@ Partial Class frmScrapSale
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.EInvoiceIRNNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
-        '=======
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-'>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -368,7 +362,7 @@ Partial Class frmScrapSale
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1092, 485)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
@@ -435,11 +429,7 @@ Partial Class frmScrapSale
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(64.0!, 26.0!)
-        '<<<<<<< HEAD
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
-        '=======
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
-'>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1071, 439)
         Me.RadPageViewPage1.Text = "Shipment"
@@ -1348,7 +1338,7 @@ Partial Class frmScrapSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1589,7 +1579,7 @@ Partial Class frmScrapSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -1634,20 +1624,20 @@ Partial Class frmScrapSale
         '
         '
         Me.gvadd.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn3.HeaderText = "Additional Charges"
-        GridViewTextBoxColumn3.Name = "coladdcode"
-        GridViewTextBoxColumn3.Width = 125
-        GridViewTextBoxColumn4.HeaderText = "Description"
-        GridViewTextBoxColumn4.Name = "coladddesc"
-        GridViewTextBoxColumn4.Width = 300
-        GridViewDecimalColumn2.HeaderText = "Amount"
-        GridViewDecimalColumn2.Name = "coladdamt"
-        GridViewDecimalColumn2.Width = 78
-        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewDecimalColumn2})
+        GridViewTextBoxColumn1.HeaderText = "Additional Charges"
+        GridViewTextBoxColumn1.Name = "coladdcode"
+        GridViewTextBoxColumn1.Width = 125
+        GridViewTextBoxColumn2.HeaderText = "Description"
+        GridViewTextBoxColumn2.Name = "coladddesc"
+        GridViewTextBoxColumn2.Width = 300
+        GridViewDecimalColumn1.HeaderText = "Amount"
+        GridViewDecimalColumn1.Name = "coladdamt"
+        GridViewDecimalColumn1.Width = 78
+        Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1})
         Me.gvadd.MasterTemplate.EnableGrouping = False
         Me.gvadd.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvadd.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvadd.Name = "gvadd"
         Me.gvadd.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvadd.ShowHeaderCellButtons = True
@@ -2077,7 +2067,6 @@ Partial Class frmScrapSale
         Me.RadLabel19.TabIndex = 7
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
-        '<'<<<<<< HEAD
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox6)
@@ -2447,7 +2436,7 @@ Partial Class frmScrapSale
         Me.MyLabel16.Size = New System.Drawing.Size(43, 16)
         Me.MyLabel16.TabIndex = 1403
         Me.MyLabel16.Text = "IRN No"
-        '=======
+        '
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2456,7 +2445,6 @@ Partial Class frmScrapSale
         Me.btnPrint.Size = New System.Drawing.Size(77, 22)
         Me.btnPrint.TabIndex = 5
         Me.btnPrint.Text = "Print"
-'>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
         '
         'btnHistory
         '
@@ -2702,7 +2690,6 @@ Partial Class frmScrapSale
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
-        '<<<<<<< HEAD
         Me.RadPageViewPage5.ResumeLayout(False)
         CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
@@ -2729,9 +2716,7 @@ Partial Class frmScrapSale
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.EInvoiceIRNNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
-        '=======
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-'>>>>>>> d1ec586fa3c5d6f2c6903ff02c7d5301aea8f361
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
