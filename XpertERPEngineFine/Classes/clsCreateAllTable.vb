@@ -13588,6 +13588,7 @@ Public Class clsCreateAllTable
             coll.Add("Branch", "Varchar(100) null")
             coll.Add("ACType", "Varchar(100) null")
             coll.Add("No_Of_Shift", "integer null")
+            coll.Add("PAN_NO","VARCHAR(15),NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_LOCATION_MASTER", coll, "", True)
 
 
