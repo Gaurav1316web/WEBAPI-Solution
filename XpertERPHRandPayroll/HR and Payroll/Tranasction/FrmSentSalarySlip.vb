@@ -733,10 +733,13 @@ Public Class FrmSentSalarySlip
 
     Private Sub txtLocCode__My_Click(sender As Object, e As EventArgs) Handles txtLocCode._My_Click
         Dim whrcls As String = Nothing
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " And LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " And LOCATION_CODE='" + LocCode + "'"
+            End If
         End If
-
         Dim qry As String = " select Location_Code as Code,Location_Desc as [Name] from TSPL_LOCATION_MASTER where LOCATION_CODE IN (select DISTINCT LOCATION_CODE from TSPL_GENERATE_SALARY where PAY_PERIOD_CODE='" & txtFromPP1.Value & "') " + whrcls
         txtLocCode.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "Code", "Name", txtLocCode.arrValueMember, txtLocCode.arrDispalyMember)
         LoadEmployee()
@@ -759,8 +762,12 @@ Public Class FrmSentSalarySlip
     End Sub
     Sub LoadEmployee()
         Dim whrcls As String = Nothing
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " And TSPL_EMPLOYEE_MASTER.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " And TSPL_EMPLOYEE_MASTER.LOCATION_CODE='" + LocCode + "'"
+            End If
         End If
         'Dim qry As String = "select Emp_Code as [Code] ,Emp_Name as [Name],EMail_ID as [Email] from TSPL_EMPLOYEE_MASTER where LEN(TSPL_EMPLOYEE_MASTER.EMail_ID)>5 "
         Dim qry As String = " select TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE as [Code],TSPL_EMPLOYEE_MASTER.Emp_Name as [Name],TSPL_EMPLOYEE_MASTER.EMail_ID [Email]  from TSPL_GENERATE_SALARY_ATTENDANCE inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE  left join TSPL_EMPLOYEE_MASTER on TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE where TSPL_GENERATE_SALARY.PAY_PERIOD_CODE='" + txtFromPP1.Value + "' and LEN(TSPL_EMPLOYEE_MASTER.EMail_ID)>5 " + whrcls

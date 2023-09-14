@@ -153,7 +153,6 @@ Public Class frmEmployee_Master
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
-
         AddNew()
     End Sub
 
@@ -1251,6 +1250,11 @@ Public Class frmEmployee_Master
         gvAssets.Rows.AddNew()
         gvEmpDoc.Rows.AddNew()
         gvEmpEx.Rows.AddNew()
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            txtBranch.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        Else
+            txtBranch.Value = ""
+        End If
     End Sub
 
     Sub BlankAllControl()
@@ -1390,12 +1394,14 @@ Public Class frmEmployee_Master
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim whrcls As String = Nothing
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
-        End If
+        Dim LocCode As String = Nothing
         Dim whrQry As String = Nothing
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrQry = " and LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+                whrQry = " and LOCATION_CODE='" + LocCode + "'"
+            End If
         End If
         Dim str As String = "select count(*) from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" + txtCode.Value + "' " + whrQry
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
@@ -1552,13 +1558,16 @@ Public Class frmEmployee_Master
     Private Sub txtBranch__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtBranch._MYValidating
         'Dim qry As String = "select BRANCH_CODE as Code, BRANCH_NAME as Name,RESPONSIBLE_PERSION_NAME as 'Responsible Persion', BRANCH_ADDRESS as 'Branch Address', CITY_CODE as 'City Code', STATE_CODE as 'State Code' , COUNTRY_CODE as 'Country Code', PHONE_NO as 'Phone No',FAX_NO as 'Fax No', EMAIL_ID as 'Email Id'  from TSPL_BRANCH_MASTER"
         Dim whrcls As String = Nothing
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " Location_Type='Physical' And LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
-        Else
-            whrcls = " Location_Type='Physical'"
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " Location_Type='Physical' And LOCATION_CODE='" + LocCode + "'"
+            Else
+                whrcls = " Location_Type='Physical'"
+            End If
         End If
         txtBranch.Value = clsLocation.getFinder(whrcls, Me.txtBranch.Value, isButtonClicked)
-
         'txtBranch.Value = clsCommon.ShowSelectForm("BRANCH_MASTER", qry, "Code", "", txtBranch.Value, "BRANCH_CODE", isButtonClicked)
     End Sub
 
