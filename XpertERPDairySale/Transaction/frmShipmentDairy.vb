@@ -11935,12 +11935,8 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                     'IsTaxable = clsCommon.myCdbl(dt1.Rows(0)("is_taxable"))
                     dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
                 End If
-
-
-                'Dim InvQry As String = "Select Document_Code from TSPL_SD_SALE_INVOICE_HEAD where convert(varchar(12),Document_date,103)>='01/08/2023' and convert(varchar(12),Document_date,103)<='10/08/2023'"
-                'clsCommon()
-
-                Qry = objMultPrintInvoice.PrintInvoiceForAll(txtInvoiceNo.Text)
+                Dim InvoiceNo As String = "'" + txtInvoiceNo.Text + "'"
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 frmCRV = Nothing
