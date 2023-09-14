@@ -71,6 +71,7 @@ Partial Class FrmDeductionMaster
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.chkNegativeSRN = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -114,6 +115,7 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkNegativeSRN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -185,7 +187,7 @@ Partial Class FrmDeductionMaster
         '
         'chkAddition
         '
-        Me.chkAddition.Location = New System.Drawing.Point(17, 252)
+        Me.chkAddition.Location = New System.Drawing.Point(17, 262)
         Me.chkAddition.Name = "chkAddition"
         Me.chkAddition.Size = New System.Drawing.Size(63, 18)
         Me.chkAddition.TabIndex = 622
@@ -193,7 +195,7 @@ Partial Class FrmDeductionMaster
         '
         'chkFEED
         '
-        Me.chkFEED.Location = New System.Drawing.Point(17, 228)
+        Me.chkFEED.Location = New System.Drawing.Point(17, 238)
         Me.chkFEED.Name = "chkFEED"
         Me.chkFEED.Size = New System.Drawing.Size(45, 18)
         Me.chkFEED.TabIndex = 621
@@ -201,7 +203,7 @@ Partial Class FrmDeductionMaster
         '
         'chkGHEE
         '
-        Me.chkGHEE.Location = New System.Drawing.Point(100, 228)
+        Me.chkGHEE.Location = New System.Drawing.Point(100, 238)
         Me.chkGHEE.Name = "chkGHEE"
         Me.chkGHEE.Size = New System.Drawing.Size(47, 18)
         Me.chkGHEE.TabIndex = 620
@@ -209,7 +211,7 @@ Partial Class FrmDeductionMaster
         '
         'chkMILK
         '
-        Me.chkMILK.Location = New System.Drawing.Point(190, 228)
+        Me.chkMILK.Location = New System.Drawing.Point(190, 238)
         Me.chkMILK.Name = "chkMILK"
         Me.chkMILK.Size = New System.Drawing.Size(45, 18)
         Me.chkMILK.TabIndex = 619
@@ -253,7 +255,7 @@ Partial Class FrmDeductionMaster
         '
         'chkHO
         '
-        Me.chkHO.Location = New System.Drawing.Point(17, 204)
+        Me.chkHO.Location = New System.Drawing.Point(17, 214)
         Me.chkHO.Name = "chkHO"
         Me.chkHO.Size = New System.Drawing.Size(37, 18)
         Me.chkHO.TabIndex = 88
@@ -261,7 +263,7 @@ Partial Class FrmDeductionMaster
         '
         'chkVLC
         '
-        Me.chkVLC.Location = New System.Drawing.Point(100, 204)
+        Me.chkVLC.Location = New System.Drawing.Point(100, 214)
         Me.chkVLC.Name = "chkVLC"
         Me.chkVLC.Size = New System.Drawing.Size(40, 18)
         Me.chkVLC.TabIndex = 87
@@ -269,7 +271,7 @@ Partial Class FrmDeductionMaster
         '
         'chkOTHERS
         '
-        Me.chkOTHERS.Location = New System.Drawing.Point(190, 204)
+        Me.chkOTHERS.Location = New System.Drawing.Point(190, 214)
         Me.chkOTHERS.Name = "chkOTHERS"
         Me.chkOTHERS.Size = New System.Drawing.Size(61, 18)
         Me.chkOTHERS.TabIndex = 86
@@ -277,7 +279,7 @@ Partial Class FrmDeductionMaster
         '
         'chkShowFATSNF
         '
-        Me.chkShowFATSNF.Location = New System.Drawing.Point(17, 181)
+        Me.chkShowFATSNF.Location = New System.Drawing.Point(17, 191)
         Me.chkShowFATSNF.Name = "chkShowFATSNF"
         Me.chkShowFATSNF.Size = New System.Drawing.Size(124, 18)
         Me.chkShowFATSNF.TabIndex = 85
@@ -285,6 +287,7 @@ Partial Class FrmDeductionMaster
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.chkNegativeSRN)
         Me.GroupBox1.Controls.Add(Me.txtOwnBMCMilkRejectType)
         Me.GroupBox1.Controls.Add(Me.chkOwnBMCMilkRejectType)
         Me.GroupBox1.Controls.Add(Me.chkOwnBMCExcess)
@@ -304,7 +307,7 @@ Partial Class FrmDeductionMaster
         Me.GroupBox1.Controls.Add(Me.chkCompany)
         Me.GroupBox1.Location = New System.Drawing.Point(12, 99)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(594, 76)
+        Me.GroupBox1.Size = New System.Drawing.Size(594, 91)
         Me.GroupBox1.TabIndex = 84
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Default Deduction Type"
@@ -668,6 +671,14 @@ Partial Class FrmDeductionMaster
         Me.btnClose.TabIndex = 73
         Me.btnClose.Text = "Close"
         '
+        'chkNegativeSRN
+        '
+        Me.chkNegativeSRN.Location = New System.Drawing.Point(6, 71)
+        Me.chkNegativeSRN.Name = "chkNegativeSRN"
+        Me.chkNegativeSRN.Size = New System.Drawing.Size(89, 18)
+        Me.chkNegativeSRN.TabIndex = 92
+        Me.chkNegativeSRN.Text = "Negative SRN"
+        '
         'FrmDeductionMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -726,6 +737,7 @@ Partial Class FrmDeductionMaster
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkNegativeSRN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -779,5 +791,6 @@ Partial Class FrmDeductionMaster
     Friend WithEvents chkOwnBMCShortage As RadCheckBox
     Friend WithEvents txtOwnBMCMilkRejectType As common.UserControls.txtFinder
     Friend WithEvents chkOwnBMCMilkRejectType As RadCheckBox
+    Friend WithEvents chkNegativeSRN As RadCheckBox
 End Class
 

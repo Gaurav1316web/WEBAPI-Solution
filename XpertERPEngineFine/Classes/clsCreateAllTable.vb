@@ -103,12 +103,15 @@ Public Class clsCreateAllTable
               TSPL_EINVOICEHEADER_INFO.Location_Code = xxx.Location_Code"
                     clsDBFuncationality.ExecuteNonQuery(str)
                 End If
-                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO drop column Code")
-                clsDBFuncationality.ExecuteNonQuery(" ALTER TABLE TSPL_EINVOICEHEADER_INFO Add  Code int  IDENTITY(1,1) NOT NULL;")
-                clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO Add PRIMARY KEY (code);")
+                If is_Identity = 0 Then
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO drop column Code")
+                    clsDBFuncationality.ExecuteNonQuery(" ALTER TABLE TSPL_EINVOICEHEADER_INFO Add  Code int  IDENTITY(1,1) NOT NULL;")
+                    clsDBFuncationality.ExecuteNonQuery("ALTER TABLE TSPL_EINVOICEHEADER_INFO Add PRIMARY KEY (code);")
+                End If
+
             End If
 
-            coll = New Dictionary(Of String, String)()
+                coll = New Dictionary(Of String, String)()
             coll.Add("AuthToken", "VARCHAR(70) NULL")
             coll.Add("ResponseTime", "datetime NULL")
             coll.Add("Location_Code", "VARCHAR(20) NULL")
@@ -10509,6 +10512,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Own_BMC_Shortage", "integer not null default 0")
             coll.Add("Is_Own_BMC_Excess", "integer not null default 0")
             coll.Add("Own_BMC_Milk_Reject_Type", "varchar(30) NULL REFERENCES TSPL_MILK_REJECT_TYPE(Code)")
+            coll.Add("Is_Negative_SRN", "integer not null default 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DEDUCTION_MASTER", coll)
 
 
@@ -28455,6 +28459,53 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CUSTOMER_COMPLAINT_DETAIL", coll, Nothing, False, False, "TSPL_CUSTOMER_COMPLAINT_HEAD", "Complaint_No", "")
 
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "Varchar(30) not null PRIMARY KEY")
+            coll.Add("Start_Date", "Date NOT NULL")
+            coll.Add("End_Date", "Date NULL")
+            coll.Add("Remarks", "Varchar(100) null")
+            coll.Add("Status", "integer NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Post_By", "varchar(12)  NULL")
+            coll.Add("Post_Date", "Datetime  NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_DISTRIBUTOR_ROUTE", coll)
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "VARCHAR(30) not null REFERENCES TSPL_DISTRIBUTOR_ROUTE(Code)")
+            coll.Add("Route_No", "VARCHAR(12) not null REFERENCES TSPL_ROUTE_MASTER(Route_No)")
+            coll.Add("Cust_Code", "VARCHAR(12) not null REFERENCES TSPL_CUSTOMER_MASTER(Cust_Code)")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_DISTRIBUTOR_ROUTE_CUSTOMER", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Doc_No", "Varchar(30) Not null Primary key")
+            coll.Add("Document_Date", "datetime Not null")
+            coll.Add("Applicable_Date", "datetime null")
+            coll.Add("Commision_UOM", "varchar(12) null references TSPL_UNIT_MASTER(Unit_Code)")
+            coll.Add("IsPosted", "integer NOT NULL DEFAULT 0")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modified_By", "varchar(12)  Not NULL")
+            coll.Add("Modified_Date", "datetime  Not NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Head", coll, "", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Doc_No", "Varchar(30) Not null REFERENCES TSPL_Distributor_Commission_Head(Doc_No)")
+            coll.Add("Route_Code", "Varchar(12) Not null  REFERENCES TSPL_ROUTE_MASTER(Route_No)")
+            coll.Add("Distributor_Code", "Varchar(12) Not null references TSPL_Customer_MASTER(Cust_Code)")
+            coll.Add("Rate", "Decimal(18,4) Not null")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Detail", coll, "", True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Doc_No", "Varchar(30) Not null REFERENCES TSPL_Distributor_Commission_Head(Doc_No)")
+            coll.Add("Item_Code", "Varchar(50) Not null  REFERENCES TSPL_ITEM_MASTER(Item_Code)")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Items", coll, "", True)
+
             coll = New Dictionary(Of String, String)
             coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Document_Date", "DateTime not NULL")
@@ -28743,6 +28794,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("LR_GR_Date", "Datetime NULL")
             coll.Add("SHIP_TO_DELIVERY_AT", "Varchar(100) null")
             coll.Add("Order_Qty", "decimal(18,2) null")
+            coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")
@@ -28913,6 +28965,9 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("VS_Cash_Amt", "float null")
             coll.Add("VS_ltrInCrate", "float null")
             coll.Add("Sub_Location_code", "varchar(12) NULL")
+            coll.Add("Distributor_Commission_PKID", "int null References TSPL_DISTRIBUTOR_COMMISSION_DETAIL(PK_ID)")
+            coll.Add("Distributor_Commission_Rate", "decimal(18,4) NULL")
+            coll.Add("Distributor_Commission_Amt", "decimal(18,4) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
 
@@ -53291,6 +53346,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_PENALTY_DETAIL", coll, "UNIQUE(SRN_No)", False, True, "TSPL_TENDER_PENALTY", "Document_No", "")
 
 
+
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
             Throw New Exception(ex.Message)
@@ -53352,7 +53408,6 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
         clsCommonFunctionality.CreateOrAlterTable("TSPL_INV_MOVE_DL", coll, " unique (TRANS_DATE,LOCATION_CODE,ITEM_CODE,STOCK_UOM)")
 
         '**************************************************************************************
-
 
 
         Return True
