@@ -8102,6 +8102,11 @@ Public Class clsCreateAllTable
             coll.Add("GatePass_Type", "varchar(2) NUll")
             coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
             coll.Add("Is_DCS", "Integer Default 0")
+            coll.Add("Is_BPL", "Integer Default 0")
+            coll.Add("BPL_Coupon_Code", "varchar(30) NULL")
+            coll.Add("BPL_Name", "varchar(50) NULL")
+            coll.Add("BPL_Remark", "varchar(50) NULL")
+            coll.Add("BPL_Coupon_Date", "Date NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
@@ -13588,7 +13593,7 @@ Public Class clsCreateAllTable
             coll.Add("Branch", "Varchar(100) null")
             coll.Add("ACType", "Varchar(100) null")
             coll.Add("No_Of_Shift", "integer null")
-            coll.Add("PAN_NO","VARCHAR(15),NULL")
+            coll.Add("PAN_NO", "VARCHAR(20) null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_LOCATION_MASTER", coll, "", True)
 
 

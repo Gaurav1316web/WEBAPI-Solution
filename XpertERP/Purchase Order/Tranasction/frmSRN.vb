@@ -6952,7 +6952,7 @@ Public Class frmSRN
         cmbDocType.DisplayMember = "Name"
     End Sub
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
-        Dim whrCls As String = " TSPL_VENDOR_MASTER.Status='N' "
+        Dim whrCls As String = " TSPL_VENDOR_MASTER.Status='N' and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
         If isRGPAfterPO AndAlso clsCommon.CompairString(cboSRNType.SelectedValue, "J") = CompairStringResult.Equal AndAlso clsCommon.CompairString(cmbRGPType.SelectedValue, "AB") = CompairStringResult.Equal Then
             whrCls += " and tspl_vendor_master.vendor_code in (select vendor_code from tspl_rgp_head where Against_BOM='1' and Against_JobWork='1' and Status='1')"
         End If
