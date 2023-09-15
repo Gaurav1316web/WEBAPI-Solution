@@ -22,6 +22,8 @@ Partial Class frmRGP
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -343,7 +345,6 @@ Partial Class frmRGP
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1251, 538)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -532,7 +533,6 @@ Partial Class frmRGP
         Me.lblToLocationCode.Name = "lblToLocationCode"
         Me.lblToLocationCode.Size = New System.Drawing.Size(242, 18)
         Me.lblToLocationCode.TabIndex = 1428
-        Me.lblToLocationCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblToLocationCode.TextWrap = False
         '
         'chkAgainstCCTransfer
@@ -749,7 +749,6 @@ Partial Class frmRGP
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(241, 18)
         Me.lblVendorName.TabIndex = 7
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'chkjvdisplaytype
@@ -1022,7 +1021,6 @@ Partial Class frmRGP
         Me.txtsrnlocation.Name = "txtsrnlocation"
         Me.txtsrnlocation.Size = New System.Drawing.Size(255, 18)
         Me.txtsrnlocation.TabIndex = 47
-        Me.txtsrnlocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtsrnlocation.TextWrap = False
         '
         'MyLabel4
@@ -1113,6 +1111,7 @@ Partial Class frmRGP
         Me.CmbItemConType.AutoCompleteDisplayMember = Nothing
         Me.CmbItemConType.AutoCompleteValueMember = Nothing
         Me.CmbItemConType.CalculationExpression = Nothing
+        Me.CmbItemConType.DropDownAnimationEnabled = True
         Me.CmbItemConType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbItemConType.FieldCode = Nothing
         Me.CmbItemConType.FieldDesc = Nothing
@@ -1225,6 +1224,7 @@ Partial Class frmRGP
         Me.ddlBilling.AutoCompleteDisplayMember = Nothing
         Me.ddlBilling.AutoCompleteValueMember = Nothing
         Me.ddlBilling.CalculationExpression = Nothing
+        Me.ddlBilling.DropDownAnimationEnabled = True
         Me.ddlBilling.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlBilling.FieldCode = Nothing
         Me.ddlBilling.FieldDesc = Nothing
@@ -1548,6 +1548,7 @@ Partial Class frmRGP
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -1698,7 +1699,6 @@ Partial Class frmRGP
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(242, 18)
         Me.lblLocation.TabIndex = 10
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'txtVendorNo
@@ -1773,7 +1773,6 @@ Partial Class frmRGP
         Me.lblDeliveredBy.Name = "lblDeliveredBy"
         Me.lblDeliveredBy.Size = New System.Drawing.Size(242, 18)
         Me.lblDeliveredBy.TabIndex = 14
-        Me.lblDeliveredBy.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDeliveredBy.TextWrap = False
         '
         'RadLabel21
@@ -1825,7 +1824,6 @@ Partial Class frmRGP
         Me.txtCostCentre.Name = "txtCostCentre"
         Me.txtCostCentre.Size = New System.Drawing.Size(242, 18)
         Me.txtCostCentre.TabIndex = 24
-        Me.txtCostCentre.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtCostCentre.TextWrap = False
         '
         'txtDepartment
@@ -1874,7 +1872,6 @@ Partial Class frmRGP
         Me.lblDepartment.Name = "lblDepartment"
         Me.lblDepartment.Size = New System.Drawing.Size(242, 18)
         Me.lblDepartment.TabIndex = 19
-        Me.lblDepartment.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepartment.TextWrap = False
         '
         'txtCashMemoDetail
@@ -2147,6 +2144,7 @@ Partial Class frmRGP
         Me.cboDocType.AutoCompleteDisplayMember = Nothing
         Me.cboDocType.AutoCompleteValueMember = Nothing
         Me.cboDocType.CalculationExpression = Nothing
+        Me.cboDocType.DropDownAnimationEnabled = True
         Me.cboDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDocType.FieldCode = Nothing
         Me.cboDocType.FieldDesc = Nothing
@@ -2243,7 +2241,6 @@ Partial Class frmRGP
         Me.RadPageView2.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView2.Size = New System.Drawing.Size(1228, 150)
         Me.RadPageView2.TabIndex = 1
-        Me.RadPageView2.Text = "RadPageView2"
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage2
@@ -2279,9 +2276,11 @@ Partial Class frmRGP
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(1, 16)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -2289,7 +2288,6 @@ Partial Class frmRGP
         Me.gv1.Size = New System.Drawing.Size(1205, 83)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -2326,7 +2324,6 @@ Partial Class frmRGP
         Me.txtAsitis.Name = "txtAsitis"
         Me.txtAsitis.Size = New System.Drawing.Size(32, 18)
         Me.txtAsitis.TabIndex = 48
-        Me.txtAsitis.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtAsitis.TextWrap = False
         Me.txtAsitis.Visible = False
         '
@@ -2343,7 +2340,9 @@ Partial Class frmRGP
         '
         '
         '
+        Me.gv_PO.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_PO.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_PO.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv_PO.Name = "gv_PO"
         Me.gv_PO.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_PO.ShowGroupPanel = False
@@ -2351,7 +2350,6 @@ Partial Class frmRGP
         Me.gv_PO.Size = New System.Drawing.Size(978, 79)
         Me.gv_PO.TabIndex = 0
         Me.gv_PO.TabStop = False
-        Me.gv_PO.Text = "RadGridView1"
         '
         'btnSameasAbove
         '
@@ -2531,27 +2529,20 @@ Partial Class frmRGP
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1253, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.SaveLayoutbtn, Me.deleteLayout})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'SaveLayoutbtn
         '
-        Me.SaveLayoutbtn.AccessibleDescription = "Save Layout"
-        Me.SaveLayoutbtn.AccessibleName = "Save Layout"
         Me.SaveLayoutbtn.Name = "SaveLayoutbtn"
         Me.SaveLayoutbtn.Text = "Save Layout"
         '
         'deleteLayout
         '
-        Me.deleteLayout.AccessibleDescription = "Delete Layout"
-        Me.deleteLayout.AccessibleName = "Delete Layout"
         Me.deleteLayout.Name = "deleteLayout"
         Me.deleteLayout.Text = "Delete Layout"
         '
