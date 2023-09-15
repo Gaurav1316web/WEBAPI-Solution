@@ -7271,7 +7271,7 @@ Public Class frmPurchaseOrder
     Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtVendorNo._MYValidating
         Dim qry As String = ""
         Dim whrCls As String = ""
-        whrCls = " TSPL_VENDOR_MASTER.Status='N'"
+        whrCls = " TSPL_VENDOR_MASTER.Status='N' and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
         ''richa agarwal 24/12/2014
         If chkIsMerchantTrade.Checked Then
             whrCls += "  and  TSPL_VENDOR_MASTER.CURRENCY_CODE<>(select isnull(BaseCurrencyCode,'')  from TSPL_COMPANY_MASTER where Comp_Code ='" & objCommonVar.CurrentCompanyCode & "' )"

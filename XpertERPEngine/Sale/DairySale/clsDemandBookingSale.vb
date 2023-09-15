@@ -793,10 +793,6 @@ Public Class clsDemandBookingSaleDetail
                 clsCommon.AddColumnsForChange(coll, "IsTruckSheetGenerated", obj.IsTruckSheetGenerated)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DEMAND_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
-            If Not isNewEntry Then
-                clsDemandBookingSale.createDairyBookingDoc(strDocNo, trans, isNewEntry, ShiftType)
-
-            End If
         End If
         Return True
     End Function
