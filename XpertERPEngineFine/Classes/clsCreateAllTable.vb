@@ -33917,6 +33917,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("CANAdjustment", "decimal(18, 2) NULL")
             coll.Add("Route_code", "varchar(12) NULL")
             coll.Add("CrateQtyPreviousDay", "decimal(18, 2) not NULL default 0")
+            coll.Add("DamageCrateQtyRecd", "int NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", coll, Nothing, True, False, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "")
 
             '======================Delivery Note Detail==============================
