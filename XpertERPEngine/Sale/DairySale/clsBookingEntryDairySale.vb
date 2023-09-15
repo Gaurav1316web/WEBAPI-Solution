@@ -57,7 +57,7 @@ Public Class clsBookingEntryDairySale
     Public BPL_Coupon_Code As String = String.Empty
     Public BPL_Name As String = String.Empty
     Public BPL_Remark As String = String.Empty
-    Public BPL_Coupon_Date As Date?
+    Public BPL_Coupon_Date As Date? = Nothing
 
 
     Public arrBookingDetailDairySalePaymentMode As List(Of clsBookingDetailDairySalePaymentMode) = Nothing
@@ -200,7 +200,12 @@ Public Class clsBookingEntryDairySale
             clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Code", obj.BPL_Coupon_Code, True)
             clsCommon.AddColumnsForChange(coll, "BPL_Name", obj.BPL_Name, True)
             clsCommon.AddColumnsForChange(coll, "BPL_Remark", obj.BPL_Remark, True)
-            clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Date", clsCommon.GetPrintDate(obj.BPL_Coupon_Date, "dd/MMM/yyyy"), True)
+            If obj.BPL_Coupon_Date Is Nothing Then
+                clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Date", Nothing, True)
+            Else
+                clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Date", clsCommon.GetPrintDate(obj.BPL_Coupon_Date, "dd/MMM/yyyy"))
+            End If
+
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -441,7 +446,10 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.BPL_Coupon_Code = clsCommon.myCstr(dt.Rows(0)("BPL_Coupon_Code"))
             obj.BPL_Name = clsCommon.myCstr(dt.Rows(0)("BPL_Name"))
             obj.BPL_Remark = clsCommon.myCstr(dt.Rows(0)("BPL_Remark"))
-            obj.BPL_Coupon_Date = clsCommon.myCDate(dt.Rows(0)("BPL_Coupon_Date"))
+            If dt.Rows(0)("BPL_Coupon_Date") IsNot DBNull.Value Then
+                obj.BPL_Coupon_Date = clsCommon.myCDate(dt.Rows(0)("BPL_Coupon_Date"))
+            End If
+
 
             If clsCommon.myLen(dt.Rows(0)("Ex_Factory_Date")) > 0 Then
                 obj.Ex_Factory_Date = clsCommon.myCDate(dt.Rows(0)("Ex_Factory_Date"))
