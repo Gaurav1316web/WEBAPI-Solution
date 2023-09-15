@@ -391,6 +391,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             End If
         End If
 
+
         'Select Case NavType
         '    Case NavigatorType.Current
         '        qry += "  Document_No='" + strDocumentNo + "'"
