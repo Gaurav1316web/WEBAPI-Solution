@@ -1396,7 +1396,7 @@ Public Class frmEmployee_Master
         Dim whrcls As String = Nothing
         Dim LocCode As String = Nothing
         Dim whrQry As String = Nothing
-        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             If clsCommon.myLen(LocCode) > 0 Then
                 whrcls = " LOCATION_CODE='" + LocCode + "'"
@@ -1559,7 +1559,7 @@ Public Class frmEmployee_Master
         'Dim qry As String = "select BRANCH_CODE as Code, BRANCH_NAME as Name,RESPONSIBLE_PERSION_NAME as 'Responsible Persion', BRANCH_ADDRESS as 'Branch Address', CITY_CODE as 'City Code', STATE_CODE as 'State Code' , COUNTRY_CODE as 'Country Code', PHONE_NO as 'Phone No',FAX_NO as 'Fax No', EMAIL_ID as 'Email Id'  from TSPL_BRANCH_MASTER"
         Dim whrcls As String = Nothing
         Dim LocCode As String = Nothing
-        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             If clsCommon.myLen(LocCode) > 0 Then
                 whrcls = " Location_Type='Physical' And LOCATION_CODE='" + LocCode + "'"

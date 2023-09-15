@@ -233,7 +233,7 @@ Public Class FrmEmpIncrement
         Try
             Dim whrcls As String = Nothing
             Dim LocCode As String = Nothing
-            If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
                 If clsCommon.myLen(LocCode) > 0 Then
                     whrcls = " LOCATION_CODE='" + LocCode + "'"
@@ -722,7 +722,7 @@ Public Class FrmEmpIncrement
     Private Sub fndIncrementCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndIncrementCode._MYValidating
         Dim whrcls As String = Nothing
         Dim LocCode As String = Nothing
-        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             If clsCommon.myLen(LocCode) > 0 Then
                 whrcls = " LOCATION_CODE='" + LocCode + "'"
@@ -1003,7 +1003,7 @@ Public Class FrmEmpIncrement
         Try
             Dim whrcls As String = Nothing
             Dim LocCode As String = Nothing
-            If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
                 If clsCommon.myLen(LocCode) > 0 Then
                     whrcls = " TSPL_Location_MASTER.LOCATION_CODE='" + LocCode + "'"
