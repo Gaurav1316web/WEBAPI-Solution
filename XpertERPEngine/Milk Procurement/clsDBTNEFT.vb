@@ -350,6 +350,8 @@ Public Class clsDBTNEFTDetail
     Public Amount As Decimal = 0
     Public MP_IFSC_No As String = Nothing
     Public MP_Account_No As String = Nothing
+    Public MP_Bank As String = Nothing
+    Public MP_Mobile_No As String = Nothing
     Public MP_Name As String = Nothing
     Public Transaction As String = Nothing
 #End Region
@@ -367,6 +369,8 @@ Public Class clsDBTNEFTDetail
                     clsCommon.AddColumnsForChange(coll, "VLC_Uploader_Code", obj.VLC_Uploader_Code)
                     clsCommon.AddColumnsForChange(coll, "MP_Uploader_Code", obj.MP_Uploader_Code)
                     clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+                    clsCommon.AddColumnsForChange(coll, "MP_Bank", obj.MP_Bank)
+                    clsCommon.AddColumnsForChange(coll, "MP_Mobile_No", obj.MP_Mobile_No)
                     clsCommon.AddColumnsForChange(coll, "MP_IFSC_No", obj.MP_IFSC_No)
                     clsCommon.AddColumnsForChange(coll, "MP_Account_No", obj.MP_Account_No)
                     clsCommon.AddColumnsForChange(coll, "MP_Name", obj.MP_Name)
@@ -406,6 +410,8 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" & strDocNo & "'"
                     obj.Amount = clsCommon.myCdbl(dt.Rows(i)("Amount"))
                     obj.MP_IFSC_No = clsCommon.myCstr(dt.Rows(i)("MP_IFSC_No"))
                     obj.MP_Account_No = clsCommon.myCstr(dt.Rows(i)("MP_Account_No"))
+                    obj.MP_Bank = clsCommon.myCstr(dt.Rows(i)("MP_Bank"))
+                    obj.MP_Mobile_No = clsCommon.myCstr(dt.Rows(i)("MP_Mobile_No"))
                     obj.MP_Name = clsCommon.myCstr(dt.Rows(i)("MP_Name"))
                     obj.Transaction = clsCommon.myCstr(dt.Rows(i)("Transaction"))
                     arrObj.Add(obj)
@@ -437,6 +443,8 @@ Public Class clsDBTNEFTDetailInvalid
     Public Amount As Decimal = 0
     Public MP_IFSC_No As String = Nothing
     Public MP_Account_No As String = Nothing
+    Public MP_Bank As String = Nothing
+    Public MP_Mobile_No As String = Nothing
     Public MP_Name As String = Nothing
     Public Transaction As String = Nothing
 #End Region
@@ -454,6 +462,8 @@ Public Class clsDBTNEFTDetailInvalid
                     clsCommon.AddColumnsForChange(coll, "VLC_Uploader_Code", obj.VLC_Uploader_Code)
                     clsCommon.AddColumnsForChange(coll, "MP_Uploader_Code", obj.MP_Uploader_Code)
                     clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+                    clsCommon.AddColumnsForChange(coll, "MP_Bank", obj.MP_Bank)
+                    clsCommon.AddColumnsForChange(coll, "MP_Mobile_No", obj.MP_Mobile_No)
                     clsCommon.AddColumnsForChange(coll, "MP_IFSC_No", obj.MP_IFSC_No)
                     clsCommon.AddColumnsForChange(coll, "MP_Account_No", obj.MP_Account_No)
                     clsCommon.AddColumnsForChange(coll, "MP_Name", obj.MP_Name)
@@ -493,6 +503,8 @@ where TSPL_DBT_NEFT_DETAIL_INVALID.Document_Code='" & strDocNo & "'"
                     obj.Amount = clsCommon.myCdbl(dt.Rows(i)("Amount"))
                     obj.MP_IFSC_No = clsCommon.myCstr(dt.Rows(i)("MP_IFSC_No"))
                     obj.MP_Account_No = clsCommon.myCstr(dt.Rows(i)("MP_Account_No"))
+                    obj.MP_Bank = clsCommon.myCstr(dt.Rows(i)("MP_Bank"))
+                    obj.MP_Mobile_No = clsCommon.myCstr(dt.Rows(i)("MP_Mobile_No"))
                     obj.MP_Name = clsCommon.myCstr(dt.Rows(i)("MP_Name"))
                     obj.Transaction = clsCommon.myCstr(dt.Rows(i)("Transaction"))
                     arrObj.Add(obj)
@@ -524,6 +536,8 @@ Public Class clsDBTNEFTPerforma
     Public Const colMPIFSCCode As String = "IFSC CODE"
     Public Const colMPAccountNo As String = "BENEFICERY ACCOUNT  NO."
     Public Const colMPName As String = "BENEFICERY NAME"
+    Public Const colMPBank As String = "Bank"
+    Public Const colMPMobileNo As String = "Mobile No"
 
 
     Public Shared Function GetDefault() As DataTable
@@ -574,6 +588,14 @@ Public Class clsDBTNEFTPerforma
 
             dr = dt.NewRow()
             dr("Code") = colMPName
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow()
+            dr("Code") = colMPBank
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow()
+            dr("Code") = colMPMobileNo
             dt.Rows.Add(dr)
 
 
