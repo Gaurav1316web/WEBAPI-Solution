@@ -1964,8 +1964,8 @@ Public Class clsDocType
             Dim qry As String = ""
             qry = "update TSPL_DOCPREFIX_MASTER set Next_Number=(select max(Next_Number) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "') where Doc_Type='" + strDocType + "' AND PK_ID IN (SELECT MAX(PK_ID) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "')"
             clsDBFuncationality.ExecuteNonQuery(qry)
-            qry = "DELETE FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "' AND PK_ID NOT IN (SELECT MAX(PK_ID) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "')"
-            clsDBFuncationality.ExecuteNonQuery(qry)
+            'qry = "DELETE FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "' AND PK_ID NOT IN (SELECT MAX(PK_ID) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "')"
+            'clsDBFuncationality.ExecuteNonQuery(qry)
         End If
         Dim coll As New Hashtable()
         clsCommon.AddColumnsForChange(coll, "Doc_Type", strDocType)
