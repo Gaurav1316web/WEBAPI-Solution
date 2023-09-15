@@ -1356,6 +1356,16 @@ Public Class FrmUserMaster
                 End If
             End If
 
+            If PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal) AndAlso chkInActive.Checked = False Then
+                Dim IsMappedCustomer As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_USER_MASTER where  Login_Type = 'CNF' and Cust_Code = '" & fndCustCode.Value & "'")
+                If IsMappedCustomer > 1 Then
+                    fndCustCode.Value = ""
+                    lblCustCode.Text = ""
+                    Throw New Exception("You cannot mapped same customer to more than one user")
+                End If
+
+            End If
+
             SaveData()
 
         Catch ex As Exception
@@ -2095,8 +2105,27 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
     Private Sub fndCustCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustCode._MYValidating
         If (PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal)) OrElse (isCheckCustomerType AndAlso MatchLevel() = 1) Then
             Try
+                Dim Sqlqry As String = "select Cust_Code from TSPL_USER_MASTER where Login_Type = 'CNF' and InActive = 'N'"
+                Dim whrcls As String = ""
                 Dim qry As String = "select Cust_Code as Code, Customer_Name as Name from TSPL_CUSTOMER_MASTER "
-                fndCustCode.Value = clsCommon.ShowSelectForm("CustomerFndr", qry, "Code", "STATUS='N'", fndCustCode.Value, "Code", isButtonClicked)
+                Dim cust_Codes As String
+                If chkInActive.Checked Then
+                    whrcls += "STATUS='N'"
+                Else
+                    Dim dtCodes As DataTable = clsDBFuncationality.GetDataTable(Sqlqry)
+                    Dim sbCustCodes As New System.Text.StringBuilder()
+
+                    For i As Integer = 0 To dtCodes.Rows.Count - 1
+                        Dim row As String = dtCodes.Rows(i).ItemArray(0).ToString
+                        sbCustCodes.Append("'" + row + "'")
+                        If i < dtCodes.Rows.Count - 1 Then
+                            sbCustCodes.Append(",")
+                        End If
+                    Next i
+                    cust_Codes = sbCustCodes.ToString()
+                    whrcls += "STATUS='N' and Cust_Code NOT IN (" & cust_Codes & ")"
+                End If
+                fndCustCode.Value = clsCommon.ShowSelectForm("CustomerFndr", qry, "Code", whrcls, fndCustCode.Value, "Code", isButtonClicked)
                 If clsCommon.myLen(fndCustCode.Value) > 0 Then
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(" Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustCode.Value + "' ")
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

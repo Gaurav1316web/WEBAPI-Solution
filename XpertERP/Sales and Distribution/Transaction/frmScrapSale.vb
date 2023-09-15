@@ -281,8 +281,8 @@ Public Class frmScrapSale
         If CreatVatSeriesOnExciseInvoice = 1 Then
             lblSecondryInvNo.Visible = True
             txtVatInvNo.Visible = True
-            'btnPrint.Text = "Excise"
-            'btnPrePrint.Text = "Tax"
+            btnPrint.Text = "Excise"
+            ' btnPrePrint.Text = "Tax"
         End If
         ''-------------------
         If clsCommon.myLen(Me.Tag) > 0 Then
@@ -1939,7 +1939,7 @@ Public Class frmScrapSale
         btnReverse.Visible = False
         chkBuyBack.Visible = True
         chkBuyBack.Checked = False
-        'btnPrint.Visible = True
+        btnPrint.Visible = True
         ''------------------
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -5717,10 +5717,10 @@ Public Class frmScrapSale
 
 
 
-    'Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-    '    strPrintType = "Excise"
-    '    Print(True)
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        strPrintType = "Excise"
+        Print(True)
 
-    'End Sub
+    End Sub
 End Class
 

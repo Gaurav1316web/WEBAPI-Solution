@@ -24,33 +24,33 @@ Partial Class frmLocationMaster
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLocationMaster))
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition46 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition47 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition48 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition49 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition50 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition51 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition52 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition53 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition54 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition55 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition56 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition57 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition58 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition59 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition60 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -678,9 +678,9 @@ Partial Class frmLocationMaster
         Me.RadMenu1.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenu1.VerticalPopupAlignment = Telerik.WinControls.UI.VerticalPopupAlignment.TopToTop
         Me.RadMenu1.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenu1.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenu1.WindowsSettings = WindowsSettings1
         '
         'MenuPrint
         '
@@ -909,11 +909,11 @@ Partial Class frmLocationMaster
         RadListDataItem1.Text = "Select"
         RadListDataItem2.Text = "1"
         RadListDataItem3.Text = "2"
-        RadListDataItem7.Text = "3"
+        RadListDataItem4.Text = "3"
         Me.cmbNoOfShift.Items.Add(RadListDataItem1)
         Me.cmbNoOfShift.Items.Add(RadListDataItem2)
         Me.cmbNoOfShift.Items.Add(RadListDataItem3)
-        Me.cmbNoOfShift.Items.Add(RadListDataItem7)
+        Me.cmbNoOfShift.Items.Add(RadListDataItem4)
         Me.cmbNoOfShift.Location = New System.Drawing.Point(801, 419)
         Me.cmbNoOfShift.MendatroryField = False
         Me.cmbNoOfShift.MyLinkLable1 = Me.lblNoOfShift
@@ -2293,14 +2293,14 @@ Partial Class frmLocationMaster
         Me.ddlLocationType.IsSourceFromTable = False
         Me.ddlLocationType.IsSourceFromValueList = False
         Me.ddlLocationType.IsUnique = False
-        RadListDataItem8.Text = "Physical"
-        RadListDataItem9.Text = "Logical"
-        RadListDataItem10.Text = "WorkOrder"
-        RadListDataItem11.Text = "Virtual"
+        RadListDataItem5.Text = "Physical"
+        RadListDataItem6.Text = "Logical"
+        RadListDataItem7.Text = "WorkOrder"
+        RadListDataItem8.Text = "Virtual"
+        Me.ddlLocationType.Items.Add(RadListDataItem5)
+        Me.ddlLocationType.Items.Add(RadListDataItem6)
+        Me.ddlLocationType.Items.Add(RadListDataItem7)
         Me.ddlLocationType.Items.Add(RadListDataItem8)
-        Me.ddlLocationType.Items.Add(RadListDataItem9)
-        Me.ddlLocationType.Items.Add(RadListDataItem10)
-        Me.ddlLocationType.Items.Add(RadListDataItem11)
         Me.ddlLocationType.Location = New System.Drawing.Point(110, 282)
         Me.ddlLocationType.MendatroryField = False
         Me.ddlLocationType.MyLinkLable1 = Me.lblLocationType
@@ -3343,12 +3343,12 @@ Partial Class frmLocationMaster
         Me.ddlType.IsSourceFromTable = False
         Me.ddlType.IsSourceFromValueList = False
         Me.ddlType.IsUnique = False
-        RadListDataItem4.Text = "Depot"
-        RadListDataItem5.Text = "Manufacturing Unit"
-        RadListDataItem6.Text = "PLANT"
-        Me.ddlType.Items.Add(RadListDataItem4)
-        Me.ddlType.Items.Add(RadListDataItem5)
-        Me.ddlType.Items.Add(RadListDataItem6)
+        RadListDataItem9.Text = "Depot"
+        RadListDataItem10.Text = "Manufacturing Unit"
+        RadListDataItem11.Text = "PLANT"
+        Me.ddlType.Items.Add(RadListDataItem9)
+        Me.ddlType.Items.Add(RadListDataItem10)
+        Me.ddlType.Items.Add(RadListDataItem11)
         Me.ddlType.Location = New System.Drawing.Point(434, 5)
         Me.ddlType.MendatroryField = False
         Me.ddlType.MyLinkLable1 = Me.RadLabel1
@@ -3452,7 +3452,7 @@ Partial Class frmLocationMaster
         Me.gvSaleLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleLocal.MasterTemplate.ViewDefinition = TableViewDefinition46
+        Me.gvSaleLocal.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvSaleLocal.Name = "gvSaleLocal"
         Me.gvSaleLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleLocal.ShowHeaderCellButtons = True
@@ -3477,7 +3477,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleItemDetailsLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleItemDetailsLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleItemDetailsLocal.MasterTemplate.ViewDefinition = TableViewDefinition47
+        Me.gvSaleItemDetailsLocal.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvSaleItemDetailsLocal.Name = "gvSaleItemDetailsLocal"
         Me.gvSaleItemDetailsLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleItemDetailsLocal.ShowHeaderCellButtons = True
@@ -3502,7 +3502,7 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition48
+        Me.gvSaleTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvSaleTaxLocal.Name = "gvSaleTaxLocal"
         Me.gvSaleTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleTaxLocal.ShowHeaderCellButtons = True
@@ -3570,7 +3570,7 @@ Partial Class frmLocationMaster
         Me.gvSaleInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleInterState.MasterTemplate.ViewDefinition = TableViewDefinition49
+        Me.gvSaleInterState.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvSaleInterState.Name = "gvSaleInterState"
         Me.gvSaleInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleInterState.ShowHeaderCellButtons = True
@@ -3595,7 +3595,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleItemDetailsInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleItemDetailsInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleItemDetailsInterState.MasterTemplate.ViewDefinition = TableViewDefinition50
+        Me.gvSaleItemDetailsInterState.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvSaleItemDetailsInterState.Name = "gvSaleItemDetailsInterState"
         Me.gvSaleItemDetailsInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleItemDetailsInterState.ShowHeaderCellButtons = True
@@ -3620,7 +3620,7 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvSaleTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSaleTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSaleTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition51
+        Me.gvSaleTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvSaleTaxInterState.Name = "gvSaleTaxInterState"
         Me.gvSaleTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleTaxInterState.ShowHeaderCellButtons = True
@@ -3693,7 +3693,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseLocal.MasterTemplate.ViewDefinition = TableViewDefinition52
+        Me.gvPurchaseLocal.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvPurchaseLocal.Name = "gvPurchaseLocal"
         Me.gvPurchaseLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseLocal.ShowHeaderCellButtons = True
@@ -3718,7 +3718,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition53
+        Me.gvPurchaseTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvPurchaseTaxLocal.Name = "gvPurchaseTaxLocal"
         Me.gvPurchaseTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseTaxLocal.ShowHeaderCellButtons = True
@@ -3769,7 +3769,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseInterState.MasterTemplate.ViewDefinition = TableViewDefinition54
+        Me.gvPurchaseInterState.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvPurchaseInterState.Name = "gvPurchaseInterState"
         Me.gvPurchaseInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseInterState.ShowHeaderCellButtons = True
@@ -3794,7 +3794,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvPurchaseTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurchaseTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurchaseTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition55
+        Me.gvPurchaseTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gvPurchaseTaxInterState.Name = "gvPurchaseTaxInterState"
         Me.gvPurchaseTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseTaxInterState.ShowHeaderCellButtons = True
@@ -3867,7 +3867,7 @@ Partial Class frmLocationMaster
         Me.gvTransferLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferLocal.MasterTemplate.ViewDefinition = TableViewDefinition56
+        Me.gvTransferLocal.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gvTransferLocal.Name = "gvTransferLocal"
         Me.gvTransferLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferLocal.ShowHeaderCellButtons = True
@@ -3892,7 +3892,7 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxLocal.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferTaxLocal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferTaxLocal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition57
+        Me.gvTransferTaxLocal.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gvTransferTaxLocal.Name = "gvTransferTaxLocal"
         Me.gvTransferTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferTaxLocal.ShowHeaderCellButtons = True
@@ -3943,7 +3943,7 @@ Partial Class frmLocationMaster
         Me.gvTransferInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferInterState.MasterTemplate.ViewDefinition = TableViewDefinition58
+        Me.gvTransferInterState.MasterTemplate.ViewDefinition = TableViewDefinition13
         Me.gvTransferInterState.Name = "gvTransferInterState"
         Me.gvTransferInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferInterState.ShowHeaderCellButtons = True
@@ -3968,7 +3968,7 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxInterState.MasterTemplate.AllowDeleteRow = False
         Me.gvTransferTaxInterState.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTransferTaxInterState.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTransferTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition59
+        Me.gvTransferTaxInterState.MasterTemplate.ViewDefinition = TableViewDefinition14
         Me.gvTransferTaxInterState.Name = "gvTransferTaxInterState"
         Me.gvTransferTaxInterState.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferTaxInterState.ShowHeaderCellButtons = True
@@ -3995,7 +3995,7 @@ Partial Class frmLocationMaster
         '
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition60
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition15
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(787, 510)
