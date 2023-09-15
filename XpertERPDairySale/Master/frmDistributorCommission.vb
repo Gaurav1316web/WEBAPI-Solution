@@ -8,7 +8,6 @@ Public Class frmDistributorCommission
     Const ColRouteCode As String = "ColRouteCode"
     Const colCustCode As String = "colCustCode"
     Const colCustName As String = "colCustName"
-    Const colUOMCode As String = "colUOMCode"
     Const colCRate As String = "colCRate"
     Private isCellValueChangedOpen As Boolean = False
     Private isInsideLoadData As Boolean = False
@@ -16,7 +15,7 @@ Public Class frmDistributorCommission
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
-        CommissionTab()
+        'CommissionTab()
         AddNew()
     End Sub
     Sub LoadBlankGrid()
@@ -35,7 +34,7 @@ Public Class frmDistributorCommission
         repoRouteCode.FormatString = ""
         repoRouteCode.HeaderText = "Route Code"
         repoRouteCode.Name = ColRouteCode
-        repoRouteCode.IsVisible = False
+        repoRouteCode.IsVisible = True
         repoRouteCode.ReadOnly = True
         repoRouteCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         GV1.MasterTemplate.Columns.Add(repoRouteCode)
@@ -58,24 +57,15 @@ Public Class frmDistributorCommission
         repoCustName.ReadOnly = True
         GV1.MasterTemplate.Columns.Add(repoCustName)
 
-        Dim repoTextBoxUOM As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoTextBoxUOM.FormatString = ""
-        repoTextBoxUOM.HeaderText = "UOM"
-        repoTextBoxUOM.Name = colUOMCode
-        repoTextBoxUOM.IsVisible = True
-        repoTextBoxUOM.Width = 80
-        repoTextBoxUOM.TextImageRelation = TextImageRelation.TextBeforeImage
-        'repoTextBoxUOM.ReadOnly = True
-        GV1.MasterTemplate.Columns.Add(repoTextBoxUOM)
         Dim repoTextBox = New GridViewDecimalColumn()
-        repoTextBox.FormatString = "{0:n2}"
+        repoTextBox.FormatString = "{0:n4}"
         repoTextBox.HeaderText = "Rate Per UOM"
         repoTextBox.Name = colCRate
         repoTextBox.Width = 80
         repoTextBox.Minimum = 0
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
-        repoTextBox.DecimalPlaces = 2
+        repoTextBox.DecimalPlaces = 4
         repoTextBox.IsVisible = True
         'repoTextBox.ReadOnly = True
         GV1.MasterTemplate.Columns.Add(repoTextBox)
@@ -89,6 +79,7 @@ Public Class frmDistributorCommission
         GV1.MasterTemplate.ShowRowHeaderColumn = False
         GV1.TableElement.TableHeaderHeight = 40
         GV1.AllowDeleteRow = True
+        GV1.Rows.AddNew()
     End Sub
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
@@ -105,8 +96,9 @@ Public Class frmDistributorCommission
         txtUOM.Value = ""
         btnSave.Enabled = True
         btnPost.Enabled = True
+        btnGo.Enabled = True
         LoadBlankGrid()
-        GV1.Rows.AddNew()
+
     End Sub
 
     Private Sub txtUOM__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtUOM._MYValidating
@@ -150,18 +142,21 @@ Public Class frmDistributorCommission
 
             Dim coll1 As Dictionary(Of String, String)
             coll1 = New Dictionary(Of String, String)()
+            coll1.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll1.Add("Doc_No", "Varchar(30) Not null REFERENCES TSPL_Distributor_Commission_Head(Doc_No)")
             coll1.Add("Route_Code", "Varchar(12) Not null  REFERENCES TSPL_ROUTE_MASTER(Route_No)")
             coll1.Add("Distributor_Code", "Varchar(12) Not null references TSPL_Customer_MASTER(Cust_Code)")
-            coll1.Add("UOM", "Varchar(12) null references TSPL_UNIT_MASTER(Unit_Code)")
             coll1.Add("Rate", "Decimal(18,2) Not null")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Detail", coll1, "", True)
 
-            coll1 = New Dictionary(Of String, String)()
-            coll1.Add("Doc_No", "Varchar(30) Not null REFERENCES TSPL_Distributor_Commission_Head(Doc_No)")
-            coll1.Add("Item_Code", "Varchar(50) Not null  REFERENCES TSPL_ITEM_MASTER(Item_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Items", coll1, "", True)
+            Dim coll2 As Dictionary(Of String, String)
+
+            coll2 = New Dictionary(Of String, String)()
+            coll2.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll2.Add("Doc_No", "Varchar(30) Not null REFERENCES TSPL_Distributor_Commission_Head(Doc_No)")
+            coll2.Add("Item_Code", "Varchar(50) Not null  REFERENCES TSPL_ITEM_MASTER(Item_Code)")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Items", coll2, "", True)
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -171,11 +166,12 @@ Public Class frmDistributorCommission
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            Dim StrQry As String = "select TSPL_CUSTOMER_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name
-from TSPL_CUSTOMER_MASTER
-left join TSPL_CUSTOMER_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CUSTOMER_ROUTE_MASTER.Cust_Code
-where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
- order by TSPL_CUSTOMER_MASTER.Route_No "
+            Dim StrQry As String = "select TSPL_CUSTOMER_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name 
+from TSPL_DISTRIBUTOR_ROUTE
+left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+left join TSPL_CUSTOMER_MASTER on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+where TSPL_DISTRIBUTOR_ROUTE.start_Date in (
+select max(TSPL_DISTRIBUTOR_ROUTE.Start_Date) from TSPL_DISTRIBUTOR_ROUTE where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and status=1 ) "
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrQry)
             If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
                 Dim i As Integer = 1
@@ -187,6 +183,8 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
                     i = i + 1
                     GV1.Rows.AddNew()
                 Next
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Not Found!", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -209,7 +207,7 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
             Dim currentdate As Date = Date.Today
             If clsCommon.myLen(txtUOM.Value) > 0 Then
 
-                If transportSql.importExcel(gv, "Route Code", "Distributor Code", "UOM", "Rate") Then
+                If transportSql.importExcel(gv, "Route Code", "Distributor Code", "Rate") Then
 
                     'Dim trans As SqlTransaction = Nothing
                     Dim linno As Integer = 0
@@ -240,16 +238,7 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
                                     Continue For
                                 End If
                             End If
-                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("UOM").Value))) Then
-                                Continue For
-                            Else
-                                Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Unit_Code from TSPL_UNIT_MASTER where Unit_Code='" + clsCommon.myCstr(grow.Cells("UOM").Value) + "'"))
-                                If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("UOM").Value)) = CompairStringResult.Equal Then
-                                    Arr.UOM = clsCommon.myCstr(grow.Cells("UOM").Value)
-                                Else
-                                    Continue For
-                                End If
-                            End If
+
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Rate").Value))) Then
                                 Continue For
                             Else
@@ -268,7 +257,6 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteCode).Value = objTr.Route_Code
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
-                                    GV1.Rows(GV1.Rows.Count - 1).Cells(colUOMCode).Value = objTr.UOM
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
                                     sl += 1
                                     GV1.Rows.AddNew()
@@ -304,10 +292,10 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],UOM as [UOM],Rate as [Rate] from TSPL_Distributor_Commission_Detail"
+            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],Rate as [Rate] from TSPL_Distributor_Commission_Detail"
             Dim whrCls As String = ""
 
-            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "UOM", "Rate"})
+            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Rate"})
             transportSql.ExporttoExcel(str, whrCls, Me)
 
         Catch ex As Exception
@@ -342,9 +330,7 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
 
-                    If e.Column Is GV1.Columns(colUOMCode) Then
-                        GV1.CurrentRow.Cells(colUOMCode).Value = clsUnitMaster.getUnitFinder(" Unit_code in('" + clsCommon.myCstr(txtUOM.Value) + "')", clsCommon.myCstr(GV1.CurrentRow.Cells(colUOMCode).Value), False)
-                    End If
+
                 End If
                 isCellValueChangedOpen = False
             End If
@@ -360,6 +346,7 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
             obj = clsDistributorCommission.GetData(strDocNo, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Doc_No) > 0) Then
                 isNewEntry = False
+                LoadBlankGrid()
                 If obj.IsPosted = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
@@ -370,6 +357,7 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
                     btnSave.Text = "Update"
                     lblStatus.Status = ERPTransactionStatus.Pending
                 End If
+                btnGo.Enabled = False
                 txtDocNo.Value = obj.Doc_No
                 txtDate.Value = obj.Document_Date
                 txtApplicableDate.Value = obj.Applicable_Date
@@ -383,7 +371,6 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
                         GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteCode).Value = objTr.Route_Code
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
-                        GV1.Rows(GV1.Rows.Count - 1).Cells(colUOMCode).Value = objTr.UOM
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
                         sl += 1
                         GV1.Rows.AddNew()
@@ -459,7 +446,6 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
                     'objTr.SNo = ii + 1
                     objTr.Distributor_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(colCustCode).Value)
                     objTr.Route_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(ColRouteCode).Value)
-                    objTr.UOM = clsCommon.myCstr(GV1.Rows(ii).Cells(colUOMCode).Value)
                     objTr.Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value)
                     Arr.Add(objTr)
 
@@ -509,7 +495,7 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
             Else
                 txtDocNo.MyReadOnly = True
             End If
-            LoadData(clsCommon.myCDecimal(txtDocNo.Value), NavType)
+            LoadData(clsCommon.myCstr(txtDocNo.Value), NavType)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try

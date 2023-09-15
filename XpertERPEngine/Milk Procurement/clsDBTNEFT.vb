@@ -193,24 +193,34 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             '================================
             CreateEmailContent(obj, strDocNo, excelPath, trans)
             '================================
+            Dim flag As Boolean = False
+            Try
+                qry = "select 1 from TSPL_MASTER.dbo.TSPL_APP_LOCATION where  code not in ('5888','6888') and DataBase_Name in ('" + objCommonVar.CurrDatabase + "') "
+                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    flag = True
+                End If
+            Catch ex As Exception
+            End Try
 
 
-            Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "DB_Name", objCommonVar.CurrDatabase)
-            clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
-            clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
-            clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
-            clsCommonFunctionality.UpdateDataTable(coll, objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", OMInsertOrUpdate.Insert, "", trans)
+            If flag Then
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "DB_Name", objCommonVar.CurrDatabase)
+                clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
+                clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+                clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", OMInsertOrUpdate.Insert, "", trans)
 
-            Dim strPKID As String = clsDBFuncationality.getSingleValue("select max(PK_ID) as PK_ID from " + objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", trans)
+                Dim strPKID As String = clsDBFuncationality.getSingleValue("select max(PK_ID) as PK_ID from " + objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", trans)
 
-            qry = "insert into " + objCommonVar.RCDFDB + "TSPL_ATTACHMENTS (Code,FormId,TransactionId,SNo,FileName,FileData,COMMENTS,Created_By,Created_Date,Modified_By,Modified_Date)
+                qry = "insert into " + objCommonVar.RCDFDB + "TSPL_ATTACHMENTS (Code,FormId,TransactionId,SNo,FileName,FileData,COMMENTS,Created_By,Created_Date,Modified_By,Modified_Date)
 select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as FormId,'" + strPKID + "' as TransactionId,SNo,FileName,FileData,COMMENTS,'" + objCommonVar.CurrentUserCode + "' as Created_By,GETDATE() as Created_Date,'" + objCommonVar.CurrentUserCode + "' as Modified_By,GETDATE() as  Modified_Date from TSPL_ATTACHMENTS where TransactionId='" + obj.Document_Code + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

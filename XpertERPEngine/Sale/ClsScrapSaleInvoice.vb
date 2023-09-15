@@ -126,12 +126,28 @@ Public Class scrapinvoicehead
     Public Transporter_code As String = Nothing
     Public Vehicle_code As String = Nothing
     Public Freight_Distance As Integer = 0
+    Public EWayBillDate As DateTime? = Nothing
+    Public EwayBillValidDate As DateTime? = Nothing
+    Public EwayBillRemarks As String = Nothing
+    Public EWayBillNo As String = Nothing
+    Public EInvoiceIRNNo As String = Nothing
+    Public EInvoiceAckNo As String = Nothing
+    Public EInvoiceAckDate As DateTime? = Nothing
+    Public EInvoiceQRCode As String = Nothing
 #End Region
 
     Public Shared Function SaveDatainvoice(ByVal shipment As String, ByVal strScrapSaleInvoiceNo As String, ByVal trans As SqlTransaction, Optional ByVal strInvoiceType As String = "", Optional ByVal Arr As List(Of ClsScrapSaleDetail) = Nothing) As Boolean
         Try
             Dim obj As ClsScrapSaleHead = ClsScrapSaleHead.GetData(shipment, NavigatorType.Current, trans, False)
             Dim objin As scrapinvoicehead = New scrapinvoicehead()
+            objin.EWayBillDate = obj.EWayBillDate
+            objin.EWayBillNo = obj.EWayBillNo
+            objin.EwayBillRemarks = obj.EwayBillRemarks
+            objin.EwayBillValidDate = obj.EwayBillValidDate
+            objin.EInvoiceAckDate = obj.EInvoiceAckDate
+            objin.EInvoiceIRNNo = obj.EInvoiceIRNNo
+            objin.EInvoiceAckNo = obj.EInvoiceAckNo
+            objin.EInvoiceQRCode = obj.EInvoiceQRCode
 
             objin.shipment_No = obj.shipment_No
             objin.invoice_No = obj.invoice_No
@@ -526,6 +542,19 @@ Public Class scrapinvoicehead
             End If
 
             Dim coll As New Hashtable()
+
+            clsCommon.AddColumnsForChange(coll, "Ack_Date", objin.EInvoiceAckDate)
+            clsCommon.AddColumnsForChange(coll, "Ack_No", objin.EInvoiceAckNo)
+            clsCommon.AddColumnsForChange(coll, "QR_Code", objin.EInvoiceQRCode)
+            clsCommon.AddColumnsForChange(coll, "IRN_No", objin.EInvoiceIRNNo)
+
+            clsCommon.AddColumnsForChange(coll, "EWayBillRemarks", objin.EwayBillRemarks)
+            clsCommon.AddColumnsForChange(coll, "EWayBillValidDate", objin.EwayBillValidDate)
+            clsCommon.AddColumnsForChange(coll, "EWayBillNo", objin.EWayBillDate)
+            clsCommon.AddColumnsForChange(coll, "EWayBillDate", objin.EWayBillDate)
+
+
+
             clsCommon.AddColumnsForChange(coll, "shipment_No", objin.shipment_No)
             clsCommon.AddColumnsForChange(coll, "Doc_Type", objin.Doc_Type)
             clsCommon.AddColumnsForChange(coll, "Status", objin.Status)

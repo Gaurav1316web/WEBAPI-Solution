@@ -222,6 +222,8 @@ Public Class clsDocType
     Public Const frmProductionStoreRequest As String = "Production Store Request"
     Public Const PurchaserOrder As String = "Purchase Order"
     Public Const PurchaserOrderOutward As String = "Purchase Order Outward"
+    Public Const DistributeCode As String = "Distribute Code"
+
     Public Const AdjustmentEntry As String = "Adjustment Entry (Finance)"
     Public Const PaymentAdjustmentEntry As String = "Adjustment Entry (Payment)"
     Public Const QuickSettlement As String = "Quick SettleMent"
@@ -2040,6 +2042,8 @@ Public Class clsDocTransactionType
     Public Const POSemiFinishedGoods As String = "SemiFinished Goods"
     Public Const POJobWork As String = "Job Work"
     Public Const POJobWorkOutward As String = "Job Work Outward"
+    Public Const DistributRateTag As String = "Distribute Rate Tag"
+
     Public Const PODomestic As String = "Domestic"
     Public Const POImport As String = "Import"
     Public Const POOutgoing As String = "Outgoing"
