@@ -33922,6 +33922,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("CANAdjustment", "decimal(18, 2) NULL")
             coll.Add("Route_code", "varchar(12) NULL")
             coll.Add("CrateQtyPreviousDay", "decimal(18, 2) not NULL default 0")
+            coll.Add("DamageCrateQtyRecd", "int NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", coll, Nothing, True, False, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "")
 
             '======================Delivery Note Detail==============================
@@ -52199,6 +52200,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Amount", "Decimal(18,2) null")
             coll.Add("MP_IFSC_No", "Varchar(50) null")
             coll.Add("MP_Account_No", "Varchar(50) null")
+            coll.Add("MP_Bank", "Varchar(50) null")
+            coll.Add("MP_Mobile_No", "Varchar(30) null")
             coll.Add("MP_Name", "Varchar(50) null")
             coll.Add("Transaction", "Varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT_DETAIL", coll, "", True, False, "TSPL_DBT_NEFT", "Document_Code", "")
