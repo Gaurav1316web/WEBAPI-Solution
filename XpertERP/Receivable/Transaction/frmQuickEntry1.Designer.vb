@@ -25,6 +25,7 @@ Partial Class FrmQuickEntry1
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtEntryNo = New common.UserControls.txtNavigator()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
@@ -54,6 +55,7 @@ Partial Class FrmQuickEntry1
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.chkPrintCheque = New System.Windows.Forms.CheckBox()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -133,7 +135,7 @@ Partial Class FrmQuickEntry1
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 379)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(591, 34)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(681, 34)
         Me.RadGroupBox1.TabIndex = 1
         '
         'btnUnSelect
@@ -158,7 +160,7 @@ Partial Class FrmQuickEntry1
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(507, 6)
+        Me.btnClose.Location = New System.Drawing.Point(605, 6)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 4
@@ -205,6 +207,7 @@ Partial Class FrmQuickEntry1
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkPrintCheque)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtLocation)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtBankName)
@@ -222,7 +225,7 @@ Partial Class FrmQuickEntry1
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.MasterTemplate)
-        Me.SplitContainer1.Size = New System.Drawing.Size(591, 359)
+        Me.SplitContainer1.Size = New System.Drawing.Size(681, 359)
         Me.SplitContainer1.SplitterDistance = 86
         Me.SplitContainer1.TabIndex = 0
         '
@@ -335,6 +338,7 @@ Partial Class FrmQuickEntry1
         'ddlType
         '
         Me.ddlType.CalculationExpression = Nothing
+        Me.ddlType.DropDownAnimationEnabled = True
         Me.ddlType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlType.FieldCode = Nothing
         Me.ddlType.FieldDesc = Nothing
@@ -359,7 +363,7 @@ Partial Class FrmQuickEntry1
         Me.ddlType.ReferenceFieldDesc = Nothing
         Me.ddlType.ReferenceFieldName = Nothing
         Me.ddlType.ReferenceTableName = Nothing
-        Me.ddlType.Size = New System.Drawing.Size(130, 20)
+        Me.ddlType.Size = New System.Drawing.Size(128, 20)
         Me.ddlType.TabIndex = 4
         Me.ddlType.Text = "Receipt"
         '
@@ -422,80 +426,78 @@ Partial Class FrmQuickEntry1
         Me.MasterTemplate.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.MasterTemplate.Location = New System.Drawing.Point(0, 0)
         '
-        'MasterTemplate
+        '
         '
         Me.MasterTemplate.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.MasterTemplate.MasterTemplate.AllowColumnReorder = False
         Me.MasterTemplate.MasterTemplate.AllowDeleteRow = False
         Me.MasterTemplate.MasterTemplate.EnableGrouping = False
         Me.MasterTemplate.MasterTemplate.EnableSorting = False
+        Me.MasterTemplate.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MasterTemplate.MasterTemplate.ShowHeaderCellButtons = True
+        Me.MasterTemplate.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.MasterTemplate.Name = "MasterTemplate"
         Me.MasterTemplate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.MasterTemplate.ShowHeaderCellButtons = True
-        Me.MasterTemplate.Size = New System.Drawing.Size(591, 269)
+        Me.MasterTemplate.Size = New System.Drawing.Size(681, 269)
         Me.MasterTemplate.TabIndex = 0
         Me.MasterTemplate.TabStop = False
-        Me.MasterTemplate.Text = "RadGridView1"
         '
         'RadMenu1
         '
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3, Me.RadMenuItem4})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(591, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(681, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "File"
-        Me.RadMenuItem4.AccessibleName = "File"
         Me.RadMenuItem4.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport})
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "File"
         '
         'rmiImport
         '
-        Me.rmiImport.AccessibleDescription = "Import"
-        Me.rmiImport.AccessibleName = "Import"
         Me.rmiImport.Name = "rmiImport"
         Me.rmiImport.Text = "Import"
         '
         'rmiExport
         '
-        Me.rmiExport.AccessibleDescription = "Export Blank Sheet"
-        Me.rmiExport.AccessibleName = "Export Blank Sheet"
         Me.rmiExport.Name = "rmiExport"
         Me.rmiExport.Text = "Export Blank Sheet"
+        '
+        'chkPrintCheque
+        '
+        Me.chkPrintCheque.AutoSize = True
+        Me.chkPrintCheque.Location = New System.Drawing.Point(583, 11)
+        Me.chkPrintCheque.Name = "chkPrintCheque"
+        Me.chkPrintCheque.Size = New System.Drawing.Size(93, 17)
+        Me.chkPrintCheque.TabIndex = 103
+        Me.chkPrintCheque.Text = "Print Cheque"
+        Me.chkPrintCheque.UseVisualStyleBackColor = True
         '
         'FrmQuickEntry1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(591, 413)
+        Me.ClientSize = New System.Drawing.Size(681, 413)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Controls.Add(Me.RadGroupBox1)
@@ -567,5 +569,6 @@ Partial Class FrmQuickEntry1
     Friend WithEvents rmiImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmiExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents btnUnSelect As Telerik.WinControls.UI.RadButton
+    Friend WithEvents chkPrintCheque As CheckBox
 End Class
 
