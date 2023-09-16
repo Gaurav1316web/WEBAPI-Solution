@@ -1710,6 +1710,7 @@
     <None Include="Crystal Reports\Sales Report\crptProvisionalSalesRoutewiseValueold.rpt" />
     <None Include="Crystal Reports\Sales Report\crptProvisionalSalesRoutewiseValueSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptQuickBook.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptQuickBookCheque.rpt" />
     <None Include="Crystal Reports\Sales Report\crptRG1Details%28B4address%29.rpt" />
     <None Include="Crystal Reports\Sales Report\crptRG1Details.rpt" />
     <None Include="Crystal Reports\Sales Report\crptRG1DetailsDateMRPwise.rpt" />
