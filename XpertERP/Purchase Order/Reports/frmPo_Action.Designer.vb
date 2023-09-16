@@ -22,6 +22,9 @@ Partial Class frmPo_action
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -78,6 +81,7 @@ Partial Class frmPo_action
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnprint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnclosee = New Telerik.WinControls.UI.RadButton()
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -87,7 +91,6 @@ Partial Class frmPo_action
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnclosee = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -149,11 +152,11 @@ Partial Class frmPo_action
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnclosee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReferesh, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnclosee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -182,7 +185,6 @@ Partial Class frmPo_action
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1056, 394)
         Me.RadPageView1.TabIndex = 26
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -273,14 +275,15 @@ Partial Class frmPo_action
         Me.gvCategory.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvCategory.Location = New System.Drawing.Point(10, 40)
         '
-        'gvCategory
         '
+        '
+        Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(299, 194)
         Me.gvCategory.TabIndex = 2
-        Me.gvCategory.Text = "RadGridView1"
         '
         'Panel6
         '
@@ -807,13 +810,14 @@ Partial Class frmPo_action
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1035, 366)
         Me.gv.TabIndex = 4
-        Me.gv.Text = "RadGridView1"
         '
         'btnclose
         '
@@ -867,6 +871,15 @@ Partial Class frmPo_action
         Me.SplitContainer1.SplitterDistance = 424
         Me.SplitContainer1.TabIndex = 70
         '
+        'btnclosee
+        '
+        Me.btnclosee.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclosee.Location = New System.Drawing.Point(987, 7)
+        Me.btnclosee.Name = "btnclosee"
+        Me.btnclosee.Size = New System.Drawing.Size(68, 18)
+        Me.btnclosee.TabIndex = 144
+        Me.btnclosee.Text = "Close"
+        '
         'btnExport
         '
         Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -879,15 +892,11 @@ Partial Class frmPo_action
         '
         'rmExcel
         '
-        Me.rmExcel.AccessibleDescription = "Excel"
-        Me.rmExcel.AccessibleName = "Excel"
         Me.rmExcel.Name = "rmExcel"
         Me.rmExcel.Text = "Excel"
         '
         'rmPDF
         '
-        Me.rmPDF.AccessibleDescription = "PDF"
-        Me.rmPDF.AccessibleName = "PDF"
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
         '
@@ -904,6 +913,7 @@ Partial Class frmPo_action
         '
         Me.gv1.AllowAddNewRow = False
         Me.gv1.ShowGroupedColumns = True
+        Me.gv1.ViewDefinition = TableViewDefinition3
         '
         'RadMenu1
         '
@@ -912,38 +922,22 @@ Partial Class frmPo_action
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1076, 20)
         Me.RadMenu1.TabIndex = 71
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
-        '
-        'btnclosee
-        '
-        Me.btnclosee.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclosee.Location = New System.Drawing.Point(987, 7)
-        Me.btnclosee.Name = "btnclosee"
-        Me.btnclosee.Size = New System.Drawing.Size(68, 18)
-        Me.btnclosee.TabIndex = 144
-        Me.btnclosee.Text = "Close"
         '
         'frmPo_action
         '
@@ -1027,11 +1021,11 @@ Partial Class frmPo_action
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnclosee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReferesh, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnclosee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

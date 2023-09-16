@@ -135,6 +135,14 @@ Public Class FrmQuickEntry1
         docLocation_Name.ReadOnly = False
         MasterTemplate.MasterTemplate.Columns.Add(docLocation_Name)
 
+        Dim FromBank As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        FromBank.FormatString = ""
+        FromBank.HeaderText = "From Bank"
+        FromBank.Name = "gvFromBank"
+        FromBank.Width = 200
+        FromBank.ReadOnly = False
+        MasterTemplate.MasterTemplate.Columns.Add(FromBank)
+
         Dim PaymentMode As GridViewComboBoxColumn = New GridViewComboBoxColumn()
         PaymentMode.FormatString = ""
         PaymentMode.HeaderText = "Payment Mode"
@@ -477,8 +485,8 @@ Public Class FrmQuickEntry1
                             BankType = Drbank("bank_type").ToString()
                         Next
                     End If
-                    strQuery = " SELECT     TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN" & _
-                          " TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account" & _
+                    strQuery = " SELECT     TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN" &
+                          " TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account" &
                           " where TSPL_CUSTOMER_MASTER.Cust_Code ='" + row.Cells(2).Value + "'"
                     Dim strRcvblAcc As String = connectSql.RunScalar(tran, strQuery)
                     Dim strAccSet As String
@@ -744,8 +752,8 @@ Public Class FrmQuickEntry1
                         Throw New Exception("Error in code generation.")
                     End If
                     '-----By balwinder on 24/04/2017
-                    qry = "select Payment_No as DocNo,'Receipt' as DocType from TSPL_PAYMENT_HEADER where QuickEntryNo='" + EntryNo + "' and Posted='1'" + Environment.NewLine + _
-                    " union all " + Environment.NewLine + _
+                    qry = "select Payment_No as DocNo,'Receipt' as DocType from TSPL_PAYMENT_HEADER where QuickEntryNo='" + EntryNo + "' and Posted='1'" + Environment.NewLine +
+                    " union all " + Environment.NewLine +
                     "select Receipt_No as DocNo,'Payment' as DocType from TSPL_RECEIPT_HEADER where QuickEntryNo='" + EntryNo + "' and Posted='Y'"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -776,6 +784,7 @@ Public Class FrmQuickEntry1
                                 obj.Location_GL_Code = clsCommon.myCstr(row.Cells("gvLocation").Value)
                                 obj.CFormRecd = IIf(row.Cells("gvCForm").Value, "1", "0")
                                 obj.CForm_InvoiceNo = clsCommon.myCstr(row.Cells("gvCFormDoc").Value)
+                                obj.Cheque_From = clsCommon.myCstr(row.Cells("gvFromBank").Value)
                                 If clsCommon.CompairString(obj.Payment_Code, "Cheque") = CompairStringResult.Equal Then
                                     obj.Cheque_No = clsCommon.myCstr(row.Cells("gvCheckNo").Value)
                                     If clsCommon.myLen(obj.Cheque_No) > 0 Then
@@ -1070,8 +1079,8 @@ Public Class FrmQuickEntry1
                     'End If
                     strQ = "select BANKACC  from TSPL_BANK_MASTER where BANK_CODE='" + fndBankCode.Value + "'"
                     Dim strBankAcc As String = connectSql.RunScalar(tran, strQ)
-                    Dim strQuery As String = " SELECT     TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN" & _
-                                " TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account" & _
+                    Dim strQuery As String = " SELECT     TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN" &
+                                " TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account" &
                                 " where TSPL_CUSTOMER_MASTER.Cust_Code ='" + Code + "'"
                     Dim strRcvblAcc As String = connectSql.RunScalar(tran, strQuery)
                     Dim strAccSet As String
@@ -1415,8 +1424,8 @@ Public Class FrmQuickEntry1
     End Sub
     Private Sub txtEntryNo__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles txtEntryNo._MYNavigator
 
-        Dim qry As String = " select * from( select 1 as byte,'Receipt' as [Type], QuickEntryNo ,Receipt_No ,Receipt_Date ,Bank_Code ,case when Receipt_Type='O' then 'On-Account' when Receipt_Type='P' then 'Advance' end as Receipt_Type ,Cust_Code ,Customer_Name ,Entry_Desc ,Cheque_No , CONVERT(DATE,Cheque_Date,103) as Cheque_Date , Payment_Code ,Receipt_Amount ,case when Posted='Y' then 'Posted' when Posted='N' then 'Open' end as Posted   from TSPL_RECEIPT_HEADER " & _
-              " union all  select 1 as byte,'Payment' as [Type], QuickEntryNo ,Payment_No  ,Payment_Date  ,Bank_Code ,case when Payment_Type ='OA' then 'On-Account' when Payment_Type='AV' then 'Advance' end as Receipt_Type ,Vendor_Code  ,Vendor_Name  ,Entry_Desc ,Cheque_No ,Cheque_Date , Payment_Code ,Payment_Amount  ,case when Posted='Y' then 'Posted' when Posted='N' then 'Open' end as Posted   from TSPL_PAYMENT_HEADER) as  xxx" & _
+        Dim qry As String = " select * from( select 1 as byte,'Receipt' as [Type], QuickEntryNo ,Receipt_No ,Receipt_Date ,Bank_Code ,case when Receipt_Type='O' then 'On-Account' when Receipt_Type='P' then 'Advance' end as Receipt_Type ,Cust_Code ,Customer_Name ,Entry_Desc ,Cheque_No , CONVERT(DATE,Cheque_Date,103) as Cheque_Date , Payment_Code ,Receipt_Amount ,case when Posted='Y' then 'Posted' when Posted='N' then 'Open' end as Posted   from TSPL_RECEIPT_HEADER " &
+              " union all  select 1 as byte,'Payment' as [Type], QuickEntryNo ,Payment_No  ,Payment_Date  ,Bank_Code ,case when Payment_Type ='OA' then 'On-Account' when Payment_Type='AV' then 'Advance' end as Receipt_Type ,Vendor_Code  ,Vendor_Name  ,Entry_Desc ,Cheque_No ,Cheque_Date , Payment_Code ,Payment_Amount  ,case when Posted='Y' then 'Posted' when Posted='N' then 'Open' end as Posted   from TSPL_PAYMENT_HEADER) as  xxx" &
               " where 2=2 "
 
         Dim Arrloc As New ArrayList
@@ -1470,8 +1479,8 @@ Public Class FrmQuickEntry1
         IsLoadData = True
         Dim i As Integer = 0
         Dim CountPost As Integer = 0
-        Qry = " select * from( select 1 as byte, case when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'Receipt' when TSPL_RECEIPT_HEADER.Receipt_Type='M' then 'Misc Receipt' end as [Type], QuickEntryNo , TSPL_RECEIPT_HEADER.Receipt_No , Receipt_Date , Bank_Code , case when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'On-Account' when TSPL_RECEIPT_HEADER.Receipt_Type='M' then 'Misc Receipt' end as Receipt_Type , Cust_Code ,Customer_Name ,Entry_Desc ,Cheque_No ,Cheque_Date , Payment_Code ,Receipt_Amount ,case when TSPL_RECEIPT_HEADER.Posted='Y' then 'Posted' when TSPL_RECEIPT_HEADER.Posted='N' then 'Open' end as Posted, TSPL_RECEIPT_DETAIL.Account_Code, TSPL_RECEIPT_DETAIL.Description,CForm_InvoiceNo,CFormRecd,location_gl_code,'FALSE' as PDC_Cheque,'FALSE' as Account_Payee   from TSPL_RECEIPT_HEADER Left Outer Join TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_DETAIL.Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No " & _
-              " union all  select 1 as byte,'Payment' as [Type], QuickEntryNo , Payment_No, Payment_Date, Bank_Code, Case when Payment_Type ='OA' then 'On-Account' when Payment_Type='AD' then 'Advance' end as Receipt_Type ,Vendor_Code  ,Vendor_Name  ,Entry_Desc ,Cheque_No , CONVERT(VARCHAR,Cheque_Date,103) as Cheque_Date, Payment_Code ,Payment_Amount  ,case when Posted='1' then 'Posted' ELSE 'Open' end as Posted, '' AS Account_Code, '' as Description,'' as CForm_InvoiceNo,'' as CFormRecd,location_gl_code,cASE WHEN PDC_Cheque='Y' THEN 'TRUE' ELSE 'FALSE' END AS PDC_Cheque,CASE WHEN Account_Payee='1' THEN 'TRUE' ELSE 'FALSE' END AS Account_Payee   from TSPL_PAYMENT_HEADER) as  xx" & _
+        Qry = " select * from( select 1 as byte, case when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'Receipt' when TSPL_RECEIPT_HEADER.Receipt_Type='M' then 'Misc Receipt' end as [Type], QuickEntryNo , TSPL_RECEIPT_HEADER.Receipt_No , Receipt_Date , Bank_Code , case when TSPL_RECEIPT_HEADER.Receipt_Type='O' then 'On-Account' when TSPL_RECEIPT_HEADER.Receipt_Type='M' then 'Misc Receipt' end as Receipt_Type , Cust_Code ,Customer_Name ,Entry_Desc ,Cheque_No ,Cheque_Date , Payment_Code ,Receipt_Amount ,case when TSPL_RECEIPT_HEADER.Posted='Y' then 'Posted' when TSPL_RECEIPT_HEADER.Posted='N' then 'Open' end as Posted, TSPL_RECEIPT_DETAIL.Account_Code, TSPL_RECEIPT_DETAIL.Description,CForm_InvoiceNo,CFormRecd,location_gl_code,'FALSE' as PDC_Cheque,'FALSE' as Account_Payee,TSPL_RECEIPT_HEADER.Cheque_From,TSPL_RECEIPT_HEADER.From_Branch      from TSPL_RECEIPT_HEADER Left Outer Join TSPL_RECEIPT_DETAIL ON TSPL_RECEIPT_DETAIL.Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No " &
+              " union all  select 1 as byte,'Payment' as [Type], QuickEntryNo , Payment_No, Payment_Date, Bank_Code, Case when Payment_Type ='OA' then 'On-Account' when Payment_Type='AD' then 'Advance' end as Receipt_Type ,Vendor_Code  ,Vendor_Name  ,Entry_Desc ,Cheque_No , CONVERT(VARCHAR,Cheque_Date,103) as Cheque_Date, Payment_Code ,Payment_Amount  ,case when Posted='1' then 'Posted' ELSE 'Open' end as Posted, '' AS Account_Code, '' as Description,'' as CForm_InvoiceNo,'' as CFormRecd,location_gl_code,cASE WHEN PDC_Cheque='Y' THEN 'TRUE' ELSE 'FALSE' END AS PDC_Cheque,CASE WHEN Account_Payee='1' THEN 'TRUE' ELSE 'FALSE' END AS Account_Payee,'' As Cheque_From,'' As From_Branch   from TSPL_PAYMENT_HEADER) as  xx" &
               " where xx.QuickEntryNo ='" + EntryNo + "' "
         Dim dt As DataTable
         Try
@@ -1511,6 +1520,11 @@ Public Class FrmQuickEntry1
                         MasterTemplate.Columns("gvLocation_Name").IsVisible = False
                     End If
                     MasterTemplate.CurrentRow.Cells("gvPaymentMode").Value = clsCommon.myCstr(dr("Payment_Code"))
+                    If clsCommon.myCstr(dr("Cheque_From")) <> "" Then
+                        MasterTemplate.CurrentRow.Cells("gvFromBank").Value = clsCommon.myCstr(dr("Cheque_From"))
+                    Else
+                        MasterTemplate.CurrentRow.Cells("gvFromBank").Value = Nothing
+                    End If
                     MasterTemplate.CurrentRow.Cells("gvcheckNo").Value = clsCommon.myCstr(dr("Cheque_No"))
                     If clsCommon.myCstr(dr("Cheque_No")) <> "" Then
                         MasterTemplate.CurrentRow.Cells("gvcheckDate").Value = clsCommon.myCstr(dr("Cheque_Date"))
@@ -1548,6 +1562,7 @@ Public Class FrmQuickEntry1
                     btnSave.Enabled = False
                     btnDelete.Enabled = False
                     btnPost.Enabled = False
+                    chkPrintCheque.Enabled = True
                 End If
             End If
         Catch ex As Exception
@@ -1608,6 +1623,7 @@ Public Class FrmQuickEntry1
     End Sub
 
     Public Sub funReset()
+        chkPrintCheque.Checked = False
         txtEntryNo.Value = ""
         dtDocDate.Value = System.DateTime.Now.Date
         fndBankCode.Value = ""
@@ -1618,6 +1634,7 @@ Public Class FrmQuickEntry1
         btnDelete.Enabled = True
         btnPost.Enabled = True
         ddlType.Enabled = True
+        chkPrintCheque.Enabled = False
         LoadBlankGrid()
         MasterTemplate.Rows.AddNew()
         IsLoadData = False
@@ -1814,20 +1831,20 @@ Public Class FrmQuickEntry1
             ElseIf e.Control And e.KeyCode = Keys.P AndAlso btnPrint.Enabled Then
                 funprint(txtEntryNo.Value)
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                          "========Table Name=========" + Environment.NewLine + _
-                          "TSPL_RECEIPT_HEADER, TSPL_RECEIPT_DETAIL, TSPL_RECEIPT_DETAIL_GST( For Receipt & Misc Receipt)" + Environment.NewLine + _
-                          "TSPL_PAYMENT_HEADER ,TSPL_PAYMENT_DETAIL,TSPL_PAYMENT_BANK_CHARGES_TAX,TSPL_PJC_EXPENSE_HEADER,TSPL_REMITTANCE(for Payment) " + Environment.NewLine + _
-                          "TSPL_Customer_Invoice_Head & tspl_bank_transfer   (For Receipt Post) " + Environment.NewLine + _
-                          "tspl_BankReco_Head & tspl_BankReco_Detail(for Outstanding Entry)" + Environment.NewLine + _
-                          "TSPL_VENDOR_INVOICE_HEAD (For Payment POST)" + Environment.NewLine + _
-                          "=========Setting Name======" + Environment.NewLine + _
-                          "AllowToUseSubAccount " + Environment.NewLine + _
-                          "AllowtoSkipJournalEntryofPaymentandReceiptforAD" + Environment.NewLine + _
-                          "AllowUseApplyDocSeriesForReceipt" + Environment.NewLine + _
-                          "CustomerMasterFinderOnLocationwiseARReceipt" + Environment.NewLine + _
-                          "ApplyBrachAccounting" + Environment.NewLine + _
-                          "StopNegativeBankBalance" + Environment.NewLine + _
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                          "========Table Name=========" + Environment.NewLine +
+                          "TSPL_RECEIPT_HEADER, TSPL_RECEIPT_DETAIL, TSPL_RECEIPT_DETAIL_GST( For Receipt & Misc Receipt)" + Environment.NewLine +
+                          "TSPL_PAYMENT_HEADER ,TSPL_PAYMENT_DETAIL,TSPL_PAYMENT_BANK_CHARGES_TAX,TSPL_PJC_EXPENSE_HEADER,TSPL_REMITTANCE(for Payment) " + Environment.NewLine +
+                          "TSPL_Customer_Invoice_Head & tspl_bank_transfer   (For Receipt Post) " + Environment.NewLine +
+                          "tspl_BankReco_Head & tspl_BankReco_Detail(for Outstanding Entry)" + Environment.NewLine +
+                          "TSPL_VENDOR_INVOICE_HEAD (For Payment POST)" + Environment.NewLine +
+                          "=========Setting Name======" + Environment.NewLine +
+                          "AllowToUseSubAccount " + Environment.NewLine +
+                          "AllowtoSkipJournalEntryofPaymentandReceiptforAD" + Environment.NewLine +
+                          "AllowUseApplyDocSeriesForReceipt" + Environment.NewLine +
+                          "CustomerMasterFinderOnLocationwiseARReceipt" + Environment.NewLine +
+                          "ApplyBrachAccounting" + Environment.NewLine +
+                          "StopNegativeBankBalance" + Environment.NewLine +
                           "AutoRecieptPaymentMode")
             End If
         Catch ex As Exception
@@ -1955,25 +1972,26 @@ Public Class FrmQuickEntry1
             Dim qrySubReport As String = ""
 
             If ddlType.Text = "Receipt" Then
-                qry = " SELECT 'Receipt' as rtype,TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.QuickEntryNo, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_RECEIPT_HEADER.Receipt_Date as DocDate, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_BANK_MASTER.DESCRIPTION as BankDesc , " & _
-                       " (case when TSPL_RECEIPT_HEADER.Receipt_Type='o' then 'On Account' else case when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'Advance' end end )as Type, TSPL_RECEIPT_HEADER.Cust_Code as Code, TSPL_RECEIPT_HEADER.Customer_Name as Name, " & _
-                       "  TSPL_RECEIPT_HEADER.Narration, TSPL_RECEIPT_HEADER.Cheque_No, " & _
-                       "  TSPL_RECEIPT_HEADER.Cheque_Date, TSPL_RECEIPT_HEADER.Receipt_Amount as Amount,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 " & _
-                       "   FROM         TSPL_RECEIPT_HEADER LEFT OUTER JOIN  " & _
-                       "  TSPL_BANK_MASTER ON TSPL_RECEIPT_HEADER.Bank_Code = TSPL_BANK_MASTER.BANK_CODE " & _
-                       "   left Outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_RECEIPT_HEADER.Comp_Code " & _
-                       "  where TSPL_RECEIPT_HEADER.QuickEntryNo='" + StrCode + "' "
+                qry = " SELECT TSPL_CUSTOMER_MASTER.Zone_Code,'Receipt' as rtype,TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.QuickEntryNo, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_RECEIPT_HEADER.Receipt_Date as DocDate, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_BANK_MASTER.DESCRIPTION as BankDesc , " &
+                       " (case when TSPL_RECEIPT_HEADER.Receipt_Type='o' then 'On Account' else case when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'Advance' end end )as Type, TSPL_RECEIPT_HEADER.Cust_Code as Code, TSPL_RECEIPT_HEADER.Customer_Name as Name, " &
+                       "  TSPL_RECEIPT_HEADER.Narration, TSPL_RECEIPT_HEADER.Cheque_No, " &
+                       "  TSPL_RECEIPT_HEADER.Cheque_Date, TSPL_RECEIPT_HEADER.Receipt_Amount as Amount,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 " &
+                       "   FROM         TSPL_RECEIPT_HEADER LEFT OUTER JOIN  " &
+                       "   TSPL_BANK_MASTER ON TSPL_RECEIPT_HEADER.Bank_Code = TSPL_BANK_MASTER.BANK_CODE " &
+                       "   left Outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_RECEIPT_HEADER.Comp_Code " &
+                       "   Left Outer Join TSPL_CUSTOMER_MASTER On TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RECEIPT_HEADER.Cust_Code " &
+                       "   where TSPL_RECEIPT_HEADER.QuickEntryNo='" + StrCode + "' "
                 qrySubReport = " Select Final.QuickEntryNo , Final.Payment_Code,Sum (Final.Amount) as Amount   from (  " + qry + "  ) Final group by Final.QuickEntryNo,Final.Payment_Code "
 
             ElseIf ddlType.Text = "Payment" Then
 
-                qry = " SELECT 'Payment' as rtype,TSPL_PAYMENT_HEADER.Payment_Code ,TSPL_PAYMENT_HEADER.QuickEntryNo, TSPL_PAYMENT_HEADER.Payment_No as DocNo, TSPL_PAYMENT_HEADER.Payment_Date as DocDate, TSPL_PAYMENT_HEADER.Bank_Code , TSPL_BANK_MASTER.DESCRIPTION as BankDesc,  " & _
-                      "  (case when TSPL_PAYMENT_HEADER.Payment_Type='oa' then 'On Account' else case when TSPL_PAYMENT_HEADER.Payment_Type='av' then 'Advance' end end )as Type, TSPL_PAYMENT_HEADER.Vendor_Code as Code, TSPL_PAYMENT_HEADER.Vendor_Name as Name, " & _
-                      "  TSPL_PAYMENT_HEADER.Entry_Desc as Narration, TSPL_PAYMENT_HEADER.Cheque_No, TSPL_PAYMENT_HEADER.Cheque_Date,  " & _
-                      "   TSPL_PAYMENT_HEADER.Payment_Amount as Amount ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1" & _
-                      "   From  TSPL_PAYMENT_HEADER LEFT OUTER JOIN " & _
-                      " TSPL_BANK_MASTER ON TSPL_PAYMENT_HEADER.Bank_Code = TSPL_BANK_MASTER.BANK_CODE " & _
-                 "   left Outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_PAYMENT_HEADER.Comp_Code " & _
+                qry = " SELECT 'Payment' as rtype,TSPL_PAYMENT_HEADER.Payment_Code ,TSPL_PAYMENT_HEADER.QuickEntryNo, TSPL_PAYMENT_HEADER.Payment_No as DocNo, TSPL_PAYMENT_HEADER.Payment_Date as DocDate, TSPL_PAYMENT_HEADER.Bank_Code , TSPL_BANK_MASTER.DESCRIPTION as BankDesc,  " &
+                      "  (case when TSPL_PAYMENT_HEADER.Payment_Type='oa' then 'On Account' else case when TSPL_PAYMENT_HEADER.Payment_Type='av' then 'Advance' end end )as Type, TSPL_PAYMENT_HEADER.Vendor_Code as Code, TSPL_PAYMENT_HEADER.Vendor_Name as Name, " &
+                      "  TSPL_PAYMENT_HEADER.Entry_Desc as Narration, TSPL_PAYMENT_HEADER.Cheque_No, TSPL_PAYMENT_HEADER.Cheque_Date,  " &
+                      "   TSPL_PAYMENT_HEADER.Payment_Amount as Amount ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1" &
+                      "   From  TSPL_PAYMENT_HEADER LEFT OUTER JOIN " &
+                      " TSPL_BANK_MASTER ON TSPL_PAYMENT_HEADER.Bank_Code = TSPL_BANK_MASTER.BANK_CODE " &
+                 "   left Outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_PAYMENT_HEADER.Comp_Code " &
                    " where TSPL_PAYMENT_HEADER.QuickEntryNo='" + StrCode + "' "
                 qrySubReport = " Select Final.QuickEntryNo , Final.Payment_Code,Sum (Final.Amount) as Amount   from (  " + qry + "  ) Final group by Final.QuickEntryNo,Final.Payment_Code "
             End If
@@ -1986,7 +2004,12 @@ Public Class FrmQuickEntry1
             Else
                 Dim frmCRV As New frmCrystalReportViewer()
                 'frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "CrptQuickBook", "Quick Book Report")
-                frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBook", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
+                If chkPrintCheque.Enabled = True AndAlso chkPrintCheque.Checked Then
+                    frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBookCheque", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
+                Else
+                    frmCRV.funsubreportWithdt(CrystalReportFolder.SalesReport, dt, dtSubReport, "CrptQuickBook", "Quick Book Report", "rptQuickBookSubReport.rpt", Nothing)
+                End If
+
                 frmCRV = Nothing
 
             End If
@@ -2643,4 +2666,4 @@ Public Class FrmQuickEntry1
     End Sub
 End Class
 
- 
+
