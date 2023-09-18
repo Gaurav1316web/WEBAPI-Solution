@@ -31,7 +31,7 @@ Partial Class frmDistributeRateTagging
         Me.txtStartDate = New common.Controls.MyDateTimePicker()
         Me.txtRemark = New common.Controls.MyTextBox()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.gv = New common.UserControls.MyRadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
@@ -42,6 +42,9 @@ Partial Class frmDistributeRateTagging
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnImport = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -50,13 +53,14 @@ Partial Class frmDistributeRateTagging
         CType(Me.txtStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemark, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
-        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -84,6 +88,7 @@ Partial Class frmDistributeRateTagging
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
@@ -126,7 +131,7 @@ Partial Class frmDistributeRateTagging
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(342, 36)
+        Me.UsLock1.Location = New System.Drawing.Point(386, 13)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(101, 20)
@@ -206,38 +211,38 @@ Partial Class frmDistributeRateTagging
         Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.gv)
+        Me.GroupBox1.Controls.Add(Me.gv1)
         Me.GroupBox1.Location = New System.Drawing.Point(10, 115)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(783, 290)
         Me.GroupBox1.TabIndex = 68
         Me.GroupBox1.TabStop = False
         '
-        'gv
+        'gv1
         '
-        Me.gv.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.gv1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.gv.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gv.ForeColor = System.Drawing.Color.Black
-        Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv.Location = New System.Drawing.Point(2, 15)
+        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gv1.ForeColor = System.Drawing.Color.Black
+        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv1.Location = New System.Drawing.Point(2, 15)
         '
         '
         '
-        Me.gv.MasterTemplate.AllowDeleteRow = False
-        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gv.Name = "gv"
-        Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv.ShowGroupPanel = False
-        Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(777, 269)
-        Me.gv.TabIndex = 4
-        Me.gv.TabStop = False
+        Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.Name = "gv1"
+        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(777, 269)
+        Me.gv1.TabIndex = 4
+        Me.gv1.TabStop = False
         '
         'txtCode
         '
@@ -339,6 +344,28 @@ Partial Class frmDistributeRateTagging
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
+        'btnImport
+        '
+        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport})
+        Me.btnImport.Location = New System.Drawing.Point(242, 5)
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Size = New System.Drawing.Size(108, 20)
+        Me.btnImport.TabIndex = 158
+        Me.btnImport.Text = "Import/Export"
+        '
+        'rmiImport
+        '
+        Me.rmiImport.Name = "rmiImport"
+        Me.rmiImport.Text = "Import"
+        Me.rmiImport.UseCompatibleTextRendering = False
+        '
+        'rmiExport
+        '
+        Me.rmiExport.Name = "rmiExport"
+        Me.rmiExport.Text = "Export"
+        Me.rmiExport.UseCompatibleTextRendering = False
+        '
         'frmDistributeRateTagging
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -360,13 +387,14 @@ Partial Class frmDistributeRateTagging
         CType(Me.txtStartDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemark, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
-        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -383,11 +411,14 @@ Partial Class frmDistributeRateTagging
     Friend WithEvents btnsave As RadButton
     Friend WithEvents btnclose As RadButton
     Friend WithEvents GroupBox1 As GroupBox
-    Friend WithEvents gv As common.UserControls.MyRadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents txtRemark As common.Controls.MyTextBox
     Friend WithEvents txtStartDate As common.Controls.MyDateTimePicker
     Friend WithEvents btnpost As RadButton
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents txtEndDate As common.Controls.MyDateTimePicker
+    Friend WithEvents btnImport As RadSplitButton
+    Friend WithEvents rmiImport As RadMenuItem
+    Friend WithEvents rmiExport As RadMenuItem
 End Class

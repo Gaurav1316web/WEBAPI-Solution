@@ -320,8 +320,6 @@ Public Class frmEmployee_Status
         Me.findEmployee.Value = Nothing
         Me.findBank.Value = Nothing
         Me.cboPaymentMode.Text = ""
-        Me.findBranch.Value = Nothing
-        Me.lblBranchName.Text = ""
         Me.findDevision.Value = Nothing
         Me.lblDevisionName.Text = ""
         Me.findGrade.Value = Nothing
@@ -368,6 +366,13 @@ Public Class frmEmployee_Status
         cboShiftChangeType.SelectedValue = "Never"
         Me.chkODApplicable.Checked = False
         chkRevisionNo.Checked = True
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            Me.findBranch.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            Me.lblBranchName.Text = clsLocation.GetName(findBranch.Value, Nothing)
+        Else
+            Me.findBranch.Value = Nothing
+            Me.lblBranchName.Text = ""
+        End If
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
@@ -443,7 +448,15 @@ Public Class frmEmployee_Status
     End Sub
 
     Private Sub txtEmpCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtEmpCode._MYValidating
-        txtEmpCode.Value = clsEmployeeMaster.getFinder("", txtEmpCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", txtEmpCode.Value, "", isButtonClicked)
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "'"))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " Location_Code='" + LocCode + "'"
+            End If
+        End If
+        txtEmpCode.Value = clsEmployeeMaster.getFinder(whrcls, txtEmpCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", txtEmpCode.Value, "", isButtonClicked)
         Dim clsemp As clsEmployeeMaster
         clsemp = clsEmployeeMaster.FinderForEmployee(txtEmpCode.Value, Nothing)
         If Not clsemp Is Nothing Then
@@ -504,10 +517,14 @@ Public Class frmEmployee_Status
     Private Sub findBranch__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findBranch._MYValidating
         Try
             Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrcls = " Location_Type='Physical' And LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
-            Else
-                whrcls = " Location_Type='Physical'"
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " Location_Type='Physical' And LOCATION_CODE='" + LocCode + "'"
+                Else
+                    whrcls = " Location_Type='Physical'"
+                End If
             End If
             findBranch.Value = clsLocation.getFinder(whrcls, Me.findBranch.Value, isButtonClicked)
             lblBranchName.Text = clsLocation.GetName(findBranch.Value, Nothing)

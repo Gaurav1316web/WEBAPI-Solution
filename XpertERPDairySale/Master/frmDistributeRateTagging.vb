@@ -24,36 +24,12 @@ Public Class frmDistributeRateTagging
 
 
 #End Region
-    Private Sub AddNewItem()
-        txtCode.MyReadOnly = False
-        txtStartDate.Value = clsCommon.GETSERVERDATE()
-        txtEndDate.Value = clsCommon.GETSERVERDATE()
-        txtRemark.Text = ""
 
-        isNewEntry = True
-    End Sub
     Private Sub frmDistributeRateTagging_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Code", "Varchar(30) not null PRIMARY KEY")
-        coll.Add("Start_Date", "Date NOT NULL")
-        coll.Add("End_Date", "Date NULL")
-        coll.Add("Remarks", "Varchar(100) null")
-        coll.Add("Status", "integer NULL")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Post_By", "varchar(12)  NULL")
-        coll.Add("Post_Date", "Datetime  NULL")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_DISTRIBUTOR_ROUTE", coll)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Code", "VARCHAR(30) not null REFERENCES TSPL_DISTRIBUTOR_ROUTE(Code)")
-        coll.Add("Route_No", "VARCHAR(12) not null REFERENCES TSPL_ROUTE_MASTER(Route_No)")
-        coll.Add("Cust_Code", "VARCHAR(12) not null REFERENCES TSPL_CUSTOMER_MASTER(Cust_Code)")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_DISTRIBUTOR_ROUTE_CUSTOMER", coll)
+
         LoadBlankgv_Grid()
         UsLock1.Status = ERPTransactionStatus.Pending
+        txtStartDate.Value = clsCommon.GETSERVERDATE()
     End Sub
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         SaveData()
@@ -61,8 +37,8 @@ Public Class frmDistributeRateTagging
 
     Sub Reset()
         txtCode.Value = ""
-        'txtStartDate.Value = ""
-        'txtEndDate.Value = ""
+        txtStartDate.Value = ""
+        txtEndDate.Value = ""
         IsInsieLoadData = False
         gv.Rows.Clear()
         gv.Columns.Clear()
@@ -75,10 +51,10 @@ Public Class frmDistributeRateTagging
     Sub LoadData(ByVal strCode As String, ByVal NavType As NavigatorType)
         Try
             LoadBlankgv_Grid()
-            gv.DataSource = Nothing
-            gv.Refresh()
+            gv1.DataSource = Nothing
+            gv1.Refresh()
             isInsideLoadData = True
-            AddNewItem()
+            funReset()
             txtCode.MyReadOnly = True
             Dim obj As New clsDistributeRateTagging()
             obj = clsDistributeRateTagging.GetData(strCode, NavType)
@@ -95,12 +71,12 @@ Public Class frmDistributeRateTagging
                 txtRemark.Text = obj.Remarks
                 If obj.arr IsNot Nothing Then
                     For Each objrow As clsDistributeRateTaggingDetail In obj.arr
-                        gv.Rows(gv.Rows.Count - 1).Cells(colSNO).Value = objrow.SNo
-                        gv.Rows(gv.Rows.Count - 1).Cells(colRouteNumber).Value = objrow.Route_No
-                        gv.Rows(gv.Rows.Count - 1).Cells(colRouteName).Value = objrow.Route_Desc
-                        gv.Rows(gv.Rows.Count - 1).Cells(colCustomerCode).Value = objrow.Cust_Code
-                        gv.Rows(gv.Rows.Count - 1).Cells(colCustomerName).Value = objrow.Customer_Name
-                        gv.Rows.AddNew()
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSNO).Value = objrow.SNo
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteNumber).Value = objrow.Route_No
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteName).Value = objrow.Route_Desc
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCustomerCode).Value = objrow.Cust_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCustomerName).Value = objrow.Customer_Name
+                        gv1.Rows.AddNew()
                     Next
                 End If
                 If clsCommon.myCdbl(ERPTransactionStatus.Approved) = clsCommon.myCdbl(obj.Status) Then
@@ -111,6 +87,7 @@ Public Class frmDistributeRateTagging
                 ElseIf ERPTransactionStatus.Pending = obj.Status Then
                     UsLock1.Status = obj.Status
                     btnsave.Enabled = True
+                    btnsave.Text = "Update"
                     btndelete.Enabled = True
                     btnpost.Enabled = True
                 End If
@@ -125,19 +102,19 @@ Public Class frmDistributeRateTagging
     Sub LoadBlankgv_Grid()
 
         Dim qry As String = String.Empty
-        gv.Rows.Clear()
-        gv.Columns.Clear()
+        gv1.Rows.Clear()
+        gv1.Columns.Clear()
 
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoLineNo = New GridViewDecimalColumn()
         repoLineNo.FormatString = ""
-        repoLineNo.HeaderText = "S No"
+        repoLineNo.HeaderText = "SNo"
         repoLineNo.Name = colSNO
         repoLineNo.Width = 50
         repoLineNo.IsVisible = True
         repoLineNo.ReadOnly = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv.MasterTemplate.Columns.Add(repoLineNo)
+        gv1.MasterTemplate.Columns.Add(repoLineNo)
 
         Dim repoRouteNumber As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoRouteNumber.FormatString = ""
@@ -147,7 +124,7 @@ Public Class frmDistributeRateTagging
         repoRouteNumber.TextImageRelation = TextImageRelation.TextBeforeImage
         repoRouteNumber.Width = 100
         repoRouteNumber.IsVisible = True
-        gv.MasterTemplate.Columns.Add(repoRouteNumber)
+        gv1.MasterTemplate.Columns.Add(repoRouteNumber)
 
         Dim repoRouteName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoRouteName.FormatString = ""
@@ -156,7 +133,7 @@ Public Class frmDistributeRateTagging
         repoRouteName.Width = 150
         repoRouteName.IsVisible = True
         repoRouteName.ReadOnly = True
-        gv.MasterTemplate.Columns.Add(repoRouteName)
+        gv1.MasterTemplate.Columns.Add(repoRouteName)
 
         Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustCode.FormatString = ""
@@ -166,7 +143,7 @@ Public Class frmDistributeRateTagging
         repoCustCode.TextImageRelation = TextImageRelation.TextBeforeImage
         repoCustCode.Width = 100
         repoCustCode.IsVisible = True
-        gv.MasterTemplate.Columns.Add(repoCustCode)
+        gv1.MasterTemplate.Columns.Add(repoCustCode)
 
         Dim repoCustName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustName.FormatString = ""
@@ -175,18 +152,18 @@ Public Class frmDistributeRateTagging
         repoCustName.Width = 150
         repoCustName.IsVisible = True
         repoCustName.ReadOnly = True
-        gv.MasterTemplate.Columns.Add(repoCustName)
+        gv1.MasterTemplate.Columns.Add(repoCustName)
 
-        gv.AllowAddNewRow = False
-        gv.AllowDeleteRow = True
-        gv.AllowRowReorder = False
-        gv.ShowGroupPanel = False
-        gv.EnableFiltering = False
-        gv.EnableSorting = False
-        gv.EnableGrouping = False
-        gv.AllowColumnChooser = True
-        gv.AllowColumnReorder = True
-        gv.Rows.AddNew()
+        gv1.AllowAddNewRow = False
+        gv1.AllowDeleteRow = True
+        gv1.AllowRowReorder = False
+        gv1.ShowGroupPanel = False
+        gv1.EnableFiltering = False
+        gv1.EnableSorting = False
+        gv1.EnableGrouping = False
+        gv1.AllowColumnChooser = True
+        gv1.AllowColumnReorder = True
+        gv1.Rows.AddNew()
     End Sub
 
 
@@ -218,7 +195,7 @@ Public Class frmDistributeRateTagging
             End If
             obj.Remarks = txtRemark.Text
             obj.arr = New List(Of clsDistributeRateTaggingDetail)
-            For Each row As GridViewRowInfo In gv.Rows
+            For Each row As GridViewRowInfo In gv1.Rows
                 Dim objTr As New clsDistributeRateTaggingDetail()
                 objTr.Code = obj.Code
                 objTr.Route_No = clsCommon.myCstr(row.Cells(colRouteNumber).Value)
@@ -254,19 +231,19 @@ Public Class frmDistributeRateTagging
         Return True
     End Function
 
-    Private Sub gv_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv.CellValueChanged
+    Private Sub gv_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
-                    If e.Column Is gv.Columns(colCustomerCode) Then
-                        Dim strCustCode As String = clsDistributeRateTagging.getFinder("", clsCommon.myCstr(gv.CurrentRow.Cells(colCustomerCode).Value), False)
-                        gv.CurrentRow.Cells(colCustomerCode).Value = strCustCode
-                        gv.CurrentRow.Cells(colCustomerName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" & strCustCode & "' ")
-                    ElseIf e.Column Is gv.Columns(colRouteNumber) Then
-                        Dim strRouteCode As String = clsDistributeRateTagging.getRouteFinder("", clsCommon.myCstr(gv.CurrentRow.Cells(colRouteNumber).Value), False)
-                        gv.CurrentRow.Cells(colRouteNumber).Value = strRouteCode
-                        gv.CurrentRow.Cells(colRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & strRouteCode & "' ")
+                    If e.Column Is gv1.Columns(colCustomerCode) Then
+                        Dim strCustCode As String = clsDistributeRateTagging.getFinder("", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustomerCode).Value), False)
+                        gv1.CurrentRow.Cells(colCustomerCode).Value = strCustCode
+                        gv1.CurrentRow.Cells(colCustomerName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" & strCustCode & "' ")
+                    ElseIf e.Column Is gv1.Columns(colRouteNumber) Then
+                        Dim strRouteCode As String = clsDistributeRateTagging.getRouteFinder("", clsCommon.myCstr(gv1.CurrentRow.Cells(colRouteNumber).Value), False)
+                        gv1.CurrentRow.Cells(colRouteNumber).Value = strRouteCode
+                        gv1.CurrentRow.Cells(colRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" & strRouteCode & "' ")
 
                     End If
                     isCellValueChangedOpen = False
@@ -277,12 +254,12 @@ Public Class frmDistributeRateTagging
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-    Private Sub gv_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gv.CurrentColumnChanged
-        If gv.Rows.Count > 0 Then
-            If gv.CurrentRow.Index = gv.Rows.Count - 1 Then
-                gv.Rows(gv.Rows.Count - 1).Cells(colSNO).Value = gv.Rows.Count
-                gv.Rows.AddNew()
-                gv.CurrentRow = gv.Rows(gv.Rows.Count - 2)
+    Private Sub gv_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
+        If gv1.Rows.Count > 0 Then
+            If gv1.CurrentRow.Index = gv1.Rows.Count - 1 Then
+                gv1.Rows(gv1.Rows.Count - 1).Cells(colSNO).Value = gv1.Rows.Count
+                gv1.Rows.AddNew()
+                gv1.CurrentRow = gv1.Rows(gv1.Rows.Count - 2)
 
             End If
         End If
@@ -291,18 +268,18 @@ Public Class frmDistributeRateTagging
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
     End Sub
-    Private Sub gv_UserAddedRow(sender As Object, e As GridViewRowEventArgs) Handles gv.UserAddedRow
-        For i As Integer = 0 To gv.Rows.Count - 1
-            gv.Rows(0).Cells(0).Value = 1
+    Private Sub gv_UserAddedRow(sender As Object, e As GridViewRowEventArgs) Handles gv1.UserAddedRow
+        For i As Integer = 0 To gv1.Rows.Count - 1
+            gv1.Rows(0).Cells(0).Value = 1
             If i <> 0 Then
-                gv.Rows(i).Cells(colSNO).Value = i + 1
+                gv1.Rows(i).Cells(colSNO).Value = i + 1
             End If
         Next
     End Sub
 
-    Private Sub gv_UserDeletedRow(sender As Object, e As GridViewRowEventArgs) Handles gv.UserDeletedRow
-        For i As Integer = 1 To gv.Rows.Count
-            gv.Rows(i - 1).Cells(colSNO).Value = i
+    Private Sub gv_UserDeletedRow(sender As Object, e As GridViewRowEventArgs) Handles gv1.UserDeletedRow
+        For i As Integer = 1 To gv1.Rows.Count
+            gv1.Rows(i - 1).Cells(colSNO).Value = i
         Next
     End Sub
 
@@ -315,7 +292,7 @@ Public Class frmDistributeRateTagging
             If (myMessages.deleteConfirm()) Then
                 If (clsDistributeRateTagging.DeleteData(txtCode.Value)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
-                    AddNewItem()
+                    funReset()
                 End If
             End If
         Catch ex As Exception
@@ -337,6 +314,7 @@ Public Class frmDistributeRateTagging
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = True
+        isNewEntry = True
     End Sub
 
     Private Sub btnpost_Click(sender As Object, e As EventArgs) Handles btnpost.Click
@@ -405,6 +383,112 @@ Public Class frmDistributeRateTagging
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rmiImport_Click(sender As Object, e As EventArgs) Handles rmiImport.Click
+        Import()
+    End Sub
+
+    Private Sub rmiExport_Click(sender As Object, e As EventArgs) Handles rmiExport.Click
+        Export()
+    End Sub
+    Public Sub Import()
+        Try
+            Dim gv As New RadGridView()
+            Me.Controls.Add(gv)
+            Dim obj As New List(Of clsDistributeRateTaggingDetail)
+            Dim currentdate As Date = Date.Today
+
+
+            If transportSql.importExcel(gv, "Route Code", "Distributor Code") Then
+
+                'Dim trans As SqlTransaction = Nothing
+                Dim linno As Integer = 0
+                Dim TempNewRecord As Boolean = False
+                Try
+                    'trans = clsDBFuncationality.GetTransactin()
+                    clsCommon.ProgressBarShow()
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        Dim Arr As New clsDistributeRateTaggingDetail()
+                        linno += 1
+                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Route Code").Value))) Then
+                            Continue For
+                        Else
+                            Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Route_No from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route Code").Value) + "'"))
+                            If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Route Code").Value)) = CompairStringResult.Equal Then
+                                Arr.Route_No = clsCommon.myCstr(grow.Cells("Route Code").Value)
+                            Else
+                                Continue For
+                            End If
+                        End If
+                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Distributor Code").Value))) Then
+                            Continue For
+                        Else
+                            Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and IsDistributor='Y'"))
+                            If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Distributor Code").Value)) = CompairStringResult.Equal Then
+                                Arr.Cust_Code = clsCommon.myCstr(grow.Cells("Distributor Code").Value)
+                            Else
+                                Continue For
+                            End If
+                        End If
+
+
+                        obj.Add(Arr)
+                    Next
+                    clsCommon.ProgressBarHide()
+                    If clsCommon.MyMessageBoxShow(Me, "Total Correct Document [" + clsCommon.myCstr(obj.Count) + "] out of [" + clsCommon.myCstr(linno) + "] Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                        Dim sl As Integer = 1
+                        funReset()
+                        If obj IsNot Nothing AndAlso obj.Count > 0 Then
+                            isInsideLoadData = True
+                            For Each objTr As clsDistributeRateTaggingDetail In obj
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colSNO).Value = sl
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteNumber).Value = objTr.Route_No
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + objTr.Route_No + "'")
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colCustomerCode).Value = objTr.Cust_Code
+                                gv1.Rows(gv1.Rows.Count - 1).Cells(colCustomerName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Cust_Code + "'")
+                                sl += 1
+                                gv1.Rows.AddNew()
+                            Next
+
+                            isInsideLoadData = False
+                        End If
+                        common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    Else
+                        common.clsCommon.MyMessageBoxShow("Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
+                    End If
+
+                    clsCommon.ProgressBarHide()
+
+                Catch ex As Exception
+                    clsCommon.ProgressBarHide()
+                    clsCommon.MyMessageBoxShow(ex.Message)
+                End Try
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
+
+            End If
+
+            'clsCommon.ProgressBarHide()
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            'clsCommon.ProgressBarHide()
+            clsCommon.MyMessageBoxShow(ex.Message)
+
+        End Try
+    End Sub
+
+    Public Sub Export()
+        Try
+            Dim str As String = "select Route_No as [Route Code],Cust_Code as [Distributor Code] from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
+            Dim whrCls As String = ""
+
+            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code"})
+            transportSql.ExporttoExcel(str, whrCls, Me)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -23,7 +23,8 @@ Public Class rptBookingQtyAmtReport
     Private Sub RptInventoryMovement_Load(sender As Object, e As EventArgs) Handles Me.Load
         isSchemeItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowSchemeItemQty, clsFixedParameterCode.AllowSchemeItemQty, Nothing)) = 1, True, False)
         ToDate.Value = clsCommon.GETSERVERDATE()
-        fromDate.Value = ToDate.Value.AddMonths(-1)
+        fromDate.Value = clsCommon.GETSERVERDATE()
+        'fromDate.Value = ToDate.Value.AddMonths(-1)
     End Sub
     Sub Reset()
 

@@ -401,14 +401,13 @@ Public Class frmLeaveSetting
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            fndLocation.Value = objCommonVar.strCurrUserLocations
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
             fndLocation.Value = ""
             lblLocationName.Text = ""
         End If
-
     End Sub
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmLeaveSetting)
@@ -426,8 +425,8 @@ Public Class frmLeaveSetting
     End Sub
 
     Sub funReset()
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            fndLocation.Value = objCommonVar.strCurrUserLocations
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
             fndLocation.Value = ""
@@ -510,8 +509,12 @@ Public Class frmLeaveSetting
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " And TSPL_LEAVE_SETTING.Location_code= " + objCommonVar.strCurrUserLocations + ""
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " TSPL_LEAVE_SETTING.LOCATION_CODE='" + LocCode + "'"
+            End If
         End If
         Dim str As String = "Select count(*) from TSPL_LEAVE_MASTER where LEAVE_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
@@ -853,8 +856,12 @@ Public Class frmLeaveSetting
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
         Try
             Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " LOCATION_CODE='" + LocCode + "'"
+                End If
             End If
             Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
             fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)

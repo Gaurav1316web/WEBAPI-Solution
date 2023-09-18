@@ -39,6 +39,9 @@ Partial Class rptDairyTruckSheetReport
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblItemNameInv = New common.Controls.MyLabel()
+        Me.fndItemCodeInv = New common.UserControls.txtFinder()
+        Me.MyLabel28 = New common.Controls.MyLabel()
         Me.btnPrintInvoice = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel26 = New common.Controls.MyLabel()
         Me.txtInvMultiCust = New common.UserControls.txtMultiSelectFinder()
@@ -148,6 +151,8 @@ Partial Class rptDairyTruckSheetReport
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
+        CType(Me.lblItemNameInv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -297,6 +302,9 @@ Partial Class rptDairyTruckSheetReport
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.lblItemNameInv)
+        Me.RadGroupBox2.Controls.Add(Me.fndItemCodeInv)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel28)
         Me.RadGroupBox2.Controls.Add(Me.btnPrintInvoice)
         Me.RadGroupBox2.Controls.Add(Me.MyLabel26)
         Me.RadGroupBox2.Controls.Add(Me.txtInvMultiCust)
@@ -308,16 +316,62 @@ Partial Class rptDairyTruckSheetReport
         Me.RadGroupBox2.Location = New System.Drawing.Point(441, 3)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(426, 98)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(426, 114)
         Me.RadGroupBox2.TabIndex = 1396
         Me.RadGroupBox2.Text = "Print Invoice"
-        Me.RadGroupBox2.Visible = False
+        '
+        'lblItemNameInv
+        '
+        Me.lblItemNameInv.AutoSize = False
+        Me.lblItemNameInv.BorderVisible = True
+        Me.lblItemNameInv.FieldName = Nothing
+        Me.lblItemNameInv.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemNameInv.Location = New System.Drawing.Point(229, 61)
+        Me.lblItemNameInv.Name = "lblItemNameInv"
+        Me.lblItemNameInv.Size = New System.Drawing.Size(192, 21)
+        Me.lblItemNameInv.TabIndex = 422
+        '
+        'fndItemCodeInv
+        '
+        Me.fndItemCodeInv.CalculationExpression = Nothing
+        Me.fndItemCodeInv.FieldCode = Nothing
+        Me.fndItemCodeInv.FieldDesc = Nothing
+        Me.fndItemCodeInv.FieldMaxLength = 0
+        Me.fndItemCodeInv.FieldName = Nothing
+        Me.fndItemCodeInv.isCalculatedField = False
+        Me.fndItemCodeInv.IsSourceFromTable = False
+        Me.fndItemCodeInv.IsSourceFromValueList = False
+        Me.fndItemCodeInv.IsUnique = False
+        Me.fndItemCodeInv.Location = New System.Drawing.Point(88, 61)
+        Me.fndItemCodeInv.MendatroryField = True
+        Me.fndItemCodeInv.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndItemCodeInv.MyLinkLable1 = Me.lblItemNameInv
+        Me.fndItemCodeInv.MyLinkLable2 = Me.MyLabel28
+        Me.fndItemCodeInv.MyReadOnly = False
+        Me.fndItemCodeInv.MyShowMasterFormButton = False
+        Me.fndItemCodeInv.Name = "fndItemCodeInv"
+        Me.fndItemCodeInv.ReferenceFieldDesc = Nothing
+        Me.fndItemCodeInv.ReferenceFieldName = Nothing
+        Me.fndItemCodeInv.ReferenceTableName = Nothing
+        Me.fndItemCodeInv.Size = New System.Drawing.Size(141, 21)
+        Me.fndItemCodeInv.TabIndex = 421
+        Me.fndItemCodeInv.Value = ""
+        '
+        'MyLabel28
+        '
+        Me.MyLabel28.FieldName = Nothing
+        Me.MyLabel28.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel28.Location = New System.Drawing.Point(3, 63)
+        Me.MyLabel28.Name = "MyLabel28"
+        Me.MyLabel28.Size = New System.Drawing.Size(82, 16)
+        Me.MyLabel28.TabIndex = 423
+        Me.MyLabel28.Text = "Structure Code"
         '
         'btnPrintInvoice
         '
         Me.btnPrintInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintInvoice.Location = New System.Drawing.Point(312, 70)
+        Me.btnPrintInvoice.Location = New System.Drawing.Point(312, 86)
         Me.btnPrintInvoice.Name = "btnPrintInvoice"
         Me.btnPrintInvoice.Size = New System.Drawing.Size(109, 22)
         Me.btnPrintInvoice.TabIndex = 409
@@ -327,7 +381,7 @@ Partial Class rptDairyTruckSheetReport
         '
         Me.MyLabel26.FieldName = Nothing
         Me.MyLabel26.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel26.Location = New System.Drawing.Point(5, 38)
+        Me.MyLabel26.Location = New System.Drawing.Point(3, 39)
         Me.MyLabel26.Name = "MyLabel26"
         Me.MyLabel26.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel26.TabIndex = 407
@@ -337,59 +391,59 @@ Partial Class rptDairyTruckSheetReport
         '
         Me.txtInvMultiCust.arrDispalyMember = Nothing
         Me.txtInvMultiCust.arrValueMember = Nothing
-        Me.txtInvMultiCust.Location = New System.Drawing.Point(63, 38)
+        Me.txtInvMultiCust.Location = New System.Drawing.Point(88, 38)
         Me.txtInvMultiCust.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtInvMultiCust.MyLinkLable1 = Nothing
         Me.txtInvMultiCust.MyLinkLable2 = Nothing
         Me.txtInvMultiCust.MyNullText = "All"
         Me.txtInvMultiCust.Name = "txtInvMultiCust"
-        Me.txtInvMultiCust.Size = New System.Drawing.Size(358, 19)
+        Me.txtInvMultiCust.Size = New System.Drawing.Size(333, 19)
         Me.txtInvMultiCust.TabIndex = 408
         '
         'MyLabel24
         '
         Me.MyLabel24.FieldName = Nothing
-        Me.MyLabel24.Location = New System.Drawing.Point(205, 16)
+        Me.MyLabel24.Location = New System.Drawing.Point(236, 16)
         Me.MyLabel24.Name = "MyLabel24"
-        Me.MyLabel24.Size = New System.Drawing.Size(19, 18)
+        Me.MyLabel24.Size = New System.Drawing.Size(45, 18)
         Me.MyLabel24.TabIndex = 3
-        Me.MyLabel24.Text = "To"
+        Me.MyLabel24.Text = "To Date"
         '
         'MyLabel25
         '
         Me.MyLabel25.FieldName = Nothing
-        Me.MyLabel25.Location = New System.Drawing.Point(5, 16)
+        Me.MyLabel25.Location = New System.Drawing.Point(3, 16)
         Me.MyLabel25.Name = "MyLabel25"
-        Me.MyLabel25.Size = New System.Drawing.Size(32, 18)
+        Me.MyLabel25.Size = New System.Drawing.Size(59, 18)
         Me.MyLabel25.TabIndex = 2
-        Me.MyLabel25.Text = "From"
+        Me.MyLabel25.Text = "From Date"
         '
         'txtInvToDate
         '
-        Me.txtInvToDate.CustomFormat = "dd/MM/yyyy hh:mmtt"
-        Me.txtInvToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtInvToDate.Location = New System.Drawing.Point(233, 15)
+        Me.txtInvToDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtInvToDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.txtInvToDate.Location = New System.Drawing.Point(286, 15)
         Me.txtInvToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtInvToDate.Name = "txtInvToDate"
         Me.txtInvToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtInvToDate.Size = New System.Drawing.Size(135, 20)
         Me.txtInvToDate.TabIndex = 1
         Me.txtInvToDate.TabStop = False
-        Me.txtInvToDate.Text = "24/10/2011 11:59PM"
+        Me.txtInvToDate.Text = "24/10/2011"
         Me.txtInvToDate.Value = New Date(2011, 10, 24, 23, 59, 0, 0)
         '
         'txtInvFromDate
         '
-        Me.txtInvFromDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
-        Me.txtInvFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtInvFromDate.Location = New System.Drawing.Point(63, 15)
+        Me.txtInvFromDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtInvFromDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.txtInvFromDate.Location = New System.Drawing.Point(88, 15)
         Me.txtInvFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtInvFromDate.Name = "txtInvFromDate"
         Me.txtInvFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtInvFromDate.Size = New System.Drawing.Size(132, 20)
+        Me.txtInvFromDate.Size = New System.Drawing.Size(140, 20)
         Me.txtInvFromDate.TabIndex = 0
         Me.txtInvFromDate.TabStop = False
-        Me.txtInvFromDate.Text = "03/05/2011 12:00 AM"
+        Me.txtInvFromDate.Text = "03/05/2011"
         Me.txtInvFromDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
         '
         'chkShowEarlyRoute
@@ -1692,6 +1746,8 @@ Partial Class rptDairyTruckSheetReport
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
+        CType(Me.lblItemNameInv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1895,5 +1951,8 @@ Partial Class rptDairyTruckSheetReport
     Friend WithEvents txtInvToDate As RadDateTimePicker
     Friend WithEvents txtInvFromDate As RadDateTimePicker
     Friend WithEvents btnPrintInvoice As RadButton
+    Friend WithEvents lblItemNameInv As common.Controls.MyLabel
+    Friend WithEvents fndItemCodeInv As common.UserControls.txtFinder
+    Friend WithEvents MyLabel28 As common.Controls.MyLabel
 End Class
 

@@ -32,7 +32,24 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         If dtPerforma Is Nothing OrElse dtPerforma.Rows.Count <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please First Create DBT NEFT Performa With Default DBT NEFT Bank", Me.Text)
             Me.Close()
+        Else
+            Dim dtDefault As DataTable = clsDBTNEFTPerforma.GetDefault()
+            For Each dr As DataRow In dtDefault.Rows
+                Dim flag As Boolean = False
+                For Each drPer As DataRow In dtPerforma.Rows
+                    If clsCommon.CompairString(clsCommon.myCstr(dr("Code")), clsCommon.myCstr(drPer("NEFT_Col_Code"))) = CompairStringResult.Equal Then
+                        flag = True
+                        Exit For
+                    End If
+                Next
+                If Not flag Then
+                    clsCommon.MyMessageBoxShow(Me, "Please Set [" + clsCommon.myCstr(dr("Code")) + "] in Default DBT NEFT Performa", Me.Text)
+                    Me.Close()
+                    Exit Sub
+                End If
+            Next
         End If
+
         SplitContainer3.Panel2Collapsed = True
         SettApplyZoneOnDBT = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyZoneInDBT, clsFixedParameterCode.ApplyZoneInDBT, Nothing)) > 0)
         txtZone.MendatroryField = SettApplyZoneOnDBT
@@ -180,6 +197,8 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                         objTr.Amount = clsCommon.myCdbl(grow.Cells(clsDBTNEFTPerforma.colAmount).Value)
                         objTr.MP_IFSC_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPIFSCCode).Value)
                         objTr.MP_Account_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPAccountNo).Value)
+                        objTr.MP_Bank = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPBank).Value)
+                        objTr.MP_Mobile_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPMobileNo).Value)
                         objTr.MP_Name = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPName).Value)
                         'objTr.Transaction = clsCommon.myCstr(grow.Cells(colTransaction).Value)
                         obj.arr.Add(objTr)
@@ -196,6 +215,8 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                         objTr.Amount = clsCommon.myCdbl(grow.Cells(clsDBTNEFTPerforma.colAmount).Value)
                         objTr.MP_IFSC_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPIFSCCode).Value)
                         objTr.MP_Account_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPAccountNo).Value)
+                        objTr.MP_Bank = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPBank).Value)
+                        objTr.MP_Mobile_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPMobileNo).Value)
                         objTr.MP_Name = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPName).Value)
                         obj.arrInvalid.Add(objTr)
                     Next
@@ -592,19 +613,19 @@ where 2=2 "
             qry += " ," + TableName + ".Amount AS [" + clsDBTNEFTPerforma.colAmount + "]"
         End If
 
-
         qry += "," + TableName + ".MP_IFSC_No AS [" + clsDBTNEFTPerforma.colMPIFSCCode + "]
-                ," + TableName + ".MP_Account_No AS [" + clsDBTNEFTPerforma.colMPAccountNo + "]," + TableName + ".MP_Name AS [" + clsDBTNEFTPerforma.colMPName + "]
-                ,TSPL_VLC_MASTER_HEAD.VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],TSPL_ZONE_MASTER.Description as [" + clsDBTNEFTPerforma.colZoneName + "],TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "]
-                    from " + TableName + " 
-                    Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=" + TableName + ".Against_MP_Incentive_TR   
-                    left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
-                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code
-                    left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_code=TSPL_VLC_MASTER_HEAD.VSP_Code
-                    left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code
-                    where " + TableName + ".Document_Code='" & txtDocumentNo.Value & "'"
+," + TableName + ".MP_Bank AS [" + clsDBTNEFTPerforma.colMPBank + "]," + TableName + ".MP_Mobile_No AS [" + clsDBTNEFTPerforma.colMPMobileNo + "]
+," + TableName + ".MP_Account_No AS [" + clsDBTNEFTPerforma.colMPAccountNo + "]," + TableName + ".MP_Name AS [" + clsDBTNEFTPerforma.colMPName + "]
+,TSPL_VLC_MASTER_HEAD.VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],TSPL_ZONE_MASTER.Description as [" + clsDBTNEFTPerforma.colZoneName + "],TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "]
+from " + TableName + " 
+Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=" + TableName + ".Against_MP_Incentive_TR   
+left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code
+left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_code=TSPL_VLC_MASTER_HEAD.VSP_Code
+left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_VENDOR_MASTER.Zone_Code
+where " + TableName + ".Document_Code='" & txtDocumentNo.Value & "'"
         If GrpByFarmer Then
-            qry = "select ROW_NUMBER() OVER (ORDER BY [" + clsDBTNEFTPerforma.colFarmerCode + "]) AS [" + clsDBTNEFTPerforma.colSlNo + "],[" + clsDBTNEFTPerforma.colFarmerCode + "],max([" + clsDBTNEFTPerforma.colSociety + "]) as [" + clsDBTNEFTPerforma.colSociety + "],max([" + clsDBTNEFTPerforma.colMPUploaderCode + "]) as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],sum([" + clsDBTNEFTPerforma.colAmount + "]) as [" + clsDBTNEFTPerforma.colAmount + "],max([" + clsDBTNEFTPerforma.colMPIFSCCode + "]) as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],max([" + clsDBTNEFTPerforma.colMPAccountNo + "]) as [" + clsDBTNEFTPerforma.colMPAccountNo + "],max([" + clsDBTNEFTPerforma.colMPName + "]) as [" + clsDBTNEFTPerforma.colMPName + "],max([" + clsDBTNEFTPerforma.colSocietyName + "]) as [" + clsDBTNEFTPerforma.colSocietyName + "],max([" + clsDBTNEFTPerforma.colZoneName + "]) as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + qry + ")xx group by  [" + clsDBTNEFTPerforma.colFarmerCode + "]"
+            qry = "select ROW_NUMBER() OVER (ORDER BY [" + clsDBTNEFTPerforma.colFarmerCode + "]) AS [" + clsDBTNEFTPerforma.colSlNo + "],[" + clsDBTNEFTPerforma.colFarmerCode + "],max([" + clsDBTNEFTPerforma.colSociety + "]) as [" + clsDBTNEFTPerforma.colSociety + "],max([" + clsDBTNEFTPerforma.colMPUploaderCode + "]) as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],sum([" + clsDBTNEFTPerforma.colAmount + "]) as [" + clsDBTNEFTPerforma.colAmount + "],max([" + clsDBTNEFTPerforma.colMPIFSCCode + "]) as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],max([" + clsDBTNEFTPerforma.colMPAccountNo + "]) as [" + clsDBTNEFTPerforma.colMPAccountNo + "],max([" + clsDBTNEFTPerforma.colMPBank + "]) as [" + clsDBTNEFTPerforma.colMPBank + "],max([" + clsDBTNEFTPerforma.colMPMobileNo + "]) as [" + clsDBTNEFTPerforma.colMPMobileNo + "],max([" + clsDBTNEFTPerforma.colMPName + "]) as [" + clsDBTNEFTPerforma.colMPName + "],max([" + clsDBTNEFTPerforma.colSocietyName + "]) as [" + clsDBTNEFTPerforma.colSocietyName + "],max([" + clsDBTNEFTPerforma.colZoneName + "]) as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + qry + ")xx group by  [" + clsDBTNEFTPerforma.colFarmerCode + "]"
         End If
         Dim strMain As String = "Select "
         For ii As Integer = 0 To dtPerforma.Rows.Count - 1
@@ -632,7 +653,7 @@ where 2=2 "
 
     Private Function GetMpQry(ByVal IsPickValid As Boolean, ByVal GrpByFarmer As Boolean) As String
 
-        Dim BaseQry As String = "select TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id,TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code as Doc_No,convert(varchar, TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103) as Date_Range,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,tspl_MCC_Master.MCC_Name,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_MASTER.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No,TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount_Actual as Payable_Amount 
+        Dim BaseQry As String = "select TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id,TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code as Doc_No,convert(varchar, TSPL_MP_INCENTIVE_ENTRY_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_MP_INCENTIVE_ENTRY_HEAD.To_Date,103) as Date_Range,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,tspl_MCC_Master.MCC_Name,TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MP_MASTER.MP_Code,TSPL_MP_MASTER.MP_Code_VLC_Uploader as VLC_CODE_Uploader,TSPL_MP_MASTER.PayeeName as Payee_Joint_Name,TSPL_MP_MASTER.BankName as Bank_Code,TSPL_MP_MASTER.BankName as Bank_Code_Desc,TSPL_MP_MASTER.Telphone,TSPL_MP_MASTER.AccountNO as Payee_Joint_Account_No,TSPL_MP_MASTER.IFCICode as Payee_Joint_IFSC_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty,TSPL_MP_INCENTIVE_ENTRY_DETAIL.Amount_Actual as Payable_Amount 
 ,TSPL_ZONE_MASTER.Description  as ZoneName   
 from TSPL_MP_INCENTIVE_ENTRY_DETAIL "
         If SettDCSMPIncetiveReco Then
@@ -660,10 +681,10 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
     and not exists(select 1 from TSPL_DBT_NEFT_REJECT_DETAIL left outer join TSPL_DBT_NEFT_REJECT on TSPL_DBT_NEFT_REJECT.Document_Code=TSPL_DBT_NEFT_REJECT_DETAIL.Document_Code where TSPL_DBT_NEFT_REJECT_DETAIL.Against_DBT_NEFT_TR=TSPL_DBT_NEFT_DETAIL.PK_Id and TSPL_DBT_NEFT_REJECT.Status=1))"
 
 
-        Qry = "select   ROW_NUMBER() OVER (ORDER BY Bank_Code,MCC_Code,VLC_Code_VLC_Uploader) AS [" + clsDBTNEFTPerforma.colSlNo + "],MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],PK_Id as [" + clsDBTNEFTPerforma.colAgainstMPIncetive + "],VLC_Code_VLC_Uploader as [" + clsDBTNEFTPerforma.colSociety + "],VLC_CODE_Uploader as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],Payable_Amount as [" + clsDBTNEFTPerforma.colAmount + "],Payee_Joint_IFSC_Code as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],Payee_Joint_Account_No as [" + clsDBTNEFTPerforma.colMPAccountNo + "],Payee_Joint_Name as [" + clsDBTNEFTPerforma.colMPName + "],Bank_Code,MCC_Code,VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],ZoneName as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + BaseQry + ")xxx "
+        Qry = "select   ROW_NUMBER() OVER (ORDER BY Bank_Code,MCC_Code,VLC_Code_VLC_Uploader) AS [" + clsDBTNEFTPerforma.colSlNo + "],MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],PK_Id as [" + clsDBTNEFTPerforma.colAgainstMPIncetive + "],VLC_Code_VLC_Uploader as [" + clsDBTNEFTPerforma.colSociety + "],VLC_CODE_Uploader as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],Payable_Amount as [" + clsDBTNEFTPerforma.colAmount + "],Payee_Joint_IFSC_Code as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],Payee_Joint_Account_No as [" + clsDBTNEFTPerforma.colMPAccountNo + "],Bank_Code as [" + clsDBTNEFTPerforma.colMPBank + "],Telphone as [" + clsDBTNEFTPerforma.colMPMobileNo + "],Payee_Joint_Name as [" + clsDBTNEFTPerforma.colMPName + "],Bank_Code,MCC_Code,VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],ZoneName as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + BaseQry + ")xxx "
 
         If GrpByFarmer Then
-            Qry = "select ROW_NUMBER() OVER (ORDER BY max(Bank_Code),max(MCC_Code),max([" + clsDBTNEFTPerforma.colMPUploaderCode + "])) AS [" + clsDBTNEFTPerforma.colSlNo + "],[" + clsDBTNEFTPerforma.colFarmerCode + "],max([" + clsDBTNEFTPerforma.colSociety + "]) as [" + clsDBTNEFTPerforma.colSociety + "],max([" + clsDBTNEFTPerforma.colMPUploaderCode + "]) as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],sum([" + clsDBTNEFTPerforma.colAmount + "]) as [" + clsDBTNEFTPerforma.colAmount + "],max([" + clsDBTNEFTPerforma.colMPIFSCCode + "]) as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],max([" + clsDBTNEFTPerforma.colMPAccountNo + "]) as [" + clsDBTNEFTPerforma.colMPAccountNo + "],max([" + clsDBTNEFTPerforma.colMPName + "]) as [" + clsDBTNEFTPerforma.colMPName + "],max(Bank_Code) as Bank_Code,max(MCC_Code) as MCC_Code,max([" + clsDBTNEFTPerforma.colSocietyName + "]) as [" + clsDBTNEFTPerforma.colSocietyName + "],max([" + clsDBTNEFTPerforma.colZoneName + "]) as [" + clsDBTNEFTPerforma.colZoneName + "] from  (select   MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],VLC_Code_VLC_Uploader as [" + clsDBTNEFTPerforma.colSociety + "],VLC_CODE_Uploader as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],Payable_Amount as [" + clsDBTNEFTPerforma.colAmount + "],Payee_Joint_IFSC_Code as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],Payee_Joint_Account_No as [" + clsDBTNEFTPerforma.colMPAccountNo + "],Payee_Joint_Name as [" + clsDBTNEFTPerforma.colMPName + "],Bank_Code,MCC_Code,VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],ZoneName as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + BaseQry + ")xx )xxx  group by  [" + clsDBTNEFTPerforma.colFarmerCode + "]"
+            Qry = "select ROW_NUMBER() OVER (ORDER BY max(Bank_Code),max(MCC_Code),max([" + clsDBTNEFTPerforma.colMPUploaderCode + "])) AS [" + clsDBTNEFTPerforma.colSlNo + "],[" + clsDBTNEFTPerforma.colFarmerCode + "],max([" + clsDBTNEFTPerforma.colSociety + "]) as [" + clsDBTNEFTPerforma.colSociety + "],max([" + clsDBTNEFTPerforma.colMPUploaderCode + "]) as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],sum([" + clsDBTNEFTPerforma.colAmount + "]) as [" + clsDBTNEFTPerforma.colAmount + "],max([" + clsDBTNEFTPerforma.colMPIFSCCode + "]) as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],max([" + clsDBTNEFTPerforma.colMPAccountNo + "]) as [" + clsDBTNEFTPerforma.colMPAccountNo + "],max([" + clsDBTNEFTPerforma.colMPBank + "]) as [" + clsDBTNEFTPerforma.colMPBank + "],max([" + clsDBTNEFTPerforma.colMPMobileNo + "]) as [" + clsDBTNEFTPerforma.colMPMobileNo + "],max([" + clsDBTNEFTPerforma.colMPName + "]) as [" + clsDBTNEFTPerforma.colMPName + "],max(Bank_Code) as Bank_Code,max(MCC_Code) as MCC_Code,max([" + clsDBTNEFTPerforma.colSocietyName + "]) as [" + clsDBTNEFTPerforma.colSocietyName + "],max([" + clsDBTNEFTPerforma.colZoneName + "]) as [" + clsDBTNEFTPerforma.colZoneName + "] from  (select   MP_Code as [" + clsDBTNEFTPerforma.colFarmerCode + "],VLC_Code_VLC_Uploader as [" + clsDBTNEFTPerforma.colSociety + "],VLC_CODE_Uploader as [" + clsDBTNEFTPerforma.colMPUploaderCode + "],Payable_Amount as [" + clsDBTNEFTPerforma.colAmount + "],Payee_Joint_IFSC_Code as [" + clsDBTNEFTPerforma.colMPIFSCCode + "],Payee_Joint_Account_No as [" + clsDBTNEFTPerforma.colMPAccountNo + "],BankName as [" + clsDBTNEFTPerforma.colMPBank + "],Telphone as [" + clsDBTNEFTPerforma.colMPMobileNo + "],Payee_Joint_Name as [" + clsDBTNEFTPerforma.colMPName + "],Bank_Code,MCC_Code,VLC_Name as [" + clsDBTNEFTPerforma.colSocietyName + "],ZoneName as [" + clsDBTNEFTPerforma.colZoneName + "] from (" + BaseQry + ")xx )xxx  group by  [" + clsDBTNEFTPerforma.colFarmerCode + "]"
         End If
         Dim strMain As String = "Select "
         For ii As Integer = 0 To dtPerforma.Rows.Count - 1
@@ -822,7 +843,7 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
                     txtDocumentNo.Focus()
                     Throw New Exception("Please select Document No")
                 End If
-                Dim qry As String = "Select TSPL_COMPANY_MASTER.Comp_Name,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Bank as Bank_Code,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Bank as Bank_Code_Desc,CONVERT(varchar, TSPL_DBT_NEFT.From_Date,103)+' - '+CONVERT(varchar, TSPL_DBT_NEFT.To_Date,103)  as Date_Range,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code as MCC_Code,TSPL_MCC_MASTER.MCC_NAME,
+                Dim qry As String = "Select TSPL_COMPANY_MASTER.Comp_Name,TSPL_DBT_NEFT_DETAIL.MP_Bank as Bank_Code,TSPL_DBT_NEFT_DETAIL.MP_Bank as Bank_Code_Desc,TSPL_DBT_NEFT_DETAIL.MP_Mobile_No,CONVERT(varchar, TSPL_DBT_NEFT.From_Date,103)+' - '+CONVERT(varchar, TSPL_DBT_NEFT.To_Date,103)  as Date_Range,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code as MCC_Code,TSPL_MCC_MASTER.MCC_NAME,
 ROW_NUMBER() OVER(PArtition by TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Bank ORDER BY (TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Bank )) As SNo
 ,TSPL_DBT_NEFT_DETAIL.MP_IFSC_No as Payee_Joint_IFSC_Code ,TSPL_DBT_NEFT_DETAIL.MP_Account_No as Payee_Joint_Account_No,TSPL_DBT_NEFT_DETAIL.MP_Name as Payee_Joint_Name,TSPL_DBT_NEFT_DETAIL.Amount as Payable_Amount
 from TSPL_DBT_NEFT_DETAIL 

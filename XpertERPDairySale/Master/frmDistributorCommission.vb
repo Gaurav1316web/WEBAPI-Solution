@@ -15,7 +15,7 @@ Public Class frmDistributorCommission
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
-        CommissionTab()
+        'CommissionTab()
         AddNew()
     End Sub
     Sub LoadBlankGrid()
@@ -34,7 +34,7 @@ Public Class frmDistributorCommission
         repoRouteCode.FormatString = ""
         repoRouteCode.HeaderText = "Route Code"
         repoRouteCode.Name = ColRouteCode
-        repoRouteCode.IsVisible = False
+        repoRouteCode.IsVisible = True
         repoRouteCode.ReadOnly = True
         repoRouteCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         GV1.MasterTemplate.Columns.Add(repoRouteCode)
@@ -166,11 +166,12 @@ Public Class frmDistributorCommission
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            Dim StrQry As String = "select TSPL_CUSTOMER_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name
-from TSPL_CUSTOMER_MASTER
-left join TSPL_CUSTOMER_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_CUSTOMER_ROUTE_MASTER.Cust_Code
-where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
- order by TSPL_CUSTOMER_MASTER.Cust_Code "
+            Dim StrQry As String = "select TSPL_CUSTOMER_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name 
+from TSPL_DISTRIBUTOR_ROUTE
+left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+left join TSPL_CUSTOMER_MASTER on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+where TSPL_DISTRIBUTOR_ROUTE.start_Date in (
+select max(TSPL_DISTRIBUTOR_ROUTE.Start_Date) from TSPL_DISTRIBUTOR_ROUTE where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and status=1 ) "
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrQry)
             If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
                 Dim i As Integer = 1
@@ -182,6 +183,8 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
                     i = i + 1
                     GV1.Rows.AddNew()
                 Next
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Not Found!", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -289,10 +292,10 @@ where TSPL_CUSTOMER_MASTER.IsDistributor='Y'
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],UOM as [UOM],Rate as [Rate] from TSPL_Distributor_Commission_Detail"
+            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],Rate as [Rate] from TSPL_Distributor_Commission_Detail"
             Dim whrCls As String = ""
 
-            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "UOM", "Rate"})
+            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Rate"})
             transportSql.ExporttoExcel(str, whrCls, Me)
 
         Catch ex As Exception

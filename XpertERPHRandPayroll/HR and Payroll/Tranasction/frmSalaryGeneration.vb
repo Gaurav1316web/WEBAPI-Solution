@@ -235,21 +235,21 @@ Public Class frmSalaryGeneration
     Sub ListOfEmployeeSalaryNotGenrate()
         Try
 
-        
-        Dim strLog As String = ""
-        Dim logFile As String = "salgenlog.txt"
-        If System.IO.File.Exists(logFile) Then
-            Dim stream As New IO.StreamWriter(logFile, False)
-            stream.WriteLine("")
-            stream.Close()
-        Else
-            Dim fs As IO.FileStream = System.IO.File.Create(logFile)
-            fs.Close()
-        End If
-        Dim condDivision As String = ""
-        If clsCommon.myLen(fndDivision.Value) > 0 Then
-            condDivision = " and T1.DEVISION_CODE='" & fndDivision.Value & "'"
-        End If
+
+            Dim strLog As String = ""
+            Dim logFile As String = "salgenlog.txt"
+            If System.IO.File.Exists(logFile) Then
+                Dim stream As New IO.StreamWriter(logFile, False)
+                stream.WriteLine("")
+                stream.Close()
+            Else
+                Dim fs As IO.FileStream = System.IO.File.Create(logFile)
+                fs.Close()
+            End If
+            Dim condDivision As String = ""
+            If clsCommon.myLen(fndDivision.Value) > 0 Then
+                condDivision = " and T1.DEVISION_CODE='" & fndDivision.Value & "'"
+            End If
             Dim Qry As String = " select XFinal.[Employee Code], XFinal.[Employee Name] from ( SELECT T1.EMP_STATUS_CODE AS [Status Code],T1.EMP_CODE AS [Employee Code],emp.Emp_Name as [Employee Name],emp.SEX as [Gender],emp.FATHERS_NAME as [Gurdian Name],emp.MARITAL_STATUS as [Marital Status],T1.REVISION_NO as [Status Revision],T1.DESIGNATION_ID as [Designation Code],T1.IS_PF_APPL as [PF Applicable]," _
        & " T1.PF_NO as [PF No], T1.IS_ESI_APPL as [ESI Applicable], T1.ESI_NO as [ESI No], T1.IS_BONUS_APPL as [Bonus Applicable], T1.BONUS_CODE as [Bonus Code], T1.IS_OT_APPL as [OT Applicable], T1.OT_CODE, T1.WORKING_STATUS as [Working Status],T1.DEVISION_CODE AS [Division Code] " _
        & " FROM TSPL_EMPLOYEE_STATUS T1 JOIN ( " _
@@ -268,16 +268,16 @@ Public Class frmSalaryGeneration
        & " where emp.emp_status='Active' and emp.EMP_CODE  in (select TSPL_GENERATE_SALARY_ATTENDANCE.EMP_CODE from TSPL_GENERATE_SALARY inner join TSPL_GENERATE_SALARY_ATTENDANCE on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_ATTENDANCE.SALARY_GENERATION_CODE and TSPL_GENERATE_SALARY.PAY_PERIOD_CODE='" & clsCommon.myCstr(Me.findPayperiod.Value) & "' AND TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" & clsCommon.myCstr(Me.txtCode.Value) & "')  ) XFinal  " _
        & "  left outer Join (select EMP_CODE,MAX(EMP_SAL_CODE) AS EMP_SAL_CODE,MAX(REVISION_NO) AS REVISION_NO   from TSPL_EMPLOYEE_SALARY WHERE  APPLICABLE_FROM<='" & Format(Me.dtpTo.Value, "dd MMM yyyy") & "'   GROUP BY EMP_CODE HAVING MAX(APPLICABLE_FROM) <= '" & clsCommon.GetPrintDate(dtpTo.Value, "dd/MMM/yyyy") & "' ) XSalary on XSalary.EMP_CODE = XFinal.[Employee Code] where XSalary.EMP_SAL_CODE is  null  OR XFinal.[Employee Code] not in (select TSPL_MONTHLY_ATTENDANCE_DETAIL.Emp_Code from TSPL_MONTHLY_ATTENDANCE_DETAIL left outer Join  TSPL_MONTHLY_ATTENDANCE on TSPL_MONTHLY_ATTENDANCE_DETAIL.MTA_Code= TSPL_MONTHLY_ATTENDANCE.MTA_CODE  where TSPL_MONTHLY_ATTENDANCE.PAY_PERIOD_CODE='" + findPayperiod.Value + "') "
 
-        Dim dt As DataTable
-        dt = clsDBFuncationality.GetDataTable(Qry)
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            Dim objWriter As New System.IO.StreamWriter(logFile, True)
-            objWriter.WriteLine("List of Employees not having the salary definitions:")
-            For Each dr As DataRow In dt.Rows
-                objWriter.WriteLine(dr.Item("Employee Code") + " : " + dr.Item("Employee Name"))
-            Next
-            objWriter.Close()
-            Throw New Exception("Some Working Employee's Salary is not defined or Unapproved !")
+            Dim dt As DataTable
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim objWriter As New System.IO.StreamWriter(logFile, True)
+                objWriter.WriteLine("List of Employees not having the salary definitions:")
+                For Each dr As DataRow In dt.Rows
+                    objWriter.WriteLine(dr.Item("Employee Code") + " : " + dr.Item("Employee Name"))
+                Next
+                objWriter.Close()
+                Throw New Exception("Some Working Employee's Salary is not defined or Unapproved !")
             End If
         Catch ex As Exception
             Dim objreader As New System.IO.StringReader("salgenlog.txt")
@@ -289,7 +289,7 @@ Public Class frmSalaryGeneration
             End If
         End Try
     End Sub
-     
+
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
         Try
             funReset()
@@ -303,8 +303,8 @@ Public Class frmSalaryGeneration
         findPayperiod.Enabled = True
         lblPayPeriodName.Text = ""
         txtBranch.Enabled = True
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            txtBranch.Value = objCommonVar.strCurrUserLocations
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            txtBranch.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             lblLocationDesc.Text = clsLocation.GetName(txtBranch.Value, Nothing)
         Else
             txtBranch.Value = ""
@@ -450,8 +450,12 @@ Public Class frmSalaryGeneration
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " And TSPL_EMPLOYEE_MASTER.Location_Code=" + objCommonVar.strCurrUserLocations + ""
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = "  TSPL_EMPLOYEE_MASTER.LOCATION_CODE='" + LocCode + "'"
+            End If
         End If
         Dim str As String = "select count(*) from TSPL_GENERATE_SALARY where SALARY_GENERATION_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
@@ -683,20 +687,20 @@ Public Class frmSalaryGeneration
         Dim objWriter As New System.IO.StreamWriter(logFile, True)
         Dim strq As String
 
-        strq = " SELECT * FROM ( " & _
-               " select TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,(case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' " & _
-               " then TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF else TSPL_GENERATE_SALARY_PAYHEADS.Account_Code end) AS SalAccount_Code," & _
-               " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' " & _
-               " then TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF else TSPL_PAYHEAD_MASTER.Account_Code end) AS PHAccount_Code, " & _
-               " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)=1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Debit, " & _
-               " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)<>1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Credit, " & _
-               " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE " & _
-               " from TSPL_GENERATE_SALARY_PAYHEADS " & _
-               " inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " & _
-               " INNER JOIN TSPL_EMPLOYEE_MASTER ON  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE " & _
-               " left join TSPL_PAYHEAD_MASTER on TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE=TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE " & _
-               " left join TSPL_GL_ACCOUNTS on TSPL_PAYHEAD_MASTER.Account_Code=TSPL_GL_ACCOUNTS.Account_Code " & _
-               " where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" & clsCommon.myCstr(txtCode.Value) & "'  ) as final " & _
+        strq = " SELECT * FROM ( " &
+               " select TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,(case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' " &
+               " then TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF else TSPL_GENERATE_SALARY_PAYHEADS.Account_Code end) AS SalAccount_Code," &
+               " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' " &
+               " then TSPL_EMPLOYEE_MASTER.ADVANCE_TO_STAFF else TSPL_PAYHEAD_MASTER.Account_Code end) AS PHAccount_Code, " &
+               " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)=1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Debit, " &
+               " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)<>1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Credit, " &
+               " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE " &
+               " from TSPL_GENERATE_SALARY_PAYHEADS " &
+               " inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " &
+               " INNER JOIN TSPL_EMPLOYEE_MASTER ON  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE " &
+               " left join TSPL_PAYHEAD_MASTER on TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE=TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE " &
+               " left join TSPL_GL_ACCOUNTS on TSPL_PAYHEAD_MASTER.Account_Code=TSPL_GL_ACCOUNTS.Account_Code " &
+               " where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" & clsCommon.myCstr(txtCode.Value) & "'  ) as final " &
                " where ((SalAccount_Code is null or PHAccount_Code is null) and EMP_CODE is null) or ((SalAccount_Code is null or PHAccount_Code is null) and EMP_CODE is not null and Credit>0)"
         Dim dtValid As DataTable
         dtValid = clsDBFuncationality.GetDataTable(strq, trans)
@@ -710,17 +714,17 @@ Public Class frmSalaryGeneration
         End If
 
         '' check for Employer GL Account
-        strq = " SELECT * FROM ( " & _
-              " select TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,TSPL_GENERATE_SALARY_PAYHEADS.Employer_Account AS SalAccount_Code," & _
-              " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)=1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Debit, " & _
-              " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)<>1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Credit, " & _
-              " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE " & _
-              " from TSPL_GENERATE_SALARY_PAYHEADS " & _
-              " inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " & _
-              " INNER JOIN TSPL_EMPLOYEE_MASTER ON  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE " & _
-              " left join TSPL_PAYHEAD_MASTER on TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE=TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE " & _
-              " left join TSPL_GL_ACCOUNTS on TSPL_PAYHEAD_MASTER.Account_Code=TSPL_GL_ACCOUNTS.Account_Code " & _
-              " where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" & clsCommon.myCstr(txtCode.Value) & "'  and TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE in ('EPF','EMPESI','LWF')) as final " & _
+        strq = " SELECT * FROM ( " &
+              " select TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE,TSPL_GENERATE_SALARY_PAYHEADS.Employer_Account AS SalAccount_Code," &
+              " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)=1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Debit, " &
+              " ((case when isnull(TSPL_PAYHEAD_MASTER.ISEARNING,0)<>1 then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else 0 end)) as Credit, " &
+              " (case when TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE " &
+              " from TSPL_GENERATE_SALARY_PAYHEADS " &
+              " inner join TSPL_GENERATE_SALARY on TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE=TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE " &
+              " INNER JOIN TSPL_EMPLOYEE_MASTER ON  TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE=TSPL_EMPLOYEE_MASTER.EMP_CODE " &
+              " left join TSPL_PAYHEAD_MASTER on TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE=TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE " &
+              " left join TSPL_GL_ACCOUNTS on TSPL_PAYHEAD_MASTER.Account_Code=TSPL_GL_ACCOUNTS.Account_Code " &
+              " where TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE='" & clsCommon.myCstr(txtCode.Value) & "'  and TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE in ('EPF','EMPESI','LWF')) as final " &
               " where ((SalAccount_Code is null) and EMP_CODE is null) or ((SalAccount_Code is null) and EMP_CODE is not null and Credit>0)"
         Dim dtEmplValid As DataTable
         dtEmplValid = clsDBFuncationality.GetDataTable(strq, trans)
@@ -744,10 +748,10 @@ Public Class frmSalaryGeneration
             LocSeg = ""
         End If
         If clsCommon.myLen(LocSeg) <= 0 Then
-            strq = " SELECT distinct (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'') " & _
+            strq = " SELECT distinct (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'') " &
                    " ELSE Account_Code+ '' END) AS Account_Code,(case when TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE,(case when TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else null end ) as ACTUAL_AMOUNT  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & clsCommon.myCstr(txtCode.Value) & "'"
         Else
-            strq = " SELECT distinct (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'-" & LocSeg & "') " & _
+            strq = " SELECT distinct (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'-" & LocSeg & "') " &
                    " ELSE Account_Code+ '-" & LocSeg & "' END) AS Account_Code,(case when TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.EMP_CODE else null end ) as EMP_CODE,(case when TSPL_GENERATE_SALARY_PAYHEADS.SUB_HEAD_TYPE='Loan' then TSPL_GENERATE_SALARY_PAYHEADS.ACTUAL_AMOUNT else null end ) as ACTUAL_AMOUNT  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & clsCommon.myCstr(txtCode.Value) & "'"
         End If
         FinalQry = "select NewACC.Account_Code,TSPL_GL_ACCOUNTS.Account_Code as OldAccCode from (" & strq & ") as NewACC left join TSPL_GL_ACCOUNTS on NewACC.Account_Code=TSPL_GL_ACCOUNTS.Account_Code  where (TSPL_GL_ACCOUNTS.Account_Code is null and EMP_CODE is null) or (EMP_CODE is not null and ACTUAL_AMOUNT>0)"
@@ -788,13 +792,13 @@ Public Class frmSalaryGeneration
         LocSep = "-"
         LocSeg = clsDBFuncationality.getSingleValue(QryLoc, trans)
         If clsCommon.myLen(LocSeg) <= 0 Then
-            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'') " & _
+            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'') " &
                    " ELSE Account_Code+ '' END) AS New_Account_Code,TSPL_GENERATE_SALARY_PAYHEADS.Account_Code  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & clsCommon.myCstr(txtCode.Value) & "'"
         Else
-            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'-" & LocSeg & "') " & _
+            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Account_Code,4),1,1)='-' THEN REPLACE(Account_Code,RIGHT(Account_Code,4),'-" & LocSeg & "') " &
                    " ELSE Account_Code+ '-" & LocSeg & "' END) AS New_Account_Code,TSPL_GENERATE_SALARY_PAYHEADS.Account_Code  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & clsCommon.myCstr(txtCode.Value) & "'"
         End If
-        Dim qryCheck As String = "select TSPL_GL_ACCOUNTS.Account_Code,gla_new.New_Account_Code from TSPL_GL_ACCOUNTS right outer join (select distinct New_Account_Code from (" & strq & ") GLA) gla_new on TSPL_GL_ACCOUNTS.Account_Code=gla_new.New_Account_Code " & _
+        Dim qryCheck As String = "select TSPL_GL_ACCOUNTS.Account_Code,gla_new.New_Account_Code from TSPL_GL_ACCOUNTS right outer join (select distinct New_Account_Code from (" & strq & ") GLA) gla_new on TSPL_GL_ACCOUNTS.Account_Code=gla_new.New_Account_Code " &
             " where gla_new.New_Account_Code is not null and TSPL_GL_ACCOUNTS.Account_Code is null"
 
         Dim dtCGlNA As DataTable = clsDBFuncationality.GetDataTable(qryCheck, trans)
@@ -815,13 +819,13 @@ Public Class frmSalaryGeneration
 
         '' update employer account
         If clsCommon.myLen(LocSeg) <= 0 Then
-            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Employer_Account,4),1,1)='-' THEN REPLACE(Employer_Account,RIGHT(Employer_Account,4),'') " & _
+            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Employer_Account,4),1,1)='-' THEN REPLACE(Employer_Account,RIGHT(Employer_Account,4),'') " &
                    " ELSE Employer_Account+ '' END) AS New_Account_Code,TSPL_GENERATE_SALARY_PAYHEADS.Employer_Account as Account_Code  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & clsCommon.myCstr(txtCode.Value) & "' and TSPL_GENERATE_SALARY_PAYHEADS.Sub_Head_Type in ('EPF','EMPESI','LWF')"
         Else
-            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Employer_Account,4),1,1)='-' THEN REPLACE(Employer_Account,RIGHT(Employer_Account,4),'-" & LocSeg & "') " & _
+            strq = " SELECT  (CASE WHEN SUBSTRING(RIGHT(Employer_Account,4),1,1)='-' THEN REPLACE(Employer_Account,RIGHT(Employer_Account,4),'-" & LocSeg & "') " &
                    " ELSE Employer_Account+ '-" & LocSeg & "' END) AS New_Account_Code,TSPL_GENERATE_SALARY_PAYHEADS.Employer_Account as Account_Code  FROM TSPL_GENERATE_SALARY_PAYHEADS where SALARY_GENERATION_CODE='" & clsCommon.myCstr(txtCode.Value) & "' and TSPL_GENERATE_SALARY_PAYHEADS.Sub_Head_Type in ('EPF','EMPESI','LWF')"
         End If
-        Dim qryCheckEmpl As String = "select TSPL_GL_ACCOUNTS.Account_Code,gla_new.New_Account_Code from TSPL_GL_ACCOUNTS right outer join (select distinct New_Account_Code from (" & strq & ") GLA) gla_new on TSPL_GL_ACCOUNTS.Account_Code=gla_new.New_Account_Code " & _
+        Dim qryCheckEmpl As String = "select TSPL_GL_ACCOUNTS.Account_Code,gla_new.New_Account_Code from TSPL_GL_ACCOUNTS right outer join (select distinct New_Account_Code from (" & strq & ") GLA) gla_new on TSPL_GL_ACCOUNTS.Account_Code=gla_new.New_Account_Code " &
             " where gla_new.New_Account_Code is not null and TSPL_GL_ACCOUNTS.Account_Code is null"
 
         Dim dtCGlEmplNA As DataTable = clsDBFuncationality.GetDataTable(qryCheck, trans)
@@ -854,22 +858,26 @@ Public Class frmSalaryGeneration
 
     Private Sub txtGeneratedBy__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtGeneratedBy._MYValidating
         Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+            End If
         End If
         Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name FROM TSPL_EMPLOYEE_MASTER "
         txtGeneratedBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", txtGeneratedBy.Value, "", isButtonClicked)
     End Sub
 
     Private Sub fndSalaryAccountSett__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndSalaryAccountSett._MYValidating
-        Dim qry As String = "select TSPL_PAYROLL_ACCOUNTSETS.ACCOUNT_SET_CODE AS Code,TSPL_PAYROLL_ACCOUNTSETS.DESCRIPTION, " & _
-        " TSPL_PAYROLL_ACCOUNTSETS.GL_Employer_PF_PAYABLE,TSPL_GL_ACCOUNTS1.description as GL_Employer_PF_PAYABLE_Desc,TSPL_PAYROLL_ACCOUNTSETS.GL_Employer_ESI_PAYABLE,TSPL_GL_ACCOUNTS2.Description as GL_Employer_ESI_PAYABLE_Desc, " & _
-        " TSPL_PAYROLL_ACCOUNTSETS.GL_SALARY_PAYABLE,TSPL_GL_ACCOUNTS.Description as GL_SALARY_PAYABLE_Desc ,TSPL_PAYROLL_ACCOUNTSETS.GL_EMPLOYER_OTHERS_PAYABLE,TSPL_GL_ACCOUNTS3.Description as GL_EMPLOYER_OTHERS_PAYABLE_Desc from TSPL_PAYROLL_ACCOUNTSETS  " & _
-        " LEFT JOIN TSPL_BANK_MASTER ON TSPL_PAYROLL_ACCOUNTSETS.BANK_CODE=TSPL_BANK_MASTER.BANK_CODE " & _
-        " left join TSPL_GL_ACCOUNTS on TSPL_PAYROLL_ACCOUNTSETS.GL_SALARY_PAYABLE=TSPL_GL_ACCOUNTS.account_code " & _
-        " left join TSPL_GL_ACCOUNTS AS  TSPL_GL_ACCOUNTS1 on TSPL_PAYROLL_ACCOUNTSETS.GL_Employer_PF_PAYABLE=TSPL_GL_ACCOUNTS1.account_code " & _
-        " left join TSPL_GL_ACCOUNTS AS  TSPL_GL_ACCOUNTS2 on TSPL_PAYROLL_ACCOUNTSETS.GL_Employer_ESI_PAYABLE=TSPL_GL_ACCOUNTS2.account_code " & _
-        " left join TSPL_GL_ACCOUNTS AS  TSPL_GL_ACCOUNTS3 on TSPL_PAYROLL_ACCOUNTSETS.GL_EMPLOYER_OTHERS_PAYABLE=TSPL_GL_ACCOUNTS3.account_code " & _
+        Dim qry As String = "select TSPL_PAYROLL_ACCOUNTSETS.ACCOUNT_SET_CODE AS Code,TSPL_PAYROLL_ACCOUNTSETS.DESCRIPTION, " &
+        " TSPL_PAYROLL_ACCOUNTSETS.GL_Employer_PF_PAYABLE,TSPL_GL_ACCOUNTS1.description as GL_Employer_PF_PAYABLE_Desc,TSPL_PAYROLL_ACCOUNTSETS.GL_Employer_ESI_PAYABLE,TSPL_GL_ACCOUNTS2.Description as GL_Employer_ESI_PAYABLE_Desc, " &
+        " TSPL_PAYROLL_ACCOUNTSETS.GL_SALARY_PAYABLE,TSPL_GL_ACCOUNTS.Description as GL_SALARY_PAYABLE_Desc ,TSPL_PAYROLL_ACCOUNTSETS.GL_EMPLOYER_OTHERS_PAYABLE,TSPL_GL_ACCOUNTS3.Description as GL_EMPLOYER_OTHERS_PAYABLE_Desc from TSPL_PAYROLL_ACCOUNTSETS  " &
+        " LEFT JOIN TSPL_BANK_MASTER ON TSPL_PAYROLL_ACCOUNTSETS.BANK_CODE=TSPL_BANK_MASTER.BANK_CODE " &
+        " left join TSPL_GL_ACCOUNTS on TSPL_PAYROLL_ACCOUNTSETS.GL_SALARY_PAYABLE=TSPL_GL_ACCOUNTS.account_code " &
+        " left join TSPL_GL_ACCOUNTS AS  TSPL_GL_ACCOUNTS1 on TSPL_PAYROLL_ACCOUNTSETS.GL_Employer_PF_PAYABLE=TSPL_GL_ACCOUNTS1.account_code " &
+        " left join TSPL_GL_ACCOUNTS AS  TSPL_GL_ACCOUNTS2 on TSPL_PAYROLL_ACCOUNTSETS.GL_Employer_ESI_PAYABLE=TSPL_GL_ACCOUNTS2.account_code " &
+        " left join TSPL_GL_ACCOUNTS AS  TSPL_GL_ACCOUNTS3 on TSPL_PAYROLL_ACCOUNTSETS.GL_EMPLOYER_OTHERS_PAYABLE=TSPL_GL_ACCOUNTS3.account_code " &
         " left join TSPL_GL_SOURCECODE on TSPL_PAYROLL_ACCOUNTSETS.SourceCode=TSPL_GL_SOURCECODE.SourceCode "
         fndSalaryAccountSett.Value = clsCommon.ShowSelectForm("AccountSett", qry, "Code", "", fndSalaryAccountSett.Value, "", isButtonClicked)
 
@@ -902,10 +910,14 @@ Public Class frmSalaryGeneration
 
     Private Sub txtBranch__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtBranch._MYValidating
         Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " Location_Type='Physical' And LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
-        Else
-            whrcls = " Location_Type='Physical' "
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " Location_Type='Physical' And LOCATION_CODE='" + LocCode + "'"
+            Else
+                whrcls = " Location_Type='Physical' "
+            End If
         End If
         txtBranch.Value = clsLocation.getFinder(whrcls, Me.txtBranch.Value, isButtonClicked)
         lblLocationDesc.Text = clsLocation.GetName(txtBranch.Value, Nothing)
@@ -914,8 +926,12 @@ Public Class frmSalaryGeneration
 
     Private Sub fndDivision__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDivision._MYValidating
         Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+            End If
         End If
         fndDivision.Value = clsDevisionMaster.getFinder(whrcls, Me.fndDivision.Value, isButtonClicked)
         lblDivisionDesc.Text = clsDevisionMaster.GetName(fndDivision.Value, Nothing)

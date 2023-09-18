@@ -4971,15 +4971,11 @@ Public Class frmShipmentDairy
                         If (e.Column Is gv1.Columns(colQty) OrElse (e.Column Is gv1.Columns(colHeadDiscamt)) OrElse e.Column Is gv1.Columns(colHeaDDisPer) OrElse e.Column Is gv1.Columns(colDisPer) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), RowTypeMisc) = CompairStringResult.Equal)) Then
                             If ((e.Column Is gv1.Columns(colQty))) Then
                                 If (gv1.CurrentRow.Cells(colQty).Value > 0) Then
-                                    Dim DCQry As String = "select TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,
-TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code
-from TSPL_DISTRIBUTOR_COMMISSION_HEAD
-left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
-left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No
-where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date in (select max(TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date) from TSPL_DISTRIBUTOR_COMMISSION_HEAD
+                                    Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
-where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<'" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1) and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1"
+where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<'" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(txtRouteNo.Value) + "'
+order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc"
                                     Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry)
                                     If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
                                         gv1.CurrentRow.Cells(ColDCPKID).Value = clsCommon.myCstr(dt1.Rows(0)("PK_ID"))
@@ -7809,14 +7805,12 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<'" + clsCommon.GetPrintDa
                 objTr.arrSrItem = TryCast(grow.Tag, List(Of clsSerializeInvenotry))
                 objTr.arrBatchItem = TryCast(grow.Cells(colICode).Tag, List(Of clsBatchInventory))
 
-                Dim DCQry As String = "select TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code
-from TSPL_DISTRIBUTOR_COMMISSION_HEAD
-left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
-left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No
-where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date in (select max(TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date) from TSPL_DISTRIBUTOR_COMMISSION_HEAD
+                Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
-where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<'" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1) and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1"
+where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<'" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(txtRouteNo.Value) + "'
+order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc
+"
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry)
 
                 If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
@@ -12091,12 +12085,8 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                     'IsTaxable = clsCommon.myCdbl(dt1.Rows(0)("is_taxable"))
                     dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
                 End If
-
-
-                'Dim InvQry As String = "Select Document_Code from TSPL_SD_SALE_INVOICE_HEAD where convert(varchar(12),Document_date,103)>='01/08/2023' and convert(varchar(12),Document_date,103)<='10/08/2023'"
-                'clsCommon()
-
-                Qry = objMultPrintInvoice.PrintInvoiceForAll(txtInvoiceNo.Text)
+                Dim InvoiceNo As String = "'" + txtInvoiceNo.Text + "'"
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 frmCRV = Nothing

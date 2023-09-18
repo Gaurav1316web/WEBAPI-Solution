@@ -175,8 +175,8 @@ Public Class frmEmployee_Salary
 
         End If
         btnReverse.Visible = False
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            fndLocation.Value = objCommonVar.strCurrUserLocations
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
             fndLocation.Value = ""
@@ -231,14 +231,13 @@ Public Class frmEmployee_Salary
         Me.dtpApplicableFrom.Value = clsCommon.GETSERVERDATE
         txtCopySalaryCode.Value = ""
         Me.txtRevisionNo.Text = 0
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            fndLocation.Value = objCommonVar.strCurrUserLocations
-            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
             fndLocation.Value = ""
-            lblLocationName.Text = ""
+            lblLocation.Text = ""
         End If
-
     End Sub
 
     Private Sub txtCode__MYNavigator(ByVal sender As Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType)
@@ -522,8 +521,16 @@ Public Class frmEmployee_Salary
 
     Private Sub txtEmpCode__MYValidating1(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtEmpCode._MYValidating
         Try
+            Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " LOCATION_CODE='" + LocCode + "'"
+                End If
+            End If
             Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name,TSPL_EMPLOYEE_MASTER.PF_NO as [PF No] FROM TSPL_EMPLOYEE_MASTER "
-            txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER1", qry, "Code", "", txtEmpCode.Value, "", isButtonClicked)
+            txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER1", qry, "Code", whrcls, txtEmpCode.Value, "", isButtonClicked)
             Dim clsemp As clsEmployeeMaster
             clsemp = clsEmployeeMaster.FinderForEmployee(txtEmpCode.Value, Nothing)
             If Not clsemp Is Nothing Then
@@ -542,9 +549,17 @@ Public Class frmEmployee_Salary
 
     Private Sub txtSalaryStruct__MYValidating1(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtSalaryStruct._MYValidating
         Try
+            Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " LOCATION_CODE='" + LocCode + "'"
+                End If
+            End If
             isInsideLoadData = True
             Dim qry As String = "SELECT SALARY_STRUCTURE_CODE as Code,SALARY_STRUCTURE_NAME as Name FROM TSPL_SALARY_STRUCTURE "
-            txtSalaryStruct.Value = clsCommon.ShowSelectForm("TSPL_SALARY_STRUCTURE", qry, "Code", "", txtSalaryStruct.Value, "", isButtonClicked)
+            txtSalaryStruct.Value = clsCommon.ShowSelectForm("TSPL_SALARY_STRUCTURE", qry, "Code", whrcls, txtSalaryStruct.Value, "", isButtonClicked)
             'Dim clsemp As clsSalaryStructure
             'clsemp = clsSalaryStructure.GetData(txtSalaryStruct.Value, Nothing)
             'lblSalStructName.Text = clsemp.SALARY_STRUCTURE_NAME
@@ -569,6 +584,14 @@ Public Class frmEmployee_Salary
 
     Private Sub txtCode__MYValidating1(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
 
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " Emp.LOCATION_CODE='" + LocCode + "'"
+            End If
+        End If
         Dim str As String = "select count(*) from TSPL_EMPLOYEE_SALARY where EMP_SAL_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
@@ -583,7 +606,7 @@ Public Class frmEmployee_Salary
             'Dim qry As String = "select T1.EMP_SAL_CODE AS Code,T3.SALARY_STRUCTURE_NAME,T1.EMP_CODE,T2.EMP_NAME AS EMPLOYEE_NAME,T1.APPLICABLE_FROM,T1.REVISION_NO AS [Revision No], T1.POSTED  from TSPL_EMPLOYEE_SALARY T1 " _
             '& " LEFT JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.EMP_CODE=T2.EMP_CODE LEFT JOIN TSPL_SALARY_STRUCTURE T3 ON T1.SALARY_STRUCTURE_CODE=T3.SALARY_STRUCTURE_CODE"
 
-            txtCode.Value = clsEmployeeSalary.GetFinder("", Me.chkShowAll.Checked, txtCode.ValidateChildren, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_SALARY", qry, "Code", "", txtCode.Value, "Code", isButtonClicked)
+            txtCode.Value = clsEmployeeSalary.GetFinder(whrcls, Me.chkShowAll.Checked, txtCode.ValidateChildren, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_SALARY", qry, "Code", "", txtCode.Value, "Code", isButtonClicked)
             If clsCommon.myLen(txtCode.Value) > 0 Then
                 LoadData(txtCode.Value, NavigatorType.Current)
             Else
@@ -1144,8 +1167,12 @@ Public Class frmEmployee_Salary
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
         Try
             Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " LOCATION_CODE='" + LocCode + "'"
+                End If
             End If
             Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
             fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
