@@ -697,9 +697,10 @@ Public Class frmBillOfMaterialCosting
         'txtConsmLocOther.Value = txtLocation.Value
         'RadPageView1.Pages(pageOperations.Name).Item.Visibility = ElementVisibility.Collapsed
 
-        Dim strq As String = "Update TSPL_MF_BOM_HEAD Set  REVISION_NO = PROD_ITEM_CODE+'/'+REPLACE(REVISION_NO, PROD_ITEM_CODE, LOCATION_CODE)
-             where Len(REVISION_NO) - Len(Replace(REVISION_NO,'/' ,''))=1"
-        clsDBFuncationality.GetDataTable(strq, Nothing)
+        Dim qry As String = "Update TSPL_MF_BOM_HEAD Set  REVISION_NO = PROD_ITEM_CODE+'/'+REPLACE(REVISION_NO, PROD_ITEM_CODE, LOCATION_CODE)
+             where Len(REVISION_NO) - Len(Replace(REVISION_NO,'/' ,''))=1 "
+        clsDBFuncationality.ExecuteNonQuery(qry)
+
     End Sub
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmBillOfMaterialCosting)
@@ -1058,7 +1059,13 @@ Public Class frmBillOfMaterialCosting
             '' map bom costing
             obj.ObjListCosting = objListCost
             Dim issaved As Boolean = False
-            issaved = obj.SaveData(obj, ObjList, isNewEntry, clsCommon.myCstr(txtCode.Value))
+            Dim strCode As String = Nothing
+            If clsCommon.myLen(txtCode.Value) > 0 Then
+                strCode = clsCommon.myCstr(txtCode.Value)
+            Else
+                isNewEntry = True
+            End If
+            issaved = obj.SaveData(obj, ObjList, isNewEntry, strCode)
 
             If OpenFileDialog1.FileName = "" And issaved = True Then
                 'clsCommon.MyMessageBoxShow("Document Save Successfully.")
@@ -2952,7 +2959,6 @@ Public Class frmBillOfMaterialCosting
             Dim whcls1 As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                 whcls = " T1.LOCATION_CODE =" & objCommonVar.strCurrUserLocations & ""
-                whcls1 = " AND LOCATION_CODE =" & objCommonVar.strCurrUserLocations & ""
             End If
             'isLoadCopy = True
             Dim qry As String = "SELECT T1.LOCATION_CODE,T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
@@ -2978,7 +2984,9 @@ Public Class frmBillOfMaterialCosting
 
             Dim objReq As clsBillOfMaterial = clsBillOfMaterial.GetData(strTender, NavigatorType.Current, Nothing)
 
-
+            If clsCommon.myLen(objReq.LOCATION_CODE) > 0 Then
+                whcls1 = " AND LOCATION_CODE ='" & objReq.LOCATION_CODE & "'"
+            End If
             ''===FOR REVISION NO
             Dim STRQ As String = "SELECT max(revision_no) as rev FROM TSPL_MF_BOM_HEAD WHERE PROD_ITEM_CODE= '" & objReq.PROD_ITEM_CODE & "'" + whcls1
             Dim revision_no As String = ""
@@ -2987,21 +2995,12 @@ Public Class frmBillOfMaterialCosting
                 ' revision_no = objReq.LOCATION_CODE & "/" & objReq.PROD_ITEM_CODE & "/001"
                 revision_no = objReq.PROD_ITEM_CODE & "/" & objReq.LOCATION_CODE & "/001"
             Else
-                If clsCommon.myLen(revision_no) <= 0 Then
-                    'revision_no = objReq.PROD_ITEM_CODE & "/" & objReq.LOCATION_CODE & "/001"
-                    revision_no = objReq.PROD_ITEM_CODE & "/" & objReq.LOCATION_CODE & "/001"
-                Else
-                    'Dim resultArray As New List(Of String)(revision_no.Split("/"))
-                    'If clsCommon.myCstr(revision_no).Contains(objReq.LOCATION_CODE) Then
-                    '    revision_no = resultArray(1) + "/" + objReq.LOCATION_CODE + "/" + resultArray(2)
-                    'Else
-                    '    revision_no = resultArray(0) + "/" + objReq.LOCATION_CODE + "/" + resultArray(1)
-                    'End If
-                    revision_no = clsCommon.incval(revision_no)
-                End If
-                lblRevisionNo.Text = revision_no
-                objReq.REVISION_NO = clsBillOfMaterial.GetBOMRevisionNo(obj.PROD_ITEM_CODE, "BOM", obj.LOCATION_CODE)
+                revision_no = clsCommon.incval(revision_no)
             End If
+            lblRevisionNo.Text = revision_no
+            objReq.REVISION_NO = revision_no
+            'objReq.REVISION_NO = clsBillOfMaterial.GetBOMRevisionNo(obj.PROD_ITEM_CODE, "BOM", obj.LOCATION_CODE)
+
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
