@@ -1120,7 +1120,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
 
     Private Sub RptMatrixFreshSalesReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ToDate.Value = clsCommon.GETSERVERDATE()
-        fromDate.Value = ToDate.Value.AddMonths(-1)
+        fromDate.Value = clsCommon.GETSERVERDATE()
+        'fromDate.Value = ToDate.Value.AddMonths(-1)
         isSchemeItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowSchemeItemQty, clsFixedParameterCode.AllowSchemeItemQty, Nothing)) = 1, True, False)
         If isSchemeItem = True Then
             chkFirstAndSecondSpellAbstract.Visible = False

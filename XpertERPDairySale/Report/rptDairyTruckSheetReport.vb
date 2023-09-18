@@ -39,6 +39,8 @@ Public Class rptDairyTruckSheetReport
         'ToDate.Value = clsCommon.GETSERVERDATE(obj.Document_Date, "dd/MMM/yyyy hh:mm tt")
         ToDate.Value = clsCommon.GetDateWithEndTime(fromDate.Value)
         TSP_Date.Value = clsCommon.GETSERVERDATE()
+        txtInvFromDate.Value = clsCommon.GETSERVERDATE()
+        txtInvToDate.Value = clsCommon.GETSERVERDATE()
         dtpIDSfromdate.Value = clsCommon.GetDateWithStartTime(clsCommon.GETSERVERDATE)
         dtpIDStodate.Value = clsCommon.GetDateWithStartTime(clsCommon.GETSERVERDATE)
         cmbCustomerCategory.Text = "Select"
@@ -4772,7 +4774,7 @@ Public Class rptDairyTruckSheetReport
             If clsCommon.myLen(txtInvFromDate.Value) > 0 AndAlso clsCommon.myLen(txtInvToDate.Value) Then
                 Qry = objMultPrintInvoice.PrintInvoiceForTruckSheetReport(txtInvFromDate.Value, txtInvToDate.Value, whrcls)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", Nothing, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice", "Bill of Supply", Nothing, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 frmCRV = Nothing
             Else
                 myMessages.blankValue("No data found")
