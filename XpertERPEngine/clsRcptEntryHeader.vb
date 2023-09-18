@@ -139,6 +139,7 @@ Public Class clsRcptEntryHeader
     Public cheque_in_favour_of As String = String.Empty
     Public Set_Off_Date As Date?
     Public SetOffSkipJE As Boolean
+    Public From_Bank As String
 
 #End Region
     ''To be Uncomment
@@ -353,10 +354,7 @@ Public Class clsRcptEntryHeader
                     Else
                         strColumn = "TSPL_CUSTOMER_ACCOUNT_SET.Advance_acct"
                     End If
-
                 End If
-
-
                 qry = "SELECT " & strColumn & " FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + obj.Cust_Code + "' "
             Else
                 qry = "SELECT TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct FROM  TSPL_CUSTOMER_ACCOUNT_SET INNER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_ACCOUNT_SET.Cust_Account = TSPL_CUSTOMER_MASTER.Cust_Account  where TSPL_CUSTOMER_MASTER.Cust_Code ='" + obj.Cust_Code + "' "

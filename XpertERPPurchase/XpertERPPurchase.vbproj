@@ -207,6 +207,10 @@
     <Compile Include="Report\frmAdditionalCharge1.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\frmAdvancePaymentRegister.Designer.vb" />
+    <Compile Include="Report\frmAdvancePaymentRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\frmCancelledTransactions_Purchase.Designer.vb">
       <DependentUpon>frmCancelledTransactions_Purchase.vb</DependentUpon>
     </Compile>
@@ -464,6 +468,7 @@
     <EmbeddedResource Include="Report\frmAdditionalCharge1.resx">
       <DependentUpon>frmAdditionalCharge1.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\frmAdvancePaymentRegister.resx" />
     <EmbeddedResource Include="Report\frmCancelledTransactions_Purchase.resx">
       <DependentUpon>frmCancelledTransactions_Purchase.vb</DependentUpon>
     </EmbeddedResource>

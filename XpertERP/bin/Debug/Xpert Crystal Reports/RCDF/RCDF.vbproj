@@ -333,6 +333,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleOrderReport.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer_Challan.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer_InterState.rpt" />
@@ -1232,6 +1233,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDispatchProductSale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptFreshSaleInvoice%28New%29.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptGatePassEntry.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptNonTaxableInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptProductDeliveryOrderReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptProvistionChartPrint.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
@@ -1710,6 +1712,7 @@
     <None Include="Crystal Reports\Sales Report\crptProvisionalSalesRoutewiseValueold.rpt" />
     <None Include="Crystal Reports\Sales Report\crptProvisionalSalesRoutewiseValueSummary.rpt" />
     <None Include="Crystal Reports\Sales Report\CrptQuickBook.rpt" />
+    <None Include="Crystal Reports\Sales Report\CrptQuickBookCheque.rpt" />
     <None Include="Crystal Reports\Sales Report\crptRG1Details%28B4address%29.rpt" />
     <None Include="Crystal Reports\Sales Report\crptRG1Details.rpt" />
     <None Include="Crystal Reports\Sales Report\crptRG1DetailsDateMRPwise.rpt" />

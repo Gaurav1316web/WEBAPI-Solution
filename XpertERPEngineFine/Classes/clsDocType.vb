@@ -1960,13 +1960,13 @@ Public Class clsDocType
         Return InsertDefaultValue(strDocType, strDocTransactinType, IsStateWise, IsLocationWise, Master_Prefix, False)
     End Function
     Private Shared Function InsertDefaultValue(ByVal strDocType As String, ByVal strDocTransactinType As String, ByVal IsStateWise As Boolean, ByVal IsLocationWise As Boolean, ByVal Master_Prefix As Boolean, ByVal IsMCCWise As Boolean) As Boolean
-        If Master_Prefix = True Then
-            Dim qry As String = ""
-            qry = "update TSPL_DOCPREFIX_MASTER set Next_Number=(select max(Next_Number) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "') where Doc_Type='" + strDocType + "' AND PK_ID IN (SELECT MAX(PK_ID) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "')"
-            clsDBFuncationality.ExecuteNonQuery(qry)
-            'qry = "DELETE FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "' AND PK_ID NOT IN (SELECT MAX(PK_ID) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "')"
-            'clsDBFuncationality.ExecuteNonQuery(qry)
-        End If
+        'If Master_Prefix = True Then
+        '    Dim qry As String = ""
+        '    qry = "update TSPL_DOCPREFIX_MASTER set Next_Number=(select max(Next_Number) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "') where Doc_Type='" + strDocType + "' AND PK_ID IN (SELECT MAX(PK_ID) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "')"
+        '    clsDBFuncationality.ExecuteNonQuery(qry)
+        '    'qry = "DELETE FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "' AND PK_ID NOT IN (SELECT MAX(PK_ID) FROM TSPL_DOCPREFIX_MASTER WHERE Doc_Type='" + strDocType + "')"
+        '    'clsDBFuncationality.ExecuteNonQuery(qry)
+        'End If
         Dim coll As New Hashtable()
         clsCommon.AddColumnsForChange(coll, "Doc_Type", strDocType)
         clsCommon.AddColumnsForChange(coll, "Doc_Trans_Type", strDocTransactinType)

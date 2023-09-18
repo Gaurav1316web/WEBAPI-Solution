@@ -22,9 +22,12 @@ Partial Class RptPendingPO
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -185,7 +188,6 @@ Partial Class RptPendingPO
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1056, 394)
         Me.RadPageView1.TabIndex = 26
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -232,12 +234,13 @@ Partial Class RptPendingPO
         '
         Me.ddlCategory.AutoCompleteDisplayMember = Nothing
         Me.ddlCategory.AutoCompleteValueMember = Nothing
-        RadListDataItem4.Text = "Both"
-        RadListDataItem5.Text = "Sale Invoice"
-        RadListDataItem6.Text = "Sale Return"
-        Me.ddlCategory.Items.Add(RadListDataItem4)
-        Me.ddlCategory.Items.Add(RadListDataItem5)
-        Me.ddlCategory.Items.Add(RadListDataItem6)
+        Me.ddlCategory.DropDownAnimationEnabled = True
+        RadListDataItem1.Text = "Both"
+        RadListDataItem2.Text = "Sale Invoice"
+        RadListDataItem3.Text = "Sale Return"
+        Me.ddlCategory.Items.Add(RadListDataItem1)
+        Me.ddlCategory.Items.Add(RadListDataItem2)
+        Me.ddlCategory.Items.Add(RadListDataItem3)
         Me.ddlCategory.Location = New System.Drawing.Point(420, 187)
         Me.ddlCategory.Name = "ddlCategory"
         Me.ddlCategory.Size = New System.Drawing.Size(310, 20)
@@ -280,14 +283,15 @@ Partial Class RptPendingPO
         Me.gvCategory.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvCategory.Location = New System.Drawing.Point(10, 40)
         '
-        'gvCategory
         '
+        '
+        Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(299, 194)
         Me.gvCategory.TabIndex = 2
-        Me.gvCategory.Text = "RadGridView1"
         '
         'Panel6
         '
@@ -814,13 +818,14 @@ Partial Class RptPendingPO
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1035, 366)
         Me.gv.TabIndex = 4
-        Me.gv.Text = "RadGridView1"
         '
         'btnclose
         '
@@ -907,15 +912,11 @@ Partial Class RptPendingPO
         '
         'rmExcel
         '
-        Me.rmExcel.AccessibleDescription = "Excel"
-        Me.rmExcel.AccessibleName = "Excel"
         Me.rmExcel.Name = "rmExcel"
         Me.rmExcel.Text = "Excel"
         '
         'rmPDF
         '
-        Me.rmPDF.AccessibleDescription = "PDF"
-        Me.rmPDF.AccessibleName = "PDF"
         Me.rmPDF.Name = "rmPDF"
         Me.rmPDF.Text = "PDF"
         '
@@ -932,6 +933,7 @@ Partial Class RptPendingPO
         '
         Me.gv1.AllowAddNewRow = False
         Me.gv1.ShowGroupedColumns = True
+        Me.gv1.ViewDefinition = TableViewDefinition3
         '
         'rdmenufile
         '
@@ -941,7 +943,6 @@ Partial Class RptPendingPO
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(1076, 20)
         Me.rdmenufile.TabIndex = 74
-        Me.rdmenufile.Text = "File"
         '
         'rdmenufile1
         '
@@ -953,15 +954,11 @@ Partial Class RptPendingPO
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '

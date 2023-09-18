@@ -1,11 +1,6 @@
 ﻿''created by Monika'15/10/2015 [BM00000008148]
-Imports common
-Imports Telerik.WinControls
-Imports Telerik.WinControls.UI
-Imports System.Data.Sql
-Imports System.Data.SqlClient
 Imports System.IO
-Imports XpertERPEngine
+Imports common
 Public Class FrmApprovalAlert_Child
     Inherits FrmMainTranScreen
 
@@ -14,7 +9,6 @@ Public Class FrmApprovalAlert_Child
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChanged As Boolean = False
     Dim Auto_Post As Boolean = False
-
     Public ScreenCode As String = Nothing
     Public DocumentCode As String = Nothing
 #End Region
@@ -65,6 +59,7 @@ Public Class FrmApprovalAlert_Child
             btnPrint.Visible = True
             UcAttachment1.Form_ID = ScreenCode
             UcAttachment1.MandatoryPDFFile = True
+            UcAttachment1.isDeleteTheAttachment = False
             UcAttachment1.BlankAllControls()
         Else
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Collapsed
@@ -410,7 +405,7 @@ Public Class FrmApprovalAlert_Child
             obj.Status = clsCommon.myCstr(cboApproval.SelectedValue)
             obj.Trans_Code = ScreenCode
             obj.User_Code = clsCommon.myCstr(objCommonVar.CurrentUserCode)
-            UcAttachment1.SaveData(obj.Document_Code, True, Nothing)
+            UcAttachment1.SaveData(obj.Document_Code, False, Nothing)
             If clsApprovalAlert_Child.UpdateData(obj) Then
 
                 clsCommon.MyMessageBoxShow("Data updated successfully.")

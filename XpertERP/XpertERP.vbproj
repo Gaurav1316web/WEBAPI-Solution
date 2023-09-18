@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -2830,12 +2830,6 @@
       <DependentUpon>frmVendorBankMaster.vb</DependentUpon>
     </Compile>
     <Compile Include="Purchase\Master\frmVendorBankMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Purchase\Report\frmAdvancePaymentRegister.Designer.vb">
-      <DependentUpon>frmAdvancePaymentRegister.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Purchase\Report\frmAdvancePaymentRegister.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Purchase\Report\frmMonthlyConsumptionReport.Designer.vb">
@@ -6804,9 +6798,6 @@
     <EmbeddedResource Include="Purchase\Master\frmVendorBankMaster.resx">
       <DependentUpon>frmVendorBankMaster.vb</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Purchase\Report\frmAdvancePaymentRegister.resx">
-      <DependentUpon>frmAdvancePaymentRegister.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Report\frmMonthlyConsumptionReport.resx">
       <DependentUpon>frmMonthlyConsumptionReport.vb</DependentUpon>

@@ -218,7 +218,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
                 Dim strPKID As String = clsDBFuncationality.getSingleValue("select max(PK_ID) as PK_ID from " + objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", trans)
 
                 qry = "insert into " + objCommonVar.RCDFDB + "TSPL_ATTACHMENTS (Code,FormId,TransactionId,SNo,FileName,FileData,COMMENTS,Created_By,Created_Date,Modified_By,Modified_Date)
-select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as FormId,'" + strPKID + "' as TransactionId,SNo,FileName,FileData,COMMENTS,'" + objCommonVar.CurrentUserCode + "' as Created_By,GETDATE() as Created_Date,'" + objCommonVar.CurrentUserCode + "' as Modified_By,GETDATE() as  Modified_Date from TSPL_ATTACHMENTS where TransactionId='" + obj.Document_Code + "'"
+select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as FormId,'" + strPKID + "' as TransactionId,SNo,FileName,FileData,COMMENTS,'" + objCommonVar.CurrentUserCode + "' as Created_By,GETDATE() as Created_Date,'" + objCommonVar.CurrentUserCode + "' as Modified_By,GETDATE() as  Modified_Date from TSPL_ATTACHMENTS where TransactionId='" + obj.Document_Code + "' and 2=(case when FormId='DBT-NEFT-UPL' then (case when Created_By='" + objCommonVar.CurrentUserCode + "' then 2 else 3 end ) else 2 end )"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
         Catch ex As Exception
