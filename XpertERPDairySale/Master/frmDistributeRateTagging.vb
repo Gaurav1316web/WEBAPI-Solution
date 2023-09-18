@@ -61,8 +61,8 @@ Public Class frmDistributeRateTagging
 
     Sub Reset()
         txtCode.Value = ""
-        txtStartDate.Value = ""
-        txtEndDate.Value = ""
+        'txtStartDate.Value = ""
+        'txtEndDate.Value = ""
         IsInsieLoadData = False
         gv.Rows.Clear()
         gv.Columns.Clear()
@@ -330,8 +330,8 @@ Public Class frmDistributeRateTagging
         isNewEntry = True
         txtCode.MyReadOnly = False
         txtCode.Value = Nothing
-        txtStartDate.Value = Nothing
-        txtEndDate.Value = Nothing
+        txtStartDate.Value = clsCommon.GETSERVERDATE()
+        txtEndDate.Value = clsCommon.GETSERVERDATE()
         txtCode.Focus()
         txtRemark.Text = ""
         btnsave.Text = "Save"

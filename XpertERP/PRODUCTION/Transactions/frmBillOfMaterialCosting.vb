@@ -696,6 +696,10 @@ Public Class frmBillOfMaterialCosting
         txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
         'txtConsmLocOther.Value = txtLocation.Value
         'RadPageView1.Pages(pageOperations.Name).Item.Visibility = ElementVisibility.Collapsed
+
+        Dim strq As String = "Update TSPL_MF_BOM_HEAD Set  REVISION_NO = PROD_ITEM_CODE+'/'+REPLACE(REVISION_NO, PROD_ITEM_CODE, LOCATION_CODE)
+             where Len(REVISION_NO) - Len(Replace(REVISION_NO,'/' ,''))=1"
+        clsDBFuncationality.GetDataTable(strq, Nothing)
     End Sub
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmBillOfMaterialCosting)
@@ -782,6 +786,7 @@ Public Class frmBillOfMaterialCosting
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         funReset()
+
         txtCode.MyReadOnly = True
         btnsave.Enabled = True
         btndelete.Enabled = True
@@ -806,23 +811,11 @@ Public Class frmBillOfMaterialCosting
             txtCode.Value = obj.BOM_CODE
             Me.txtDescription.Text = clsCommon.myCstr(obj.DESCRIPTION)
             Me.dtpBOMDate.Value = obj.BOM_DATE
-            'Dim Sqlqry As String = "select REVISION_NO from TSPL_MF_BOM_HEAD
-            '                        where TSPL_MF_BOM_HEAD.REVISION_NO ='" + (lblRevisionNo.Text + 1) + "'"
-            'clsCommon.myLen(lblRevisionNo)
-            'Me.lblRevisionNo.Text = obj.REVISION_NO 
+
+            'Me.lblRevisionNo.Text = obj.REVISION_NO
+
+
             Me.lblRevisionNo.Text = obj.REVISION_NO
-            'If lblRevisionNo.Text > 0 Then
-            '    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-            '    Dim qry As String = ""
-            '    qry = "SELECT REVISION_NO from TSPL_MF_BOM_HEAD where REVISION_NO='" + lblRevisionNo.Text + 1.ToString + "'"
-            '    Dim dt As DataTable
-            '    dt = clsDBFuncationality.GetDataTable(qry, trans)
-
-            'End If
-            'If clsCommon.myLen(obj.REVISION_NO) > 0 Then
-            '    lblRevisionNo.Text = clsCommon.myCstr(obj.REVISION_NO + 1)
-            'End If
-
             Me.dtpStartDate.Value = obj.START_DATE
             If clsCommon.myLen(obj.END_DATE) > 0 Then
                 Me.dtpEndDate.Value = obj.END_DATE
