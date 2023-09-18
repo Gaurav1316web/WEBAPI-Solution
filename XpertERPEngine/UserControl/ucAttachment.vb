@@ -22,6 +22,7 @@ Public Class ucAttachment
     Const ColFileName As String = "FileName"
     Const ColCOMMENTS As String = "COMMENTS"
     Const ColPath As String = "ColPath"
+    Const ColUser As String = "ColUser"
     Const ColView As String = "View"
     Const ColDelete As String = "Delete"
     Const ColSelect As String = "ColSelect"
@@ -44,6 +45,7 @@ Public Class ucAttachment
                 gv1.Rows(Counter).Cells(ColSNo).Value = dr("SNo")
                 gv1.Rows(Counter).Cells(ColFileName).Value = dr("FileName")
                 gv1.Rows(Counter).Cells(ColCOMMENTS).Value = dr("COMMENTS")
+                gv1.Rows(Counter).Cells(ColUser).Value = clsCommon.myCstr(dr("Attach_By"))
                 Counter += 1
             Next
         End If
@@ -116,9 +118,11 @@ Public Class ucAttachment
             Dim flag As Boolean = False
             For ii As Integer = 0 To gv1.Rows.Count - 1
                 If clsCommon.myLen(gv1.Rows(ii).Cells(ColFileName).Value) > 0 Then
-                    If clsCommon.myCstr(gv1.Rows(ii).Cells(ColFileName).Value).ToUpper().EndsWith(".PDF") Then
-                        flag = True
-                        Exit For
+                    If clsCommon.myLen(gv1.Rows(ii).Cells(ColPath).Value) > 0 Then
+                        If clsCommon.myCstr(gv1.Rows(ii).Cells(ColFileName).Value).ToUpper().EndsWith(".PDF") Then
+                            flag = True
+                            Exit For
+                        End If
                     End If
                 End If
             Next
@@ -194,6 +198,15 @@ Public Class ucAttachment
         repoPath.Name = ColPath
         repoPath.ReadOnly = True
         repoPath.IsVisible = False
+        gv1.MasterTemplate.Columns.Add(repoPath)
+
+        repoPath = New GridViewTextBoxColumn()
+        repoPath.FormatString = ""
+        repoPath.HeaderText = "Attach By"
+        repoPath.Width = 100
+        repoPath.Name = ColUser
+        repoPath.ReadOnly = True
+        repoPath.IsVisible = MandatoryPDFFile
         gv1.MasterTemplate.Columns.Add(repoPath)
 
         Dim ShowBtn As New GridViewCommandColumn()
