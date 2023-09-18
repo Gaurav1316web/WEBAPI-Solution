@@ -1233,6 +1233,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDispatchProductSale.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptFreshSaleInvoice%28New%29.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptGatePassEntry.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptNonTaxableInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptProductDeliveryOrderReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptProvistionChartPrint.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
