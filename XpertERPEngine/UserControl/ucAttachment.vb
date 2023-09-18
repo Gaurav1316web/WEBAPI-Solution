@@ -127,7 +127,7 @@ Public Class ucAttachment
                 End If
             Next
             If Not flag Then
-                Throw New Exception("Please Attach at leat One PDF File")
+                Throw New Exception("Please attach PDF file")
             End If
         End If
         Return True
