@@ -1660,6 +1660,13 @@ Public Class FrmUserMaster
                     '        Throw New Exception("" + strZoneCode + " Invalid Zone Code.Does Not Exist In Zone Master")
                     '    End If
                     'End If
+                    If (clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Login_Type").Value), "CNF") = CompairStringResult.Equal) AndAlso (clsCommon.CompairString(clsCommon.myCstr(grow.Cells("InActive").Value), "N") = CompairStringResult.Equal) Then
+                        Dim IsMappedCustomer As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_USER_MASTER where  Login_Type = 'CNF'  AND InActive = 'N' and Cust_Code IN( '" & grow.Cells("Cust_Code").Value.ToString() & "')", trans)
+                        If IsMappedCustomer > 0 Then
+                            Throw New Exception("You cannot mapped same customer to more than one user")
+                        End If
+
+                    End If
 
                     Dim sql1 As String = "select COUNT(*) from TSPL_USER_MASTER  where User_Code='" + strPrefixUserCode + "'"
                     Dim i As Integer = CInt(connectSql.RunScalar(trans, sql1))
@@ -1689,10 +1696,14 @@ Public Class FrmUserMaster
                     'End If
                     clsCommon.AddColumnsForChange(colll, "User_APP_Type", grow.Cells("App User Type").Value.ToString())
                     clsCommon.AddColumnsForChange(colll, "Vendor_Code", grow.Cells("Vendor").Value.ToString())
+                    clsCommon.AddColumnsForChange(colll, "Cust_Code", grow.Cells("Cust_Code").Value.ToString())
+                    clsCommon.AddColumnsForChange(colll, "Login_Type", grow.Cells("Login_Type").Value.ToString())
                     clsCommonFunctionality.UpdateDataTable(colll, "tspl_user_master", OMInsertOrUpdate.Update, "User_Code='" + strPrefixUserCode + "'", trans)
                     'sanjay
 
                 Next
+
+
                 IsCorrectUSer(trans)
                 trans.Commit()
                 common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
