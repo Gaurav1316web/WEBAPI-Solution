@@ -151,8 +151,8 @@ Partial Class FrmApprovalAlert_Child
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(732, 437)
-        Me.SplitContainer1.SplitterDistance = 405
+        Me.SplitContainer1.Size = New System.Drawing.Size(732, 502)
+        Me.SplitContainer1.SplitterDistance = 470
         Me.SplitContainer1.TabIndex = 0
         '
         'SplitContainer2
@@ -201,7 +201,7 @@ Partial Class FrmApprovalAlert_Child
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
         Me.SplitContainer2.Panel2.Padding = New System.Windows.Forms.Padding(1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(730, 403)
+        Me.SplitContainer2.Size = New System.Drawing.Size(730, 468)
         Me.SplitContainer2.SplitterDistance = 244
         Me.SplitContainer2.TabIndex = 43
         '
@@ -524,7 +524,7 @@ Partial Class FrmApprovalAlert_Child
         Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.Attachments
-        Me.RadPageView1.Size = New System.Drawing.Size(728, 153)
+        Me.RadPageView1.Size = New System.Drawing.Size(728, 218)
         Me.RadPageView1.TabIndex = 46
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -537,7 +537,7 @@ Partial Class FrmApprovalAlert_Child
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(53.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(707, 105)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(707, 170)
         Me.RadPageViewPage1.Text = "Answer"
         '
         'txtRmks
@@ -563,7 +563,7 @@ Partial Class FrmApprovalAlert_Child
         Me.txtRmks.ReferenceFieldDesc = Nothing
         Me.txtRmks.ReferenceFieldName = Nothing
         Me.txtRmks.ReferenceTableName = Nothing
-        Me.txtRmks.Size = New System.Drawing.Size(534, 55)
+        Me.txtRmks.Size = New System.Drawing.Size(534, 121)
         Me.txtRmks.TabIndex = 1
         '
         'MyLabel24
@@ -624,7 +624,7 @@ Partial Class FrmApprovalAlert_Child
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(52.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(707, 105)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(707, 170)
         Me.RadPageViewPage2.Text = "History"
         '
         'gv
@@ -648,7 +648,7 @@ Partial Class FrmApprovalAlert_Child
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(707, 105)
+        Me.gv.Size = New System.Drawing.Size(707, 170)
         Me.gv.TabIndex = 0
         Me.gv.TabStop = False
         '
@@ -658,7 +658,7 @@ Partial Class FrmApprovalAlert_Child
         Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(707, 105)
+        Me.Attachments.Size = New System.Drawing.Size(707, 170)
         Me.Attachments.Text = "Attachment"
         '
         'UcAttachment1
@@ -666,7 +666,7 @@ Partial Class FrmApprovalAlert_Child
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(707, 105)
+        Me.UcAttachment1.Size = New System.Drawing.Size(707, 170)
         Me.UcAttachment1.TabIndex = 2
         Me.UcAttachment1.TabStop = False
         '
@@ -750,7 +750,7 @@ Partial Class FrmApprovalAlert_Child
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(732, 457)
+        Me.ClientSize = New System.Drawing.Size(732, 522)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)

@@ -218,7 +218,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
                 Dim strPKID As String = clsDBFuncationality.getSingleValue("select max(PK_ID) as PK_ID from " + objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", trans)
 
                 qry = "insert into " + objCommonVar.RCDFDB + "TSPL_ATTACHMENTS (Code,FormId,TransactionId,SNo,FileName,FileData,COMMENTS,Created_By,Created_Date,Modified_By,Modified_Date)
-select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as FormId,'" + strPKID + "' as TransactionId,SNo,FileName,FileData,COMMENTS,'" + objCommonVar.CurrentUserCode + "' as Created_By,GETDATE() as Created_Date,'" + objCommonVar.CurrentUserCode + "' as Modified_By,GETDATE() as  Modified_Date from TSPL_ATTACHMENTS where TransactionId='" + obj.Document_Code + "'"
+select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as FormId,'" + strPKID + "' as TransactionId,SNo,FileName,FileData,COMMENTS,'" + objCommonVar.CurrentUserCode + "' as Created_By,GETDATE() as Created_Date,'" + objCommonVar.CurrentUserCode + "' as Modified_By,GETDATE() as  Modified_Date from TSPL_ATTACHMENTS where TransactionId='" + obj.Document_Code + "' and 2=(case when FormId='DBT-NEFT-UPL' then (case when Created_By='" + objCommonVar.CurrentUserCode + "' then 2 else 3 end ) else 2 end )"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
         Catch ex As Exception
@@ -309,11 +309,17 @@ select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as For
                     Throw New Exception("Please select Document No")
                 End If
 
-                Dim qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 ,TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,
-               '" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name, TSPL_DBT_NEFT_DETAIL.Rem_Name,TSPL_DBT_NEFT_DETAIL.Rem_Account_No ,
-                tspl_dbt_neft_detail.Amount as Total_Amt ,'" & FromDate & "' as From_Date, '" & ToDate & "' as To_Date, TSPL_DBT_NEFT.To_Date from TSPL_DBT_NEFT  
+                Dim qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 , tspl_company_master.Comp_Name , tspl_company_master.Add1 , tspl_company_master.Add2, tspl_company_master.Add3,
+               tspl_company_master.City_Code, tspl_company_master.Pincode, tspl_company_master.Email,case when Phone1 = '(+__)__________' then  REPLACE(Phone1, '(+__)__________', '')  else Phone1 end as Phone1 ,TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,
+              DATENAME(MONTH, CONVERT(date, '" & ToDate & "', 103)) + ' ' + DATENAME(YEAR, CONVERT(date, '" & ToDate & "', 103)) as Month,
+               '" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name, TSPL_DBT_NEFT_DETAIL.Rem_Name,TSPL_DBT_NEFT_DETAIL.Rem_Account_No
+               ,Rate, [Farmer Code],DCS,Total_Milk, tspl_dbt_neft_detail.Amount as Total_Amt ,'" & FromDate & "' as From_Date, '" & ToDate & "' as To_Date, TSPL_DBT_NEFT.To_Date from TSPL_DBT_NEFT  
                 left outer join (select TSPL_DBT_NEFT_DETAIL.document_code,max(TSPL_DBT_NEFT_DETAIL.Rem_Name) as Rem_Name,max(TSPL_DBT_NEFT_DETAIL.Rem_Account_No) as Rem_Account_No,
-                sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount from TSPL_DBT_NEFT_DETAIL                 
+                sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount , COUNT( DISTINCT TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code) AS DCS, Max(TSPL_MP_INCENTIVE_ENTRY_HEAD.Incetive_Rate)as Rate ,
+               COUNT( DISTINCT TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code)  as [Farmer Code],sum(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty) as Total_Milk from TSPL_DBT_NEFT_DETAIL   
+               Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
+left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code
                 where   TSPL_DBT_NEFT_DETAIL.document_code ='" + strDocNo + "' group by TSPL_DBT_NEFT_DETAIL.document_code 
                ) TSPL_DBT_NEFT_DETAIL   on TSPL_DBT_NEFT.Document_Code = TSPL_DBT_NEFT_DETAIL.Document_Code  
                   LEFT OUTER JOIN tspl_company_master ON tspl_company_master.comp_code = 'UDP'

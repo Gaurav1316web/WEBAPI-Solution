@@ -1975,7 +1975,7 @@ Public Class FrmQuickEntry1
                 qry = " SELECT TSPL_CUSTOMER_MASTER.Zone_Code,'Receipt' as rtype,TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.QuickEntryNo, TSPL_RECEIPT_HEADER.Receipt_No as DocNo, TSPL_RECEIPT_HEADER.Receipt_Date as DocDate, TSPL_RECEIPT_HEADER.Bank_Code, TSPL_BANK_MASTER.DESCRIPTION as BankDesc , " &
                        " (case when TSPL_RECEIPT_HEADER.Receipt_Type='o' then 'On Account' else case when TSPL_RECEIPT_HEADER.Receipt_Type='P' then 'Advance' end end )as Type, TSPL_RECEIPT_HEADER.Cust_Code as Code, TSPL_RECEIPT_HEADER.Customer_Name as Name, " &
                        "  TSPL_RECEIPT_HEADER.Narration, TSPL_RECEIPT_HEADER.Cheque_No, " &
-                       "  TSPL_RECEIPT_HEADER.Cheque_Date, TSPL_RECEIPT_HEADER.Receipt_Amount as Amount,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 " &
+                       "  TSPL_RECEIPT_HEADER.Cheque_Date, TSPL_RECEIPT_HEADER.Receipt_Amount as Amount,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_RECEIPT_HEADER.Cheque_From " &
                        "   FROM         TSPL_RECEIPT_HEADER LEFT OUTER JOIN  " &
                        "   TSPL_BANK_MASTER ON TSPL_RECEIPT_HEADER.Bank_Code = TSPL_BANK_MASTER.BANK_CODE " &
                        "   left Outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_RECEIPT_HEADER.Comp_Code " &
@@ -2562,7 +2562,7 @@ Public Class FrmQuickEntry1
     Private Sub rmiExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiExport.Click
         Dim Qry As String = Nothing
         If clsCommon.CompairString(ddlType.Text, "Receipt") = CompairStringResult.Equal Then
-            Qry = "Select '' as Customer,'' as Location,'' as [Payment Mode] ,'' as [Cheque/UTR No], '' as [Cheque/UTR Date], 0 as [Amount],'' as [CForm(Y/N)],'' as [CForm Invoice], '' as [Narration] "
+            Qry = "Select '' as Customer,'' as Location,'' as [Payment Mode],'' As [From Bank] ,'' as [Cheque/UTR No], '' as [Cheque/UTR Date], 0 as [Amount],'' as [CForm(Y/N)],'' as [CForm Invoice], '' as [Narration] "
         ElseIf clsCommon.CompairString(ddlType.Text, "Payment") = CompairStringResult.Equal Then
             Qry = "Select '' as Vendor,'' as Location,'' as [Payment Mode] ,'' as [Cheque/UTR No], '' as [Cheque/UTR Date], 0 as [Amount],'' as [PDC Cheque(Y/N)],'' as [Account Payee(Y/N)],'' as [CForm(Y/N)],'' as [CForm Invoice], '' as [Narration] "
         ElseIf clsCommon.CompairString(ddlType.Text, "Misc Receipt") = CompairStringResult.Equal Then
@@ -2583,7 +2583,7 @@ Public Class FrmQuickEntry1
             End Try
 
             If clsCommon.CompairString(ddlType.Text, "Receipt") = CompairStringResult.Equal Then
-                If transportSql.importExcel(gv, "Customer", "Location", "Payment Mode", "Cheque/UTR No", "Cheque/UTR Date", "Amount", "CForm(Y/N)", "CForm Invoice", "Narration") Then
+                If transportSql.importExcel(gv, "Customer", "Location", "Payment Mode", "From Bank", "Cheque/UTR No", "Cheque/UTR Date", "Amount", "CForm(Y/N)", "CForm Invoice", "Narration") Then
                     For Each grow As GridViewRowInfo In gv.Rows
                         If clsCommon.myLen(grow.Cells("Customer").Value) > 0 Then
                             MasterTemplate.Rows.AddNew()
@@ -2592,6 +2592,7 @@ Public Class FrmQuickEntry1
                                 MasterTemplate.Rows(MasterTemplate.Rows.Count - 1).Cells("gvSourceCode").Value = clsCommon.myCstr(grow.Cells("Customer").Value)
                                 MasterTemplate.Rows(MasterTemplate.Rows.Count - 1).Cells("gvLocation").Value = clsCommon.myCstr(grow.Cells("Location").Value)
                                 MasterTemplate.Rows(MasterTemplate.Rows.Count - 1).Cells("gvPaymentMode").Value = clsCommon.myCstr(grow.Cells("Payment Mode").Value)
+                                MasterTemplate.Rows(MasterTemplate.Rows.Count - 1).Cells("gvFromBank").Value = clsCommon.myCstr(grow.Cells("From Bank").Value)
                                 MasterTemplate.Rows(MasterTemplate.Rows.Count - 1).Cells("gvCheckNo").Value = clsCommon.myCstr(grow.Cells("Cheque/UTR No").Value)
                                 If clsCommon.myLen(grow.Cells("Cheque/UTR Date").Value) > 0 Then
                                     MasterTemplate.Rows(MasterTemplate.Rows.Count - 1).Cells("gvCheckDate").Value = clsCommon.myCDate(grow.Cells("Cheque/UTR Date").Value)

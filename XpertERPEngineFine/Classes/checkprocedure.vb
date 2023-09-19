@@ -761,6 +761,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryMISSAle, "Sale Return Gate Entry Misc Sale", "1.08.02.31", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmTender, "Tender", "1.08.02.32", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmCorrectionforWrongEntry, "Correction For Wrong Entry", "1.08.02.33", clsUserMgtCode.SubModulePurchaseTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDeletionForEntry, "Deletion For Entry", "1.08.02.34", clsUserMgtCode.SubModulePurchaseTransaction, 8)
 
         'richa
         'InsertDefaultValue(clsUserMgtCode.frmItemQuantityInformation, "Item Quantity Information ", "1.08.03.17", clsUserMgtCode.SubModulePurchaseTransaction, 8)

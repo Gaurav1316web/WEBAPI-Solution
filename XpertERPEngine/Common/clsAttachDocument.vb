@@ -35,8 +35,11 @@ Public Class clsAttachDocument
     Public Shared Function GetData(ByVal strFormId As String, ByVal strTransactionId As String, ByVal trans As SqlTransaction) As DataTable
 
         Dim obj As clsAttachDocument = Nothing
-        Dim qry As String = " select CODE,FormId,TransactionId,SNo,FileName, COMMENTS from TSPL_ATTACHMENTS where 1=1 "
-        qry += " and FormId = '" + strFormId + "' and TransactionId = '" + strTransactionId + "' "
+        Dim qry As String = "Select TSPL_ATTACHMENTS.CODE,TSPL_ATTACHMENTS.FormId,TSPL_ATTACHMENTS.TransactionId,TSPL_ATTACHMENTS.SNo,TSPL_ATTACHMENTS.FileName, TSPL_ATTACHMENTS.COMMENTS,TSPL_USER_MASTER.User_Name as Attach_By 
+from TSPL_ATTACHMENTS 
+left outer join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code=TSPL_ATTACHMENTS.Created_By
+where 1=1 "
+        qry += " and TSPL_ATTACHMENTS.FormId = '" + strFormId + "' and TSPL_ATTACHMENTS.TransactionId = '" + strTransactionId + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         'If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
         '    Dim dr As DataRow = dt.Rows(0)

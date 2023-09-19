@@ -5643,7 +5643,7 @@ a:
                         Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO_G_Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
                     End If
                 End If
-                Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
+                Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt" , dt3)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "I") = CompairStringResult.Equal Then
                 SetItemWiseTax(dt, StrDocNo, tran)
                 Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")

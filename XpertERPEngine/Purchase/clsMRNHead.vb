@@ -942,8 +942,8 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            trans.Commit()
             DeleteData(strCode, trans)
+            trans.Commit()
         Catch ex As Exception
             trans.Rollback()
             Throw New Exception(ex.Message)
