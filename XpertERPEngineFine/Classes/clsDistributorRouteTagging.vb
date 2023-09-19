@@ -65,16 +65,16 @@ Public Class clsDistributorRouteTagging
         Dim obj As clsDistributorRouteTagging = Nothing
 
         Try
-            Dim strQry As String = "SELECT Code,Start_Date,End_Date,Remarks,Status FROM TSPL_DISTRIBUTOR_ROUTE WHERE Code='" + strCode + "' "
+            Dim strQry As String = "SELECT Code,Start_Date,End_Date,Remarks,Status FROM TSPL_DISTRIBUTOR_ROUTE where 1=1 "
             Select Case NavType
                 Case NavigatorType.First
                     strQry += " and Code = (select MIN(Code) from TSPL_DISTRIBUTOR_ROUTE where 1=1  )"
                 Case NavigatorType.Last
                     strQry += " And Code = (Select Max(Code) from TSPL_DISTRIBUTOR_ROUTE where 1=1 )"
                 Case NavigatorType.Next
-                    strQry += " And Code = (Select Min(Code) from TSPL_DISTRIBUTOR_ROUTE where Doc_No>'" + clsCommon.myCstr(strCode) + "' )"
+                    strQry += " And Code = (Select Min(Code) from TSPL_DISTRIBUTOR_ROUTE where Code>'" + clsCommon.myCstr(strCode) + "' )"
                 Case NavigatorType.Previous
-                    strQry += " and Code = (select Max(Doc_No) from TSPL_DISTRIBUTOR_ROUTE where Doc_No<'" + clsCommon.myCstr(strCode) + "' )"
+                    strQry += " and Code = (select Max(Code) from TSPL_DISTRIBUTOR_ROUTE where Code<'" + clsCommon.myCstr(strCode) + "' )"
                 Case NavigatorType.Current
                     strQry += " and Code = '" + clsCommon.myCstr(strCode) + "' "
             End Select
