@@ -6419,13 +6419,13 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
 
             End If
             '' Temp Comment '''''''''''
-            'Dim frmCRV As New frmCrystalReportViewer()
-            'Dim objMultPrintInvoice As New FrmPrintFreshInvoice
-            'obj.Sale_Invoice_No = clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" + obj.Document_Code + "'")
-            'Dim Qry As String = objMultPrintInvoice.PrintInvoiceForAll(obj.Sale_Invoice_No)
-            'Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
-            'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", obj.Document_Date, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
-            'frmCRV = Nothing
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim objMultPrintInvoice As New FrmPrintFreshInvoice
+            obj.Sale_Invoice_No = clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" + obj.Document_Code + "'")
+            Dim Qry As String = objMultPrintInvoice.PrintInvoiceForAll(obj.Sale_Invoice_No)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", obj.Document_Date, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+            frmCRV = Nothing
             ''   end of temp comment '''''''
 
             'Dim AllowManualVehicleOnDairyDispatch As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualvehicleOnDairyBooking, clsFixedParameterCode.AllowManualvehicleOnDairyBooking, Nothing)) = 1, True, False)
