@@ -304,6 +304,7 @@ Public Class frmDistributeRateTagging
     End Sub
     Sub funReset()
         LoadBlankgv_Grid()
+        UsLock1.Status = ERPTransactionStatus.Pending
         isNewEntry = True
         txtCode.MyReadOnly = False
         txtCode.Value = Nothing
