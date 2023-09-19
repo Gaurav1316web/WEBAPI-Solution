@@ -2197,7 +2197,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.CustomerDeduction, "Customer Deduction", "1.36.01.09", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.VehicleMasterForDairySale, "Vehicle Master", "1.36.01.10", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, "Distributor Commission", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
-        InsertDefaultValue(clsUserMgtCode.frmDistributeRateTagging, "Distribute Rate Tagging", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, "Distributor Route Tagging", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
 
         'InsertDefaultValue(clsUserMgtCode.CardSale, "Card Sale", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         'InsertDefaultValue(clsUserMgtCode.frmCustCategoryWiseDefaultItemUomMaster, "Customer Category UOM", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)

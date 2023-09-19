@@ -6359,7 +6359,8 @@ from
                     objTr.Total_Basic_Amt = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
                     objTr.Row_Type = "Item"
                     objTr.Scheme_Item = clsCommon.myCstr(grow.Cells(colSchemeItem).Value)
-                    objTr.Amt_Less_Discount = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
+                    objTr.Amt_Less_Discount = clsCommon.myCDecimal(grow.Cells(colAmountWithTax).Value)
+
                     Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
@@ -6421,8 +6422,9 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             '' Temp Comment '''''''''''
             Dim frmCRV As New frmCrystalReportViewer()
             Dim objMultPrintInvoice As New FrmPrintFreshInvoice
-            obj.Sale_Invoice_No = clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" + obj.Document_Code + "'")
-            Dim Qry As String = objMultPrintInvoice.PrintInvoiceForAll(obj.Sale_Invoice_No)
+            Dim SaleInvoiceNo As New List(Of String)
+            SaleInvoiceNo.Add(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" + obj.Document_Code + "'"))
+            Dim Qry As String = objMultPrintInvoice.PrintInvoiceForAll(clsCommon.GetMulcallString(SaleInvoiceNo))
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
             frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", obj.Document_Date, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
             frmCRV = Nothing

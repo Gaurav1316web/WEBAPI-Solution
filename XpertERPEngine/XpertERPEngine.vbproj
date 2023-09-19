@@ -469,7 +469,6 @@
     <Compile Include="Sale\DairySale\clsCustomerDeduction.vb" />
     <Compile Include="Sale\DairySale\clsCustomerIncentiveEntry.vb" />
     <Compile Include="Sale\DairySale\clsDemandBookingSale.vb" />
-    <Compile Include="Sale\DairySale\clsDistributeRateTagging.vb" />
     <Compile Include="Sale\DairySale\clsItemProjection.vb" />
     <Compile Include="Sale\DairySale\clsCustCategoryWiseDefaultItemUomMaster.vb" />
     <Compile Include="Sale\DairySale\clsTransporterDeduction.vb" />
