@@ -310,7 +310,7 @@ select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as For
                 End If
 
                 Dim qry As String = "select tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 , tspl_company_master.Comp_Name , tspl_company_master.Add1 , tspl_company_master.Add2, tspl_company_master.Add3,
-               tspl_company_master.City_Code, tspl_company_master.Pincode, tspl_company_master.Email,case when Phone1 = '(+__)__________' then  REPLACE(Phone1, '(+__)__________', '')  else Phone1 end as Phone1 ,TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,
+               tspl_company_master.City_Code, tspl_company_master.Pincode, tspl_company_master.Email,REPLACE( RIGHT( Phone1,10),'_','') as Phone1 ,TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,
               DATENAME(MONTH, CONVERT(date, '" & ToDate & "', 103)) + ' ' + DATENAME(YEAR, CONVERT(date, '" & ToDate & "', 103)) as Month,
                '" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name, TSPL_DBT_NEFT_DETAIL.Rem_Name,TSPL_DBT_NEFT_DETAIL.Rem_Account_No
                ,Rate, [Farmer Code],DCS,Total_Milk, tspl_dbt_neft_detail.Amount as Total_Amt ,'" & FromDate & "' as From_Date, '" & ToDate & "' as To_Date, TSPL_DBT_NEFT.To_Date from TSPL_DBT_NEFT  
