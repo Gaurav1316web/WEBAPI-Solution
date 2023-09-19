@@ -23,22 +23,23 @@ Partial Class frmBillOfMaterialCosting
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBillOfMaterialCosting))
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition43 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition44 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition45 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition46 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition47 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition48 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
+        Me.btnCC = New Telerik.WinControls.UI.RadButton()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
         Me.RadLabel6 = New common.Controls.MyLabel()
@@ -109,7 +110,6 @@ Partial Class frmBillOfMaterialCosting
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnCC = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -120,6 +120,7 @@ Partial Class frmBillOfMaterialCosting
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
+        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -195,7 +196,6 @@ Partial Class frmBillOfMaterialCosting
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -334,6 +334,15 @@ Partial Class frmBillOfMaterialCosting
         Me.SplitPanel1.TabIndex = 0
         Me.SplitPanel1.TabStop = False
         Me.SplitPanel1.Text = "SplitPanel1"
+        '
+        'btnCC
+        '
+        Me.btnCC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnCC.Location = New System.Drawing.Point(435, 10)
+        Me.btnCC.Name = "btnCC"
+        Me.btnCC.Size = New System.Drawing.Size(23, 22)
+        Me.btnCC.TabIndex = 1516
+        Me.btnCC.Text = "CC"
         '
         'lblLocation
         '
@@ -843,14 +852,14 @@ Partial Class frmBillOfMaterialCosting
         Me.cboBOMStatus.IsSourceFromTable = False
         Me.cboBOMStatus.IsSourceFromValueList = False
         Me.cboBOMStatus.IsUnique = False
-        RadListDataItem1.Text = "Open"
-        RadListDataItem2.Text = "Approved"
-        RadListDataItem3.Text = "On Hold"
-        RadListDataItem4.Text = "Discountinued"
-        Me.cboBOMStatus.Items.Add(RadListDataItem1)
-        Me.cboBOMStatus.Items.Add(RadListDataItem2)
-        Me.cboBOMStatus.Items.Add(RadListDataItem3)
-        Me.cboBOMStatus.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Open"
+        RadListDataItem6.Text = "Approved"
+        RadListDataItem7.Text = "On Hold"
+        RadListDataItem8.Text = "Discountinued"
+        Me.cboBOMStatus.Items.Add(RadListDataItem5)
+        Me.cboBOMStatus.Items.Add(RadListDataItem6)
+        Me.cboBOMStatus.Items.Add(RadListDataItem7)
+        Me.cboBOMStatus.Items.Add(RadListDataItem8)
         Me.cboBOMStatus.Location = New System.Drawing.Point(618, 103)
         Me.cboBOMStatus.MendatroryField = True
         Me.cboBOMStatus.MyLinkLable1 = Me.lblBOMStatus
@@ -941,7 +950,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvCost.MasterTemplate.EnableGrouping = False
         Me.gvCost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCost.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCost.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCost.MasterTemplate.ViewDefinition = TableViewDefinition43
         Me.gvCost.Name = "gvCost"
         Me.gvCost.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCost.ShowHeaderCellButtons = True
@@ -1009,7 +1018,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvResources.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvResources.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvResources.MasterTemplate.ShowRowHeaderColumn = False
-        Me.gvResources.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvResources.MasterTemplate.ViewDefinition = TableViewDefinition44
         Me.gvResources.Name = "gvResources"
         Me.gvResources.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvResources.ShowHeaderCellButtons = True
@@ -1049,7 +1058,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvTools.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTools.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTools.MasterTemplate.ShowRowHeaderColumn = False
-        Me.gvTools.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTools.MasterTemplate.ViewDefinition = TableViewDefinition45
         Me.gvTools.Name = "gvTools"
         Me.gvTools.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTools.ShowHeaderCellButtons = True
@@ -1086,7 +1095,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvOperations.MasterTemplate.EnableSorting = False
         Me.gvOperations.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOperations.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOperations.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvOperations.MasterTemplate.ViewDefinition = TableViewDefinition46
         Me.gvOperations.Name = "gvOperations"
         Me.gvOperations.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvOperations.ShowHeaderCellButtons = True
@@ -1122,7 +1131,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvBOM.MasterTemplate.EnableGrouping = False
         Me.gvBOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBOM.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBOM.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvBOM.MasterTemplate.ViewDefinition = TableViewDefinition47
         Me.gvBOM.Name = "gvBOM"
         Me.gvBOM.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBOM.ShowHeaderCellButtons = True
@@ -1147,7 +1156,7 @@ Partial Class frmBillOfMaterialCosting
         '
         Me.RadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.RadGridView1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.RadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.RadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition48
         Me.RadGridView1.Name = "RadGridView1"
         Me.RadGridView1.ShowHeaderCellButtons = True
         Me.RadGridView1.Size = New System.Drawing.Size(1013, 300)
@@ -1297,15 +1306,6 @@ Partial Class frmBillOfMaterialCosting
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
-        'btnCC
-        '
-        Me.btnCC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCC.Location = New System.Drawing.Point(435, 10)
-        Me.btnCC.Name = "btnCC"
-        Me.btnCC.Size = New System.Drawing.Size(21, 22)
-        Me.btnCC.TabIndex = 1516
-        Me.btnCC.Text = "cc"
-        '
         'frmBillOfMaterialCosting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1329,6 +1329,7 @@ Partial Class frmBillOfMaterialCosting
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitPanel1.ResumeLayout(False)
         Me.SplitPanel1.PerformLayout()
+        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1404,7 +1405,6 @@ Partial Class frmBillOfMaterialCosting
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
