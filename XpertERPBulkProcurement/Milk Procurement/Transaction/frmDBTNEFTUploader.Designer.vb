@@ -540,9 +540,9 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage2.Controls.Add(Me.gvInvalid)
         Me.RadPageViewPage2.Controls.Add(Me.Panel1)
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(49.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(804, 277)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(804, 273)
         Me.RadPageViewPage2.Text = "Invalid"
         '
         'gvInvalid
@@ -558,7 +558,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvInvalid.Name = "gvInvalid"
         Me.gvInvalid.ShowHeaderCellButtons = True
-        Me.gvInvalid.Size = New System.Drawing.Size(804, 247)
+        Me.gvInvalid.Size = New System.Drawing.Size(804, 243)
         Me.gvInvalid.TabIndex = 1
         Me.gvInvalid.TabStop = False
         '

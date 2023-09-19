@@ -2303,7 +2303,7 @@ Public Class frmRGP
             lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code ='" + txtVendorNo.Value + "'"))
         Else
             Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name,ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],(isnull(ADD1,'')+' '+isnull(Add2,'')+' '+isnull(Add3,''))as Address from TSPL_VENDOR_MASTER"
-            Dim whrcls As String = " Status='N' "
+            Dim whrcls As String = " Status='N' and TSPL_VENDOR_MASTER.Form_Type<>'VSP' "
             If chkAsPerBOM.Checked Then
                 whrcls += " and vendor_code in (select vendor_code from tspl_pp_bom_head where is_post='1')"
             End If

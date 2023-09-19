@@ -904,9 +904,7 @@ Public Class frmDemandBooking
                     If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
                         isSave = clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, Nothing, obj.Location_Code, obj.ShiftType, isNewEntry)
                         If isSave Then
-
                             clsCommon.MyMessageBoxShow(Me, "" + clsCommon.myCstr(obj.ShiftType) + " Demand Data Saved Successfully", Me.Text)
-
                         Else
                             clsCommon.MyMessageBoxShow(Me, "Somthing Went Worng", Me.Text)
                         End If
@@ -1012,8 +1010,7 @@ Public Class frmDemandBooking
                 lblTotalCrate.Text = obj.TotalQtyInCrates
                 lblTotalLitre.Text = obj.TotalQtyInLtr
                 lblDocumentAmt.Text = obj.DocumentAmount
-                LoadBlankGrid()
-                setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
+
                 If clsCommon.CompairString(obj.ShiftType, "Morning") = CompairStringResult.Equal Then
                     rbtnMorning.IsChecked = True
                 ElseIf clsCommon.CompairString(obj.ShiftType, "Evening") = CompairStringResult.Equal Then
@@ -1031,6 +1028,8 @@ Public Class frmDemandBooking
                 Else
                     rdbnFreshAmbientBoth.IsChecked = True
                 End If
+                LoadBlankGrid()
+                setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
                 chkMorningPosted.Checked = (obj.Posted_Morning = 1)
                 chkEveningPosted.Checked = (obj.Posted_Evening = 1)
                 Dim dblMorningCount As Integer = 0
@@ -1073,7 +1072,9 @@ Public Class frmDemandBooking
                 'HideUnhideRowsOFGrid()
                 isLoadData = False
                 UpdateAllTotals()
-                HideUnhideRowsAndColumnsOFGrid()
+                If Not SettSeprateDemandForMorningEveningShift Then
+                    HideUnhideRowsAndColumnsOFGrid()
+                End If
             End If
             SetRouteColumns()
             RefreshFormName()
@@ -1556,7 +1557,6 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)) > 0 Then
                     If rbtnMorning.IsChecked Then
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), "Evening") = CompairStringResult.Equal Then
-                            'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
                             gv1.Rows(dblrows).IsVisible = False
                         Else
                             If rbtn_Fresh.IsChecked Then
@@ -1577,7 +1577,6 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                         End If
                     ElseIf rbtnEvening.IsChecked Then
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), "Morning") = CompairStringResult.Equal Then
-                            'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
                             gv1.Rows(dblrows).IsVisible = False
                         Else
                             If rbtn_Fresh.IsChecked Then

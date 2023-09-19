@@ -35,6 +35,19 @@ Public Class frmDistributeRateTagging
         SaveData()
     End Sub
 
+    Sub Reset()
+        txtCode.Value = ""
+        txtStartDate.Value = ""
+        txtEndDate.Value = ""
+        IsInsieLoadData = False
+        gv.Rows.Clear()
+        gv.Columns.Clear()
+        btnsave.Text = "Save"
+        btndelete.Enabled = False
+        isNewEntry = True
+        UsLock1.Status = ERPTransactionStatus.Pending
+        LoadBlankgv_Grid()
+    End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavType As NavigatorType)
         Try
             LoadBlankgv_Grid()

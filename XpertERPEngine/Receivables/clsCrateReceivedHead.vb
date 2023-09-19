@@ -218,12 +218,12 @@ Public Class clsCrateReceivedHead
             obj.Driver = clsCommon.myCstr(dt.Rows(0)("Driver"))
             obj.SalesMan = clsCommon.myCstr(dt.Rows(0)("SalesMan"))
 
-            qry = "select TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Route_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyPreviousDay,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.BoxQtyRecd ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.jaaliOutQty ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.boxOutQty ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.jaaliAdjustment ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.boxAdjustment, TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.jaali,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.box,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.OutQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Adjustment,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No, " & _
-            "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No, " & _
-            "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Salesman_Code, " & _
-            "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Salesman_Name,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code, " & _
-            "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd, " & _
-            "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Remarks,isnull(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.LinerQty,0) as LinerQty ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CANQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CANQtyRec,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CANOutQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CANAdjustment From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE where Document_No='" & obj.Document_No & "' order by line_no"
+            qry = "select TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Route_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyPreviousDay,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyManual ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.JaaliQtyRecd ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.BoxQtyRecd ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.jaaliOutQty ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.boxOutQty ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.jaaliAdjustment ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.boxAdjustment, TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.jaali,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.box,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.OutQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Adjustment,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Balance,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Line_No, " &
+            "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_No, " &
+            "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Salesman_Code, " &
+            "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Salesman_Name,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code, " &
+            "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd, " &
+            "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Remarks,isnull(TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.LinerQty,0) as LinerQty ,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CANQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CANQtyRec,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CANOutQty,TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CANAdjustment , TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.DamageCrateQtyRecd From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE where Document_No='" & obj.Document_No & "' order by line_no"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -265,6 +265,7 @@ Public Class clsCrateReceivedHead
                     objTr.CANOutQty = clsCommon.myCdbl(dr("CANOutQty"))
                     objTr.CANAdjustment = clsCommon.myCdbl(dr("CANAdjustment"))
                     objTr.Route_Code = clsCommon.myCstr(dr("Route_Code"))
+                    objTr.DamageCrateQtyRecd = clsCommon.myCstr(dr("DamageCrateQtyRecd"))
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -927,6 +928,7 @@ Public Class clsCrateReceivedDetail
     Public CANRecQty As Double = 0
     Public CANOutQty As Double = 0
     Public CANAdjustment As Double = 0
+    Public DamageCrateQtyRecd As Double = 0
     Public Route_Code As String = String.Empty
 #End Region
 
@@ -968,6 +970,7 @@ Public Class clsCrateReceivedDetail
                 clsCommon.AddColumnsForChange(coll, "CANOutQty", obj.CANOutQty)
                 clsCommon.AddColumnsForChange(coll, "CANAdjustment", obj.CANAdjustment)
                 clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code)
+                clsCommon.AddColumnsForChange(coll, "DamageCrateQtyRecd", obj.DamageCrateQtyRecd)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", OMInsertOrUpdate.Insert, "", trans)
                 i = i + 1
             Next
