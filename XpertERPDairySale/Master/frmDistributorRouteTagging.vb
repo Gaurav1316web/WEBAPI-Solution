@@ -325,8 +325,19 @@ Public Class frmDistributorRouteTagging
         End Try
     End Sub
     Private Sub txtCode_MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
-        txtCode.Value = clsDistributeRateTagging.Code_Navigation(NavType, txtCode.Value)
-        LoadData(txtCode.Value, NavigatorType.Current)
+        Try
+            Dim qry As String = "select count(*) from TSPL_DISTRIBUTOR_ROUTE where Code='" + txtCode.Value + "'"
+
+            Dim count As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                txtCode.MyReadOnly = False
+            Else
+                txtCode.MyReadOnly = True
+            End If
+            LoadData(clsCommon.myCstr(txtCode.Value), NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
     End Sub
 
     Private Sub btnCopy_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
