@@ -193,24 +193,34 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             '================================
             CreateEmailContent(obj, strDocNo, excelPath, trans)
             '================================
+            Dim flag As Boolean = False
+            Try
+                qry = "select 1 from TSPL_MASTER.dbo.TSPL_APP_LOCATION where  code not in ('5888','6888') and DataBase_Name in ('" + objCommonVar.CurrDatabase + "') "
+                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    flag = True
+                End If
+            Catch ex As Exception
+            End Try
 
 
-            Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "DB_Name", objCommonVar.CurrDatabase)
-            clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
-            clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
-            clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
-            clsCommonFunctionality.UpdateDataTable(coll, objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", OMInsertOrUpdate.Insert, "", trans)
+            If flag Then
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "DB_Name", objCommonVar.CurrDatabase)
+                clsCommon.AddColumnsForChange(coll, "Document_Code", obj.Document_Code)
+                clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+                clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
+                clsCommonFunctionality.UpdateDataTable(coll, objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", OMInsertOrUpdate.Insert, "", trans)
 
-            Dim strPKID As String = clsDBFuncationality.getSingleValue("select max(PK_ID) as PK_ID from " + objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", trans)
+                Dim strPKID As String = clsDBFuncationality.getSingleValue("select max(PK_ID) as PK_ID from " + objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF", trans)
 
-            qry = "insert into " + objCommonVar.RCDFDB + "TSPL_ATTACHMENTS (Code,FormId,TransactionId,SNo,FileName,FileData,COMMENTS,Created_By,Created_Date,Modified_By,Modified_Date)
-select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as FormId,'" + strPKID + "' as TransactionId,SNo,FileName,FileData,COMMENTS,'" + objCommonVar.CurrentUserCode + "' as Created_By,GETDATE() as Created_Date,'" + objCommonVar.CurrentUserCode + "' as Modified_By,GETDATE() as  Modified_Date from TSPL_ATTACHMENTS where TransactionId='" + obj.Document_Code + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
+                qry = "insert into " + objCommonVar.RCDFDB + "TSPL_ATTACHMENTS (Code,FormId,TransactionId,SNo,FileName,FileData,COMMENTS,Created_By,Created_Date,Modified_By,Modified_Date)
+select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as FormId,'" + strPKID + "' as TransactionId,SNo,FileName,FileData,COMMENTS,'" + objCommonVar.CurrentUserCode + "' as Created_By,GETDATE() as Created_Date,'" + objCommonVar.CurrentUserCode + "' as Modified_By,GETDATE() as  Modified_Date from TSPL_ATTACHMENTS where TransactionId='" + obj.Document_Code + "' and 2=(case when FormId='DBT-NEFT-UPL' then (case when Created_By='" + objCommonVar.CurrentUserCode + "' then 2 else 3 end ) else 2 end )"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -340,6 +350,8 @@ Public Class clsDBTNEFTDetail
     Public Amount As Decimal = 0
     Public MP_IFSC_No As String = Nothing
     Public MP_Account_No As String = Nothing
+    Public MP_Bank As String = Nothing
+    Public MP_Mobile_No As String = Nothing
     Public MP_Name As String = Nothing
     Public Transaction As String = Nothing
 #End Region
@@ -357,6 +369,8 @@ Public Class clsDBTNEFTDetail
                     clsCommon.AddColumnsForChange(coll, "VLC_Uploader_Code", obj.VLC_Uploader_Code)
                     clsCommon.AddColumnsForChange(coll, "MP_Uploader_Code", obj.MP_Uploader_Code)
                     clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+                    clsCommon.AddColumnsForChange(coll, "MP_Bank", obj.MP_Bank)
+                    clsCommon.AddColumnsForChange(coll, "MP_Mobile_No", obj.MP_Mobile_No)
                     clsCommon.AddColumnsForChange(coll, "MP_IFSC_No", obj.MP_IFSC_No)
                     clsCommon.AddColumnsForChange(coll, "MP_Account_No", obj.MP_Account_No)
                     clsCommon.AddColumnsForChange(coll, "MP_Name", obj.MP_Name)
@@ -396,6 +410,8 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" & strDocNo & "'"
                     obj.Amount = clsCommon.myCdbl(dt.Rows(i)("Amount"))
                     obj.MP_IFSC_No = clsCommon.myCstr(dt.Rows(i)("MP_IFSC_No"))
                     obj.MP_Account_No = clsCommon.myCstr(dt.Rows(i)("MP_Account_No"))
+                    obj.MP_Bank = clsCommon.myCstr(dt.Rows(i)("MP_Bank"))
+                    obj.MP_Mobile_No = clsCommon.myCstr(dt.Rows(i)("MP_Mobile_No"))
                     obj.MP_Name = clsCommon.myCstr(dt.Rows(i)("MP_Name"))
                     obj.Transaction = clsCommon.myCstr(dt.Rows(i)("Transaction"))
                     arrObj.Add(obj)
@@ -427,6 +443,8 @@ Public Class clsDBTNEFTDetailInvalid
     Public Amount As Decimal = 0
     Public MP_IFSC_No As String = Nothing
     Public MP_Account_No As String = Nothing
+    Public MP_Bank As String = Nothing
+    Public MP_Mobile_No As String = Nothing
     Public MP_Name As String = Nothing
     Public Transaction As String = Nothing
 #End Region
@@ -444,6 +462,8 @@ Public Class clsDBTNEFTDetailInvalid
                     clsCommon.AddColumnsForChange(coll, "VLC_Uploader_Code", obj.VLC_Uploader_Code)
                     clsCommon.AddColumnsForChange(coll, "MP_Uploader_Code", obj.MP_Uploader_Code)
                     clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
+                    clsCommon.AddColumnsForChange(coll, "MP_Bank", obj.MP_Bank)
+                    clsCommon.AddColumnsForChange(coll, "MP_Mobile_No", obj.MP_Mobile_No)
                     clsCommon.AddColumnsForChange(coll, "MP_IFSC_No", obj.MP_IFSC_No)
                     clsCommon.AddColumnsForChange(coll, "MP_Account_No", obj.MP_Account_No)
                     clsCommon.AddColumnsForChange(coll, "MP_Name", obj.MP_Name)
@@ -483,6 +503,8 @@ where TSPL_DBT_NEFT_DETAIL_INVALID.Document_Code='" & strDocNo & "'"
                     obj.Amount = clsCommon.myCdbl(dt.Rows(i)("Amount"))
                     obj.MP_IFSC_No = clsCommon.myCstr(dt.Rows(i)("MP_IFSC_No"))
                     obj.MP_Account_No = clsCommon.myCstr(dt.Rows(i)("MP_Account_No"))
+                    obj.MP_Bank = clsCommon.myCstr(dt.Rows(i)("MP_Bank"))
+                    obj.MP_Mobile_No = clsCommon.myCstr(dt.Rows(i)("MP_Mobile_No"))
                     obj.MP_Name = clsCommon.myCstr(dt.Rows(i)("MP_Name"))
                     obj.Transaction = clsCommon.myCstr(dt.Rows(i)("Transaction"))
                     arrObj.Add(obj)
@@ -514,6 +536,8 @@ Public Class clsDBTNEFTPerforma
     Public Const colMPIFSCCode As String = "IFSC CODE"
     Public Const colMPAccountNo As String = "BENEFICERY ACCOUNT  NO."
     Public Const colMPName As String = "BENEFICERY NAME"
+    Public Const colMPBank As String = "Bank"
+    Public Const colMPMobileNo As String = "Mobile No"
 
 
     Public Shared Function GetDefault() As DataTable
@@ -564,6 +588,14 @@ Public Class clsDBTNEFTPerforma
 
             dr = dt.NewRow()
             dr("Code") = colMPName
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow()
+            dr("Code") = colMPBank
+            dt.Rows.Add(dr)
+
+            dr = dt.NewRow()
+            dr("Code") = colMPMobileNo
             dt.Rows.Add(dr)
 
 

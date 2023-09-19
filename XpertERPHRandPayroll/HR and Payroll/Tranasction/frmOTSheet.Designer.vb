@@ -26,6 +26,7 @@ Partial Class frmOTSheet
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmOTSheet))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.UsLock1 = New common.usLock()
         Me.lblPayPeriod = New common.Controls.MyLabel()
         Me.txtPayPeriod = New common.UserControls.txtFinder()
         Me.MyLabel5 = New common.Controls.MyLabel()
@@ -59,7 +60,9 @@ Partial Class frmOTSheet
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.UsLock1 = New common.usLock()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
+        Me.lblLocationName = New common.Controls.MyLabel()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.lblPayPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -86,12 +89,17 @@ Partial Class frmOTSheet
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.lblLocationName)
+        Me.RadGroupBox1.Controls.Add(Me.fndLocation)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel9)
         Me.RadGroupBox1.Controls.Add(Me.UsLock1)
         Me.RadGroupBox1.Controls.Add(Me.lblPayPeriod)
         Me.RadGroupBox1.Controls.Add(Me.txtPayPeriod)
@@ -117,20 +125,29 @@ Partial Class frmOTSheet
         Me.RadGroupBox1.Location = New System.Drawing.Point(4, 12)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(519, 189)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(618, 209)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = " "
+        '
+        'UsLock1
+        '
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(376, 25)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(98, 18)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 213
         '
         'lblPayPeriod
         '
         Me.lblPayPeriod.AutoSize = False
         Me.lblPayPeriod.BorderVisible = True
         Me.lblPayPeriod.FieldName = Nothing
-        Me.lblPayPeriod.Location = New System.Drawing.Point(317, 92)
+        Me.lblPayPeriod.Location = New System.Drawing.Point(317, 115)
         Me.lblPayPeriod.Name = "lblPayPeriod"
-        Me.lblPayPeriod.Size = New System.Drawing.Size(189, 18)
+        Me.lblPayPeriod.Size = New System.Drawing.Size(288, 18)
         Me.lblPayPeriod.TabIndex = 7
-        Me.lblPayPeriod.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtPayPeriod
         '
@@ -143,7 +160,7 @@ Partial Class frmOTSheet
         Me.txtPayPeriod.IsSourceFromTable = False
         Me.txtPayPeriod.IsSourceFromValueList = False
         Me.txtPayPeriod.IsUnique = False
-        Me.txtPayPeriod.Location = New System.Drawing.Point(132, 92)
+        Me.txtPayPeriod.Location = New System.Drawing.Point(132, 115)
         Me.txtPayPeriod.MendatroryField = True
         Me.txtPayPeriod.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPayPeriod.MyLinkLable1 = Me.MyLabel5
@@ -161,7 +178,7 @@ Partial Class frmOTSheet
         'MyLabel5
         '
         Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Location = New System.Drawing.Point(13, 92)
+        Me.MyLabel5.Location = New System.Drawing.Point(13, 115)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(88, 18)
         Me.MyLabel5.TabIndex = 34
@@ -178,7 +195,7 @@ Partial Class frmOTSheet
         Me.txtOtRate.IsSourceFromTable = False
         Me.txtOtRate.IsSourceFromValueList = False
         Me.txtOtRate.IsUnique = False
-        Me.txtOtRate.Location = New System.Drawing.Point(132, 115)
+        Me.txtOtRate.Location = New System.Drawing.Point(132, 138)
         Me.txtOtRate.MaxLength = 50
         Me.txtOtRate.MendatroryField = False
         Me.txtOtRate.MyLinkLable1 = Me.MyLabel4
@@ -195,7 +212,7 @@ Partial Class frmOTSheet
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Location = New System.Drawing.Point(13, 115)
+        Me.MyLabel4.Location = New System.Drawing.Point(13, 138)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(46, 18)
         Me.MyLabel4.TabIndex = 31
@@ -206,11 +223,10 @@ Partial Class frmOTSheet
         Me.lblEmpName.AutoSize = False
         Me.lblEmpName.BorderVisible = True
         Me.lblEmpName.FieldName = Nothing
-        Me.lblEmpName.Location = New System.Drawing.Point(317, 46)
+        Me.lblEmpName.Location = New System.Drawing.Point(317, 69)
         Me.lblEmpName.Name = "lblEmpName"
-        Me.lblEmpName.Size = New System.Drawing.Size(189, 18)
+        Me.lblEmpName.Size = New System.Drawing.Size(288, 18)
         Me.lblEmpName.TabIndex = 3
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtEmpCode
         '
@@ -223,7 +239,7 @@ Partial Class frmOTSheet
         Me.txtEmpCode.IsSourceFromTable = False
         Me.txtEmpCode.IsSourceFromValueList = False
         Me.txtEmpCode.IsUnique = False
-        Me.txtEmpCode.Location = New System.Drawing.Point(132, 46)
+        Me.txtEmpCode.Location = New System.Drawing.Point(132, 69)
         Me.txtEmpCode.MendatroryField = True
         Me.txtEmpCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtEmpCode.MyLinkLable1 = Me.MyLabel3
@@ -241,7 +257,7 @@ Partial Class frmOTSheet
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Location = New System.Drawing.Point(13, 46)
+        Me.MyLabel3.Location = New System.Drawing.Point(13, 69)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(84, 18)
         Me.MyLabel3.TabIndex = 27
@@ -252,11 +268,10 @@ Partial Class frmOTSheet
         Me.lblOtName.AutoSize = False
         Me.lblOtName.BorderVisible = True
         Me.lblOtName.FieldName = Nothing
-        Me.lblOtName.Location = New System.Drawing.Point(317, 69)
+        Me.lblOtName.Location = New System.Drawing.Point(317, 92)
         Me.lblOtName.Name = "lblOtName"
-        Me.lblOtName.Size = New System.Drawing.Size(189, 18)
+        Me.lblOtName.Size = New System.Drawing.Size(288, 18)
         Me.lblOtName.TabIndex = 5
-        Me.lblOtName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtOTCode
         '
@@ -269,7 +284,7 @@ Partial Class frmOTSheet
         Me.txtOTCode.IsSourceFromTable = False
         Me.txtOTCode.IsSourceFromValueList = False
         Me.txtOTCode.IsUnique = False
-        Me.txtOTCode.Location = New System.Drawing.Point(132, 69)
+        Me.txtOTCode.Location = New System.Drawing.Point(132, 92)
         Me.txtOTCode.MendatroryField = True
         Me.txtOTCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOTCode.MyLinkLable1 = Me.MyLabel1
@@ -287,7 +302,7 @@ Partial Class frmOTSheet
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Location = New System.Drawing.Point(13, 69)
+        Me.MyLabel1.Location = New System.Drawing.Point(13, 92)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(50, 18)
         Me.MyLabel1.TabIndex = 24
@@ -304,7 +319,7 @@ Partial Class frmOTSheet
         Me.txtOTAmount.IsSourceFromTable = False
         Me.txtOTAmount.IsSourceFromValueList = False
         Me.txtOTAmount.IsUnique = False
-        Me.txtOTAmount.Location = New System.Drawing.Point(132, 161)
+        Me.txtOTAmount.Location = New System.Drawing.Point(132, 184)
         Me.txtOTAmount.MaxLength = 50
         Me.txtOTAmount.MendatroryField = False
         Me.txtOTAmount.MyLinkLable1 = Me.RadLabel3
@@ -319,7 +334,7 @@ Partial Class frmOTSheet
         'RadLabel3
         '
         Me.RadLabel3.FieldName = Nothing
-        Me.RadLabel3.Location = New System.Drawing.Point(13, 161)
+        Me.RadLabel3.Location = New System.Drawing.Point(13, 184)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(92, 18)
         Me.RadLabel3.TabIndex = 20
@@ -362,7 +377,7 @@ Partial Class frmOTSheet
         Me.txtOTHours.IsSourceFromTable = False
         Me.txtOTHours.IsSourceFromValueList = False
         Me.txtOTHours.IsUnique = False
-        Me.txtOTHours.Location = New System.Drawing.Point(132, 138)
+        Me.txtOTHours.Location = New System.Drawing.Point(132, 161)
         Me.txtOTHours.MaxLength = 50
         Me.txtOTHours.MendatroryField = False
         Me.txtOTHours.MyLinkLable1 = Me.RadLabel2
@@ -377,7 +392,7 @@ Partial Class frmOTSheet
         'RadLabel2
         '
         Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Location = New System.Drawing.Point(13, 138)
+        Me.RadLabel2.Location = New System.Drawing.Point(13, 161)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(54, 18)
         Me.RadLabel2.TabIndex = 19
@@ -413,7 +428,7 @@ Partial Class frmOTSheet
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnClose.Location = New System.Drawing.Point(460, 6)
+        Me.btnClose.Location = New System.Drawing.Point(556, 6)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 18)
         Me.btnClose.TabIndex = 2
@@ -443,22 +458,16 @@ Partial Class frmOTSheet
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
         '
@@ -482,7 +491,7 @@ Partial Class frmOTSheet
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(529, 478)
+        Me.SplitContainer1.Size = New System.Drawing.Size(625, 478)
         Me.SplitContainer1.SplitterDistance = 447
         Me.SplitContainer1.TabIndex = 0
         '
@@ -491,36 +500,27 @@ Partial Class frmOTSheet
         Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
         Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu2.Name = "RadMenu2"
-        Me.RadMenu2.Size = New System.Drawing.Size(529, 20)
+        Me.RadMenu2.Size = New System.Drawing.Size(625, 20)
         Me.RadMenu2.TabIndex = 0
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
@@ -535,21 +535,57 @@ Partial Class frmOTSheet
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
         '
-        'UsLock1
+        'MyLabel9
         '
-        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(376, 25)
-        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(98, 18)
-        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
-        Me.UsLock1.TabIndex = 213
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(13, 47)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel9.TabIndex = 250
+        Me.MyLabel9.Text = "Location"
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(132, 46)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.MyLabel9
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(181, 19)
+        Me.fndLocation.TabIndex = 251
+        Me.fndLocation.Value = ""
+        '
+        'lblLocationName
+        '
+        Me.lblLocationName.AutoSize = False
+        Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
+        Me.lblLocationName.Location = New System.Drawing.Point(317, 46)
+        Me.lblLocationName.Name = "lblLocationName"
+        Me.lblLocationName.Size = New System.Drawing.Size(288, 19)
+        Me.lblLocationName.TabIndex = 252
         '
         'frmOTSheet
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(529, 478)
+        Me.ClientSize = New System.Drawing.Size(625, 478)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmOTSheet"
         '
@@ -585,6 +621,8 @@ Partial Class frmOTSheet
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -624,5 +662,8 @@ Partial Class frmOTSheet
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
     Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents fndLocation As common.UserControls.txtFinder
+    Friend WithEvents lblLocationName As common.Controls.MyLabel
 End Class
 

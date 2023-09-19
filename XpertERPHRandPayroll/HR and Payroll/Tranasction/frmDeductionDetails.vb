@@ -132,7 +132,6 @@ Public Class frmDeductionDetails
     End Sub
 
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
-
         Try
             funReset()
         Catch ex As Exception
@@ -147,10 +146,16 @@ Public Class frmDeductionDetails
         txtCode.Focus()
         'txtAdjustBy.Value = Nothing
         findPayperiod.Value = Nothing
-        txtBranch.Value = Nothing
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            txtBranch.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocationDesc.Text = clsLocation.GetName(txtBranch.Value, Nothing)
+        Else
+            txtBranch.Value = ""
+            lblLocationDesc.Text = ""
+        End If
+        findAllowancegiveby.Value = ""
         txtDescription.Text = ""
         lblDedByName.Text = ""
-        lblLocationDesc.Text = ""
         lblPayPeriodName.Text = ""
         dtpDeductionDate.Value = clsCommon.GETSERVERDATE
         btnsave.Text = "Save"
@@ -194,7 +199,6 @@ Public Class frmDeductionDetails
                 LoadGridColumns()
                 txtCode.Value = obj.DEDUCTION_CODE
                 findPayperiod.Value = obj.PAY_PERIOD_CODE
-
                 txtBranch.Value = clsCommon.myCstr(obj.LOCATION_CODE)
                 lblLocationDesc.Text = clsLocation.GetName(obj.LOCATION_CODE, Nothing)
                 txtDescription.Text = obj.DEDUCTION_REMARKS
@@ -228,6 +232,14 @@ Public Class frmDeductionDetails
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+            End If
+        End If
         Dim str As String = "select count(*) from TSPL_DEDUCTION where DEDUCTION_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
@@ -239,7 +251,7 @@ Public Class frmDeductionDetails
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim qry As String = " select DEDUCTION_CODE as Code, PAY_PERIOD_CODE,DEDUCTION_REMARKS from TSPL_DEDUCTION "
-            txtCode.Value = clsCommon.ShowSelectForm("TSPL_DEDUCTION", qry, "Code", "", txtCode.Value, "DEDUCTION_CODE", isButtonClicked)
+            txtCode.Value = clsCommon.ShowSelectForm("TSPL_DEDUCTION", qry, "Code", whrcls, txtCode.Value, "DEDUCTION_CODE", isButtonClicked)
             If txtCode.Value <> "" Then
                 LoadData(txtCode.Value, NavigatorType.Current)
             Else
@@ -345,7 +357,7 @@ Public Class frmDeductionDetails
         Return True
     End Function
     Sub OpenEmpList(ByVal isButtonClick As Boolean)
-        
+
         If clsCommon.myLen(txtBranch.Value) > 0 Then
             Dim qry As String = "select TSPL_EMPLOYEE_STATUS.EMP_CODE as [Code] ,Emp_Name,TSPL_EMPLOYEE_MASTER.Designation,TSPL_EMPLOYEE_MASTER.PF_NO as [PF No]  from TSPL_EMPLOYEE_STATUS left join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE =TSPL_EMPLOYEE_STATUS.EMP_CODE"
             Dim whrCls As String = "WORKING_STATUS='Working' and TSPL_EMPLOYEE_STATUS.Location_Code='" & txtBranch.Value & "'and 2=(case when  TSPL_EMPLOYEE_MASTER.RELIEVING_DATE is null then (case when  len( TSPL_EMPLOYEE_MASTER.Joining_date) <=0 then 3 else (case when convert(date,TSPL_EMPLOYEE_MASTER.Joining_date,103) <=convert(date,'" + dtpTo + "',103)  then 2 else 3 end) end) else (case when  (convert(date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103) >=convert(date,'" + dtpTo + "',103)  or convert(date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103) between convert(date,'" + dtpFrom + "',103)  and convert(date,'" + dtpTo + "',103)  ) then 2 else 3 end) end)"
@@ -432,8 +444,16 @@ Public Class frmDeductionDetails
     'End Sub
 
     Private Sub findAllowancegiveby__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findAllowancegiveby._MYValidating
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+            End If
+        End If
         Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name FROM TSPL_EMPLOYEE_MASTER "
-        findAllowancegiveby.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", findAllowancegiveby.Value, "", isButtonClicked)
+        findAllowancegiveby.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", whrcls, findAllowancegiveby.Value, "", isButtonClicked)
         Dim clsemp As clsEmployeeMaster
         clsemp = clsEmployeeMaster.FinderForEmployee(findAllowancegiveby.Value, Nothing)
         If Not clsemp Is Nothing Then
@@ -441,8 +461,6 @@ Public Class frmDeductionDetails
         Else
             lblDedByName.Text = ""
         End If
-
-
     End Sub
 
     Private Sub findPayperiod__MYValidating1(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findPayperiod._MYValidating
@@ -532,7 +550,7 @@ Public Class frmDeductionDetails
                     End If
                     gvDeduction.Rows(gvDeduction.Rows.Count - 1).Cells(colpayHeadCode).Value = strCode
 
-                   strCode = clsCommon.myCstr(grow.Cells("Pay Head Name").Value)
+                    strCode = clsCommon.myCstr(grow.Cells("Pay Head Name").Value)
                     If strCode.Length > 100 Then
                         Throw New Exception("Description can not be blank or incorrect.")
                     End If
@@ -593,8 +611,8 @@ Public Class frmDeductionDetails
             DTLoc = clsDBFuncationality.GetDataTable(LocWhrCls)
             If DTLoc IsNot Nothing AndAlso DTLoc.Rows.Count > 0 Then
 
-                Divqry = " SELECT DISTINCT ISNULL(TSPL_EMPLOYEE_MASTER.DEVISION_CODE,'') AS [Code],ISNULL(TSPL_DEVISION_MASTER.DEVISION_NAME,'') AS [Division Name] FROM TSPL_EMPLOYEE_MASTER " & _
-                      " LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_EMPLOYEE_MASTER.Location_Code " & _
+                Divqry = " SELECT DISTINCT ISNULL(TSPL_EMPLOYEE_MASTER.DEVISION_CODE,'') AS [Code],ISNULL(TSPL_DEVISION_MASTER.DEVISION_NAME,'') AS [Division Name] FROM TSPL_EMPLOYEE_MASTER " &
+                      " LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_EMPLOYEE_MASTER.Location_Code " &
                       " LEFT OUTER JOIN TSPL_DEVISION_MASTER ON TSPL_DEVISION_MASTER.DEVISION_CODE = TSPL_EMPLOYEE_MASTER.DEVISION_CODE "
 
                 DivWhrCls = Divqry + " Where  TSPL_LOCATION_MASTER.Location_Code ='" & LocCode & "' AND LEN( ISNULL(TSPL_EMPLOYEE_MASTER.DEVISION_CODE,'')) >0 "
@@ -688,7 +706,17 @@ Public Class frmDeductionDetails
     End Sub
 
     Private Sub txtBranch__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBranch._MYValidating
-        txtBranch.Value = clsLocation.getFinder("Location_Type='Physical'", Me.txtBranch.Value, isButtonClicked)
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " Location_Type='Physical' And LOCATION_CODE='" + LocCode + "'"
+            Else
+                whrcls = " Location_Type='Physical' "
+            End If
+        End If
+        txtBranch.Value = clsLocation.getFinder(whrcls, Me.txtBranch.Value, isButtonClicked)
         lblLocationDesc.Text = clsLocation.GetName(txtBranch.Value, Nothing)
     End Sub
     Sub FillEmployeeGrid()

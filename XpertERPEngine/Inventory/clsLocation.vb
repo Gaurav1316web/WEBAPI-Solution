@@ -124,7 +124,7 @@ Public Class clsLocation
     Public Jobwork_Item As String = String.Empty
     Public Short_Name As String = Nothing
     Public ArrMappingPlantDepot As List(Of clsLocationPlantDepotMapping) = Nothing
-
+    Public PAN_No As String = Nothing
     Public GSTNO As String = Nothing
     Public GSTEntity As String = Nothing
     Public GSTBlank As String = Nothing
@@ -447,6 +447,7 @@ Public Class clsLocation
             '============================================
             '========Added By Preeti Gupta [For GST]=============
             clsCommon.AddColumnsForChange(coll, "GSTNO", obj.GSTNO)
+            clsCommon.AddColumnsForChange(coll, "PAN_NO", obj.PAN_No)
             clsCommon.AddColumnsForChange(coll, "GSTEntity", obj.GSTEntity)
             clsCommon.AddColumnsForChange(coll, "GSTBlank", obj.GSTBlank)
             clsCommon.AddColumnsForChange(coll, "GSTDegit", obj.GSTDegit)
@@ -644,6 +645,7 @@ Public Class clsLocation
                 'obj.TAX9_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX9_Rate"))
                 'obj.TAX10_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX10_Rate"))
                 obj.GSTNO = clsCommon.myCstr(dt.Rows(0)("Loss_Ac"))
+                obj.PAN_No = clsCommon.myCstr(dt.Rows(0)("PAN_No"))
                 obj.GSTEntity = clsCommon.myCstr(dt.Rows(0)("GSTEntity"))
                 obj.GSTDegit = clsCommon.myCstr(dt.Rows(0)("GSTDegit"))
                 obj.GSTBlank = clsCommon.myCstr(dt.Rows(0)("GSTBlank"))

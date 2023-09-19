@@ -47,6 +47,7 @@ Public Class FrmDeductionMaster
         chkAdvanceInterest.Checked = False
         chkPasuVikashKos.Checked = False
         chkOwnBMCShortage.Checked = False
+        chkNegativeSRN.Checked = False
         chkOwnBMCExcess.Checked = False
         chkTIP.Checked = False
         chkVSP.Checked = False
@@ -158,6 +159,7 @@ Public Class FrmDeductionMaster
             obj.Is_Default_Local_Sale = chkLocalSale.Checked
             obj.Is_Default_Pashu_Vikash_Kos = chkPasuVikashKos.Checked
             obj.Is_Own_BMC_Shortage = chkOwnBMCShortage.Checked
+            obj.Is_Negative_SRN = chkNegativeSRN.Checked
             obj.Is_Own_BMC_Excess = chkOwnBMCExcess.Checked
             obj.Is_Default_Advance_Interest = chkAdvanceInterest.Checked
             obj.Is_Default_PRO_Data = chkPROData.Checked
@@ -223,6 +225,7 @@ Public Class FrmDeductionMaster
                 chkLocalSale.Checked = obj.Is_Default_Local_Sale
                 chkPasuVikashKos.Checked = obj.Is_Default_Pashu_Vikash_Kos
                 chkOwnBMCShortage.Checked = obj.Is_Own_BMC_Shortage
+                chkNegativeSRN.Checked = obj.Is_Negative_SRN
                 chkOwnBMCExcess.Checked = obj.Is_Own_BMC_Excess
                 chkAdvanceInterest.Checked = obj.Is_Default_Advance_Interest
                 chkTIP.Checked = obj.Is_Default_TIP

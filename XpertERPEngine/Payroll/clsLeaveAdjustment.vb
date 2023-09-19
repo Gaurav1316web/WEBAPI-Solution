@@ -15,6 +15,7 @@ Public Class clsLeaveAdjustment
     Public ADJUST_AVAILED As Double
     Public POSTED As Boolean
     Public Posting_Date As DateTime? = Nothing
+    Public Location_Code As String
 
 #End Region
 
@@ -43,7 +44,11 @@ Public Class clsLeaveAdjustment
     End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsLeaveAdjustment
         Dim obj As clsLeaveAdjustment = Nothing
-        Dim qry As String = "select * from TSPL_LEAVE_ADJUSTMENT where 2=2"
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " And Location_Code=" + objCommonVar.strCurrUserLocations + ""
+        End If
+        Dim qry As String = "select * from TSPL_LEAVE_ADJUSTMENT where 2=2" + whrcls
         Select Case NavType
             Case NavigatorType.First
                 qry += " and LVADJUSTMENT_CODE = (select MIN(LVADJUSTMENT_CODE) from TSPL_LEAVE_ADJUSTMENT)"
@@ -74,6 +79,11 @@ Public Class clsLeaveAdjustment
             Else
                 obj.Posting_Date = Nothing
             End If
+            If clsCommon.myLen(dt.Rows(0)("Location_Code")) > 0 Then
+                obj.Location_Code = clsCommon.myCDate(dt.Rows(0)("Location_Code"))
+            Else
+                obj.Location_Code = Nothing
+            End If
         End If
         Return obj
     End Function
@@ -92,6 +102,7 @@ Public Class clsLeaveAdjustment
             clsCommon.AddColumnsForChange(coll, "ADJUST_ALLOTED", obj.ADJUST_ALLOTED)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
             If isNewEntry Then
                 If strCode = "" Then
                     obj.LVADJUSTMENT_CODE = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(obj.ADJUSTMENT_DATE, "dd/MMM/yyyy"), clsDocType.LeaveAdjustment, "", "")

@@ -33,7 +33,7 @@ Public Class frmConveyanceClaim
                 obj.CLAIM_DISTANCE = clsCommon.myCdbl(txtDist.Text)
                 obj.CLAIM_AMOUNT = clsCommon.myCdbl(lblClaimAmount.Text)
                 obj.Pay_Period_Code = clsCommon.myCstr(txtPayPeriod.Value)
-
+                obj.Location_Code = fndLocation.Value
                 If (obj.SaveData(obj, isNewEntry)) Then
                     common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
                     LoadData(obj.Code, NavigatorType.Current)
@@ -66,10 +66,12 @@ Public Class frmConveyanceClaim
             lblConvRate.Text = obj.CONV_RATE
             lblClaimAmount.Text = obj.CLAIM_AMOUNT
             txtDist.Text = obj.CLAIM_DISTANCE
-
             txtPayPeriod.Value = clsCommon.myCstr(obj.Pay_Period_Code)
             lblPayPeriod.Text = clsCommon.myCstr(obj.PAY_PERIOD_NAME)
-
+            If clsCommon.myLen(obj.Location_Code) > 0 Then
+                fndLocation.Value = obj.Location_Code
+                lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+            End If
         End If
 
     End Sub
@@ -148,6 +150,13 @@ Public Class frmConveyanceClaim
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocation.Text = ""
+        End If
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -187,15 +196,20 @@ Public Class frmConveyanceClaim
         txtDist.Text = 0
         fndRateCode.Value = Nothing
         lblRateDesc.Text = ""
-
         btnSave.Text = "Save"
         btnSave.Enabled = True
         btnDelete.Enabled = True
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocation.Text = ""
+        End If
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         funClose()
-
     End Sub
 
     Sub funClose()
@@ -203,7 +217,16 @@ Public Class frmConveyanceClaim
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
-
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " TSPL_CONVEYANCE_CLAIM.Comp_Code='" & objCommonVar.CurrentCompanyCode & "' And TSPL_EMPLOYEE_MASTER.LOCATION_CODE='" + LocCode + "'"
+            Else
+                whrcls = " TSPL_CONVEYANCE_CLAIM.Comp_Code='" & objCommonVar.CurrentCompanyCode & "'"
+            End If
+        End If
         Dim str As String = "select count(*) from TSPL_CONVEYANCE_CLAIM where CLAIM_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
@@ -212,7 +235,7 @@ Public Class frmConveyanceClaim
             txtCode.MyReadOnly = True
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
-            txtCode.Value = clsConveyanceClaim.getFinder("Comp_Code='" & objCommonVar.CurrentCompanyCode & "'", txtCode.ValidateChildren, isButtonClicked) 'clsCommon.ShowSelectForm("OT_SHEET", qry, "Code", "", txtCode.Value, "CLAIM_CODE", isButtonClicked)
+            txtCode.Value = clsConveyanceClaim.getFinder(whrcls, txtCode.ValidateChildren, isButtonClicked) 'clsCommon.ShowSelectForm("OT_SHEET", qry, "Code", "", txtCode.Value, "CLAIM_CODE", isButtonClicked)
             If txtCode.Value <> "" Then
                 LoadData(txtCode.Value, NavigatorType.Current)
             Else
@@ -312,7 +335,15 @@ Public Class frmConveyanceClaim
     End Sub
 
     Private Sub txtEmpCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtEmpCode._MYValidating
-        txtEmpCode.Value = clsEmployeeMaster.getFinder("", Me.txtEmpCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_FINDER", Qry, "Code", "", txtCode.Value, "EMP_CODE", isButtonClicked)
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+            End If
+        End If
+        txtEmpCode.Value = clsEmployeeMaster.getFinder(whrcls, Me.txtEmpCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_FINDER", Qry, "Code", "", txtCode.Value, "EMP_CODE", isButtonClicked)
         lblEmpName.Text = clsEmployeeMaster.GetName(txtEmpCode.Value, Nothing)
         lblConvType.Text = clsDBFuncationality.getSingleValue("select Conv_Type from tspl_employee_master where emp_code='" & txtEmpCode.Value & "'")
     End Sub
@@ -335,5 +366,22 @@ Public Class frmConveyanceClaim
 
     Private Sub txtDist_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtDist.TextChanged
         lblClaimAmount.Text = clsCommon.myCdbl(lblConvRate.Text) * clsCommon.myCdbl(txtDist.Text)
+    End Sub
+
+    Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
+        Try
+            Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " TSPL_Location_MASTER.LOCATION_CODE='" + LocCode + "'"
+                End If
+            End If
+            fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex, Me.Text)
+        End Try
     End Sub
 End Class

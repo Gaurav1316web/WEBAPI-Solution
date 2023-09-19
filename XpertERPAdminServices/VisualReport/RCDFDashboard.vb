@@ -1235,13 +1235,14 @@ Public Class RCDFDashboard
                 Dim sQuery As String = "
                 select  TSPL_MRN_DETAIL.Location,count(*) as 'QC Pending' from TSPL_MRN_HEAD 
                 left join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL.MRN_No=TSPL_MRN_HEAD.MRN_No
+				left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
                 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code
                 where TSPL_MRN_DETAIL.MRN_No   not in (select TSPL_QC_CHECK_DETAIL.MRN_No from TSPL_QC_CHECK_DETAIL)  and TSPL_ITEM_MASTER.Is_AllowQC_ON_Purchase=1
                 "
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_MRN_DETAIL.Location='" + txtLocation.Value + "' "
                 End If
-                sQuery += " AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')  and convert(date,TSPL_MRN_HEAD.MRN_Date,103) >= convert(date, '01-apr-2023', 103) group by TSPL_MRN_DETAIL.Location"
+                sQuery += " AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')  and tspl_grn_head.IsSkipPurchaseQC=0 and convert(date,TSPL_MRN_HEAD.MRN_Date,103) >= convert(date, '01-apr-2023', 103) group by TSPL_MRN_DETAIL.Location"
 
                 dtQcPending = clsDBFuncationality.GetDataTable(sQuery)
             End If
@@ -1258,7 +1259,8 @@ from TSPL_MRN_HEAD
 				left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_MRN_HEAD.Against_GRN
                 left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_MRN_DETAIL.Item_Code
                 where TSPL_MRN_DETAIL.MRN_No   not in (select TSPL_QC_CHECK_DETAIL.MRN_No from TSPL_QC_CHECK_DETAIL)  and TSPL_ITEM_MASTER.Is_AllowQC_ON_Purchase=1               
-                AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM')  
+                AND TSPL_ITEM_MASTER.structure_Code IN ('RM','PM') 
+                AND tspl_grn_head.IsSkipPurchaseQC=0 
                 and convert(date,TSPL_MRN_HEAD.MRN_Date,103)>=  convert(date, '01-apr-2023', 103)"
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     sQuery += " And TSPL_MRN_DETAIL.Location='" + txtLocation.Value + "' "

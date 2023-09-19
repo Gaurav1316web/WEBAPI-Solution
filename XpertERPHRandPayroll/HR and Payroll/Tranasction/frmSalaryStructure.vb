@@ -139,7 +139,6 @@ Public Class frmSalaryStructure
     End Sub
 
     Private Sub frmSalaryStructure_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'CreateOrAlterTable()
         SetUserMgmtNew()
         isNewEntry = True
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update ")
@@ -148,31 +147,17 @@ Public Class frmSalaryStructure
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnnew, "Press Alt+N Adding New ")
         '  ButtonToolTip.SetToolTip(btnPrint, "Press Alt+R for Print Preview")
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            fndLocation.Value = objCommonVar.strCurrUserLocations
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
-            fndLocation.Value = "RCDF"
+            fndLocation.Value = ""
+            lblLocation.Text = ""
         End If
-        lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
     End Sub
-
-    Private Sub CreateOrAlterTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("SALARY_STRUCTURE_CODE", "Varchar(30) not null PRIMARY KEY")
-        coll.Add("SALARY_STRUCTURE_NAME", "Varchar(100) not null")
-        coll.Add("SAL_PRINT_NAME", "VARCHAR(30)  NULL")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(Location_Code)")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_SALARY_STRUCTURE", coll)
-    End Sub
-
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmSalaryStructure)
         If Not (MyBase.isReadFlag) Then
@@ -200,17 +185,17 @@ Public Class frmSalaryStructure
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = True
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            fndLocation.Value = objCommonVar.strCurrUserLocations
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
-            fndLocation.Value = "RCDF"
+            fndLocation.Value = ""
+            lblLocation.Text = ""
         End If
-        lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
         funClose()
-
     End Sub
 
     Sub funClose()
@@ -218,6 +203,15 @@ Public Class frmSalaryStructure
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+            End If
+        End If
+
         Dim str As String = "select count(*) from TSPL_SALARY_STRUCTURE where SALARY_STRUCTURE_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
@@ -228,8 +222,8 @@ Public Class frmSalaryStructure
             txtCode.MyReadOnly = True
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
-            Dim qry As String = " select SALARY_STRUCTURE_CODE as Code, SALARY_STRUCTURE_NAME as Name, SAL_PRINT_NAME as 'Print Name' from TSPL_SALARY_STRUCTURE "
-            txtCode.Value = clsCommon.ShowSelectForm("SALARY_STRUCTURE", qry, "Code", "", txtCode.Value, "SALARY_STRUCTURE_CODE", isButtonClicked)
+            Dim qry As String = " select SALARY_STRUCTURE_CODE as Code, SALARY_STRUCTURE_NAME as Name, SAL_PRINT_NAME as 'Print Name',Location_Code As 'Location Code' from TSPL_SALARY_STRUCTURE "
+            txtCode.Value = clsCommon.ShowSelectForm("SALARY_STRUCTURE", qry, "Code", whrcls, txtCode.Value, "SALARY_STRUCTURE_CODE", isButtonClicked)
             If txtCode.Value <> "" Then
                 LoadData(txtCode.Value, NavigatorType.Current)
             Else
@@ -318,8 +312,12 @@ Public Class frmSalaryStructure
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
         Try
             Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " LOCATION_CODE='" + LocCode + "'"
+                End If
             End If
             Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
             fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)

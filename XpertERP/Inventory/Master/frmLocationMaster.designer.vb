@@ -180,10 +180,12 @@ Partial Class frmLocationMaster
         Me.txtAdd2 = New common.Controls.MyTextBox()
         Me.txtAdd1 = New common.Controls.MyTextBox()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtPANNo = New common.Controls.MyTextBox()
+        Me.lblGSTNo = New common.Controls.MyLabel()
+        Me.MyLabel28 = New common.Controls.MyLabel()
         Me.GBGST = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkregistered = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtGSTDegit = New common.Controls.MyTextBox()
-        Me.lblGSTNo = New common.Controls.MyLabel()
         Me.txtGSTBlank = New common.Controls.MyTextBox()
         Me.txtGSTEntityNo = New common.Controls.MyTextBox()
         Me.txtGSTPANNO = New common.Controls.MyTextBox()
@@ -420,11 +422,13 @@ Partial Class frmLocationMaster
         CType(Me.txtAdd2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAdd1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.txtPANNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblGSTNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GBGST, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GBGST.SuspendLayout()
         CType(Me.chkregistered, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGSTDegit, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblGSTNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGSTBlank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGSTEntityNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGSTPANNO, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -766,7 +770,7 @@ Partial Class frmLocationMaster
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(10, 5)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.Details
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(884, 590)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2538,6 +2542,8 @@ Partial Class frmLocationMaster
         '
         'RadPageViewPage2
         '
+        Me.RadPageViewPage2.Controls.Add(Me.txtPANNo)
+        Me.RadPageViewPage2.Controls.Add(Me.MyLabel28)
         Me.RadPageViewPage2.Controls.Add(Me.GBGST)
         Me.RadPageViewPage2.Controls.Add(Me.fndLossAc)
         Me.RadPageViewPage2.Controls.Add(Me.fndStkTrnsfrAc)
@@ -2553,8 +2559,52 @@ Partial Class frmLocationMaster
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(83.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(787, 542)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(863, 542)
         Me.RadPageViewPage2.Text = "Excise Details"
+        '
+        'txtPANNo
+        '
+        Me.txtPANNo.CalculationExpression = Nothing
+        Me.txtPANNo.FieldCode = Nothing
+        Me.txtPANNo.FieldDesc = Nothing
+        Me.txtPANNo.FieldMaxLength = 0
+        Me.txtPANNo.FieldName = Nothing
+        Me.txtPANNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPANNo.isCalculatedField = False
+        Me.txtPANNo.IsSourceFromTable = False
+        Me.txtPANNo.IsSourceFromValueList = False
+        Me.txtPANNo.IsUnique = False
+        Me.txtPANNo.Location = New System.Drawing.Point(151, 399)
+        Me.txtPANNo.MaxLength = 50
+        Me.txtPANNo.MendatroryField = False
+        Me.txtPANNo.MyLinkLable1 = Me.lblGSTNo
+        Me.txtPANNo.MyLinkLable2 = Nothing
+        Me.txtPANNo.Name = "txtPANNo"
+        Me.txtPANNo.ReferenceFieldDesc = Nothing
+        Me.txtPANNo.ReferenceFieldName = Nothing
+        Me.txtPANNo.ReferenceTableName = Nothing
+        Me.txtPANNo.Size = New System.Drawing.Size(143, 18)
+        Me.txtPANNo.TabIndex = 1384
+        '
+        'lblGSTNo
+        '
+        Me.lblGSTNo.FieldName = Nothing
+        Me.lblGSTNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGSTNo.Location = New System.Drawing.Point(5, 19)
+        Me.lblGSTNo.Name = "lblGSTNo"
+        Me.lblGSTNo.Size = New System.Drawing.Size(58, 16)
+        Me.lblGSTNo.TabIndex = 61
+        Me.lblGSTNo.Text = "GSTIN No"
+        '
+        'MyLabel28
+        '
+        Me.MyLabel28.FieldName = Nothing
+        Me.MyLabel28.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel28.Location = New System.Drawing.Point(20, 399)
+        Me.MyLabel28.Name = "MyLabel28"
+        Me.MyLabel28.Size = New System.Drawing.Size(50, 16)
+        Me.MyLabel28.TabIndex = 1383
+        Me.MyLabel28.Text = "PAN No."
         '
         'GBGST
         '
@@ -2568,7 +2618,7 @@ Partial Class frmLocationMaster
         Me.GBGST.Controls.Add(Me.txtGstState)
         Me.GBGST.Controls.Add(Me.lblGSTNo)
         Me.GBGST.HeaderText = "GSTIN No "
-        Me.GBGST.Location = New System.Drawing.Point(7, 414)
+        Me.GBGST.Location = New System.Drawing.Point(7, 422)
         Me.GBGST.Name = "GBGST"
         Me.GBGST.Size = New System.Drawing.Size(659, 43)
         Me.GBGST.TabIndex = 1382
@@ -2607,16 +2657,6 @@ Partial Class frmLocationMaster
         Me.txtGSTDegit.ReferenceTableName = Nothing
         Me.txtGSTDegit.Size = New System.Drawing.Size(35, 18)
         Me.txtGSTDegit.TabIndex = 66
-        '
-        'lblGSTNo
-        '
-        Me.lblGSTNo.FieldName = Nothing
-        Me.lblGSTNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGSTNo.Location = New System.Drawing.Point(5, 19)
-        Me.lblGSTNo.Name = "lblGSTNo"
-        Me.lblGSTNo.Size = New System.Drawing.Size(58, 16)
-        Me.lblGSTNo.TabIndex = 61
-        Me.lblGSTNo.Text = "GSTIN No"
         '
         'txtGSTBlank
         '
@@ -4322,9 +4362,9 @@ Partial Class frmLocationMaster
         Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox5.Controls.Add(Me.txtACType)
         Me.RadGroupBox5.Controls.Add(Me.txtBranch)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel26)
         Me.RadGroupBox5.Controls.Add(Me.txtBank)
         Me.RadGroupBox5.Controls.Add(Me.MyLabel27)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel26)
         Me.RadGroupBox5.Controls.Add(Me.MyLabel25)
         Me.RadGroupBox5.Controls.Add(Me.MyLabel22)
         Me.RadGroupBox5.Controls.Add(Me.txtBankUPI_Id)
@@ -4819,12 +4859,14 @@ Partial Class frmLocationMaster
         CType(Me.txtAdd1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage2.PerformLayout()
+        CType(Me.txtPANNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblGSTNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GBGST, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GBGST.ResumeLayout(False)
         Me.GBGST.PerformLayout()
         CType(Me.chkregistered, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGSTDegit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblGSTNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGSTBlank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGSTEntityNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGSTPANNO, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5249,5 +5291,7 @@ Partial Class frmLocationMaster
     Friend WithEvents txtBranch As common.Controls.MyTextBox
     Friend WithEvents lblNoOfShift As common.Controls.MyLabel
     Friend WithEvents cmbNoOfShift As common.Controls.MyComboBox
+    Friend WithEvents MyLabel28 As common.Controls.MyLabel
+    Friend WithEvents txtPANNo As common.Controls.MyTextBox
 End Class
 

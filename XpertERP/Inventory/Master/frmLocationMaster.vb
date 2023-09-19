@@ -322,14 +322,14 @@ Public Class frmLocationMaster
 
         If intShowOptionofDispatchFromDOGP = 1 Then
             If clsCommon.CompairString(strDispatchRef, "D") = CompairStringResult.Equal AndAlso rbtnDispatchfromDO.IsChecked = False Then
-                Dim strCode = clsDBFuncationality.getSingleValue("select  top 1 TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE from TSPL_SD_SHIPMENT_HEAD left outer join  TSPL_SD_SHIPMENT_DETAIL on " & _
+                Dim strCode = clsDBFuncationality.getSingleValue("select  top 1 TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE from TSPL_SD_SHIPMENT_HEAD left outer join  TSPL_SD_SHIPMENT_DETAIL on " &
                  "TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  where Delivery_Code <> '' and Bill_To_Location='" & fndLocation.Value & "' ")
                 If clsCommon.myLen(strCode) > 0 Then
                     clsCommon.MyMessageBoxShow("Dispatch From DO, Cannot change this setting. Location is already in use", Me.Text)
                     Return False
                 End If
             ElseIf clsCommon.CompairString(strDispatchRef, "G") = CompairStringResult.Equal AndAlso rbtnDispatchFromGAtepass.IsChecked = False Then
-                Dim strCode = clsDBFuncationality.getSingleValue("select top 1 TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE from TSPL_SD_SHIPMENT_HEAD left outer join  TSPL_SD_SHIPMENT_DETAIL on " & _
+                Dim strCode = clsDBFuncationality.getSingleValue("select top 1 TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE from TSPL_SD_SHIPMENT_HEAD left outer join  TSPL_SD_SHIPMENT_DETAIL on " &
                  "TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.GatePass_No  <> '' and Bill_To_Location='" & fndLocation.Value & "'")
                 If clsCommon.myLen(strCode) > 0 Then
                     clsCommon.MyMessageBoxShow("Dispatch From Gatepass, Cannot change setting. Location is already in use", Me.Text)
@@ -406,6 +406,8 @@ Public Class frmLocationMaster
             txtEmail.Focus()
             Return False
         End If
+
+
 
         If chkthirdparty.Checked AndAlso clsCommon.myLen(txtvndrcode.Value) <= 0 Then
             RadPageView1.SelectedPage = Details
@@ -708,7 +710,7 @@ Public Class frmLocationMaster
             obj.Location_Desc = clsCommon.myCstr(txtLocationDesc.Text)
 
             obj.Short_Name = clsCommon.myCstr(txtLocShortName.Text)
-
+            obj.PAN_No = clsCommon.myCstr(txtPANNo.Text)
             obj.Add1 = clsCommon.myCstr(txtAdd1.Text)
             obj.Add2 = clsCommon.myCstr(txtAdd2.Text)
             obj.Add3 = clsCommon.myCstr(txtAdd3.Text)
@@ -1065,6 +1067,7 @@ Public Class frmLocationMaster
             chkconsumption.Checked = False
             Dim strexcisable As Char
             Dim strDuty As Char
+            Dim obj As clsLocation = New clsLocation()
             Dim arrplantdepot As New DataTable
             Dim arrlist As New ArrayList
             'Dim obj As clsLocation = New clsLocation()
@@ -1075,7 +1078,7 @@ Public Class frmLocationMaster
             TxtMultiLocation.arrValueMember = arrlist
             TxtMultiLocation.arrDispalyMember = arrlist
 
-            dr = clsDBFuncationality.GetDataTable("select  Location_Desc,TSPL_LOCATION_MASTER.Add1 ,TSPL_LOCATION_MASTER.Add2,Add3,Add4,TSPL_LOCATION_MASTER.City_Code as City_Name,State,TSPL_MCC_MAster.Pin_code ,Country ,TSPL_LOCATION_MASTER.telphone,TSPL_LOCATION_MASTER.Email ,Location_Type ,Loc_Status ,Status_date,Excisable ,Loc_Segment_Code ,Type ,Purchase_Tax_Group ,Sales_Tax_Group ,Ecc_Number ,Registration_Number ,Commissionerate ,Range_Code ,Range_Name ,Range_Address ,Division_Code ,Division_Name ,Division_Address ,TIN_No ,TAN_No ,TCAN_No ,Service_Tax_Reg_No,DutyPaid, Purchase_Tax_GroupIS, Sales_Tax_GroupIS, Stock_Transfer_Filled_Ac, Stock_Transfer_Empty_Ac,GIT_Type,GIT_location, CST_No, Phone1, Phone2,vendor_code,Location_Category,Rejected_Type,Rejected_Location,CSA_Type,Cust_Code,Category_Struct_Code,Is_Section,Is_Sub_Location,Section_Code,Main_Location_Code,CSA_Commision_Rate,CSA_Commision_Type,Commision_Acc,stock_transfer_ac,Loss_ac,CSA_Commission_RS_PERS,Is_Consumption_Location,HoAdd1,HoAdd2,NearestCity,ESIC_NO,PF_NO,is_Jobwork,Jobwork_Vendor,Jobwork_Item,DairyDispatchFromDO,tspl_location_master.Loc_Short_Name,tspl_location_master.GSTNO,tspl_location_master.GSTEntity,tspl_location_master.GSTBlank,tspl_location_master.GSTDegit,tspl_location_master.Registered,isnull(UseInJobWork,0) as UseInJobWork,isnull(TSPL_LOCATION_MASTER.Silo_Capacity,0) as Silo_Capacity,isnull(TSPL_LOCATION_MASTER.Is_Insurance,0) as Is_Insurance,isnull(TSPL_LOCATION_MASTER.InsuranceNo,'') as InsuranceNo,TSPL_LOCATION_MASTER.InsuranceFromDate,TSPL_LOCATION_MASTER.InsuranceToDate,IsParlour,IsSubLocationWise,TSPL_LOCATION_MASTER.accountholdername, TSPL_LOCATION_MASTER.bankaccno, TSPL_LOCATION_MASTER.bankifsccode,TSPL_LOCATION_MASTER.BankUPI_ID,isnull(TSPL_LOCATION_MASTER.IsMainPlant,0) as IsMainPlant,TSPL_LOCATION_MASTER.MP_Collection_Running_Date,TSPL_LOCATION_MASTER.Uploader_No,TSPL_LOCATION_MASTER.Bank,TSPL_LOCATION_MASTER.Branch,TSPL_LOCATION_MASTER.ACType,No_Of_Shift from TSPL_LOCATION_MASTER left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code where TSPL_LOCATION_MASTER.Location_Code='" + fndLocation.Value + "'")
+            dr = clsDBFuncationality.GetDataTable("select  Location_Desc,TSPL_LOCATION_MASTER.Add1 ,TSPL_LOCATION_MASTER.Add2,Add3,Add4,TSPL_LOCATION_MASTER.City_Code as City_Name,State,TSPL_MCC_MAster.Pin_code ,Country ,TSPL_LOCATION_MASTER.telphone,TSPL_LOCATION_MASTER.Email ,Location_Type ,Loc_Status ,Status_date,Excisable ,Loc_Segment_Code ,Type ,Purchase_Tax_Group ,Sales_Tax_Group ,Ecc_Number ,Registration_Number ,Commissionerate ,Range_Code ,Range_Name ,Range_Address ,Division_Code ,Division_Name ,Division_Address ,TIN_No ,TAN_No ,TCAN_No ,Service_Tax_Reg_No,DutyPaid, Purchase_Tax_GroupIS, Sales_Tax_GroupIS, Stock_Transfer_Filled_Ac, Stock_Transfer_Empty_Ac,GIT_Type,GIT_location, CST_No, Phone1, Phone2,vendor_code,Location_Category,Rejected_Type,Rejected_Location,CSA_Type,Cust_Code,Category_Struct_Code,Is_Section,Is_Sub_Location,Section_Code,Main_Location_Code,CSA_Commision_Rate,CSA_Commision_Type,Commision_Acc,stock_transfer_ac,Loss_ac,CSA_Commission_RS_PERS,Is_Consumption_Location,HoAdd1,HoAdd2,NearestCity,ESIC_NO,PF_NO,is_Jobwork,Jobwork_Vendor,Jobwork_Item,DairyDispatchFromDO,tspl_location_master.Loc_Short_Name,tspl_location_master.GSTNO,tspl_location_master.GSTEntity,tspl_location_master.GSTBlank,tspl_location_master.GSTDegit,tspl_location_master.Registered,isnull(UseInJobWork,0) as UseInJobWork,isnull(TSPL_LOCATION_MASTER.Silo_Capacity,0) as Silo_Capacity,isnull(TSPL_LOCATION_MASTER.Is_Insurance,0) as Is_Insurance,isnull(TSPL_LOCATION_MASTER.InsuranceNo,'') as InsuranceNo,TSPL_LOCATION_MASTER.InsuranceFromDate,TSPL_LOCATION_MASTER.InsuranceToDate,IsParlour,IsSubLocationWise,TSPL_LOCATION_MASTER.accountholdername, TSPL_LOCATION_MASTER.bankaccno, TSPL_LOCATION_MASTER.bankifsccode,TSPL_LOCATION_MASTER.BankUPI_ID,isnull(TSPL_LOCATION_MASTER.IsMainPlant,0) as IsMainPlant,TSPL_LOCATION_MASTER.MP_Collection_Running_Date,TSPL_LOCATION_MASTER.Uploader_No,TSPL_LOCATION_MASTER.Bank,TSPL_LOCATION_MASTER.Branch,TSPL_LOCATION_MASTER.ACType,No_Of_Shift,TSPL_LOCATION_MASTER.PAN_NO  from TSPL_LOCATION_MASTER left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code where TSPL_LOCATION_MASTER.Location_Code='" + fndLocation.Value + "'")
             'obj=clsLocation.GetData()
             For Each row As DataRow In dr.Rows
                 isInsideLoadData = True
@@ -1086,9 +1089,15 @@ Public Class frmLocationMaster
                 If clsCommon.myLen(GSTState) > 0 Then
                     txtGstState.Text = GSTState
                 End If
-                Dim CompanyPan As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select tspl_company_master.Pan_No from tspl_company_master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "'"))
-                txtGSTPANNO.Text = CompanyPan
-
+                txtPANNo.Text = clsCommon.myCstr(row("PAN_NO"))
+                If clsCommon.myLen(txtPANNo.Text) <= 0 Then
+                    Dim CompanyPan As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select tspl_company_master.Pan_No from tspl_company_master where Comp_Code='" + objCommonVar.CurrentCompanyCode + "'"))
+                    txtGSTPANNO.Text = CompanyPan
+                Else
+                    If clsCommon.myLen(txtPANNo.Text) > 0 Then
+                        txtGSTPANNO.Text = txtPANNo.Text
+                    End If
+                End If
                 txtGSTEntityNo.Text = clsCommon.myCstr(row("GSTEntity"))
                 If clsCommon.myLen(txtGSTEntityNo.Text) > 0 Then
                     txtGSTBlank.Text = clsCommon.myCstr(row("GSTBlank"))
@@ -1556,6 +1565,7 @@ Public Class frmLocationMaster
         fndStkTrnsfrFilledAc.Value = ""
         fndStkTrnsfrEmptyAc.Value = ""
         fndGITLocation.Value = ""
+        txtPANNo.Text = ""
         txtCSTNo.Text = ""
         txtPhone1.Text = "(+__)__________"
         txtPhone2.Text = "(+__)__________"
@@ -1896,6 +1906,7 @@ Public Class frmLocationMaster
             txtstateprovince.Text = ""
             txtGSTDegit.Text = ""
             txtGSTPANNO.Text = ""
+
         End If
 
     End Sub
@@ -2504,8 +2515,8 @@ Public Class frmLocationMaster
         qry += " from TSPL_TAX_GROUP_MASTER where 2=2 and Tax_Group_Type='" + TaxType + "'"
 
 
-        qry += "   and not exists(" & _
-        " select 1 from TSPL_TAX_GROUP_DETAILS left join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code =TSPL_TAX_GROUP_DETAILS.Tax_Code " & _
+        qry += "   and not exists(" &
+        " select 1 from TSPL_TAX_GROUP_DETAILS left join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code =TSPL_TAX_GROUP_DETAILS.Tax_Code " &
         " where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type=TSPL_TAX_GROUP_MASTER.Tax_Group_Type and TSPL_TAX_MASTER.Type in (" & StateOrInterstate & ")  ) "
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -2545,11 +2556,11 @@ Public Class frmLocationMaster
 
     Sub LoadTaxGrpDetail(ByVal gvDetail As RadGridView, ByVal strGrpCode As String, ByVal e As Telerik.WinControls.UI.ValueChangingEventArgs, ByVal strTaxType As String)
         If e.NewValue Then
-            Dim qry As String = "select  TSPL_TAX_GROUP_DETAILS.Tax_Group_Code,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,TSPL_TAX_RATES.Tax_Code,TSPL_TAX_MASTER.Tax_Code_Desc,TSPL_TAX_RATES.Tax_Rate" & _
-            " from TSPL_TAX_RATES " & _
-            " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_RATES.Tax_Code   " & _
-            " left outer join TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_RATES.Tax_Code " & _
-            " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code " & _
+            Dim qry As String = "select  TSPL_TAX_GROUP_DETAILS.Tax_Group_Code,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,TSPL_TAX_RATES.Tax_Code,TSPL_TAX_MASTER.Tax_Code_Desc,TSPL_TAX_RATES.Tax_Rate" &
+            " from TSPL_TAX_RATES " &
+            " left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_RATES.Tax_Code   " &
+            " left outer join TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_RATES.Tax_Code " &
+            " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code " &
             " where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + strGrpCode + "' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='" + strTaxType + "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' and TSPL_TAX_RATES.Tax_Type='" + strTaxType + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -2773,8 +2784,8 @@ Public Class frmLocationMaster
         gvSaleItemDetailsLocal.DataSource = Nothing
 
         ' Dim qry As String = "SELECT cast(0 as bit) as Sel,Item_Code As [Item Code],Item_Desc as Description FROM TSPL_ITEM_MASTER where Is_FreshItem=0 and Active =1 and Product_Type not in ('MI') and Item_Type in ('F','T') and Is_Serial_Item=0 "
-        Dim qry As String = "Select Final.* from (sELECT cast(1 as bit) as Sel,TSPL_LOCATION_WISE_ITEM_MASTER.Item_Code As [Item Code],TSPL_LOCATION_WISE_ITEM_MASTER.Item_Desc as Description FROM TSPL_LOCATION_WISE_ITEM_MASTER where isnull(TSPL_LOCATION_WISE_ITEM_MASTER.Item_Category,'')='L' and TSPL_LOCATION_WISE_ITEM_MASTER.Location_Code='" & clsCommon.myCstr(fndLocation.Value) & "'" & _
-       " union all " & _
+        Dim qry As String = "Select Final.* from (sELECT cast(1 as bit) as Sel,TSPL_LOCATION_WISE_ITEM_MASTER.Item_Code As [Item Code],TSPL_LOCATION_WISE_ITEM_MASTER.Item_Desc as Description FROM TSPL_LOCATION_WISE_ITEM_MASTER where isnull(TSPL_LOCATION_WISE_ITEM_MASTER.Item_Category,'')='L' and TSPL_LOCATION_WISE_ITEM_MASTER.Location_Code='" & clsCommon.myCstr(fndLocation.Value) & "'" &
+       " union all " &
        " SELECT cast(0 as bit) as Sel,TSPL_ITEM_MASTER.Item_Code As [Item Code],TSPL_ITEM_MASTER.Item_Desc as Description FROM TSPL_ITEM_MASTER where Is_FreshItem=0 and Product_Type not in ('MI') and Item_Type in ('F','T') and Is_Serial_Item=0 and Active =1 and TSPL_ITEM_MASTER.Item_Code not in (sELECT TSPL_LOCATION_WISE_ITEM_MASTER.Item_Code FROM TSPL_LOCATION_WISE_ITEM_MASTER where isnull(TSPL_LOCATION_WISE_ITEM_MASTER.Item_Category,'')='L' and TSPL_LOCATION_WISE_ITEM_MASTER.Location_Code='" & clsCommon.myCstr(fndLocation.Value) & "')) Final ORDER BY fINAL.[Item Code] "
 
         gvSaleItemDetailsLocal.DataSource = clsDBFuncationality.GetDataTable(qry)
@@ -2805,8 +2816,8 @@ Public Class frmLocationMaster
         gvSaleItemDetailsInterState.DataSource = Nothing
 
         'Dim qry As String = "SELECT cast(0 as bit) as Sel,Item_Code As [Item Code],Item_Desc as Description FROM TSPL_ITEM_MASTER where Is_FreshItem=0 and Active =1 and Product_Type not in ('MI') and Item_Type in ('F','T') and Is_Serial_Item=0 "
-        Dim qry As String = "Select Final.* from (sELECT cast(1 as bit) as Sel,TSPL_LOCATION_WISE_ITEM_MASTER.Item_Code As [Item Code],TSPL_LOCATION_WISE_ITEM_MASTER.Item_Desc as Description FROM TSPL_LOCATION_WISE_ITEM_MASTER where isnull(TSPL_LOCATION_WISE_ITEM_MASTER.Item_Category,'')='I' and TSPL_LOCATION_WISE_ITEM_MASTER.Location_Code='" & clsCommon.myCstr(fndLocation.Value) & "'" & _
-        " union all " & _
+        Dim qry As String = "Select Final.* from (sELECT cast(1 as bit) as Sel,TSPL_LOCATION_WISE_ITEM_MASTER.Item_Code As [Item Code],TSPL_LOCATION_WISE_ITEM_MASTER.Item_Desc as Description FROM TSPL_LOCATION_WISE_ITEM_MASTER where isnull(TSPL_LOCATION_WISE_ITEM_MASTER.Item_Category,'')='I' and TSPL_LOCATION_WISE_ITEM_MASTER.Location_Code='" & clsCommon.myCstr(fndLocation.Value) & "'" &
+        " union all " &
         " SELECT cast(0 as bit) as Sel,TSPL_ITEM_MASTER.Item_Code As [Item Code],TSPL_ITEM_MASTER.Item_Desc as Description FROM TSPL_ITEM_MASTER where Is_FreshItem=0 and Product_Type not in ('MI') and Item_Type in ('F','T') and Is_Serial_Item=0 and Active =1 and TSPL_ITEM_MASTER.Item_Code not in (sELECT TSPL_LOCATION_WISE_ITEM_MASTER.Item_Code FROM TSPL_LOCATION_WISE_ITEM_MASTER where isnull(TSPL_LOCATION_WISE_ITEM_MASTER.Item_Category,'')='I' and TSPL_LOCATION_WISE_ITEM_MASTER.Location_Code='" & clsCommon.myCstr(fndLocation.Value) & "')) Final ORDER BY fINAL.[Item Code] "
         gvSaleItemDetailsInterState.DataSource = clsDBFuncationality.GetDataTable(qry)
 
@@ -3470,13 +3481,13 @@ Public Class frmLocationMaster
                         If intShowOptionofDispatchFromDOGP = 1 Then
                             Dim strDispatchRef As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select DairyDispatchFromDO from TSPL_LOCATION_MASTER where Location_Code='" & strLocation & "'", trans))
                             If strDispatchRef = 1 AndAlso DairyDispatchFromDO = 0 Then
-                                Dim strCode = clsDBFuncationality.getSingleValue("select  top 1 TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE from TSPL_SD_SHIPMENT_HEAD left outer join  TSPL_SD_SHIPMENT_DETAIL on " & _
+                                Dim strCode = clsDBFuncationality.getSingleValue("select  top 1 TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE from TSPL_SD_SHIPMENT_HEAD left outer join  TSPL_SD_SHIPMENT_DETAIL on " &
                                  "TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  where Delivery_Code <> '' and Bill_To_Location='" & strLocation & "' ", trans)
                                 If clsCommon.myLen(strCode) > 0 Then
                                     Throw New Exception("Dispatch From DO, Cannot change this setting. Location is already in use")
                                 End If
                             ElseIf strDispatchRef = 0 AndAlso DairyDispatchFromDO = 1 Then
-                                Dim strCode = clsDBFuncationality.getSingleValue("select top 1 TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE from TSPL_SD_SHIPMENT_HEAD left outer join  TSPL_SD_SHIPMENT_DETAIL on " & _
+                                Dim strCode = clsDBFuncationality.getSingleValue("select top 1 TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE from TSPL_SD_SHIPMENT_HEAD left outer join  TSPL_SD_SHIPMENT_DETAIL on " &
                                  "TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where GatePass_No <> '' and Bill_To_Location='" & strLocation & "'", trans)
                                 If clsCommon.myLen(strCode) > 0 Then
                                     Throw New Exception("Dispatch From Gatepass, Cannot change setting. Location is already in use")
@@ -3746,14 +3757,14 @@ Public Class frmLocationMaster
         transportSql.ExporttoExcel(qry, Me)
     End Sub
     Sub checkLocalorInterstate(ByVal TaxGroup As String, ByVal Tax_Group_Type As String)
-        Dim qry As String = "select TSPL_TAX_GROUP_MASTER.Tax_Group_Code ,TSPL_TAX_GROUP_DETAILS.Tax_Code,TSPL_TAX_MASTER.Type ,case when TSPL_TAX_MASTER.Type ='Y' then 'IGST' " & _
-                            " else case when TSPL_TAX_MASTER.Type='X' then 'SGST'" & _
-                             " else case when TSPL_TAX_MASTER.Type='Z' then 'CGST'" & _
-                             " else case when TSPL_TAX_MASTER.Type='B' then 'UGST'" & _
-                             " end end end end  as typeName  from TSPL_TAX_GROUP_MASTER" & _
-                             " left join  TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_DETAILS.Tax_Group_Code =TSPL_TAX_GROUP_MASTER.Tax_Group_Code " & _
-                             " left join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code =TSPL_TAX_GROUP_DETAILS.Tax_Code " & _
-                            " where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + TaxGroup + "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type ='" + Tax_Group_Type + "' and TSPL_TAX_MASTER.GSTActive =1 " & _
+        Dim qry As String = "select TSPL_TAX_GROUP_MASTER.Tax_Group_Code ,TSPL_TAX_GROUP_DETAILS.Tax_Code,TSPL_TAX_MASTER.Type ,case when TSPL_TAX_MASTER.Type ='Y' then 'IGST' " &
+                            " else case when TSPL_TAX_MASTER.Type='X' then 'SGST'" &
+                             " else case when TSPL_TAX_MASTER.Type='Z' then 'CGST'" &
+                             " else case when TSPL_TAX_MASTER.Type='B' then 'UGST'" &
+                             " end end end end  as typeName  from TSPL_TAX_GROUP_MASTER" &
+                             " left join  TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_DETAILS.Tax_Group_Code =TSPL_TAX_GROUP_MASTER.Tax_Group_Code " &
+                             " left join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code =TSPL_TAX_GROUP_DETAILS.Tax_Code " &
+                            " where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + TaxGroup + "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type ='" + Tax_Group_Type + "' and TSPL_TAX_MASTER.GSTActive =1 " &
                             " and  TSPL_TAX_GROUP_DETAILS.Tax_Group_Type  ='" + Tax_Group_Type + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
@@ -3802,9 +3813,23 @@ Public Class frmLocationMaster
         End Try
 
     End Sub
-
-
-
+    Private Sub txtPANNo_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtPANNo.Validating
+        If clsCommon.myLen(txtPANNo.Text) > 0 Then
+            If clsCommon.myLen(txtPANNo.Text) < 10 Then
+                clsCommon.MyMessageBoxShow("PAN number should have max. 10 length.", Me.Text)
+                txtPANNo.Focus()
+                txtPANNo.Select()
+                Return
+            End If
+            Dim panNumber As String = txtPANNo.Text ' Assuming txtPANNo.Text contains the PAN number.
+            Dim checkPan As New System.Text.RegularExpressions.Regex("^([A-Z]){5}([0-9]){4}([A-Z]){1}?$")
+            If checkPan.IsMatch(panNumber) Then
+                txtGSTPANNO.Text = txtPANNo.Text
+            Else
+                clsCommon.MyMessageBoxShow("Please enter valid PAN No.", Me.Text)
+            End If
+        End If
+    End Sub
     Private Sub chkInsurance_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkInsurance.ToggleStateChanged
         If chkInsurance.Checked = False Then
             txtFromDate.Value = clsCommon.GETSERVERDATE

@@ -45,12 +45,12 @@ Public Class frmMonthlyAttendance
     Dim Other As Double = 0
     Dim Holidays As Double = 0
     Dim alertType As String = "0"
-    Dim EL_Leave_Code As string=""
+    Dim EL_Leave_Code As String = ""
     Dim CL_Leave_Code As String = ""
     Dim COFF_Leave_Code As String = ""
     Dim MATRL_Leave_Code As String = ""
     Dim MED_Leave_Code As String = ""
-    Dim OTHER_Leave_Code As string=""
+    Dim OTHER_Leave_Code As String = ""
     Private isInsideLoadData As Boolean = False
     Private isCellValueChangedOpenSummary As Boolean = False
     Private Shared QryAttendanceCodeSelection As String = ""
@@ -281,6 +281,13 @@ Public Class frmMonthlyAttendance
     Private Sub frmMonthlyAttendance_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         LoadGridColumns()
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            txtBranch.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocationDesc.Text = clsLocation.GetName(txtBranch.Value, Nothing)
+        Else
+            txtBranch.Value = ""
+            lblLocationDesc.Text = ""
+        End If
         isNewEntry = True
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
@@ -389,8 +396,13 @@ Public Class frmMonthlyAttendance
         findEnteredBy.Value = Nothing
         findPayperiod.Value = Nothing
         txtDescription.Text = ""
-        txtBranch.Value = Nothing
-        lblLocationDesc.Text = ""
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            txtBranch.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocationDesc.Text = clsLocation.GetName(txtBranch.Value, Nothing)
+        Else
+            txtBranch.Value = ""
+            lblLocationDesc.Text = ""
+        End If
         lblFromDate.Text = ""
         lblToDate.Text = ""
         btnsave.Text = "Save"
@@ -489,6 +501,14 @@ Public Class frmMonthlyAttendance
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtCode._MYValidating
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " TSPL_LOCATION_MASTER.LOCATION_CODE='" + LocCode + "'"
+            End If
+        End If
         Dim str As String = "select count(*) from TSPL_MONTHLY_ATTENDANCE where MTA_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
@@ -500,7 +520,7 @@ Public Class frmMonthlyAttendance
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim qry As String = " select MTA_CODE as Code, PAY_PERIOD_CODE as [Pay Period Code], ENTEREDBY_EMP_CODE AS 'Entered By',DESCRIPTION as Description,TSPL_MONTHLY_ATTENDANCE.LOCATION_CODE as [Location Code],TSPL_LOCATION_MASTER.Location_Desc as [Location Name] from TSPL_MONTHLY_ATTENDANCE left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MONTHLY_ATTENDANCE.LOCATION_CODE  "
-            txtCode.Value = clsCommon.ShowSelectForm("TSPL_MONTHLY_ATTENDANCE", qry, "Code", "", txtCode.Value, "MTA_CODE", isButtonClicked)
+            txtCode.Value = clsCommon.ShowSelectForm("TSPL_MONTHLY_ATTENDANCE", qry, "Code", whrcls, txtCode.Value, "MTA_CODE", isButtonClicked)
             If txtCode.Value <> "" Then
                 LoadData(txtCode.Value, NavigatorType.Current)
             Else
@@ -659,8 +679,12 @@ Public Class frmMonthlyAttendance
     End Sub
 
     Private Sub findEnteredBy__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findEnteredBy._MYValidating
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        End If
         Dim qry As String = "SELECT EMP_CODE AS 'Code',EMP_Name as 'Employee Name' FROM TSPL_EMPLOYEE_MASTER "
-        findEnteredBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", findEnteredBy.Value, "", isButtonClicked)
+        findEnteredBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", whrcls, findEnteredBy.Value, "", isButtonClicked)
     End Sub
 
     Private Sub gvMonthlyAttendance_CellBeginEdit(sender As Object, e As GridViewCellCancelEventArgs) Handles gvMonthlyAttendance.CellBeginEdit
@@ -1239,13 +1263,22 @@ Public Class frmMonthlyAttendance
     End Function
 
     Private Sub txtBranch__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBranch._MYValidating
-        txtBranch.Value = clsLocation.getFinder("Location_Type='Physical'", Me.txtBranch.Value, isButtonClicked)
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " Location_Type='Physical' And LOCATION_CODE='" + LocCode + "'"
+            Else
+                whrcls = " Location_Type='Physical' "
+            End If
+        End If
+        txtBranch.Value = clsLocation.getFinder(whrcls, Me.txtBranch.Value, isButtonClicked)
         lblLocationDesc.Text = clsLocation.GetName(txtBranch.Value, Nothing)
     End Sub
 
     Private Sub txtGo_Click(sender As Object, e As EventArgs) Handles txtGo.Click
         FillEmployeeGrid()
-
     End Sub
     Sub FillEmployeeGrid()
         If clsCommon.myLen(txtBranch.Value) <= 0 Then

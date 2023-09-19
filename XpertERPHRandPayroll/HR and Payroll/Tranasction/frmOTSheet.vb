@@ -33,6 +33,7 @@ Public Class frmOTSheet
                     obj.OT_HOURS = clsCommon.myCdbl(txtOTHours.Text)
                     obj.OT_TOTAL_AMOUNT = clsCommon.myCdbl(txtOTAmount.Text)
                     obj.PAY_PERIOD_CODE = clsCommon.myCstr(txtPayPeriod.Value)
+                    obj.Location_Code = clsCommon.myCstr(fndLocation.Value)
 
                     If (obj.SaveData(obj, isNewEntry)) Then
                         common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
@@ -70,7 +71,13 @@ Public Class frmOTSheet
                 btnPost.Enabled = False
                 UsLock1.Status = ERPTransactionStatus.Pending
             End If
-
+            If clsCommon.myLen(clsCommon.myCstr(obj.Location_Code)) > 0 Then
+                fndLocation.Value = clsCommon.myCstr(obj.Location_Code)
+                lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+            Else
+                fndLocation.Value = ""
+                lblLocationName.Text = ""
+            End If
             txtCode.Value = obj.Code
             txtEmpCode.Value = clsCommon.myCstr(obj.EMP_CODE)
             txtOTCode.Value = clsCommon.myCstr(obj.OT_CODE)
@@ -81,9 +88,7 @@ Public Class frmOTSheet
             txtOTAmount.Text = clsCommon.myCdbl(obj.OT_TOTAL_AMOUNT)
             txtPayPeriod.Value = clsCommon.myCstr(obj.PAY_PERIOD_CODE)
             lblPayPeriod.Text = clsCommon.myCstr(obj.PAY_PERIOD_NAME)
-
         End If
-
     End Sub
 
     Function AllowToSave() As Boolean
@@ -172,8 +177,14 @@ Public Class frmOTSheet
 
     Private Sub frmOTSheet_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
+        End If
         isNewEntry = True
-
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
         ' ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for  Post")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D  for Delete ")
@@ -183,7 +194,7 @@ Public Class frmOTSheet
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
-        btnPost.Enabled=False
+        btnPost.Enabled = False
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -207,6 +218,13 @@ Public Class frmOTSheet
     End Sub
 
     Sub funReset()
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
+        End If
         isNewEntry = True
         txtCode.MyReadOnly = False
         txtCode.Value = Nothing
@@ -252,7 +270,14 @@ Public Class frmOTSheet
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
-
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+            End If
+        End If
         Dim str As String = "select count(*) from TSPL_OT_SHEET where OT_SHEET_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
@@ -265,7 +290,7 @@ Public Class frmOTSheet
         If txtCode.MyReadOnly OrElse isButtonClicked Then
 
             Dim qry As String = " select OT_SHEET_CODE AS Code, EMP_CODE as 'Employee Code', OT_CODE AS 'OT Code',OT_RATE as 'OT Rate' , OT_HOURS as 'OT Hours', OT_TOTAL_AMOUNT as 'Total OT Amount', Pay_Period_Code as 'Pay Period Code'  from TSPL_OT_SHEET"
-            txtCode.Value = clsCommon.ShowSelectForm("OT_SHEET", qry, "Code", "", txtCode.Value, "OT_SHEET_CODE", isButtonClicked)
+            txtCode.Value = clsCommon.ShowSelectForm("OT_SHEET", qry, "Code", whrcls, txtCode.Value, "OT_SHEET_CODE", isButtonClicked)
             If txtCode.Value <> "" Then
                 LoadData(txtCode.Value, NavigatorType.Current)
             Else
@@ -394,8 +419,16 @@ Public Class frmOTSheet
     End Sub
 
     Private Sub txtEmpCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtEmpCode._MYValidating
+        Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+            End If
+        End If
         Dim qry As String = "select EMP_CODE AS Code, Emp_Name AS Name ,Designation  from TSPL_EMPLOYEE_MASTER"
-        txtEmpCode.Value = clsCommon.ShowSelectForm("EMP_FINDER", qry, "Code", "", txtCode.Value, "EMP_CODE", isButtonClicked)
+        txtEmpCode.Value = clsCommon.ShowSelectForm("EMP_FINDER", qry, "Code", whrcls, txtCode.Value, "EMP_CODE", isButtonClicked)
         lblEmpName.Text = clsEmployeeMaster.GetName(txtEmpCode.Value, Nothing)
     End Sub
 
@@ -417,5 +450,25 @@ Public Class frmOTSheet
         'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
         txtPayPeriod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtPayPeriod.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblPayPeriod.Text = clsPayPeriodMaster.GetName(txtPayPeriod.Value, Nothing)
+    End Sub
+
+    Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
+        Try
+            Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " Location_Type='Physical' And LOCATION_CODE='" + LocCode + "'"
+                Else
+                    whrcls = " Location_Type='Physical' "
+                End If
+            End If
+            fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex, Me.Text)
+        End Try
+
     End Sub
 End Class

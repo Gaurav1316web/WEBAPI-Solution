@@ -14,15 +14,16 @@ Public Class clsConveyanceClaim
     Public CLAIM_AMOUNT As Decimal
     Public Pay_Period_Code As String
     Public PAY_PERIOD_NAME As String
+    Public Location_Code As String
 
 #End Region
 
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim qry As String = " select CLAIM_CODE as Code,Pay_Period_Code as [Pay Period Code],EMP_CODE as [Employee Code],CONV_RATE_CODE as [Rate Code]," & _
-                            " CONV_TYPE as [Conveyance Type], CLAIM_DISTANCE as [Claim Distance],CONV_RATE as [Conveyance Rate],CLAIM_AMOUNT as [Claim Amount]," & _
-                            " Created_By as [Created By],Created_Date as [Created Date],Modified_By as [Modified By], Modified_Date as [Modified Date] " & _
-                            " from TSPL_CONVEYANCE_CLAIM "
+        Dim qry As String = " select TSPL_CONVEYANCE_CLAIM.CLAIM_CODE as Code,TSPL_CONVEYANCE_CLAIM.Pay_Period_Code as [Pay Period Code],TSPL_CONVEYANCE_CLAIM.EMP_CODE as [Employee Code],TSPL_CONVEYANCE_CLAIM.CONV_RATE_CODE as [Rate Code]," &
+                            " TSPL_CONVEYANCE_CLAIM.CONV_TYPE as [Conveyance Type], TSPL_CONVEYANCE_CLAIM.CLAIM_DISTANCE as [Claim Distance],TSPL_CONVEYANCE_CLAIM.CONV_RATE as [Conveyance Rate],TSPL_CONVEYANCE_CLAIM.CLAIM_AMOUNT as [Claim Amount]," &
+                            " TSPL_CONVEYANCE_CLAIM.Created_By as [Created By],TSPL_CONVEYANCE_CLAIM.Created_Date as [Created Date],TSPL_CONVEYANCE_CLAIM.Modified_By as [Modified By], TSPL_CONVEYANCE_CLAIM.Modified_Date as [Modified Date] " &
+                            " from TSPL_CONVEYANCE_CLAIM Inner Join TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_Code=TSPL_CONVEYANCE_CLAIM.EMP_Code"
         str = clsCommon.ShowSelectForm("ODSHT", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
     End Function
@@ -88,11 +89,9 @@ Public Class clsConveyanceClaim
             obj.CONV_RATE_CODE = clsCommon.myCstr(dt.Rows(0)("CONV_RATE_CODE"))
             obj.CONV_RATE = clsCommon.myCdbl(dt.Rows(0)("CONV_RATE"))
             obj.CLAIM_AMOUNT = clsCommon.myCdbl(dt.Rows(0)("CLAIM_AMOUNT"))
-
+            obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
         End If
         Return obj
-
-
     End Function
 
     Public Function SaveData(ByVal obj As clsConveyanceClaim, ByVal isNewEntry As Boolean) As Boolean
@@ -106,10 +105,10 @@ Public Class clsConveyanceClaim
             clsCommon.AddColumnsForChange(coll, "CLAIM_DISTANCE", obj.CLAIM_DISTANCE)
             clsCommon.AddColumnsForChange(coll, "CONV_RATE", obj.CONV_RATE)
             clsCommon.AddColumnsForChange(coll, "CLAIM_AMOUNT", obj.CLAIM_AMOUNT)
-
             clsCommon.AddColumnsForChange(coll, "Pay_Period_Code", obj.Pay_Period_Code, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
             If isNewEntry Then
                 If clsCommon.myLen(obj.Code) <= 0 Then
                     obj.Code = clsERPFuncationality.GetNextCode(Nothing, clsCommon.myCDate(clsCommon.GETSERVERDATE()), clsDocType.ConveyanceClaim, "", "")

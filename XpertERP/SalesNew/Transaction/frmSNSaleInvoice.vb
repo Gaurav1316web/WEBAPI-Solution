@@ -301,6 +301,13 @@ Public Class frmSNSaleInvoice
         '' End of MultiCurrency
 
         ''For Attachment
+
+        ''-------
+        If chkIsTaxable.Checked = True Then
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+        Else
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+        End If
         If objCommonVar.IsDemoERP Then
             UcAttachment1.Form_ID = MyBase.Form_ID
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
@@ -3080,7 +3087,14 @@ Public Class frmSNSaleInvoice
             '    cboItemType.Focus()
             '    Return False
             'End If
-
+            If chkIsTaxable.Checked Then
+                ' Check if the vehicle number is empty
+                If clsCommon.myLen(txtVehicleCode.Value) <= 0 Then
+                    common.clsCommon.MyMessageBoxShow("Please select Vehicle No")
+                    txtVehicleCode.Focus()
+                    Return False
+                End If
+            End If
             If AllowChangeInvoiceType Then
                 If clsCommon.myLen(ddlInvoiceType.SelectedValue) <= 0 Then
                     common.clsCommon.MyMessageBoxShow("Please select invoice  Type for creating invoice")
@@ -3205,7 +3219,16 @@ Public Class frmSNSaleInvoice
             If (AllowToSave()) Then
 
                 Dim obj As New clsSNInvoiceHead()
+                'If clsCommon.myLen(chkIsTaxable.Checked) = 1 Then
+                '    obj.is_taxable = chkIsTaxable.Checked
+                'ElseIf clsCommon.myLen(chkIsTaxable.Checked) = 0 Then
                 obj.is_taxable = IIf(chkIsTaxable.Checked, 1, 0)
+                'End If
+                'If chkIsTaxable.Checked Then
+                ' Show a message or take any other action to indicate that saving is not allowed
+                '  common.clsCommon.MyMessageBoxShow("Saving is not allowed when 'Is Taxable' is checked.")
+                '    Exit Sub ' Exit the SaveData sub to prevent saving
+                'End If
                 'obj.EWayBillNo = txtEWayBillNo.Text
                 'obj.EWayBillDate =     .Value
                 'obj.Electronic_Ref_No = txtElecttefNo.Text
@@ -4528,7 +4551,7 @@ Public Class frmSNSaleInvoice
                 End If
 
                 If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                    funPrint(txtDocNo.Value)
+                    funPrintNew(txtDocNo.Value)
                 End If
             End If
 
@@ -4786,7 +4809,13 @@ Public Class frmSNSaleInvoice
 
     Private Sub txtTaxGroup__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTaxGroup._MYValidating
         Dim qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
-        txtTaxGroup.Value = clsCommon.ShowSelectForm("Shipmentfndid", qry, "Code", "Tax_Group_Type='S'", txtTaxGroup.Value, "Code", isButtonClicked)
+        Dim WhrCls As String = " Tax_Group_Type='S' "
+        If chkIsTaxable.Checked Then
+            WhrCls += " and Is_Tax_Exempted=0"
+        Else
+            WhrCls += " and Is_Tax_Exempted=1"
+        End If
+        txtTaxGroup.Value = clsCommon.ShowSelectForm("Shipmentfndid", qry, "Code", WhrCls, txtTaxGroup.Value, "Code", isButtonClicked)
         SetTaxDetails()
 
     End Sub
@@ -7067,12 +7096,16 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
     End Sub
 
     Private Sub fndtransporter__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndtransporter._MYValidating
-        If isButtonClicked Then
-            Dim qry As String = "select Transport_Id as [Transport Id],Transporter_Name as [Transporter Name] from TSPL_TRANSPORT_MASTER"
-            fndtransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndtransporter.Value, "", isButtonClicked)
-            lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transporter_Name as Name from TSPL_TRANSPORT_MASTER where Transport_Id ='" + fndtransporter.Value + "'"))
+        Try
+            Dim qry As String = "select Transport_Id as [Code],Transporter_Name as [Transporter Name] from TSPL_TRANSPORT_MASTER"
+            fndtransporter.Value = clsCommon.ShowSelectForm("TRANSPORTER_Transfer_KDIL", qry, "Code", "", fndtransporter.Value, "Code", isButtonClicked)
+            lbltransporter.Text = clsTransferDCC.GetTransporterName(fndtransporter.Value)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
 
-        End If
+
+
     End Sub
 
 
@@ -7083,5 +7116,17 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
 
     Private Sub btnEWaybillUpdate_Click(sender As Object, e As EventArgs) Handles btnEWaybillUpdate.Click
         UpdateEwaybillNo()
+    End Sub
+
+    Private Sub chkIsTaxable_CheckStateChanged(sender As Object, e As EventArgs) Handles chkIsTaxable.CheckStateChanged
+        Try
+            If chkIsTaxable.Checked = True Then
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+            Else
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
     End Sub
 End Class

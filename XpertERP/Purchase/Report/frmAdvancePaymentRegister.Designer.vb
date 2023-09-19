@@ -22,6 +22,9 @@ Partial Class FrmAdvancePaymentRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGenrate = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -125,7 +128,6 @@ Partial Class FrmAdvancePaymentRegister
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1042, 462)
         Me.RadPageView1.TabIndex = 215
-        Me.RadPageView1.Text = "RadPageView1"
         '
         'RadPageViewPage1
         '
@@ -264,12 +266,13 @@ Partial Class FrmAdvancePaymentRegister
         '
         '
         '
+        Me.gv3.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv3.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv3.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv3.Name = "gv3"
         Me.gv3.ShowHeaderCellButtons = True
         Me.gv3.Size = New System.Drawing.Size(1021, 414)
         Me.gv3.TabIndex = 1
-        Me.gv3.Text = "RadGridView1"
         '
         'RadMenu1
         '
@@ -278,27 +281,20 @@ Partial Class FrmAdvancePaymentRegister
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1042, 20)
         Me.RadMenu1.TabIndex = 214
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItemSave, Me.RadMenuItemDelete})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItemSave
         '
-        Me.RadMenuItemSave.AccessibleDescription = "Save Layout"
-        Me.RadMenuItemSave.AccessibleName = "Save Layout"
         Me.RadMenuItemSave.Name = "RadMenuItemSave"
         Me.RadMenuItemSave.Text = "Save Layout"
         '
         'RadMenuItemDelete
         '
-        Me.RadMenuItemDelete.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItemDelete.AccessibleName = "Delete Layout"
         Me.RadMenuItemDelete.Name = "RadMenuItemDelete"
         Me.RadMenuItemDelete.Text = "Delete Layout"
         '
@@ -325,16 +321,12 @@ Partial Class FrmAdvancePaymentRegister
         '
         'btnExcel
         '
-        Me.btnExcel.AccessibleDescription = "Excel"
-        Me.btnExcel.AccessibleName = "Excel"
         Me.btnExcel.Image = Global.ERP.My.Resources.Resources.MSE
         Me.btnExcel.Name = "btnExcel"
         Me.btnExcel.Text = "Excel"
         '
         'btnPDF
         '
-        Me.btnPDF.AccessibleDescription = "PDF"
-        Me.btnPDF.AccessibleName = "PDF"
         Me.btnPDF.Image = Global.ERP.My.Resources.Resources.pdf
         Me.btnPDF.Name = "btnPDF"
         Me.btnPDF.Text = "PDF"
@@ -346,10 +338,12 @@ Partial Class FrmAdvancePaymentRegister
         Me.gv1.AllowEditRow = False
         Me.gv1.EnableFiltering = True
         Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.ViewDefinition = TableViewDefinition2
         '
         'gv2
         '
         Me.gv2.AllowAddNewRow = False
+        Me.gv2.ViewDefinition = TableViewDefinition3
         '
         'FrmAdvancePaymentRegister
         '

@@ -63,14 +63,17 @@ Public Class clsAllowanceDetails
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsAllowanceDetails
         Dim obj As New clsAllowanceDetails()
         Dim objtr As New clsAllowancePayHeadDetails()
-
         obj.Arr = New List(Of clsAllowancePayHeadDetails)
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrcls = " And TAV.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+        End If
 
         Dim qry As String = "SELECT TAV.*,TPM.PAY_PERIOD_NAME, " _
                             & " TAV.ALLOWANCE_REMARKS,EMP.Emp_Name,EMP1.EMP_NAME AS ALLOWANCE_BY_NAME  FROM TSPL_ALLOWANCE TAV " _
                             & " INNER JOIN TSPL_PAYPERIOD_MASTER TPM ON TAV.PAY_PERIOD_CODE=TPM.PAY_PERIOD_CODE " _
                             & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON TAV.EMP_CODE=EMP.EMP_CODE " _
-                            & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP1 ON TAV.EMP_CODE=EMP1.EMP_CODE where 2=2 "
+                            & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP1 ON TAV.EMP_CODE=EMP1.EMP_CODE where 2=2 " + whrcls
 
         Select Case NavType
             Case NavigatorType.First
@@ -100,7 +103,6 @@ Public Class clsAllowanceDetails
             obj.ALLOWANCE_BY_NAME = clsCommon.myCstr(dt.Rows(0)("ALLOWANCE_BY_NAME"))
             obj.POSTED = clsCommon.myCBool(dt.Rows(0)("POSTED"))
             obj.LOCATION_CODE = clsCommon.myCstr(dt.Rows(0)("LOCATION_CODE"))
-
             If clsCommon.myLen(dt.Rows(0)("Posting_Date")) Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
             Else
@@ -115,7 +117,7 @@ Public Class clsAllowanceDetails
              & " INNER JOIN TSPL_EMPLOYEE_MASTER EMP ON TAVD.EMP_CODE=EMP.EMP_CODE " _
              & " LEFT JOIN TSPL_PAYHEAD_MASTER TPH ON TAVD.PAY_HEAD_CODE=TPH.PAY_HEAD_CODE where 2=2"
 
-        qry += " and TAV.ALLOWANCE_CODE = '" + strCode + "'"
+        qry += " and TAV.ALLOWANCE_CODE = '" + strCode + "'" + whrcls
 
         dt = New DataTable()
         dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -242,13 +244,13 @@ Public Class clsAllowanceDetails
         Dim dt As DataTable
         Try
             Dim qry As String = ""
-            qry += " SELECT Ded.ALLOWANCE_CODE as [Document Code] ,Dedd.PAY_HEAD_CODE as [Pay Head Code] ,PHM.PAY_HEAD_NAME as [Pay Head Name] ," & _
-                   " Dedd.EMP_CODE  as [Employee Code],EMP.Emp_Name as [Employee Name],EMP.Location_Code as [Location Code],Loc.Location_Desc as [Location Name] ,EMP.DEVISION_CODE as                     [Division Code],Div.Devision_Name as [Division Name],Dedd.ALLOWANCE_AMOUNT as [Allowance Amount]  FROM TSPL_ALLOWANCE Ded " & _
-                   " INNER JOIN TSPL_ALLOWANCE_DETAIL Dedd ON Ded.ALLOWANCE_CODE=Dedd.ALLOWANCE_CODE " & _
-                   " LEFT JOIN TSPL_PAYPERIOD_MASTER PP ON Ded.PAY_PERIOD_CODE=PP.PAY_PERIOD_CODE " & _
-                   " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON Dedd.EMP_CODE=EMP.EMP_CODE " & _
-                   " LEFT JOIN TSPL_PAYHEAD_MASTER PHM ON Dedd.PAY_HEAD_CODE=PHM.PAY_HEAD_CODE " & _
-                   " left join TSPL_LOCATION_MASTER Loc on EMP.LOCATION_CODE=Loc.Location_Code " & _
+            qry += " SELECT Ded.ALLOWANCE_CODE as [Document Code] ,Dedd.PAY_HEAD_CODE as [Pay Head Code] ,PHM.PAY_HEAD_NAME as [Pay Head Name] ," &
+                   " Dedd.EMP_CODE  as [Employee Code],EMP.Emp_Name as [Employee Name],EMP.Location_Code as [Location Code],Loc.Location_Desc as [Location Name] ,EMP.DEVISION_CODE as                     [Division Code],Div.Devision_Name as [Division Name],Dedd.ALLOWANCE_AMOUNT as [Allowance Amount]  FROM TSPL_ALLOWANCE Ded " &
+                   " INNER JOIN TSPL_ALLOWANCE_DETAIL Dedd ON Ded.ALLOWANCE_CODE=Dedd.ALLOWANCE_CODE " &
+                   " LEFT JOIN TSPL_PAYPERIOD_MASTER PP ON Ded.PAY_PERIOD_CODE=PP.PAY_PERIOD_CODE " &
+                   " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON Dedd.EMP_CODE=EMP.EMP_CODE " &
+                   " LEFT JOIN TSPL_PAYHEAD_MASTER PHM ON Dedd.PAY_HEAD_CODE=PHM.PAY_HEAD_CODE " &
+                   " left join TSPL_LOCATION_MASTER Loc on EMP.LOCATION_CODE=Loc.Location_Code " &
                    " left join TSPL_DEVISION_MASTER Div on EMP.DEVISION_CODE=Div.DEVISION_CODE where 2=2 "
             If clsCommon.myLen(strFromPP) > 0 AndAlso clsCommon.myLen(strToPP) > 0 Then
                 qry += " and PP.DATE_FROM BETWEEN "

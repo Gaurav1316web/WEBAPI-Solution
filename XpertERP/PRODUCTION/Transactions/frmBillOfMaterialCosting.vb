@@ -693,7 +693,14 @@ Public Class frmBillOfMaterialCosting
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
+        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
+        'txtConsmLocOther.Value = txtLocation.Value
         'RadPageView1.Pages(pageOperations.Name).Item.Visibility = ElementVisibility.Collapsed
+
+        Dim qry As String = "Update TSPL_MF_BOM_HEAD Set  REVISION_NO = PROD_ITEM_CODE+'/'+REPLACE(REVISION_NO, PROD_ITEM_CODE, LOCATION_CODE)
+             where Len(REVISION_NO) - Len(Replace(REVISION_NO,'/' ,''))=1 "
+        clsDBFuncationality.ExecuteNonQuery(qry)
+
     End Sub
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmBillOfMaterialCosting)
@@ -713,6 +720,9 @@ Public Class frmBillOfMaterialCosting
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
         Try
             funReset()
+
+            txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
+            'txtConsmLocOther.Value = txtLocation.Value
         Catch ex As Exception
         End Try
     End Sub
@@ -777,6 +787,7 @@ Public Class frmBillOfMaterialCosting
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         funReset()
+
         txtCode.MyReadOnly = True
         btnsave.Enabled = True
         btndelete.Enabled = True
@@ -801,6 +812,10 @@ Public Class frmBillOfMaterialCosting
             txtCode.Value = obj.BOM_CODE
             Me.txtDescription.Text = clsCommon.myCstr(obj.DESCRIPTION)
             Me.dtpBOMDate.Value = obj.BOM_DATE
+
+            'Me.lblRevisionNo.Text = obj.REVISION_NO
+
+
             Me.lblRevisionNo.Text = obj.REVISION_NO
             Me.dtpStartDate.Value = obj.START_DATE
             If clsCommon.myLen(obj.END_DATE) > 0 Then
@@ -1044,7 +1059,13 @@ Public Class frmBillOfMaterialCosting
             '' map bom costing
             obj.ObjListCosting = objListCost
             Dim issaved As Boolean = False
-            issaved = obj.SaveData(obj, ObjList, isNewEntry, clsCommon.myCstr(txtCode.Value))
+            Dim strCode As String = Nothing
+            If clsCommon.myLen(txtCode.Value) > 0 Then
+                strCode = clsCommon.myCstr(txtCode.Value)
+            Else
+                isNewEntry = True
+            End If
+            issaved = obj.SaveData(obj, ObjList, isNewEntry, strCode)
 
             If OpenFileDialog1.FileName = "" And issaved = True Then
                 'clsCommon.MyMessageBoxShow("Document Save Successfully.")
@@ -1304,7 +1325,7 @@ Public Class frmBillOfMaterialCosting
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
 
-            Dim qry As String = "SELECT T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
+            Dim qry As String = "SELECT T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.LOCATION_CODE,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
             qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T1.PROD_QUANTITY,T1.PROD_ITEM_UNIT_CODE,"
             qry += " T1.MIN_BATCH_SIZE,T1.MODIFIED_BY AS APPROVED_BY,T1.Created_By FROM TSPL_MF_BOM_HEAD  T1 INNER JOIN TSPL_ITEM_MASTER T2  ON T1.PROD_ITEM_CODE=T2.ITEM_CODE "
             WhrCls = " T1.trans_type='BOM' "
@@ -1775,8 +1796,8 @@ Public Class frmBillOfMaterialCosting
             If e.Column Is gvResources.Columns(colResourceCode) Then
                 Dim strq As String = ""
                 Dim strWhrCls As String = ""
-                strq = "SELECT TSPL_MF_WORK_CENTER_RESOURCE_DETAIL.RESOURCE_CODE as Code,TSPL_MF_RESOURCE_MASTER.DESCRIPTION AS Name FROM " & _
-                       " TSPL_MF_WORK_CENTER_RESOURCE_DETAIL LEFT JOIN TSPL_MF_RESOURCE_MASTER " & _
+                strq = "SELECT TSPL_MF_WORK_CENTER_RESOURCE_DETAIL.RESOURCE_CODE as Code,TSPL_MF_RESOURCE_MASTER.DESCRIPTION AS Name FROM " &
+                       " TSPL_MF_WORK_CENTER_RESOURCE_DETAIL LEFT JOIN TSPL_MF_RESOURCE_MASTER " &
                        " ON TSPL_MF_WORK_CENTER_RESOURCE_DETAIL.RESOURCE_CODE=TSPL_MF_RESOURCE_MASTER.RESOURCE_CODE "
                 strWhrCls = "TSPL_MF_WORK_CENTER_RESOURCE_DETAIL.WORK_CENTER_CODE='" & gvOperations.CurrentRow.Cells(colworkCenterCode).Value & "'"
 
@@ -1882,8 +1903,8 @@ Public Class frmBillOfMaterialCosting
             If e.Column Is gvTools.Columns(colToolTypeCode) Then
                 Dim strq As String = ""
                 Dim strWhrCls As String = ""
-                strq = "SELECT TSPL_MF_WORK_CENTER_TOOL_DETAIL.TOOL_TYPE_CODE as Code,TSPL_MF_TOOL_TYPE.DESCRIPTION AS Name FROM " & _
-                       " TSPL_MF_WORK_CENTER_TOOL_DETAIL LEFT JOIN TSPL_MF_TOOL_TYPE " & _
+                strq = "SELECT TSPL_MF_WORK_CENTER_TOOL_DETAIL.TOOL_TYPE_CODE as Code,TSPL_MF_TOOL_TYPE.DESCRIPTION AS Name FROM " &
+                       " TSPL_MF_WORK_CENTER_TOOL_DETAIL LEFT JOIN TSPL_MF_TOOL_TYPE " &
                        " ON TSPL_MF_WORK_CENTER_TOOL_DETAIL.TOOL_TYPE_CODE=TSPL_MF_TOOL_TYPE.TOOL_TYPE_CODE "
                 strWhrCls = "TSPL_MF_WORK_CENTER_TOOL_DETAIL.WORK_CENTER_CODE='" & gvOperations.CurrentRow.Cells(colworkCenterCode).Value & "'"
 
@@ -2449,7 +2470,7 @@ Public Class frmBillOfMaterialCosting
         '' Export BOM Head
         Try
             Dim qryExport As String
-            qryExport = " select PROD_ITEM_CODE as [Main Item Code],BOM_Code as [BOM Code],DESCRIPTION as [Description],PROD_QUANTITY as [Quantity],PROD_ITEM_UNIT_CODE as [Unit Code],BOM_DATE as [BOM Date],START_DATE as [Start Date],END_DATE as [End Date]," & _
+            qryExport = " select PROD_ITEM_CODE as [Main Item Code],BOM_Code as [BOM Code],DESCRIPTION as [Description],PROD_QUANTITY as [Quantity],PROD_ITEM_UNIT_CODE as [Unit Code],BOM_DATE as [BOM Date],START_DATE as [Start Date],END_DATE as [End Date]," &
                         " (case when STATUS='Open' then 'O' when STATUS='Approved' then 'A' when STATUS='On Hold' then 'H' when STATUS='Discontinued' then 'D' else '' end)   as [Status(O,A,H,D)],(case when IS_DEFAULT=0 then 'N' else 'Y' end) as [Default],MIN_BATCH_SIZE as [Min Batch Size] from TSPL_MF_BOM_HEAD"
             transportSql.ExporttoExcel(qryExport, Me)
         Catch ex As Exception
@@ -2763,7 +2784,7 @@ Public Class frmBillOfMaterialCosting
                 If clsCommon.myLen(rev_no) <= 0 Then
                     rev_no = objReq.PROD_ITEM_CODE & "/1"
                 Else
-                    rev_no = clsCommon.incval(rev_no)
+                    rev_no = clsCommon.incval(rev_no, 1, 1, True)
                 End If
 
                 lblRevisionNo.Text = rev_no
@@ -2896,6 +2917,23 @@ Public Class frmBillOfMaterialCosting
 
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
         Try
+            'Dim WhrCls As String = " Location_Type='Physical'  "
+            'If clsCommon.myLen(arrLoc) > 0 Then
+            '    WhrCls += "  and  Location_Code in (" + arrLoc + ")"
+            'End If
+            'txtLocation.Value = clsLocation.getFinder(WhrCls, Me.txtLocation.Value, isButtonClicked)
+            'If clsCommon.myLen(txtLocation.Value) > 0 Then
+            '    lblLocation.Text = clsLocation.GetName(Me.txtLocation.Value, Nothing)
+            'End If
+
+            'Dim qry As String = " select Location_Code as [Code],Location_Desc as [Description],Loc_Short_Name as [Short Name] from TSPL_Location_MASTER"
+            'Dim WhrCls As String = " TSPL_LOCATION_MASTER.IsMainPlant='0' "
+            'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            '    WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+            'End If
+            'txtLocation.Value = clsCommon.ShowSelectForm("MulBDELocFndr", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
+            'lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+
             Dim WhrCls As String = " Location_Type='Physical'  "
             If clsCommon.myLen(arrLoc) > 0 Then
                 WhrCls += "  and  Location_Code in (" + arrLoc + ")"
@@ -2904,6 +2942,9 @@ Public Class frmBillOfMaterialCosting
             If clsCommon.myLen(txtLocation.Value) > 0 Then
                 lblLocation.Text = clsLocation.GetName(Me.txtLocation.Value, Nothing)
             End If
+            'txtLocation.Value = clsCommon.ShowSelectForm("MulBDELocFndr", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
+            'lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
@@ -2913,16 +2954,24 @@ Public Class frmBillOfMaterialCosting
     Private Sub btnCC_Click(sender As Object, e As EventArgs) Handles btnCC.Click
 
         Try
+            Dim isNewEntry As Boolean = True
+            Dim whcls As String = Nothing
+            Dim whcls1 As String = Nothing
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whcls = " T1.LOCATION_CODE =" & objCommonVar.strCurrUserLocations & ""
+            End If
             'isLoadCopy = True
-            Dim qry As String = "SELECT T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
+            Dim qry As String = "SELECT T1.LOCATION_CODE,T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
             qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T1.PROD_QUANTITY,T1.PROD_ITEM_UNIT_CODE,"
             qry += " T1.MIN_BATCH_SIZE,T1.MODIFIED_BY AS APPROVED_BY,T1.Created_By FROM TSPL_MF_BOM_HEAD  T1 INNER JOIN TSPL_ITEM_MASTER T2  ON T1.PROD_ITEM_CODE=T2.ITEM_CODE "
 
-            Dim strTender As String = clsCommon.ShowSelectForm("TSPL_MF_BOM_HEAD", qry, "Code", "", txtCode.Value, " convert(date, BOM_DATE,103) desc , Code desc ", True)
+            Dim strTender As String = clsCommon.ShowSelectForm("TSPL_MF_BOM_HEAD", qry, "Code", whcls, txtCode.Value, " convert(date, BOM_DATE,103) desc , Code desc ", True)
             If clsCommon.myLen(strTender) > 0 Then
                 LoadData(strTender, NavigatorType.Current)
                 txtCode.Value = ""
+
                 txtCode.MyReadOnly = False
+
                 isNewEntry = True
                 btnsave.Text = "Save"
                 'lblTenderSeqNo.Text = ""
@@ -2930,7 +2979,27 @@ Public Class frmBillOfMaterialCosting
                 btndelete.Enabled = False
                 btnPost.Enabled = False
                 UsLock1.Status = ERPTransactionStatus.Pending
+
             End If
+
+            Dim objReq As clsBillOfMaterial = clsBillOfMaterial.GetData(strTender, NavigatorType.Current, Nothing)
+
+            If clsCommon.myLen(objReq.LOCATION_CODE) > 0 Then
+                whcls1 = " AND LOCATION_CODE ='" & objReq.LOCATION_CODE & "'"
+            End If
+            ''===FOR REVISION NO
+            Dim STRQ As String = "SELECT max(revision_no) as rev FROM TSPL_MF_BOM_HEAD WHERE PROD_ITEM_CODE= '" & objReq.PROD_ITEM_CODE & "'" + whcls1
+            Dim revision_no As String = ""
+            revision_no = clsCommon.myCstr(clsDBFuncationality.getSingleValue(STRQ))
+            If clsCommon.myLen(revision_no) <= 0 Then
+                ' revision_no = objReq.LOCATION_CODE & "/" & objReq.PROD_ITEM_CODE & "/001"
+                revision_no = objReq.PROD_ITEM_CODE & "/" & objReq.LOCATION_CODE & "/001"
+            Else
+                revision_no = clsCommon.incval(revision_no)
+            End If
+            lblRevisionNo.Text = revision_no
+            objReq.REVISION_NO = revision_no
+            'objReq.REVISION_NO = clsBillOfMaterial.GetBOMRevisionNo(obj.PROD_ITEM_CODE, "BOM", obj.LOCATION_CODE)
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

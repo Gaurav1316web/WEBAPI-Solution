@@ -53,6 +53,12 @@ Public Class clsBookingEntryDairySale
     Public Login_User_Zone_Code As String = Nothing
     Public GatePass_Type As String = String.Empty
     Public Is_DCS As Integer = 0
+    Public Is_BPL As Integer = 0
+    Public BPL_Coupon_Code As String = String.Empty
+    Public BPL_Name As String = String.Empty
+    Public BPL_Remark As String = String.Empty
+    Public BPL_Coupon_Date As Date? = Nothing
+
 
     Public arrBookingDetailDairySalePaymentMode As List(Of clsBookingDetailDairySalePaymentMode) = Nothing
 #End Region
@@ -190,6 +196,16 @@ Public Class clsBookingEntryDairySale
             clsCommon.AddColumnsForChange(coll, "Login_User_Zone_Code", obj.Login_User_Zone_Code, True)
             clsCommon.AddColumnsForChange(coll, "GatePass_Type", obj.GatePass_Type, True)
             clsCommon.AddColumnsForChange(coll, "Is_DCS", obj.Is_DCS, True)
+            clsCommon.AddColumnsForChange(coll, "Is_BPL", obj.Is_BPL, True)
+            clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Code", obj.BPL_Coupon_Code, True)
+            clsCommon.AddColumnsForChange(coll, "BPL_Name", obj.BPL_Name, True)
+            clsCommon.AddColumnsForChange(coll, "BPL_Remark", obj.BPL_Remark, True)
+            If obj.BPL_Coupon_Date Is Nothing Then
+                clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Date", Nothing, True)
+            Else
+                clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Date", clsCommon.GetPrintDate(obj.BPL_Coupon_Date, "dd/MMM/yyyy"))
+            End If
+
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -367,8 +383,8 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType, ByVal Trans As SqlTransaction, Optional ByVal FormId As String = "") As clsBookingEntryDairySale
         Dim obj As clsBookingEntryDairySale = Nothing
         Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_MATSER.Ship_To_Location,TSPL_BOOKING_MATSER.Created_Date,TSPL_BOOKING_MATSER.AdvanceAmount,TSPL_BOOKING_MATSER.Against_Receipt_No,TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Payment_Mode,TSPL_BOOKING_MATSER.Reference_No,TSPL_BOOKING_MATSER.Counter_No,TSPL_BOOKING_MATSER.IsSampling,TSPL_BOOKING_MATSER.AgainstGatePass,Document_No,Document_Date,Posted,CreateDO_Automatic,location_code,Cust_Group_Code,Is_Taxable,TRANSACTION_TYPE,Ex_Factory_Date,isnull(CustPO_No,'') as CustPO_No,custpo_date,isnull(SalesmanCode,'') as SalesmanCode,Total_Can,total_Box,Total_Crate,isnull(Is_Cancelled,0) as Is_Cancelled, isnull(Booking_Type,'') as Booking_Type,isnull(Card_SALE_No,'') as Card_SALE_No,CardSale_FROM_DATE,CardSale_TO_DATE,Uploading_date " &
-            " ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,Is_DCS " &
-            " from TSPL_BOOKING_MATSER where comp_code='" + objCommonVar.CurrentCompanyCode + "' and "
+            " ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,Is_DCS,Is_BPL,BPL_Coupon_Code,BPL_Name,BPL_Remark,BPL_Coupon_Date " &
+            " from TSPL_BOOKING_MATSER where 2=2 and "
 
         '-------richa 12/08/2014 Ticket No. BM00000003242---------
         Dim strwherecls As String = ""
@@ -379,6 +395,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 whrClas = " and TSPL_BOOKING_DETAIL.Cust_Code in (" + strwherecls + ") "
             End If
         End If
+
 
         'Select Case NavType
         '    Case NavigatorType.Current
@@ -425,6 +442,15 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.TRANSACTION_TYPE = clsCommon.myCstr(dt.Rows(0)("TRANSACTION_TYPE"))
             obj.Booking_Type = clsCommon.myCstr(dt.Rows(0)("Booking_Type"))
             obj.Is_DCS = clsCommon.myCdbl(dt.Rows(0)("Is_DCS"))
+            obj.Is_BPL = clsCommon.myCdbl(dt.Rows(0)("Is_BPL"))
+            obj.BPL_Coupon_Code = clsCommon.myCstr(dt.Rows(0)("BPL_Coupon_Code"))
+            obj.BPL_Name = clsCommon.myCstr(dt.Rows(0)("BPL_Name"))
+            obj.BPL_Remark = clsCommon.myCstr(dt.Rows(0)("BPL_Remark"))
+            If dt.Rows(0)("BPL_Coupon_Date") IsNot DBNull.Value Then
+                obj.BPL_Coupon_Date = clsCommon.myCDate(dt.Rows(0)("BPL_Coupon_Date"))
+            End If
+
+
             If clsCommon.myLen(dt.Rows(0)("Ex_Factory_Date")) > 0 Then
                 obj.Ex_Factory_Date = clsCommon.myCDate(dt.Rows(0)("Ex_Factory_Date"))
             End If
@@ -1205,7 +1231,7 @@ Public Class clsBookingDetailDairySale
         Dim dtBookingScheme As DataTable = Nothing
         Dim dtGatePassScheme As DataTable = Nothing
         Dim ArrGPScheme As New List(Of clsGatePassDairySaleDetail)
-        
+
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsBookingDetailDairySale In Arr
                 If arrRepeat.Contains(obj.Cust_Code) Then
@@ -1323,108 +1349,108 @@ Public Class clsBookingDetailDairySale
                         End If
                     Next
                 End If
-                
+
             Next
 
             'GatePass Entry
-            qry = "update " & _
-            "TSPL_GATEPASS_DETAIL_DAIRYSALE SET " & _
-            "TSPL_GATEPASS_DETAIL_DAIRYSALE.Qty = BD.Booking_Qty " & _
-            "from " & _
-            "(select Document_No,Item_Code,Unit_code,Vehicle_Code,sum(Booking_Qty) Booking_Qty from TSPL_BOOKING_DETAIL " & _
-            "where TSPL_BOOKING_DETAIL.FOC_Item <> 1 " & _
-            "and TSPL_BOOKING_DETAIL.document_no='" + strDocNo + "'" & _
-            "group by Document_No,Item_Code,Unit_code,Vehicle_Code " & _
-            ")BD " & _
-            "inner join TSPL_GATEPASS_MASTER_DAIRYSALE on TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=BD.Document_No " & _
-            "and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code=bd.Vehicle_Code " & _
-            "where BD.Document_No = TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " & _
-            "and BD.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " & _
-            "and BD.Item_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code " & _
-            "and BD.Unit_code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " & _
-            "and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code=BD.Vehicle_Code " & _
-            "and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " & _
-            "and TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No " & _
-            "and TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item<>1 " & _
+            qry = "update " &
+            "TSPL_GATEPASS_DETAIL_DAIRYSALE SET " &
+            "TSPL_GATEPASS_DETAIL_DAIRYSALE.Qty = BD.Booking_Qty " &
+            "from " &
+            "(select Document_No,Item_Code,Unit_code,Vehicle_Code,sum(Booking_Qty) Booking_Qty from TSPL_BOOKING_DETAIL " &
+            "where TSPL_BOOKING_DETAIL.FOC_Item <> 1 " &
+            "and TSPL_BOOKING_DETAIL.document_no='" + strDocNo + "'" &
+            "group by Document_No,Item_Code,Unit_code,Vehicle_Code " &
+            ")BD " &
+            "inner join TSPL_GATEPASS_MASTER_DAIRYSALE on TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=BD.Document_No " &
+            "and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code=bd.Vehicle_Code " &
+            "where BD.Document_No = TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " &
+            "and BD.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " &
+            "and BD.Item_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code " &
+            "and BD.Unit_code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " &
+            "and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code=BD.Vehicle_Code " &
+            "and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " &
+            "and TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No " &
+            "and TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item<>1 " &
             "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code='" + strDocNo + "' "
 
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             'Scheme
-            qry = "update " & _
-        "TSPL_GATEPASS_DETAIL_DAIRYSALE SET " & _
-        "TSPL_GATEPASS_DETAIL_DAIRYSALE.Qty = BD.Booking_Qty " & _
-        "from " & _
-        "(select Document_No,Item_Code,Unit_code,Vehicle_Code,sum(Booking_Qty) Booking_Qty from TSPL_BOOKING_DETAIL " & _
-        "where TSPL_BOOKING_DETAIL.FOC_Item = 1 " & _
-        "and TSPL_BOOKING_DETAIL.document_no='" + strDocNo + "'" & _
-        "group by Document_No,Item_Code,Unit_code,Vehicle_Code " & _
-        ")BD " & _
-        "inner join TSPL_GATEPASS_MASTER_DAIRYSALE on TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=BD.Document_No " & _
-        "and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code=bd.Vehicle_Code " & _
-        "where BD.Document_No = TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " & _
-        "and BD.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " & _
-        "and BD.Item_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code " & _
-        "and BD.Unit_code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " & _
-        "and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code=BD.Vehicle_Code " & _
-        "and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " & _
-        "and TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No " & _
-        "and TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item=1 " & _
+            qry = "update " &
+        "TSPL_GATEPASS_DETAIL_DAIRYSALE SET " &
+        "TSPL_GATEPASS_DETAIL_DAIRYSALE.Qty = BD.Booking_Qty " &
+        "from " &
+        "(select Document_No,Item_Code,Unit_code,Vehicle_Code,sum(Booking_Qty) Booking_Qty from TSPL_BOOKING_DETAIL " &
+        "where TSPL_BOOKING_DETAIL.FOC_Item = 1 " &
+        "and TSPL_BOOKING_DETAIL.document_no='" + strDocNo + "'" &
+        "group by Document_No,Item_Code,Unit_code,Vehicle_Code " &
+        ")BD " &
+        "inner join TSPL_GATEPASS_MASTER_DAIRYSALE on TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=BD.Document_No " &
+        "and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code=bd.Vehicle_Code " &
+        "where BD.Document_No = TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " &
+        "and BD.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " &
+        "and BD.Item_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code " &
+        "and BD.Unit_code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " &
+        "and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code=BD.Vehicle_Code " &
+        "and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " &
+        "and TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No " &
+        "and TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item=1 " &
         "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code='" + strDocNo + "' "
 
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             'Scheme
 
 
-            qry = "delete from TSPL_GATEPASS_DETAIL_DAIRYSALE where " & _
-                "Not exists " & _
-                "( " & _
-                "select TSPL_BOOKING_DETAIL.Document_No,TSPL_BOOKING_DETAIL.Item_Code,TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Vehicle_Code " & _
-                ",sum(Booking_Qty) Booking_Qty from TSPL_BOOKING_DETAIL " & _
-                "inner join TSPL_GATEPASS_MASTER_DAIRYSALE on TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_BOOKING_DETAIL.Document_No " & _
-                "and  TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code = TSPL_BOOKING_DETAIL.Vehicle_Code " & _
-                "where TSPL_BOOKING_DETAIL.FOC_Item <> 1 " & _
-                "and TSPL_BOOKING_DETAIL.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " & _
-                "and TSPL_BOOKING_DETAIL.Item_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code " & _
-                "and TSPL_BOOKING_DETAIL.Unit_code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " & _
-                "and TSPL_BOOKING_DETAIL.document_no='" + strDocNo + "' " & _
-                "and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " & _
-                "and TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No " & _
-                "group by TSPL_BOOKING_DETAIL.Document_No,TSPL_BOOKING_DETAIL.Item_Code,TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Vehicle_Code " & _
-                ") " & _
-                "and TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item<>1 " & _
+            qry = "delete from TSPL_GATEPASS_DETAIL_DAIRYSALE where " &
+                "Not exists " &
+                "( " &
+                "select TSPL_BOOKING_DETAIL.Document_No,TSPL_BOOKING_DETAIL.Item_Code,TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Vehicle_Code " &
+                ",sum(Booking_Qty) Booking_Qty from TSPL_BOOKING_DETAIL " &
+                "inner join TSPL_GATEPASS_MASTER_DAIRYSALE on TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_BOOKING_DETAIL.Document_No " &
+                "and  TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code = TSPL_BOOKING_DETAIL.Vehicle_Code " &
+                "where TSPL_BOOKING_DETAIL.FOC_Item <> 1 " &
+                "and TSPL_BOOKING_DETAIL.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " &
+                "and TSPL_BOOKING_DETAIL.Item_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code " &
+                "and TSPL_BOOKING_DETAIL.Unit_code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " &
+                "and TSPL_BOOKING_DETAIL.document_no='" + strDocNo + "' " &
+                "and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " &
+                "and TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No " &
+                "group by TSPL_BOOKING_DETAIL.Document_No,TSPL_BOOKING_DETAIL.Item_Code,TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Vehicle_Code " &
+                ") " &
+                "and TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item<>1 " &
                 "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code='" + strDocNo + "' "
 
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             'Scheme
-            qry = "delete from TSPL_GATEPASS_DETAIL_DAIRYSALE where " & _
-                "Not exists " & _
-                "( " & _
-                "select TSPL_BOOKING_DETAIL.Document_No,TSPL_BOOKING_DETAIL.Item_Code,TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Vehicle_Code " & _
-                ",sum(Booking_Qty) Booking_Qty from TSPL_BOOKING_DETAIL " & _
-                "inner join TSPL_GATEPASS_MASTER_DAIRYSALE on TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_BOOKING_DETAIL.Document_No " & _
-                "and  TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code = TSPL_BOOKING_DETAIL.Vehicle_Code " & _
-                "where TSPL_BOOKING_DETAIL.FOC_Item = 1 " & _
-                "and TSPL_BOOKING_DETAIL.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " & _
-                "and TSPL_BOOKING_DETAIL.Item_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code " & _
-                "and TSPL_BOOKING_DETAIL.Unit_code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " & _
-                "and TSPL_BOOKING_DETAIL.document_no='" + strDocNo + "' " & _
-                "and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " & _
-                "and TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No " & _
-                "group by TSPL_BOOKING_DETAIL.Document_No,TSPL_BOOKING_DETAIL.Item_Code,TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Vehicle_Code " & _
-                ") " & _
-                "and TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item=1 " & _
+            qry = "delete from TSPL_GATEPASS_DETAIL_DAIRYSALE where " &
+                "Not exists " &
+                "( " &
+                "select TSPL_BOOKING_DETAIL.Document_No,TSPL_BOOKING_DETAIL.Item_Code,TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Vehicle_Code " &
+                ",sum(Booking_Qty) Booking_Qty from TSPL_BOOKING_DETAIL " &
+                "inner join TSPL_GATEPASS_MASTER_DAIRYSALE on TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_BOOKING_DETAIL.Document_No " &
+                "and  TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code = TSPL_BOOKING_DETAIL.Vehicle_Code " &
+                "where TSPL_BOOKING_DETAIL.FOC_Item = 1 " &
+                "and TSPL_BOOKING_DETAIL.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " &
+                "and TSPL_BOOKING_DETAIL.Item_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code " &
+                "and TSPL_BOOKING_DETAIL.Unit_code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " &
+                "and TSPL_BOOKING_DETAIL.document_no='" + strDocNo + "' " &
+                "and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code " &
+                "and TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No " &
+                "group by TSPL_BOOKING_DETAIL.Document_No,TSPL_BOOKING_DETAIL.Item_Code,TSPL_BOOKING_DETAIL.Unit_code,TSPL_BOOKING_DETAIL.Vehicle_Code " &
+                ") " &
+                "and TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item=1 " &
                 "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code='" + strDocNo + "' "
 
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             'Scheme
 
-            qry = "delete from TSPL_GATEPASS_MASTER_DAIRYSALE where " & _
-                  " Not exists " & _
-                  "(select Document_No,Delivery_Code from TSPL_GATEPASS_DETAIL_DAIRYSALE " & _
-                  "where TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No = TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No " & _
-                  "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code) " & _
+            qry = "delete from TSPL_GATEPASS_MASTER_DAIRYSALE where " &
+                  " Not exists " &
+                  "(select Document_No,Delivery_Code from TSPL_GATEPASS_DETAIL_DAIRYSALE " &
+                  "where TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No = TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No " &
+                  "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code) " &
                   "and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code='" + strDocNo + "' "
 
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1437,11 +1463,11 @@ Public Class clsBookingDetailDairySale
                 qry = "select Document_No AS BKNO,Vehicle_Code,Item_Code,Unit_code,sum(Booking_Qty) as Booking_Qty from TSPL_BOOKING_DETAIL where TSPL_BOOKING_DETAIL.FOC_Item<>1 and Document_No='" + strDocNo + "' group by Document_No,Vehicle_Code,Item_Code,Unit_code order by Item_Code"
                 dtBooking = clsDBFuncationality.GetDataTable(qry, trans)
 
-                qry = "select TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No AS GPNO,TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code as BKNO,TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code " & _
-                   ",TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " & _
-                   "from TSPL_GATEPASS_MASTER_DAIRYSALE inner join TSPL_GATEPASS_DETAIL_DAIRYSALE " & _
-                   "on TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No " & _
-                   "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " & _
+                qry = "select TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No AS GPNO,TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code as BKNO,TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code " &
+                   ",TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " &
+                   "from TSPL_GATEPASS_MASTER_DAIRYSALE inner join TSPL_GATEPASS_DETAIL_DAIRYSALE " &
+                   "on TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No " &
+                   "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " &
                    "where TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item<>1 and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code='" + strDocNo + "'  order by TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code"
                 dtGatePass = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -1453,10 +1479,10 @@ Public Class clsBookingDetailDairySale
                         ''''
                         Dim objTr As New clsGatePassDairySaleDetail()
                         'If (clsCommon.myCdbl(grow.Cells(colBookQty).Value)) > 0 Then
-                        qry = "Select max(Line_No) + 1 " & _
-                            "from TSPL_GATEPASS_MASTER_DAIRYSALE inner join TSPL_GATEPASS_DETAIL_DAIRYSALE " & _
-                            "on TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No " & _
-                            "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " & _
+                        qry = "Select max(Line_No) + 1 " &
+                            "from TSPL_GATEPASS_MASTER_DAIRYSALE inner join TSPL_GATEPASS_DETAIL_DAIRYSALE " &
+                            "on TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No " &
+                            "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " &
                             "where TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code='" & clsCommon.myCstr(dtBooking.Rows(jj).Item("BKNO")) & "' and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code='" & clsCommon.myCstr(dtBooking.Rows(jj).Item("Vehicle_Code")) & "'"
                         objTr.Line_No = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans) + ArrGP.Count)
                         'clsCommon.myCdbl(grow.Cells(colLineNo).Value)
@@ -1466,7 +1492,7 @@ Public Class clsBookingDetailDairySale
                         objTr.Qty = clsCommon.myCdbl(dtBooking.Rows(jj).Item("Booking_Qty"))
                         objTr.Scheme_Item = "N"
                         objTr.FOC_Item = 0
-                        qry = "select Document_No from TSPL_GATEPASS_MASTER_DAIRYSALE " & _
+                        qry = "select Document_No from TSPL_GATEPASS_MASTER_DAIRYSALE " &
                                "where TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code='" & clsCommon.myCstr(dtBooking.Rows(jj).Item("BKNO")) & "' and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code='" & clsCommon.myCstr(dtBooking.Rows(jj).Item("Vehicle_Code")) & "'"
                         objTr.Document_No = clsDBFuncationality.getSingleValue(qry, trans)
 
@@ -1486,11 +1512,11 @@ Public Class clsBookingDetailDairySale
                 qry = "select Document_No AS BKNO,Vehicle_Code,Item_Code,Unit_code,sum(Booking_Qty) as Booking_Qty from TSPL_BOOKING_DETAIL where TSPL_BOOKING_DETAIL.FOC_Item=1 and Document_No='" + strDocNo + "' group by Document_No,Vehicle_Code,Item_Code,Unit_code order by Item_Code"
                 dtBookingScheme = clsDBFuncationality.GetDataTable(qry, trans)
 
-                qry = "select TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No AS GPNO,TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code as BKNO,TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code " & _
-                   ",TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " & _
-                   "from TSPL_GATEPASS_MASTER_DAIRYSALE inner join TSPL_GATEPASS_DETAIL_DAIRYSALE " & _
-                   "on TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No " & _
-                   "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " & _
+                qry = "select TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No AS GPNO,TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code as BKNO,TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code " &
+                   ",TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code,TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code " &
+                   "from TSPL_GATEPASS_MASTER_DAIRYSALE inner join TSPL_GATEPASS_DETAIL_DAIRYSALE " &
+                   "on TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No " &
+                   "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " &
                    "where TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item=1 and TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code='" + strDocNo + "'  order by TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code"
                 dtGatePassScheme = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -1504,10 +1530,10 @@ Public Class clsBookingDetailDairySale
                             ''''
                             Dim objTr As New clsGatePassDairySaleDetail()
                             'If (clsCommon.myCdbl(grow.Cells(colBookQty).Value)) > 0 Then
-                            qry = "Select max(Line_No) + 1 " & _
-                                "from TSPL_GATEPASS_MASTER_DAIRYSALE inner join TSPL_GATEPASS_DETAIL_DAIRYSALE " & _
-                                "on TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No " & _
-                                "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " & _
+                            qry = "Select max(Line_No) + 1 " &
+                                "from TSPL_GATEPASS_MASTER_DAIRYSALE inner join TSPL_GATEPASS_DETAIL_DAIRYSALE " &
+                                "on TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No " &
+                                "and TSPL_GATEPASS_DETAIL_DAIRYSALE.Delivery_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code " &
                                 "where TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code='" & clsCommon.myCstr(dtBookingScheme.Rows(jj).Item("BKNO")) & "' and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code='" & clsCommon.myCstr(dtBookingScheme.Rows(jj).Item("Vehicle_Code")) & "'"
                             objTr.Line_No = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans) + ArrGPScheme.Count)
                             'clsCommon.myCdbl(grow.Cells(colLineNo).Value)
@@ -1518,7 +1544,7 @@ Public Class clsBookingDetailDairySale
                             objTr.Scheme_Item = "Y"
                             objTr.FOC_Item = 1
 
-                            qry = "select Document_No from TSPL_GATEPASS_MASTER_DAIRYSALE " & _
+                            qry = "select Document_No from TSPL_GATEPASS_MASTER_DAIRYSALE " &
                                    "where TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code='" & clsCommon.myCstr(dtBookingScheme.Rows(jj).Item("BKNO")) & "' and TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code='" & clsCommon.myCstr(dtBookingScheme.Rows(jj).Item("Vehicle_Code")) & "'"
                             objTr.Document_No = clsDBFuncationality.getSingleValue(qry, trans)
 

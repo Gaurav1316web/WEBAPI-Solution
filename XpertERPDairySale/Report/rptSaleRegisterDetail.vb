@@ -936,7 +936,9 @@ Public Class rptSaleRegisterDetail
         Document_No = ""
         Document_No_Old = ""
         ToDate.Value = clsCommon.GETSERVERDATE()
-        fromDate.Value = New DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
+        fromDate.Value = clsCommon.GETSERVERDATE()
+        'ToDate.Value = clsCommon.GETSERVERDATE()
+        'fromDate.Value = New DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
         txtUOM.Value = ""
         LoadTypes()
         LoadSubCategory()

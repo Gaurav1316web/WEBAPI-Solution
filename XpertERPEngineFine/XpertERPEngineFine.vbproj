@@ -79,6 +79,7 @@
     <Compile Include="Classes\checkprocedure.vb" />
     <Compile Include="Classes\clsBMCDCSMobile.vb" />
     <Compile Include="Classes\clsCreateAllTable.vb" />
+    <Compile Include="Classes\clsDistributorCommission.vb" />
     <Compile Include="Classes\clsDocType.vb" />
     <Compile Include="Classes\clsEnums.vb" />
     <Compile Include="Classes\clsERPFuncationality.vb" />
@@ -98,6 +99,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
+    <Compile Include="Sales Distribution\clsEInvoiceHead.vb" />
     <Compile Include="UserControl1.vb">
       <SubType>UserControl</SubType>
     </Compile>

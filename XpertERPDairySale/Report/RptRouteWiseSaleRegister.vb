@@ -358,8 +358,10 @@ Public Class RptRouteWiseSaleRegister
         Reset()
     End Sub
     Private Sub Reset()
-        txtfDate.Value = New DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
+        txtfDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE()
+        'txtfDate.Value = New DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
+        'txtToDate.Value = clsCommon.GETSERVERDATE()
         txtMultiCustomer.arrValueMember = Nothing
         txtMultItem.arrValueMember = Nothing
         txtRoute.arrValueMember = Nothing
@@ -379,6 +381,7 @@ Public Class RptRouteWiseSaleRegister
         End If
     End Sub
     Private Sub FrmPendingBookingReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         SetUserMgmtNew()
         Reset()
         CrateToLTR = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select description from tspl_fixed_parameter where type='" + clsFixedParameterType.CrateToLTR + "' and code='" + clsFixedParameterCode.CrateToLTR + "'"))

@@ -386,7 +386,6 @@ Public Class frmLeaveSetting
     End Sub
 
     Private Sub frmLeaveSetting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        CreateOrAlterTable()
         formLoading = True
         SetUserMgmtNew()
         isNewEntry = True
@@ -402,47 +401,13 @@ Public Class frmLeaveSetting
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            fndLocation.Value = objCommonVar.strCurrUserLocations
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
-            fndLocation.Value = "RCDF"
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
         End If
-        lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
-    End Sub
-
-    Private Sub CreateOrAlterTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("LEAVE_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY REFERENCES TSPL_LEAVE_MASTER(LEAVE_CODE)")
-        coll.Add("LEAVE_ALLOT_TYPE", "INTEGER NOT NULL ")
-        coll.Add("ALLOT_AFTER_MONTHS", "INTEGER NULL ")
-        coll.Add("ALLOT_AFTER_DAYS", "INTEGER NULL ")
-        coll.Add("LEAVE_AVAIL_TYPE", "INTEGER NOT NULL ")
-        coll.Add("AVAIL_AFTER_MONTHS", "INTEGER NULL ")
-        coll.Add("AVAIL_AFTER_DAYS", "INTEGER NULL ")
-        coll.Add("BAL_ROUND_OFF_TYPE", "VARCHAR(30)  NULL")
-        coll.Add("LEAVE_ENCASHED", "BIT  NULL")
-        coll.Add("MIN_BAL", "NUMERIC(5,2)  NULL")
-        coll.Add("CARRY_OVER", "BIT  NULL")
-        coll.Add("CARRY_LOWER_LIM", "NUMERIC(5,2)  NULL")
-        coll.Add("CARRY_UPPER_LIM", "NUMERIC(5,2)  NULL")
-        coll.Add("LAPSE_UNAVAILED", "BIT  NULL")
-        coll.Add("LAPSE_MONTH", "VARCHAR(10)  NULL")
-        coll.Add("LAPSE_NEGATIVE", "BIT  NULL")
-        coll.Add("LAPSE_EXCEEDING", "NUMERIC(5,2)  NULL")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "Datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "Datetime NOT NULL")
-        coll.Add("LAPSE_AFTER_DAYS", "INTEGER  NULL")
-
-        coll.Add("Allot_Periodicity", "Varchar(1)  NULL")
-        coll.Add("Allot_Type", "Varchar(10)  NULL")
-        coll.Add("Alloted_Days", "numeric(5,2)  NULL")
-        coll.Add("PerPresentDays", "numeric(5,2)  NULL")
-        coll.Add("AutoAllotDuringSalaryGen", "bit  NULL")
-        coll.Add("Location_Code", "varchar(12) NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_LEAVE_SETTING", coll)
     End Sub
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.frmLeaveSetting)
@@ -460,12 +425,13 @@ Public Class frmLeaveSetting
     End Sub
 
     Sub funReset()
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            fndLocation.Value = objCommonVar.strCurrUserLocations
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
-            fndLocation.Value = "RCDF"
+            fndLocation.Value = ""
+            lblLocationName.Text = ""
         End If
-        lblLocationName.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         isNewEntry = True
         txtCode.MyReadOnly = False
         txtCode.Value = Nothing
@@ -543,10 +509,14 @@ Public Class frmLeaveSetting
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " And TSPL_LEAVE_SETTING.Location_code=" + objCommonVar.strCurrUserLocations + ""
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " TSPL_LEAVE_SETTING.LOCATION_CODE='" + LocCode + "'"
+            End If
         End If
-        Dim str As String = "select count(*) from TSPL_LEAVE_MASTER where LEAVE_CODE ='" + txtCode.Value + "' "
+        Dim str As String = "Select count(*) from TSPL_LEAVE_MASTER where LEAVE_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
             txtCode.MyReadOnly = False
@@ -886,8 +856,12 @@ Public Class frmLeaveSetting
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
         Try
             Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " LOCATION_CODE='" + LocCode + "'"
+                End If
             End If
             Dim Qry As String = "select Location_Code As [Location Code],Location_Desc As [Description] from TSPL_LOCATION_MASTER "
             fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)

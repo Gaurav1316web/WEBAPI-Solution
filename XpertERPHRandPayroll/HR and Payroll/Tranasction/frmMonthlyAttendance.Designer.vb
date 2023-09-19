@@ -25,9 +25,9 @@ Partial Class frmMonthlyAttendance
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMonthlyAttendance))
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -56,7 +56,6 @@ Partial Class frmMonthlyAttendance
         Me.radPageAttachment = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New XpertERPHRandPayroll.ucCustomFields()
         Me.RadPageAttendanceDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvAttendanceDetail = New common.UserControls.MyRadGridView()
         Me.RadPageAttendanceSummary = New Telerik.WinControls.UI.RadPageViewPage()
@@ -100,6 +99,7 @@ Partial Class frmMonthlyAttendance
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.UcCustomFields1 = New XpertERPHRandPayroll.ucCustomFields()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -250,10 +250,10 @@ Partial Class frmMonthlyAttendance
         Me.RadPageViewPage1.Controls.Add(Me.findPayperiod)
         Me.RadPageViewPage1.Controls.Add(Me.lblRemarks)
         Me.RadPageViewPage1.Controls.Add(Me.txtDescription)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(73.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(69.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(909, 433)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(909, 437)
         Me.RadPageViewPage1.Text = "Attendance"
         '
         'RadButton1
@@ -377,12 +377,13 @@ Partial Class frmMonthlyAttendance
         Me.gvMonthlyAttendance.MasterTemplate.AllowAddNewRow = False
         Me.gvMonthlyAttendance.MasterTemplate.AutoGenerateColumns = False
         Me.gvMonthlyAttendance.MasterTemplate.EnableGrouping = False
+        Me.gvMonthlyAttendance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMonthlyAttendance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvMonthlyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvMonthlyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvMonthlyAttendance.Name = "gvMonthlyAttendance"
         Me.gvMonthlyAttendance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvMonthlyAttendance.ShowHeaderCellButtons = True
-        Me.gvMonthlyAttendance.Size = New System.Drawing.Size(906, 283)
+        Me.gvMonthlyAttendance.Size = New System.Drawing.Size(906, 287)
         Me.gvMonthlyAttendance.TabIndex = 7
         '
         'lblAttendanceCode
@@ -567,7 +568,7 @@ Partial Class frmMonthlyAttendance
         'radPageAttachment
         '
         Me.radPageAttachment.Controls.Add(Me.UcAttachment1)
-        Me.radPageAttachment.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
+        Me.radPageAttachment.ItemSize = New System.Drawing.SizeF(71.0!, 24.0!)
         Me.radPageAttachment.Location = New System.Drawing.Point(10, 37)
         Me.radPageAttachment.Name = "radPageAttachment"
         Me.radPageAttachment.Size = New System.Drawing.Size(847, 433)
@@ -584,24 +585,16 @@ Partial Class frmMonthlyAttendance
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(847, 433)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(847, 433)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'RadPageAttendanceDetail
         '
         Me.RadPageAttendanceDetail.Controls.Add(Me.gvAttendanceDetail)
-        Me.RadPageAttendanceDetail.ItemSize = New System.Drawing.SizeF(106.0!, 28.0!)
+        Me.RadPageAttendanceDetail.ItemSize = New System.Drawing.SizeF(102.0!, 24.0!)
         Me.RadPageAttendanceDetail.Location = New System.Drawing.Point(10, 37)
         Me.RadPageAttendanceDetail.Name = "RadPageAttendanceDetail"
         Me.RadPageAttendanceDetail.Size = New System.Drawing.Size(847, 433)
@@ -614,8 +607,9 @@ Partial Class frmMonthlyAttendance
         '
         '
         '
+        Me.gvAttendanceDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAttendanceDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAttendanceDetail.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvAttendanceDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvAttendanceDetail.Name = "gvAttendanceDetail"
         Me.gvAttendanceDetail.ShowHeaderCellButtons = True
         Me.gvAttendanceDetail.Size = New System.Drawing.Size(847, 433)
@@ -624,7 +618,7 @@ Partial Class frmMonthlyAttendance
         'RadPageAttendanceSummary
         '
         Me.RadPageAttendanceSummary.Controls.Add(Me.SplitContainer2)
-        Me.RadPageAttendanceSummary.ItemSize = New System.Drawing.SizeF(124.0!, 28.0!)
+        Me.RadPageAttendanceSummary.ItemSize = New System.Drawing.SizeF(120.0!, 24.0!)
         Me.RadPageAttendanceSummary.Location = New System.Drawing.Point(10, 37)
         Me.RadPageAttendanceSummary.Name = "RadPageAttendanceSummary"
         Me.RadPageAttendanceSummary.Size = New System.Drawing.Size(847, 433)
@@ -854,8 +848,9 @@ Partial Class frmMonthlyAttendance
         '
         '
         '
+        Me.gvAttendanceSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAttendanceSummary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAttendanceSummary.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvAttendanceSummary.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvAttendanceSummary.Name = "gvAttendanceSummary"
         Me.gvAttendanceSummary.ShowHeaderCellButtons = True
         Me.gvAttendanceSummary.Size = New System.Drawing.Size(847, 359)
@@ -1022,6 +1017,14 @@ Partial Class frmMonthlyAttendance
         Me.btndelete.Size = New System.Drawing.Size(53, 18)
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
+        '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(847, 433)
+        Me.UcCustomFields1.TabIndex = 1
         '
         'frmMonthlyAttendance
         '

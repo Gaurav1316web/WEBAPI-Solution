@@ -5034,7 +5034,7 @@ Public Class frmGRN
         ElseIf clsCommon.CompairString(cmbGRNType.SelectedValue, "J") = CompairStringResult.Equal AndAlso clsCommon.CompairString(cmbRGPType.SelectedValue, "AR") = CompairStringResult.Equal Then
             whrCls = " tspl_vendor_master.vendor_code in (select vendor_code from tspl_rgp_head where TSPL_RGP_HEAD .Against_As_It_Is = 0 and TSPL_RGP_HEAD .Against_JobWork = 1 and TSPL_RGP_HEAD .Against_BOM = 0  and Status='1')  and tspl_vendor_master.Status='N' "
         Else
-            whrCls = " tspl_vendor_master.Status='N' "
+            whrCls = " tspl_vendor_master.Status='N'  and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
         End If
         Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name,ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],Terms_Code as [Term Code] ,Terms_Code_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description] from TSPL_VENDOR_MASTER"
         txtVendorNo.Value = clsCommon.ShowSelectForm("POVendorrFNDD", qry, "Code", whrCls, txtVendorNo.Value, "Code", isButtonClicked)
