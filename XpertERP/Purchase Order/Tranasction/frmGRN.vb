@@ -357,6 +357,10 @@ Public Class frmGRN
         SetLength()
         ''End of For Custom Fields
         '==========Added by Preeti Gupta==
+        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+        If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
+        End If
         If clsCommon.myLen(strGRN) > 0 Then
             LoadData(strGRN, NavigatorType.Current)
         End If
@@ -364,10 +368,7 @@ Public Class frmGRN
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
         '============End ====================
-        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
-        End If
+
         '' MultiCurrency
         SetMultiCurrencyVisibility()
         '' End of MultiCurrency

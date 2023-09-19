@@ -90,6 +90,7 @@
     <Compile Include="Comman Services\clsBankGroupMaster.vb" />
     <Compile Include="Classes\connectSql.vb" />
     <Compile Include="Classes\objCommonVar.vb" />
+    <Compile Include="DeletionForEntry\ClsDeletionHead.vb" />
     <Compile Include="Sales Distribution\ClsDCSforSale.vb" />
     <Compile Include="clsTenderPenalty.vb" />
     <Compile Include="Milk Procurement\ClsOwnBmcExpanse.vb" />

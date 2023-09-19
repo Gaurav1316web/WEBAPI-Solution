@@ -234,20 +234,27 @@ Public Class clsQualityCheckForSRNHead
             obj.Arr_MRN = New List(Of clsQualityCheckForSRN_MRNDetail)
             obj.Arr = New List(Of clsQualityCheckDetail)
 
-            Dim qry As String = "select TSPL_QC_CHECK_HEAD.*,tspl_vendor_master.vendor_name,tspl_location_master.location_desc from TSPL_QC_CHECK_HEAD left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_QC_CHECK_HEAD.vendor_code left outer join tspl_location_master on tspl_location_master.location_code=TSPL_QC_CHECK_HEAD.bill_to_location where TSPL_QC_CHECK_HEAD.qc_type='" + QC_Type + "' "
-            Dim whr As String = " where qc_type='" + QC_Type + "' " + ExtrWhr
+            'Dim qry As String = "select TSPL_QC_CHECK_HEAD.*,tspl_vendor_master.vendor_name,tspl_location_master.location_desc from TSPL_QC_CHECK_HEAD left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_QC_CHECK_HEAD.vendor_code left outer join tspl_location_master on tspl_location_master.location_code=TSPL_QC_CHECK_HEAD.bill_to_location where TSPL_QC_CHECK_HEAD.qc_type='" + QC_Type + "' "
+            Dim qry As String = "select TSPL_QC_CHECK_HEAD.*,tspl_vendor_master.vendor_name,tspl_location_master.location_desc from TSPL_QC_CHECK_HEAD left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_QC_CHECK_HEAD.vendor_code left outer join tspl_location_master on tspl_location_master.location_code=TSPL_QC_CHECK_HEAD.bill_to_location "
+            Dim whr As String = " and qc_type='" + QC_Type + "' " + ExtrWhr
+            'Dim whr As String = "where " + ExtrWhr
 
             Select Case NavType
                 Case NavigatorType.Current
-                    qry += " and TSPL_QC_CHECK_HEAD.document_code='" + strCode + "'"
+                    ' qry += " and TSPL_QC_CHECK_HEAD.document_code='" + strCode + "'"
+                    qry += " where TSPL_QC_CHECK_HEAD.document_code='" + strCode + "'"
                 Case NavigatorType.First
-                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select min(document_code) from TSPL_QC_CHECK_HEAD " + whr + ")"
+                    'qry += " and TSPL_QC_CHECK_HEAD.document_code in (select min(document_code) from TSPL_QC_CHECK_HEAD " + whr + ")"
+                    qry += " where TSPL_QC_CHECK_HEAD.document_code in (select min(document_code) from TSPL_QC_CHECK_HEAD " + whr + ")"
                 Case NavigatorType.Last
-                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select max(document_code) from TSPL_QC_CHECK_HEAD " + whr + ")"
+                    'qry += " and TSPL_QC_CHECK_HEAD.document_code in (select max(document_code) from TSPL_QC_CHECK_HEAD " + whr + ")"
+                    qry += " where TSPL_QC_CHECK_HEAD.document_code in (select max(document_code) from TSPL_QC_CHECK_HEAD " + whr + ")"
                 Case NavigatorType.Next
-                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select min(document_code) from TSPL_QC_CHECK_HEAD " + whr + " and document_code>'" + strCode + "')"
+                    ' qry += " and TSPL_QC_CHECK_HEAD.document_code in (select min(document_code) from TSPL_QC_CHECK_HEAD " + whr + " and document_code>'" + strCode + "')"
+                    qry += "where TSPL_QC_CHECK_HEAD.document_code in (select min(document_code) from TSPL_QC_CHECK_HEAD " + whr + " and document_code>'" + strCode + "')"
                 Case NavigatorType.Previous
-                    qry += " and TSPL_QC_CHECK_HEAD.document_code in (select max(document_code) from TSPL_QC_CHECK_HEAD " + whr + " and document_code<'" + strCode + "')"
+                    'qry += " and TSPL_QC_CHECK_HEAD.document_code in (select max(document_code) from TSPL_QC_CHECK_HEAD " + whr + " and document_code<'" + strCode + "')"
+                    qry += " where TSPL_QC_CHECK_HEAD.document_code in (select max(document_code) from TSPL_QC_CHECK_HEAD " + whr + " and document_code<'" + strCode + "')"
             End Select
             dt = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -397,26 +404,45 @@ Public Class clsQualityCheckForSRNHead
     End Function
 
     Public Shared Function DeleteData(ByVal strCode As String, ByVal QC_Type As String) As Boolean
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim trans As SqlTransaction = Nothing
         Try
             DeleteData(strCode, QC_Type, trans)
 
-            trans.Commit()
+            'trans.Commit()
             Return True
         Catch ex As Exception
-            trans.Rollback()
+            'trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
     End Function
 
     Public Shared Function DeleteData(ByVal strCode As String, ByVal QC_Type As String, ByVal trans As SqlTransaction) As Boolean
+        trans = clsDBFuncationality.GetTransactin()
         Try
             ''qc approval must be deleted.
+            ' Dim qry As String = ""
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Date,Bill_To_location from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "'", trans)
             If dt Is Nothing AndAlso dt.Rows.Count > 0 Then
 
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleQualityControl, clsUserMgtCode.frmQualityCheckForSRN, clsCommon.myCstr(dt.Rows(0)("Bill_To_location")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
 
+            End If
+
+            Dim obj As clsQualityCheckForSRNHead = clsQualityCheckForSRNHead.GetData(strCode, Nothing, NavigatorType.Current, trans)
+            If (obj.Posted = ERPTransactionStatus.Approved) Then
+                Throw New Exception("Already Posted Document")
+            End If
+
+            Dim qry1 As String = ""
+            'Dim dt As DataTable = Nothing
+            'strCode = obj.Document_Code
+            'qry = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + strCode + "'"
+            qry1 = "Select distinct SRN_No from TSPL_TENDER_PENALTY_DETAIL WHERE SRN_No IN (Select  SRN_No from TSPL_SRN_HEAD WHERE SRN_No IN (SELECT DISTINCT SRN_Id  FROM TSPL_QC_CHECK_MRN_DETAIL WHERE Document_Code='" + strCode + "'))"
+            dt = clsDBFuncationality.GetDataTable(qry1, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsCommon.MyMessageBoxShow("First Delete RAL Penalty if created then delete SRN")
+                Return True
+                Exit Function
             End If
 
 
@@ -432,11 +458,13 @@ Public Class clsQualityCheckForSRNHead
             qry = "delete from TSPL_QC_CHECK_DETAIL where document_code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "' and qc_type='" + QC_Type + "'"
+            qry = "delete from TSPL_QC_CHECK_HEAD where document_code='" + strCode + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            trans.Commit()
             Return True
         Catch ex As Exception
+            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
     End Function
