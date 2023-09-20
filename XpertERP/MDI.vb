@@ -8816,8 +8816,8 @@ Public Class MDI
                     Case clsUserMgtCode.frmLocationItemMapping
                         frm = New RptLocationItemMappingDS()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmDistributeRateTagging
-                        frm = New frmDistributeRateTagging()
+                    Case clsUserMgtCode.frmDistributorRouteTagging
+                        frm = New frmDistributorRouteTagging()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.SaleIncentiveMaster
@@ -9393,6 +9393,10 @@ Public Class MDI
                     Case clsUserMgtCode.frmCorrectionforWrongEntry
                         frm = New frmCorrectionforWrongEntry()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDeletionForEntry
+                        frm = New frmDeletionForEntry()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     'Case clsUserMgtCode.frmsaleReturnGateEntryMCCSAle
                     '    frm = New FrmsaleReturnGateEntry(strProgramCode)
                     '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

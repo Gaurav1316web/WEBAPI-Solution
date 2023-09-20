@@ -527,6 +527,7 @@ Public Class clsDocType
     Public Const FarmerServiceOrder As String = "Farmer Service Order With Rate"
     Public Const DCSSale As String = "DCS Sale"
     Public Const DistributorCommission As String = "Distributor Commission"
+    Public Const DistributorRouteTagging As String = "Distributor Route Tagging"
 
     Public Const CostCenterGroupStore As String = "Cost Center"
     '
@@ -1483,6 +1484,7 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, True, True)
+            InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, True, True)
 
             'sanjay BHA/09/05/18-000014 
             InsertDefaultValue(clsDocType.MaterialQuotation, "", False, True)
