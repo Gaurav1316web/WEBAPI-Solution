@@ -22,13 +22,18 @@ Partial Class RptMatrixFreshSalesReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
@@ -36,6 +41,19 @@ Partial Class RptMatrixFreshSalesReport
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.btnPrintTrkSht = New Telerik.WinControls.UI.RadButton()
+        Me.txtPTSDateTo = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.txtPTSDateFrom = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.btnTrkShtSummaryRW = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkGatePass = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkRouteBoothWise = New Telerik.WinControls.UI.RadCheckBox()
+        Me.ChkDayWiseSummary = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkFirstAndSecondSpellAbstract = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkProduct = New Telerik.WinControls.UI.RadCheckBox()
         Me.pnlMilkPouch = New System.Windows.Forms.Panel()
         Me.rbtnAsPerBooking = New System.Windows.Forms.RadioButton()
         Me.MyLabel7 = New common.Controls.MyLabel()
@@ -44,10 +62,6 @@ Partial Class RptMatrixFreshSalesReport
         Me.rdbLtr = New System.Windows.Forms.RadioButton()
         Me.chkMilkPouch = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkRouteSummary = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkGatePass = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkFirstAndSecondSpellAbstract = New Telerik.WinControls.UI.RadCheckBox()
-        Me.ChkDayWiseSummary = New Telerik.WinControls.UI.RadCheckBox()
-        Me.chkRouteBoothWise = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkFirstAndSecondSpell = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkFilterByCreatedDate = New Telerik.WinControls.UI.RadCheckBox()
         Me.TxtMultiCustomerCategory = New common.UserControls.txtMultiSelectFinder()
@@ -89,7 +103,10 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.chkProduct = New Telerik.WinControls.UI.RadCheckBox()
+        Me.MyLabel11 = New common.Controls.MyLabel()
+        Me.ddlPTSShift = New Telerik.WinControls.UI.RadDropDownList()
+        Me.txtMultPTSRoute = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel12 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -97,15 +114,26 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintTrkSht, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPTSDateTo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPTSDateFrom, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnTrkShtSummaryRW, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkGatePass, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkRouteBoothWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChkDayWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkFirstAndSecondSpellAbstract, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkProduct, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlMilkPouch.SuspendLayout()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkMilkPouch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkRouteSummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkGatePass, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkFirstAndSecondSpellAbstract, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChkDayWiseSummary, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkRouteBoothWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFirstAndSecondSpell, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFilterByCreatedDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -137,7 +165,9 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkProduct, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlPTSShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -171,27 +201,20 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(976, 20)
         Me.RadMenu1.TabIndex = 16
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Setting"
-        Me.RadMenuItem2.AccessibleName = "Setting"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout For Summary"
-        Me.rmSaveLayout.AccessibleName = "Save Layout For Summary"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout For Summary"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout For Summary"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout For Summary"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout For Summary"
         '
@@ -207,18 +230,16 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(976, 413)
         Me.RadPageView1.TabIndex = 15
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
+        Me.RadPageViewPage1.Controls.Add(Me.btnTrkShtSummaryRW)
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.chkProduct)
         Me.RadPageViewPage1.Controls.Add(Me.pnlMilkPouch)
         Me.RadPageViewPage1.Controls.Add(Me.chkRouteSummary)
-        Me.RadPageViewPage1.Controls.Add(Me.chkGatePass)
-        Me.RadPageViewPage1.Controls.Add(Me.chkFirstAndSecondSpellAbstract)
-        Me.RadPageViewPage1.Controls.Add(Me.ChkDayWiseSummary)
-        Me.RadPageViewPage1.Controls.Add(Me.chkRouteBoothWise)
         Me.RadPageViewPage1.Controls.Add(Me.chkFirstAndSecondSpell)
         Me.RadPageViewPage1.Controls.Add(Me.chkFilterByCreatedDate)
         Me.RadPageViewPage1.Controls.Add(Me.TxtMultiCustomerCategory)
@@ -253,6 +274,159 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(955, 365)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.txtMultPTSRoute)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel12)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel11)
+        Me.RadGroupBox2.Controls.Add(Me.ddlPTSShift)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel8)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel9)
+        Me.RadGroupBox2.Controls.Add(Me.btnPrintTrkSht)
+        Me.RadGroupBox2.Controls.Add(Me.txtPTSDateTo)
+        Me.RadGroupBox2.Controls.Add(Me.txtPTSDateFrom)
+        Me.RadGroupBox2.HeaderText = "Print Truck Sheet"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(607, 80)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(301, 119)
+        Me.RadGroupBox2.TabIndex = 435
+        Me.RadGroupBox2.Text = "Print Truck Sheet"
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Location = New System.Drawing.Point(130, 19)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(19, 18)
+        Me.MyLabel8.TabIndex = 3
+        Me.MyLabel8.Text = "To"
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Location = New System.Drawing.Point(5, 19)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(32, 18)
+        Me.MyLabel9.TabIndex = 2
+        Me.MyLabel9.Text = "From"
+        '
+        'btnPrintTrkSht
+        '
+        Me.btnPrintTrkSht.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintTrkSht.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintTrkSht.Location = New System.Drawing.Point(157, 94)
+        Me.btnPrintTrkSht.Name = "btnPrintTrkSht"
+        Me.btnPrintTrkSht.Size = New System.Drawing.Size(133, 22)
+        Me.btnPrintTrkSht.TabIndex = 433
+        Me.btnPrintTrkSht.Text = "Print Truck Sheet"
+        '
+        'txtPTSDateTo
+        '
+        Me.txtPTSDateTo.CustomFormat = "dd/MM/yyyy"
+        Me.txtPTSDateTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtPTSDateTo.Location = New System.Drawing.Point(157, 18)
+        Me.txtPTSDateTo.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtPTSDateTo.Name = "txtPTSDateTo"
+        Me.txtPTSDateTo.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtPTSDateTo.Size = New System.Drawing.Size(81, 20)
+        Me.txtPTSDateTo.TabIndex = 1
+        Me.txtPTSDateTo.TabStop = False
+        Me.txtPTSDateTo.Text = "24/10/2011"
+        Me.txtPTSDateTo.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'txtPTSDateFrom
+        '
+        Me.txtPTSDateFrom.CustomFormat = "dd/MM/yyyy"
+        Me.txtPTSDateFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtPTSDateFrom.Location = New System.Drawing.Point(44, 18)
+        Me.txtPTSDateFrom.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtPTSDateFrom.Name = "txtPTSDateFrom"
+        Me.txtPTSDateFrom.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtPTSDateFrom.Size = New System.Drawing.Size(81, 20)
+        Me.txtPTSDateFrom.TabIndex = 0
+        Me.txtPTSDateFrom.TabStop = False
+        Me.txtPTSDateFrom.Text = "24/10/2011"
+        Me.txtPTSDateFrom.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'btnTrkShtSummaryRW
+        '
+        Me.btnTrkShtSummaryRW.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnTrkShtSummaryRW.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnTrkShtSummaryRW.Location = New System.Drawing.Point(709, 215)
+        Me.btnTrkShtSummaryRW.Name = "btnTrkShtSummaryRW"
+        Me.btnTrkShtSummaryRW.Size = New System.Drawing.Size(188, 22)
+        Me.btnTrkShtSummaryRW.TabIndex = 434
+        Me.btnTrkShtSummaryRW.Text = "Truck Sheet Summary Route Wise"
+        Me.btnTrkShtSummaryRW.Visible = False
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkGatePass)
+        Me.RadGroupBox1.Controls.Add(Me.chkRouteBoothWise)
+        Me.RadGroupBox1.Controls.Add(Me.ChkDayWiseSummary)
+        Me.RadGroupBox1.Controls.Add(Me.chkFirstAndSecondSpellAbstract)
+        Me.RadGroupBox1.HeaderText = "RadGroupBox1"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(607, 246)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(345, 120)
+        Me.RadGroupBox1.TabIndex = 432
+        Me.RadGroupBox1.Text = "RadGroupBox1"
+        Me.RadGroupBox1.Visible = False
+        '
+        'chkGatePass
+        '
+        Me.chkGatePass.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkGatePass.Enabled = False
+        Me.chkGatePass.Location = New System.Drawing.Point(5, 21)
+        Me.chkGatePass.Name = "chkGatePass"
+        Me.chkGatePass.Size = New System.Drawing.Size(95, 18)
+        Me.chkGatePass.TabIndex = 425
+        Me.chkGatePass.Text = "Only Gate Pass"
+        Me.chkGatePass.Visible = False
+        '
+        'chkRouteBoothWise
+        '
+        Me.chkRouteBoothWise.Location = New System.Drawing.Point(5, 45)
+        Me.chkRouteBoothWise.Name = "chkRouteBoothWise"
+        Me.chkRouteBoothWise.Size = New System.Drawing.Size(114, 18)
+        Me.chkRouteBoothWise.TabIndex = 422
+        Me.chkRouteBoothWise.Text = "Route/Booth Wise "
+        Me.chkRouteBoothWise.Visible = False
+        '
+        'ChkDayWiseSummary
+        '
+        Me.ChkDayWiseSummary.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ChkDayWiseSummary.Location = New System.Drawing.Point(5, 69)
+        Me.ChkDayWiseSummary.Name = "ChkDayWiseSummary"
+        Me.ChkDayWiseSummary.Size = New System.Drawing.Size(117, 18)
+        Me.ChkDayWiseSummary.TabIndex = 423
+        Me.ChkDayWiseSummary.Text = "Day Wise Summary"
+        Me.ChkDayWiseSummary.Visible = False
+        '
+        'chkFirstAndSecondSpellAbstract
+        '
+        Me.chkFirstAndSecondSpellAbstract.Location = New System.Drawing.Point(5, 93)
+        Me.chkFirstAndSecondSpellAbstract.Name = "chkFirstAndSecondSpellAbstract"
+        Me.chkFirstAndSecondSpellAbstract.Size = New System.Drawing.Size(226, 18)
+        Me.chkFirstAndSecondSpellAbstract.TabIndex = 424
+        Me.chkFirstAndSecondSpellAbstract.Text = "First And Second Spell Card Sale Abstract"
+        Me.chkFirstAndSecondSpellAbstract.Visible = False
+        '
+        'chkProduct
+        '
+        Me.chkProduct.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.chkProduct.Location = New System.Drawing.Point(608, 30)
+        Me.chkProduct.Name = "chkProduct"
+        Me.chkProduct.Size = New System.Drawing.Size(59, 18)
+        Me.chkProduct.TabIndex = 431
+        Me.chkProduct.Text = "Product"
+        '
         'pnlMilkPouch
         '
         Me.pnlMilkPouch.Controls.Add(Me.rbtnAsPerBooking)
@@ -261,15 +435,15 @@ Partial Class RptMatrixFreshSalesReport
         Me.pnlMilkPouch.Controls.Add(Me.rdbCreate)
         Me.pnlMilkPouch.Controls.Add(Me.rdbLtr)
         Me.pnlMilkPouch.Controls.Add(Me.chkMilkPouch)
-        Me.pnlMilkPouch.Location = New System.Drawing.Point(607, 116)
+        Me.pnlMilkPouch.Location = New System.Drawing.Point(607, 3)
         Me.pnlMilkPouch.Name = "pnlMilkPouch"
-        Me.pnlMilkPouch.Size = New System.Drawing.Size(301, 59)
+        Me.pnlMilkPouch.Size = New System.Drawing.Size(301, 50)
         Me.pnlMilkPouch.TabIndex = 428
         '
         'rbtnAsPerBooking
         '
         Me.rbtnAsPerBooking.AutoSize = True
-        Me.rbtnAsPerBooking.Location = New System.Drawing.Point(185, 5)
+        Me.rbtnAsPerBooking.Location = New System.Drawing.Point(185, 6)
         Me.rbtnAsPerBooking.Name = "rbtnAsPerBooking"
         Me.rbtnAsPerBooking.Size = New System.Drawing.Size(102, 17)
         Me.rbtnAsPerBooking.TabIndex = 430
@@ -280,7 +454,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(87, 25)
+        Me.MyLabel7.Location = New System.Drawing.Point(87, 26)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(29, 18)
         Me.MyLabel7.TabIndex = 429
@@ -290,16 +464,17 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.cboShift.AutoCompleteDisplayMember = Nothing
         Me.cboShift.AutoCompleteValueMember = Nothing
+        Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem5.Text = "Both"
-        RadListDataItem6.Text = "Morning"
-        RadListDataItem7.Text = "Evening"
+        RadListDataItem4.Text = "Both"
+        RadListDataItem9.Text = "Morning"
+        RadListDataItem10.Text = "Evening"
         RadListDataItem11.Text = "Shift Wise"
-        Me.cboShift.Items.Add(RadListDataItem5)
-        Me.cboShift.Items.Add(RadListDataItem6)
-        Me.cboShift.Items.Add(RadListDataItem7)
+        Me.cboShift.Items.Add(RadListDataItem4)
+        Me.cboShift.Items.Add(RadListDataItem9)
+        Me.cboShift.Items.Add(RadListDataItem10)
         Me.cboShift.Items.Add(RadListDataItem11)
-        Me.cboShift.Location = New System.Drawing.Point(122, 23)
+        Me.cboShift.Location = New System.Drawing.Point(122, 25)
         Me.cboShift.Name = "cboShift"
         Me.cboShift.Size = New System.Drawing.Size(91, 20)
         Me.cboShift.TabIndex = 429
@@ -308,7 +483,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.rdbCreate.AutoSize = True
         Me.rdbCreate.Checked = True
-        Me.rdbCreate.Location = New System.Drawing.Point(127, 5)
+        Me.rdbCreate.Location = New System.Drawing.Point(127, 6)
         Me.rdbCreate.Name = "rdbCreate"
         Me.rdbCreate.Size = New System.Drawing.Size(52, 17)
         Me.rdbCreate.TabIndex = 1
@@ -319,7 +494,7 @@ Partial Class RptMatrixFreshSalesReport
         'rdbLtr
         '
         Me.rdbLtr.AutoSize = True
-        Me.rdbLtr.Location = New System.Drawing.Point(85, 5)
+        Me.rdbLtr.Location = New System.Drawing.Point(85, 6)
         Me.rdbLtr.Name = "rdbLtr"
         Me.rdbLtr.Size = New System.Drawing.Size(38, 17)
         Me.rdbLtr.TabIndex = 0
@@ -330,7 +505,7 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.chkMilkPouch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkMilkPouch.Location = New System.Drawing.Point(0, 3)
+        Me.chkMilkPouch.Location = New System.Drawing.Point(1, 4)
         Me.chkMilkPouch.Name = "chkMilkPouch"
         Me.chkMilkPouch.Size = New System.Drawing.Size(76, 18)
         Me.chkMilkPouch.TabIndex = 426
@@ -340,48 +515,11 @@ Partial Class RptMatrixFreshSalesReport
         '
         Me.chkRouteSummary.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkRouteSummary.Location = New System.Drawing.Point(607, 180)
+        Me.chkRouteSummary.Location = New System.Drawing.Point(607, 56)
         Me.chkRouteSummary.Name = "chkRouteSummary"
         Me.chkRouteSummary.Size = New System.Drawing.Size(126, 18)
         Me.chkRouteSummary.TabIndex = 427
         Me.chkRouteSummary.Text = "Route Summary Print"
-        '
-        'chkGatePass
-        '
-        Me.chkGatePass.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkGatePass.Enabled = False
-        Me.chkGatePass.Location = New System.Drawing.Point(607, 25)
-        Me.chkGatePass.Name = "chkGatePass"
-        Me.chkGatePass.Size = New System.Drawing.Size(95, 18)
-        Me.chkGatePass.TabIndex = 425
-        Me.chkGatePass.Text = "Only Gate Pass"
-        '
-        'chkFirstAndSecondSpellAbstract
-        '
-        Me.chkFirstAndSecondSpellAbstract.Location = New System.Drawing.Point(607, 97)
-        Me.chkFirstAndSecondSpellAbstract.Name = "chkFirstAndSecondSpellAbstract"
-        Me.chkFirstAndSecondSpellAbstract.Size = New System.Drawing.Size(226, 18)
-        Me.chkFirstAndSecondSpellAbstract.TabIndex = 424
-        Me.chkFirstAndSecondSpellAbstract.Text = "First And Second Spell Card Sale Abstract"
-        '
-        'ChkDayWiseSummary
-        '
-        Me.ChkDayWiseSummary.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ChkDayWiseSummary.Location = New System.Drawing.Point(607, 73)
-        Me.ChkDayWiseSummary.Name = "ChkDayWiseSummary"
-        Me.ChkDayWiseSummary.Size = New System.Drawing.Size(117, 18)
-        Me.ChkDayWiseSummary.TabIndex = 423
-        Me.ChkDayWiseSummary.Text = "Day Wise Summary"
-        '
-        'chkRouteBoothWise
-        '
-        Me.chkRouteBoothWise.Location = New System.Drawing.Point(607, 49)
-        Me.chkRouteBoothWise.Name = "chkRouteBoothWise"
-        Me.chkRouteBoothWise.Size = New System.Drawing.Size(114, 18)
-        Me.chkRouteBoothWise.TabIndex = 422
-        Me.chkRouteBoothWise.Text = "Route/Booth Wise "
         '
         'chkFirstAndSecondSpell
         '
@@ -390,6 +528,7 @@ Partial Class RptMatrixFreshSalesReport
         Me.chkFirstAndSecondSpell.Size = New System.Drawing.Size(232, 18)
         Me.chkFirstAndSecondSpell.TabIndex = 421
         Me.chkFirstAndSecondSpell.Text = "First And Second Spell Card Sale Summary"
+        Me.chkFirstAndSecondSpell.Visible = False
         '
         'chkFilterByCreatedDate
         '
@@ -452,17 +591,19 @@ Partial Class RptMatrixFreshSalesReport
         Me.chkSummary.Size = New System.Drawing.Size(67, 18)
         Me.chkSummary.TabIndex = 398
         Me.chkSummary.Text = "Summary"
+        Me.chkSummary.Visible = False
         '
         'ddlInvocieType
         '
         Me.ddlInvocieType.AutoCompleteDisplayMember = Nothing
         Me.ddlInvocieType.AutoCompleteValueMember = Nothing
-        RadListDataItem8.Text = "Both"
-        RadListDataItem9.Text = "Sale Invoice"
-        RadListDataItem10.Text = "Sale Return"
-        Me.ddlInvocieType.Items.Add(RadListDataItem8)
-        Me.ddlInvocieType.Items.Add(RadListDataItem9)
-        Me.ddlInvocieType.Items.Add(RadListDataItem10)
+        Me.ddlInvocieType.DropDownAnimationEnabled = True
+        RadListDataItem1.Text = "Both"
+        RadListDataItem2.Text = "Sale Invoice"
+        RadListDataItem3.Text = "Sale Return"
+        Me.ddlInvocieType.Items.Add(RadListDataItem1)
+        Me.ddlInvocieType.Items.Add(RadListDataItem2)
+        Me.ddlInvocieType.Items.Add(RadListDataItem3)
         Me.ddlInvocieType.Location = New System.Drawing.Point(133, 304)
         Me.ddlInvocieType.Name = "ddlInvocieType"
         Me.ddlInvocieType.Size = New System.Drawing.Size(121, 20)
@@ -759,13 +900,14 @@ Partial Class RptMatrixFreshSalesReport
         '
         '
         Me.Gv1.MasterTemplate.EnableFiltering = True
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ReadOnly = True
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(684, 312)
         Me.Gv1.TabIndex = 1
-        Me.Gv1.Text = "RadGridView1"
         '
         'btnRouteSummaryPrint
         '
@@ -789,15 +931,11 @@ Partial Class RptMatrixFreshSalesReport
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Excel"
-        Me.RadMenuItem1.AccessibleName = "Excel"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Excel"
         '
         'PDF
         '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         '
@@ -831,15 +969,57 @@ Partial Class RptMatrixFreshSalesReport
         Me.btnReset.TabIndex = 147
         Me.btnReset.Text = "Reset"
         '
-        'chkProduct
+        'MyLabel11
         '
-        Me.chkProduct.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkProduct.Location = New System.Drawing.Point(607, 141)
-        Me.chkProduct.Name = "chkProduct"
-        Me.chkProduct.Size = New System.Drawing.Size(59, 18)
-        Me.chkProduct.TabIndex = 431
-        Me.chkProduct.Text = "Product"
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.Location = New System.Drawing.Point(5, 41)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel11.TabIndex = 434
+        Me.MyLabel11.Text = "Shift"
+        '
+        'ddlPTSShift
+        '
+        Me.ddlPTSShift.AutoCompleteDisplayMember = Nothing
+        Me.ddlPTSShift.AutoCompleteValueMember = Nothing
+        Me.ddlPTSShift.DropDownAnimationEnabled = True
+        Me.ddlPTSShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem12.Text = "Both"
+        RadListDataItem13.Text = "Morning"
+        RadListDataItem14.Text = "Evening"
+        RadListDataItem15.Text = "Shift Wise"
+        Me.ddlPTSShift.Items.Add(RadListDataItem12)
+        Me.ddlPTSShift.Items.Add(RadListDataItem13)
+        Me.ddlPTSShift.Items.Add(RadListDataItem14)
+        Me.ddlPTSShift.Items.Add(RadListDataItem15)
+        Me.ddlPTSShift.Location = New System.Drawing.Point(44, 40)
+        Me.ddlPTSShift.Name = "ddlPTSShift"
+        Me.ddlPTSShift.Size = New System.Drawing.Size(194, 20)
+        Me.ddlPTSShift.TabIndex = 435
+        '
+        'txtMultPTSRoute
+        '
+        Me.txtMultPTSRoute.arrDispalyMember = Nothing
+        Me.txtMultPTSRoute.arrValueMember = Nothing
+        Me.txtMultPTSRoute.Location = New System.Drawing.Point(44, 63)
+        Me.txtMultPTSRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultPTSRoute.MyLinkLable1 = Me.MyLabel12
+        Me.txtMultPTSRoute.MyLinkLable2 = Nothing
+        Me.txtMultPTSRoute.MyNullText = "All"
+        Me.txtMultPTSRoute.Name = "txtMultPTSRoute"
+        Me.txtMultPTSRoute.Size = New System.Drawing.Size(194, 19)
+        Me.txtMultPTSRoute.TabIndex = 436
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(5, 63)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(36, 18)
+        Me.MyLabel12.TabIndex = 437
+        Me.MyLabel12.Text = "Route"
         '
         'RptMatrixFreshSalesReport
         '
@@ -862,16 +1042,29 @@ Partial Class RptMatrixFreshSalesReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintTrkSht, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPTSDateTo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPTSDateFrom, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnTrkShtSummaryRW, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkGatePass, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkRouteBoothWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChkDayWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkFirstAndSecondSpellAbstract, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkProduct, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlMilkPouch.ResumeLayout(False)
         Me.pnlMilkPouch.PerformLayout()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkMilkPouch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkRouteSummary, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkGatePass, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkFirstAndSecondSpellAbstract, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChkDayWiseSummary, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkRouteBoothWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFirstAndSecondSpell, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFilterByCreatedDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -904,7 +1097,9 @@ Partial Class RptMatrixFreshSalesReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkProduct, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlPTSShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -970,5 +1165,17 @@ Partial Class RptMatrixFreshSalesReport
     Friend WithEvents cboShift As RadDropDownList
     Friend WithEvents rbtnAsPerBooking As RadioButton
     Friend WithEvents chkProduct As RadCheckBox
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents btnTrkShtSummaryRW As RadButton
+    Friend WithEvents btnPrintTrkSht As RadButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents txtPTSDateTo As RadDateTimePicker
+    Friend WithEvents txtPTSDateFrom As RadDateTimePicker
+    Friend WithEvents MyLabel11 As common.Controls.MyLabel
+    Friend WithEvents ddlPTSShift As RadDropDownList
+    Friend WithEvents txtMultPTSRoute As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
 End Class
 
