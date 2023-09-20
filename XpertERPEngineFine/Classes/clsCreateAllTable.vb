@@ -28489,6 +28489,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Document_Date", "datetime Not null")
             coll.Add("Applicable_Date", "datetime null")
             coll.Add("Commision_UOM", "varchar(12) null references TSPL_UNIT_MASTER(Unit_Code)")
+            coll.Add("Distributor_Tagging_Code", "varchar(30) NULL Unique references TSPL_DISTRIBUTOR_ROUTE(code)")
             coll.Add("IsPosted", "integer NOT NULL DEFAULT 0")
             coll.Add("Created_By", "varchar(12)  Not NULL")
             coll.Add("Created_Date", "datetime  Not NULL")

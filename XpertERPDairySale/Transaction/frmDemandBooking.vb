@@ -1918,9 +1918,9 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 dblDocTotalAmt = dblDocTotalAmt + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colAmt).Value)
                 dblDocTotalLitre = dblDocTotalLitre + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colLitre).Value)
                 dblDocTotalCrate = dblDocTotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
-                TotalPAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
-                TotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
-                TotalMAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
+                TotalPAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPAmt).Value)
+                TotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPCount).Value)
+                TotalMAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colMAmt).Value)
             Next
             lblTotalCrate.Text = clsCommon.myCdbl(dblDocTotalCrate)
             lblTotalLitre.Text = clsCommon.myCdbl(dblDocTotalLitre)
