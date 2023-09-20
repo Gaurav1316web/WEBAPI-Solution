@@ -1410,10 +1410,15 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" + ddlPTSShift.Text + "'"
             End If
 
+            If clsCommon.myLen(txtCustMultFnd.arrValueMember) > 0 Then
+                whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=(" + clsCommon.GetMulcallString(txtCustMultFnd.arrValueMember) + ")"
+            End If
 
             If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
                 whrcls += " And TSPL_ROUTE_MASTER.Route_No=(" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
             End If
+
+
 
             Dim Qry As String = Nothing
             Qry = "select '" + txtPTSDateFrom.Value + "' As [FromDate],'" + txtPTSDateFrom.Value + "' As [ToDate],TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
@@ -1451,5 +1456,11 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
     Private Sub txtMultPTSRoute__My_Click(sender As Object, e As EventArgs) Handles txtMultPTSRoute._My_Click
         Dim qry As String = "Select TSPL_ROUTE_MASTER.Route_No AS Code,TSPL_ROUTE_MASTER.Route_Desc as Name from TSPL_ROUTE_MASTER  where 1=1 "
         txtMultPTSRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("RouteMulSel", qry, "Code", "Name", txtMultPTSRoute.arrValueMember, txtMultPTSRoute.arrDispalyMember)
+    End Sub
+
+    Private Sub txtCustMultFnd__My_Click(sender As Object, e As EventArgs) Handles txtCustMultFnd._My_Click
+        strQry = " select Cust_Code as [code],Customer_Name as [Name] from TSPL_CUSTOMER_MASTER"
+        txtCustMultFnd.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", strQry, "Code", "Name", txtCustMultFnd.arrValueMember, txtCustMultFnd.arrDispalyMember)
+
     End Sub
 End Class
