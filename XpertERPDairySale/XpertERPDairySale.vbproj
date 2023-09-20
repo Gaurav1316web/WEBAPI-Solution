@@ -187,10 +187,10 @@
     <Compile Include="Master\frmCustomerDeduction.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Master\frmDistributeRateTagging.Designer.vb">
-      <DependentUpon>frmDistributeRateTagging.vb</DependentUpon>
+    <Compile Include="Master\frmDistributorRouteTagging.Designer.vb">
+      <DependentUpon>frmDistributorRouteTagging.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmDistributeRateTagging.vb">
+    <Compile Include="Master\frmDistributorRouteTagging.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Master\frmDistributorCommission.designer.vb">
@@ -751,8 +751,8 @@
     <EmbeddedResource Include="Master\frmCustomerDeduction.resx">
       <DependentUpon>frmCustomerDeduction.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Master\frmDistributeRateTagging.resx">
-      <DependentUpon>frmDistributeRateTagging.vb</DependentUpon>
+    <EmbeddedResource Include="Master\frmDistributorRouteTagging.resx">
+      <DependentUpon>frmDistributorRouteTagging.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmDistributorCommission.resx">
       <DependentUpon>frmDistributorCommission.vb</DependentUpon>
