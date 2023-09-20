@@ -227,7 +227,7 @@ Public Class frmDistributorRouteTagging
 
                 If (obj.SaveData(obj, isNewEntry)) Then
                     clsCommon.MyMessageBoxShow(Me, "Data save successfully.")
-                    LoadData(obj.Code, Nothing)
+                    LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
 

@@ -1071,6 +1071,10 @@ Public Class FrmItemMasterRMOther
         dr("Code") = "C"
         dr("Name") = "C"
         dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "G"
+        dr("Name") = "GHEE"
+        dt.Rows.Add(dr)
 
         cboType.DataSource = dt
         cboType.ValueMember = "Code"
