@@ -40,8 +40,8 @@ Public Class frmDistributeRateTagging
         txtStartDate.Value = ""
         txtEndDate.Value = ""
         IsInsieLoadData = False
-        gv.Rows.Clear()
-        gv.Columns.Clear()
+        'gv.Rows.Clear()
+        'gv.Columns.Clear()
         btnsave.Text = "Save"
         btndelete.Enabled = False
         isNewEntry = True
