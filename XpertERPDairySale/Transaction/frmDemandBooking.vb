@@ -3283,7 +3283,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             ''left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
             ''where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'"
 
-            qry = "select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
+            qry = "select '' As [FromDate],'' As [ToDate],TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
                     TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,
                     Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Crate,
                     Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch,
@@ -3292,46 +3292,20 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,
                     Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName,
                     TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName,
-                    TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate
+                    TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate,
+					ITEMDETAIL.CFForLTR,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
+					Convert(decimal(18,2),(TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAIL.CFForLTR) As QTYLtr
                     from TSPL_DEMAND_BOOKING_MASTER
                     Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
                     Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+					Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
+					Left Join (select Conversion_factor AS CFForLTR,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ITEMDETAIL on ITEMDETAIL.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code
                     Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code
                     Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
                     Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
                     Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_MASTER.Comp_Code
                     where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
-            'SubRptQry = "select TSPL_DEMAND_BOOKING_DETAIL.Unit_code,[CHHACH],[GM 500],[GM 1LT],[GM 6LT],[TM 500],[TM 1LT],[TM 6LT],[SM 500],[SM 1LT],[SL 400],[SL 6LT],Sum(TSPL_DEMAND_BOOKING_DETAIL.Qty)TotalQty,
-            '            Sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount)ItemNetAmount
-            '            from TSPL_DEMAND_BOOKING_MASTER
-            '            Left Join((SELECT  Document_No, 
-            '              Sum(IsNull([CHHACH],0))[CHHACH],Sum(IsNull([GM 500],0))[GM 500],Sum(IsNull([GM 1LT],0))[GM 1LT],Sum(IsNull([GM 6LT],0))[GM 6LT],Sum(IsNull([TM 500],0))[TM 500],Sum(IsNull([TM 1LT],0))[TM 1LT],Sum(IsNull([TM 6LT],0))[TM 6LT],Sum(IsNull([SM 500],0))[SM 500],Sum(IsNull([SM 1LT],0))[SM 1LT],Sum(IsNull([SL 400],0))[SL 400],Sum(IsNull([SL 6LT],0))[SL 6LT]
-            '            FROM  
-            '            (
-            '              SELECT TSPL_DEMAND_BOOKING_DETAIL.Document_No,
-            '              TSPL_ITEM_MASTER.Short_Description,  Max(TSPL_DEMAND_BOOKING_DETAIL.Qty)Qty
-            '              FROM TSPL_DEMAND_BOOKING_DETAIL
-            '              Inner Join TSPL_ITEM_MASTER ON TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
-            '              where  TSPL_DEMAND_BOOKING_DETAIL.Document_No='DBO-JPR/2324/000045' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='Evening'
-            '              Group By TSPL_DEMAND_BOOKING_DETAIL.Document_No, TSPL_ITEM_MASTER.Short_Description
-            '            ) AS SourceTable  
-            '            PIVOT  
-            '            (  
-            '              Sum(Qty)  
-            '              FOR Short_Description IN ([CHHACH],[GM 500],[GM 1LT],[GM 6LT],[TM 500],[TM 1LT],[TM 6LT],[SM 500],[SM 1LT],[SL 400],[SL 6LT])  
-            '            ) AS PivotTable Group By Document_No)) As xyz ON xyz.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
-            '            Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-            '            Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-            '            Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code
-            '            Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
-            '            Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
-            '            Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_MASTER.Comp_Code
-            '            where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'                         
-            '            Group By TSPL_DEMAND_BOOKING_DETAIL.Unit_code,
-            '            [CHHACH],[GM 500],[GM 1LT],[GM 6LT],[TM 500],[TM 1LT],[TM 6LT],[SM 500],[SM 1LT],[SL 400],[SL 6LT]"
-            'Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(SubRptQry)
             Dim frmCRV As New frmCrystalReportViewer()
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
             'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
