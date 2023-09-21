@@ -98,6 +98,17 @@ Partial Class frmPurchaseSettings
         Me.chkItemReorderLevel = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkPOReq = New Telerik.WinControls.UI.RadCheckBox()
         Me.Chkabatement = New Telerik.WinControls.UI.RadCheckBox()
+        Me.txtSlab1From = New common.MyNumBox()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.chkApplySlab = New common.Controls.MyCheckBox()
+        Me.txtSlab1To = New common.MyNumBox()
+        Me.txtSlab2To = New common.MyNumBox()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.txtSlab2From = New common.MyNumBox()
+        Me.txtSlab3To = New common.MyNumBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.txtSlab3From = New common.MyNumBox()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -178,6 +189,18 @@ Partial Class frmPurchaseSettings
         CType(Me.chkItemReorderLevel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkPOReq, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Chkabatement, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSlab1From, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkApplySlab, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSlab1To, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSlab2To, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSlab2From, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSlab3To, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSlab3From, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -195,7 +218,7 @@ Partial Class frmPurchaseSettings
         '
         Me.rdbtnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rdbtnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdbtnclose.Location = New System.Drawing.Point(1022, 14)
+        Me.rdbtnclose.Location = New System.Drawing.Point(922, 14)
         Me.rdbtnclose.Name = "rdbtnclose"
         Me.rdbtnclose.Size = New System.Drawing.Size(83, 18)
         Me.rdbtnclose.TabIndex = 1
@@ -217,8 +240,8 @@ Partial Class frmPurchaseSettings
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1122, 463)
-        Me.SplitContainer1.SplitterDistance = 419
+        Me.SplitContainer1.Size = New System.Drawing.Size(1022, 457)
+        Me.SplitContainer1.SplitterDistance = 413
         Me.SplitContainer1.TabIndex = 0
         '
         'RadGroupBox1
@@ -284,17 +307,19 @@ Partial Class frmPurchaseSettings
         Me.RadGroupBox1.Controls.Add(Me.chkItemReorderLevel)
         Me.RadGroupBox1.Controls.Add(Me.chkPOReq)
         Me.RadGroupBox1.Controls.Add(Me.Chkabatement)
+        Me.RadGroupBox1.Controls.Add(Me.RadGroupBox5)
+        Me.RadGroupBox1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(8, 5)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1111, 405)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1022, 413)
         Me.RadGroupBox1.TabIndex = 0
         '
         'chkPI_debitnot_unitcost
         '
-        Me.chkPI_debitnot_unitcost.Location = New System.Drawing.Point(645, 347)
+        Me.chkPI_debitnot_unitcost.Location = New System.Drawing.Point(10, 332)
         Me.chkPI_debitnot_unitcost.MyLinkLable1 = Nothing
         Me.chkPI_debitnot_unitcost.MyLinkLable2 = Nothing
         Me.chkPI_debitnot_unitcost.Name = "chkPI_debitnot_unitcost"
@@ -316,7 +341,7 @@ Partial Class frmPurchaseSettings
         Me.txtPoLimit.IsSourceFromTable = False
         Me.txtPoLimit.IsSourceFromValueList = False
         Me.txtPoLimit.IsUnique = False
-        Me.txtPoLimit.Location = New System.Drawing.Point(741, 326)
+        Me.txtPoLimit.Location = New System.Drawing.Point(736, 222)
         Me.txtPoLimit.MaxLength = 15
         Me.txtPoLimit.MendatroryField = False
         Me.txtPoLimit.MyLinkLable1 = Nothing
@@ -325,17 +350,17 @@ Partial Class frmPurchaseSettings
         Me.txtPoLimit.ReferenceFieldDesc = Nothing
         Me.txtPoLimit.ReferenceFieldName = Nothing
         Me.txtPoLimit.ReferenceTableName = Nothing
-        Me.txtPoLimit.Size = New System.Drawing.Size(142, 20)
+        Me.txtPoLimit.Size = New System.Drawing.Size(273, 20)
         Me.txtPoLimit.TabIndex = 68
         Me.txtPoLimit.Text = "0"
         Me.txtPoLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPoLimit.Value = 0.0R
+        Me.txtPoLimit.Value = 0R
         '
         'MyLabel6
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(645, 329)
+        Me.MyLabel6.Location = New System.Drawing.Point(637, 222)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(50, 16)
         Me.MyLabel6.TabIndex = 69
@@ -343,7 +368,7 @@ Partial Class frmPurchaseSettings
         '
         'ChkShowCostCenterAndHierarchyLevelInPurchaseModule
         '
-        Me.ChkShowCostCenterAndHierarchyLevelInPurchaseModule.Location = New System.Drawing.Point(374, 365)
+        Me.ChkShowCostCenterAndHierarchyLevelInPurchaseModule.Location = New System.Drawing.Point(10, 351)
         Me.ChkShowCostCenterAndHierarchyLevelInPurchaseModule.MyLinkLable1 = Nothing
         Me.ChkShowCostCenterAndHierarchyLevelInPurchaseModule.MyLinkLable2 = Nothing
         Me.ChkShowCostCenterAndHierarchyLevelInPurchaseModule.Name = "ChkShowCostCenterAndHierarchyLevelInPurchaseModule"
@@ -365,7 +390,7 @@ Partial Class frmPurchaseSettings
         Me.TxtGRNLim.IsSourceFromTable = False
         Me.TxtGRNLim.IsSourceFromValueList = False
         Me.TxtGRNLim.IsUnique = False
-        Me.TxtGRNLim.Location = New System.Drawing.Point(749, 99)
+        Me.TxtGRNLim.Location = New System.Drawing.Point(736, 318)
         Me.TxtGRNLim.MaxLength = 15
         Me.TxtGRNLim.MendatroryField = False
         Me.TxtGRNLim.MyLinkLable1 = Nothing
@@ -374,17 +399,17 @@ Partial Class frmPurchaseSettings
         Me.TxtGRNLim.ReferenceFieldDesc = Nothing
         Me.TxtGRNLim.ReferenceFieldName = Nothing
         Me.TxtGRNLim.ReferenceTableName = Nothing
-        Me.TxtGRNLim.Size = New System.Drawing.Size(142, 20)
+        Me.TxtGRNLim.Size = New System.Drawing.Size(273, 20)
         Me.TxtGRNLim.TabIndex = 65
         Me.TxtGRNLim.Text = "0"
         Me.TxtGRNLim.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtGRNLim.Value = 0.0R
+        Me.TxtGRNLim.Value = 0R
         '
         'MyLabel5
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(653, 102)
+        Me.MyLabel5.Location = New System.Drawing.Point(637, 320)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(58, 16)
         Me.MyLabel5.TabIndex = 66
@@ -392,18 +417,18 @@ Partial Class frmPurchaseSettings
         '
         'chkShortageIncludeInLandedCost
         '
-        Me.chkShortageIncludeInLandedCost.Location = New System.Drawing.Point(10, 383)
+        Me.chkShortageIncludeInLandedCost.Location = New System.Drawing.Point(10, 161)
         Me.chkShortageIncludeInLandedCost.MyLinkLable1 = Nothing
         Me.chkShortageIncludeInLandedCost.MyLinkLable2 = Nothing
         Me.chkShortageIncludeInLandedCost.Name = "chkShortageIncludeInLandedCost"
-        Me.chkShortageIncludeInLandedCost.Size = New System.Drawing.Size(387, 18)
+        Me.chkShortageIncludeInLandedCost.Size = New System.Drawing.Size(331, 18)
         Me.chkShortageIncludeInLandedCost.TabIndex = 64
         Me.chkShortageIncludeInLandedCost.Tag1 = Nothing
-        Me.chkShortageIncludeInLandedCost.Text = "Shortage Include in Landed Cost (SRN/Purchase Invoice/Purchase Return)"
+        Me.chkShortageIncludeInLandedCost.Text = "Shortage Include in Landed Cost (SRN/Pur Invoice/Pur Return)"
         '
         'ChkSkipMRNGRNinCaseofMT
         '
-        Me.ChkSkipMRNGRNinCaseofMT.Location = New System.Drawing.Point(374, 89)
+        Me.ChkSkipMRNGRNinCaseofMT.Location = New System.Drawing.Point(374, 81)
         Me.ChkSkipMRNGRNinCaseofMT.MyLinkLable1 = Nothing
         Me.ChkSkipMRNGRNinCaseofMT.MyLinkLable2 = Nothing
         Me.ChkSkipMRNGRNinCaseofMT.Name = "ChkSkipMRNGRNinCaseofMT"
@@ -414,7 +439,7 @@ Partial Class frmPurchaseSettings
         '
         'chkSRNPrintQtywise
         '
-        Me.chkSRNPrintQtywise.Location = New System.Drawing.Point(645, 301)
+        Me.chkSRNPrintQtywise.Location = New System.Drawing.Point(10, 142)
         Me.chkSRNPrintQtywise.MyLinkLable1 = Nothing
         Me.chkSRNPrintQtywise.MyLinkLable2 = Nothing
         Me.chkSRNPrintQtywise.Name = "chkSRNPrintQtywise"
@@ -425,7 +450,7 @@ Partial Class frmPurchaseSettings
         '
         'ChkGLAccToItem
         '
-        Me.ChkGLAccToItem.Location = New System.Drawing.Point(645, 280)
+        Me.ChkGLAccToItem.Location = New System.Drawing.Point(10, 123)
         Me.ChkGLAccToItem.MyLinkLable1 = Nothing
         Me.ChkGLAccToItem.MyLinkLable2 = Nothing
         Me.ChkGLAccToItem.Name = "ChkGLAccToItem"
@@ -436,7 +461,7 @@ Partial Class frmPurchaseSettings
         '
         'ChkCostEditIssue
         '
-        Me.ChkCostEditIssue.Location = New System.Drawing.Point(645, 261)
+        Me.ChkCostEditIssue.Location = New System.Drawing.Point(10, 104)
         Me.ChkCostEditIssue.MyLinkLable1 = Nothing
         Me.ChkCostEditIssue.MyLinkLable2 = Nothing
         Me.ChkCostEditIssue.Name = "ChkCostEditIssue"
@@ -447,7 +472,7 @@ Partial Class frmPurchaseSettings
         '
         'chkQCColumnAddedonMRN
         '
-        Me.chkQCColumnAddedonMRN.Location = New System.Drawing.Point(645, 240)
+        Me.chkQCColumnAddedonMRN.Location = New System.Drawing.Point(10, 85)
         Me.chkQCColumnAddedonMRN.MyLinkLable1 = Nothing
         Me.chkQCColumnAddedonMRN.MyLinkLable2 = Nothing
         Me.chkQCColumnAddedonMRN.Name = "chkQCColumnAddedonMRN"
@@ -458,7 +483,7 @@ Partial Class frmPurchaseSettings
         '
         'chkRemarkReasononPO
         '
-        Me.chkRemarkReasononPO.Location = New System.Drawing.Point(374, 347)
+        Me.chkRemarkReasononPO.Location = New System.Drawing.Point(374, 333)
         Me.chkRemarkReasononPO.MyLinkLable1 = Nothing
         Me.chkRemarkReasononPO.MyLinkLable2 = Nothing
         Me.chkRemarkReasononPO.Name = "chkRemarkReasononPO"
@@ -480,7 +505,7 @@ Partial Class frmPurchaseSettings
         Me.TxtSRNLim.IsSourceFromTable = False
         Me.TxtSRNLim.IsSourceFromValueList = False
         Me.TxtSRNLim.IsUnique = False
-        Me.TxtSRNLim.Location = New System.Drawing.Point(748, 75)
+        Me.TxtSRNLim.Location = New System.Drawing.Point(736, 297)
         Me.TxtSRNLim.MaxLength = 15
         Me.TxtSRNLim.MendatroryField = False
         Me.TxtSRNLim.MyLinkLable1 = Nothing
@@ -489,17 +514,17 @@ Partial Class frmPurchaseSettings
         Me.TxtSRNLim.ReferenceFieldDesc = Nothing
         Me.TxtSRNLim.ReferenceFieldName = Nothing
         Me.TxtSRNLim.ReferenceTableName = Nothing
-        Me.TxtSRNLim.Size = New System.Drawing.Size(142, 20)
+        Me.TxtSRNLim.Size = New System.Drawing.Size(273, 20)
         Me.TxtSRNLim.TabIndex = 56
         Me.TxtSRNLim.Text = "0"
         Me.TxtSRNLim.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSRNLim.Value = 0.0R
+        Me.TxtSRNLim.Value = 0R
         '
         'MyLabel27
         '
         Me.MyLabel27.FieldName = Nothing
         Me.MyLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel27.Location = New System.Drawing.Point(652, 78)
+        Me.MyLabel27.Location = New System.Drawing.Point(637, 299)
         Me.MyLabel27.Name = "MyLabel27"
         Me.MyLabel27.Size = New System.Drawing.Size(57, 16)
         Me.MyLabel27.TabIndex = 57
@@ -507,7 +532,7 @@ Partial Class frmPurchaseSettings
         '
         'chkPOInvCreateDebitNoteForReject
         '
-        Me.chkPOInvCreateDebitNoteForReject.Location = New System.Drawing.Point(10, 361)
+        Me.chkPOInvCreateDebitNoteForReject.Location = New System.Drawing.Point(10, 313)
         Me.chkPOInvCreateDebitNoteForReject.MyLinkLable1 = Nothing
         Me.chkPOInvCreateDebitNoteForReject.MyLinkLable2 = Nothing
         Me.chkPOInvCreateDebitNoteForReject.Name = "chkPOInvCreateDebitNoteForReject"
@@ -518,7 +543,7 @@ Partial Class frmPurchaseSettings
         '
         'ChkRateEditSRN
         '
-        Me.ChkRateEditSRN.Location = New System.Drawing.Point(645, 218)
+        Me.ChkRateEditSRN.Location = New System.Drawing.Point(10, 66)
         Me.ChkRateEditSRN.MyLinkLable1 = Nothing
         Me.ChkRateEditSRN.MyLinkLable2 = Nothing
         Me.ChkRateEditSRN.Name = "ChkRateEditSRN"
@@ -529,7 +554,7 @@ Partial Class frmPurchaseSettings
         '
         'chkEnableProjectFinder
         '
-        Me.chkEnableProjectFinder.Location = New System.Drawing.Point(374, 327)
+        Me.chkEnableProjectFinder.Location = New System.Drawing.Point(374, 315)
         Me.chkEnableProjectFinder.MyLinkLable1 = Nothing
         Me.chkEnableProjectFinder.MyLinkLable2 = Nothing
         Me.chkEnableProjectFinder.Name = "chkEnableProjectFinder"
@@ -540,7 +565,7 @@ Partial Class frmPurchaseSettings
         '
         'chkPOInvCreateDebitNoteForRejectAndShort
         '
-        Me.chkPOInvCreateDebitNoteForRejectAndShort.Location = New System.Drawing.Point(9, 340)
+        Me.chkPOInvCreateDebitNoteForRejectAndShort.Location = New System.Drawing.Point(10, 294)
         Me.chkPOInvCreateDebitNoteForRejectAndShort.MyLinkLable1 = Nothing
         Me.chkPOInvCreateDebitNoteForRejectAndShort.MyLinkLable2 = Nothing
         Me.chkPOInvCreateDebitNoteForRejectAndShort.Name = "chkPOInvCreateDebitNoteForRejectAndShort"
@@ -551,7 +576,7 @@ Partial Class frmPurchaseSettings
         '
         'chkRFQ
         '
-        Me.chkRFQ.Location = New System.Drawing.Point(374, 307)
+        Me.chkRFQ.Location = New System.Drawing.Point(374, 297)
         Me.chkRFQ.MyLinkLable1 = Nothing
         Me.chkRFQ.MyLinkLable2 = Nothing
         Me.chkRFQ.Name = "chkRFQ"
@@ -571,7 +596,7 @@ Partial Class frmPurchaseSettings
         Me.txtJobWork.IsSourceFromTable = False
         Me.txtJobWork.IsSourceFromValueList = False
         Me.txtJobWork.IsUnique = False
-        Me.txtJobWork.Location = New System.Drawing.Point(715, 193)
+        Me.txtJobWork.Location = New System.Drawing.Point(736, 341)
         Me.txtJobWork.MendatroryField = False
         Me.txtJobWork.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtJobWork.MyLinkLable1 = Nothing
@@ -582,7 +607,7 @@ Partial Class frmPurchaseSettings
         Me.txtJobWork.ReferenceFieldDesc = Nothing
         Me.txtJobWork.ReferenceFieldName = Nothing
         Me.txtJobWork.ReferenceTableName = Nothing
-        Me.txtJobWork.Size = New System.Drawing.Size(175, 19)
+        Me.txtJobWork.Size = New System.Drawing.Size(161, 19)
         Me.txtJobWork.TabIndex = 32
         Me.txtJobWork.Value = ""
         '
@@ -597,7 +622,7 @@ Partial Class frmPurchaseSettings
         Me.LblJobWork.IsSourceFromTable = False
         Me.LblJobWork.IsSourceFromValueList = False
         Me.LblJobWork.IsUnique = False
-        Me.LblJobWork.Location = New System.Drawing.Point(894, 191)
+        Me.LblJobWork.Location = New System.Drawing.Point(901, 339)
         Me.LblJobWork.MendatroryField = False
         Me.LblJobWork.MyLinkLable1 = Nothing
         Me.LblJobWork.MyLinkLable2 = Nothing
@@ -606,14 +631,14 @@ Partial Class frmPurchaseSettings
         Me.LblJobWork.ReferenceFieldDesc = Nothing
         Me.LblJobWork.ReferenceFieldName = Nothing
         Me.LblJobWork.ReferenceTableName = Nothing
-        Me.LblJobWork.Size = New System.Drawing.Size(211, 20)
+        Me.LblJobWork.Size = New System.Drawing.Size(107, 20)
         Me.LblJobWork.TabIndex = 48
         Me.LblJobWork.TabStop = False
         '
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Location = New System.Drawing.Point(657, 194)
+        Me.MyLabel4.Location = New System.Drawing.Point(637, 342)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(53, 18)
         Me.MyLabel4.TabIndex = 47
@@ -621,7 +646,7 @@ Partial Class frmPurchaseSettings
         '
         'chkShowInvoiceInPOfinder
         '
-        Me.chkShowInvoiceInPOfinder.Location = New System.Drawing.Point(9, 319)
+        Me.chkShowInvoiceInPOfinder.Location = New System.Drawing.Point(10, 275)
         Me.chkShowInvoiceInPOfinder.MyLinkLable1 = Nothing
         Me.chkShowInvoiceInPOfinder.MyLinkLable2 = Nothing
         Me.chkShowInvoiceInPOfinder.Name = "chkShowInvoiceInPOfinder"
@@ -632,7 +657,7 @@ Partial Class frmPurchaseSettings
         '
         'chksmsatpost
         '
-        Me.chksmsatpost.Location = New System.Drawing.Point(374, 289)
+        Me.chksmsatpost.Location = New System.Drawing.Point(374, 279)
         Me.chksmsatpost.MyLinkLable1 = Nothing
         Me.chksmsatpost.MyLinkLable2 = Nothing
         Me.chksmsatpost.Name = "chksmsatpost"
@@ -645,7 +670,7 @@ Partial Class frmPurchaseSettings
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(652, 55)
+        Me.MyLabel3.Location = New System.Drawing.Point(637, 281)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(55, 16)
         Me.MyLabel3.TabIndex = 35
@@ -663,7 +688,7 @@ Partial Class frmPurchaseSettings
         Me.txtCustomer.IsSourceFromTable = False
         Me.txtCustomer.IsSourceFromValueList = False
         Me.txtCustomer.IsUnique = False
-        Me.txtCustomer.Location = New System.Drawing.Point(748, 52)
+        Me.txtCustomer.Location = New System.Drawing.Point(736, 279)
         Me.txtCustomer.MaxLength = 200
         Me.txtCustomer.MendatroryField = False
         Me.txtCustomer.MyLinkLable1 = Me.MyLabel3
@@ -672,12 +697,12 @@ Partial Class frmPurchaseSettings
         Me.txtCustomer.ReferenceFieldDesc = Nothing
         Me.txtCustomer.ReferenceFieldName = Nothing
         Me.txtCustomer.ReferenceTableName = Nothing
-        Me.txtCustomer.Size = New System.Drawing.Size(143, 18)
+        Me.txtCustomer.Size = New System.Drawing.Size(273, 18)
         Me.txtCustomer.TabIndex = 36
         '
         'ChkInvoiceBasedPO
         '
-        Me.ChkInvoiceBasedPO.Location = New System.Drawing.Point(10, 300)
+        Me.ChkInvoiceBasedPO.Location = New System.Drawing.Point(374, 153)
         Me.ChkInvoiceBasedPO.MyLinkLable1 = Nothing
         Me.ChkInvoiceBasedPO.MyLinkLable2 = Nothing
         Me.ChkInvoiceBasedPO.Name = "ChkInvoiceBasedPO"
@@ -690,7 +715,7 @@ Partial Class frmPurchaseSettings
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(652, 33)
+        Me.MyLabel2.Location = New System.Drawing.Point(637, 263)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(88, 16)
         Me.MyLabel2.TabIndex = 6
@@ -708,7 +733,7 @@ Partial Class frmPurchaseSettings
         Me.txtDatabaseName.IsSourceFromTable = False
         Me.txtDatabaseName.IsSourceFromValueList = False
         Me.txtDatabaseName.IsUnique = False
-        Me.txtDatabaseName.Location = New System.Drawing.Point(748, 30)
+        Me.txtDatabaseName.Location = New System.Drawing.Point(736, 261)
         Me.txtDatabaseName.MaxLength = 200
         Me.txtDatabaseName.MendatroryField = False
         Me.txtDatabaseName.MyLinkLable1 = Me.MyLabel2
@@ -717,14 +742,14 @@ Partial Class frmPurchaseSettings
         Me.txtDatabaseName.ReferenceFieldDesc = Nothing
         Me.txtDatabaseName.ReferenceFieldName = Nothing
         Me.txtDatabaseName.ReferenceTableName = Nothing
-        Me.txtDatabaseName.Size = New System.Drawing.Size(143, 18)
+        Me.txtDatabaseName.Size = New System.Drawing.Size(273, 18)
         Me.txtDatabaseName.TabIndex = 7
         '
         'RadLabel2
         '
         Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(652, 11)
+        Me.RadLabel2.Location = New System.Drawing.Point(637, 244)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(89, 16)
         Me.RadLabel2.TabIndex = 2
@@ -741,7 +766,7 @@ Partial Class frmPurchaseSettings
         Me.txtVendorNo.IsSourceFromTable = False
         Me.txtVendorNo.IsSourceFromValueList = False
         Me.txtVendorNo.IsUnique = False
-        Me.txtVendorNo.Location = New System.Drawing.Point(748, 8)
+        Me.txtVendorNo.Location = New System.Drawing.Point(736, 242)
         Me.txtVendorNo.MendatroryField = False
         Me.txtVendorNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVendorNo.MyLinkLable1 = Me.RadLabel2
@@ -752,13 +777,13 @@ Partial Class frmPurchaseSettings
         Me.txtVendorNo.ReferenceFieldDesc = Nothing
         Me.txtVendorNo.ReferenceFieldName = Nothing
         Me.txtVendorNo.ReferenceTableName = Nothing
-        Me.txtVendorNo.Size = New System.Drawing.Size(143, 18)
+        Me.txtVendorNo.Size = New System.Drawing.Size(273, 18)
         Me.txtVendorNo.TabIndex = 3
         Me.txtVendorNo.Value = ""
         '
         'ChkShowStatusPur
         '
-        Me.ChkShowStatusPur.Location = New System.Drawing.Point(374, 270)
+        Me.ChkShowStatusPur.Location = New System.Drawing.Point(374, 261)
         Me.ChkShowStatusPur.MyLinkLable1 = Nothing
         Me.ChkShowStatusPur.MyLinkLable2 = Nothing
         Me.ChkShowStatusPur.Name = "ChkShowStatusPur"
@@ -769,7 +794,7 @@ Partial Class frmPurchaseSettings
         '
         'chkDemoAmendment
         '
-        Me.chkDemoAmendment.Location = New System.Drawing.Point(10, 280)
+        Me.chkDemoAmendment.Location = New System.Drawing.Point(374, 135)
         Me.chkDemoAmendment.MyLinkLable1 = Nothing
         Me.chkDemoAmendment.MyLinkLable2 = Nothing
         Me.chkDemoAmendment.Name = "chkDemoAmendment"
@@ -780,7 +805,7 @@ Partial Class frmPurchaseSettings
         '
         'chkVendor_Nlevel
         '
-        Me.chkVendor_Nlevel.Location = New System.Drawing.Point(374, 232)
+        Me.chkVendor_Nlevel.Location = New System.Drawing.Point(374, 225)
         Me.chkVendor_Nlevel.MyLinkLable1 = Nothing
         Me.chkVendor_Nlevel.MyLinkLable2 = Nothing
         Me.chkVendor_Nlevel.Name = "chkVendor_Nlevel"
@@ -792,7 +817,7 @@ Partial Class frmPurchaseSettings
         '
         'chkSRNRejected
         '
-        Me.chkSRNRejected.Location = New System.Drawing.Point(374, 252)
+        Me.chkSRNRejected.Location = New System.Drawing.Point(10, 256)
         Me.chkSRNRejected.MyLinkLable1 = Nothing
         Me.chkSRNRejected.MyLinkLable2 = Nothing
         Me.chkSRNRejected.Name = "chkSRNRejected"
@@ -804,7 +829,7 @@ Partial Class frmPurchaseSettings
         '
         'chkReturnWithoutInvoice
         '
-        Me.chkReturnWithoutInvoice.Location = New System.Drawing.Point(374, 213)
+        Me.chkReturnWithoutInvoice.Location = New System.Drawing.Point(374, 207)
         Me.chkReturnWithoutInvoice.MyLinkLable1 = Nothing
         Me.chkReturnWithoutInvoice.MyLinkLable2 = Nothing
         Me.chkReturnWithoutInvoice.Name = "chkReturnWithoutInvoice"
@@ -816,20 +841,21 @@ Partial Class frmPurchaseSettings
         '
         'chkPurchaseOrderItemQtyBelow
         '
-        Me.chkPurchaseOrderItemQtyBelow.Location = New System.Drawing.Point(645, 171)
+        Me.chkPurchaseOrderItemQtyBelow.Location = New System.Drawing.Point(10, 199)
         Me.chkPurchaseOrderItemQtyBelow.MyLinkLable1 = Nothing
         Me.chkPurchaseOrderItemQtyBelow.MyLinkLable2 = Nothing
         Me.chkPurchaseOrderItemQtyBelow.Name = "chkPurchaseOrderItemQtyBelow"
-        Me.chkPurchaseOrderItemQtyBelow.Size = New System.Drawing.Size(425, 18)
+        Me.chkPurchaseOrderItemQtyBelow.Size = New System.Drawing.Size(363, 18)
         Me.chkPurchaseOrderItemQtyBelow.TabIndex = 31
         Me.chkPurchaseOrderItemQtyBelow.Tag1 = Nothing
-        Me.chkPurchaseOrderItemQtyBelow.Text = "Generate Purchase Order Automatically when Item Qty Below from Reorder Level"
+        Me.chkPurchaseOrderItemQtyBelow.Text = "Generate PO Automatically when Item Qty Below from Reorder Level"
         '
         'cboNoticationSettingInPurchaseRequisition
         '
         Me.cboNoticationSettingInPurchaseRequisition.AutoCompleteDisplayMember = Nothing
         Me.cboNoticationSettingInPurchaseRequisition.AutoCompleteValueMember = Nothing
         Me.cboNoticationSettingInPurchaseRequisition.CalculationExpression = Nothing
+        Me.cboNoticationSettingInPurchaseRequisition.DropDownAnimationEnabled = True
         Me.cboNoticationSettingInPurchaseRequisition.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboNoticationSettingInPurchaseRequisition.FieldCode = Nothing
         Me.cboNoticationSettingInPurchaseRequisition.FieldDesc = Nothing
@@ -839,7 +865,7 @@ Partial Class frmPurchaseSettings
         Me.cboNoticationSettingInPurchaseRequisition.IsSourceFromTable = False
         Me.cboNoticationSettingInPurchaseRequisition.IsSourceFromValueList = False
         Me.cboNoticationSettingInPurchaseRequisition.IsUnique = False
-        Me.cboNoticationSettingInPurchaseRequisition.Location = New System.Drawing.Point(935, 145)
+        Me.cboNoticationSettingInPurchaseRequisition.Location = New System.Drawing.Point(197, 388)
         Me.cboNoticationSettingInPurchaseRequisition.MendatroryField = False
         Me.cboNoticationSettingInPurchaseRequisition.MyLinkLable1 = Nothing
         Me.cboNoticationSettingInPurchaseRequisition.MyLinkLable2 = Nothing
@@ -854,17 +880,18 @@ Partial Class frmPurchaseSettings
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(645, 147)
+        Me.MyLabel1.Location = New System.Drawing.Point(10, 390)
         Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(286, 16)
+        Me.MyLabel1.Size = New System.Drawing.Size(186, 16)
         Me.MyLabel1.TabIndex = 29
-        Me.MyLabel1.Text = "Notification Setting for ReOrder in Purchase Requisition"
+        Me.MyLabel1.Text = "Notification Setting Indent Reorder  "
         '
         'cboNoticationSettingInPO
         '
         Me.cboNoticationSettingInPO.AutoCompleteDisplayMember = Nothing
         Me.cboNoticationSettingInPO.AutoCompleteValueMember = Nothing
         Me.cboNoticationSettingInPO.CalculationExpression = Nothing
+        Me.cboNoticationSettingInPO.DropDownAnimationEnabled = True
         Me.cboNoticationSettingInPO.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboNoticationSettingInPO.FieldCode = Nothing
         Me.cboNoticationSettingInPO.FieldDesc = Nothing
@@ -874,7 +901,7 @@ Partial Class frmPurchaseSettings
         Me.cboNoticationSettingInPO.IsSourceFromTable = False
         Me.cboNoticationSettingInPO.IsSourceFromValueList = False
         Me.cboNoticationSettingInPO.IsUnique = False
-        Me.cboNoticationSettingInPO.Location = New System.Drawing.Point(935, 122)
+        Me.cboNoticationSettingInPO.Location = New System.Drawing.Point(198, 368)
         Me.cboNoticationSettingInPO.MendatroryField = False
         Me.cboNoticationSettingInPO.MyLinkLable1 = Nothing
         Me.cboNoticationSettingInPO.MyLinkLable2 = Nothing
@@ -889,15 +916,15 @@ Partial Class frmPurchaseSettings
         '
         Me.RadLabel18.FieldName = Nothing
         Me.RadLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel18.Location = New System.Drawing.Point(645, 124)
+        Me.RadLabel18.Location = New System.Drawing.Point(10, 370)
         Me.RadLabel18.Name = "RadLabel18"
-        Me.RadLabel18.Size = New System.Drawing.Size(259, 16)
+        Me.RadLabel18.Size = New System.Drawing.Size(171, 16)
         Me.RadLabel18.TabIndex = 27
-        Me.RadLabel18.Text = "Notification Setting for ReOrder in Purchase Order"
+        Me.RadLabel18.Text = "Notification Setting PO Reorder  "
         '
         'chkmccPO
         '
-        Me.chkmccPO.Location = New System.Drawing.Point(374, 180)
+        Me.chkmccPO.Location = New System.Drawing.Point(374, 171)
         Me.chkmccPO.MyLinkLable1 = Nothing
         Me.chkmccPO.MyLinkLable2 = Nothing
         Me.chkmccPO.Name = "chkmccPO"
@@ -909,7 +936,7 @@ Partial Class frmPurchaseSettings
         '
         'chkautoPO
         '
-        Me.chkautoPO.Location = New System.Drawing.Point(374, 196)
+        Me.chkautoPO.Location = New System.Drawing.Point(374, 189)
         Me.chkautoPO.MyLinkLable1 = Nothing
         Me.chkautoPO.MyLinkLable2 = Nothing
         Me.chkautoPO.Name = "chkautoPO"
@@ -921,19 +948,19 @@ Partial Class frmPurchaseSettings
         '
         'chkstd_rate
         '
-        Me.chkstd_rate.Location = New System.Drawing.Point(374, 146)
+        Me.chkstd_rate.Location = New System.Drawing.Point(10, 180)
         Me.chkstd_rate.MyLinkLable1 = Nothing
         Me.chkstd_rate.MyLinkLable2 = Nothing
         Me.chkstd_rate.Name = "chkstd_rate"
-        Me.chkstd_rate.Size = New System.Drawing.Size(228, 32)
+        Me.chkstd_rate.Size = New System.Drawing.Size(332, 18)
         Me.chkstd_rate.TabIndex = 17
         Me.chkstd_rate.Tag = "AllowLargerItemCostThenVendorItemCost"
         Me.chkstd_rate.Tag1 = Nothing
-        Me.chkstd_rate.Text = "<html> Check Standard Rate From Item Master On<br /> Vendor Item Detail</html>"
+        Me.chkstd_rate.Text = "Check Standard Rate From Item Master On Vendor Item Detail"
         '
         'chkMRN
         '
-        Me.chkMRN.Location = New System.Drawing.Point(374, 129)
+        Me.chkMRN.Location = New System.Drawing.Point(374, 117)
         Me.chkMRN.MyLinkLable1 = Nothing
         Me.chkMRN.MyLinkLable2 = Nothing
         Me.chkMRN.Name = "chkMRN"
@@ -945,7 +972,7 @@ Partial Class frmPurchaseSettings
         '
         'chkAllowLargerItemCost
         '
-        Me.chkAllowLargerItemCost.Location = New System.Drawing.Point(374, 69)
+        Me.chkAllowLargerItemCost.Location = New System.Drawing.Point(374, 63)
         Me.chkAllowLargerItemCost.MyLinkLable1 = Nothing
         Me.chkAllowLargerItemCost.MyLinkLable2 = Nothing
         Me.chkAllowLargerItemCost.Name = "chkAllowLargerItemCost"
@@ -957,7 +984,7 @@ Partial Class frmPurchaseSettings
         '
         'chkGRN
         '
-        Me.chkGRN.Location = New System.Drawing.Point(374, 109)
+        Me.chkGRN.Location = New System.Drawing.Point(374, 99)
         Me.chkGRN.MyLinkLable1 = Nothing
         Me.chkGRN.MyLinkLable2 = Nothing
         Me.chkGRN.Name = "chkGRN"
@@ -968,7 +995,7 @@ Partial Class frmPurchaseSettings
         '
         'chkDisableShipToLocation
         '
-        Me.chkDisableShipToLocation.Location = New System.Drawing.Point(374, 49)
+        Me.chkDisableShipToLocation.Location = New System.Drawing.Point(374, 45)
         Me.chkDisableShipToLocation.MyLinkLable1 = Nothing
         Me.chkDisableShipToLocation.MyLinkLable2 = Nothing
         Me.chkDisableShipToLocation.Name = "chkDisableShipToLocation"
@@ -979,7 +1006,7 @@ Partial Class frmPurchaseSettings
         '
         'chkmailoff
         '
-        Me.chkmailoff.Location = New System.Drawing.Point(374, 29)
+        Me.chkmailoff.Location = New System.Drawing.Point(374, 27)
         Me.chkmailoff.MyLinkLable1 = Nothing
         Me.chkmailoff.MyLinkLable2 = Nothing
         Me.chkmailoff.Name = "chkmailoff"
@@ -1001,7 +1028,7 @@ Partial Class frmPurchaseSettings
         '
         'chkRequiredSecurityAmt
         '
-        Me.chkRequiredSecurityAmt.Location = New System.Drawing.Point(9, 262)
+        Me.chkRequiredSecurityAmt.Location = New System.Drawing.Point(374, 243)
         Me.chkRequiredSecurityAmt.MyLinkLable1 = Nothing
         Me.chkRequiredSecurityAmt.MyLinkLable2 = Nothing
         Me.chkRequiredSecurityAmt.Name = "chkRequiredSecurityAmt"
@@ -1012,7 +1039,7 @@ Partial Class frmPurchaseSettings
         '
         'chkOneItemOneVendor
         '
-        Me.chkOneItemOneVendor.Location = New System.Drawing.Point(9, 243)
+        Me.chkOneItemOneVendor.Location = New System.Drawing.Point(10, 237)
         Me.chkOneItemOneVendor.MyLinkLable1 = Nothing
         Me.chkOneItemOneVendor.MyLinkLable2 = Nothing
         Me.chkOneItemOneVendor.Name = "chkOneItemOneVendor"
@@ -1023,7 +1050,7 @@ Partial Class frmPurchaseSettings
         '
         'chkPickItemFromVendorItemDetails
         '
-        Me.chkPickItemFromVendorItemDetails.Location = New System.Drawing.Point(9, 224)
+        Me.chkPickItemFromVendorItemDetails.Location = New System.Drawing.Point(10, 218)
         Me.chkPickItemFromVendorItemDetails.MyLinkLable1 = Nothing
         Me.chkPickItemFromVendorItemDetails.MyLinkLable2 = Nothing
         Me.chkPickItemFromVendorItemDetails.Name = "chkPickItemFromVendorItemDetails"
@@ -1040,16 +1067,16 @@ Partial Class frmPurchaseSettings
         Me.RadGroupBox4.Controls.Add(Me.chkFGexpDate)
         Me.RadGroupBox4.Controls.Add(Me.chkRMexpDate)
         Me.RadGroupBox4.HeaderText = "Expiary Date Mandatory For"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(9, 171)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(637, 94)
         Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Size = New System.Drawing.Size(341, 49)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(374, 41)
         Me.RadGroupBox4.TabIndex = 18
         Me.RadGroupBox4.Tag = ""
         Me.RadGroupBox4.Text = "Expiary Date Mandatory For"
         '
         'chkOtherItemsexpDate
         '
-        Me.chkOtherItemsexpDate.Location = New System.Drawing.Point(270, 20)
+        Me.chkOtherItemsexpDate.Location = New System.Drawing.Point(270, 17)
         Me.chkOtherItemsexpDate.Name = "chkOtherItemsexpDate"
         Me.chkOtherItemsexpDate.Size = New System.Drawing.Size(54, 18)
         Me.chkOtherItemsexpDate.TabIndex = 3
@@ -1057,7 +1084,7 @@ Partial Class frmPurchaseSettings
         '
         'chkAssetexpDate
         '
-        Me.chkAssetexpDate.Location = New System.Drawing.Point(206, 20)
+        Me.chkAssetexpDate.Location = New System.Drawing.Point(206, 17)
         Me.chkAssetexpDate.Name = "chkAssetexpDate"
         Me.chkAssetexpDate.Size = New System.Drawing.Size(47, 18)
         Me.chkAssetexpDate.TabIndex = 2
@@ -1065,7 +1092,7 @@ Partial Class frmPurchaseSettings
         '
         'chkFGexpDate
         '
-        Me.chkFGexpDate.Location = New System.Drawing.Point(98, 20)
+        Me.chkFGexpDate.Location = New System.Drawing.Point(98, 17)
         Me.chkFGexpDate.Name = "chkFGexpDate"
         Me.chkFGexpDate.Size = New System.Drawing.Size(92, 18)
         Me.chkFGexpDate.TabIndex = 1
@@ -1073,7 +1100,7 @@ Partial Class frmPurchaseSettings
         '
         'chkRMexpDate
         '
-        Me.chkRMexpDate.Location = New System.Drawing.Point(5, 20)
+        Me.chkRMexpDate.Location = New System.Drawing.Point(5, 17)
         Me.chkRMexpDate.Name = "chkRMexpDate"
         Me.chkRMexpDate.Size = New System.Drawing.Size(85, 18)
         Me.chkRMexpDate.TabIndex = 0
@@ -1087,9 +1114,9 @@ Partial Class frmPurchaseSettings
         Me.RadGroupBox3.Controls.Add(Me.chkFGmfgDate)
         Me.RadGroupBox3.Controls.Add(Me.chkRMmfgDate)
         Me.RadGroupBox3.HeaderText = "Manufacturing Date Mandatory For"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(9, 124)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(637, 179)
         Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Size = New System.Drawing.Size(341, 45)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(374, 41)
         Me.RadGroupBox3.TabIndex = 14
         Me.RadGroupBox3.Text = "Manufacturing Date Mandatory For"
         '
@@ -1133,15 +1160,15 @@ Partial Class frmPurchaseSettings
         Me.RadGroupBox2.Controls.Add(Me.chkFGBatch)
         Me.RadGroupBox2.Controls.Add(Me.chkRMBatch)
         Me.RadGroupBox2.HeaderText = "Batch No Mandatory For"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(9, 69)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(637, 137)
         Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(341, 53)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(374, 41)
         Me.RadGroupBox2.TabIndex = 10
         Me.RadGroupBox2.Text = "Batch No Mandatory For"
         '
         'chkOtherItemsBatch
         '
-        Me.chkOtherItemsBatch.Location = New System.Drawing.Point(270, 23)
+        Me.chkOtherItemsBatch.Location = New System.Drawing.Point(270, 17)
         Me.chkOtherItemsBatch.Name = "chkOtherItemsBatch"
         Me.chkOtherItemsBatch.Size = New System.Drawing.Size(54, 18)
         Me.chkOtherItemsBatch.TabIndex = 3
@@ -1149,7 +1176,7 @@ Partial Class frmPurchaseSettings
         '
         'chkAssetBatch
         '
-        Me.chkAssetBatch.Location = New System.Drawing.Point(206, 23)
+        Me.chkAssetBatch.Location = New System.Drawing.Point(206, 17)
         Me.chkAssetBatch.Name = "chkAssetBatch"
         Me.chkAssetBatch.Size = New System.Drawing.Size(47, 18)
         Me.chkAssetBatch.TabIndex = 2
@@ -1157,7 +1184,7 @@ Partial Class frmPurchaseSettings
         '
         'chkFGBatch
         '
-        Me.chkFGBatch.Location = New System.Drawing.Point(98, 23)
+        Me.chkFGBatch.Location = New System.Drawing.Point(98, 17)
         Me.chkFGBatch.Name = "chkFGBatch"
         Me.chkFGBatch.Size = New System.Drawing.Size(92, 18)
         Me.chkFGBatch.TabIndex = 1
@@ -1165,7 +1192,7 @@ Partial Class frmPurchaseSettings
         '
         'chkRMBatch
         '
-        Me.chkRMBatch.Location = New System.Drawing.Point(5, 23)
+        Me.chkRMBatch.Location = New System.Drawing.Point(5, 17)
         Me.chkRMBatch.Name = "chkRMBatch"
         Me.chkRMBatch.Size = New System.Drawing.Size(85, 18)
         Me.chkRMBatch.TabIndex = 0
@@ -1173,7 +1200,7 @@ Partial Class frmPurchaseSettings
         '
         'chkItemReorderLevel
         '
-        Me.chkItemReorderLevel.Location = New System.Drawing.Point(9, 47)
+        Me.chkItemReorderLevel.Location = New System.Drawing.Point(10, 47)
         Me.chkItemReorderLevel.Name = "chkItemReorderLevel"
         Me.chkItemReorderLevel.Size = New System.Drawing.Size(203, 18)
         Me.chkItemReorderLevel.TabIndex = 8
@@ -1181,7 +1208,7 @@ Partial Class frmPurchaseSettings
         '
         'chkPOReq
         '
-        Me.chkPOReq.Location = New System.Drawing.Point(9, 28)
+        Me.chkPOReq.Location = New System.Drawing.Point(10, 28)
         Me.chkPOReq.Name = "chkPOReq"
         Me.chkPOReq.Size = New System.Drawing.Size(151, 18)
         Me.chkPOReq.TabIndex = 4
@@ -1189,17 +1216,244 @@ Partial Class frmPurchaseSettings
         '
         'Chkabatement
         '
-        Me.Chkabatement.Location = New System.Drawing.Point(9, 9)
+        Me.Chkabatement.Location = New System.Drawing.Point(10, 9)
         Me.Chkabatement.Name = "Chkabatement"
         Me.Chkabatement.Size = New System.Drawing.Size(162, 18)
         Me.Chkabatement.TabIndex = 0
         Me.Chkabatement.Text = "Create Abatement based PO"
         '
+        'txtSlab1From
+        '
+        Me.txtSlab1From.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtSlab1From.CalculationExpression = Nothing
+        Me.txtSlab1From.DecimalPlaces = 0
+        Me.txtSlab1From.FieldCode = Nothing
+        Me.txtSlab1From.FieldDesc = Nothing
+        Me.txtSlab1From.FieldMaxLength = 0
+        Me.txtSlab1From.FieldName = Nothing
+        Me.txtSlab1From.isCalculatedField = False
+        Me.txtSlab1From.IsSourceFromTable = False
+        Me.txtSlab1From.IsSourceFromValueList = False
+        Me.txtSlab1From.IsUnique = False
+        Me.txtSlab1From.Location = New System.Drawing.Point(152, 21)
+        Me.txtSlab1From.MaxLength = 20
+        Me.txtSlab1From.MendatroryField = False
+        Me.txtSlab1From.MyLinkLable1 = Me.MyLabel7
+        Me.txtSlab1From.MyLinkLable2 = Nothing
+        Me.txtSlab1From.Name = "txtSlab1From"
+        Me.txtSlab1From.ReadOnly = True
+        Me.txtSlab1From.ReferenceFieldDesc = Nothing
+        Me.txtSlab1From.ReferenceFieldName = Nothing
+        Me.txtSlab1From.ReferenceTableName = Nothing
+        Me.txtSlab1From.Size = New System.Drawing.Size(107, 20)
+        Me.txtSlab1From.TabIndex = 70
+        Me.txtSlab1From.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSlab1From.Value = 0R
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(12, 23)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(122, 16)
+        Me.MyLabel7.TabIndex = 71
+        Me.MyLabel7.Text = "Doument Not Required"
+        '
+        'chkApplySlab
+        '
+        Me.chkApplySlab.Location = New System.Drawing.Point(8, 3)
+        Me.chkApplySlab.MyLinkLable1 = Nothing
+        Me.chkApplySlab.MyLinkLable2 = Nothing
+        Me.chkApplySlab.Name = "chkApplySlab"
+        Me.chkApplySlab.Size = New System.Drawing.Size(121, 18)
+        Me.chkApplySlab.TabIndex = 72
+        Me.chkApplySlab.Tag1 = Nothing
+        Me.chkApplySlab.Text = "Apply Purchase Slab"
+        '
+        'txtSlab1To
+        '
+        Me.txtSlab1To.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtSlab1To.CalculationExpression = Nothing
+        Me.txtSlab1To.DecimalPlaces = 0
+        Me.txtSlab1To.FieldCode = Nothing
+        Me.txtSlab1To.FieldDesc = Nothing
+        Me.txtSlab1To.FieldMaxLength = 0
+        Me.txtSlab1To.FieldName = Nothing
+        Me.txtSlab1To.isCalculatedField = False
+        Me.txtSlab1To.IsSourceFromTable = False
+        Me.txtSlab1To.IsSourceFromValueList = False
+        Me.txtSlab1To.IsUnique = False
+        Me.txtSlab1To.Location = New System.Drawing.Point(264, 21)
+        Me.txtSlab1To.MaxLength = 20
+        Me.txtSlab1To.MendatroryField = False
+        Me.txtSlab1To.MyLinkLable1 = Me.MyLabel7
+        Me.txtSlab1To.MyLinkLable2 = Nothing
+        Me.txtSlab1To.Name = "txtSlab1To"
+        Me.txtSlab1To.ReferenceFieldDesc = Nothing
+        Me.txtSlab1To.ReferenceFieldName = Nothing
+        Me.txtSlab1To.ReferenceTableName = Nothing
+        Me.txtSlab1To.Size = New System.Drawing.Size(107, 20)
+        Me.txtSlab1To.TabIndex = 71
+        Me.txtSlab1To.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSlab1To.Value = 0R
+        '
+        'txtSlab2To
+        '
+        Me.txtSlab2To.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtSlab2To.CalculationExpression = Nothing
+        Me.txtSlab2To.DecimalPlaces = 0
+        Me.txtSlab2To.FieldCode = Nothing
+        Me.txtSlab2To.FieldDesc = Nothing
+        Me.txtSlab2To.FieldMaxLength = 0
+        Me.txtSlab2To.FieldName = Nothing
+        Me.txtSlab2To.isCalculatedField = False
+        Me.txtSlab2To.IsSourceFromTable = False
+        Me.txtSlab2To.IsSourceFromValueList = False
+        Me.txtSlab2To.IsUnique = False
+        Me.txtSlab2To.Location = New System.Drawing.Point(265, 42)
+        Me.txtSlab2To.MaxLength = 20
+        Me.txtSlab2To.MendatroryField = False
+        Me.txtSlab2To.MyLinkLable1 = Me.MyLabel8
+        Me.txtSlab2To.MyLinkLable2 = Nothing
+        Me.txtSlab2To.Name = "txtSlab2To"
+        Me.txtSlab2To.ReferenceFieldDesc = Nothing
+        Me.txtSlab2To.ReferenceFieldName = Nothing
+        Me.txtSlab2To.ReferenceTableName = Nothing
+        Me.txtSlab2To.Size = New System.Drawing.Size(107, 20)
+        Me.txtSlab2To.TabIndex = 73
+        Me.txtSlab2To.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSlab2To.Value = 0R
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(14, 44)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel8.TabIndex = 74
+        Me.MyLabel8.Text = "PO Mandatory"
+        '
+        'txtSlab2From
+        '
+        Me.txtSlab2From.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtSlab2From.CalculationExpression = Nothing
+        Me.txtSlab2From.DecimalPlaces = 0
+        Me.txtSlab2From.FieldCode = Nothing
+        Me.txtSlab2From.FieldDesc = Nothing
+        Me.txtSlab2From.FieldMaxLength = 0
+        Me.txtSlab2From.FieldName = Nothing
+        Me.txtSlab2From.isCalculatedField = False
+        Me.txtSlab2From.IsSourceFromTable = False
+        Me.txtSlab2From.IsSourceFromValueList = False
+        Me.txtSlab2From.IsUnique = False
+        Me.txtSlab2From.Location = New System.Drawing.Point(152, 42)
+        Me.txtSlab2From.MaxLength = 20
+        Me.txtSlab2From.MendatroryField = False
+        Me.txtSlab2From.MyLinkLable1 = Me.MyLabel8
+        Me.txtSlab2From.MyLinkLable2 = Nothing
+        Me.txtSlab2From.Name = "txtSlab2From"
+        Me.txtSlab2From.ReadOnly = True
+        Me.txtSlab2From.ReferenceFieldDesc = Nothing
+        Me.txtSlab2From.ReferenceFieldName = Nothing
+        Me.txtSlab2From.ReferenceTableName = Nothing
+        Me.txtSlab2From.Size = New System.Drawing.Size(107, 20)
+        Me.txtSlab2From.TabIndex = 72
+        Me.txtSlab2From.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSlab2From.Value = 0R
+        '
+        'txtSlab3To
+        '
+        Me.txtSlab3To.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtSlab3To.CalculationExpression = Nothing
+        Me.txtSlab3To.DecimalPlaces = 0
+        Me.txtSlab3To.FieldCode = Nothing
+        Me.txtSlab3To.FieldDesc = Nothing
+        Me.txtSlab3To.FieldMaxLength = 0
+        Me.txtSlab3To.FieldName = Nothing
+        Me.txtSlab3To.isCalculatedField = False
+        Me.txtSlab3To.IsSourceFromTable = False
+        Me.txtSlab3To.IsSourceFromValueList = False
+        Me.txtSlab3To.IsUnique = False
+        Me.txtSlab3To.Location = New System.Drawing.Point(265, 63)
+        Me.txtSlab3To.MaxLength = 20
+        Me.txtSlab3To.MendatroryField = False
+        Me.txtSlab3To.MyLinkLable1 = Me.MyLabel9
+        Me.txtSlab3To.MyLinkLable2 = Nothing
+        Me.txtSlab3To.Name = "txtSlab3To"
+        Me.txtSlab3To.ReadOnly = True
+        Me.txtSlab3To.ReferenceFieldDesc = Nothing
+        Me.txtSlab3To.ReferenceFieldName = Nothing
+        Me.txtSlab3To.ReferenceTableName = Nothing
+        Me.txtSlab3To.Size = New System.Drawing.Size(107, 20)
+        Me.txtSlab3To.TabIndex = 73
+        Me.txtSlab3To.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSlab3To.Value = 0R
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(14, 65)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(85, 16)
+        Me.MyLabel9.TabIndex = 74
+        Me.MyLabel9.Text = "RAL Mandatory"
+        '
+        'txtSlab3From
+        '
+        Me.txtSlab3From.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtSlab3From.CalculationExpression = Nothing
+        Me.txtSlab3From.DecimalPlaces = 0
+        Me.txtSlab3From.FieldCode = Nothing
+        Me.txtSlab3From.FieldDesc = Nothing
+        Me.txtSlab3From.FieldMaxLength = 0
+        Me.txtSlab3From.FieldName = Nothing
+        Me.txtSlab3From.isCalculatedField = False
+        Me.txtSlab3From.IsSourceFromTable = False
+        Me.txtSlab3From.IsSourceFromValueList = False
+        Me.txtSlab3From.IsUnique = False
+        Me.txtSlab3From.Location = New System.Drawing.Point(152, 63)
+        Me.txtSlab3From.MaxLength = 20
+        Me.txtSlab3From.MendatroryField = False
+        Me.txtSlab3From.MyLinkLable1 = Me.MyLabel9
+        Me.txtSlab3From.MyLinkLable2 = Nothing
+        Me.txtSlab3From.Name = "txtSlab3From"
+        Me.txtSlab3From.ReadOnly = True
+        Me.txtSlab3From.ReferenceFieldDesc = Nothing
+        Me.txtSlab3From.ReferenceFieldName = Nothing
+        Me.txtSlab3From.ReferenceTableName = Nothing
+        Me.txtSlab3From.Size = New System.Drawing.Size(107, 20)
+        Me.txtSlab3From.TabIndex = 72
+        Me.txtSlab3From.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSlab3From.Value = 0R
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.txtSlab3To)
+        Me.RadGroupBox5.Controls.Add(Me.chkApplySlab)
+        Me.RadGroupBox5.Controls.Add(Me.txtSlab2To)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel7)
+        Me.RadGroupBox5.Controls.Add(Me.txtSlab3From)
+        Me.RadGroupBox5.Controls.Add(Me.txtSlab1From)
+        Me.RadGroupBox5.Controls.Add(Me.txtSlab1To)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel8)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel9)
+        Me.RadGroupBox5.Controls.Add(Me.txtSlab2From)
+        Me.RadGroupBox5.HeaderText = ""
+        Me.RadGroupBox5.Location = New System.Drawing.Point(637, 3)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Size = New System.Drawing.Size(374, 90)
+        Me.RadGroupBox5.TabIndex = 72
+        Me.RadGroupBox5.Tag = ""
+        '
         'frmPurchaseSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1122, 463)
+        Me.ClientSize = New System.Drawing.Size(1022, 457)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmPurchaseSettings"
         '
@@ -1291,6 +1545,19 @@ Partial Class frmPurchaseSettings
         CType(Me.chkItemReorderLevel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkPOReq, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Chkabatement, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSlab1From, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkApplySlab, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSlab1To, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSlab2To, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSlab2From, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSlab3To, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSlab3From, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1371,5 +1638,16 @@ Partial Class frmPurchaseSettings
     Friend WithEvents txtPoLimit As common.MyNumBox
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents chkPI_debitnot_unitcost As common.Controls.MyCheckBox
+    Friend WithEvents txtSlab1From As common.MyNumBox
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents txtSlab3To As common.MyNumBox
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents txtSlab2To As common.MyNumBox
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents txtSlab3From As common.MyNumBox
+    Friend WithEvents txtSlab1To As common.MyNumBox
+    Friend WithEvents txtSlab2From As common.MyNumBox
+    Friend WithEvents chkApplySlab As common.Controls.MyCheckBox
+    Friend WithEvents RadGroupBox5 As RadGroupBox
 End Class
 
