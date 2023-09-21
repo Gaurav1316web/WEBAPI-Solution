@@ -4747,13 +4747,13 @@ Public Class frmScrapSale
                             'Else
                             ' Ticket No : SHR/14/06/18-000030 By Prabhakar  , Add client-VIJAYA
                             If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "PSFI") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
-                                    'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
-                                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, Nothing, "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), Nothing, "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                    '    Return
-                                    'End If
+                                'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
+                                '    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, Nothing, "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), Nothing, "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                '    Return
+                                'End If
 
-                                    If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date"))) Then
-                                        If clsCommon.myCdbl(dt1.Rows(0)("Is_Taxable")) = 1 Then
+                                If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date"))) Then
+                                    If clsCommon.myCdbl(dt1.Rows(0)("Is_Taxable")) = 1 Then
                                         'If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("frm_State_name")), clsCommon.myCstr(dt1.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
                                         '    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                         'Else
@@ -4769,15 +4769,15 @@ Public Class frmScrapSale
                                         'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
 
                                     Else
-                                            'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF_NT", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                        'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF_NT", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
 
-                                        End If
+                                    End If
                                     'Else
                                     '    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
                                     '    'PurchaseOrderViewer.funreport(dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
                                 End If
-                                End If
+                            End If
                             'End If
                             'Else
                             'EnumTecxpertPaperSize.PaperSize10x12
@@ -5515,13 +5515,11 @@ Public Class frmScrapSale
             End If
         End If
     End Sub
-
-
-
     Private Sub dtpshipment_Validating(sender As Object, e As CancelEventArgs) Handles dtpshipment.Validating
         SETGSTControl()
-        If AllowFutureDateTransaction(dtpshipment.Value, Nothing) = False Then
-            dtpshipment.Focus()
+        If clsCommon.myCDate(dtpshipment.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
+            clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(dtpshipment.Value).Date())
+            e.Cancel = True
         End If
     End Sub
     Sub SETGSTControl()
@@ -5667,16 +5665,16 @@ Public Class frmScrapSale
         Try
 
             Dim obj As New ClsScrapSaleHead
-                obj.shipment_No = clsCommon.myCstr(txtDocNo.Value)
-                obj.EWayBillNo = txtEWayBillNo.Text
-                obj.EWayBillDate = txtEWayBillDate.Value
-                obj.EwayBillValidDate = txtEwayValidDate.Value
-                obj.EwayBillRemarks = txtEWayBillRemarks.Text
+            obj.shipment_No = clsCommon.myCstr(txtDocNo.Value)
+            obj.EWayBillNo = txtEWayBillNo.Text
+            obj.EWayBillDate = txtEWayBillDate.Value
+            obj.EwayBillValidDate = txtEwayValidDate.Value
+            obj.EwayBillRemarks = txtEWayBillRemarks.Text
 
-                ' End If
-                '  obj.Electronic_Ref_No = txtElectronicRefNo.Text
-                ClsScrapSaleHead.UpdateAfterPosting(obj, txtDocNo.Value, Nothing)
-                clsCommon.MyMessageBoxShow("E-Waybill updated successfully.")
+            ' End If
+            '  obj.Electronic_Ref_No = txtElectronicRefNo.Text
+            ClsScrapSaleHead.UpdateAfterPosting(obj, txtDocNo.Value, Nothing)
+            clsCommon.MyMessageBoxShow("E-Waybill updated successfully.")
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
@@ -5686,13 +5684,13 @@ Public Class frmScrapSale
         Try
 
             Dim obj As New ClsScrapSaleHead
-                obj.shipment_No = clsCommon.myCstr(txtDocNo.Value)
-                obj.EInvoiceIRNNo = EInvoiceIRNNo.Text
-                obj.EInvoiceAckNo = EinvoiceAckNo.Text
-                obj.EInvoiceAckDate = txtAckDate.Value
-                obj.EInvoiceQRCode = EInvoiceQrCode.Text
-                ClsScrapSaleHead.UpdateEInvoiceAfterPosting(obj, txtDocNo.Value, Nothing)
-                clsCommon.MyMessageBoxShow("E-Invoice Updated Successfully")
+            obj.shipment_No = clsCommon.myCstr(txtDocNo.Value)
+            obj.EInvoiceIRNNo = EInvoiceIRNNo.Text
+            obj.EInvoiceAckNo = EinvoiceAckNo.Text
+            obj.EInvoiceAckDate = txtAckDate.Value
+            obj.EInvoiceQRCode = EInvoiceQrCode.Text
+            ClsScrapSaleHead.UpdateEInvoiceAfterPosting(obj, txtDocNo.Value, Nothing)
+            clsCommon.MyMessageBoxShow("E-Invoice Updated Successfully")
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

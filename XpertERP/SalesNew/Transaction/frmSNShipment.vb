@@ -5713,7 +5713,7 @@ Public Class frmSNShipment
             txtSalesman.Value = clsCommon.myCstr(dt.Rows(0)("Salesman Code"))
             lblSalesman.Text = clsCommon.myCstr(dt.Rows(0)("Salesman"))
 
-            txtDate.Enabled = False
+            '  txtDate.Enabled = False
             txtCustomer.Enabled = False
             chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtCustomer.Value)
             SetMultiCurrencyVisibility()
@@ -9346,8 +9346,9 @@ where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) 
     End Sub
 
     Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating
-        If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
-            txtDate.Focus()
+        If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
+            clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
+            e.Cancel = True
         End If
     End Sub
 End Class
