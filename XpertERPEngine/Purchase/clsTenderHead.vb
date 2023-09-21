@@ -49,7 +49,7 @@ Public Class clsTenderHead
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
-        Return True
+        Return True 
     End Function
 
     Public Function SaveData(ByVal obj As clsTenderHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
@@ -200,6 +200,8 @@ Public Class clsTenderHead
                         objTr.Unit_code = clsCommon.myCstr(dr("Unit_code"))
                         objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
                         objTr.Qty = clsCommon.myCdbl(dr("Qty"))
+                        objTr.Discount = clsCommon.myCdbl(dr("Discount"))
+
                         objTr.Rate = clsCommon.myCdbl(dr("Rate"))
                         objTr.Item_Cost = clsCommon.myCdbl(dr("Item_Cost"))
                         objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
@@ -940,6 +942,8 @@ Public Class clsTenderDetail
     Public Vendor_Name As String = Nothing
     Public Location_Name As String = Nothing
     Public Qty As Double = 0
+    Public Discount As Double = 0
+
     Public Rate As Double = 0
     Public Item_Cost As Double = 0
     Public Remarks As String = Nothing
@@ -956,7 +960,9 @@ Public Class clsTenderDetail
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
 
                 clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code)
+                clsCommon.AddColumnsForChange(coll, "Discount", obj.Discount)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+
 
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
                 clsCommon.AddColumnsForChange(coll, "Location", obj.Location)
