@@ -111,7 +111,7 @@ Public Class clsCreateAllTable
 
             End If
 
-                coll = New Dictionary(Of String, String)()
+            coll = New Dictionary(Of String, String)()
             coll.Add("AuthToken", "VARCHAR(70) NULL")
             coll.Add("ResponseTime", "datetime NULL")
             coll.Add("Location_Code", "VARCHAR(20) NULL")
@@ -52613,9 +52613,11 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Unit_code", "varchar(12) NULL")
             coll.Add("Location", "varchar(12) NOT NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             coll.Add("Rate", "decimal(18, 3) NULL")
+            coll.Add("Discount", "Decimal(18,2) null")
             coll.Add("Item_Cost", "decimal(18, 3) NULL")
             coll.Add("Remarks", "varchar(100) NULL")
             coll.Add("Comments", "varchar(100) NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_DETAIL", coll, Nothing, False, False, "TSPL_TENDER_HEADER", "DocumentCode", "")
 
             coll = New Dictionary(Of String, String)()

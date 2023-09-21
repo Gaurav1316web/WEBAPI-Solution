@@ -22,9 +22,9 @@ Partial Class frmTender
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -112,6 +112,15 @@ Partial Class frmTender
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
+        Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem7 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem8 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -191,8 +200,8 @@ Partial Class frmTender
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -797,7 +806,7 @@ Partial Class frmTender
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition10
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -835,7 +844,7 @@ Partial Class frmTender
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
@@ -1078,7 +1087,7 @@ Partial Class frmTender
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition12
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSchedule.ShowGroupPanel = False
@@ -1334,21 +1343,20 @@ Partial Class frmTender
         '
         'Panel2
         '
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem7})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(1098, 20)
+        Me.RadMenu1.TabIndex = 0
         Me.Panel2.Controls.Add(Me.RadMenu1)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel2.Location = New System.Drawing.Point(0, 0)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(1098, 25)
         Me.Panel2.TabIndex = 5
-        '
-        'RadMenu1
-        '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1098, 20)
-        Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Visible = False
         '
         'RadMenuItem2
         '
@@ -1379,6 +1387,67 @@ Partial Class frmTender
         Me.RadMenuItem5.AccessibleName = "RadMenuItem5"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
+        '
+        'MenuClose
+        '
+        Me.MenuClose.DisplayStyle = Telerik.WinControls.DisplayStyle.Text
+        Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport, Me.MenuExport, Me.RadMenuItem6})
+        Me.MenuClose.Name = "MenuClose"
+        Me.MenuClose.Text = "File"
+        Me.MenuClose.UseCompatibleTextRendering = False
+        '
+        'MenuImport
+        '
+        Me.MenuImport.AccessibleDescription = "MenuImport"
+        Me.MenuImport.AccessibleName = "RadMenuItem2"
+        Me.MenuImport.Name = "MenuImport"
+        Me.MenuImport.Text = "Import"
+        Me.MenuImport.UseCompatibleTextRendering = False
+        '
+        'MenuExport
+        '
+        Me.MenuExport.AccessibleDescription = "MenuExport"
+        Me.MenuExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.ExportData, Me.ExportBlankSheet})
+        Me.MenuExport.Name = "MenuExport"
+        Me.MenuExport.Text = "Export"
+        Me.MenuExport.UseCompatibleTextRendering = False
+        '
+        'ExportData
+        '
+        Me.ExportData.Name = "ExportData"
+        Me.ExportData.Text = "Export Data"
+        Me.ExportData.UseCompatibleTextRendering = False
+        '
+        'ExportBlankSheet
+        '
+        Me.ExportBlankSheet.Name = "ExportBlankSheet"
+        Me.ExportBlankSheet.Text = "Export Blank Sheet"
+        Me.ExportBlankSheet.UseCompatibleTextRendering = False
+        '
+        'RadMenuItem6
+        '
+        Me.RadMenuItem6.AccessibleDescription = "RadMenuItem4"
+        Me.RadMenuItem6.Name = "RadMenuItem6"
+        Me.RadMenuItem6.Text = "Close"
+        Me.RadMenuItem6.UseCompatibleTextRendering = False
+        '
+        'RadMenuItem7
+        '
+        Me.RadMenuItem7.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem8, Me.RadMenuItem9})
+        Me.RadMenuItem7.Name = "RadMenuItem7"
+        Me.RadMenuItem7.Text = "File"
+        '
+        'RadMenuItem8
+        '
+        Me.RadMenuItem8.AccessibleDescription = "import"
+        Me.RadMenuItem8.AccessibleName = "import"
+        Me.RadMenuItem8.Name = "RadMenuItem8"
+        Me.RadMenuItem8.Text = "Import"
+        '
+        'RadMenuItem9
+        '
+        Me.RadMenuItem9.Name = "RadMenuItem9"
+        Me.RadMenuItem9.Text = "Export"
         '
         'frmTender
         '
@@ -1478,9 +1547,9 @@ Partial Class frmTender
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1501,7 +1570,6 @@ Partial Class frmTender
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem5 As Telerik.WinControls.UI.RadMenuItem
@@ -1572,5 +1640,15 @@ Partial Class frmTender
     Friend WithEvents btnApplyAll As RadButton
     Friend WithEvents txtExtensionDays As common.MyNumBox
     Friend WithEvents lblExtensionDays As common.Controls.MyLabel
+    Friend WithEvents MenuClose As RadMenuItem
+    Friend WithEvents MenuImport As RadMenuItem
+    Friend WithEvents MenuExport As RadMenuItem
+    Friend WithEvents ExportData As RadMenuItem
+    Friend WithEvents ExportBlankSheet As RadMenuItem
+    Friend WithEvents RadMenuItem6 As RadMenuItem
+    Friend WithEvents RadMenu1 As RadMenu
+    Friend WithEvents RadMenuItem7 As RadMenuItem
+    Friend WithEvents RadMenuItem8 As RadMenuItem
+    Friend WithEvents RadMenuItem9 As RadMenuItem
 End Class
 

@@ -30,13 +30,14 @@ Public Class frmDistributorRouteTagging
         SaveData()
     End Sub
 
-    Sub Reset()
-        txtCode.Value = ""
-        txtStartDate.Value = ""
-        txtEndDate.Value = ""
-        IsInsieLoadData = False
-        gv.Rows.Clear()
-        gv.Columns.Clear()
+    Public Sub AddNew()
+        UsLock1.Status = ERPTransactionStatus.Pending
+        txtCode.MyReadOnly = False
+        txtCode.Value = Nothing
+        txtStartDate.Value = clsCommon.GETSERVERDATE()
+        txtEndDate.Value = clsCommon.GETSERVERDATE()
+        txtCode.Focus()
+        txtRemark.Text = ""
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = True
@@ -455,5 +456,13 @@ Public Class frmDistributorRouteTagging
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub txtEndDate_CheckedChanged(sender As Object, e As EventArgs) Handles txtEndDate.CheckedChanged
+        If txtEndDate.Checked Then
+            txtEndDate.Value = clsCommon.GETSERVERDATE()
+        Else
+            txtEndDate.Value = Nothing
+        End If
     End Sub
 End Class
