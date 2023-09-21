@@ -182,11 +182,11 @@ Public Class frmCustomerListRpt
             End If
 
             '========update by preeti gupta Against ticket no[BHA/25/02/19-000822]
-            qry = " SELECT TSPL_CUSTOMER_MASTER.Cust_Code AS [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name As [Customer Name], (tspl_customer_master.Add1 + case when len(tspl_customer_master.add2)> 0 then ', ' else '' end + tspl_customer_master.Add2 +case when len(tspl_customer_master.Add3)> 0 then ', 'else '' end + Case When Len(tspl_customer_master.City_Code)>0 THEN ', ' else '' end+ tspl_customer_master.City_Code +case when len(tspl_customer_master.State)> 0 then ', ' else '' end  +tspl_customer_master.State ) as [Customer Address], TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc as [Customer Grpoup Description],TSPL_CUSTOMER_MASTER.PAN as [PAN No],TSPL_CUSTOMER_MASTER.Tin_No as [Tin No],(case when  isnull(convert (varchar,Agg_Made_Date,103),'') ='01/01/1753' then '' else  isnull(convert (varchar,Agg_Made_Date,103),'') end) as [Agreement Made Date],( case when  isnull(convert (varchar,Agg_Close_Date,103),'')='01/01/1753' then '' else isnull(convert (varchar,Agg_Close_Date,103),'') end ) as [Agreement Close Date],TSPL_CUSTOMER_MASTER.Contact_Person_Name AS [Contact Person Name],TSPL_CUSTOMER_MASTER.Contact_Person_Phone as [Contact Person],TSPL_CUSTOMER_MASTER.Route_Desc As [Route Description] ,TSPL_CUSTOMER_MASTER.Zone_Code as [Zone Code],TSPL_ZONE_MASTER.Description as [Zone Desc]  ,TSPL_CUSTOMER_MASTER.GSTNO , TSPL_STATE_MASTER.GST_STATE_Code as [GST STATE Code], TSPL_STATE_MASTER.STATE_NAME as [State Name] , case when  TSPL_CUSTOMER_MASTER.GST_Registered =1 then 'Yes' else 'No' end as Registered " &
+            qry = " SELECT tabDistributor.Cust_Code As [Distributor Code],tabDistributor.Customer_Name As [Distributor Name],TSPL_CUSTOMER_MASTER.Cust_Code AS [Customer Code], TSPL_CUSTOMER_MASTER.Customer_Name As [Customer Name], (tspl_customer_master.Add1 + case when len(tspl_customer_master.add2)> 0 then ', ' else '' end + tspl_customer_master.Add2 +case when len(tspl_customer_master.Add3)> 0 then ', 'else '' end + Case When Len(tspl_customer_master.City_Code)>0 THEN ', ' else '' end+ tspl_customer_master.City_Code +case when len(tspl_customer_master.State)> 0 then ', ' else '' end  +tspl_customer_master.State ) as [Customer Address], TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc as [Customer Grpoup Description],TSPL_CUSTOMER_MASTER.PAN as [PAN No],TSPL_CUSTOMER_MASTER.Tin_No as [Tin No],(case when  isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Made_Date,103),'') ='01/01/1753' then '' else  isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Made_Date,103),'') end) as [Agreement Made Date],( case when  isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Close_Date,103),'')='01/01/1753' then '' else isnull(convert (varchar,TSPL_CUSTOMER_MASTER.Agg_Close_Date,103),'') end ) as [Agreement Close Date],TSPL_CUSTOMER_MASTER.Contact_Person_Name AS [Contact Person Name],TSPL_CUSTOMER_MASTER.Contact_Person_Phone as [Contact Person],TSPL_CUSTOMER_MASTER.Route_Desc As [Route Description] ,TSPL_CUSTOMER_MASTER.Zone_Code as [Zone Code],TSPL_ZONE_MASTER.Description as [Zone Desc]  ,TSPL_CUSTOMER_MASTER.GSTNO , TSPL_STATE_MASTER.GST_STATE_Code as [GST STATE Code], TSPL_STATE_MASTER.STATE_NAME as [State Name] , case when  TSPL_CUSTOMER_MASTER.GST_Registered =1 then 'Yes' else 'No' end as Registered   " &
                   " FROM TSPL_CUSTOMER_MASTER "
             qry += " Left Outer JOIN TSPL_CUSTOMER_CATEGORY_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Category_Code = TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE "
-            qry += " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_CUSTOMER_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left Outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_MASTER.Cust_Group_Code =TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code "
-            qry += " LEFT OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No=TSPL_CUSTOMER_MASTER.Route_No left outer join TSPL_STATE_MASTER  on TSPL_STATE_MASTER.STATE_CODE = TSPL_CUSTOMER_MASTER.State left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_CUSTOMER_MASTER.Zone_Code Where 2=2 "
+            qry += " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_CUSTOMER_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code left Outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_MASTER.Cust_Group_Code =TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code Left Outer Join TSPL_CUSTOMER_MASTER as tabDistributor on tabDistributor.Cust_Code=TSPL_CUSTOMER_MASTER.Distributor_Code "
+            qry += " LEFT OUTER JOIN TSPL_ROUTE_MASTER ON TSPL_ROUTE_MASTER.Route_No=TSPL_CUSTOMER_MASTER.Route_No left outer join TSPL_STATE_MASTER  on TSPL_STATE_MASTER.STATE_CODE = TSPL_CUSTOMER_MASTER.State left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code=TSPL_CUSTOMER_MASTER.Zone_Code Where 2=2 And TSPL_CUSTOMER_MASTER.IsDistributor='N' "
 
             If Not chkcustomerAll.IsChecked = True Then
                 qry += " and TSPL_CUSTOMER_MASTER.Cust_Code in(" + (clsCommon.GetMulcallString(cbgcustomer.CheckedValue)) + ")"
@@ -251,10 +251,18 @@ Public Class frmCustomerListRpt
             'End If
         Next
 
+        gv.Columns("Distributor Code").IsVisible = True
+        gv.Columns("Distributor Code").Width = 120
+        gv.Columns("Distributor Code").HeaderText = " Distributor Code"
+
+        gv.Columns("Distributor Name").IsVisible = True
+        gv.Columns("Distributor Name").Width = 120
+        gv.Columns("Distributor Name").HeaderText = " Distributor Name"
+
+
         gv.Columns("Customer Code").IsVisible = True
         gv.Columns("Customer Code").Width = 120
         gv.Columns("Customer Code").HeaderText = " Customer Code"
-
 
 
         gv.Columns("Customer Name").IsVisible = True
