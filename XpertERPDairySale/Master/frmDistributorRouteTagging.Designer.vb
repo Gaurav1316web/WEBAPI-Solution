@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmDistributeRateTagging
+Partial Class frmDistributorRouteTagging
     Inherits FrmMainTranScreen
 
 
@@ -38,13 +38,13 @@ Partial Class frmDistributeRateTagging
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblCode = New System.Windows.Forms.Label()
+        Me.btnImport = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnImport = New Telerik.WinControls.UI.RadSplitButton()
-        Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -56,11 +56,11 @@ Partial Class frmDistributeRateTagging
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -306,6 +306,28 @@ Partial Class frmDistributeRateTagging
         Me.lblCode.TabIndex = 57
         Me.lblCode.Text = "Code"
         '
+        'btnImport
+        '
+        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport})
+        Me.btnImport.Location = New System.Drawing.Point(242, 5)
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Size = New System.Drawing.Size(108, 20)
+        Me.btnImport.TabIndex = 158
+        Me.btnImport.Text = "Import/Export"
+        '
+        'rmiImport
+        '
+        Me.rmiImport.Name = "rmiImport"
+        Me.rmiImport.Text = "Import"
+        Me.rmiImport.UseCompatibleTextRendering = False
+        '
+        'rmiExport
+        '
+        Me.rmiExport.Name = "rmiExport"
+        Me.rmiExport.Text = "Export"
+        Me.rmiExport.UseCompatibleTextRendering = False
+        '
         'btnpost
         '
         Me.btnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -344,40 +366,18 @@ Partial Class frmDistributeRateTagging
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
-        'btnImport
-        '
-        Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport})
-        Me.btnImport.Location = New System.Drawing.Point(242, 5)
-        Me.btnImport.Name = "btnImport"
-        Me.btnImport.Size = New System.Drawing.Size(108, 20)
-        Me.btnImport.TabIndex = 158
-        Me.btnImport.Text = "Import/Export"
-        '
-        'rmiImport
-        '
-        Me.rmiImport.Name = "rmiImport"
-        Me.rmiImport.Text = "Import"
-        Me.rmiImport.UseCompatibleTextRendering = False
-        '
-        'rmiExport
-        '
-        Me.rmiExport.Name = "rmiExport"
-        Me.rmiExport.Text = "Export"
-        Me.rmiExport.UseCompatibleTextRendering = False
-        '
-        'frmDistributeRateTagging
+        'frmDistributorRouteTagging
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmDistributeRateTagging"
+        Me.Name = "frmDistributorRouteTagging"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "frmDistributeRateTagging"
+        Me.Text = "Distributor Route Tagging"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
@@ -390,11 +390,11 @@ Partial Class frmDistributeRateTagging
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

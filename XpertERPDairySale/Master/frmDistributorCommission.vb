@@ -6,6 +6,7 @@ Public Class frmDistributorCommission
     Dim isNewEntry As Boolean = False
     Const ColSNo As String = "ColSNo"
     Const ColRouteCode As String = "ColRouteCode"
+    Const ColRouteName As String = "ColRouteName"
     Const colCustCode As String = "colCustCode"
     Const colCustName As String = "colCustName"
     Const colCRate As String = "colCRate"
@@ -15,7 +16,6 @@ Public Class frmDistributorCommission
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
-        'CommissionTab()
         AddNew()
     End Sub
     Sub LoadBlankGrid()
@@ -38,6 +38,14 @@ Public Class frmDistributorCommission
         repoRouteCode.ReadOnly = True
         repoRouteCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         GV1.MasterTemplate.Columns.Add(repoRouteCode)
+        Dim repoRouteName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoRouteName.FormatString = ""
+        repoRouteName.HeaderText = "Route Name"
+        repoRouteName.Name = ColRouteName
+        repoRouteName.IsVisible = True
+        repoRouteName.ReadOnly = True
+        repoRouteName.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        GV1.MasterTemplate.Columns.Add(repoRouteName)
         Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustCode.FormatString = ""
         repoCustCode.HeaderText = "Distributor Code"
@@ -91,6 +99,7 @@ Public Class frmDistributorCommission
         txtDocNo.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
+        txtDistributorTagging.Value = ""
         txtItems.arrValueMember = Nothing
         txtItems.arrDispalyMember = Nothing
         txtUOM.Value = ""
@@ -120,72 +129,43 @@ Public Class frmDistributorCommission
 
         End Try
     End Sub
-    Public Sub CommissionTab()
-        Try
 
-
-            Dim coll As Dictionary(Of String, String)
-            coll = New Dictionary(Of String, String)()
-            coll.Add("Doc_No", "Varchar(30) Not null Primary key")
-            coll.Add("Document_Date", "datetime Not null")
-            coll.Add("Applicable_Date", "datetime null")
-            coll.Add("Commision_UOM", "varchar(12) null references TSPL_UNIT_MASTER(Unit_Code)")
-            coll.Add("IsPosted", "integer NOT NULL DEFAULT 0")
-            coll.Add("Created_By", "varchar(12)  Not NULL")
-            coll.Add("Created_Date", "datetime  Not NULL")
-            coll.Add("Modified_By", "varchar(12)  Not NULL")
-            coll.Add("Modified_Date", "datetime  Not NULL")
-
-            coll.Add("Posted_By", "varchar(12) NULL")
-            coll.Add("Posted_Date", "datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Head", coll, "", True)
-
-            Dim coll1 As Dictionary(Of String, String)
-            coll1 = New Dictionary(Of String, String)()
-            coll1.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-            coll1.Add("Doc_No", "Varchar(30) Not null REFERENCES TSPL_Distributor_Commission_Head(Doc_No)")
-            coll1.Add("Route_Code", "Varchar(12) Not null  REFERENCES TSPL_ROUTE_MASTER(Route_No)")
-            coll1.Add("Distributor_Code", "Varchar(12) Not null references TSPL_Customer_MASTER(Cust_Code)")
-            coll1.Add("Rate", "Decimal(18,2) Not null")
-
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Detail", coll1, "", True)
-
-            Dim coll2 As Dictionary(Of String, String)
-
-            coll2 = New Dictionary(Of String, String)()
-            coll2.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-            coll2.Add("Doc_No", "Varchar(30) Not null REFERENCES TSPL_Distributor_Commission_Head(Doc_No)")
-            coll2.Add("Item_Code", "Varchar(50) Not null  REFERENCES TSPL_ITEM_MASTER(Item_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Items", coll2, "", True)
-
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
-        End Try
-    End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
-            Dim StrQry As String = "select TSPL_CUSTOMER_MASTER.Route_No,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name 
+            LoadBlankGrid()
+            If clsCommon.myLen(txtDistributorTagging.Value) > 0 Then
+
+
+                If clsCommon.myLen(txtDistributorTagging.Value) > 0 Then
+                    Dim StrQry As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name 
 from TSPL_DISTRIBUTOR_ROUTE
 left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
 left join TSPL_CUSTOMER_MASTER on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
-where TSPL_DISTRIBUTOR_ROUTE.start_Date in (
-select max(TSPL_DISTRIBUTOR_ROUTE.Start_Date) from TSPL_DISTRIBUTOR_ROUTE where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and status=1 ) "
-            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrQry)
-            If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
-                Dim i As Integer = 1
-                For Each dr As DataRow In dt1.Rows
-                    GV1.Rows(GV1.Rows.Count - 1).Cells(ColSNo).Value = i
-                    GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteCode).Value = clsCommon.myCstr(dr("Route_No"))
-                    GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
-                    GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
-                    i = i + 1
-                    GV1.Rows.AddNew()
-                Next
+where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
+                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(StrQry)
+                    If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
+                        Dim i As Integer = 1
+                        For Each dr As DataRow In dt1.Rows
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(ColSNo).Value = i
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteCode).Value = clsCommon.myCstr(dr("Route_No"))
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(dr("Route_No")) + "' ")
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
+                            i = i + 1
+                            GV1.Rows.AddNew()
+                        Next
+                    Else
+                        clsCommon.MyMessageBoxShow(Me, "Not Found!", Me.Text)
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Please Select Distributor Tagging", Me.Text)
+
+                End If
             Else
-                clsCommon.MyMessageBoxShow(Me, "Not Found!", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Commission UOM", Me.Text)
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
@@ -255,6 +235,7 @@ select max(TSPL_DISTRIBUTOR_ROUTE.Start_Date) from TSPL_DISTRIBUTOR_ROUTE where 
                                 For Each objTr As clsDistributorCommissionDetails In obj
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(ColSNo).Value = sl
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteCode).Value = objTr.Route_Code
+                                    GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(objTr.Route_Code) + "' ")
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
                                     GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
@@ -362,6 +343,7 @@ select max(TSPL_DISTRIBUTOR_ROUTE.Start_Date) from TSPL_DISTRIBUTOR_ROUTE where 
                 txtDate.Value = obj.Document_Date
                 txtApplicableDate.Value = obj.Applicable_Date
                 txtUOM.Value = obj.Commision_UOM
+                txtDistributorTagging.Value = obj.Distributor_Tagging_Code
                 txtItems.arrValueMember = obj.Items
                 Dim sl As Integer = 1
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
@@ -369,6 +351,7 @@ select max(TSPL_DISTRIBUTOR_ROUTE.Start_Date) from TSPL_DISTRIBUTOR_ROUTE where 
 
                         GV1.Rows(GV1.Rows.Count - 1).Cells(ColSNo).Value = sl
                         GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteCode).Value = objTr.Route_Code
+                        GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(objTr.Route_Code) + "' ")
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
@@ -389,27 +372,17 @@ select max(TSPL_DISTRIBUTOR_ROUTE.Start_Date) from TSPL_DISTRIBUTOR_ROUTE where 
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
-        'Prevent future date transaction
 
         If clsCommon.myLen(txtUOM.Value) <= 0 Then
             txtUOM.Focus()
-            Throw New Exception("Please select UOM")
+            clsCommon.MyMessageBoxShow(Me, "Please select UOM", Me.Text)
+            Return False
         End If
-        'Dim Arr As New List(Of String)
-
-        'For i As Integer = 0 To GV1.Rows.Count - 1
-        '    If clsCommon.myLen(GV1.Rows(i).Cells(colCustCode).Value) > 0 And clsCommon.myLen(GV1.Rows(i).Cells(colZoneCode).Value) > 0 And clsCommon.myLen(GV1.Rows(i).Cells(colUOMCode).Value) > 0 Then
-        '        Dim str As String = GV1.Rows(i).Cells(colCustCode).Value + GV1.Rows(i).Cells(colZoneCode).Value + GV1.Rows(i).Cells(colUOMCode).Value
-
-        '        If Arr.Contains(str) Then
-        '            Throw New Exception("Duplicate Data Found at Line No: " + clsCommon.myCstr(i + 1))
-        '        Else
-        '            Arr.Add(str)
-        '        End If
-        '    End If
-
-
-        'Next
+        If clsCommon.myLen(txtDistributorTagging.Value) <= 0 Then
+            txtUOM.Focus()
+            clsCommon.MyMessageBoxShow(Me, "Please select Distributor Tagging", Me.Text)
+            Return False
+        End If
         Return True
     End Function
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
@@ -421,9 +394,22 @@ select max(TSPL_DISTRIBUTOR_ROUTE.Start_Date) from TSPL_DISTRIBUTOR_ROUTE where 
                 Dim obj As New clsDistributorCommission()
                 obj.Doc_No = txtDocNo.Value
                 obj.Document_Date = txtDate.Value
-                obj.Items = txtItems.arrValueMember
+                If txtItems.arrValueMember Is Nothing Then
+                    Dim strItems As String = "select Item_code  from TSPL_ITEM_MASTER where Item_Type='F' "
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strItems)
+                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                        obj.Items = New ArrayList()
+                        For Each dr As DataRow In dt.Rows
+                            obj.Items.Add(clsCommon.myCstr(dr("Item_Code")))
+                        Next
+                    End If
+                Else
+                    obj.Items = txtItems.arrValueMember
+
+                End If
                 obj.Applicable_Date = txtApplicableDate.Value
                 obj.Commision_UOM = txtUOM.Value
+                obj.Distributor_Tagging_Code = txtDistributorTagging.Value
                 obj.Arr = GetTRData()
                 obj.SaveData(obj, isNewEntry)
                 clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
@@ -503,5 +489,21 @@ select max(TSPL_DISTRIBUTOR_ROUTE.Start_Date) from TSPL_DISTRIBUTOR_ROUTE where 
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
+    End Sub
+
+    Private Sub txtDistributorTagging__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDistributorTagging._MYValidating
+        Try
+            Dim qry As String = "select  x.Code as Code,x.Start_Date,x.Remarks,x.NoOfRoute as [No of Route],x.NoOfDistributor as [No. of Distributor] 
+from(
+select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,count(distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No) as NoOfRoute,count(distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as NoOfDistributor
+from TSPL_DISTRIBUTOR_ROUTE
+left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Distributor_Tagging_Code =TSPL_DISTRIBUTOR_ROUTE.Code) and TSPL_DISTRIBUTOR_ROUTE.Status=1
+group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
+) X"
+            txtDistributorTagging.Value = clsCommon.ShowSelectForm("DistributorTaggingFinder", qry, "Code", "", txtDistributorTagging.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

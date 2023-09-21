@@ -2958,7 +2958,7 @@ Public Class frmBillOfMaterialCosting
             Dim whcls As String = Nothing
             Dim whcls1 As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whcls = " T1.LOCATION_CODE =" & objCommonVar.strCurrUserLocations & ""
+                whcls = " T1.LOCATION_CODE In(" & objCommonVar.strCurrUserLocations & ")"
             End If
             'isLoadCopy = True
             Dim qry As String = "SELECT T1.LOCATION_CODE,T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"

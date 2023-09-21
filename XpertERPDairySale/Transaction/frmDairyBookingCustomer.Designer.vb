@@ -22,15 +22,18 @@ Partial Class frmDairyBookingCustomer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtCouponDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.lblCouponDate = New common.Controls.MyLabel()
         Me.txtBPLRemark = New common.Controls.MyTextBox()
         Me.txtBPLName = New common.Controls.MyTextBox()
         Me.txtCouponCode = New common.Controls.MyTextBox()
@@ -52,7 +55,6 @@ Partial Class frmDairyBookingCustomer
         Me.lblUnbilledMilk = New common.Controls.MyLabel()
         Me.lblUnbilledMilkAmt = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
-        Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtSalesman1 = New common.UserControls.txtFinder()
         Me.lblSalesmandesc1 = New common.Controls.MyLabel()
         Me.lblsalesman1 = New common.Controls.MyLabel()
@@ -230,14 +232,16 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblCouponDate = New common.Controls.MyLabel()
-        Me.txtCouponDate = New common.Controls.MyDateTimePicker()
+        Me.lblShiftType = New Telerik.WinControls.UI.RadLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtCouponDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCouponDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBPLRemark, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBPLName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCouponCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -259,7 +263,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblUnbilledMilk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblUnbilledMilkAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesmandesc1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblsalesman1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbcashcredit, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -427,8 +430,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCouponDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCouponDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -489,6 +491,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblShiftType)
         Me.RadPageViewPage1.Controls.Add(Me.txtCouponDate)
         Me.RadPageViewPage1.Controls.Add(Me.lblCouponDate)
         Me.RadPageViewPage1.Controls.Add(Me.txtBPLRemark)
@@ -545,6 +548,56 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1077, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'txtCouponDate
+        '
+        Me.txtCouponDate.CalculationExpression = Nothing
+        Me.txtCouponDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtCouponDate.FieldCode = Nothing
+        Me.txtCouponDate.FieldDesc = Nothing
+        Me.txtCouponDate.FieldMaxLength = 0
+        Me.txtCouponDate.FieldName = Nothing
+        Me.txtCouponDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCouponDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtCouponDate.isCalculatedField = False
+        Me.txtCouponDate.IsSourceFromTable = False
+        Me.txtCouponDate.IsSourceFromValueList = False
+        Me.txtCouponDate.IsUnique = False
+        Me.txtCouponDate.Location = New System.Drawing.Point(509, 69)
+        Me.txtCouponDate.MendatroryField = False
+        Me.txtCouponDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtCouponDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtCouponDate.MyLinkLable2 = Nothing
+        Me.txtCouponDate.Name = "txtCouponDate"
+        Me.txtCouponDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtCouponDate.ReferenceFieldDesc = Nothing
+        Me.txtCouponDate.ReferenceFieldName = Nothing
+        Me.txtCouponDate.ReferenceTableName = Nothing
+        Me.txtCouponDate.Size = New System.Drawing.Size(106, 18)
+        Me.txtCouponDate.TabIndex = 1525
+        Me.txtCouponDate.TabStop = False
+        Me.txtCouponDate.Text = "13/06/2011"
+        Me.txtCouponDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'RadLabel4
+        '
+        Me.RadLabel4.FieldName = Nothing
+        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel4.Location = New System.Drawing.Point(367, 3)
+        Me.RadLabel4.Name = "RadLabel4"
+        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
+        Me.RadLabel4.TabIndex = 1
+        Me.RadLabel4.Text = "Date"
+        '
+        'lblCouponDate
+        '
+        Me.lblCouponDate.FieldName = Nothing
+        Me.lblCouponDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCouponDate.Location = New System.Drawing.Point(429, 70)
+        Me.lblCouponDate.Name = "lblCouponDate"
+        Me.lblCouponDate.Size = New System.Drawing.Size(73, 16)
+        Me.lblCouponDate.TabIndex = 1535
+        Me.lblCouponDate.Text = "Coupon Date"
         '
         'txtBPLRemark
         '
@@ -657,7 +710,7 @@ Partial Class frmDairyBookingCustomer
         Me.rgbItemType.Controls.Add(Me.rbtnNonTax)
         Me.rgbItemType.Controls.Add(Me.rbtnTaxable)
         Me.rgbItemType.HeaderText = "Item Type"
-        Me.rgbItemType.Location = New System.Drawing.Point(920, 1)
+        Me.rgbItemType.Location = New System.Drawing.Point(944, 1)
         Me.rgbItemType.Name = "rgbItemType"
         Me.rgbItemType.Size = New System.Drawing.Size(100, 75)
         Me.rgbItemType.TabIndex = 1534
@@ -792,7 +845,7 @@ Partial Class frmDairyBookingCustomer
         'lblReceiptAmt
         '
         Me.lblReceiptAmt.FieldName = Nothing
-        Me.lblReceiptAmt.Location = New System.Drawing.Point(852, 109)
+        Me.lblReceiptAmt.Location = New System.Drawing.Point(834, 109)
         Me.lblReceiptAmt.Name = "lblReceiptAmt"
         Me.lblReceiptAmt.Size = New System.Drawing.Size(67, 18)
         Me.lblReceiptAmt.TabIndex = 1527
@@ -812,11 +865,11 @@ Partial Class frmDairyBookingCustomer
         'lblUnbilledMilk
         '
         Me.lblUnbilledMilk.FieldName = Nothing
-        Me.lblUnbilledMilk.Location = New System.Drawing.Point(824, 85)
+        Me.lblUnbilledMilk.Location = New System.Drawing.Point(834, 85)
         Me.lblUnbilledMilk.Name = "lblUnbilledMilk"
-        Me.lblUnbilledMilk.Size = New System.Drawing.Size(116, 18)
+        Me.lblUnbilledMilk.Size = New System.Drawing.Size(96, 18)
         Me.lblUnbilledMilk.TabIndex = 1525
-        Me.lblUnbilledMilk.Text = "Unbilled Milk Amount"
+        Me.lblUnbilledMilk.Text = "Unbilled Milk Amt"
         '
         'lblUnbilledMilkAmt
         '
@@ -858,16 +911,6 @@ Partial Class frmDairyBookingCustomer
         Me.txtDate.TabStop = False
         Me.txtDate.Text = "13/06/2011 11:29 AM"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'RadLabel4
-        '
-        Me.RadLabel4.FieldName = Nothing
-        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(367, 3)
-        Me.RadLabel4.Name = "RadLabel4"
-        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
-        Me.RadLabel4.TabIndex = 1
-        Me.RadLabel4.Text = "Date"
         '
         'txtSalesman1
         '
@@ -932,10 +975,10 @@ Partial Class frmDairyBookingCustomer
         Me.cmbcashcredit.IsSourceFromTable = False
         Me.cmbcashcredit.IsSourceFromValueList = False
         Me.cmbcashcredit.IsUnique = False
-        RadListDataItem6.Text = "CASH"
-        RadListDataItem7.Text = "CREDIT"
-        Me.cmbcashcredit.Items.Add(RadListDataItem6)
-        Me.cmbcashcredit.Items.Add(RadListDataItem7)
+        RadListDataItem1.Text = "CASH"
+        RadListDataItem2.Text = "CREDIT"
+        Me.cmbcashcredit.Items.Add(RadListDataItem1)
+        Me.cmbcashcredit.Items.Add(RadListDataItem2)
         Me.cmbcashcredit.Location = New System.Drawing.Point(506, 23)
         Me.cmbcashcredit.MendatroryField = False
         Me.cmbcashcredit.MyLinkLable1 = Nothing
@@ -989,7 +1032,7 @@ Partial Class frmDairyBookingCustomer
         Me.txtReceipt.ReferenceFieldDesc = Nothing
         Me.txtReceipt.ReferenceFieldName = Nothing
         Me.txtReceipt.ReferenceTableName = Nothing
-        Me.txtReceipt.Size = New System.Drawing.Size(166, 19)
+        Me.txtReceipt.Size = New System.Drawing.Size(138, 19)
         Me.txtReceipt.TabIndex = 1515
         Me.txtReceipt.Value = ""
         '
@@ -1011,9 +1054,9 @@ Partial Class frmDairyBookingCustomer
         Me.lblOutstandingDesc.AutoSize = False
         Me.lblOutstandingDesc.BorderVisible = True
         Me.lblOutstandingDesc.FieldName = Nothing
-        Me.lblOutstandingDesc.Location = New System.Drawing.Point(724, 83)
+        Me.lblOutstandingDesc.Location = New System.Drawing.Point(683, 84)
         Me.lblOutstandingDesc.Name = "lblOutstandingDesc"
-        Me.lblOutstandingDesc.Size = New System.Drawing.Size(94, 19)
+        Me.lblOutstandingDesc.Size = New System.Drawing.Size(133, 19)
         Me.lblOutstandingDesc.TabIndex = 1494
         Me.lblOutstandingDesc.TextWrap = False
         '
@@ -1022,9 +1065,9 @@ Partial Class frmDairyBookingCustomer
         Me.lblOutStanding.FieldName = Nothing
         Me.lblOutStanding.Location = New System.Drawing.Point(626, 84)
         Me.lblOutStanding.Name = "lblOutStanding"
-        Me.lblOutStanding.Size = New System.Drawing.Size(96, 18)
+        Me.lblOutStanding.Size = New System.Drawing.Size(53, 18)
         Me.lblOutStanding.TabIndex = 1493
-        Me.lblOutStanding.Text = "Total Outstanding"
+        Me.lblOutStanding.Text = "Total O/S"
         '
         'lblRoute1
         '
@@ -1184,7 +1227,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1988,12 +2031,12 @@ Partial Class frmDairyBookingCustomer
         Me.cmbGatePassType.IsSourceFromTable = False
         Me.cmbGatePassType.IsSourceFromValueList = False
         Me.cmbGatePassType.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "AM"
-        RadListDataItem8.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem1)
-        Me.cmbGatePassType.Items.Add(RadListDataItem2)
-        Me.cmbGatePassType.Items.Add(RadListDataItem8)
+        RadListDataItem3.Text = "Select"
+        RadListDataItem4.Text = "AM"
+        RadListDataItem5.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem3)
+        Me.cmbGatePassType.Items.Add(RadListDataItem4)
+        Me.cmbGatePassType.Items.Add(RadListDataItem5)
         Me.cmbGatePassType.Location = New System.Drawing.Point(208, 225)
         Me.cmbGatePassType.MendatroryField = False
         Me.cmbGatePassType.MyLinkLable1 = Nothing
@@ -3092,45 +3135,12 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'lblCouponDate
+        'lblShiftType
         '
-        Me.lblCouponDate.FieldName = Nothing
-        Me.lblCouponDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCouponDate.Location = New System.Drawing.Point(429, 70)
-        Me.lblCouponDate.Name = "lblCouponDate"
-        Me.lblCouponDate.Size = New System.Drawing.Size(73, 16)
-        Me.lblCouponDate.TabIndex = 1535
-        Me.lblCouponDate.Text = "Coupon Date"
-        '
-        'txtCouponDate
-        '
-        Me.txtCouponDate.CalculationExpression = Nothing
-        Me.txtCouponDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtCouponDate.FieldCode = Nothing
-        Me.txtCouponDate.FieldDesc = Nothing
-        Me.txtCouponDate.FieldMaxLength = 0
-        Me.txtCouponDate.FieldName = Nothing
-        Me.txtCouponDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCouponDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtCouponDate.isCalculatedField = False
-        Me.txtCouponDate.IsSourceFromTable = False
-        Me.txtCouponDate.IsSourceFromValueList = False
-        Me.txtCouponDate.IsUnique = False
-        Me.txtCouponDate.Location = New System.Drawing.Point(509, 69)
-        Me.txtCouponDate.MendatroryField = False
-        Me.txtCouponDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtCouponDate.MyLinkLable1 = Me.RadLabel4
-        Me.txtCouponDate.MyLinkLable2 = Nothing
-        Me.txtCouponDate.Name = "txtCouponDate"
-        Me.txtCouponDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtCouponDate.ReferenceFieldDesc = Nothing
-        Me.txtCouponDate.ReferenceFieldName = Nothing
-        Me.txtCouponDate.ReferenceTableName = Nothing
-        Me.txtCouponDate.Size = New System.Drawing.Size(106, 18)
-        Me.txtCouponDate.TabIndex = 1525
-        Me.txtCouponDate.TabStop = False
-        Me.txtCouponDate.Text = "13/06/2011"
-        Me.txtCouponDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.lblShiftType.Location = New System.Drawing.Point(686, -3)
+        Me.lblShiftType.Name = "lblShiftType"
+        Me.lblShiftType.Size = New System.Drawing.Size(2, 2)
+        Me.lblShiftType.TabIndex = 1536
         '
         'frmDairyBookingCustomer
         '
@@ -3154,6 +3164,9 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtCouponDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCouponDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBPLRemark, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBPLName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCouponCode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3176,7 +3189,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblUnbilledMilk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblUnbilledMilkAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSalesmandesc1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblsalesman1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbcashcredit, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3358,8 +3370,7 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCouponDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCouponDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3568,5 +3579,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents UcAttachment1 As ucAttachment
     Friend WithEvents txtCouponDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblCouponDate As common.Controls.MyLabel
+    Friend WithEvents lblShiftType As RadLabel
 End Class
 
