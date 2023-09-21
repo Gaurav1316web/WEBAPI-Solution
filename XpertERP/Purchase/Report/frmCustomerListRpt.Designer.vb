@@ -22,7 +22,7 @@ Partial Class frmCustomerListRpt
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -55,6 +55,7 @@ Partial Class frmCustomerListRpt
         Me.chkcustomerAll = New common.Controls.MyRadioButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv = New common.UserControls.MyRadGridView()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
@@ -63,7 +64,6 @@ Partial Class frmCustomerListRpt
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -98,10 +98,10 @@ Partial Class frmCustomerListRpt
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -491,7 +491,7 @@ Partial Class frmCustomerListRpt
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(877, 582)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(812, 534)
         Me.RadPageViewPage2.Text = "Report"
         '
         'gv
@@ -510,14 +510,27 @@ Partial Class frmCustomerListRpt
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(877, 582)
+        Me.gv.Size = New System.Drawing.Size(812, 534)
         Me.gv.TabIndex = 4
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.ImageAlignment = System.Drawing.ContentAlignment.BottomLeft
+        Me.btnClose.Location = New System.Drawing.Point(733, 1)
+        Me.btnClose.Margin = New System.Windows.Forms.Padding(4)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(93, 22)
+        Me.btnClose.TabIndex = 15
+        Me.btnClose.Text = "Close"
         '
         'RadSplitButton1
         '
@@ -577,18 +590,6 @@ Partial Class frmCustomerListRpt
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.ImageAlignment = System.Drawing.ContentAlignment.BottomLeft
-        Me.btnClose.Location = New System.Drawing.Point(733, 1)
-        Me.btnClose.Margin = New System.Windows.Forms.Padding(4)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(93, 22)
-        Me.btnClose.TabIndex = 15
-        Me.btnClose.Text = "Close"
-        '
         'frmCustomerListRpt
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -643,10 +644,10 @@ Partial Class frmCustomerListRpt
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
