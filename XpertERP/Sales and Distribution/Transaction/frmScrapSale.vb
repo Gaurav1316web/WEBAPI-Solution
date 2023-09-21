@@ -5520,6 +5520,9 @@ Public Class frmScrapSale
 
     Private Sub dtpshipment_Validating(sender As Object, e As CancelEventArgs) Handles dtpshipment.Validating
         SETGSTControl()
+        If AllowFutureDateTransaction(dtpshipment.Value, Nothing) = False Then
+            dtpshipment.Focus()
+        End If
     End Sub
     Sub SETGSTControl()
         GSTStatus = clsERPFuncationality.GetGSTStatus(dtpshipment.Value)

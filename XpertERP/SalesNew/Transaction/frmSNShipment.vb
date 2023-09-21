@@ -3518,6 +3518,10 @@ Public Class frmSNShipment
                     Return False
                 End If
             End If
+            If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
+                txtDate.Focus()
+                Return False
+            End If
             'If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
             '    clsCommon.MyMessageBoxShow("Please select Item Type")
             '    cboItemType.Focus()
@@ -9338,6 +9342,12 @@ where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) 
             fndtransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndtransporter.Value, "", isButtonClicked)
             lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transporter_Name as Name from TSPL_TRANSPORT_MASTER where Transport_Id ='" + fndtransporter.Value + "'"))
 
+        End If
+    End Sub
+
+    Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating
+        If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
+            txtDate.Focus()
         End If
     End Sub
 End Class
