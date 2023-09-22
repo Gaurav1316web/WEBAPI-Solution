@@ -232,8 +232,12 @@ Public Class FrmEmpIncrement
     Private Sub fndEmpCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndEmpCode._MYValidating
         Try
             Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " LOCATION_CODE='" + LocCode + "'"
+                End If
             End If
             Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name,Designation,LOCATION_CODE ,DEPARTMENT_CODE ,DEVISION_CODE  FROM TSPL_EMPLOYEE_MASTER "
             fndEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", whrcls, fndEmpCode.Value, "", isButtonClicked)
@@ -543,12 +547,12 @@ Public Class FrmEmpIncrement
         lblSalaryStructCode.Text = ""
         lblSalStructName.Text = ""
         txtIncrementDate.Text = ""
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            LocationCode.Value = objCommonVar.strCurrUserLocations
-            lblLocationName.Text = clsLocation.GetName(LocationCode.Value, Nothing)
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            LocationCode.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocation.Text = clsLocation.GetName(LocationCode.Value, Nothing)
         Else
             LocationCode.Value = ""
-            lblLocationName.Text = ""
+            lblLocation.Text = ""
         End If
         lblDivisionCode.Text = ""
         lblDivisionName.Text = ""
@@ -567,10 +571,7 @@ Public Class FrmEmpIncrement
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         'funReset()
-
-
         obj = ClsEmpIncrement.GetData(strCode, NavTyep)
-
         If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.INCREMENT_CODE) > 0) Then
             isInsideLoadData = True
             isNewEntry = False
@@ -720,14 +721,17 @@ Public Class FrmEmpIncrement
 
     Private Sub fndIncrementCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndIncrementCode._MYValidating
         Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = "  LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+            End If
         End If
         Dim str As String = "select count(*) from TSPL_EMPLOYEE_INCREMENT_HEAD where INCREMENT_CODE ='" + fndIncrementCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
             fndIncrementCode.MyReadOnly = False
-
         Else
             fndIncrementCode.MyReadOnly = True
         End If
@@ -998,8 +1002,12 @@ Public Class FrmEmpIncrement
     Private Sub LocationCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles LocationCode._MYValidating
         Try
             Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrcls = " TSPL_Location_MASTER.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " TSPL_Location_MASTER.LOCATION_CODE='" + LocCode + "'"
+                End If
             End If
             LocationCode.Value = clsLocation.getFinder(whrcls, Me.LocationCode.Value, isButtonClicked)
             lblLocationName.Text = clsLocation.GetName(LocationCode.Value, Nothing)

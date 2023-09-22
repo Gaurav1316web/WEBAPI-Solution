@@ -21,7 +21,7 @@ Partial Class frmDistributorCommission
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblStatus = New common.usLock()
@@ -44,6 +44,8 @@ Partial Class frmDistributorCommission
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.txtDistributorTagging = New common.UserControls.txtFinder()
+        Me.lblDistributorTagging = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -65,6 +67,7 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDistributorTagging, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -102,6 +105,8 @@ Partial Class frmDistributorCommission
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDistributorTagging)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblDistributorTagging)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblStatus)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtUOM)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblItems)
@@ -132,7 +137,6 @@ Partial Class frmDistributorCommission
         Me.lblStatus.Size = New System.Drawing.Size(98, 20)
         Me.lblStatus.Status = common.ERPTransactionStatus.Pending
         Me.lblStatus.TabIndex = 45
-        Me.lblStatus.Visible = False
         '
         'txtUOM
         '
@@ -324,7 +328,7 @@ Partial Class frmDistributorCommission
         '
         '
         '
-        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.GV1.Name = "GV1"
         Me.GV1.Size = New System.Drawing.Size(800, 283)
         Me.GV1.TabIndex = 0
@@ -378,6 +382,42 @@ Partial Class frmDistributorCommission
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
+        'txtDistributorTagging
+        '
+        Me.txtDistributorTagging.CalculationExpression = Nothing
+        Me.txtDistributorTagging.FieldCode = Nothing
+        Me.txtDistributorTagging.FieldDesc = Nothing
+        Me.txtDistributorTagging.FieldMaxLength = 0
+        Me.txtDistributorTagging.FieldName = Nothing
+        Me.txtDistributorTagging.isCalculatedField = False
+        Me.txtDistributorTagging.IsSourceFromTable = False
+        Me.txtDistributorTagging.IsSourceFromValueList = False
+        Me.txtDistributorTagging.IsUnique = False
+        Me.txtDistributorTagging.Location = New System.Drawing.Point(114, 82)
+        Me.txtDistributorTagging.MendatroryField = False
+        Me.txtDistributorTagging.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDistributorTagging.MyLinkLable1 = Nothing
+        Me.txtDistributorTagging.MyLinkLable2 = Nothing
+        Me.txtDistributorTagging.MyReadOnly = False
+        Me.txtDistributorTagging.MyShowMasterFormButton = False
+        Me.txtDistributorTagging.Name = "txtDistributorTagging"
+        Me.txtDistributorTagging.ReferenceFieldDesc = Nothing
+        Me.txtDistributorTagging.ReferenceFieldName = Nothing
+        Me.txtDistributorTagging.ReferenceTableName = Nothing
+        Me.txtDistributorTagging.Size = New System.Drawing.Size(248, 19)
+        Me.txtDistributorTagging.TabIndex = 1523
+        Me.txtDistributorTagging.Value = ""
+        '
+        'lblDistributorTagging
+        '
+        Me.lblDistributorTagging.FieldName = Nothing
+        Me.lblDistributorTagging.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDistributorTagging.Location = New System.Drawing.Point(9, 83)
+        Me.lblDistributorTagging.Name = "lblDistributorTagging"
+        Me.lblDistributorTagging.Size = New System.Drawing.Size(102, 16)
+        Me.lblDistributorTagging.TabIndex = 1522
+        Me.lblDistributorTagging.Text = "Distributor Tagging"
+        '
         'frmDistributorCommission
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -412,6 +452,7 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDistributorTagging, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -439,4 +480,6 @@ Partial Class frmDistributorCommission
     Friend WithEvents btnImport As RadSplitButton
     Friend WithEvents rmiImport As RadMenuItem
     Friend WithEvents rmiExport As RadMenuItem
+    Friend WithEvents txtDistributorTagging As common.UserControls.txtFinder
+    Friend WithEvents lblDistributorTagging As common.Controls.MyLabel
 End Class

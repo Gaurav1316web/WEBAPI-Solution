@@ -479,8 +479,8 @@ Public Class clsBillOfMaterial
         Return obj
     End Function
     Public Shared Function GetPrincipleItemCount(ByVal Bom_Code As String, Optional ByVal trans As SqlTransaction = Nothing) As Integer
-        Dim qry As String = " select BOM_CODE,CONSM_ITEM_CODE,TSPL_ITEM_MASTER.Item_Type,coalesce(TSPL_MF_BOM_DETAIL.Is_Principle,0) as Is_Principle from TSPL_MF_BOM_DETAIL " & _
-                            " inner join TSPL_ITEM_MASTER  on TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE=TSPL_ITEM_MASTER.Item_Code " & _
+        Dim qry As String = " select BOM_CODE,CONSM_ITEM_CODE,TSPL_ITEM_MASTER.Item_Type,coalesce(TSPL_MF_BOM_DETAIL.Is_Principle,0) as Is_Principle from TSPL_MF_BOM_DETAIL " &
+                            " inner join TSPL_ITEM_MASTER  on TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE=TSPL_ITEM_MASTER.Item_Code " &
                             " where TSPL_MF_BOM_DETAIL.BOM_CODE='" & Bom_Code & "'"
         Dim totalPrincipal As Integer = 0
         Dim dt As DataTable
@@ -616,9 +616,9 @@ Public Class clsBOMResources
     Public Shared Function GetBomResources(ByVal BOM_Code As String, ByVal Operation_Code As String, ByVal Work_Center_Code As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsBOMResources)
         Dim dt As New DataTable
         Dim qry As String = ""
-        qry = "select TSPL_MF_BOM_RESOURCES.BOM_CODE,TSPL_MF_BOM_RESOURCES.OPERATION_CODE,TSPL_MF_BOM_RESOURCES.WORK_CENTER_CODE,TSPL_MF_BOM_RESOURCES.RESOURCE_CODE,TSPL_MF_BOM_RESOURCES.QUANTITY," & _
-              " TSPL_MF_BOM_RESOURCES.UNIT_COST,TSPL_MF_BOM_RESOURCES.TOTAL_COST,TSPL_MF_RESOURCE_MASTER.DESCRIPTION AS RESOURCE_DESC,TSPL_MF_RESOURCE_MASTER.RESOURCE_TYPE,TSPL_MF_BOM_RESOURCES.UNIT_COST_UOM " & _
-              " from TSPL_MF_BOM_RESOURCES LEFT JOIN TSPL_MF_RESOURCE_MASTER ON TSPL_MF_BOM_RESOURCES.RESOURCE_CODE=TSPL_MF_RESOURCE_MASTER.RESOURCE_CODE " & _
+        qry = "select TSPL_MF_BOM_RESOURCES.BOM_CODE,TSPL_MF_BOM_RESOURCES.OPERATION_CODE,TSPL_MF_BOM_RESOURCES.WORK_CENTER_CODE,TSPL_MF_BOM_RESOURCES.RESOURCE_CODE,TSPL_MF_BOM_RESOURCES.QUANTITY," &
+              " TSPL_MF_BOM_RESOURCES.UNIT_COST,TSPL_MF_BOM_RESOURCES.TOTAL_COST,TSPL_MF_RESOURCE_MASTER.DESCRIPTION AS RESOURCE_DESC,TSPL_MF_RESOURCE_MASTER.RESOURCE_TYPE,TSPL_MF_BOM_RESOURCES.UNIT_COST_UOM " &
+              " from TSPL_MF_BOM_RESOURCES LEFT JOIN TSPL_MF_RESOURCE_MASTER ON TSPL_MF_BOM_RESOURCES.RESOURCE_CODE=TSPL_MF_RESOURCE_MASTER.RESOURCE_CODE " &
               " where TSPL_MF_BOM_RESOURCES.BOM_CODE='" & BOM_Code & "' and TSPL_MF_BOM_RESOURCES.Operation_Code='" & Operation_Code & "' and TSPL_MF_BOM_RESOURCES.Work_Center_Code='" & Work_Center_Code & "'"
         dt = clsDBFuncationality.GetDataTable(qry, trans)
         Dim objtr As clsBOMResources
@@ -685,9 +685,9 @@ Public Class clsBOMToolTypes
     Public Shared Function GetBomToolTypes(ByVal BOM_Code As String, ByVal Operation_Code As String, ByVal Work_Center_Code As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsBOMToolTypes)
         Dim dt As New DataTable
         Dim qry As String = ""
-        qry = "select TSPL_MF_BOM_TOOLTYPES.BOM_CODE,TSPL_MF_BOM_TOOLTYPES.OPERATION_CODE,TSPL_MF_BOM_TOOLTYPES.WORK_CENTER_CODE,TSPL_MF_BOM_TOOLTYPES.TOOL_TYPE_CODE,TSPL_MF_BOM_TOOLTYPES.QUANTITY," & _
-              " TSPL_MF_BOM_TOOLTYPES.UNIT_COST,TSPL_MF_BOM_TOOLTYPES.TOTAL_COST,TSPL_MF_TOOL_TYPE.DESCRIPTION AS TOOL_TYPE_DESC,TSPL_MF_BOM_TOOLTYPES.UNIT_COST_UOM " & _
-              " from TSPL_MF_BOM_TOOLTYPES LEFT JOIN TSPL_MF_TOOL_TYPE ON TSPL_MF_BOM_TOOLTYPES.TOOL_TYPE_CODE=TSPL_MF_TOOL_TYPE.TOOL_TYPE_CODE " & _
+        qry = "select TSPL_MF_BOM_TOOLTYPES.BOM_CODE,TSPL_MF_BOM_TOOLTYPES.OPERATION_CODE,TSPL_MF_BOM_TOOLTYPES.WORK_CENTER_CODE,TSPL_MF_BOM_TOOLTYPES.TOOL_TYPE_CODE,TSPL_MF_BOM_TOOLTYPES.QUANTITY," &
+              " TSPL_MF_BOM_TOOLTYPES.UNIT_COST,TSPL_MF_BOM_TOOLTYPES.TOTAL_COST,TSPL_MF_TOOL_TYPE.DESCRIPTION AS TOOL_TYPE_DESC,TSPL_MF_BOM_TOOLTYPES.UNIT_COST_UOM " &
+              " from TSPL_MF_BOM_TOOLTYPES LEFT JOIN TSPL_MF_TOOL_TYPE ON TSPL_MF_BOM_TOOLTYPES.TOOL_TYPE_CODE=TSPL_MF_TOOL_TYPE.TOOL_TYPE_CODE " &
               " where TSPL_MF_BOM_TOOLTYPES.BOM_CODE='" & BOM_Code & "' and TSPL_MF_BOM_TOOLTYPES.Operation_Code='" & Operation_Code & "' and TSPL_MF_BOM_TOOLTYPES.Work_Center_Code='" & Work_Center_Code & "'"
         dt = clsDBFuncationality.GetDataTable(qry, trans)
         Dim objtr As clsBOMToolTypes
@@ -828,7 +828,7 @@ Public Class clsBOMCosting
     Public Shared Function GetBomCosting(ByVal BOM_Code As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsBOMCosting)
         Dim dt As New DataTable
         Dim qry As String = ""
-        qry = "SELECT * FROM TSPL_MF_BOM_COSTING " & _
+        qry = "SELECT * FROM TSPL_MF_BOM_COSTING " &
               " where TSPL_MF_BOM_COSTING.BOM_CODE='" & BOM_Code & "'"
         dt = clsDBFuncationality.GetDataTable(qry, trans)
         Dim objtr As clsBOMCosting

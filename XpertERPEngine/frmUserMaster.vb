@@ -1356,6 +1356,16 @@ Public Class FrmUserMaster
                 End If
             End If
 
+            If PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal) AndAlso chkInActive.Checked = False Then
+                Dim IsMappedCustomer As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_USER_MASTER where  Login_Type = 'CNF' and Cust_Code = '" & fndCustCode.Value & "'")
+                If IsMappedCustomer > 1 Then
+                    fndCustCode.Value = ""
+                    lblCustCode.Text = ""
+                    Throw New Exception("You cannot mapped same customer to more than one user")
+                End If
+
+            End If
+
             SaveData()
 
         Catch ex As Exception
@@ -1650,6 +1660,13 @@ Public Class FrmUserMaster
                     '        Throw New Exception("" + strZoneCode + " Invalid Zone Code.Does Not Exist In Zone Master")
                     '    End If
                     'End If
+                    If (clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Login_Type").Value), "CNF") = CompairStringResult.Equal) AndAlso (clsCommon.CompairString(clsCommon.myCstr(grow.Cells("InActive").Value), "N") = CompairStringResult.Equal) Then
+                        Dim IsMappedCustomer As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_USER_MASTER where  Login_Type = 'CNF'  AND InActive = 'N' and Cust_Code IN( '" & grow.Cells("Cust_Code").Value.ToString() & "')", trans)
+                        If IsMappedCustomer > 0 Then
+                            Throw New Exception("You cannot mapped same customer to more than one user")
+                        End If
+
+                    End If
 
                     Dim sql1 As String = "select COUNT(*) from TSPL_USER_MASTER  where User_Code='" + strPrefixUserCode + "'"
                     Dim i As Integer = CInt(connectSql.RunScalar(trans, sql1))
@@ -1679,10 +1696,14 @@ Public Class FrmUserMaster
                     'End If
                     clsCommon.AddColumnsForChange(colll, "User_APP_Type", grow.Cells("App User Type").Value.ToString())
                     clsCommon.AddColumnsForChange(colll, "Vendor_Code", grow.Cells("Vendor").Value.ToString())
+                    clsCommon.AddColumnsForChange(colll, "Cust_Code", grow.Cells("Cust_Code").Value.ToString())
+                    clsCommon.AddColumnsForChange(colll, "Login_Type", grow.Cells("Login_Type").Value.ToString())
                     clsCommonFunctionality.UpdateDataTable(colll, "tspl_user_master", OMInsertOrUpdate.Update, "User_Code='" + strPrefixUserCode + "'", trans)
                     'sanjay
 
                 Next
+
+
                 IsCorrectUSer(trans)
                 trans.Commit()
                 common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
@@ -2095,8 +2116,27 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
     Private Sub fndCustCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustCode._MYValidating
         If (PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal)) OrElse (isCheckCustomerType AndAlso MatchLevel() = 1) Then
             Try
+                Dim Sqlqry As String = "select Cust_Code from TSPL_USER_MASTER where Login_Type = 'CNF' and InActive = 'N'"
+                Dim whrcls As String = ""
                 Dim qry As String = "select Cust_Code as Code, Customer_Name as Name from TSPL_CUSTOMER_MASTER "
-                fndCustCode.Value = clsCommon.ShowSelectForm("CustomerFndr", qry, "Code", "STATUS='N'", fndCustCode.Value, "Code", isButtonClicked)
+                Dim cust_Codes As String
+                If chkInActive.Checked Then
+                    whrcls += "STATUS='N'"
+                Else
+                    Dim dtCodes As DataTable = clsDBFuncationality.GetDataTable(Sqlqry)
+                    Dim sbCustCodes As New System.Text.StringBuilder()
+
+                    For i As Integer = 0 To dtCodes.Rows.Count - 1
+                        Dim row As String = dtCodes.Rows(i).ItemArray(0).ToString
+                        sbCustCodes.Append("'" + row + "'")
+                        If i < dtCodes.Rows.Count - 1 Then
+                            sbCustCodes.Append(",")
+                        End If
+                    Next i
+                    cust_Codes = sbCustCodes.ToString()
+                    whrcls += "STATUS='N' and Cust_Code NOT IN (" & cust_Codes & ")"
+                End If
+                fndCustCode.Value = clsCommon.ShowSelectForm("CustomerFndr", qry, "Code", whrcls, fndCustCode.Value, "Code", isButtonClicked)
                 If clsCommon.myLen(fndCustCode.Value) > 0 Then
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(" Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustCode.Value + "' ")
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

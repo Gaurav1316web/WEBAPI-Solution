@@ -150,6 +150,13 @@ Public Class frmConveyanceClaim
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
+        Else
+            fndLocation.Value = ""
+            lblLocation.Text = ""
+        End If
     End Sub
 
     Private Sub SetUserMgmtNew()
@@ -192,8 +199,8 @@ Public Class frmConveyanceClaim
         btnSave.Text = "Save"
         btnSave.Enabled = True
         btnDelete.Enabled = True
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            fndLocation.Value = objCommonVar.strCurrUserLocations
+        If clsCommon.myLen(objCommonVar.CurrentUserCode) > 0 Then
+            fndLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)
         Else
             fndLocation.Value = ""
@@ -211,10 +218,14 @@ Public Class frmConveyanceClaim
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " TSPL_CONVEYANCE_CLAIM.Comp_Code='" & objCommonVar.CurrentCompanyCode & "' And TSPL_EMPLOYEE_MASTER.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
-        Else
-            whrcls = " TSPL_CONVEYANCE_CLAIM.Comp_Code='" & objCommonVar.CurrentCompanyCode & "'"
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " TSPL_CONVEYANCE_CLAIM.Comp_Code='" & objCommonVar.CurrentCompanyCode & "' And TSPL_EMPLOYEE_MASTER.LOCATION_CODE='" + LocCode + "'"
+            Else
+                whrcls = " TSPL_CONVEYANCE_CLAIM.Comp_Code='" & objCommonVar.CurrentCompanyCode & "'"
+            End If
         End If
         Dim str As String = "select count(*) from TSPL_CONVEYANCE_CLAIM where CLAIM_CODE ='" + txtCode.Value + "' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
@@ -325,8 +336,12 @@ Public Class frmConveyanceClaim
 
     Private Sub txtEmpCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtEmpCode._MYValidating
         Dim whrcls As String = Nothing
+        Dim LocCode As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(LocCode) > 0 Then
+                whrcls = " LOCATION_CODE='" + LocCode + "'"
+            End If
         End If
         txtEmpCode.Value = clsEmployeeMaster.getFinder(whrcls, Me.txtEmpCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_FINDER", Qry, "Code", "", txtCode.Value, "EMP_CODE", isButtonClicked)
         lblEmpName.Text = clsEmployeeMaster.GetName(txtEmpCode.Value, Nothing)
@@ -356,8 +371,12 @@ Public Class frmConveyanceClaim
     Private Sub fndLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndLocation._MYValidating
         Try
             Dim whrcls As String = Nothing
+            Dim LocCode As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whrcls = " TSPL_Location_MASTER.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+                LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                If clsCommon.myLen(LocCode) > 0 Then
+                    whrcls = " TSPL_Location_MASTER.LOCATION_CODE='" + LocCode + "'"
+                End If
             End If
             fndLocation.Value = clsLocation.getFinder(whrcls, Me.fndLocation.Value, isButtonClicked)
             lblLocation.Text = clsLocation.GetName(fndLocation.Value, Nothing)

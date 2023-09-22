@@ -22,9 +22,12 @@ Partial Class FrmPurchaseOrderRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblStructure = New common.Controls.MyLabel()
         Me.txtStructure = New common.UserControls.txtMultiSelectFinder()
@@ -257,6 +260,7 @@ Partial Class FrmPurchaseOrderRegister
         Me.cboQtyValueWise.AutoCompleteDisplayMember = Nothing
         Me.cboQtyValueWise.AutoCompleteValueMember = Nothing
         Me.cboQtyValueWise.CalculationExpression = Nothing
+        Me.cboQtyValueWise.DropDownAnimationEnabled = True
         Me.cboQtyValueWise.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboQtyValueWise.FieldCode = Nothing
         Me.cboQtyValueWise.FieldDesc = Nothing
@@ -292,6 +296,7 @@ Partial Class FrmPurchaseOrderRegister
         Me.cboMonthName.AutoCompleteDisplayMember = Nothing
         Me.cboMonthName.AutoCompleteValueMember = Nothing
         Me.cboMonthName.CalculationExpression = Nothing
+        Me.cboMonthName.DropDownAnimationEnabled = True
         Me.cboMonthName.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboMonthName.FieldCode = Nothing
         Me.cboMonthName.FieldDesc = Nothing
@@ -327,6 +332,7 @@ Partial Class FrmPurchaseOrderRegister
         Me.cboFiscalYear.AutoCompleteDisplayMember = Nothing
         Me.cboFiscalYear.AutoCompleteValueMember = Nothing
         Me.cboFiscalYear.CalculationExpression = Nothing
+        Me.cboFiscalYear.DropDownAnimationEnabled = True
         Me.cboFiscalYear.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboFiscalYear.FieldCode = Nothing
         Me.cboFiscalYear.FieldDesc = Nothing
@@ -362,6 +368,7 @@ Partial Class FrmPurchaseOrderRegister
         Me.cboMonthlyYearly.AutoCompleteDisplayMember = Nothing
         Me.cboMonthlyYearly.AutoCompleteValueMember = Nothing
         Me.cboMonthlyYearly.CalculationExpression = Nothing
+        Me.cboMonthlyYearly.DropDownAnimationEnabled = True
         Me.cboMonthlyYearly.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboMonthlyYearly.FieldCode = Nothing
         Me.cboMonthlyYearly.FieldDesc = Nothing
@@ -371,12 +378,12 @@ Partial Class FrmPurchaseOrderRegister
         Me.cboMonthlyYearly.IsSourceFromTable = False
         Me.cboMonthlyYearly.IsSourceFromValueList = False
         Me.cboMonthlyYearly.IsUnique = False
-        RadListDataItem4.Text = "None"
-        RadListDataItem5.Text = "Monthly"
-        RadListDataItem6.Text = "Daily"
-        Me.cboMonthlyYearly.Items.Add(RadListDataItem4)
-        Me.cboMonthlyYearly.Items.Add(RadListDataItem5)
-        Me.cboMonthlyYearly.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "None"
+        RadListDataItem2.Text = "Monthly"
+        RadListDataItem3.Text = "Daily"
+        Me.cboMonthlyYearly.Items.Add(RadListDataItem1)
+        Me.cboMonthlyYearly.Items.Add(RadListDataItem2)
+        Me.cboMonthlyYearly.Items.Add(RadListDataItem3)
         Me.cboMonthlyYearly.Location = New System.Drawing.Point(521, 6)
         Me.cboMonthlyYearly.MendatroryField = True
         Me.cboMonthlyYearly.MyLinkLable1 = Me.RadLabel8
@@ -424,6 +431,7 @@ Partial Class FrmPurchaseOrderRegister
         Me.cboPOType.AutoCompleteDisplayMember = Nothing
         Me.cboPOType.AutoCompleteValueMember = Nothing
         Me.cboPOType.CalculationExpression = Nothing
+        Me.cboPOType.DropDownAnimationEnabled = True
         Me.cboPOType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboPOType.FieldCode = Nothing
         Me.cboPOType.FieldDesc = Nothing
@@ -464,14 +472,15 @@ Partial Class FrmPurchaseOrderRegister
         Me.gvCategory.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvCategory.Location = New System.Drawing.Point(10, 40)
         '
-        'gvCategory
         '
+        '
+        Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(331, 245)
         Me.gvCategory.TabIndex = 2
-        Me.gvCategory.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -956,16 +965,12 @@ Partial Class FrmPurchaseOrderRegister
         '
         'btnExcel
         '
-        Me.btnExcel.AccessibleDescription = "Excel"
-        Me.btnExcel.AccessibleName = "Excel"
         Me.btnExcel.Image = Global.ERP.My.Resources.Resources.MSE
         Me.btnExcel.Name = "btnExcel"
         Me.btnExcel.Text = "Excel"
         '
         'btnPDF
         '
-        Me.btnPDF.AccessibleDescription = "PDF"
-        Me.btnPDF.AccessibleName = "PDF"
         Me.btnPDF.Image = Global.ERP.My.Resources.Resources.pdf
         Me.btnPDF.Name = "btnPDF"
         Me.btnPDF.Text = "PDF"
@@ -1008,7 +1013,6 @@ Partial Class FrmPurchaseOrderRegister
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1039, 540)
         Me.RadPageView1.TabIndex = 28
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -1044,7 +1048,9 @@ Partial Class FrmPurchaseOrderRegister
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv.Name = "gv"
         Me.gv.ReadOnly = True
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1052,7 +1058,6 @@ Partial Class FrmPurchaseOrderRegister
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1018, 492)
         Me.gv.TabIndex = 4
-        Me.gv.Text = "gv"
         '
         'SplitContainer1
         '
@@ -1084,26 +1089,24 @@ Partial Class FrmPurchaseOrderRegister
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1039, 20)
         Me.RadMenu1.TabIndex = 30
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'gv1
         '
         Me.gv1.Location = New System.Drawing.Point(828, 0)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(10, 10)
         Me.gv1.TabIndex = 2
-        Me.gv1.Text = "RadGridView1"
         Me.gv1.Visible = False
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"

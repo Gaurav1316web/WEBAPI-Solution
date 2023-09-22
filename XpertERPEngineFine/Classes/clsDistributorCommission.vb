@@ -8,6 +8,7 @@ Public Class clsDistributorCommission
     Public Commision_UOM As String = Nothing
     Public IsPosted As Integer = 0
     Public Posted_Date As DateTime = Nothing
+    Public Distributor_Tagging_Code As String = Nothing
     Public Arr As List(Of clsDistributorCommissionDetails)
 #End Region
     Public Function SaveData(ByVal obj As clsDistributorCommission, ByVal isNewEntry As Boolean) As Boolean
@@ -31,6 +32,7 @@ Public Class clsDistributorCommission
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Applicable_Date", clsCommon.GetPrintDate(obj.Applicable_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Commision_UOM", obj.Commision_UOM)
+            clsCommon.AddColumnsForChange(coll, "Distributor_Tagging_Code", obj.Distributor_Tagging_Code, True)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -59,7 +61,7 @@ Public Class clsDistributorCommission
 
         Try
             Dim Whrcls As String = ""
-            Dim strQry As String = "select Doc_No,Document_Date,Applicable_Date,Commision_UOM,IsPosted,Posted_Date from TSPL_Distributor_Commission_Head  where 2=2"
+            Dim strQry As String = "select Doc_No,Document_Date,Applicable_Date,Commision_UOM,Distributor_Tagging_Code,IsPosted,Posted_Date from TSPL_Distributor_Commission_Head  where 2=2"
 
             Select Case NavType
                 Case NavigatorType.First
@@ -67,9 +69,9 @@ Public Class clsDistributorCommission
                 Case NavigatorType.Last
                     strQry += " and TSPL_Distributor_Commission_Head.Doc_No = (select Max(Doc_No) from TSPL_Distributor_Commission_Head where 1=1 " + Whrcls + "  )"
                 Case NavigatorType.Next
-                    strQry += " and TSPL_Distributor_Commission_Head.Doc_No = (select Min(Doc_No) from TSPL_Distributor_Commission_Head where Doc_No>" + clsCommon.myCstr(Doc_No) + " " + Whrcls + "   )"
+                    strQry += " and TSPL_Distributor_Commission_Head.Doc_No = (select Min(Doc_No) from TSPL_Distributor_Commission_Head where Doc_No>'" + clsCommon.myCstr(Doc_No) + "' " + Whrcls + "   )"
                 Case NavigatorType.Previous
-                    strQry += " and TSPL_Distributor_Commission_Head.Doc_No = (select Max(Doc_No) from TSPL_Distributor_Commission_Head where Doc_No<" + clsCommon.myCstr(Doc_No) + " " + Whrcls + "  )"
+                    strQry += " and TSPL_Distributor_Commission_Head.Doc_No = (select Max(Doc_No) from TSPL_Distributor_Commission_Head where Doc_No<'" + clsCommon.myCstr(Doc_No) + "' " + Whrcls + "  )"
                 Case NavigatorType.Current
                     strQry += " and TSPL_Distributor_Commission_Head.Doc_No = '" + clsCommon.myCstr(Doc_No) + "'  " + Whrcls + " "
             End Select
@@ -83,23 +85,31 @@ Public Class clsDistributorCommission
 
                 obj.Applicable_Date = clsCommon.GetPrintDate(dt.Rows(0)("Applicable_Date"), "dd/MMM/yyyy")
                 obj.Commision_UOM = clsCommon.myCstr(dt.Rows(0)("Commision_UOM"))
+                obj.Distributor_Tagging_Code = clsCommon.myCstr(dt.Rows(0)("Distributor_Tagging_Code"))
                 obj.IsPosted = IIf(clsCommon.myCDecimal(dt.Rows(0)("IsPosted")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                     obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
                 End If
-                strQry = "select Item_code from TSPL_Distributor_Commission_Items where Doc_No='" & obj.Doc_No & "'"
-                dt = New DataTable()
-                dt = clsDBFuncationality.GetDataTable(strQry, trans)
-                If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                    obj.Items = New ArrayList()
-                    For Each dr As DataRow In dt.Rows
-                        obj.Items.Add(clsCommon.myCstr(dr("Item_Code")))
-                    Next
+                Dim countItems As Integer = clsDBFuncationality.getSingleValue("select count(Item_code) as NOofItems from TSPL_ITEM_MASTER where Item_Type='F'", trans)
+                Dim countDCitems As Integer = clsDBFuncationality.getSingleValue("select count(Item_code) as NOofItems from TSPL_Distributor_Commission_Items where Doc_No='" & obj.Doc_No & "'", trans)
+                If countItems = countDCitems Then
+                    obj.Items = Nothing
+                Else
+                    strQry = "select Item_code from TSPL_Distributor_Commission_Items where Doc_No='" & obj.Doc_No & "'"
+                    dt = New DataTable()
+                    dt = clsDBFuncationality.GetDataTable(strQry, trans)
+                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                        obj.Items = New ArrayList()
+                        For Each dr As DataRow In dt.Rows
+                            obj.Items.Add(clsCommon.myCstr(dr("Item_Code")))
+                        Next
+                    End If
                 End If
+
                 obj.Arr = clsDistributorCommissionDetails.GetData(obj.Doc_No, trans)
 
 
-            End If
+                End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -157,7 +167,6 @@ Public Class clsDistributorCommissionDetails
     Public Doc_No As String = Nothing
     Public Route_Code As String = Nothing
     Public Distributor_Code As String = Nothing
-    Public UOM As String = Nothing
     Public Rate As Double = 0
 #End Region
 
@@ -169,7 +178,6 @@ Public Class clsDistributorCommissionDetails
                     clsCommon.AddColumnsForChange(coll, "Doc_No", Doc_No)
                     clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code)
                     clsCommon.AddColumnsForChange(coll, "Distributor_Code", obj.Distributor_Code)
-                    clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
                     clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
 
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Distributor_Commission_Detail", OMInsertOrUpdate.Insert, "", trans)
@@ -187,7 +195,7 @@ Public Class clsDistributorCommissionDetails
 
         Try
             Dim dt As DataTable
-            Dim strQry As String = "select Doc_No,Route_Code,Distributor_Code,UOM,Rate from TSPL_Distributor_Commission_Detail where Doc_No='" & strDocNo & "'"
+            Dim strQry As String = "select Doc_No,Route_Code,Distributor_Code,Rate from TSPL_Distributor_Commission_Detail where Doc_No='" & strDocNo & "'"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -198,7 +206,6 @@ Public Class clsDistributorCommissionDetails
                     objTr.Doc_No = clsCommon.myCstr(dr("Doc_No"))
                     objTr.Route_Code = clsCommon.myCstr(dr("Route_Code"))
                     objTr.Distributor_Code = clsCommon.myCstr(dr("Distributor_Code"))
-                    objTr.UOM = clsCommon.myCstr(dr("UOM"))
                     objTr.Rate = clsCommon.myCDecimal(dr("Rate"))
                     arr.Add(objTr)
                 Next

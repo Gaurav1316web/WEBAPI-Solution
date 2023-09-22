@@ -33,7 +33,7 @@ Public Class RptMatrixFreshSalesReport
         txtZone.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", strQry, "Code", "Name", txtZone.arrValueMember, txtZone.arrDispalyMember)
     End Sub
 
-   
+
     Private Sub txtLorry__My_Click(sender As Object, e As EventArgs) Handles txtLorry._My_Click
         strQry = "Select TSPL_VEHICLE_MASTER.Vehicle_Id As Code,   TSPL_VEHICLE_MASTER.Description As Name From TSPL_VEHICLE_MASTER"
         txtLorry.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", strQry, "Code", "Name", txtLorry.arrValueMember, txtLorry.arrDispalyMember)
@@ -1107,20 +1107,18 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 Catch ex As Exception
 
                 End Try
-
-
-
-
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
-
     End Sub
 
     Private Sub RptMatrixFreshSalesReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ToDate.Value = clsCommon.GETSERVERDATE()
-        fromDate.Value = ToDate.Value.AddMonths(-1)
+        fromDate.Value = clsCommon.GETSERVERDATE()
+        txtPTSDateFrom.Value = clsCommon.GETSERVERDATE()
+        txtPTSDateTo.Value = clsCommon.GETSERVERDATE()
+        'fromDate.Value = ToDate.Value.AddMonths(-1)
         isSchemeItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowSchemeItemQty, clsFixedParameterCode.AllowSchemeItemQty, Nothing)) = 1, True, False)
         If isSchemeItem = True Then
             chkFirstAndSecondSpellAbstract.Visible = False
@@ -1155,13 +1153,15 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
         LoadInvoiceType()
         fromDate.Value = clsCommon.GETSERVERDATE()
         ToDate.Value = clsCommon.GETSERVERDATE()
+        txtPTSDateFrom.Value = clsCommon.GETSERVERDATE()
+        txtPTSDateTo.Value = clsCommon.GETSERVERDATE()
         If clsCommon.myLen(cboShift.Text) > 0 Then
             cboShift.Text = "Both"
         End If
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
-   
+
 
     Private Sub RadMenuItem1_Click(sender As Object, e As EventArgs) Handles RadMenuItem1.Click
         Try
@@ -1267,7 +1267,7 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
             If clsCommon.myLen(ddlInvocieType.Text) > 0 Then
                 arrHeader.Add("Invoice Type : " + ddlInvocieType.Text)
             End If
-            
+
 
             clsCommon.MyExportToPDF("Matrix Fresh Sale Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
@@ -1401,5 +1401,118 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
         Catch ex As Exception
 
         End Try
+    End Sub
+
+    Private Sub btnPrintTrkSht_Click(sender As Object, e As EventArgs) Handles btnPrintTrkSht.Click
+        Try
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(txtPTSDateFrom.Value) > 0 AndAlso clsCommon.myLen(txtPTSDateTo.Value) > 0 Then
+                whrcls = " where Convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtPTSDateFrom.Value, "dd/MMM/yyyy") + "' and Convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(txtPTSDateTo.Value, "dd/MMM/yyyy") + "'"
+            End If
+
+            If clsCommon.myLen(ddlPTSShift.Text) > 0 Then
+                whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" + ddlPTSShift.Text + "'"
+            End If
+
+            If clsCommon.myLen(txtCustMultFnd.arrValueMember) > 0 Then
+                whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.Cust_Code IN (" + clsCommon.GetMulcallString(txtCustMultFnd.arrValueMember) + ")"
+            End If
+
+            If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
+                whrcls += " And TSPL_ROUTE_MASTER.Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
+            End If
+
+
+
+            Dim Qry As String = Nothing
+            Qry = "select '" + txtPTSDateFrom.Value + "' As [FromDate],'" + txtPTSDateFrom.Value + "' As [ToDate],TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
+                    TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,
+                    Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Crate,
+                    Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch,
+                    TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Document_Date,
+                    TSPL_ROUTE_MASTER.Route_Desc,
+                    TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,
+                    Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName,
+                    TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName,
+                    TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate
+                    from TSPL_DEMAND_BOOKING_MASTER
+                    Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                    Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                    Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code
+                    Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
+                    Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
+                    Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_MASTER.Comp_Code" + whrcls
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            Dim frmCRV As New frmCrystalReportViewer()
+            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
+            'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
+            frmCRV = Nothing
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnTrkShtSummaryRW_Click(sender As Object, e As EventArgs) Handles btnTrkShtSummaryRW.Click
+        Try
+            Dim whrcls As String = Nothing
+            If clsCommon.myLen(txtPTSDateFrom.Value) > 0 AndAlso clsCommon.myLen(txtPTSDateTo.Value) > 0 Then
+                whrcls = " where Convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtPTSDateFrom.Value, "dd/MMM/yyyy") + "' and Convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(txtPTSDateTo.Value, "dd/MMM/yyyy") + "'"
+            End If
+
+            If clsCommon.myLen(ddlPTSShift.Text) > 0 Then
+                whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" + ddlPTSShift.Text + "'"
+            End If
+
+            If clsCommon.myLen(txtCustMultFnd.arrValueMember) > 0 Then
+                whrcls += " And TSPL_DEMAND_BOOKING_DETAIL.Cust_Code IN (" + clsCommon.GetMulcallString(txtCustMultFnd.arrValueMember) + ")"
+            End If
+
+            If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
+                whrcls += " And TSPL_ROUTE_MASTER.Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
+            End If
+
+            Dim Qry As String = Nothing
+            Qry = "select Max(TSPL_DEMAND_BOOKING_DETAIL.ShiftType)ShiftType,
+                    Max(TSPL_ITEM_MASTER.Short_Description)Short_Description,Sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) as Qty,Max(TSPL_DEMAND_BOOKING_DETAIL.Unit_code)Unit_code,
+                    Case When Max(TSPL_DEMAND_BOOKING_DETAIL.Unit_Code)='Crate' Then Sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) Else 0 End As Crate,
+                    Case When Max(TSPL_DEMAND_BOOKING_DETAIL.Unit_Code)='Pouch' Then Sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) Else 0 End As Pouch,
+                    Max(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount)ItemNetAmount,Max(TSPL_DEMAND_BOOKING_MASTER.Document_Date)Document_Date,
+                    Max(TSPL_ROUTE_MASTER.Route_Desc)Route_Desc,
+                    Max(TSPL_DEMAND_BOOKING_MASTER.Route_No)Route_No,
+                    Max(Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.')) as CompanyName,
+                    Max(TSPL_TRANSPORT_MASTER.Transporter_Name) as TranspoterName,
+                    Max(TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code)Vehicle_Code,Max(TSPL_DEMAND_BOOKING_DETAIL.Item_Rate)Item_Rate,
+					ITEMDETAIL.CFForLTR,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
+					Sum(Convert(decimal(18,2),(TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAIL.CFForLTR)) As QTYLtr
+                    from TSPL_DEMAND_BOOKING_MASTER
+                    Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                    Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+					Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
+					Left Join (select Conversion_factor AS CFForLTR,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ITEMDETAIL on ITEMDETAIL.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code
+                    Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code
+                    Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
+                    Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
+                    Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_MASTER.Comp_Code" + whrcls
+            Qry += " Group By TSPL_DEMAND_BOOKING_MASTER.Route_No,ITEMDETAIL.CFForLTR,TSPL_ITEM_UOM_DETAIL.Conversion_Factor "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+            Dim frmCRV As New frmCrystalReportViewer()
+            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingRouteWise", "Demand Booking")
+            'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
+            frmCRV = Nothing
+        Catch ex As Exception
+            MessageBox.Show(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtMultPTSRoute__My_Click(sender As Object, e As EventArgs) Handles txtMultPTSRoute._My_Click
+        Dim qry As String = "Select TSPL_ROUTE_MASTER.Route_No AS Code,TSPL_ROUTE_MASTER.Route_Desc as Name from TSPL_ROUTE_MASTER  where 1=1 "
+        txtMultPTSRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("RouteMulSel", qry, "Code", "Name", txtMultPTSRoute.arrValueMember, txtMultPTSRoute.arrDispalyMember)
+    End Sub
+
+    Private Sub txtCustMultFnd__My_Click(sender As Object, e As EventArgs) Handles txtCustMultFnd._My_Click
+        strQry = " select Cust_Code as [code],Customer_Name as [Name] from TSPL_CUSTOMER_MASTER"
+        txtCustMultFnd.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", strQry, "Code", "Name", txtCustMultFnd.arrValueMember, txtCustMultFnd.arrDispalyMember)
+
     End Sub
 End Class

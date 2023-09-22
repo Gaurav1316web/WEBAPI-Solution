@@ -761,6 +761,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryMISSAle, "Sale Return Gate Entry Misc Sale", "1.08.02.31", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmTender, "Tender", "1.08.02.32", clsUserMgtCode.SubModulePurchaseTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmCorrectionforWrongEntry, "Correction For Wrong Entry", "1.08.02.33", clsUserMgtCode.SubModulePurchaseTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDeletionForEntry, "Deletion For Entry", "1.08.02.34", clsUserMgtCode.SubModulePurchaseTransaction, 8)
 
         'richa
         'InsertDefaultValue(clsUserMgtCode.frmItemQuantityInformation, "Item Quantity Information ", "1.08.03.17", clsUserMgtCode.SubModulePurchaseTransaction, 8)
@@ -2185,10 +2186,19 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmSchemeMasterDairyDS, "Scheme Master Dairy", "1.36.01.05", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmRouteFreightDetailsDS, "Route Freight Details", "1.36.01.06", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmLocationItemMapping, "Location Item Mapping", "1.36.01.07", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+
+        'InsertDefaultValue(clsUserMgtCode.frmDistributeRateTagging, "Distribute Rate Tagging", "1.36.01.08", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+
+        InsertDefaultValue(clsUserMgtCode.SaleIncentiveMaster, "Customer Incentive Master", "1.36.01.09", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.CustomerDeduction, "Customer Deduction", "1.36.01.10", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.VehicleMasterForDairySale, "Vehicle Master", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+
         InsertDefaultValue(clsUserMgtCode.SaleIncentiveMaster, "Customer Incentive Master", "1.36.01.08", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.CustomerDeduction, "Customer Deduction", "1.36.01.09", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.VehicleMasterForDairySale, "Vehicle Master", "1.36.01.10", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         InsertDefaultValue(clsUserMgtCode.frmDistributorCommission, "Distributor Commission", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, "Distributor Route Tagging", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
+
         'InsertDefaultValue(clsUserMgtCode.CardSale, "Card Sale", "1.36.01.11", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         'InsertDefaultValue(clsUserMgtCode.frmCustCategoryWiseDefaultItemUomMaster, "Customer Category UOM", "1.36.01.12", clsUserMgtCode.SubModuleSaleDairySetUp, 27)
         'InsertDefaultValue(clsUserMgtCode.frmTranspoterDeductionMaster, "Transporter Deduction Master", "1.36.01.13", clsUserMgtCode.SubModuleSaleDairySetUp, 27)

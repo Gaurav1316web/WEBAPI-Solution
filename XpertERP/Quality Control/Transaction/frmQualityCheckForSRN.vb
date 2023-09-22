@@ -216,6 +216,10 @@ Public Class FrmQualityCheckForSRN
         If clsCommon.myLen(strDocumentCode) > 0 Then
             LoadData(strDocumentCode, NavigatorType.Current)
         End If
+
+        If clsCommon.myLen(Me.Tag) > 0 Then
+            LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+        End If
     End Sub
 
     Private Sub LoadSRNType()

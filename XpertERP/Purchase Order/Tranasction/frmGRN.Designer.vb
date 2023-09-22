@@ -22,22 +22,22 @@ Partial Class frmGRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -443,7 +443,7 @@ Partial Class frmGRN
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1013, 429)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1745,7 +1745,7 @@ Partial Class frmGRN
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1998,7 +1998,7 @@ Partial Class frmGRN
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -2058,7 +2058,7 @@ Partial Class frmGRN
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -2127,7 +2127,7 @@ Partial Class frmGRN
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
         Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvACInsurance.ShowGroupPanel = False
@@ -2578,17 +2578,17 @@ Partial Class frmGRN
         Me.cboVisualQCStatusSecond.IsSourceFromTable = False
         Me.cboVisualQCStatusSecond.IsSourceFromValueList = False
         Me.cboVisualQCStatusSecond.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Ok"
-        RadListDataItem3.Text = "Not Ok"
-        RadListDataItem4.Text = "Partial Ok"
-        RadListDataItem5.Text = "Hold"
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem1)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem2)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem3)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem4)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem5)
-        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem6)
+        RadListDataItem13.Text = "Select"
+        RadListDataItem14.Text = "Ok"
+        RadListDataItem15.Text = "Not Ok"
+        RadListDataItem16.Text = "Partial Ok"
+        RadListDataItem17.Text = "Hold"
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem13)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem14)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem15)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem16)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem17)
+        Me.cboVisualQCStatusSecond.Items.Add(RadListDataItem18)
         Me.cboVisualQCStatusSecond.Location = New System.Drawing.Point(63, 43)
         Me.cboVisualQCStatusSecond.MendatroryField = True
         Me.cboVisualQCStatusSecond.MyLinkLable1 = Nothing
@@ -2798,17 +2798,17 @@ Partial Class frmGRN
         Me.cboVisualQCStatus.IsSourceFromTable = False
         Me.cboVisualQCStatus.IsSourceFromValueList = False
         Me.cboVisualQCStatus.IsUnique = False
-        RadListDataItem7.Text = "Select"
-        RadListDataItem8.Text = "Ok"
-        RadListDataItem9.Text = "Not Ok"
-        RadListDataItem10.Text = "Partial Ok"
-        RadListDataItem11.Text = "Hold"
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem7)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem8)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem9)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem10)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem11)
-        Me.cboVisualQCStatus.Items.Add(RadListDataItem12)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Ok"
+        RadListDataItem3.Text = "Not Ok"
+        RadListDataItem4.Text = "Partial Ok"
+        RadListDataItem5.Text = "Hold"
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem1)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem2)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem3)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem4)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem5)
+        Me.cboVisualQCStatus.Items.Add(RadListDataItem6)
         Me.cboVisualQCStatus.Location = New System.Drawing.Point(63, 43)
         Me.cboVisualQCStatus.MendatroryField = True
         Me.cboVisualQCStatus.MyLinkLable1 = Nothing

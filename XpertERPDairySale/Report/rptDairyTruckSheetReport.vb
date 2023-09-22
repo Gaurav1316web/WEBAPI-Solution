@@ -39,6 +39,8 @@ Public Class rptDairyTruckSheetReport
         'ToDate.Value = clsCommon.GETSERVERDATE(obj.Document_Date, "dd/MMM/yyyy hh:mm tt")
         ToDate.Value = clsCommon.GetDateWithEndTime(fromDate.Value)
         TSP_Date.Value = clsCommon.GETSERVERDATE()
+        txtInvFromDate.Value = clsCommon.GETSERVERDATE()
+        txtInvToDate.Value = clsCommon.GETSERVERDATE()
         dtpIDSfromdate.Value = clsCommon.GetDateWithStartTime(clsCommon.GETSERVERDATE)
         dtpIDStodate.Value = clsCommon.GetDateWithStartTime(clsCommon.GETSERVERDATE)
         cmbCustomerCategory.Text = "Select"
@@ -4742,7 +4744,57 @@ Public Class rptDairyTruckSheetReport
 
     Private Sub btnPrintInvoice_Click(sender As Object, e As EventArgs) Handles btnPrintInvoice.Click
         Try
+            PrintInvoive()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex, Me.Text)
+        End Try
+    End Sub
 
+    Private Sub PrintInvoive()
+        Try
+            Dim Qry As String = Nothing
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim objMultPrintInvoice As New FrmPrintFreshInvoice
+            Dim whrcls As String = " where Main_Final.TaxableNonTaxable='NT' "
+
+            If clsCommon.myLen(txtInvFromDate.Value) > 0 AndAlso clsCommon.myLen(txtInvToDate.Value) Then
+                whrcls += " And Main_Final.Invoice_Date>='" + txtInvFromDate.Value + "' And Main_Final.Invoice_Date<='" + txtInvToDate.Value + "' "
+            Else
+                Throw New Exception("Fill From Date and To Date")
+            End If
+
+            If clsCommon.myLen(txtInvMultiCust.arrValueMember) > 0 Then
+                whrcls += " And  Main_Final.cust_Code In (" + clsCommon.GetMulcallString(txtInvMultiCust.arrValueMember) + ")"
+            End If
+
+            If clsCommon.myLen(fndItemCodeInv.Value) > 0 Then
+                whrcls += " And Main_Final.Structure_Code = '" + fndItemCodeInv.Value + "'"
+            End If
+
+            If clsCommon.myLen(txtInvFromDate.Value) > 0 AndAlso clsCommon.myLen(txtInvToDate.Value) Then
+                Qry = objMultPrintInvoice.PrintInvoiceForTruckSheetReport(txtInvFromDate.Value, txtInvToDate.Value, whrcls)
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice", "Bill of Supply", Nothing, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                frmCRV = Nothing
+            Else
+                myMessages.blankValue("No data found")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub fndItemCodeInv__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndItemCodeInv._MYValidating
+        Try
+            Dim whrcls As String = "TSPL_ITEM_MASTER.IsTaxable=0 Group By TSPL_STRUCTURE_MASTER.Structure_Code,TSPL_STRUCTURE_MASTER.Structure_Descq"
+            Dim qry As String = "Select TSPL_STRUCTURE_MASTER.Structure_Code As [Structure Code],TSPL_STRUCTURE_MASTER.Structure_Descq As [Description] from TSPL_STRUCTURE_MASTER
+                                 Inner Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Structure_Code=TSPL_STRUCTURE_MASTER.Structure_Code "
+            fndItemCodeInv.Value = clsCommon.ShowSelectForm("IStructure", qry, "Structure Code", whrcls, fndItemCodeInv.Value, "", isButtonClicked)
+            If clsCommon.myLen(fndItemCodeInv.Value) > 0 Then
+                lblItemNameInv.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Structure_Descq from TSPL_STRUCTURE_MASTER where Structure_Code = '" + fndItemCodeInv.Value + "' "))
+            Else
+                lblItemNameInv.Text = ""
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex, Me.Text)
         End Try

@@ -301,6 +301,13 @@ Public Class frmSNSaleInvoice
         '' End of MultiCurrency
 
         ''For Attachment
+
+        ''-------
+        If chkIsTaxable.Checked = True Then
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+        Else
+            RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+        End If
         If objCommonVar.IsDemoERP Then
             UcAttachment1.Form_ID = MyBase.Form_ID
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
@@ -7089,12 +7096,16 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
     End Sub
 
     Private Sub fndtransporter__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndtransporter._MYValidating
-        If isButtonClicked Then
-            Dim qry As String = "select Transport_Id as [Transport Id],Transporter_Name as [Transporter Name] from TSPL_TRANSPORT_MASTER"
-            fndtransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndtransporter.Value, "", isButtonClicked)
-            lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transporter_Name as Name from TSPL_TRANSPORT_MASTER where Transport_Id ='" + fndtransporter.Value + "'"))
+        Try
+            Dim qry As String = "select Transport_Id as [Code],Transporter_Name as [Transporter Name] from TSPL_TRANSPORT_MASTER"
+            fndtransporter.Value = clsCommon.ShowSelectForm("TRANSPORTER_Transfer_KDIL", qry, "Code", "", fndtransporter.Value, "Code", isButtonClicked)
+            lbltransporter.Text = clsTransferDCC.GetTransporterName(fndtransporter.Value)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
 
-        End If
+
+
     End Sub
 
 
@@ -7105,5 +7116,23 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
 
     Private Sub btnEWaybillUpdate_Click(sender As Object, e As EventArgs) Handles btnEWaybillUpdate.Click
         UpdateEwaybillNo()
+    End Sub
+
+    Private Sub chkIsTaxable_CheckStateChanged(sender As Object, e As EventArgs) Handles chkIsTaxable.CheckStateChanged
+        Try
+            If chkIsTaxable.Checked = True Then
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Visible
+            Else
+                RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
+    End Sub
+    Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating
+        If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
+            clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
+            e.Cancel = True
+        End If
     End Sub
 End Class

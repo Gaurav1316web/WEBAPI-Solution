@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const PurchaseSlab As String = "PurchaseSlab"
     Public Const RefreshDBTReco As String = "Refresh DBT Reco"
     Public Const DistributorWiseBilling As String = "Distributor Wise Billing"
     Public Const AndroidSaleOrder As String = "Android Sale Order"
@@ -301,6 +302,7 @@ Public Class clsFixedParameterType
     Public Const isCleaningMandatoryBeforeGateout = "Is Cleaning Mandatory before Gate Out"
     Public Const AllowBulkProcurementSequencewise = "Allow Bulk Procurement Sequence wise"
     Public Const ShowItemLocationWiseonDairyBooking = "Show Item Location wise on Dairy Booking"
+    Public Const SeprateDemandForMorningEveningShift = "Seprate Demand For Morning Evening Shift"
     Public Const CheckOutstandingCreditLimitOnBooking = "Check Customer Outstanding on Booking"
     Public Const AllowBulkPriceChartMultiplepriceToMultipleVendor = "Allow BulkPrice Multiple Price to Mult Vendor"
     Public Const ShowOptionOnItemMasterChangeItemRate = "Show option on Item Change Rate on DDispatch"
@@ -1291,10 +1293,16 @@ Public Class clsFixedParameterType
     Public Const ApplyDemandCustomerWise = "ApplyDemandCustomerWise"
 End Class
 Public Class clsFixedParameterCode
+    Public Const ApplyRange As String = "Apply Range"
+    Public Const RangeNotApplicable As String = "RangeNotApplicable"
+    Public Const RangePO As String = "Range PO"
+    Public Const RangeRAL As String = "Range RAL"
+
     Public Const RefreshDBTReco As String = "Refresh DBT Reco"
     Public Const DistributorWiseBilling As String = "Distributor Wise Billing"
     Public Const BackDays As String = "Back Days"
     Public Const MaximumBackDays As String = "Maximum Back Days"
+    Public Const ViewItemImage As String = "View Item Image"
     Public Const RoundOffBankAdvice As String = "RoundOff Bank Advice"
     Public Const NewDCSScreen As String = "New DCS Screen"
     Public Const MinimumQtyForHeadLoad As String = "Minimum Qty For Head Load"
@@ -1620,6 +1628,7 @@ Public Class clsFixedParameterCode
     Public Const isCleaningMandatoryBeforeGateout = "Is Cleaning Mandatory before Gate Out"
     Public Const AllowBulkProcurementSequencewise = "Allow Bulk Procurement Sequence wise"
     Public Const ShowItemLocationWiseonDairyBooking = "Show Item Location wise on Dairy Booking"
+    Public Const SeprateDemandForMorningEveningShift = "Seprate Demand For Morning Evening Shift"
     Public Const CheckOutstandingCreditLimitOnBooking = "Check Customer Outstanding on Booking"
     Public Const AllowBulkPriceChartMultiplepriceToMultipleVendor = "Allow BulkPrice Multiple Price to Mult Vendor"
     Public Const isItemMilkType As String = "Is Item Milk Type"
@@ -2782,11 +2791,18 @@ Public Class clsFixedParameter
     End Function
 
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.ApplyRange, "0", "0:OFF;1:ON")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangeNotApplicable, "0.01-10000", "Doument Not Required")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangePO, "10000.01-100000", "PO Mandatory")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangeRAL, "100000.01-999999999999", "RAL Mandatory")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.RefreshDBTReco, clsFixedParameterCode.RefreshDBTReco, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.DistributorWiseBilling, clsFixedParameterCode.DistributorWiseBilling, "0", "0:OFF;1:ON")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidSaleOrder, clsFixedParameterCode.BackDays, "3", "Back Days of From Date")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidSaleOrder, clsFixedParameterCode.MaximumBackDays, "60", "Back Days of From Date")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidSaleOrder, clsFixedParameterCode.ViewItemImage, "0", "0:OFF,1:ON;View Item Image")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, "0", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.NewDCSScreen, clsFixedParameterCode.NewDCSScreen, "0", "0:Off, 1:On;New DCS Screen")
@@ -3103,6 +3119,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.isCleaningMandatoryBeforeGateout, clsFixedParameterCode.isCleaningMandatoryBeforeGateout, "0", "0-OFF;1-All Option will appear on Item Master.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowBulkProcurementSequencewise, clsFixedParameterCode.AllowBulkProcurementSequencewise, "0", "0-OFF;1-All Option will appear on Item Master.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowItemLocationWiseonDairyBooking, clsFixedParameterCode.ShowItemLocationWiseonDairyBooking, "0", "0-OFF;1-All Option will appear on Item Master.")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SeprateDemandForMorningEveningShift, clsFixedParameterCode.SeprateDemandForMorningEveningShift, "0", "0-OFF;1-Create Seprate Demand For Morning Evening Shift")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CheckOutstandingCreditLimitOnBooking, clsFixedParameterCode.CheckOutstandingCreditLimitOnBooking, "0", "0-OFF;1-Check Customer Outstanding on Booking.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowBulkPriceChartMultiplepriceToMultipleVendor, clsFixedParameterCode.AllowBulkPriceChartMultiplepriceToMultipleVendor, "0", "0-OFF;1-All Option will appear on Item Master.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowOptionOnItemMasterChangeItemRate, clsFixedParameterCode.ShowOptionOnItemMasterChangeItemRate, "0", "0-OFF;1-All Option will appear on Item Master.")
@@ -4548,6 +4565,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmMilkSample, clsFixedParameterType.MilkSamplShowOddEvenTwoGrid, clsFixedParameterCode.MilkSamplShowOddEvenTwoGrid, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmbookingdairy, clsFixedParameterType.CheckOutstandingCreditLimitOnBooking, clsFixedParameterCode.CheckOutstandingCreditLimitOnBooking, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmbookingdairy, clsFixedParameterType.ShowItemLocationWiseonDairyBooking, clsFixedParameterCode.ShowItemLocationWiseonDairyBooking, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.SeprateDemandForMorningEveningShift, clsFixedParameterCode.SeprateDemandForMorningEveningShift, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVSPAssetIssue, clsFixedParameterType.IsApplyEMIOnAssetValue, clsFixedParameterCode.IsApplyEMIOnAssetValue, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmGateOut, clsFixedParameterType.isCleaningMandatoryBeforeGateout, clsFixedParameterCode.isCleaningMandatoryBeforeGateout, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmCleaning, clsFixedParameterType.ShowBothTankertypeOnCleaning, clsFixedParameterCode.ShowBothTankertypeOnCleaning, EnumControlType.CheckBox)

@@ -63,8 +63,43 @@ Public Class frmDemandBooking
     Dim CalculateTaxRatefromItemwsieTaxOnSale As Boolean = False
     Dim DoNotConsiderCustomerCreditLimit As Boolean = False
     Dim ImportProcess As Boolean = False
+    Dim SettSeprateDemandForMorningEveningShift As Boolean = False
 #End Region
-    Private Sub frmBookingDairyMultipleCustomer_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
+    Private Sub FrmBookingEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        Try
+            gv1.EnterKeyMode = RadGridViewEnterKeyMode.EnterMovesToNextRow
+            blnPageLoad = True
+            SettSeprateDemandForMorningEveningShift = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateDemandForMorningEveningShift, clsFixedParameterCode.SeprateDemandForMorningEveningShift, Nothing)) = 1)
+            ChangeVehicleOnDairySaleBooking = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeVehicleOnDairySaleBooking, clsFixedParameterCode.ChangeVehicleOnDairySaleBooking, Nothing)) = 0, False, True)
+            ShowItemLocationWiseonBooking = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemLocationWiseonDairyBooking, clsFixedParameterCode.ShowItemLocationWiseonDairyBooking, Nothing))
+            CheckOutstandingOnbooking = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckOutstandingCreditLimitOnBooking, clsFixedParameterCode.CheckOutstandingCreditLimitOnBooking, Nothing))
+            AllowWo_Outstanding = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AllowDispatchOutstandingFS & "'")) = 0, False, True)
+            CalculateTaxRatefromItemwsieTaxOnSale = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing)) = 1, True, False)
+            SingleUserParticularDairyBookingEdit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SingleUserParticularDairyBookingEdit, clsFixedParameterCode.SingleUserParticularDairyBookingEdit, Nothing)) = 1, True, False)
+            DoNotConsiderCustomerCreditLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotConsiderCustomerCreditLimit, clsFixedParameterCode.DoNotConsiderCustomerCreditLimit, Nothing)) = 1, True, False)
+            UseCutOffTimeonRouteForERP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UseCutOffTimeonRouteForERP, clsFixedParameterCode.UseCutOffTimeonRouteForERP, Nothing)) = 1, True, False)
+            AddNew()
+            SetUserMgmtNew()
+            If clsCommon.myLen(StrDocNo) > 0 Then
+                LoadData(StrDocNo, NavigatorType.Current)
+            End If
+            If clsCommon.myLen(Me.Tag) > 0 Then
+                LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+            End If
+            txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+            If clsCommon.myLen(txtLocation.Value) > 0 Then
+                lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
+            End If
+            blnPageLoad = False
+            txtLocation.Enabled = False
+            LoadBlankGrid()
+            If SettSeprateDemandForMorningEveningShift Then
+                rbtnMorningEveningBoth.Enabled = False
+                rbtnMorningEveningBoth.Visible = False
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
     Private Sub frmBookingDairyMultipleCustomer_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         Try
@@ -123,87 +158,7 @@ Public Class frmDemandBooking
     Sub CloseForm()
         Me.Close()
     End Sub
-    Private Sub FrmBookingEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Try
-            gv1.EnterKeyMode = RadGridViewEnterKeyMode.EnterMovesToNextRow
-            blnPageLoad = True
-            ChangeVehicleOnDairySaleBooking = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeVehicleOnDairySaleBooking, clsFixedParameterCode.ChangeVehicleOnDairySaleBooking, Nothing)) = 0, False, True)
-            ShowItemLocationWiseonBooking = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemLocationWiseonDairyBooking, clsFixedParameterCode.ShowItemLocationWiseonDairyBooking, Nothing))
-            CheckOutstandingOnbooking = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckOutstandingCreditLimitOnBooking, clsFixedParameterCode.CheckOutstandingCreditLimitOnBooking, Nothing))
-            AllowWo_Outstanding = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.AllowDispatchOutstandingFS & "'")) = 0, False, True)
-            CalculateTaxRatefromItemwsieTaxOnSale = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing)) = 1, True, False)
-            SingleUserParticularDairyBookingEdit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SingleUserParticularDairyBookingEdit, clsFixedParameterCode.SingleUserParticularDairyBookingEdit, Nothing)) = 1, True, False)
-            DoNotConsiderCustomerCreditLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotConsiderCustomerCreditLimit, clsFixedParameterCode.DoNotConsiderCustomerCreditLimit, Nothing)) = 1, True, False)
-            UseCutOffTimeonRouteForERP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UseCutOffTimeonRouteForERP, clsFixedParameterCode.UseCutOffTimeonRouteForERP, Nothing)) = 1, True, False)
-            AddNew()
-            SetUserMgmtNew()
-            If clsCommon.myLen(StrDocNo) > 0 Then
-                LoadData(StrDocNo, NavigatorType.Current)
-            End If
-            If clsCommon.myLen(Me.Tag) > 0 Then
-                LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
-            End If
-            txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-            If clsCommon.myLen(txtLocation.Value) > 0 Then
-                lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
-            End If
-            blnPageLoad = False
-            txtLocation.Enabled = False
-            LoadBlankGrid()
-            'Dim coll As Dictionary(Of String, String)
-            'coll = New Dictionary(Of String, String)()
-            'coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
-            'coll.Add("Document_Date", "datetime not NULL")
-            'coll.Add("Route_No", "varchar(12) NULL REFERENCES TSPL_ROUTE_MASTER (Route_No)")
-            'coll.Add("Location_Code", "Varchar(12) NULL  References TSPL_LOCATION_MASTER(Location_Code) ")
-            'coll.Add("City_Code", "Varchar(50) NULL REFERENCES TSPL_CITY_MASTER(CITY_CODE)")
-            'coll.Add("ShiftType", "Varchar(20) null")
-            'coll.Add("ItemType", "Varchar(20) null")
-            'coll.Add("TripNo", "Varchar(50) null")
-            'coll.Add("Posted", "integer not null default 0")
-            'coll.Add("Comp_Code", "varchar(8) NULL")
-            'coll.Add("Created_By", "varchar(12) NOT NULL")
-            'coll.Add("Created_Date", "Datetime NOT NULL")
-            'coll.Add("Modified_By", "varchar(12) NOT NULL")
-            'coll.Add("Modified_Date", "Datetime NOT NULL")
-            'coll.Add("IsIndividualCustomer", "int not null default 0")
-            'coll.Add("TotalQtyInCrates", "decimal(18,2) null")
-            'coll.Add("TotalQtyInLtr", "decimal(18,2) null")
-            'coll.Add("DocumentAmount", "decimal(18,2) null")
-            'coll.Add("Posting_Date", "Datetime NULL")
-            ''coll.add("IsGatePassGenerated", "char(1) not null default 'N'")
-            ''coll.add("IsTruckSheetGenerated", "char(1) not null default 'N'")
-            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_MASTER", coll, "", False, False, "", "Document_No", "Document_Date")
-            'coll = New Dictionary(Of String, String)()
-            'coll.Add("TR_Code", "varchar(30) NOT NULL primary Key")
-            'coll.Add("Document_No", "varchar(30) NOT NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
-            'coll.Add("Line_No", "integer not null default 0")
-            'coll.Add("Cust_Code", "Varchar(12) null references TSPL_CUSTOMER_MASTER(Cust_Code)")
-            'coll.Add("Item_Code", "Varchar(50) null references TSPL_Item_MASTER(Item_Code)")
-            'coll.Add("Qty", "decimal(18,2) null")
-            'coll.Add("Unit_code", "Varchar(12) null")
-            'coll.Add("Vehicle_Code", "Varchar(12) null")
-            'coll.Add("Item_Rate", "decimal(18,2) not null default 0")
-            'coll.Add("Price_code", "varchar(12) NULL")
-            'coll.Add("ShiftType", "varchar(20) NULL")
-            'coll.Add("IsItemUpdate", "int not null default 0")
-            'coll.Add("TotalCrates_ItemWise", "decimal(18,2) null")
-            'coll.Add("TotalLtr_ItemWise", "decimal(18,2) null")
-            'coll.Add("ItemNetAmount", "decimal(18,2) null")
-            'coll.Add("IsGatePassGenerated", "char(1) not null default 'N'")
-            'coll.Add("IsTruckSheetGenerated", "char(1) not null default 'N'")
-            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "")
-            'coll = New Dictionary(Of String, String)()
-            'coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
-            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", False, False, "", "Document_No", "Document_Date")
-            'coll = New Dictionary(Of String, String)()
-            'coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
-            'coll.Add("Against_DemandBooking_TR_Code", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
-            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_DETAIL", coll, "", False, False, "TSPL_BOOKING_MATSER", "Document_No", "")
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
+
     Public Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
         If Not (MyBase.isReadFlag) Then
@@ -236,7 +191,10 @@ Public Class frmDemandBooking
         Dim qry As String = String.Empty
         gv1.Rows.Clear()
         gv1.Columns.Clear()
-        rbtnMorningEveningBoth.IsChecked = True
+        If Not SettSeprateDemandForMorningEveningShift Then
+            rbtnMorningEveningBoth.IsChecked = True
+        End If
+
         rdbnFreshAmbientBoth.IsChecked = True
         gv1.DataSource = Nothing
         'gv1.ViewDefinition = New TableViewDefinition
@@ -490,7 +448,7 @@ Public Class frmDemandBooking
         Try
             If gv1.Rows.Count > 0 Then
                 Dim view As New ColumnGroupsViewDefinition()
-                view.ColumnGroups.Add(New GridViewColumnGroup("Distributor & Shift"))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Booth"))
                 view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colLineNo).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colCustCode).Name)
@@ -620,7 +578,11 @@ Public Class frmDemandBooking
             If clsCommon.myLen(txtLocation.Value) > 0 Then
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
             End If
-            rbtnMorningEveningBoth.IsChecked = True
+            If Not SettSeprateDemandForMorningEveningShift Then
+                rbtnMorningEveningBoth.IsChecked = True
+            End If
+            RadGroupBox3.Enabled = True
+
             rdbnFreshAmbientBoth.IsChecked = True
             chkMorningGatepassTruckSheetGenerated.Checked = False
             chkEveningGatepassTruckSheetGenerated.Checked = False
@@ -677,6 +639,11 @@ Public Class frmDemandBooking
             End If
             If clsCommon.myLen(txtVehicleNo.Value) <= 0 Then
                 Throw New Exception("Please select Vehicle")
+            End If
+            If SettSeprateDemandForMorningEveningShift Then
+                If Not (rbtnMorning.IsChecked Or rbtnEvening.IsChecked) Then
+                    Throw New Exception("Shift should be Morning/Evening")
+                End If
             End If
             isInsideLoadData = True
             UpdateAllTotals()
@@ -935,11 +902,9 @@ Public Class frmDemandBooking
                 If IsRepeatOrder = 1 Then
                     Dim isSave As Boolean = False
                     If clsCommon.myLen(clsCommon.myCstr(obj.Document_No)) > 0 Then
-                        isSave = clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, Nothing, obj.Location_Code, obj.ShiftType)
+                        isSave = clsDemandBookingSaleDetail.SaveData(obj.Document_No, obj.Document_Date, obj.Arr, Nothing, obj.Location_Code, obj.ShiftType, isNewEntry)
                         If isSave Then
-
                             clsCommon.MyMessageBoxShow(Me, "" + clsCommon.myCstr(obj.ShiftType) + " Demand Data Saved Successfully", Me.Text)
-
                         Else
                             clsCommon.MyMessageBoxShow(Me, "Somthing Went Worng", Me.Text)
                         End If
@@ -1045,14 +1010,16 @@ Public Class frmDemandBooking
                 lblTotalCrate.Text = obj.TotalQtyInCrates
                 lblTotalLitre.Text = obj.TotalQtyInLtr
                 lblDocumentAmt.Text = obj.DocumentAmount
-                LoadBlankGrid()
-                setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
+
                 If clsCommon.CompairString(obj.ShiftType, "Morning") = CompairStringResult.Equal Then
                     rbtnMorning.IsChecked = True
                 ElseIf clsCommon.CompairString(obj.ShiftType, "Evening") = CompairStringResult.Equal Then
                     rbtnEvening.IsChecked = True
                 Else
                     rbtnMorningEveningBoth.IsChecked = True
+                End If
+                If SettSeprateDemandForMorningEveningShift Then
+                    RadGroupBox3.Enabled = False
                 End If
                 If clsCommon.CompairString(obj.ItemType, "Fresh") = CompairStringResult.Equal Then
                     rbtn_Fresh.IsChecked = True
@@ -1061,6 +1028,8 @@ Public Class frmDemandBooking
                 Else
                     rdbnFreshAmbientBoth.IsChecked = True
                 End If
+                LoadBlankGrid()
+                setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
                 chkMorningPosted.Checked = (obj.Posted_Morning = 1)
                 chkEveningPosted.Checked = (obj.Posted_Evening = 1)
                 Dim dblMorningCount As Integer = 0
@@ -1103,7 +1072,9 @@ Public Class frmDemandBooking
                 'HideUnhideRowsOFGrid()
                 isLoadData = False
                 UpdateAllTotals()
-                HideUnhideRowsAndColumnsOFGrid()
+                If Not SettSeprateDemandForMorningEveningShift Then
+                    HideUnhideRowsAndColumnsOFGrid()
+                End If
             End If
             SetRouteColumns()
             RefreshFormName()
@@ -1130,7 +1101,7 @@ Public Class frmDemandBooking
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
-            Dim qry As String = "select distinct TSPL_DEMAND_BOOKING_MASTER.Document_No as DocumentNo,convert(varchar(12),TSPL_DEMAND_BOOKING_MASTER.Document_date,103) as Document_date,TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DEMAND_BOOKING_MASTER.Location_Code as [Location Code],TSPL_DEMAND_BOOKING_MASTER.City_Code as [City Code],TripNo AS [Trip No],case when Posted=1 then 'posted' else 'Unposted' end as Posted from TSPL_DEMAND_BOOKING_MASTER"
+            Dim qry As String = "select TSPL_DEMAND_BOOKING_MASTER.Document_No as DocumentNo,convert(varchar(12),TSPL_DEMAND_BOOKING_MASTER.Document_date,103) as Document_date,TSPL_DEMAND_BOOKING_MASTER.ShiftType,TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DEMAND_BOOKING_MASTER.Location_Code as [Location Code],TSPL_DEMAND_BOOKING_MASTER.City_Code as [City Code],TripNo AS [Trip No],case when Posted=1 then 'posted' else 'Unposted' end as Posted from TSPL_DEMAND_BOOKING_MASTER"
             'Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
             Reset()
             LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentNo", "", txtDocNo.Value, "DocumentNo", isButtonClicked), NavigatorType.Current)
@@ -1432,20 +1403,33 @@ Public Class frmDemandBooking
             If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
                 Dim i As Integer = 1
                 For Each dr As DataRow In dt1.Rows
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Evening"
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
-                    i = i + 1
-                    gv1.Rows.AddNew()
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Morning"
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
-                    i = i + 1
-                    gv1.Rows.AddNew()
+                    Dim flagE As Boolean = True
+                    Dim flagM As Boolean = True
+
+                    If SettSeprateDemandForMorningEveningShift Then
+                        flagE = rbtnEvening.IsChecked
+                        flagM = rbtnMorning.IsChecked
+                        RadGroupBox3.Enabled = False
+                    End If
+
+                    If flagE Then
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Evening"
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
+                        i = i + 1
+                        gv1.Rows.AddNew()
+                    End If
+                    If flagM Then
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Morning"
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).ReadOnly = True
+                        i = i + 1
+                        gv1.Rows.AddNew()
+                    End If
                 Next
                 For n As Integer = 0 To gv1.Rows.Count - 1
                     Try
@@ -1573,7 +1557,6 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 If clsCommon.myLen(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)) > 0 Then
                     If rbtnMorning.IsChecked Then
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), "Evening") = CompairStringResult.Equal Then
-                            'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
                             gv1.Rows(dblrows).IsVisible = False
                         Else
                             If rbtn_Fresh.IsChecked Then
@@ -1594,7 +1577,6 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                         End If
                     ElseIf rbtnEvening.IsChecked Then
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), "Morning") = CompairStringResult.Equal Then
-                            'gv1.Rows(dblrows).Cells(dblcolumns).Value = ""
                             gv1.Rows(dblrows).IsVisible = False
                         Else
                             If rbtn_Fresh.IsChecked Then
@@ -1936,9 +1918,9 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 dblDocTotalAmt = dblDocTotalAmt + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colAmt).Value)
                 dblDocTotalLitre = dblDocTotalLitre + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colLitre).Value)
                 dblDocTotalCrate = dblDocTotalCrate + clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
-                TotalPAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
-                TotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
-                TotalMAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCrate).Value)
+                TotalPAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPAmt).Value)
+                TotalPCount += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colPCount).Value)
+                TotalMAmt += clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colMAmt).Value)
             Next
             lblTotalCrate.Text = clsCommon.myCdbl(dblDocTotalCrate)
             lblTotalLitre.Text = clsCommon.myCdbl(dblDocTotalLitre)
@@ -3011,20 +2993,21 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         'clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set IsGatePassGenerated='Y' where " + IIf(StrFormType = "DB", "TSPL_DEMAND_BOOKING_DETAIL.Document_No", "TSPL_DEMAND_BOOKING_DETAIL.GPCode") + "'='" & StrDocCode & "' and ShiftType='" & StrShift & "'")
         Dim Qry As String = "select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin
                   ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc
-                  ,Main_Final.Distributor,'" & StrShift & "' shiftType,Main_Final.City_Name,Main_Final.Demand_No,Main_Final.Demand_Date,Main_Final.Route_No,Main_Final.Route_Desc
-                  ,Main_Final.Item_alies_name,Main_Final.Crate_Qty,Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise
+                  ,Main_Final.Distributor,'" & StrShift & "' shiftType,Main_Final.City_Name,Main_Final.Demand_No,Main_Final.Demand_Date,Main_Final.Route_No,Main_Final.Route_Desc ,Main_Final.Vehicle_Desc
+                  ,Main_Final.Item_alies_name,Main_Final.Crate_Qty,Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount
                   ,Main_Final.Production_Remarks
                   from (select max(TSPL_VENDOR_MASTER.vendor_name) as Distributor,
                   max(TSPL_DEMAND_BOOKING_MASTER.shiftType) as shiftType,
                   max(TSPL_city_MASTER.City_Name) as City_Name,
                   max(TSPL_DEMAND_BOOKING_MASTER.Comp_Code) as Comp_Code,
                   max(TSPL_DEMAND_BOOKING_MASTER.location_code) as location_code
-                  ,TSPL_DEMAND_BOOKING_MASTER.Document_No as Demand_No,max(convert(varchar(15),TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)) as Demand_Date ,isnull(TSPL_DEMAND_BOOKING_MASTER.Route_No,'') as Route_No ,max(isnull(TSPL_ROUTE_MASTER.Route_Desc,'')) as Route_Desc 
-                  ,max(TSPL_ITEM_MASTER.alies_name) as Item_alies_name
+                  ,TSPL_DEMAND_BOOKING_MASTER.Document_No as Demand_No,max(convert(varchar(15),TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)) as Demand_Date ,isnull(TSPL_DEMAND_BOOKING_MASTER.Route_No,'') as Route_No ,max(isnull(TSPL_ROUTE_MASTER.Route_Desc,'')) as Route_Desc,
+                  max(isnull(TSPL_VEHICLE_MASTER.Description,'')) as Vehicle_Desc ,max(TSPL_ITEM_MASTER.alies_name) as Item_alies_name
                   ,sum(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Crate' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Crate_Qty
             ,sum(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Pouch' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Pouch_Qty
             ,sum(case when (TSPL_DEMAND_BOOKING_DETAIL.unit_code<>'Crate' and TSPL_DEMAND_BOOKING_DETAIL.unit_code<>'Pouch') then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Loose_Qty
             ,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) AS TotalLtr_ItemWise
+                   ,sum(TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount) AS ItemNetAmount
                   ,max(TSPL_DEMAND_BOOKING_DETAIL.Production_Remarks) as Production_Remarks
                   from TSPL_DEMAND_BOOKING_MASTER left outer join TSPL_DEMAND_BOOKING_DETAIL
                   on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
@@ -3253,6 +3236,8 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             myMessages.blankValue("Booking not found to Print")
         End If
+        Dim qry As String = Nothing
+        Dim SubRptQry As String = Nothing
         Dim ShiftType As String = ""
         Dim Previous_Shift As String = ""
         Dim Previous_Date As String
@@ -3290,17 +3275,41 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             '   left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Document_No = TSPL_DEMAND_BOOKING_MASTER.Document_No
             '   where TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" & Previous_Shift & "'  and Document_Date = '" & Previous_Date & "' and TSPL_DEMAND_BOOKING_MASTER.Document_No = '" & txtDocNo.Value & "'
             'Group By Cust_Code)as Previous ON Previous.Code=tmp1.Cust_Code order by Cust_Code"
-            Dim qry As String = "select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
-TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,
-TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_DEMAND_BOOKING_MASTER.Route_No,'" & Comp_Name & "' as CompanyName,'" & lblTransporterName.Text & "' as TranspoterName,TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate
-from TSPL_DEMAND_BOOKING_MASTER
-left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'
-"
+
+            '    qry = "select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
+            ''TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,
+            ''TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_DEMAND_BOOKING_MASTER.Route_No,'" & Comp_Name & "' as CompanyName,'" & lblTransporterName.Text & "' as TranspoterName,TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate
+            ''from TSPL_DEMAND_BOOKING_MASTER
+            ''left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+            ''left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+            ''where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'"
+
+            qry = "select '' As [FromDate],'' As [ToDate],TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
+                    TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,
+                    Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Crate' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Crate,
+                    Case When TSPL_DEMAND_BOOKING_DETAIL.Unit_Code='Pouch' Then TSPL_DEMAND_BOOKING_DETAIL.Qty Else 0 End As Pouch,
+                    TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Document_Date,
+                    TSPL_ROUTE_MASTER.Route_Desc,
+                    TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,
+                    Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName,
+                    TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName,
+                    TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate,
+					ITEMDETAIL.CFForLTR,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
+					Convert(decimal(18,2),(TSPL_DEMAND_BOOKING_DETAIL.Qty*TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ITEMDETAIL.CFForLTR) As QTYLtr
+                    from TSPL_DEMAND_BOOKING_MASTER
+                    Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                    Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+					Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code And TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
+					Left Join (select Conversion_factor AS CFForLTR,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ITEMDETAIL on ITEMDETAIL.Item_code=TSPL_ITEM_UOM_DETAIL.Item_Code
+                    Left Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code
+                    Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
+                    Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
+                    Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_MASTER.Comp_Code
+                    where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
+            'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
             frmCRV = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

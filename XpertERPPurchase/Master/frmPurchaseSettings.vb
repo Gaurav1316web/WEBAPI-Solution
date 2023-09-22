@@ -402,6 +402,32 @@ Public Class frmPurchaseSettings
                     ChkGLAccToItem.Checked = False
                 End If
             End If
+
+            chkApplySlab.Checked = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.ApplyRange, Nothing) = 1)
+            Dim str As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangeNotApplicable, Nothing))
+            If str.Contains("-") Then
+                Dim strBreak As String() = str.Split(New String() {"-"}, StringSplitOptions.None)
+                If strBreak.Length > 1 Then
+                    txtSlab1From.Value = clsCommon.myCDecimal(strBreak(0))
+                    txtSlab1To.Value = clsCommon.myCDecimal(strBreak(1))
+                End If
+            End If
+            str = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangePO, Nothing))
+            If str.Contains("-") Then
+                Dim strBreak As String() = str.Split(New String() {"-"}, StringSplitOptions.None)
+                If strBreak.Length > 1 Then
+                    txtSlab2From.Value = clsCommon.myCDecimal(strBreak(0))
+                    txtSlab2To.Value = clsCommon.myCDecimal(strBreak(1))
+                End If
+            End If
+            str = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangeRAL, Nothing))
+            If str.Contains("-") Then
+                Dim strBreak As String() = str.Split(New String() {"-"}, StringSplitOptions.None)
+                If strBreak.Length > 1 Then
+                    txtSlab3From.Value = clsCommon.myCDecimal(strBreak(0))
+                    txtSlab3To.Value = clsCommon.myCDecimal(strBreak(1))
+                End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -533,11 +559,16 @@ Public Class frmPurchaseSettings
                 objCommonVar.IsMailSend = False
             End If
 
-            If chkVendor_Nlevel.Checked Then
-                MDI.IsCustomer_NLevel = "YES"
-            ElseIf Not chkVendor_Nlevel.Checked Then
-                MDI.IsCustomer_NLevel = "NO"
-            End If
+            'If chkVendor_Nlevel.Checked Then
+            '    MDI.IsCustomer_NLevel = "YES"
+            'ElseIf Not chkVendor_Nlevel.Checked Then
+            '    MDI.IsCustomer_NLevel = "NO"
+            'End If
+            clsFixedParameter.UpdateData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.ApplyRange, IIf(chkApplySlab.Checked, "1", "0"), trans)
+            clsFixedParameter.UpdateData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangeNotApplicable, clsCommon.myCstr(txtSlab1From.Value) + "-" + clsCommon.myCstr(txtSlab1To.Value), trans)
+            clsFixedParameter.UpdateData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangePO, clsCommon.myCstr(txtSlab2From.Value) + "-" + clsCommon.myCstr(txtSlab2To.Value), trans)
+            clsFixedParameter.UpdateData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangeRAL, clsCommon.myCstr(txtSlab3From.Value) + "-" + clsCommon.myCstr(txtSlab3To.Value), trans)
+
 
             trans.Commit()
             clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
@@ -547,7 +578,28 @@ Public Class frmPurchaseSettings
         End Try
     End Sub
     Private Function AllowToSave(ByVal trans As SqlTransaction) As Boolean
-        
+        If chkApplySlab.Checked Then
+            If txtSlab1To.Value < txtSlab1From.Value Then
+                Throw New Exception("Doument Not Required From Range can't be more than To Range")
+            End If
+            txtSlab2From.Value = txtSlab1To.Value + 0.01
+            If txtSlab2To.Value < txtSlab2From.Value Then
+                Throw New Exception("PO Mandatory From Range can't be more than To Range")
+            End If
+            txtSlab3From.Value = txtSlab2To.Value + 0.01
+            If txtSlab3To.Value < txtSlab3From.Value Then
+                Throw New Exception("RAL Mandatory From Range can't be more than To Range")
+            End If
+        Else
+            txtSlab1From.Value = 0.00
+            txtSlab1To.Value = 10000
+
+            txtSlab2From.Value = txtSlab1To.Value + 0.01
+            txtSlab2To.Value = 100000
+
+            txtSlab3From.Value = txtSlab2To.Value + 0.01
+            txtSlab3To.Value = 999999999999
+        End If
 
         Return True
     End Function
@@ -636,6 +688,18 @@ Public Class frmPurchaseSettings
         cboNoticationSettingInPurchaseRequisition.DataSource = dt1
         cboNoticationSettingInPurchaseRequisition.DisplayMember = "Name"
         cboNoticationSettingInPurchaseRequisition.ValueMember = "Code"
+    End Sub
+
+    Private Sub RadGroupBox1_Click(sender As Object, e As EventArgs) Handles RadGroupBox1.Click
+
+    End Sub
+
+    Private Sub txtSlab1To_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtSlab1To.Validating
+        txtSlab2From.Value = txtSlab1To.Value + 0.01
+    End Sub
+
+    Private Sub txtSlab2To_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtSlab2To.Validating
+        txtSlab3From.Value = txtSlab2To.Value + 0.01
     End Sub
     '---------------------------------------------------------------------------
 

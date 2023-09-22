@@ -3518,6 +3518,10 @@ Public Class frmSNShipment
                     Return False
                 End If
             End If
+            If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
+                txtDate.Focus()
+                Return False
+            End If
             'If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
             '    clsCommon.MyMessageBoxShow("Please select Item Type")
             '    cboItemType.Focus()
@@ -5709,7 +5713,7 @@ Public Class frmSNShipment
             txtSalesman.Value = clsCommon.myCstr(dt.Rows(0)("Salesman Code"))
             lblSalesman.Text = clsCommon.myCstr(dt.Rows(0)("Salesman"))
 
-            txtDate.Enabled = False
+            '  txtDate.Enabled = False
             txtCustomer.Enabled = False
             chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtCustomer.Value)
             SetMultiCurrencyVisibility()
@@ -9338,6 +9342,13 @@ where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) 
             fndtransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndtransporter.Value, "", isButtonClicked)
             lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transporter_Name as Name from TSPL_TRANSPORT_MASTER where Transport_Id ='" + fndtransporter.Value + "'"))
 
+        End If
+    End Sub
+
+    Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating
+        If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
+            clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
+            e.Cancel = True
         End If
     End Sub
 End Class

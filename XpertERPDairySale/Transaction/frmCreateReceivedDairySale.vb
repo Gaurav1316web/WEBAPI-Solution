@@ -54,6 +54,7 @@ Public Class frmCreateReceivedDairySale
     Const colCANRecQty As String = "colCANRecQty"
     Const colCANOutQty As String = "colCANOutQty"
     Const colCANAdjustment As String = "colCANAdjustment"
+    Const colDamageCrateQtyRecd As String = "colDamageCrateQtyRecd"
     Private AllowCrateReceiveddairyRouteWise As Boolean = False
     Dim ItemDefaultCanRate As Integer = 0
     Dim ItemDefaultCrateRate As Integer = 0
@@ -559,6 +560,14 @@ Public Class frmCreateReceivedDairySale
         repoRemarks.Name = colRemarks
         repoRemarks.Width = 100
         gv1.MasterTemplate.Columns.Add(repoRemarks)
+
+        Dim repoDamageCrateQtyRecd As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoDamageCrateQtyRecd.FormatString = ""
+        repoDamageCrateQtyRecd.HeaderText = "Damage Crate Qty"
+        repoDamageCrateQtyRecd.Name = colDamageCrateQtyRecd
+        repoBoxAdjustment.TextAlignment = System.Drawing.ContentAlignment.BottomRight
+        repoDamageCrateQtyRecd.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoDamageCrateQtyRecd)
         '=======================================================================
 
         gv1.AllowAddNewRow = False
@@ -2028,6 +2037,43 @@ Public Class frmCreateReceivedDairySale
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
+         Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)
+        coll.Add("Document_No", "Varchar(30) not null References TSPL_CRATE_RECEIVED_HEAD_FRESHSALE(Document_No)")
+        coll.Add("Line_No", "integer not null default 0")
+        coll.Add("Customer_Code", "VARCHAR(12) NULL")
+        coll.Add("Sale_Invoice_No", "Varchar(30) null References TSPL_SD_SALE_INVOICE_HEAD(DOCUMENT_CODE)")
+        coll.Add("Sale_Invoice_Date", "datetime not NULL")
+        coll.Add("Salesman_Code", "Varchar(12) null References TSPL_EMPLOYEE_MASTER(EMP_CODE)")
+        coll.Add("Salesman_Name", "varchar(30) NULL")
+        coll.Add("Vehicle_Code", "varchar(12) NULL")
+        coll.Add("VehicleNo", "Varchar(50) NULL")
+        coll.Add("CrateQty", "decimal(18, 2) NULL")
+        coll.Add("CrateQtyRecd", "decimal(18, 2) NULL")
+        coll.Add("Balance", "decimal(18, 2) NULL")
+        coll.Add("Remarks", "varchar(500) null")
+        coll.Add("OutQty", "decimal(18, 2) NULL")
+        coll.Add("Adjustment", "decimal(18, 2) NULL")
+        coll.Add("jaali", "decimal(18, 2) NULL")
+        coll.Add("box", "decimal(18, 2) NULL")
+        '=================Preeti========================
+        coll.Add("CrateQtyManual", "decimal(18, 2) NULL")
+        coll.Add("JaaliQtyRecd", "decimal(18, 2) NULL")
+        coll.Add("BoxQtyRecd", "decimal(18, 2) NULL")
+        coll.Add("jaaliOutQty", "decimal(18, 2) NULL")
+        coll.Add("boxOutQty", "decimal(18, 2) NULL")
+        coll.Add("jaaliAdjustment", "decimal(18, 2) NULL")
+        coll.Add("boxAdjustment", "decimal(18, 2) NULL")
+        coll.Add("LinerQty", "decimal(18, 2) not null default 0")
+
+        coll.Add("CANQty", "decimal(18, 2) NULL")
+        coll.Add("CANQtyRec", "decimal(18, 2) NULL")
+        coll.Add("CANOutQty", "decimal(18, 2) NULL")
+        coll.Add("CANAdjustment", "decimal(18, 2) NULL")
+        coll.Add("Route_code", "varchar(12) NULL")
+        coll.Add("CrateQtyPreviousDay", "decimal(18, 2) not NULL default 0")
+        coll.Add("DamageCrateQtyRecd", "int NULL")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE", coll, Nothing, True, False, "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE", "Document_No", "")
 
     End Sub
 

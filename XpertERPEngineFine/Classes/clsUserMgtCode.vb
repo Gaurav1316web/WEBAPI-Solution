@@ -178,6 +178,7 @@ Public Class clsUserMgtCode
     Public Const frmRouteFreightDetailsDS As String = "SFDMst"
     Public Const SaleIncentiveMaster As String = "SaleINCMst"
     Public Const CustomerDeduction As String = "CUST-DED"
+
     'Public Const frmCustCategoryWiseDefaultItemUomMaster As String = "CUST-CAT-UOM"
     'Public Const frmTranspoterDeductionMaster As String = "TRAN-DED_MST"
     'Public Const frmItemSublocationMapping As String = "ITM_SLOC_MP"
@@ -1151,6 +1152,7 @@ Public Class clsUserMgtCode
     Public Const frmTender As String = "Pur-Tender"
     Public Const TenderShortPenalty As String = "TND-SHT-PNL"
     Public Const frmCorrectionforWrongEntry As String = "CF-WRNG-ENT"
+    Public Const frmDeletionForEntry As String = "DEL-FOR-ENT"
 
     'Sanjay BHA/09/05/18-000014
     Public Const frmMaterialQuotation As String = "SCRAP-QU"
@@ -2329,6 +2331,7 @@ Public Class clsUserMgtCode
     Public Const frmEmptyWtEntry As String = "EMT-WT"
     '=========================================Preeti===========
     Public Const frmLocationItemMapping As String = "Loc_ITM_MAP"
+    Public Const frmDistributorRouteTagging As String = "DIS-R-T"
 
     '=========Sanjeet(21/112016)=====================
     ' Public Const FrmTruckSheetRouteWiseRpt As String = "TSHT_RTWise"

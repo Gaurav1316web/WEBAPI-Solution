@@ -55,8 +55,10 @@ Public Class FrmPendingAproval
     Dim RecordCount As Integer = 0
     Dim CreateProvisionOfTransporterInDairyDispatch As Boolean = False
     Dim FlagAllSelectWorking As Boolean = False
+    Dim SettSeprateDemandForMorningEveningShift As Boolean = False
 
     Private Sub FrmPendingAproval_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SettSeprateDemandForMorningEveningShift = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateDemandForMorningEveningShift, clsFixedParameterCode.SeprateDemandForMorningEveningShift, Nothing)) = 1)
         ShowDairySaleModuleOnBulkPosting = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowDairySaleModuleOnBulkPosting, clsFixedParameterCode.ShowDairySaleModuleOnBulkPosting, Nothing))
         CreateProvisionOfTransporterInDairyDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CreateProvisionOfTransporterInDairyDispatch, clsFixedParameterCode.CreateProvisionOfTransporterInDairyDispatch, Nothing)) = 0, False, True)
         LOCATIONRIGTHS()
@@ -544,6 +546,12 @@ Public Class FrmPendingAproval
         Dim dt1 As DataTable = New DataTable()
         dt1.Columns.Add("Code", GetType(String))
         dt1.Columns.Add("Name", GetType(String))
+        If SettSeprateDemandForMorningEveningShift Then
+            dr = dt1.NewRow()
+            dr("Code") = "Demand"
+            dr("Name") = "Demand"
+            dt1.Rows.Add(dr)
+        End If
 
         dr = dt1.NewRow()
         dr("Code") = "Booking/DO"
@@ -4051,7 +4059,43 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
 
                 End If
             End If
+        ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
+            Load_Authorisation(clsUserMgtCode.frmDemandBooking)
+            If dtAuthen.Rows.Count > 0 Then
+                If clsCommon.CompairString(clsCommon.myCstr(dtAuthen.Rows(0)("Authorized_Flag")), "1") = CompairStringResult.Equal Then
+                    gv1.DataSource = Nothing
+                    qry = "select CAST(TSPL_DEMAND_BOOKING_MASTER.Posted as BIT) as Status " &
+                        " ,TSPL_DEMAND_BOOKING_MASTER.Document_No as [Document Id],TSPL_DEMAND_BOOKING_MASTER.ShiftType " &
+                    ",TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route Code],TSPL_ROUTE_MASTER.Route_Desc as [Route],TSPL_DEMAND_BOOKING_MASTER.Location_Code as [Location Code] " &
+                    ",TSPL_LOCATION_MASTER.Location_Desc as [Location], TSPL_DEMAND_BOOKING_MASTER.Created_By as [Created By] " &
+                    ", convert(varchar,TSPL_DEMAND_BOOKING_MASTER.Created_Date,103) as [Created Date] " &
+                    ", '' as [Description] " &
+                    "from TSPL_DEMAND_BOOKING_MASTER " &
+                    "Left Outer Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No =TSPL_DEMAND_BOOKING_MASTER.Route_No   " &
+                    "Left Outer Join TSPL_LOCATION_MASTER on TSPL_DEMAND_BOOKING_MASTER.Location_Code=TSPL_LOCATION_MASTER.Location_Code" &
+                    " WHERE  convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date ,103) >= convert(date,'" + dtpFromDate.Value + "',103) and " &
+                    "convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) <= convert(date,'" + dtpToDate.Value + "',103) "
+                    If rbtnStatusPending.IsChecked = True Then
+                        qry += " and TSPL_DEMAND_BOOKING_MASTER.Posted = 0 "
+                        Isrefreshed = False
+                    Else
+                        qry += "  and TSPL_DEMAND_BOOKING_MASTER.Posted = 1"
+                        Isrefreshed = True
+                    End If
+                    If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count > 0 Then
+                        qry += " and TSPL_DEMAND_BOOKING_MASTER.Location_Code  in   (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ") "
+                    End If
+                    If ChkAllowBulkPosting.Equals(0) Then
+                        If chkUserSelect.IsChecked AndAlso cbgUser.CheckedValue.Count > 0 Then
+                            qry += " and TSPL_DEMAND_BOOKING_MASTER.Created_By IN (" + clsCommon.GetMulcallString(cbgUser.CheckedValue) + ")"
+                        Else
+                            qry += " and TSPL_DEMAND_BOOKING_MASTER.Created_By IN (" + clsCommon.GetMulcallString(arrSelectedUser) + ")"
+                        End If
 
+                    End If
+                    qry += " ORDER BY [Created Date], [Document Id] "
+                End If
+            End If
         ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Booking/DO") = CompairStringResult.Equal Then
             Load_Authorisation(clsUserMgtCode.frmbookingdairy)
             If dtAuthen.Rows.Count > 0 Then
@@ -4398,11 +4442,16 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         DtError.Columns.Add("Code", GetType(String))
         DtError.Columns.Add("Error", GetType(String))
 
-        If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Sale") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Booking/DO") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Fresh Booking/DO") = CompairStringResult.Equal) Then
+        If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Sale") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Booking/DO") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Fresh Booking/DO") = CompairStringResult.Equal) Then
             For trnsNo = 0 To gv1.Rows.Count - 1
                 If gv1.Rows(trnsNo).Cells("Status").Value = True Then
                     trnsLst.Add(gv1.Rows(trnsNo).Cells("Document Id").Value)  '' Insert The Document_Id in The StringList
-                    trnsLstCustomer.Add(gv1.Rows(trnsNo).Cells("Customer Code").Value) '' Insert The Customer Code in The StringList
+                    If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
+                        trnsLstCustomer.Add(IIf(clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(trnsNo).Cells("ShiftType").Value), "Morning") = CompairStringResult.Equal, "1", IIf(clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(trnsNo).Cells("ShiftType").Value), "Evening") = CompairStringResult.Equal, "2", "3")))
+                    Else
+                        trnsLstCustomer.Add(gv1.Rows(trnsNo).Cells("Customer Code").Value) '' Insert The Customer Code in The StringList
+                    End If
+
                 End If
             Next
         Else
@@ -5747,6 +5796,14 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                             Throw New Exception(ex.Message)
                         End Try
                         ''richa VIJ/20/11/19-000070
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
+                        strCustomerCode = trnsLstCustomer.Item(j)
+                        Try
+                            clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
+                            clsDemandBookingSale.PostData(clsUserMgtCode.frmDemandBooking, strDocNo, strCustomerCode)
+                        Catch ex As Exception
+                            Throw New Exception(ex.Message)
+                        End Try
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Booking/DO") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Fresh Booking/DO") = CompairStringResult.Equal Then
                         strCustomerCode = trnsLstCustomer.Item(j)
                         Try
