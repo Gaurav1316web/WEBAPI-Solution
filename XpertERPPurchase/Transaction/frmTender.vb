@@ -74,11 +74,32 @@ Public Class frmTender
         RadPageView1.SelectedPage = RadPageViewPage1
         LoadItemType()
         LoadTenderType()
+        LoadMode()
         LoadBlankGrid1()
         LoadBlankGrid2()
         AddNew()
         isPageLoadData = False
 
+    End Sub
+    Sub LoadMode()
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+
+        Dim dr As DataRow
+        dr = dt.NewRow()
+        dr("Code") = "0"
+        dr("Name") = "Offline"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "1"
+        dr("Name") = "Online"
+        dt.Rows.Add(dr)
+
+        cboMode.DataSource = dt
+        cboMode.ValueMember = "Code"
+        cboMode.DisplayMember = "Name"
     End Sub
     Sub LoadTenderType()
         Dim dt As DataTable = New DataTable()
@@ -143,6 +164,7 @@ Public Class frmTender
         txtOtherInfo9.Text = ""
         txtOtherInfo10.Text = ""
         cboTenderType.SelectedValue = "0"
+        cboMode.SelectedValue = "1"
     End Sub
 
     Sub LoadBlankGrid1()
@@ -736,6 +758,7 @@ Public Class frmTender
                 obj.OtherInfo9 = txtOtherInfo9.Text
                 obj.OtherInfo10 = txtOtherInfo10.Text
                 obj.Tender_Type = clsCommon.myCDecimal(cboTenderType.SelectedValue)
+                obj.Mode = clsCommon.myCDecimal(cboMode.SelectedValue)
                 obj.Arr = New List(Of clsTenderDetail)
 
                 Dim intLine As Integer = 0
@@ -856,6 +879,7 @@ Public Class frmTender
                 txtOtherInfo9.Text = obj.OtherInfo9
                 txtOtherInfo10.Text = obj.OtherInfo10
                 cboTenderType.SelectedValue = clsCommon.myCstr(obj.Tender_Type)
+                cboMode.SelectedValue = clsCommon.myCstr(obj.Mode)
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     cboItemType.SelectedValue = clsItemMaster.GetItemType(obj.Arr(0).Item_Code, Nothing)
                     For Each objTr As clsTenderDetail In obj.Arr
@@ -1289,9 +1313,13 @@ Public Class frmTender
     Private Sub LoadItemGrid1()
         Try
             Dim qry As String = "select tspl_location_master.Location_Code,tspl_location_master.Location_Desc,tspl_item_master.item_code,tspl_item_master.Item_Desc,UOM.UOM_Code from 
-                                (select 1 as a,Location_Code,Location_Desc from tspl_location_master where isnull(IsMainPlant,0)=0 )tspl_location_master 
-                                left join
-                                (select 1 as a,item_code,Item_Desc from tspl_item_master)tspl_item_master
+                                (select 1 as a,Location_Code,Location_Desc from tspl_location_master where 2=2 "
+            If objCommonVar.RCDFCFP Then
+                qry += "and isnull(IsMainPlant,0)=0 "
+            Else
+                qry += "and Location_Category<>'MCC' and Is_Sub_Location='N' "
+            End If
+            qry += ")tspl_location_master  left join (select 1 as a,item_code,Item_Desc from tspl_item_master)tspl_item_master
                                 on tspl_item_master.a=tspl_location_master.a
                                 left join 
                                 (Select top 1 isnull(UOM_Code,'') AS UOM_Code,Item_Code from TSPL_ITEM_UOM_DETAIL where Item_Code ='" + txtItem.Value + "' and Default_UOM=1)UOM

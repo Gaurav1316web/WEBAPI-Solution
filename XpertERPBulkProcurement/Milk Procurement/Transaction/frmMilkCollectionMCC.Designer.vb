@@ -91,6 +91,9 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gvParam = New Telerik.WinControls.UI.RadGridView()
+        Me.btnTankerData = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel2.SuspendLayout()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -157,6 +160,7 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer2.SuspendLayout()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnTankerData, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -363,13 +367,14 @@ Partial Class frmMilkCollectionMCC
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.btnTankerData)
         Me.RadGroupBox1.Controls.Add(Me.txtMDate)
         Me.RadGroupBox1.Controls.Add(Me.btnMGo)
         Me.RadGroupBox1.Controls.Add(Me.lblMDate)
         Me.RadGroupBox1.HeaderText = "Generate DCS Data By Mobile"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(843, 12)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(810, 12)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(179, 79)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(285, 76)
         Me.RadGroupBox1.TabIndex = 46
         Me.RadGroupBox1.Text = "Generate DCS Data By Mobile"
         '
@@ -387,7 +392,7 @@ Partial Class frmMilkCollectionMCC
         Me.txtMDate.IsSourceFromTable = False
         Me.txtMDate.IsSourceFromValueList = False
         Me.txtMDate.IsUnique = False
-        Me.txtMDate.Location = New System.Drawing.Point(63, 22)
+        Me.txtMDate.Location = New System.Drawing.Point(56, 22)
         Me.txtMDate.MendatroryField = True
         Me.txtMDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtMDate.MyLinkLable1 = Me.lblMDate
@@ -407,7 +412,7 @@ Partial Class frmMilkCollectionMCC
         '
         Me.lblMDate.FieldName = Nothing
         Me.lblMDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMDate.Location = New System.Drawing.Point(25, 23)
+        Me.lblMDate.Location = New System.Drawing.Point(18, 23)
         Me.lblMDate.Name = "lblMDate"
         Me.lblMDate.Size = New System.Drawing.Size(30, 16)
         Me.lblMDate.TabIndex = 29
@@ -416,7 +421,7 @@ Partial Class frmMilkCollectionMCC
         'btnMGo
         '
         Me.btnMGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnMGo.Location = New System.Drawing.Point(25, 42)
+        Me.btnMGo.Location = New System.Drawing.Point(18, 42)
         Me.btnMGo.Name = "btnMGo"
         Me.btnMGo.Size = New System.Drawing.Size(128, 18)
         Me.btnMGo.TabIndex = 13
@@ -1165,6 +1170,25 @@ Partial Class frmMilkCollectionMCC
         Me.gvParam.TabIndex = 3
         Me.gvParam.TabStop = False
         '
+        'btnTankerData
+        '
+        Me.btnTankerData.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnImport, Me.btnExport})
+        Me.btnTankerData.Location = New System.Drawing.Point(164, 38)
+        Me.btnTankerData.Name = "btnTankerData"
+        Me.btnTankerData.Size = New System.Drawing.Size(110, 24)
+        Me.btnTankerData.TabIndex = 30
+        Me.btnTankerData.Text = "Tanker Data"
+        '
+        'btnImport
+        '
+        Me.btnImport.Name = "btnImport"
+        Me.btnImport.Text = "Import"
+        '
+        'btnExport
+        '
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Text = "Export"
+        '
         'frmMilkCollectionMCC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1249,6 +1273,7 @@ Partial Class frmMilkCollectionMCC
         Me.SplitContainer2.ResumeLayout(False)
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnTankerData, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1315,5 +1340,8 @@ Partial Class frmMilkCollectionMCC
     Friend WithEvents txtMDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblMDate As common.Controls.MyLabel
     Friend WithEvents btnMGo As RadButton
+    Friend WithEvents btnTankerData As RadSplitButton
+    Friend WithEvents btnImport As RadMenuItem
+    Friend WithEvents btnExport As RadMenuItem
 End Class
 

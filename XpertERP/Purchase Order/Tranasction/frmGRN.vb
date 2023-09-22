@@ -253,6 +253,14 @@ Public Class frmGRN
     ''==================================================================
     Dim ChkAutoDepOnPurchaseCycle As Boolean = False
     Private isCellValueChangedTaxOpen As Boolean = False
+
+    Dim SettPurchaseSlabApplyRange As Boolean = False
+    Dim SettPurchaseSlabRangeNotApplicableFrom As Decimal
+    Dim SettPurchaseSlabRangeNotApplicableTo As Decimal
+    Dim SettPurchaseSlabRangePOFrom As Decimal
+    Dim SettPurchaseSlabRangePOTo As Decimal
+    Dim SettPurchaseSlabRangeRALFrom As Decimal
+    Dim SettPurchaseSlabRangeRALTo As Decimal
 #End Region
 
     Private Sub SetUserMgmtNew()
@@ -306,6 +314,34 @@ Public Class frmGRN
             MyLabel10.Visible = False
             MyLabel9.Visible = False
         End If
+
+        SettPurchaseSlabApplyRange = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.ApplyRange, Nothing)) = 1)
+        Dim str As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangeNotApplicable, Nothing))
+        If str.Contains("-") Then
+            Dim strBreak As String() = str.Split(New String() {"-"}, StringSplitOptions.None)
+            If strBreak.Length > 1 Then
+                SettPurchaseSlabRangeNotApplicableFrom = clsCommon.myCDecimal(strBreak(0))
+                SettPurchaseSlabRangeNotApplicableTo = clsCommon.myCDecimal(strBreak(1))
+            End If
+        End If
+        str = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangePO, Nothing))
+        If str.Contains("-") Then
+            Dim strBreak As String() = str.Split(New String() {"-"}, StringSplitOptions.None)
+            If strBreak.Length > 1 Then
+                SettPurchaseSlabRangePOFrom = clsCommon.myCDecimal(strBreak(0))
+                SettPurchaseSlabRangePOTo = clsCommon.myCDecimal(strBreak(1))
+            End If
+        End If
+        str = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.PurchaseSlab, clsFixedParameterCode.RangeRAL, Nothing))
+        If str.Contains("-") Then
+            Dim strBreak As String() = str.Split(New String() {"-"}, StringSplitOptions.None)
+            If strBreak.Length > 1 Then
+                SettPurchaseSlabRangeRALFrom = clsCommon.myCDecimal(strBreak(0))
+                SettPurchaseSlabRangeRALTo = clsCommon.myCDecimal(strBreak(1))
+            End If
+        End If
+
+
         MyLabel4.Visible = False
         txtRgp_no.Visible = False
         chkRGPNonInventory.Visible = False
@@ -378,6 +414,7 @@ Public Class frmGRN
         Else
             RadPageViewPage5.Item.Visibility = ElementVisibility.Collapsed
         End If
+
     End Sub
 
     Sub AllowDepartmentMandatoryOnPurchaseCycle()
@@ -3525,6 +3562,31 @@ Public Class frmGRN
             clsLocationWiseTax.IsValidTaxGroup(txtTaxGroup.Value, txtBillToLocation.Value, txtVendorNo.Value, "P", txtDate.Value, Nothing)
         End If
         ''End of For GST Skip
+
+        'Check Slab
+        If SettPurchaseSlabApplyRange Then
+            Dim qry As String = "select 1 from TSPL_VENDOR_MASTER where vendor_code='" + txtVendorNo.Value + "' and isnull(OEM,0)=1"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                If clsCommon.myCDecimal(lblTotRAmt.Text) >= SettPurchaseSlabRangeNotApplicableFrom AndAlso clsCommon.myCDecimal(lblTotRAmt.Text) <= SettPurchaseSlabRangeNotApplicableTo Then
+                    ''No Need To Check
+                ElseIf clsCommon.myCDecimal(lblTotRAmt.Text) >= SettPurchaseSlabRangePOFrom AndAlso clsCommon.myCDecimal(lblTotRAmt.Text) <= SettPurchaseSlabRangePOTo Then
+                    If clsCommon.myLen(txtReqNo.Value) <= 0 Then
+                        Throw New Exception("Purchase Order is Required for PO Amount [" + lblTotRAmt.Text + "]")
+                    End If
+                ElseIf clsCommon.myCDecimal(lblTotRAmt.Text) >= SettPurchaseSlabRangeRALFrom AndAlso clsCommon.myCDecimal(lblTotRAmt.Text) <= SettPurchaseSlabRangeRALTo Then
+                    If clsCommon.myLen(txtReqNo.Value) <= 0 Then
+                        Throw New Exception("RAL is Mandatory")
+                    Else
+                        qry = "select 1 from TSPL_PURCHASE_ORDER_HEAD where PurchaseOrder_No='" + txtReqNo.Value + "' and  Against_Tender='Y' and len(isnull( RefTendorNo,''))>0"
+                        dt = clsDBFuncationality.GetDataTable(qry)
+                        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                            Throw New Exception("RAL is Mandatory")
+                        End If
+                    End If
+                End If
+            End If
+        End If
         Return True
     End Function
 

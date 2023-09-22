@@ -22,9 +22,9 @@ Partial Class frmTender
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -112,15 +112,17 @@ Partial Class frmTender
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem7 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem8 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
         Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem7 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem8 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.cboMode = New common.Controls.MyComboBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -200,8 +202,10 @@ Partial Class frmTender
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboMode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -263,13 +267,14 @@ Partial Class frmTender
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer2.IsSplitterFixed = True
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel17)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.cboMode)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel16)
         Me.SplitContainer2.Panel1.Controls.Add(Me.cboTenderType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.RadLabel29)
@@ -304,7 +309,7 @@ Partial Class frmTender
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.SplitContainer3)
         Me.SplitContainer2.Size = New System.Drawing.Size(1077, 446)
-        Me.SplitContainer2.SplitterDistance = 100
+        Me.SplitContainer2.SplitterDistance = 118
         Me.SplitContainer2.TabIndex = 1515
         '
         'MyLabel16
@@ -421,7 +426,6 @@ Partial Class frmTender
         '
         'btnCopy
         '
-        Me.btnCopy.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnCopy.Location = New System.Drawing.Point(372, 10)
         Me.btnCopy.Name = "btnCopy"
@@ -450,7 +454,7 @@ Partial Class frmTender
         Me.txtItem.IsSourceFromTable = False
         Me.txtItem.IsSourceFromValueList = False
         Me.txtItem.IsUnique = False
-        Me.txtItem.Location = New System.Drawing.Point(67, 72)
+        Me.txtItem.Location = New System.Drawing.Point(67, 94)
         Me.txtItem.MendatroryField = True
         Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItem.MyLinkLable1 = Me.RadLabel2
@@ -469,7 +473,7 @@ Partial Class frmTender
         '
         Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(6, 73)
+        Me.RadLabel2.Location = New System.Drawing.Point(6, 95)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(28, 16)
         Me.RadLabel2.TabIndex = 1513
@@ -504,9 +508,8 @@ Partial Class frmTender
         '
         'btnSubmit
         '
-        Me.btnSubmit.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.btnSubmit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSubmit.Location = New System.Drawing.Point(312, 72)
+        Me.btnSubmit.Location = New System.Drawing.Point(312, 94)
         Me.btnSubmit.Name = "btnSubmit"
         Me.btnSubmit.Size = New System.Drawing.Size(83, 18)
         Me.btnSubmit.TabIndex = 1512
@@ -773,7 +776,7 @@ Partial Class frmTender
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.RadGroupBox1)
-        Me.SplitContainer3.Size = New System.Drawing.Size(1077, 342)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1077, 324)
         Me.SplitContainer3.SplitterDistance = 165
         Me.SplitContainer3.TabIndex = 0
         '
@@ -806,7 +809,7 @@ Partial Class frmTender
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -825,7 +828,7 @@ Partial Class frmTender
         Me.RadGroupBox1.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1077, 173)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1077, 155)
         Me.RadGroupBox1.TabIndex = 1511
         Me.RadGroupBox1.Text = "Save"
         '
@@ -844,12 +847,12 @@ Partial Class frmTender
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1057, 143)
+        Me.gv2.Size = New System.Drawing.Size(1057, 125)
         Me.gv2.TabIndex = 17
         Me.gv2.TabStop = False
         '
@@ -1087,7 +1090,7 @@ Partial Class frmTender
         Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSchedule.ShowGroupPanel = False
@@ -1343,6 +1346,12 @@ Partial Class frmTender
         '
         'Panel2
         '
+        Me.Panel2.Controls.Add(Me.RadMenu1)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel2.Location = New System.Drawing.Point(0, 0)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(1098, 25)
+        Me.Panel2.TabIndex = 5
         '
         'RadMenu1
         '
@@ -1351,12 +1360,6 @@ Partial Class frmTender
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1098, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.Panel2.Controls.Add(Me.RadMenu1)
-        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel2.Location = New System.Drawing.Point(0, 0)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(1098, 25)
-        Me.Panel2.TabIndex = 5
         '
         'RadMenuItem2
         '
@@ -1387,6 +1390,24 @@ Partial Class frmTender
         Me.RadMenuItem5.AccessibleName = "RadMenuItem5"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
+        '
+        'RadMenuItem7
+        '
+        Me.RadMenuItem7.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem8, Me.RadMenuItem9})
+        Me.RadMenuItem7.Name = "RadMenuItem7"
+        Me.RadMenuItem7.Text = "File"
+        '
+        'RadMenuItem8
+        '
+        Me.RadMenuItem8.AccessibleDescription = "import"
+        Me.RadMenuItem8.AccessibleName = "import"
+        Me.RadMenuItem8.Name = "RadMenuItem8"
+        Me.RadMenuItem8.Text = "Import"
+        '
+        'RadMenuItem9
+        '
+        Me.RadMenuItem9.Name = "RadMenuItem9"
+        Me.RadMenuItem9.Text = "Export"
         '
         'MenuClose
         '
@@ -1431,23 +1452,41 @@ Partial Class frmTender
         Me.RadMenuItem6.Text = "Close"
         Me.RadMenuItem6.UseCompatibleTextRendering = False
         '
-        'RadMenuItem7
+        'MyLabel17
         '
-        Me.RadMenuItem7.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem8, Me.RadMenuItem9})
-        Me.RadMenuItem7.Name = "RadMenuItem7"
-        Me.RadMenuItem7.Text = "File"
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(5, 74)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(35, 16)
+        Me.MyLabel17.TabIndex = 1523
+        Me.MyLabel17.Text = "Mode"
         '
-        'RadMenuItem8
+        'cboMode
         '
-        Me.RadMenuItem8.AccessibleDescription = "import"
-        Me.RadMenuItem8.AccessibleName = "import"
-        Me.RadMenuItem8.Name = "RadMenuItem8"
-        Me.RadMenuItem8.Text = "Import"
-        '
-        'RadMenuItem9
-        '
-        Me.RadMenuItem9.Name = "RadMenuItem9"
-        Me.RadMenuItem9.Text = "Export"
+        Me.cboMode.AutoCompleteDisplayMember = Nothing
+        Me.cboMode.AutoCompleteValueMember = Nothing
+        Me.cboMode.CalculationExpression = Nothing
+        Me.cboMode.DropDownAnimationEnabled = True
+        Me.cboMode.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboMode.FieldCode = Nothing
+        Me.cboMode.FieldDesc = Nothing
+        Me.cboMode.FieldMaxLength = 0
+        Me.cboMode.FieldName = Nothing
+        Me.cboMode.isCalculatedField = False
+        Me.cboMode.IsSourceFromTable = False
+        Me.cboMode.IsSourceFromValueList = False
+        Me.cboMode.IsUnique = False
+        Me.cboMode.Location = New System.Drawing.Point(66, 72)
+        Me.cboMode.MendatroryField = True
+        Me.cboMode.MyLinkLable1 = Me.MyLabel17
+        Me.cboMode.MyLinkLable2 = Nothing
+        Me.cboMode.Name = "cboMode"
+        Me.cboMode.ReferenceFieldDesc = Nothing
+        Me.cboMode.ReferenceFieldName = Nothing
+        Me.cboMode.ReferenceTableName = Nothing
+        Me.cboMode.Size = New System.Drawing.Size(245, 20)
+        Me.cboMode.TabIndex = 1522
         '
         'frmTender
         '
@@ -1547,9 +1586,11 @@ Partial Class frmTender
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboMode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1650,5 +1691,7 @@ Partial Class frmTender
     Friend WithEvents RadMenuItem7 As RadMenuItem
     Friend WithEvents RadMenuItem8 As RadMenuItem
     Friend WithEvents RadMenuItem9 As RadMenuItem
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents cboMode As common.Controls.MyComboBox
 End Class
 

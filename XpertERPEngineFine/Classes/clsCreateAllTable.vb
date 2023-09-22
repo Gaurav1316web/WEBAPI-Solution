@@ -13460,6 +13460,7 @@ Public Class clsCreateAllTable
             coll.Add("PANCHAYAT_SAMITI_CODE", "Varchar(30) null references TSPL_PANCHAYAT_SAMITI_MASTER (PANCHAYAT_SAMITI_CODE)")
             coll.Add("VIDHAN_SABHA_CODE", "Varchar(30) null references TSPL_VIDHAN_SABHA_MASTER (VIDHAN_SABHA_CODE)")
             coll.Add("IsAllowSkipPurchaseQC", "Integer not null default 0")
+            coll.Add("OEM", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -52602,6 +52603,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("OtherInfo10", "varchar(max) NULL")
             coll.Add("Comp_code", "VARCHAR(30) NULL")
             coll.Add("Tender_Type", "integer null")
+            coll.Add("Mode", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_HEADER", coll, Nothing, False, True, "", "DocumentCode", "DocumentDate")
 
             coll = New Dictionary(Of String, String)()
