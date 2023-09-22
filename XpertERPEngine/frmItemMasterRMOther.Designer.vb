@@ -48,9 +48,13 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gbBuyBack = New System.Windows.Forms.GroupBox()
-        Me.lblBBValue = New common.Controls.MyLabel()
+        Me.txtBmBdQty = New common.Controls.MyTextBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.MyLabelL = New common.Controls.MyLabel()
+        Me.gbBuyBack = New System.Windows.Forms.GroupBox()
+        Me.txtBBValue = New common.MyNumBox()
+        Me.MyLabel30 = New common.Controls.MyLabel()
+        Me.lblBBValue = New common.Controls.MyLabel()
         Me.rbtnBBPer = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnBBAmount = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnBBNA = New Telerik.WinControls.UI.RadRadioButton()
@@ -117,7 +121,6 @@ Partial Class FrmItemMasterRMOther
         Me.txtCNF_Amt = New common.MyNumBox()
         Me.MyLabel31 = New common.Controls.MyLabel()
         Me.txtDistbtr_Amt = New common.MyNumBox()
-        Me.MyLabel30 = New common.Controls.MyLabel()
         Me.chkSchemeItem = New common.Controls.MyCheckBox()
         Me.chkIsReqBatch = New common.Controls.MyCheckBox()
         Me.txt_tolerance = New common.MyNumBox()
@@ -290,16 +293,19 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.txtBBValue = New common.MyNumBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        Me.gbBuyBack.SuspendLayout()
-        CType(Me.lblBBValue, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBmBdQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabelL, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gbBuyBack.SuspendLayout()
+        CType(Me.txtBBValue, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBBValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnBBPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnBBAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnBBNA, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -365,7 +371,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.txtCNF_Amt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDistbtr_Amt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSchemeItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIsReqBatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txt_tolerance, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -512,7 +517,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtBBValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -561,6 +565,8 @@ Partial Class FrmItemMasterRMOther
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtBmBdQty)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabelL)
         Me.RadPageViewPage1.Controls.Add(Me.gbBuyBack)
         Me.RadPageViewPage1.Controls.Add(Me.chkNIRQC)
         Me.RadPageViewPage1.Controls.Add(Me.txtAliesNameHindi)
@@ -696,6 +702,47 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1087, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
         '
+        'txtBmBdQty
+        '
+        Me.txtBmBdQty.CalculationExpression = Nothing
+        Me.txtBmBdQty.FieldCode = Nothing
+        Me.txtBmBdQty.FieldDesc = Nothing
+        Me.txtBmBdQty.FieldMaxLength = 0
+        Me.txtBmBdQty.FieldName = Nothing
+        Me.txtBmBdQty.isCalculatedField = False
+        Me.txtBmBdQty.IsSourceFromTable = False
+        Me.txtBmBdQty.IsSourceFromValueList = False
+        Me.txtBmBdQty.IsUnique = False
+        Me.txtBmBdQty.Location = New System.Drawing.Point(935, 230)
+        Me.txtBmBdQty.MendatroryField = False
+        Me.txtBmBdQty.MyLinkLable1 = Me.MyLabel2
+        Me.txtBmBdQty.MyLinkLable2 = Nothing
+        Me.txtBmBdQty.Name = "txtBmBdQty"
+        Me.txtBmBdQty.ReferenceFieldDesc = Nothing
+        Me.txtBmBdQty.ReferenceFieldName = Nothing
+        Me.txtBmBdQty.ReferenceTableName = Nothing
+        Me.txtBmBdQty.Size = New System.Drawing.Size(96, 20)
+        Me.txtBmBdQty.TabIndex = 205
+        Me.txtBmBdQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Location = New System.Drawing.Point(3, 28)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(89, 18)
+        Me.MyLabel2.TabIndex = 61
+        Me.MyLabel2.Text = "Item Description"
+        '
+        'MyLabelL
+        '
+        Me.MyLabelL.FieldName = Nothing
+        Me.MyLabelL.Location = New System.Drawing.Point(854, 230)
+        Me.MyLabelL.Name = "MyLabelL"
+        Me.MyLabelL.Size = New System.Drawing.Size(78, 18)
+        Me.MyLabelL.TabIndex = 204
+        Me.MyLabelL.Text = "Bom Build Qty"
+        '
         'gbBuyBack
         '
         Me.gbBuyBack.Controls.Add(Me.txtBBValue)
@@ -710,6 +757,42 @@ Partial Class FrmItemMasterRMOther
         Me.gbBuyBack.TabStop = False
         Me.gbBuyBack.Text = "Buy Back"
         '
+        'txtBBValue
+        '
+        Me.txtBBValue.BackColor = System.Drawing.Color.White
+        Me.txtBBValue.CalculationExpression = Nothing
+        Me.txtBBValue.DecimalPlaces = 2
+        Me.txtBBValue.FieldCode = Nothing
+        Me.txtBBValue.FieldDesc = Nothing
+        Me.txtBBValue.FieldMaxLength = 0
+        Me.txtBBValue.FieldName = Nothing
+        Me.txtBBValue.isCalculatedField = False
+        Me.txtBBValue.IsSourceFromTable = False
+        Me.txtBBValue.IsSourceFromValueList = False
+        Me.txtBBValue.IsUnique = False
+        Me.txtBBValue.Location = New System.Drawing.Point(81, 41)
+        Me.txtBBValue.MendatroryField = False
+        Me.txtBBValue.MyLinkLable1 = Me.MyLabel30
+        Me.txtBBValue.MyLinkLable2 = Nothing
+        Me.txtBBValue.Name = "txtBBValue"
+        Me.txtBBValue.ReferenceFieldDesc = Nothing
+        Me.txtBBValue.ReferenceFieldName = Nothing
+        Me.txtBBValue.ReferenceTableName = Nothing
+        Me.txtBBValue.Size = New System.Drawing.Size(161, 20)
+        Me.txtBBValue.TabIndex = 37
+        Me.txtBBValue.Text = "0"
+        Me.txtBBValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtBBValue.Value = 0R
+        '
+        'MyLabel30
+        '
+        Me.MyLabel30.FieldName = Nothing
+        Me.MyLabel30.Location = New System.Drawing.Point(588, 230)
+        Me.MyLabel30.Name = "MyLabel30"
+        Me.MyLabel30.Size = New System.Drawing.Size(92, 18)
+        Me.MyLabel30.TabIndex = 95
+        Me.MyLabel30.Text = "Dist. Commission"
+        '
         'lblBBValue
         '
         Me.lblBBValue.FieldName = Nothing
@@ -718,15 +801,6 @@ Partial Class FrmItemMasterRMOther
         Me.lblBBValue.Size = New System.Drawing.Size(72, 18)
         Me.lblBBValue.TabIndex = 191
         Me.lblBBValue.Text = "BuyBack Amt"
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Location = New System.Drawing.Point(3, 28)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(89, 18)
-        Me.MyLabel2.TabIndex = 61
-        Me.MyLabel2.Text = "Item Description"
         '
         'rbtnBBPer
         '
@@ -1678,15 +1752,6 @@ Partial Class FrmItemMasterRMOther
         Me.txtDistbtr_Amt.Text = "0"
         Me.txtDistbtr_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtDistbtr_Amt.Value = 0R
-        '
-        'MyLabel30
-        '
-        Me.MyLabel30.FieldName = Nothing
-        Me.MyLabel30.Location = New System.Drawing.Point(588, 230)
-        Me.MyLabel30.Name = "MyLabel30"
-        Me.MyLabel30.Size = New System.Drawing.Size(92, 18)
-        Me.MyLabel30.TabIndex = 95
-        Me.MyLabel30.Text = "Dist. Commission"
         '
         'chkSchemeItem
         '
@@ -4177,33 +4242,6 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
-        'txtBBValue
-        '
-        Me.txtBBValue.BackColor = System.Drawing.Color.White
-        Me.txtBBValue.CalculationExpression = Nothing
-        Me.txtBBValue.DecimalPlaces = 2
-        Me.txtBBValue.FieldCode = Nothing
-        Me.txtBBValue.FieldDesc = Nothing
-        Me.txtBBValue.FieldMaxLength = 0
-        Me.txtBBValue.FieldName = Nothing
-        Me.txtBBValue.isCalculatedField = False
-        Me.txtBBValue.IsSourceFromTable = False
-        Me.txtBBValue.IsSourceFromValueList = False
-        Me.txtBBValue.IsUnique = False
-        Me.txtBBValue.Location = New System.Drawing.Point(81, 41)
-        Me.txtBBValue.MendatroryField = False
-        Me.txtBBValue.MyLinkLable1 = Me.MyLabel30
-        Me.txtBBValue.MyLinkLable2 = Nothing
-        Me.txtBBValue.Name = "txtBBValue"
-        Me.txtBBValue.ReferenceFieldDesc = Nothing
-        Me.txtBBValue.ReferenceFieldName = Nothing
-        Me.txtBBValue.ReferenceTableName = Nothing
-        Me.txtBBValue.Size = New System.Drawing.Size(161, 20)
-        Me.txtBBValue.TabIndex = 37
-        Me.txtBBValue.Text = "0"
-        Me.txtBBValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBBValue.Value = 0R
-        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4224,10 +4262,14 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtBmBdQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabelL, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbBuyBack.ResumeLayout(False)
         Me.gbBuyBack.PerformLayout()
+        CType(Me.txtBBValue, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBBValue, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnBBPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnBBAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnBBNA, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4296,7 +4338,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.txtCNF_Amt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDistbtr_Amt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSchemeItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIsReqBatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txt_tolerance, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4451,7 +4492,6 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtBBValue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4703,5 +4743,7 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents rbtnBBAmount As RadRadioButton
     Friend WithEvents rbtnBBNA As RadRadioButton
     Friend WithEvents txtBBValue As MyNumBox
+    Friend WithEvents txtBmBdQty As Controls.MyTextBox
+    Friend WithEvents MyLabelL As Controls.MyLabel
 End Class
 
