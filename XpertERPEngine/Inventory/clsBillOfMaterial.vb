@@ -113,7 +113,7 @@ Public Class clsBillOfMaterial
         ObjList = New List(Of clsBillOfMaterial)
 
         Dim qry As String = "SELECT T1.PROD_Drawing_No,T1.BOM_CODE,T1.DESCRIPTION,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
-        qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T1.PROD_QUANTITY,T1.PROD_ITEM_UNIT_CODE,"
+        qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T2.BomBuildQty,T1.PROD_ITEM_UNIT_CODE,"
         qry += " T1.MIN_BATCH_SIZE,T1.MODIFIED_BY AS APPROVED_BY,T1.Created_By,T1.POSTED,T1.POSTING_DATE,T1.LOCATION_CODE FROM TSPL_MF_BOM_HEAD  T1 INNER JOIN TSPL_ITEM_MASTER T2  ON T1.PROD_ITEM_CODE=T2.ITEM_CODE where 2=2 and trans_type='BOM'"
         Dim WhrCls As String = " and trans_type='BOM' "
         If clsCommon.myLen(arrLoc) > 0 Then
@@ -158,7 +158,7 @@ Public Class clsBillOfMaterial
             obj.ATTACHED_DOC_PATH = clsCommon.myCstr(dt.Rows(0)("ATTACHED_DOC_PATH"))
             obj.PROD_ITEM_CODE = clsCommon.myCstr(dt.Rows(0)("PROD_ITEM_CODE"))
             obj.PROD_ITEM_NAME = clsCommon.myCstr(dt.Rows(0)("PROD_ITEM_NAME"))
-            obj.PROD_QUANTITY = clsCommon.myCdbl(dt.Rows(0)("PROD_QUANTITY"))
+            obj.PROD_QUANTITY = clsCommon.myCdbl(dt.Rows(0)("BomBuildQty"))
             obj.PROD_ITEM_UNIT_CODE = clsCommon.myCstr(dt.Rows(0)("PROD_ITEM_UNIT_CODE"))
             obj.MIN_BATCH_SIZE = clsCommon.myCdbl(dt.Rows(0)("MIN_BATCH_SIZE"))
             obj.CREATED_BY = clsCommon.myCstr(dt.Rows(0)("CREATED_BY"))

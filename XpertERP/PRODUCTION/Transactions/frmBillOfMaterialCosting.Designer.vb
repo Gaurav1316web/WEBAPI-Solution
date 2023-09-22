@@ -23,16 +23,16 @@ Partial Class frmBillOfMaterialCosting
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBillOfMaterialCosting))
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition43 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition44 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition45 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition46 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition47 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition48 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -600,6 +600,7 @@ Partial Class frmBillOfMaterialCosting
         Me.txtBuildQty.MyLinkLable1 = Me.lblBuildQty
         Me.txtBuildQty.MyLinkLable2 = Nothing
         Me.txtBuildQty.Name = "txtBuildQty"
+        Me.txtBuildQty.ReadOnly = True
         Me.txtBuildQty.ReferenceFieldDesc = Nothing
         Me.txtBuildQty.ReferenceFieldName = Nothing
         Me.txtBuildQty.ReferenceTableName = Nothing
@@ -852,14 +853,14 @@ Partial Class frmBillOfMaterialCosting
         Me.cboBOMStatus.IsSourceFromTable = False
         Me.cboBOMStatus.IsSourceFromValueList = False
         Me.cboBOMStatus.IsUnique = False
-        RadListDataItem5.Text = "Open"
-        RadListDataItem6.Text = "Approved"
-        RadListDataItem7.Text = "On Hold"
-        RadListDataItem8.Text = "Discountinued"
-        Me.cboBOMStatus.Items.Add(RadListDataItem5)
-        Me.cboBOMStatus.Items.Add(RadListDataItem6)
-        Me.cboBOMStatus.Items.Add(RadListDataItem7)
-        Me.cboBOMStatus.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "Open"
+        RadListDataItem2.Text = "Approved"
+        RadListDataItem3.Text = "On Hold"
+        RadListDataItem4.Text = "Discountinued"
+        Me.cboBOMStatus.Items.Add(RadListDataItem1)
+        Me.cboBOMStatus.Items.Add(RadListDataItem2)
+        Me.cboBOMStatus.Items.Add(RadListDataItem3)
+        Me.cboBOMStatus.Items.Add(RadListDataItem4)
         Me.cboBOMStatus.Location = New System.Drawing.Point(618, 103)
         Me.cboBOMStatus.MendatroryField = True
         Me.cboBOMStatus.MyLinkLable1 = Me.lblBOMStatus
@@ -950,7 +951,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvCost.MasterTemplate.EnableGrouping = False
         Me.gvCost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCost.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCost.MasterTemplate.ViewDefinition = TableViewDefinition43
+        Me.gvCost.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvCost.Name = "gvCost"
         Me.gvCost.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCost.ShowHeaderCellButtons = True
@@ -1018,7 +1019,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvResources.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvResources.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvResources.MasterTemplate.ShowRowHeaderColumn = False
-        Me.gvResources.MasterTemplate.ViewDefinition = TableViewDefinition44
+        Me.gvResources.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvResources.Name = "gvResources"
         Me.gvResources.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvResources.ShowHeaderCellButtons = True
@@ -1058,7 +1059,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvTools.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTools.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTools.MasterTemplate.ShowRowHeaderColumn = False
-        Me.gvTools.MasterTemplate.ViewDefinition = TableViewDefinition45
+        Me.gvTools.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvTools.Name = "gvTools"
         Me.gvTools.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTools.ShowHeaderCellButtons = True
@@ -1095,7 +1096,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvOperations.MasterTemplate.EnableSorting = False
         Me.gvOperations.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOperations.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOperations.MasterTemplate.ViewDefinition = TableViewDefinition46
+        Me.gvOperations.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvOperations.Name = "gvOperations"
         Me.gvOperations.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvOperations.ShowHeaderCellButtons = True
@@ -1131,7 +1132,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvBOM.MasterTemplate.EnableGrouping = False
         Me.gvBOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBOM.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBOM.MasterTemplate.ViewDefinition = TableViewDefinition47
+        Me.gvBOM.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvBOM.Name = "gvBOM"
         Me.gvBOM.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBOM.ShowHeaderCellButtons = True
@@ -1156,7 +1157,7 @@ Partial Class frmBillOfMaterialCosting
         '
         Me.RadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.RadGridView1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.RadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition48
+        Me.RadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.RadGridView1.Name = "RadGridView1"
         Me.RadGridView1.ShowHeaderCellButtons = True
         Me.RadGridView1.Size = New System.Drawing.Size(1013, 300)
