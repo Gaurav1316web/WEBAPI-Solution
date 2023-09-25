@@ -1405,6 +1405,38 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
         Return isSaved
     End Function
 
+    Public Shared Function UnpostData(ByVal strCode As String, ByVal FormId As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim issaved As Boolean = True
+            issaved = issaved AndAlso UnpostData(strCode, FormId, trans)
+
+            trans.Commit()
+            Return issaved
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
+    Public Shared Function UnpostData(ByVal strCode As String, ByVal FormId As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim obj As clsSNInvoiceHead = clsSNInvoiceHead.GetData(strCode, NavigatorType.Current, "", trans)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Code,Bill_To_Location from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + strCode + "'", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProductionEntry, clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), clsCommon.myCDate(dt.Rows(0)("Document_Code")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+            End If
+            Dim issaved As Boolean = True
+
+            Dim qry As String = "update TSPL_SD_SALE_INVOICE_HEAD set status='0',Modify_By='" + objCommonVar.CurrentUserCode + "',Modify_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where Document_Code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            Return issaved
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
     Public Shared Function IsValidCustomer(ByVal Arr As List(Of String), ByVal strVendorCode As String) As Boolean
         If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
             Dim qry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code where Document_Code in (" + clsCommon.GetMulcallString(Arr) + ") and Customer_Code not in ('" + strVendorCode + "')"

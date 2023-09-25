@@ -5276,6 +5276,13 @@ Public Class frmSNShipment
                         Reason = frm.strRmks
                     End If
                 End If
+                'Dim chkDCS As Boolean
+                'If chkFillDCSDetail.Checked Then
+                '    chkDCS = True
+                'Else
+                '    chkDCS = False
+                'End If
+
                 If (clsSNShipmentHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
                     clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)

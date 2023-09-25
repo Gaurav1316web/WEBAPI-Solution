@@ -142,6 +142,7 @@ Public Class clsMRNHead
 
     Public Total_Item_Insurance_Amt As Decimal = 0
     Public Total_Add_Charge_Insurance As Decimal = 0
+    Public Nir_QC As Integer = Nothing
     Public Arr_ACInsurance As List(Of clsMRNAdditionChargeInsurance) = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsMRNHead, ByVal isNewEntry As Boolean, Optional ByVal isamendment As Boolean = False) As Boolean
@@ -608,6 +609,7 @@ Public Class clsMRNHead
             '' END CURRENCYCONVERSION 
             obj.Total_Add_Charge_Insurance = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge_Insurance"))
             obj.Total_Item_Insurance_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Item_Insurance_Amt"))
+            obj.Nir_QC = clsCommon.myCdbl(dt.Rows(0)("NIR_QC"))
             Dim Sum_Max As String = String.Empty
             If clsFixedParameter.GetData(clsFixedParameterType.ShowQtySum_in_GRN_MRN_SRN, clsFixedParameterCode.ShowQtySum_in_GRN_MRN_SRN, trans) = "1" Then
                 Sum_Max = "Sum"
@@ -1080,6 +1082,7 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
 
     Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            Dim obj As clsMRNHead = clsMRNHead.GetData(strCode, NavigatorType.Current, trans)
             Dim qry As String = "select 1 from TSPL_MRN_HEAD where MRN_No='" + strCode + "' and Status=1"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -1096,6 +1099,33 @@ where TSPL_MRN_DETAIL.MRN_No='" + strDocNo + "' and ISNULL( TSPL_ITEM_MASTER.NIR
                 qry += Environment.NewLine + "Can't unpost it"
                 Throw New Exception(qry)
             End If
+
+            If (obj.Nir_QC = 0) Then
+                qry = "Select distinct(Document_Code) from TSPL_QC_CHECK_DETAIL where MRN_No='" + strCode + "'"
+                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    qry = "MRN is used in following WETQC"
+                    Throw New Exception(qry)
+                End If
+            End If
+            If (obj.Nir_QC = 1) Then
+                qry = "Select distinct(Document_No) from TSPL_NIR_QC where MRN_No='" + strCode + "'"
+                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    qry = "MRN is used in following NIRQC"
+                    Throw New Exception(qry)
+                End If
+            End If
+            'If (obj.Nir_QC = IsDBNull(0)) Then
+            '    qry = "Select distinct(Document_Code) from TSPL_QC_CHECK_DETAIL where MRN_No='" + strCode + "'"
+            '    dt = clsDBFuncationality.GetDataTable(qry, trans)
+            '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            '        qry = "MRN is used in following WETQC"
+            '        Throw New Exception(qry)
+            '    End If
+            'End If
+
+
             qry = "update TSPL_MRN_HEAD set Status=0,Posting_Date=null where MRN_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
