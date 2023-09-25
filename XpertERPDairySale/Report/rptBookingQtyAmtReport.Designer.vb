@@ -22,6 +22,7 @@ Partial Class rptBookingQtyAmtReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -29,21 +30,25 @@ Partial Class rptBookingQtyAmtReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbHindi = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rdbEnglish = New Telerik.WinControls.UI.RadRadioButton()
-        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtItem = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtTransaction = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtItemType = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel8 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkBoth = New Telerik.WinControls.UI.RadRadioButton()
         Me.ChkPosted = New Telerik.WinControls.UI.RadRadioButton()
         Me.ChkUnPosted = New Telerik.WinControls.UI.RadRadioButton()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtTransaction = New common.UserControls.txtMultiSelectFinder()
+        Me.lblRouteCode = New common.Controls.MyLabel()
+        Me.txtRouteCode = New common.UserControls.txtFinder()
+        Me.lblRoute = New common.Controls.MyLabel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbHindi = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbEnglish = New Telerik.WinControls.UI.RadRadioButton()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.txtItem = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
@@ -51,17 +56,14 @@ Partial Class rptBookingQtyAmtReport
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.lblRoute = New common.Controls.MyLabel()
-        Me.lblRouteCode = New common.Controls.MyLabel()
-        Me.txtRouteCode = New common.UserControls.txtFinder()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.chkDistributor = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -69,19 +71,22 @@ Partial Class rptBookingQtyAmtReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.rdbHindi, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbEnglish, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.chkBoth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChkPosted, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ChkUnPosted, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRouteCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rdbHindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbEnglish, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,14 +96,12 @@ Partial Class rptBookingQtyAmtReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRouteCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel1.SuspendLayout()
+        CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,27 +112,20 @@ Partial Class rptBookingQtyAmtReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(692, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmsaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmsaveLayout
         '
-        Me.rmsaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmsaveLayout.AccessibleName = "Save Layout"
         Me.rmsaveLayout.Name = "rmsaveLayout"
         Me.rmsaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -167,11 +163,11 @@ Partial Class rptBookingQtyAmtReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(692, 326)
         Me.RadPageView1.TabIndex = 11
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkDistributor)
         Me.RadPageViewPage1.Controls.Add(Me.Panel1)
         Me.RadPageViewPage1.Controls.Add(Me.lblRouteCode)
         Me.RadPageViewPage1.Controls.Add(Me.txtRouteCode)
@@ -186,48 +182,70 @@ Partial Class rptBookingQtyAmtReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(671, 278)
         Me.RadPageViewPage1.Text = "Filters"
         '
-        'RadGroupBox2
+        'Panel1
         '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rdbHindi)
-        Me.RadGroupBox2.Controls.Add(Me.rdbEnglish)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(275, 15)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(130, 36)
-        Me.RadGroupBox2.TabIndex = 396
+        Me.Panel1.Controls.Add(Me.txtItem)
+        Me.Panel1.Controls.Add(Me.MyLabel1)
+        Me.Panel1.Controls.Add(Me.txtTransaction)
+        Me.Panel1.Controls.Add(Me.MyLabel2)
+        Me.Panel1.Controls.Add(Me.txtItemType)
+        Me.Panel1.Controls.Add(Me.RadGroupBox1)
+        Me.Panel1.Controls.Add(Me.MyLabel8)
+        Me.Panel1.Location = New System.Drawing.Point(205, 260)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(468, 15)
+        Me.Panel1.TabIndex = 400
+        Me.Panel1.Visible = False
         '
-        'rdbHindi
+        'txtItem
         '
-        Me.rdbHindi.Location = New System.Drawing.Point(75, 9)
-        Me.rdbHindi.Name = "rdbHindi"
-        Me.rdbHindi.Size = New System.Drawing.Size(47, 18)
-        Me.rdbHindi.TabIndex = 312
-        Me.rdbHindi.TabStop = False
-        Me.rdbHindi.Text = "Hindi"
+        Me.txtItem.arrDispalyMember = Nothing
+        Me.txtItem.arrValueMember = Nothing
+        Me.txtItem.Location = New System.Drawing.Point(101, 9)
+        Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItem.MyLinkLable1 = Me.MyLabel1
+        Me.txtItem.MyLinkLable2 = Nothing
+        Me.txtItem.MyNullText = "All"
+        Me.txtItem.Name = "txtItem"
+        Me.txtItem.Size = New System.Drawing.Size(344, 19)
+        Me.txtItem.TabIndex = 384
+        Me.txtItem.Visible = False
         '
-        'rdbEnglish
+        'MyLabel1
         '
-        Me.rdbEnglish.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rdbEnglish.Location = New System.Drawing.Point(13, 9)
-        Me.rdbEnglish.Name = "rdbEnglish"
-        Me.rdbEnglish.Size = New System.Drawing.Size(56, 18)
-        Me.rdbEnglish.TabIndex = 311
-        Me.rdbEnglish.TabStop = False
-        Me.rdbEnglish.Text = "English"
-        Me.rdbEnglish.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(10, 9)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel1.TabIndex = 385
+        Me.MyLabel1.Text = "Item"
+        Me.MyLabel1.Visible = False
         '
-        'MyLabel8
+        'txtTransaction
         '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(10, 55)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(56, 18)
-        Me.MyLabel8.TabIndex = 395
-        Me.MyLabel8.Text = "Item Type"
-        Me.MyLabel8.Visible = False
+        Me.txtTransaction.arrDispalyMember = Nothing
+        Me.txtTransaction.arrValueMember = Nothing
+        Me.txtTransaction.Location = New System.Drawing.Point(101, 32)
+        Me.txtTransaction.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTransaction.MyLinkLable1 = Me.MyLabel2
+        Me.txtTransaction.MyLinkLable2 = Nothing
+        Me.txtTransaction.MyNullText = "All"
+        Me.txtTransaction.Name = "txtTransaction"
+        Me.txtTransaction.Size = New System.Drawing.Size(344, 19)
+        Me.txtTransaction.TabIndex = 391
+        Me.txtTransaction.Visible = False
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(10, 32)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(91, 18)
+        Me.MyLabel2.TabIndex = 392
+        Me.MyLabel2.Text = "Transaction Type"
+        Me.MyLabel2.Visible = False
         '
         'txtItemType
         '
@@ -242,6 +260,17 @@ Partial Class rptBookingQtyAmtReport
         Me.txtItemType.Size = New System.Drawing.Size(344, 19)
         Me.txtItemType.TabIndex = 394
         Me.txtItemType.Visible = False
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(10, 55)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(56, 18)
+        Me.MyLabel8.TabIndex = 395
+        Me.MyLabel8.Text = "Item Type"
+        Me.MyLabel8.Visible = False
         '
         'RadGroupBox1
         '
@@ -286,36 +315,91 @@ Partial Class rptBookingQtyAmtReport
         Me.ChkUnPosted.TabStop = False
         Me.ChkUnPosted.Text = "UnPosted"
         '
-        'MyLabel2
+        'lblRouteCode
         '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(10, 32)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(91, 18)
-        Me.MyLabel2.TabIndex = 392
-        Me.MyLabel2.Text = "Transaction Type"
-        Me.MyLabel2.Visible = False
+        Me.lblRouteCode.AutoSize = False
+        Me.lblRouteCode.BorderVisible = True
+        Me.lblRouteCode.FieldName = Nothing
+        Me.lblRouteCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRouteCode.Location = New System.Drawing.Point(256, 54)
+        Me.lblRouteCode.Name = "lblRouteCode"
+        Me.lblRouteCode.Size = New System.Drawing.Size(195, 18)
+        Me.lblRouteCode.TabIndex = 399
+        Me.lblRouteCode.TextWrap = False
         '
-        'txtTransaction
+        'txtRouteCode
         '
-        Me.txtTransaction.arrDispalyMember = Nothing
-        Me.txtTransaction.arrValueMember = Nothing
-        Me.txtTransaction.Location = New System.Drawing.Point(101, 32)
-        Me.txtTransaction.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTransaction.MyLinkLable1 = Me.MyLabel2
-        Me.txtTransaction.MyLinkLable2 = Nothing
-        Me.txtTransaction.MyNullText = "All"
-        Me.txtTransaction.Name = "txtTransaction"
-        Me.txtTransaction.Size = New System.Drawing.Size(344, 19)
-        Me.txtTransaction.TabIndex = 391
-        Me.txtTransaction.Visible = False
+        Me.txtRouteCode.CalculationExpression = Nothing
+        Me.txtRouteCode.FieldCode = Nothing
+        Me.txtRouteCode.FieldDesc = Nothing
+        Me.txtRouteCode.FieldMaxLength = 0
+        Me.txtRouteCode.FieldName = Nothing
+        Me.txtRouteCode.isCalculatedField = False
+        Me.txtRouteCode.IsSourceFromTable = False
+        Me.txtRouteCode.IsSourceFromValueList = False
+        Me.txtRouteCode.IsUnique = False
+        Me.txtRouteCode.Location = New System.Drawing.Point(107, 54)
+        Me.txtRouteCode.MendatroryField = True
+        Me.txtRouteCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRouteCode.MyLinkLable1 = Nothing
+        Me.txtRouteCode.MyLinkLable2 = Me.lblRouteCode
+        Me.txtRouteCode.MyReadOnly = False
+        Me.txtRouteCode.MyShowMasterFormButton = False
+        Me.txtRouteCode.Name = "txtRouteCode"
+        Me.txtRouteCode.ReferenceFieldDesc = Nothing
+        Me.txtRouteCode.ReferenceFieldName = Nothing
+        Me.txtRouteCode.ReferenceTableName = Nothing
+        Me.txtRouteCode.Size = New System.Drawing.Size(143, 18)
+        Me.txtRouteCode.TabIndex = 398
+        Me.txtRouteCode.Value = ""
+        '
+        'lblRoute
+        '
+        Me.lblRoute.FieldName = Nothing
+        Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRoute.Location = New System.Drawing.Point(19, 54)
+        Me.lblRoute.Name = "lblRoute"
+        Me.lblRoute.Size = New System.Drawing.Size(36, 18)
+        Me.lblRoute.TabIndex = 397
+        Me.lblRoute.Text = "Route"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rdbHindi)
+        Me.RadGroupBox2.Controls.Add(Me.rdbEnglish)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(275, 15)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(130, 36)
+        Me.RadGroupBox2.TabIndex = 396
+        '
+        'rdbHindi
+        '
+        Me.rdbHindi.Location = New System.Drawing.Point(75, 9)
+        Me.rdbHindi.Name = "rdbHindi"
+        Me.rdbHindi.Size = New System.Drawing.Size(47, 18)
+        Me.rdbHindi.TabIndex = 312
+        Me.rdbHindi.TabStop = False
+        Me.rdbHindi.Text = "Hindi"
+        '
+        'rdbEnglish
+        '
+        Me.rdbEnglish.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rdbEnglish.Location = New System.Drawing.Point(13, 9)
+        Me.rdbEnglish.Name = "rdbEnglish"
+        Me.rdbEnglish.Size = New System.Drawing.Size(56, 18)
+        Me.rdbEnglish.TabIndex = 311
+        Me.rdbEnglish.TabStop = False
+        Me.rdbEnglish.Text = "English"
+        Me.rdbEnglish.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(16, 74)
+        Me.MyLabel3.Location = New System.Drawing.Point(19, 74)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(55, 18)
         Me.MyLabel3.TabIndex = 389
@@ -333,31 +417,6 @@ Partial Class rptBookingQtyAmtReport
         Me.txtCustomer.Name = "txtCustomer"
         Me.txtCustomer.Size = New System.Drawing.Size(344, 19)
         Me.txtCustomer.TabIndex = 388
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(10, 9)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(29, 18)
-        Me.MyLabel1.TabIndex = 385
-        Me.MyLabel1.Text = "Item"
-        Me.MyLabel1.Visible = False
-        '
-        'txtItem
-        '
-        Me.txtItem.arrDispalyMember = Nothing
-        Me.txtItem.arrValueMember = Nothing
-        Me.txtItem.Location = New System.Drawing.Point(101, 9)
-        Me.txtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtItem.MyLinkLable1 = Me.MyLabel1
-        Me.txtItem.MyLinkLable2 = Nothing
-        Me.txtItem.MyNullText = "All"
-        Me.txtItem.Name = "txtItem"
-        Me.txtItem.Size = New System.Drawing.Size(344, 19)
-        Me.txtItem.TabIndex = 384
-        Me.txtItem.Visible = False
         '
         'RadGroupBox3
         '
@@ -442,13 +501,24 @@ Partial Class rptBookingQtyAmtReport
         '
         '
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(671, 278)
         Me.Gv1.TabIndex = 0
-        Me.Gv1.Text = "RadGridView1"
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton1.Location = New System.Drawing.Point(267, 15)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(232, 22)
+        Me.RadButton1.TabIndex = 156
+        Me.RadButton1.Text = "Day Shift wise Demand Print of Customer"
         '
         'RadSplitExp
         '
@@ -462,15 +532,11 @@ Partial Class rptBookingQtyAmtReport
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
@@ -504,78 +570,13 @@ Partial Class rptBookingQtyAmtReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'lblRoute
+        'chkDistributor
         '
-        Me.lblRoute.FieldName = Nothing
-        Me.lblRoute.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRoute.Location = New System.Drawing.Point(19, 54)
-        Me.lblRoute.Name = "lblRoute"
-        Me.lblRoute.Size = New System.Drawing.Size(36, 18)
-        Me.lblRoute.TabIndex = 397
-        Me.lblRoute.Text = "Route"
-        '
-        'lblRouteCode
-        '
-        Me.lblRouteCode.AutoSize = False
-        Me.lblRouteCode.BorderVisible = True
-        Me.lblRouteCode.FieldName = Nothing
-        Me.lblRouteCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRouteCode.Location = New System.Drawing.Point(256, 54)
-        Me.lblRouteCode.Name = "lblRouteCode"
-        Me.lblRouteCode.Size = New System.Drawing.Size(195, 18)
-        Me.lblRouteCode.TabIndex = 399
-        Me.lblRouteCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblRouteCode.TextWrap = False
-        '
-        'txtRouteCode
-        '
-        Me.txtRouteCode.CalculationExpression = Nothing
-        Me.txtRouteCode.FieldCode = Nothing
-        Me.txtRouteCode.FieldDesc = Nothing
-        Me.txtRouteCode.FieldMaxLength = 0
-        Me.txtRouteCode.FieldName = Nothing
-        Me.txtRouteCode.isCalculatedField = False
-        Me.txtRouteCode.IsSourceFromTable = False
-        Me.txtRouteCode.IsSourceFromValueList = False
-        Me.txtRouteCode.IsUnique = False
-        Me.txtRouteCode.Location = New System.Drawing.Point(107, 54)
-        Me.txtRouteCode.MendatroryField = True
-        Me.txtRouteCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRouteCode.MyLinkLable2 = Me.lblRouteCode
-        Me.txtRouteCode.MyReadOnly = False
-        Me.txtRouteCode.MyShowMasterFormButton = False
-        Me.txtRouteCode.Name = "txtRouteCode"
-        Me.txtRouteCode.ReferenceFieldDesc = Nothing
-        Me.txtRouteCode.ReferenceFieldName = Nothing
-        Me.txtRouteCode.ReferenceTableName = Nothing
-        Me.txtRouteCode.Size = New System.Drawing.Size(143, 18)
-        Me.txtRouteCode.TabIndex = 398
-        Me.txtRouteCode.Value = ""
-        '
-        'RadButton1
-        '
-        Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(267, 15)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(232, 22)
-        Me.RadButton1.TabIndex = 156
-        Me.RadButton1.Text = "Day Shift wise Demand Print of Customer"
-        '
-        'Panel1
-        '
-        Me.Panel1.Controls.Add(Me.txtItem)
-        Me.Panel1.Controls.Add(Me.MyLabel1)
-        Me.Panel1.Controls.Add(Me.txtTransaction)
-        Me.Panel1.Controls.Add(Me.MyLabel2)
-        Me.Panel1.Controls.Add(Me.txtItemType)
-        Me.Panel1.Controls.Add(Me.RadGroupBox1)
-        Me.Panel1.Controls.Add(Me.MyLabel8)
-        Me.Panel1.Location = New System.Drawing.Point(205, 260)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(468, 15)
-        Me.Panel1.TabIndex = 400
-        Me.Panel1.Visible = False
+        Me.chkDistributor.Location = New System.Drawing.Point(412, 24)
+        Me.chkDistributor.Name = "chkDistributor"
+        Me.chkDistributor.Size = New System.Drawing.Size(104, 18)
+        Me.chkDistributor.TabIndex = 401
+        Me.chkDistributor.Text = "Distributor Wise "
         '
         'rptBookingQtyAmtReport
         '
@@ -598,11 +599,10 @@ Partial Class rptBookingQtyAmtReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
-        CType(Me.rdbHindi, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbEnglish, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -610,9 +610,14 @@ Partial Class rptBookingQtyAmtReport
         CType(Me.chkBoth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChkPosted, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ChkUnPosted, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRouteCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rdbHindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbEnglish, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -623,15 +628,12 @@ Partial Class rptBookingQtyAmtReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRoute, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRouteCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
+        CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -677,5 +679,6 @@ Partial Class rptBookingQtyAmtReport
     Friend WithEvents txtRouteCode As common.UserControls.txtFinder
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents Panel1 As Panel
+    Friend WithEvents chkDistributor As RadCheckBox
 End Class
 

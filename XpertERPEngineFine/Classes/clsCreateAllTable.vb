@@ -43,6 +43,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "datetime  Not NULL")
             coll.Add("Modify_By", "varchar(12)  Not NULL")
             coll.Add("Modify_Date", "datetime  Not NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_FOR_SALE", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -14179,6 +14180,13 @@ Public Class clsCreateAllTable
             coll.Add("Display_Seq", "decimal (18,2) NULL")
             coll.Add("IsReorder", "int null default 0")
             'KUNAL >DATE 9-DEC-2016
+            coll.Add("Cast_Category_Code", "varchar(30)  Not NULL")
+            coll.Add("Distict_Code", "varchar(30)  Not NULL")
+            coll.Add("Block_Code", "varchar(30)  Not NULL")
+            coll.Add("Revenue_Village_Code", "varchar(30)  Not NULL")
+            coll.Add("Grampanchayat_Code", "varchar(30)  Not NULL")
+            coll.Add("Panchayat_Samiti_Code", "varchar(30)  Not NULL")
+            coll.Add("Vidhan_Sabha_Code", "varchar(30)  Not NULL")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
@@ -52604,6 +52612,10 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Comp_code", "VARCHAR(30) NULL")
             coll.Add("Tender_Type", "integer null")
             coll.Add("Mode", "integer null")
+            coll.Add("close_yn", "char(1) not null default 'N'")
+            coll.Add("Closed_By", "varchar(12) NULL")
+            coll.Add("Closed_Date", "Datetime NULL")
+            coll.Add("close_remarks", "varchar(500) NOT NULL DEFAULT ''")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_HEADER", coll, Nothing, False, True, "", "DocumentCode", "DocumentDate")
 
             coll = New Dictionary(Of String, String)()

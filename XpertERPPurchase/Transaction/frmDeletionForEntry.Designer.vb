@@ -23,96 +23,15 @@ Partial Class frmDeletionForEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.RadScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
-        Me.RadGroupBox12 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Opennsrn = New Telerik.WinControls.UI.RadButton()
-        Me.Unposttsrn = New Telerik.WinControls.UI.RadButton()
-        Me.DeleteeSrn = New Telerik.WinControls.UI.RadButton()
-        Me.SRNDatee = New common.Controls.MyDateTimePicker()
-        Me.MyLabel23 = New common.Controls.MyLabel()
-        Me.MyLabel24 = New common.Controls.MyLabel()
-        Me.txttSRN = New common.Controls.MyTextBox()
-        Me.RadGroupBox11 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Opennmrn = New Telerik.WinControls.UI.RadButton()
-        Me.Unposttmrn = New Telerik.WinControls.UI.RadButton()
-        Me.btnnDeletemrn = New Telerik.WinControls.UI.RadButton()
-        Me.MRNDatee = New common.Controls.MyDateTimePicker()
-        Me.MyLabel21 = New common.Controls.MyLabel()
-        Me.MyLabel22 = New common.Controls.MyLabel()
-        Me.txttMRN = New common.Controls.MyTextBox()
-        Me.Label2 = New System.Windows.Forms.Label()
+        Me.PenaltyDate = New common.Controls.MyDateTimePicker()
+        Me.PIDate = New common.Controls.MyDateTimePicker()
         Me.txtBillToLocation = New common.UserControls.txtFinder()
         Me.MyLabel19 = New common.Controls.MyLabel()
         Me.lblBillToLocation = New common.Controls.MyLabel()
-        Me.Unpostral = New Telerik.WinControls.UI.RadButton()
-        Me.Openral = New Telerik.WinControls.UI.RadButton()
-        Me.DeleteRal = New Telerik.WinControls.UI.RadButton()
-        Me.Openpi = New Telerik.WinControls.UI.RadButton()
-        Me.Unpostpi = New Telerik.WinControls.UI.RadButton()
-        Me.Deletepi = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox10 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Gv2 = New common.UserControls.MyRadGridView()
-        Me.RadGroupBox9 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Gv1 = New common.UserControls.MyRadGridView()
-        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Openp = New Telerik.WinControls.UI.RadButton()
-        Me.PIDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel16 = New common.Controls.MyLabel()
-        Me.Unpostp = New Telerik.WinControls.UI.RadButton()
-        Me.Deletep = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.txtPINo = New common.Controls.MyTextBox()
-        Me.RadGroupBox8 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Openra = New Telerik.WinControls.UI.RadButton()
-        Me.Unpostra = New Telerik.WinControls.UI.RadButton()
-        Me.DeleteRa = New Telerik.WinControls.UI.RadButton()
-        Me.PenaltyDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.MyLabel15 = New common.Controls.MyLabel()
-        Me.txtPenalty = New common.Controls.MyTextBox()
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Opensrn = New Telerik.WinControls.UI.RadButton()
-        Me.Unpostsrn = New Telerik.WinControls.UI.RadButton()
-        Me.DeleteSrn = New Telerik.WinControls.UI.RadButton()
-        Me.SRNDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel14 = New common.Controls.MyLabel()
-        Me.MyLabel13 = New common.Controls.MyLabel()
-        Me.txtSRN = New common.Controls.MyTextBox()
-        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.OpenWet = New Telerik.WinControls.UI.RadButton()
-        Me.UnpostWet = New Telerik.WinControls.UI.RadButton()
-        Me.DeleteWet = New Telerik.WinControls.UI.RadButton()
-        Me.WetDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.txtWet = New common.Controls.MyTextBox()
-        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.OpenNir = New Telerik.WinControls.UI.RadButton()
-        Me.UnpostNir = New Telerik.WinControls.UI.RadButton()
-        Me.DeleteNir = New Telerik.WinControls.UI.RadButton()
-        Me.NicDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.txtNic = New common.Controls.MyTextBox()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.Openmrn = New Telerik.WinControls.UI.RadButton()
-        Me.Unpostmrn = New Telerik.WinControls.UI.RadButton()
-        Me.btnDeletemrn = New Telerik.WinControls.UI.RadButton()
-        Me.MRNDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel11 = New common.Controls.MyLabel()
-        Me.MyLabel10 = New common.Controls.MyLabel()
-        Me.txtMRN = New common.Controls.MyTextBox()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.RadButton16 = New Telerik.WinControls.UI.RadButton()
-        Me.btnUnpostW = New Telerik.WinControls.UI.RadButton()
-        Me.btnDeleteW = New Telerik.WinControls.UI.RadButton()
-        Me.WeighmetDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.TxtWeighment = New common.Controls.MyTextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtqc2 = New common.Controls.MyTextBox()
         Me.RadLabel7 = New common.Controls.MyLabel()
@@ -137,112 +56,75 @@ Partial Class frmDeletionForEntry
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtDocNo = New common.UserControls.txtNavigator()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.RadLabel15 = New common.Controls.MyLabel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadButton16 = New Telerik.WinControls.UI.RadButton()
+        Me.btnUnpostW = New Telerik.WinControls.UI.RadButton()
+        Me.btnDeleteW = New Telerik.WinControls.UI.RadButton()
+        Me.WeighmetDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.TxtWeighment = New common.Controls.MyTextBox()
+        Me.RadGroupBox11 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Opennmrn = New Telerik.WinControls.UI.RadButton()
+        Me.Unposttmrn = New Telerik.WinControls.UI.RadButton()
+        Me.btnnDeletemrn = New Telerik.WinControls.UI.RadButton()
+        Me.MRNDatee = New common.Controls.MyDateTimePicker()
+        Me.MyLabel21 = New common.Controls.MyLabel()
+        Me.MyLabel22 = New common.Controls.MyLabel()
+        Me.txttMRN = New common.Controls.MyTextBox()
+        Me.RadGroupBox6 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.OpenNir = New Telerik.WinControls.UI.RadButton()
+        Me.UnpostNir = New Telerik.WinControls.UI.RadButton()
+        Me.DeleteNir = New Telerik.WinControls.UI.RadButton()
+        Me.NicDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtNic = New common.Controls.MyTextBox()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.OpenWet = New Telerik.WinControls.UI.RadButton()
+        Me.UnpostWet = New Telerik.WinControls.UI.RadButton()
+        Me.DeleteWet = New Telerik.WinControls.UI.RadButton()
+        Me.WetDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.txtWet = New common.Controls.MyTextBox()
+        Me.RadGroupBox12 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Opennsrn = New Telerik.WinControls.UI.RadButton()
+        Me.Unposttsrn = New Telerik.WinControls.UI.RadButton()
+        Me.DeleteeSrn = New Telerik.WinControls.UI.RadButton()
+        Me.SRNDatee = New common.Controls.MyDateTimePicker()
+        Me.MyLabel23 = New common.Controls.MyLabel()
+        Me.MyLabel24 = New common.Controls.MyLabel()
+        Me.txttSRN = New common.Controls.MyTextBox()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox9 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.DeleteRal = New Telerik.WinControls.UI.RadButton()
+        Me.Openral = New Telerik.WinControls.UI.RadButton()
+        Me.Unpostral = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox10 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Gv2 = New common.UserControls.MyRadGridView()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.Deletepi = New Telerik.WinControls.UI.RadButton()
+        Me.Unpostpi = New Telerik.WinControls.UI.RadButton()
+        Me.Openpi = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.MyLabel10 = New common.Controls.MyLabel()
+        Me.txtPenalty = New common.Controls.MyTextBox()
+        Me.txtPINo = New common.Controls.MyTextBox()
+        Me.MyTextBox2 = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadScrollablePanel1.PanelContainer.SuspendLayout()
-        Me.RadScrollablePanel1.SuspendLayout()
-        CType(Me.RadGroupBox12, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox12.SuspendLayout()
-        CType(Me.Opennsrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Unposttsrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DeleteeSrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SRNDatee, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txttSRN, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox11, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox11.SuspendLayout()
-        CType(Me.Opennmrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Unposttmrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnnDeletemrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MRNDatee, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txttMRN, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PenaltyDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PIDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Unpostral, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Openral, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DeleteRal, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Openpi, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Unpostpi, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Deletepi, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox10, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox10.SuspendLayout()
-        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox9.SuspendLayout()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox5.SuspendLayout()
-        CType(Me.Openp, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PIDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Unpostp, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Deletep, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPINo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox8.SuspendLayout()
-        CType(Me.Openra, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Unpostra, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DeleteRa, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PenaltyDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPenalty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox4.SuspendLayout()
-        CType(Me.Opensrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Unpostsrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DeleteSrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.SRNDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtSRN, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox7.SuspendLayout()
-        CType(Me.OpenWet, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.UnpostWet, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DeleteWet, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.WetDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtWet, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox6.SuspendLayout()
-        CType(Me.OpenNir, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.UnpostNir, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.DeleteNir, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.NicDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtNic, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.Openmrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Unpostmrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDeletemrn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MRNDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtMRN, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.RadButton16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUnpostW, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDeleteW, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.WeighmetDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtqc2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -266,8 +148,80 @@ Partial Class frmDeletionForEntry
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.RadButton16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUnpostW, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDeleteW, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.WeighmetDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox11, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox11.SuspendLayout()
+        CType(Me.Opennmrn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Unposttmrn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnnDeletemrn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MRNDatee, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txttMRN, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.OpenNir, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.UnpostNir, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DeleteNir, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NicDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtNic, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
+        CType(Me.OpenWet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.UnpostWet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DeleteWet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.WetDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtWet, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox12, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox12.SuspendLayout()
+        CType(Me.Opennsrn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Unposttsrn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DeleteeSrn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.SRNDatee, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txttSRN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox9.SuspendLayout()
+        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.DeleteRal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Openral, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Unpostral, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox10, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox10.SuspendLayout()
+        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.Deletepi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Unpostpi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Openpi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPenalty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPINo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyTextBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -280,636 +234,28 @@ Partial Class frmDeletionForEntry
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadScrollablePanel1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox5)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox4)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox10)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox3)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox9)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox12)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox7)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox6)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox11)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Label2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtBillToLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblBillToLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel19)
         '
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1056, 521)
-        Me.SplitContainer1.SplitterDistance = 482
+        Me.SplitContainer1.Size = New System.Drawing.Size(1056, 654)
+        Me.SplitContainer1.SplitterDistance = 621
         Me.SplitContainer1.TabIndex = 0
-        '
-        'RadScrollablePanel1
-        '
-        Me.RadScrollablePanel1.Location = New System.Drawing.Point(3, 2)
-        Me.RadScrollablePanel1.Name = "RadScrollablePanel1"
-        '
-        'RadScrollablePanel1.PanelContainer
-        '
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox12)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox11)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.Label2)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.txtBillToLocation)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.lblBillToLocation)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.MyLabel19)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.Unpostral)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.Openral)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.DeleteRal)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.Openpi)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.Unpostpi)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.Deletepi)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox10)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox9)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox5)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox8)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox4)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox7)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox6)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox3)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox2)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadGroupBox1)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.Label1)
-        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.RadLabel15)
-        Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(1031, 474)
-        Me.RadScrollablePanel1.Size = New System.Drawing.Size(1050, 476)
-        Me.RadScrollablePanel1.TabIndex = 0
-        '
-        'RadGroupBox12
-        '
-        Me.RadGroupBox12.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox12.Controls.Add(Me.Opennsrn)
-        Me.RadGroupBox12.Controls.Add(Me.Unposttsrn)
-        Me.RadGroupBox12.Controls.Add(Me.DeleteeSrn)
-        Me.RadGroupBox12.Controls.Add(Me.SRNDatee)
-        Me.RadGroupBox12.Controls.Add(Me.MyLabel23)
-        Me.RadGroupBox12.Controls.Add(Me.MyLabel24)
-        Me.RadGroupBox12.Controls.Add(Me.txttSRN)
-        Me.RadGroupBox12.HeaderText = "Store Received Note"
-        Me.RadGroupBox12.Location = New System.Drawing.Point(674, 68)
-        Me.RadGroupBox12.Name = "RadGroupBox12"
-        Me.RadGroupBox12.Size = New System.Drawing.Size(282, 103)
-        Me.RadGroupBox12.TabIndex = 131
-        Me.RadGroupBox12.Text = "Store Received Note"
-        '
-        'Opennsrn
-        '
-        Me.Opennsrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Opennsrn.Location = New System.Drawing.Point(183, 76)
-        Me.Opennsrn.Name = "Opennsrn"
-        Me.Opennsrn.Size = New System.Drawing.Size(69, 22)
-        Me.Opennsrn.TabIndex = 111
-        Me.Opennsrn.Text = "Open"
-        '
-        'Unposttsrn
-        '
-        Me.Unposttsrn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Unposttsrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Unposttsrn.Location = New System.Drawing.Point(96, 76)
-        Me.Unposttsrn.Name = "Unposttsrn"
-        Me.Unposttsrn.Size = New System.Drawing.Size(69, 22)
-        Me.Unposttsrn.TabIndex = 108
-        Me.Unposttsrn.Text = "UnPost"
-        '
-        'DeleteeSrn
-        '
-        Me.DeleteeSrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DeleteeSrn.Location = New System.Drawing.Point(9, 76)
-        Me.DeleteeSrn.Name = "DeleteeSrn"
-        Me.DeleteeSrn.Size = New System.Drawing.Size(69, 22)
-        Me.DeleteeSrn.TabIndex = 107
-        Me.DeleteeSrn.Text = "Delete"
-        '
-        'SRNDatee
-        '
-        Me.SRNDatee.CalculationExpression = Nothing
-        Me.SRNDatee.CustomFormat = "dd/MM/yyyy hh:mm tt"
-        Me.SRNDatee.FieldCode = Nothing
-        Me.SRNDatee.FieldDesc = Nothing
-        Me.SRNDatee.FieldMaxLength = 0
-        Me.SRNDatee.FieldName = Nothing
-        Me.SRNDatee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SRNDatee.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.SRNDatee.isCalculatedField = False
-        Me.SRNDatee.IsSourceFromTable = False
-        Me.SRNDatee.IsSourceFromValueList = False
-        Me.SRNDatee.IsUnique = False
-        Me.SRNDatee.Location = New System.Drawing.Point(78, 43)
-        Me.SRNDatee.MendatroryField = False
-        Me.SRNDatee.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.SRNDatee.MyLinkLable1 = Me.MyLabel23
-        Me.SRNDatee.MyLinkLable2 = Nothing
-        Me.SRNDatee.Name = "SRNDatee"
-        Me.SRNDatee.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.SRNDatee.ReadOnly = True
-        Me.SRNDatee.ReferenceFieldDesc = Nothing
-        Me.SRNDatee.ReferenceFieldName = Nothing
-        Me.SRNDatee.ReferenceTableName = Nothing
-        Me.SRNDatee.Size = New System.Drawing.Size(174, 18)
-        Me.SRNDatee.TabIndex = 100
-        Me.SRNDatee.TabStop = False
-        Me.SRNDatee.Text = "13/06/2011 11:29 AM"
-        Me.SRNDatee.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel23
-        '
-        Me.MyLabel23.FieldName = Nothing
-        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel23.Location = New System.Drawing.Point(5, 43)
-        Me.MyLabel23.Name = "MyLabel23"
-        Me.MyLabel23.Size = New System.Drawing.Size(57, 16)
-        Me.MyLabel23.TabIndex = 101
-        Me.MyLabel23.Text = "SRN Date"
-        '
-        'MyLabel24
-        '
-        Me.MyLabel24.FieldName = Nothing
-        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel24.Location = New System.Drawing.Point(5, 21)
-        Me.MyLabel24.Name = "MyLabel24"
-        Me.MyLabel24.Size = New System.Drawing.Size(48, 16)
-        Me.MyLabel24.TabIndex = 99
-        Me.MyLabel24.Text = "SRN No"
-        '
-        'txttSRN
-        '
-        Me.txttSRN.BackColor = System.Drawing.Color.White
-        Me.txttSRN.CalculationExpression = Nothing
-        Me.txttSRN.FieldCode = Nothing
-        Me.txttSRN.FieldDesc = Nothing
-        Me.txttSRN.FieldMaxLength = 0
-        Me.txttSRN.FieldName = Nothing
-        Me.txttSRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txttSRN.isCalculatedField = False
-        Me.txttSRN.IsSourceFromTable = False
-        Me.txttSRN.IsSourceFromValueList = False
-        Me.txttSRN.IsUnique = False
-        Me.txttSRN.Location = New System.Drawing.Point(78, 22)
-        Me.txttSRN.MaxLength = 12
-        Me.txttSRN.MendatroryField = False
-        Me.txttSRN.MyLinkLable1 = Me.MyLabel24
-        Me.txttSRN.MyLinkLable2 = Nothing
-        Me.txttSRN.Name = "txttSRN"
-        Me.txttSRN.ReadOnly = True
-        Me.txttSRN.ReferenceFieldDesc = Nothing
-        Me.txttSRN.ReferenceFieldName = Nothing
-        Me.txttSRN.ReferenceTableName = Nothing
-        Me.txttSRN.Size = New System.Drawing.Size(174, 18)
-        Me.txttSRN.TabIndex = 98
-        '
-        'RadGroupBox11
-        '
-        Me.RadGroupBox11.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox11.Controls.Add(Me.Opennmrn)
-        Me.RadGroupBox11.Controls.Add(Me.Unposttmrn)
-        Me.RadGroupBox11.Controls.Add(Me.btnnDeletemrn)
-        Me.RadGroupBox11.Controls.Add(Me.MRNDatee)
-        Me.RadGroupBox11.Controls.Add(Me.MyLabel21)
-        Me.RadGroupBox11.Controls.Add(Me.MyLabel22)
-        Me.RadGroupBox11.Controls.Add(Me.txttMRN)
-        Me.RadGroupBox11.HeaderText = "Material Received Note"
-        Me.RadGroupBox11.Location = New System.Drawing.Point(340, 68)
-        Me.RadGroupBox11.Name = "RadGroupBox11"
-        Me.RadGroupBox11.Size = New System.Drawing.Size(316, 103)
-        Me.RadGroupBox11.TabIndex = 130
-        Me.RadGroupBox11.Text = "Material Received Note"
-        '
-        'Opennmrn
-        '
-        Me.Opennmrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Opennmrn.Location = New System.Drawing.Point(229, 76)
-        Me.Opennmrn.Name = "Opennmrn"
-        Me.Opennmrn.Size = New System.Drawing.Size(69, 22)
-        Me.Opennmrn.TabIndex = 109
-        Me.Opennmrn.Text = "Open"
-        '
-        'Unposttmrn
-        '
-        Me.Unposttmrn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Unposttmrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Unposttmrn.Location = New System.Drawing.Point(121, 76)
-        Me.Unposttmrn.Name = "Unposttmrn"
-        Me.Unposttmrn.Size = New System.Drawing.Size(69, 22)
-        Me.Unposttmrn.TabIndex = 108
-        Me.Unposttmrn.Text = "UnPost"
-        '
-        'btnnDeletemrn
-        '
-        Me.btnnDeletemrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnnDeletemrn.Location = New System.Drawing.Point(13, 76)
-        Me.btnnDeletemrn.Name = "btnnDeletemrn"
-        Me.btnnDeletemrn.Size = New System.Drawing.Size(69, 22)
-        Me.btnnDeletemrn.TabIndex = 107
-        Me.btnnDeletemrn.Text = "Delete"
-        '
-        'MRNDatee
-        '
-        Me.MRNDatee.CalculationExpression = Nothing
-        Me.MRNDatee.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
-        Me.MRNDatee.FieldCode = Nothing
-        Me.MRNDatee.FieldDesc = Nothing
-        Me.MRNDatee.FieldMaxLength = 0
-        Me.MRNDatee.FieldName = Nothing
-        Me.MRNDatee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MRNDatee.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.MRNDatee.isCalculatedField = False
-        Me.MRNDatee.IsSourceFromTable = False
-        Me.MRNDatee.IsSourceFromValueList = False
-        Me.MRNDatee.IsUnique = False
-        Me.MRNDatee.Location = New System.Drawing.Point(83, 37)
-        Me.MRNDatee.MendatroryField = True
-        Me.MRNDatee.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.MRNDatee.MyLinkLable1 = Me.MyLabel21
-        Me.MRNDatee.MyLinkLable2 = Nothing
-        Me.MRNDatee.Name = "MRNDatee"
-        Me.MRNDatee.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.MRNDatee.ReadOnly = True
-        Me.MRNDatee.ReferenceFieldDesc = Nothing
-        Me.MRNDatee.ReferenceFieldName = Nothing
-        Me.MRNDatee.ReferenceTableName = Nothing
-        Me.MRNDatee.Size = New System.Drawing.Size(150, 18)
-        Me.MRNDatee.TabIndex = 89
-        Me.MRNDatee.TabStop = False
-        Me.MRNDatee.Text = "03/05/2011 12:00:00.AM"
-        Me.MRNDatee.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
-        '
-        'MyLabel21
-        '
-        Me.MyLabel21.FieldName = Nothing
-        Me.MyLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel21.Location = New System.Drawing.Point(10, 39)
-        Me.MyLabel21.Name = "MyLabel21"
-        Me.MyLabel21.Size = New System.Drawing.Size(59, 16)
-        Me.MyLabel21.TabIndex = 88
-        Me.MyLabel21.Text = "MRN Date"
-        '
-        'MyLabel22
-        '
-        Me.MyLabel22.FieldName = Nothing
-        Me.MyLabel22.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel22.Location = New System.Drawing.Point(10, 17)
-        Me.MyLabel22.Name = "MyLabel22"
-        Me.MyLabel22.Size = New System.Drawing.Size(50, 16)
-        Me.MyLabel22.TabIndex = 87
-        Me.MyLabel22.Text = "MRN No"
-        '
-        'txttMRN
-        '
-        Me.txttMRN.BackColor = System.Drawing.Color.White
-        Me.txttMRN.CalculationExpression = Nothing
-        Me.txttMRN.FieldCode = Nothing
-        Me.txttMRN.FieldDesc = Nothing
-        Me.txttMRN.FieldMaxLength = 0
-        Me.txttMRN.FieldName = Nothing
-        Me.txttMRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txttMRN.isCalculatedField = False
-        Me.txttMRN.IsSourceFromTable = False
-        Me.txttMRN.IsSourceFromValueList = False
-        Me.txttMRN.IsUnique = False
-        Me.txttMRN.Location = New System.Drawing.Point(83, 17)
-        Me.txttMRN.MaxLength = 12
-        Me.txttMRN.MendatroryField = False
-        Me.txttMRN.MyLinkLable1 = Me.MyLabel22
-        Me.txttMRN.MyLinkLable2 = Nothing
-        Me.txttMRN.Name = "txttMRN"
-        Me.txttMRN.ReadOnly = True
-        Me.txttMRN.ReferenceFieldDesc = Nothing
-        Me.txttMRN.ReferenceFieldName = Nothing
-        Me.txttMRN.ReferenceTableName = Nothing
-        Me.txttMRN.Size = New System.Drawing.Size(150, 18)
-        Me.txttMRN.TabIndex = 86
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(5, 40)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(901, 13)
-        Me.Label2.TabIndex = 129
-        Me.Label2.Text = "Gate Received Note >>>>>Weighment>>>>>Material Received Note>>>>>NIRQC>>>>>WETQC>" &
-    ">>>>Store Received Note>>>>>RAL Penalty>>>>>Purchase Invoice"
-        '
-        'txtBillToLocation
-        '
-        Me.txtBillToLocation.CalculationExpression = Nothing
-        Me.txtBillToLocation.FieldCode = Nothing
-        Me.txtBillToLocation.FieldDesc = Nothing
-        Me.txtBillToLocation.FieldMaxLength = 0
-        Me.txtBillToLocation.FieldName = Nothing
-        Me.txtBillToLocation.isCalculatedField = False
-        Me.txtBillToLocation.IsSourceFromTable = False
-        Me.txtBillToLocation.IsSourceFromValueList = False
-        Me.txtBillToLocation.IsUnique = False
-        Me.txtBillToLocation.Location = New System.Drawing.Point(101, 9)
-        Me.txtBillToLocation.MendatroryField = True
-        Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBillToLocation.MyLinkLable1 = Me.MyLabel19
-        Me.txtBillToLocation.MyLinkLable2 = Me.lblBillToLocation
-        Me.txtBillToLocation.MyReadOnly = True
-        Me.txtBillToLocation.MyShowMasterFormButton = False
-        Me.txtBillToLocation.Name = "txtBillToLocation"
-        Me.txtBillToLocation.ReferenceFieldDesc = Nothing
-        Me.txtBillToLocation.ReferenceFieldName = Nothing
-        Me.txtBillToLocation.ReferenceTableName = Nothing
-        Me.txtBillToLocation.Size = New System.Drawing.Size(143, 18)
-        Me.txtBillToLocation.TabIndex = 128
-        Me.txtBillToLocation.Value = ""
-        '
-        'MyLabel19
-        '
-        Me.MyLabel19.FieldName = Nothing
-        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel19.Location = New System.Drawing.Point(8, 11)
-        Me.MyLabel19.Name = "MyLabel19"
-        Me.MyLabel19.Size = New System.Drawing.Size(49, 16)
-        Me.MyLabel19.TabIndex = 127
-        Me.MyLabel19.Text = "Location"
-        '
-        'lblBillToLocation
-        '
-        Me.lblBillToLocation.AutoSize = False
-        Me.lblBillToLocation.BorderVisible = True
-        Me.lblBillToLocation.FieldName = Nothing
-        Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblBillToLocation.Location = New System.Drawing.Point(250, 9)
-        Me.lblBillToLocation.Name = "lblBillToLocation"
-        Me.lblBillToLocation.Size = New System.Drawing.Size(197, 18)
-        Me.lblBillToLocation.TabIndex = 126
-        Me.lblBillToLocation.TextWrap = False
-        '
-        'Unpostral
-        '
-        Me.Unpostral.Location = New System.Drawing.Point(97, 714)
-        Me.Unpostral.Name = "Unpostral"
-        Me.Unpostral.Size = New System.Drawing.Size(69, 22)
-        Me.Unpostral.TabIndex = 0
-        Me.Unpostral.Text = "UnPost"
-        '
-        'Openral
-        '
-        Me.Openral.Location = New System.Drawing.Point(186, 714)
-        Me.Openral.Name = "Openral"
-        Me.Openral.Size = New System.Drawing.Size(69, 22)
-        Me.Openral.TabIndex = 125
-        Me.Openral.Text = "Open"
-        '
-        'DeleteRal
-        '
-        Me.DeleteRal.Location = New System.Drawing.Point(8, 714)
-        Me.DeleteRal.Name = "DeleteRal"
-        Me.DeleteRal.Size = New System.Drawing.Size(69, 22)
-        Me.DeleteRal.TabIndex = 124
-        Me.DeleteRal.Text = "Delete"
-        '
-        'Openpi
-        '
-        Me.Openpi.Location = New System.Drawing.Point(726, 715)
-        Me.Openpi.Name = "Openpi"
-        Me.Openpi.Size = New System.Drawing.Size(69, 22)
-        Me.Openpi.TabIndex = 123
-        Me.Openpi.Text = "Open"
-        '
-        'Unpostpi
-        '
-        Me.Unpostpi.Location = New System.Drawing.Point(639, 715)
-        Me.Unpostpi.Name = "Unpostpi"
-        Me.Unpostpi.Size = New System.Drawing.Size(69, 22)
-        Me.Unpostpi.TabIndex = 122
-        Me.Unpostpi.Text = "UnPost"
-        '
-        'Deletepi
-        '
-        Me.Deletepi.Location = New System.Drawing.Point(552, 715)
-        Me.Deletepi.Name = "Deletepi"
-        Me.Deletepi.Size = New System.Drawing.Size(69, 22)
-        Me.Deletepi.TabIndex = 121
-        Me.Deletepi.Text = "Delete"
-        '
-        'RadGroupBox10
-        '
-        Me.RadGroupBox10.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox10.Controls.Add(Me.Gv2)
-        Me.RadGroupBox10.HeaderText = "Purchase Invoice"
-        Me.RadGroupBox10.Location = New System.Drawing.Point(552, 473)
-        Me.RadGroupBox10.Name = "RadGroupBox10"
-        Me.RadGroupBox10.Size = New System.Drawing.Size(444, 218)
-        Me.RadGroupBox10.TabIndex = 120
-        Me.RadGroupBox10.Text = "Purchase Invoice"
-        '
-        'Gv2
-        '
-        Me.Gv2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.Gv2.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Gv2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Gv2.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.Gv2.ForeColor = System.Drawing.Color.Black
-        Me.Gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Gv2.Location = New System.Drawing.Point(2, 18)
-        '
-        '
-        '
-        Me.Gv2.MasterTemplate.AllowAddNewRow = False
-        Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
-        Me.Gv2.Name = "Gv2"
-        Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Gv2.ShowHeaderCellButtons = True
-        Me.Gv2.Size = New System.Drawing.Size(440, 198)
-        Me.Gv2.TabIndex = 1
-        '
-        'RadGroupBox9
-        '
-        Me.RadGroupBox9.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox9.Controls.Add(Me.Gv1)
-        Me.RadGroupBox9.HeaderText = "RAL Penalty"
-        Me.RadGroupBox9.Location = New System.Drawing.Point(8, 473)
-        Me.RadGroupBox9.Name = "RadGroupBox9"
-        Me.RadGroupBox9.Size = New System.Drawing.Size(444, 218)
-        Me.RadGroupBox9.TabIndex = 119
-        Me.RadGroupBox9.Text = "RAL Penalty"
-        '
-        'Gv1
-        '
-        Me.Gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.Gv1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Gv1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.Gv1.ForeColor = System.Drawing.Color.Black
-        Me.Gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.Gv1.Location = New System.Drawing.Point(2, 18)
-        '
-        '
-        '
-        Me.Gv1.MasterTemplate.AllowAddNewRow = False
-        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
-        Me.Gv1.Name = "Gv1"
-        Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(440, 198)
-        Me.Gv1.TabIndex = 1
-        '
-        'RadGroupBox5
-        '
-        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox5.Controls.Add(Me.Openp)
-        Me.RadGroupBox5.Controls.Add(Me.PIDate)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel16)
-        Me.RadGroupBox5.Controls.Add(Me.Unpostp)
-        Me.RadGroupBox5.Controls.Add(Me.Deletep)
-        Me.RadGroupBox5.Controls.Add(Me.MyLabel12)
-        Me.RadGroupBox5.Controls.Add(Me.txtPINo)
-        Me.RadGroupBox5.HeaderText = "Purchase Invoice"
-        Me.RadGroupBox5.Location = New System.Drawing.Point(674, 344)
-        Me.RadGroupBox5.Name = "RadGroupBox5"
-        Me.RadGroupBox5.Size = New System.Drawing.Size(282, 103)
-        Me.RadGroupBox5.TabIndex = 117
-        Me.RadGroupBox5.Text = "Purchase Invoice"
-        Me.RadGroupBox5.Visible = False
-        '
-        'Openp
-        '
-        Me.Openp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Openp.Location = New System.Drawing.Point(183, 77)
-        Me.Openp.Name = "Openp"
-        Me.Openp.Size = New System.Drawing.Size(69, 22)
-        Me.Openp.TabIndex = 111
-        Me.Openp.Text = "Open"
-        '
-        'PIDate
-        '
-        Me.PIDate.CalculationExpression = Nothing
-        Me.PIDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
-        Me.PIDate.FieldCode = Nothing
-        Me.PIDate.FieldDesc = Nothing
-        Me.PIDate.FieldMaxLength = 0
-        Me.PIDate.FieldName = Nothing
-        Me.PIDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.PIDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.PIDate.isCalculatedField = False
-        Me.PIDate.IsSourceFromTable = False
-        Me.PIDate.IsSourceFromValueList = False
-        Me.PIDate.IsUnique = False
-        Me.PIDate.Location = New System.Drawing.Point(63, 40)
-        Me.PIDate.MendatroryField = True
-        Me.PIDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.PIDate.MyLinkLable1 = Me.MyLabel16
-        Me.PIDate.MyLinkLable2 = Nothing
-        Me.PIDate.Name = "PIDate"
-        Me.PIDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.PIDate.ReadOnly = True
-        Me.PIDate.ReferenceFieldDesc = Nothing
-        Me.PIDate.ReferenceFieldName = Nothing
-        Me.PIDate.ReferenceTableName = Nothing
-        Me.PIDate.Size = New System.Drawing.Size(165, 18)
-        Me.PIDate.TabIndex = 110
-        Me.PIDate.TabStop = False
-        Me.PIDate.Text = "03/05/2011 12:00:00.AM"
-        Me.PIDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
-        '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(5, 40)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(44, 16)
-        Me.MyLabel16.TabIndex = 109
-        Me.MyLabel16.Text = "PI Date"
-        '
-        'Unpostp
-        '
-        Me.Unpostp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Unpostp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Unpostp.Location = New System.Drawing.Point(96, 77)
-        Me.Unpostp.Name = "Unpostp"
-        Me.Unpostp.Size = New System.Drawing.Size(69, 22)
-        Me.Unpostp.TabIndex = 108
-        Me.Unpostp.Text = "UnPost"
-        '
-        'Deletep
-        '
-        Me.Deletep.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Deletep.Location = New System.Drawing.Point(9, 77)
-        Me.Deletep.Name = "Deletep"
-        Me.Deletep.Size = New System.Drawing.Size(69, 22)
-        Me.Deletep.TabIndex = 107
-        Me.Deletep.Text = "Delete"
-        Me.Deletep.Visible = False
-        '
-        'MyLabel12
-        '
-        Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(5, 22)
-        Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(34, 16)
-        Me.MyLabel12.TabIndex = 89
-        Me.MyLabel12.Text = "PI No"
-        '
-        'txtPINo
-        '
-        Me.txtPINo.BackColor = System.Drawing.Color.White
-        Me.txtPINo.CalculationExpression = Nothing
-        Me.txtPINo.FieldCode = Nothing
-        Me.txtPINo.FieldDesc = Nothing
-        Me.txtPINo.FieldMaxLength = 0
-        Me.txtPINo.FieldName = Nothing
-        Me.txtPINo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPINo.isCalculatedField = False
-        Me.txtPINo.IsSourceFromTable = False
-        Me.txtPINo.IsSourceFromValueList = False
-        Me.txtPINo.IsUnique = False
-        Me.txtPINo.Location = New System.Drawing.Point(63, 22)
-        Me.txtPINo.MaxLength = 12
-        Me.txtPINo.MendatroryField = False
-        Me.txtPINo.MyLinkLable1 = Me.MyLabel12
-        Me.txtPINo.MyLinkLable2 = Nothing
-        Me.txtPINo.Name = "txtPINo"
-        Me.txtPINo.ReadOnly = True
-        Me.txtPINo.ReferenceFieldDesc = Nothing
-        Me.txtPINo.ReferenceFieldName = Nothing
-        Me.txtPINo.ReferenceTableName = Nothing
-        Me.txtPINo.Size = New System.Drawing.Size(165, 18)
-        Me.txtPINo.TabIndex = 88
-        '
-        'RadGroupBox8
-        '
-        Me.RadGroupBox8.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox8.Controls.Add(Me.Openra)
-        Me.RadGroupBox8.Controls.Add(Me.Unpostra)
-        Me.RadGroupBox8.Controls.Add(Me.DeleteRa)
-        Me.RadGroupBox8.Controls.Add(Me.PenaltyDate)
-        Me.RadGroupBox8.Controls.Add(Me.MyLabel7)
-        Me.RadGroupBox8.Controls.Add(Me.MyLabel15)
-        Me.RadGroupBox8.Controls.Add(Me.txtPenalty)
-        Me.RadGroupBox8.HeaderText = "RAL Penalty"
-        Me.RadGroupBox8.Location = New System.Drawing.Point(674, 224)
-        Me.RadGroupBox8.Name = "RadGroupBox8"
-        Me.RadGroupBox8.Size = New System.Drawing.Size(282, 100)
-        Me.RadGroupBox8.TabIndex = 116
-        Me.RadGroupBox8.Text = "RAL Penalty"
-        Me.RadGroupBox8.Visible = False
-        '
-        'Openra
-        '
-        Me.Openra.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Openra.Location = New System.Drawing.Point(183, 73)
-        Me.Openra.Name = "Openra"
-        Me.Openra.Size = New System.Drawing.Size(69, 22)
-        Me.Openra.TabIndex = 112
-        Me.Openra.Text = "Open"
-        '
-        'Unpostra
-        '
-        Me.Unpostra.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Unpostra.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Unpostra.Location = New System.Drawing.Point(97, 73)
-        Me.Unpostra.Name = "Unpostra"
-        Me.Unpostra.Size = New System.Drawing.Size(69, 22)
-        Me.Unpostra.TabIndex = 108
-        Me.Unpostra.Text = "UnPost"
-        '
-        'DeleteRa
-        '
-        Me.DeleteRa.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DeleteRa.Location = New System.Drawing.Point(11, 73)
-        Me.DeleteRa.Name = "DeleteRa"
-        Me.DeleteRa.Size = New System.Drawing.Size(69, 22)
-        Me.DeleteRa.TabIndex = 107
-        Me.DeleteRa.Text = "Delete"
         '
         'PenaltyDate
         '
@@ -928,7 +274,7 @@ Partial Class frmDeletionForEntry
         Me.PenaltyDate.Location = New System.Drawing.Point(80, 44)
         Me.PenaltyDate.MendatroryField = True
         Me.PenaltyDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.PenaltyDate.MyLinkLable1 = Me.MyLabel7
+        Me.PenaltyDate.MyLinkLable1 = Nothing
         Me.PenaltyDate.MyLinkLable2 = Nothing
         Me.PenaltyDate.Name = "PenaltyDate"
         Me.PenaltyDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -942,661 +288,95 @@ Partial Class frmDeletionForEntry
         Me.PenaltyDate.Text = "03/05/2011 12:00:00.AM"
         Me.PenaltyDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
         '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(7, 44)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(71, 16)
-        Me.MyLabel7.TabIndex = 96
-        Me.MyLabel7.Text = "Penalty Date"
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(7, 22)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(62, 16)
-        Me.MyLabel15.TabIndex = 95
-        Me.MyLabel15.Text = "Penalty No"
-        '
-        'txtPenalty
-        '
-        Me.txtPenalty.BackColor = System.Drawing.Color.White
-        Me.txtPenalty.CalculationExpression = Nothing
-        Me.txtPenalty.FieldCode = Nothing
-        Me.txtPenalty.FieldDesc = Nothing
-        Me.txtPenalty.FieldMaxLength = 0
-        Me.txtPenalty.FieldName = Nothing
-        Me.txtPenalty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPenalty.isCalculatedField = False
-        Me.txtPenalty.IsSourceFromTable = False
-        Me.txtPenalty.IsSourceFromValueList = False
-        Me.txtPenalty.IsUnique = False
-        Me.txtPenalty.Location = New System.Drawing.Point(80, 19)
-        Me.txtPenalty.MaxLength = 12
-        Me.txtPenalty.MendatroryField = False
-        Me.txtPenalty.MyLinkLable1 = Me.MyLabel15
-        Me.txtPenalty.MyLinkLable2 = Nothing
-        Me.txtPenalty.Name = "txtPenalty"
-        Me.txtPenalty.ReadOnly = True
-        Me.txtPenalty.ReferenceFieldDesc = Nothing
-        Me.txtPenalty.ReferenceFieldName = Nothing
-        Me.txtPenalty.ReferenceTableName = Nothing
-        Me.txtPenalty.Size = New System.Drawing.Size(150, 18)
-        Me.txtPenalty.TabIndex = 94
-        '
-        'RadGroupBox4
-        '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.Opensrn)
-        Me.RadGroupBox4.Controls.Add(Me.Unpostsrn)
-        Me.RadGroupBox4.Controls.Add(Me.DeleteSrn)
-        Me.RadGroupBox4.Controls.Add(Me.SRNDate)
-        Me.RadGroupBox4.Controls.Add(Me.MyLabel14)
-        Me.RadGroupBox4.Controls.Add(Me.MyLabel13)
-        Me.RadGroupBox4.Controls.Add(Me.txtSRN)
-        Me.RadGroupBox4.HeaderText = "Store Received Note"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(714, -172)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Size = New System.Drawing.Size(282, 103)
-        Me.RadGroupBox4.TabIndex = 115
-        Me.RadGroupBox4.Text = "Store Received Note"
-        '
-        'Opensrn
-        '
-        Me.Opensrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Opensrn.Location = New System.Drawing.Point(183, 76)
-        Me.Opensrn.Name = "Opensrn"
-        Me.Opensrn.Size = New System.Drawing.Size(69, 22)
-        Me.Opensrn.TabIndex = 111
-        Me.Opensrn.Text = "Open"
-        '
-        'Unpostsrn
-        '
-        Me.Unpostsrn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Unpostsrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Unpostsrn.Location = New System.Drawing.Point(96, 76)
-        Me.Unpostsrn.Name = "Unpostsrn"
-        Me.Unpostsrn.Size = New System.Drawing.Size(69, 22)
-        Me.Unpostsrn.TabIndex = 108
-        Me.Unpostsrn.Text = "UnPost"
-        '
-        'DeleteSrn
-        '
-        Me.DeleteSrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DeleteSrn.Location = New System.Drawing.Point(9, 76)
-        Me.DeleteSrn.Name = "DeleteSrn"
-        Me.DeleteSrn.Size = New System.Drawing.Size(69, 22)
-        Me.DeleteSrn.TabIndex = 107
-        Me.DeleteSrn.Text = "Delete"
-        '
-        'SRNDate
-        '
-        Me.SRNDate.CalculationExpression = Nothing
-        Me.SRNDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
-        Me.SRNDate.FieldCode = Nothing
-        Me.SRNDate.FieldDesc = Nothing
-        Me.SRNDate.FieldMaxLength = 0
-        Me.SRNDate.FieldName = Nothing
-        Me.SRNDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.SRNDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.SRNDate.isCalculatedField = False
-        Me.SRNDate.IsSourceFromTable = False
-        Me.SRNDate.IsSourceFromValueList = False
-        Me.SRNDate.IsUnique = False
-        Me.SRNDate.Location = New System.Drawing.Point(78, 43)
-        Me.SRNDate.MendatroryField = False
-        Me.SRNDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.SRNDate.MyLinkLable1 = Me.MyLabel14
-        Me.SRNDate.MyLinkLable2 = Nothing
-        Me.SRNDate.Name = "SRNDate"
-        Me.SRNDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.SRNDate.ReadOnly = True
-        Me.SRNDate.ReferenceFieldDesc = Nothing
-        Me.SRNDate.ReferenceFieldName = Nothing
-        Me.SRNDate.ReferenceTableName = Nothing
-        Me.SRNDate.Size = New System.Drawing.Size(174, 18)
-        Me.SRNDate.TabIndex = 100
-        Me.SRNDate.TabStop = False
-        Me.SRNDate.Text = "13/06/2011 11:29 AM"
-        Me.SRNDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel14
-        '
-        Me.MyLabel14.FieldName = Nothing
-        Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(5, 43)
-        Me.MyLabel14.Name = "MyLabel14"
-        Me.MyLabel14.Size = New System.Drawing.Size(57, 16)
-        Me.MyLabel14.TabIndex = 101
-        Me.MyLabel14.Text = "SRN Date"
-        '
-        'MyLabel13
-        '
-        Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(5, 21)
-        Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(48, 16)
-        Me.MyLabel13.TabIndex = 99
-        Me.MyLabel13.Text = "SRN No"
-        '
-        'txtSRN
-        '
-        Me.txtSRN.BackColor = System.Drawing.Color.White
-        Me.txtSRN.CalculationExpression = Nothing
-        Me.txtSRN.FieldCode = Nothing
-        Me.txtSRN.FieldDesc = Nothing
-        Me.txtSRN.FieldMaxLength = 0
-        Me.txtSRN.FieldName = Nothing
-        Me.txtSRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSRN.isCalculatedField = False
-        Me.txtSRN.IsSourceFromTable = False
-        Me.txtSRN.IsSourceFromValueList = False
-        Me.txtSRN.IsUnique = False
-        Me.txtSRN.Location = New System.Drawing.Point(78, 22)
-        Me.txtSRN.MaxLength = 12
-        Me.txtSRN.MendatroryField = False
-        Me.txtSRN.MyLinkLable1 = Me.MyLabel13
-        Me.txtSRN.MyLinkLable2 = Nothing
-        Me.txtSRN.Name = "txtSRN"
-        Me.txtSRN.ReadOnly = True
-        Me.txtSRN.ReferenceFieldDesc = Nothing
-        Me.txtSRN.ReferenceFieldName = Nothing
-        Me.txtSRN.ReferenceTableName = Nothing
-        Me.txtSRN.Size = New System.Drawing.Size(174, 18)
-        Me.txtSRN.TabIndex = 98
-        '
-        'RadGroupBox7
-        '
-        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox7.Controls.Add(Me.OpenWet)
-        Me.RadGroupBox7.Controls.Add(Me.UnpostWet)
-        Me.RadGroupBox7.Controls.Add(Me.DeleteWet)
-        Me.RadGroupBox7.Controls.Add(Me.WetDate)
-        Me.RadGroupBox7.Controls.Add(Me.MyLabel5)
-        Me.RadGroupBox7.Controls.Add(Me.MyLabel6)
-        Me.RadGroupBox7.Controls.Add(Me.txtWet)
-        Me.RadGroupBox7.HeaderText = "WETQC"
-        Me.RadGroupBox7.Location = New System.Drawing.Point(340, 344)
-        Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Size = New System.Drawing.Size(316, 103)
-        Me.RadGroupBox7.TabIndex = 114
-        Me.RadGroupBox7.Text = "WETQC"
-        '
-        'OpenWet
-        '
-        Me.OpenWet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.OpenWet.Location = New System.Drawing.Point(230, 77)
-        Me.OpenWet.Name = "OpenWet"
-        Me.OpenWet.Size = New System.Drawing.Size(69, 22)
-        Me.OpenWet.TabIndex = 111
-        Me.OpenWet.Text = "Open"
-        '
-        'UnpostWet
-        '
-        Me.UnpostWet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.UnpostWet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UnpostWet.Location = New System.Drawing.Point(120, 77)
-        Me.UnpostWet.Name = "UnpostWet"
-        Me.UnpostWet.Size = New System.Drawing.Size(69, 22)
-        Me.UnpostWet.TabIndex = 108
-        Me.UnpostWet.Text = "UnPost"
-        '
-        'DeleteWet
-        '
-        Me.DeleteWet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DeleteWet.Location = New System.Drawing.Point(10, 77)
-        Me.DeleteWet.Name = "DeleteWet"
-        Me.DeleteWet.Size = New System.Drawing.Size(69, 22)
-        Me.DeleteWet.TabIndex = 107
-        Me.DeleteWet.Text = "Delete"
-        '
-        'WetDate
-        '
-        Me.WetDate.CalculationExpression = Nothing
-        Me.WetDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
-        Me.WetDate.FieldCode = Nothing
-        Me.WetDate.FieldDesc = Nothing
-        Me.WetDate.FieldMaxLength = 0
-        Me.WetDate.FieldName = Nothing
-        Me.WetDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.WetDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.WetDate.isCalculatedField = False
-        Me.WetDate.IsSourceFromTable = False
-        Me.WetDate.IsSourceFromValueList = False
-        Me.WetDate.IsUnique = False
-        Me.WetDate.Location = New System.Drawing.Point(80, 44)
-        Me.WetDate.MendatroryField = True
-        Me.WetDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.WetDate.MyLinkLable1 = Me.MyLabel5
-        Me.WetDate.MyLinkLable2 = Nothing
-        Me.WetDate.Name = "WetDate"
-        Me.WetDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.WetDate.ReadOnly = True
-        Me.WetDate.ReferenceFieldDesc = Nothing
-        Me.WetDate.ReferenceFieldName = Nothing
-        Me.WetDate.ReferenceTableName = Nothing
-        Me.WetDate.Size = New System.Drawing.Size(150, 18)
-        Me.WetDate.TabIndex = 97
-        Me.WetDate.TabStop = False
-        Me.WetDate.Text = "03/05/2011 12:00:00.AM"
-        Me.WetDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(6, 44)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(70, 16)
-        Me.MyLabel5.TabIndex = 96
-        Me.MyLabel5.Text = "WetQC Date"
-        '
-        'MyLabel6
-        '
-        Me.MyLabel6.FieldName = Nothing
-        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(6, 22)
-        Me.MyLabel6.Name = "MyLabel6"
-        Me.MyLabel6.Size = New System.Drawing.Size(61, 16)
-        Me.MyLabel6.TabIndex = 95
-        Me.MyLabel6.Text = "WetQC No"
-        '
-        'txtWet
-        '
-        Me.txtWet.BackColor = System.Drawing.Color.White
-        Me.txtWet.CalculationExpression = Nothing
-        Me.txtWet.FieldCode = Nothing
-        Me.txtWet.FieldDesc = Nothing
-        Me.txtWet.FieldMaxLength = 0
-        Me.txtWet.FieldName = Nothing
-        Me.txtWet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtWet.isCalculatedField = False
-        Me.txtWet.IsSourceFromTable = False
-        Me.txtWet.IsSourceFromValueList = False
-        Me.txtWet.IsUnique = False
-        Me.txtWet.Location = New System.Drawing.Point(80, 19)
-        Me.txtWet.MaxLength = 12
-        Me.txtWet.MendatroryField = False
-        Me.txtWet.MyLinkLable1 = Me.MyLabel6
-        Me.txtWet.MyLinkLable2 = Nothing
-        Me.txtWet.Name = "txtWet"
-        Me.txtWet.ReadOnly = True
-        Me.txtWet.ReferenceFieldDesc = Nothing
-        Me.txtWet.ReferenceFieldName = Nothing
-        Me.txtWet.ReferenceTableName = Nothing
-        Me.txtWet.Size = New System.Drawing.Size(150, 18)
-        Me.txtWet.TabIndex = 94
-        '
-        'RadGroupBox6
-        '
-        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox6.Controls.Add(Me.OpenNir)
-        Me.RadGroupBox6.Controls.Add(Me.UnpostNir)
-        Me.RadGroupBox6.Controls.Add(Me.DeleteNir)
-        Me.RadGroupBox6.Controls.Add(Me.NicDate)
-        Me.RadGroupBox6.Controls.Add(Me.MyLabel1)
-        Me.RadGroupBox6.Controls.Add(Me.MyLabel4)
-        Me.RadGroupBox6.Controls.Add(Me.txtNic)
-        Me.RadGroupBox6.HeaderText = "NIRQC"
-        Me.RadGroupBox6.Location = New System.Drawing.Point(340, 224)
-        Me.RadGroupBox6.Name = "RadGroupBox6"
-        Me.RadGroupBox6.Size = New System.Drawing.Size(316, 100)
-        Me.RadGroupBox6.TabIndex = 113
-        Me.RadGroupBox6.Text = "NIRQC"
-        '
-        'OpenNir
-        '
-        Me.OpenNir.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.OpenNir.Location = New System.Drawing.Point(233, 73)
-        Me.OpenNir.Name = "OpenNir"
-        Me.OpenNir.Size = New System.Drawing.Size(69, 22)
-        Me.OpenNir.TabIndex = 110
-        Me.OpenNir.Text = "Open"
-        '
-        'UnpostNir
-        '
-        Me.UnpostNir.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.UnpostNir.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UnpostNir.Location = New System.Drawing.Point(120, 73)
-        Me.UnpostNir.Name = "UnpostNir"
-        Me.UnpostNir.Size = New System.Drawing.Size(69, 22)
-        Me.UnpostNir.TabIndex = 108
-        Me.UnpostNir.Text = "UnPost"
-        '
-        'DeleteNir
-        '
-        Me.DeleteNir.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.DeleteNir.Location = New System.Drawing.Point(7, 73)
-        Me.DeleteNir.Name = "DeleteNir"
-        Me.DeleteNir.Size = New System.Drawing.Size(69, 22)
-        Me.DeleteNir.TabIndex = 107
-        Me.DeleteNir.Text = "Delete"
-        '
-        'NicDate
-        '
-        Me.NicDate.CalculationExpression = Nothing
-        Me.NicDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
-        Me.NicDate.FieldCode = Nothing
-        Me.NicDate.FieldDesc = Nothing
-        Me.NicDate.FieldMaxLength = 0
-        Me.NicDate.FieldName = Nothing
-        Me.NicDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NicDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.NicDate.isCalculatedField = False
-        Me.NicDate.IsSourceFromTable = False
-        Me.NicDate.IsSourceFromValueList = False
-        Me.NicDate.IsUnique = False
-        Me.NicDate.Location = New System.Drawing.Point(81, 39)
-        Me.NicDate.MendatroryField = True
-        Me.NicDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.NicDate.MyLinkLable1 = Me.MyLabel1
-        Me.NicDate.MyLinkLable2 = Nothing
-        Me.NicDate.Name = "NicDate"
-        Me.NicDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.NicDate.ReadOnly = True
-        Me.NicDate.ReferenceFieldDesc = Nothing
-        Me.NicDate.ReferenceFieldName = Nothing
-        Me.NicDate.ReferenceTableName = Nothing
-        Me.NicDate.Size = New System.Drawing.Size(150, 18)
-        Me.NicDate.TabIndex = 93
-        Me.NicDate.TabStop = False
-        Me.NicDate.Text = "03/05/2011 12:00:00.AM"
-        Me.NicDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(6, 41)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(65, 16)
-        Me.MyLabel1.TabIndex = 92
-        Me.MyLabel1.Text = "NirQC Date"
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(7, 19)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(55, 16)
-        Me.MyLabel4.TabIndex = 91
-        Me.MyLabel4.Text = "NirQC No"
-        '
-        'txtNic
-        '
-        Me.txtNic.BackColor = System.Drawing.Color.White
-        Me.txtNic.CalculationExpression = Nothing
-        Me.txtNic.FieldCode = Nothing
-        Me.txtNic.FieldDesc = Nothing
-        Me.txtNic.FieldMaxLength = 0
-        Me.txtNic.FieldName = Nothing
-        Me.txtNic.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtNic.isCalculatedField = False
-        Me.txtNic.IsSourceFromTable = False
-        Me.txtNic.IsSourceFromValueList = False
-        Me.txtNic.IsUnique = False
-        Me.txtNic.Location = New System.Drawing.Point(81, 19)
-        Me.txtNic.MaxLength = 12
-        Me.txtNic.MendatroryField = False
-        Me.txtNic.MyLinkLable1 = Me.MyLabel4
-        Me.txtNic.MyLinkLable2 = Nothing
-        Me.txtNic.Name = "txtNic"
-        Me.txtNic.ReadOnly = True
-        Me.txtNic.ReferenceFieldDesc = Nothing
-        Me.txtNic.ReferenceFieldName = Nothing
-        Me.txtNic.ReferenceTableName = Nothing
-        Me.txtNic.Size = New System.Drawing.Size(150, 18)
-        Me.txtNic.TabIndex = 90
-        '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.Openmrn)
-        Me.RadGroupBox3.Controls.Add(Me.Unpostmrn)
-        Me.RadGroupBox3.Controls.Add(Me.btnDeletemrn)
-        Me.RadGroupBox3.Controls.Add(Me.MRNDate)
-        Me.RadGroupBox3.Controls.Add(Me.MyLabel11)
-        Me.RadGroupBox3.Controls.Add(Me.MyLabel10)
-        Me.RadGroupBox3.Controls.Add(Me.txtMRN)
-        Me.RadGroupBox3.HeaderText = "Material Received Note"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(352, -172)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Size = New System.Drawing.Size(316, 103)
-        Me.RadGroupBox3.TabIndex = 112
-        Me.RadGroupBox3.Text = "Material Received Note"
-        '
-        'Openmrn
-        '
-        Me.Openmrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Openmrn.Location = New System.Drawing.Point(229, 76)
-        Me.Openmrn.Name = "Openmrn"
-        Me.Openmrn.Size = New System.Drawing.Size(69, 22)
-        Me.Openmrn.TabIndex = 109
-        Me.Openmrn.Text = "Open"
-        '
-        'Unpostmrn
-        '
-        Me.Unpostmrn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Unpostmrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Unpostmrn.Location = New System.Drawing.Point(121, 76)
-        Me.Unpostmrn.Name = "Unpostmrn"
-        Me.Unpostmrn.Size = New System.Drawing.Size(69, 22)
-        Me.Unpostmrn.TabIndex = 108
-        Me.Unpostmrn.Text = "UnPost"
-        '
-        'btnDeletemrn
-        '
-        Me.btnDeletemrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDeletemrn.Location = New System.Drawing.Point(13, 76)
-        Me.btnDeletemrn.Name = "btnDeletemrn"
-        Me.btnDeletemrn.Size = New System.Drawing.Size(69, 22)
-        Me.btnDeletemrn.TabIndex = 107
-        Me.btnDeletemrn.Text = "Delete"
-        '
-        'MRNDate
-        '
-        Me.MRNDate.CalculationExpression = Nothing
-        Me.MRNDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
-        Me.MRNDate.FieldCode = Nothing
-        Me.MRNDate.FieldDesc = Nothing
-        Me.MRNDate.FieldMaxLength = 0
-        Me.MRNDate.FieldName = Nothing
-        Me.MRNDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MRNDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.MRNDate.isCalculatedField = False
-        Me.MRNDate.IsSourceFromTable = False
-        Me.MRNDate.IsSourceFromValueList = False
-        Me.MRNDate.IsUnique = False
-        Me.MRNDate.Location = New System.Drawing.Point(83, 37)
-        Me.MRNDate.MendatroryField = True
-        Me.MRNDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.MRNDate.MyLinkLable1 = Me.MyLabel11
-        Me.MRNDate.MyLinkLable2 = Nothing
-        Me.MRNDate.Name = "MRNDate"
-        Me.MRNDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.MRNDate.ReadOnly = True
-        Me.MRNDate.ReferenceFieldDesc = Nothing
-        Me.MRNDate.ReferenceFieldName = Nothing
-        Me.MRNDate.ReferenceTableName = Nothing
-        Me.MRNDate.Size = New System.Drawing.Size(150, 18)
-        Me.MRNDate.TabIndex = 89
-        Me.MRNDate.TabStop = False
-        Me.MRNDate.Text = "03/05/2011 12:00:00.AM"
-        Me.MRNDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
-        '
-        'MyLabel11
-        '
-        Me.MyLabel11.FieldName = Nothing
-        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(10, 39)
-        Me.MyLabel11.Name = "MyLabel11"
-        Me.MyLabel11.Size = New System.Drawing.Size(59, 16)
-        Me.MyLabel11.TabIndex = 88
-        Me.MyLabel11.Text = "MRN Date"
-        '
-        'MyLabel10
-        '
-        Me.MyLabel10.FieldName = Nothing
-        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(10, 17)
-        Me.MyLabel10.Name = "MyLabel10"
-        Me.MyLabel10.Size = New System.Drawing.Size(50, 16)
-        Me.MyLabel10.TabIndex = 87
-        Me.MyLabel10.Text = "MRN No"
-        '
-        'txtMRN
-        '
-        Me.txtMRN.BackColor = System.Drawing.Color.White
-        Me.txtMRN.CalculationExpression = Nothing
-        Me.txtMRN.FieldCode = Nothing
-        Me.txtMRN.FieldDesc = Nothing
-        Me.txtMRN.FieldMaxLength = 0
-        Me.txtMRN.FieldName = Nothing
-        Me.txtMRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMRN.isCalculatedField = False
-        Me.txtMRN.IsSourceFromTable = False
-        Me.txtMRN.IsSourceFromValueList = False
-        Me.txtMRN.IsUnique = False
-        Me.txtMRN.Location = New System.Drawing.Point(83, 17)
-        Me.txtMRN.MaxLength = 12
-        Me.txtMRN.MendatroryField = False
-        Me.txtMRN.MyLinkLable1 = Me.MyLabel10
-        Me.txtMRN.MyLinkLable2 = Nothing
-        Me.txtMRN.Name = "txtMRN"
-        Me.txtMRN.ReadOnly = True
-        Me.txtMRN.ReferenceFieldDesc = Nothing
-        Me.txtMRN.ReferenceFieldName = Nothing
-        Me.txtMRN.ReferenceTableName = Nothing
-        Me.txtMRN.Size = New System.Drawing.Size(150, 18)
-        Me.txtMRN.TabIndex = 86
-        '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.RadButton16)
-        Me.RadGroupBox2.Controls.Add(Me.btnUnpostW)
-        Me.RadGroupBox2.Controls.Add(Me.btnDeleteW)
-        Me.RadGroupBox2.Controls.Add(Me.WeighmetDate)
-        Me.RadGroupBox2.Controls.Add(Me.MyLabel9)
-        Me.RadGroupBox2.Controls.Add(Me.MyLabel8)
-        Me.RadGroupBox2.Controls.Add(Me.TxtWeighment)
-        Me.RadGroupBox2.HeaderText = "Weighment"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(8, 344)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(316, 103)
-        Me.RadGroupBox2.TabIndex = 74
-        Me.RadGroupBox2.Text = "Weighment"
-        '
-        'RadButton16
-        '
-        Me.RadButton16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton16.Location = New System.Drawing.Point(129, 76)
-        Me.RadButton16.Name = "RadButton16"
-        Me.RadButton16.Size = New System.Drawing.Size(69, 22)
-        Me.RadButton16.TabIndex = 110
-        Me.RadButton16.Text = "Open"
-        Me.RadButton16.Visible = False
-        '
-        'btnUnpostW
-        '
-        Me.btnUnpostW.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUnpostW.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnpostW.Location = New System.Drawing.Point(229, 76)
-        Me.btnUnpostW.Name = "btnUnpostW"
-        Me.btnUnpostW.Size = New System.Drawing.Size(69, 22)
-        Me.btnUnpostW.TabIndex = 106
-        Me.btnUnpostW.Text = "UnPost"
-        '
-        'btnDeleteW
-        '
-        Me.btnDeleteW.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDeleteW.Location = New System.Drawing.Point(12, 76)
-        Me.btnDeleteW.Name = "btnDeleteW"
-        Me.btnDeleteW.Size = New System.Drawing.Size(69, 22)
-        Me.btnDeleteW.TabIndex = 105
-        Me.btnDeleteW.Text = "Delete"
-        '
-        'WeighmetDate
-        '
-        Me.WeighmetDate.CalculationExpression = Nothing
-        Me.WeighmetDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
-        Me.WeighmetDate.FieldCode = Nothing
-        Me.WeighmetDate.FieldDesc = Nothing
-        Me.WeighmetDate.FieldMaxLength = 0
-        Me.WeighmetDate.FieldName = Nothing
-        Me.WeighmetDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.WeighmetDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.WeighmetDate.isCalculatedField = False
-        Me.WeighmetDate.IsSourceFromTable = False
-        Me.WeighmetDate.IsSourceFromValueList = False
-        Me.WeighmetDate.IsUnique = False
-        Me.WeighmetDate.Location = New System.Drawing.Point(102, 45)
-        Me.WeighmetDate.MendatroryField = True
-        Me.WeighmetDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.WeighmetDate.MyLinkLable1 = Me.MyLabel9
-        Me.WeighmetDate.MyLinkLable2 = Nothing
-        Me.WeighmetDate.Name = "WeighmetDate"
-        Me.WeighmetDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.WeighmetDate.ReferenceFieldDesc = Nothing
-        Me.WeighmetDate.ReferenceFieldName = Nothing
-        Me.WeighmetDate.ReferenceTableName = Nothing
-        Me.WeighmetDate.Size = New System.Drawing.Size(150, 18)
-        Me.WeighmetDate.TabIndex = 83
-        Me.WeighmetDate.TabStop = False
-        Me.WeighmetDate.Text = "03/05/2011 12:00:00.AM"
-        Me.WeighmetDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
-        '
-        'MyLabel9
-        '
-        Me.MyLabel9.FieldName = Nothing
-        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(5, 45)
-        Me.MyLabel9.Name = "MyLabel9"
-        Me.MyLabel9.Size = New System.Drawing.Size(91, 16)
-        Me.MyLabel9.TabIndex = 84
-        Me.MyLabel9.Text = "Weighment Date"
-        '
-        'MyLabel8
-        '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(5, 21)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(81, 16)
-        Me.MyLabel8.TabIndex = 82
-        Me.MyLabel8.Text = "Weighment No"
-        '
-        'TxtWeighment
-        '
-        Me.TxtWeighment.BackColor = System.Drawing.Color.White
-        Me.TxtWeighment.CalculationExpression = Nothing
-        Me.TxtWeighment.FieldCode = Nothing
-        Me.TxtWeighment.FieldDesc = Nothing
-        Me.TxtWeighment.FieldMaxLength = 0
-        Me.TxtWeighment.FieldName = Nothing
-        Me.TxtWeighment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtWeighment.isCalculatedField = False
-        Me.TxtWeighment.IsSourceFromTable = False
-        Me.TxtWeighment.IsSourceFromValueList = False
-        Me.TxtWeighment.IsUnique = False
-        Me.TxtWeighment.Location = New System.Drawing.Point(102, 21)
-        Me.TxtWeighment.MaxLength = 12
-        Me.TxtWeighment.MendatroryField = False
-        Me.TxtWeighment.MyLinkLable1 = Me.MyLabel8
-        Me.TxtWeighment.MyLinkLable2 = Nothing
-        Me.TxtWeighment.Name = "TxtWeighment"
-        Me.TxtWeighment.ReadOnly = True
-        Me.TxtWeighment.ReferenceFieldDesc = Nothing
-        Me.TxtWeighment.ReferenceFieldName = Nothing
-        Me.TxtWeighment.ReferenceTableName = Nothing
-        Me.TxtWeighment.Size = New System.Drawing.Size(150, 18)
-        Me.TxtWeighment.TabIndex = 81
+        'PIDate
+        '
+        Me.PIDate.CalculationExpression = Nothing
+        Me.PIDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
+        Me.PIDate.FieldCode = Nothing
+        Me.PIDate.FieldDesc = Nothing
+        Me.PIDate.FieldMaxLength = 0
+        Me.PIDate.FieldName = Nothing
+        Me.PIDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.PIDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.PIDate.isCalculatedField = False
+        Me.PIDate.IsSourceFromTable = False
+        Me.PIDate.IsSourceFromValueList = False
+        Me.PIDate.IsUnique = False
+        Me.PIDate.Location = New System.Drawing.Point(63, 40)
+        Me.PIDate.MendatroryField = True
+        Me.PIDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.PIDate.MyLinkLable1 = Nothing
+        Me.PIDate.MyLinkLable2 = Nothing
+        Me.PIDate.Name = "PIDate"
+        Me.PIDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.PIDate.ReadOnly = True
+        Me.PIDate.ReferenceFieldDesc = Nothing
+        Me.PIDate.ReferenceFieldName = Nothing
+        Me.PIDate.ReferenceTableName = Nothing
+        Me.PIDate.Size = New System.Drawing.Size(165, 18)
+        Me.PIDate.TabIndex = 110
+        Me.PIDate.TabStop = False
+        Me.PIDate.Text = "03/05/2011 12:00:00.AM"
+        Me.PIDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        '
+        'txtBillToLocation
+        '
+        Me.txtBillToLocation.CalculationExpression = Nothing
+        Me.txtBillToLocation.FieldCode = Nothing
+        Me.txtBillToLocation.FieldDesc = Nothing
+        Me.txtBillToLocation.FieldMaxLength = 0
+        Me.txtBillToLocation.FieldName = Nothing
+        Me.txtBillToLocation.isCalculatedField = False
+        Me.txtBillToLocation.IsSourceFromTable = False
+        Me.txtBillToLocation.IsSourceFromValueList = False
+        Me.txtBillToLocation.IsUnique = False
+        Me.txtBillToLocation.Location = New System.Drawing.Point(125, 10)
+        Me.txtBillToLocation.MendatroryField = True
+        Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBillToLocation.MyLinkLable1 = Me.MyLabel19
+        Me.txtBillToLocation.MyLinkLable2 = Me.lblBillToLocation
+        Me.txtBillToLocation.MyReadOnly = True
+        Me.txtBillToLocation.MyShowMasterFormButton = False
+        Me.txtBillToLocation.Name = "txtBillToLocation"
+        Me.txtBillToLocation.ReferenceFieldDesc = Nothing
+        Me.txtBillToLocation.ReferenceFieldName = Nothing
+        Me.txtBillToLocation.ReferenceTableName = Nothing
+        Me.txtBillToLocation.Size = New System.Drawing.Size(143, 18)
+        Me.txtBillToLocation.TabIndex = 142
+        Me.txtBillToLocation.Value = ""
+        '
+        'MyLabel19
+        '
+        Me.MyLabel19.FieldName = Nothing
+        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.MyLabel19.Location = New System.Drawing.Point(32, 12)
+        Me.MyLabel19.Name = "MyLabel19"
+        Me.MyLabel19.Size = New System.Drawing.Size(53, 16)
+        Me.MyLabel19.TabIndex = 141
+        Me.MyLabel19.Text = "Location"
+        '
+        'lblBillToLocation
+        '
+        Me.lblBillToLocation.AutoSize = False
+        Me.lblBillToLocation.BorderVisible = True
+        Me.lblBillToLocation.FieldName = Nothing
+        Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblBillToLocation.Location = New System.Drawing.Point(274, 10)
+        Me.lblBillToLocation.Name = "lblBillToLocation"
+        Me.lblBillToLocation.Size = New System.Drawing.Size(197, 18)
+        Me.lblBillToLocation.TabIndex = 140
+        Me.lblBillToLocation.TextWrap = False
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(29, 40)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(901, 13)
+        Me.Label2.TabIndex = 143
+        Me.Label2.Text = "Gate Received Note >>>>>Weighment>>>>>Material Received Note>>>>>NIRQC>>>>>WETQC>" &
+    ">>>>Store Received Note>>>>>RAL Penalty>>>>>Purchase Invoice"
         '
         'RadGroupBox1
         '
@@ -1625,10 +405,10 @@ Partial Class frmDeletionForEntry
         Me.RadGroupBox1.Controls.Add(Me.RadLabel1)
         Me.RadGroupBox1.Controls.Add(Me.txtDocNo)
         Me.RadGroupBox1.HeaderText = "Gate Received Note"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(8, 68)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(32, 68)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(316, 256)
-        Me.RadGroupBox1.TabIndex = 73
+        Me.RadGroupBox1.TabIndex = 144
         Me.RadGroupBox1.Text = "Gate Received Note"
         '
         'txtqc2
@@ -1997,40 +777,912 @@ Partial Class frmDeletionForEntry
         Me.txtDocNo.TabIndex = 43
         Me.txtDocNo.Value = ""
         '
-        'Label1
+        'RadGroupBox2
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(8, -207)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(901, 13)
-        Me.Label1.TabIndex = 72
-        Me.Label1.Text = "Gate Received Note >>>>>Weighment>>>>>Material Received Note>>>>>NIRQC>>>>>WETQC>" &
-    ">>>>Store Received Note>>>>>RAL Penalty>>>>>Purchase Invoice"
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.RadButton16)
+        Me.RadGroupBox2.Controls.Add(Me.btnUnpostW)
+        Me.RadGroupBox2.Controls.Add(Me.btnDeleteW)
+        Me.RadGroupBox2.Controls.Add(Me.WeighmetDate)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel9)
+        Me.RadGroupBox2.Controls.Add(Me.MyLabel8)
+        Me.RadGroupBox2.Controls.Add(Me.TxtWeighment)
+        Me.RadGroupBox2.HeaderText = "Weighment"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(32, 341)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(316, 103)
+        Me.RadGroupBox2.TabIndex = 145
+        Me.RadGroupBox2.Text = "Weighment"
         '
-        'RadLabel15
+        'RadButton16
         '
-        Me.RadLabel15.FieldName = Nothing
-        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.RadLabel15.Location = New System.Drawing.Point(8, -235)
-        Me.RadLabel15.Name = "RadLabel15"
-        Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
-        Me.RadLabel15.TabIndex = 70
-        Me.RadLabel15.Text = "Location"
+        Me.RadButton16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton16.Location = New System.Drawing.Point(129, 76)
+        Me.RadButton16.Name = "RadButton16"
+        Me.RadButton16.Size = New System.Drawing.Size(69, 22)
+        Me.RadButton16.TabIndex = 110
+        Me.RadButton16.Text = "Open"
+        Me.RadButton16.Visible = False
+        '
+        'btnUnpostW
+        '
+        Me.btnUnpostW.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUnpostW.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUnpostW.Location = New System.Drawing.Point(229, 76)
+        Me.btnUnpostW.Name = "btnUnpostW"
+        Me.btnUnpostW.Size = New System.Drawing.Size(69, 22)
+        Me.btnUnpostW.TabIndex = 106
+        Me.btnUnpostW.Text = "UnPost"
+        '
+        'btnDeleteW
+        '
+        Me.btnDeleteW.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDeleteW.Location = New System.Drawing.Point(12, 76)
+        Me.btnDeleteW.Name = "btnDeleteW"
+        Me.btnDeleteW.Size = New System.Drawing.Size(69, 22)
+        Me.btnDeleteW.TabIndex = 105
+        Me.btnDeleteW.Text = "Delete"
+        '
+        'WeighmetDate
+        '
+        Me.WeighmetDate.CalculationExpression = Nothing
+        Me.WeighmetDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
+        Me.WeighmetDate.FieldCode = Nothing
+        Me.WeighmetDate.FieldDesc = Nothing
+        Me.WeighmetDate.FieldMaxLength = 0
+        Me.WeighmetDate.FieldName = Nothing
+        Me.WeighmetDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.WeighmetDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.WeighmetDate.isCalculatedField = False
+        Me.WeighmetDate.IsSourceFromTable = False
+        Me.WeighmetDate.IsSourceFromValueList = False
+        Me.WeighmetDate.IsUnique = False
+        Me.WeighmetDate.Location = New System.Drawing.Point(102, 45)
+        Me.WeighmetDate.MendatroryField = True
+        Me.WeighmetDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.WeighmetDate.MyLinkLable1 = Me.MyLabel9
+        Me.WeighmetDate.MyLinkLable2 = Nothing
+        Me.WeighmetDate.Name = "WeighmetDate"
+        Me.WeighmetDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.WeighmetDate.ReferenceFieldDesc = Nothing
+        Me.WeighmetDate.ReferenceFieldName = Nothing
+        Me.WeighmetDate.ReferenceTableName = Nothing
+        Me.WeighmetDate.Size = New System.Drawing.Size(150, 18)
+        Me.WeighmetDate.TabIndex = 83
+        Me.WeighmetDate.TabStop = False
+        Me.WeighmetDate.Text = "03/05/2011 12:00:00.AM"
+        Me.WeighmetDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(5, 45)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(91, 16)
+        Me.MyLabel9.TabIndex = 84
+        Me.MyLabel9.Text = "Weighment Date"
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(5, 21)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(81, 16)
+        Me.MyLabel8.TabIndex = 82
+        Me.MyLabel8.Text = "Weighment No"
+        '
+        'TxtWeighment
+        '
+        Me.TxtWeighment.BackColor = System.Drawing.Color.White
+        Me.TxtWeighment.CalculationExpression = Nothing
+        Me.TxtWeighment.FieldCode = Nothing
+        Me.TxtWeighment.FieldDesc = Nothing
+        Me.TxtWeighment.FieldMaxLength = 0
+        Me.TxtWeighment.FieldName = Nothing
+        Me.TxtWeighment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtWeighment.isCalculatedField = False
+        Me.TxtWeighment.IsSourceFromTable = False
+        Me.TxtWeighment.IsSourceFromValueList = False
+        Me.TxtWeighment.IsUnique = False
+        Me.TxtWeighment.Location = New System.Drawing.Point(102, 21)
+        Me.TxtWeighment.MaxLength = 12
+        Me.TxtWeighment.MendatroryField = False
+        Me.TxtWeighment.MyLinkLable1 = Me.MyLabel8
+        Me.TxtWeighment.MyLinkLable2 = Nothing
+        Me.TxtWeighment.Name = "TxtWeighment"
+        Me.TxtWeighment.ReadOnly = True
+        Me.TxtWeighment.ReferenceFieldDesc = Nothing
+        Me.TxtWeighment.ReferenceFieldName = Nothing
+        Me.TxtWeighment.ReferenceTableName = Nothing
+        Me.TxtWeighment.Size = New System.Drawing.Size(150, 18)
+        Me.TxtWeighment.TabIndex = 81
+        '
+        'RadGroupBox11
+        '
+        Me.RadGroupBox11.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox11.Controls.Add(Me.Opennmrn)
+        Me.RadGroupBox11.Controls.Add(Me.Unposttmrn)
+        Me.RadGroupBox11.Controls.Add(Me.btnnDeletemrn)
+        Me.RadGroupBox11.Controls.Add(Me.MRNDatee)
+        Me.RadGroupBox11.Controls.Add(Me.MyLabel21)
+        Me.RadGroupBox11.Controls.Add(Me.MyLabel22)
+        Me.RadGroupBox11.Controls.Add(Me.txttMRN)
+        Me.RadGroupBox11.HeaderText = "Material Received Note"
+        Me.RadGroupBox11.Location = New System.Drawing.Point(32, 450)
+        Me.RadGroupBox11.Name = "RadGroupBox11"
+        Me.RadGroupBox11.Size = New System.Drawing.Size(316, 103)
+        Me.RadGroupBox11.TabIndex = 146
+        Me.RadGroupBox11.Text = "Material Received Note"
+        '
+        'Opennmrn
+        '
+        Me.Opennmrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Opennmrn.Location = New System.Drawing.Point(229, 76)
+        Me.Opennmrn.Name = "Opennmrn"
+        Me.Opennmrn.Size = New System.Drawing.Size(69, 22)
+        Me.Opennmrn.TabIndex = 109
+        Me.Opennmrn.Text = "Open"
+        '
+        'Unposttmrn
+        '
+        Me.Unposttmrn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Unposttmrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Unposttmrn.Location = New System.Drawing.Point(121, 76)
+        Me.Unposttmrn.Name = "Unposttmrn"
+        Me.Unposttmrn.Size = New System.Drawing.Size(69, 22)
+        Me.Unposttmrn.TabIndex = 108
+        Me.Unposttmrn.Text = "UnPost"
+        '
+        'btnnDeletemrn
+        '
+        Me.btnnDeletemrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnnDeletemrn.Location = New System.Drawing.Point(13, 76)
+        Me.btnnDeletemrn.Name = "btnnDeletemrn"
+        Me.btnnDeletemrn.Size = New System.Drawing.Size(69, 22)
+        Me.btnnDeletemrn.TabIndex = 107
+        Me.btnnDeletemrn.Text = "Delete"
+        '
+        'MRNDatee
+        '
+        Me.MRNDatee.CalculationExpression = Nothing
+        Me.MRNDatee.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
+        Me.MRNDatee.FieldCode = Nothing
+        Me.MRNDatee.FieldDesc = Nothing
+        Me.MRNDatee.FieldMaxLength = 0
+        Me.MRNDatee.FieldName = Nothing
+        Me.MRNDatee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MRNDatee.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.MRNDatee.isCalculatedField = False
+        Me.MRNDatee.IsSourceFromTable = False
+        Me.MRNDatee.IsSourceFromValueList = False
+        Me.MRNDatee.IsUnique = False
+        Me.MRNDatee.Location = New System.Drawing.Point(83, 37)
+        Me.MRNDatee.MendatroryField = True
+        Me.MRNDatee.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.MRNDatee.MyLinkLable1 = Me.MyLabel21
+        Me.MRNDatee.MyLinkLable2 = Nothing
+        Me.MRNDatee.Name = "MRNDatee"
+        Me.MRNDatee.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.MRNDatee.ReadOnly = True
+        Me.MRNDatee.ReferenceFieldDesc = Nothing
+        Me.MRNDatee.ReferenceFieldName = Nothing
+        Me.MRNDatee.ReferenceTableName = Nothing
+        Me.MRNDatee.Size = New System.Drawing.Size(150, 18)
+        Me.MRNDatee.TabIndex = 89
+        Me.MRNDatee.TabStop = False
+        Me.MRNDatee.Text = "03/05/2011 12:00:00.AM"
+        Me.MRNDatee.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        '
+        'MyLabel21
+        '
+        Me.MyLabel21.FieldName = Nothing
+        Me.MyLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel21.Location = New System.Drawing.Point(10, 39)
+        Me.MyLabel21.Name = "MyLabel21"
+        Me.MyLabel21.Size = New System.Drawing.Size(59, 16)
+        Me.MyLabel21.TabIndex = 88
+        Me.MyLabel21.Text = "MRN Date"
+        '
+        'MyLabel22
+        '
+        Me.MyLabel22.FieldName = Nothing
+        Me.MyLabel22.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel22.Location = New System.Drawing.Point(10, 17)
+        Me.MyLabel22.Name = "MyLabel22"
+        Me.MyLabel22.Size = New System.Drawing.Size(50, 16)
+        Me.MyLabel22.TabIndex = 87
+        Me.MyLabel22.Text = "MRN No"
+        '
+        'txttMRN
+        '
+        Me.txttMRN.BackColor = System.Drawing.Color.White
+        Me.txttMRN.CalculationExpression = Nothing
+        Me.txttMRN.FieldCode = Nothing
+        Me.txttMRN.FieldDesc = Nothing
+        Me.txttMRN.FieldMaxLength = 0
+        Me.txttMRN.FieldName = Nothing
+        Me.txttMRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txttMRN.isCalculatedField = False
+        Me.txttMRN.IsSourceFromTable = False
+        Me.txttMRN.IsSourceFromValueList = False
+        Me.txttMRN.IsUnique = False
+        Me.txttMRN.Location = New System.Drawing.Point(83, 17)
+        Me.txttMRN.MaxLength = 12
+        Me.txttMRN.MendatroryField = False
+        Me.txttMRN.MyLinkLable1 = Me.MyLabel22
+        Me.txttMRN.MyLinkLable2 = Nothing
+        Me.txttMRN.Name = "txttMRN"
+        Me.txttMRN.ReadOnly = True
+        Me.txttMRN.ReferenceFieldDesc = Nothing
+        Me.txttMRN.ReferenceFieldName = Nothing
+        Me.txttMRN.ReferenceTableName = Nothing
+        Me.txttMRN.Size = New System.Drawing.Size(150, 18)
+        Me.txttMRN.TabIndex = 86
+        '
+        'RadGroupBox6
+        '
+        Me.RadGroupBox6.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox6.Controls.Add(Me.OpenNir)
+        Me.RadGroupBox6.Controls.Add(Me.UnpostNir)
+        Me.RadGroupBox6.Controls.Add(Me.DeleteNir)
+        Me.RadGroupBox6.Controls.Add(Me.NicDate)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel1)
+        Me.RadGroupBox6.Controls.Add(Me.MyLabel4)
+        Me.RadGroupBox6.Controls.Add(Me.txtNic)
+        Me.RadGroupBox6.HeaderText = "NIRQC"
+        Me.RadGroupBox6.Location = New System.Drawing.Point(357, 68)
+        Me.RadGroupBox6.Name = "RadGroupBox6"
+        Me.RadGroupBox6.Size = New System.Drawing.Size(316, 100)
+        Me.RadGroupBox6.TabIndex = 147
+        Me.RadGroupBox6.Text = "NIRQC"
+        '
+        'OpenNir
+        '
+        Me.OpenNir.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OpenNir.Location = New System.Drawing.Point(230, 73)
+        Me.OpenNir.Name = "OpenNir"
+        Me.OpenNir.Size = New System.Drawing.Size(69, 22)
+        Me.OpenNir.TabIndex = 110
+        Me.OpenNir.Text = "Open"
+        '
+        'UnpostNir
+        '
+        Me.UnpostNir.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.UnpostNir.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UnpostNir.Location = New System.Drawing.Point(120, 73)
+        Me.UnpostNir.Name = "UnpostNir"
+        Me.UnpostNir.Size = New System.Drawing.Size(69, 22)
+        Me.UnpostNir.TabIndex = 108
+        Me.UnpostNir.Text = "UnPost"
+        '
+        'DeleteNir
+        '
+        Me.DeleteNir.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DeleteNir.Location = New System.Drawing.Point(7, 73)
+        Me.DeleteNir.Name = "DeleteNir"
+        Me.DeleteNir.Size = New System.Drawing.Size(69, 22)
+        Me.DeleteNir.TabIndex = 107
+        Me.DeleteNir.Text = "Delete"
+        '
+        'NicDate
+        '
+        Me.NicDate.CalculationExpression = Nothing
+        Me.NicDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
+        Me.NicDate.FieldCode = Nothing
+        Me.NicDate.FieldDesc = Nothing
+        Me.NicDate.FieldMaxLength = 0
+        Me.NicDate.FieldName = Nothing
+        Me.NicDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NicDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.NicDate.isCalculatedField = False
+        Me.NicDate.IsSourceFromTable = False
+        Me.NicDate.IsSourceFromValueList = False
+        Me.NicDate.IsUnique = False
+        Me.NicDate.Location = New System.Drawing.Point(81, 39)
+        Me.NicDate.MendatroryField = True
+        Me.NicDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.NicDate.MyLinkLable1 = Me.MyLabel1
+        Me.NicDate.MyLinkLable2 = Nothing
+        Me.NicDate.Name = "NicDate"
+        Me.NicDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.NicDate.ReadOnly = True
+        Me.NicDate.ReferenceFieldDesc = Nothing
+        Me.NicDate.ReferenceFieldName = Nothing
+        Me.NicDate.ReferenceTableName = Nothing
+        Me.NicDate.Size = New System.Drawing.Size(150, 18)
+        Me.NicDate.TabIndex = 93
+        Me.NicDate.TabStop = False
+        Me.NicDate.Text = "03/05/2011 12:00:00.AM"
+        Me.NicDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(6, 41)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel1.TabIndex = 92
+        Me.MyLabel1.Text = "NirQC Date"
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(7, 19)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel4.TabIndex = 91
+        Me.MyLabel4.Text = "NirQC No"
+        '
+        'txtNic
+        '
+        Me.txtNic.BackColor = System.Drawing.Color.White
+        Me.txtNic.CalculationExpression = Nothing
+        Me.txtNic.FieldCode = Nothing
+        Me.txtNic.FieldDesc = Nothing
+        Me.txtNic.FieldMaxLength = 0
+        Me.txtNic.FieldName = Nothing
+        Me.txtNic.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtNic.isCalculatedField = False
+        Me.txtNic.IsSourceFromTable = False
+        Me.txtNic.IsSourceFromValueList = False
+        Me.txtNic.IsUnique = False
+        Me.txtNic.Location = New System.Drawing.Point(81, 19)
+        Me.txtNic.MaxLength = 12
+        Me.txtNic.MendatroryField = False
+        Me.txtNic.MyLinkLable1 = Me.MyLabel4
+        Me.txtNic.MyLinkLable2 = Nothing
+        Me.txtNic.Name = "txtNic"
+        Me.txtNic.ReadOnly = True
+        Me.txtNic.ReferenceFieldDesc = Nothing
+        Me.txtNic.ReferenceFieldName = Nothing
+        Me.txtNic.ReferenceTableName = Nothing
+        Me.txtNic.Size = New System.Drawing.Size(150, 18)
+        Me.txtNic.TabIndex = 90
+        '
+        'RadGroupBox7
+        '
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.OpenWet)
+        Me.RadGroupBox7.Controls.Add(Me.UnpostWet)
+        Me.RadGroupBox7.Controls.Add(Me.DeleteWet)
+        Me.RadGroupBox7.Controls.Add(Me.WetDate)
+        Me.RadGroupBox7.Controls.Add(Me.MyLabel5)
+        Me.RadGroupBox7.Controls.Add(Me.MyLabel6)
+        Me.RadGroupBox7.Controls.Add(Me.txtWet)
+        Me.RadGroupBox7.HeaderText = "WETQC"
+        Me.RadGroupBox7.Location = New System.Drawing.Point(357, 177)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Size = New System.Drawing.Size(316, 103)
+        Me.RadGroupBox7.TabIndex = 148
+        Me.RadGroupBox7.Text = "WETQC"
+        '
+        'OpenWet
+        '
+        Me.OpenWet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.OpenWet.Location = New System.Drawing.Point(230, 77)
+        Me.OpenWet.Name = "OpenWet"
+        Me.OpenWet.Size = New System.Drawing.Size(69, 22)
+        Me.OpenWet.TabIndex = 111
+        Me.OpenWet.Text = "Open"
+        '
+        'UnpostWet
+        '
+        Me.UnpostWet.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.UnpostWet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UnpostWet.Location = New System.Drawing.Point(120, 77)
+        Me.UnpostWet.Name = "UnpostWet"
+        Me.UnpostWet.Size = New System.Drawing.Size(69, 22)
+        Me.UnpostWet.TabIndex = 108
+        Me.UnpostWet.Text = "UnPost"
+        '
+        'DeleteWet
+        '
+        Me.DeleteWet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DeleteWet.Location = New System.Drawing.Point(10, 77)
+        Me.DeleteWet.Name = "DeleteWet"
+        Me.DeleteWet.Size = New System.Drawing.Size(69, 22)
+        Me.DeleteWet.TabIndex = 107
+        Me.DeleteWet.Text = "Delete"
+        '
+        'WetDate
+        '
+        Me.WetDate.CalculationExpression = Nothing
+        Me.WetDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
+        Me.WetDate.FieldCode = Nothing
+        Me.WetDate.FieldDesc = Nothing
+        Me.WetDate.FieldMaxLength = 0
+        Me.WetDate.FieldName = Nothing
+        Me.WetDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.WetDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.WetDate.isCalculatedField = False
+        Me.WetDate.IsSourceFromTable = False
+        Me.WetDate.IsSourceFromValueList = False
+        Me.WetDate.IsUnique = False
+        Me.WetDate.Location = New System.Drawing.Point(80, 44)
+        Me.WetDate.MendatroryField = True
+        Me.WetDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.WetDate.MyLinkLable1 = Me.MyLabel5
+        Me.WetDate.MyLinkLable2 = Nothing
+        Me.WetDate.Name = "WetDate"
+        Me.WetDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.WetDate.ReadOnly = True
+        Me.WetDate.ReferenceFieldDesc = Nothing
+        Me.WetDate.ReferenceFieldName = Nothing
+        Me.WetDate.ReferenceTableName = Nothing
+        Me.WetDate.Size = New System.Drawing.Size(150, 18)
+        Me.WetDate.TabIndex = 97
+        Me.WetDate.TabStop = False
+        Me.WetDate.Text = "03/05/2011 12:00:00.AM"
+        Me.WetDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(6, 44)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(70, 16)
+        Me.MyLabel5.TabIndex = 96
+        Me.MyLabel5.Text = "WetQC Date"
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(6, 22)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(61, 16)
+        Me.MyLabel6.TabIndex = 95
+        Me.MyLabel6.Text = "WetQC No"
+        '
+        'txtWet
+        '
+        Me.txtWet.BackColor = System.Drawing.Color.White
+        Me.txtWet.CalculationExpression = Nothing
+        Me.txtWet.FieldCode = Nothing
+        Me.txtWet.FieldDesc = Nothing
+        Me.txtWet.FieldMaxLength = 0
+        Me.txtWet.FieldName = Nothing
+        Me.txtWet.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtWet.isCalculatedField = False
+        Me.txtWet.IsSourceFromTable = False
+        Me.txtWet.IsSourceFromValueList = False
+        Me.txtWet.IsUnique = False
+        Me.txtWet.Location = New System.Drawing.Point(80, 19)
+        Me.txtWet.MaxLength = 12
+        Me.txtWet.MendatroryField = False
+        Me.txtWet.MyLinkLable1 = Me.MyLabel6
+        Me.txtWet.MyLinkLable2 = Nothing
+        Me.txtWet.Name = "txtWet"
+        Me.txtWet.ReadOnly = True
+        Me.txtWet.ReferenceFieldDesc = Nothing
+        Me.txtWet.ReferenceFieldName = Nothing
+        Me.txtWet.ReferenceTableName = Nothing
+        Me.txtWet.Size = New System.Drawing.Size(150, 18)
+        Me.txtWet.TabIndex = 94
+        '
+        'RadGroupBox12
+        '
+        Me.RadGroupBox12.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox12.Controls.Add(Me.Opennsrn)
+        Me.RadGroupBox12.Controls.Add(Me.Unposttsrn)
+        Me.RadGroupBox12.Controls.Add(Me.DeleteeSrn)
+        Me.RadGroupBox12.Controls.Add(Me.SRNDatee)
+        Me.RadGroupBox12.Controls.Add(Me.MyLabel23)
+        Me.RadGroupBox12.Controls.Add(Me.MyLabel24)
+        Me.RadGroupBox12.Controls.Add(Me.txttSRN)
+        Me.RadGroupBox12.HeaderText = "Store Received Note"
+        Me.RadGroupBox12.Location = New System.Drawing.Point(357, 286)
+        Me.RadGroupBox12.Name = "RadGroupBox12"
+        Me.RadGroupBox12.Size = New System.Drawing.Size(316, 103)
+        Me.RadGroupBox12.TabIndex = 149
+        Me.RadGroupBox12.Text = "Store Received Note"
+        '
+        'Opennsrn
+        '
+        Me.Opennsrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Opennsrn.Location = New System.Drawing.Point(229, 76)
+        Me.Opennsrn.Name = "Opennsrn"
+        Me.Opennsrn.Size = New System.Drawing.Size(69, 22)
+        Me.Opennsrn.TabIndex = 111
+        Me.Opennsrn.Text = "Open"
+        '
+        'Unposttsrn
+        '
+        Me.Unposttsrn.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Unposttsrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Unposttsrn.Location = New System.Drawing.Point(119, 76)
+        Me.Unposttsrn.Name = "Unposttsrn"
+        Me.Unposttsrn.Size = New System.Drawing.Size(69, 22)
+        Me.Unposttsrn.TabIndex = 108
+        Me.Unposttsrn.Text = "UnPost"
+        '
+        'DeleteeSrn
+        '
+        Me.DeleteeSrn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DeleteeSrn.Location = New System.Drawing.Point(9, 76)
+        Me.DeleteeSrn.Name = "DeleteeSrn"
+        Me.DeleteeSrn.Size = New System.Drawing.Size(69, 22)
+        Me.DeleteeSrn.TabIndex = 107
+        Me.DeleteeSrn.Text = "Delete"
+        '
+        'SRNDatee
+        '
+        Me.SRNDatee.CalculationExpression = Nothing
+        Me.SRNDatee.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.SRNDatee.FieldCode = Nothing
+        Me.SRNDatee.FieldDesc = Nothing
+        Me.SRNDatee.FieldMaxLength = 0
+        Me.SRNDatee.FieldName = Nothing
+        Me.SRNDatee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.SRNDatee.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.SRNDatee.isCalculatedField = False
+        Me.SRNDatee.IsSourceFromTable = False
+        Me.SRNDatee.IsSourceFromValueList = False
+        Me.SRNDatee.IsUnique = False
+        Me.SRNDatee.Location = New System.Drawing.Point(78, 43)
+        Me.SRNDatee.MendatroryField = False
+        Me.SRNDatee.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.SRNDatee.MyLinkLable1 = Me.MyLabel23
+        Me.SRNDatee.MyLinkLable2 = Nothing
+        Me.SRNDatee.Name = "SRNDatee"
+        Me.SRNDatee.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.SRNDatee.ReadOnly = True
+        Me.SRNDatee.ReferenceFieldDesc = Nothing
+        Me.SRNDatee.ReferenceFieldName = Nothing
+        Me.SRNDatee.ReferenceTableName = Nothing
+        Me.SRNDatee.Size = New System.Drawing.Size(174, 18)
+        Me.SRNDatee.TabIndex = 100
+        Me.SRNDatee.TabStop = False
+        Me.SRNDatee.Text = "13/06/2011 11:29 AM"
+        Me.SRNDatee.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel23
+        '
+        Me.MyLabel23.FieldName = Nothing
+        Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel23.Location = New System.Drawing.Point(5, 43)
+        Me.MyLabel23.Name = "MyLabel23"
+        Me.MyLabel23.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel23.TabIndex = 101
+        Me.MyLabel23.Text = "SRN Date"
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel24.Location = New System.Drawing.Point(5, 21)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(48, 16)
+        Me.MyLabel24.TabIndex = 99
+        Me.MyLabel24.Text = "SRN No"
+        '
+        'txttSRN
+        '
+        Me.txttSRN.BackColor = System.Drawing.Color.White
+        Me.txttSRN.CalculationExpression = Nothing
+        Me.txttSRN.FieldCode = Nothing
+        Me.txttSRN.FieldDesc = Nothing
+        Me.txttSRN.FieldMaxLength = 0
+        Me.txttSRN.FieldName = Nothing
+        Me.txttSRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txttSRN.isCalculatedField = False
+        Me.txttSRN.IsSourceFromTable = False
+        Me.txttSRN.IsSourceFromValueList = False
+        Me.txttSRN.IsUnique = False
+        Me.txttSRN.Location = New System.Drawing.Point(78, 22)
+        Me.txttSRN.MaxLength = 12
+        Me.txttSRN.MendatroryField = False
+        Me.txttSRN.MyLinkLable1 = Me.MyLabel24
+        Me.txttSRN.MyLinkLable2 = Nothing
+        Me.txttSRN.Name = "txttSRN"
+        Me.txttSRN.ReadOnly = True
+        Me.txttSRN.ReferenceFieldDesc = Nothing
+        Me.txttSRN.ReferenceFieldName = Nothing
+        Me.txttSRN.ReferenceTableName = Nothing
+        Me.txttSRN.Size = New System.Drawing.Size(174, 18)
+        Me.txttSRN.TabIndex = 98
         '
         'btnClose
         '
-        Me.btnClose.Location = New System.Drawing.Point(955, 7)
+        Me.btnClose.Location = New System.Drawing.Point(935, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
-        Me.btnClose.TabIndex = 124
+        Me.btnClose.TabIndex = 142
         Me.btnClose.Text = "Close"
+        '
+        'RadGroupBox9
+        '
+        Me.RadGroupBox9.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox9.Controls.Add(Me.Gv1)
+        Me.RadGroupBox9.HeaderText = "RAL Penalty"
+        Me.RadGroupBox9.Location = New System.Drawing.Point(689, 68)
+        Me.RadGroupBox9.Name = "RadGroupBox9"
+        Me.RadGroupBox9.Size = New System.Drawing.Size(346, 218)
+        Me.RadGroupBox9.TabIndex = 150
+        Me.RadGroupBox9.Text = "RAL Penalty"
+        '
+        'Gv1
+        '
+        Me.Gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.Gv1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Gv1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.Gv1.ForeColor = System.Drawing.Color.Black
+        Me.Gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Gv1.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.Gv1.MasterTemplate.AllowAddNewRow = False
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.Gv1.Name = "Gv1"
+        Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Gv1.ShowHeaderCellButtons = True
+        Me.Gv1.Size = New System.Drawing.Size(342, 198)
+        Me.Gv1.TabIndex = 1
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.DeleteRal)
+        Me.RadGroupBox3.Controls.Add(Me.Openral)
+        Me.RadGroupBox3.Controls.Add(Me.Unpostral)
+        Me.RadGroupBox3.HeaderText = ""
+        Me.RadGroupBox3.Location = New System.Drawing.Point(689, 285)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Size = New System.Drawing.Size(344, 36)
+        Me.RadGroupBox3.TabIndex = 151
+        '
+        'DeleteRal
+        '
+        Me.DeleteRal.Location = New System.Drawing.Point(12, 11)
+        Me.DeleteRal.Name = "DeleteRal"
+        Me.DeleteRal.Size = New System.Drawing.Size(69, 22)
+        Me.DeleteRal.TabIndex = 149
+        Me.DeleteRal.Text = "Delete"
+        '
+        'Openral
+        '
+        Me.Openral.Location = New System.Drawing.Point(264, 11)
+        Me.Openral.Name = "Openral"
+        Me.Openral.Size = New System.Drawing.Size(69, 22)
+        Me.Openral.TabIndex = 148
+        Me.Openral.Text = "Open"
+        '
+        'Unpostral
+        '
+        Me.Unpostral.Location = New System.Drawing.Point(138, 11)
+        Me.Unpostral.Name = "Unpostral"
+        Me.Unpostral.Size = New System.Drawing.Size(69, 22)
+        Me.Unpostral.TabIndex = 147
+        Me.Unpostral.Text = "UnPost"
+        '
+        'RadGroupBox10
+        '
+        Me.RadGroupBox10.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox10.Controls.Add(Me.Gv2)
+        Me.RadGroupBox10.HeaderText = "Purchase Invoice"
+        Me.RadGroupBox10.Location = New System.Drawing.Point(689, 330)
+        Me.RadGroupBox10.Name = "RadGroupBox10"
+        Me.RadGroupBox10.Size = New System.Drawing.Size(346, 218)
+        Me.RadGroupBox10.TabIndex = 152
+        Me.RadGroupBox10.Text = "Purchase Invoice"
+        '
+        'Gv2
+        '
+        Me.Gv2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.Gv2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Gv2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Gv2.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.Gv2.ForeColor = System.Drawing.Color.Black
+        Me.Gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.Gv2.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.Gv2.MasterTemplate.AllowAddNewRow = False
+        Me.Gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.Gv2.Name = "Gv2"
+        Me.Gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.Gv2.ShowHeaderCellButtons = True
+        Me.Gv2.Size = New System.Drawing.Size(342, 198)
+        Me.Gv2.TabIndex = 1
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.Openpi)
+        Me.RadGroupBox4.Controls.Add(Me.Unpostpi)
+        Me.RadGroupBox4.Controls.Add(Me.Deletepi)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(689, 549)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Size = New System.Drawing.Size(346, 34)
+        Me.RadGroupBox4.TabIndex = 153
+        '
+        'Deletepi
+        '
+        Me.Deletepi.Location = New System.Drawing.Point(12, 7)
+        Me.Deletepi.Name = "Deletepi"
+        Me.Deletepi.Size = New System.Drawing.Size(69, 22)
+        Me.Deletepi.TabIndex = 156
+        Me.Deletepi.Text = "Delete"
+        '
+        'Unpostpi
+        '
+        Me.Unpostpi.Location = New System.Drawing.Point(138, 7)
+        Me.Unpostpi.Name = "Unpostpi"
+        Me.Unpostpi.Size = New System.Drawing.Size(69, 22)
+        Me.Unpostpi.TabIndex = 155
+        Me.Unpostpi.Text = "UnPost"
+        '
+        'Openpi
+        '
+        Me.Openpi.Location = New System.Drawing.Point(264, 7)
+        Me.Openpi.Name = "Openpi"
+        Me.Openpi.Size = New System.Drawing.Size(69, 22)
+        Me.Openpi.TabIndex = 154
+        Me.Openpi.Text = "Open"
+        '
+        'RadGroupBox5
+        '
+        Me.RadGroupBox5.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox5.Controls.Add(Me.MyTextBox2)
+        Me.RadGroupBox5.Controls.Add(Me.txtPINo)
+        Me.RadGroupBox5.Controls.Add(Me.RadButton1)
+        Me.RadGroupBox5.Controls.Add(Me.RadButton2)
+        Me.RadGroupBox5.Controls.Add(Me.RadButton3)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel7)
+        Me.RadGroupBox5.Controls.Add(Me.MyLabel10)
+        Me.RadGroupBox5.Controls.Add(Me.txtPenalty)
+        Me.RadGroupBox5.HeaderText = "Store Received Note"
+        Me.RadGroupBox5.Location = New System.Drawing.Point(357, 395)
+        Me.RadGroupBox5.Name = "RadGroupBox5"
+        Me.RadGroupBox5.Size = New System.Drawing.Size(316, 151)
+        Me.RadGroupBox5.TabIndex = 154
+        Me.RadGroupBox5.Text = "Store Received Note"
+        Me.RadGroupBox5.Visible = False
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton1.Location = New System.Drawing.Point(229, 124)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(69, 22)
+        Me.RadButton1.TabIndex = 111
+        Me.RadButton1.Text = "Open"
+        '
+        'RadButton2
+        '
+        Me.RadButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton2.Location = New System.Drawing.Point(119, 124)
+        Me.RadButton2.Name = "RadButton2"
+        Me.RadButton2.Size = New System.Drawing.Size(69, 22)
+        Me.RadButton2.TabIndex = 108
+        Me.RadButton2.Text = "UnPost"
+        '
+        'RadButton3
+        '
+        Me.RadButton3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton3.Location = New System.Drawing.Point(10, 124)
+        Me.RadButton3.Name = "RadButton3"
+        Me.RadButton3.Size = New System.Drawing.Size(69, 22)
+        Me.RadButton3.TabIndex = 107
+        Me.RadButton3.Text = "Delete"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(5, 43)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel7.TabIndex = 101
+        Me.MyLabel7.Text = "SRN Date"
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.Location = New System.Drawing.Point(5, 21)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(48, 16)
+        Me.MyLabel10.TabIndex = 99
+        Me.MyLabel10.Text = "SRN No"
+        '
+        'txtPenalty
+        '
+        Me.txtPenalty.BackColor = System.Drawing.Color.White
+        Me.txtPenalty.CalculationExpression = Nothing
+        Me.txtPenalty.FieldCode = Nothing
+        Me.txtPenalty.FieldDesc = Nothing
+        Me.txtPenalty.FieldMaxLength = 0
+        Me.txtPenalty.FieldName = Nothing
+        Me.txtPenalty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPenalty.isCalculatedField = False
+        Me.txtPenalty.IsSourceFromTable = False
+        Me.txtPenalty.IsSourceFromValueList = False
+        Me.txtPenalty.IsUnique = False
+        Me.txtPenalty.Location = New System.Drawing.Point(78, 22)
+        Me.txtPenalty.MaxLength = 12
+        Me.txtPenalty.MendatroryField = False
+        Me.txtPenalty.MyLinkLable1 = Me.MyLabel10
+        Me.txtPenalty.MyLinkLable2 = Nothing
+        Me.txtPenalty.Name = "txtPenalty"
+        Me.txtPenalty.ReadOnly = True
+        Me.txtPenalty.ReferenceFieldDesc = Nothing
+        Me.txtPenalty.ReferenceFieldName = Nothing
+        Me.txtPenalty.ReferenceTableName = Nothing
+        Me.txtPenalty.Size = New System.Drawing.Size(174, 18)
+        Me.txtPenalty.TabIndex = 98
+        '
+        'txtPINo
+        '
+        Me.txtPINo.BackColor = System.Drawing.Color.White
+        Me.txtPINo.CalculationExpression = Nothing
+        Me.txtPINo.FieldCode = Nothing
+        Me.txtPINo.FieldDesc = Nothing
+        Me.txtPINo.FieldMaxLength = 0
+        Me.txtPINo.FieldName = Nothing
+        Me.txtPINo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPINo.isCalculatedField = False
+        Me.txtPINo.IsSourceFromTable = False
+        Me.txtPINo.IsSourceFromValueList = False
+        Me.txtPINo.IsUnique = False
+        Me.txtPINo.Location = New System.Drawing.Point(78, 43)
+        Me.txtPINo.MaxLength = 12
+        Me.txtPINo.MendatroryField = False
+        Me.txtPINo.MyLinkLable1 = Me.MyLabel10
+        Me.txtPINo.MyLinkLable2 = Nothing
+        Me.txtPINo.Name = "txtPINo"
+        Me.txtPINo.ReadOnly = True
+        Me.txtPINo.ReferenceFieldDesc = Nothing
+        Me.txtPINo.ReferenceFieldName = Nothing
+        Me.txtPINo.ReferenceTableName = Nothing
+        Me.txtPINo.Size = New System.Drawing.Size(174, 18)
+        Me.txtPINo.TabIndex = 112
+        '
+        'MyTextBox2
+        '
+        Me.MyTextBox2.BackColor = System.Drawing.Color.White
+        Me.MyTextBox2.CalculationExpression = Nothing
+        Me.MyTextBox2.FieldCode = Nothing
+        Me.MyTextBox2.FieldDesc = Nothing
+        Me.MyTextBox2.FieldMaxLength = 0
+        Me.MyTextBox2.FieldName = Nothing
+        Me.MyTextBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyTextBox2.isCalculatedField = False
+        Me.MyTextBox2.IsSourceFromTable = False
+        Me.MyTextBox2.IsSourceFromValueList = False
+        Me.MyTextBox2.IsUnique = False
+        Me.MyTextBox2.Location = New System.Drawing.Point(78, 67)
+        Me.MyTextBox2.MaxLength = 12
+        Me.MyTextBox2.MendatroryField = False
+        Me.MyTextBox2.MyLinkLable1 = Me.MyLabel10
+        Me.MyTextBox2.MyLinkLable2 = Nothing
+        Me.MyTextBox2.Name = "MyTextBox2"
+        Me.MyTextBox2.ReadOnly = True
+        Me.MyTextBox2.ReferenceFieldDesc = Nothing
+        Me.MyTextBox2.ReferenceFieldName = Nothing
+        Me.MyTextBox2.ReferenceTableName = Nothing
+        Me.MyTextBox2.Size = New System.Drawing.Size(174, 18)
+        Me.MyTextBox2.TabIndex = 113
         '
         'frmDeletionForEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1056, 521)
+        Me.ClientSize = New System.Drawing.Size(1056, 654)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmDeletionForEntry"
         '
@@ -2039,118 +1691,13 @@ Partial Class frmDeletionForEntry
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "frmDeletionForEntry"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        Me.RadScrollablePanel1.PanelContainer.ResumeLayout(False)
-        Me.RadScrollablePanel1.PanelContainer.PerformLayout()
-        CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadScrollablePanel1.ResumeLayout(False)
-        CType(Me.RadGroupBox12, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox12.ResumeLayout(False)
-        Me.RadGroupBox12.PerformLayout()
-        CType(Me.Opennsrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Unposttsrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DeleteeSrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SRNDatee, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txttSRN, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox11, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox11.ResumeLayout(False)
-        Me.RadGroupBox11.PerformLayout()
-        CType(Me.Opennmrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Unposttmrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnnDeletemrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MRNDatee, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txttMRN, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PenaltyDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PIDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Unpostral, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Openral, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DeleteRal, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Openpi, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Unpostpi, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Deletepi, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox10, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox10.ResumeLayout(False)
-        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox9.ResumeLayout(False)
-        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox5.ResumeLayout(False)
-        Me.RadGroupBox5.PerformLayout()
-        CType(Me.Openp, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PIDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Unpostp, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Deletep, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPINo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox8.ResumeLayout(False)
-        Me.RadGroupBox8.PerformLayout()
-        CType(Me.Openra, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Unpostra, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DeleteRa, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PenaltyDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPenalty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox4.ResumeLayout(False)
-        Me.RadGroupBox4.PerformLayout()
-        CType(Me.Opensrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Unpostsrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DeleteSrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.SRNDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtSRN, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox7.ResumeLayout(False)
-        Me.RadGroupBox7.PerformLayout()
-        CType(Me.OpenWet, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.UnpostWet, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DeleteWet, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.WetDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtWet, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox6.ResumeLayout(False)
-        Me.RadGroupBox6.PerformLayout()
-        CType(Me.OpenNir, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.UnpostNir, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.DeleteNir, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.NicDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtNic, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout()
-        CType(Me.Openmrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Unpostmrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDeletemrn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MRNDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtMRN, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
-        CType(Me.RadButton16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUnpostW, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDeleteW, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.WeighmetDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtWeighment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -2175,19 +1722,98 @@ Partial Class frmDeletionForEntry
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.RadButton16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUnpostW, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDeleteW, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.WeighmetDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtWeighment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox11, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox11.ResumeLayout(False)
+        Me.RadGroupBox11.PerformLayout()
+        CType(Me.Opennmrn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Unposttmrn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnnDeletemrn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MRNDatee, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txttMRN, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox6.ResumeLayout(False)
+        Me.RadGroupBox6.PerformLayout()
+        CType(Me.OpenNir, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.UnpostNir, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DeleteNir, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NicDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtNic, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        Me.RadGroupBox7.PerformLayout()
+        CType(Me.OpenWet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.UnpostWet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DeleteWet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.WetDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtWet, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox12, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox12.ResumeLayout(False)
+        Me.RadGroupBox12.PerformLayout()
+        CType(Me.Opennsrn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Unposttsrn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DeleteeSrn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.SRNDatee, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txttSRN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox9.ResumeLayout(False)
+        CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        CType(Me.DeleteRal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Openral, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Unpostral, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox10, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox10.ResumeLayout(False)
+        CType(Me.Gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Gv2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        CType(Me.Deletepi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Unpostpi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Openpi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox5.ResumeLayout(False)
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPenalty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPINo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyTextBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
 
     Friend WithEvents SplitContainer1 As SplitContainer
-    Friend WithEvents RadScrollablePanel1 As RadScrollablePanel
-    'Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
-    Friend WithEvents RadLabel15 As common.Controls.MyLabel
-    'Friend WithEvents lblBillToLocation As common.Controls.MyLabel
-    Friend WithEvents Label1 As Label
+    Friend WithEvents PenaltyDate As common.Controls.MyDateTimePicker
+    Friend WithEvents PIDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
+    Friend WithEvents MyLabel19 As common.Controls.MyLabel
+    Friend WithEvents lblBillToLocation As common.Controls.MyLabel
+    Friend WithEvents Label2 As Label
     Friend WithEvents RadGroupBox1 As RadGroupBox
     Friend WithEvents txtqc2 As common.Controls.MyTextBox
     Friend WithEvents RadLabel7 As common.Controls.MyLabel
@@ -2220,14 +1846,14 @@ Partial Class frmDeletionForEntry
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
     Friend WithEvents TxtWeighment As common.Controls.MyTextBox
-    Friend WithEvents RadGroupBox3 As RadGroupBox
-    Friend WithEvents Openmrn As RadButton
-    Friend WithEvents Unpostmrn As RadButton
-    Friend WithEvents btnDeletemrn As RadButton
-    Friend WithEvents MRNDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel11 As common.Controls.MyLabel
-    Friend WithEvents MyLabel10 As common.Controls.MyLabel
-    Friend WithEvents txtMRN As common.Controls.MyTextBox
+    Friend WithEvents RadGroupBox11 As RadGroupBox
+    Friend WithEvents Opennmrn As RadButton
+    Friend WithEvents Unposttmrn As RadButton
+    Friend WithEvents btnnDeletemrn As RadButton
+    Friend WithEvents MRNDatee As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel21 As common.Controls.MyLabel
+    Friend WithEvents MyLabel22 As common.Controls.MyLabel
+    Friend WithEvents txttMRN As common.Controls.MyTextBox
     Friend WithEvents RadGroupBox6 As RadGroupBox
     Friend WithEvents OpenNir As RadButton
     Friend WithEvents UnpostNir As RadButton
@@ -2244,51 +1870,6 @@ Partial Class frmDeletionForEntry
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents txtWet As common.Controls.MyTextBox
-    Friend WithEvents RadGroupBox4 As RadGroupBox
-    Friend WithEvents Opensrn As RadButton
-    Friend WithEvents Unpostsrn As RadButton
-    Friend WithEvents DeleteSrn As RadButton
-    Friend WithEvents SRNDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel14 As common.Controls.MyLabel
-    Friend WithEvents MyLabel13 As common.Controls.MyLabel
-    Friend WithEvents txtSRN As common.Controls.MyTextBox
-    Friend WithEvents RadGroupBox8 As RadGroupBox
-    Friend WithEvents Openra As RadButton
-    Friend WithEvents Unpostra As RadButton
-    Friend WithEvents DeleteRa As RadButton
-    Friend WithEvents PenaltyDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel7 As common.Controls.MyLabel
-    Friend WithEvents MyLabel15 As common.Controls.MyLabel
-    Friend WithEvents txtPenalty As common.Controls.MyTextBox
-    Friend WithEvents RadGroupBox5 As RadGroupBox
-    Friend WithEvents Openp As RadButton
-    Friend WithEvents PIDate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel16 As common.Controls.MyLabel
-    Friend WithEvents Unpostp As RadButton
-    Friend WithEvents Deletep As RadButton
-    Friend WithEvents MyLabel12 As common.Controls.MyLabel
-    Friend WithEvents txtPINo As common.Controls.MyTextBox
-    Friend WithEvents Unpostral As RadButton
-    Friend WithEvents Openral As RadButton
-    Friend WithEvents DeleteRal As RadButton
-    Friend WithEvents Openpi As RadButton
-    Friend WithEvents Unpostpi As RadButton
-    Friend WithEvents Deletepi As RadButton
-    Friend WithEvents RadGroupBox10 As RadGroupBox
-    Friend WithEvents RadGroupBox9 As RadGroupBox
-    Friend WithEvents btnClose As RadButton
-    Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
-    Friend WithEvents MyLabel19 As common.Controls.MyLabel
-    Friend WithEvents lblBillToLocation As common.Controls.MyLabel
-    Friend WithEvents Label2 As Label
-    Friend WithEvents RadGroupBox11 As RadGroupBox
-    Friend WithEvents Opennmrn As RadButton
-    Friend WithEvents Unposttmrn As RadButton
-    Friend WithEvents btnnDeletemrn As RadButton
-    Friend WithEvents MRNDatee As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel21 As common.Controls.MyLabel
-    Friend WithEvents MyLabel22 As common.Controls.MyLabel
-    Friend WithEvents txttMRN As common.Controls.MyTextBox
     Friend WithEvents RadGroupBox12 As RadGroupBox
     Friend WithEvents Opennsrn As RadButton
     Friend WithEvents Unposttsrn As RadButton
@@ -2297,6 +1878,26 @@ Partial Class frmDeletionForEntry
     Friend WithEvents MyLabel23 As common.Controls.MyLabel
     Friend WithEvents MyLabel24 As common.Controls.MyLabel
     Friend WithEvents txttSRN As common.Controls.MyTextBox
+    Friend WithEvents btnClose As RadButton
+    Friend WithEvents RadGroupBox3 As RadGroupBox
+    Friend WithEvents RadGroupBox9 As RadGroupBox
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents DeleteRal As RadButton
+    Friend WithEvents Openral As RadButton
+    Friend WithEvents Unpostral As RadButton
+    Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents RadGroupBox10 As RadGroupBox
     Friend WithEvents Gv2 As common.UserControls.MyRadGridView
+    Friend WithEvents Openpi As RadButton
+    Friend WithEvents Unpostpi As RadButton
+    Friend WithEvents Deletepi As RadButton
+    Friend WithEvents RadGroupBox5 As RadGroupBox
+    Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents RadButton2 As RadButton
+    Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents MyLabel7 As common.Controls.MyLabel
+    Friend WithEvents MyLabel10 As common.Controls.MyLabel
+    Friend WithEvents txtPenalty As common.Controls.MyTextBox
+    Friend WithEvents MyTextBox2 As common.Controls.MyTextBox
+    Friend WithEvents txtPINo As common.Controls.MyTextBox
 End Class

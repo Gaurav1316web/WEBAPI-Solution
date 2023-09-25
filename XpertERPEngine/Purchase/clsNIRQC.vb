@@ -86,6 +86,11 @@ Public Class clsNIRQC
             If Not (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 Throw New Exception("Document not found")
             End If
+
+            If (obj.Status = 1) Then
+                Throw New Exception("Already Posted on :" + obj.Posted_Date)
+            End If
+
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_NIR_QC", "Document_No", trans)
             qry = "delete from TSPL_NIR_QC where Document_No='" + obj.Document_No + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

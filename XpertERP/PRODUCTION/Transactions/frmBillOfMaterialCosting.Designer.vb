@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmBillOfMaterialCosting
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,9 +20,8 @@ Partial Class frmBillOfMaterialCosting
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBillOfMaterialCosting))
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -33,6 +32,17 @@ Partial Class frmBillOfMaterialCosting
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBillOfMaterialCosting))
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition43 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition44 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition45 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition46 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition47 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition48 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -59,7 +69,6 @@ Partial Class frmBillOfMaterialCosting
         Me.UsLock1 = New common.usLock()
         Me.txtBuildQty = New common.MyNumBox()
         Me.lblBuildQty = New common.Controls.MyLabel()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.btnBrowse = New Telerik.WinControls.UI.RadButton()
         Me.lblStartDate = New common.Controls.MyLabel()
         Me.txtDocPath = New common.Controls.MyTextBox()
@@ -110,6 +119,7 @@ Partial Class frmBillOfMaterialCosting
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -138,7 +148,6 @@ Partial Class frmBillOfMaterialCosting
         CType(Me.lblUnitName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBuildQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBuildQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBrowse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDocPath, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -196,6 +205,7 @@ Partial Class frmBillOfMaterialCosting
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -620,17 +630,6 @@ Partial Class frmBillOfMaterialCosting
         Me.lblBuildQty.TabIndex = 19
         Me.lblBuildQty.Text = "Build Quantity"
         '
-        'btnNew
-        '
-        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
-        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNew.Location = New System.Drawing.Point(415, 10)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(20, 22)
-        Me.btnNew.TabIndex = 1
-        Me.btnNew.Text = " "
-        Me.btnNew.TextAlignment = System.Drawing.ContentAlignment.TopRight
-        '
         'btnBrowse
         '
         Me.btnBrowse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -916,10 +915,10 @@ Partial Class frmBillOfMaterialCosting
         'pageGeneral
         '
         Me.pageGeneral.Controls.Add(Me.RadPanel4)
-        Me.pageGeneral.ItemSize = New System.Drawing.SizeF(55.0!, 28.0!)
-        Me.pageGeneral.Location = New System.Drawing.Point(10, 37)
+        Me.pageGeneral.ItemSize = New System.Drawing.SizeF(51.0!, 24.0!)
+        Me.pageGeneral.Location = New System.Drawing.Point(10, 33)
         Me.pageGeneral.Name = "pageGeneral"
-        Me.pageGeneral.Size = New System.Drawing.Size(1013, 300)
+        Me.pageGeneral.Size = New System.Drawing.Size(1013, 304)
         Me.pageGeneral.Text = "General"
         '
         'RadPanel4
@@ -928,7 +927,7 @@ Partial Class frmBillOfMaterialCosting
         Me.RadPanel4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel4.Location = New System.Drawing.Point(0, 0)
         Me.RadPanel4.Name = "RadPanel4"
-        Me.RadPanel4.Size = New System.Drawing.Size(1013, 300)
+        Me.RadPanel4.Size = New System.Drawing.Size(1013, 304)
         Me.RadPanel4.TabIndex = 229
         Me.RadPanel4.Text = "RadPanel4"
         '
@@ -955,7 +954,7 @@ Partial Class frmBillOfMaterialCosting
         Me.gvCost.Name = "gvCost"
         Me.gvCost.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCost.ShowHeaderCellButtons = True
-        Me.gvCost.Size = New System.Drawing.Size(1013, 300)
+        Me.gvCost.Size = New System.Drawing.Size(1013, 304)
         Me.gvCost.TabIndex = 0
         Me.gvCost.TabStop = False
         '
@@ -963,7 +962,7 @@ Partial Class frmBillOfMaterialCosting
         '
         Me.pageOperations.Controls.Add(Me.RadSplitContainer2)
         Me.pageOperations.Controls.Add(Me.RadPanel1)
-        Me.pageOperations.ItemSize = New System.Drawing.SizeF(71.0!, 28.0!)
+        Me.pageOperations.ItemSize = New System.Drawing.SizeF(67.0!, 24.0!)
         Me.pageOperations.Location = New System.Drawing.Point(10, 37)
         Me.pageOperations.Name = "pageOperations"
         Me.pageOperations.Size = New System.Drawing.Size(1013, 300)
@@ -1106,7 +1105,7 @@ Partial Class frmBillOfMaterialCosting
         'pageComponent
         '
         Me.pageComponent.Controls.Add(Me.gvBOM)
-        Me.pageComponent.ItemSize = New System.Drawing.SizeF(80.0!, 28.0!)
+        Me.pageComponent.ItemSize = New System.Drawing.SizeF(76.0!, 24.0!)
         Me.pageComponent.Location = New System.Drawing.Point(10, 37)
         Me.pageComponent.Name = "pageComponent"
         Me.pageComponent.Size = New System.Drawing.Size(1013, 300)
@@ -1142,7 +1141,7 @@ Partial Class frmBillOfMaterialCosting
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.RadGridView1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(65.0!, 28.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(61.0!, 24.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1013, 300)
@@ -1166,7 +1165,7 @@ Partial Class frmBillOfMaterialCosting
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.gv_tree)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(65.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(61.0!, 24.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1013, 300)
@@ -1307,6 +1306,17 @@ Partial Class frmBillOfMaterialCosting
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
+        'btnNew
+        '
+        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(415, 10)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(20, 22)
+        Me.btnNew.TabIndex = 1
+        Me.btnNew.Text = " "
+        Me.btnNew.TextAlignment = System.Drawing.ContentAlignment.TopRight
+        '
         'frmBillOfMaterialCosting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1348,7 +1358,6 @@ Partial Class frmBillOfMaterialCosting
         CType(Me.lblUnitName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBuildQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBuildQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBrowse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblStartDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDocPath, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1406,6 +1415,7 @@ Partial Class frmBillOfMaterialCosting
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
