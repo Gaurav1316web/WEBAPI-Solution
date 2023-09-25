@@ -1295,8 +1295,12 @@ Public Class frmTender
                 cboItemType.Focus()
                 Throw New Exception("Please select Item Type")
             End If
+            Dim whr As String = ""
+            If clsCommon.CompairString(clsCommon.myCstr(cboTenderType.SelectedValue), "2") = CompairStringResult.Equal Then
+                whr += " TSPL_ITEM_MASTER.TypeOfItm='T' "
+            End If
             Dim obj As clsItemMaster
-            obj = clsItemMaster.FinderForItem(clsCommon.myCstr(txtItem.Value), clsCommon.myCstr(cboItemType.SelectedValue), isButtonClicked)
+            obj = clsItemMaster.FinderForItem(clsCommon.myCstr(txtItem.Value), clsCommon.myCstr(cboItemType.SelectedValue), isButtonClicked, "", whr)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
                 txtItem.Value = obj.Item_Code
                 LoadBlankGrid1()

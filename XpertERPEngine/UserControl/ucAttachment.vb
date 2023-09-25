@@ -6,6 +6,7 @@ Imports System.IO
 Public Class ucAttachment
     Public isDeleteTheAttachment As Boolean = True
     Public MandatoryPDFFile As Boolean = False
+    Public MandatoryPDFFileAny As Boolean = False
     Public settAutoAttachment As Boolean = False
     Public Form_ID As String = ""
     Public Transaction_ID As String = ""
@@ -123,6 +124,20 @@ Public Class ucAttachment
                             flag = True
                             Exit For
                         End If
+                    End If
+                End If
+            Next
+            If Not flag Then
+                Throw New Exception("Please attach PDF file")
+            End If
+        End If
+        If MandatoryPDFFileAny Then
+            Dim flag As Boolean = False
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.myLen(gv1.Rows(ii).Cells(ColFileName).Value) > 0 Then
+                    If clsCommon.myCstr(gv1.Rows(ii).Cells(ColFileName).Value).ToUpper().EndsWith(".PDF") Then
+                        flag = True
+                        Exit For
                     End If
                 End If
             Next
