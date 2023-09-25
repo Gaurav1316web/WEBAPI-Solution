@@ -112,7 +112,7 @@ Public Class clsCreateAllTable
 
             End If
 
-                coll = New Dictionary(Of String, String)()
+            coll = New Dictionary(Of String, String)()
             coll.Add("AuthToken", "VARCHAR(70) NULL")
             coll.Add("ResponseTime", "datetime NULL")
             coll.Add("Location_Code", "VARCHAR(20) NULL")
@@ -2226,7 +2226,7 @@ Public Class clsCreateAllTable
             coll.Add("NIR_QC", "integer NULL")
             coll.Add("BuyBackType", "integer null default 0")
             coll.Add("BuyBackValue", "Decimal(18,2) null")
-
+            coll.Add("BomBuildQty", "integer Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -13461,6 +13461,7 @@ Public Class clsCreateAllTable
             coll.Add("PANCHAYAT_SAMITI_CODE", "Varchar(30) null references TSPL_PANCHAYAT_SAMITI_MASTER (PANCHAYAT_SAMITI_CODE)")
             coll.Add("VIDHAN_SABHA_CODE", "Varchar(30) null references TSPL_VIDHAN_SABHA_MASTER (VIDHAN_SABHA_CODE)")
             coll.Add("IsAllowSkipPurchaseQC", "Integer not null default 0")
+            coll.Add("OEM", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -52610,6 +52611,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("OtherInfo10", "varchar(max) NULL")
             coll.Add("Comp_code", "VARCHAR(30) NULL")
             coll.Add("Tender_Type", "integer null")
+            coll.Add("Mode", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_HEADER", coll, Nothing, False, True, "", "DocumentCode", "DocumentDate")
 
             coll = New Dictionary(Of String, String)()
@@ -52621,9 +52623,11 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Unit_code", "varchar(12) NULL")
             coll.Add("Location", "varchar(12) NOT NULL REFERENCES TSPL_LOCATION_MASTER(LOCATION_CODE)")
             coll.Add("Rate", "decimal(18, 3) NULL")
+            coll.Add("Discount", "Decimal(18,2) null")
             coll.Add("Item_Cost", "decimal(18, 3) NULL")
             coll.Add("Remarks", "varchar(100) NULL")
             coll.Add("Comments", "varchar(100) NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_DETAIL", coll, Nothing, False, False, "TSPL_TENDER_HEADER", "DocumentCode", "")
 
             coll = New Dictionary(Of String, String)()

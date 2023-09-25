@@ -172,7 +172,8 @@ Public Class FrmItemMasterRMOther
         ''-----------------------End--------''
 
         RadPageView1.SelectedPage = RadPageViewPage1
-
+        MyLabelL.Visible = False
+        txtBmBdQty.Visible = False
         '' Anubhooti 10-Oct-2014
         'RadPageView1.Pages("pageviewSerializedIinvenoty").Item.Visibility = ElementVisibility.Collapsed
         'If objCommonVar.IsDemoERP Then
@@ -320,6 +321,7 @@ Public Class FrmItemMasterRMOther
         chkChangeRate.Checked = False
         fndCSA_AC_Code.Value = ""
         txtCSA_AC_Name.Text = ""
+        txtBmBdQty.Text=""
         txtRackNo.Text = ""
         txtPartNo.Value = ""
         txtDescription.Text = ""
@@ -1072,6 +1074,16 @@ Public Class FrmItemMasterRMOther
         dr("Name") = "C"
         dt.Rows.Add(dr)
 
+        dr = dt.NewRow()
+        dr("Code") = "G"
+        dr("Name") = "GHEE"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
+        dr("Code") = "T"
+        dr("Name") = "Technical Spare Parts"
+        dt.Rows.Add(dr)
+
         cboType.DataSource = dt
         cboType.ValueMember = "Code"
         cboType.DisplayMember = "Name"
@@ -1438,6 +1450,9 @@ Public Class FrmItemMasterRMOther
                     obj.Tax_Exempted = 2
                 End If
                 obj.FG_for_CF = IIf(chkFGforCF.Checked = True, 1, 0)
+                If chkFGforCF.Checked = True Then
+                    obj.BomBuildQty = txtBmBdQty.Text
+                End If
                 obj.NIR_QC = chkNIRQC.Checked
                 ' Ticket No - BM00000003041 3/July/2014 by Puran
                 obj.Is_Scheme_Item = chkSchemeItem.Checked
@@ -2464,6 +2479,9 @@ Public Class FrmItemMasterRMOther
                 fndCSA_AC_Code.Value = obj.Cust_Account
                 txtCSA_AC_Name.Text = obj.Cust_Account_Name
                 chkFGforCF.Checked = IIf(obj.FG_for_CF = 1, True, False)
+                If chkFGforCF.Checked = True Then
+                    txtBmBdQty.Text = obj.BomBuildQty
+                End If
                 chkNIRQC.Checked = obj.NIR_QC
                 chkSchemeItem.Checked = obj.Is_Scheme_Item
                 txtDistbtr_Amt.Text = obj.Distributor_Commission
@@ -6365,6 +6383,17 @@ ExitLOOP:
         lblBBValue.Visible = True
         lblBBValue.Text = "Percentage"
         txtBBValue.Visible = True
+    End Sub
+
+    Private Sub chkFGforCF_CheckStateChanged(sender As Object, e As EventArgs) Handles chkFGforCF.CheckStateChanged
+        If chkFGforCF.Checked = True Then
+            txtBmBdQty.Visible = True
+            MyLabelL.Visible = True
+        Else
+            txtBmBdQty.Visible = False
+            MyLabelL.Visible = False
+
+        End If
     End Sub
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean

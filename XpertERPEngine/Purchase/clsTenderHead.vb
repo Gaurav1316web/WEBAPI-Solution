@@ -32,7 +32,7 @@ Public Class clsTenderHead
     Public OtherInfo10 As String = Nothing
 
     Public Tender_Type As Integer = 0 ''0-RM Tender;1-Risk Purchase;2-Techical Spare Part;3-Local Purchase
-
+    Public Mode As Integer = 0 ''0-Online;1-Offline
     Public Arr As List(Of clsTenderDetail) = Nothing
     Public ArrSchedule As List(Of clsTenderSchedule) = Nothing
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
@@ -49,7 +49,7 @@ Public Class clsTenderHead
             trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
-        Return True
+        Return True 
     End Function
 
     Public Function SaveData(ByVal obj As clsTenderHead, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
@@ -91,6 +91,7 @@ Public Class clsTenderHead
             clsCommon.AddColumnsForChange(coll, "OtherInfo10", obj.OtherInfo10, True)
 
             clsCommon.AddColumnsForChange(coll, "Tender_Type", obj.Tender_Type, True)
+            clsCommon.AddColumnsForChange(coll, "Mode", obj.Mode, True)
 
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -98,9 +99,9 @@ Public Class clsTenderHead
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
-                clsCommonFunctionality.UpdateDataTable(coll, "tspl_tender_header", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_HEADER", OMInsertOrUpdate.Insert, "", trans)
             Else
-                clsCommonFunctionality.UpdateDataTable(coll, "tspl_tender_header", OMInsertOrUpdate.Update, "tspl_tender_header.DocumentCode='" + obj.DocumentCode + "'", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_HEADER", OMInsertOrUpdate.Update, "tspl_tender_header.DocumentCode='" + obj.DocumentCode + "'", trans)
             End If
             clsTenderDetail.SaveData(obj.DocumentCode, obj.Arr, trans)
             clsTenderSchedule.SaveData(obj.DocumentCode, obj.ArrSchedule, trans)
@@ -166,7 +167,7 @@ Public Class clsTenderHead
                 obj.OtherInfo10 = clsCommon.myCstr(dt.Rows(0)("OtherInfo10"))
 
                 obj.Tender_Type = clsCommon.myCDecimal(dt.Rows(0)("Tender_Type"))
-
+                obj.Mode = clsCommon.myCDecimal(dt.Rows(0)("Mode"))
                 obj.Created_By = clsCommon.myCstr(dt.Rows(0)("Created_By"))
                 obj.Created_Date = clsCommon.myCstr(dt.Rows(0)("Created_Date"))
                 obj.Modified_By = clsCommon.myCstr(dt.Rows(0)("Modified_By"))
@@ -200,6 +201,8 @@ Public Class clsTenderHead
                         objTr.Unit_code = clsCommon.myCstr(dr("Unit_code"))
                         objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
                         objTr.Qty = clsCommon.myCdbl(dr("Qty"))
+                        objTr.Discount = clsCommon.myCdbl(dr("Discount"))
+
                         objTr.Rate = clsCommon.myCdbl(dr("Rate"))
                         objTr.Item_Cost = clsCommon.myCdbl(dr("Item_Cost"))
                         objTr.Remarks = clsCommon.myCstr(dr("Remarks"))
@@ -940,6 +943,8 @@ Public Class clsTenderDetail
     Public Vendor_Name As String = Nothing
     Public Location_Name As String = Nothing
     Public Qty As Double = 0
+    Public Discount As Double = 0
+
     Public Rate As Double = 0
     Public Item_Cost As Double = 0
     Public Remarks As String = Nothing
@@ -956,7 +961,9 @@ Public Class clsTenderDetail
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
 
                 clsCommon.AddColumnsForChange(coll, "Vendor_Code", obj.Vendor_Code)
+                clsCommon.AddColumnsForChange(coll, "Discount", obj.Discount)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+
 
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
                 clsCommon.AddColumnsForChange(coll, "Location", obj.Location)

@@ -44,6 +44,8 @@ Public Class frmMilkCollectionMCC
     Public Const colAutoFat As String = "AutoFat"
     Public Const colAutoSnf As String = "AutoSnf"
     Public Const colAutoCLR As String = "AutoCLR"
+    Dim DtError As DataTable
+    Dim dr As DataRow
     'Default Mcc create''''''''''''''''''''''''''''''''''''''''''''''''''''
     Dim objExportTemplate As clsExportTemplate = Nothing
     Dim arrExistCols As New List(Of String)
@@ -2449,5 +2451,211 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
 
     Private Sub gv1_Validating(sender As Object, e As CancelEventArgs) Handles gv1.Validating
 
+    End Sub
+
+    Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
+        Import()
+    End Sub
+
+    Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
+        Export()
+    End Sub
+    Public Sub Import()
+        Try
+            Dim gv As New RadGridView()
+            Me.Controls.Add(gv)
+            Dim Arr As New List(Of clsMilkCollectionMCC)
+            DtError = New DataTable
+            DtError.Columns.Add("Code", GetType(String))
+            DtError.Columns.Add("Error", GetType(String))
+            Dim chkdp As New List(Of String)
+            Dim str As String = ""
+            Dim currentdate As Date = Date.Today
+            If transportSql.importExcel(gv, "Document Date", "Route No", "Tanker No", "Trip No", "Qty", "FAT", "SNF") Then
+                Dim linno As Integer = 0
+                Dim TempNewRecord As Boolean = False
+                Try
+                    'trans = clsDBFuncationality.GetTransactin()
+                    clsCommon.ProgressBarShow()
+                    For Each grow As GridViewRowInfo In gv.Rows
+
+                        Dim obj As New clsMilkCollectionMCC()
+                        Try
+                            linno += 1
+
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Document Date").Value))) Then
+                                Throw New Exception("Document Date is Blank at Line No" + clsCommon.myCstr(linno))
+                            Else
+                                obj.Document_Date = clsCommon.GetPrintDate(grow.Cells("Document Date").Value)
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Route No").Value))) Then
+                                Throw New Exception("Route No is Blank at Line No" + clsCommon.myCstr(linno))
+                            Else
+                                'Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Route_No from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(grow.Cells("Route No").Value) + "'"))
+                                'If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Route No").Value)) = CompairStringResult.Equal Then
+                                obj.Route_Code = clsCommon.myCstr(grow.Cells("Route No").Value)
+                                'Else
+                                'Throw New Exception("Route No is Invalid at Line No" + clsCommon.myCstr(linno))
+                                'End If
+
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Tanker No").Value))) Then
+                                Throw New Exception("Tanker No is Blank at Line No" + clsCommon.myCstr(linno))
+
+                            Else
+                                obj.Tanker_No = clsCommon.myCstr(grow.Cells("Tanker No").Value)
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Trip No").Value))) Then
+                                Throw New Exception("Trip No is Blank at Line No" + clsCommon.myCstr(linno))
+
+                            Else
+                                obj.Trip_No = clsCommon.myCdbl(grow.Cells("Trip No").Value)
+                            End If
+
+
+
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Qty").Value))) Then
+                                Throw New Exception("Qty is Blank at Line No" + clsCommon.myCstr(linno))
+
+                            Else
+                                If (clsCommon.myCDecimal(grow.Cells("Qty").Value)) > 0 Then
+                                    obj.Entered_Qty = clsCommon.myCdbl(grow.Cells("Qty").Value)
+                                Else
+                                    Throw New Exception("Qty is Zero at Line No" + clsCommon.myCstr(linno))
+                                End If
+
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("FAT").Value))) Then
+                                Throw New Exception("FAT is Blank at Line No" + clsCommon.myCstr(linno))
+
+                            Else
+                                If (clsCommon.myCDecimal(grow.Cells("FAT").Value)) > 0 Then
+                                    If SettMilkCollectionFATSNFType = 0 Then
+                                        obj.Entered_FATKg = obj.Entered_Qty * (clsCommon.myCstr(grow.Cells("FAT").Value) / 100)
+                                    Else
+                                        obj.Entered_FATKg = clsCommon.myCdbl(grow.Cells("FAT").Value)
+
+                                    End If
+                                Else
+                                    Throw New Exception("FAT is Zero at Line No" + clsCommon.myCstr(linno))
+
+                                End If
+
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCdbl(grow.Cells("SNF").Value))) Then
+                                Throw New Exception("SNF is Blank at Line No" + clsCommon.myCstr(linno))
+
+                            Else
+                                If (clsCommon.myCDecimal(grow.Cells("SNF").Value)) > 0 Then
+                                    If SettMilkCollectionFATSNFType = 0 Then
+                                        obj.Entered_SNFKg = obj.Entered_Qty * (clsCommon.myCdbl(grow.Cells("SNF").Value) / 100)
+                                    Else
+                                        obj.Entered_SNFKg = clsCommon.myCdbl(grow.Cells("SNF").Value)
+                                    End If
+                                Else
+                                    Throw New Exception("SNF is Zero at Line No" + clsCommon.myCstr(linno))
+                                End If
+
+
+                            End If
+                            Dim Doc_No As String = clsDBFuncationality.getSingleValue("select TSPL_MILK_COLLECTION_MCC.Document_No from  TSPL_MILK_COLLECTION_MCC where CONVERT(Date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(grow.Cells("Document Date").Value) + "' and TSPL_MILK_COLLECTION_MCC.Route_Code='" + obj.Route_Code + "' and Trip_No=" + clsCommon.myCstr(obj.Trip_No) + "  and Status=0")
+
+                            If clsCommon.myLen(Doc_No) <= 0 Then
+                                Throw New Exception("Data not exists for Line No" + clsCommon.myCstr(linno))
+
+                            Else
+                                Dim qry As String = "select TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE
+from TSPL_MILK_COLLECTION_MCC_DETAIL
+left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id 
+left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No
+left outer join TSPL_MILK_COLLECTION_DCS_DETAIL on TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No
+left outer join TSPL_MILK_SHIFT_UPLOADER_DETAIL on TSPL_MILK_SHIFT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail=TSPL_MILK_COLLECTION_DCS_DETAIL.PK_Id
+left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No or TSPL_MILK_RECEIPT_DETAIL.Against_Uploader_TR_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No 
+left outer join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE
+left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO=TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE=TSPL_MILK_SAMPLE_HEAD.DOC_CODE and TSPL_MILK_SRN_HEAD.SAMPLE_NO=TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO
+left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_HEAD.DOC_CODE
+where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + clsCommon.myCstr(Doc_No) + "'"
+                                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
+                                    Throw New Exception("Milk Purchase Invoice Generated [" + clsCommon.myCstr(dt.Rows(0)("DOC_CODE")) + "]")
+                                End If
+                                obj.Document_No = Doc_No
+
+                            End If
+                            str = clsCommon.myCstr(obj.Document_Date) + clsCommon.myCstr(obj.Route_Code) + clsCommon.myCstr(obj.Trip_No)
+                            If chkdp.Contains(str) Then
+                                Throw New Exception("Duplicate Data Found at Line No " + clsCommon.myCstr(linno))
+                            Else
+                                chkdp.Add(str)
+                            End If
+                            Arr.Add(obj)
+                        Catch ex As Exception
+                            dr = DtError.NewRow()
+                            dr("Code") = clsCommon.myCstr(linno)
+                            dr("Error") = ex.Message
+                            DtError.Rows.Add(dr)
+                        End Try
+
+                    Next
+                    clsCommon.ProgressBarHide()
+
+                    If clsCommon.MyMessageBoxShow(Me, "Total Valid Document [" + clsCommon.myCstr(Arr.Count) + "] and Invalid Document  [" + clsCommon.myCstr(linno - Arr.Count) + "] Are You Sure.", Me.Text, MessageBoxButtons.OK, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.OK Then
+
+
+                        If DtError IsNot Nothing AndAlso DtError.Rows.Count > 0 Then
+                            Dim frm As New FrmFreeGrid()
+                            frm.strFormName = "Error In Import Tranker Data "
+                            frm.dt = DtError
+                            frm.ReportID = "BMC Truck Sheet"
+                            frm.ShowDialog()
+
+
+                        Else
+                            If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                                For Each objMCC As clsMilkCollectionMCC In Arr
+
+
+                                    clsMilkCollectionMCC.CorrectionData(objMCC)
+                                    'clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
+                                Next
+                                common.clsCommon.MyMessageBoxShow("Data corrected sucessfully", Me.Text, MessageBoxButtons.OK)
+
+                            End If
+
+                        End If
+
+
+                    Else
+                        common.clsCommon.MyMessageBoxShow("Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
+                    End If
+                    clsCommon.ProgressBarHide()
+
+                Catch ex As Exception
+                    clsCommon.ProgressBarHide()
+                    clsCommon.MyMessageBoxShow(ex.Message)
+                End Try
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
+            End If
+
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Public Sub Export()
+        Try
+            Dim str As String = "select '' as [Document Date], '' as [Route No], '' as [Tanker No], '' as [Trip No], '' as [Qty], '' as [FAT], '' as [SNF]"
+            Dim whrCls As String = ""
+
+            ListImpExpColumnsMandatory = New List(Of String)({"Document Date", "Route No", "Tanker No", "Trip No", "Qty", "FAT", "SNF"})
+            transportSql.ExporttoExcel(str, whrCls, Me)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
