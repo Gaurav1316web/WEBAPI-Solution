@@ -1116,6 +1116,10 @@ Public Class frmBillOfMaterialCosting
                 Return False
             End If
         End If
+        If clsCommon.myCdbl(txtBuildQty.Text) <= 0 Then
+            clsCommon.MyMessageBoxShow("Please Enter Bom Build Qty in Item Master-" + clsCommon.myCstr(txtProducedItem.Value))
+            Return False
+        End If
 
         'If clsCommon.myLen(txtCode.Value) <= 0 Then
         '    myMessages.blankValue("Code")
@@ -1123,11 +1127,11 @@ Public Class frmBillOfMaterialCosting
         '    Return False
         'End If
 
-        If clsCommon.myCdbl(txtBuildQty.Text) <= 0 Then
-            myMessages.blankValue("Build Quantity must be greater than zero.")
-            txtBuildQty.Focus()
-            Return False
-        End If
+        'If clsCommon.myCdbl(txtBuildQty.Text) <= 0 Then
+        '    myMessages.blankValue("Build Quantity must be greater than zero.")
+        '    txtBuildQty.Focus()
+        '    Return False
+        'End If
 
         Dim ii As Int16 = 0
         Dim Princi_Count As Integer = 0
@@ -1261,6 +1265,7 @@ Public Class frmBillOfMaterialCosting
 
             Dim qry As String = "SELECT ITEM_CODE AS CODE,ITEM_DESC AS ITEM_NAME,ITEM_TYPE AS TYPE FROM TSPL_ITEM_MASTER "
             txtProducedItem.Value = clsItemMaster.getFinder(whrcls, txtProducedItem.Value, isButtonClicked) ' clsCommon.ShowSelectForm("TSPL_MF_BOM_HEAD", qry, "Code", whrcls, txtProducedItem.Value, "", isButtonClicked)
+            txtBuildQty.Text = clsDBFuncationality.getSingleValue("select isnull(BomBuildQty,0) as BomBuildQty from  TSPL_ITEM_MASTER where  Item_code ='" + txtProducedItem.Value + "'")
 
             Dim objItm As New clsItemMaster
             '' NO CLASS  FOR ITEM MASTER(FINISHED)
@@ -2767,7 +2772,7 @@ Public Class frmBillOfMaterialCosting
         frm.ShowDialog()
 
         If frm.ArrReturn IsNot Nothing AndAlso frm.ArrReturn.Count > 0 Then
-            Dim objReq As clsBillOfMaterial = clsBillOfMaterial.GetData(frm.strFirstPO, NavigatorType.Current, Nothing)
+            Dim objReq As clsBillOfMaterial = clsBillOfMaterial.GetData(frm.strFirstPO, NavigatorType.Current)
             If objReq IsNot Nothing AndAlso clsCommon.myLen(objReq.BOM_CODE) > 0 Then
                 'If (clsCommon.myLen(txtProducedItem.Value) > 0) Then
                 txtProducedItem.Value = objReq.PROD_ITEM_CODE
@@ -2958,11 +2963,11 @@ Public Class frmBillOfMaterialCosting
             Dim whcls As String = Nothing
             Dim whcls1 As String = Nothing
             If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-                whcls = " T1.LOCATION_CODE =" & objCommonVar.strCurrUserLocations & ""
+                whcls = " T1.LOCATION_CODE In(" & objCommonVar.strCurrUserLocations & ")"
             End If
             'isLoadCopy = True
             Dim qry As String = "SELECT T1.LOCATION_CODE,T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
-            qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T1.PROD_QUANTITY,T1.PROD_ITEM_UNIT_CODE,"
+            qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T2.BomBuildQty,T1.PROD_ITEM_UNIT_CODE,"
             qry += " T1.MIN_BATCH_SIZE,T1.MODIFIED_BY AS APPROVED_BY,T1.Created_By FROM TSPL_MF_BOM_HEAD  T1 INNER JOIN TSPL_ITEM_MASTER T2  ON T1.PROD_ITEM_CODE=T2.ITEM_CODE "
 
             Dim strTender As String = clsCommon.ShowSelectForm("TSPL_MF_BOM_HEAD", qry, "Code", whcls, txtCode.Value, " convert(date, BOM_DATE,103) desc , Code desc ", True)

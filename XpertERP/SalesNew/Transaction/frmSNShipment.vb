@@ -3518,6 +3518,10 @@ Public Class frmSNShipment
                     Return False
                 End If
             End If
+            If AllowFutureDateTransaction(txtDate.Value, Nothing) = False Then
+                txtDate.Focus()
+                Return False
+            End If
             'If clsCommon.myLen(cboItemType.SelectedValue) <= 0 Then
             '    clsCommon.MyMessageBoxShow("Please select Item Type")
             '    cboItemType.Focus()
@@ -5684,19 +5688,24 @@ Public Class frmSNShipment
         End If
         ''-------richa 30/07/2014 Ticket No. BM00000003242---------
         Dim strwherecls As String = ""
-        'strwherecls = Xtra.CustomerPermission()
+        ' strwherecls = Xtra.CustomerPermission()
         If objCommonVar.ApplyLocationFilterBasedOnPermission = True Then
             strwherecls = objCommonVar.strCurrUserCustomers
         Else
             strwherecls = Xtra.CustomerPermission()
         End If
+        Dim whrClas As String = ""
         '-----------------------------------------------------
-        Dim qry As String = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,TSPL_CUSTOMER_MASTER.Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  "
+        Dim qry As String = "select TSPL_CUSTOMER_LOCATION_MAPPING.customer_code as Code,TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  "
         qry += " from TSPL_CUSTOMER_MASTER "
         qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
+        qry += " left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code"
         qry += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
         qry += " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
         qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'"
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrClas += " and  TSPL_CUSTOMER_LOCATION_MAPPING.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
 
         '-------richa 30/07/2014 Ticket No. BM00000003242---------
         If clsCommon.myLen(strwherecls) = 0 Then
@@ -5705,7 +5714,7 @@ Public Class frmSNShipment
             txtCustomer.Value = clsCommon.ShowSelectForm("ShipmentVendorFndr", qry, "Code", " TSPL_CUSTOMER_MASTER.Status='N' and TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ")", txtCustomer.Value, "Code", isButtonClicked)
         End If
         '-----------------------------------------------------
-        qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtCustomer.Value + "'"
+        qry += " and  2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtCustomer.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             lblCustomerName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
@@ -5716,7 +5725,7 @@ Public Class frmSNShipment
             txtSalesman.Value = clsCommon.myCstr(dt.Rows(0)("Salesman Code"))
             lblSalesman.Text = clsCommon.myCstr(dt.Rows(0)("Salesman"))
 
-            txtDate.Enabled = False
+            '  txtDate.Enabled = False
             txtCustomer.Enabled = False
             chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtCustomer.Value)
             SetMultiCurrencyVisibility()
@@ -9345,6 +9354,13 @@ where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) 
             fndtransporter.Value = clsCommon.ShowSelectForm("RoutMastrCodFND", qry, "Transport Id", "", fndtransporter.Value, "", isButtonClicked)
             lbltransporter.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Transporter_Name as Name from TSPL_TRANSPORT_MASTER where Transport_Id ='" + fndtransporter.Value + "'"))
 
+        End If
+    End Sub
+
+    Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating
+        If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
+            clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
+            e.Cancel = True
         End If
     End Sub
 End Class

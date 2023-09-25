@@ -799,6 +799,24 @@ Public Class frmCustomer
         dtpAggClose.Value = clsCommon.GETSERVERDATE()
         txtDOB.Value = clsCommon.GETSERVERDATE()
         funNew()
+        createTable()
+    End Sub
+    Private Sub createTable()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Cast_Category_Code", "varchar(30)  Not NULL")
+        coll.Add("Distict_Code", "varchar(30)  Not NULL")
+        coll.Add("Block_Code", "varchar(30)  Not NULL")
+        coll.Add("Revenue_Village_Code", "varchar(30)  Not NULL")
+        coll.Add("Grampanchayat_Code", "varchar(30)  Not NULL")
+        coll.Add("Panchayat_Samiti_Code", "varchar(30)  Not NULL")
+        coll.Add("Vidhan_Sabha_Code", "varchar(30)  Not NULL")
+        Try
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
+        Catch ex As Exception
+
+        End Try
     End Sub
     ''richa  ERO/01/07/21-001425
     Sub VisibleChecboxRelatedToTCSRateImpact()
@@ -1545,6 +1563,14 @@ Public Class frmCustomer
             obj.RSM = clsCommon.myCstr(txtRSM.Value)
 
             '' End
+            obj.Cast_Category_Code = clsCommon.myCstr(txtCastCategory.Value)
+            obj.Distict_Code = clsCommon.myCstr(TxtDistictCode.Value)
+            obj.Block_Code = clsCommon.myCstr(TxtBlockCode.Value)
+            obj.Revenue_Village_Code = clsCommon.myCstr(TxtRevenueVillage.Value)
+            obj.Grampanchayat_Code = clsCommon.myCstr(TxtGrampanchayat.Value)
+            obj.Panchayat_Samiti_Code = clsCommon.myCstr(TxtPanchayatSamiti.Value)
+            obj.Vidhan_Sabha_Code = clsCommon.myCstr(TxtVidhanSabha.Value)
+
             obj.Priority_Level = cboxPriorityLevel.Text
 
             obj.Transaction_Type = CmbTransaction.SelectedValue
@@ -2172,7 +2198,20 @@ Public Class frmCustomer
                 Me.lblZSM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name  from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" & txtZSM.Value & "'"))
                 Me.txtRSM.Value = myDr("RSM").ToString
                 Me.lblRSM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name  from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" & txtRSM.Value & "'"))
-
+                Me.txtCastCategory.Value = myDr("Cast_Category_Code").ToString
+                Me.lblCastCategoryName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cast_Category_Name  from TSPL_CAST_CATEGORY_MASTER where Cast_Category_Code ='" & txtCastCategory.Value & "'"))
+                Me.TxtDistictCode.Value = myDr("Distict_Code").ToString
+                Me.lblDistictCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Name  from TSPL_DISTRICT_MASTER where Code ='" & TxtDistictCode.Value & "'"))
+                Me.TxtBlockCode.Value = myDr("Block_Code").ToString
+                Me.lblBlockCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select BLOCK_NAME  from TSPL_BLOCK_MASTER where BLOCK_CODE ='" & TxtBlockCode.Value & "'"))
+                Me.TxtRevenueVillage.Value = myDr("Revenue_Village_Code").ToString
+                Me.lblRevenueVillage.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select REVENUE_VILLAGE_NAME  from TSPL_REVENUE_VILLAGE_MASTER where REVENUE_VILLAGE_CODE ='" & TxtRevenueVillage.Value & "'"))
+                Me.TxtGrampanchayat.Value = myDr("Grampanchayat_Code").ToString
+                Me.lblGrampanchayat.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select GRAMPANCHAYAT_NAME  from TSPL_GRAMPANCHAYAT_MASTER where GRAMPANCHAYAT_CODE ='" & TxtGrampanchayat.Value & "'"))
+                Me.TxtPanchayatSamiti.Value = myDr("Panchayat_Samiti_Code").ToString
+                Me.lblPanchayatSamiti.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PANCHAYAT_SAMITI_NAME  from TSPL_PANCHAYAT_SAMITI_MASTER where PANCHAYAT_SAMITI_CODE ='" & TxtPanchayatSamiti.Value & "'"))
+                Me.TxtVidhanSabha.Value = myDr("Vidhan_Sabha_Code").ToString
+                Me.lblVidhanSabha.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VIDHAN_SABHA_NAME  from TSPL_VIDHAN_SABHA_MASTER where VIDHAN_SABHA_CODE ='" & TxtVidhanSabha.Value & "'"))
 
                 ''richa agarwal
                 'If clsCommon.myLen(txtParentCstNo.Value) > 0 Then
@@ -2518,6 +2557,20 @@ Public Class frmCustomer
         End If
     End Sub
     Public Sub funNew()
+        txtCastCategory.Value = ""
+        lblCastCategoryName.Text = ""
+        TxtDistictCode.Value = ""
+        lblDistictCode.Text = ""
+        TxtBlockCode.Value = ""
+        lblBlockCode.Text = ""
+        TxtRevenueVillage.Value = ""
+        lblRevenueVillage.Text = ""
+        TxtGrampanchayat.Value = ""
+        lblGrampanchayat.Text = ""
+        TxtPanchayatSamiti.Value = ""
+        lblPanchayatSamiti.Text = ""
+        TxtVidhanSabha.Value = ""
+        lblVidhanSabha.Text = ""
         txtCategoryStructureCode.Value = ""
         lblCategoryStructureCode.Text = ""
         chkTCSnotApplicable.Checked = False
@@ -5923,7 +5976,7 @@ Public Class frmCustomer
             If Not isCellValueChangedOpen Then
                 isCellValueChangedOpen = True
                 If e.Column Is gvCan.Columns(ColCanLocation) Then
-                    OpenCAnLocationList(False)
+                    OpenCanLocationList(False)
                 End If
                 isCellValueChangedOpen = False
             End If
@@ -5940,26 +5993,26 @@ Public Class frmCustomer
         End If
     End Sub
 
-    
+
     Private Sub MultiRouteCode__My_Click(sender As Object, e As EventArgs) Handles MultiRouteCode._My_Click
         Dim strQry As String = "select tspl_route_master .route_no as code,tspl_route_master.Route_Desc as Name from tspl_route_master "
         MultiRouteCode.arrValueMember = clsCommon.ShowMultipleSelectForm("MultRouteWithCust", strQry, "Code", "Name", MultiRouteCode.arrValueMember, MultiRouteCode.arrDispalyMember)
     End Sub
 
     Private Sub rmMultiRoute_Click(sender As Object, e As EventArgs) Handles rmMultiRoute.Click
-       
+
         Dim qry As String = "select cust_Code as [Customer Code]"
-            For j As Integer = 1 To 50
-                qry += " ,(select Route_no from (Select ROW_NUMBER () over (order by cust_code,Route_no ) As SNo,cust_code,Route_no  From TSPL_Customer_Route_Master where cust_code=TSPL_CUSTOMER_MASTER.cust_Code)xxx where xxx.SNo=" & j & ") as RouteNo" & j & ""
-            Next
-            qry += " from TSPL_CUSTOMER_MASTER"
+        For j As Integer = 1 To 50
+            qry += " ,(select Route_no from (Select ROW_NUMBER () over (order by cust_code,Route_no ) As SNo,cust_code,Route_no  From TSPL_Customer_Route_Master where cust_code=TSPL_CUSTOMER_MASTER.cust_Code)xxx where xxx.SNo=" & j & ") as RouteNo" & j & ""
+        Next
+        qry += " from TSPL_CUSTOMER_MASTER"
         ListImpExpColumnsMandatory = New List(Of String)({"Customer Code"})
         ListImpExpColumnsSuperMandatory = New List(Of String)({"Customer Code"})
         transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "MultiRoute")
     End Sub
 
     Private Sub rmMultiRouteImport_Click(sender As Object, e As EventArgs) Handles rmMultiRouteImport.Click
-       Dim gv1 As New RadGridView()
+        Dim gv1 As New RadGridView()
         Me.Controls.Add(gv1)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         If transportSql.importExcel(gv1, "Customer Code", "RouteNo1", "RouteNo2", "RouteNo3", "RouteNo4", "RouteNo5", "RouteNo6", "RouteNo7", "RouteNo8", "RouteNo9", "RouteNo10", "RouteNo11", "RouteNo12", "RouteNo13", "RouteNo14", "RouteNo15", "RouteNo16", "RouteNo17", "RouteNo18", "RouteNo19", "RouteNo20", "RouteNo21", "RouteNo22", "RouteNo23", "RouteNo24", "RouteNo25", "RouteNo26", "RouteNo27", "RouteNo28", "RouteNo29", "RouteNo30", "RouteNo31", "RouteNo32", "RouteNo33", "RouteNo34", "RouteNo35", "RouteNo36", "RouteNo37", "RouteNo38", "RouteNo39", "RouteNo40", "RouteNo41", "RouteNo42", "RouteNo43", "RouteNo44", "RouteNo45", "RouteNo46", "RouteNo47", "RouteNo48", "RouteNo49", "RouteNo50") Then
@@ -6010,7 +6063,7 @@ Public Class frmCustomer
                     Dim issaved As Boolean = True
                     qry = "delete from TSPL_Customer_Route_Master where cust_code='" + custcode + "' "
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                   
+
                     For j As Integer = 1 To 50
 
                         Dim CC_CODE As String
@@ -6028,12 +6081,12 @@ Public Class frmCustomer
                             issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Customer_Route_Master", OMInsertOrUpdate.Insert, "", trans)
                         End If
                     Next
-                   
 
 
-                    
+
+
                 Next
-              
+
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
@@ -6098,6 +6151,49 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub txtCastCategory__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCastCategory._MYValidating
+        Dim qry As String = "select TSPL_CAST_CATEGORY_MASTER.CAST_CATEGORY_CODE as Code,TSPL_CAST_CATEGORY_MASTER.CAST_CATEGORY_NAME as [Name] from TSPL_CAST_CATEGORY_MASTER"
+        txtCastCategory.Value = clsCommon.ShowSelectForm("fndCastC", qry, "Code", "", txtCastCategory.Value, "", isButtonClicked)
+        lblCastCategoryName.Text = clsDBFuncationality.getSingleValue("SELECT CAST_CATEGORY_NAME FROM TSPL_CAST_CATEGORY_MASTER where CAST_CATEGORY_CODE='" + txtCastCategory.Value + "' ")
+    End Sub
+
+    Private Sub TxtDistictCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtDistictCode._MYValidating
+        Dim qry As String = "select TSPL_DISTRICT_MASTER.Code as Code,TSPL_DISTRICT_MASTER.Name as [Name] from TSPL_DISTRICT_MASTER"
+        TxtDistictCode.Value = clsCommon.ShowSelectForm("fndDistC", qry, "Code", "", TxtDistictCode.Value, "", isButtonClicked)
+        lblDistictCode.Text = clsDBFuncationality.getSingleValue("SELECT Name FROM TSPL_DISTRICT_MASTER where  Code='" + TxtDistictCode.Value + "' ")
+    End Sub
+
+    Private Sub TxtBlockCode_Load(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtBlockCode._MYValidating
+        Dim qry As String = "select TSPL_BLOCK_MASTER.BLOCK_CODE as Code,TSPL_BLOCK_MASTER.BLOCK_NAME as [Name] from TSPL_BLOCK_MASTER"
+        TxtBlockCode.Value = clsCommon.ShowSelectForm("fndBlockC", qry, "Code", "", TxtBlockCode.Value, "", isButtonClicked)
+        lblBlockCode.Text = clsDBFuncationality.getSingleValue("SELECT BLOCK_NAME FROM TSPL_BLOCK_MASTER where  BLOCK_CODE='" + TxtBlockCode.Value + "' ")
+    End Sub
+
+    Private Sub TxtRevenueVillage_Load(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtRevenueVillage._MYValidating
+        Dim qry As String = "select TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_CODE as Code,TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_NAME as [Name] from TSPL_REVENUE_VILLAGE_MASTER"
+        TxtRevenueVillage.Value = clsCommon.ShowSelectForm("fndRevenueC", qry, "Code", "", TxtRevenueVillage.Value, "", isButtonClicked)
+        lblRevenueVillage.Text = clsDBFuncationality.getSingleValue("SELECT REVENUE_VILLAGE_NAME FROM TSPL_REVENUE_VILLAGE_MASTER where  REVENUE_VILLAGE_CODE='" + TxtRevenueVillage.Value + "' ")
+    End Sub
+
+    Private Sub TxtGrampanchayat_Load(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtGrampanchayat._MYValidating
+        Dim qry As String = "select TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_CODE as Code,TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_NAME as [Name] from TSPL_GRAMPANCHAYAT_MASTER"
+        TxtGrampanchayat.Value = clsCommon.ShowSelectForm("fndGramC", qry, "Code", "", TxtGrampanchayat.Value, "", isButtonClicked)
+        lblGrampanchayat.Text = clsDBFuncationality.getSingleValue("SELECT GRAMPANCHAYAT_NAME FROM TSPL_GRAMPANCHAYAT_MASTER where  GRAMPANCHAYAT_CODE='" + TxtGrampanchayat.Value + "' ")
+    End Sub
+
+    Private Sub TxtPanchayatSamiti_Load(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtPanchayatSamiti._MYValidating
+        Dim qry As String = "select TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_CODE as Code,TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_NAME as [Name] from TSPL_PANCHAYAT_SAMITI_MASTER"
+        TxtPanchayatSamiti.Value = clsCommon.ShowSelectForm("fndPanchC", qry, "Code", "", TxtPanchayatSamiti.Value, "", isButtonClicked)
+        lblPanchayatSamiti.Text = clsDBFuncationality.getSingleValue("SELECT PANCHAYAT_SAMITI_NAME FROM TSPL_PANCHAYAT_SAMITI_MASTER where  PANCHAYAT_SAMITI_CODE='" + TxtPanchayatSamiti.Value + "' ")
+    End Sub
+
+    Private Sub TxtVidhanSabha_Load(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtVidhanSabha._MYValidating
+        Dim qry As String = "select TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_CODE as Code,TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_NAME as [Name] from TSPL_VIDHAN_SABHA_MASTER"
+        TxtVidhanSabha.Value = clsCommon.ShowSelectForm("fndDistC", qry, "Code", "", TxtVidhanSabha.Value, "", isButtonClicked)
+        lblVidhanSabha.Text = clsDBFuncationality.getSingleValue("SELECT VIDHAN_SABHA_NAME FROM TSPL_VIDHAN_SABHA_MASTER where  VIDHAN_SABHA_CODE='" + TxtVidhanSabha.Value + "' ")
+    End Sub
+
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
         obj.Program_Code = Form_ID

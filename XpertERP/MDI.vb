@@ -8816,8 +8816,8 @@ Public Class MDI
                     Case clsUserMgtCode.frmLocationItemMapping
                         frm = New RptLocationItemMappingDS()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmDistributeRateTagging
-                        frm = New frmDistributeRateTagging()
+                    Case clsUserMgtCode.frmDistributorRouteTagging
+                        frm = New frmDistributorRouteTagging()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.SaleIncentiveMaster
