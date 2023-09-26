@@ -1936,6 +1936,14 @@ Public Class clsCreateAllTables
             ExecuteQeuryWithCatch(qry)
             ExecuteQeuryWithCatch(" alter table TSPL_PROFIT_AND_LOSS_PERFORMA alter column Formula varchar(150) ")
             ExecuteQeuryWithCatch(" alter table TSPL_DOCPREFIX_MASTER alter column Doc_Prfeix varchar(16) ")
+
+            'ExecuteQeuryWithCatch("alter table TSPL_CUSTOMER_MASTER alter column Cast_Category_Code varchar(30) null")
+            'ExecuteQeuryWithCatch("alter table TSPL_CUSTOMER_MASTER alter column Distict_Code varchar(30) null")
+            'ExecuteQeuryWithCatch("alter table TSPL_CUSTOMER_MASTER alter column Block_Code varchar(30) null")
+            'ExecuteQeuryWithCatch("alter table TSPL_CUSTOMER_MASTER alter column Revenue_Village_Code varchar(30) null")
+            'ExecuteQeuryWithCatch("alter table TSPL_CUSTOMER_MASTER alter column Grampanchayat_Code varchar(30) null")
+            'ExecuteQeuryWithCatch("alter table TSPL_CUSTOMER_MASTER alter column Panchayat_Samiti_Code varchar(30) null")
+            'ExecuteQeuryWithCatch("alter table TSPL_CUSTOMER_MASTER alter column Vidhan_Sabha_Code varchar(30) null")
             'InsertStateOfIndia()
         Catch ex As Exception
         End Try
