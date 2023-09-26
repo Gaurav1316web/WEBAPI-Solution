@@ -14,6 +14,7 @@ Public Class frmCorrectionforWrongEntry
 
 #Region "Variables"
     Dim Is_RGP_After_PO As Boolean = False
+    Dim arrLoc As String = Nothing
 #End Region
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -271,9 +272,737 @@ Public Class frmCorrectionforWrongEntry
     End Sub
 
     Private Sub frmCorrectionforWrongEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        RadPageView1.SelectedPage = RadPageViewPage1
+        funReset()
+        funResetLCF()
         txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
         If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
         End If
+        'If RadPageView1.SelectedPage.Text = "Gate Received Note" Then
+        '    btnUpdate.Enabled = True
+        'Else
+        '    btnUpdate.Enabled = False
+        'End If
     End Sub
+
+    Private Sub LOCATIONRIGTHS()
+        Try
+            Dim obj As New clsMCCCodes()
+            obj = clsMCCCodes.GetData()
+
+            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
+                'txtlocationcode.Value = obj.Default_LocCode
+                'txtlocationname.Text = obj.Default_LocName
+            End If
+            If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
+                arrLoc = obj.arrLocCodes
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    ''STD PRODUCTION ENTRY
+    Sub LoadDataSPE(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+        funReset()
+        Dim obj As New clsStanderdProductionEntry
+        obj = clsStanderdProductionEntry.GetData(strCode, arrLoc, NavTyep)
+        txtCode.Value = obj.PROD_ENTRY_CODE
+        Me.dtpDate.Value = obj.PROD_DATE
+    End Sub
+    Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
+        Dim check As Boolean = False
+        check = clsStanderdProductionEntry.CheckValidCode(Me.txtCode.Value)
+
+        If check Then
+            txtCode.MyReadOnly = True
+        Else
+            txtCode.MyReadOnly = False
+        End If
+
+        If txtCode.MyReadOnly Or isButtonClicked Then
+            txtCode.Value = clsCommon.myCstr(clsStanderdProductionEntry.GetFinder(" TSPL_SPP_PRODUCTION_ENTRY.location_code in (" + arrLoc + ")", txtCode.Value, isButtonClicked))
+            LoadDataSPE(txtCode.Value, NavigatorType.Current)
+        Else
+            funReset()
+        End If
+    End Sub
+
+    Sub funReset()
+        txtCode.Value = Nothing
+        dtpDate.Value = Nothing
+        LOCATIONRIGTHS()
+    End Sub
+    Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
+        Try
+            LoadDataSPE(txtCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DeleteSPE_Click(sender As Object, e As EventArgs) Handles DeleteSPE.Click
+        DeleteDataSPE()
+    End Sub
+
+    Sub DeleteDataSPE()
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            Exit Sub
+        End If
+        funDelete()
+    End Sub
+
+    Sub funDelete()
+        Try
+            Dim Reason As String = ""
+            If (myMessages.deleteConfirm()) Then
+                If clsCancelLog.CheckForReasonOnDelete() Then
+                    '' REASON FOR DELETE 
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Delete"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+                End If
+                If (clsStanderdProductionEntry.DeleteData(txtCode.Value)) Then
+                    saveCancelLog(Reason, "Delete", Nothing)
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    funReset()
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+    End Sub
+
+    Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
+        Dim obj As New clsCancelLog
+        obj.Program_Code = Form_ID
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.txtCode.Value)
+        obj.REASON = Reason
+        obj.ACTIVITY_TYPE = Activity_Type
+        Return clsCancelLog.SaveData(obj, True, trans)
+    End Function
+
+    Private Sub UnpostSPE_Click(sender As Object, e As EventArgs) Handles UnpostSPE.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                Throw New Exception("Select document for unpost.")
+            End If
+
+            Dim qry As String = "select count(*) from TSPL_SPP_PRODUCTION_ENTRY where Posted='0' and PROD_ENTRY_CODE='" + txtCode.Value + "'"
+            Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+
+            If check > 0 Then
+                Throw New Exception("Current document is not posted.")
+            End If
+
+            If common.clsCommon.MyMessageBoxShow("Amend and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                '' reason for reverse
+                Dim Reason As String = ""
+                'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Amendment"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Throw New Exception("Fill amendment remarks.")
+                    Exit Sub
+                Else
+                    Reason = frm.strRmks
+                End If
+
+
+                If clsStanderdProductionEntry.UnpostData(txtCode.Value, Me.Form_ID) Then
+                    '------------------
+                    Dim obj As New clsCancelLog
+                    obj.Program_Code = Me.Form_ID
+                    obj.DOCUMENT_NO = clsCommon.myCstr(txtCode.Value)
+                    obj.REASON = Reason
+                    obj.ACTIVITY_TYPE = Nothing
+                    If clsCancelLog.SaveData(obj, True, Nothing) Then
+                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        'btnunpost.Visible = False
+                        LoadDataSPE(txtCode.Value, NavigatorType.Current)
+                    End If
+                    '-----------------------------
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub OpenSPE_Click(sender As Object, e As EventArgs) Handles OpenSPE.Click
+        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmStanderdProductionEntry, txtCode.Value)
+    End Sub
+
+    Private Sub btnSPE_Click(sender As Object, e As EventArgs) Handles btnSPE.Click
+        txtCode.Value = Nothing
+        dtpDate.Value = Nothing
+    End Sub
+
+    ''LCF(BILLOFMATERIAL)
+    Private Sub TxtCodeLCF__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtCodeLCF._MYValidating
+        Dim WhrCls As String = ""
+        If clsCommon.myLen(arrLoc) > 0 Then
+            WhrCls += " and Location_Code in (" + arrLoc + ")"
+        End If
+
+        Dim str As String = "select count(*) from TSPL_MF_BOM_HEAD where BOM_CODE ='" + TxtCodeLCF.Value + "' and trans_type='BOM' " + WhrCls + " "
+        Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+        If no = 0 AndAlso isButtonClicked = False Then
+            TxtCodeLCF.MyReadOnly = False
+            'txtCode.Value = ""
+            '' common.clsCommon.MyMessageBoxShow("Value doesn't exist ")
+        Else
+            TxtCodeLCF.MyReadOnly = True
+        End If
+        If TxtCodeLCF.MyReadOnly OrElse isButtonClicked Then
+
+            Dim qry As String = "SELECT T1.BOM_CODE AS Code,T1.DESCRIPTION,T1.LOCATION_CODE,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
+            qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T1.PROD_QUANTITY,T1.PROD_ITEM_UNIT_CODE,"
+            qry += " T1.MIN_BATCH_SIZE,T1.MODIFIED_BY AS APPROVED_BY,T1.Created_By FROM TSPL_MF_BOM_HEAD  T1 INNER JOIN TSPL_ITEM_MASTER T2  ON T1.PROD_ITEM_CODE=T2.ITEM_CODE "
+            WhrCls = " T1.trans_type='BOM' "
+            If clsCommon.myLen(arrLoc) > 0 Then
+                WhrCls += " and T1.Location_Code in (" + arrLoc + ")"
+            End If
+            TxtCodeLCF.Value = clsCommon.ShowSelectForm("TSPL_MF_BOM_HEAD", qry, "Code", WhrCls, TxtCodeLCF.Value, " convert(date, BOM_DATE,103) desc , Code desc ", isButtonClicked)
+            If TxtCodeLCF.Value <> "" Then
+                LoadDataLCF(TxtCodeLCF.Value, NavigatorType.Current)
+            Else
+                funResetLCF()
+            End If
+        End If
+
+    End Sub
+
+    Private Sub TxtCodeLCF__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles TxtCodeLCF._MYNavigator
+        Try
+            LoadDataLCF(TxtCodeLCF.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+    Sub LoadDataLCF(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+        funResetLCF()
+        Dim obj As New clsBillOfMaterial
+        obj = clsBillOfMaterial.GetData(strCode, NavTyep)
+        TxtCodeLCF.Value = obj.BOM_CODE
+        LCFDate.Value = obj.BOM_DATE
+    End Sub
+
+    Sub funResetLCF()
+        TxtCodeLCF.Value = Nothing
+        LCFDate.Value = Nothing
+        LOCATIONRIGTHS()
+    End Sub
+
+
+    Private Sub DeleteLCF_Click(sender As Object, e As EventArgs) Handles DeleteLCF.Click
+        DeleteDataLCF()
+    End Sub
+
+    Sub DeleteDataLCF()
+        If clsCommon.myLen(TxtCodeLCF.Value) <= 0 Then
+            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            Exit Sub
+        End If
+        funDeleteLCF()
+    End Sub
+
+    Sub funDeleteLCF()
+        Try
+            Dim Reason As String = ""
+            If (myMessages.deleteConfirm()) Then
+                If clsCancelLog.CheckForReasonOnDelete() Then
+                    '' REASON FOR DELETE 
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Delete"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+                End If
+                If (clsBillOfMaterial.DeleteData(TxtCodeLCF.Value)) Then
+                    saveCancelLog(Reason, "Delete", Nothing)
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    funResetLCF()
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+
+    End Sub
+
+    Private Sub btnLCF_Click(sender As Object, e As EventArgs) Handles btnLCF.Click
+        TxtCodeLCF.Value = Nothing
+        LCFDate.Value = Nothing
+    End Sub
+
+    Private Sub UnpostLCF_Click(sender As Object, e As EventArgs) Handles UnpostLCF.Click
+        Try
+            If clsCommon.myLen(TxtCodeLCF.Value) <= 0 Then
+                Throw New Exception("Select document for unpost.")
+            End If
+
+            Dim qry As String = "select count(*) from TSPL_MF_BOM_HEAD where Posted='0' and BOM_CODE='" + TxtCodeLCF.Value + "'"
+            Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+
+            If check > 0 Then
+                Throw New Exception("Current document is not posted.")
+            End If
+
+            If common.clsCommon.MyMessageBoxShow("Amend and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                '' reason for reverse
+                Dim Reason As String = ""
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Amendment"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Throw New Exception("Fill amendment remarks.")
+                    Exit Sub
+                Else
+                    Reason = frm.strRmks
+                End If
+
+                If clsBillOfMaterial.UnpostData(TxtCodeLCF.Value, Me.Form_ID) Then
+                    Dim obj As New clsCancelLog
+                    obj.Program_Code = Me.Form_ID
+                    obj.DOCUMENT_NO = clsCommon.myCstr(TxtCodeLCF.Value)
+                    obj.REASON = Reason
+                    obj.ACTIVITY_TYPE = Nothing
+                    If clsCancelLog.SaveData(obj, True, Nothing) Then
+                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        LoadDataLCF(TxtCodeLCF.Value, NavigatorType.Current)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub OpenLCF_Click(sender As Object, e As EventArgs) Handles OpenLCF.Click
+        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmBillOfMaterialCosting, TxtCodeLCF.Value)
+    End Sub
+
+    ''INTERMEDIATE SALE
+
+    Private Sub txtShipment__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtShipment._MYValidating
+        Dim qry As String = "select shipment_No as Code,CONVERT(varchar(10), shipment_Date,103)+' '+ CONVERT(varchar(5), shipment_Date,114) as Date,cust_Code as [Customer Code], cust_Name as Customer,ship_Total_Amt as Amount,case when ispost='0' then 'Pending' else 'Approved' end as [Status],(select top 1 invoice_No from TSPL_SCRAPINVOICE_HEAD where TSPL_SCRAPINVOICE_HEAD.shipment_No=tspl_scrapsale_head.shipment_No) as [Invoice No] from tspl_scrapsale_head"
+
+        Dim whrClas As String = " Doc_Type ='S' "
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrClas += " and loc_code in (" + objCommonVar.strCurrUserLocations + ")"
+        End If
+        LoadDataSH(clsCommon.ShowSelectForm("ScrpCodFiltrFND", qry, "Code", whrClas, txtShipment.Value, "shipment_Date desc", isButtonClicked), NavigatorType.Current)
+    End Sub
+
+    Private Sub txtShipment__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtShipment._MYNavigator
+        Try
+            Dim qst As String = "select count(*) from tspl_scrapsale_head where shipment_No='" + txtShipment.Value + "' and Doc_Type='S' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+            If count = 0 Then
+                txtDocNo.MyReadOnly = False
+            Else
+                txtDocNo.MyReadOnly = True
+            End If
+            LoadDataSH(txtShipment.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Sub LoadDataSH(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+        Dim obj As New ClsScrapSaleHead()
+        obj = ClsScrapSaleHead.GetData(strCode, NavTyep)
+        txtShipment.Value = obj.shipment_No
+        dtpshipment.Value = clsCommon.myCDate(obj.shipment_Date)
+        lblInvoiceNoS.Text = obj.strInvoiceNo
+        lblIRNSale.Text = obj.EInvoiceIRNNo
+    End Sub
+
+    Private Sub btnshipment_Click(sender As Object, e As EventArgs) Handles btnshipment.Click
+        txtShipment.Value = Nothing
+        dtpshipment.Value = Nothing
+        lblInvoiceNoS.Text = ""
+        lblIRNSale.Text = ""
+    End Sub
+
+    Private Sub DeleteShipment_Click(sender As Object, e As EventArgs) Handles DeleteShipment.Click
+        funDeleteSH()
+    End Sub
+
+    Sub funDeleteSH()
+        Try
+            Dim Reason As String = ""
+            If (myMessages.deleteConfirm()) Then
+                If clsCancelLog.CheckForReasonOnDelete() Then
+                    '' REASON FOR DELETE 
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Delete"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+                End If
+                If (ClsScrapSaleHead.DeleteData(txtShipment.Value)) Then
+                    saveCancelLog(Reason, "Delete", Nothing)
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    AddNewSH()
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+
+    End Sub
+
+    Sub AddNewSH()
+        txtShipment.Value = Nothing
+        dtpshipment.Value = Nothing
+        lblInvoiceNoS.Text = ""
+        lblIRNSale.Text = ""
+    End Sub
+
+    Private Sub UnpostShipment_Click(sender As Object, e As EventArgs) Handles UnpostShipment.Click
+        Try
+            If clsCommon.myLen(txtShipment.Value) <= 0 Then
+                Throw New Exception("Document Number not found to do this operation")
+            End If
+            If clsCommon.myLen(lblInvoiceNoS.Text) <= 0 Then
+                Throw New Exception("Invoice Number not found to do this operation")
+            End If
+            Dim Reason As String = ""
+            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+                '' REASON FOR Reverse 
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Reverse"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Exit Sub
+                Else
+                    Reason = frm.strRmks
+                End If
+                If ClsScrapInvoiceHead.ReverseAndUnpost(txtShipment.Value, lblInvoiceNoS.Text) Then
+                    saveCancelLog(Reason, "Reverse And Recreate", Nothing)
+                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    LoadDataSH(txtShipment.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub OpenShipment_Click(sender As Object, e As EventArgs) Handles OpenShipment.Click
+        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.ScrapSale, txtShipment.Value)
+    End Sub
+
+    ''DISPATCH
+    Private Sub TxtDispatch__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtDispatch._MYValidating
+        Dim strwherecls As String = ""
+        strwherecls = Xtra.CustomerPermission()
+        Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Code,CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SHIPMENT_HEAD.Document_Date,114) as Date,TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceCode,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as InvoiceDate,TSPL_SD_SALE_INVOICE_HEAD.IRN_No as InvoiceNumber,TSPL_SD_SHIPMENT_HEAD.Customer_Code  as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount,case when TSPL_SD_SHIPMENT_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],TSPL_USER_MASTER.User_Name as [User Name] from TSPL_SD_SHIPMENT_HEAD
+                             left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SD_SHIPMENT_HEAD.Created_By left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code "
+        Dim whrClas As String = ""
+        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
+            whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") "
+        ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+            whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+        ElseIf clsCommon.myLen(strwherecls) > 0 Then
+            whrClas = " TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ")"
+        End If
+        '-----------------------------------------------------
+        LoadDataDispatch(clsCommon.ShowSelectForm("ShipmentCode", qry, "Code", whrClas, TxtDispatch.Value, "Code", isButtonClicked), NavigatorType.Current)
+    End Sub
+
+    Sub LoadDataDispatch(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+        Dim obj As New clsSNShipmentHead()
+        obj = clsSNShipmentHead.GetData(strCode, NavTyep)
+        TxtDispatch.Value = obj.Document_Code
+        DateDispatch.Value = obj.Document_Date
+        obj.Document_Code = TxtDispatch.Value
+        txtSaleInvoice.Text = clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + obj.Document_Code + "'")
+        DateSI.Value = clsDBFuncationality.getSingleValue("select Document_Date from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + obj.Document_Code + "'")
+        lblSI.Text = clsDBFuncationality.getSingleValue("select Against_Shipment_No from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + obj.Document_Code + "'")
+        lblIRNSI.Text = clsDBFuncationality.getSingleValue("SELECT ISNULL(IRN_No, '') AS IRN_No FROM TSPL_SD_SALE_INVOICE_HEAD WHERE Against_Shipment_No='" + obj.Document_Code + "'")
+    End Sub
+
+    Private Sub TxtDispatch__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles TxtDispatch._MYNavigator
+        Try
+            Dim strwherecls As String = ""
+            Dim qst As String = ""
+            strwherecls = Xtra.CustomerPermission()
+            If clsCommon.myLen(strwherecls) = 0 Then
+                qst = "select count(*) from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + TxtDispatch.Value + "'"
+            Else
+                qst = "select count(*) from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + TxtDispatch.Value + "' and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ")"
+
+            End If
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+            If count = 0 Then
+                TxtDispatch.MyReadOnly = False
+            Else
+                TxtDispatch.MyReadOnly = True
+            End If
+            LoadDataDispatch(TxtDispatch.Value, NavType)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnDispatch_Click(sender As Object, e As EventArgs) Handles btnDispatch.Click
+        TxtDispatch.Value = Nothing
+        DateDispatch.Value = Nothing
+        txtSaleInvoice.Text = ""
+        DateSI.Value = ""
+        lblSI.Text = ""
+        lblIRNSI.Text = ""
+    End Sub
+
+    Private Sub DeleteDispatch_Click(sender As Object, e As EventArgs) Handles DeleteDispatch.Click
+        DeleteDispach()
+    End Sub
+
+    Sub DeleteDispach()
+        Try
+            Dim Reason As String = ""
+            If (myMessages.deleteConfirm()) Then
+                clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(TxtDispatch.Value))
+                If clsCancelLog.CheckForReasonOnDelete() Then
+                    '' REASON FOR DELETE 
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Delete"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+                End If
+
+                If (clsSNShipmentHead.DeleteData(TxtDispatch.Value)) Then
+                    saveCancelLog(Reason, "Delete", Nothing)
+                    clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
+                    AddNewDispach()
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub AddNewDispach()
+        TxtDispatch.Value = Nothing
+        DateDispatch.Value = Nothing
+    End Sub
+    Private Sub UnpostDispatch_Click(sender As Object, e As EventArgs) Handles UnpostDispatch.Click
+        Try
+            If clsCommon.myLen(TxtDispatch.Value) <= 0 Then
+                Throw New Exception("Select document for unpost.")
+            End If
+
+            Dim qry As String = "select count(*) from TSPL_SD_SHIPMENT_HEAD where Status='0' and Document_Code='" + TxtDispatch.Value + "'"
+            Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+
+            If check > 0 Then
+                Throw New Exception("Current document is not posted.")
+            End If
+
+            If common.clsCommon.MyMessageBoxShow("Amend and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                '' reason for reverse
+                Dim Reason As String = ""
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Amendment"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Throw New Exception("Fill amendment remarks.")
+                    Exit Sub
+                Else
+                    Reason = frm.strRmks
+                End If
+
+                If clsSNShipmentHead.UnpostData(TxtDispatch.Value, Me.Form_ID) Then
+                    Dim obj As New clsCancelLog
+                    obj.Program_Code = Me.Form_ID
+                    obj.DOCUMENT_NO = clsCommon.myCstr(TxtDispatch.Value)
+                    obj.REASON = Reason
+                    obj.ACTIVITY_TYPE = Nothing
+                    If clsCancelLog.SaveData(obj, True, Nothing) Then
+                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        LoadDataDispatch(TxtDispatch.Value, NavigatorType.Current)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub OpenDispatch_Click(sender As Object, e As EventArgs) Handles OpenDispatch.Click
+        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSNShipment, TxtDispatch.Value)
+    End Sub
+
+    ''SALE INVOICE
+    'Private Sub TxtSI__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtSI._MYValidating
+    '    Dim strwherecls As String = ""
+    '    strwherecls = Xtra.CustomerPermission()
+    '    Dim qry As String = "select Document_Code as Code,CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SALE_INVOICE_HEAD.Comments,Total_Amt as Amount,case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],Against_Shipment_No as [Shipment No],TSPL_USER_MASTER.User_Name as [User Name] from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SD_SALE_INVOICE_HEAD.Created_By"
+    '    Dim whrClas As String = ""
+    '    If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
+    '        whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and Invoice_Type in ('T','R') and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + strwherecls + ") "
+    '    ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+    '        whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and Invoice_Type in ('T','R')"
+    '    ElseIf clsCommon.myLen(strwherecls) > 0 Then
+    '        whrClas = " TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + strwherecls + ") and Invoice_Type in ('T','R')"
+    '    Else
+    '        whrClas = "  Invoice_Type in ('T','R')"
+    '    End If
+
+    '    LoadDataSI(clsCommon.ShowSelectForm("ShipmentCofndInvoice", qry, "Code", whrClas, TxtSI.Value, "Code", isButtonClicked), NavigatorType.Current)
+    'End Sub
+
+    'Sub LoadDataSI(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+    '    Dim obj As New clsSNInvoiceHead()
+    '    obj = clsSNInvoiceHead.GetData(strCode, "'T','R'", NavTyep)
+    '    TxtSI.Value = obj.Document_Code
+    '    DateSI.Value = obj.Document_Date
+    '    lblSI.Text = obj.Against_Shipment_No
+    '    lblIRNSI.Text = obj.EInvoiceIRNNo
+    'End Sub
+
+    'Private Sub TxtSI__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles TxtSI._MYNavigator
+    '    Try
+    '        Dim strwherecls As String = ""
+    '        Dim qst As String = ""
+    '        Dim strcondition As String = ""
+    '        strwherecls = Xtra.CustomerPermission()
+    '        If clsCommon.myLen(strwherecls) > 0 Then
+    '            strcondition = "and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + strwherecls + ")"
+    '        End If
+    '        qst = "select count(*) from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + TxtSI.Value + "'   and Invoice_Type in ('T','R') " + strcondition + " "
+
+    '        '-----------------------------------------------------
+    '        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
+    '        If count = 0 Then
+    '            TxtSI.MyReadOnly = False
+    '        Else
+    '            TxtSI.MyReadOnly = True
+    '        End If
+    '        LoadDataSI(TxtSI.Value, NavType)
+    '    Catch ex As Exception
+    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '    End Try
+    'End Sub
+
+    ''SALE INVOICE
+    Private Sub btnSI_Click(sender As Object, e As EventArgs) Handles btnSI.Click
+        'TxtSI.Value = Nothing
+        txtSaleInvoice.Text = ""
+        DateSI.Value = Nothing
+        lblSI.Text = ""
+        lblIRNSI.Text = ""
+    End Sub
+
+    Private Sub DeleteSI_Click(sender As Object, e As EventArgs) Handles DeleteSI.Click
+        DeleteDataSI()
+    End Sub
+
+    Sub DeleteDataSI()
+        Try
+            Dim Reason As String = ""
+            If (myMessages.deleteConfirm()) Then
+                If clsCancelLog.CheckForReasonOnDelete() Then
+                    '' REASON FOR DELETE 
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Remarks for Delete"
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                    End If
+                End If
+                If (clsSNInvoiceHead.DeleteData(txtSaleInvoice.Text)) Then
+                    saveCancelLog(Reason, "Delete", Nothing)
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    AddNewSI()
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Sub AddNewSI()
+        'TxtSI.Value = Nothing
+        txtSaleInvoice.Text = ""
+        DateSI.Value = Nothing
+        lblSI.Text = ""
+        lblIRNSI.Text = ""
+    End Sub
+
+    Private Sub UnpostSI_Click(sender As Object, e As EventArgs) Handles UnpostSI.Click
+        Try
+            If clsCommon.myLen(txtSaleInvoice.Text) <= 0 Then
+                Throw New Exception("Select document for unpost.")
+            End If
+
+            Dim qry As String = "select count(*) from TSPL_SD_SALE_INVOICE_HEAD where Status='0' and Document_Code='" + TxtSI.Value + "'"
+            Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+
+            If check > 0 Then
+                Throw New Exception("Current document is not posted.")
+            End If
+
+            If common.clsCommon.MyMessageBoxShow("Amend and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                '' reason for reverse
+                Dim Reason As String = ""
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Amendment"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Throw New Exception("Fill amendment remarks.")
+                    Exit Sub
+                Else
+                    Reason = frm.strRmks
+                End If
+
+                If clsSNInvoiceHead.UnpostData(txtSaleInvoice.Text, Me.Form_ID) Then
+                    Dim obj As New clsCancelLog
+                    obj.Program_Code = Me.Form_ID
+                    obj.DOCUMENT_NO = clsCommon.myCstr(txtSaleInvoice.Text)
+                    obj.REASON = Reason
+                    obj.ACTIVITY_TYPE = Nothing
+                    If clsCancelLog.SaveData(obj, True, Nothing) Then
+                        common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
+                        'LoadDataSI(txtSaleInvoice.Text, NavigatorType.Current)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub OpenSI_Click(sender As Object, e As EventArgs) Handles OpenSI.Click
+        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSNSaleInvoice, txtSaleInvoice.Text)
+    End Sub
+
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
+    End Sub
+
 End Class

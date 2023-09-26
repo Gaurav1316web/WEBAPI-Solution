@@ -52612,6 +52612,10 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Comp_code", "VARCHAR(30) NULL")
             coll.Add("Tender_Type", "integer null")
             coll.Add("Mode", "integer null")
+            coll.Add("close_yn", "char(1) not null default 'N'")
+            coll.Add("Closed_By", "varchar(12) NULL")
+            coll.Add("Closed_Date", "Datetime NULL")
+            coll.Add("close_remarks", "varchar(500) NOT NULL DEFAULT ''")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_HEADER", coll, Nothing, False, True, "", "DocumentCode", "DocumentDate")
 
             coll = New Dictionary(Of String, String)()
