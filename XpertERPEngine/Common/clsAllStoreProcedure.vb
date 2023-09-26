@@ -2339,10 +2339,11 @@ insert into TSPL_TDS_DEDUCTION_DETAIL values(@Detail_Line_No,@Deduction_Code,@Fr
             'sanjay
 
             ''richa create stored procedures for mobile app vijaya VIJ/28/07/21-001251
-            strProcedureBody = MobileAppStoredProceduresFunction("Customer Ledger")
-            If clsCommon.myLen(clsCommon.myCstr(strProcedureBody)) > 0 Then
-                clsCommonFunctionality.CreateStoreProcedure("SP_Customer_Ledger", strProcedureBody)
-            End If
+            'strProcedureBody = MobileAppStoredProceduresFunction("Customer Ledger")
+            'If clsCommon.myLen(clsCommon.myCstr(strProcedureBody)) > 0 Then
+            '    clsCommonFunctionality.CreateStoreProcedure("SP_Customer_Ledger", strProcedureBody)
+            'End If
+            ''Comment by balwinder on 25/09/2023 as It gives doc date error.
 
             strProcedureBody = MobileAppStoredProceduresFunction("Customer Security")
             If clsCommon.myLen(clsCommon.myCstr(strProcedureBody)) > 0 Then

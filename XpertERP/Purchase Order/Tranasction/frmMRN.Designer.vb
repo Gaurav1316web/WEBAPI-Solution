@@ -22,6 +22,10 @@ Partial Class frmMRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -320,7 +324,6 @@ Partial Class frmMRN
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(988, 404)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -411,7 +414,6 @@ Partial Class frmMRN
         Me.lblSubLocation.Name = "lblSubLocation"
         Me.lblSubLocation.Size = New System.Drawing.Size(291, 19)
         Me.lblSubLocation.TabIndex = 278
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel43
         '
@@ -609,7 +611,6 @@ Partial Class frmMRN
         Me.txtRGPType.Name = "txtRGPType"
         Me.txtRGPType.Size = New System.Drawing.Size(98, 18)
         Me.txtRGPType.TabIndex = 43
-        Me.txtRGPType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtRGPType.TextWrap = False
         Me.txtRGPType.Visible = False
         '
@@ -628,6 +629,7 @@ Partial Class frmMRN
         Me.cboMRNType.AutoCompleteDisplayMember = Nothing
         Me.cboMRNType.AutoCompleteValueMember = Nothing
         Me.cboMRNType.CalculationExpression = Nothing
+        Me.cboMRNType.DropDownAnimationEnabled = True
         Me.cboMRNType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboMRNType.FieldCode = Nothing
         Me.cboMRNType.FieldDesc = Nothing
@@ -699,6 +701,7 @@ Partial Class frmMRN
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -729,7 +732,6 @@ Partial Class frmMRN
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(292, 18)
         Me.lblDept.TabIndex = 12
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDept.TextWrap = False
         '
         'RadLabel21
@@ -967,7 +969,6 @@ Partial Class frmMRN
         Me.lblShipToLocation.Name = "lblShipToLocation"
         Me.lblShipToLocation.Size = New System.Drawing.Size(292, 18)
         Me.lblShipToLocation.TabIndex = 9
-        Me.lblShipToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblShipToLocation.TextWrap = False
         '
         'lblBillToLocation
@@ -980,7 +981,6 @@ Partial Class frmMRN
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(292, 18)
         Me.lblBillToLocation.TabIndex = 6
-        Me.lblBillToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocation.TextWrap = False
         '
         'RadLabel14
@@ -1059,17 +1059,18 @@ Partial Class frmMRN
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(942, 115)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel7
         '
@@ -1110,7 +1111,6 @@ Partial Class frmMRN
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(292, 18)
         Me.lblVendorName.TabIndex = 3
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'RadLabel2
@@ -1466,7 +1466,6 @@ Partial Class frmMRN
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 1
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -1546,7 +1545,6 @@ Partial Class frmMRN
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 1
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTermName.TextWrap = False
         '
         'txtDueDate
@@ -1606,13 +1604,14 @@ Partial Class frmMRN
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(962, 216)
         Me.gv2.TabIndex = 1
-        Me.gv2.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -1662,17 +1661,18 @@ Partial Class frmMRN
         Me.gvAC.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAC.Location = New System.Drawing.Point(3, 16)
         '
-        'gvAC
+        '
         '
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
+        Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
         Me.gvAC.Size = New System.Drawing.Size(567, 312)
         Me.gvAC.TabIndex = 3
-        Me.gvAC.Text = "RadGridView1"
         '
         'RadPanel1
         '
@@ -1733,7 +1733,9 @@ Partial Class frmMRN
         '
         '
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
+        Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvACInsurance.ShowGroupPanel = False
@@ -1741,7 +1743,6 @@ Partial Class frmMRN
         Me.gvACInsurance.Size = New System.Drawing.Size(384, 312)
         Me.gvACInsurance.TabIndex = 3
         Me.gvACInsurance.TabStop = False
-        Me.gvACInsurance.Text = "RadGridView1"
         '
         'RadPanel2
         '

@@ -61,7 +61,7 @@ Public Class frmDeletionForEntry
             WeighmetDate.Value = clsDBFuncationality.getSingleValue(" Select Weighment_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No  where Against_GRN_No = '" + obj.GRN_No + "'  ")
             txttMRN.Text = clsDBFuncationality.getSingleValue(" Select MRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
             MRNDatee.Value = clsDBFuncationality.getSingleValue(" Select MRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
-            obj.MRNNo = txtMRN.Text
+            obj.MRNNo = txttMRN.Text
             txtNic.Text = clsDBFuncationality.getSingleValue("select Document_No from TSPL_NIR_QC where MRN_No = '" + obj.MRNNo + "' ")
             NicDate.Value = clsDBFuncationality.getSingleValue("select Document_Date from TSPL_NIR_QC where MRN_No = '" + obj.MRNNo + "' ")
             txtWet.Text = clsDBFuncationality.getSingleValue("select Document_Code from TSPL_QC_CHECK_HEAD where Gate_Entry_No = '" + obj.GRN_No + "'")
@@ -224,7 +224,7 @@ Public Class frmDeletionForEntry
         End Try
     End Sub
 
-    Private Sub btnClose_Click(sender As Object, e As EventArgs)
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
 
@@ -555,7 +555,7 @@ Public Class frmDeletionForEntry
 
                 If clsSRNHead.ReverseAndUnpost(txttSRN.Text) Then
                     common.clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly", Me.Text)
-                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                    ' LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
@@ -679,6 +679,8 @@ Public Class frmDeletionForEntry
         FormatGrid()
         FormatGridGv2()
     End Sub
+
+
 
     'Private Sub txtBillToLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBillToLocation._MYValidating
     '    Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "

@@ -64,6 +64,9 @@ Public Class frmMilkCollectionDCSMultipleDays
         settSNFDecimalPlace = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SNFDecimalPlaces, clsFixedParameterCode.SNFDecimalPlaces, Nothing))
         SettHeaderFATSNFKGDecimalPlaces = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.HeaderFATSNFKGDecimalPlaces, clsFixedParameterCode.HeaderFATSNFKGDecimalPlaces, Nothing))
         SettMilkCollectionFATSNFTypeHeader = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFTypeHeader, clsFixedParameterCode.MilkCollectionFATSNFTypeHeader, Nothing))
+        If isPickCLRInsteadOfSNF Then
+            MyLabel14.Text = "CLR"
+        End If
         MyBase.SetUserMgmt(clsUserMgtCode.MilkCollectionDCS)
         LoadFATSNFType()
         txtDate.Value = clsCommon.GETSERVERDATE()
@@ -343,7 +346,7 @@ Public Class frmMilkCollectionDCSMultipleDays
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = "Evening SNF KG" ''If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG")
+        repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "Evening CLR KG", "Evening SNF KG")
         repoNumBox.Name = colEveningSNFKG
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
@@ -455,7 +458,7 @@ Public Class frmMilkCollectionDCSMultipleDays
 
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = "{0:n3}"
-        repoNumBox.HeaderText = "Morning SNF KG" ''If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
+        repoNumBox.HeaderText = If(isPickCLRInsteadOfSNF, "Morning CLR KG", "Morning SNF KG")
         repoNumBox.Name = colMorningSNFKG
         repoNumBox.Width = 100
         repoNumBox.Minimum = 0
@@ -553,7 +556,11 @@ Public Class frmMilkCollectionDCSMultipleDays
         txtTotReceivedSNF.Text = clsCommon.myCstr(Math.Round((TotEveningSNFKG + TotMorningSNFKG), 3, MidpointRounding.ToEven))
         If SettMilkCollectionFATSNFTypeHeader = 0 Then
             txtTotEnteredFAT.Value = Math.Round((txtTotEnteredQty.Value * txtTotEnteredFATPer.Value / 100), 3, MidpointRounding.ToEven)
-            txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * txtTotEnteredSNFPer.Value / 100), 3, MidpointRounding.ToEven)
+            Dim snfPer As Decimal = txtTotEnteredSNFPer.Value
+            If isPickCLRInsteadOfSNF Then
+                snfPer = clsEkoPro.getSnfOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor)
+            End If
+            txtTotEnteredSNF.Value = Math.Round((txtTotEnteredQty.Value * snfper / 100), 3, MidpointRounding.ToEven)
         Else
             txtTotEnteredFATPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredFAT.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
             txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
@@ -834,6 +841,11 @@ Public Class frmMilkCollectionDCSMultipleDays
                 txtTotEnteredFATPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredFAT.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
                 txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
 
+                If isPickCLRInsteadOfSNF Then
+                    txtTotEnteredSNFPer.Value = clsEkoPro.getClrOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor)
+                End If
+
+
                 txtDesc.Text = obj.Description
                 Dim PreviousSNo As Integer = -1
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
@@ -1071,8 +1083,11 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_
     End Sub
 
     Sub setShiftDate()
-        Dim PrevShift As String = clsCommon.GetPrintDate(txtDate.Value.AddDays(-1), "dd/MM/yyyy")
-        Dim CurrShift As String = clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")
+        'Dim PrevShift As String = clsCommon.GetPrintDate(txtDate.Value.AddDays(-1), "dd/MM/yyyy")
+        'Dim CurrShift As String = clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy")
+
+        Dim PrevShift As String = ""
+        Dim CurrShift As String = ""
 
         gv1.Columns(colEveningQty).HeaderText = "Evening Qty" + Environment.NewLine + PrevShift
         gv1.Columns(colEveningFATPerNoDecimal).HeaderText = "Evening FAT " + Environment.NewLine + PrevShift

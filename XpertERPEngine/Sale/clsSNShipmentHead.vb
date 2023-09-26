@@ -177,6 +177,7 @@ Public Class clsSNShipmentHead
     Public LR_GR_Date As Date? = Nothing
     Public SHIP_TO_DELIVERY_AT As String = Nothing
     Public Order_Qty As Double = 0
+    Public count As Integer = 0
 
 #End Region
 
@@ -1654,8 +1655,16 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 Dim qry As String = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+                qry = "Select Count(DCS_Code) from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL where DOCUMENT_CODE='" + strCode + "'"
+                obj.count = clsCommon.myCdbl(clsDBFuncationality.ExecuteNonQuery(qry, trans))
+                If obj.count > 0 Then
+                    qry = "delete from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL where DOCUMENT_CODE='" + strCode + "'"
+                    isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                End If
+
                 qry = "delete from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strCode + "'"
                 isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                 isSaved = isSaved AndAlso clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
                 If (isSaved) Then
                     trans.Commit()
@@ -1668,6 +1677,49 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
             End Try
         End If
         Return isSaved
+    End Function
+
+    Public Shared Function UnpostData(ByVal strCode As String, ByVal FormId As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim issaved As Boolean = True
+            issaved = issaved AndAlso UnpostData(strCode, FormId, trans)
+            trans.Commit()
+            Return issaved
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
+    Public Shared Function UnpostData(ByVal strCode As String, ByVal FormId As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim obj As clsSNShipmentHead = clsSNShipmentHead.GetData(strCode, NavigatorType.Current, trans)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Document_Code,Bill_To_Location from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strCode + "'", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                'clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProductionEntry, clsCommon.myCstr(dt.Rows(0)("Bill_To_Location")), clsCommon.myCDate(dt.Rows(0)("Document_Code")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Sales And Distribution", "Shipment/Sale Invoice", obj.Bill_To_Location, obj.Document_Date, trans)
+            End If
+
+            Dim qry As String = "select  Against_Shipment_No from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No ='" + strCode + "'"
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                qry = "SaleInvoice is created"
+                Throw New Exception(qry)
+                'clsCommon.MyMessageBoxShow("SaleInvoice is created")
+                Return True
+                Exit Function
+            End If
+
+            Dim issaved As Boolean = True
+
+            qry = "update TSPL_SD_SHIPMENT_HEAD set status='0',Modify_By='" + objCommonVar.CurrentUserCode + "',Modify_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where Document_Code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            Return issaved
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
     End Function
 
     Public Shared Function IsValidCustomer(ByVal Arr As List(Of String), ByVal strCustomerCode As String) As Boolean
