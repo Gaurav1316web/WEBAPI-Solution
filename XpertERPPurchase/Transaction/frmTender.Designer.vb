@@ -29,6 +29,8 @@ Partial Class frmTender
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.cboMode = New common.Controls.MyComboBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.cboTenderType = New common.Controls.MyComboBox()
         Me.RadLabel29 = New common.Controls.MyLabel()
@@ -95,6 +97,7 @@ Partial Class frmTender
         Me.txtScheduleStartDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.MyLabel38 = New common.Controls.MyLabel()
+        Me.chkRalclose = New System.Windows.Forms.CheckBox()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.lblCreatedByValue = New common.Controls.MyLabel()
@@ -121,8 +124,6 @@ Partial Class frmTender
         Me.ExportData = New Telerik.WinControls.UI.RadMenuItem()
         Me.ExportBlankSheet = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.MyLabel17 = New common.Controls.MyLabel()
-        Me.cboMode = New common.Controls.MyComboBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -132,6 +133,8 @@ Partial Class frmTender
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboMode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboTenderType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -204,8 +207,6 @@ Partial Class frmTender
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboMode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -223,6 +224,7 @@ Partial Class frmTender
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.chkRalclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.MyLabel11)
         Me.SplitContainer1.Panel2.Controls.Add(Me.lblCreatedByValue)
@@ -311,6 +313,42 @@ Partial Class frmTender
         Me.SplitContainer2.Size = New System.Drawing.Size(1077, 446)
         Me.SplitContainer2.SplitterDistance = 118
         Me.SplitContainer2.TabIndex = 1515
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel17.Location = New System.Drawing.Point(5, 74)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(35, 16)
+        Me.MyLabel17.TabIndex = 1523
+        Me.MyLabel17.Text = "Mode"
+        '
+        'cboMode
+        '
+        Me.cboMode.AutoCompleteDisplayMember = Nothing
+        Me.cboMode.AutoCompleteValueMember = Nothing
+        Me.cboMode.CalculationExpression = Nothing
+        Me.cboMode.DropDownAnimationEnabled = True
+        Me.cboMode.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboMode.FieldCode = Nothing
+        Me.cboMode.FieldDesc = Nothing
+        Me.cboMode.FieldMaxLength = 0
+        Me.cboMode.FieldName = Nothing
+        Me.cboMode.isCalculatedField = False
+        Me.cboMode.IsSourceFromTable = False
+        Me.cboMode.IsSourceFromValueList = False
+        Me.cboMode.IsUnique = False
+        Me.cboMode.Location = New System.Drawing.Point(66, 72)
+        Me.cboMode.MendatroryField = True
+        Me.cboMode.MyLinkLable1 = Me.MyLabel17
+        Me.cboMode.MyLinkLable2 = Nothing
+        Me.cboMode.Name = "cboMode"
+        Me.cboMode.ReferenceFieldDesc = Nothing
+        Me.cboMode.ReferenceFieldName = Nothing
+        Me.cboMode.ReferenceTableName = Nothing
+        Me.cboMode.Size = New System.Drawing.Size(245, 20)
+        Me.cboMode.TabIndex = 1522
         '
         'MyLabel16
         '
@@ -1236,6 +1274,17 @@ Partial Class frmTender
         Me.MyLabel38.TabIndex = 1521
         Me.MyLabel38.Text = "Press F5 To View Penelty Details"
         '
+        'chkRalclose
+        '
+        Me.chkRalclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.chkRalclose.AutoSize = True
+        Me.chkRalclose.Location = New System.Drawing.Point(348, 5)
+        Me.chkRalclose.Name = "chkRalclose"
+        Me.chkRalclose.Size = New System.Drawing.Size(77, 18)
+        Me.chkRalclose.TabIndex = 10
+        Me.chkRalclose.Text = "Close RAL"
+        Me.chkRalclose.UseVisualStyleBackColor = True
+        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1452,42 +1501,6 @@ Partial Class frmTender
         Me.RadMenuItem6.Text = "Close"
         Me.RadMenuItem6.UseCompatibleTextRendering = False
         '
-        'MyLabel17
-        '
-        Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel17.Location = New System.Drawing.Point(5, 74)
-        Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(35, 16)
-        Me.MyLabel17.TabIndex = 1523
-        Me.MyLabel17.Text = "Mode"
-        '
-        'cboMode
-        '
-        Me.cboMode.AutoCompleteDisplayMember = Nothing
-        Me.cboMode.AutoCompleteValueMember = Nothing
-        Me.cboMode.CalculationExpression = Nothing
-        Me.cboMode.DropDownAnimationEnabled = True
-        Me.cboMode.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboMode.FieldCode = Nothing
-        Me.cboMode.FieldDesc = Nothing
-        Me.cboMode.FieldMaxLength = 0
-        Me.cboMode.FieldName = Nothing
-        Me.cboMode.isCalculatedField = False
-        Me.cboMode.IsSourceFromTable = False
-        Me.cboMode.IsSourceFromValueList = False
-        Me.cboMode.IsUnique = False
-        Me.cboMode.Location = New System.Drawing.Point(66, 72)
-        Me.cboMode.MendatroryField = True
-        Me.cboMode.MyLinkLable1 = Me.MyLabel17
-        Me.cboMode.MyLinkLable2 = Nothing
-        Me.cboMode.Name = "cboMode"
-        Me.cboMode.ReferenceFieldDesc = Nothing
-        Me.cboMode.ReferenceFieldName = Nothing
-        Me.cboMode.ReferenceTableName = Nothing
-        Me.cboMode.Size = New System.Drawing.Size(245, 20)
-        Me.cboMode.TabIndex = 1522
-        '
         'frmTender
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1513,6 +1526,8 @@ Partial Class frmTender
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboMode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboTenderType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1589,8 +1604,6 @@ Partial Class frmTender
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboMode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1693,5 +1706,6 @@ Partial Class frmTender
     Friend WithEvents RadMenuItem9 As RadMenuItem
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents cboMode As common.Controls.MyComboBox
+    Friend WithEvents chkRalclose As CheckBox
 End Class
 
