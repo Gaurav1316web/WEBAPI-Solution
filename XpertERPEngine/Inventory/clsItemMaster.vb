@@ -2,6 +2,7 @@
 Public Class clsItemMaster
 #Region "Variables"
     Public FG_for_CF As Integer = 0
+    Public BomBuildQty As Double = 0
     Public NIR_QC As Boolean = False
     Public AllowSRNWithoutShortReject As Integer = 0
     Public Is_Scheme_Item As Boolean = False
@@ -1517,6 +1518,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "Is_Advance_Required", IIf(obj.Is_Advance_Required, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Leakage_Not_Applicable", IIf(obj.Is_Leakage_Not_Applicable, 1, 0))
             clsCommon.AddColumnsForChange(coll, "FG_for_CF", obj.FG_for_CF)
+            clsCommon.AddColumnsForChange(coll, "BomBuildQty", obj.BomBuildQty)
             clsCommon.AddColumnsForChange(coll, "NIR_QC", IIf(obj.NIR_QC, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Insurance", obj.Is_Insurance)
             If obj.Is_Insurance = 1 Then
@@ -1723,6 +1725,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
 
                 obj.HSNCode = clsCommon.myCstr(dt.Rows(0)("HSN_Code"))
                 obj.FG_for_CF = clsCommon.myCdbl(dt.Rows(0)("FG_for_CF"))
+                obj.BomBuildQty = clsCommon.myCdbl(dt.Rows(0)("BomBuildQty"))
                 obj.NIR_QC = (clsCommon.myCdbl(dt.Rows(0)("NIR_QC")) = 1)
                 obj.Cust_Account = clsCommon.myCstr(dt.Rows(0)("Cust_Account"))
                 obj.Cust_Account_Name = clsCommon.myCstr(dt.Rows(0)("cust_acct_desc"))

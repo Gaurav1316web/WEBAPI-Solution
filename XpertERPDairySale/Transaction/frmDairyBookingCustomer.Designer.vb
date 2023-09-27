@@ -22,15 +22,16 @@ Partial Class frmDairyBookingCustomer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblShiftType = New Telerik.WinControls.UI.RadLabel()
         Me.txtCouponDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.lblCouponDate = New common.Controls.MyLabel()
@@ -130,8 +131,6 @@ Partial Class frmDairyBookingCustomer
         Me.txtPONo = New common.Controls.MyTextBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtCustPODate = New common.Controls.MyDateTimePicker()
-        Me.cmbGatePassType = New common.Controls.MyComboBox()
-        Me.lblGatePassType = New common.Controls.MyLabel()
         Me.chkGatePass = New Telerik.WinControls.UI.RadCheckBox()
         Me.ItemTypePanel = New System.Windows.Forms.Panel()
         Me.rbtn_Ambient = New Telerik.WinControls.UI.RadRadioButton()
@@ -232,13 +231,15 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblShiftType = New Telerik.WinControls.UI.RadLabel()
+        Me.cmbGatePassType = New common.Controls.MyComboBox()
+        Me.lblGatePassType = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCouponDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCouponDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -330,8 +331,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.txtPONo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCustPODate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkGatePass, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ItemTypePanel.SuspendLayout()
         CType(Me.rbtn_Ambient, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -430,7 +429,8 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -491,6 +491,8 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.cmbGatePassType)
+        Me.RadPageViewPage1.Controls.Add(Me.lblGatePassType)
         Me.RadPageViewPage1.Controls.Add(Me.lblShiftType)
         Me.RadPageViewPage1.Controls.Add(Me.txtCouponDate)
         Me.RadPageViewPage1.Controls.Add(Me.lblCouponDate)
@@ -548,6 +550,13 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1077, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'lblShiftType
+        '
+        Me.lblShiftType.Location = New System.Drawing.Point(686, -3)
+        Me.lblShiftType.Name = "lblShiftType"
+        Me.lblShiftType.Size = New System.Drawing.Size(2, 2)
+        Me.lblShiftType.TabIndex = 1536
         '
         'txtCouponDate
         '
@@ -975,10 +984,10 @@ Partial Class frmDairyBookingCustomer
         Me.cmbcashcredit.IsSourceFromTable = False
         Me.cmbcashcredit.IsSourceFromValueList = False
         Me.cmbcashcredit.IsUnique = False
-        RadListDataItem1.Text = "CASH"
-        RadListDataItem2.Text = "CREDIT"
-        Me.cmbcashcredit.Items.Add(RadListDataItem1)
-        Me.cmbcashcredit.Items.Add(RadListDataItem2)
+        RadListDataItem4.Text = "CASH"
+        RadListDataItem5.Text = "CREDIT"
+        Me.cmbcashcredit.Items.Add(RadListDataItem4)
+        Me.cmbcashcredit.Items.Add(RadListDataItem5)
         Me.cmbcashcredit.Location = New System.Drawing.Point(506, 23)
         Me.cmbcashcredit.MendatroryField = False
         Me.cmbcashcredit.MyLinkLable1 = Nothing
@@ -1789,8 +1798,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage3.Controls.Add(Me.txtPONo)
         Me.RadPageViewPage3.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage3.Controls.Add(Me.txtCustPODate)
-        Me.RadPageViewPage3.Controls.Add(Me.cmbGatePassType)
-        Me.RadPageViewPage3.Controls.Add(Me.lblGatePassType)
         Me.RadPageViewPage3.Controls.Add(Me.chkGatePass)
         Me.RadPageViewPage3.Controls.Add(Me.ItemTypePanel)
         Me.RadPageViewPage3.Controls.Add(Me.Panel3)
@@ -2015,48 +2022,6 @@ Partial Class frmDairyBookingCustomer
         Me.txtCustPODate.TabStop = False
         Me.txtCustPODate.Text = "13/06/2011"
         Me.txtCustPODate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'cmbGatePassType
-        '
-        Me.cmbGatePassType.AutoCompleteDisplayMember = Nothing
-        Me.cmbGatePassType.AutoCompleteValueMember = Nothing
-        Me.cmbGatePassType.CalculationExpression = Nothing
-        Me.cmbGatePassType.DropDownAnimationEnabled = True
-        Me.cmbGatePassType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbGatePassType.FieldCode = Nothing
-        Me.cmbGatePassType.FieldDesc = Nothing
-        Me.cmbGatePassType.FieldMaxLength = 0
-        Me.cmbGatePassType.FieldName = Nothing
-        Me.cmbGatePassType.isCalculatedField = False
-        Me.cmbGatePassType.IsSourceFromTable = False
-        Me.cmbGatePassType.IsSourceFromValueList = False
-        Me.cmbGatePassType.IsUnique = False
-        RadListDataItem3.Text = "Select"
-        RadListDataItem4.Text = "AM"
-        RadListDataItem5.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem3)
-        Me.cmbGatePassType.Items.Add(RadListDataItem4)
-        Me.cmbGatePassType.Items.Add(RadListDataItem5)
-        Me.cmbGatePassType.Location = New System.Drawing.Point(208, 225)
-        Me.cmbGatePassType.MendatroryField = False
-        Me.cmbGatePassType.MyLinkLable1 = Nothing
-        Me.cmbGatePassType.MyLinkLable2 = Nothing
-        Me.cmbGatePassType.Name = "cmbGatePassType"
-        Me.cmbGatePassType.ReferenceFieldDesc = Nothing
-        Me.cmbGatePassType.ReferenceFieldName = Nothing
-        Me.cmbGatePassType.ReferenceTableName = Nothing
-        Me.cmbGatePassType.Size = New System.Drawing.Size(54, 20)
-        Me.cmbGatePassType.TabIndex = 1505
-        '
-        'lblGatePassType
-        '
-        Me.lblGatePassType.FieldName = Nothing
-        Me.lblGatePassType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGatePassType.Location = New System.Drawing.Point(115, 227)
-        Me.lblGatePassType.Name = "lblGatePassType"
-        Me.lblGatePassType.Size = New System.Drawing.Size(87, 16)
-        Me.lblGatePassType.TabIndex = 1504
-        Me.lblGatePassType.Text = "Gate Pass Type"
         '
         'chkGatePass
         '
@@ -3135,12 +3100,47 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'lblShiftType
+        'cmbGatePassType
         '
-        Me.lblShiftType.Location = New System.Drawing.Point(686, -3)
-        Me.lblShiftType.Name = "lblShiftType"
-        Me.lblShiftType.Size = New System.Drawing.Size(2, 2)
-        Me.lblShiftType.TabIndex = 1536
+        Me.cmbGatePassType.AutoCompleteDisplayMember = Nothing
+        Me.cmbGatePassType.AutoCompleteValueMember = Nothing
+        Me.cmbGatePassType.CalculationExpression = Nothing
+        Me.cmbGatePassType.DropDownAnimationEnabled = True
+        Me.cmbGatePassType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbGatePassType.FieldCode = Nothing
+        Me.cmbGatePassType.FieldDesc = Nothing
+        Me.cmbGatePassType.FieldMaxLength = 0
+        Me.cmbGatePassType.FieldName = Nothing
+        Me.cmbGatePassType.isCalculatedField = False
+        Me.cmbGatePassType.IsSourceFromTable = False
+        Me.cmbGatePassType.IsSourceFromValueList = False
+        Me.cmbGatePassType.IsUnique = False
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "AM"
+        RadListDataItem3.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem1)
+        Me.cmbGatePassType.Items.Add(RadListDataItem2)
+        Me.cmbGatePassType.Items.Add(RadListDataItem3)
+        Me.cmbGatePassType.Location = New System.Drawing.Point(171, 113)
+        Me.cmbGatePassType.MendatroryField = False
+        Me.cmbGatePassType.MyLinkLable1 = Nothing
+        Me.cmbGatePassType.MyLinkLable2 = Nothing
+        Me.cmbGatePassType.Name = "cmbGatePassType"
+        Me.cmbGatePassType.ReferenceFieldDesc = Nothing
+        Me.cmbGatePassType.ReferenceFieldName = Nothing
+        Me.cmbGatePassType.ReferenceTableName = Nothing
+        Me.cmbGatePassType.Size = New System.Drawing.Size(54, 20)
+        Me.cmbGatePassType.TabIndex = 1538
+        '
+        'lblGatePassType
+        '
+        Me.lblGatePassType.FieldName = Nothing
+        Me.lblGatePassType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGatePassType.Location = New System.Drawing.Point(78, 115)
+        Me.lblGatePassType.Name = "lblGatePassType"
+        Me.lblGatePassType.Size = New System.Drawing.Size(87, 16)
+        Me.lblGatePassType.TabIndex = 1537
+        Me.lblGatePassType.Text = "Gate Pass Type"
         '
         'frmDairyBookingCustomer
         '
@@ -3164,6 +3164,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCouponDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCouponDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3260,8 +3261,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.txtPONo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCustPODate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkGatePass, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ItemTypePanel.ResumeLayout(False)
         Me.ItemTypePanel.PerformLayout()
@@ -3370,7 +3369,8 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3535,8 +3535,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents txtPONo As common.Controls.MyTextBox
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtCustPODate As common.Controls.MyDateTimePicker
-    Friend WithEvents cmbGatePassType As common.Controls.MyComboBox
-    Friend WithEvents lblGatePassType As common.Controls.MyLabel
     Friend WithEvents chkGatePass As RadCheckBox
     Friend WithEvents lblReceipt As common.Controls.MyLabel
     Friend WithEvents txtReceipt As common.UserControls.txtFinder
@@ -3580,5 +3578,7 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents txtCouponDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblCouponDate As common.Controls.MyLabel
     Friend WithEvents lblShiftType As RadLabel
+    Friend WithEvents cmbGatePassType As common.Controls.MyComboBox
+    Friend WithEvents lblGatePassType As common.Controls.MyLabel
 End Class
 

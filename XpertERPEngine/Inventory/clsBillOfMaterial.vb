@@ -60,12 +60,20 @@ Public Class clsBillOfMaterial
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim isSaved As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim obj As New clsBillOfMaterial()
         Try
             isSaved = False
 
             If (clsCommon.myLen(strCode) <= 0) Then
                 Throw New Exception("Code not found to Delete")
             End If
+
+            Dim isPosted As Integer = 0
+            isPosted = clsDBFuncationality.getSingleValue("SELECT Count(*) FROM TSPL_MF_BOM_HEAD where BOM_CODE = '" & strCode & "' and POSTED=1", trans)
+            If (isPosted = 1) Then
+                Throw New Exception("Already Posted on :" + obj.Posting_Date)
+            End If
+
 
             Dim qry As String
             qry = "delete from TSPL_MF_BOM_DETAIL where BOM_CODE ='" + strCode + "'"
@@ -98,8 +106,51 @@ Public Class clsBillOfMaterial
         Return isSaved
     End Function
 
+    Public Shared Function UnpostData(ByVal strCode As String, ByVal FormId As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim issaved As Boolean = True
+            issaved = issaved AndAlso UnpostData(strCode, FormId, trans)
+
+            trans.Commit()
+            Return issaved
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
+
+    Public Shared Function UnpostData(ByVal strCode As String, ByVal FormId As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            'Dim obj As New clsBillOfMaterial
+            'obj = clsBillOfMaterial.GetData(strCode, NavigatorType.Current, trans)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select BOM_DATE,LOCATION_CODE from TSPL_MF_BOM_HEAD where BOM_CODE='" + strCode + "'", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionSTD, clsUserMgtCode.frmBillOfMaterialCosting, clsCommon.myCstr(dt.Rows(0)("LOCATION_CODE")), clsCommon.myCDate(dt.Rows(0)("BOM_DATE")), trans)
+
+            End If
+            Dim issaved As Boolean = True
+
+            Dim qry As String = "select count(*) from TSPL_SPP_PRODUCTION_ENTRY_DETAIL where  BOM_CODE ='" + strCode + "'"
+            Dim count As Integer = clsDBFuncationality.getSingleValue(qry, trans)
+
+            If count > 0 Then
+                qry = " First UnPost and Delete Production Entry then Delete LCF"
+                Throw New Exception(qry)
+            End If
+
+            qry = "update TSPL_MF_BOM_HEAD set Posted='0',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where BOM_CODE='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            Return issaved
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Function
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsBillOfMaterial
         Dim arrLoc As String = Nothing
+        Dim obj As New clsBillOfMaterial()
+        Dim objtr As New clsBillOfMaterial()
         Dim objLoc As New clsMCCCodes()
         objLoc = clsMCCCodes.GetData()
 
@@ -107,13 +158,10 @@ Public Class clsBillOfMaterial
             arrLoc = objLoc.arrLocCodes
         End If
 
-        Dim obj As New clsBillOfMaterial()
-        Dim objtr As New clsBillOfMaterial()
-
         ObjList = New List(Of clsBillOfMaterial)
 
         Dim qry As String = "SELECT T1.PROD_Drawing_No,T1.BOM_CODE,T1.DESCRIPTION,T1.BOM_DATE,T1.REVISION_NO,T1.START_DATE,T1.END_DATE,T1.STATUS,"
-        qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T1.PROD_QUANTITY,T1.PROD_ITEM_UNIT_CODE,"
+        qry += " T1.IS_DEFAULT,T1.ATTACHED_DOC,T1.ATTACHED_DOC_PATH,T1.PROD_ITEM_CODE,T2.ITEM_DESC AS PROD_ITEM_NAME,T2.BomBuildQty,T1.PROD_ITEM_UNIT_CODE,"
         qry += " T1.MIN_BATCH_SIZE,T1.MODIFIED_BY AS APPROVED_BY,T1.Created_By,T1.POSTED,T1.POSTING_DATE,T1.LOCATION_CODE FROM TSPL_MF_BOM_HEAD  T1 INNER JOIN TSPL_ITEM_MASTER T2  ON T1.PROD_ITEM_CODE=T2.ITEM_CODE where 2=2 and trans_type='BOM'"
         Dim WhrCls As String = " and trans_type='BOM' "
         If clsCommon.myLen(arrLoc) > 0 Then
@@ -158,7 +206,7 @@ Public Class clsBillOfMaterial
             obj.ATTACHED_DOC_PATH = clsCommon.myCstr(dt.Rows(0)("ATTACHED_DOC_PATH"))
             obj.PROD_ITEM_CODE = clsCommon.myCstr(dt.Rows(0)("PROD_ITEM_CODE"))
             obj.PROD_ITEM_NAME = clsCommon.myCstr(dt.Rows(0)("PROD_ITEM_NAME"))
-            obj.PROD_QUANTITY = clsCommon.myCdbl(dt.Rows(0)("PROD_QUANTITY"))
+            obj.PROD_QUANTITY = clsCommon.myCdbl(dt.Rows(0)("BomBuildQty"))
             obj.PROD_ITEM_UNIT_CODE = clsCommon.myCstr(dt.Rows(0)("PROD_ITEM_UNIT_CODE"))
             obj.MIN_BATCH_SIZE = clsCommon.myCdbl(dt.Rows(0)("MIN_BATCH_SIZE"))
             obj.CREATED_BY = clsCommon.myCstr(dt.Rows(0)("CREATED_BY"))

@@ -735,7 +735,7 @@ order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftTy
                 Next
             End If
 
-            Qry = "Update TSPL_Demand_BOOKING_MAstER set Posted = 0 where Document_No='" + strCode + "'"
+            Qry = "Update TSPL_Demand_BOOKING_MAstER set Posted = 0,Posted_Morning=null,Posted_Evening=null where Document_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
         Catch ex As Exception
