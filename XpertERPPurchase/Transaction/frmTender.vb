@@ -24,7 +24,9 @@ Public Class frmTender
     Const colAmt As String = "COLAMT"
     Const colRemarks As String = "colRemarks"
     Const colComments As String = "colComments"
-
+    Dim closeyn As String
+    Dim vaddnew As String
+    Dim strRemarks As String
     Const colDiscount As String = "colDiscount"
 
     Const colScheduleSNo As String = "colScheduleSNo"
@@ -143,6 +145,8 @@ Public Class frmTender
 
     Sub BlankAllControls()
         txtDocNo.Value = ""
+        vaddnew = "Y"
+        chkRalclose.Enabled = True
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtScheduleStartDate.Value = txtDate.Value
         UsLock1.Status = ERPTransactionStatus.Pending
@@ -163,6 +167,7 @@ Public Class frmTender
         txtOtherInfo8.Text = ""
         txtOtherInfo9.Text = ""
         txtOtherInfo10.Text = ""
+        chkRalclose.Checked = False
         cboTenderType.SelectedValue = "0"
         cboMode.SelectedValue = "1"
     End Sub
@@ -598,7 +603,6 @@ Public Class frmTender
         btnSave.Enabled = True
         btnPost.Enabled = True
         btnDelete.Enabled = True
-
         txtDate.Focus()
         gv1.Rows.AddNew()
         txtDate.Enabled = True
@@ -746,6 +750,11 @@ Public Class frmTender
                 obj.FieldValue4 = txtFieldValue4.Text
                 obj.FieldValue5 = txtFieldValue5.Text
                 obj.FieldValue6 = txtFieldValue6.Text
+                If chkRalclose.Checked = True Then
+                    obj.close_yn = "Y"
+                ElseIf chkRalclose.Checked = False Then
+                    obj.close_yn = "N"
+                End If
 
                 obj.OtherInfo1 = txtOtherInfo1.Text
                 obj.OtherInfo2 = txtOtherInfo2.Text
@@ -867,6 +876,18 @@ Public Class frmTender
                 txtFieldValue4.Text = obj.FieldValue4
                 txtFieldValue5.Text = obj.FieldValue5
                 txtFieldValue6.Text = obj.FieldValue6
+                If obj.close_yn = "Y" Then
+                    vaddnew = "Y"
+                    chkRalclose.Checked = True
+                    btnSave.Enabled = False
+                    btnPost.Enabled = False
+                    btnDelete.Enabled = False
+                    vaddnew = "N"
+                ElseIf obj.close_yn = "N" Then
+                    chkRalclose.Checked = False
+                    vaddnew = "N"
+                End If
+
 
                 txtOtherInfo1.Text = obj.OtherInfo1
                 txtOtherInfo2.Text = obj.OtherInfo2
@@ -1969,5 +1990,57 @@ Public Class frmTender
         End If
     End Sub
 
+    Private Sub chkRalclose_CheckedChanged(sender As Object, e As EventArgs) Handles chkRalclose.CheckedChanged
+        If chkRalclose.Checked = True And vaddnew = "N" Then
+            Dim response = MsgBox("Are you sure want to close the RAL", MsgBoxStyle.YesNo, "Attention")
+            If response = MsgBoxResult.Yes Then
+                closeyn = "Y"
+                closeRal()
+            ElseIf response = MsgBoxResult.No Then
+                chkRalclose.Checked = False
+            End If
+        ElseIf chkRalclose.Checked = False And vaddnew = "N" Then
+            closeyn = "N"
+            closeRal()
+        End If
+        vaddnew = "N"
+        If chkRalclose.Checked Then
+            Dim makereadonly As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.MakeClosingofPOreadonlyforuser, clsFixedParameterCode.MakeClosingofPOreadonlyforuser, Nothing)) = "1", True, False))
+            If makereadonly Then
+                chkRalclose.Enabled = False
+            Else
+                chkRalclose.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Sub closeRal()
+        Try
+            If (clsTenderHead.closeRaldata(txtDocNo.Value, True, closeyn, strRemarks)) Then
+                If closeyn = "Y" Then
+                    Dim Reason As String = ""
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Reason for Close RAL "
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                        strRemarks = Reason
+                    End If
+                    Dim obj As New clsTenderHead()
+                    If (clsTenderHead.closeRaldata(txtDocNo.Value, True, closeyn, strRemarks)) Then
+                        clsCommon.MyMessageBoxShow(Me, "Successfully Closed")
+                    End If
+
+                ElseIf closeyn = "N" Then
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Opened")
+                End If
+                LoadData(txtDocNo.Value, NavigatorType.Current, False)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
+    End Sub
 
 End Class
