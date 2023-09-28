@@ -63,7 +63,6 @@ Public Class frmVehicleMaster
 
     End Sub
     Private Sub VehicleMaster_Load_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
         'done by stuti on 04/10/2016 against ticket no - BM00000009928
         EmployeeNoMandatory = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MandatoryEmployeeOnVehicleMaster, clsFixedParameterCode.MandatoryEmployeeOnVehicleMaster, Nothing)) = 1, True, False)
 
@@ -224,6 +223,7 @@ Public Class frmVehicleMaster
                 obj.status = "KM_Range"
                 obj.Is_Additional = chkIsAdditional.Checked
             End If
+            obj.Column_Crate = clsCommon.myCdbl(txtOneColumnCrate.Value)
             qry = "select vehicle_id from tspl_vehicle_master where vehicle_id='" & obj.VehicleCode & "'"
             strvalue = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
             If clsCommon.myLen(strvalue) > 0 Then
@@ -455,7 +455,7 @@ Public Class frmVehicleMaster
         rtxtvehiclebrand.Text = ""
         rtxtvehicleNo.Text = ""
         TxtCrateCapacity.Value = 0
-
+        txtOneColumnCrate.Value = 0
         AllowMandFields = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowFieldsToBeManadatory, clsFixedParameterCode.AllowFieldsToBeManadatory, Nothing))
         If clsCommon.CompairString(AllowMandFields, "1") = CompairStringResult.Equal Then
             rtxtlocation.MendatroryField = True
@@ -1189,10 +1189,9 @@ Public Class frmVehicleMaster
                     End If
                     chkIsAdditional.Checked = obj.Is_Additional
                 End If
-
+                txtOneColumnCrate.Value = obj.Column_Crate
             Else
                 funReset()
-
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)

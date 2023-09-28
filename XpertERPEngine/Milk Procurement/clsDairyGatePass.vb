@@ -34,6 +34,7 @@ Public Class clsDairyGatePassEntry
     Public IsTransfer As Integer = 0
     Public AgainstTransferNo As String = String.Empty
     Public ShiftType As String = String.Empty
+    Public Loading_Slip As String = Nothing
 #End Region
 
     Public Function SaveData(ByVal obj As clsDairyGatePassEntry, ByVal isNewEntry As Boolean, ByVal strTransType As String) As Boolean
@@ -85,6 +86,7 @@ Public Class clsDairyGatePassEntry
             clsCommon.AddColumnsForChange(coll, "IsTransfer", obj.IsTransfer)
             clsCommon.AddColumnsForChange(coll, "AgainstTransferNo", obj.AgainstTransferNo, True)
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType, True)
+            clsCommon.AddColumnsForChange(coll, "Loading_Slip", obj.Loading_Slip)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "GPCode", obj.GPCode)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -207,6 +209,7 @@ Public Class clsDairyGatePassEntry
             If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("Closing_Date"))) > 0 Then
                 obj.Closing_Date = clsCommon.myCDate(dt.Rows(0)("Closing_Date"))
             End If
+            obj.Loading_Slip = clsCommon.myCstr(dt.Rows(0)("Loading_Slip"))
         End If
         Return obj
     End Function
