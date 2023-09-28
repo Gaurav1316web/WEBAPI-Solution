@@ -27,6 +27,9 @@ Public Class frmNIRQC
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New ")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for Post ")
+        If clsCommon.myLen(Me.Tag) > 0 Then
+            LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
+        End If
     End Sub
     Sub LoadQCStatus()
         Dim dt As New DataTable()

@@ -142,7 +142,7 @@ Public Class frmStanderdProductionEntry
         'gvSectionStock.AutoGenerateColumns = True
         funReset()
         SetLength()
-
+        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
         If clsCommon.myLen(strDocumentNo) > 0 Then
             LoadData(strDocumentNo, NavigatorType.Current)
         End If
@@ -159,7 +159,7 @@ Public Class frmStanderdProductionEntry
         Else
             txtImportTemplate.Enabled = False
         End If
-        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
+
         txtConsmLocOther.Value = txtLocation.Value
     End Sub
     Sub SetLength()

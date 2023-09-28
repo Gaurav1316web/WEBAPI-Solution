@@ -689,11 +689,11 @@ Public Class frmBillOfMaterialCosting
             RadPageViewPage2.Item.Visibility = ElementVisibility.Collapsed
             RadPageView1.SelectedPage = pageComponent
         End If
-
+        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
         If clsCommon.myLen(Me.Tag) > 0 Then
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
-        txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where user_code='" + objCommonVar.CurrentUserCode + "'"))
+
         'txtConsmLocOther.Value = txtLocation.Value
         'RadPageView1.Pages(pageOperations.Name).Item.Visibility = ElementVisibility.Collapsed
 
