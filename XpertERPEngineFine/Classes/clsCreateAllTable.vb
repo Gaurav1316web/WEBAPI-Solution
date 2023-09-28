@@ -3848,6 +3848,7 @@ Public Class clsCreateAllTable
             coll.Add("MTValue", "decimal(18,2) not null default 0")
             ''==============================================
             coll.Add("Vehicle_Weight", "Decimal(18,3) null")
+            coll.Add("Column_Crate", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VEHICLE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -6490,6 +6491,7 @@ Public Class clsCreateAllTable
             coll.Add("IsTransfer", "int not null default 0")
             coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
             coll.Add("ShiftType", "varchar(20) NULL")
+            coll.Add("Loading_Slip", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
 
             coll = New Dictionary(Of String, String)()
