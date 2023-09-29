@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -3536,12 +3536,6 @@
     <Compile Include="Sales%28KDIL%29\Fresh Sale\Transaction\frmPendingDispatchNoteFreshSale.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmDispatch.Designer.vb">
-      <DependentUpon>frmDispatch.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmDispatch.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="FrmItemMsterRM_Others.Designer.vb">
       <DependentUpon>FrmItemMsterRM_Others.vb</DependentUpon>
     </Compile>
@@ -5340,12 +5334,6 @@
       <DependentUpon>ReportTransfer.vb</DependentUpon>
     </Compile>
     <Compile Include="Inventory\Report\ReportTransfer.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmForgetPassword.Designer.vb">
-      <DependentUpon>frmForgetPassword.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmForgetPassword.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Inventory\Master\frmChapterHead.Designer.vb">
@@ -7211,10 +7199,6 @@
       <DependentUpon>frmPendingDispatchNoteFreshSale.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmDispatch.resx">
-      <DependentUpon>frmDispatch.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="FrmItemMsterRM_Others.resx">
       <DependentUpon>FrmItemMsterRM_Others.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -8178,10 +8162,6 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmForgetPassword.resx">
-      <DependentUpon>frmForgetPassword.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Inventory\Master\frmExport_SegmentCode.resx">
       <DependentUpon>frmExport_SegmentCode.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -8520,7 +8500,6 @@
     <None Include="CrystalClases\dsRptChequeMultiple.xss">
       <DependentUpon>dsRptChequeMultiple.xsd</DependentUpon>
     </None>
-    <None Include="Document\Cient Work Status.xlsx" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -8534,7 +8513,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="obj\ERP.vbproj.FileListAbsolute.txt" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -8656,9 +8634,7 @@
       <CachedSettingsPropName>ERP_BSWS_BSWS</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="obj\Debug\TempPE\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
