@@ -3848,6 +3848,7 @@ Public Class clsCreateAllTable
             coll.Add("MTValue", "decimal(18,2) not null default 0")
             ''==============================================
             coll.Add("Vehicle_Weight", "Decimal(18,3) null")
+            coll.Add("Column_Crate", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VEHICLE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -6490,6 +6491,7 @@ Public Class clsCreateAllTable
             coll.Add("IsTransfer", "int not null default 0")
             coll.Add("AgainstTransferNo", "Varchar(30) null References TSPL_TRANSFER_ORDER_HEAD(Document_No)")
             coll.Add("ShiftType", "varchar(20) NULL")
+            coll.Add("Loading_Slip", "varchar(20) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
 
             coll = New Dictionary(Of String, String)()
@@ -8174,6 +8176,8 @@ Public Class clsCreateAllTable
             coll.Add("PreviousBookingQty", "decimal(18,2) NULL Default 0")
             coll.Add("Price_IdStartDate", "datetime null")
             coll.Add("PricePlanNo", "varchar(30) null")
+            coll.Add("IsKKFTax", "varchar(30) null")
+            coll.Add("IsMNDTax", "varchar(30) null")
             coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
             coll.Add("Against_DemandBooking_TR_Code", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_DETAIL", coll, "", True, False, "TSPL_BOOKING_MATSER", "Document_No", "")

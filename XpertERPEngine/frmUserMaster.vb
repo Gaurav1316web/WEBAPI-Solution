@@ -2134,7 +2134,12 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                         End If
                     Next i
                     cust_Codes = sbCustCodes.ToString()
-                    whrcls += "STATUS='N' and Cust_Code NOT IN (" & cust_Codes & ")"
+                    If clsCommon.myLen(cust_Codes) > 0 Then
+                        whrcls += "STATUS='N' and Cust_Code NOT IN (" & cust_Codes & ")"
+                    Else
+                        whrcls += "STATUS='N' and Cust_Code NOT IN ('" & cust_Codes & "')"
+                    End If
+
                 End If
                 fndCustCode.Value = clsCommon.ShowSelectForm("CustomerFndr", qry, "Code", whrcls, fndCustCode.Value, "Code", isButtonClicked)
                 If clsCommon.myLen(fndCustCode.Value) > 0 Then
