@@ -8176,6 +8176,8 @@ Public Class clsCreateAllTable
             coll.Add("PreviousBookingQty", "decimal(18,2) NULL Default 0")
             coll.Add("Price_IdStartDate", "datetime null")
             coll.Add("PricePlanNo", "varchar(30) null")
+            coll.Add("IsKKFTax", "varchar(30) null")
+            coll.Add("IsMNDTax", "varchar(30) null")
             coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
             coll.Add("Against_DemandBooking_TR_Code", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_DETAIL", coll, "", True, False, "TSPL_BOOKING_MATSER", "Document_No", "")
