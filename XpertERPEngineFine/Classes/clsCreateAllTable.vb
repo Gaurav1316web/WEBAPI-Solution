@@ -19609,6 +19609,29 @@ Public Class clsCreateAllTable
             Catch ex As Exception
 
             End Try
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("DocumentCode", "varchar(30) not null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
+            coll.Add("PSNo", "integer null")
+            coll.Add("Schedule_No", "integer null ")
+            coll.Add("From_Date", "date NULL")
+            coll.Add("To_Date", "date NULL")
+            coll.Add("Item_Code", "varchar(50) NOT NULL References TSPL_ITEM_MASTER(Item_Code)")
+            coll.Add("Schedule_Qty_Per", "decimal(18, 2) NULL")
+            coll.Add("Schedule_Qty", "decimal(18, 2) NULL")
+            coll.Add("Schedule_Short_Per", "decimal(18, 2) NULL")
+            coll.Add("Schedule_Short", "decimal(18, 2) NULL")
+            coll.Add("Late_Days", "integer NULL")
+            coll.Add("Extension_Days", "integer NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_SCHEDULE_PO", coll, Nothing, False, False, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("DocumentCode", "varchar(30) not null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Against_Tender_Schedule_PK_Id", "integer NOT NULL References TSPL_TENDER_SCHEDULE_PO(PK_Id)")
+            coll.Add("Penalty_Date", "date NULL")
+            coll.Add("Penalty", "Decimal(18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_TENDER_SCHEDULE_PENALTY_PO", coll, Nothing, False, False, "TSPL_PURCHASE_ORDER_HEAD", "PurchaseOrder_No", "")
 
 
             coll = New Dictionary(Of String, String)
@@ -52673,7 +52696,15 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Qty", "DECIMAL(18,2) NULL")
             coll.Add("Against_Tender_Schedule_Penalty_PK_Id", "integer NULL References TSPL_TENDER_SCHEDULE_PENALTY(PK_Id)")
             coll.Add("Penalty", "Decimal(18,2) NULL")
+            coll.Add("Against_PO", "varchar(30) null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
+            coll.Add("Against_Tender_Schedule_PK_Id_PO", "integer NULL References TSPL_TENDER_SCHEDULE_PO(PK_Id)")
+            coll.Add("Against_Tender_Schedule_Penalty_PK_Id_PO", "integer NULL References TSPL_TENDER_SCHEDULE_PENALTY_PO(PK_Id)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_TENDER", coll, Nothing, False, False, "TSPL_SRN_HEAD", "SRN_No", "")
+
+            qry = "alter table TSPL_SRN_TENDER alter column Against_Tender_Schedule_PK_Id integer NULL "
+            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "alter table TSPL_SRN_TENDER alter column Against_TenderNo varchar(50) null "
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
 
             coll = New Dictionary(Of String, String)()
