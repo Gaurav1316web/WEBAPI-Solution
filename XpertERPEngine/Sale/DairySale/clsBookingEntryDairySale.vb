@@ -1306,6 +1306,7 @@ Public Class clsBookingDetailDairySale
 
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+
                 Dim objD As clsSchemeApplyOnDairy = Nothing
                 'If clsCommon.myLen(clsCommon.myCstr(SchemeType)) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(SchemeType), "Quantitive") = CompairStringResult.Equal Then ''richa use obj.schemetype instead of SchemeType variable becuase scheme quantity will remain always 0 due to this 
                 objD = clsSchemeApplyOnDairy.GetSchemeData(clsCommon.myCstr(obj.Item_Code), clsCommon.myCstr(obj.Unit_code), clsCommon.myCstr(obj.Booking_Qty), obj.Cust_Code, clsCommon.myCstr(SchemeType), Nothing, Nothing, trans)
