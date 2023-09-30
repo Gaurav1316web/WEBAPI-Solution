@@ -90,6 +90,7 @@
     <Compile Include="Classes\clsNewDCSScreen.vb" />
     <Compile Include="Classes\clsTaxCalculation.vb" />
     <Compile Include="Classes\clsUserMgtCode.vb" />
+    <Compile Include="clsDBTSummaryYearWise.vb" />
     <Compile Include="Comman Services\clsBankGroupMaster.vb" />
     <Compile Include="Classes\connectSql.vb" />
     <Compile Include="Classes\objCommonVar.vb" />
