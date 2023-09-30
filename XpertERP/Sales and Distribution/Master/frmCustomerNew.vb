@@ -6194,6 +6194,8 @@ Public Class frmCustomer
         lblVidhanSabha.Text = clsDBFuncationality.getSingleValue("SELECT VIDHAN_SABHA_NAME FROM TSPL_VIDHAN_SABHA_MASTER where  VIDHAN_SABHA_CODE='" + TxtVidhanSabha.Value + "' ")
     End Sub
 
+
+
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
         obj.Program_Code = Form_ID

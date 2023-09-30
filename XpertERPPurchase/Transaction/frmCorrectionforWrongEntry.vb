@@ -31,59 +31,63 @@ Public Class frmCorrectionforWrongEntry
         Try
             Dim obj As New clsGRNHead()
             obj = clsGRNHead.GetData(strCode, NavTyep)
-            txtDocNo.Value = obj.GRN_No
-            txtRefNo.Text = obj.Ref_No
-            txtBillToLocation.Value = obj.Bill_To_Location
-            lblBillToLocation.Text = obj.BillToLocationName
-            txtVendorNo.Value = obj.Vendor_Code
-            lblVendorName.Text = obj.Vendor_Name
-            txtItemCode.Text = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_GRN_DETAIL where GRN_No = '" + obj.GRN_No + "'  ")
-            txtItemName.Text = clsDBFuncationality.getSingleValue("select Item_Code from TSPL_GRN_DETAIL where GRN_No = '" + obj.GRN_No + "'  ")
-            txtItemType.Text = obj.Item_Type
-            txtReqNo.Text = clsDBFuncationality.getSingleValue("select Against_PO from TSPL_GRN_HEAD where GRN_No = '" + obj.GRN_No + "'")
-            txtDate.Value = obj.GRN_Date
-            txtVehicleNo.Text = obj.VehicleNo
-            txtGRNo.Text = obj.GRNo
-            txtLRNo.Text = obj.LR_No
-            txtChallanNo.Text = obj.Invoiceno
-            If obj.InvoiceDate IsNot Nothing AndAlso clsCommon.myLen(obj.InvoiceDate) > 0 AndAlso IsDate(obj.InvoiceDate) Then
-                txtInvoiceDate.Value = obj.InvoiceDate
-            End If
-            txtGENo.Text = obj.GENo
-            'txtGEDate.Value = obj.GEDate
-            If obj.GEDate.HasValue Then
-                txtGEDate.Value = obj.GEDate
-            End If
-            TxtWeighment.Text = clsDBFuncationality.getSingleValue(" Select Weighment_Code from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No where Against_GRN_No = '" + obj.GRN_No + "'  ")
-            WeighmetDate.Value = clsDBFuncationality.getSingleValue(" Select Weighment_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No  where Against_GRN_No = '" + obj.GRN_No + "'  ")
-            txtMRN.Text = clsDBFuncationality.getSingleValue(" Select MRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
-            MRNDate.Value = clsDBFuncationality.getSingleValue(" Select MRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
-            txtSRN.Text = clsDBFuncationality.getSingleValue("Select SRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "' ")
-            obj.SRNNo = txtSRN.Text
-            SRNDate.Value = clsDBFuncationality.getSingleValue("Select SRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "' ")
-            txtPINo.Text = clsDBFuncationality.getSingleValue(" Select PI_No from TSPL_PI_HEAD where Against_GRN='" + obj.GRN_No + "'")
-            txtPenalty.Text = clsDBFuncationality.getSingleValue(" select Document_No from TSPL_TENDER_PENALTY_DETAIL where SRN_No= '" + obj.SRNNo + "'")
-            obj.penalty = txtPenalty.Text
-            obj.PINo = txtPINo.Text
-            If clsCommon.myLen(obj.penalty) > 0 Then
-                txtDate.ReadOnly = True
-                'clsCommon.MyMessageBoxShow("Penalty Created GrnDate Cannot be changed")
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.GRN_No) > 0) Then
+                txtDocNo.Value = obj.GRN_No
+                txtRefNo.Text = obj.Ref_No
+                txtBillToLocation.Value = obj.Bill_To_Location
+                lblBillToLocation.Text = obj.BillToLocationName
+                txtVendorNo.Value = obj.Vendor_Code
+                lblVendorName.Text = obj.Vendor_Name
+                txtItemCode.Text = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_GRN_DETAIL where GRN_No = '" + obj.GRN_No + "'  ")
+                txtItemName.Text = clsDBFuncationality.getSingleValue("select Item_Code from TSPL_GRN_DETAIL where GRN_No = '" + obj.GRN_No + "'  ")
+                txtItemType.Text = obj.Item_Type
+                txtReqNo.Text = clsDBFuncationality.getSingleValue("select Against_PO from TSPL_GRN_HEAD where GRN_No = '" + obj.GRN_No + "'")
+                txtDate.Value = obj.GRN_Date
+                txtVehicleNo.Text = obj.VehicleNo
+                txtGRNo.Text = obj.GRNo
+                txtLRNo.Text = obj.LR_No
+                txtChallanNo.Text = obj.Invoiceno
+                If obj.InvoiceDate IsNot Nothing AndAlso clsCommon.myLen(obj.InvoiceDate) > 0 AndAlso IsDate(obj.InvoiceDate) Then
+                    txtInvoiceDate.Value = obj.InvoiceDate
+                End If
+                txtGENo.Text = obj.GENo
+                'txtGEDate.Value = obj.GEDate
+                'If obj.GEDate.HasValue Then
+                '    txtGEDate.Value = obj.GEDate
+                'End If
+                TxtWeighment.Text = clsDBFuncationality.getSingleValue(" Select Weighment_Code from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No where Against_GRN_No = '" + obj.GRN_No + "'  ")
+                WeighmetDate.Value = clsDBFuncationality.getSingleValue(" Select Weighment_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No  where Against_GRN_No = '" + obj.GRN_No + "'  ")
+                txtMRN.Text = clsDBFuncationality.getSingleValue(" Select MRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
+                MRNDate.Value = clsDBFuncationality.getSingleValue(" Select MRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
+                txtSRN.Text = clsDBFuncationality.getSingleValue("Select SRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "' ")
+                obj.SRNNo = txtSRN.Text
+                SRNDate.Value = clsDBFuncationality.getSingleValue("Select SRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "' ")
+                txtPINo.Text = clsDBFuncationality.getSingleValue(" Select PI_No from TSPL_PI_HEAD where Against_GRN='" + obj.GRN_No + "'")
+                txtPenalty.Text = clsDBFuncationality.getSingleValue(" select Document_No from TSPL_TENDER_PENALTY_DETAIL where SRN_No= '" + obj.SRNNo + "'")
+                obj.penalty = txtPenalty.Text
+                obj.PINo = txtPINo.Text
+                If clsCommon.myLen(obj.penalty) > 0 Then
+                    txtDate.ReadOnly = True
+                    'clsCommon.MyMessageBoxShow("Penalty Created GrnDate Cannot be changed")
+                Else
+                    txtDate.ReadOnly = False
+                End If
+                If obj.PINo IsNot Nothing AndAlso obj.PINo.Count > 0 Then
+                    txtInvoiceDate.Enabled = False
+                    txtChallanNo.Enabled = False
+                Else
+                    txtInvoiceDate.Enabled = True
+                    txtChallanNo.Enabled = True
+                End If
+                'TxtWeighment.Text = obj.WeighmentNo
+                obj.WeighmentNo = TxtWeighment.Text
+                If clsCommon.myLen(obj.WeighmentNo) <= 0 Then
+                    MRNDate.ReadOnly = False
+                Else
+                    MRNDate.ReadOnly = True
+                End If
             Else
-                txtDate.ReadOnly = False
-            End If
-            If obj.PINo IsNot Nothing AndAlso obj.PINo.Count > 0 Then
-                txtInvoiceDate.Enabled = False
-                txtChallanNo.Enabled = False
-            Else
-                txtInvoiceDate.Enabled = True
-                txtChallanNo.Enabled = True
-            End If
-            'TxtWeighment.Text = obj.WeighmentNo
-            obj.WeighmentNo = TxtWeighment.Text
-            If clsCommon.myLen(obj.WeighmentNo) <= 0 Then
-                MRNDate.ReadOnly = False
-            Else
-                MRNDate.ReadOnly = True
+                AddNew()
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
@@ -91,12 +95,12 @@ Public Class frmCorrectionforWrongEntry
         End Try
     End Sub
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-
-        Dim qry As String = "select TSPL_GRN_HEAD.GRN_No as Code,FORMAT(CAST(GRN_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') AS Date,TSPL_GRN_HEAD.Vendor_Code as [Vendor Code], TSPL_GRN_HEAD.Vendor_Name as Vendor,ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],GRN_Total_Amt as Amount,case when TSPL_GRN_HEAD.IsCancel=1 then 'Cancel' when TSPL_GRN_HEAD.Status='0' then 'Pending' else 'Approved' end as [Status],TSPL_GRN_HEAD.Against_PO as [Against PO Code] "
-        If Is_RGP_After_PO Then
-            qry += ",TSPL_GRN_HEAD.Against_RGP_No as [Against RGP Code] "
-        End If
-        qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as [Tendor No]
+        Try
+            Dim qry As String = "select TSPL_GRN_HEAD.GRN_No as Code,FORMAT(CAST(GRN_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') AS Date,TSPL_GRN_HEAD.Vendor_Code as [Vendor Code], TSPL_GRN_HEAD.Vendor_Name as Vendor,ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],GRN_Total_Amt as Amount,case when TSPL_GRN_HEAD.IsCancel=1 then 'Cancel' when TSPL_GRN_HEAD.Status='0' then 'Pending' else 'Approved' end as [Status],TSPL_GRN_HEAD.Against_PO as [Against PO Code] "
+            If Is_RGP_After_PO Then
+                qry += ",TSPL_GRN_HEAD.Against_RGP_No as [Against RGP Code] "
+            End If
+            qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as [Tendor No]
                  ,TSPL_GRN_HEAD.VehicleNo as [Vehicle No]
                  ,case when VisualQCRequired.Is_Visual_QC=0 then 'Not Applicable' when TSPL_GRN_HEAD.VisualQCStatus=1 then 'Ok' when TSPL_GRN_HEAD.VisualQCStatus='2' then 'Not Ok' when TSPL_GRN_HEAD.VisualQCStatus='3' then 'Partial Ok'  when TSPL_GRN_HEAD.VisualQCStatus='4' then 'On Hold' else 'Pending' end as [Visual QC Status]
                  ,case when VisualQCRequired.Is_Visual_QC=0 then 'Not Applicable' when TSPL_GRN_HEAD.VisualQCStatusSecond=1 then 'Ok' when TSPL_GRN_HEAD.VisualQCStatusSecond='2' then 'Not Ok' when TSPL_GRN_HEAD.VisualQCStatusSecond='3' then 'Partial Ok'  when TSPL_GRN_HEAD.VisualQCStatusSecond='4' then 'On Hold' else 'Pending' end as [Visual QC Second Status]
@@ -106,12 +110,14 @@ Public Class frmCorrectionforWrongEntry
                 SELECT TSPL_GRN_DETAIL.GRN_No as GRN_No,MAX(TSPL_ITEM_MASTER.Visual_QC) AS Is_Visual_QC FROM TSPL_GRN_DETAIL
                 LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE=TSPL_GRN_DETAIL.ITEM_CODE
                 GROUP BY TSPL_GRN_DETAIL.GRN_No) as VisualQCRequired on TSPL_GRN_HEAD.grn_no=VisualQCRequired.GRN_No"
-        Dim whrClas As String = "  2=2  "
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrClas += " and TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
-        End If
+            Dim whrClas As String = "  2=2  "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrClas += " and TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
+            LoadData(clsCommon.ShowSelectForm("GRNFND", qry, "Code", whrClas, txtDocNo.Value, "GRN_Date desc", isButtonClicked), NavigatorType.Current)
+        Catch ex As Exception
+        End Try
 
-        LoadData(clsCommon.ShowSelectForm("GRNFND", qry, "Code", whrClas, txtDocNo.Value, "GRN_Date desc", isButtonClicked), NavigatorType.Current)
     End Sub
 
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
@@ -161,14 +167,14 @@ Public Class frmCorrectionforWrongEntry
             End If
             obj.GRNo = txtGRNo.Text
             obj.GENo = txtGENo.Text
-            obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
-            If obj.GEDate <= obj.GRN_Date Then
-                obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
-            Else
-                clsCommon.MyMessageBoxShow("GateEntryDate should be less than or Equalto GRN Date")
-                txtGEDate.Focus()
-                Exit Sub
-            End If
+            'obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
+            'If obj.GEDate <= obj.GRN_Date Then
+            '    obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
+            'Else
+            '    clsCommon.MyMessageBoxShow("GateEntryDate should be less than or Equalto GRN Date")
+            '    txtGEDate.Focus()
+            '    Exit Sub
+            'End If
             obj.WeighmentNo = TxtWeighment.Text
             obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             obj.MRNNo = txtMRN.Text
@@ -244,14 +250,14 @@ Public Class frmCorrectionforWrongEntry
     End Sub
 
     Sub AddNew()
-        txtBillToLocation.Value = ""
+        'txtBillToLocation.Value = ""
         txtChallanNo.Text = ""
-        txtDate.Value = clsCommon.GETSERVERDATE()
+        txtDate.Value = Nothing
         txtDocNo.Value = ""
-        txtGEDate.Value = clsCommon.GETSERVERDATE()
+        'txtGEDate.Value = Nothing
         txtGENo.Text = ""
         txtGRNo.Text = ""
-        txtInvoiceDate.Value = clsCommon.GETSERVERDATE()
+        txtInvoiceDate.Value = Nothing
         txtItemCode.Text = ""
         txtItemName.Text = ""
         txtItemType.Text = ""
@@ -259,16 +265,16 @@ Public Class frmCorrectionforWrongEntry
         txtRefNo.Text = ""
         txtVehicleNo.Text = ""
         txtVendorNo.Value = ""
-        lblBillToLocation.Text = ""
+        'lblBillToLocation.Text = ""
         lblVendorName.Text = ""
         txtPINo.Text = ""
         txtMRN.Text = ""
         TxtWeighment.Text = ""
-        MRNDate.Value = clsCommon.GETSERVERDATE()
-        WeighmetDate.Value = clsCommon.GETSERVERDATE()
+        MRNDate.Value = Nothing
+        WeighmetDate.Value = Nothing
         txtReqNo.Text = ""
         txtSRN.Text = ""
-        SRNDate.Value = clsCommon.GETSERVERDATE()
+        SRNDate.Value = Nothing
     End Sub
 
     Private Sub frmCorrectionforWrongEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -1004,5 +1010,6 @@ Public Class frmCorrectionforWrongEntry
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
+
 
 End Class

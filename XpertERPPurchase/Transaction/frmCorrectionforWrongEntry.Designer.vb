@@ -25,7 +25,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
         Me.MyTextBox1 = New common.Controls.MyTextBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -138,7 +138,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.UnpostDispatch = New Telerik.WinControls.UI.RadButton()
         Me.DeleteDispatch = New Telerik.WinControls.UI.RadButton()
         Me.TxtSI = New common.UserControls.txtNavigator()
-        Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdatee = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -147,7 +147,7 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyTextBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -257,7 +257,7 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.OpenDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.UnpostDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DeleteDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdatee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -275,7 +275,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpdate)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpdatee)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Size = New System.Drawing.Size(1020, 739)
         Me.SplitContainer1.SplitterDistance = 674
@@ -296,7 +296,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.RadButton1)
+        Me.RadPageViewPage1.Controls.Add(Me.btnUpdate)
         Me.RadPageViewPage1.Controls.Add(Me.MyTextBox1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel9)
         Me.RadPageViewPage1.Controls.Add(Me.WeighmetDate)
@@ -357,13 +357,13 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage1.Size = New System.Drawing.Size(999, 626)
         Me.RadPageViewPage1.Text = "Gate Received Note"
         '
-        'RadButton1
+        'btnUpdate
         '
-        Me.RadButton1.Location = New System.Drawing.Point(13, 572)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(110, 24)
-        Me.RadButton1.TabIndex = 100
-        Me.RadButton1.Text = "RadButton1"
+        Me.btnUpdate.Location = New System.Drawing.Point(13, 479)
+        Me.btnUpdate.Name = "btnUpdate"
+        Me.btnUpdate.Size = New System.Drawing.Size(69, 22)
+        Me.btnUpdate.TabIndex = 100
+        Me.btnUpdate.Text = "Update"
         '
         'MyTextBox1
         '
@@ -407,7 +407,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(13, 384)
+        Me.MyLabel9.Location = New System.Drawing.Point(13, 361)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(91, 16)
         Me.MyLabel9.TabIndex = 80
@@ -427,7 +427,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.WeighmetDate.IsSourceFromTable = False
         Me.WeighmetDate.IsSourceFromValueList = False
         Me.WeighmetDate.IsUnique = False
-        Me.WeighmetDate.Location = New System.Drawing.Point(106, 382)
+        Me.WeighmetDate.Location = New System.Drawing.Point(106, 359)
         Me.WeighmetDate.MendatroryField = True
         Me.WeighmetDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.WeighmetDate.MyLinkLable1 = Me.MyLabel9
@@ -562,7 +562,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtGEDate.IsSourceFromTable = False
         Me.txtGEDate.IsSourceFromValueList = False
         Me.txtGEDate.IsUnique = False
-        Me.txtGEDate.Location = New System.Drawing.Point(106, 335)
+        Me.txtGEDate.Location = New System.Drawing.Point(568, 138)
         Me.txtGEDate.MendatroryField = False
         Me.txtGEDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtGEDate.MyLinkLable1 = Me.RadLabel4
@@ -577,6 +577,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtGEDate.TabStop = False
         Me.txtGEDate.Text = "13/06/2011"
         Me.txtGEDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtGEDate.Visible = False
         '
         'RadLabel4
         '
@@ -699,7 +700,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.MRNDate.IsSourceFromTable = False
         Me.MRNDate.IsSourceFromValueList = False
         Me.MRNDate.IsUnique = False
-        Me.MRNDate.Location = New System.Drawing.Point(106, 428)
+        Me.MRNDate.Location = New System.Drawing.Point(106, 405)
         Me.MRNDate.MendatroryField = True
         Me.MRNDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.MRNDate.MyLinkLable1 = Me.MyLabel11
@@ -720,7 +721,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(13, 428)
+        Me.MyLabel11.Location = New System.Drawing.Point(13, 405)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(59, 16)
         Me.MyLabel11.TabIndex = 84
@@ -730,7 +731,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(13, 406)
+        Me.MyLabel10.Location = New System.Drawing.Point(13, 383)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(50, 16)
         Me.MyLabel10.TabIndex = 82
@@ -750,7 +751,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtMRN.IsSourceFromTable = False
         Me.txtMRN.IsSourceFromValueList = False
         Me.txtMRN.IsUnique = False
-        Me.txtMRN.Location = New System.Drawing.Point(106, 406)
+        Me.txtMRN.Location = New System.Drawing.Point(106, 383)
         Me.txtMRN.MaxLength = 12
         Me.txtMRN.MendatroryField = False
         Me.txtMRN.MyLinkLable1 = Me.MyLabel10
@@ -767,7 +768,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(13, 360)
+        Me.MyLabel8.Location = New System.Drawing.Point(13, 336)
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(81, 16)
         Me.MyLabel8.TabIndex = 78
@@ -787,7 +788,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.TxtWeighment.IsSourceFromTable = False
         Me.TxtWeighment.IsSourceFromValueList = False
         Me.TxtWeighment.IsUnique = False
-        Me.TxtWeighment.Location = New System.Drawing.Point(106, 360)
+        Me.TxtWeighment.Location = New System.Drawing.Point(106, 336)
         Me.TxtWeighment.MaxLength = 12
         Me.TxtWeighment.MendatroryField = False
         Me.TxtWeighment.MyLinkLable1 = Me.MyLabel8
@@ -888,11 +889,12 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.RadLabel20.FieldName = Nothing
         Me.RadLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel20.Location = New System.Drawing.Point(13, 338)
+        Me.RadLabel20.Location = New System.Drawing.Point(475, 141)
         Me.RadLabel20.Name = "RadLabel20"
         Me.RadLabel20.Size = New System.Drawing.Size(50, 16)
         Me.RadLabel20.TabIndex = 71
         Me.RadLabel20.Text = "GE Date"
+        Me.RadLabel20.Visible = False
         '
         'txtGENo
         '
@@ -2102,14 +2104,15 @@ Partial Class frmCorrectionforWrongEntry
         Me.TxtSI.Value = ""
         Me.TxtSI.Visible = False
         '
-        'btnUpdate
+        'btnUpdatee
         '
-        Me.btnUpdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdate.Location = New System.Drawing.Point(13, 18)
-        Me.btnUpdate.Name = "btnUpdate"
-        Me.btnUpdate.Size = New System.Drawing.Size(69, 22)
-        Me.btnUpdate.TabIndex = 100
-        Me.btnUpdate.Text = "Update"
+        Me.btnUpdatee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdatee.Location = New System.Drawing.Point(13, 18)
+        Me.btnUpdatee.Name = "btnUpdatee"
+        Me.btnUpdatee.Size = New System.Drawing.Size(69, 22)
+        Me.btnUpdatee.TabIndex = 100
+        Me.btnUpdatee.Text = "Update"
+        Me.btnUpdatee.Visible = False
         '
         'btnClose
         '
@@ -2146,7 +2149,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyTextBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2261,7 +2264,7 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.OpenDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.UnpostDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DeleteDispatch, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdatee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -2383,8 +2386,8 @@ Partial Class frmCorrectionforWrongEntry
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents lblIRNSI As common.Controls.MyLabel
     Friend WithEvents txtSaleInvoice As common.Controls.MyLabel
-    Friend WithEvents btnUpdate As RadButton
+    Friend WithEvents btnUpdatee As RadButton
     Friend WithEvents btnClose As RadButton
-    Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents btnUpdate As RadButton
     Friend WithEvents MyTextBox1 As common.Controls.MyTextBox
 End Class

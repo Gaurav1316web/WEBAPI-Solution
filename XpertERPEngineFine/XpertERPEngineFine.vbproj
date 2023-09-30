@@ -88,6 +88,7 @@
     <Compile Include="Classes\clsFrieghtRateMaster.vb" />
     <Compile Include="Classes\clsGetKeys.vb" />
     <Compile Include="Classes\clsNewDCSScreen.vb" />
+    <Compile Include="Classes\clsTaxCalculation.vb" />
     <Compile Include="Classes\clsUserMgtCode.vb" />
     <Compile Include="clsDBTSummaryYearWise.vb" />
     <Compile Include="Comman Services\clsBankGroupMaster.vb" />

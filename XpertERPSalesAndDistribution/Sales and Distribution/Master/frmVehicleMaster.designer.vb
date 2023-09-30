@@ -25,11 +25,12 @@ Partial Class frmVehicleMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.rlblVehicleID = New common.Controls.MyLabel()
         Me.rlblModel = New common.Controls.MyLabel()
         Me.rlbltype = New common.Controls.MyLabel()
@@ -55,6 +56,7 @@ Partial Class frmVehicleMaster
         Me.RadMenuItem_Close = New Telerik.WinControls.UI.RadMenuItem()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel12 = New common.Controls.MyLabel()
         Me.txtVehicleWeight = New common.MyNumBox()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.pnlmt = New System.Windows.Forms.Panel()
@@ -136,6 +138,7 @@ Partial Class frmVehicleMaster
         Me.rbtnratekm = New common.Controls.MyCheckBox()
         Me.rbtKmrange = New common.Controls.MyCheckBox()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.txtOneColumnCrate = New common.MyNumBox()
         CType(Me.rlblVehicleID, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlblModel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rlbltype, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -156,6 +159,7 @@ Partial Class frmVehicleMaster
         CType(Me.rtxtvehicle_Chechis_No, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtVehicleWeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlmt.SuspendLayout()
@@ -239,6 +243,7 @@ Partial Class frmVehicleMaster
         CType(Me.rbtnratekm, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtKmrange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtOneColumnCrate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -496,36 +501,30 @@ Partial Class frmVehicleMaster
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem_Import, Me.RadMenuItem_Export, Me.RadMenuItem_Close})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem_Import
         '
-        Me.RadMenuItem_Import.AccessibleDescription = "Import"
-        Me.RadMenuItem_Import.AccessibleName = "Import"
         Me.RadMenuItem_Import.Name = "RadMenuItem_Import"
         Me.RadMenuItem_Import.Text = "Import"
         '
         'RadMenuItem_Export
         '
-        Me.RadMenuItem_Export.AccessibleDescription = "Export"
-        Me.RadMenuItem_Export.AccessibleName = "Export"
         Me.RadMenuItem_Export.Name = "RadMenuItem_Export"
         Me.RadMenuItem_Export.Text = "Export"
         '
         'RadMenuItem_Close
         '
-        Me.RadMenuItem_Close.AccessibleDescription = "Close"
-        Me.RadMenuItem_Close.AccessibleName = "Close"
         Me.RadMenuItem_Close.Name = "RadMenuItem_Close"
         Me.RadMenuItem_Close.Text = "Close"
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtOneColumnCrate)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel12)
         Me.RadGroupBox1.Controls.Add(Me.txtVehicleWeight)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel11)
         Me.RadGroupBox1.Controls.Add(Me.pnlmt)
@@ -594,6 +593,16 @@ Partial Class frmVehicleMaster
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.ThemeName = "ControlDefault"
         '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(13, 297)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(148, 16)
+        Me.MyLabel12.TabIndex = 61
+        Me.MyLabel12.Text = "One Column Crate Capacity"
+        '
         'txtVehicleWeight
         '
         Me.txtVehicleWeight.BackColor = System.Drawing.Color.LightGoldenrodYellow
@@ -607,7 +616,7 @@ Partial Class frmVehicleMaster
         Me.txtVehicleWeight.IsSourceFromTable = False
         Me.txtVehicleWeight.IsSourceFromValueList = False
         Me.txtVehicleWeight.IsUnique = False
-        Me.txtVehicleWeight.Location = New System.Drawing.Point(160, 317)
+        Me.txtVehicleWeight.Location = New System.Drawing.Point(160, 340)
         Me.txtVehicleWeight.MendatroryField = True
         Me.txtVehicleWeight.MyLinkLable1 = Me.MyLabel11
         Me.txtVehicleWeight.MyLinkLable2 = Nothing
@@ -625,7 +634,7 @@ Partial Class frmVehicleMaster
         '
         Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(13, 319)
+        Me.MyLabel11.Location = New System.Drawing.Point(13, 342)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(82, 16)
         Me.MyLabel11.TabIndex = 59
@@ -727,7 +736,7 @@ Partial Class frmVehicleMaster
         Me.fndemployee.IsSourceFromTable = False
         Me.fndemployee.IsSourceFromValueList = False
         Me.fndemployee.IsUnique = False
-        Me.fndemployee.Location = New System.Drawing.Point(160, 295)
+        Me.fndemployee.Location = New System.Drawing.Point(160, 318)
         Me.fndemployee.MendatroryField = False
         Me.fndemployee.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndemployee.MyLinkLable1 = Me.MyLabel3
@@ -746,7 +755,7 @@ Partial Class frmVehicleMaster
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(13, 295)
+        Me.MyLabel3.Location = New System.Drawing.Point(13, 318)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(77, 16)
         Me.MyLabel3.TabIndex = 52
@@ -1499,7 +1508,6 @@ Partial Class frmVehicleMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(792, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'SplitContainer1
         '
@@ -1534,7 +1542,6 @@ Partial Class frmVehicleMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(792, 417)
         Me.RadPageView1.TabIndex = 58
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -1589,9 +1596,11 @@ Partial Class frmVehicleMaster
         Me.gv.Enabled = False
         Me.gv.Location = New System.Drawing.Point(258, 43)
         '
-        'gv
         '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(495, 239)
@@ -1755,6 +1764,7 @@ Partial Class frmVehicleMaster
         Me.cmbRentalType.AutoCompleteDisplayMember = Nothing
         Me.cmbRentalType.AutoCompleteValueMember = Nothing
         Me.cmbRentalType.CalculationExpression = Nothing
+        Me.cmbRentalType.DropDownAnimationEnabled = True
         Me.cmbRentalType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbRentalType.FieldCode = Nothing
         Me.cmbRentalType.FieldDesc = Nothing
@@ -1765,12 +1775,12 @@ Partial Class frmVehicleMaster
         Me.cmbRentalType.IsSourceFromTable = False
         Me.cmbRentalType.IsSourceFromValueList = False
         Me.cmbRentalType.IsUnique = False
-        RadListDataItem6.Text = "Day"
-        RadListDataItem7.Text = "Month"
-        RadListDataItem8.Text = "Year"
-        Me.cmbRentalType.Items.Add(RadListDataItem6)
-        Me.cmbRentalType.Items.Add(RadListDataItem7)
-        Me.cmbRentalType.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "Day"
+        RadListDataItem2.Text = "Month"
+        RadListDataItem3.Text = "Year"
+        Me.cmbRentalType.Items.Add(RadListDataItem1)
+        Me.cmbRentalType.Items.Add(RadListDataItem2)
+        Me.cmbRentalType.Items.Add(RadListDataItem3)
         Me.cmbRentalType.Location = New System.Drawing.Point(95, 35)
         Me.cmbRentalType.MendatroryField = True
         Me.cmbRentalType.MyLinkLable1 = Nothing
@@ -1896,6 +1906,7 @@ Partial Class frmVehicleMaster
         Me.cmbLtrKG.AutoCompleteDisplayMember = Nothing
         Me.cmbLtrKG.AutoCompleteValueMember = Nothing
         Me.cmbLtrKG.CalculationExpression = Nothing
+        Me.cmbLtrKG.DropDownAnimationEnabled = True
         Me.cmbLtrKG.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbLtrKG.FieldCode = Nothing
         Me.cmbLtrKG.FieldDesc = Nothing
@@ -1906,10 +1917,10 @@ Partial Class frmVehicleMaster
         Me.cmbLtrKG.IsSourceFromTable = False
         Me.cmbLtrKG.IsSourceFromValueList = False
         Me.cmbLtrKG.IsUnique = False
-        RadListDataItem1.Text = "LTR"
-        RadListDataItem2.Text = "KG"
-        Me.cmbLtrKG.Items.Add(RadListDataItem1)
-        Me.cmbLtrKG.Items.Add(RadListDataItem2)
+        RadListDataItem4.Text = "LTR"
+        RadListDataItem5.Text = "KG"
+        Me.cmbLtrKG.Items.Add(RadListDataItem4)
+        Me.cmbLtrKG.Items.Add(RadListDataItem5)
         Me.cmbLtrKG.Location = New System.Drawing.Point(158, 33)
         Me.cmbLtrKG.MendatroryField = True
         Me.cmbLtrKG.MyLinkLable1 = Nothing
@@ -2012,6 +2023,33 @@ Partial Class frmVehicleMaster
         Me.btnHistory.TabIndex = 37
         Me.btnHistory.Text = "&History"
         '
+        'txtOneColumnCrate
+        '
+        Me.txtOneColumnCrate.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtOneColumnCrate.CalculationExpression = Nothing
+        Me.txtOneColumnCrate.DecimalPlaces = 2
+        Me.txtOneColumnCrate.FieldCode = Nothing
+        Me.txtOneColumnCrate.FieldDesc = Nothing
+        Me.txtOneColumnCrate.FieldMaxLength = 18
+        Me.txtOneColumnCrate.FieldName = Nothing
+        Me.txtOneColumnCrate.isCalculatedField = False
+        Me.txtOneColumnCrate.IsSourceFromTable = False
+        Me.txtOneColumnCrate.IsSourceFromValueList = False
+        Me.txtOneColumnCrate.IsUnique = False
+        Me.txtOneColumnCrate.Location = New System.Drawing.Point(160, 295)
+        Me.txtOneColumnCrate.MendatroryField = False
+        Me.txtOneColumnCrate.MyLinkLable1 = Me.MyLabel5
+        Me.txtOneColumnCrate.MyLinkLable2 = Nothing
+        Me.txtOneColumnCrate.Name = "txtOneColumnCrate"
+        Me.txtOneColumnCrate.ReferenceFieldDesc = Nothing
+        Me.txtOneColumnCrate.ReferenceFieldName = Nothing
+        Me.txtOneColumnCrate.ReferenceTableName = Nothing
+        Me.txtOneColumnCrate.Size = New System.Drawing.Size(200, 20)
+        Me.txtOneColumnCrate.TabIndex = 62
+        Me.txtOneColumnCrate.Text = "0"
+        Me.txtOneColumnCrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtOneColumnCrate.Value = 0R
+        '
         'frmVehicleMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2046,6 +2084,7 @@ Partial Class frmVehicleMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtVehicleWeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlmt.ResumeLayout(False)
@@ -2135,6 +2174,7 @@ Partial Class frmVehicleMaster
         CType(Me.rbtnratekm, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtKmrange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtOneColumnCrate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2246,5 +2286,7 @@ Partial Class frmVehicleMaster
     Friend WithEvents txtVehicleWeight As common.MyNumBox
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
     Friend WithEvents btnHistory As RadButton
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents txtOneColumnCrate As common.MyNumBox
 End Class
 

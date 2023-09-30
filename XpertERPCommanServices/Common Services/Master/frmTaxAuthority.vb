@@ -347,6 +347,8 @@ Public Class frmTaxAuthority
                     taxtype = "S"
                 ElseIf taxtype = "MANDI TAX" Then
                     taxtype = "M"
+                ElseIf taxtype = "KKF" Then
+                    taxtype = "K"
                 ElseIf taxtype = "WCT" Then
                     taxtype = "W"
                 ElseIf taxtype = "SGST" Then
@@ -947,8 +949,8 @@ Public Class frmTaxAuthority
 
 
     Private Sub menuExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuExport.Click
-        sql = "Select Tax_Code as 'Tax Authority',Tax_Code_Desc as 'Description'," & _
-        "Tax_Liability_Account as 'Tax Liability Account',(case when Tax_Recoverable='Y' then 'Yes' else 'No' END) as 'Tax Recoverable',Tax_Recoverable_Account as 'Tax Recoverable Account',Tax_Recover_Rate as 'Tax Recover Rate',Tax_Net_Payable as 'Tax Net Payable',(Case type when 'V'then 'VAT' when 'E'then 'EXCISE' when 'C'then 'CST' when 'A' then 'ADDTAX' when 'W' then 'WCT' when 'O' then  'OTHER'  when 'S' then 'SERVICE' when 'M' then 'MANDI TAX' when 'IGST' then 'IGST' when 'SGST' then 'SGST' when 'UGST' then 'UGST' when 'CGST' then 'CGST' else ''end)as 'Type',Tax_Recoverable_Account2 as 'Tax Recoverable Account2',Tax_Recover_Rate2 as 'Tax Recover Rate2',Tax_Recoverable_Account3 as 'Tax Recoverable Account3',Tax_Recover_Rate3 as 'Tax Recover Rate3',Tax_Recoverable_Account4 as 'Tax Recoverable Account4',Tax_Recover_Rate4 as 'Tax Recover Rate4',Tax_Recoverable_Account5 as 'Tax Recoverable Account5',Tax_Recover_Rate5 as 'Tax Recover Rate5',Is_MandiTaxCess AS [Is Mandi Tax Cess]  "
+        sql = "Select Tax_Code as 'Tax Authority',Tax_Code_Desc as 'Description'," &
+        "Tax_Liability_Account as 'Tax Liability Account',(case when Tax_Recoverable='Y' then 'Yes' else 'No' END) as 'Tax Recoverable',Tax_Recoverable_Account as 'Tax Recoverable Account',Tax_Recover_Rate as 'Tax Recover Rate',Tax_Net_Payable as 'Tax Net Payable',(Case type when 'V'then 'VAT' when 'E'then 'EXCISE' when 'C'then 'CST' when 'A' then 'ADDTAX' when 'W' then 'WCT' when 'O' then  'OTHER'  when 'S' then 'SERVICE' when 'M' then 'MANDI TAX'  when 'K' then 'KKF' when 'IGST' then 'IGST' when 'SGST' then 'SGST' when 'UGST' then 'UGST' when 'CGST' then 'CGST' else ''end)as 'Type',Tax_Recoverable_Account2 as 'Tax Recoverable Account2',Tax_Recover_Rate2 as 'Tax Recover Rate2',Tax_Recoverable_Account3 as 'Tax Recoverable Account3',Tax_Recover_Rate3 as 'Tax Recover Rate3',Tax_Recoverable_Account4 as 'Tax Recoverable Account4',Tax_Recover_Rate4 as 'Tax Recover Rate4',Tax_Recoverable_Account5 as 'Tax Recoverable Account5',Tax_Recover_Rate5 as 'Tax Recover Rate5',Is_MandiTaxCess AS [Is Mandi Tax Cess]  "
         ''---- GST Applicable 
         If AllowGSTApplicable = True Then
             sql += " ,PayableControl as [Payable Control],DepositControl as [Deposit Control],GSTActive as [GST Active] "
@@ -1008,7 +1010,7 @@ Public Class frmTaxAuthority
                         Payable = clsCommon.myCstr(grow.Cells(19).Value)
                         Deposit = clsCommon.myCstr(grow.Cells(20).Value)
                     End If
-                 
+
 
 
                     If Type = "VAT" Then
@@ -1033,6 +1035,8 @@ Public Class frmTaxAuthority
                         Type = "UGST"
                     ElseIf Type = "MANDI TAX" Then
                         Type = "M"
+                    ElseIf Type = "KKF" Then
+                        Type = "K"
                     Else
                         Type = ""
                     End If
@@ -1532,6 +1536,8 @@ Public Class frmTaxAuthority
                 drpTaxtype.Text = "SERVICE"
             ElseIf type = "M" Then
                 drpTaxtype.Text = "MANDI TAX"
+            ElseIf type = "K" Then
+                drpTaxtype.Text = "KKF"
             ElseIf type = "W" Then
                 drpTaxtype.Text = "WCT"
             ElseIf type = "SGST" Then
@@ -1754,6 +1760,10 @@ Public Class frmTaxAuthority
         dr = dt.NewRow()
         dr("Code") = "M"
         dr("Name") = "MANDI TAX"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        dr("Code") = "K"
+        dr("Name") = "KKF"
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
