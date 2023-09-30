@@ -506,4 +506,31 @@ group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DIST
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Dim Qry As String = Nothing
+                Qry = "select ROW_NUMBER() OVER(ORDER BY (Select 1) ASC) AS [S.No.],
+                        TSPL_Distributor_Commission_Head.Doc_No,TSPL_Distributor_Commission_Detail.Route_Code,TSPL_Distributor_Commission_Head.Document_Date,
+                        TSPL_Distributor_Commission_Head.Applicable_Date,TSPL_Distributor_Commission_Head.Commision_UOM,TSPL_Distributor_Commission_Detail.Rate,(TSPL_Customer_Master.Cust_Code+' - '+ TSPL_Customer_Master.Customer_Name) As Distributor,
+                        TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2
+                        from  TSPL_Distributor_Commission_Detail 
+                        Left outer Join TSPL_Distributor_Commission_Head On TSPL_Distributor_Commission_Head.Doc_No=TSPL_Distributor_Commission_Detail.Doc_No
+                        Left Outer Join TSPL_Customer_Master On TSPL_Customer_Master.Cust_Code=TSPL_Distributor_Commission_Detail.Distributor_Code
+                        Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code=TSPL_Customer_Master.Comp_Code
+                        where 2=2 and TSPL_Distributor_Commission_Head.Doc_No = '" + txtDocNo.Value + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dt.Rows.Count > 0 Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDistributorCommission", "Distributor Commission Rate", Nothing)
+                    frmCRV = Nothing
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("No data found", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

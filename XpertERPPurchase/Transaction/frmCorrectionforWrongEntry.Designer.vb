@@ -25,7 +25,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
         Me.MyTextBox1 = New common.Controls.MyTextBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -138,7 +138,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.UnpostDispatch = New Telerik.WinControls.UI.RadButton()
         Me.DeleteDispatch = New Telerik.WinControls.UI.RadButton()
         Me.TxtSI = New common.UserControls.txtNavigator()
-        Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdatee = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -147,7 +147,7 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyTextBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -257,7 +257,7 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.OpenDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.UnpostDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DeleteDispatch, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdatee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -275,7 +275,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpdate)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnUpdatee)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Size = New System.Drawing.Size(1020, 739)
         Me.SplitContainer1.SplitterDistance = 674
@@ -296,7 +296,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.RadButton1)
+        Me.RadPageViewPage1.Controls.Add(Me.btnUpdate)
         Me.RadPageViewPage1.Controls.Add(Me.MyTextBox1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel9)
         Me.RadPageViewPage1.Controls.Add(Me.WeighmetDate)
@@ -357,14 +357,13 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage1.Size = New System.Drawing.Size(999, 626)
         Me.RadPageViewPage1.Text = "Gate Received Note"
         '
-        'RadButton1
+        'btnUpdate
         '
-        Me.RadButton1.Location = New System.Drawing.Point(8, 436)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(110, 24)
-        Me.RadButton1.TabIndex = 100
-        Me.RadButton1.Text = "RadButton1"
-        Me.RadButton1.Visible = False
+        Me.btnUpdate.Location = New System.Drawing.Point(13, 479)
+        Me.btnUpdate.Name = "btnUpdate"
+        Me.btnUpdate.Size = New System.Drawing.Size(69, 22)
+        Me.btnUpdate.TabIndex = 100
+        Me.btnUpdate.Text = "Update"
         '
         'MyTextBox1
         '
@@ -2105,14 +2104,15 @@ Partial Class frmCorrectionforWrongEntry
         Me.TxtSI.Value = ""
         Me.TxtSI.Visible = False
         '
-        'btnUpdate
+        'btnUpdatee
         '
-        Me.btnUpdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdate.Location = New System.Drawing.Point(13, 18)
-        Me.btnUpdate.Name = "btnUpdate"
-        Me.btnUpdate.Size = New System.Drawing.Size(69, 22)
-        Me.btnUpdate.TabIndex = 100
-        Me.btnUpdate.Text = "Update"
+        Me.btnUpdatee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdatee.Location = New System.Drawing.Point(13, 18)
+        Me.btnUpdatee.Name = "btnUpdatee"
+        Me.btnUpdatee.Size = New System.Drawing.Size(69, 22)
+        Me.btnUpdatee.TabIndex = 100
+        Me.btnUpdatee.Text = "Update"
+        Me.btnUpdatee.Visible = False
         '
         'btnClose
         '
@@ -2149,7 +2149,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyTextBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2264,7 +2264,7 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.OpenDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.UnpostDispatch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DeleteDispatch, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdatee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -2386,8 +2386,8 @@ Partial Class frmCorrectionforWrongEntry
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents lblIRNSI As common.Controls.MyLabel
     Friend WithEvents txtSaleInvoice As common.Controls.MyLabel
-    Friend WithEvents btnUpdate As RadButton
+    Friend WithEvents btnUpdatee As RadButton
     Friend WithEvents btnClose As RadButton
-    Friend WithEvents RadButton1 As RadButton
+    Friend WithEvents btnUpdate As RadButton
     Friend WithEvents MyTextBox1 As common.Controls.MyTextBox
 End Class
