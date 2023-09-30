@@ -465,4 +465,29 @@ Public Class frmDistributorRouteTagging
             txtEndDate.Value = Nothing
         End If
     End Sub
+
+    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        Try
+            Dim sqlqry As String = "   select ROW_NUMBER() Over(ORDER BY(Select 1)ASC)AS[S.NO.],'" + objCommonVar.CurrentUser + "' AS [User], TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,Convert(varchar(12),TSPL_DISTRIBUTOR_ROUTE.Start_Date,103) as Start_Date,
+   TSPL_ROUTE_MASTER.Route_Desc,tspl_Company_master.Add1,tspl_Company_master.Add2,tspl_Company_master.Add3,tspl_Company_master.City_Code,
+   tspl_Customer_Master.Customer_Name,tspl_Company_master.Comp_Name,tspl_Company_master.Pincode
+FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+   Left Join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+   Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No
+      Left Join tspl_Customer_Master on tspl_Customer_Master.Cust_Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code
+  left join tspl_Company_master on tspl_Company_master.Comp_Code=.TSPL_ROUTE_MASTER.Comp_Code
+   WHERE TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code ='" & txtCode.Value & "'"
+            Dim dtItem As DataTable
+            dtItem = clsDBFuncationality.GetDataTable(sqlqry)
+            If dtItem.Rows.Count > 0 Then
+                Dim crysFrm As New frmCrystalReportViewer()
+                crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dtItem, "DistributorRouteTagging", "Distribute Route Tagging")
+            Else
+                clsCommon.MyMessageBoxShow("No Data Found")
+
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
 End Class

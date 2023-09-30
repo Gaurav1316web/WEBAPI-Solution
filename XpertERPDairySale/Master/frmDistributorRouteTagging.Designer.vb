@@ -38,6 +38,7 @@ Partial Class frmDistributorRouteTagging
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.lblCode = New System.Windows.Forms.Label()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
@@ -56,6 +57,7 @@ Partial Class frmDistributorRouteTagging
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -88,6 +90,7 @@ Partial Class frmDistributorRouteTagging
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -306,6 +309,15 @@ Partial Class frmDistributorRouteTagging
         Me.lblCode.TabIndex = 57
         Me.lblCode.Text = "Code"
         '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(356, 6)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(73, 20)
+        Me.btnPrint.TabIndex = 159
+        Me.btnPrint.Text = "Print"
+        '
         'btnImport
         '
         Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -390,6 +402,7 @@ Partial Class frmDistributorRouteTagging
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -421,4 +434,5 @@ Partial Class frmDistributorRouteTagging
     Friend WithEvents btnImport As RadSplitButton
     Friend WithEvents rmiImport As RadMenuItem
     Friend WithEvents rmiExport As RadMenuItem
+    Friend WithEvents btnPrint As RadButton
 End Class
