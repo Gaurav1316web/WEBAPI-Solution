@@ -22,8 +22,8 @@ Partial Class rptDBTSummaryMonthlyWise
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvDB = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -39,7 +39,6 @@ Partial Class rptDBTSummaryMonthlyWise
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -63,7 +62,6 @@ Partial Class rptDBTSummaryMonthlyWise
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -74,7 +72,7 @@ Partial Class rptDBTSummaryMonthlyWise
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition3
+        Me.gvDB.ViewDefinition = TableViewDefinition1
         '
         'RadPageView1
         '
@@ -263,7 +261,7 @@ Partial Class rptDBTSummaryMonthlyWise
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(956, 310)
@@ -271,7 +269,6 @@ Partial Class rptDBTSummaryMonthlyWise
         '
         'Panel1
         '
-        Me.Panel1.Controls.Add(Me.RadButton1)
         Me.Panel1.Controls.Add(Me.btnGo)
         Me.Panel1.Controls.Add(Me.btnReset)
         Me.Panel1.Controls.Add(Me.btnClose)
@@ -280,14 +277,6 @@ Partial Class rptDBTSummaryMonthlyWise
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(977, 23)
         Me.Panel1.TabIndex = 1
-        '
-        'RadButton1
-        '
-        Me.RadButton1.Location = New System.Drawing.Point(154, 3)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(68, 18)
-        Me.RadButton1.TabIndex = 143
-        Me.RadButton1.Text = "<< Back "
         '
         'btnGo
         '
@@ -370,7 +359,6 @@ Partial Class rptDBTSummaryMonthlyWise
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -392,7 +380,6 @@ Partial Class rptDBTSummaryMonthlyWise
     Friend WithEvents gvDB As Telerik.WinControls.UI.MasterGridViewTemplate
     Friend WithEvents txtMCC As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
-    Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
