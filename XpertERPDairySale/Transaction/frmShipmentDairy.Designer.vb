@@ -36,6 +36,9 @@ Partial Class frmShipmentDairy
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.cmbShift = New common.Controls.MyComboBox()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.lblShiftType = New common.Controls.MyLabel()
         Me.txtFreightDistance = New common.MyNumBox()
         Me.MyLabel59 = New common.Controls.MyLabel()
         Me.lblSubLocation = New common.Controls.MyLabel()
@@ -68,7 +71,6 @@ Partial Class frmShipmentDairy
         Me.rbtn_Ambient = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtn_Fresh = New Telerik.WinControls.UI.RadRadioButton()
         Me.cmbDisItemType = New common.Controls.MyComboBox()
-        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.MyLabel40 = New common.Controls.MyLabel()
         Me.MyLabel39 = New common.Controls.MyLabel()
         Me.txtManualCustomer = New common.Controls.MyTextBox()
@@ -394,6 +396,9 @@ Partial Class frmShipmentDairy
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -424,7 +429,6 @@ Partial Class frmShipmentDairy
         CType(Me.rbtn_Ambient, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtn_Fresh, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbDisItemType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtManualCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -843,7 +847,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -852,6 +856,8 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.cmbShift)
+        Me.RadPageViewPage1.Controls.Add(Me.lblShiftType)
         Me.RadPageViewPage1.Controls.Add(Me.txtFreightDistance)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel59)
         Me.RadPageViewPage1.Controls.Add(Me.lblSubLocation)
@@ -966,6 +972,51 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage1.Text = "Shipment"
+        '
+        'cmbShift
+        '
+        Me.cmbShift.AutoCompleteDisplayMember = Nothing
+        Me.cmbShift.AutoCompleteValueMember = Nothing
+        Me.cmbShift.CalculationExpression = Nothing
+        Me.cmbShift.DropDownAnimationEnabled = True
+        Me.cmbShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbShift.FieldCode = Nothing
+        Me.cmbShift.FieldDesc = Nothing
+        Me.cmbShift.FieldMaxLength = 0
+        Me.cmbShift.FieldName = Nothing
+        Me.cmbShift.isCalculatedField = False
+        Me.cmbShift.IsSourceFromTable = False
+        Me.cmbShift.IsSourceFromValueList = False
+        Me.cmbShift.IsUnique = False
+        Me.cmbShift.Location = New System.Drawing.Point(432, 22)
+        Me.cmbShift.MendatroryField = True
+        Me.cmbShift.MyLinkLable1 = Me.MyLabel7
+        Me.cmbShift.MyLinkLable2 = Nothing
+        Me.cmbShift.Name = "cmbShift"
+        Me.cmbShift.ReferenceFieldDesc = Nothing
+        Me.cmbShift.ReferenceFieldName = Nothing
+        Me.cmbShift.ReferenceTableName = Nothing
+        Me.cmbShift.Size = New System.Drawing.Size(94, 20)
+        Me.cmbShift.TabIndex = 1473
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Location = New System.Drawing.Point(259, 96)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(15, 18)
+        Me.MyLabel7.TabIndex = 7
+        Me.MyLabel7.Text = "%"
+        '
+        'lblShiftType
+        '
+        Me.lblShiftType.FieldName = Nothing
+        Me.lblShiftType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblShiftType.Location = New System.Drawing.Point(372, 23)
+        Me.lblShiftType.Name = "lblShiftType"
+        Me.lblShiftType.Size = New System.Drawing.Size(57, 16)
+        Me.lblShiftType.TabIndex = 1472
+        Me.lblShiftType.Text = "Shift Type"
         '
         'txtFreightDistance
         '
@@ -1438,15 +1489,6 @@ Partial Class frmShipmentDairy
         Me.cmbDisItemType.ReferenceTableName = Nothing
         Me.cmbDisItemType.Size = New System.Drawing.Size(108, 20)
         Me.cmbDisItemType.TabIndex = 37
-        '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Location = New System.Drawing.Point(259, 96)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(15, 18)
-        Me.MyLabel7.TabIndex = 7
-        Me.MyLabel7.Text = "%"
         '
         'MyLabel40
         '
@@ -3080,7 +3122,7 @@ Partial Class frmShipmentDairy
         Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBillToLocation.Location = New System.Drawing.Point(242, 22)
         Me.lblBillToLocation.Name = "lblBillToLocation"
-        Me.lblBillToLocation.Size = New System.Drawing.Size(287, 20)
+        Me.lblBillToLocation.Size = New System.Drawing.Size(130, 20)
         Me.lblBillToLocation.TabIndex = 9
         Me.lblBillToLocation.TextWrap = False
         '
@@ -4196,6 +4238,7 @@ Partial Class frmShipmentDairy
         Me.RadButton3.Size = New System.Drawing.Size(69, 20)
         Me.RadButton3.TabIndex = 1402
         Me.RadButton3.Text = ">>>"
+        Me.RadButton3.Visible = False
         '
         'txtToDateDistributor
         '
@@ -4226,6 +4269,7 @@ Partial Class frmShipmentDairy
         Me.txtToDateDistributor.TabStop = False
         Me.txtToDateDistributor.Text = "13/06/2011 "
         Me.txtToDateDistributor.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtToDateDistributor.Visible = False
         '
         'MyLabel70
         '
@@ -4236,6 +4280,7 @@ Partial Class frmShipmentDairy
         Me.MyLabel70.Size = New System.Drawing.Size(46, 16)
         Me.MyLabel70.TabIndex = 1400
         Me.MyLabel70.Text = "To Date"
+        Me.MyLabel70.Visible = False
         '
         'txtFromDateDistributor
         '
@@ -4266,6 +4311,7 @@ Partial Class frmShipmentDairy
         Me.txtFromDateDistributor.TabStop = False
         Me.txtFromDateDistributor.Text = "13/06/2011 "
         Me.txtFromDateDistributor.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtFromDateDistributor.Visible = False
         '
         'MyLabel69
         '
@@ -4276,6 +4322,7 @@ Partial Class frmShipmentDairy
         Me.MyLabel69.Size = New System.Drawing.Size(60, 16)
         Me.MyLabel69.TabIndex = 1398
         Me.MyLabel69.Text = "From Date"
+        Me.MyLabel69.Visible = False
         '
         'gvDistributor
         '
@@ -6369,6 +6416,9 @@ Partial Class frmShipmentDairy
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6400,7 +6450,6 @@ Partial Class frmShipmentDairy
         CType(Me.rbtn_Ambient, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtn_Fresh, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbDisItemType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtManualCustomer, System.ComponentModel.ISupportInitialize).EndInit()
@@ -7081,5 +7130,7 @@ Partial Class frmShipmentDairy
     Friend WithEvents gvDistributor As common.UserControls.MyRadGridView
     Friend WithEvents txtDCAmt As common.Controls.MyLabel
     Friend WithEvents lblDCAmt As common.Controls.MyLabel
+    Friend WithEvents cmbShift As common.Controls.MyComboBox
+    Friend WithEvents lblShiftType As common.Controls.MyLabel
 End Class
 

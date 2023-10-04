@@ -27,6 +27,7 @@ Partial Class frmMilkCollectionMCCQC
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnCorrection = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel8 = New common.Controls.MyLabel()
@@ -59,6 +60,7 @@ Partial Class frmMilkCollectionMCCQC
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.btnCorrection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -126,6 +128,7 @@ Partial Class frmMilkCollectionMCCQC
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.btnCorrection)
         Me.Panel1.Controls.Add(Me.RadLabel4)
         Me.Panel1.Controls.Add(Me.txtDate)
         Me.Panel1.Controls.Add(Me.MyLabel8)
@@ -141,6 +144,14 @@ Partial Class frmMilkCollectionMCCQC
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(738, 32)
         Me.Panel1.TabIndex = 1
+        '
+        'btnCorrection
+        '
+        Me.btnCorrection.Location = New System.Drawing.Point(418, 6)
+        Me.btnCorrection.Name = "btnCorrection"
+        Me.btnCorrection.Size = New System.Drawing.Size(86, 20)
+        Me.btnCorrection.TabIndex = 4
+        Me.btnCorrection.Text = "Correction"
         '
         'RadLabel4
         '
@@ -248,7 +259,7 @@ Partial Class frmMilkCollectionMCCQC
         '
         'btnSave
         '
-        Me.btnSave.Location = New System.Drawing.Point(335, 6)
+        Me.btnSave.Location = New System.Drawing.Point(330, 6)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(86, 20)
         Me.btnSave.TabIndex = 3
@@ -256,7 +267,7 @@ Partial Class frmMilkCollectionMCCQC
         '
         'btnVerify
         '
-        Me.btnVerify.Location = New System.Drawing.Point(283, 6)
+        Me.btnVerify.Location = New System.Drawing.Point(281, 6)
         Me.btnVerify.Name = "btnVerify"
         Me.btnVerify.Size = New System.Drawing.Size(47, 20)
         Me.btnVerify.TabIndex = 2
@@ -264,7 +275,7 @@ Partial Class frmMilkCollectionMCCQC
         '
         'btnBrowse
         '
-        Me.btnBrowse.Location = New System.Drawing.Point(130, 6)
+        Me.btnBrowse.Location = New System.Drawing.Point(129, 6)
         Me.btnBrowse.Name = "btnBrowse"
         Me.btnBrowse.Size = New System.Drawing.Size(150, 20)
         Me.btnBrowse.TabIndex = 1
@@ -498,6 +509,7 @@ Partial Class frmMilkCollectionMCCQC
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.btnCorrection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
@@ -564,5 +576,6 @@ Partial Class frmMilkCollectionMCCQC
     Friend WithEvents Attachments As RadPageViewPage
     Friend WithEvents UcAttachment1 As ucAttachment
     Friend WithEvents Panel2 As Panel
+    Friend WithEvents btnCorrection As RadButton
 End Class
 

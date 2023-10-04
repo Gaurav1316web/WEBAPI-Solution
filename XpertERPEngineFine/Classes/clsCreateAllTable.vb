@@ -23300,6 +23300,8 @@ Public Class clsCreateAllTable
             coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
             coll.Add("Against_Multiple_Days", "integer NULL references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL(PK_Id)")
             coll.Add("REF_PK_ID_BMCDCS_TRIP", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS_TRIP(PK_ID)")
+            coll.Add("Machine_FAT", "Decimal(18,2) null")
+            coll.Add("Machine_SNF", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -28785,6 +28787,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Is_CashSale", "char(1) default 'N'")
             coll.Add("Cash_Customer", "varchar(50) null")
             coll.Add("DO_Item_Type", "varchar(10) null")
+            coll.Add("Shift_Type", "varchar(10) null")
             coll.Add("EWayBillNo", "Varchar(30) null")
             coll.Add("EWayBillDate", "Datetime NULL")
             coll.Add("Electronic_Ref_No", "varchar(10) NULL")
@@ -29010,6 +29013,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Sub_Location_code", "varchar(12) NULL")
             coll.Add("Distributor_Commission_PKID", "int null References TSPL_DISTRIBUTOR_COMMISSION_DETAIL(PK_ID)")
             coll.Add("Distributor_Commission_Rate", "decimal(18,4) NULL")
+            coll.Add("Distributor_Commission_RateWithTax", "decimal(18,4) NULL")
             coll.Add("Distributor_Commission_Amt", "decimal(18,4) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
