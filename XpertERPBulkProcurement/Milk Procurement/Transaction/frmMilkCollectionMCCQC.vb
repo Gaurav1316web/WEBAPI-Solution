@@ -3,7 +3,7 @@ Imports System.Data.SqlClient
 
 Public Class frmMilkCollectionMCCQC
     Inherits FrmMainTranScreen
-
+    Dim CorrectionApply As Boolean = False
     Private Sub FrmPrefixImport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtDateReport.Value = txtDate.Value
@@ -13,7 +13,6 @@ Public Class frmMilkCollectionMCCQC
         UcAttachment1.isDeleteTheAttachment = False
     End Sub
 
-
     Private Sub RadButton3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
@@ -21,6 +20,7 @@ Public Class frmMilkCollectionMCCQC
 
     Private Sub btnBrowse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBrowse.Click
         Try
+            CorrectionApply = False
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
             gv1.Columns.Clear()
@@ -33,7 +33,6 @@ Public Class frmMilkCollectionMCCQC
                 repoError.Name = "Error"
                 repoError.ReadOnly = True
                 gv1.MasterTemplate.Columns.Add(repoError)
-
 
                 Dim repoIsOK As GridViewDecimalColumn = New GridViewDecimalColumn()
                 repoIsOK.FormatString = ""
@@ -64,10 +63,35 @@ Public Class frmMilkCollectionMCCQC
                 repoIsOK.IsVisible = False
                 gv1.MasterTemplate.Columns.Add(repoIsOK)
 
+                Dim MachineFat As GridViewDecimalColumn = New GridViewDecimalColumn()
+                MachineFat.FormatString = ""
+                MachineFat.DecimalPlaces = 0
+                MachineFat.HeaderText = "Machine Fat"
+                MachineFat.Name = "MachineFat"
+                MachineFat.Minimum = 0
+                MachineFat.Maximum = 2
+                MachineFat.ReadOnly = True
+                MachineFat.IsVisible = False
+                gv1.MasterTemplate.Columns.Add(MachineFat)
+
+                Dim MachineSNF As GridViewDecimalColumn = New GridViewDecimalColumn()
+                MachineSNF.FormatString = ""
+                MachineSNF.DecimalPlaces = 0
+                MachineSNF.HeaderText = "Machine SNF"
+                MachineSNF.Name = "MachineSNF"
+                MachineSNF.Minimum = 0
+                MachineSNF.Maximum = 2
+                MachineSNF.ReadOnly = True
+                MachineSNF.IsVisible = False
+                gv1.MasterTemplate.Columns.Add(MachineSNF)
+
                 gv1.BestFitColumns()
                 For ii As Integer = 0 To gv1.Columns.Count - 1
                     gv1.Columns(ii).ReadOnly = True
                 Next
+                gv1.Columns("FAT").ReadOnly = False
+                gv1.Columns("SNF").ReadOnly = False
+
                 gv1.AllowAddNewRow = False
                 gv1.ShowGroupPanel = False
                 gv1.ShowFilteringRow = True
@@ -82,8 +106,14 @@ Public Class frmMilkCollectionMCCQC
                 UcAttachment1.BlankAllControls()
                 UcAttachment1.LoadData(clsCommon.GetPrintDate(txtDate.Value, "yyyy/MM/dd"))
                 UcAttachment1.AddAttachment(FileName, SafeFileName)
+
+                If gv1.Rows.Count > 0 Then
+                    For ii As Integer = 0 To gv1.Rows.Count - 1
+                        gv1.Rows(ii).Cells("MachineFAT").Value = clsCommon.myCDecimal(gv1.Rows(ii).Cells("FAT").Value)
+                        gv1.Rows(ii).Cells("MachineSNF").Value = clsCommon.myCDecimal(gv1.Rows(ii).Cells("SNF").Value)
+                    Next
+                End If
             Else
-                'gv1.Rows.Clear()
                 gv1.Columns.Clear()
             End If
         Catch ex As Exception
@@ -116,6 +146,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
     End Function
     Function AllowToSave(ByVal isStartProgressBar As Boolean) As Boolean
         Try
+            CorrectionApply = False
             If isStartProgressBar Then
                 clsCommon.ProgressBarPercentShow()
             End If
@@ -216,6 +247,8 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                             obj.Qty = clsCommon.myCDecimal(gv1.Rows(ii).Cells("Qty").Value)
                             obj.FAT = clsCommon.myCDecimal(gv1.Rows(ii).Cells("FAT").Value)
                             obj.SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells("SNF").Value)
+                            obj.Machine_FAT = clsCommon.myCDecimal(gv1.Rows(ii).Cells("MachineFAT").Value)
+                            obj.Machine_SNF = clsCommon.myCDecimal(gv1.Rows(ii).Cells("MachineSNF").Value)
                             obj.FATKG = Math.Round(obj.Qty * obj.FAT / 100, 3, MidpointRounding.ToEven)
                             obj.SNFKG = Math.Round(obj.Qty * obj.SNF / 100, 3, MidpointRounding.ToEven)
                             dictionary.Add(obj)
@@ -235,6 +268,11 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                                 clsCommon.AddColumnsForChange(coll, "SNF", dictionary(ii).SNF)
                                 clsCommon.AddColumnsForChange(coll, "FATKG", dictionary(ii).FATKG)
                                 clsCommon.AddColumnsForChange(coll, "SNFKG", dictionary(ii).SNFKG)
+                                Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Machine_Fat,Machine_SNF from TSPL_MILK_COLLECTION_MCC_DETAIL where PK_Id='" + clsCommon.myCstr(dictionary(ii).PK_Id) + "'", trans)
+                                If dt.Rows.Count <= 0 Then
+                                    clsCommon.AddColumnsForChange(coll, "Machine_FAT", dictionary(ii).Machine_FAT)
+                                    clsCommon.AddColumnsForChange(coll, "Machine_SNF", dictionary(ii).Machine_SNF)
+                                End If
                                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dictionary(ii).PK_Id) + "' ", trans)
                             Next
                             UcAttachment1.SaveData(clsCommon.GetPrintDate(txtDate.Value, "yyyy/MM/dd"), False, trans)
@@ -312,6 +350,33 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
             gv2.Columns("SNFKG").HeaderText = "SNF Kg"
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub btnCorrection_Click(sender As Object, e As EventArgs) Handles btnCorrection.Click
+        Try
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = clsFixedParameterType.SIRC
+            frm.strCode = clsFixedParameterCode.UpdatePassword
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                CorrectionApply = True
+
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+        Try
+            If e.Column Is gv1.Columns("FAT") Then
+                gv1.CurrentRow.Cells("FAT").ReadOnly = Not CorrectionApply
+            ElseIf e.Column Is gv1.Columns("SNF") Then
+                gv1.CurrentRow.Cells("SNF").ReadOnly = Not CorrectionApply
+            End If
+        Catch ex As Exception
         End Try
     End Sub
 End Class
