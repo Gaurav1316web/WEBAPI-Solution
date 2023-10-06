@@ -6664,6 +6664,7 @@ select Add_Charge_Code10 as Add_Charge_Code,Add_Charge_Name10 as Add_Charge_Name
                 If clsSNInvoiceHead.ReverseAndUnpost(txtDocNo.Value) Then
                     common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
+                    txtDate.Enabled = True
                 End If
             End If
         Catch ex As Exception

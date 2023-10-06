@@ -1479,7 +1479,7 @@ Public Class frmVSP_VLCMaster
 
             obj.CSA_Type = "N"
             obj.ManualCustomer = "N"
-
+            obj.Status = "N"
             obj.Comp_Code = objCommonVar.CurrentCompanyCode
 
             Dim arrDBName As New List(Of String)

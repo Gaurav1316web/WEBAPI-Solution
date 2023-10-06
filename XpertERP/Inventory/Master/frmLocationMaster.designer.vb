@@ -119,9 +119,6 @@ Partial Class frmLocationMaster
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.txtcommsn_code = New common.UserControls.txtFinder()
         Me.txtcsa_commision = New common.MyNumBox()
-        Me.txtTelephone = New Telerik.WinControls.UI.RadMaskedEditBox()
-        Me.txtPhone2 = New Telerik.WinControls.UI.RadMaskedEditBox()
-        Me.txtPhone1 = New Telerik.WinControls.UI.RadMaskedEditBox()
         Me.rdbbtnSubLoc = New Telerik.WinControls.UI.RadRadioButton()
         Me.rdbbtnSection = New Telerik.WinControls.UI.RadRadioButton()
         Me.TxtMainLoc = New common.UserControls.txtFinder()
@@ -308,6 +305,9 @@ Partial Class frmLocationMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer11 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.txtTelephone = New common.Controls.MyTextBox()
+        Me.txtPhone1 = New common.Controls.MyTextBox()
+        Me.txtPhone2 = New common.Controls.MyTextBox()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -367,9 +367,6 @@ Partial Class frmLocationMaster
         CType(Me.txtcommsn_desc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtcsa_commision, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTelephone, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbbtnSubLoc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbbtnSection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -584,6 +581,9 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.SuspendLayout()
         Me.SplitContainer11.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTelephone, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -770,7 +770,7 @@ Partial Class frmLocationMaster
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(10, 5)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.PageBankDetails
         Me.RadPageView1.Size = New System.Drawing.Size(884, 590)
         Me.RadPageView1.TabIndex = 4
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -787,6 +787,9 @@ Partial Class frmLocationMaster
         'radgroupbox
         '
         Me.radgroupbox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.radgroupbox.Controls.Add(Me.txtPhone2)
+        Me.radgroupbox.Controls.Add(Me.txtPhone1)
+        Me.radgroupbox.Controls.Add(Me.txtTelephone)
         Me.radgroupbox.Controls.Add(Me.cmbNoOfShift)
         Me.radgroupbox.Controls.Add(Me.lblNoOfShift)
         Me.radgroupbox.Controls.Add(Me.MyLabel24)
@@ -822,9 +825,6 @@ Partial Class frmLocationMaster
         Me.radgroupbox.Controls.Add(Me.txtcommsn_code)
         Me.radgroupbox.Controls.Add(Me.txtcsa_commision)
         Me.radgroupbox.Controls.Add(Me.MyLabel8)
-        Me.radgroupbox.Controls.Add(Me.txtTelephone)
-        Me.radgroupbox.Controls.Add(Me.txtPhone2)
-        Me.radgroupbox.Controls.Add(Me.txtPhone1)
         Me.radgroupbox.Controls.Add(Me.rdbbtnSubLoc)
         Me.radgroupbox.Controls.Add(Me.rdbbtnSection)
         Me.radgroupbox.Controls.Add(Me.TxtMainLoc)
@@ -1605,39 +1605,6 @@ Partial Class frmLocationMaster
         Me.txtcsa_commision.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtcsa_commision.Value = 0R
         Me.txtcsa_commision.Visible = False
-        '
-        'txtTelephone
-        '
-        Me.txtTelephone.Location = New System.Drawing.Point(110, 198)
-        Me.txtTelephone.Mask = "(+99)0000000000"
-        Me.txtTelephone.MaskType = Telerik.WinControls.UI.MaskType.Standard
-        Me.txtTelephone.Name = "txtTelephone"
-        Me.txtTelephone.Size = New System.Drawing.Size(130, 20)
-        Me.txtTelephone.TabIndex = 12
-        Me.txtTelephone.TabStop = False
-        Me.txtTelephone.Text = "(+__)__________"
-        '
-        'txtPhone2
-        '
-        Me.txtPhone2.Location = New System.Drawing.Point(532, 199)
-        Me.txtPhone2.Mask = "(+99)0000000000"
-        Me.txtPhone2.MaskType = Telerik.WinControls.UI.MaskType.Standard
-        Me.txtPhone2.Name = "txtPhone2"
-        Me.txtPhone2.Size = New System.Drawing.Size(131, 20)
-        Me.txtPhone2.TabIndex = 14
-        Me.txtPhone2.TabStop = False
-        Me.txtPhone2.Text = "(+__)__________"
-        '
-        'txtPhone1
-        '
-        Me.txtPhone1.Location = New System.Drawing.Point(322, 199)
-        Me.txtPhone1.Mask = "(+99)0000000000"
-        Me.txtPhone1.MaskType = Telerik.WinControls.UI.MaskType.Standard
-        Me.txtPhone1.Name = "txtPhone1"
-        Me.txtPhone1.Size = New System.Drawing.Size(130, 20)
-        Me.txtPhone1.TabIndex = 13
-        Me.txtPhone1.TabStop = False
-        Me.txtPhone1.Text = "(+__)__________"
         '
         'rdbbtnSubLoc
         '
@@ -3376,7 +3343,7 @@ Partial Class frmLocationMaster
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(57.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(787, 542)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(863, 542)
         Me.RadPageViewPage1.Text = "Sale Tax"
         '
         'RadPageView3
@@ -3387,7 +3354,7 @@ Partial Class frmLocationMaster
         Me.RadPageView3.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView3.Name = "RadPageView3"
         Me.RadPageView3.SelectedPage = Me.RadPageViewPage8
-        Me.RadPageView3.Size = New System.Drawing.Size(787, 542)
+        Me.RadPageView3.Size = New System.Drawing.Size(863, 542)
         Me.RadPageView3.TabIndex = 18
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView3.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Center
@@ -3395,9 +3362,10 @@ Partial Class frmLocationMaster
         'RadPageViewPage8
         '
         Me.RadPageViewPage8.Controls.Add(Me.SplitContainer4)
+        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(42.0!, 28.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
-        Me.RadPageViewPage8.Size = New System.Drawing.Size(766, 494)
+        Me.RadPageViewPage8.Size = New System.Drawing.Size(842, 494)
         Me.RadPageViewPage8.Text = "Local"
         '
         'SplitContainer4
@@ -3414,7 +3382,7 @@ Partial Class frmLocationMaster
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.Controls.Add(Me.gvSaleTaxLocal)
-        Me.SplitContainer4.Size = New System.Drawing.Size(766, 494)
+        Me.SplitContainer4.Size = New System.Drawing.Size(842, 494)
         Me.SplitContainer4.SplitterDistance = 218
         Me.SplitContainer4.TabIndex = 0
         '
@@ -3431,8 +3399,8 @@ Partial Class frmLocationMaster
         'SplitContainer9.Panel2
         '
         Me.SplitContainer9.Panel2.Controls.Add(Me.gvSaleItemDetailsLocal)
-        Me.SplitContainer9.Size = New System.Drawing.Size(766, 218)
-        Me.SplitContainer9.SplitterDistance = 373
+        Me.SplitContainer9.Size = New System.Drawing.Size(842, 218)
+        Me.SplitContainer9.SplitterDistance = 410
         Me.SplitContainer9.TabIndex = 5
         '
         'gvSaleLocal
@@ -3456,7 +3424,7 @@ Partial Class frmLocationMaster
         Me.gvSaleLocal.Name = "gvSaleLocal"
         Me.gvSaleLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleLocal.ShowHeaderCellButtons = True
-        Me.gvSaleLocal.Size = New System.Drawing.Size(373, 218)
+        Me.gvSaleLocal.Size = New System.Drawing.Size(410, 218)
         Me.gvSaleLocal.TabIndex = 4
         Me.gvSaleLocal.TabStop = False
         '
@@ -3481,7 +3449,7 @@ Partial Class frmLocationMaster
         Me.gvSaleItemDetailsLocal.Name = "gvSaleItemDetailsLocal"
         Me.gvSaleItemDetailsLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleItemDetailsLocal.ShowHeaderCellButtons = True
-        Me.gvSaleItemDetailsLocal.Size = New System.Drawing.Size(389, 218)
+        Me.gvSaleItemDetailsLocal.Size = New System.Drawing.Size(428, 218)
         Me.gvSaleItemDetailsLocal.TabIndex = 5
         Me.gvSaleItemDetailsLocal.TabStop = False
         '
@@ -3506,13 +3474,14 @@ Partial Class frmLocationMaster
         Me.gvSaleTaxLocal.Name = "gvSaleTaxLocal"
         Me.gvSaleTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSaleTaxLocal.ShowHeaderCellButtons = True
-        Me.gvSaleTaxLocal.Size = New System.Drawing.Size(766, 272)
+        Me.gvSaleTaxLocal.Size = New System.Drawing.Size(842, 272)
         Me.gvSaleTaxLocal.TabIndex = 3
         Me.gvSaleTaxLocal.TabStop = False
         '
         'RadPageViewPage9
         '
         Me.RadPageViewPage9.Controls.Add(Me.SplitContainer5)
+        Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage9.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage9.Name = "RadPageViewPage9"
         Me.RadPageViewPage9.Size = New System.Drawing.Size(767, 525)
@@ -3634,7 +3603,7 @@ Partial Class frmLocationMaster
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(81.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(787, 542)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(863, 542)
         Me.RadPageViewPage3.Text = "Purchase Tax"
         '
         'RadPageView2
@@ -3645,7 +3614,7 @@ Partial Class frmLocationMaster
         Me.RadPageView2.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView2.Name = "RadPageView2"
         Me.RadPageView2.SelectedPage = Me.RadPageViewPage6
-        Me.RadPageView2.Size = New System.Drawing.Size(787, 542)
+        Me.RadPageView2.Size = New System.Drawing.Size(863, 542)
         Me.RadPageView2.TabIndex = 17
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Center
@@ -3653,9 +3622,10 @@ Partial Class frmLocationMaster
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.SplitContainer2)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(42.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(766, 494)
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(842, 494)
         Me.RadPageViewPage6.Text = "Local"
         '
         'SplitContainer2
@@ -3672,7 +3642,7 @@ Partial Class frmLocationMaster
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvPurchaseTaxLocal)
-        Me.SplitContainer2.Size = New System.Drawing.Size(766, 494)
+        Me.SplitContainer2.Size = New System.Drawing.Size(842, 494)
         Me.SplitContainer2.SplitterDistance = 218
         Me.SplitContainer2.TabIndex = 0
         '
@@ -3697,7 +3667,7 @@ Partial Class frmLocationMaster
         Me.gvPurchaseLocal.Name = "gvPurchaseLocal"
         Me.gvPurchaseLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseLocal.ShowHeaderCellButtons = True
-        Me.gvPurchaseLocal.Size = New System.Drawing.Size(766, 218)
+        Me.gvPurchaseLocal.Size = New System.Drawing.Size(842, 218)
         Me.gvPurchaseLocal.TabIndex = 4
         Me.gvPurchaseLocal.TabStop = False
         '
@@ -3722,13 +3692,14 @@ Partial Class frmLocationMaster
         Me.gvPurchaseTaxLocal.Name = "gvPurchaseTaxLocal"
         Me.gvPurchaseTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPurchaseTaxLocal.ShowHeaderCellButtons = True
-        Me.gvPurchaseTaxLocal.Size = New System.Drawing.Size(766, 272)
+        Me.gvPurchaseTaxLocal.Size = New System.Drawing.Size(842, 272)
         Me.gvPurchaseTaxLocal.TabIndex = 3
         Me.gvPurchaseTaxLocal.TabStop = False
         '
         'RadPageViewPage7
         '
         Me.RadPageViewPage7.Controls.Add(Me.SplitContainer3)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(767, 444)
@@ -3808,7 +3779,7 @@ Partial Class frmLocationMaster
         Me.pageTransferTax.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
         Me.pageTransferTax.Location = New System.Drawing.Point(10, 37)
         Me.pageTransferTax.Name = "pageTransferTax"
-        Me.pageTransferTax.Size = New System.Drawing.Size(787, 542)
+        Me.pageTransferTax.Size = New System.Drawing.Size(863, 542)
         Me.pageTransferTax.Text = "Transfer Tax"
         '
         'RadPageView4
@@ -3819,7 +3790,7 @@ Partial Class frmLocationMaster
         Me.RadPageView4.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView4.Name = "RadPageView4"
         Me.RadPageView4.SelectedPage = Me.RadPageViewPage10
-        Me.RadPageView4.Size = New System.Drawing.Size(787, 542)
+        Me.RadPageView4.Size = New System.Drawing.Size(863, 542)
         Me.RadPageView4.TabIndex = 18
         CType(Me.RadPageView4.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView4.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Center
@@ -3827,9 +3798,10 @@ Partial Class frmLocationMaster
         'RadPageViewPage10
         '
         Me.RadPageViewPage10.Controls.Add(Me.SplitContainer6)
+        Me.RadPageViewPage10.ItemSize = New System.Drawing.SizeF(42.0!, 28.0!)
         Me.RadPageViewPage10.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage10.Name = "RadPageViewPage10"
-        Me.RadPageViewPage10.Size = New System.Drawing.Size(766, 494)
+        Me.RadPageViewPage10.Size = New System.Drawing.Size(842, 494)
         Me.RadPageViewPage10.Text = "Local"
         '
         'SplitContainer6
@@ -3846,7 +3818,7 @@ Partial Class frmLocationMaster
         'SplitContainer6.Panel2
         '
         Me.SplitContainer6.Panel2.Controls.Add(Me.gvTransferTaxLocal)
-        Me.SplitContainer6.Size = New System.Drawing.Size(766, 494)
+        Me.SplitContainer6.Size = New System.Drawing.Size(842, 494)
         Me.SplitContainer6.SplitterDistance = 219
         Me.SplitContainer6.TabIndex = 0
         '
@@ -3871,7 +3843,7 @@ Partial Class frmLocationMaster
         Me.gvTransferLocal.Name = "gvTransferLocal"
         Me.gvTransferLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferLocal.ShowHeaderCellButtons = True
-        Me.gvTransferLocal.Size = New System.Drawing.Size(766, 219)
+        Me.gvTransferLocal.Size = New System.Drawing.Size(842, 219)
         Me.gvTransferLocal.TabIndex = 4
         Me.gvTransferLocal.TabStop = False
         '
@@ -3896,13 +3868,14 @@ Partial Class frmLocationMaster
         Me.gvTransferTaxLocal.Name = "gvTransferTaxLocal"
         Me.gvTransferTaxLocal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTransferTaxLocal.ShowHeaderCellButtons = True
-        Me.gvTransferTaxLocal.Size = New System.Drawing.Size(766, 271)
+        Me.gvTransferTaxLocal.Size = New System.Drawing.Size(842, 271)
         Me.gvTransferTaxLocal.TabIndex = 3
         Me.gvTransferTaxLocal.TabStop = False
         '
         'RadPageViewPage11
         '
         Me.RadPageViewPage11.Controls.Add(Me.SplitContainer7)
+        Me.RadPageViewPage11.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
         Me.RadPageViewPage11.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage11.Name = "RadPageViewPage11"
         Me.RadPageViewPage11.Size = New System.Drawing.Size(767, 444)
@@ -3983,7 +3956,7 @@ Partial Class frmLocationMaster
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(110.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(787, 542)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(863, 542)
         Me.RadPageViewPage4.Text = "Category Structure"
         '
         'gvCategory
@@ -3998,7 +3971,7 @@ Partial Class frmLocationMaster
         Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition15
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
-        Me.gvCategory.Size = New System.Drawing.Size(787, 510)
+        Me.gvCategory.Size = New System.Drawing.Size(863, 510)
         Me.gvCategory.TabIndex = 2
         Me.gvCategory.TabStop = False
         '
@@ -4010,7 +3983,7 @@ Partial Class frmLocationMaster
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(787, 32)
+        Me.Panel1.Size = New System.Drawing.Size(863, 32)
         Me.Panel1.TabIndex = 1
         '
         'lblCategoryStructureCode
@@ -4064,7 +4037,7 @@ Partial Class frmLocationMaster
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(787, 542)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(863, 542)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'UcCustomFields1
@@ -4072,7 +4045,7 @@ Partial Class frmLocationMaster
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(787, 542)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(863, 542)
         Me.UcCustomFields1.TabIndex = 2
         '
         'RadPageViewPage5
@@ -4081,7 +4054,7 @@ Partial Class frmLocationMaster
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(787, 542)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(863, 542)
         Me.RadPageViewPage5.Text = "Attachment"
         '
         'UcAttachment1
@@ -4089,7 +4062,7 @@ Partial Class frmLocationMaster
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(787, 542)
+        Me.UcAttachment1.Size = New System.Drawing.Size(863, 542)
         Me.UcAttachment1.TabIndex = 8
         '
         'PgHOAddress
@@ -4098,7 +4071,7 @@ Partial Class frmLocationMaster
         Me.PgHOAddress.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
         Me.PgHOAddress.Location = New System.Drawing.Point(10, 37)
         Me.PgHOAddress.Name = "PgHOAddress"
-        Me.PgHOAddress.Size = New System.Drawing.Size(787, 542)
+        Me.PgHOAddress.Size = New System.Drawing.Size(863, 542)
         Me.PgHOAddress.Text = "HO Address"
         '
         'GrpHeadOfc
@@ -4180,7 +4153,7 @@ Partial Class frmLocationMaster
         Me.RadPageViewPage12.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
         Me.RadPageViewPage12.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage12.Name = "RadPageViewPage12"
-        Me.RadPageViewPage12.Size = New System.Drawing.Size(787, 542)
+        Me.RadPageViewPage12.Size = New System.Drawing.Size(863, 542)
         Me.RadPageViewPage12.Text = "Jobwork Details"
         '
         'ChkIsJobwork
@@ -4223,6 +4196,7 @@ Partial Class frmLocationMaster
         'RadPageViewPage13
         '
         Me.RadPageViewPage13.Controls.Add(Me.SplitContainer8)
+        Me.RadPageViewPage13.ItemSize = New System.Drawing.SizeF(84.0!, 28.0!)
         Me.RadPageViewPage13.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage13.Name = "RadPageViewPage13"
         Me.RadPageViewPage13.Size = New System.Drawing.Size(750, 158)
@@ -4354,7 +4328,7 @@ Partial Class frmLocationMaster
         Me.PageBankDetails.ItemSize = New System.Drawing.SizeF(77.0!, 28.0!)
         Me.PageBankDetails.Location = New System.Drawing.Point(10, 37)
         Me.PageBankDetails.Name = "PageBankDetails"
-        Me.PageBankDetails.Size = New System.Drawing.Size(787, 542)
+        Me.PageBankDetails.Size = New System.Drawing.Size(863, 542)
         Me.PageBankDetails.Text = "Bank Details"
         '
         'RadGroupBox5
@@ -4725,6 +4699,78 @@ Partial Class frmLocationMaster
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "History"
         '
+        'txtTelephone
+        '
+        Me.txtTelephone.CalculationExpression = Nothing
+        Me.txtTelephone.FieldCode = Nothing
+        Me.txtTelephone.FieldDesc = Nothing
+        Me.txtTelephone.FieldMaxLength = 0
+        Me.txtTelephone.FieldName = Nothing
+        Me.txtTelephone.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTelephone.isCalculatedField = False
+        Me.txtTelephone.IsSourceFromTable = False
+        Me.txtTelephone.IsSourceFromValueList = False
+        Me.txtTelephone.IsUnique = False
+        Me.txtTelephone.Location = New System.Drawing.Point(110, 199)
+        Me.txtTelephone.MaxLength = 50
+        Me.txtTelephone.MendatroryField = False
+        Me.txtTelephone.MyLinkLable1 = Me.lblCountry
+        Me.txtTelephone.MyLinkLable2 = Nothing
+        Me.txtTelephone.Name = "txtTelephone"
+        Me.txtTelephone.ReferenceFieldDesc = Nothing
+        Me.txtTelephone.ReferenceFieldName = Nothing
+        Me.txtTelephone.ReferenceTableName = Nothing
+        Me.txtTelephone.Size = New System.Drawing.Size(140, 18)
+        Me.txtTelephone.TabIndex = 12
+        '
+        'txtPhone1
+        '
+        Me.txtPhone1.CalculationExpression = Nothing
+        Me.txtPhone1.FieldCode = Nothing
+        Me.txtPhone1.FieldDesc = Nothing
+        Me.txtPhone1.FieldMaxLength = 0
+        Me.txtPhone1.FieldName = Nothing
+        Me.txtPhone1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPhone1.isCalculatedField = False
+        Me.txtPhone1.IsSourceFromTable = False
+        Me.txtPhone1.IsSourceFromValueList = False
+        Me.txtPhone1.IsUnique = False
+        Me.txtPhone1.Location = New System.Drawing.Point(308, 200)
+        Me.txtPhone1.MaxLength = 50
+        Me.txtPhone1.MendatroryField = False
+        Me.txtPhone1.MyLinkLable1 = Me.lblCountry
+        Me.txtPhone1.MyLinkLable2 = Nothing
+        Me.txtPhone1.Name = "txtPhone1"
+        Me.txtPhone1.ReferenceFieldDesc = Nothing
+        Me.txtPhone1.ReferenceFieldName = Nothing
+        Me.txtPhone1.ReferenceTableName = Nothing
+        Me.txtPhone1.Size = New System.Drawing.Size(149, 18)
+        Me.txtPhone1.TabIndex = 12
+        '
+        'txtPhone2
+        '
+        Me.txtPhone2.CalculationExpression = Nothing
+        Me.txtPhone2.FieldCode = Nothing
+        Me.txtPhone2.FieldDesc = Nothing
+        Me.txtPhone2.FieldMaxLength = 0
+        Me.txtPhone2.FieldName = Nothing
+        Me.txtPhone2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPhone2.isCalculatedField = False
+        Me.txtPhone2.IsSourceFromTable = False
+        Me.txtPhone2.IsSourceFromValueList = False
+        Me.txtPhone2.IsUnique = False
+        Me.txtPhone2.Location = New System.Drawing.Point(524, 199)
+        Me.txtPhone2.MaxLength = 50
+        Me.txtPhone2.MendatroryField = False
+        Me.txtPhone2.MyLinkLable1 = Me.lblCountry
+        Me.txtPhone2.MyLinkLable2 = Nothing
+        Me.txtPhone2.Name = "txtPhone2"
+        Me.txtPhone2.ReferenceFieldDesc = Nothing
+        Me.txtPhone2.ReferenceFieldName = Nothing
+        Me.txtPhone2.ReferenceTableName = Nothing
+        Me.txtPhone2.Size = New System.Drawing.Size(140, 18)
+        Me.txtPhone2.TabIndex = 1398
+        '
         'frmLocationMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4802,9 +4848,6 @@ Partial Class frmLocationMaster
         CType(Me.txtcommsn_desc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtcsa_commision, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTelephone, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbbtnSubLoc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbbtnSection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5031,6 +5074,9 @@ Partial Class frmLocationMaster
         Me.SplitContainer11.Panel2.ResumeLayout(False)
         Me.SplitContainer11.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTelephone, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -5156,9 +5202,6 @@ Partial Class frmLocationMaster
     Friend WithEvents rdbbtnSection As Telerik.WinControls.UI.RadRadioButton
     Friend WithEvents RadPageViewPage5 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents UcAttachment1 As XpertERPEngine.ucAttachment
-    Friend WithEvents txtPhone1 As Telerik.WinControls.UI.RadMaskedEditBox
-    Friend WithEvents txtTelephone As Telerik.WinControls.UI.RadMaskedEditBox
-    Friend WithEvents txtPhone2 As Telerik.WinControls.UI.RadMaskedEditBox
     Friend WithEvents btnReset As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtcsa_commision As common.MyNumBox
     Friend WithEvents MyLabel8 As common.Controls.MyLabel
@@ -5293,5 +5336,8 @@ Partial Class frmLocationMaster
     Friend WithEvents cmbNoOfShift As common.Controls.MyComboBox
     Friend WithEvents MyLabel28 As common.Controls.MyLabel
     Friend WithEvents txtPANNo As common.Controls.MyTextBox
+    Friend WithEvents txtPhone2 As common.Controls.MyTextBox
+    Friend WithEvents txtPhone1 As common.Controls.MyTextBox
+    Friend WithEvents txtTelephone As common.Controls.MyTextBox
 End Class
 
