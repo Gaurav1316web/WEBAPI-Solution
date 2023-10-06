@@ -32,6 +32,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FisaclYearEndProcess, "Financial Year End", "1.00.01.12", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
         InsertDefaultValue(clsUserMgtCode.frmAppIntegrator, "Application Integrator", "1.00.01.13", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
         InsertDefaultValue(clsUserMgtCode.frmApprovalAlertSumm, "Approval Alert", "1.00.01.14", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
+        InsertDefaultValue(clsUserMgtCode.frmNotification, "Notification", "1.00.01.15", clsUserMgtCode.SubModuleSystemAdminSetup, 29)
 
         'InsertDefaultValue(clsUserMgtCode.TimeTable, "Time Table", "1.00.01.15", clsUserMgtCode.SubModuleSystemAdminSetup, 30)
         'InsertDefaultValue(clsUserMgtCode.frmConfigureSynchronization, "Configure Synchronization", "1.00.01.16", clsUserMgtCode.SubModuleSystemAdminSetup, 29)

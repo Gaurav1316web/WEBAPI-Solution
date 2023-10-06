@@ -3607,6 +3607,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmApprovalAlertSumm
                         frm = New FrmApprovalAlertSumm()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmNotification
+                        frm = New frmNotification()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmLocationSetting
                         frm = New frmLocationLogin()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

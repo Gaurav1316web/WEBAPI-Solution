@@ -486,6 +486,7 @@ Public Class clsUserMgtCode
     Public Const frmAppIntegrator As String = "App-Inte"
     Public Const frmApprovalAlert_Child As String = "APP-CHD-SCR"
     Public Const frmApprovalAlertSumm As String = "APP-SUM-SCR"
+    Public Const frmNotification As String = "NOT-FI-ION"
     Public Const DistrictMaster As String = "DIST-MST"
     'Public Const TimeTable As String = "TIME-TBL"
     Public Const Security_Matr As String = "Secu_Matr"

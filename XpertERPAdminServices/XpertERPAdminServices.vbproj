@@ -311,6 +311,12 @@
     <Compile Include="Administrative Services\frmLocationLogin.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Administrative Services\frmNotification.Designer.vb">
+      <DependentUpon>frmNotification.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Administrative Services\frmNotification.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Administrative Services\frmReplicationSetting.designer.vb">
       <DependentUpon>frmReplicationSetting.vb</DependentUpon>
     </Compile>
@@ -438,6 +444,9 @@
     <EmbeddedResource Include="Administrative Services\frmLocationLogin.resx">
       <DependentUpon>frmLocationLogin.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Administrative Services\frmNotification.resx">
+      <DependentUpon>frmNotification.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Administrative Services\frmReplicationSetting.resx">
       <DependentUpon>frmReplicationSetting.vb</DependentUpon>
