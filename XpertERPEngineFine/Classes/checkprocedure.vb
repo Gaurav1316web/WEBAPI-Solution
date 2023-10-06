@@ -2721,6 +2721,19 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmCustomerComplaint, "Customer Complaint", "1.45.02.01", clsUserMgtCode.SubModuleTransactionComplaint, 8)
         InsertDefaultValue(clsUserMgtCode.frmLeakageReplacementUploader, "Leakage Replacement Uploader", "1.45.02.02", clsUserMgtCode.SubModuleTransactionComplaint, 8)
 
+
+        ''--------------------------------ShareModule---------------------------------------------------------
+        InsertDefaultValue(clsUserMgtCode.ModuleShare, "Share", "1.46", clsUserMgtCode.ExpertERP, "M", 23)
+
+        ''----------------SETUP--------------------------------
+        InsertDefaultValue(clsUserMgtCode.SubModuleShareSetup, "Setup", "1.46.01", clsUserMgtCode.ModuleShare, "SM", 24)
+        InsertDefaultValue(clsUserMgtCode.ShareMaster, "Share Master", "1.46.01.01", clsUserMgtCode.SubModuleShareSetup, 27)
+        ''------------------------------TRANSACTION--------------------------------------------------------
+        InsertDefaultValue(clsUserMgtCode.SubModuleShareTransaction, "Transaction", "1.46.02", clsUserMgtCode.ModuleShare, "SM", 26)
+
+        ''----------------------------------------------REPORT---------------------------------------------------------
+        InsertDefaultValue(clsUserMgtCode.SubModuleShareReport, "Report", "1.46.03", clsUserMgtCode.ModuleShare, "SM", 30)
+
         'Try
         '    clsDBFuncationality.ExecuteNonQuery("insert into TSPL_MODULE_PERMISSION values ('1','" + clsUserMgtCode.ModuleReco + "')")
         'Catch ex As Exception

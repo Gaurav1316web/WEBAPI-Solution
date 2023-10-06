@@ -267,6 +267,19 @@ Public Class clsUserMgtCode
     'frmQualityCheckForSRN
     ''==================
 
+    ''===============ShareModule==============
+    Public Const ModuleShare As String = "MShare"
+    Public Const SubModuleShareSetup As String = "SMShareS"
+    Public Const ShareMaster As String = "SHA_MSTR"
+
+    ''===========ShareTransaction=================
+    Public Const SubModuleShareTransaction As String = "SMShareT"
+
+
+    ''============ShareReport=======================
+    Public Const SubModuleShareReport As String = "SMShareR"
+
+
     ''richa 03/11/2014
     Public Const ModuleFreshSale As String = "MFreshSale"
     Public Const SubModuleFSSetup As String = "SMFreshSale"
@@ -422,6 +435,9 @@ Public Class clsUserMgtCode
     Public Const SubModuleMilkProcurementTransaction As String = "SMMPROCTRANS"
     Public Const SubModuleBulkMilkProcurementReport As String = "SMBPROCRPT"
 
+    'Public Const SubModuleShareSetup As String = "SMShareSetup"
+    'Public Const SubModuleShareTransaction As String = "SMShareTRANS"
+    'Public Const SubModuleShareReport As String = "SMShareRPT"
 
     'Public Const SubModuleSaleDairySetup As String = "SMSALEDSetup"
     Public Const SubModuleFreshSaleTransaction As String = "SMFRESHSTRAN"
