@@ -267,6 +267,19 @@ Public Class clsUserMgtCode
     'frmQualityCheckForSRN
     ''==================
 
+    ''===============ShareModule==============
+    Public Const ModuleShare As String = "MShare"
+    Public Const SubModuleShareSetup As String = "SMShareS"
+    Public Const ShareMaster As String = "SHA_MSTR"
+
+    ''===========ShareTransaction=================
+    Public Const SubModuleShareTransaction As String = "SMShareT"
+
+
+    ''============ShareReport=======================
+    Public Const SubModuleShareReport As String = "SMShareR"
+
+
     ''richa 03/11/2014
     Public Const ModuleFreshSale As String = "MFreshSale"
     Public Const SubModuleFSSetup As String = "SMFreshSale"
@@ -422,6 +435,9 @@ Public Class clsUserMgtCode
     Public Const SubModuleMilkProcurementTransaction As String = "SMMPROCTRANS"
     Public Const SubModuleBulkMilkProcurementReport As String = "SMBPROCRPT"
 
+    'Public Const SubModuleShareSetup As String = "SMShareSetup"
+    'Public Const SubModuleShareTransaction As String = "SMShareTRANS"
+    'Public Const SubModuleShareReport As String = "SMShareRPT"
 
     'Public Const SubModuleSaleDairySetup As String = "SMSALEDSetup"
     Public Const SubModuleFreshSaleTransaction As String = "SMFRESHSTRAN"
@@ -486,6 +502,7 @@ Public Class clsUserMgtCode
     Public Const frmAppIntegrator As String = "App-Inte"
     Public Const frmApprovalAlert_Child As String = "APP-CHD-SCR"
     Public Const frmApprovalAlertSumm As String = "APP-SUM-SCR"
+    Public Const frmNotification As String = "NOT-FI-ION"
     Public Const DistrictMaster As String = "DIST-MST"
     'Public Const TimeTable As String = "TIME-TBL"
     Public Const Security_Matr As String = "Secu_Matr"
