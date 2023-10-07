@@ -278,6 +278,12 @@
     <Compile Include="Fixed Assets\Master\frmTemplateMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Fixed Assets\Master\ShareMaster.Designer.vb">
+      <DependentUpon>ShareMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fixed Assets\Master\ShareMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Fixed Assets\Report\FixedAsset_ReportViewer.Designer.vb">
       <DependentUpon>FixedAsset_ReportViewer.vb</DependentUpon>
     </Compile>
