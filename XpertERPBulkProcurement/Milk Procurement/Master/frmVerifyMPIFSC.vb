@@ -75,32 +75,53 @@ Public Class frmVerifyMPIFSC
                 gv1.Rows(ii).Cells(colOK).Value = 0
                 If clsCommon.myLen(gv1.Rows(ii).Cells(colIFSC).Value) > 0 Then
                     If SettBankIFSCCodeValidateByService Then
-                        Dim arrFilter As New Dictionary(Of String, String)
-                        arrFilter.Add("IFSC", clsCommon.myCstr(gv1.Rows(ii).Cells(colIFSC).Value))
-                        arrFilter.Add("OutPutType", "1")
-                        Dim dt As DataTable = Xtra.GetDataFromAPI(EnumAPI.BankIFSC, "GetIFSC", arrFilter)
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select BANK,BRANCH,STATE,CITY from TSPL_MASTER.dbo.TSPL_IFSC where IFSC='" + clsCommon.myCstr(gv1.Rows(ii).Cells(colIFSC).Value) + "'")
                         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                             gv1.Rows(ii).Cells(colError).Value = "Invalid IFSC Code"
                         Else
-                            If clsCommon.CompairString(dt.Rows(0)("Result"), "true") = CompairStringResult.Equal Then
-                                If Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value), clsCommon.myCstr(dt.Rows(0)("BANK"))) = CompairStringResult.Equal Then
-                                    gv1.Rows(ii).Cells(colError).Value += "Correct Bank Name [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
-                                ElseIf Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankBranch).Value), clsCommon.myCstr(dt.Rows(0)("BRANCH"))) = CompairStringResult.Equal Then
-                                    gv1.Rows(ii).Cells(colError).Value += "Correct Branch [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
-                                ElseIf Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankState).Value), clsCommon.myCstr(dt.Rows(0)("STATE"))) = CompairStringResult.Equal Then
-                                    gv1.Rows(ii).Cells(colError).Value += "Correct State [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
-                                ElseIf Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankCity).Value), clsCommon.myCstr(dt.Rows(0)("CITY"))) = CompairStringResult.Equal Then
-                                    gv1.Rows(ii).Cells(colError).Value += "Correct City [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
-                                End If
-                                gv1.Rows(ii).Cells(colBankName).Value = clsCommon.myCstr(dt.Rows(0)("BANK"))
-                                gv1.Rows(ii).Cells(colBankBranch).Value = clsCommon.myCstr(dt.Rows(0)("BRANCH"))
-                                gv1.Rows(ii).Cells(colBankState).Value = clsCommon.myCstr(dt.Rows(0)("STATE"))
-                                gv1.Rows(ii).Cells(colBankCity).Value = clsCommon.myCstr(dt.Rows(0)("CITY"))
-                                gv1.Rows(ii).Cells(colOK).Value = 1
-                            Else
-                                gv1.Rows(ii).Cells(colError).Value += clsCommon.myCstr(dt.Rows(0)("Response"))
+                            If Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value), clsCommon.myCstr(dt.Rows(0)("BANK"))) = CompairStringResult.Equal Then
+                                gv1.Rows(ii).Cells(colError).Value += "Correct Bank Name [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
+                            ElseIf Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankBranch).Value), clsCommon.myCstr(dt.Rows(0)("BRANCH"))) = CompairStringResult.Equal Then
+                                gv1.Rows(ii).Cells(colError).Value += "Correct Branch [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
+                            ElseIf Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankState).Value), clsCommon.myCstr(dt.Rows(0)("STATE"))) = CompairStringResult.Equal Then
+                                gv1.Rows(ii).Cells(colError).Value += "Correct State [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
+                            ElseIf Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankCity).Value), clsCommon.myCstr(dt.Rows(0)("CITY"))) = CompairStringResult.Equal Then
+                                gv1.Rows(ii).Cells(colError).Value += "Correct City [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
                             End If
+                            gv1.Rows(ii).Cells(colBankName).Value = clsCommon.myCstr(dt.Rows(0)("BANK"))
+                            gv1.Rows(ii).Cells(colBankBranch).Value = clsCommon.myCstr(dt.Rows(0)("BRANCH"))
+                            gv1.Rows(ii).Cells(colBankState).Value = clsCommon.myCstr(dt.Rows(0)("STATE"))
+                            gv1.Rows(ii).Cells(colBankCity).Value = clsCommon.myCstr(dt.Rows(0)("CITY"))
+                            gv1.Rows(ii).Cells(colOK).Value = 1
                         End If
+
+                        ''By IFSC Service 
+                        'Dim arrFilter As New Dictionary(Of String, String)
+                        'arrFilter.Add("IFSC", clsCommon.myCstr(gv1.Rows(ii).Cells(colIFSC).Value))
+                        'arrFilter.Add("OutPutType", "1")
+                        'Dim dt As DataTable = Xtra.GetDataFromAPI(EnumAPI.BankIFSC, "GetIFSC", arrFilter)
+                        'If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                        '    gv1.Rows(ii).Cells(colError).Value = "Invalid IFSC Code"
+                        'Else
+                        '    If clsCommon.CompairString(dt.Rows(0)("Result"), "true") = CompairStringResult.Equal Then
+                        '        If Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value), clsCommon.myCstr(dt.Rows(0)("BANK"))) = CompairStringResult.Equal Then
+                        '            gv1.Rows(ii).Cells(colError).Value += "Correct Bank Name [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
+                        '        ElseIf Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankBranch).Value), clsCommon.myCstr(dt.Rows(0)("BRANCH"))) = CompairStringResult.Equal Then
+                        '            gv1.Rows(ii).Cells(colError).Value += "Correct Branch [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
+                        '        ElseIf Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankState).Value), clsCommon.myCstr(dt.Rows(0)("STATE"))) = CompairStringResult.Equal Then
+                        '            gv1.Rows(ii).Cells(colError).Value += "Correct State [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
+                        '        ElseIf Not clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colBankCity).Value), clsCommon.myCstr(dt.Rows(0)("CITY"))) = CompairStringResult.Equal Then
+                        '            gv1.Rows(ii).Cells(colError).Value += "Correct City [" + clsCommon.myCstr(gv1.Rows(ii).Cells(colBankName).Value) + "]"
+                        '        End If
+                        '        gv1.Rows(ii).Cells(colBankName).Value = clsCommon.myCstr(dt.Rows(0)("BANK"))
+                        '        gv1.Rows(ii).Cells(colBankBranch).Value = clsCommon.myCstr(dt.Rows(0)("BRANCH"))
+                        '        gv1.Rows(ii).Cells(colBankState).Value = clsCommon.myCstr(dt.Rows(0)("STATE"))
+                        '        gv1.Rows(ii).Cells(colBankCity).Value = clsCommon.myCstr(dt.Rows(0)("CITY"))
+                        '        gv1.Rows(ii).Cells(colOK).Value = 1
+                        '    Else
+                        '        gv1.Rows(ii).Cells(colError).Value += clsCommon.myCstr(dt.Rows(0)("Response"))
+                        '    End If
+                        'End If
                     Else
                         gv1.Rows(ii).Cells(colError).Value = "This facility is not for you"
                     End If
