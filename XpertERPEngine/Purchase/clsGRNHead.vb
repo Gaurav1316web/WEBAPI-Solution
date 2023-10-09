@@ -485,6 +485,11 @@ Public Class clsGRNHead
             clsCommon.AddColumnsForChange(INVD, "Inv_Date", clsCommon.GetPrintDate(obj.InvoiceDate, "dd/MMM/yyyy"))
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(INVD, "TSPL_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_SRN_HEAD.Against_GRN='" + obj.GRN_No + "'", trans)
 
+            Dim SRND As New Hashtable()
+            clsCommon.AddColumnsForChange(SRND, "SRNDATE", clsCommon.GetPrintDate(obj.SRNDate, "dd/MMM/yyyy"))
+            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(INVD, "TSPL_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_SRN_HEAD.Against_GRN='" + obj.GRN_No + "'", trans)
+
+
 
             Dim coll4 As New Hashtable()
             clsCommon.AddColumnsForChange(coll4, "GRNo", obj.GRNo)
