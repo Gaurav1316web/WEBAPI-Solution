@@ -1998,13 +1998,15 @@ Public Class frmDairyBookingCustomer
                 End If
                 If chkBPL.Checked Then
                     obj.Is_BPL = 1
+                    obj.BPL_Coupon_Code = txtCouponCode.Text
+                    obj.BPL_Name = txtBPLName.Text
+                    obj.BPL_Remark = txtBPLRemark.Text
+                    obj.BPL_Coupon_Date = txtCouponDate.Value
                 Else
                     obj.Is_BPL = 0
+                    obj.BPL_Coupon_Date = Nothing
                 End If
-                obj.BPL_Coupon_Code = txtCouponCode.Text
-                obj.BPL_Name = txtBPLName.Text
-                obj.BPL_Remark = txtBPLRemark.Text
-                obj.BPL_Coupon_Date = txtCouponDate.Value
+
                 If (obj.SaveData(obj, isNewEntry)) = True Then
                     If Not isNewEntry Then
                         If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
@@ -6497,31 +6499,31 @@ from
                     objTr.Scheme_Item = clsCommon.myCstr(grow.Cells(colSchemeItem).Value)
                     objTr.Amt_Less_Discount = clsCommon.myCDecimal(grow.Cells(colAmt).Value)
                     objTr.Item_Net_Amt = objTr.Total_Tax_Amt + objTr.Amt_Less_Discount
-                    Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
-            left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
-            left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
-            where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(txtRouteNo.Value) + "'
-            order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc
-            "
-                    Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry, trans)
-                    If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
-                        Dim DCAmt As Decimal = 0
-                        Dim DCUOM As String = ""
-                        Dim DCRate As Decimal = 0
-                        Dim ColDCUnitCF As Decimal = 0
-                        Dim ColDCCFUOM As Decimal = 0
-                        Dim ColDCQtyinSU As Decimal = 0
-                        objTr.Distributor_Commission_PKID = clsCommon.myCstr(dt1.Rows(0)("PK_ID"))
-                        DCUOM = clsCommon.myCstr(dt1.Rows(0)("Commision_UOM"))
-                        DCRate = clsCommon.myCdbl(dt1.Rows(0)("Rate"))
-                        ColDCUnitCF = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(grow.Cells(colUnit).Value) + "' and Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "'", trans)
-                        ColDCCFUOM = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(DCUOM) + "' and Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "'", trans)
-                        ColDCQtyinSU = (grow.Cells(colQty).Value * ColDCUnitCF) / ColDCCFUOM
-                        DCAmt = ColDCQtyinSU * DCRate
-                        DCTotalAmt += DCAmt
-                        objTr.Distributor_Commission_Rate = DCRate
-                        objTr.Distributor_Commission_Amt = DCAmt
-                    End If
+                    '        Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
+                    'left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
+                    'left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
+                    'where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(txtRouteNo.Value) + "'
+                    'order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc
+                    '"
+                    '        Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry, trans)
+                    '        If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
+                    '            Dim DCAmt As Decimal = 0
+                    '            Dim DCUOM As String = ""
+                    '            Dim DCRate As Decimal = 0
+                    '            Dim ColDCUnitCF As Decimal = 0
+                    '            Dim ColDCCFUOM As Decimal = 0
+                    '            Dim ColDCQtyinSU As Decimal = 0
+                    '            objTr.Distributor_Commission_PKID = clsCommon.myCstr(dt1.Rows(0)("PK_ID"))
+                    '            DCUOM = clsCommon.myCstr(dt1.Rows(0)("Commision_UOM"))
+                    '            DCRate = clsCommon.myCdbl(dt1.Rows(0)("Rate"))
+                    '            ColDCUnitCF = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(grow.Cells(colUnit).Value) + "' and Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "'", trans)
+                    '            ColDCCFUOM = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(DCUOM) + "' and Item_Code='" + clsCommon.myCstr(grow.Cells(colICode).Value) + "'", trans)
+                    '            ColDCQtyinSU = (grow.Cells(colQty).Value * ColDCUnitCF) / ColDCCFUOM
+                    '            DCAmt = ColDCQtyinSU * DCRate
+                    '            DCTotalAmt += DCAmt
+                    '            objTr.Distributor_Commission_Rate = DCRate
+                    '            objTr.Distributor_Commission_Amt = DCAmt
+                    '        End If
                     If (clsCommon.myLen(objTr.Item_Code) > 0) Then
                         obj.Arr.Add(objTr)
                     End If

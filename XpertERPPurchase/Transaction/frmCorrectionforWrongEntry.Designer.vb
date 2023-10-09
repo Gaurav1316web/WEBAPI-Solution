@@ -433,15 +433,13 @@ Partial Class frmCorrectionforWrongEntry
         Me.WeighmetDate.MyLinkLable1 = Me.MyLabel9
         Me.WeighmetDate.MyLinkLable2 = Nothing
         Me.WeighmetDate.Name = "WeighmetDate"
-        Me.WeighmetDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.WeighmetDate.ReferenceFieldDesc = Nothing
         Me.WeighmetDate.ReferenceFieldName = Nothing
         Me.WeighmetDate.ReferenceTableName = Nothing
         Me.WeighmetDate.Size = New System.Drawing.Size(150, 18)
         Me.WeighmetDate.TabIndex = 79
         Me.WeighmetDate.TabStop = False
-        Me.WeighmetDate.Text = "03/05/2011 12:00:00.AM"
-        Me.WeighmetDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        Me.WeighmetDate.Value = New Date(CType(0, Long))
         '
         'txtPenalty
         '
@@ -490,7 +488,6 @@ Partial Class frmCorrectionforWrongEntry
         Me.SRNDate.MyLinkLable1 = Me.MyLabel14
         Me.SRNDate.MyLinkLable2 = Nothing
         Me.SRNDate.Name = "SRNDate"
-        Me.SRNDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.SRNDate.ReadOnly = True
         Me.SRNDate.ReferenceFieldDesc = Nothing
         Me.SRNDate.ReferenceFieldName = Nothing
@@ -498,8 +495,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.SRNDate.Size = New System.Drawing.Size(150, 18)
         Me.SRNDate.TabIndex = 96
         Me.SRNDate.TabStop = False
-        Me.SRNDate.Text = "13/06/2011 11:29 AM"
-        Me.SRNDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.SRNDate.Value = New Date(CType(0, Long))
         '
         'MyLabel14
         '
@@ -609,15 +605,13 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtInvoiceDate.MyLinkLable1 = Me.RadLabel4
         Me.txtInvoiceDate.MyLinkLable2 = Nothing
         Me.txtInvoiceDate.Name = "txtInvoiceDate"
-        Me.txtInvoiceDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtInvoiceDate.ReferenceFieldDesc = Nothing
         Me.txtInvoiceDate.ReferenceFieldName = Nothing
         Me.txtInvoiceDate.ReferenceTableName = Nothing
         Me.txtInvoiceDate.Size = New System.Drawing.Size(150, 18)
         Me.txtInvoiceDate.TabIndex = 92
         Me.txtInvoiceDate.TabStop = False
-        Me.txtInvoiceDate.Text = "13/06/2011"
-        Me.txtInvoiceDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtInvoiceDate.Value = New Date(CType(0, Long))
         '
         'txtDate
         '
@@ -639,15 +633,13 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
         Me.txtDate.MyLinkLable2 = Nothing
         Me.txtDate.Name = "txtDate"
-        Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.ReferenceFieldDesc = Nothing
         Me.txtDate.ReferenceFieldName = Nothing
         Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.Size = New System.Drawing.Size(150, 18)
         Me.txtDate.TabIndex = 91
         Me.txtDate.TabStop = False
-        Me.txtDate.Text = "13/06/2011 11:29:49.AM"
-        Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtDate.Value = New Date(CType(0, Long))
         '
         'MyLabel12
         '
@@ -706,7 +698,6 @@ Partial Class frmCorrectionforWrongEntry
         Me.MRNDate.MyLinkLable1 = Me.MyLabel11
         Me.MRNDate.MyLinkLable2 = Nothing
         Me.MRNDate.Name = "MRNDate"
-        Me.MRNDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.MRNDate.ReadOnly = True
         Me.MRNDate.ReferenceFieldDesc = Nothing
         Me.MRNDate.ReferenceFieldName = Nothing
@@ -714,8 +705,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.MRNDate.Size = New System.Drawing.Size(150, 18)
         Me.MRNDate.TabIndex = 85
         Me.MRNDate.TabStop = False
-        Me.MRNDate.Text = "03/05/2011 12:00:00.AM"
-        Me.MRNDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        Me.MRNDate.Value = New Date(CType(0, Long))
         '
         'MyLabel11
         '

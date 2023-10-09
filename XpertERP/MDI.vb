@@ -3607,6 +3607,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmApprovalAlertSumm
                         frm = New FrmApprovalAlertSumm()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmNotification
+                        frm = New frmNotification()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmLocationSetting
                         frm = New frmLocationLogin()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9546,6 +9549,10 @@ Public Class MDI
                         frm = New frmLeakageReplacementUploader
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '==================================================================
+                    Case clsUserMgtCode.ShareMaster
+                        frm = New ShareMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case Else
                         Dim dtt As DataTable = clsDBFuncationality.GetDataTable("select 'BI-RPT' as Code from TSPL_CREATE_BI_REPORT where Code='" + strProgramCode + "' union select 'BI-DBR' as Code from TSPL_CREATE_DASHBOARD where code='" + strProgramCode + "' ")
                         If dtt IsNot Nothing AndAlso dtt.Rows.Count > 0 Then

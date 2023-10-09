@@ -10069,11 +10069,12 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
 
         End If
         ' SetTax()
-        If clsCommon.CompairString(cmbDisItemType.SelectedValue, "NT") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
-            txtVendorNo.Value = ""
-            clsCommon.MyMessageBoxShow(Me, "Please Map exempted Tax Group on Location " & txtBillToLocation.Value, Me.Text)
-            Exit Sub
-        End If
+        ' LoadDemandData()
+        'If clsCommon.CompairString(cmbDisItemType.SelectedValue, "NT") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) = 0 Then
+        '    txtVendorNo.Value = ""
+        '    clsCommon.MyMessageBoxShow(Me, "Please Map exempted Tax Group on Location " & txtBillToLocation.Value, Me.Text)
+        '    Exit Sub
+        'End If
 
         '''' priti change ends here
         'SetTaxDetails()
@@ -10198,6 +10199,7 @@ left outer join  TSPL_LOCATION_MASTER on TSPL_SD_SHIPMENT_HEAD.Bill_To_Location=
 
         SetTaxDetails()
     End Sub
+
 
     Private Function abatement() As Decimal
         Dim abat As Decimal = 0
