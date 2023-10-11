@@ -257,8 +257,15 @@ Public Class frmNotification
     End Sub
 
     Private Sub txtUserType__My_Click(sender As Object, e As EventArgs) Handles txtUserType._My_Click
-        Dim qry As String = "select  Distinct(Login_Type) AS UserType,User_Code as Code,User_Name as Name from TSPL_USER_MASTER where Login_Type is not null"
-        txtUserType.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", qry, "UserType", "UserType", txtUserType.arrValueMember, txtUserType.arrDispalyMember)
+        Try
+            Dim qry As String = "SELECT DISTINCT Login_Type AS [Type] FROM TSPL_USER_MASTER WHERE (len(isnull(Login_Type,''))>0)"
+            txtUserType.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeM", qry, "Type", "", txtUserType.arrValueMember, Nothing)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+        'Dim qry As String = " SELECT DISTINCT Login_Type AS [User Type] FROM TSPL_USER_MASTER WHERE Login_Type IS NOT NULL AND Login_Type !=''"
+        'txtUserType.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", qry, "User Type", "User Type", txtUserType.arrValueMember, txtUserType.arrDispalyMember)
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click

@@ -532,6 +532,9 @@
     <EmbeddedResource Include="Fixed Assets\Master\frmTemplateMaster.resx">
       <DependentUpon>frmTemplateMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\ShareMaster.resx">
+      <DependentUpon>ShareMaster.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Fixed Assets\Report\FixedAsset_ReportViewer.resx">
       <DependentUpon>FixedAsset_ReportViewer.vb</DependentUpon>
     </EmbeddedResource>
