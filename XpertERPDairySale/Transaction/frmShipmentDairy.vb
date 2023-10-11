@@ -11183,6 +11183,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
 
                 ''''' end 
                 FillVolumeSlabCashDisScheme(IntRowNo)
+                GetDCDetails()
                 Dim dblTotalDCAmt As Double = 0
                 Dim dblTotTaxRate As Double = GetCurrentRowTotalTaxRate(IntRowNo)
                 Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
@@ -11190,7 +11191,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                 If Not gv1.Rows(IntRowNo).Cells(ColDCRate).Value = Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) > 0 Then
                     gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = Math.Round(gv1.Rows(IntRowNo).Cells(ColDCRate).Value * 100 / (100 + dblTotTaxRate), 2)
                     gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value = (gv1.Rows(IntRowNo).Cells(colQty).Value * gv1.Rows(IntRowNo).Cells(ColDCUnitCF).Value) / gv1.Rows(IntRowNo).Cells(ColDCCFUOM).Value
-                    gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = gv1.CurrentRow.Cells(ColDCQtyinSU).Value * gv1.CurrentRow.Cells(ColDCRateWithTax).Value
+                    gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value * gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value
                     dblTotalDCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCAmt).Value)
 
                     If dblTotalDCAmt > 0 Then
@@ -11860,14 +11861,40 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
     End Sub
 
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRouteNo._MYValidating
-        Dim qry As String = "Select Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
-        txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
-        fndRouteNo_TextChanged()
-        LoadDemandData()
+        ' 
+        If SettDistributorWiseBilling Then
+            If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                '                Dim qry As String = "Select TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code As Code,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date As [Applicable Date],TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM As UOM from TSPL_DISTRIBUTOR_COMMISSION_DETAIL
+                'Left Join TSPL_DISTRIBUTOR_COMMISSION_HEAD on TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No"
+                '                Dim Whrcls = " TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date <='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + txtVendorNo.Value + "'"
+
+                ' order by Applicable_Date desc"
+                Dim qry As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No as Code, Start_Date from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code"
+                Dim WhrCls As String = " TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code in(
+select max(TSPL_DISTRIBUTOR_ROUTE.Code) from TSPL_DISTRIBUTOR_ROUTE
+left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+
+where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code='" + txtVendorNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end))
+ and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code='" + txtVendorNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end)"
+                txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", WhrCls, txtRouteNo.Value, "Start_Date desc", isButtonClicked)
+                fndRouteNo_TextChanged()
+                LoadDemandData()
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Please Select Distributor", Me.Text)
+            End If
+        Else
+            Dim qry As String = "Select Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+            txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
+            fndRouteNo_TextChanged()
+        End If
+
+
+
     End Sub
 
     Private Sub fndRouteNo_TextChanged()
-        Dim sql As String = "Select Route_Desc,Employee_Code from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "'"
+        Dim sql As String = "Select Route_Desc, Employee_Code from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "'"
         Dim dr1 As DataTable = clsDBFuncationality.GetDataTable(sql)
         If dr1 IsNot Nothing AndAlso dr1.Rows.Count > 0 Then
 
@@ -14456,6 +14483,9 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
     End Sub
 
     Private Sub LoadDistributorGrid(ByVal qry As String)
+        gvDistributor.DataSource = Nothing
+        gvDistributor.Rows.Clear()
+        gvDistributor.Columns.Clear()
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             gvDistributor.DataSource = dt
@@ -14484,7 +14514,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
             gvDistributor.Columns("Unit_code").HeaderText = "UOM"
 
             gv1.ReadOnly = True
-            txtRouteNo.Enabled = False
+            ' txtRouteNo.Enabled = False
         End If
     End Sub
 

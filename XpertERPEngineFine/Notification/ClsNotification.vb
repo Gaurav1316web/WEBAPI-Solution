@@ -80,13 +80,13 @@ Public Class ClsNotification
             Dim strQry As String = "SELECT Document_No as Code,Document_Date as Date,Start_Date,End_Date,Subject,Description,Status FROM TSPL_NOTIFICATIONS where 1=1 "
             Select Case NavType
                 Case NavigatorType.First
-                    strQry += " and Document_No = (select MIN(Code) from TSPL_NOTIFICATIONS where 1=1  )"
+                    strQry += " and Document_No = (select MIN(Document_No) from TSPL_NOTIFICATIONS where 1=1  )"
                 Case NavigatorType.Last
-                    strQry += " And Document_No = (Select Max(Code) from TSPL_NOTIFICATIONS where 1=1 )"
+                    strQry += " And Document_No = (Select Max(Document_No) from TSPL_NOTIFICATIONS where 1=1 )"
                 Case NavigatorType.Next
-                    strQry += " And Document_No = (Select Min(Code) from TSPL_NOTIFICATIONS where Document_No>'" + clsCommon.myCstr(strCode) + "' )"
+                    strQry += " And Document_No = (Select Min(Document_No) from TSPL_NOTIFICATIONS where Document_No>'" + clsCommon.myCstr(strCode) + "' )"
                 Case NavigatorType.Previous
-                    strQry += " and Document_No = (select Max(Code) from TSPL_NOTIFICATIONS where Document_No<'" + clsCommon.myCstr(strCode) + "' )"
+                    strQry += " and Document_No = (select Max(Document_No) from TSPL_NOTIFICATIONS where Document_No<'" + clsCommon.myCstr(strCode) + "' )"
                 Case NavigatorType.Current
                     strQry += " and Document_No = '" + clsCommon.myCstr(strCode) + "' "
             End Select
