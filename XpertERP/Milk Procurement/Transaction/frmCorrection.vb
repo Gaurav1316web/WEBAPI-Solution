@@ -40,7 +40,7 @@ Public Class frmCorrection
                 SettShowAllMCC = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllMCC, clsFixedParameterCode.ShowAllMCC, Nothing))
 
                 MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
-                RadPageView1.SelectedPage = RadPageViewPage1
+
                 RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
                 SetUserMgmtNew()
                 LoadMilkType()
@@ -90,10 +90,8 @@ Public Class frmCorrection
                 RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
                 RadPageView1.Pages("RadPageViewPage4").Item.Visibility = ElementVisibility.Collapsed
                 RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
-                RadPageView1.Pages("RadPageViewPage6").Item.Visibility = ElementVisibility.Collapsed
-
-
             End If
+            RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try

@@ -10347,8 +10347,22 @@ Public Class frmPurchaseOrder
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
-                            dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
-                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                            If clsCommon.CompairString(clsCommon.myCstr(obj.Days), "30") = CompairStringResult.Equal Then
+                                Dim daysInMonth As Integer = DateTime.DaysInMonth(dtRunningDate.Year, dtRunningDate.Month)
+                                If daysInMonth = 31 Then
+                                    dtRunningDate = New DateTime(dtRunningDate.Year, dtRunningDate.Month, daysInMonth)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                ElseIf daysInMonth = 28 OrElse daysInMonth = 29 Then
+                                    dtRunningDate = New DateTime(dtRunningDate.Year, dtRunningDate.Month, daysInMonth)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                Else
+                                    dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                End If
+                            Else
+                                dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                            End If
                             dtRunningDate = dtRunningDate.AddDays(1)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colLineNo).Value)
                             gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)

@@ -28544,6 +28544,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Distributor_Code", "Varchar(12) Not null references TSPL_Customer_MASTER(Cust_Code)")
             coll.Add("Rate", "Decimal(18,4) Not null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Detail", coll, "", True)
+            clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_Distributor_Commission_Detail alter column Rate  Decimal(18,4) Not null")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
