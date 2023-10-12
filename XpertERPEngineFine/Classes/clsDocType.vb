@@ -529,7 +529,8 @@ Public Class clsDocType
     Public Const DistributorCommission As String = "Distributor Commission"
     Public Const DistributorRouteTagging As String = "Distributor Route Tagging"
     Public Const frmNotification As String = "Notifications screen"
-
+    Public Const ShareMaster As String = "Share Master"
+    Public Const ShareAllotment As String = "Share Allotment"
     Public Const CostCenterGroupStore As String = "Cost Center"
     '
     Public Const Cleaning As String = "Cleaning"

@@ -446,6 +446,12 @@
     <Compile Include="Fixed Assets\Transaction\frmSecondaryCustomerSale.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Shares\Transaction\frmShareAllotment.Designer.vb">
+      <DependentUpon>frmShareAllotment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Shares\Transaction\frmShareAllotment.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Fixed Assets\Transaction\frmVisi_Install_Pullout.Designer.vb">
       <DependentUpon>frmVisi_Install_Pullout.vb</DependentUpon>
     </Compile>
@@ -532,6 +538,9 @@
     <EmbeddedResource Include="Fixed Assets\Master\frmTemplateMaster.resx">
       <DependentUpon>frmTemplateMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Fixed Assets\Master\ShareMaster.resx">
+      <DependentUpon>ShareMaster.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Fixed Assets\Report\FixedAsset_ReportViewer.resx">
       <DependentUpon>FixedAsset_ReportViewer.vb</DependentUpon>
     </EmbeddedResource>
@@ -613,6 +622,9 @@
     <EmbeddedResource Include="Fixed Assets\Transaction\frmSecondaryCustomerSale.resx">
       <DependentUpon>frmSecondaryCustomerSale.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Shares\Transaction\frmShareAllotment.resx">
+      <DependentUpon>frmShareAllotment.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Fixed Assets\Transaction\frmVisi_Install_Pullout.resx">
       <DependentUpon>frmVisi_Install_Pullout.vb</DependentUpon>
     </EmbeddedResource>
@@ -651,6 +663,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\search4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Shares\Master\" />
+    <Folder Include="Shares\Report\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
