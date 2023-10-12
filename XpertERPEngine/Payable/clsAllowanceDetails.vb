@@ -113,7 +113,7 @@ Public Class clsAllowanceDetails
              & " INNER JOIN TSPL_EMPLOYEE_MASTER EMP ON TAVD.EMP_CODE=EMP.EMP_CODE " _
              & " LEFT JOIN TSPL_PAYHEAD_MASTER TPH ON TAVD.PAY_HEAD_CODE=TPH.PAY_HEAD_CODE where 2=2"
 
-        qry += " and TAV.ALLOWANCE_CODE = '" + strCode + "'" + whrcls
+        qry += " and TAV.ALLOWANCE_CODE = '" + strCode + "'"
 
         dt = New DataTable()
         dt = clsDBFuncationality.GetDataTable(qry, trans)

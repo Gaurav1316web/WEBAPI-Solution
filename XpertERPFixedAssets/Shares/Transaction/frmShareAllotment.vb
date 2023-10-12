@@ -6,10 +6,15 @@ Imports Telerik.WinControls
 Imports Telerik.WinControls.Enumerations
 Imports System.Data.SqlClient
 Public Class frmShareAllotment
+
+#Region "Variables"
+    Dim isNewEntry As Boolean = True
+#End Region
     Private Sub frmShareAllotment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             CrateTable()
             txtDate.Value = clsCommon.GETSERVERDATE()
+            AddNew()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -52,7 +57,7 @@ Public Class frmShareAllotment
         coll = New Dictionary(Of String, String)()
         coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
         coll.Add("IDate", "Datetime NOT NULL")
-        coll.Add("Remarks", "Varchar(200) not NULL")
+        coll.Add("Remarks", "Varchar(200) NULL")
         coll.Add("Share_Code", "varchar(30) NOT NULL REFERENCES TSPL_SHARE_MASTER(Code)")
         coll.Add("DCS_Code", "varchar(12) NOT NULL REFERENCES TSPL_VENDOR_MASTER(Vendor_Code)")
         coll.Add("Name", "Varchar(50) NOT NULL ")
@@ -87,9 +92,38 @@ Public Class frmShareAllotment
         End Try
     End Sub
 
-    Public Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
+    Public Sub LoadData(ByVal strCode As String, ByVal NavType As NavigatorType)
         Try
-
+            AddNew()
+            txtCode.MyReadOnly = True
+            Dim obj As New clsShareAllotment()
+            obj = clsShareAllotment.GetData(strCode, NavType, Nothing)
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0) Then
+                txtCode.Value = obj.Code
+                txtDate.Value = obj.IDate
+                fndDCSCode.Value = obj.DCS_Code
+                fndShare.Value = obj.Share_Code
+                fndCertificate.Text = obj.Certificate
+                lblName.Text = obj.Name
+                txtNoOfShare.Text = obj.Qty
+                txtRate.Text = obj.Rate
+                txtAmount.Text = obj.Amount
+                txtRemarks.Text = obj.Remarks
+                If clsCommon.myCdbl(ERPTransactionStatus.Approved) = clsCommon.myCdbl(obj.Status) Then
+                    UsLock1.Status = obj.Status
+                    btnSave.Enabled = False
+                    btnDelete.Enabled = False
+                    btnPost.Enabled = False
+                ElseIf ERPTransactionStatus.Pending = obj.Status Then
+                    UsLock1.Status = obj.Status
+                    btnSave.Enabled = True
+                    btnSave.Text = "Update"
+                    btnDelete.Enabled = True
+                    btnPost.Enabled = True
+                End If
+            Else
+                AddNew()
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -129,11 +163,15 @@ Public Class frmShareAllotment
 
     Private Sub fndCertificate__My_Click(sender As Object, e As EventArgs) Handles fndCertificate._My_Click
         Try
-            Dim qry As String = "Select PK_ID AS [ID],Share_Code As [Code],Certificate_No As [Certificate No],Rate,Amount from TSPL_SHARE_MOVEMENT 
-                                 Where RI='+1'
-                                 Group By PK_ID,Share_Code,Certificate_No,Rate,Amount
-                                 Having Count(PK_Id)<='" + txtNoOfShare.Text + "'"
+            Dim qry As String = "select Certificate_No As [Certificate No],max(case when Source_Type='SH-MA' then Rate else 0 end) as Rate    from (
+                                 Select PK_ID,Share_Code,Certificate_No,Rate,Amount,RI,Source_Type from TSPL_SHARE_MOVEMENT 
+                                 Where Share_Code='" + fndShare.Value + "')xxx Group By Share_Code,Certificate_No
+                                 Having sum(RI)>0"
             fndCertificate.arrValueMember = clsCommon.ShowMultipleSelectForm("@Certification", qry, "Certificate No", "Certificate No", fndCertificate.arrValueMember, fndCertificate.arrDispalyMember)
+            If fndCertificate.arrValueMember.Count > 0 Then
+                Dim rtQry As String = "Select Rate From TSPL_SHARE_MOVEMENT where Certificate_No IN (" & clsCommon.GetMulcallStringWithComma(fndCertificate.arrValueMember) & ") "
+                txtRate.Value = clsDBFuncationality.getSingleValue(rtQry)
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -142,7 +180,7 @@ Public Class frmShareAllotment
     Private Sub txtNoOfShare_TextChanged(sender As Object, e As EventArgs) Handles txtNoOfShare.TextChanged
         Try
             If clsCommon.myCdbl(txtNoOfShare.Value) > 0 AndAlso clsCommon.myCdbl(txtRate.Value) > 0 Then
-                txtAmount.Value = clsCommon.myCdbl(txtRate.Value) * clsCommon.myCdbl(txtRate.Value)
+                txtAmount.Value = clsCommon.myCdbl(txtNoOfShare.Value) * clsCommon.myCdbl(txtRate.Value)
             Else
                 txtAmount.Value = 0
             End If
@@ -170,10 +208,70 @@ Public Class frmShareAllotment
             obj.Qty = txtNoOfShare.Text
             obj.Rate = txtRate.Text
             obj.Amount = txtAmount.Text
-
+            obj.Remarks = txtRemarks.Text
+            If (obj.SaveData(obj, isNewEntry)) Then
+                clsCommon.MyMessageBoxShow("Data save successfully.", Me.Text)
+                LoadData(obj.Code, NavigatorType.Current)
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
 
+    Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
+        Try
+            AddNew()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub AddNew()
+        UsLock1.Status = ERPTransactionStatus.Pending
+        txtCode.MyReadOnly = False
+        txtDate.Value = clsCommon.GETSERVERDATE()
+        fndDCSCode.Value = Nothing
+        fndShare.Value = Nothing
+        lblRegistration.Text = Nothing
+        lblName.Text = Nothing
+        lblUploaderCode.Text = Nothing
+        txtNoOfShare.Text = 0
+        txtRate.Text = 0
+        txtAmount.Text = 0
+        btnSave.Text = "Save"
+        btnSave.Enabled = True
+        btnDelete.Enabled = True
+        isNewEntry = True
+        txtRemarks.Text = Nothing
+    End Sub
+
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        Try
+            Try
+                Dim Reason As String = ""
+                If (myMessages.deleteConfirm()) Then
+                    If (clsShareAllotment.DeleteData(txtCode.Value)) Then
+                        common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ", Me.Text)
+                        AddNew()
+                    End If
+                End If
+            Catch ex As Exception
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtRate_TextChanged(sender As Object, e As EventArgs) Handles txtRate.TextChanged
+        Try
+            If clsCommon.myCdbl(txtNoOfShare.Value) > 0 AndAlso clsCommon.myCdbl(txtRate.Value) > 0 Then
+                txtAmount.Value = clsCommon.myCdbl(txtNoOfShare.Value) * clsCommon.myCdbl(txtRate.Value)
+            Else
+                txtAmount.Value = 0
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

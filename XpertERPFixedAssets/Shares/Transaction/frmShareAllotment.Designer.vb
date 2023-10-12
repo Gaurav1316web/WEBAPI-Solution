@@ -24,6 +24,7 @@ Partial Class frmShareAllotment
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtRate = New common.MyNumBox()
         Me.txtAmount = New common.MyNumBox()
         Me.txtNoOfShare = New common.MyNumBox()
@@ -53,9 +54,12 @@ Partial Class frmShareAllotment
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.txtRemarks = New System.Windows.Forms.TextBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNoOfShare, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,6 +85,7 @@ Partial Class frmShareAllotment
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -93,6 +98,9 @@ Partial Class frmShareAllotment
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel9)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtRemarks)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnAddNew)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtRate)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtAmount)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtNoOfShare)
@@ -122,6 +130,16 @@ Partial Class frmShareAllotment
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 415
         Me.SplitContainer1.TabIndex = 0
+        '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPFixedAssets.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(349, 27)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(19, 20)
+        Me.btnAddNew.TabIndex = 1079
         '
         'txtRate
         '
@@ -480,7 +498,7 @@ Partial Class frmShareAllotment
         Me.txtCode.MyMaxLength = 32767
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(258, 20)
+        Me.txtCode.Size = New System.Drawing.Size(238, 20)
         Me.txtCode.TabIndex = 620
         Me.txtCode.Value = ""
         '
@@ -530,6 +548,24 @@ Partial Class frmShareAllotment
         Me.btnSave.TabIndex = 621
         Me.btnSave.Text = "Save"
         '
+        'txtRemarks
+        '
+        Me.txtRemarks.Location = New System.Drawing.Point(110, 183)
+        Me.txtRemarks.Multiline = True
+        Me.txtRemarks.Name = "txtRemarks"
+        Me.txtRemarks.Size = New System.Drawing.Size(258, 56)
+        Me.txtRemarks.TabIndex = 1080
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(12, 183)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel9.TabIndex = 1081
+        Me.MyLabel9.Text = "Remarks"
+        '
         'frmShareAllotment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -546,6 +582,7 @@ Partial Class frmShareAllotment
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNoOfShare, System.ComponentModel.ISupportInitialize).EndInit()
@@ -572,6 +609,7 @@ Partial Class frmShareAllotment
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -607,4 +645,7 @@ Partial Class frmShareAllotment
     Friend WithEvents txtRate As common.MyNumBox
     Friend WithEvents txtAmount As common.MyNumBox
     Friend WithEvents txtNoOfShare As common.MyNumBox
+    Friend WithEvents btnAddNew As Telerik.WinControls.UI.RadButton
+    Friend WithEvents txtRemarks As TextBox
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
 End Class
