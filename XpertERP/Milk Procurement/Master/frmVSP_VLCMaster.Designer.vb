@@ -790,7 +790,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel52.FieldName = Nothing
         Me.MyLabel52.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel52.Location = New System.Drawing.Point(488, 234)
+        Me.MyLabel52.Location = New System.Drawing.Point(488, 233)
         Me.MyLabel52.Name = "MyLabel52"
         Me.MyLabel52.Size = New System.Drawing.Size(89, 16)
         Me.MyLabel52.TabIndex = 84
@@ -847,7 +847,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel54.FieldName = Nothing
         Me.MyLabel54.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel54.Location = New System.Drawing.Point(488, 213)
+        Me.MyLabel54.Location = New System.Drawing.Point(488, 210)
         Me.MyLabel54.Name = "MyLabel54"
         Me.MyLabel54.Size = New System.Drawing.Size(92, 16)
         Me.MyLabel54.TabIndex = 85

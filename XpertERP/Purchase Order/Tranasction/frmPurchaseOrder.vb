@@ -305,6 +305,21 @@ Public Class frmPurchaseOrder
     Const colItemACCalcAmount10 As String = "COLItemACCalcAMOUNT10"
     Const colItemTotalAdditionalCharge As String = "ColItemAdditionalCHarge"
     ''==================================================================
+
+    Const colScheduleSNo As String = "colScheduleSNo"
+    Const colScheduleParentSNo As String = "colScheduleParentSNo"
+    Const colScheduleNo As String = "colScheduleNo"
+    Const colScheduleFromDate As String = "colScheduleFromDate"
+    Const colScheduleToDate As String = "colScheduleToDate"
+    Const colScheduleICode As String = "colScheduleICode"
+    Const colScheduleIName As String = "colScheduleIName"
+    Const colScheduleQtyPer As String = "colScheduleQtyPer"
+    Const colScheduleQty As String = "colScheduleQty"
+    Const colScheduleShortPer As String = "colScheduleShortPer"
+    Const colScheduleShort As String = "colScheduleShort"
+    Const colScheduleLateDays As String = "colScheduleLateDays"
+    Const colScheduleExtensionDays As String = "colScheduleExtensionDays"
+
     Dim ChkAutoDepOnPurchaseCycle As Boolean = False
     Dim SettingIndendFreePOClose As Boolean = False
     Dim DoNotAllowSavePOWhenQtyAndRateZero As Boolean = False
@@ -372,6 +387,7 @@ Public Class frmPurchaseOrder
         IsAbatementPO = clsPurchaseOrderHead.GetPurchaseSetting().Rows(0).Item("IsAbatementPO")
         RadPageView1.SelectedPage = RadPageViewPage1
         LoadBlankGrid()
+        LoadBlankGridSchedule()
         LoadBlankRoadPermitGrid()
         LoadBlankCFORMGrid()
         LoadBlankGridTax()
@@ -4634,6 +4650,15 @@ Public Class frmPurchaseOrder
                 Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value)
                 Dim strRowType As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value)
                 If clsCommon.CompairString(strRowType, "Item") = CompairStringResult.Equal Then
+                    For jj As Integer = 0 To gvSchedule.Rows.Count - 1
+                        If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colLineNo).Value) = clsCommon.myCDecimal(gvSchedule.Rows(jj).Cells(colScheduleParentSNo).Value) Then
+                            If Not clsCommon.CompairString(strICode, clsCommon.myCstr(gvSchedule.Rows(jj).Cells(colScheduleICode).Value)) = CompairStringResult.Equal Then
+                                clsCommon.MyMessageBoxShow(Me, "Please refresh schedule tab. " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + "")
+                                Return False
+                            End If
+                        End If
+                    Next
+
                     Dim strAdvanceRequired As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Is_Advance_Required from Tspl_item_master where Item_code='" & clsCommon.myCstr(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)) & "'"))
                     If clsCommon.CompairString(strAdvanceRequired, "1") = CompairStringResult.Equal Then
                         itemApprovalCount = itemApprovalCount + 1
@@ -5807,6 +5832,25 @@ Public Class frmPurchaseOrder
                     End If
                 Next
 
+                obj.ArrSchedule = New List(Of clsTenderSchedulePO)
+                For Each grow As GridViewRowInfo In gvSchedule.Rows
+                    Dim objTr As New clsTenderSchedulePO()
+                    objTr.SNo = clsCommon.myCDecimal(grow.Cells(colScheduleSNo).Value)
+                    objTr.PSNo = clsCommon.myCDecimal(grow.Cells(colScheduleParentSNo).Value)
+                    objTr.Schedule_No = clsCommon.myCDecimal(grow.Cells(colScheduleNo).Value)
+                    objTr.From_Date = clsCommon.myCDate(grow.Cells(colScheduleFromDate).Value)
+                    objTr.To_Date = clsCommon.myCDate(grow.Cells(colScheduleToDate).Value)
+                    objTr.Item_Code = clsCommon.myCstr(grow.Cells(colScheduleICode).Value)
+                    objTr.Schedule_Qty_Per = clsCommon.myCDecimal(grow.Cells(colScheduleQtyPer).Value)
+                    objTr.Schedule_Qty = clsCommon.myCDecimal(grow.Cells(colScheduleQty).Value)
+                    objTr.Schedule_Short_Per = clsCommon.myCDecimal(grow.Cells(colScheduleShortPer).Value)
+                    objTr.Schedule_Short = clsCommon.myCDecimal(grow.Cells(colScheduleShort).Value)
+                    objTr.Late_Days = clsCommon.myCDecimal(grow.Cells(colScheduleLateDays).Value)
+                    objTr.Extension_Days = clsCommon.myCDecimal(grow.Cells(colScheduleExtensionDays).Value)
+                    objTr.Arr = TryCast(grow.Cells(colScheduleLateDays).Tag, List(Of clsTenderSchedulePeneltyPO))
+                    obj.ArrSchedule.Add(objTr)
+                Next
+
                 Dim isSaved As Boolean = True
                 If dtpRenewal.Checked AndAlso dtpRenewal.Enabled = True Then
                     '===if document is renewed,then first time it is enabled and 2nd time diabled,so first time create new document,otherwise not
@@ -5864,6 +5908,7 @@ Public Class frmPurchaseOrder
             btnSave.Text = "Update"
             BlankAllControls()
             LoadBlankGrid()
+            LoadBlankGridSchedule()
             LoadBlankGridTax()
             LoadBlankGridAC()
             LoadBlankGridACInsurance()
@@ -6745,6 +6790,30 @@ Public Class frmPurchaseOrder
                         gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceName).Value = objtr.AC_Name
                         gvACInsurance.Rows(gvACInsurance.Rows.Count - 1).Cells(colACInsuranceAmount).Value = objtr.Amount
                         gvACInsurance.Rows.AddNew()
+                    Next
+                End If
+
+                If obj.ArrSchedule IsNot Nothing AndAlso obj.ArrSchedule.Count > 0 Then
+                    txtScheduleStartDate.Value = obj.ArrSchedule(0).From_Date
+                    For Each objTr As clsTenderSchedulePO In obj.ArrSchedule
+                        gvSchedule.Rows.AddNew()
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = objTr.SNo
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = objTr.PSNo
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = objTr.Schedule_No
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = objTr.From_Date
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = objTr.To_Date
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = objTr.Item_Code
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsItemMaster.GetItemName(objTr.Item_Code, Nothing)
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = objTr.Schedule_Qty_Per
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = objTr.Schedule_Qty
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = objTr.Schedule_Short_Per
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = objTr.Schedule_Short
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = objTr.Late_Days
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleExtensionDays).Value = objTr.Extension_Days
+                        gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = objTr.Arr
+                        If txtScheduleStartDate.Value > objTr.From_Date Then
+                            txtScheduleStartDate.Value = objTr.From_Date
+                        End If
                     Next
                 End If
 
@@ -8378,6 +8447,7 @@ Public Class frmPurchaseOrder
         If chkAgainst_RGP.Checked = False Then
             txtRGPNo.Value = ""
             LoadBlankGrid()
+            LoadBlankGridSchedule()
             gv1.Rows.AddNew()
             gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
             gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
@@ -8467,6 +8537,7 @@ Public Class frmPurchaseOrder
 
     Private Sub btnCopy_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCopy.Click
         LoadBlankGrid()
+        LoadBlankGridSchedule()
         isInsideLoadData = True
         Dim frm As New frmCopyPO()
         frm.ShowDialog()
@@ -9292,6 +9363,7 @@ Public Class frmPurchaseOrder
 
     Sub funFilldataintoGridFromPI(ByVal strPINO As String)
         LoadBlankGrid()
+        LoadBlankGridSchedule()
         Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select TSPL_EX_PI_DETAIL.Bin_No,TSPL_EX_PI_DETAIL.Specification ,TSPL_EX_PI_DETAIL.Remarks,TSPL_ITEM_MASTER.Item_Desc,TSPL_EX_PI_DETAIL.MRP ,TSPL_EX_PI_DETAIL.Line_No, TSPL_EX_PI_DETAIL.Row_Type,TSPL_EX_PI_DETAIL.Item_Code ,TSPL_EX_PI_DETAIL.Qty,TSPL_EX_PI_DETAIL.Unit_code ,TSPL_EX_PI_DETAIL.Location ,TSPL_EX_PI_DETAIL.Item_Cost ,TSPL_EX_PI_DETAIL.Amount ,TSPL_EX_PI_DETAIL.Disc_Per ,TSPL_EX_PI_DETAIL.Disc_Amt ,TSPL_EX_PI_DETAIL.Amt_Less_Discount ,TSPL_EX_PI_DETAIL.Item_Net_Amt ,TSPL_EX_PI_DETAIL.Conv_Factor,TSPL_EX_PI_DETAIL.Weight_UOM ,TSPL_EX_PI_DETAIL.Item_Weight from TSPL_EX_PI_DETAIL Left Outer Join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code =TSPL_EX_PI_DETAIL.Item_Code where DOCUMENT_CODE ='" & strPINO & "'")
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             For i As Integer = 0 To dt.Rows.Count - 1
@@ -9506,6 +9578,7 @@ Public Class frmPurchaseOrder
         txtAdvance.Enabled = True
         TxtINCOTERMS.Enabled = True
         LoadBlankGrid()
+        LoadBlankGridSchedule()
         gv1.Rows.AddNew()
         gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
         gv1.Rows(gv1.Rows.Count - 1).Cells(colRowType).Value = clsItemRowType.RowTypeItem
@@ -9708,6 +9781,7 @@ Public Class frmPurchaseOrder
 
         Else
             LoadBlankGrid()
+            LoadBlankGridSchedule()
             gv1.Rows.AddNew()
             gv1.Rows(gv1.Rows.Count - 1).Cells(colTaxableAmountPer).Value = 100
         End If
@@ -9813,7 +9887,7 @@ Public Class frmPurchaseOrder
                 gv1.Rows.Clear()
                 gv1.Columns.Clear()
                 LoadBlankGrid()
-
+                LoadBlankGridSchedule()
                 For Each row As DataRow In dt.Rows
                     gv1.Rows.AddNew()
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = gv1.Rows.Count
@@ -10253,12 +10327,305 @@ Public Class frmPurchaseOrder
         End Try
     End Sub
 
-    Private Sub txtConversionRate_TextChanged(sender As Object, e As EventArgs) Handles txtConversionRate.TextChanged
 
+
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+        SetSchedule()
     End Sub
 
-    Private Sub lblConvRate_Click(sender As Object, e As EventArgs) Handles lblConvRate.Click
+    Sub SetSchedule()
+        Try
+            isInsideLoadData = True
+            LoadBlankGridSchedule()
+            For ii As Integer = 0 To gv1.Rows.Count - 1
+                If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0 AndAlso clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) > 0 Then
+                    Dim dtRunningDate As DateTime = txtScheduleStartDate.Value
+                    Dim ArrSch As List(Of clsItemSchedule) = clsItemSchedule.GetData(clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value), Nothing)
+                    If ArrSch IsNot Nothing AndAlso ArrSch.Count > 0 Then
+                        For Each obj As clsItemSchedule In ArrSch
+                            gvSchedule.Rows.AddNew()
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleSNo).Value = gvSchedule.Rows.Count
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleNo).Value = obj.SNo
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleFromDate).Value = dtRunningDate
+                            If clsCommon.CompairString(clsCommon.myCstr(obj.Days), "30") = CompairStringResult.Equal Then
+                                Dim daysInMonth As Integer = DateTime.DaysInMonth(dtRunningDate.Year, dtRunningDate.Month)
+                                If daysInMonth = 31 Then
+                                    dtRunningDate = New DateTime(dtRunningDate.Year, dtRunningDate.Month, daysInMonth)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                ElseIf daysInMonth = 28 OrElse daysInMonth = 29 Then
+                                    dtRunningDate = New DateTime(dtRunningDate.Year, dtRunningDate.Month, daysInMonth)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                Else
+                                    dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
+                                    gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                                End If
+                            Else
+                                dtRunningDate = dtRunningDate.AddDays(obj.Days - 1)
+                                gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleToDate).Value = dtRunningDate
+                            End If
+                            dtRunningDate = dtRunningDate.AddDays(1)
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleParentSNo).Value = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colLineNo).Value)
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleICode).Value = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleIName).Value = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQtyPer).Value = obj.Qty_Per
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleQty).Value = ((clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) * obj.Qty_Per) / 100)
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShortPer).Value = obj.Short_Per
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleShort).Value = ((clsCommon.myCDecimal(gv1.Rows(ii).Cells(colQty).Value) * obj.Short_Per) / 100)
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Value = obj.Late_Days
+                            gvSchedule.Rows(gvSchedule.Rows.Count - 1).Cells(colScheduleLateDays).Tag = SetSchedulePenalty(obj.Arr, dtRunningDate)
+                        Next
+                    End If
+                End If
+            Next
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        Finally
+            isInsideLoadData = False
+        End Try
+    End Sub
+    Private Function SetSchedulePenalty(ByVal Arr As List(Of clsItemSchedulePenalty), ByVal dtRunningDate As DateTime) As List(Of clsTenderSchedulePeneltyPO)
+        Dim ArrTemp As List(Of clsTenderSchedulePeneltyPO) = Nothing
+        If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+            ArrTemp = New List(Of clsTenderSchedulePeneltyPO)
+            For Each objtr As clsItemSchedulePenalty In Arr
+                Dim objTemp As New clsTenderSchedulePeneltyPO
+                objTemp.Penalty_Date = dtRunningDate.AddDays(objtr.Penalty_Days - 1)
+                objTemp.Penalty = objtr.Penalty
+                ArrTemp.Add(objTemp)
+            Next
+        End If
+        Return ArrTemp
+    End Function
+    Sub LoadBlankGridSchedule()
+        gvSchedule.Rows.Clear()
+        gvSchedule.Columns.Clear()
 
+
+        Dim repoNum As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "SNo"
+        repoNum.Name = colScheduleSNo
+        repoNum.Width = 50
+        repoNum.ReadOnly = True
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "Schedule No"
+        repoNum.Name = colScheduleNo
+        repoNum.Width = 100
+        repoNum.ReadOnly = True
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        Dim repoDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
+        repoDate.Format = DateTimePickerFormat.Custom
+        repoDate.CustomFormat = "dd-MM-yyyy"
+        repoDate.HeaderText = "From Date"
+        repoDate.FormatString = "{0:d}"
+        repoDate.Name = colScheduleFromDate
+        repoDate.WrapText = True
+        repoDate.ReadOnly = False
+        repoDate.Width = 80
+        gvSchedule.MasterTemplate.Columns.Add(repoDate)
+
+        repoDate = New GridViewDateTimeColumn()
+        repoDate.Format = DateTimePickerFormat.Custom
+        repoDate.CustomFormat = "dd-MM-yyyy"
+        repoDate.HeaderText = "To Date"
+        repoDate.FormatString = "{0:d}"
+        repoDate.Name = colScheduleToDate
+        repoDate.WrapText = True
+        repoDate.ReadOnly = False
+        repoDate.Width = 80
+        gvSchedule.MasterTemplate.Columns.Add(repoDate)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "Parent SNo"
+        repoNum.Name = colScheduleParentSNo
+        repoNum.Width = 50
+        repoNum.ReadOnly = True
+        repoNum.IsVisible = False
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        Dim repotxt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+
+
+
+        repotxt = New GridViewTextBoxColumn()
+        repotxt.FormatString = ""
+        repotxt.HeaderText = "Item Code"
+        repotxt.Name = colScheduleICode
+        repotxt.ReadOnly = True
+        repotxt.Width = 100
+        repotxt.IsVisible = True
+        gvSchedule.MasterTemplate.Columns.Add(repotxt)
+
+        repotxt = New GridViewTextBoxColumn()
+        repotxt.FormatString = ""
+        repotxt.HeaderText = "Item Description"
+        repotxt.Name = colScheduleIName
+        repotxt.Width = 150
+        repotxt.ReadOnly = True
+        repotxt.IsVisible = True
+        gvSchedule.MasterTemplate.Columns.Add(repotxt)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "Quantity %"
+        repoNum.Name = colScheduleQtyPer
+        repoNum.ReadOnly = True
+        repoNum.Width = 80
+        repoNum.Minimum = 0
+        repoNum.ShowUpDownButtons = False
+        repoNum.Step = 0
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "Quantity"
+        repoNum.Name = colScheduleQty
+        repoNum.ReadOnly = True
+        repoNum.Width = 80
+        repoNum.Minimum = 0
+        repoNum.ShowUpDownButtons = False
+        repoNum.Step = 0
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "Short %"
+        repoNum.Name = colScheduleShortPer
+        repoNum.ReadOnly = True
+        repoNum.Width = 80
+        repoNum.Minimum = 0
+        repoNum.ShowUpDownButtons = False
+        repoNum.Step = 0
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "Short Quantity"
+        repoNum.Name = colScheduleShort
+        repoNum.ReadOnly = True
+        repoNum.Width = 80
+        repoNum.Minimum = 0
+        repoNum.ShowUpDownButtons = False
+        repoNum.Step = 0
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "Late Days"
+        repoNum.Name = colScheduleLateDays
+        repoNum.ReadOnly = True
+        repoNum.Width = 80
+        repoNum.Minimum = 0
+        repoNum.ShowUpDownButtons = False
+        repoNum.Step = 0
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "Extension Days"
+        repoNum.Name = colScheduleExtensionDays
+        repoNum.ReadOnly = False
+        repoNum.Width = 80
+        repoNum.Minimum = 0
+        repoNum.ShowUpDownButtons = False
+        repoNum.Step = 0
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvSchedule.MasterTemplate.Columns.Add(repoNum)
+
+        gvSchedule.AllowDeleteRow = True
+        gvSchedule.AllowAddNewRow = False
+        gvSchedule.ShowGroupPanel = False
+        gvSchedule.AllowColumnReorder = False
+        gvSchedule.AllowRowReorder = False
+        gvSchedule.EnableSorting = False
+        gvSchedule.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gvSchedule.MasterTemplate.ShowRowHeaderColumn = False
+        gvSchedule.TableElement.TableHeaderHeight = 40
+    End Sub
+
+    Private Sub ShowPenalty()
+        Try
+            Dim dt As DataTable = New DataTable()
+            dt.Columns.Add("Penalty Date", GetType(String))
+            dt.Columns.Add("Penalty", GetType(Decimal))
+
+            Dim arr As List(Of clsTenderSchedulePeneltyPO) = TryCast(gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag, List(Of clsTenderSchedulePeneltyPO))
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                For ii As Integer = 0 To arr.Count - 1
+                    Dim dr As DataRow = dt.NewRow
+                    dr("Penalty Date") = clsCommon.GetPrintDate(arr(ii).Penalty_Date, "dd/MM/yyyy")
+                    dr("Penalty") = arr(ii).Penalty
+                    dt.Rows.Add(dr)
+                Next
+            End If
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                Dim frm As New FrmFreeGrid
+                frm.dt = dt
+                'frm.arrEditableColumn = New List(Of String)
+                'frm.arrEditableColumn.Add("Penalty")
+                frm.strFormName = "Show Penalty"
+                frm.ReportID = "SchPenaltyD"
+                frm.WindowState = FormWindowState.Maximized
+                frm.ShowDialog()
+                'If frm.dt IsNot Nothing AndAlso frm.dt.Rows.Count > 0 Then
+                '    Dim ArrTemp As New List(Of clsItemSchedulePenalty)
+                '    Dim obj As clsItemSchedulePenalty = Nothing
+                '    For Each dr As DataRow In frm.dt.Rows
+                '        obj = New clsItemSchedulePenalty()
+                '        obj.Penalty_Days = clsCommon.myCDecimal(dr("Days"))
+                '        obj.Penalty = clsCommon.myCDecimal(dr("Penalty"))
+                '        ArrTemp.Add(obj)
+                '    Next
+                '    gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = ArrTemp
+                'Else
+                '    gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = Nothing
+                'End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub gvSchedule_KeyDown(sender As Object, e As KeyEventArgs) Handles gvSchedule.KeyDown
+        If e.KeyCode = Keys.F5 Then
+            ShowPenalty()
+        End If
+    End Sub
+
+    Dim isCellValueChangedOpenSchedule As Boolean = False
+    Private Sub gvSchedule_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSchedule.CellValueChanged
+        Try
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpenSchedule Then
+                    isCellValueChangedOpen = True
+                    If e.Column Is gvSchedule.Columns(colScheduleToDate) Then
+                        Dim PKID As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PK_Id from (select ROW_NUMBER() over (Partition by Item_Code order by PK_Id) as SNO, * from TSPL_ITEM_SCHEDULE where Item_Code= '" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleICode).Value) + "' )xx where SNO=" + clsCommon.myCstr(gvSchedule.CurrentRow.Cells(colScheduleSNo).Value) + ""))
+                        If clsCommon.myLen(PKID) > 0 Then
+                            Dim Arr As List(Of clsItemSchedulePenalty) = clsItemSchedulePenalty.GetData(PKID, Nothing)
+                            gvSchedule.CurrentRow.Cells(colScheduleLateDays).Tag = SetSchedulePenalty(Arr, clsCommon.myCDate(gvSchedule.CurrentRow.Cells(colScheduleToDate).Value).AddDays(1))
+                        End If
+                    End If
+                End If
+                isCellValueChangedOpenSchedule = False
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            isCellValueChangedOpenSchedule = False
+        End Try
     End Sub
 End Class
 

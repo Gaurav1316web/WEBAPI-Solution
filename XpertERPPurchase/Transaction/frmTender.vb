@@ -24,7 +24,9 @@ Public Class frmTender
     Const colAmt As String = "COLAMT"
     Const colRemarks As String = "colRemarks"
     Const colComments As String = "colComments"
-
+    Dim closeyn As String
+    Dim vaddnew As String
+    Dim strRemarks As String
     Const colDiscount As String = "colDiscount"
 
     Const colScheduleSNo As String = "colScheduleSNo"
@@ -121,12 +123,11 @@ Public Class frmTender
         dr("Code") = "2"
         dr("Name") = "Techical Spare Part"
         dt.Rows.Add(dr)
+
         dr = dt.NewRow()
         dr("Code") = "3"
         dr("Name") = "Local Purchase"
         dt.Rows.Add(dr)
-
-
 
         cboTenderType.DataSource = dt
         cboTenderType.ValueMember = "Code"
@@ -143,6 +144,8 @@ Public Class frmTender
 
     Sub BlankAllControls()
         txtDocNo.Value = ""
+        vaddnew = "Y"
+        chkRalclose.Enabled = True
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtScheduleStartDate.Value = txtDate.Value
         UsLock1.Status = ERPTransactionStatus.Pending
@@ -163,6 +166,7 @@ Public Class frmTender
         txtOtherInfo8.Text = ""
         txtOtherInfo9.Text = ""
         txtOtherInfo10.Text = ""
+        chkRalclose.Checked = False
         cboTenderType.SelectedValue = "0"
         cboMode.SelectedValue = "1"
     End Sub
@@ -598,7 +602,6 @@ Public Class frmTender
         btnSave.Enabled = True
         btnPost.Enabled = True
         btnDelete.Enabled = True
-
         txtDate.Focus()
         gv1.Rows.AddNew()
         txtDate.Enabled = True
@@ -746,6 +749,11 @@ Public Class frmTender
                 obj.FieldValue4 = txtFieldValue4.Text
                 obj.FieldValue5 = txtFieldValue5.Text
                 obj.FieldValue6 = txtFieldValue6.Text
+                If chkRalclose.Checked = True Then
+                    obj.close_yn = "Y"
+                ElseIf chkRalclose.Checked = False Then
+                    obj.close_yn = "N"
+                End If
 
                 obj.OtherInfo1 = txtOtherInfo1.Text
                 obj.OtherInfo2 = txtOtherInfo2.Text
@@ -867,6 +875,18 @@ Public Class frmTender
                 txtFieldValue4.Text = obj.FieldValue4
                 txtFieldValue5.Text = obj.FieldValue5
                 txtFieldValue6.Text = obj.FieldValue6
+                If obj.close_yn = "Y" Then
+                    vaddnew = "Y"
+                    chkRalclose.Checked = True
+                    btnSave.Enabled = False
+                    btnPost.Enabled = False
+                    btnDelete.Enabled = False
+                    vaddnew = "N"
+                ElseIf obj.close_yn = "N" Then
+                    chkRalclose.Checked = False
+                    vaddnew = "N"
+                End If
+
 
                 txtOtherInfo1.Text = obj.OtherInfo1
                 txtOtherInfo2.Text = obj.OtherInfo2
@@ -1862,7 +1882,8 @@ Public Class frmTender
         Try
             Dim str As String = "select tspl_tender_detail.Item_Code,TSPL_ITEM_MASTER.Item_Desc,tspl_tender_detail.Location,tspl_tender_detail.Vendor_Code, TSPL_VENDOR_MASTER.vendor_name,tspl_tender_detail.Unit_code,tspl_tender_detail.Qty,tspl_tender_detail.Rate, tspl_tender_detail.Item_cost as Amount,tspl_tender_detail.Discount , tspl_tender_detail.Remarks, tspl_tender_detail.Comments from  tspl_tender_detail 
 					left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.ITEM_CODE=TSPL_TENDER_DETAIL.Item_Code
-					 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_Code=TSPL_TENDER_DETAIL.Vendor_Code"
+                    left outer join tspl_tender_header on tspl_tender_header.DocumentCode=tspl_tender_detail.DocumentCode
+					 left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.VENDOR_Code=TSPL_TENDER_DETAIL.Vendor_Code where  tspl_tender_header.DocumentCode='" + txtDocNo.Value + "' "
             ListImpExpColumnsMandatory = New List(Of String)({"Item_Code", "Item_Desc", "Vendor_Code", "vendor_name", "Location"})
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
@@ -1883,10 +1904,10 @@ Public Class frmTender
         If transportSql.importExcel(gv, "Item_Code", "Item_Desc", "Location", "Vendor_Code", "vendor_name", "Unit_code", "Qty", "Rate", "Amount", "Discount", "Remarks", "Comments") Then
             Dim linno As Integer = 0
             Try
+                clsCommon.ProgressBarShow()
                 For Each grow As GridViewRowInfo In gv.Rows
                     linno += 1
                     gv1.Rows.AddNew()
-
                     If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Item_Code").Value))) Then
                         Throw New Exception("Item Code Cannot be empty" + clsCommon.myCstr(linno) + ".")
                     Else
@@ -1894,7 +1915,8 @@ Public Class frmTender
                         If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Item_Code").Value)) = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells("colICode").Value = clsCommon.myCstr(grow.Cells("Item_Code").Value)
                         Else
-                            Throw New Exception("Item Code Not Exists at line no ." + clsCommon.myCstr(linno) + ".")
+                            '   Throw New Exception("Item Code Not Exists at line no ." + clsCommon.myCstr(linno) + ".")
+                            gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
                         End If
                     End If
                     If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Item_Desc").Value))) Then
@@ -1905,7 +1927,8 @@ Public Class frmTender
                         If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Item_Desc").Value)) = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells("colIName").Value = clsCommon.myCstr(grow.Cells("Item_Desc").Value)
                         Else
-                            Throw New Exception("Item Name Not Exists  at line no." + clsCommon.myCstr(linno) + ".")
+                            ' Throw New Exception("Item Name Not Exists  at line no." + clsCommon.myCstr(linno) + ".")
+                            gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
                         End If
                     End If
                     If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Location").Value))) Then
@@ -1915,7 +1938,8 @@ Public Class frmTender
                         If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Location").Value)) = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells("colLCode").Value = clsCommon.myCstr(grow.Cells("Location").Value)
                         Else
-                            Throw New Exception("Location Not Exists  at line no." + clsCommon.myCstr(linno) + ".")
+                            ' Throw New Exception("Location Not Exists  at line no." + clsCommon.myCstr(linno) + ".")
+                            gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
                         End If
                     End If
                     If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Vendor_Code").Value))) Then
@@ -1925,7 +1949,8 @@ Public Class frmTender
                         If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Vendor_Code").Value)) = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells("colVCode").Value = clsCommon.myCstr(grow.Cells("Vendor_Code").Value)
                         Else
-                            Throw New Exception("Vendor Code Not Exists  at line no." + clsCommon.myCstr(linno) + ".")
+                            '  Throw New Exception("Vendor Code Not Exists  at line no." + clsCommon.myCstr(linno) + ".")
+                            gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
                         End If
                     End If
                     If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("vendor_name").Value))) Then
@@ -1935,7 +1960,8 @@ Public Class frmTender
                         If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("vendor_name").Value)) = CompairStringResult.Equal Then
                             gv1.Rows(gv1.Rows.Count - 1).Cells("colVName").Value = clsCommon.myCstr(grow.Cells("vendor_name").Value)
                         Else
-                            Throw New Exception("Vendor Code Not Exists at line no." + clsCommon.myCstr(linno) + ".")
+                            ' Throw New Exception("Vendor Code Not Exists at line no." + clsCommon.myCstr(linno) + ".")
+                            gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
                         End If
                     End If
                     If grow.Cells("Unit_code").Value IsNot Nothing Then
@@ -1963,11 +1989,61 @@ Public Class frmTender
                 clsCommon.ProgressBarHide()
                 common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
-                gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
+                ' gv1.Rows.RemoveAt(gv1.Rows.Count - 1)
                 clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
             End Try
         End If
     End Sub
+    Private Sub chkRalclose_CheckedChanged(sender As Object, e As EventArgs) Handles chkRalclose.CheckedChanged
+        If chkRalclose.Checked = True And vaddnew = "N" Then
+            Dim response = MsgBox("Are you sure want to close the RAL", MsgBoxStyle.YesNo, "Attention")
+            If response = MsgBoxResult.Yes Then
+                closeyn = "Y"
+                closeRal()
+            ElseIf response = MsgBoxResult.No Then
+                chkRalclose.Checked = False
+            End If
+        ElseIf chkRalclose.Checked = False And vaddnew = "N" Then
+            closeyn = "N"
+            closeRal()
+        End If
+        vaddnew = "N"
+        If chkRalclose.Checked Then
+            Dim makereadonly As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.MakeClosingofPOreadonlyforuser, clsFixedParameterCode.MakeClosingofPOreadonlyforuser, Nothing)) = "1", True, False))
+            If makereadonly Then
+                chkRalclose.Enabled = False
+            Else
+                chkRalclose.Enabled = True
+            End If
+        End If
+    End Sub
+    Sub closeRal()
+        Try
+            If (clsTenderHead.closeRaldata(txtDocNo.Value, True, closeyn, strRemarks)) Then
+                If closeyn = "Y" Then
+                    Dim Reason As String = ""
+                    Dim frm As New FrmFreeTxtBox1
+                    frm.Text = "Reason for Close RAL "
+                    frm.ShowDialog()
+                    If clsCommon.myLen(frm.strRmks) <= 0 Then
+                        Exit Sub
+                    Else
+                        Reason = frm.strRmks
+                        strRemarks = Reason
+                    End If
+                    Dim obj As New clsTenderHead()
+                    If (clsTenderHead.closeRaldata(txtDocNo.Value, True, closeyn, strRemarks)) Then
+                        clsCommon.MyMessageBoxShow(Me, "Successfully Closed")
+                    End If
 
+                ElseIf closeyn = "N" Then
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Opened")
+                End If
+                LoadData(txtDocNo.Value, NavigatorType.Current, False)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
+    End Sub
 
 End Class

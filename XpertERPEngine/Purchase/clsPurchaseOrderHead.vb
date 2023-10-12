@@ -290,7 +290,7 @@ Public Class clsPurchaseOrderHead
     Public Total_Item_Insurance_Amt As Decimal = 0
     Public Total_Add_Charge_Insurance As Decimal = 0
     Public Arr_ACInsurance As List(Of clsPurchaseOrderAdditionChargeInsurance) = Nothing
-
+    Public ArrSchedule As List(Of clsTenderSchedulePO) = Nothing
     Public objPIRemittance As clsPIRemittance = Nothing
 
 #End Region
@@ -347,13 +347,13 @@ Public Class clsPurchaseOrderHead
         Dim str As String = ""
         Dim qry As String = ""
         Try
-            qry = "select sum(xx.Qty) from (select (max(TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty)+(-sum(TSPL_GRN_DETAIL.GRN_Qty)+sum(TSPL_GRN_DETAIL.Tolerence_Qty))) as Qty from TSPL_PURCHASE_ORDER_DETAIL " & _
-                            " left outer join TSPL_GRN_DETAIL  on TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id and TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code " & _
+            qry = "select sum(xx.Qty) from (select (max(TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty)+(-sum(TSPL_GRN_DETAIL.GRN_Qty)+sum(TSPL_GRN_DETAIL.Tolerence_Qty))) as Qty from TSPL_PURCHASE_ORDER_DETAIL " &
+                            " left outer join TSPL_GRN_DETAIL  on TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id and TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code " &
                             " where TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No='" + clsCommon.myCstr(PoNo) + "' and TSPL_PURCHASE_ORDER_DETAIL.Item_Code='" + clsCommon.myCstr(ItemCode) + "'"
 
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OpenPOforRejectShortageQty, clsFixedParameterCode.OpenPOforRejectShortageQty, Nothing)) = 1 Then
-                qry += " union all " + Environment.NewLine + _
-                " select (isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)+isnull(TSPL_SRN_DETAIL.Rejected_Qty,0)) as Qty from TSPL_SRN_DETAIL   left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No " + Environment.NewLine + _
+                qry += " union all " + Environment.NewLine +
+                " select (isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)+isnull(TSPL_SRN_DETAIL.Rejected_Qty,0)) as Qty from TSPL_SRN_DETAIL   left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No " + Environment.NewLine +
                 " where  TSPL_SRN_DETAIL.Item_Code='" + clsCommon.myCstr(ItemCode) + "' and TSPL_SRN_DETAIL.PO_ID='" + clsCommon.myCstr(PoNo) + "' "
             End If
 
@@ -420,7 +420,6 @@ Public Class clsPurchaseOrderHead
         Return True
     End Function
     Public Function SaveData(ByVal obj As clsPurchaseOrderHead, ByVal isNewEntry As Boolean, ByVal isMakeAbandomentNo As Boolean, ByVal trans As SqlTransaction) As Boolean
-        Dim isSaved As Boolean = True
         Try
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, "Purchase Order", "Purchase Order", obj.Bill_To_Location, obj.PurchaseOrder_Date, trans)
             '' Anubhooti 22-Aug-2014 (Amandment After Posting,Make cond isMakeAbandomentNo = False )
@@ -437,7 +436,7 @@ Public Class clsPurchaseOrderHead
             End If
             Dim qry As String = ""
             If isMakeAbandomentNo Then
-                isSaved = isSaved AndAlso clsPurchaseOrderHeadHist.SaveDataForHistory(obj.PurchaseOrder_No, clsCommon.myCdbl(obj.Abandonment_No + 1), trans)
+                clsPurchaseOrderHeadHist.SaveDataForHistory(obj.PurchaseOrder_No, clsCommon.myCdbl(obj.Abandonment_No + 1), trans)
                 qry = "select 1 from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where TRANS_Code='PO-ODR' and Document_Code in ( '" + obj.PurchaseOrder_No + "')"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -452,9 +451,16 @@ Public Class clsPurchaseOrderHead
                 HistoryUpdate(obj.PurchaseOrder_No, trans)
             End If
             qry = "delete from TSPL_PI_REMITTANCE where Document_No='" + obj.PurchaseOrder_No + "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
             qry = "delete from TSPL_PURCHASE_ORDER_DETAIL where PurchaseOrder_No='" + obj.PurchaseOrder_No + "'"
-            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_TENDER_SCHEDULE_PENALTY_PO where DocumentCode='" + obj.PurchaseOrder_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_TENDER_SCHEDULE_PO where DocumentCode='" + obj.PurchaseOrder_No + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             Dim strDocNo As String = ""
             If isNewEntry Then
                 If obj.isJobWorkOutward = True Then
@@ -819,32 +825,33 @@ Public Class clsPurchaseOrderHead
                 clsCommon.AddColumnsForChange(coll, "PurchaseOrder_No", obj.PurchaseOrder_No)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PURCHASE_ORDER_HEAD", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PURCHASE_ORDER_HEAD", OMInsertOrUpdate.Insert, "", trans)
             Else
                 If isMakeAbandomentNo Then
                     obj.Abandonment_No = obj.Abandonment_No + 1
                     clsCommon.AddColumnsForChange(coll, "Abandonment_No", obj.Abandonment_No)
                 End If
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PURCHASE_ORDER_HEAD", OMInsertOrUpdate.Update, "TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No='" + obj.PurchaseOrder_No + "'", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PURCHASE_ORDER_HEAD", OMInsertOrUpdate.Update, "TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No='" + obj.PurchaseOrder_No + "'", trans)
             End If
-            isSaved = isSaved AndAlso clsPurchaseOrderDetail.SaveData(obj.PurchaseOrder_No, obj.Arr, trans)
-            isSaved = isSaved AndAlso clsPIRemittance.SaveData(obj.objPIRemittance, obj.PurchaseOrder_No, obj.PurchaseOrder_Date, trans)
-            isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.PurchaseOrder_No, obj.arrCustomFields, trans)
-            isSaved = isSaved AndAlso clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "PurchaseOrder_No", obj.PurchaseOrder_No, "TSPL_PURCHASE_ORDER_HEAD", trans)
+            clsPurchaseOrderDetail.SaveData(obj.PurchaseOrder_No, obj.Arr, trans)
+            clsPIRemittance.SaveData(obj.objPIRemittance, obj.PurchaseOrder_No, obj.PurchaseOrder_Date, trans)
+            clsCustomFieldValues.SaveData(obj.Form_ID, obj.PurchaseOrder_No, obj.arrCustomFields, trans)
+            clsApprovalScreen.SaveApprovalAtTransLevel(obj.Form_ID, "PurchaseOrder_No", obj.PurchaseOrder_No, "TSPL_PURCHASE_ORDER_HEAD", trans)
 
             If obj.roadpermit = "1" Then
-                isSaved = isSaved AndAlso clsPurchaseOrderRoadDetail.SaveData_RoadPermit(obj.PurchaseOrder_No, obj.Arr_Road, trans)
+                clsPurchaseOrderRoadDetail.SaveData_RoadPermit(obj.PurchaseOrder_No, obj.Arr_Road, trans)
             End If
             If obj.Cform = "1" Then
-                isSaved = isSaved AndAlso clsPurchaseOrderCFORMDetail.SaveData_CFORM(obj.PurchaseOrder_No, obj.Arr_CFORM, trans)
+                clsPurchaseOrderCFORMDetail.SaveData_CFORM(obj.PurchaseOrder_No, obj.Arr_CFORM, trans)
             End If
-            isSaved = isSaved AndAlso clsPurchaseOrderRoadDetail.SaveData_WorkOrder(obj.PurchaseOrder_No, obj.Arr_FieldCategory, trans)
-            isSaved = isSaved AndAlso clsPurchaseOrderRoadDetail.SaveData_WorkOrder_Terms(obj.PurchaseOrder_No, obj.Arr_Terms_C, trans)
-            isSaved = isSaved AndAlso clsPurchaseOrderAdditionChargeInsurance.SaveData(obj.PurchaseOrder_No, obj.PurchaseOrder_Date, obj.Arr_ACInsurance, trans)
+            clsPurchaseOrderRoadDetail.SaveData_WorkOrder(obj.PurchaseOrder_No, obj.Arr_FieldCategory, trans)
+            clsPurchaseOrderRoadDetail.SaveData_WorkOrder_Terms(obj.PurchaseOrder_No, obj.Arr_Terms_C, trans)
+            clsPurchaseOrderAdditionChargeInsurance.SaveData(obj.PurchaseOrder_No, obj.PurchaseOrder_Date, obj.Arr_ACInsurance, trans)
+            clsTenderSchedulePO.SaveData(obj.PurchaseOrder_No, obj.ArrSchedule, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
-        Return isSaved
+        Return True
     End Function
     ''richa agarwal 24/12/2014
     Public Shared Function UpdateAfterPosting(ByVal obj As clsPurchaseOrderHead, ByVal trans As SqlTransaction) As Boolean
@@ -1462,6 +1469,7 @@ Public Class clsPurchaseOrderHead
                 Next
             End If
             obj.Arr_ACInsurance = clsPurchaseOrderAdditionChargeInsurance.GetData(obj.PurchaseOrder_No, trans)
+            obj.ArrSchedule = clsTenderSchedulePO.GetData(obj.PurchaseOrder_No, trans)
         End If
 
         Return obj
@@ -1707,7 +1715,7 @@ a:
                 objVendorInvHead.Tax_Group = obj.Tax_Group
                 If (clsCommon.myLen(obj.TAX1) > 0) Then
                     objVendorInvHead.TAX1 = obj.TAX1
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX1, trans) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX1, trans) Then
                         objVendorInvHead.TAX1_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX1, trans)
                         objVendorInvHead.TAX1_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.TAX1_GLAC, obj.Bill_To_Location, trans)
                     End If
@@ -1717,7 +1725,7 @@ a:
                 End If
                 If (clsCommon.myLen(obj.TAX2) > 0) Then
                     objVendorInvHead.TAX2 = obj.TAX2
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX2, trans) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX2, trans) Then
                         objVendorInvHead.TAX2_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX2, trans)
                         objVendorInvHead.TAX2_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.TAX2_GLAC, obj.Bill_To_Location, trans)
                     End If
@@ -1727,7 +1735,7 @@ a:
                 End If
                 If (clsCommon.myLen(obj.TAX3) > 0) Then
                     objVendorInvHead.TAX3 = obj.TAX3
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX3, trans) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX3, trans) Then
                         objVendorInvHead.TAX3_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX3, trans)
                         objVendorInvHead.TAX3_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.TAX3_GLAC, obj.Bill_To_Location, trans)
                     End If
@@ -1737,7 +1745,7 @@ a:
                 End If
                 If (clsCommon.myLen(obj.TAX4) > 0) Then
                     objVendorInvHead.TAX4 = obj.TAX4
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX4, trans) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX4, trans) Then
                         objVendorInvHead.TAX4_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX4, trans)
                         objVendorInvHead.TAX4_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.TAX4_GLAC, obj.Bill_To_Location, trans)
                     End If
@@ -1747,7 +1755,7 @@ a:
                 End If
                 If (clsCommon.myLen(obj.TAX5) > 0) Then
                     objVendorInvHead.TAX5 = obj.TAX5
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX5, trans) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX5, trans) Then
                         objVendorInvHead.TAX5_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX5, trans)
                         objVendorInvHead.TAX5_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.TAX5_GLAC, obj.Bill_To_Location, trans)
 
@@ -1758,7 +1766,7 @@ a:
                 End If
                 If (clsCommon.myLen(obj.TAX6) > 0) Then
                     objVendorInvHead.TAX6 = obj.TAX6
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX6, trans) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX6, trans) Then
                         objVendorInvHead.TAX6_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX6, trans)
                         objVendorInvHead.TAX6_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.TAX6_GLAC, obj.Bill_To_Location, trans)
                     End If
@@ -1768,7 +1776,7 @@ a:
                 End If
                 If (clsCommon.myLen(obj.TAX7) > 0) Then
                     objVendorInvHead.TAX7 = obj.TAX7
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX7, trans) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX7, trans) Then
                         objVendorInvHead.TAX7_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX7, trans)
                         objVendorInvHead.TAX7_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.TAX7_GLAC, obj.Bill_To_Location, trans)
 
@@ -1779,7 +1787,7 @@ a:
                 End If
                 If (clsCommon.myLen(obj.TAX8) > 0) Then
                     objVendorInvHead.TAX8 = obj.TAX8
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX8, trans) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX8, trans) Then
                         objVendorInvHead.TAX8_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX8, trans)
                         objVendorInvHead.TAX8_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.TAX8_GLAC, obj.Bill_To_Location, trans)
                     End If
@@ -1789,7 +1797,7 @@ a:
                 End If
                 If (clsCommon.myLen(obj.TAX9) > 0) Then
                     objVendorInvHead.TAX9 = obj.TAX9
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX9, trans) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX9, trans) Then
                         objVendorInvHead.TAX9_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX9, trans)
                         objVendorInvHead.TAX9_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.TAX9_GLAC, obj.Bill_To_Location, trans)
                     End If
@@ -1799,7 +1807,7 @@ a:
                 End If
                 If (clsCommon.myLen(obj.TAX10) > 0) Then
                     objVendorInvHead.TAX10 = obj.TAX10
-                    If clsTaxMaster.IsTaxRecoverableAC(obj.TAX10, trans) Then
+                    If clsTaxMaster.ISTaxRecoverableAC(obj.TAX10, trans) Then
                         objVendorInvHead.TAX10_GLAC = clsTaxMaster.GetTaxRecoverableAC(obj.TAX10, trans)
                         objVendorInvHead.TAX10_GLAC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.TAX10_GLAC, obj.Bill_To_Location, trans)
                     End If
@@ -4975,8 +4983,8 @@ a:
     Public Shared Function GetPurchaseSetting() As DataTable
         Dim qry As String
 
-        qry = "select CREATE_ABATEMENT_BASED_PO as IsAbatementPO,CREATE_PO_WITH_REQ as PO_Req,ENABLE_POPUP_REORDERLEVEL as PopupReorder, " & _
-        " MANDATE_BATCHNO_RM,MANDATE_BATCHNO_FG,MANDATE_BATCHNO_ASSET,MANDATE_BATCHNO_OTHERS,MANDATE_MFG_RM,MANDATE_MFG_FG,MANDATE_MFG_ASSET,MANDATE_MFG_OTHERS, " & _
+        qry = "select CREATE_ABATEMENT_BASED_PO as IsAbatementPO,CREATE_PO_WITH_REQ as PO_Req,ENABLE_POPUP_REORDERLEVEL as PopupReorder, " &
+        " MANDATE_BATCHNO_RM,MANDATE_BATCHNO_FG,MANDATE_BATCHNO_ASSET,MANDATE_BATCHNO_OTHERS,MANDATE_MFG_RM,MANDATE_MFG_FG,MANDATE_MFG_ASSET,MANDATE_MFG_OTHERS, " &
         " MANDATE_EXP_RM,MANDATE_EXP_FG,MANDATE_EXP_ASSET,MANDATE_EXP_OTHERS,Return_without_Invoice from TSPL_PURCHASE_SETTINGS"
         Dim dt As DataTable
         dt = clsDBFuncationality.GetDataTable(qry)
@@ -5159,13 +5167,13 @@ a:
         PO_Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select TSPL_PURCHASE_ORDER_HEAD .PurchaseOrder_Date  from TSPL_PURCHASE_ORDER_HEAD where TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No ='" + StrDocNo + "'", tran))
         Dim Ho_Address As String = Nothing
         If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
-            Dim HoQuery As String = "SELECT case when isnull(TSPL_LOCATION_MASTER.Add1,'')<>'' then  TSPL_LOCATION_MASTER.Add1 +', ' else '' end +" & _
-                    " case when isnull(TSPL_LOCATION_MASTER.Add2,'')<>'' then  TSPL_LOCATION_MASTER.Add2 +', ' else '' end + " & _
-                    " case when isnull(TSPL_LOCATION_MASTER.Add3,'')<>'' then  TSPL_LOCATION_MASTER.Add3 +', ' else '' end + " & _
-                    " case when isnull(TSPL_CITY_MASTER.City_Name,'') <>'' then TSPL_CITY_MASTER.City_Name +', '  else '' end " & _
-                     " + case when isnull( TSPL_STATE_MASTER.STATE_NAME,'')<>'' then  TSPL_STATE_MASTER.STATE_NAME +', ' else '' end " & _
-                     " + Case when isnull(TSPL_LOCATION_MASTER.Pin_Code,'')<>'' then convert(varchar,TSPL_LOCATION_MASTER.Pin_Code) else ' ' end as HO_Address " & _
-                     " FROM TSPL_LOCATION_MASTER  left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code =TSPL_LOCATION_MASTER.City_Code " & _
+            Dim HoQuery As String = "SELECT case when isnull(TSPL_LOCATION_MASTER.Add1,'')<>'' then  TSPL_LOCATION_MASTER.Add1 +', ' else '' end +" &
+                    " case when isnull(TSPL_LOCATION_MASTER.Add2,'')<>'' then  TSPL_LOCATION_MASTER.Add2 +', ' else '' end + " &
+                    " case when isnull(TSPL_LOCATION_MASTER.Add3,'')<>'' then  TSPL_LOCATION_MASTER.Add3 +', ' else '' end + " &
+                    " case when isnull(TSPL_CITY_MASTER.City_Name,'') <>'' then TSPL_CITY_MASTER.City_Name +', '  else '' end " &
+                     " + case when isnull( TSPL_STATE_MASTER.STATE_NAME,'')<>'' then  TSPL_STATE_MASTER.STATE_NAME +', ' else '' end " &
+                     " + Case when isnull(TSPL_LOCATION_MASTER.Pin_Code,'')<>'' then convert(varchar,TSPL_LOCATION_MASTER.Pin_Code) else ' ' end as HO_Address " &
+                     " FROM TSPL_LOCATION_MASTER  left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code =TSPL_LOCATION_MASTER.City_Code " &
                      " left outer join TSPL_STATE_MASTER ON TSPL_STATE_MASTER.STATE_CODE=TSPL_LOCATION_MASTER.State  WHERE Location_Code='001'	"
             Ho_Address = clsCommon.myCstr(clsDBFuncationality.getSingleValue(HoQuery, tran))
         End If
@@ -5350,98 +5358,98 @@ a:
             Else
                 strQuery += ",(select max(TSPL_PURCHASE_ORDER_HEAD_Hist.Abandonment_Date) from TSPL_PURCHASE_ORDER_HEAD_Hist where TSPL_PURCHASE_ORDER_HEAD_Hist.Abandonment_No=TSPL_PURCHASE_ORDER_HEAD.Abandonment_No and PurchaseOrder_No=TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No) as Abandonment_Date"
             End If
-            strQuery += ",TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No as purchase_no ,convert(varchar,TSPL_PURCHASE_ORDER_HEAD .PurchaseOrder_Date,103) as po_date ,case TSPL_PURCHASE_ORDER_HEAD .PurchaseOrder_Type when 'L'then 'Local' when 'I' then 'Import' when 'J' then 'Job Work' when 'O' then 'Open' when 'S' then 'Specific'else 'Null' end as po_type ,tspl_purchase_order_head.vendor_name,TSPL_PURCHASE_ORDER_HEAD .Vendor_Code as vendor_type,TSPL_PURCHASE_ORDER_HEAD .Terms_Code as termscode ,TSPL_PURCHASE_ORDER_HEAD .Ref_No as ref_no ,TSPL_PURCHASE_ORDER_HEAD .Comments as comments ,TSPL_PURCHASE_ORDER_HEAD .Discount_Amt as dis_amt,TSPL_PURCHASE_ORDER_DETAIL.Disc_Amt as dis_amt1,TSPL_PURCHASE_ORDER_HEAD.Amount_Less_Discount  as aftrdiscount ,TSPL_PURCHASE_ORDER_HEAD .PO_Total_Amt as Total_amount,TSPL_PURCHASE_ORDER_HEAD.Discount_Base as bfrdisc_amount,tax1.Tax_Code_Desc as tax1name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax8_amt,0) as txt8amt,isnull (TSPL_PURCHASE_ORDER_HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax10_amt,0) as txt10amt,isnull(TSPL_PURCHASE_ORDER_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount,  " & _
-              " TSPL_LOCATION_MASTER.HOAdd1, TSPL_LOCATION_MASTER.HOAdd2, " & _
-            " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name1 as Add1Desc, " & _
-            " case when len(TSPL_COMPANY_MASTER.Pan_No) >0 then cast (TSPL_COMPANY_MASTER.Pan_No as varchar) else '' end as PAN_NO , " & _
-            "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt1,0) as Add1, " & _
-            "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name2 as Add2Desc, " & _
-             "   isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt2,0) as Add2, " & _
-             "   TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name3 as Add3Desc, " & _
-              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt3,0) as Add3, " & _
-              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name4 as Add4Desc, " & _
-              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt4,0) as Add4, " & _
-              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name5 as Add5Desc, " & _
-              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt5,0) as Add5, " & _
-             "   TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name6 as Add6Desc, " & _
-              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt6,0) as Add6, " & _
-              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name7 as Add7Desc, " & _
-             "   isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt7,0) as Add7, " & _
-              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name8 as Add8Desc, " & _
-              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt8,0) as Add8, " & _
-              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name9 as Add9Desc, " & _
-              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt9,0) as Add9, " & _
-              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name10 as Add10Desc, " & _
-              "case when TSPL_PURCHASE_ORDER_DETAIL.TAX1='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX1_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX2='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX2_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX3='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX3_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX4='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX4_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX5='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX5_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX6='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX6_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX7='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX7_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX8='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX8_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX9='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX9_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX10='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX10_Rate END AS Exci_Item_TaxRate ," & _
-              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt10,0) as Add10,(case when TSPL_PURCHASE_ORDER_HEAD.Emergency=0 then '-N' else '-E' end) as Emergency,TSPL_PURCHASE_ORDER_DETAIL.Total_Tax_Amt,TSPL_PURCHASE_ORDER_DETAIL.Item_Net_Amt,  " & _
-             " TSPL_PURCHASE_ORDER_HEAD.PO_Total_Amt as DocAmt,TSPL_COMPANY_MASTER.Add1 as Comp_Add1 ,TSPL_COMPANY_MASTER.Add2 as Comp_Add2 ,TSPL_COMPANY_MASTER.Add3 as Comp_Add3, ( case when TSPL_COMPANY_MASTER.Phone2  <> '' then TSPL_COMPANY_MASTER.Phone1 +','+TSPL_COMPANY_MASTER.Phone2 else TSPL_COMPANY_MASTER.Phone1 end) as Comp_Phn,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as Comp_Email ,TSPL_COMPANY_MASTER.Tin_No as Comp_TinNo,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.CURRENCY_CODE,(TSPL_VENDOR_MASTER.Lst_No) as ven_lst_no ,(TSPL_VENDOR_MASTER.CST)as ven_cst ,(TSPL_VENDOR_MASTER.Tin_No)as ven_tin_no,TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location , (case when TSPL_PURCHASE_ORDER_HEAD.status =1 then TSPL_PURCHASE_ORDER_HEAD.Modify_By else '' end) as Modify_By,TSPL_SHIP_TO_LOCATION.add1 +case when len(TSPL_SHIP_TO_LOCATION.add2)>0 then ', '+TSPL_SHIP_TO_LOCATION.add2 else '' end +case when LEN(isnull(TSPL_SHIP_TO_LOCATION.Add3,''))>0 then ', '+isnull(TSPL_SHIP_TO_LOCATION.Add3,'') else ' ' end   as Ship_address,TSPL_PURCHASE_ORDER_HEAD.Created_By ,TSPL_PURCHASE_ORDER_HEAD.Modify_By ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_SHIP_TO_LOCATION.Ship_To_Desc  ,TSPL_PURCHASE_ORDER_HEAD.Terms_Code ,TSPL_PURCHASE_ORDER_HEAD.Delivery_date , " & _
-             " TSPL_PURCHASE_ORDER_HEAD.TAX1,TSPL_PURCHASE_ORDER_HEAD.TAX2,TSPL_PURCHASE_ORDER_HEAD.TAX3,TSPL_PURCHASE_ORDER_HEAD.TAX4,TSPL_PURCHASE_ORDER_HEAD.TAX5 ,TSPL_PURCHASE_ORDER_HEAD. Ship_To_Location, " & _
+            strQuery += ",TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No as purchase_no ,convert(varchar,TSPL_PURCHASE_ORDER_HEAD .PurchaseOrder_Date,103) as po_date ,case TSPL_PURCHASE_ORDER_HEAD .PurchaseOrder_Type when 'L'then 'Local' when 'I' then 'Import' when 'J' then 'Job Work' when 'O' then 'Open' when 'S' then 'Specific'else 'Null' end as po_type ,tspl_purchase_order_head.vendor_name,TSPL_PURCHASE_ORDER_HEAD .Vendor_Code as vendor_type,TSPL_PURCHASE_ORDER_HEAD .Terms_Code as termscode ,TSPL_PURCHASE_ORDER_HEAD .Ref_No as ref_no ,TSPL_PURCHASE_ORDER_HEAD .Comments as comments ,TSPL_PURCHASE_ORDER_HEAD .Discount_Amt as dis_amt,TSPL_PURCHASE_ORDER_DETAIL.Disc_Amt as dis_amt1,TSPL_PURCHASE_ORDER_HEAD.Amount_Less_Discount  as aftrdiscount ,TSPL_PURCHASE_ORDER_HEAD .PO_Total_Amt as Total_amount,TSPL_PURCHASE_ORDER_HEAD.Discount_Base as bfrdisc_amount,tax1.Tax_Code_Desc as tax1name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax3_amt,0) as txt3amt,tax4.Tax_Code_Desc as tax4name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax6_amt,0) as txt6amt,tax7.Tax_Code_Desc as tax7name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax8_amt,0) as txt8amt,isnull (TSPL_PURCHASE_ORDER_HEAD.tax9_amt,0) as txt9amt,tax10.Tax_Code_Desc as tax10name,isnull (TSPL_PURCHASE_ORDER_HEAD.tax10_amt,0) as txt10amt,isnull(TSPL_PURCHASE_ORDER_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount,  " &
+              " TSPL_LOCATION_MASTER.HOAdd1, TSPL_LOCATION_MASTER.HOAdd2, " &
+            " TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name1 as Add1Desc, " &
+            " case when len(TSPL_COMPANY_MASTER.Pan_No) >0 then cast (TSPL_COMPANY_MASTER.Pan_No as varchar) else '' end as PAN_NO , " &
+            "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt1,0) as Add1, " &
+            "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name2 as Add2Desc, " &
+             "   isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt2,0) as Add2, " &
+             "   TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name3 as Add3Desc, " &
+              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt3,0) as Add3, " &
+              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name4 as Add4Desc, " &
+              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt4,0) as Add4, " &
+              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name5 as Add5Desc, " &
+              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt5,0) as Add5, " &
+             "   TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name6 as Add6Desc, " &
+              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt6,0) as Add6, " &
+              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name7 as Add7Desc, " &
+             "   isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt7,0) as Add7, " &
+              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name8 as Add8Desc, " &
+              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt8,0) as Add8, " &
+              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name9 as Add9Desc, " &
+              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt9,0) as Add9, " &
+              "  TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Name10 as Add10Desc, " &
+              "case when TSPL_PURCHASE_ORDER_DETAIL.TAX1='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX1_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX2='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX2_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX3='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX3_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX4='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX4_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX5='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX5_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX6='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX6_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX7='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX7_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX8='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX8_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX9='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX9_Rate  WHEN TSPL_PURCHASE_ORDER_DETAIL.TAX10='EXCISE' THEN TSPL_PURCHASE_ORDER_DETAIL.TAX10_Rate END AS Exci_Item_TaxRate ," &
+              "  isnull (TSPL_PURCHASE_ORDER_HEAD.Add_Charge_Amt10,0) as Add10,(case when TSPL_PURCHASE_ORDER_HEAD.Emergency=0 then '-N' else '-E' end) as Emergency,TSPL_PURCHASE_ORDER_DETAIL.Total_Tax_Amt,TSPL_PURCHASE_ORDER_DETAIL.Item_Net_Amt,  " &
+             " TSPL_PURCHASE_ORDER_HEAD.PO_Total_Amt as DocAmt,TSPL_COMPANY_MASTER.Add1 as Comp_Add1 ,TSPL_COMPANY_MASTER.Add2 as Comp_Add2 ,TSPL_COMPANY_MASTER.Add3 as Comp_Add3, ( case when TSPL_COMPANY_MASTER.Phone2  <> '' then TSPL_COMPANY_MASTER.Phone1 +','+TSPL_COMPANY_MASTER.Phone2 else TSPL_COMPANY_MASTER.Phone1 end) as Comp_Phn,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as Comp_Email ,TSPL_COMPANY_MASTER.Tin_No as Comp_TinNo,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.CURRENCY_CODE,(TSPL_VENDOR_MASTER.Lst_No) as ven_lst_no ,(TSPL_VENDOR_MASTER.CST)as ven_cst ,(TSPL_VENDOR_MASTER.Tin_No)as ven_tin_no,TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location , (case when TSPL_PURCHASE_ORDER_HEAD.status =1 then TSPL_PURCHASE_ORDER_HEAD.Modify_By else '' end) as Modify_By,TSPL_SHIP_TO_LOCATION.add1 +case when len(TSPL_SHIP_TO_LOCATION.add2)>0 then ', '+TSPL_SHIP_TO_LOCATION.add2 else '' end +case when LEN(isnull(TSPL_SHIP_TO_LOCATION.Add3,''))>0 then ', '+isnull(TSPL_SHIP_TO_LOCATION.Add3,'') else ' ' end   as Ship_address,TSPL_PURCHASE_ORDER_HEAD.Created_By ,TSPL_PURCHASE_ORDER_HEAD.Modify_By ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_SHIP_TO_LOCATION.Ship_To_Desc  ,TSPL_PURCHASE_ORDER_HEAD.Terms_Code ,TSPL_PURCHASE_ORDER_HEAD.Delivery_date , " &
+             " TSPL_PURCHASE_ORDER_HEAD.TAX1,TSPL_PURCHASE_ORDER_HEAD.TAX2,TSPL_PURCHASE_ORDER_HEAD.TAX3,TSPL_PURCHASE_ORDER_HEAD.TAX4,TSPL_PURCHASE_ORDER_HEAD.TAX5 ,TSPL_PURCHASE_ORDER_HEAD. Ship_To_Location, " &
              " TSPL_LOCATION_MASTER.Location_Desc as compname,TSPL_LOCATION_MASTER.Registration_Number,TSPL_LOCATION_MASTER.Registration_Number as VAT_No,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_LOCATION_MASTER.add1 as Loc_Add1, TSPL_LOCATION_MASTER.add2 +case when LEN(isnull(TSPL_LOCATION_MASTER.Add3,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add3,'') else ' ' end +case when LEN(isnull(TSPL_LOCATION_MASTER.Add4,''))>0 then ', '+isnull(TSPL_LOCATION_MASTER.Add4,'') else ' ' end  as address1 ,TSPL_LOCATION_MASTER.TAN_No as Loc_FaxNo, TSPL_VENDOR_MASTER.Email as VenEmail,TSPL_PURCHASE_ORDER_DETAIL.item_code as item_code, TSPL_VENDOR_ITEM_DETAIL.vendor_item_no as VendorItem, "
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GMD") = CompairStringResult.Equal Then
                 strQuery = strQuery + " ((TSPL_PURCHASE_ORDER_DETAIL.item_desc) +(case when TSPL_PURCHASE_ORDER_DETAIL.Specification='' then '' else ' . ' end) +TSPL_PURCHASE_ORDER_DETAIL.Specification+ (case when TSPL_PURCHASE_ORDER_DETAIL.Remarks='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_DETAIL.Remarks +(case when TSPL_PURCHASE_ORDER_detail.Capacity='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_detail.Capacity  +(case when TSPL_PURCHASE_ORDER_detail.Make='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_detail.Make +(case when TSPL_PURCHASE_ORDER_detail.Model='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_detail.Model )  as itemdesc "
             Else
                 strQuery = strQuery + " ((TSPL_PURCHASE_ORDER_DETAIL.item_desc) +(case when TSPL_PURCHASE_ORDER_DETAIL.Specification='' then '' else ' . ' end) +TSPL_PURCHASE_ORDER_DETAIL.Specification+ (case when TSPL_PURCHASE_ORDER_DETAIL.Remarks='' then '' else ' / ' end) + TSPL_PURCHASE_ORDER_DETAIL.Remarks )  as itemdesc "
             End If
-            strQuery = strQuery + " ,TSPL_TERMS_MASTER.Terms_Desc  as termsdesc,TSPL_PURCHASE_ORDER_DETAIL.Row_Type,TSPL_PURCHASE_ORDER_DETAIL.purchaseorder_qty as qty,TSPL_PURCHASE_ORDER_DETAIL.unit_code as uom,TSPL_PURCHASE_ORDER_DETAIL.item_cost as itemcost,TSPL_PURCHASE_ORDER_DETAIL.amount as amount,TSPL_PURCHASE_ORDER_DETAIL.MRP ,TSPL_PURCHASE_ORDER_DETAIL.Item_Cost ,case when TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount=0 then 0 else (TSPL_PURCHASE_ORDER_DETAIL.Total_Tax_Amt /TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount) *100 end as Tax,case when TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount=0 then TSPL_PURCHASE_ORDER_DETAIL.Item_Cost else ((((TSPL_PURCHASE_ORDER_DETAIL.Total_Tax_Amt /TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount) *100)*TSPL_PURCHASE_ORDER_DETAIL.Item_Cost/100) +TSPL_PURCHASE_ORDER_DETAIL.Item_Cost) end as landing_Rate,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty as Qty,TSPL_PURCHASE_ORDER_DETAIL.Item_Net_Amt,TSPL_PURCHASE_ORDER_HEAD.TAX1_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX2_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX3_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX4_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX5_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX6_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX7_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX8_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX9_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX10_Rate ,TSPL_PURCHASE_ORDER_DETAIL.Disc_Per as 'dis_per',TSPL_LOCATION_MASTER.CST_No as CST_LST ,TSPL_LOCATION_MASTER.TIN_No, TSPL_LOCATION_MASTER.Ecc_Number as ExciseNo, TSPL_LOCATION_MASTER.Range_Code as Range, TSPL_LOCATION_MASTER.Commissionerate as DivisionCommission,  " & _
-             "Case when len(ISNULL(TSPL_VENDOR_MASTER.Phone1,''))>0 and TSPL_VENDOR_MASTER.Phone1='(+__)__________' then '' else ' '+TSPL_VENDOR_MASTER.Phone1 end " & _
-            "  +  Case When   ISNULL(TSPL_VENDOR_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_VENDOR_MASTER.Phone2 Else'' End  as VenPhone1 , TSPL_VENDOR_MASTER.Fax as VenFax,TSPL_VENDOR_MASTER.Tin_No as Vendor_Tin_No, Case when len(ISNULL(TSPL_LOCATION_MASTER.Phone1,''))>0 and TSPL_LOCATION_MASTER.Phone1='(+__)__________' then '' else ' '+TSPL_LOCATION_MASTER.Phone1 end " & _
-            "  +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_LOCATION_MASTER.Phone2 Else'' End  as Phn,TSPL_LOCATION_MASTER.TAN_No as faxno,TSPL_LOCATION_MASTER.Email as EmailId, TSPL_PURCHASE_ORDER_DETAIL.Unit_code,Circle_No as APGST,TSPL_PURCHASE_ORDER_HEAD.Total_Add_Charge as total_add_charges,TSPL_PURCHASE_ORDER_HEAD.Against_Requisition as ReqNo,Convert(varchar(15),TSPL_REQUISITION_HEAD.Requisition_Date,103)  as ReqDt ,TSPL_PURCHASE_ORDER_HEAD.Quotation_No,convert(varchar,TSPL_PURCHASE_ORDER_HEAD.Quotation_Date,103) as Quotation_Date,TSPL_PURCHASE_ORDER_DETAIL .Location, TSPL_PURCHASE_ORDER_HEAD.Expiry_Date,0 As AmdNo,Null As Abd_Date " & _
-             " " & QryShowStatus & " " & _
-             " ,CurrencyMaster.CURRENCY_SIGN, " & _
-             " taxRate1.Tax_Rate_Desc as Tax_Rate_Desc1,taxRate2.Tax_Rate_Desc as Tax_Rate_Desc2,taxRate3.Tax_Rate_Desc as Tax_Rate_Desc3, " & _
-             " taxRate4.Tax_Rate_Desc as Tax_Rate_Desc4,taxRate5.Tax_Rate_Desc as Tax_Rate_Desc5,taxRate6.Tax_Rate_Desc as Tax_Rate_Desc6, " & _
-             " taxRate7.Tax_Rate_Desc as Tax_Rate_Desc7,taxRate8.Tax_Rate_Desc as Tax_Rate_Desc8,taxRate9.Tax_Rate_Desc as Tax_Rate_Desc9, " & _
-            " taxRate10.Tax_Rate_Desc as Tax_Rate_Desc10 , TSPL_LOCATION_MASTER.add2 as Loc_Add2 ,TSPL_LOCATION_MASTER.Add3 as Loc_Add3,TSPL_LOCATION_MASTER.Add4 as Loc_Add4,TSPL_PURCHASE_ORDER_HEAD.Currency_Code " & _
-            " ,tax1.type as Tax1Type,tax2.Type AS Tax2Type,tax3.Type AS Tax3Type,tax4.Type AS Tax4Type,tax5.Type AS Tax5Type,tax6.type  AS Tax6Type, tax7.type  AS Tax7Type,tax8.type  AS Tax8Type,tax9.type  AS Tax9Type,tax10.type  AS Tax10Type " & _
-            " ,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX1_Amt,0) as DTAX1_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX2_Amt,0) as DTAX2_AMT," & _
-            " ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX3_Amt,0) as DTAX3_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX4_Amt,0) as DTAX4_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX5_Amt,0) as DTAX5_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX6_Amt, 0)as DTAX6_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX7_Amt,0) as DTAX7_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX8_Amt,0) as DTAX8_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX9_Amt,0) as DTAX9_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX10_Amt,0) as DTAX10_AMT," & _
-            " ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX1_Rate,0) AS DTAX1_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX2_Rate,0) AS DTAX2_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX3_Rate,0) AS DTAX3_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX4_Rate,0) AS DTAX4_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX5_Rate,0) AS DTAX5_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX6_Rate,0) AS DTAX6_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX7_Rate,0) AS DTAX7_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX8_Rate,0) AS DTAX8_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX9_Rate,0) AS DTAX9_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX10_Rate,0) AS DTAX10_Rate " & _
-            " ,TSPL_PURCHASE_ORDER_HEAD.Insurance,TSPL_PURCHASE_ORDER_HEAD.Freight,TSPL_PURCHASE_ORDER_HEAD.Packing_Forward,isnull(TSPL_PURCHASE_ORDER_HEAD.ReferencePO,'') as ReferencePO " & _
-            " ,isnull(tspl_Gl_segment_code.Email_Department,'') as Email_Department" & _
-            " ,tspl_vendor_master.Account_No,tspl_vendor_master.bank_name,tspl_vendor_master.IFSC_CODE,tspl_vendor_master.Branch_Name " & _
-            " from TSPL_PURCHASE_ORDER_DETAIL " & Environment.NewLine + _
-            " left outer join TSPL_PURCHASE_ORDER_HEAD  on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No =TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No" & Environment.NewLine + _
-            " left outer join tspl_Gl_segment_code on tspl_Gl_segment_code.Segment_code=TSPL_PURCHASE_ORDER_HEAD.Dept and tspl_Gl_segment_code.Seg_No=3 " & Environment.NewLine + _
-            " Left Outer Join TSPL_VENDOR_ITEM_DETAIL ON TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_PURCHASE_ORDER_DETAIL.Item_Code AND TSPL_VENDOR_ITEM_DETAIL.vendor_code=TSPL_PURCHASE_ORDER_HEAD.Vendor_Code AND TSPL_VENDOR_ITEM_DETAIL.Location_Code=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location" & Environment.NewLine + _
-            " left outer join TSPL_REQUISITION_HEAD on TSPL_REQUISITION_HEAD.Requisition_Id=TSPL_PURCHASE_ORDER_HEAD.Against_Requisition" & Environment.NewLine + _
-            " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax1" & Environment.NewLine + _
-            " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_PURCHASE_ORDER_HEAD.tax2" & Environment.NewLine + _
-            " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_PURCHASE_ORDER_HEAD .TAX3" & Environment.NewLine + _
-            " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_PURCHASE_ORDER_HEAD .tax4" & Environment.NewLine + _
-            " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_PURCHASE_ORDER_HEAD .tax5" & Environment.NewLine + _
-            " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX6" & Environment.NewLine + _
-            " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX7" & Environment.NewLine + _
-            " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX8" & Environment.NewLine + _
-            " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX9" & Environment.NewLine + _
-            " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX10" & Environment.NewLine + _
-            " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_PURCHASE_ORDER_HEAD.comp_code" & Environment.NewLine + _
-            " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_PURCHASE_ORDER_HEAD.Vendor_Code" & Environment.NewLine + _
-            " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location" & Environment.NewLine + _
-            " left outer join TSPL_SHIP_TO_LOCATION on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =TSPL_SHIP_TO_LOCATION.Ship_To_Code" & Environment.NewLine + _
-            " left outer join TSPL_TERMS_MASTER on TSPL_PURCHASE_ORDER_HEAD.Terms_Code =TSPL_TERMS_MASTER.Terms_Code " & Environment.NewLine + _
-            " left join tspl_currency_master on tspl_currency_master.CURRENCY_CODE =TSPL_PURCHASE_ORDER_HEAD.CURRENCY_CODE" & Environment.NewLine + _
-            " left outer join TSPL_TAX_rates as taxRate1 on taxRate1.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax1 and taxRate1.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX1_Rate and taxRate1.Tax_Type='P' " & Environment.NewLine + _
-            " left outer join TSPL_TAX_rates as taxRate2 on taxRate2.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax2 and taxRate2.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX2_Rate and taxRate2.Tax_Type='P'  " & Environment.NewLine + _
-            " left outer join TSPL_TAX_rates as taxRate3 on taxRate3.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax3 and taxRate3.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX3_Rate and taxRate3.Tax_Type='P'  " & Environment.NewLine + _
-            " left outer join TSPL_TAX_rates as taxRate4 on taxRate4.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax4 and taxRate4.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX4_Rate and taxRate4.Tax_Type='P' " & Environment.NewLine + _
-            " left outer join TSPL_TAX_rates as taxRate5 on taxRate5.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax5 and taxRate5.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX5_Rate and taxRate5.Tax_Type='P' " & Environment.NewLine + _
-            " left outer join TSPL_TAX_rates as taxRate6 on taxRate6.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax6 and taxRate6.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX6_Rate and taxRate6.Tax_Type='P' " & Environment.NewLine + _
-            " left outer join TSPL_TAX_rates as taxRate7 on taxRate7.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax7 and taxRate7.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX7_Rate and taxRate7.Tax_Type='P'  " & Environment.NewLine + _
-            " left outer join TSPL_TAX_rates as taxRate8 on taxRate8.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax8 and taxRate8.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX8_Rate and taxRate8.Tax_Type='P' " & Environment.NewLine + _
-            " left outer join TSPL_TAX_rates as taxRate9 on taxRate9.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax9 and taxRate9.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX9_Rate and taxRate9.Tax_Type='P'  " & Environment.NewLine + _
-            " left outer join TSPL_TAX_rates as taxRate10 on taxRate10.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax10 and taxRate10.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX10_Rate and taxRate10.Tax_Type='P'    " & Environment.NewLine + _
-             " left outer join tspl_delivery_terms_master on tspl_delivery_terms_master.code=TSPL_PURCHASE_ORDER_HEAD.Delivery_Terms_Code" & Environment.NewLine + _
-            " left outer join tspl_state_master as tspl_state_master_for_location_state on   tspl_state_master_for_location_state.state_code=tspl_location_master.state" & Environment.NewLine + _
-             " left outer join TSPL_EX_PI_HEAD  on TSPL_EX_PI_HEAD.Document_Code =TSPL_PURCHASE_ORDER_HEAD.MT_PI_No" & Environment.NewLine + _
-             " left outer join TSPL_CURRENCY_MASTER as CurrencyMaster on CurrencyMaster.CURRENCY_CODE =TSPL_VENDOR_MASTER.CURRENCY_CODE" & Environment.NewLine + _
-             " left outer join TSPL_USER_MASTER as createdUser on createdUser.User_Code =TSPL_PURCHASE_ORDER_HEAD.Created_By " & Environment.NewLine + _
-              " left outer join TSPL_USER_MASTER as ModifyUser on ModifyUser.User_Code =TSPL_PURCHASE_ORDER_HEAD.Modify_By " & Environment.NewLine + _
-              " left outer join TSPL_USER_MASTER as PostedUser  on   PostedUser.User_Code =   TSPL_PURCHASE_ORDER_HEAD.Posted_By   " & Environment.NewLine + _
-                "left outer join TSPL_STATE_MASTER as TSPL_STATE_MASTER_FOR_VENDOR ON TSPL_VENDOR_MASTER.State_Code=TSPL_STATE_MASTER_FOR_VENDOR.STATE_CODE " & Environment.NewLine + _
-                "LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " & Environment.NewLine + _
-                " left outer join TSPL_VENDOR_QUOTATION_HEAD on TSPL_VENDOR_QUOTATION_HEAD.Code = TSPL_PURCHASE_ORDER_HEAD.Against_Vendor_Quotation " & Environment.NewLine + _
-                "left outer join tspl_location_master as Ship_Location on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =Ship_Location.location_code  " & Environment.NewLine + _
-                " left outer join TSPL_Additional_Charges on TSPL_Additional_Charges.Code = TSPL_PURCHASE_ORDER_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Row_Type='Misc' " & Environment.NewLine + _
+            strQuery = strQuery + " ,TSPL_TERMS_MASTER.Terms_Desc  as termsdesc,TSPL_PURCHASE_ORDER_DETAIL.Row_Type,TSPL_PURCHASE_ORDER_DETAIL.purchaseorder_qty as qty,TSPL_PURCHASE_ORDER_DETAIL.unit_code as uom,TSPL_PURCHASE_ORDER_DETAIL.item_cost as itemcost,TSPL_PURCHASE_ORDER_DETAIL.amount as amount,TSPL_PURCHASE_ORDER_DETAIL.MRP ,TSPL_PURCHASE_ORDER_DETAIL.Item_Cost ,case when TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount=0 then 0 else (TSPL_PURCHASE_ORDER_DETAIL.Total_Tax_Amt /TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount) *100 end as Tax,case when TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount=0 then TSPL_PURCHASE_ORDER_DETAIL.Item_Cost else ((((TSPL_PURCHASE_ORDER_DETAIL.Total_Tax_Amt /TSPL_PURCHASE_ORDER_DETAIL.Amt_Less_Discount) *100)*TSPL_PURCHASE_ORDER_DETAIL.Item_Cost/100) +TSPL_PURCHASE_ORDER_DETAIL.Item_Cost) end as landing_Rate,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty as Qty,TSPL_PURCHASE_ORDER_DETAIL.Item_Net_Amt,TSPL_PURCHASE_ORDER_HEAD.TAX1_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX2_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX3_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX4_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX5_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX6_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX7_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX8_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX9_Rate ,TSPL_PURCHASE_ORDER_HEAD.TAX10_Rate ,TSPL_PURCHASE_ORDER_DETAIL.Disc_Per as 'dis_per',TSPL_LOCATION_MASTER.CST_No as CST_LST ,TSPL_LOCATION_MASTER.TIN_No, TSPL_LOCATION_MASTER.Ecc_Number as ExciseNo, TSPL_LOCATION_MASTER.Range_Code as Range, TSPL_LOCATION_MASTER.Commissionerate as DivisionCommission,  " &
+             "Case when len(ISNULL(TSPL_VENDOR_MASTER.Phone1,''))>0 and TSPL_VENDOR_MASTER.Phone1='(+__)__________' then '' else ' '+TSPL_VENDOR_MASTER.Phone1 end " &
+            "  +  Case When   ISNULL(TSPL_VENDOR_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_VENDOR_MASTER.Phone2 Else'' End  as VenPhone1 , TSPL_VENDOR_MASTER.Fax as VenFax,TSPL_VENDOR_MASTER.Tin_No as Vendor_Tin_No, Case when len(ISNULL(TSPL_LOCATION_MASTER.Phone1,''))>0 and TSPL_LOCATION_MASTER.Phone1='(+__)__________' then '' else ' '+TSPL_LOCATION_MASTER.Phone1 end " &
+            "  +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then '  '+ TSPL_LOCATION_MASTER.Phone2 Else'' End  as Phn,TSPL_LOCATION_MASTER.TAN_No as faxno,TSPL_LOCATION_MASTER.Email as EmailId, TSPL_PURCHASE_ORDER_DETAIL.Unit_code,Circle_No as APGST,TSPL_PURCHASE_ORDER_HEAD.Total_Add_Charge as total_add_charges,TSPL_PURCHASE_ORDER_HEAD.Against_Requisition as ReqNo,Convert(varchar(15),TSPL_REQUISITION_HEAD.Requisition_Date,103)  as ReqDt ,TSPL_PURCHASE_ORDER_HEAD.Quotation_No,convert(varchar,TSPL_PURCHASE_ORDER_HEAD.Quotation_Date,103) as Quotation_Date,TSPL_PURCHASE_ORDER_DETAIL .Location, TSPL_PURCHASE_ORDER_HEAD.Expiry_Date,0 As AmdNo,Null As Abd_Date " &
+             " " & QryShowStatus & " " &
+             " ,CurrencyMaster.CURRENCY_SIGN, " &
+             " taxRate1.Tax_Rate_Desc as Tax_Rate_Desc1,taxRate2.Tax_Rate_Desc as Tax_Rate_Desc2,taxRate3.Tax_Rate_Desc as Tax_Rate_Desc3, " &
+             " taxRate4.Tax_Rate_Desc as Tax_Rate_Desc4,taxRate5.Tax_Rate_Desc as Tax_Rate_Desc5,taxRate6.Tax_Rate_Desc as Tax_Rate_Desc6, " &
+             " taxRate7.Tax_Rate_Desc as Tax_Rate_Desc7,taxRate8.Tax_Rate_Desc as Tax_Rate_Desc8,taxRate9.Tax_Rate_Desc as Tax_Rate_Desc9, " &
+            " taxRate10.Tax_Rate_Desc as Tax_Rate_Desc10 , TSPL_LOCATION_MASTER.add2 as Loc_Add2 ,TSPL_LOCATION_MASTER.Add3 as Loc_Add3,TSPL_LOCATION_MASTER.Add4 as Loc_Add4,TSPL_PURCHASE_ORDER_HEAD.Currency_Code " &
+            " ,tax1.type as Tax1Type,tax2.Type AS Tax2Type,tax3.Type AS Tax3Type,tax4.Type AS Tax4Type,tax5.Type AS Tax5Type,tax6.type  AS Tax6Type, tax7.type  AS Tax7Type,tax8.type  AS Tax8Type,tax9.type  AS Tax9Type,tax10.type  AS Tax10Type " &
+            " ,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX1_Amt,0) as DTAX1_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX2_Amt,0) as DTAX2_AMT," &
+            " ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX3_Amt,0) as DTAX3_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX4_Amt,0) as DTAX4_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX5_Amt,0) as DTAX5_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX6_Amt, 0)as DTAX6_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX7_Amt,0) as DTAX7_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX8_Amt,0) as DTAX8_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX9_Amt,0) as DTAX9_AMT,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX10_Amt,0) as DTAX10_AMT," &
+            " ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX1_Rate,0) AS DTAX1_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX2_Rate,0) AS DTAX2_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX3_Rate,0) AS DTAX3_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX4_Rate,0) AS DTAX4_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX5_Rate,0) AS DTAX5_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX6_Rate,0) AS DTAX6_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX7_Rate,0) AS DTAX7_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX8_Rate,0) AS DTAX8_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX9_Rate,0) AS DTAX9_Rate,ISNULL(TSPL_PURCHASE_ORDER_DETAIL.TAX10_Rate,0) AS DTAX10_Rate " &
+            " ,TSPL_PURCHASE_ORDER_HEAD.Insurance,TSPL_PURCHASE_ORDER_HEAD.Freight,TSPL_PURCHASE_ORDER_HEAD.Packing_Forward,isnull(TSPL_PURCHASE_ORDER_HEAD.ReferencePO,'') as ReferencePO " &
+            " ,isnull(tspl_Gl_segment_code.Email_Department,'') as Email_Department" &
+            " ,tspl_vendor_master.Account_No,tspl_vendor_master.bank_name,tspl_vendor_master.IFSC_CODE,tspl_vendor_master.Branch_Name " &
+            " from TSPL_PURCHASE_ORDER_DETAIL " & Environment.NewLine +
+            " left outer join TSPL_PURCHASE_ORDER_HEAD  on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No =TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No" & Environment.NewLine +
+            " left outer join tspl_Gl_segment_code on tspl_Gl_segment_code.Segment_code=TSPL_PURCHASE_ORDER_HEAD.Dept and tspl_Gl_segment_code.Seg_No=3 " & Environment.NewLine +
+            " Left Outer Join TSPL_VENDOR_ITEM_DETAIL ON TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_PURCHASE_ORDER_DETAIL.Item_Code AND TSPL_VENDOR_ITEM_DETAIL.vendor_code=TSPL_PURCHASE_ORDER_HEAD.Vendor_Code AND TSPL_VENDOR_ITEM_DETAIL.Location_Code=TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location" & Environment.NewLine +
+            " left outer join TSPL_REQUISITION_HEAD on TSPL_REQUISITION_HEAD.Requisition_Id=TSPL_PURCHASE_ORDER_HEAD.Against_Requisition" & Environment.NewLine +
+            " left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax1" & Environment.NewLine +
+            " left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_PURCHASE_ORDER_HEAD.tax2" & Environment.NewLine +
+            " left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_PURCHASE_ORDER_HEAD .TAX3" & Environment.NewLine +
+            " left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_PURCHASE_ORDER_HEAD .tax4" & Environment.NewLine +
+            " left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_PURCHASE_ORDER_HEAD .tax5" & Environment.NewLine +
+            " left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX6" & Environment.NewLine +
+            " left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX7" & Environment.NewLine +
+            " left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX8" & Environment.NewLine +
+            " left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX9" & Environment.NewLine +
+            " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_PURCHASE_ORDER_HEAD .TAX10" & Environment.NewLine +
+            " left outer join TSPL_COMPANY_MASTER on  tspl_company_Master.Comp_Code = TSPL_PURCHASE_ORDER_HEAD.comp_code" & Environment.NewLine +
+            " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_PURCHASE_ORDER_HEAD.Vendor_Code" & Environment.NewLine +
+            " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=  TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location" & Environment.NewLine +
+            " left outer join TSPL_SHIP_TO_LOCATION on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =TSPL_SHIP_TO_LOCATION.Ship_To_Code" & Environment.NewLine +
+            " left outer join TSPL_TERMS_MASTER on TSPL_PURCHASE_ORDER_HEAD.Terms_Code =TSPL_TERMS_MASTER.Terms_Code " & Environment.NewLine +
+            " left join tspl_currency_master on tspl_currency_master.CURRENCY_CODE =TSPL_PURCHASE_ORDER_HEAD.CURRENCY_CODE" & Environment.NewLine +
+            " left outer join TSPL_TAX_rates as taxRate1 on taxRate1.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax1 and taxRate1.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX1_Rate and taxRate1.Tax_Type='P' " & Environment.NewLine +
+            " left outer join TSPL_TAX_rates as taxRate2 on taxRate2.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax2 and taxRate2.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX2_Rate and taxRate2.Tax_Type='P'  " & Environment.NewLine +
+            " left outer join TSPL_TAX_rates as taxRate3 on taxRate3.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax3 and taxRate3.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX3_Rate and taxRate3.Tax_Type='P'  " & Environment.NewLine +
+            " left outer join TSPL_TAX_rates as taxRate4 on taxRate4.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax4 and taxRate4.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX4_Rate and taxRate4.Tax_Type='P' " & Environment.NewLine +
+            " left outer join TSPL_TAX_rates as taxRate5 on taxRate5.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax5 and taxRate5.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX5_Rate and taxRate5.Tax_Type='P' " & Environment.NewLine +
+            " left outer join TSPL_TAX_rates as taxRate6 on taxRate6.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax6 and taxRate6.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX6_Rate and taxRate6.Tax_Type='P' " & Environment.NewLine +
+            " left outer join TSPL_TAX_rates as taxRate7 on taxRate7.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax7 and taxRate7.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX7_Rate and taxRate7.Tax_Type='P'  " & Environment.NewLine +
+            " left outer join TSPL_TAX_rates as taxRate8 on taxRate8.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax8 and taxRate8.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX8_Rate and taxRate8.Tax_Type='P' " & Environment.NewLine +
+            " left outer join TSPL_TAX_rates as taxRate9 on taxRate9.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax9 and taxRate9.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX9_Rate and taxRate9.Tax_Type='P'  " & Environment.NewLine +
+            " left outer join TSPL_TAX_rates as taxRate10 on taxRate10.tax_code =TSPL_PURCHASE_ORDER_HEAD.tax10 and taxRate10.tax_rate=TSPL_PURCHASE_ORDER_HEAD.TAX10_Rate and taxRate10.Tax_Type='P'    " & Environment.NewLine +
+             " left outer join tspl_delivery_terms_master on tspl_delivery_terms_master.code=TSPL_PURCHASE_ORDER_HEAD.Delivery_Terms_Code" & Environment.NewLine +
+            " left outer join tspl_state_master as tspl_state_master_for_location_state on   tspl_state_master_for_location_state.state_code=tspl_location_master.state" & Environment.NewLine +
+             " left outer join TSPL_EX_PI_HEAD  on TSPL_EX_PI_HEAD.Document_Code =TSPL_PURCHASE_ORDER_HEAD.MT_PI_No" & Environment.NewLine +
+             " left outer join TSPL_CURRENCY_MASTER as CurrencyMaster on CurrencyMaster.CURRENCY_CODE =TSPL_VENDOR_MASTER.CURRENCY_CODE" & Environment.NewLine +
+             " left outer join TSPL_USER_MASTER as createdUser on createdUser.User_Code =TSPL_PURCHASE_ORDER_HEAD.Created_By " & Environment.NewLine +
+              " left outer join TSPL_USER_MASTER as ModifyUser on ModifyUser.User_Code =TSPL_PURCHASE_ORDER_HEAD.Modify_By " & Environment.NewLine +
+              " left outer join TSPL_USER_MASTER as PostedUser  on   PostedUser.User_Code =   TSPL_PURCHASE_ORDER_HEAD.Posted_By   " & Environment.NewLine +
+                "left outer join TSPL_STATE_MASTER as TSPL_STATE_MASTER_FOR_VENDOR ON TSPL_VENDOR_MASTER.State_Code=TSPL_STATE_MASTER_FOR_VENDOR.STATE_CODE " & Environment.NewLine +
+                "LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " & Environment.NewLine +
+                " left outer join TSPL_VENDOR_QUOTATION_HEAD on TSPL_VENDOR_QUOTATION_HEAD.Code = TSPL_PURCHASE_ORDER_HEAD.Against_Vendor_Quotation " & Environment.NewLine +
+                "left outer join tspl_location_master as Ship_Location on TSPL_PURCHASE_ORDER_HEAD.Ship_To_Location =Ship_Location.location_code  " & Environment.NewLine +
+                " left outer join TSPL_Additional_Charges on TSPL_Additional_Charges.Code = TSPL_PURCHASE_ORDER_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Row_Type='Misc' " & Environment.NewLine +
             " where 2=2"
             strQuery += " and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No in ('" + StrDocNo + "') "
             strQuery += " order by TSPL_PURCHASE_ORDER_HEAD .PurchaseOrder_No ,TSPL_PURCHASE_ORDER_DETAIL .Line_No"
@@ -5458,27 +5466,27 @@ a:
         Next
 
         '===================detail taxes'''''''''''''''''''''''''
-        Dim dt3_qry As String = "select final.* from (select PurchaseOrder_No,TAX1,TAX1_Rate,sum(tax_amt) as tax_amt from ( " & _
-        " select PurchaseOrder_No,tax1,TAX1_Rate,sum(tax1_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax1,TAX1_Rate,PurchaseOrder_No " & _
-        " union all " & _
-        " select PurchaseOrder_No,tax2,TAX2_Rate,sum(tax2_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax2,TAX2_Rate,PurchaseOrder_No " & _
-        " union all " & _
-        " select PurchaseOrder_No,tax3,TAX3_Rate,sum(tax3_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax3,TAX3_Rate,PurchaseOrder_No " & _
-        " union all " & _
-        " select PurchaseOrder_No,tax4,TAX4_Rate,sum(tax4_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax4,TAX4_Rate,PurchaseOrder_No " & _
-        " union all  " & _
-        " select PurchaseOrder_No,tax5,TAX5_Rate,sum(tax5_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax5,TAX5_Rate,PurchaseOrder_No " & _
-        " union all" & _
-        " select PurchaseOrder_No,tax6,TAX6_Rate,sum(tax6_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax6,TAX6_Rate,PurchaseOrder_No " & _
-        " union all " & _
-        " select PurchaseOrder_No,tax7,TAX7_Rate,sum(tax7_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax7,TAX7_Rate,PurchaseOrder_No " & _
-        " union all " & _
-        " select PurchaseOrder_No,tax8,TAX8_Rate,sum(tax8_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax8,TAX8_Rate,PurchaseOrder_No " & _
-        " union all " & _
-        " select PurchaseOrder_No,tax9,TAX9_Rate,sum(tax9_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax9,TAX9_Rate,PurchaseOrder_No " & _
-        " union all " & _
-        " select PurchaseOrder_No,tax10,TAX10_Rate,sum(tax10_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax10,TAX10_Rate,PurchaseOrder_No " & _
-        " )a where len(isnull(tax1,''))>0 and PurchaseOrder_No='" + StrDocNo + "'  group by PurchaseOrder_No,TAX1,TAX1_Rate )final" & _
+        Dim dt3_qry As String = "select final.* from (select PurchaseOrder_No,TAX1,TAX1_Rate,sum(tax_amt) as tax_amt from ( " &
+        " select PurchaseOrder_No,tax1,TAX1_Rate,sum(tax1_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax1,TAX1_Rate,PurchaseOrder_No " &
+        " union all " &
+        " select PurchaseOrder_No,tax2,TAX2_Rate,sum(tax2_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax2,TAX2_Rate,PurchaseOrder_No " &
+        " union all " &
+        " select PurchaseOrder_No,tax3,TAX3_Rate,sum(tax3_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax3,TAX3_Rate,PurchaseOrder_No " &
+        " union all " &
+        " select PurchaseOrder_No,tax4,TAX4_Rate,sum(tax4_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax4,TAX4_Rate,PurchaseOrder_No " &
+        " union all  " &
+        " select PurchaseOrder_No,tax5,TAX5_Rate,sum(tax5_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax5,TAX5_Rate,PurchaseOrder_No " &
+        " union all" &
+        " select PurchaseOrder_No,tax6,TAX6_Rate,sum(tax6_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax6,TAX6_Rate,PurchaseOrder_No " &
+        " union all " &
+        " select PurchaseOrder_No,tax7,TAX7_Rate,sum(tax7_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax7,TAX7_Rate,PurchaseOrder_No " &
+        " union all " &
+        " select PurchaseOrder_No,tax8,TAX8_Rate,sum(tax8_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax8,TAX8_Rate,PurchaseOrder_No " &
+        " union all " &
+        " select PurchaseOrder_No,tax9,TAX9_Rate,sum(tax9_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax9,TAX9_Rate,PurchaseOrder_No " &
+        " union all " &
+        " select PurchaseOrder_No,tax10,TAX10_Rate,sum(tax10_amt) as tax_amt from TSPL_PURCHASE_ORDER_DETAIL group by tax10,TAX10_Rate,PurchaseOrder_No " &
+        " )a where len(isnull(tax1,''))>0 and PurchaseOrder_No='" + StrDocNo + "'  group by PurchaseOrder_No,TAX1,TAX1_Rate )final" &
         " left outer join (select * from (select 1 as sno,purchaseorder_no,tax1 from tspl_purchase_order_head where isnull(tax1,'')<>'' union all select 2 as sno,purchaseorder_no,tax2 from tspl_purchase_order_head where isnull(tax2,'')<>'' union all select 3 as sno,purchaseorder_no,tax3 from tspl_purchase_order_head where isnull(tax3,'')<>'' union all select 4 as sno,purchaseorder_no,tax4 from tspl_purchase_order_head where isnull(tax4,'')<>'' union all select 5 as sno,purchaseorder_no,tax5 from tspl_purchase_order_head where isnull(tax5,'')<>'' union all select 6 as sno,purchaseorder_no,tax6 from tspl_purchase_order_head where isnull(tax6,'')<>'' union all select 7 as sno,purchaseorder_no,tax7 from tspl_purchase_order_head where isnull(tax7,'')<>'' union all select 8 as sno,purchaseorder_no,tax8 from tspl_purchase_order_head where isnull(tax8,'')<>'' union all select 9 as sno,purchaseorder_no,tax9 from tspl_purchase_order_head where isnull(tax9,'')<>'' union all select 10 as sno,purchaseorder_no,tax10 from tspl_purchase_order_head where isnull(tax10,'')<>'')s where s.purchaseorder_no='" + StrDocNo + "')ax on ax.purchaseorder_no=final.purchaseorder_no and ax.tax1=final.tax1 where final.Tax_amt > 0  order by ax.sno,final.tax1_rate "
         Dim dt3 As DataTable = clsDBFuncationality.GetDataTable(dt3_qry, tran)
         ''==========================against[BM00000008380] Ticket : BHA/08/06/18-000045 , ERO/19/06/18-000353 For Print 
@@ -5643,7 +5651,7 @@ a:
                         Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO_G_Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
                     End If
                 End If
-                Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt" , dt3)
+                Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "I") = CompairStringResult.Equal Then
                 SetItemWiseTax(dt, StrDocNo, tran)
                 Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
@@ -5846,7 +5854,7 @@ where TSPL_SRN_DETAIL.SRN_No='" + strDocNo + "' and isnull(TSPL_TENDER_HEADER.Te
     End Function
 End Class
 
-<Serializable()> _
+<Serializable()>
 Public Class clsPurchaseOrderDetail
 #Region "Variables"
     Public Capex_SubCode As String = Nothing
@@ -6143,9 +6151,9 @@ Public Class clsPurchaseOrderDetail
     End Function
 
     Public Shared Function GetBalancePOQtyBySRN(ByVal strPOCode As String, ByVal strICode As String, ByVal strCurrGRNNo As String, ByVal strUOM As String, ByVal dblMRP As Double, ByVal dblAssessable As Double) As Double
-        Dim qry As String = "select SUM(qty * RI) as Balance from(  " & _
-            " select TSPL_PURCHASE_ORDER_DETAIL.Item_Code as ICode,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty as Qty,1 as RI from TSPL_PURCHASE_ORDER_DETAIL left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No where TSPL_PURCHASE_ORDER_DETAIL.Status=0 and TSPL_PURCHASE_ORDER_HEAD.Status=1 and TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No ='" + strPOCode + "' and TSPL_PURCHASE_ORDER_DETAIL.Item_Code='" + strICode + "' and  TSPL_PURCHASE_ORDER_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PURCHASE_ORDER_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PURCHASE_ORDER_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'" & _
-            " union all " & _
+        Dim qry As String = "select SUM(qty * RI) as Balance from(  " &
+            " select TSPL_PURCHASE_ORDER_DETAIL.Item_Code as ICode,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty as Qty,1 as RI from TSPL_PURCHASE_ORDER_DETAIL left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No where TSPL_PURCHASE_ORDER_DETAIL.Status=0 and TSPL_PURCHASE_ORDER_HEAD.Status=1 and TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No ='" + strPOCode + "' and TSPL_PURCHASE_ORDER_DETAIL.Item_Code='" + strICode + "' and  TSPL_PURCHASE_ORDER_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_PURCHASE_ORDER_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_PURCHASE_ORDER_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "'" &
+            " union all " &
          " select  TSPL_SRN_DETAIL.Item_Code as ICode,((TSPL_SRN_DETAIL.SRN_Qty)+(TSPL_SRN_DETAIL.Leak_Qty)+(TSPL_SRN_DETAIL.Burst_Qty)+(TSPL_SRN_DETAIL.Short_Qty)) as Qty,-1 as RI from TSPL_SRN_DETAIL left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No where TSPL_SRN_DETAIL.PO_Id='" + strPOCode + "'   and TSPL_SRN_DETAIL.Item_Code='" + strICode + "' and  TSPL_SRN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SRN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_SRN_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' and TSPL_SRN_DETAIL.SRN_No not in ('" + strCurrGRNNo + "')  "
         '" union all " & _
         'qry += "   select  TSPL_GRN_DETAIL.Item_Code as ICode,((TSPL_GRN_DETAIL.GRN_Qty)+(TSPL_GRN_DETAIL.Leak_Qty)+(TSPL_GRN_DETAIL.Burst_Qty)+(TSPL_GRN_DETAIL.Short_Qty)) as Qty,-1 as RI from TSPL_GRN_DETAIL left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No where TSPL_GRN_DETAIL.PO_Id='" + strPOCode + "'   and TSPL_GRN_DETAIL.Item_Code='" + strICode + "' and  TSPL_GRN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_GRN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and isnull(TSPL_GRN_DETAIL.Assessable,0)='" + clsCommon.myCstr(dblAssessable) + "' and TSPL_GRN_DETAIL.GRN_No not in ('" + strCurrGRNNo + "')   " & _
@@ -6166,33 +6174,33 @@ Public Class clsPurchaseOrderDetail
                "   union all select TSPL_PO_SCH_DETAIL.Item_Code as ICode,TSPL_PO_SCH_DETAIL.schedule_qty as Qty,-1 as RI from TSPL_PO_SCH_DETAIL left outer join TSPL_PO_SCH_HEAD on TSPL_PO_SCH_HEAD.document_code=TSPL_PO_SCH_DETAIL.document_code where TSPL_PO_SCH_DETAIL.PO_code='" + strPOCode + "'   and TSPL_PO_SCH_DETAIL.Item_Code='" + strICode + "' and  TSPL_PO_SCH_DETAIL.Unit_code='" + strUOM + "' and TSPL_PO_SCH_DETAIL.document_code not in ('" + strCurrGRNNo + "')   " &
                "   union all select TSPL_RGP_JOB_WORK_DETAIL.Item_Code as ICode,(TSPL_RGP_JOB_WORK_DETAIL.rgp_qty) as Qty,-1 as RI from TSPL_RGP_JOB_WORK_DETAIL left outer join TSPL_RGP_HEAD on TSPL_RGP_HEAD.rgp_no=TSPL_RGP_JOB_WORK_DETAIL.rgp_no where TSPL_RGP_JOB_WORK_DETAIL.PO_id='" + strPOCode + "' and TSPL_RGP_JOB_WORK_DETAIL.Item_Code='" + strICode + "' and  TSPL_RGP_JOB_WORK_DETAIL.Unit_code='" + strUOM + "' and TSPL_RGP_JOB_WORK_DETAIL.rgp_no not in ('" + strCurrGRNNo + "') and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.Against_Schedule_Code,''))<=0   "
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OpenPOforRejectShortageQty, clsFixedParameterCode.OpenPOforRejectShortageQty, trans)) = 1 Then
-            qry += "union all " + Environment.NewLine + _
-            " select TSPL_SRN_DETAIL.Item_Code as ICode,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)+isnull(TSPL_SRN_DETAIL.Rejected_Qty,0)) as Qty,1 as RI from TSPL_SRN_DETAIL   left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No " + Environment.NewLine + _
-            " where  TSPL_SRN_DETAIL.Item_Code='" + strICode + "' and TSPL_SRN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SRN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and TSPL_SRN_DETAIL.PO_ID='" + strPOCode + "'" + Environment.NewLine + _
+            qry += "union all " + Environment.NewLine +
+            " select TSPL_SRN_DETAIL.Item_Code as ICode,(isnull(TSPL_SRN_DETAIL.Leak_Qty,0)+isnull(TSPL_SRN_DETAIL.Burst_Qty,0) +isnull(TSPL_SRN_DETAIL.Short_Qty,0)+isnull(TSPL_SRN_DETAIL.Rejected_Qty,0)) as Qty,1 as RI from TSPL_SRN_DETAIL   left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No " + Environment.NewLine +
+            " where  TSPL_SRN_DETAIL.Item_Code='" + strICode + "' and TSPL_SRN_DETAIL.Unit_code='" + strUOM + "' and isnull(TSPL_SRN_DETAIL.MRP,0)='" + clsCommon.myCstr(dblMRP) + "' and TSPL_SRN_DETAIL.PO_ID='" + strPOCode + "'" + Environment.NewLine +
             " and TSPL_SRN_DETAIL.GRN_ID not in ('" + strCurrGRNNo + "') and len(isnull(TSPL_SRN_DETAIL.PO_ID,''))>0 "
         End If
-        qry += " union all " + Environment.NewLine + _
-               " select  TSPL_QC_CHECK_SRN_DETAIL.Item_Code as ICode,(coalesce(TSPL_GRN_DETAIL.GRN_Qty,0)-coalesce(TSPL_QC_CHECK_SRN_DETAIL.Reject_Qty,0)) as Qty,1 as RI from TSPL_QC_CHECK_SRN_DETAIL " & _
-               " left join TSPL_MRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.MRN_No=TSPL_MRN_DETAIL.MRN_No and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code " & _
-               " and TSPL_QC_CHECK_SRN_DETAIL.Unit_Code=TSPL_MRN_DETAIL.Unit_code " & _
-               " left join TSPL_GRN_DETAIL on TSPL_MRN_DETAIL.GRN_Id=TSPL_GRN_DETAIL.GRN_No and TSPL_MRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code " & _
-               " and TSPL_MRN_DETAIL.Unit_code=TSPL_GRN_DETAIL.Unit_code " & _
-               " left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Document_Code=TSPL_QC_CHECK_SRN_DETAIL.Document_Code " & _
-               " where TSPL_QC_CHECK_SRN_DETAIL.PO_No='" & strPOCode & "' and TSPL_QC_CHECK_HEAD.IsCancel=0 " & _
+        qry += " union all " + Environment.NewLine +
+               " select  TSPL_QC_CHECK_SRN_DETAIL.Item_Code as ICode,(coalesce(TSPL_GRN_DETAIL.GRN_Qty,0)-coalesce(TSPL_QC_CHECK_SRN_DETAIL.Reject_Qty,0)) as Qty,1 as RI from TSPL_QC_CHECK_SRN_DETAIL " &
+               " left join TSPL_MRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.MRN_No=TSPL_MRN_DETAIL.MRN_No and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=TSPL_MRN_DETAIL.Item_Code " &
+               " and TSPL_QC_CHECK_SRN_DETAIL.Unit_Code=TSPL_MRN_DETAIL.Unit_code " &
+               " left join TSPL_GRN_DETAIL on TSPL_MRN_DETAIL.GRN_Id=TSPL_GRN_DETAIL.GRN_No and TSPL_MRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code " &
+               " and TSPL_MRN_DETAIL.Unit_code=TSPL_GRN_DETAIL.Unit_code " &
+               " left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Document_Code=TSPL_QC_CHECK_SRN_DETAIL.Document_Code " &
+               " where TSPL_QC_CHECK_SRN_DETAIL.PO_No='" & strPOCode & "' and TSPL_QC_CHECK_HEAD.IsCancel=0 " &
                " and TSPL_QC_CHECK_SRN_DETAIL.Item_Code='" & strICode & "' and TSPL_GRN_DETAIL.GRN_No not in ('" + strCurrGRNNo + "') and  TSPL_QC_CHECK_SRN_DETAIL.Unit_code='" & strUOM & "' and (TSPL_QC_CHECK_SRN_DETAIL.Reject_Qty>0 or TSPL_QC_CHECK_SRN_DETAIL.OK_Qty<=0) and not exists (select TSPL_QC_CHECK_SRN_DETAIL.* from TSPL_QC_CHECK_APPROVAL_ENTRY where TSPL_QC_CHECK_SRN_DETAIL.Document_Code=TSPL_QC_CHECK_APPROVAL_ENTRY.Document_Code)"
         qry += " )Final "
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
     End Function
 
     Public Shared Function GetBalancePOQtyBySchedule(ByVal strPOCode As String, ByVal strICode As String, ByVal strDocumentNo As String, ByVal strUOM As String) As Double
-        Dim qry As String = "select SUM(qty * RI) as Balance from(  " & _
-            " select TSPL_PURCHASE_ORDER_DETAIL.Item_Code as ICode,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty as Qty,1 as RI from TSPL_PURCHASE_ORDER_DETAIL left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No where TSPL_PURCHASE_ORDER_DETAIL.Status=0 and TSPL_PURCHASE_ORDER_HEAD.Status=1 and TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No ='" + strPOCode + "' and TSPL_PURCHASE_ORDER_DETAIL.Item_Code='" + strICode + "' and  TSPL_PURCHASE_ORDER_DETAIL.Unit_code='" + strUOM + "' " & _
+        Dim qry As String = "select SUM(qty * RI) as Balance from(  " &
+            " select TSPL_PURCHASE_ORDER_DETAIL.Item_Code as ICode,TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_Qty as Qty,1 as RI from TSPL_PURCHASE_ORDER_DETAIL left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No where TSPL_PURCHASE_ORDER_DETAIL.Status=0 and TSPL_PURCHASE_ORDER_HEAD.Status=1 and TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No ='" + strPOCode + "' and TSPL_PURCHASE_ORDER_DETAIL.Item_Code='" + strICode + "' and  TSPL_PURCHASE_ORDER_DETAIL.Unit_code='" + strUOM + "' " &
             " union all "
 
-        qry += "   select  TSPL_GRN_DETAIL.Item_Code as ICode,((TSPL_GRN_DETAIL.GRN_Qty)+(TSPL_GRN_DETAIL.Leak_Qty)+(TSPL_GRN_DETAIL.Burst_Qty)+(TSPL_GRN_DETAIL.Short_Qty)) as Qty,-1 as RI from TSPL_GRN_DETAIL left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No where TSPL_GRN_DETAIL.PO_Id='" + strPOCode + "' and TSPL_GRN_DETAIL.Item_Code='" + strICode + "' and  TSPL_GRN_DETAIL.Unit_code='" + strUOM + "' and TSPL_GRN_DETAIL.GRN_No not in ('" + strDocumentNo + "') and len(isnull(TSPL_GRN_DETAIL.Against_RGP_No,''))<=0 and len(isnull(TSPL_GRN_DETAIL.Against_Schedule_Code,''))<=0   " & _
-               "   union all select TSPL_SRN_DETAIL.Item_Code as ICode,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.rejected_qty+TSPL_SRN_DETAIL.leak_qty+TSPL_SRN_DETAIL.burst_qty+TSPL_SRN_DETAIL.short_qty) as Qty,-1 as RI from TSPL_SRN_DETAIL left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.srn_no=TSPL_SRN_DETAIL.srn_no where TSPL_SRN_DETAIL.PO_id='" + strPOCode + "' and TSPL_SRN_DETAIL.Item_Code='" + strICode + "' and  TSPL_SRN_DETAIL.Unit_code='" + strUOM + "' and TSPL_SRN_DETAIL.srn_no not in ('" + strDocumentNo + "') and len(isnull(TSPL_SRN_DETAIL.Against_Schedule_Code,''))<=0 and len(isnull(TSPL_SRN_DETAIL.RGP_Id,''))<=0 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))<=0   " & _
-               "   union all select TSPL_RGP_JOB_WORK_DETAIL.Item_Code as ICode,(TSPL_RGP_JOB_WORK_DETAIL.rgp_qty) as Qty,-1 as RI from TSPL_RGP_JOB_WORK_DETAIL left outer join TSPL_RGP_HEAD on TSPL_RGP_HEAD.rgp_no=TSPL_RGP_JOB_WORK_DETAIL.rgp_no where TSPL_RGP_JOB_WORK_DETAIL.PO_id='" + strPOCode + "' and TSPL_RGP_JOB_WORK_DETAIL.Item_Code='" + strICode + "' and  TSPL_RGP_JOB_WORK_DETAIL.Unit_code='" + strUOM + "' and TSPL_RGP_JOB_WORK_DETAIL.rgp_no not in ('" + strDocumentNo + "') and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.Against_Schedule_Code,''))<=0   " & _
-               "   union all select TSPL_PO_SCH_DETAIL.Item_Code as ICode,TSPL_PO_SCH_DETAIL.schedule_qty as Qty,-1 as RI from TSPL_PO_SCH_DETAIL left outer join TSPL_PO_SCH_HEAD on TSPL_PO_SCH_HEAD.document_code=TSPL_PO_SCH_DETAIL.document_code where TSPL_PO_SCH_DETAIL.PO_code='" + strPOCode + "' and TSPL_PO_SCH_DETAIL.Item_Code='" + strICode + "' and  TSPL_PO_SCH_DETAIL.Unit_code='" + strUOM + "' and TSPL_PO_SCH_DETAIL.document_code not in ('" + strDocumentNo + "')   " & _
+        qry += "   select  TSPL_GRN_DETAIL.Item_Code as ICode,((TSPL_GRN_DETAIL.GRN_Qty)+(TSPL_GRN_DETAIL.Leak_Qty)+(TSPL_GRN_DETAIL.Burst_Qty)+(TSPL_GRN_DETAIL.Short_Qty)) as Qty,-1 as RI from TSPL_GRN_DETAIL left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No where TSPL_GRN_DETAIL.PO_Id='" + strPOCode + "' and TSPL_GRN_DETAIL.Item_Code='" + strICode + "' and  TSPL_GRN_DETAIL.Unit_code='" + strUOM + "' and TSPL_GRN_DETAIL.GRN_No not in ('" + strDocumentNo + "') and len(isnull(TSPL_GRN_DETAIL.Against_RGP_No,''))<=0 and len(isnull(TSPL_GRN_DETAIL.Against_Schedule_Code,''))<=0   " &
+               "   union all select TSPL_SRN_DETAIL.Item_Code as ICode,(TSPL_SRN_DETAIL.SRN_Qty+TSPL_SRN_DETAIL.rejected_qty+TSPL_SRN_DETAIL.leak_qty+TSPL_SRN_DETAIL.burst_qty+TSPL_SRN_DETAIL.short_qty) as Qty,-1 as RI from TSPL_SRN_DETAIL left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.srn_no=TSPL_SRN_DETAIL.srn_no where TSPL_SRN_DETAIL.PO_id='" + strPOCode + "' and TSPL_SRN_DETAIL.Item_Code='" + strICode + "' and  TSPL_SRN_DETAIL.Unit_code='" + strUOM + "' and TSPL_SRN_DETAIL.srn_no not in ('" + strDocumentNo + "') and len(isnull(TSPL_SRN_DETAIL.Against_Schedule_Code,''))<=0 and len(isnull(TSPL_SRN_DETAIL.RGP_Id,''))<=0 and len(isnull(TSPL_SRN_DETAIL.MRN_Id,''))<=0   " &
+               "   union all select TSPL_RGP_JOB_WORK_DETAIL.Item_Code as ICode,(TSPL_RGP_JOB_WORK_DETAIL.rgp_qty) as Qty,-1 as RI from TSPL_RGP_JOB_WORK_DETAIL left outer join TSPL_RGP_HEAD on TSPL_RGP_HEAD.rgp_no=TSPL_RGP_JOB_WORK_DETAIL.rgp_no where TSPL_RGP_JOB_WORK_DETAIL.PO_id='" + strPOCode + "' and TSPL_RGP_JOB_WORK_DETAIL.Item_Code='" + strICode + "' and  TSPL_RGP_JOB_WORK_DETAIL.Unit_code='" + strUOM + "' and TSPL_RGP_JOB_WORK_DETAIL.rgp_no not in ('" + strDocumentNo + "') and len(isnull(TSPL_RGP_JOB_WORK_DETAIL.Against_Schedule_Code,''))<=0   " &
+               "   union all select TSPL_PO_SCH_DETAIL.Item_Code as ICode,TSPL_PO_SCH_DETAIL.schedule_qty as Qty,-1 as RI from TSPL_PO_SCH_DETAIL left outer join TSPL_PO_SCH_HEAD on TSPL_PO_SCH_HEAD.document_code=TSPL_PO_SCH_DETAIL.document_code where TSPL_PO_SCH_DETAIL.PO_code='" + strPOCode + "' and TSPL_PO_SCH_DETAIL.Item_Code='" + strICode + "' and  TSPL_PO_SCH_DETAIL.Unit_code='" + strUOM + "' and TSPL_PO_SCH_DETAIL.document_code not in ('" + strDocumentNo + "')   " &
                " )Final "
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
     End Function
@@ -6656,5 +6664,132 @@ Public Class clsPurchaseOrderAdditionChargeInsurance
             Next
         End If
         Return Arr_ACInsurance
+    End Function
+End Class
+
+
+Public Class clsTenderSchedulePO
+#Region "Variables"
+    Public DocumentCode As String
+    Public SNo As Integer
+    Public PSNo As Integer
+    Public Schedule_No As Integer
+    Public From_Date As Date
+    Public To_Date As Date
+    Public Item_Code As String
+    Public Schedule_Qty_Per As Decimal
+    Public Schedule_Qty As Decimal
+    Public Schedule_Short_Per As Decimal
+    Public Schedule_Short As Decimal
+    Public Late_Days As Integer
+    Public Extension_Days As Integer
+    Public Item_Name As String = Nothing
+    Public Vendor_Name As String = Nothing
+    Public Location_Name As String = Nothing
+    Public Arr As List(Of clsTenderSchedulePeneltyPO) = Nothing
+#End Region
+
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsTenderSchedulePO), ByVal trans As SqlTransaction) As Boolean
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+            For Each obj As clsTenderSchedulePO In Arr
+                Dim coll As New Hashtable()
+                clsCommon.AddColumnsForChange(coll, "DocumentCode", strDocNo)
+                clsCommon.AddColumnsForChange(coll, "PSNo", obj.PSNo)
+                clsCommon.AddColumnsForChange(coll, "Schedule_No", obj.Schedule_No)
+                clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Schedule_Qty_Per", obj.Schedule_Qty_Per)
+                clsCommon.AddColumnsForChange(coll, "Schedule_Qty", obj.Schedule_Qty)
+                clsCommon.AddColumnsForChange(coll, "Schedule_Short_Per", obj.Schedule_Short_Per)
+                clsCommon.AddColumnsForChange(coll, "Schedule_Short", obj.Schedule_Short)
+                clsCommon.AddColumnsForChange(coll, "Late_Days", obj.Late_Days)
+                clsCommon.AddColumnsForChange(coll, "Extension_Days", obj.Extension_Days)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_SCHEDULE_PO", OMInsertOrUpdate.Insert, "", trans)
+
+                Dim PK As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select MAX(PK_ID) from TSPL_TENDER_SCHEDULE_PO where DocumentCode='" + strDocNo + "'", trans))
+                clsTenderSchedulePeneltyPO.SaveData(strDocNo, PK, obj.Arr, trans)
+            Next
+        End If
+        Return True
+    End Function
+
+    Public Shared Function GetData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As List(Of clsTenderSchedulePO)
+        Dim arr As List(Of clsTenderSchedulePO) = Nothing
+        Dim qry As String = "select TSPL_TENDER_SCHEDULE_PO.* from TSPL_TENDER_SCHEDULE_PO  where TSPL_TENDER_SCHEDULE_PO.DocumentCode='" + clsCommon.myCstr(strDocNo) + "' order by TSPL_TENDER_SCHEDULE_PO.PK_Id"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            arr = New List(Of clsTenderSchedulePO)()
+            For ii As Integer = 0 To dt.Rows.Count - 1
+                Dim obj As New clsTenderSchedulePO
+                obj.SNo = ii + 1
+                obj.DocumentCode = clsCommon.myCstr(dt.Rows(ii)("DocumentCode"))
+                obj.PSNo = clsCommon.myCDecimal(dt.Rows(ii)("PSNo"))
+                obj.Schedule_No = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_No"))
+                obj.From_Date = clsCommon.myCDate(dt.Rows(ii)("From_Date"))
+                obj.To_Date = clsCommon.myCDate(dt.Rows(ii)("To_Date"))
+                obj.Item_Code = clsCommon.myCstr(dt.Rows(ii)("Item_Code"))
+                obj.Schedule_Qty_Per = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Qty_Per"))
+                obj.Schedule_Qty = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Qty"))
+                obj.Schedule_Short_Per = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Short_Per"))
+                obj.Schedule_Short = clsCommon.myCDecimal(dt.Rows(ii)("Schedule_Short"))
+                obj.Late_Days = clsCommon.myCDecimal(dt.Rows(ii)("Late_Days"))
+                obj.Extension_Days = clsCommon.myCDecimal(dt.Rows(ii)("Extension_Days"))
+                obj.Arr = clsTenderSchedulePeneltyPO.GetData(clsCommon.myCDecimal(dt.Rows(ii)("PK_Id")), False, trans)
+                arr.Add(obj)
+            Next
+        End If
+        Return arr
+    End Function
+End Class
+
+Public Class clsTenderSchedulePeneltyPO
+#Region "Variables"
+    Public PK_Id As Integer
+    Public DocumentCode As String
+    Public Against_Tender_Schedule_PK_Id As Integer
+    Public Penalty_Date As Date
+    Public Penalty As Decimal
+#End Region
+
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal AgainstSchedulePKId As Integer, ByVal Arr As List(Of clsTenderSchedulePeneltyPO), ByVal trans As SqlTransaction) As Boolean
+        For Each obj As clsTenderSchedulePeneltyPO In Arr
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "DocumentCode", strDocNo)
+            clsCommon.AddColumnsForChange(coll, "Against_Tender_Schedule_PK_Id", AgainstSchedulePKId)
+            clsCommon.AddColumnsForChange(coll, "Penalty_Date", clsCommon.GetPrintDate(obj.Penalty_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Penalty", obj.Penalty)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TENDER_SCHEDULE_PENALTY_PO", OMInsertOrUpdate.Insert, "", trans)
+        Next
+        Return True
+    End Function
+
+    Public Shared Function GetData(ByVal AgainstSchedulePKId As Integer, ByVal AddExtensionDays As Boolean, ByVal trans As SqlTransaction) As List(Of clsTenderSchedulePeneltyPO)
+        Dim arr As List(Of clsTenderSchedulePeneltyPO) = Nothing
+        Dim qry As String = "select TSPL_TENDER_SCHEDULE_PENALTY_PO.DocumentCode,TSPL_TENDER_SCHEDULE_PENALTY_PO.PK_Id,TSPL_TENDER_SCHEDULE_PENALTY_PO.Against_Tender_Schedule_PK_Id "
+        If AddExtensionDays = True Then
+            qry += " ,DATEADD(day,isnull(TSPL_TENDER_SCHEDULE_PO.Extension_Days,0),TSPL_TENDER_SCHEDULE_PENALTY_PO.Penalty_Date) "
+        Else
+            qry += " ,TSPL_TENDER_SCHEDULE_PENALTY_PO.Penalty_Date "
+        End If
+        qry += " AS Penalty_Date ,TSPL_TENDER_SCHEDULE_PENALTY_PO.Penalty
+         from TSPL_TENDER_SCHEDULE_PENALTY_PO
+         left outer join TSPL_TENDER_SCHEDULE_PO on TSPL_TENDER_SCHEDULE_PO.DocumentCode=TSPL_TENDER_SCHEDULE_PENALTY_PO.DocumentCode
+         and TSPL_TENDER_SCHEDULE_PO.PK_ID=TSPL_TENDER_SCHEDULE_PENALTY_PO.Against_Tender_Schedule_PK_Id
+         where TSPL_TENDER_SCHEDULE_PENALTY_PO.Against_Tender_Schedule_PK_Id='" + clsCommon.myCstr(AgainstSchedulePKId) + "' order by TSPL_TENDER_SCHEDULE_PENALTY_PO.PK_Id"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            arr = New List(Of clsTenderSchedulePeneltyPO)()
+            For ii As Integer = 0 To dt.Rows.Count - 1
+                Dim obj As New clsTenderSchedulePeneltyPO
+                obj.PK_Id = clsCommon.myCDecimal(dt.Rows(ii)("PK_Id"))
+                obj.DocumentCode = clsCommon.myCstr(dt.Rows(ii)("DocumentCode"))
+                obj.Against_Tender_Schedule_PK_Id = clsCommon.myCDecimal(dt.Rows(ii)("Against_Tender_Schedule_PK_Id"))
+                obj.Penalty_Date = clsCommon.myCDate(dt.Rows(ii)("Penalty_Date"))
+                obj.Penalty = clsCommon.myCDecimal(dt.Rows(ii)("Penalty"))
+                arr.Add(obj)
+            Next
+        End If
+        Return arr
     End Function
 End Class

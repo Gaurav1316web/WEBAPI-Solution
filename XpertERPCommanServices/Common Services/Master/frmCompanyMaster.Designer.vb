@@ -48,8 +48,6 @@ Partial Class FrmCompanyMaster
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtCIN = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.txtTelephone2 = New Telerik.WinControls.UI.RadMaskedEditBox()
-        Me.txtTelephone1 = New Telerik.WinControls.UI.RadMaskedEditBox()
         Me.txtcust_name = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtcust_code = New common.UserControls.txtFinder()
@@ -167,6 +165,8 @@ Partial Class FrmCompanyMaster
         Me.btnBackgroundselect = New Telerik.WinControls.UI.RadButton()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtTelephone1 = New common.Controls.MyTextBox()
+        Me.txtTelephone2 = New common.Controls.MyTextBox()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtcomp_code1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -189,8 +189,6 @@ Partial Class FrmCompanyMaster
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCIN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTelephone2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTelephone1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtcust_name, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chk_main_company, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -304,12 +302,16 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtTelephone1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTelephone2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtTelephone2)
+        Me.RadGroupBox1.Controls.Add(Me.txtTelephone1)
         Me.RadGroupBox1.Controls.Add(Me.txtcomp_code1)
         Me.RadGroupBox1.Controls.Add(Me.labcompcode1)
         Me.RadGroupBox1.Controls.Add(Me.dtPanIssueDate)
@@ -330,8 +332,6 @@ Partial Class FrmCompanyMaster
         Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
         Me.RadGroupBox1.Controls.Add(Me.txtCIN)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel3)
-        Me.RadGroupBox1.Controls.Add(Me.txtTelephone2)
-        Me.RadGroupBox1.Controls.Add(Me.txtTelephone1)
         Me.RadGroupBox1.Controls.Add(Me.txtcust_name)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
         Me.RadGroupBox1.Controls.Add(Me.txtcust_code)
@@ -768,28 +768,6 @@ Partial Class FrmCompanyMaster
         Me.MyLabel3.Size = New System.Drawing.Size(46, 16)
         Me.MyLabel3.TabIndex = 70
         Me.MyLabel3.Text = "CIN No."
-        '
-        'txtTelephone2
-        '
-        Me.txtTelephone2.Location = New System.Drawing.Point(167, 148)
-        Me.txtTelephone2.Mask = "(+99)0000000000"
-        Me.txtTelephone2.MaskType = Telerik.WinControls.UI.MaskType.Standard
-        Me.txtTelephone2.Name = "txtTelephone2"
-        Me.txtTelephone2.Size = New System.Drawing.Size(292, 20)
-        Me.txtTelephone2.TabIndex = 68
-        Me.txtTelephone2.TabStop = False
-        Me.txtTelephone2.Text = "(+__)__________"
-        '
-        'txtTelephone1
-        '
-        Me.txtTelephone1.Location = New System.Drawing.Point(167, 126)
-        Me.txtTelephone1.Mask = "(+99)0000000000"
-        Me.txtTelephone1.MaskType = Telerik.WinControls.UI.MaskType.Standard
-        Me.txtTelephone1.Name = "txtTelephone1"
-        Me.txtTelephone1.Size = New System.Drawing.Size(292, 20)
-        Me.txtTelephone1.TabIndex = 67
-        Me.txtTelephone1.TabStop = False
-        Me.txtTelephone1.Text = "(+__)__________"
         '
         'txtcust_name
         '
@@ -1980,7 +1958,7 @@ Partial Class FrmCompanyMaster
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(1, 1)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
         Me.RadPageView1.Size = New System.Drawing.Size(828, 536)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2556,6 +2534,54 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.SplitterDistance = 538
         Me.SplitContainer1.TabIndex = 0
         '
+        'txtTelephone1
+        '
+        Me.txtTelephone1.CalculationExpression = Nothing
+        Me.txtTelephone1.FieldCode = Nothing
+        Me.txtTelephone1.FieldDesc = Nothing
+        Me.txtTelephone1.FieldMaxLength = 0
+        Me.txtTelephone1.FieldName = Nothing
+        Me.txtTelephone1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTelephone1.isCalculatedField = False
+        Me.txtTelephone1.IsSourceFromTable = False
+        Me.txtTelephone1.IsSourceFromValueList = False
+        Me.txtTelephone1.IsUnique = False
+        Me.txtTelephone1.Location = New System.Drawing.Point(167, 127)
+        Me.txtTelephone1.MaxLength = 50
+        Me.txtTelephone1.MendatroryField = False
+        Me.txtTelephone1.MyLinkLable1 = Me.lblCity
+        Me.txtTelephone1.MyLinkLable2 = Nothing
+        Me.txtTelephone1.Name = "txtTelephone1"
+        Me.txtTelephone1.ReferenceFieldDesc = Nothing
+        Me.txtTelephone1.ReferenceFieldName = Nothing
+        Me.txtTelephone1.ReferenceTableName = Nothing
+        Me.txtTelephone1.Size = New System.Drawing.Size(292, 18)
+        Me.txtTelephone1.TabIndex = 7
+        '
+        'txtTelephone2
+        '
+        Me.txtTelephone2.CalculationExpression = Nothing
+        Me.txtTelephone2.FieldCode = Nothing
+        Me.txtTelephone2.FieldDesc = Nothing
+        Me.txtTelephone2.FieldMaxLength = 0
+        Me.txtTelephone2.FieldName = Nothing
+        Me.txtTelephone2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTelephone2.isCalculatedField = False
+        Me.txtTelephone2.IsSourceFromTable = False
+        Me.txtTelephone2.IsSourceFromValueList = False
+        Me.txtTelephone2.IsUnique = False
+        Me.txtTelephone2.Location = New System.Drawing.Point(167, 148)
+        Me.txtTelephone2.MaxLength = 50
+        Me.txtTelephone2.MendatroryField = False
+        Me.txtTelephone2.MyLinkLable1 = Me.lblCity
+        Me.txtTelephone2.MyLinkLable2 = Nothing
+        Me.txtTelephone2.Name = "txtTelephone2"
+        Me.txtTelephone2.ReferenceFieldDesc = Nothing
+        Me.txtTelephone2.ReferenceFieldName = Nothing
+        Me.txtTelephone2.ReferenceTableName = Nothing
+        Me.txtTelephone2.Size = New System.Drawing.Size(292, 18)
+        Me.txtTelephone2.TabIndex = 7
+        '
         'FrmCompanyMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2592,8 +2618,6 @@ Partial Class FrmCompanyMaster
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCIN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTelephone2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTelephone1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtcust_name, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chk_main_company, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2711,6 +2735,8 @@ Partial Class FrmCompanyMaster
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtTelephone1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTelephone2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2805,8 +2831,6 @@ Partial Class FrmCompanyMaster
     Friend WithEvents txtcust_name As common.Controls.MyLabel
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtcust_code As common.UserControls.txtFinder
-    Friend WithEvents txtTelephone2 As Telerik.WinControls.UI.RadMaskedEditBox
-    Friend WithEvents txtTelephone1 As Telerik.WinControls.UI.RadMaskedEditBox
     Friend WithEvents txtCIN As common.Controls.MyTextBox
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents TxtIECode As common.Controls.MyTextBox
@@ -2856,5 +2880,7 @@ Partial Class FrmCompanyMaster
     Friend WithEvents btnBackgroundselect As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtcomp_code1 As common.Controls.MyTextBox
     Friend WithEvents labcompcode1 As common.Controls.MyLabel
+    Friend WithEvents txtTelephone2 As common.Controls.MyTextBox
+    Friend WithEvents txtTelephone1 As common.Controls.MyTextBox
 End Class
 

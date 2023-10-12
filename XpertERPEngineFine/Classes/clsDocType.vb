@@ -528,7 +528,9 @@ Public Class clsDocType
     Public Const DCSSale As String = "DCS Sale"
     Public Const DistributorCommission As String = "Distributor Commission"
     Public Const DistributorRouteTagging As String = "Distributor Route Tagging"
-
+    Public Const frmNotification As String = "Notifications screen"
+    Public Const ShareMaster As String = "Share Master"
+    Public Const ShareAllotment As String = "Share Allotment"
     Public Const CostCenterGroupStore As String = "Cost Center"
     '
     Public Const Cleaning As String = "Cleaning"
@@ -1485,6 +1487,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.DCSSale, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorCommission, "", False, True, True)
             InsertDefaultValue(clsDocType.DistributorRouteTagging, "", False, True, True)
+            InsertDefaultValue(clsDocType.frmNotification, "", False, True, True)
 
             'sanjay BHA/09/05/18-000014 
             InsertDefaultValue(clsDocType.MaterialQuotation, "", False, True)

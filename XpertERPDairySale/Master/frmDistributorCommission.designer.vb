@@ -24,6 +24,8 @@ Partial Class frmDistributorCommission
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtDistributorTagging = New common.UserControls.txtFinder()
+        Me.lblDistributorTagging = New common.Controls.MyLabel()
         Me.lblStatus = New common.usLock()
         Me.txtUOM = New common.UserControls.txtFinder()
         Me.lblItems = New common.Controls.MyLabel()
@@ -44,14 +46,14 @@ Partial Class frmDistributorCommission
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.txtDistributorTagging = New common.UserControls.txtFinder()
-        Me.lblDistributorTagging = New common.Controls.MyLabel()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.lblDistributorTagging, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItems, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCommission, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,7 +69,7 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDistributorTagging, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -86,6 +88,7 @@ Partial Class frmDistributorCommission
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
@@ -127,6 +130,42 @@ Partial Class frmDistributorCommission
         Me.SplitContainer2.Size = New System.Drawing.Size(800, 407)
         Me.SplitContainer2.SplitterDistance = 120
         Me.SplitContainer2.TabIndex = 0
+        '
+        'txtDistributorTagging
+        '
+        Me.txtDistributorTagging.CalculationExpression = Nothing
+        Me.txtDistributorTagging.FieldCode = Nothing
+        Me.txtDistributorTagging.FieldDesc = Nothing
+        Me.txtDistributorTagging.FieldMaxLength = 0
+        Me.txtDistributorTagging.FieldName = Nothing
+        Me.txtDistributorTagging.isCalculatedField = False
+        Me.txtDistributorTagging.IsSourceFromTable = False
+        Me.txtDistributorTagging.IsSourceFromValueList = False
+        Me.txtDistributorTagging.IsUnique = False
+        Me.txtDistributorTagging.Location = New System.Drawing.Point(114, 82)
+        Me.txtDistributorTagging.MendatroryField = False
+        Me.txtDistributorTagging.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDistributorTagging.MyLinkLable1 = Nothing
+        Me.txtDistributorTagging.MyLinkLable2 = Nothing
+        Me.txtDistributorTagging.MyReadOnly = False
+        Me.txtDistributorTagging.MyShowMasterFormButton = False
+        Me.txtDistributorTagging.Name = "txtDistributorTagging"
+        Me.txtDistributorTagging.ReferenceFieldDesc = Nothing
+        Me.txtDistributorTagging.ReferenceFieldName = Nothing
+        Me.txtDistributorTagging.ReferenceTableName = Nothing
+        Me.txtDistributorTagging.Size = New System.Drawing.Size(248, 19)
+        Me.txtDistributorTagging.TabIndex = 1523
+        Me.txtDistributorTagging.Value = ""
+        '
+        'lblDistributorTagging
+        '
+        Me.lblDistributorTagging.FieldName = Nothing
+        Me.lblDistributorTagging.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDistributorTagging.Location = New System.Drawing.Point(9, 83)
+        Me.lblDistributorTagging.Name = "lblDistributorTagging"
+        Me.lblDistributorTagging.Size = New System.Drawing.Size(102, 16)
+        Me.lblDistributorTagging.TabIndex = 1522
+        Me.lblDistributorTagging.Text = "Distributor Tagging"
         '
         'lblStatus
         '
@@ -337,7 +376,7 @@ Partial Class frmDistributorCommission
         '
         Me.btnImport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport})
-        Me.btnImport.Location = New System.Drawing.Point(180, 7)
+        Me.btnImport.Location = New System.Drawing.Point(167, 7)
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Size = New System.Drawing.Size(108, 24)
         Me.btnImport.TabIndex = 157
@@ -382,41 +421,14 @@ Partial Class frmDistributorCommission
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'txtDistributorTagging
+        'btnPrint
         '
-        Me.txtDistributorTagging.CalculationExpression = Nothing
-        Me.txtDistributorTagging.FieldCode = Nothing
-        Me.txtDistributorTagging.FieldDesc = Nothing
-        Me.txtDistributorTagging.FieldMaxLength = 0
-        Me.txtDistributorTagging.FieldName = Nothing
-        Me.txtDistributorTagging.isCalculatedField = False
-        Me.txtDistributorTagging.IsSourceFromTable = False
-        Me.txtDistributorTagging.IsSourceFromValueList = False
-        Me.txtDistributorTagging.IsUnique = False
-        Me.txtDistributorTagging.Location = New System.Drawing.Point(114, 82)
-        Me.txtDistributorTagging.MendatroryField = False
-        Me.txtDistributorTagging.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDistributorTagging.MyLinkLable1 = Nothing
-        Me.txtDistributorTagging.MyLinkLable2 = Nothing
-        Me.txtDistributorTagging.MyReadOnly = False
-        Me.txtDistributorTagging.MyShowMasterFormButton = False
-        Me.txtDistributorTagging.Name = "txtDistributorTagging"
-        Me.txtDistributorTagging.ReferenceFieldDesc = Nothing
-        Me.txtDistributorTagging.ReferenceFieldName = Nothing
-        Me.txtDistributorTagging.ReferenceTableName = Nothing
-        Me.txtDistributorTagging.Size = New System.Drawing.Size(248, 19)
-        Me.txtDistributorTagging.TabIndex = 1523
-        Me.txtDistributorTagging.Value = ""
-        '
-        'lblDistributorTagging
-        '
-        Me.lblDistributorTagging.FieldName = Nothing
-        Me.lblDistributorTagging.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDistributorTagging.Location = New System.Drawing.Point(9, 83)
-        Me.lblDistributorTagging.Name = "lblDistributorTagging"
-        Me.lblDistributorTagging.Size = New System.Drawing.Size(102, 16)
-        Me.lblDistributorTagging.TabIndex = 1522
-        Me.lblDistributorTagging.Text = "Distributor Tagging"
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(278, 7)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(86, 24)
+        Me.btnPrint.TabIndex = 2
+        Me.btnPrint.Text = "Print"
         '
         'frmDistributorCommission
         '
@@ -437,6 +449,7 @@ Partial Class frmDistributorCommission
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.lblDistributorTagging, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItems, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCommission, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
@@ -452,7 +465,7 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDistributorTagging, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -482,4 +495,5 @@ Partial Class frmDistributorCommission
     Friend WithEvents rmiExport As RadMenuItem
     Friend WithEvents txtDistributorTagging As common.UserControls.txtFinder
     Friend WithEvents lblDistributorTagging As common.Controls.MyLabel
+    Friend WithEvents btnPrint As RadButton
 End Class

@@ -1179,6 +1179,8 @@ Public Class clsBookingDetailDairySale
     Public Against_DemandBooking_TR_Code As String = String.Empty
     Public Against_DemandBooking_No As String = String.Empty
     Public Line_No As Integer
+    Public IsKKFTax As String = String.Empty
+    Public IsMNDTax As String = String.Empty
     Public Cust_Code As String = Nothing
     Public Loc_Code As String = Nothing
     Public Item_Code As String = Nothing
@@ -1246,6 +1248,8 @@ Public Class clsBookingDetailDairySale
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Line_No", LineNo) ' obj.Line_No
+                clsCommon.AddColumnsForChange(coll, "IsKKFTax", obj.IsKKFTax) ' obj.Line_No
+                clsCommon.AddColumnsForChange(coll, "IsMNDTax", obj.IsMNDTax) ' obj.Line_No
                 clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
                 clsCommon.AddColumnsForChange(coll, "Loc_Code", obj.Loc_Code)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
@@ -1302,6 +1306,7 @@ Public Class clsBookingDetailDairySale
 
 
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+
                 Dim objD As clsSchemeApplyOnDairy = Nothing
                 'If clsCommon.myLen(clsCommon.myCstr(SchemeType)) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(SchemeType), "Quantitive") = CompairStringResult.Equal Then ''richa use obj.schemetype instead of SchemeType variable becuase scheme quantity will remain always 0 due to this 
                 objD = clsSchemeApplyOnDairy.GetSchemeData(clsCommon.myCstr(obj.Item_Code), clsCommon.myCstr(obj.Unit_code), clsCommon.myCstr(obj.Booking_Qty), obj.Cust_Code, clsCommon.myCstr(SchemeType), Nothing, Nothing, trans)
@@ -1618,6 +1623,7 @@ Public Class clsBookingDetailDairySalePaymentMode
                     obj = New clsBookingDetailDairySalePaymentMode()
                     obj.Document_No = clsCommon.myCstr(dt.Rows(i)("Document_No"))
                     obj.Payment_Mode = clsCommon.myCstr(dt.Rows(i)("Payment_Mode"))
+                    'obj.is = clsCommon.myCstr(dt.Rows(i)("Payment_Mode"))
                     obj.Amount = clsCommon.myCdbl(dt.Rows(i)("Amount"))
                     obj.SNo = clsCommon.myCdbl(dt.Rows(i)("SNo"))
                     obj.Against_Receipt_No = clsCommon.myCstr(dt.Rows(i)("Against_Receipt_No"))

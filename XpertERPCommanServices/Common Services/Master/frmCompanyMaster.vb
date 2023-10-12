@@ -1117,8 +1117,8 @@ Public Class FrmCompanyMaster
             txtCity.Text = ""
             txtEmail.Text = ""
             txtFax.Text = ""
-            txtTelephone2.Value = ""
-            txtTelephone1.Value = ""
+            txtTelephone2.Text = ""
+            txtTelephone1.Text = ""
 
             ddlModeofTransp.Text = "      -----Select-----"
             txtPinCode.Text = ""

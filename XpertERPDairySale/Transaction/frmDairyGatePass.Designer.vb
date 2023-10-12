@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmDairyGatePass
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,8 +20,9 @@ Partial Class frmDairyGatePass
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -32,6 +33,9 @@ Partial Class frmDairyGatePass
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtLoadingSlip = New common.Controls.MyTextBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.MyLabel11 = New common.Controls.MyLabel()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnEvening = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnMorning = New Telerik.WinControls.UI.RadRadioButton()
@@ -69,7 +73,6 @@ Partial Class frmDairyGatePass
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtLocCode = New common.UserControls.txtFinder()
         Me.txtComments = New common.Controls.MyTextBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtRemarks = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtTransporter = New common.Controls.MyTextBox()
@@ -99,6 +102,9 @@ Partial Class frmDairyGatePass
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.txtLoadingSlip, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -131,7 +137,6 @@ Partial Class frmDairyGatePass
         CType(Me.txtLocDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtComments, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTransporter, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -159,14 +164,15 @@ Partial Class frmDairyGatePass
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 173)
         '
-        'Gv1
         '
+        '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1031, 196)
         Me.Gv1.TabIndex = 1
-        Me.Gv1.Text = "RadGridView1"
         '
         'lblSalesman
         '
@@ -221,6 +227,8 @@ Partial Class frmDairyGatePass
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtLoadingSlip)
+        Me.Panel1.Controls.Add(Me.MyLabel11)
         Me.Panel1.Controls.Add(Me.RadGroupBox3)
         Me.Panel1.Controls.Add(Me.btnMultiGPReverse)
         Me.Panel1.Controls.Add(Me.TxtMultiDairyGPassReverse)
@@ -268,6 +276,50 @@ Partial Class frmDairyGatePass
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1031, 173)
         Me.Panel1.TabIndex = 0
+        '
+        'txtLoadingSlip
+        '
+        Me.txtLoadingSlip.CalculationExpression = Nothing
+        Me.txtLoadingSlip.FieldCode = Nothing
+        Me.txtLoadingSlip.FieldDesc = Nothing
+        Me.txtLoadingSlip.FieldMaxLength = 0
+        Me.txtLoadingSlip.FieldName = Nothing
+        Me.txtLoadingSlip.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLoadingSlip.isCalculatedField = False
+        Me.txtLoadingSlip.IsSourceFromTable = False
+        Me.txtLoadingSlip.IsSourceFromValueList = False
+        Me.txtLoadingSlip.IsUnique = False
+        Me.txtLoadingSlip.Location = New System.Drawing.Point(790, 28)
+        Me.txtLoadingSlip.MaxLength = 200
+        Me.txtLoadingSlip.MendatroryField = False
+        Me.txtLoadingSlip.MyLinkLable1 = Me.MyLabel2
+        Me.txtLoadingSlip.MyLinkLable2 = Nothing
+        Me.txtLoadingSlip.Name = "txtLoadingSlip"
+        Me.txtLoadingSlip.ReferenceFieldDesc = Nothing
+        Me.txtLoadingSlip.ReferenceFieldName = Nothing
+        Me.txtLoadingSlip.ReferenceTableName = Nothing
+        Me.txtLoadingSlip.Size = New System.Drawing.Size(233, 18)
+        Me.txtLoadingSlip.TabIndex = 8
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(4, 112)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(61, 16)
+        Me.MyLabel2.TabIndex = 23
+        Me.MyLabel2.Text = "Comments"
+        '
+        'MyLabel11
+        '
+        Me.MyLabel11.FieldName = Nothing
+        Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel11.Location = New System.Drawing.Point(716, 29)
+        Me.MyLabel11.Name = "MyLabel11"
+        Me.MyLabel11.Size = New System.Drawing.Size(69, 16)
+        Me.MyLabel11.TabIndex = 25
+        Me.MyLabel11.Text = "Loading Slip"
         '
         'RadGroupBox3
         '
@@ -335,7 +387,7 @@ Partial Class frmDairyGatePass
         '
         Me.lblTollAmount.FieldName = Nothing
         Me.lblTollAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTollAmount.Location = New System.Drawing.Point(715, 88)
+        Me.lblTollAmount.Location = New System.Drawing.Point(715, 89)
         Me.lblTollAmount.Name = "lblTollAmount"
         Me.lblTollAmount.Size = New System.Drawing.Size(67, 16)
         Me.lblTollAmount.TabIndex = 89
@@ -354,7 +406,7 @@ Partial Class frmDairyGatePass
         Me.txtTollAmount.IsSourceFromTable = False
         Me.txtTollAmount.IsSourceFromValueList = False
         Me.txtTollAmount.IsUnique = False
-        Me.txtTollAmount.Location = New System.Drawing.Point(790, 86)
+        Me.txtTollAmount.Location = New System.Drawing.Point(790, 87)
         Me.txtTollAmount.MendatroryField = False
         Me.txtTollAmount.MyLinkLable1 = Me.lblTollAmount
         Me.txtTollAmount.MyLinkLable2 = Nothing
@@ -372,11 +424,12 @@ Partial Class frmDairyGatePass
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(713, 52)
+        Me.MyLabel9.Location = New System.Drawing.Point(714, 69)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(66, 16)
         Me.MyLabel9.TabIndex = 87
         Me.MyLabel9.Text = "Transfer No"
+        Me.MyLabel9.Visible = False
         '
         'FndTransferNo
         '
@@ -389,7 +442,7 @@ Partial Class frmDairyGatePass
         Me.FndTransferNo.IsSourceFromTable = False
         Me.FndTransferNo.IsSourceFromValueList = False
         Me.FndTransferNo.IsUnique = False
-        Me.FndTransferNo.Location = New System.Drawing.Point(785, 50)
+        Me.FndTransferNo.Location = New System.Drawing.Point(790, 67)
         Me.FndTransferNo.MendatroryField = False
         Me.FndTransferNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FndTransferNo.MyLinkLable1 = Me.MyLabel9
@@ -403,15 +456,17 @@ Partial Class frmDairyGatePass
         Me.FndTransferNo.Size = New System.Drawing.Size(233, 20)
         Me.FndTransferNo.TabIndex = 86
         Me.FndTransferNo.Value = ""
+        Me.FndTransferNo.Visible = False
         '
         'chkAgainstTransfer
         '
         Me.chkAgainstTransfer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkAgainstTransfer.Location = New System.Drawing.Point(719, 32)
+        Me.chkAgainstTransfer.Location = New System.Drawing.Point(718, 49)
         Me.chkAgainstTransfer.Name = "chkAgainstTransfer"
         Me.chkAgainstTransfer.Size = New System.Drawing.Size(103, 16)
         Me.chkAgainstTransfer.TabIndex = 85
         Me.chkAgainstTransfer.Text = "Against Transfer"
+        Me.chkAgainstTransfer.Visible = False
         '
         'txtSalesman
         '
@@ -492,7 +547,6 @@ Partial Class frmDairyGatePass
         Me.lblClosingDate.Name = "lblClosingDate"
         Me.lblClosingDate.Size = New System.Drawing.Size(107, 18)
         Me.lblClosingDate.TabIndex = 138
-        Me.lblClosingDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblClosingDate.TextWrap = False
         '
         'MyLabel8
@@ -836,16 +890,6 @@ Partial Class frmDairyGatePass
         Me.txtComments.Size = New System.Drawing.Size(253, 18)
         Me.txtComments.TabIndex = 7
         '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(4, 112)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(61, 16)
-        Me.MyLabel2.TabIndex = 23
-        Me.MyLabel2.Text = "Comments"
-        '
         'txtRemarks
         '
         Me.txtRemarks.CalculationExpression = Nothing
@@ -972,6 +1016,7 @@ Partial Class frmDairyGatePass
         Me.cmbitemtype.AutoCompleteDisplayMember = Nothing
         Me.cmbitemtype.AutoCompleteValueMember = Nothing
         Me.cmbitemtype.CalculationExpression = Nothing
+        Me.cmbitemtype.DropDownAnimationEnabled = True
         Me.cmbitemtype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbitemtype.FieldCode = Nothing
         Me.cmbitemtype.FieldDesc = Nothing
@@ -1136,15 +1181,11 @@ Partial Class frmDairyGatePass
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "PrePrinted"
-        Me.RadMenuItem1.AccessibleName = "PrePrinted"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "PrePrinted"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Print"
-        Me.RadMenuItem2.AccessibleName = "Print"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Print"
         '
@@ -1176,7 +1217,6 @@ Partial Class frmDairyGatePass
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1031, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'frmDairyGatePass
         '
@@ -1200,6 +1240,9 @@ Partial Class frmDairyGatePass
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.txtLoadingSlip, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
         Me.RadGroupBox3.PerformLayout()
@@ -1234,7 +1277,6 @@ Partial Class frmDairyGatePass
         CType(Me.txtLocDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtComments, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTransporter, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1326,5 +1368,7 @@ Partial Class frmDairyGatePass
     Friend WithEvents RadGroupBox3 As RadGroupBox
     Friend WithEvents rbtnEvening As RadRadioButton
     Friend WithEvents rbtnMorning As RadRadioButton
+    Friend WithEvents MyLabel11 As common.Controls.MyLabel
+    Friend WithEvents txtLoadingSlip As common.Controls.MyTextBox
 End Class
 

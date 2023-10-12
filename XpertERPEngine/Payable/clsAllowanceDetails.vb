@@ -64,16 +64,12 @@ Public Class clsAllowanceDetails
         Dim obj As New clsAllowanceDetails()
         Dim objtr As New clsAllowancePayHeadDetails()
         obj.Arr = New List(Of clsAllowancePayHeadDetails)
-        Dim whrcls As String = Nothing
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " And TAV.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
-        End If
 
         Dim qry As String = "SELECT TAV.*,TPM.PAY_PERIOD_NAME, " _
                             & " TAV.ALLOWANCE_REMARKS,EMP.Emp_Name,EMP1.EMP_NAME AS ALLOWANCE_BY_NAME  FROM TSPL_ALLOWANCE TAV " _
                             & " INNER JOIN TSPL_PAYPERIOD_MASTER TPM ON TAV.PAY_PERIOD_CODE=TPM.PAY_PERIOD_CODE " _
                             & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON TAV.EMP_CODE=EMP.EMP_CODE " _
-                            & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP1 ON TAV.EMP_CODE=EMP1.EMP_CODE where 2=2 " + whrcls
+                            & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP1 ON TAV.EMP_CODE=EMP1.EMP_CODE where 2=2 "
 
         Select Case NavType
             Case NavigatorType.First
@@ -117,7 +113,7 @@ Public Class clsAllowanceDetails
              & " INNER JOIN TSPL_EMPLOYEE_MASTER EMP ON TAVD.EMP_CODE=EMP.EMP_CODE " _
              & " LEFT JOIN TSPL_PAYHEAD_MASTER TPH ON TAVD.PAY_HEAD_CODE=TPH.PAY_HEAD_CODE where 2=2"
 
-        qry += " and TAV.ALLOWANCE_CODE = '" + strCode + "'" + whrcls
+        qry += " and TAV.ALLOWANCE_CODE = '" + strCode + "'"
 
         dt = New DataTable()
         dt = clsDBFuncationality.GetDataTable(qry, trans)

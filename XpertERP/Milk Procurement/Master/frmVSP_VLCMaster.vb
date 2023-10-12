@@ -1023,8 +1023,8 @@ Public Class frmVSP_VLCMaster
                 clsDBFuncationality.ExecuteNonQuery(qryVidhanSabha, trans)
             End If
 
+            Dim HeadLoadBasis As String = Nothing
             If ChkHeadLoad.Checked Then
-                Dim HeadLoadBasis As String = Nothing
                 If CmbHeadLoadServiceBasis.SelectedIndex = 1 Then
                     HeadLoadBasis = "P"
                 ElseIf CmbHeadLoadServiceBasis.SelectedIndex = 2 Then
@@ -1032,9 +1032,9 @@ Public Class frmVSP_VLCMaster
                 ElseIf CmbHeadLoadServiceBasis.SelectedIndex = 3 Then
                     HeadLoadBasis = "L"
                 End If
-                Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "1", "0") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
-                clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
             End If
+            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "1", "0") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
 
             updateMultipleIncentive(fndvendorNo.Value, trans)
             'If clsCommon.myLen(findfndbankcode2.Value) > 0 OrElse clsCommon.myLen(fndbankcode2.Text) > 0 Then
@@ -1413,8 +1413,6 @@ Public Class frmVSP_VLCMaster
                 Else
                     ChkHeadLoad.Checked = False
                     CmbHeadLoadServiceBasis.Text = ""
-                    CmbHeadLoadServiceBasis.Text = ""
-                    CmbHeadLoadServiceBasis.Text = ""
                     txtRateHeadLoad.Text = ""
                 End If
             Else
@@ -1479,7 +1477,7 @@ Public Class frmVSP_VLCMaster
 
             obj.CSA_Type = "N"
             obj.ManualCustomer = "N"
-
+            obj.Status = "N"
             obj.Comp_Code = objCommonVar.CurrentCompanyCode
 
             Dim arrDBName As New List(Of String)
@@ -1898,8 +1896,8 @@ Public Class frmVSP_VLCMaster
                 clsDBFuncationality.ExecuteNonQuery(qryVidhanSabha, trans)
             End If
 
+            Dim HeadLoadBasis As String = Nothing
             If ChkHeadLoad.Checked Then
-                Dim HeadLoadBasis As String = Nothing
                 If CmbHeadLoadServiceBasis.SelectedIndex = 1 Then
                     HeadLoadBasis = "P"
                 ElseIf CmbHeadLoadServiceBasis.SelectedIndex = 2 Then
@@ -1907,10 +1905,9 @@ Public Class frmVSP_VLCMaster
                 ElseIf CmbHeadLoadServiceBasis.SelectedIndex = 3 Then
                     HeadLoadBasis = "L"
                 End If
-                Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "1", "0") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
-                clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
             End If
-
+            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "1", "0") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
             'VLC 
             If clsCommon.myLen(fndvlccode.Text) > 0 Then
                 VLCSaveData(False, trans)
@@ -6414,6 +6411,8 @@ Public Class frmVSP_VLCMaster
             Else
                 CmbHeadLoadServiceBasis.Enabled = False
                 txtRateHeadLoad.Enabled = False
+                CmbHeadLoadServiceBasis.Text = ""
+                txtRateHeadLoad.Text = ""
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)

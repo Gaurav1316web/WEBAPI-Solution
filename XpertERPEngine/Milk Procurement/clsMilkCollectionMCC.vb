@@ -322,6 +322,8 @@ Public Class clsMilkCollectionMCCDetail
     Public Qty As Decimal
     Public FAT As Decimal
     Public SNF As Decimal
+    Public Machine_FAT As Decimal
+    Public Machine_SNF As Decimal
     Public FATKG As Decimal
     Public SNFKG As Decimal
     Public Temp As Decimal

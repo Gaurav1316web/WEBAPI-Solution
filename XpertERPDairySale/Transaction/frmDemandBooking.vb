@@ -3315,6 +3315,106 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
+
+    Private Sub btnExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
+        Export(EnumExportTo.Excel)
+    End Sub
+
+    Private Sub Export(ByVal exporter As EnumExportTo)
+        Try
+            If gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                Exit Sub
+            End If
+
+            Dim sfd As SaveFileDialog = New SaveFileDialog()
+            Dim filePath As String = ""
+            sfd.FileName = Me.Text
+            sfd.Filter = "Excel 97-2003 (*.xls) |*.xls;|Excel 2007 (*.xlsx)|*.xlsx;|CSV Files (*.csv) |*.csv"
+            If sfd.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+                filePath = sfd.FileName
+            Else
+
+            End If
+
+            If Not filePath.Equals(String.Empty) Then
+                If exporter = EnumExportTo.Excel Then
+                    transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+                    transportSql.exportdata(gv1, "", Me.Text, , Nothing, False, False, True)
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+        End Try
+    End Sub
+
+    Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
+        Dim gvImport As New RadGridView()
+        Dim arrVisbleColumns As New List(Of Integer)
+        Try
+            If clsCommon.myLen(gv1.Rows(0).Cells(colCustCode).Value) = 0 Then
+                clsCommon.MyMessageBoxShow("No Data Found to Import", Me.Text)
+                Exit Sub
+            End If
+            Me.Controls.Add(gvImport)
+            For ii As Integer = 0 To gv1.Columns.Count - 1
+                If gv1.Columns(ii).IsVisible Then
+                    arrVisbleColumns.Add(ii)
+                End If
+            Next
+
+
+            If clsDemandBookingImport.importExcel(gvImport) Then
+                If gvImport.Rows.Count > 0 Then
+                    If clsCommon.CompairString(gv1.Rows.Count - 1, gvImport.Rows.Count - 1) = CompairStringResult.Equal Then
+                        Try
+                            Dim arrCustCodeExist As New List(Of String)
+                            For i As Integer = 0 To gv1.Rows.Count - 1
+                                arrCustCodeExist.Add(gv1.Rows(i).Cells(1).Value)
+                            Next
+                            isInsideLoadData = True
+                            clsCommon.ProgressBarPercentShow()
+                            For ii As Integer = 1 To gvImport.Rows.Count - 1
+                                clsCommon.ProgressBarPercentUpdate(((ii + 1) * 100) / gvImport.RowCount, clsCommon.myCstr((ii + 1)) + "/" + clsCommon.myCstr(gvImport.RowCount))
+                                For jj As Integer = 0 To gv1.Rows.Count - 1
+                                    Dim code As String = clsCommon.myCstr(gvImport.Rows(ii).Cells(1).Value)
+                                    If arrCustCodeExist.Contains(code) Then
+                                        If clsCommon.CompairString(clsCommon.myCstr(gvImport.Rows(ii).Cells(1).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value)) = CompairStringResult.Equal Then
+                                            For kk As Integer = 4 To arrVisbleColumns.Count - 8
+                                                If clsCommon.myCDecimal(gv1.Rows(jj).Cells(arrVisbleColumns(kk)).Value) <> clsCommon.myCDecimal(gvImport.Rows(ii).Cells(kk).Value) Then
+                                                    gv1.Rows(jj).Cells(arrVisbleColumns(kk)).Value = gvImport.Rows(ii).Cells(kk).Value
+
+                                                End If
+
+                                                'clsCommon.ProgressBarPercentUpdate(((ii + 1) * 100) / gvImport.RowCount, clsCommon.myCstr((ii + 1)) + "/" + clsCommon.myCstr(gvImport.RowCount) + "  " + clsCommon.myCstr(gvImport.Rows(ii).Cells(kk).Value))
+                                            Next
+                                        End If
+                                    Else
+                                        clsCommon.MyMessageBoxShow("Default Customer '" + clsCommon.myCstr(gvImport.Rows(ii).Cells(1).Value) + "' Does Not Exist", Me.Text)
+                                        Exit Sub
+
+                                    End If
+                                Next
+                            Next
+                        Catch ex As Exception
+                            Throw New Exception(ex.Message)
+                        Finally
+                            clsCommon.ProgressBarPercentHide()
+                        End Try
+                        isInsideLoadData = False
+                        UpdateAllTotals()
+                    Else
+                        clsCommon.MyMessageBoxShow("You cannot import qunatity because both Import and Export Data is different", Me.Text)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        Finally
+            Me.Controls.Remove(gvImport)
+        End Try
+    End Sub
+
 End Class
 Public Class ItemValueClass
     Public itemCode As String = String.Empty

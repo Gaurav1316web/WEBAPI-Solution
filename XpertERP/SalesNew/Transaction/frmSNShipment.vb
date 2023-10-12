@@ -5280,13 +5280,6 @@ Public Class frmSNShipment
                         Reason = frm.strRmks
                     End If
                 End If
-                'Dim chkDCS As Boolean
-                'If chkFillDCSDetail.Checked Then
-                '    chkDCS = True
-                'Else
-                '    chkDCS = False
-                'End If
-
                 If (clsSNShipmentHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
                     clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
@@ -5680,41 +5673,56 @@ Public Class frmSNShipment
         End If
     End Sub
 
-    Private Sub txtVendorNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCustomer._MYValidating
+    Private Sub txtCustomer__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCustomer._MYValidating
         btnHistory.Enabled = True
         If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             Exit Sub
         End If
         ''-------richa 30/07/2014 Ticket No. BM00000003242---------
-        Dim strwherecls As String = ""
-        ' strwherecls = Xtra.CustomerPermission()
+        'Dim strwherecls As String = ""
+        '' strwherecls = Xtra.CustomerPermission()
+        ' If objCommonVar.ApplyLocationFilterBasedOnPermission = True Then
+        '    strwherecls = objCommonVar.strCurrUserCustomers
+        'Else
+        '    strwherecls = Xtra.CustomerPermission()
+        'End If
+        'Dim whrClas As String = ""
+        '-----------------------------------------------------
+        Dim qry As String = "select TSPL_CUSTOMER_MASTER.cust_code as Code,TSPL_CUSTOMER_MASTER.Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman   from TSPL_CUSTOMER_MASTER   
+                            left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code 
+                            left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code 
+                            left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State 
+                            left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' "
+        'qry += " from TSPL_CUSTOMER_MASTER "
+        'qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
+        'qry += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
+        'qry += " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
+        'qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'"
+        'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+        '    whrClas += " and  TSPL_CUSTOMER_LOCATION_MAPPING.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
+        'End If
+        Dim WhrCls As String = " 2=2 and  TSPL_customer_MASTER.Status ='N'"
         If objCommonVar.ApplyLocationFilterBasedOnPermission = True Then
-            strwherecls = objCommonVar.strCurrUserCustomers
-        Else
-            strwherecls = Xtra.CustomerPermission()
+            WhrCls += " and TSPL_CUSTOMER_LOCATION_MAPPING.Location_Code in ('" + txtBillToLocation.Value + "')"
+            If clsCommon.CompairString(txtBillToLocation.Value, "RCDF") = CompairStringResult.Equal Then
+                WhrCls = ""
+            End If
         End If
-        Dim whrClas As String = ""
-        '-----------------------------------------------------
-        Dim qry As String = "select TSPL_CUSTOMER_LOCATION_MAPPING.customer_code as Code,TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  "
-        qry += " from TSPL_CUSTOMER_MASTER "
-        qry += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
-        qry += " left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code"
-        qry += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
-        qry += " left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
-        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'"
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrClas += " and  TSPL_CUSTOMER_LOCATION_MAPPING.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-        End If
-
+        'If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then 
+        txtCustomer.Value = clsCommon.ShowSelectForm("ShipmentVendorFndr", qry, "Code", WhrCls, txtCustomer.Value, "Code", isButtonClicked)
         '-------richa 30/07/2014 Ticket No. BM00000003242---------
-        If clsCommon.myLen(strwherecls) = 0 Then
-            txtCustomer.Value = clsCommon.ShowSelectForm("ShipmentVendorFndr", qry, "Code", " TSPL_CUSTOMER_MASTER.Status='N'", txtCustomer.Value, "Code", isButtonClicked)
-        Else
-            txtCustomer.Value = clsCommon.ShowSelectForm("ShipmentVendorFndr", qry, "Code", " TSPL_CUSTOMER_MASTER.Status='N' and TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ")", txtCustomer.Value, "Code", isButtonClicked)
-        End If
-        '-----------------------------------------------------
-        qry += " and  2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtCustomer.Value + "'"
+        'If clsCommon.myLen(txtBillToLocation.Value) = 0 Then
+        '    txtCustomer.Value = clsCommon.ShowSelectForm("ShipmentVendorFndr", qry, "Code", WhrCls, txtCustomer.Value, "Code", isButtonClicked)
+        'Else
+        '    txtCustomer.Value = clsCommon.ShowSelectForm("ShipmentVendorFndr", qry, "Code", " TSPL_CUSTOMER_MASTER.Status='N' and TSPL_CUSTOMER_MASTER.Cust_Code in (" + txtCustomer.Value + ")", txtCustomer.Value, "Code", isButtonClicked)
+        'End If
+        ''-----------------------------------------------------
+        qry = "  select TSPL_CUSTOMER_MASTER.cust_code as Code,TSPL_CUSTOMER_MASTER.Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman   from TSPL_CUSTOMER_MASTER   
+                left outer join TSPL_CUSTOMER_LOCATION_MAPPING on TSPL_CUSTOMER_LOCATION_MAPPING.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code 
+                left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code 
+                left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State 
+                left outer join TSPL_TERMS_MASTER on TSPL_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' where  TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtCustomer.Value + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             lblCustomerName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
@@ -6297,7 +6305,7 @@ Public Class frmSNShipment
         End If
 
 
-        Dim Qry As String = " select case when len(isnull (TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,'')) > 0 and len ( isnull( TSPL_SD_SHIPMENT_HEAD.cust_po_date,'' )) > 0 then convert (varchar,TSPL_SD_SHIPMENT_HEAD.cust_po_date ,103) else '' end  as cust_po_date2, isnull (TSPL_SD_SHIPMENT_HEAD.Form_38_No,'')  as TruckNo, TSPL_SD_SHIPMENT_DETAIL.TotalItem_Weight,  isnull ( TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,'') as LR_GR_NO, case when len(isnull (TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,'')) > 0 and len ( isnull( TSPL_SD_SHIPMENT_HEAD.LR_GR_Date,'' )) > 0 then convert (varchar,TSPL_SD_SHIPMENT_HEAD.LR_GR_Date ,103) else '' end  as LR_GR_Date , isnull (TSPL_SD_SHIPMENT_HEAD.SHIP_TO_DELIVERY_AT,'') as SHIP_TO_DELIVERY_AT, TSPL_SD_SHIPMENT_HEAD.cust_po_no, TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Total_Item_Net_amt,TSPL_SD_SHIPMENT_DETAIL.disc_Amt,TSPL_LOCATION_MASTER .Add1 as loc_add1 ,TSPL_LOCATION_MASTER .Add2 as loc_add2 ,TSPL_LOCATION_MASTER .Add3 as loc_add3 ,tax1.type as TaxType1,tax2.type as TaxType2,tax3.type as TaxType3,tax4.type as TaxType4,tax5.type as TaxType5,tax6.type as TaxType6, " &
+        Dim Qry As String = " select case when len(isnull (TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,'')) > 0 and len ( isnull( TSPL_SD_SHIPMENT_HEAD.cust_po_date,'' )) > 0 then convert (varchar,TSPL_SD_SHIPMENT_HEAD.cust_po_date ,103) else '' end  as cust_po_date2, isnull (TSPL_SD_SHIPMENT_HEAD.Form_38_No,'')  as TruckNo, TSPL_SD_SHIPMENT_DETAIL.TotalItem_Weight,  isnull ( TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,'') as LR_GR_NO, case when len(isnull (TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,'')) > 0 and len ( isnull( TSPL_SD_SHIPMENT_HEAD.LR_GR_Date,'' )) > 0 then convert (varchar,TSPL_SD_SHIPMENT_HEAD.LR_GR_Date ,103) else '' end  as LR_GR_Date , isnull (TSPL_SD_SHIPMENT_HEAD.SHIP_TO_DELIVERY_AT,'') as SHIP_TO_DELIVERY_AT, TSPL_SD_SHIPMENT_HEAD.Transporter_Name, TSPL_SD_SHIPMENT_HEAD.cust_po_no, TSPL_SD_SHIPMENT_DETAIL.Item_Net_Amt as Total_Item_Net_amt,TSPL_SD_SHIPMENT_DETAIL.disc_Amt,TSPL_LOCATION_MASTER .Add1 as loc_add1 ,  TSPL_LOCATION_MASTER.Add2+'.'+' '+','  + TSPL_LOCATION_MASTER.City_Code as loc_add2  ,TSPL_LOCATION_MASTER .Add3 as loc_add3 ,tax1.type as TaxType1,tax2.type as TaxType2,tax3.type as TaxType3,tax4.type as TaxType4,tax5.type as TaxType5,tax6.type as TaxType6, " &
          "   tax7.type as TaxType7,tax8.type as TaxType8,tax9.type as TaxType9,tax10.type as TaxType10,TSPL_SD_SHIPMENT_DETAIL.TAX1_Amt as dTAX1_Amt , " &
          "  TSPL_SD_SHIPMENT_DETAIL.TAX2_Amt as dTAX2_Amt  ,TSPL_SD_SHIPMENT_DETAIL.TAX3_Amt as dTAX3_Amt ,TSPL_SD_SHIPMENT_DETAIL.TAX4_Amt as dTAX4_Amt  , " &
          " TSPL_SD_SHIPMENT_DETAIL.TAX5_Amt as dTAX5_Amt  ,TSPL_SD_SHIPMENT_DETAIL.TAX6_Amt as dTAX6_Amt ,TSPL_SD_SHIPMENT_DETAIL.TAX7_Amt as dTAX7_Amt , " &
@@ -6307,7 +6315,7 @@ Public Class frmSNShipment
          " TSPL_SD_SHIPMENT_DETAIL.TAX7_Rate as dTAX7_Rate ,TSPL_SD_SHIPMENT_DETAIL.TAX8_Rate as dTAX8_Rate ,TSPL_CUSTOMER_MASTER.State as Cust_Sate_Code ," &
          " TSPL_LOCATION_MASTER.State as Loc_Sate_Code,Cust_State.STATE_NAME as Cust_State_Name,Cust_State.GST_STATE_Code as Cust_GST_State_Code, " &
          " Loc_State.STATE_NAME as Loc_State_Name, Loc_State.GST_STATE_Code as Loc_GST_State_Code,TSPL_SD_SHIPMENT_HEAD.Is_Taxable , Cust_State.Is_GST_UT as Cust_Is_UT," &
-         " Loc_State.Is_GST_UT as Loc_Is_UT, TSPL_LOCATION_MASTER.Location_Code as Loc_Code,TSPL_LOCATION_MASTER.Location_Desc , TSPL_CUSTOMER_MASTER.Cust_Code, " &
+         " Loc_State.Is_GST_UT as Loc_Is_UT, TSPL_LOCATION_MASTER.Location_Code as Loc_Code,TSPL_LOCATION_MASTER.Location_Desc ,TSPL_LOCATION_MASTER.City_Code, TSPL_CUSTOMER_MASTER.Cust_Code, " &
          " TSPL_CUSTOMER_MASTER.Add1 as Cust_Add1,TSPL_CUSTOMER_MASTER.Add2 as Cust_Add2,TSPL_CUSTOMER_MASTER.Add3 as Cust_Add3, TSPL_CUSTOMER_MASTER.PAN as Cust_Pan_no," &
          "  Cust_City.City_Name , TSPL_ITEM_MASTER .HSN_Code  ," &
          " TSPL_SD_SHIPMENT_HEAD.Price_code , '' as Cust_PO_Date,TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt1 , TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt2," &
@@ -6354,7 +6362,7 @@ Public Class frmSNShipment
         Qry += " tax8.Tax_Code_Desc as tax8name,isnull (TSPL_SD_SHIPMENT_HEAD.tax8_amt,0) as txt8amt,   "
         Qry += " tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SHIPMENT_HEAD.tax9_amt,0) as txt9amt,  "
         Qry += " tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SHIPMENT_HEAD.tax10_amt,0) as txt10amt,  "
-        Qry += " isnull(TSPL_SD_SHIPMENT_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_SD_SHIPMENT_HEAD.Total_Amt as DocAmt,  TSPL_COMPANY_MASTER.Comp_Name as compname,ISNULL(TSPL_COMPANY_MASTER.Phone1,'')+ Case When ISNULL(TSPL_COMPANY_MASTER.Phone2,'')<>'' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as Phone,TSPL_COMPANY_MASTER.Fax ,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,"
+        Qry += " isnull(TSPL_SD_SHIPMENT_HEAD .Total_Tax_Amt,0) as total_tax_amt, TSPL_SD_SHIPMENT_HEAD.Total_Amt as DocAmt,  TSPL_COMPANY_MASTER.Comp_Name as compname,CASE WHEN ISNULL(tspl_location_master.Phone1, '') <> '' AND ISNULL(tspl_location_master.Phone2, '') = '' THEN tspl_location_master.Phone1 ELSE '' END AS Phone,TSPL_COMPANY_MASTER.Fax ,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,ISNULL(tspl_company_Master.ADD1,'') as address1,"
         Qry += " TSPL_SD_SHIPMENT_DETAIL.item_code as item_code, TSPL_ITEM_MASTER.Item_Desc   as itemdesc, TSPL_SD_SHIPMENT_DETAIL.Row_Type,TSPL_SD_SHIPMENT_DETAIL.Qty as qty,TSPL_SD_SHIPMENT_DETAIL.unit_code as uom,TSPL_SD_SHIPMENT_DETAIL.item_cost as itemcost,TSPL_SD_SHIPMENT_DETAIL.amount as amount,TSPL_SD_SHIPMENT_HEAD.TAX1,TSPL_SD_SHIPMENT_HEAD.TAX2,TSPL_SD_SHIPMENT_HEAD.TAX3,TSPL_SD_SHIPMENT_HEAD.TAX4,TSPL_SD_SHIPMENT_HEAD.TAX5,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge "
         Qry += " " & QryShowStatus & " "
         Qry += " " & SerialNoColumn & "  "

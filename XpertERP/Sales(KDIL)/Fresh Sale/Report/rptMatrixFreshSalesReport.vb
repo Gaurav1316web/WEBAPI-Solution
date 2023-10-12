@@ -1422,6 +1422,17 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 whrcls += " And TSPL_ROUTE_MASTER.Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
             End If
 
+            Dim MilkProductBoth As String = Nothing
+            If rbtnMilk.Checked Then
+                MilkProductBoth = "Milk"
+                whrcls += " And TSPL_ITEM_MASTER.Structure_Code='" + MilkProductBoth + "'"
+            ElseIf rbtnProduct.Checked Then
+                MilkProductBoth = "Product"
+                whrcls += " And TSPL_ITEM_MASTER.Structure_Code='" + MilkProductBoth + "'"
+            Else
+                MilkProductBoth = "'Milk','Product'"
+                whrcls += " And TSPL_ITEM_MASTER.Structure_Code IN (" + MilkProductBoth + ")"
+            End If
 
 
             Dim Qry As String = Nothing
@@ -1470,6 +1481,18 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
 
             If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
                 whrcls += " And TSPL_ROUTE_MASTER.Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
+            End If
+
+            Dim MilkProductBoth As String = Nothing
+            If rbtnMilk.Checked Then
+                MilkProductBoth = "Milk"
+                whrcls += " And TSPL_ITEM_MASTER.Structure_Code='" + MilkProductBoth + "'"
+            ElseIf rbtnProduct.Checked Then
+                MilkProductBoth = "Product"
+                whrcls += " And TSPL_ITEM_MASTER.Structure_Code='" + MilkProductBoth + "'"
+            Else
+                MilkProductBoth = "'Milk','Product'"
+                whrcls += " And TSPL_ITEM_MASTER.Structure_Code IN (" + MilkProductBoth + ")"
             End If
 
             Dim Qry As String = Nothing

@@ -45,38 +45,41 @@ Public Class frmDeletionForEntry
             'isInsideLoadData = True
             Dim obj As New clsGRNHead()
             obj = clsGRNHead.GetData(strCode, NavTyep)
-            txtDocNo.Value = obj.GRN_No
-            txtDate.Value = obj.GRN_Date
-            txtBillToLocation.Value = obj.Bill_To_Location
-            lblBillToLocation.Text = obj.BillToLocationName
-            txtVendorNo.Value = obj.Vendor_Code
-            lblVendorName.Text = obj.Vendor_Name
-            txtVehicleNo.Text = obj.VehicleNo
-            txtItemName.Text = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_GRN_DETAIL where GRN_No = '" + obj.GRN_No + "'  ")
-            txtItemCode.Text = clsDBFuncationality.getSingleValue("select Item_Code from TSPL_GRN_DETAIL where GRN_No = '" + obj.GRN_No + "'  ")
-            txtRefNo.Text = obj.Ref_No
-            txtqc1.Text = clsDBFuncationality.getSingleValue(" select (case when VisualQCStatus=0 then 'Pending' else (case when VisualQCStatus=1 then 'Ok' else (case when VisualQCStatus=2 then 'Not Ok' else (case when VisualQCStatus=3 then 'Partial Ok'else (case when VisualQCStatus=4 then 'On Hold' else  'Under deviation'end) end) end)end)end) as Staus1 from TSPL_GRN_HEAD where GRN_No = '" + obj.GRN_No + "'   ")
-            txtqc2.Text = clsDBFuncationality.getSingleValue(" select (case when VisualQCStatusSecond=0 then 'Pending' else (case when VisualQCStatusSecond=1 then 'Ok' else (case when VisualQCStatusSecond=2 then 'Not Ok' else (case when VisualQCStatusSecond=3 then 'Partial Ok'else (case when VisualQCStatusSecond=4 then 'On Hold' else  'Under deviation'end) end) end)end)end) as Staus2 from TSPL_GRN_HEAD where GRN_No = '" + obj.GRN_No + "'  ")
-            TxtWeighment.Text = clsDBFuncationality.getSingleValue(" Select Weighment_Code from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No where Against_GRN_No = '" + obj.GRN_No + "'  ")
-            WeighmetDate.Value = clsDBFuncationality.getSingleValue(" Select Weighment_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No  where Against_GRN_No = '" + obj.GRN_No + "'  ")
-            txttMRN.Text = clsDBFuncationality.getSingleValue(" Select MRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
-            MRNDatee.Value = clsDBFuncationality.getSingleValue(" Select MRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
-            obj.MRNNo = txttMRN.Text
-            txtNic.Text = clsDBFuncationality.getSingleValue("select Document_No from TSPL_NIR_QC where MRN_No = '" + obj.MRNNo + "' ")
-            NicDate.Value = clsDBFuncationality.getSingleValue("select Document_Date from TSPL_NIR_QC where MRN_No = '" + obj.MRNNo + "' ")
-            txtWet.Text = clsDBFuncationality.getSingleValue("select Document_Code from TSPL_QC_CHECK_HEAD where Gate_Entry_No = '" + obj.GRN_No + "'")
-            WetDate.Value = clsDBFuncationality.getSingleValue("select Document_Date from TSPL_QC_CHECK_HEAD where Gate_Entry_No = '" + obj.GRN_No + "'")
-            txttSRN.Text = clsDBFuncationality.getSingleValue("Select SRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "' ")
-            SRNDatee.Value = clsDBFuncationality.getSingleValue("Select SRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "' ")
-            obj.SRNNo = txttSRN.Text
-            txtPenalty.Text = clsDBFuncationality.getSingleValue("select TSPL_TENDER_PENALTY_DETAIL.Document_No  from TSPL_TENDER_PENALTY left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.Document_No = TSPL_TENDER_PENALTY.Document_No where SRN_No='" + obj.SRNNo + "'")
-            PenaltyDate.Value = clsDBFuncationality.getSingleValue("select TSPL_TENDER_PENALTY.Document_Date  from TSPL_TENDER_PENALTY left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.Document_No = TSPL_TENDER_PENALTY.Document_No where SRN_No='" + obj.SRNNo + "'")
-            txtPINo.Text = clsDBFuncationality.getSingleValue(" Select PI_No from TSPL_PI_DETAIL where GRN_ID='" + obj.GRN_No + "'")
-            obj.PINo = txtPINo.Text
-            PIDate.Value = clsDBFuncationality.getSingleValue("select MAX(PI_Date) from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No=TSPL_PI_HEAD.PI_No where TSPL_PI_DETAIL.PI_No='" + obj.PINo + "' GROUP BY TSPL_PI_DETAIL.PI_No")
-            PIGrid()
-            RALGrid()
-
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.GRN_No) > 0) Then
+                txtDocNo.Value = obj.GRN_No
+                txtDate.Value = obj.GRN_Date
+                txtBillToLocation.Value = obj.Bill_To_Location
+                lblBillToLocation.Text = obj.BillToLocationName
+                txtVendorNo.Value = obj.Vendor_Code
+                lblVendorName.Text = obj.Vendor_Name
+                txtVehicleNo.Text = obj.VehicleNo
+                txtItemName.Text = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_GRN_DETAIL where GRN_No = '" + obj.GRN_No + "'  ")
+                txtItemCode.Text = clsDBFuncationality.getSingleValue("select Item_Code from TSPL_GRN_DETAIL where GRN_No = '" + obj.GRN_No + "'  ")
+                txtRefNo.Text = obj.Ref_No
+                txtqc1.Text = clsDBFuncationality.getSingleValue(" select (case when VisualQCStatus=0 then 'Pending' else (case when VisualQCStatus=1 then 'Ok' else (case when VisualQCStatus=2 then 'Not Ok' else (case when VisualQCStatus=3 then 'Partial Ok'else (case when VisualQCStatus=4 then 'On Hold' else  'Under deviation'end) end) end)end)end) as Staus1 from TSPL_GRN_HEAD where GRN_No = '" + obj.GRN_No + "'   ")
+                txtqc2.Text = clsDBFuncationality.getSingleValue(" select (case when VisualQCStatusSecond=0 then 'Pending' else (case when VisualQCStatusSecond=1 then 'Ok' else (case when VisualQCStatusSecond=2 then 'Not Ok' else (case when VisualQCStatusSecond=3 then 'Partial Ok'else (case when VisualQCStatusSecond=4 then 'On Hold' else  'Under deviation'end) end) end)end)end) as Staus2 from TSPL_GRN_HEAD where GRN_No = '" + obj.GRN_No + "'  ")
+                TxtWeighment.Text = clsDBFuncationality.getSingleValue(" Select Weighment_Code from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No where Against_GRN_No = '" + obj.GRN_No + "'  ")
+                WeighmetDate.Value = clsDBFuncationality.getSingleValue(" Select Weighment_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No  where Against_GRN_No = '" + obj.GRN_No + "'  ")
+                txttMRN.Text = clsDBFuncationality.getSingleValue(" Select MRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
+                MRNDatee.Value = clsDBFuncationality.getSingleValue(" Select MRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
+                obj.MRNNo = txttMRN.Text
+                txtNic.Text = clsDBFuncationality.getSingleValue("select Document_No from TSPL_NIR_QC where MRN_No = '" + obj.MRNNo + "' ")
+                NicDate.Value = clsDBFuncationality.getSingleValue("select Document_Date from TSPL_NIR_QC where MRN_No = '" + obj.MRNNo + "' ")
+                txtWet.Text = clsDBFuncationality.getSingleValue("select Document_Code from TSPL_QC_CHECK_HEAD where Gate_Entry_No = '" + obj.GRN_No + "'")
+                WetDate.Value = clsDBFuncationality.getSingleValue("select Document_Date from TSPL_QC_CHECK_HEAD where Gate_Entry_No = '" + obj.GRN_No + "'")
+                txttSRN.Text = clsDBFuncationality.getSingleValue("Select SRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "' ")
+                SRNDatee.Value = clsDBFuncationality.getSingleValue("Select SRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "' ")
+                obj.SRNNo = txttSRN.Text
+                txtPenalty.Text = clsDBFuncationality.getSingleValue("select TSPL_TENDER_PENALTY_DETAIL.Document_No  from TSPL_TENDER_PENALTY left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.Document_No = TSPL_TENDER_PENALTY.Document_No where SRN_No='" + obj.SRNNo + "'")
+                PenaltyDate.Value = clsDBFuncationality.getSingleValue("select TSPL_TENDER_PENALTY.Document_Date  from TSPL_TENDER_PENALTY left outer join TSPL_TENDER_PENALTY_DETAIL on TSPL_TENDER_PENALTY_DETAIL.Document_No = TSPL_TENDER_PENALTY.Document_No where SRN_No='" + obj.SRNNo + "'")
+                txtPINo.Text = clsDBFuncationality.getSingleValue(" Select PI_No from TSPL_PI_DETAIL where GRN_ID='" + obj.GRN_No + "'")
+                obj.PINo = txtPINo.Text
+                PIDate.Value = clsDBFuncationality.getSingleValue("select MAX(PI_Date) from TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No=TSPL_PI_HEAD.PI_No where TSPL_PI_DETAIL.PI_No='" + obj.PINo + "' GROUP BY TSPL_PI_DETAIL.PI_No")
+                PIGrid()
+                RALGrid()
+            Else
+                Addnew()
+            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         Finally
@@ -85,34 +88,36 @@ Public Class frmDeletionForEntry
 
     Public Sub RALGrid()
         Try
-            Dim qryral As String = ""
-            Dim dt As New DataTable()
-            qryral = "select distinct TSPL_TENDER_PENALTY_DETAIL.Document_No,Document_Date from TSPL_TENDER_PENALTY_DETAIL
+            If Not String.IsNullOrEmpty(txtPenalty.Text) Then
+                Dim qryral As String = ""
+                Dim dt As New DataTable()
+                qryral = "select distinct TSPL_TENDER_PENALTY_DETAIL.Document_No,Document_Date from TSPL_TENDER_PENALTY_DETAIL
                    left outer join TSPL_TENDER_PENALTY on TSPL_TENDER_PENALTY.Document_No=TSPL_TENDER_PENALTY_DETAIL.Document_No
                    where   TSPL_TENDER_PENALTY.Location_Code='" + txtBillToLocation.Value + "' AND TSPL_TENDER_PENALTY.Item_Code='" + txtItemCode.Text + "' 
                    AND TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "'   AND TSPL_TENDER_PENALTY.Tender_No='" + txtRefNo.Text + "' AND TSPL_TENDER_PENALTY_DETAIL.Document_No>='" + txtPenalty.Text + "' order by Document_No desc "
 
-            If clsCommon.myLen(qryral) > 0 Then
-                dt = clsDBFuncationality.GetDataTable(qryral)
-            End If
+                If clsCommon.myLen(qryral) > 0 Then
+                    dt = clsDBFuncationality.GetDataTable(qryral)
+                End If
 
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Gv1.DataSource = Nothing
-                Gv1.GroupDescriptors.Clear()
-                Gv1.SummaryRowsBottom.Clear()
-                Gv1.DataSource = dt
-                Gv1.BestFitColumns()
-                For Each row As DataRow In dt.Rows
-                    'Gv1.Rows.AddNew()
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colCheck).Value = False
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colDocument_No).Value = clsCommon.myCstr(row("Document_No"))
-                    Gv1.Rows(Gv1.Rows.Count - 1).Cells(colDocument_Date).Value = clsCommon.myCstr(row("Document_Date"))
-                Next
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Gv1.DataSource = Nothing
+                    Gv1.GroupDescriptors.Clear()
+                    Gv1.SummaryRowsBottom.Clear()
+                    Gv1.DataSource = dt
+                    Gv1.BestFitColumns()
+                    For Each row As DataRow In dt.Rows
+                        'Gv1.Rows.AddNew()
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colCheck).Value = False
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colDocument_No).Value = clsCommon.myCstr(row("Document_No"))
+                        Gv1.Rows(Gv1.Rows.Count - 1).Cells(colDocument_Date).Value = clsCommon.myCstr(row("Document_Date"))
+                    Next
 
-                FormatGrid()
-            Else
-                Gv1.DataSource = Nothing
-                Gv1.Rows.Clear()
+                    FormatGrid()
+                Else
+                    Gv1.DataSource = Nothing
+                    Gv1.Rows.Clear()
+                End If
             End If
         Catch ex As Exception
         End Try
@@ -120,35 +125,37 @@ Public Class frmDeletionForEntry
 
     Public Sub PIGrid()
         Try
-            Dim qrypi As String = ""
-            Dim dt1 As New DataTable()
-            qrypi = "SELECT Distinct TSPL_PI_DETAIL.PI_No,PI_Date FROM TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
+            If Not String.IsNullOrEmpty(txtPenalty.Text) Then
+                Dim qrypi As String = ""
+                Dim dt1 As New DataTable()
+                qrypi = "SELECT Distinct TSPL_PI_DETAIL.PI_No,PI_Date FROM TSPL_PI_DETAIL left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
                      WHERE SRN_Id IN (select  DISTINCT SRN_No from TSPL_TENDER_PENALTY_DETAIL
                      left outer join TSPL_TENDER_PENALTY on TSPL_TENDER_PENALTY.Document_No=TSPL_TENDER_PENALTY_DETAIL.Document_No
                      where   TSPL_TENDER_PENALTY.Location_Code='" + txtBillToLocation.Value + "' AND TSPL_TENDER_PENALTY.Item_Code='" + txtItemCode.Text + "' 
                      AND TSPL_TENDER_PENALTY.Vendor_Code='" + txtVendorNo.Value + "'  AND TSPL_TENDER_PENALTY.Tender_No='" + txtRefNo.Text + "' AND TSPL_TENDER_PENALTY_DETAIL.Document_No>='" + txtPenalty.Text + "')order by TSPL_PI_DETAIL.PI_No desc "
 
-            If clsCommon.myLen(qrypi) > 0 Then
-                dt1 = clsDBFuncationality.GetDataTable(qrypi)
-            End If
+                If clsCommon.myLen(qrypi) > 0 Then
+                    dt1 = clsDBFuncationality.GetDataTable(qrypi)
+                End If
 
-            If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-                Gv2.DataSource = Nothing
-                Gv2.GroupDescriptors.Clear()
-                Gv2.SummaryRowsBottom.Clear()
-                Gv2.DataSource = dt1
-                Gv2.BestFitColumns()
+                If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
+                    Gv2.DataSource = Nothing
+                    Gv2.GroupDescriptors.Clear()
+                    Gv2.SummaryRowsBottom.Clear()
+                    Gv2.DataSource = dt1
+                    Gv2.BestFitColumns()
 
-                For Each row As DataRow In dt1.Rows
-                    'Gv2.Rows.AddNew()
-                    Gv2.Rows(Gv2.Rows.Count - 1).Cells(colCheckPI).Value = False
-                    Gv2.Rows(Gv2.Rows.Count - 1).Cells(colPI_No).Value = clsCommon.myCstr(row("PI_No"))
-                    Gv2.Rows(Gv2.Rows.Count - 1).Cells(colPI_Date).Value = clsCommon.myCstr(row("PI_Date"))
-                Next
-                FormatGridGv2()
-            Else
-                Gv2.DataSource = Nothing
-                Gv2.Rows.Clear()
+                    For Each row As DataRow In dt1.Rows
+                        'Gv2.Rows.AddNew()
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colCheckPI).Value = False
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colPI_No).Value = clsCommon.myCstr(row("PI_No"))
+                        Gv2.Rows(Gv2.Rows.Count - 1).Cells(colPI_Date).Value = clsCommon.myCstr(row("PI_Date"))
+                    Next
+                    FormatGridGv2()
+                Else
+                    Gv2.DataSource = Nothing
+                    Gv2.Rows.Clear()
+                End If
             End If
         Catch ex As Exception
         End Try
@@ -185,12 +192,12 @@ Public Class frmDeletionForEntry
 
     End Sub
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-
-        Dim qry As String = "select TSPL_GRN_HEAD.GRN_No as Code,FORMAT(CAST(GRN_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') AS Date,TSPL_GRN_HEAD.Vendor_Code as [Vendor Code], TSPL_GRN_HEAD.Vendor_Name as Vendor,ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],GRN_Total_Amt as Amount,case when TSPL_GRN_HEAD.IsCancel=1 then 'Cancel' when TSPL_GRN_HEAD.Status='0' then 'Pending' else 'Approved' end as [Status],TSPL_GRN_HEAD.Against_PO as [Against PO Code] "
-        If Is_RGP_After_PO Then
-            qry += ",TSPL_GRN_HEAD.Against_RGP_No as [Against RGP Code] "
-        End If
-        qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as [Tendor No]
+        Try
+            Dim qry As String = "select TSPL_GRN_HEAD.GRN_No as Code,FORMAT(CAST(GRN_Date AS DATETIME),'dd/MM/yyyy hh:mm tt') AS Date,TSPL_GRN_HEAD.Vendor_Code as [Vendor Code], TSPL_GRN_HEAD.Vendor_Name as Vendor,ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],GRN_Total_Amt as Amount,case when TSPL_GRN_HEAD.IsCancel=1 then 'Cancel' when TSPL_GRN_HEAD.Status='0' then 'Pending' else 'Approved' end as [Status],TSPL_GRN_HEAD.Against_PO as [Against PO Code] "
+            If Is_RGP_After_PO Then
+                qry += ",TSPL_GRN_HEAD.Against_RGP_No as [Against RGP Code] "
+            End If
+            qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as [Tendor No]
                  ,TSPL_GRN_HEAD.VehicleNo as [Vehicle No]
                  ,case when VisualQCRequired.Is_Visual_QC=0 then 'Not Applicable' when TSPL_GRN_HEAD.VisualQCStatus=1 then 'Ok' when TSPL_GRN_HEAD.VisualQCStatus='2' then 'Not Ok' when TSPL_GRN_HEAD.VisualQCStatus='3' then 'Partial Ok'  when TSPL_GRN_HEAD.VisualQCStatus='4' then 'On Hold' else 'Pending' end as [Visual QC Status]
                  ,case when VisualQCRequired.Is_Visual_QC=0 then 'Not Applicable' when TSPL_GRN_HEAD.VisualQCStatusSecond=1 then 'Ok' when TSPL_GRN_HEAD.VisualQCStatusSecond='2' then 'Not Ok' when TSPL_GRN_HEAD.VisualQCStatusSecond='3' then 'Partial Ok'  when TSPL_GRN_HEAD.VisualQCStatusSecond='4' then 'On Hold' else 'Pending' end as [Visual QC Second Status]
@@ -200,12 +207,16 @@ Public Class frmDeletionForEntry
                 SELECT TSPL_GRN_DETAIL.GRN_No as GRN_No,MAX(TSPL_ITEM_MASTER.Visual_QC) AS Is_Visual_QC FROM TSPL_GRN_DETAIL
                 LEFT JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.ITEM_CODE=TSPL_GRN_DETAIL.ITEM_CODE
                 GROUP BY TSPL_GRN_DETAIL.GRN_No) as VisualQCRequired on TSPL_GRN_HEAD.grn_no=VisualQCRequired.GRN_No"
-        Dim whrClas As String = "  2=2  "
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrClas += " and TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
-        End If
+            Dim whrClas As String = "  2=2  "
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrClas += " and TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+            End If
 
-        LoadData(clsCommon.ShowSelectForm("GRNFND", qry, "Code", whrClas, txtDocNo.Value, "GRN_Date desc", isButtonClicked), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("GRNFND", qry, "Code", whrClas, txtDocNo.Value, "GRN_Date desc", isButtonClicked), NavigatorType.Current)
+
+        Catch ex As Exception
+        End Try
+
     End Sub
 
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator

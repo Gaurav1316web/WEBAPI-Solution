@@ -88,10 +88,13 @@
     <Compile Include="Classes\clsFrieghtRateMaster.vb" />
     <Compile Include="Classes\clsGetKeys.vb" />
     <Compile Include="Classes\clsNewDCSScreen.vb" />
+    <Compile Include="Classes\clsTaxCalculation.vb" />
     <Compile Include="Classes\clsUserMgtCode.vb" />
+    <Compile Include="clsDBTSummaryYearWise.vb" />
     <Compile Include="Comman Services\clsBankGroupMaster.vb" />
     <Compile Include="Classes\connectSql.vb" />
     <Compile Include="Classes\objCommonVar.vb" />
+    <Compile Include="Notification\ClsNotification.vb" />
     <Compile Include="Sales Distribution\ClsDCSforSale.vb" />
     <Compile Include="clsTenderPenalty.vb" />
     <Compile Include="Milk Procurement\ClsOwnBmcExpanse.vb" />
@@ -100,6 +103,9 @@
       <DependentUpon>Application.myapp</DependentUpon>
     </Compile>
     <Compile Include="Sales Distribution\clsEInvoiceHead.vb" />
+    <Compile Include="Share\clsShareAllotment.vb" />
+    <Compile Include="Share\ClsShareMaster.vb" />
+    <Compile Include="Share\ClsShareMovement.vb" />
     <Compile Include="UserControl1.vb">
       <SubType>UserControl</SubType>
     </Compile>
