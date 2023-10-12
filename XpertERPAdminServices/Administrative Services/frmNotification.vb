@@ -133,12 +133,13 @@ Public Class frmNotification
         Else
             txtCode.MyReadOnly = True
         End If
-        If txtCode.MyReadOnly OrElse isButtonClicked Then
-            Dim whrClas As String = ""
+        'If txtCode.MyReadOnly OrElse isButtonClicked Then
+        Dim whrClas As String = ""
             Dim qry As String = "select Document_No as Code,Document_Date as Date,Start_Date As 'Start Date',End_Date As 'End Date',Subject,Status from TSPL_NOTIFICATIONS"
-            txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_NOTIFICATIONS.Document_No ", isButtonClicked, "")
-            LoadData(txtCode.Value, NavigatorType.Current)
-        End If
+        LoadData(clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_NOTIFICATIONS.Document_No  ", isButtonClicked), NavigatorType.Current)
+        ' txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_NOTIFICATIONS.Document_No ", isButtonClicked, "")
+        'LoadData(txtCode.Value, NavigatorType.Current)
+        ' End If
     End Sub
 
     Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
