@@ -89,14 +89,14 @@ Public Class clsShareAllotment
                 obj.Amount = clsCommon.myCDecimal(dt.Rows(0)("Amount"))
                 obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
-                Dim qrycertificate As String = "Select Certificate_No from TSPL_SHARE_MOVEMENT where Share_Code='" + obj.Share_Code + "'"
-                Dim dtcertificate As DataTable = clsDBFuncationality.GetDataTable(qrycertificate, trans)
-                If dtcertificate.Rows.Count > 0 Then
-                    For i As Integer = 0 To dtcertificate.Rows.Count - 1
-                        obj.Arr.Add(clsCommon.myCstr(dtcertificate(i)("Certificate_No")))
-                    Next
-                    obj.Certificate = clsCommon.GetMulcallStringWithComma(obj.Arr)
-                End If
+                'Dim qrycertificate As String = "Select Certificate_No from TSPL_SHARE_MOVEMENT where Share_Code='" + obj.Share_Code + "'"
+                'Dim dtcertificate As DataTable = clsDBFuncationality.GetDataTable(qrycertificate, trans)
+                'If dtcertificate.Rows.Count > 0 Then
+                '    For i As Integer = 0 To dtcertificate.Rows.Count - 1
+                '        obj.Arr.Add(clsCommon.myCstr(dtcertificate(i)("Certificate_No")))
+                '    Next
+                '    obj.Certificate = clsCommon.GetMulcallStringWithComma(obj.Arr)
+                'End If
             End If
         Catch err As Exception
             Throw New Exception(err.Message)

@@ -103,7 +103,7 @@ Public Class frmShareAllotment
                 txtDate.Value = obj.IDate
                 fndDCSCode.Value = obj.DCS_Code
                 fndShare.Value = obj.Share_Code
-                fndCertificate.Text = obj.Certificate
+                'fndCertificate.Text = obj.Certificate
                 lblName.Text = obj.Name
                 txtNoOfShare.Text = obj.Qty
                 txtRate.Text = obj.Rate
