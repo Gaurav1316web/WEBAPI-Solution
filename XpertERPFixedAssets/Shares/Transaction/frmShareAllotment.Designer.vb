@@ -24,6 +24,8 @@ Partial Class frmShareAllotment
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.txtRemarks = New System.Windows.Forms.TextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtRate = New common.MyNumBox()
         Me.txtAmount = New common.MyNumBox()
@@ -54,11 +56,10 @@ Partial Class frmShareAllotment
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.txtRemarks = New System.Windows.Forms.TextBox()
-        Me.MyLabel9 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,7 +86,6 @@ Partial Class frmShareAllotment
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -130,6 +130,24 @@ Partial Class frmShareAllotment
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 415
         Me.SplitContainer1.TabIndex = 0
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(12, 183)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel9.TabIndex = 1081
+        Me.MyLabel9.Text = "Remarks"
+        '
+        'txtRemarks
+        '
+        Me.txtRemarks.Location = New System.Drawing.Point(110, 183)
+        Me.txtRemarks.Multiline = True
+        Me.txtRemarks.Name = "txtRemarks"
+        Me.txtRemarks.Size = New System.Drawing.Size(258, 56)
+        Me.txtRemarks.TabIndex = 1080
         '
         'btnAddNew
         '
@@ -548,24 +566,6 @@ Partial Class frmShareAllotment
         Me.btnSave.TabIndex = 621
         Me.btnSave.Text = "Save"
         '
-        'txtRemarks
-        '
-        Me.txtRemarks.Location = New System.Drawing.Point(110, 183)
-        Me.txtRemarks.Multiline = True
-        Me.txtRemarks.Name = "txtRemarks"
-        Me.txtRemarks.Size = New System.Drawing.Size(258, 56)
-        Me.txtRemarks.TabIndex = 1080
-        '
-        'MyLabel9
-        '
-        Me.MyLabel9.FieldName = Nothing
-        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(12, 183)
-        Me.MyLabel9.Name = "MyLabel9"
-        Me.MyLabel9.Size = New System.Drawing.Size(51, 16)
-        Me.MyLabel9.TabIndex = 1081
-        Me.MyLabel9.Text = "Remarks"
-        '
         'frmShareAllotment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -582,6 +582,7 @@ Partial Class frmShareAllotment
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).EndInit()
@@ -609,7 +610,6 @@ Partial Class frmShareAllotment
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
