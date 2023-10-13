@@ -131,7 +131,7 @@ Public Class frmShareAllotment
                     Dim rtQry As String = "Select Rate From TSPL_SHARE_MOVEMENT where Certificate_No IN (" & clsCommon.GetMulcallStringWithComma(fndCertificate.arrValueMember) & ") "
                     txtRate.Value = clsDBFuncationality.getSingleValue(rtQry)
                 End If
-                CalulateAmount()
+                CalculateAmount()
             Else
                 clsCommon.MyMessageBoxShow("Fill No Of Share", Me.Text)
             End If
@@ -140,6 +140,17 @@ Public Class frmShareAllotment
         End Try
     End Sub
 
+    Sub CalculateAmount()
+        Try
+            If clsCommon.myCdbl(txtNoOfShare.Value) > 0 AndAlso clsCommon.myCdbl(txtRate.Value) > 0 Then
+                txtAmount.Value = clsCommon.myCdbl(txtNoOfShare.Value) * clsCommon.myCdbl(txtRate.Value)
+            Else
+                txtAmount.Value = 0
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
 
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
@@ -303,13 +314,7 @@ Public Class frmShareAllotment
                     clsCommon.MyMessageBoxShow("Share not available", Me.Text)
                 End If
             End If
-
-
-            If clsCommon.myCdbl(txtNoOfShare.Value) > 0 AndAlso clsCommon.myCdbl(txtRate.Value) > 0 Then
-                txtAmount.Value = clsCommon.myCdbl(txtNoOfShare.Value) * clsCommon.myCdbl(txtRate.Value)
-            Else
-                txtAmount.Value = 0
-            End If
+            CalculateAmount()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
