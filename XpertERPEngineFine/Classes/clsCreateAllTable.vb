@@ -53471,7 +53471,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
             coll.Add("IDate", "Datetime NOT NULL")
-            coll.Add("Remarks", "Varchar(200) not NULL")
+            coll.Add("Remarks", "Varchar(200) NULL")
             coll.Add("Share_Code", "varchar(30) NOT NULL REFERENCES TSPL_SHARE_MASTER(Code)")
             coll.Add("DCS_Code", "varchar(12) NOT NULL REFERENCES TSPL_VENDOR_MASTER(Vendor_Code)")
             coll.Add("Name", "Varchar(50) NOT NULL ")
