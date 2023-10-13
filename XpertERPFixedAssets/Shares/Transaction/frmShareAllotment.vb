@@ -302,22 +302,9 @@ Public Class frmShareAllotment
                 Else
                     clsCommon.MyMessageBoxShow("Share not available", Me.Text)
                 End If
-            Else
-                txtRate.Value = 0
-                fndCertificate.arrValueMember = Nothing
             End If
-            CalulateAmount()
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
-        End Try
-    End Sub
 
-    Private Sub txtRate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtRate.Validating
-        CalulateAmount()
-    End Sub
 
-    Sub CalulateAmount()
-        Try
             If clsCommon.myCdbl(txtNoOfShare.Value) > 0 AndAlso clsCommon.myCdbl(txtRate.Value) > 0 Then
                 txtAmount.Value = clsCommon.myCdbl(txtNoOfShare.Value) * clsCommon.myCdbl(txtRate.Value)
             Else
