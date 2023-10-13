@@ -22,7 +22,7 @@ Partial Class rptDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,6 +30,8 @@ Partial Class rptDailyQtyReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.TxtTankerNo = New common.UserControls.txtFinder()
         Me.txtToleranceSNF = New common.MyNumBox()
         Me.txtToleranceFat = New common.MyNumBox()
         Me.lblToleranceSNF = New common.Controls.MyLabel()
@@ -57,6 +59,7 @@ Partial Class rptDailyQtyReport
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -70,6 +73,7 @@ Partial Class rptDailyQtyReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToleranceSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToleranceFat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblToleranceSNF, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,6 +97,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -139,6 +144,7 @@ Partial Class rptDailyQtyReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
@@ -161,6 +167,8 @@ Partial Class rptDailyQtyReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel5)
+        Me.RadPageViewPage1.Controls.Add(Me.TxtTankerNo)
         Me.RadPageViewPage1.Controls.Add(Me.txtToleranceSNF)
         Me.RadPageViewPage1.Controls.Add(Me.txtToleranceFat)
         Me.RadPageViewPage1.Controls.Add(Me.lblToleranceSNF)
@@ -182,6 +190,42 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(719, 278)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel5.Location = New System.Drawing.Point(51, 111)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(59, 16)
+        Me.MyLabel5.TabIndex = 445
+        Me.MyLabel5.Text = "Tanker No"
+        '
+        'TxtTankerNo
+        '
+        Me.TxtTankerNo.CalculationExpression = Nothing
+        Me.TxtTankerNo.FieldCode = Nothing
+        Me.TxtTankerNo.FieldDesc = Nothing
+        Me.TxtTankerNo.FieldMaxLength = 0
+        Me.TxtTankerNo.FieldName = Nothing
+        Me.TxtTankerNo.isCalculatedField = False
+        Me.TxtTankerNo.IsSourceFromTable = False
+        Me.TxtTankerNo.IsSourceFromValueList = False
+        Me.TxtTankerNo.IsUnique = False
+        Me.TxtTankerNo.Location = New System.Drawing.Point(116, 109)
+        Me.TxtTankerNo.MendatroryField = True
+        Me.TxtTankerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtTankerNo.MyLinkLable1 = Nothing
+        Me.TxtTankerNo.MyLinkLable2 = Nothing
+        Me.TxtTankerNo.MyReadOnly = False
+        Me.TxtTankerNo.MyShowMasterFormButton = False
+        Me.TxtTankerNo.Name = "TxtTankerNo"
+        Me.TxtTankerNo.ReferenceFieldDesc = Nothing
+        Me.TxtTankerNo.ReferenceFieldName = Nothing
+        Me.TxtTankerNo.ReferenceTableName = Nothing
+        Me.TxtTankerNo.Size = New System.Drawing.Size(242, 18)
+        Me.TxtTankerNo.TabIndex = 444
+        Me.TxtTankerNo.Value = ""
         '
         'txtToleranceSNF
         '
@@ -347,7 +391,7 @@ Partial Class rptDailyQtyReport
         Me.rdbTankerWise.AutoSize = True
         Me.rdbTankerWise.Location = New System.Drawing.Point(350, 14)
         Me.rdbTankerWise.Name = "rdbTankerWise"
-        Me.rdbTankerWise.Size = New System.Drawing.Size(128, 17)
+        Me.rdbTankerWise.Size = New System.Drawing.Size(87, 17)
         Me.rdbTankerWise.TabIndex = 7
         Me.rdbTankerWise.Text = "Tanker Wise"
         Me.rdbTankerWise.UseVisualStyleBackColor = True
@@ -566,12 +610,22 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(719, 278)
         Me.Gv1.TabIndex = 0
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(266, 15)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(78, 22)
+        Me.btnPrint.TabIndex = 157
+        Me.btnPrint.Text = "Print"
         '
         'btnSplitExport
         '
@@ -644,6 +698,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToleranceSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToleranceFat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblToleranceSNF, System.ComponentModel.ISupportInitialize).EndInit()
@@ -669,6 +724,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -718,5 +774,8 @@ Partial Class rptDailyQtyReport
     Friend WithEvents lblToleranceFAT As common.Controls.MyLabel
     Friend WithEvents rbtnTranpoterGainLoss As RadioButton
     Friend WithEvents rdbTankerWise As RadioButton
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents TxtTankerNo As common.UserControls.txtFinder
+    Friend WithEvents btnPrint As RadButton
 End Class
 

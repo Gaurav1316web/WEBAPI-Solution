@@ -278,10 +278,10 @@
     <Compile Include="Fixed Assets\Master\frmTemplateMaster.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Fixed Assets\Master\ShareMaster.Designer.vb">
+    <Compile Include="Shares\Master\ShareMaster.Designer.vb">
       <DependentUpon>ShareMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Fixed Assets\Master\ShareMaster.vb">
+    <Compile Include="Shares\Master\ShareMaster.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Fixed Assets\Report\FixedAsset_ReportViewer.Designer.vb">
@@ -538,7 +538,7 @@
     <EmbeddedResource Include="Fixed Assets\Master\frmTemplateMaster.resx">
       <DependentUpon>frmTemplateMaster.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Fixed Assets\Master\ShareMaster.resx">
+    <EmbeddedResource Include="Shares\Master\ShareMaster.resx">
       <DependentUpon>ShareMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Fixed Assets\Report\FixedAsset_ReportViewer.resx">
@@ -665,7 +665,6 @@
     <None Include="Resources\search4.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Shares\Master\" />
     <Folder Include="Shares\Report\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

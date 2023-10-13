@@ -2052,7 +2052,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
     End Sub
     Sub OpenBOMCode(ByVal isButtonClicked As Boolean)
         Dim icode As String = ""
-        Dim whrCls As String = ""
+        'Dim whrCls As String = ""
         Dim bomcode As String = ""
         'icode = clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value)
         'Dim sectionCondition As String = ""
@@ -2092,12 +2092,12 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         qry += " UNION "
 
         qry += " select TSPL_MF_BOM_HEAD.bom_code as Code,TSPL_MF_BOM_HEAD.bom_date as [BOM Date],TSPL_MF_BOM_HEAD.Description,  TSPL_MF_BOM_HEAD.START_DATE as [Valid From],TSPL_MF_BOM_HEAD.END_DATE as [Valid Upto],TSPL_MF_BOM_HEAD.Status,TSPL_MF_BOM_HEAD.prod_item_code as [Main Item Code],  tspl_item_master.item_desc as [Item Description],TSPL_MF_BOM_HEAD.prod_item_unit_code as [Unit],TSPL_MF_BOM_HEAD.prod_quantity as [Quantity],TSPL_MF_BOM_HEAD.revision_no as [Revision No], TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
-	    TSPL_ITEM_UOM_DETAIL.UOM_Code, (case when TSPL_MF_BOM_HEAD.POSTED='1' then 'Posted' else 'UnPosted' end) as [Post Status] from TSPL_MF_BOM_HEAD  left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code
-               inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=tspl_mf_bom_head.PROD_ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
-                inner join ( select TSPL_MF_BOM_HEAD.prod_item_code, max(REVISION_NO) as REVISION_NO from TSPL_MF_BOM_HEAD   where   " + whr + "   group by TSPL_MF_BOM_HEAD.prod_item_code )  TBL_REVISION on TBL_REVISION.prod_item_code = TSPL_MF_BOM_HEAD.prod_item_code and  TBL_REVISION.REVISION_NO = TSPL_MF_BOM_HEAD.revision_no "
+	             TSPL_ITEM_UOM_DETAIL.UOM_Code, (case when TSPL_MF_BOM_HEAD.POSTED='1' then 'Posted' else 'UnPosted' end) as [Post Status] from TSPL_MF_BOM_HEAD  left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code
+                inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=tspl_mf_bom_head.PROD_ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
+                INNER JOIN ( SELECT AAA.LOCATION_CODE,AAA.PROD_ITEM_CODE,MAX(AAA.REVISION_NO) AS REVISION_NO,AAA.BARLEY FROM ( select aa.LOCATION_CODE,aa.PROD_ITEM_CODE,MAX(aa.REVISION_NO) AS REVISION_NO ,AA.RM0001,AA.RM0006, case when ISNULL(aa.RM0001,0)='RM0001' AND ISNULL(aa.RM0006,0)='RM0006' THEN 0 WHEN ISNULL(aa.RM0001,0)<>'RM0001' AND ISNULL(aa.RM0006,0)='RM0006' THEN 1 WHEN ISNULL(aa.RM0001,0)='RM0001' AND ISNULL(aa.RM0006,0)<>'RM0006' THEN 0 END AS BARLEY from ( SELECT * FROM ( SELECT TSPL_MF_BOM_HEAD.LOCATION_CODE, TSPL_MF_BOM_HEAD.PROD_ITEM_CODE, TSPL_MF_BOM_DETAIL.CONSM_ITEM_CODE, MAX(TSPL_MF_BOM_HEAD.REVISION_NO) AS REVISION_NO FROM TSPL_MF_BOM_HEAD LEFT OUTER JOIN TSPL_MF_BOM_DETAIL ON TSPL_MF_BOM_DETAIL.BOM_CODE = TSPL_MF_BOM_HEAD.BOM_CODE WHERE CONSM_ITEM_CODE IN ('RM0001', 'RM0006') GROUP BY LOCATION_CODE, TSPL_MF_BOM_HEAD.PROD_ITEM_CODE, CONSM_ITEM_CODE ) yy PIVOT ( MAX(yy.CONSM_ITEM_CODE) FOR yy.CONSM_ITEM_CODE IN ([RM0001], [RM0006]) ) AS xx )aa GROUP BY aa.LOCATION_CODE,aa.PROD_ITEM_CODE,aa.RM0006,AA.RM0001 )AAA GROUP BY AAA.LOCATION_CODE,AAA.PROD_ITEM_CODE,AAA.BARLEY ) TBL_REVISION ON TBL_REVISION.PROD_ITEM_CODE = TSPL_MF_BOM_HEAD.PROD_ITEM_CODE AND TBL_REVISION.REVISION_NO = TSPL_MF_BOM_HEAD.REVISION_NO and  TSPL_MF_BOM_HEAD.LOCATION_CODE='" + txtLocation.Value + "' "
 
 
-        bomcode = clsCommon.ShowSelectForm("SProductionBOM@Finderr12345", qry, "Code", "", "Code", "Code", isButtonClicked)
+        bomcode = clsCommon.ShowSelectForm("SProductionBOM@Finderr12345", qry, "Code", "", "Code", "", isButtonClicked)
 
 
 

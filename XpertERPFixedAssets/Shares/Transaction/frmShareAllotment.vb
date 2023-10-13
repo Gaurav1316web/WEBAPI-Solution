@@ -8,7 +8,7 @@ Imports System.Data.SqlClient
 Public Class frmShareAllotment
 
 #Region "Variables"
-    Dim isNewEntry As Boolean = True
+    Dim isNewEntry As Boolean = False
 #End Region
     Private Sub frmShareAllotment_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
@@ -79,7 +79,7 @@ Public Class frmShareAllotment
 
     Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
         Try
-            Dim qst As String = "select count(*) from TSPL_ACQUISITION_HEAD where TSPL_Share_Allotment='" + txtCode.Value + "'"
+            Dim qst As String = "select count(*) from TSPL_Share_Allotment where Code='" + txtCode.Value + "'"
             Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
             If count = 0 Then
                 txtCode.MyReadOnly = False
@@ -103,7 +103,11 @@ Public Class frmShareAllotment
                 txtDate.Value = obj.IDate
                 fndDCSCode.Value = obj.DCS_Code
                 fndShare.Value = obj.Share_Code
-                'fndCertificate.Text = obj.Certificate
+                Dim arrCertificate As New ArrayList
+                For i As Integer = 0 To obj.Certificate_No.Count - 1
+                    arrCertificate.Add(obj.Certificate_No(i))
+                Next
+                fndCertificate.arrValueMember = arrCertificate
                 lblName.Text = obj.Name
                 txtNoOfShare.Text = obj.Qty
                 txtRate.Text = obj.Rate
@@ -163,31 +167,27 @@ Public Class frmShareAllotment
 
     Private Sub fndCertificate__My_Click(sender As Object, e As EventArgs) Handles fndCertificate._My_Click
         Try
-            Dim qry As String = "select Certificate_No As [Certificate No],max(case when Source_Type='SH-MA' then Rate else 0 end) as Rate    from (
-                                 Select PK_ID,Share_Code,Certificate_No,Rate,Amount,RI,Source_Type from TSPL_SHARE_MOVEMENT 
-                                 Where Share_Code='" + fndShare.Value + "')xxx Group By Share_Code,Certificate_No
-                                 Having sum(RI)>0"
-            fndCertificate.arrValueMember = clsCommon.ShowMultipleSelectForm("@Certification", qry, "Certificate No", "Certificate No", fndCertificate.arrValueMember, fndCertificate.arrDispalyMember)
-            If fndCertificate.arrValueMember.Count > 0 Then
-                Dim rtQry As String = "Select Rate From TSPL_SHARE_MOVEMENT where Certificate_No IN (" & clsCommon.GetMulcallStringWithComma(fndCertificate.arrValueMember) & ") "
-                txtRate.Value = clsDBFuncationality.getSingleValue(rtQry)
+            'Dim qry As String = "select Certificate_No As [Certificate No],max(case when Source_Type='SH-MA' then Rate else 0 end) as Rate    from (
+            '                     Select PK_ID,Share_Code,Certificate_No,Rate,Amount,RI,Source_Type from TSPL_SHARE_MOVEMENT 
+            '                     Where Share_Code='" + fndShare.Value + "')xxx Group By Share_Code,Certificate_No
+            '                     Having sum(RI)>0"
+            If clsCommon.myLen(txtNoOfShare.Value) > 0 Then
+                Dim qry As String = clsShareAllotment.ReturnQry(fndShare.Value, clsCommon.myCstr(txtNoOfShare.Value))
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                fndCertificate.arrValueMember = clsCommon.ShowMultipleSelectForm("@Certification", qry, "Certificate No", "Certificate No", fndCertificate.arrValueMember, fndCertificate.arrDispalyMember)
+                If fndCertificate.arrValueMember.Count > 0 Then
+                    Dim rtQry As String = "Select Rate From TSPL_SHARE_MOVEMENT where Certificate_No IN (" & clsCommon.GetMulcallStringWithComma(fndCertificate.arrValueMember) & ") "
+                    txtRate.Value = clsDBFuncationality.getSingleValue(rtQry)
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("Fill No Of Share", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
 
-    Private Sub txtNoOfShare_TextChanged(sender As Object, e As EventArgs) Handles txtNoOfShare.TextChanged
-        Try
-            If clsCommon.myCdbl(txtNoOfShare.Value) > 0 AndAlso clsCommon.myCdbl(txtRate.Value) > 0 Then
-                txtAmount.Value = clsCommon.myCdbl(txtNoOfShare.Value) * clsCommon.myCdbl(txtRate.Value)
-            Else
-                txtAmount.Value = 0
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
-        End Try
-    End Sub
+
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Try
@@ -209,6 +209,16 @@ Public Class frmShareAllotment
             obj.Rate = txtRate.Text
             obj.Amount = txtAmount.Text
             obj.Remarks = txtRemarks.Text
+            If fndCertificate.arrValueMember IsNot Nothing Then
+                For i As Integer = 0 To fndCertificate.arrValueMember.Count - 1
+                    obj.Certificate_No.Add(fndCertificate.arrValueMember(i))
+                Next
+            End If
+            If clsCommon.myLen(obj.Code) > 0 Then
+                isNewEntry = False
+            Else
+                isNewEntry = True
+            End If
             If (obj.SaveData(obj, isNewEntry)) Then
                 clsCommon.MyMessageBoxShow("Data save successfully.", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
@@ -229,6 +239,7 @@ Public Class frmShareAllotment
     Private Sub AddNew()
         UsLock1.Status = ERPTransactionStatus.Pending
         txtCode.MyReadOnly = False
+        txtCode.Value = Nothing
         txtDate.Value = clsCommon.GETSERVERDATE()
         fndDCSCode.Value = Nothing
         fndShare.Value = Nothing
@@ -243,6 +254,7 @@ Public Class frmShareAllotment
         btnDelete.Enabled = True
         isNewEntry = True
         txtRemarks.Text = Nothing
+        fndCertificate.arrValueMember = Nothing
     End Sub
 
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
@@ -272,36 +284,6 @@ Public Class frmShareAllotment
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
-        Try
-            Dim sqlqry As String = "  select Max(TSPL_SHARE_MOVEMENT.Source_Date)Source_Date,TSPL_SHARE_ALLOTMENT.Share_Code,max(TSPL_SHARE_MOVEMENT.Certificate_No)Certificate_No,Max(TSPL_SHARE_ALLOTMENT.Share_Code)Share_Code,max(TSPL_SHARE_ALLOTMENT.DCS_Code)DCS_Code,max(TSPL_SHARE_ALLOTMENT.Name)Name,max(TSPL_SHARE_MASTER.Qty)Qty,max(TSPL_SHARE_MASTER.Rate)Rate,max(TSPL_SHARE_MASTER.Amount)Amount,max(tspl_fiscal_year_master.Fiscal_Code)Fiscal_Code,
- max(SUBSTRING(tspl_fiscal_year_master.Fiscal_Name,15,23))Fiscal_Name,
-MAX(tspl_fiscal_year_master.Start_Date)Start_date,max(tspl_fiscal_year_master.end_Date)end_date,
- max(TSPL_SHARE_MASTER.Range_From)Range_From,max(TSPL_SHARE_MASTER.Range_To)Range_To,Max(TSPL_COMPANY_MASTER.Comp_Name)Comp_Name,Max(TSPL_COMPANY_MASTER.City_Code)City_Code
- 
- FROM TSPL_SHARE_ALLOTMENT
-LEFT JOIN TSPL_SHARE_MASTER ON  TSPL_SHARE_MASTER.cODE= TSPL_SHARE_ALLOTMENT.Share_CODE
-
-left join TSPL_SHARE_MOVEMENT on TSPL_SHARE_MOVEMENT.Source_Code=TSPL_SHARE_MASTER.Code
-left join TSPL_VENDOR_MASTER on TSPL_SHARE_ALLOTMENT.DCS_Code=TSPL_VENDOR_MASTER.Vendor_Code
-left join tspl_fiscal_year_master on tspl_fiscal_year_master.Comp_Code=TSPL_VENDOR_MASTER.Comp_Code
-left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code= TSPL_VENDOR_MASTER.Comp_Code
-
-where
-TSPL_SHARE_ALLOTMENT.Code ='" & txtCode.Value & "'
-            group by TSPL_SHARE_ALLOTMENT.Share_Code"
-            Dim dt As DataTable
-            dt = clsDBFuncationality.GetDataTable(sqlqry)
-            If dt.Rows.Count > 0 Then
-                Dim crysFrm As New frmCrystalReportViewer()
-                crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dt, "sharereport", "Share Report")
-            End If
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
-
         End Try
     End Sub
 End Class
