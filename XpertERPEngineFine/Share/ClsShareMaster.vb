@@ -50,7 +50,7 @@ Public Class ClsShareMaster
             clsCommon.AddColumnsForChange(coll, "Range_To", obj.CertificateTo)
             clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
             clsCommon.AddColumnsForChange(coll, "Amount", obj.Amount)
-            clsCommon.AddColumnsForChange(coll, "IDate", obj.IDate)
+            clsCommon.AddColumnsForChange(coll, "IDate", clsCommon.GetPrintDate(obj.IDate, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -176,7 +176,7 @@ Public Class ClsShareMaster
             For i As Integer = obj.CertificateFrom To obj.CertificateTo
                 Dim objTr As New ClsShareMovement()
                 objTr.Source_Code = obj.Code
-                objTr.Source_Date = obj.IDate
+                objTr.Source_Date = clsCommon.GetPrintDate(obj.IDate, "dd/MMM/yyyy hh:mm tt")
                 objTr.Source_Type = "SH-MA"
                 objTr.Share_Code = obj.Code
                 'objTr.Certificate_No = obj.CertificateFrom
