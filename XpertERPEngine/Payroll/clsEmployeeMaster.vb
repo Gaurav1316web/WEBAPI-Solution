@@ -215,7 +215,7 @@ Public Class clsEmployeeMaster
         Dim obj As clsEmployeeMaster = Nothing
         Dim whrcls As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " And TSPL_EMPLOYEE_MASTER.LOCATION_CODE in (" + objCommonVar.strCurrUserLocations + ")"
+            whrcls = " And TSPL_EMPLOYEE_MASTER.LOCATION_CODE IN (" + objCommonVar.strCurrUserLocations + ")"
         End If
         Dim qry As String = " select TSPL_EMPLOYEE_MASTER.* from TSPL_EMPLOYEE_MASTER where 2=2" + whrcls
         Select Case NavType

@@ -274,7 +274,7 @@ Public Class clsUserMgtCode
 
     ''===========ShareTransaction=================
     Public Const SubModuleShareTransaction As String = "SMShareT"
-
+    Public Const frmShareAllotment As String = "SHA-ALT"
 
     ''============ShareReport=======================
     Public Const SubModuleShareReport As String = "SMShareR"

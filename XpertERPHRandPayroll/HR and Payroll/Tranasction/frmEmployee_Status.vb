@@ -391,11 +391,11 @@ Public Class frmEmployee_Status
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
         Dim whrcls As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " where T2.LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            whrcls = " where T2.LOCATION_CODE in (" + objCommonVar.strCurrUserLocations + ")"
         End If
         Dim whrQry As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrQry = " and LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            whrQry = " and LOCATION_CODE in (" + objCommonVar.strCurrUserLocations + ")"
         End If
         Dim str As String = "select count(*) from TSPL_EMPLOYEE_STATUS where EMP_STATUS_CODE ='" + txtCode.Value + "' " + whrQry
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))

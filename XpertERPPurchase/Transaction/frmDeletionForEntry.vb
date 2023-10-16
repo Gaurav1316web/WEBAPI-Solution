@@ -42,6 +42,7 @@ Public Class frmDeletionForEntry
 
     Public Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
+            Addnew()
             'isInsideLoadData = True
             Dim obj As New clsGRNHead()
             obj = clsGRNHead.GetData(strCode, NavTyep)
@@ -215,6 +216,7 @@ Public Class frmDeletionForEntry
             LoadData(clsCommon.ShowSelectForm("GRNFND", qry, "Code", whrClas, txtDocNo.Value, "GRN_Date desc", isButtonClicked), NavigatorType.Current)
 
         Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
