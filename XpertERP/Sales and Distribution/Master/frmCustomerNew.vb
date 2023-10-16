@@ -6193,8 +6193,25 @@ Public Class frmCustomer
         TxtVidhanSabha.Value = clsCommon.ShowSelectForm("fndDistC", qry, "Code", "", TxtVidhanSabha.Value, "", isButtonClicked)
         lblVidhanSabha.Text = clsDBFuncationality.getSingleValue("SELECT VIDHAN_SABHA_NAME FROM TSPL_VIDHAN_SABHA_MASTER where  VIDHAN_SABHA_CODE='" + TxtVidhanSabha.Value + "' ")
     End Sub
-
-
+    Sub OpenSecurity(ByVal isButtonClick As Boolean)
+        ' Dim whrCls As String = " Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N'  and (GIT_Type='' or GIT_Type='N') and MCC_Type='N' "
+        'gvCan.CurrentRow.Cells(ColCanLocation).Value = clsLocation.getFinder(whrCls, gvCan.CurrentRow.Cells(ColCanLocation).Value, isButtonClick)
+        'gvCan.CurrentRow.Cells(colCanLocationName).Value = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & gvCan.CurrentRow.Cells(ColCanLocation).Value & "'")
+        'If CheckDupicateLocationForCan() = False Then
+        'Exit Sub
+        'End If
+    End Sub
+    Private Sub gvSecurity_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSecurity.CellValueChanged
+        If (Not isInsideLoadData) Then
+            If Not isCellValueChangedOpen Then
+                isCellValueChangedOpen = True
+                If e.Column Is gvCan.Columns(ColCanLocation) Then
+                    OpenSecurity(False)
+                End If
+                isCellValueChangedOpen = False
+            End If
+        End If
+    End Sub
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
