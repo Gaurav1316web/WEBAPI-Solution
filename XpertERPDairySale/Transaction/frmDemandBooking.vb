@@ -3244,11 +3244,12 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         If rbtnEvening.IsChecked = True Then
             ShiftType = "Evening"
             Previous_Shift = "Morning"
-            Previous_Date = txtDate.Value
+            Previous_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
         Else
             ShiftType = "Morning"
             Previous_Shift = "Evening"
-            Previous_Date = clsDBFuncationality.getSingleValue("select CONVERT(varchar, DATEADD(DAY, -1, convert(Nvarchar, '" & txtDate.Value & "' ,112)),21) as Previous_Date")
+            ' Previous_Date = clsDBFuncationality.getSingleValue("select CONVERT(varchar, DATEADD(DAY, -1, convert(Nvarchar, '" & txtDate.Value & "' ,112)),21) as Previous_Date")
+            Previous_Date = clsCommon.myCDate(txtDate.Value).AddDays(-1)
         End If
         Dim Comp_Name As String = clsDBFuncationality.getSingleValue("select Comp_Name from TSPL_COMPANY_MASTER where Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'")
         Try
@@ -3291,6 +3292,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Document_Date,
                     TSPL_ROUTE_MASTER.Route_Desc,
                     TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,
+                    isnull (PreviousDemand.Crate, 0)as Crate_Collect,
                     Isnull(TSPL_COMPANY_MASTER.Comp_Name,'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName,
                     TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName,
                     TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Rate,
@@ -3305,7 +3307,16 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     Left Join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DEMAND_BOOKING_MASTER.Route_No
                     Left Join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_VEHICLE_MASTER.Transport_Id
                     Left Join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_DEMAND_BOOKING_MASTER.Comp_Code
-                    where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'"
+Left join ( select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, sum(TSPL_DEMAND_BOOKING_DETAIL.Qty )as Qty, Case When max(TSPL_DEMAND_BOOKING_DETAIL.Unit_Code) = 'Crate' Then sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) Else 0 End As Crate, Case When max(TSPL_DEMAND_BOOKING_DETAIL.Unit_Code) = 'Pouch' Then sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) Else 0 End As Pouch, max(TSPL_DEMAND_BOOKING_MASTER.Route_No) as Route_No from TSPL_DEMAND_BOOKING_MASTER Left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code where TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" & Previous_Shift & "' "
+            If rbtnEvening.IsChecked Then
+                qry += " and TSPL_DEMAND_BOOKING_MASTER.Document_Date >='" + clsCommon.GetPrintDate(txtDate.Value) + " ' and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(Previous_Date) + "' and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "'  group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code ) "
+            Else
+                qry += "  and TSPL_DEMAND_BOOKING_MASTER.Document_Date >='" + clsCommon.GetPrintDate(Previous_Date) + " ' and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code ) "
+
+            End If
+            qry += " as PreviousDemand on PreviousDemand.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code  "
+
+            qry += "  where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" & txtDocNo.Value & "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & ShiftType & "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
