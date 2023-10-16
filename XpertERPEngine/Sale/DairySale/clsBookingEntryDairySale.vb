@@ -54,9 +54,11 @@ Public Class clsBookingEntryDairySale
     Public GatePass_Type As String = String.Empty
     Public Is_DCS As Integer = 0
     Public Is_BPL As Integer = 0
+    Public Is_Distributor As Integer = 0
     Public BPL_Coupon_Code As String = String.Empty
     Public BPL_Name As String = String.Empty
     Public BPL_Remark As String = String.Empty
+    Public BPL_Category As String = String.Empty
     Public BPL_Coupon_Date As Date? = Nothing
 
 
@@ -197,8 +199,10 @@ Public Class clsBookingEntryDairySale
             clsCommon.AddColumnsForChange(coll, "GatePass_Type", obj.GatePass_Type, True)
             clsCommon.AddColumnsForChange(coll, "Is_DCS", obj.Is_DCS, True)
             clsCommon.AddColumnsForChange(coll, "Is_BPL", obj.Is_BPL, True)
+            clsCommon.AddColumnsForChange(coll, "Is_Distributor", obj.Is_Distributor, True)
             clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Code", obj.BPL_Coupon_Code, True)
             clsCommon.AddColumnsForChange(coll, "BPL_Name", obj.BPL_Name, True)
+            clsCommon.AddColumnsForChange(coll, "BPL_Category", obj.BPL_Category, True)
             clsCommon.AddColumnsForChange(coll, "BPL_Remark", obj.BPL_Remark, True)
             If obj.BPL_Coupon_Date Is Nothing Then
                 clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Date", Nothing, True)
@@ -383,7 +387,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType, ByVal Trans As SqlTransaction, Optional ByVal FormId As String = "") As clsBookingEntryDairySale
         Dim obj As clsBookingEntryDairySale = Nothing
         Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_MATSER.Ship_To_Location,TSPL_BOOKING_MATSER.Created_Date,TSPL_BOOKING_MATSER.AdvanceAmount,TSPL_BOOKING_MATSER.Against_Receipt_No,TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Payment_Mode,TSPL_BOOKING_MATSER.Reference_No,TSPL_BOOKING_MATSER.Counter_No,TSPL_BOOKING_MATSER.IsSampling,TSPL_BOOKING_MATSER.AgainstGatePass,Document_No,Document_Date,Posted,CreateDO_Automatic,location_code,Cust_Group_Code,Is_Taxable,TRANSACTION_TYPE,Ex_Factory_Date,isnull(CustPO_No,'') as CustPO_No,custpo_date,isnull(SalesmanCode,'') as SalesmanCode,Total_Can,total_Box,Total_Crate,isnull(Is_Cancelled,0) as Is_Cancelled, isnull(Booking_Type,'') as Booking_Type,isnull(Card_SALE_No,'') as Card_SALE_No,CardSale_FROM_DATE,CardSale_TO_DATE,Uploading_date " &
-            " ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,Is_DCS,Is_BPL,BPL_Coupon_Code,BPL_Name,BPL_Remark,BPL_Coupon_Date " &
+            " ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,Is_DCS,Is_BPL,BPL_Coupon_Code,BPL_Name,BPL_Remark,BPL_Coupon_Date,Is_Distributor,BPL_Category " &
             " from TSPL_BOOKING_MATSER where 2=2 and "
 
         '-------richa 12/08/2014 Ticket No. BM00000003242---------
@@ -443,8 +447,10 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.Booking_Type = clsCommon.myCstr(dt.Rows(0)("Booking_Type"))
             obj.Is_DCS = clsCommon.myCdbl(dt.Rows(0)("Is_DCS"))
             obj.Is_BPL = clsCommon.myCdbl(dt.Rows(0)("Is_BPL"))
+            obj.Is_Distributor = clsCommon.myCdbl(dt.Rows(0)("Is_Distributor"))
             obj.BPL_Coupon_Code = clsCommon.myCstr(dt.Rows(0)("BPL_Coupon_Code"))
             obj.BPL_Name = clsCommon.myCstr(dt.Rows(0)("BPL_Name"))
+            obj.BPL_Category = clsCommon.myCstr(dt.Rows(0)("BPL_Category"))
             obj.BPL_Remark = clsCommon.myCstr(dt.Rows(0)("BPL_Remark"))
             If dt.Rows(0)("BPL_Coupon_Date") IsNot DBNull.Value Then
                 obj.BPL_Coupon_Date = clsCommon.myCDate(dt.Rows(0)("BPL_Coupon_Date"))

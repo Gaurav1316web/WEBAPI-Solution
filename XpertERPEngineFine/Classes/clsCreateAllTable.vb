@@ -8110,6 +8110,8 @@ Public Class clsCreateAllTable
             coll.Add("BPL_Name", "varchar(50) NULL")
             coll.Add("BPL_Remark", "varchar(50) NULL")
             coll.Add("BPL_Coupon_Date", "Date NULL")
+            coll.Add("Is_Distributor", "Integer Default 0")
+            coll.Add("BPL_Category", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")

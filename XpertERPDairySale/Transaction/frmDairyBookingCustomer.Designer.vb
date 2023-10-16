@@ -22,15 +22,17 @@ Partial Class frmDairyBookingCustomer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.cmbGatePassType = New common.Controls.MyComboBox()
+        Me.lblGatePassType = New common.Controls.MyLabel()
         Me.lblShiftType = New Telerik.WinControls.UI.RadLabel()
         Me.txtCouponDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -231,14 +233,17 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.cmbGatePassType = New common.Controls.MyComboBox()
-        Me.lblGatePassType = New common.Controls.MyLabel()
+        Me.chkDistributor = New Telerik.WinControls.UI.RadCheckBox()
+        Me.txtCategory = New common.UserControls.txtFinder()
+        Me.lblCategory = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCouponDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -429,8 +434,8 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCategory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -491,6 +496,9 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtCategory)
+        Me.RadPageViewPage1.Controls.Add(Me.lblCategory)
+        Me.RadPageViewPage1.Controls.Add(Me.chkDistributor)
         Me.RadPageViewPage1.Controls.Add(Me.cmbGatePassType)
         Me.RadPageViewPage1.Controls.Add(Me.lblGatePassType)
         Me.RadPageViewPage1.Controls.Add(Me.lblShiftType)
@@ -550,6 +558,48 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1077, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'cmbGatePassType
+        '
+        Me.cmbGatePassType.AutoCompleteDisplayMember = Nothing
+        Me.cmbGatePassType.AutoCompleteValueMember = Nothing
+        Me.cmbGatePassType.CalculationExpression = Nothing
+        Me.cmbGatePassType.DropDownAnimationEnabled = True
+        Me.cmbGatePassType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbGatePassType.FieldCode = Nothing
+        Me.cmbGatePassType.FieldDesc = Nothing
+        Me.cmbGatePassType.FieldMaxLength = 0
+        Me.cmbGatePassType.FieldName = Nothing
+        Me.cmbGatePassType.isCalculatedField = False
+        Me.cmbGatePassType.IsSourceFromTable = False
+        Me.cmbGatePassType.IsSourceFromValueList = False
+        Me.cmbGatePassType.IsUnique = False
+        RadListDataItem6.Text = "Select"
+        RadListDataItem7.Text = "AM"
+        RadListDataItem8.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem6)
+        Me.cmbGatePassType.Items.Add(RadListDataItem7)
+        Me.cmbGatePassType.Items.Add(RadListDataItem8)
+        Me.cmbGatePassType.Location = New System.Drawing.Point(171, 113)
+        Me.cmbGatePassType.MendatroryField = False
+        Me.cmbGatePassType.MyLinkLable1 = Nothing
+        Me.cmbGatePassType.MyLinkLable2 = Nothing
+        Me.cmbGatePassType.Name = "cmbGatePassType"
+        Me.cmbGatePassType.ReferenceFieldDesc = Nothing
+        Me.cmbGatePassType.ReferenceFieldName = Nothing
+        Me.cmbGatePassType.ReferenceTableName = Nothing
+        Me.cmbGatePassType.Size = New System.Drawing.Size(54, 20)
+        Me.cmbGatePassType.TabIndex = 1538
+        '
+        'lblGatePassType
+        '
+        Me.lblGatePassType.FieldName = Nothing
+        Me.lblGatePassType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGatePassType.Location = New System.Drawing.Point(78, 115)
+        Me.lblGatePassType.Name = "lblGatePassType"
+        Me.lblGatePassType.Size = New System.Drawing.Size(87, 16)
+        Me.lblGatePassType.TabIndex = 1537
+        Me.lblGatePassType.Text = "Gate Pass Type"
         '
         'lblShiftType
         '
@@ -707,7 +757,7 @@ Partial Class frmDairyBookingCustomer
         'chkBPL
         '
         Me.chkBPL.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBPL.Location = New System.Drawing.Point(600, 4)
+        Me.chkBPL.Location = New System.Drawing.Point(673, 2)
         Me.chkBPL.Name = "chkBPL"
         Me.chkBPL.Size = New System.Drawing.Size(42, 16)
         Me.chkBPL.TabIndex = 1485
@@ -984,10 +1034,10 @@ Partial Class frmDairyBookingCustomer
         Me.cmbcashcredit.IsSourceFromTable = False
         Me.cmbcashcredit.IsSourceFromValueList = False
         Me.cmbcashcredit.IsUnique = False
-        RadListDataItem4.Text = "CASH"
-        RadListDataItem5.Text = "CREDIT"
-        Me.cmbcashcredit.Items.Add(RadListDataItem4)
-        Me.cmbcashcredit.Items.Add(RadListDataItem5)
+        RadListDataItem1.Text = "CASH"
+        RadListDataItem2.Text = "CREDIT"
+        Me.cmbcashcredit.Items.Add(RadListDataItem1)
+        Me.cmbcashcredit.Items.Add(RadListDataItem2)
         Me.cmbcashcredit.Location = New System.Drawing.Point(506, 23)
         Me.cmbcashcredit.MendatroryField = False
         Me.cmbcashcredit.MyLinkLable1 = Nothing
@@ -1121,7 +1171,7 @@ Partial Class frmDairyBookingCustomer
         'chkDCS
         '
         Me.chkDCS.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkDCS.Location = New System.Drawing.Point(537, 4)
+        Me.chkDCS.Location = New System.Drawing.Point(618, 2)
         Me.chkDCS.Name = "chkDCS"
         Me.chkDCS.Size = New System.Drawing.Size(44, 16)
         Me.chkDCS.TabIndex = 1484
@@ -1236,7 +1286,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -3100,47 +3150,50 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'cmbGatePassType
+        'chkDistributor
         '
-        Me.cmbGatePassType.AutoCompleteDisplayMember = Nothing
-        Me.cmbGatePassType.AutoCompleteValueMember = Nothing
-        Me.cmbGatePassType.CalculationExpression = Nothing
-        Me.cmbGatePassType.DropDownAnimationEnabled = True
-        Me.cmbGatePassType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbGatePassType.FieldCode = Nothing
-        Me.cmbGatePassType.FieldDesc = Nothing
-        Me.cmbGatePassType.FieldMaxLength = 0
-        Me.cmbGatePassType.FieldName = Nothing
-        Me.cmbGatePassType.isCalculatedField = False
-        Me.cmbGatePassType.IsSourceFromTable = False
-        Me.cmbGatePassType.IsSourceFromValueList = False
-        Me.cmbGatePassType.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "AM"
-        RadListDataItem3.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem1)
-        Me.cmbGatePassType.Items.Add(RadListDataItem2)
-        Me.cmbGatePassType.Items.Add(RadListDataItem3)
-        Me.cmbGatePassType.Location = New System.Drawing.Point(171, 113)
-        Me.cmbGatePassType.MendatroryField = False
-        Me.cmbGatePassType.MyLinkLable1 = Nothing
-        Me.cmbGatePassType.MyLinkLable2 = Nothing
-        Me.cmbGatePassType.Name = "cmbGatePassType"
-        Me.cmbGatePassType.ReferenceFieldDesc = Nothing
-        Me.cmbGatePassType.ReferenceFieldName = Nothing
-        Me.cmbGatePassType.ReferenceTableName = Nothing
-        Me.cmbGatePassType.Size = New System.Drawing.Size(54, 20)
-        Me.cmbGatePassType.TabIndex = 1538
+        Me.chkDistributor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDistributor.Location = New System.Drawing.Point(543, 2)
+        Me.chkDistributor.Name = "chkDistributor"
+        Me.chkDistributor.Size = New System.Drawing.Size(72, 16)
+        Me.chkDistributor.TabIndex = 1485
+        Me.chkDistributor.Text = "Distributor"
         '
-        'lblGatePassType
+        'txtCategory
         '
-        Me.lblGatePassType.FieldName = Nothing
-        Me.lblGatePassType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGatePassType.Location = New System.Drawing.Point(78, 115)
-        Me.lblGatePassType.Name = "lblGatePassType"
-        Me.lblGatePassType.Size = New System.Drawing.Size(87, 16)
-        Me.lblGatePassType.TabIndex = 1537
-        Me.lblGatePassType.Text = "Gate Pass Type"
+        Me.txtCategory.CalculationExpression = Nothing
+        Me.txtCategory.FieldCode = Nothing
+        Me.txtCategory.FieldDesc = Nothing
+        Me.txtCategory.FieldMaxLength = 0
+        Me.txtCategory.FieldName = Nothing
+        Me.txtCategory.isCalculatedField = False
+        Me.txtCategory.IsSourceFromTable = False
+        Me.txtCategory.IsSourceFromValueList = False
+        Me.txtCategory.IsUnique = False
+        Me.txtCategory.Location = New System.Drawing.Point(311, 110)
+        Me.txtCategory.MendatroryField = False
+        Me.txtCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCategory.MyLinkLable1 = Me.lblRouteNo
+        Me.txtCategory.MyLinkLable2 = Nothing
+        Me.txtCategory.MyReadOnly = False
+        Me.txtCategory.MyShowMasterFormButton = False
+        Me.txtCategory.Name = "txtCategory"
+        Me.txtCategory.ReferenceFieldDesc = Nothing
+        Me.txtCategory.ReferenceFieldName = Nothing
+        Me.txtCategory.ReferenceTableName = Nothing
+        Me.txtCategory.Size = New System.Drawing.Size(113, 22)
+        Me.txtCategory.TabIndex = 1540
+        Me.txtCategory.Value = ""
+        '
+        'lblCategory
+        '
+        Me.lblCategory.FieldName = Nothing
+        Me.lblCategory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCategory.Location = New System.Drawing.Point(256, 112)
+        Me.lblCategory.Name = "lblCategory"
+        Me.lblCategory.Size = New System.Drawing.Size(52, 16)
+        Me.lblCategory.TabIndex = 1539
+        Me.lblCategory.Text = "Category"
         '
         'frmDairyBookingCustomer
         '
@@ -3164,6 +3217,8 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCouponDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3369,8 +3424,8 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblGatePassType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCategory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3580,5 +3635,8 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents lblShiftType As RadLabel
     Friend WithEvents cmbGatePassType As common.Controls.MyComboBox
     Friend WithEvents lblGatePassType As common.Controls.MyLabel
+    Friend WithEvents chkDistributor As RadCheckBox
+    Friend WithEvents txtCategory As common.UserControls.txtFinder
+    Friend WithEvents lblCategory As common.Controls.MyLabel
 End Class
 
