@@ -163,7 +163,7 @@ Public Class frmDisplaySquenece
             IsInsieLoadData = True
             If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Item") = CompairStringResult.Equal Then
                 qry = "SELECT CAST(isnull(TSPL_ITEM_MASTER.Sku_Seq,0) as integer) as Sno ,TSPL_ITEM_MASTER.Item_code [Particlar Code] 
-                    ,TSPL_ITEM_MASTER.Alies_Name [Particlar Name],TSPL_ITEM_MASTER.Is_DisplayDemand as [Display Demand] from TSPL_ITEM_MASTER
+                    ,TSPL_ITEM_MASTER.Alies_Name [Particlar Name],TSPL_ITEM_MASTER.Is_DisplayDemand as [Display Demand] from TSPL_ITEM_MASTER where Item_Type='F' and Is_DisplayDemand=1
                      ORDER BY TSPL_ITEM_MASTER.Sku_Seq  "
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Customer") = CompairStringResult.Equal Then
                 qry = "SELECT CAST(isnull(Display_Seq,0) as integer) as Sno ,tspl_customer_master.cust_code [Particlar Code] 

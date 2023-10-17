@@ -100,14 +100,12 @@ Public Class ShareMaster
         Else
             txtCode.MyReadOnly = True
         End If
-        'If txtCode.MyReadOnly OrElse isButtonClicked Then
-        Dim whrClas As String = ""
-        Dim qry As String = "select Code,Name,IDate from TSPL_SHARE_MASTER "
-        'txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_SHARE_MASTER.Code ", isButtonClicked, "")
-        LoadData(clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_SHARE_MASTER.Code ", isButtonClicked), NavigatorType.Current)
-        'LoadData(clsCommon.ShowSelectForm(txtCode.Value, qry, NavigatorType.Current)
-        'LoadData(clsCommon.ShowSelectForm("GRNFND", qry, "Code", whrClas, txtDocNo.Value, "GRN_Date desc", isButtonClicked), NavigatorType.Current)
-        'End If
+        If txtCode.MyReadOnly OrElse isButtonClicked Then
+            Dim whrClas As String = ""
+            Dim qry As String = "select Code,Name,IDate from TSPL_SHARE_MASTER "
+            txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_SHARE_MASTER.Code ", isButtonClicked, "")
+            LoadData(txtCode.Value, NavigatorType.Current)
+        End If
     End Sub
 
     Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator

@@ -8110,6 +8110,8 @@ Public Class clsCreateAllTable
             coll.Add("BPL_Name", "varchar(50) NULL")
             coll.Add("BPL_Remark", "varchar(50) NULL")
             coll.Add("BPL_Coupon_Date", "Date NULL")
+            coll.Add("Is_Distributor", "Integer Default 0")
+            coll.Add("BPL_Category", "varchar(50) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
@@ -25951,7 +25953,17 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("ChangedTCSBaseAmount", "float null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_HEAD", coll, Nothing, True, True, "", "invoice_No", "posting_Date")
 
-
+            qry = "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode1 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode2 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode3 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode4 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode5 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode6 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode7 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode8 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode9 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode10 varchar(35) null "
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TARGET_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")
@@ -31675,7 +31687,17 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("ChangedTCSBaseAmount", "float null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
-
+            qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode2 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode3 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode4 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode5 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode6 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode7 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode8 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode9 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode10 varchar(35) null "
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)
             coll.Add("shipment_No", "Varchar(30) not null References TSPL_SCRAPSALE_HEAD(shipment_No)")
@@ -53471,7 +53493,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
             coll.Add("IDate", "Datetime NOT NULL")
-            coll.Add("Remarks", "Varchar(200) not NULL")
+            coll.Add("Remarks", "Varchar(200) NULL")
             coll.Add("Share_Code", "varchar(30) NOT NULL REFERENCES TSPL_SHARE_MASTER(Code)")
             coll.Add("DCS_Code", "varchar(12) NOT NULL REFERENCES TSPL_VENDOR_MASTER(Vendor_Code)")
             coll.Add("Name", "Varchar(50) NOT NULL ")
