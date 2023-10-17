@@ -25953,7 +25953,17 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("ChangedTCSBaseAmount", "float null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPINVOICE_HEAD", coll, Nothing, True, True, "", "invoice_No", "posting_Date")
 
-
+            qry = "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode1 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode2 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode3 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode4 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode5 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode6 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode7 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode8 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode9 varchar(35) null "
+            qry += "alter table TSPL_SCRAPINVOICE_HEAD alter column AddCode10 varchar(35) null "
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("TARGET_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY ")
@@ -31677,7 +31687,17 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("ChangedTCSBaseAmount", "float null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SCRAPSALE_HEAD", coll, Nothing, True, True, "", "shipment_No", "shipment_Date", True)
 
-
+            qry = "alter table TSPL_SCRAPSALE_HEAD alter column AddCode1 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode2 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode3 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode4 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode5 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode6 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode7 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode8 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode9 varchar(35) null "
+            qry += "alter table TSPL_SCRAPSALE_HEAD alter column AddCode10 varchar(35) null "
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)
             coll.Add("shipment_No", "Varchar(30) not null References TSPL_SCRAPSALE_HEAD(shipment_No)")
