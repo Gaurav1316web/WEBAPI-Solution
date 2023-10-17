@@ -354,6 +354,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCSADeliverySale.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCustomerOutstanding.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCustomerOutstandingErode.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\rptdailyqtyreport.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDemandBooking.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDemandBookingRouteWise.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDispatchBulkSale.rpt" />
