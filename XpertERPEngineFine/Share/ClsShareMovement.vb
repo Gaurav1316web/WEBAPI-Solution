@@ -42,7 +42,7 @@ Public Class ClsShareMovement
                 For Each objTr In Arr
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Source_Code", objTr.Source_Code)
-                    clsCommon.AddColumnsForChange(coll, "Source_Date", objTr.Source_Date)
+                    clsCommon.AddColumnsForChange(coll, "Source_Date", clsCommon.GetPrintDate(objTr.Source_Date, "dd/MMM/yyyy hh:mm tt"))
                     clsCommon.AddColumnsForChange(coll, "Source_Type", objTr.Source_Type)
                     clsCommon.AddColumnsForChange(coll, "Share_Code", objTr.Share_Code)
                     clsCommon.AddColumnsForChange(coll, "Certificate_No", objTr.Certificate_No)

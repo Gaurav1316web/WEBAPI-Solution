@@ -22,7 +22,7 @@ Partial Class FrmERPStatusTrackingReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
@@ -37,6 +37,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.chkDBT = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
@@ -59,6 +60,8 @@ Partial Class FrmERPStatusTrackingReport
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadMenu1.SuspendLayout()
+        CType(Me.chkDBT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -147,7 +150,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1057, 361)
@@ -222,11 +225,20 @@ Partial Class FrmERPStatusTrackingReport
         '
         'RadMenu1
         '
+        Me.RadMenu1.Controls.Add(Me.chkDBT)
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1078, 20)
         Me.RadMenu1.TabIndex = 0
+        '
+        'chkDBT
+        '
+        Me.chkDBT.Location = New System.Drawing.Point(165, 3)
+        Me.chkDBT.Name = "chkDBT"
+        Me.chkDBT.Size = New System.Drawing.Size(74, 18)
+        Me.chkDBT.TabIndex = 0
+        Me.chkDBT.Text = "DBTReport"
         '
         'RadMenuItem1
         '
@@ -278,6 +290,9 @@ Partial Class FrmERPStatusTrackingReport
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadMenu1.ResumeLayout(False)
+        Me.RadMenu1.PerformLayout()
+        CType(Me.chkDBT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -299,5 +314,6 @@ Partial Class FrmERPStatusTrackingReport
     Friend WithEvents rmiPDF As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents Label1 As Label
+    Friend WithEvents chkDBT As RadCheckBox
 End Class
 

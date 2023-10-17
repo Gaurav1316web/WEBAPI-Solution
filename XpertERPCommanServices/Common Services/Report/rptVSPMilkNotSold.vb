@@ -89,14 +89,13 @@ Public Class rptVSPMilkNotSold
             Dim DedCode As String = Nothing
             Dim tDedAmt As String = Nothing
             Dim dtDedName As DataTable = Nothing
-            Dim CodeValue As String = clsCommon.GetMulcallString(txtMultiDeduction.arrValueMember)
-            Dim strwhrcls As String = Nothing
-            If txtMultiDeduction.arrValueMember.Count > 0 Then
-                strwhrcls = " Where TSPL_DEDUCTION_MASTER.Code In(" + CodeValue + ")"
-            End If
+
             If chkDeduction.Checked Then
                 If txtMultiDeduction.arrValueMember.Count > 0 Then
-                    dedQry = "Select Code,Description from TSPL_DEDUCTION_MASTER " + strwhrcls
+                    dedQry = "Select Code,Description from TSPL_DEDUCTION_MASTER where 2=2 "
+                    If txtMultiDeduction.arrValueMember IsNot Nothing AndAlso txtMultiDeduction.arrValueMember.Count > 0 Then
+                        dedQry += " and TSPL_DEDUCTION_MASTER.Code In (" + clsCommon.GetMulcallString(txtMultiDeduction.arrValueMember) + ")"
+                    End If
                     dtDedName = clsDBFuncationality.GetDataTable(dedQry)
                     If dtDedName.Rows.Count > 0 Then
                         For i As Integer = 0 To dtDedName.Rows.Count - 1
@@ -113,39 +112,29 @@ Public Class rptVSPMilkNotSold
                             End If
                         Next
                     End If
-                End If
-                Dim dtCycleDate As DataTable = Nothing
-                Dim strPreCycleDate As String = "select top(1) From_Date,To_Date from TSPL_Payment_Cycle_Generated where TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = '" + clsCommon.myCstr(txtMCC.Text) + "' and TSPL_PAYMENT_CYCLE_GENERATED.From_Date < convert (date, '" + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") + "',103) Order By From_Date desc"
-                dtCycleDate = clsDBFuncationality.GetDataTable(strPreCycleDate)
 
-                qry = "Select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As 'DCS Code', Vendor_Name AS 'DCS Name'" + DedName + ",Sum(" + tDedAmt + ") As Total
+                    Dim dtCycleDate As DataTable = Nothing
+                    Dim strPreCycleDate As String = "select top(1) From_Date,To_Date from TSPL_Payment_Cycle_Generated where TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = '" + clsCommon.myCstr(txtMCC.Text) + "' and TSPL_PAYMENT_CYCLE_GENERATED.From_Date < convert (date, '" + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") + "',103) Order By From_Date desc"
+                    dtCycleDate = clsDBFuncationality.GetDataTable(strPreCycleDate)
+
+                    qry = "Select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As 'DCS Code', Vendor_Name AS 'DCS Name'" + DedName + ",Sum(" + tDedAmt + ") As Total
                         from 
                         (SELECT  Vendor_CODE,Vendor_Name, " + DedName1 + " FROM
-                        (SELECT Vendor_CODE,Vendor_Name,DeductionCode, Deduction_Desc,TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount FROM TSPL_MULTIPLE_DEDUCTION_DETAIL
+                        (SELECT Vendor_CODE,Vendor_Name,DeductionCode, Deduction_Desc,TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount 
+                        FROM TSPL_MULTIPLE_DEDUCTION_DETAIL
 					    left outer join TSPL_MULTIPLE_DEDUCTION_HEAD On TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-					    where TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')Tab1
+					    where TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' "
+                    If txtMultiDeduction.arrValueMember IsNot Nothing AndAlso txtMultiDeduction.arrValueMember.Count > 0 Then
+                        qry += " and TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode in (" + clsCommon.GetMulcallString(txtMultiDeduction.arrValueMember) + ")"
+                    End If
+                    qry += ")Tab1
                          PIVOT(SUM(Amount) FOR Deduction_Desc IN (" + DedName1 + ")) AS Tab2 )ClosedDCS
 					    Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=ClosedDCS.Vendor_Code
 					    Where ClosedDCS.Vendor_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "') And TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC.Text) + "'
 					    Group By TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,Vendor_Name
                         Having Sum(" + tDedAmt + ")>0
 					    Order  By Cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As int) Asc"
-
-                '    "Select *,(" + tDedAmt + ") As Total 
-                '            from (select TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader As 'DCS Code',Vendor_Name AS 'DCS Name'" + DedName + " from TSPL_VENDOR_INVOICE_HEAD 
-                '            Left outer join
-                '                 (Select * from (SELECT  Vendor_CODE, " + DedName1 + " FROM
-                '                       (SELECT Vendor_CODE,Ded_Code, Ded_Desc,Reduce_Deduc_Amt FROM TSPL_PAYMENT_PROCESS_DEDUCTION)Tab1
-                '                        PIVOT(SUM(Reduce_Deduc_Amt) FOR Ded_Desc IN (" + DedName1 + ")) AS Tab2 )tmp)tmp1 ON tmp1.Vendor_CODE=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-                '            inner join
-                '            (Select abc.VSP_CODE From(
-                '             Select TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code As VSP_CODE from TSPL_MULTIPLE_DEDUCTION_DETAIL 
-                '             Where  Vendor_Code Not In (Select VSP_CODE From TSPL_MILK_SRN_HEAD Where DOC_DATE >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And DOC_DATE <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')
-                '             )abc  Group By abc.VSP_CODE) As ClosedDCS ON ClosedDCS.VSP_CODE=tmp1.Vendor_CODE
-                '             Left Outer Join TSPL_PAYMENT_PROCESS_DETAIL ON TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE=ClosedDCS.VSP_CODE  
-                '             Left Outer Join  TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_DETAIL.MCC_CODE
-                '            where TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' And TSPL_VENDOR_INVOICE_HEAD.Balance_Amt>0 and TSPL_MCC_MASTER.MCC_CODE='" + clsCommon.myCstr(txtMCC.Text) + "'
-                '            Group by TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_MCC_MASTER.MCC_Name,Closeddcs.VSP_CODE,Vendor_Name,TSPL_MCC_MASTER.MCC_CODE, " + DedName1 + ") as abc   Where (" + tDedAmt + ")>0  "
+                End If
             Else
                 qry = "select TSPL_VLC_MASTER_HEAD.VSP_Code as [VSP Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VLC_MASTER_HEAD.MCC ,TSPL_Location_MASTER.Location_Desc as [MCC Name] ,TSPL_Location_MASTER.Loc_Segment_Code as [SegmentCode],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code],  '" + dtpFromDate.Text + "' as PaymentCycleFrom, '" + dtpToDate.Text + "' PaymentCycleTo  from TSPL_VLC_MASTER_HEAD 
                     left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code
@@ -181,7 +170,7 @@ Public Class rptVSPMilkNotSold
                 Exit Sub
             End If
             SetGridFormat()
-            ReStoreGridLayout()
+            'ReStoreGridLayout()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
@@ -552,7 +541,7 @@ Public Class rptVSPMilkNotSold
                                         Inner Join TSPL_MULTIPLE_DEDUCTION_HEAD On TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
                                         Inner Join TSPL_VLC_MASTER_HEAD ON  TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code
                                         where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0 And 
-				                    	TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and TSPL_VLC_MASTER_HEAD.MCC='BMC/000004' 
+				                    	TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' 
 		                                And TSPL_VLC_MASTER_HEAD.VSP_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')) "
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

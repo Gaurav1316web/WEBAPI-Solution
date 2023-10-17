@@ -39,7 +39,7 @@ Public Class clsShareAllotment
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "DCS_Code", obj.DCS_Code)
             clsCommon.AddColumnsForChange(coll, "Name", obj.Name)
-            clsCommon.AddColumnsForChange(coll, "IDate", obj.IDate)
+            clsCommon.AddColumnsForChange(coll, "IDate", clsCommon.GetPrintDate(obj.IDate, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Share_Code", obj.Share_Code)
             clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
             clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
@@ -61,7 +61,7 @@ Public Class clsShareAllotment
                 For i As Integer = 0 To obj.Certificate_No.Count - 1
                     Dim objTr As New ClsShareMovement()
                     objTr.Source_Code = obj.Code
-                    objTr.Source_Date = obj.IDate
+                    objTr.Source_Date = clsCommon.GetPrintDate(obj.IDate, "dd/MMM/yyyy hh:mm tt")
                     objTr.Source_Type = "SH-AL"
                     objTr.Share_Code = obj.Share_Code
                     objTr.Certificate_No = clsCommon.myCstr(obj.Certificate_No(i))
