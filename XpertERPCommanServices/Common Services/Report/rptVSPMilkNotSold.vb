@@ -170,7 +170,7 @@ Public Class rptVSPMilkNotSold
                 Exit Sub
             End If
             SetGridFormat()
-            ReStoreGridLayout()
+            'ReStoreGridLayout()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
