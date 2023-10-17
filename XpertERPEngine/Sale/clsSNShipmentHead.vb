@@ -1633,7 +1633,6 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
     End Function
 
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
-        Dim isSaved As Boolean = False
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Purchase Order No not found to Delete")
         End If
@@ -1649,34 +1648,27 @@ where DOCUMENT_CODE='" + obj.Document_Code + "'"
                 End If
                 clsSerializeInvenotry.DeleteData("SD-IN", strCode, trans)
 
+                Dim qry As String = "delete from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL where DOCUMENT_CODE='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+
                 Dim qry1 As String = "delete from TSPL_SD_SHIPMENT_WEIGHMENT_MAPPING where Document_Code='" + strCode + "'"
-                isSaved = clsDBFuncationality.ExecuteNonQuery(qry1, trans)
+                clsDBFuncationality.ExecuteNonQuery(qry1, trans)
 
-                Dim qry As String = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "'"
-                isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                Dim qry2 As String = "delete from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry2, trans)
 
-                qry = "Select Count(DCS_Code) from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL where DOCUMENT_CODE='" + strCode + "'"
-                obj.count = clsCommon.myCdbl(clsDBFuncationality.ExecuteNonQuery(qry, trans))
-                If obj.count > 0 Then
-                    qry = "delete from TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL where DOCUMENT_CODE='" + strCode + "'"
-                    isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                End If
+                Dim qry3 As String = "delete from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry3, trans)
 
-                qry = "delete from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + strCode + "'"
-                isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-                isSaved = isSaved AndAlso clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
-                If (isSaved) Then
-                    trans.Commit()
-                Else
-                    trans.Rollback()
-                End If
+                clsCustomFieldValues.DeleteData(obj.Form_ID, strCode, trans)
+                trans.Commit()
             Catch ex As Exception
                 trans.Rollback()
                 Throw New Exception(ex.Message)
             End Try
         End If
-        Return isSaved
+        Return True
     End Function
 
     Public Shared Function UnpostData(ByVal strCode As String, ByVal FormId As String) As Boolean

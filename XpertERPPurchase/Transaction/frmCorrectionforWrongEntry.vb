@@ -29,6 +29,7 @@ Public Class frmCorrectionforWrongEntry
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
+            AddNew()
             Dim obj As New clsGRNHead()
             obj = clsGRNHead.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.GRN_No) > 0) Then
@@ -41,7 +42,7 @@ Public Class frmCorrectionforWrongEntry
                 txtItemCode.Text = clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_GRN_DETAIL where GRN_No = '" + obj.GRN_No + "'  ")
                 txtItemName.Text = clsDBFuncationality.getSingleValue("select Item_Code from TSPL_GRN_DETAIL where GRN_No = '" + obj.GRN_No + "'  ")
                 txtItemType.Text = obj.Item_Type
-                txtReqNo.Text = clsDBFuncationality.getSingleValue("select Against_PO from TSPL_GRN_HEAD where GRN_No = '" + obj.GRN_No + "'")
+                txtReqNo.Text = clsDBFuncationality.getSingleValue("SELECT ISNULL(Against_PO, '') AS Against_PO FROM TSPL_GRN_HEAD WHERE GRN_No= '" + obj.GRN_No + "'")
                 txtDate.Value = obj.GRN_Date
                 txtVehicleNo.Text = obj.VehicleNo
                 txtGRNo.Text = obj.GRNo
@@ -51,29 +52,33 @@ Public Class frmCorrectionforWrongEntry
                     txtInvoiceDate.Value = obj.InvoiceDate
                 End If
                 txtGENo.Text = obj.GENo
-                'txtGEDate.Value = obj.GEDate
+                If clsCommon.myLen(obj.GEDate) > 0 Then
+                    txtGEDate.Value = obj.GEDate
+                End If
                 'If obj.GEDate.HasValue Then
                 '    txtGEDate.Value = obj.GEDate
                 'End If
-                TxtWeighment.Text = clsDBFuncationality.getSingleValue(" Select Weighment_Code from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No where Against_GRN_No = '" + obj.GRN_No + "'  ")
-                WeighmetDate.Value = clsDBFuncationality.getSingleValue(" Select Weighment_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No= TSPL_GRN_HEAD.GRN_No  where Against_GRN_No = '" + obj.GRN_No + "'  ")
-                txtMRN.Text = clsDBFuncationality.getSingleValue(" Select MRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
-                MRNDate.Value = clsDBFuncationality.getSingleValue(" Select MRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "'  ")
-                txtSRN.Text = clsDBFuncationality.getSingleValue("Select SRN_No from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "' ")
-                obj.SRNNo = txtSRN.Text
-                Dim SRN_Date As DateTime = clsDBFuncationality.getSingleValue("Select SRN_Date from TSPL_GRN_HEAD LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No where Against_GRN = '" + obj.GRN_No + "' ")
-                If clsCommon.myLen(SRN_Date) > 0 Then
-                    SRNDate.Value = SRN_Date
-                Else
-                    SRNDate.Value = Nothing
+
+                Dim qry As String = " Select Weighment_Code,MRN_No,SRN_No, isnull(TSPL_SRN_HEAD.SRN_Date, '') as SRN_Date,isnull(TSPL_MRN_HEAD.MRN_Date, '')  as MRN_Date,isnull(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date, '') AS Weighment_Date  from TSPL_GRN_HEAD
+                                    LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No
+                                    LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No
+                                    LEFT OUTER JOIN TSPL_PO_WEIGHTMENT_HEAD ON TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_GRN_HEAD.GRN_No where GRN_No ='" & obj.GRN_No & "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    WeighmetDate.Value = clsCommon.myCDate(dt.Rows(0)("Weighment_Date"))
+                    MRNDate.Value = clsCommon.myCDate(dt.Rows(0)("MRN_Date"))
+                    SRNDate.Value = clsCommon.myCDate(dt.Rows(0)("SRN_Date"))
+                    TxtWeighment.Text = clsCommon.myCstr(dt.Rows(0)("Weighment_Code"))
+                    txtMRN.Text = clsCommon.myCstr(dt.Rows(0)("MRN_No"))
+                    txtSRN.Text = clsCommon.myCstr(dt.Rows(0)("SRN_No"))
                 End If
+                obj.SRNNo = txtSRN.Text
                 txtPINo.Text = clsDBFuncationality.getSingleValue(" Select PI_No from TSPL_PI_HEAD where Against_GRN='" + obj.GRN_No + "'")
                 txtPenalty.Text = clsDBFuncationality.getSingleValue(" select Document_No from TSPL_TENDER_PENALTY_DETAIL where SRN_No= '" + obj.SRNNo + "'")
                 obj.penalty = txtPenalty.Text
                 obj.PINo = txtPINo.Text
                 If clsCommon.myLen(obj.penalty) > 0 Then
                     txtDate.ReadOnly = True
-                    'clsCommon.MyMessageBoxShow("Penalty Created GrnDate Cannot be changed")
                 Else
                     txtDate.ReadOnly = False
                 End If
@@ -84,7 +89,6 @@ Public Class frmCorrectionforWrongEntry
                     txtInvoiceDate.Enabled = True
                     txtChallanNo.Enabled = True
                 End If
-                'TxtWeighment.Text = obj.WeighmentNo
                 obj.WeighmentNo = TxtWeighment.Text
                 If clsCommon.myLen(obj.WeighmentNo) <= 0 Then
                     MRNDate.ReadOnly = False
@@ -172,14 +176,14 @@ Public Class frmCorrectionforWrongEntry
             End If
             obj.GRNo = txtGRNo.Text
             obj.GENo = txtGENo.Text
-            'obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
-            'If obj.GEDate <= obj.GRN_Date Then
-            '    obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
-            'Else
-            '    clsCommon.MyMessageBoxShow("GateEntryDate should be less than or Equalto GRN Date")
-            '    txtGEDate.Focus()
-            '    Exit Sub
-            'End If
+            obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
+            If obj.GEDate <= obj.GRN_Date Then
+                obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
+            Else
+                clsCommon.MyMessageBoxShow("GateEntryDate should be less than or Equalto GRN Date")
+                txtGEDate.Focus()
+                Exit Sub
+            End If
             obj.WeighmentNo = TxtWeighment.Text
             obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             obj.MRNNo = txtMRN.Text
@@ -187,6 +191,7 @@ Public Class frmCorrectionforWrongEntry
             obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             obj.PINo = txtPINo.Text
             obj.SRNDate = SRNDate.Value
+            ''1
             If clsCommon.myLen(obj.WeighmentNo) > 0 Then
                 If obj.WeighmentDate >= obj.GRN_Date Then
                     obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
@@ -195,14 +200,17 @@ Public Class frmCorrectionforWrongEntry
                     WeighmetDate.Focus()
                     Exit Sub
                 End If
-
-                If obj.WeighmentDate < obj.SRNDate Then
-                    obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
-                Else
-                    clsCommon.MyMessageBoxShow("WeighmentDate should be less than SRNDate")
-                    WeighmetDate.Focus()
-                    Exit Sub
+                ''2
+                If clsCommon.myLen(obj.SRNNo) > 0 Then
+                    If obj.WeighmentDate < obj.SRNDate Then
+                        obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
+                    Else
+                        clsCommon.MyMessageBoxShow("WeighmentDate should be less than SRNDate")
+                        WeighmetDate.Focus()
+                        Exit Sub
+                    End If
                 End If
+                ''3
                 If clsCommon.myLen(obj.SRNNo) <= 0 Then
                     If obj.WeighmentDate <= clsCommon.GETSERVERDATE() Then
                         obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
@@ -213,9 +221,10 @@ Public Class frmCorrectionforWrongEntry
                     End If
                 End If
             End If
+            ''4
             If clsCommon.myLen(obj.WeighmentNo) <= 0 Then
                 MRNDate.ReadOnly = False
-                If clsCommon.myLen(obj.MRNDate) > 0 Then
+                If clsCommon.myLen(obj.MRNNo) > 0 Then
                     If obj.MRNDate >= obj.GRN_Date Then
                         obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
                     Else
@@ -224,13 +233,17 @@ Public Class frmCorrectionforWrongEntry
                         Exit Sub
                     End If
                 End If
-                If obj.MRNDate < obj.SRNDate Then
-                    obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
-                Else
-                    clsCommon.MyMessageBoxShow("MRNDate cannot be greater than SRNdate")
-                    MRNDate.Focus()
-                    Exit Sub
+                ''5
+                If clsCommon.myLen(obj.SRNNo) > 0 Then
+                    If obj.MRNDate < obj.SRNDate Then
+                        obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
+                    Else
+                        clsCommon.MyMessageBoxShow("MRNDate cannot be greater than SRNdate")
+                        MRNDate.Focus()
+                        Exit Sub
+                    End If
                 End If
+                ''6
                 If clsCommon.myLen(obj.SRNNo) <= 0 Then
                     If obj.MRNDate <= clsCommon.GETSERVERDATE() Then
                         obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
@@ -241,6 +254,7 @@ Public Class frmCorrectionforWrongEntry
                     End If
                 End If
             End If
+
             If clsGRNHead.UpdateData(obj, trans) Then
                 common.clsCommon.MyMessageBoxShow("Data Updated Successfully")
                 LoadData(txtDocNo.Value, NavigatorType.Current)
@@ -257,15 +271,15 @@ Public Class frmCorrectionforWrongEntry
     End Sub
 
     Sub AddNew()
+
         'txtBillToLocation.Value = ""
         txtChallanNo.Text = ""
         txtPenalty.Text = ""
-        txtDate.Value = Nothing
+        txtDate.Value = clsCommon.GETSERVERDATE()
         txtDocNo.Value = ""
-        'txtGEDate.Value = Nothing
+        txtGEDate.Value = clsCommon.GETSERVERDATE()
         txtGENo.Text = ""
         txtGRNo.Text = ""
-        txtInvoiceDate.Value = Nothing
         txtItemCode.Text = ""
         txtItemName.Text = ""
         txtItemType.Text = ""
@@ -278,11 +292,13 @@ Public Class frmCorrectionforWrongEntry
         txtPINo.Text = ""
         txtMRN.Text = ""
         TxtWeighment.Text = ""
-        MRNDate.Value = Nothing
-        WeighmetDate.Value = Nothing
+        MRNDate.Value = clsCommon.GETSERVERDATE()
+        WeighmetDate.Value = MRNDate.Value
+        txtInvoiceDate.Value = MRNDate.Value
+        SRNDate.Value = MRNDate.Value
         txtReqNo.Text = ""
         txtSRN.Text = ""
-        SRNDate.Value = Nothing
+
     End Sub
 
     Private Sub frmCorrectionforWrongEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -808,7 +824,7 @@ Public Class frmCorrectionforWrongEntry
                 End If
 
                 If (clsSNShipmentHead.DeleteData(TxtDispatch.Value)) Then
-                    saveCancelLog(Reason, "Delete", Nothing)
+                    'saveCancelLog(Reason, "Delete", Nothing)
                     clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNewDispach()
                 End If
@@ -1018,6 +1034,5 @@ Public Class frmCorrectionforWrongEntry
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
-
 
 End Class
