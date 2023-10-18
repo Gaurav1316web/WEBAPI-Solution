@@ -5,9 +5,10 @@ Public Class frmPOWeighment
 #Region "Variables"
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
-
+    Dim tenp_unloding As Boolean = False
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Private isNewEntry As Boolean = False
+    Public chkSave As Boolean = True
     Public errorControl As clsErrorControl = New clsErrorControl()
     Private isEnterManualWeight As Boolean = False
     Private AllowtoEnterNetWeightManuallyinPOWeighmentScreen As Boolean = False
@@ -28,6 +29,12 @@ Public Class frmPOWeighment
     Const colWeightDate As String = "colWeightDate"
     Const colGRNQty As String = "colGRNQty"
     Const colIsAutoWeighment As String = "colIsAutoWeighment"
+
+    Const collSNo As String = "collSNo"
+    Const collICode As String = "collICode"
+    Const collIName As String = "collIName"
+    Const collUOM As String = "collUOM"
+    Const collGRNQty As String = "collGRNQty"
 #End Region
 
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -45,6 +52,7 @@ Public Class frmPOWeighment
             isEnterManualWeight = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.POWeighmentManual, clsFixedParameterCode.POWeighmentManual, Nothing)) = 1
             AllowtoEnterNetWeightManuallyinPOWeighmentScreen = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoEnterNetWeightManuallyinPOWeighmentScreen, clsFixedParameterCode.AllowtoEnterNetWeightManuallyinPOWeighmentScreen, Nothing)) = 1
             AddNew()
+            RefreshSNo()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -234,6 +242,78 @@ Public Class frmPOWeighment
         gv1.AutoSizeRows = False
     End Sub
 
+
+    Sub LoadBlankGridGunnyBag()
+        gv2.Rows.Clear()
+        gv2.Columns.Clear()
+
+        Dim repoTxt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        'repoTxt.FormatString = ""
+        'repoTxt.HeaderText = "TR No"
+        'repoTxt.Width = 70
+        'repoTxt.Name = colTRNo
+        'repoTxt.ReadOnly = True
+        'repoTxt.IsVisible = False
+        'gv2.MasterTemplate.Columns.Add(repoTxt)
+
+        Dim repoNum As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.HeaderText = "SNo"
+        repoNum.Name = collSNo
+        repoNum.Width = 50
+        repoNum.ReadOnly = True
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv2.MasterTemplate.Columns.Add(repoNum)
+
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.HeaderText = "Item Code"
+        repoTxt.Width = 100
+        repoTxt.Name = collICode
+        repoTxt.ReadOnly = False
+        repoTxt.IsVisible = True
+        gv2.MasterTemplate.Columns.Add(repoTxt)
+
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.HeaderText = "Item"
+        repoTxt.Width = 200
+        repoTxt.Name = collIName
+        repoTxt.ReadOnly = True
+        repoTxt.IsVisible = True
+        gv2.MasterTemplate.Columns.Add(repoTxt)
+
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.HeaderText = "UOM"
+        repoTxt.Width = 100
+        repoTxt.Name = collUOM
+        repoTxt.ReadOnly = True
+        repoTxt.IsVisible = True
+        gv2.MasterTemplate.Columns.Add(repoTxt)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = "{0:n3}"
+        repoNum.HeaderText = "Qty"
+        repoNum.Name = collGRNQty
+        repoNum.Width = 100
+        repoNum.ReadOnly = False
+        repoNum.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv2.MasterTemplate.Columns.Add(repoNum)
+
+        gv2.AllowDeleteRow = True
+        gv2.AllowAddNewRow = True
+        gv2.ShowGroupPanel = False
+        gv2.AllowColumnReorder = False
+        gv2.AllowRowReorder = False
+        gv2.EnableSorting = False
+        gv2.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        gv2.MasterTemplate.ShowRowHeaderColumn = False
+        gv2.TableElement.TableHeaderHeight = 40
+        gv2.AutoSizeRows = False
+        'gv2.Rows.AddNew()
+    End Sub
+
     Private Sub frmMilkGateEntryIn_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Try
             If e.KeyCode = Keys.F2 Then
@@ -302,7 +382,7 @@ Public Class frmPOWeighment
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
-        
+
     End Sub
 
     Private Sub btnnew_Click(sender As Object, e As EventArgs) Handles btnnew.Click
@@ -314,6 +394,7 @@ Public Class frmPOWeighment
             isNewEntry = True
             BlankAllControls()
             LoadBlankGrid()
+            LoadBlankGridGunnyBag()
             BlankGRNAllControls()
             btnSave.Enabled = True
             BtnPost.Enabled = True
@@ -328,6 +409,8 @@ Public Class frmPOWeighment
             RGBUpdate.Visible = False
             RGBUpdate.SendToBack()
             lbRALTender.Text = Nothing
+            tenp_unloding = False
+            RefreshSNo()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -383,7 +466,8 @@ Public Class frmPOWeighment
                     objtr.SNo = clsCommon.myCdbl(gv1.Rows(ii).Cells(colSNo).Value)
                     objtr.Item_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
                     objtr.UOM = clsCommon.myCstr(gv1.Rows(ii).Cells(colUOM).Value)
-                    objtr.Gross_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colGrossWeight).Value)
+                    ' objtr.Gross_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colGrossWeight).Value)
+                    objtr.Gross_Weight = clsCommon.myCdbl(txtGrossWeight.Value)  'Math.Round((obj.Gross_Weight / 100), 2) 
                     objtr.Tare_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTareWeight).Value)
                     objtr.Extra_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colExtraWeight).Value)
                     objtr.Net_Weight = clsCommon.myCdbl(gv1.Rows(ii).Cells(colNetWeight).Value)
@@ -391,6 +475,7 @@ Public Class frmPOWeighment
                     objtr.GRN_Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colGRNQty).Value)
                     objtr.Is_Unload_Item = clsCommon.myCBool(gv1.Rows(ii).Cells(colIsUnloadItem).Value)
                     objtr.Unload_By = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnloadBy).Value)
+
                     If clsCommon.myLen(gv1.Rows(ii).Cells(colUnloadDate).Value) > 0 Then
                         objtr.Unload_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colUnloadDate).Value)
                     End If
@@ -400,14 +485,28 @@ Public Class frmPOWeighment
                     End If
                     obj.Arr.Add(objtr)
                 Next
+                obj.ArrGunnyBag = New List(Of clsPOWeighmentGunnyBag)
+                For ii As Integer = 0 To gv2.Rows.Count - 1
+                    Dim objtr As New clsPOWeighmentGunnyBag
+                    'objtr.SNo = clsCommon.myCdbl(gv2.Rows(ii).Cells(collSNo).Value)
+                    objtr.Item_Code = clsCommon.myCstr(gv2.Rows(ii).Cells(collICode).Value)
+                    objtr.Item_Name = clsCommon.myCstr(gv2.Rows(ii).Cells(collIName).Value)
+                    objtr.UOM = clsCommon.myCstr(gv2.Rows(ii).Cells(collUOM).Value)
+                    objtr.GRN_Qty = clsCommon.myCdbl(gv2.Rows(ii).Cells(collGRNQty).Value)
+                    If clsCommon.myLen(gv2.Rows(ii).Cells(collICode).Value) > 0 Then
+                        obj.ArrGunnyBag.Add(objtr)
+                    End If
+                Next
                 obj.SaveData(obj, isNewEntry)
                 clsCommon.MyMessageBoxShow("Data saved successfully")
+                chkSave = False
                 LoadData(obj.Weighment_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Function
+
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
@@ -446,13 +545,14 @@ Public Class frmPOWeighment
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = objtr.UOM
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objtr.Item_Name
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colTRNo).Value = objtr.TR_No
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colGrossWeight).Value = objtr.Gross_Weight
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTareWeight).Value = objtr.Tare_Weight
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colExtraWeight).Value = objtr.Extra_Weight
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colGrossWeight).Value = objtr.Gross_Weight 'Math.Round((objtr.Gross_Weight / 100), 2) ' 'objtr.Gross_Weight  Math.Round((TempExtraWeight / 100), 2)
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colTareWeight).Value = objtr.Tare_Weight  'Math.Round((objtr.Tare_Weight / 100), 2) 'objtr.Tare_Weight
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colExtraWeight).Value = Math.Round(objtr.Extra_Weight, 2)
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colNetWeight).Value = objtr.Net_Weight
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colUnloadSNo).Value = objtr.Unload_SNo
-                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIsUnloadItem).Value = objtr.Is_Unload_Item
+                            gv1.Rows(gv1.Rows.Count - 1).Cells(colIsUnloadItem).Value = clsCommon.myCBool(objtr.Is_Unload_Item)
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colUnloadBy).Value = objtr.Unload_By
+
                             If objtr.Unload_Date IsNot Nothing Then
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colUnloadDate).Value = objtr.Unload_Date
                             End If
@@ -461,6 +561,61 @@ Public Class frmPOWeighment
                                 gv1.Rows(gv1.Rows.Count - 1).Cells(colWeightDate).Value = objtr.Weight_Date
                             End If
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colGRNQty).Value = objtr.GRN_Qty
+
+                            If chkSave Then
+                                'If clsCommon.myLen(objtr.Unload_By) <= 0 Then
+                                '    If clsCommon.MyMessageBoxShow("Do You Want To Edit the Gross weight", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                                '        objtr.Unload_SNo = 0
+                                '        objtr.Is_Unload_Item = 0
+                                '        objtr.Unload_By = ""
+                                '        objtr.Unload_Date = Nothing
+                                '        clsPOWeighmentDetail.SaveUnloadItem(txtCode.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colTRNo).Value), objtr)
+                                '        'LoadData(txtCode.Value, NavigatorType.Current)
+                                '    Else
+                                '        gv1.CurrentRow.Cells(colTareWeight).Value = 0
+                                '    End If
+                                'End If
+                                'chkSave = False
+                                Dim Is_Unload_Item As Integer = clsDBFuncationality.getSingleValue("select Is_Unload_Item  from TSPL_PO_WEIGHTMENT_DETAIL  where  Weighment_Code='" & txtCode.Value & "'")
+                                If Is_Unload_Item = 0 Then
+                                    If clsCommon.MyMessageBoxShow("Do You Want To Edit the Gross weight", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+
+
+                                        'objtr.Unload_SNo = 0
+                                        'objtr.Is_Unload_Item = 0
+                                        'objtr.Unload_By = ""
+                                        'objtr.Unload_Date = Nothing
+                                        'clsPOWeighmentDetail.SaveUnloadItem(txtCode.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colTRNo).Value), objtr)
+                                        'LoadData(txtCode.Value, NavigatorType.Current)
+                                    Else
+                                        Dim qry As String = "Update TSPL_PO_WEIGHTMENT_DETAIL set Is_Unload_Item = 1 , Unload_By = '" & objCommonVar.CurrentUserCode & "' ,Unload_Date = '" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt") & "'  where  Weighment_Code='" & txtCode.Value & "'"
+                                        clsDBFuncationality.ExecuteNonQuery(qry)
+                                        'gv1.CurrentRow.Cells(colTareWeight).Value = 0
+                                        LoadData(txtCode.Value, NavigatorType.Current)
+                                    End If
+                                End If
+                            End If
+
+                        Next
+
+                        isInsideLoadData = False
+                    Catch ex As Exception
+                        isInsideLoadData = False
+                        Throw New Exception(ex.Message)
+                    End Try
+                End If
+
+                If obj.ArrGunnyBag IsNot Nothing AndAlso obj.ArrGunnyBag.Count > 0 Then
+                    Try
+                        isInsideLoadData = True
+                        For Each objtr As clsPOWeighmentGunnyBag In obj.ArrGunnyBag
+                            gv2.Rows.AddNew()
+                            'gv2.Rows(gv2.Rows.Count - 1).Cells(collSNo).Value = objtr.SNo
+                            gv2.Rows(gv2.Rows.Count - 1).Cells(collICode).Value = objtr.Item_Code
+                            gv2.Rows(gv2.Rows.Count - 1).Cells(collIName).Value = objtr.Item_Name
+                            gv2.Rows(gv2.Rows.Count - 1).Cells(collUOM).Value = objtr.UOM
+                            gv2.Rows(gv2.Rows.Count - 1).Cells(collGRNQty).Value = objtr.GRN_Qty
+
                         Next
                         isInsideLoadData = False
                     Catch ex As Exception
@@ -524,12 +679,13 @@ Public Class frmPOWeighment
     End Sub
 
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
-        Dim qry As String = "select TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as WeightDate,TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No as GRNNo,TSPL_PO_WEIGHTMENT_HEAD.Gross_Weight as GrossWeight,case when TSPL_PO_WEIGHTMENT_HEAD.Status=1 then 'Posted' else 'Pending' end as Status from TSPL_PO_WEIGHTMENT_HEAD " + _
+        Dim qry As String = "select TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as WeightDate,TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No as GRNNo,TSPL_PO_WEIGHTMENT_HEAD.Gross_Weight as GrossWeight,case when TSPL_PO_WEIGHTMENT_HEAD.Status=1 then 'Posted' else 'Pending' end as Status from TSPL_PO_WEIGHTMENT_HEAD " +
       " left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No "
         Dim whrClas As String = ""
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             whrClas = "  (TSPL_GRN_HEAD.Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") or TSPL_GRN_HEAD.Ship_To_Location in (" + objCommonVar.strCurrUserLocations + ")) "
         End If
+        chkSave = True
         LoadData(clsCommon.ShowSelectForm("POWFMain", qry, "Weighment_Code", whrClas, txtCode.Value, "TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date desc", isButtonClicked), NavigatorType.Current)
     End Sub
 
@@ -591,6 +747,7 @@ Public Class frmPOWeighment
                             isInsideLoadData = True
                             If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                                 LoadBlankGrid()
+                                LoadBlankGridGunnyBag()
                                 For Each objtr As clsGRNDetail In obj.Arr
                                     If objtr.Row_Type = "Item" Then
                                         gv1.Rows.AddNew()
@@ -600,7 +757,7 @@ Public Class frmPOWeighment
                                         gv1.Rows(gv1.Rows.Count - 1).Cells(colGRNQty).Value = objtr.GRN_Qty
                                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUOM).Value = objtr.Unit_code
                                     End If
-                                   
+
                                 Next
                             End If
                         Catch ex As Exception
@@ -627,7 +784,7 @@ Public Class frmPOWeighment
         lblGDShipToLocationName.Text = ""
     End Sub
 
-    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
+    Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs)
         Try
             If e.Column.Index >= 0 Then
                 If e.Column Is gv1.Columns(colTareWeight) Then
@@ -667,6 +824,7 @@ Public Class frmPOWeighment
                 'objtr.GRN_Qty = clsCommon.myCdbl(gv1.CurrentRow.Cells(colGRNQty).Value)
                 objtr.Is_Auto_Weighment = clsCommon.myCBool(gv1.CurrentRow.Cells(colIsAutoWeighment).Value)
                 objtr.Gross_Weight = clsCommon.myCdbl(gv1.CurrentRow.Cells(colGrossWeight).Value)
+                'objtr.Is_Unload_Item = clsCommon.myCdbl(gv1.CurrentRow.Cells(colIsUnloadItem).Value)
                 Dim arrTRNo As List(Of String) = Nothing
                 For ii As Integer = 0 To gv1.Rows.Count - 1
                     If ii = gv1.CurrentRow.Index Then
@@ -682,6 +840,7 @@ Public Class frmPOWeighment
 
                 If clsCommon.MyMessageBoxShow("Item:" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "[" + clsCommon.myCstr(gv1.CurrentRow.Cells(colIName).Value) + "]" + Environment.NewLine + "Tare Weight: " + clsCommon.myCstr(objtr.Tare_Weight) + Environment.NewLine + "Net Weight: " + clsCommon.myCstr(objtr.Net_Weight) + Environment.NewLine + "Save the data", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     clsPOWeighmentDetail.SaveTareWeightment(txtCode.Value, clsCommon.myCstr(gv1.CurrentRow.Cells(colTRNo).Value), objtr, arrTRNo)
+                    chkSave = False
                     LoadData(txtCode.Value, NavigatorType.Current)
                 Else
                     isCellValueChangedOpen = True ''UDL/14/06/18-000186 by balwinder on 20/06/2018 show message again.
@@ -696,7 +855,7 @@ Public Class frmPOWeighment
         End Try
     End Sub
 
-    Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellValueChanged
+    Private Sub gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs)
         Try
             If (Not isInsideLoadData) Then
                 If Not isCellValueChangedOpen Then
@@ -873,10 +1032,95 @@ Public Class frmPOWeighment
                       where TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code='" + txtCode.Value + "'
                       and tspl_srn_DETAIL.GRN_ID='" + txtGateEntryNo.Value + "'
                       and TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No='" + txtGateEntryNo.Value + "' "
-                clsDBFuncationality.ExecuteNonQuery(qry)
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub gv2_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gv2.CellValueChanged
+        Try
+
+            If (Not isInsideLoadData) Then
+                If Not isCellValueChangedOpen Then
+                    'If isCellValueChangedOpen Then
+                    isCellValueChangedOpen = True
+
+                    If e.Column Is gv2.Columns(collICode) Then
+                        OpenICodeList(False)
+                        '  RefreshSNo()
+                    ElseIf e.Column Is gv2.Columns(collGRNQty) Then
+                        Dim TempExtraWeight As Decimal = 0.0
+                        Dim TempNetWeight As Decimal = 0.0
+                        For ii As Integer = 0 To gv2.Rows.Count - 1
+                            If clsCommon.myLen(gv2.Rows(ii).Cells(collICode).Value) > 0 Then
+                                TempNetWeight = clsDBFuncationality.getSingleValue("select TSPL_ITEM_UOM_DETAIL.Net_Weight FROM TSPL_ITEM_UOM_DETAIL WHERE TSPL_ITEM_UOM_DETAIL.Net_Weight > 0 AND TSPL_ITEM_UOM_DETAIL.item_Code='" & gv2.Rows(ii).Cells(collICode).Value & "'")
+                                TempExtraWeight = TempExtraWeight + Math.Round((clsCommon.myCDecimal(gv2.Rows(ii).Cells(collGRNQty).Value) * TempNetWeight), 2)
+                            End If
+                        Next
+
+                        gv1.Rows(0).Cells(colExtraWeight).Value = Math.Round((TempExtraWeight / 100), 2)
+                        gv1.Rows(0).Cells(colNetWeight).Value = clsCommon.myCDecimal(gv1.Rows(0).Cells(colGrossWeight).Value) - (clsCommon.myCDecimal(gv1.Rows(0).Cells(colTareWeight).Value) + clsCommon.myCDecimal(gv1.Rows(0).Cells(colExtraWeight).Value))
+                    End If
+                    isCellValueChangedOpen = False
+                End If
+            End If
+
+        Catch ex As Exception
+            isCellValueChangedOpen = False
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+    Sub OpenICodeList(ByVal isButtonClick As Boolean)
+        Dim obj As clsItemMaster = clsItemMaster.FinderForRMOther(clsCommon.myCstr(gv2.CurrentRow.Cells(collICode).Value), isButtonClick)
+        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
+            gv2.CurrentRow.Cells(collICode).Value = obj.Item_Code
+            gv2.CurrentRow.Cells(collIName).Value = obj.Item_Desc
+            gv2.CurrentRow.Cells(collUOM).Value = obj.Unit_Code
+        End If
+
+    End Sub
+
+
+    Private Sub gv2_UserDeletedRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv2.UserDeletedRow
+        RefreshSNo()
+    End Sub
+
+    Private Sub gv2_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv2.CurrentColumnChanged
+        If gv2.RowCount > 0 Then
+            Dim intCurrRow As Integer = gv2.CurrentRow.Index
+            If intCurrRow = gv2.Rows.Count - 1 Then
+                gv2.Rows.AddNew()
+                gv2.CurrentRow = gv2.Rows(intCurrRow)
+            End If
+        End If
+        RefreshSNo()
+    End Sub
+
+    Sub RefreshSNo()
+        For ii As Integer = 0 To gv2.Rows.Count - 1
+            gv2.Rows(ii).Cells(collSNo).Value = ii + 1
+        Next
+    End Sub
+
+
+
+    Private Sub gv2_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv2.UserDeletingRow
+        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            e.Cancel = True
+        End If
+        RefreshSNo()
+    End Sub
+
+    Private Sub gv2_UserAddedRow(sender As Object, e As GridViewRowEventArgs) Handles gv2.UserAddedRow
+        For i As Integer = 0 To gv2.Rows.Count - 1
+            gv2.Rows(0).Cells(0).Value = 1
+            If i <> 0 Then
+                gv2.Rows(i).Cells(collSNo).Value = i + 1
+            End If
+        Next
+    End Sub
+
+
 End Class
