@@ -1044,8 +1044,8 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
     Private Sub rbtnTranpoterGainLoss_Click(sender As Object, e As EventArgs) Handles rbtnTranpoterGainLoss.Click
         MyLabel4.Visible = False
         txtMCC_Code.Visible = False
-        'MyLabel5.Visible = True
-        'TxtTankerNo.Visible = True
+        MyLabel5.Visible = True
+        TxtTankerNo.Visible = True
         TranspoterBoxhandler(True)
     End Sub
 
