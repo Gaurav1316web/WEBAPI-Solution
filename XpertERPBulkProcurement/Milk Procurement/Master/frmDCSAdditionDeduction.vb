@@ -181,6 +181,15 @@ Public Class frmDCSAdditionDeduction
                 ElseIf rbtnQtyUOMKG.IsChecked Then
                     obj.Qty_UOM = 2
                 End If
+                If chkSavingAC.Checked Then
+                    If rbtnACExists.IsChecked Then
+                        obj.Check_Saving_AC = 1
+                    ElseIf rbtnACNotExists.IsChecked Then
+                        obj.Check_Saving_AC = 2
+                    End If
+                Else
+                    obj.Check_Saving_AC = 0
+                End If
                 obj.Applicable_Value = txtApplyValue.Value
                 obj.GL_Account = txtGLAccount.Value
                 obj.MappingCode = txtMappingCode.Value
@@ -265,6 +274,18 @@ Public Class frmDCSAdditionDeduction
                 End If
                 chkIncludeShortageOwnBMC.Checked = obj.Include_Shortage_Own_BMC
                 chkSubtract.Checked = obj.Subtract
+                If obj.Check_Saving_AC > 0 Then
+                    chkSavingAC.Checked = True
+
+                    If obj.Check_Saving_AC = 1 Then
+                        rbtnACExists.IsChecked = True
+                    ElseIf obj.Check_Saving_AC = 2 Then
+                        rbtnACNotExists.IsChecked = True
+                    End If
+                Else
+                    chkSavingAC.Checked = False
+
+                End If
 
                 txtApplyValue.Value = obj.Applicable_Value
                 txtGLAccount.Value = obj.GL_Account
@@ -450,6 +471,10 @@ Public Class frmDCSAdditionDeduction
         chkApplyTDS.Checked = False
         chkIncludeShortageOwnBMC.Checked = False
         chkSubtract.Checked = False
+        chkSavingAC.Checked = False
+        rbtnACExists.Visible = False
+        rbtnACNotExists.Visible = False
+
     End Sub
     Private Sub frmHSNMaster_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N AndAlso rdbtnreset.Enabled Then
@@ -593,5 +618,21 @@ Public Class frmDCSAdditionDeduction
 
     Private Sub txtMilkType__My_Click(sender As Object, e As EventArgs) Handles txtMilkType._My_Click
         txtMilkType.arrValueMember = clsCommon.ShowMultipleSelectForm("DCSADReT", clsMilkReceiptMCC.GetRejectQry(True), "Code", "Name", txtMilkType.arrValueMember, Nothing)
+    End Sub
+
+    Private Sub SplitContainer1_Panel1_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel1.Paint
+
+    End Sub
+
+    Private Sub chkSavingAC_CheckStateChanged(sender As Object, e As EventArgs) Handles chkSavingAC.CheckStateChanged
+        If chkSavingAC.Checked Then
+            rbtnACExists.Visible = True
+            rbtnACNotExists.Visible = True
+        Else
+            rbtnACExists.Visible = False
+            rbtnACNotExists.Visible = False
+
+        End If
+
     End Sub
 End Class
