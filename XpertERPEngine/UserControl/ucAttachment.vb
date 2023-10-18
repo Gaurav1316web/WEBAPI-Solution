@@ -2,8 +2,15 @@
 
 Imports System.Data.SqlClient
 Imports System.IO
+Imports System.Net
+Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
+Imports common
+Imports System.Collections.Specialized
+
 
 Public Class ucAttachment
+    Public RunServiceForUploadFolder As Boolean = False
     Public isDeleteTheAttachment As Boolean = True
     Public MandatoryPDFFile As Boolean = False
     Public MandatoryPDFFileAny As Boolean = False
@@ -12,8 +19,6 @@ Public Class ucAttachment
     Public Transaction_ID As String = ""
     Dim obj As clsAttachDocument
     Dim isInsideLoadData As Boolean = False
-
-
 
     ''
     Const ColCODE As String = "CODE"
@@ -86,13 +91,36 @@ Public Class ucAttachment
                     obj.FileName = clsCommon.myCstr(gv1.Rows(ii).Cells(ColFileName).Value)
                     obj.COMMENTS = clsCommon.myCstr(gv1.Rows(ii).Cells(ColCOMMENTS).Value)
                     obj.SaveData(obj, trans)
-
+                    Dim FileNo As Integer = 0
                     If clsCommon.myLen(gv1.Rows(ii).Cells(ColPath).Value) > 0 Then
+                        Dim str As String
+                        If RunServiceForUploadFolder Then
+                            str = UploadWithHttpRequest("http://103.122.38.34:7888/api/FileUploads/PostFileData", clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), obj.FileName)
+                            Dim jObj As JObject = JObject.Parse(str)
+                            Dim ArrJ As JArray = Nothing
+                            If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
+                                ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                                If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
+                                    FileNo = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
+                                Else
+                                    Throw New Exception(ArrJ(0).SelectToken("Message"))
+                                End If
+                            Else
+                                ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                                Throw New Exception(ArrJ(0).SelectToken("Message"))
+                            End If
+                        End If
+
                         Dim bData As Byte()
                         Dim br As BinaryReader = New BinaryReader(System.IO.File.OpenRead(clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value)))
                         bData = br.ReadBytes(br.BaseStream.Length)
-                        Dim str As String
-                        str = " UPDATE TSPL_ATTACHMENTS set FileData = @BLOBData where CODE='" + obj.CODE + "'"
+
+                        str = " UPDATE TSPL_ATTACHMENTS set FileData = @BLOBData "
+                        If FileNo > 0 Then
+                            str += " ,FILE_INFO=" + clsCommon.myCstr(FileNo) + ""
+                        End If
+                        str += " where CODE='" + obj.CODE + "'"
+
                         Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection)
                         Dim prm As New SqlParameter("@BLOBData", bData)
                         cmd.Transaction = trans
@@ -113,6 +141,53 @@ Public Class ucAttachment
         End Try
         Return True
     End Function
+
+    Private Function UploadWithHttpRequest(ByVal url As String, ByVal filePath As String, ByVal fileName As String) As String
+        Try
+            Dim fileByteArray As Byte() = File.ReadAllBytes(filePath)
+            Dim formDataBoundary As String = $"----------{Guid.NewGuid()}"
+            Dim contentType As String = "multipart/form-data; boundary=" & formDataBoundary
+            Dim formData As Byte() = GetMultipartFormDataForUpload(fileByteArray, fileName, contentType, formDataBoundary)
+            Dim request = TryCast(WebRequest.Create(url), HttpWebRequest)
+            request.Method = "POST"
+            request.ContentType = contentType
+            'request.UserAgent = Credentials.UserName
+            request.CookieContainer = New CookieContainer()
+            request.ContentLength = formData.Length
+            'request.Credentials = Credentials
+
+            Using RequestStream As Stream = request.GetRequestStream()
+                RequestStream.Write(formData, 0, formData.Length)
+                RequestStream.Close()
+            End Using
+
+            Dim response = TryCast(request.GetResponse(), HttpWebResponse)
+            Dim ResponseReader = New StreamReader(response.GetResponseStream())
+            Dim FullResponse As String = ResponseReader.ReadToEnd()
+            response.Close()
+            Return FullResponse
+        Catch ex As Exception
+            Throw ex
+        End Try
+    End Function
+
+    Private Function GetMultipartFormDataForUpload(ByVal byteArray As Byte(), ByVal fileName As String, ByVal contentType As String, ByVal Boundary As String) As Byte()
+        Dim FormDataStream As Stream = New MemoryStream()
+        Dim Header As String = String.Format("--{0}" & Environment.NewLine & "Content-Disposition: form-data; name=""{1}""; filename=""{2}""" + Environment.NewLine + Environment.NewLine, Boundary, "file", fileName)
+        FormDataStream.Write(System.Text.Encoding.UTF8.GetBytes(Header), 0, System.Text.Encoding.UTF8.GetByteCount(Header))
+        FormDataStream.Write(byteArray, 0, byteArray.Length)
+        Dim Footer As String = Environment.NewLine & "--" & Boundary & "--" + Environment.NewLine
+        FormDataStream.Write(System.Text.Encoding.UTF8.GetBytes(Footer), 0, System.Text.Encoding.UTF8.GetByteCount(Footer))
+        FormDataStream.Position = 0L
+        Dim FormData = New Byte(CInt((FormDataStream.Length - 1L + 1)) - 1) {}
+        FormDataStream.Read(FormData, 0, FormData.Length)
+        FormDataStream.Close()
+        Return FormData
+    End Function
+
+
+
+
 
     Public Function AllowToSave() As Boolean
         If MandatoryPDFFile Then
