@@ -1,12 +1,5 @@
-﻿Imports common
-Imports System
-Imports Telerik.WinControls.UI
-Imports System.Net.Mail
-Imports System.Net
-Imports Telerik.WinControls
-Imports System.IO
-Imports System.Xml
-Imports System.Data.SqlClient
+﻿Imports System.Data.SqlClient
+Imports common
 Public Class frmNotification
     Inherits FrmMainTranScreen
 
@@ -15,35 +8,11 @@ Public Class frmNotification
 #End Region
     Private Sub frmNotification_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         RadPageView1.SelectedPage = RadPageViewPage1
-
-        'Dim coll As Dictionary(Of String, String)
-        'coll = New Dictionary(Of String, String)
-        'coll.Add("Document_No", "varchar(30) NOT NULL Primary key")
-        'coll.Add("Document_Date", "DateTime not Null")
-        'coll.Add("Subject", "nvarchar(100)")
-        'coll.Add("Description", "nvarchar(MAX)")
-        'coll.Add("Attachment_Count", "Int")
-        'coll.Add("Start_Date", "Date not NULL")
-        'coll.Add("End_Date", "Date null")
-        'coll.Add("Status", "integer null")
-        'coll.Add("Created_By", "VARCHAR(12) not NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
-        'coll.Add("Created_Date", "DateTime not NULL")
-        'coll.Add("Modify_By", "VARCHAR(12) not NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
-        'coll.Add("Modify_Date", "DateTime not NULL")
-        'coll.Add("Post_By", "VARCHAR(12) NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
-        'coll.Add("Post_Date", "DateTime NULL")
-        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NOTIFICATIONS", coll, "", False, False, "", "Document_No", "Document_Date")
-
-        'coll = New Dictionary(Of String, String)
-        'coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        'coll.Add("SNO", "integer NUll")
-        'coll.Add("Document_No", "VARCHAR(30)  NULL REFERENCES TSPL_NOTIFICATIONS(Document_No) ")
-        'coll.Add("Login_Type", "varchar(12) null")
-        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_NOTIFICATIONS_USER_TYPE", coll, "", False, True, "TSPL_Notifications", "Document_No", "")
         txtStartDate.Value = clsCommon.GETSERVERDATE()
         UsLock1.Status = ERPTransactionStatus.Pending
-        txtDate.Value = clsCommon.GETSERVERDATE()
+        txtDate.Value = txtStartDate.Value
         UcAttachment1.Form_ID = MyBase.Form_ID
+        UcAttachment1.RunServiceForUploadFolder = True
         Addnew()
     End Sub
 
@@ -57,7 +26,7 @@ Public Class frmNotification
         txtCode.MyReadOnly = False
         txtCode.Value = Nothing
         txtDate.Value = clsCommon.GETSERVERDATE()
-        txtStartDate.Value = clsCommon.GETSERVERDATE()
+        txtStartDate.Value = txtDate.Value
         txtEndDate.Checked = False
         txtEndDate.Value = txtDate.Value
         txtCode.Focus()
@@ -135,7 +104,7 @@ Public Class frmNotification
         End If
         'If txtCode.MyReadOnly OrElse isButtonClicked Then
         Dim whrClas As String = ""
-            Dim qry As String = "select Document_No as Code,Document_Date as Date,Start_Date As 'Start Date',End_Date As 'End Date',Subject,Status from TSPL_NOTIFICATIONS"
+        Dim qry As String = "select Document_No as Code,Document_Date as Date,Start_Date As 'Start Date',End_Date As 'End Date',Subject,Status from TSPL_NOTIFICATIONS"
         LoadData(clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_NOTIFICATIONS.Document_No  ", isButtonClicked), NavigatorType.Current)
         ' txtCode.Value = clsCommon.ShowSelectForm("DRT", qry, "Code", "", txtCode.Value, "TSPL_NOTIFICATIONS.Document_No ", isButtonClicked, "")
         'LoadData(txtCode.Value, NavigatorType.Current)
@@ -193,19 +162,25 @@ Public Class frmNotification
                 End If
 
                 obj.Arr = New List(Of clsNotificationDetails)
-                For i As Integer = 0 To arrUserType.count - 1
+                For i As Integer = 0 To arrUserType.Count - 1
                     Dim objtr As New clsNotificationDetails
                     objtr.Login_Type = arrUserType(i)
                     obj.Arr.Add(objtr)
                 Next
-                If (obj.SaveData(obj, isNewEntry)) Then
-                    UcAttachment1.SaveData(obj.Code)
-                    Dim AttachmentCount As Integer = clsDBFuncationality.getSingleValue("SELECT COUNT(1) FROM TSPL_ATTACHMENTS WHERE TransactionId='" & obj.Code & "'")
+                Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+                Try
+                    ClsNotification.SaveData(obj, isNewEntry, tran)
+                    UcAttachment1.SaveData(obj.Code, False, tran)
+                    Dim AttachmentCount As Integer = clsDBFuncationality.getSingleValue("SELECT COUNT(1) FROM TSPL_ATTACHMENTS WHERE TransactionId='" & obj.Code & "'", tran)
                     Dim sql As String = "UPDATE TSPL_NOTIFICATIONS SET Attachment_Count = '" & AttachmentCount & "' where Document_No = '" & obj.Code & "'"
-                    clsDBFuncationality.ExecuteNonQuery(sql)
-                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.")
-                    LoadData(obj.Code, NavigatorType.Current)
-                End If
+                    clsDBFuncationality.ExecuteNonQuery(sql, tran)
+                    tran.Commit()
+                Catch ex As Exception
+                    tran.Rollback()
+                    Throw New Exception(ex.Message)
+                End Try
+                clsCommon.MyMessageBoxShow(Me, "Data save successfully.")
+                LoadData(obj.Code, NavigatorType.Current)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -244,6 +219,7 @@ Public Class frmNotification
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 If (ClsNotification.DeleteData(txtCode.Value)) Then
+                    UcAttachment1.funDelete(txtCode.Value)
                     common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Addnew()
                 End If

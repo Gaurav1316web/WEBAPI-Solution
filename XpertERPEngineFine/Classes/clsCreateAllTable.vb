@@ -7250,6 +7250,7 @@ Public Class clsCreateAllTable
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("File_Info", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_ATTACHMENTS", coll, "", False, False)
 
 
@@ -14193,6 +14194,9 @@ Public Class clsCreateAllTable
             coll.Add("Grampanchayat_Code", "varchar(30)  null references TSPL_GRAMPANCHAYAT_MASTER(Grampanchayat_Code)")
             coll.Add("Panchayat_Samiti_Code", "varchar(30)  null references TSPL_PANCHAYAT_SAMITI_MASTER(Panchayat_Samiti_Code)")
             coll.Add("Vidhan_Sabha_Code", "varchar(30)  null references TSPL_VIDHAN_SABHA_MASTER(Vidhan_Sabha_Code)")
+            coll.Add("Latitude", "varchar(20) NULL")
+            coll.Add("Longitude", "varchar(20) NULL")
+            coll.Add("File_Info", "bigint NULL")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
@@ -24064,6 +24068,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Apply_TDS", "integer NULL")
             coll.Add("Include_Shortage_Own_BMC", "integer NULL")
             coll.Add("Subtract", "integer NULL")
+            coll.Add("Check_Saving_AC", "integer NULL default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)

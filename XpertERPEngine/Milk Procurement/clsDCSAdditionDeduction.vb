@@ -25,6 +25,8 @@ Public Class clsDCSAdditionDeduction
     Public Include_Shortage_Own_BMC As Boolean
     Public Subtract As Boolean
     Public Posted As ERPTransactionStatus = ERPTransactionStatus.Pending
+    Public Check_Saving_AC As Integer = 0
+
 
     Public Arr As ArrayList = Nothing
 #End Region
@@ -75,6 +77,7 @@ Public Class clsDCSAdditionDeduction
             clsCommon.AddColumnsForChange(coll, "Subtract", IIf(obj.Subtract, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "Check_Saving_AC", obj.Check_Saving_AC)
             If isNewEntry Then
                 obj.Code = clsERPFuncationality.GetNextCode(trans, obj.Start_Date, clsDocType.DCSAdditionDeduction, "", "")
                 If (clsCommon.myLen(obj.Code) <= 0) Then
@@ -189,6 +192,7 @@ Public Class clsDCSAdditionDeduction
             obj.Apply_TDS = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_TDS")) = 1, True, False)
             obj.Include_Shortage_Own_BMC = IIf(clsCommon.myCdbl(dt.Rows(0)("Include_Shortage_Own_BMC")) = 1, True, False)
             obj.Subtract = IIf(clsCommon.myCdbl(dt.Rows(0)("Subtract")) = 1, True, False)
+            obj.Check_Saving_AC = clsCommon.myCdbl(dt.Rows(0)("Check_Saving_AC"))
             obj.Arr = Nothing
             qry = " select Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where Code='" + obj.Code + "' "
             dt = clsDBFuncationality.GetDataTable(qry, trans)
