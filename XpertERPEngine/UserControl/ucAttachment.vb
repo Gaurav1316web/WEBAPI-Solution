@@ -95,7 +95,7 @@ Public Class ucAttachment
                     If clsCommon.myLen(gv1.Rows(ii).Cells(ColPath).Value) > 0 Then
                         Dim str As String
                         If RunServiceForUploadFolder Then
-                            str = UploadWithHttpRequest("http://103.122.38.34:7888/api/FileUploads/PostFileData", clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), obj.FileName)
+                            str = UploadWithHttpRequest("http://103.122.38.34:7888/api/FileUploads/FileUpload", clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), obj.FileName)
                             Dim jObj As JObject = JObject.Parse(str)
                             Dim ArrJ As JArray = Nothing
                             If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
@@ -149,6 +149,7 @@ Public Class ucAttachment
             Dim contentType As String = "multipart/form-data; boundary=" & formDataBoundary
             Dim formData As Byte() = GetMultipartFormDataForUpload(fileByteArray, fileName, contentType, formDataBoundary)
             Dim request = TryCast(WebRequest.Create(url), HttpWebRequest)
+            request.Headers.Add("Key", "Tecxpert@MP#123$456%789^")
             request.Method = "POST"
             request.ContentType = contentType
             'request.UserAgent = Credentials.UserName
