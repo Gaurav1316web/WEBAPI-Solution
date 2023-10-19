@@ -24068,7 +24068,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Apply_TDS", "integer NULL")
             coll.Add("Include_Shortage_Own_BMC", "integer NULL")
             coll.Add("Subtract", "integer NULL")
-            coll.Add("Check_Saving_AC", "integer NULL default 0")
+            coll.Add("Check_Saving_AC", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)
