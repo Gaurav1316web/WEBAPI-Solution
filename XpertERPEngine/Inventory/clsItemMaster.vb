@@ -616,20 +616,20 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
 
     Public Shared Function FinderForRMOther(ByVal strCode As String, ByVal isButtonClicked As Boolean) As clsItemMaster
         Dim obj As clsItemMaster = Nothing
-        Dim qry As String = "SELECT TSPL_ITEM_MASTER.Item_Code AS Code, TSPL_ITEM_MASTER.Item_Desc AS Name,Sku_Seq as [Seq. No.], TSPL_ITEM_MASTER.Unit_Code,TSPL_ITEM_MASTER.ITF_CODE as [ITF Code] "
-        qry += " FROM TSPL_ITEM_MASTER LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_MASTER.Item_Code = TSPL_ITEM_UOM_DETAIL.Item_Code AND TSPL_ITEM_MASTER.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code"
+        Dim qry As String = "select TSPL_ITEM_MASTER.Item_Code as Code,TSPL_ITEM_MASTER.Item_Desc as Name,TSPL_ITEM_MASTER.Unit_Code,TSPL_ITEM_UOM_DETAIL.Net_Weight as [Net Weight] FROM TSPL_ITEM_UOM_DETAIL left join TSPL_ITEM_MASTER on  TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code"
 
-        Dim WhrCls As String = " TSPL_ITEM_MASTER.Item_Type in('R','O','A')"
-        strCode = clsCommon.ShowSelectForm("ItemFinderStore", qry, "Code", WhrCls, strCode, "Code", isButtonClicked)
+        Dim WhrCls As String = " TSPL_ITEM_UOM_DETAIL.Net_Weight > 0"
+        strCode = clsCommon.ShowSelectForm("ItemFinderStore11", qry, "Code", WhrCls, strCode, "Code", isButtonClicked)
         If clsCommon.myLen(strCode) > 0 Then
-            qry = "select Item_Code,Item_Desc,Is_Serial_Item,Is_Pick_Auto_SrNo from TSPL_ITEM_MASTER where Item_Code='" + strCode + "' "
+            qry = "select Item_Code,Item_Desc,Unit_Code from TSPL_ITEM_MASTER where Item_Code='" + strCode + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 obj = New clsItemMaster()
                 obj.Item_Code = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
                 obj.Item_Desc = clsCommon.myCstr(dt.Rows(0)("Item_Desc"))
-                obj.Is_Serial_Item = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Serial_Item")) = 1, True, False)
-                obj.Is_Pick_Auto_SrNo = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Pick_Auto_SrNo")) = 1, True, False)
+                obj.Unit_Code = clsCommon.myCstr(dt.Rows(0)("Unit_Code"))
+                'obj.Is_Serial_Item = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Serial_Item")) = 1, True, False)
+                'obj.Is_Pick_Auto_SrNo = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Pick_Auto_SrNo")) = 1, True, False)
             End If
         End If
         Return obj
