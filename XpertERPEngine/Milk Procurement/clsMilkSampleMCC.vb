@@ -27,6 +27,7 @@ Public Class clsMilkSampleMCC
     Public Form_ID As String = ""
     Public arrCustomFields As List(Of clsCustomFieldValues) = Nothing
 
+
 #End Region
 
     Public Shared Function SaveData(ByVal obj As clsMilkSampleMCC, ByVal objList As List(Of clsMilkSampleMCCDetail), ByVal objListHistory As List(Of clsMilkSampleMCCDetailHistory)) As Boolean
@@ -538,9 +539,15 @@ Public Class clsMilkSRNMCC
     Public POSTED As ERPTransactionStatus = ERPTransactionStatus.Pending
     '' grid columns
     Public Failed_Sample_Status As Boolean = False
+    Public Retesting_FAT As Decimal = 0
+    Public Retesting_SNF As Decimal = 0
+    Public Retesting_Status As Integer = 0
+    Public Correction_Status As Integer = 0
+    Public Shared arrList As List(Of clsMilkSRNMCC) = New List(Of clsMilkSRNMCC)
     Public Shared ObjList As List(Of clsMilkSRNMCCDetail)
     Public Shared ObjVSPChargeList As List(Of clsMilkSRNVSpChargeDetail)
     Public Shared ObjPriceChargeList As List(Of clsMilkSRNPriceChargeDetail)
+
 
 #End Region
 
@@ -617,7 +624,7 @@ Public Class clsMilkSRNMCC
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             '' update Sync Satatus
             clsCommon.AddColumnsForChange(coll, "SYNC_STATUS", 0)
-            clsCommon.AddColumnsForChange(coll,"Retesting",obj.Reason)
+            clsCommon.AddColumnsForChange(coll, "Retesting", obj.Reason)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Trans), "dd/MMM/yyyy"))
@@ -1181,8 +1188,8 @@ Public Class clsMilkSRNMCC
 
         Dim isAllowPurchaseAccounting As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0, False, True)
         If Not isAllowPurchaseAccounting Then
-            qry = "select TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code,TSPL_VENDOR_ACCOUNT_SET.Round_Off,TSPL_VENDOR_ACCOUNT_SET.Short_Excess from TSPL_VENDOR_MASTER " + Environment.NewLine + _
-                  "left outer join TSPL_VENDOR_ACCOUNT_SET on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code=TSPL_VENDOR_MASTER.Vendor_Account" + Environment.NewLine + _
+            qry = "select TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code,TSPL_VENDOR_ACCOUNT_SET.Round_Off,TSPL_VENDOR_ACCOUNT_SET.Short_Excess from TSPL_VENDOR_MASTER " + Environment.NewLine +
+                  "left outer join TSPL_VENDOR_ACCOUNT_SET on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code=TSPL_VENDOR_MASTER.Vendor_Account" + Environment.NewLine +
                   "where TSPL_VENDOR_MASTER.Vendor_Code='" + obj.VSP_CODE + "'"
             Dim dtVAS As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             Dim ArryLstGLAC As ArrayList = New ArrayList()
@@ -1320,7 +1327,7 @@ Public Class clsMilkSRNMCC
                 Throw New Exception("No Data found to approve failed samples")
             End If
             For Each strSRNNo As String In arr.Keys
-                Dim qry As String = "select doc_code  from TSPL_MILK_PURCHASE_INVOICE_HEAD  where " + Environment.NewLine + _
+                Dim qry As String = "select doc_code  from TSPL_MILK_PURCHASE_INVOICE_HEAD  where " + Environment.NewLine +
                 " exists( select 1 from TSPL_MILK_SRN_HEAD where TSPL_MILK_SRN_HEAD.MCC_CODE=TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE and TSPL_MILK_SRN_HEAD.VSP_CODE=TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE and TSPL_MILK_SRN_HEAD.DOC_CODE='" + strSRNNo + "'  ) and VENDOR_INVOICE_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtfrom), "dd/MMM/yyyy hh:mm:ss tt") + "' and VENDOR_INVOICE_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtto), "dd/MMM/yyyy hh:mm:ss tt") + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1363,19 +1370,26 @@ Public Class clsMilkSRNMCC
         clsMilkSRNMCC.Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, False)
     End Sub
 
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean)
+    Public Shared Sub Correction(ByVal Form_ID As String, ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String)
+        clsMilkSRNMCC.Correction(Form_ID, strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, False)
+    End Sub
+
+    Public Shared Sub Correction(ByVal Form_ID As String, ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean)
         Dim Trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            clsMilkSRNMCC.Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans)
+            clsMilkSRNMCC.Correction(Form_ID, strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans)
             Trans.Commit()
         Catch ex As Exception
             Trans.Rollback()
         End Try
     End Sub
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction)
-        Correction(strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, False)
+    Public Shared Sub Correction(ByVal Form_ID As String, ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction)
+        Correction(Form_ID, strSRNNo, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, dblQty, strType, dblFAT, dblSNF, strVLCUploaderCode, IsCapping, Trans, False)
     End Sub
-    Public Shared Sub Correction(ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean)
+
+
+
+    Public Shared Sub Correction(ByVal Form_ID As String, ByVal strSRNNo As String, ByVal CorrTypeSRNQty As Boolean, ByVal CorrTypeSRNFATSNF As Boolean, ByVal CorrTypeSRNVLC As Boolean, ByVal dblQty As Decimal, ByVal strType As String, ByVal dblFAT As Decimal, ByVal dblSNF As Decimal, ByVal strVLCUploaderCode As String, ByVal IsCapping As Boolean, ByVal Trans As SqlTransaction, ByVal IsOwnBMCAdjustment As Boolean)
         Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Trans)) > 0)
         Dim PickPriceFromFATAndSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.PickPriceFromFATAndSNF, Trans)) > 0)
         Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Trans)
@@ -1512,7 +1526,14 @@ Public Class clsMilkSRNMCC
                 Else
                     clsMilkSRNMCC.ObjList(0).SNF = Math.Truncate(dblSNF * 10) / 10
                 End If
-                'End If
+
+
+                If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
+                    clsMilkSRNMCC.ObjList(0).Retesting_OR_Correction_Status = 1
+                End If
+                If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
+                    clsMilkSRNMCC.ObjList(0).Retesting_OR_Correction_Status = 2
+                End If
                 If objCommonVar.DisplayTypeInMilkReceipt Then
                     ''Do not change exception "Milk Type [" by balwinder used in form.
                     If clsCommon.CompairString(strType, "M") = CompairStringResult.Equal Then
@@ -1568,22 +1589,22 @@ Public Class clsMilkSRNMCC
 
 
             qry = "select rd.*,rh.*,Case when Nature='C' then Actual_charges end as  commision_pers," _
-            & " Case when Nature='E' then Actual_charges end as payment_commision_pers,Service_Charge_Type,coalesce(Rate_Head_Load,0) as Rate_Head_Load" _
-            & " ,coalesce(Rate_Own_Asset,0) as Rate_Own_Asset,Service_Basis_Head_Load,Service_Basis_Own_Asset,TSPL_VENDOR_MASTER.EMP_Type " _
-            & " ,TSPL_VENDOR_MASTER.EMP_Fixed_Amount " _
-            & " ,TSPL_VENDOR_MASTER.Actual_charges_Slab " _
-            & " ,TSPL_VENDOR_MASTER.Actual_charges " _
-            & ",TSPL_VENDOR_MASTER.Actual_charges_Slab2" _
-            & ",TSPL_VENDOR_MASTER.Actual_charges2" _
-            & ",TSPL_VENDOR_MASTER.Actual_charges_Slab3" _
-            & ",TSPL_VENDOR_MASTER.Actual_charges3" _
-            & ",TSPL_VENDOR_MASTER.Actual_charges_Slab4" _
-            & ",TSPL_VENDOR_MASTER.Actual_charges4" _
-            & ",TSPL_VENDOR_MASTER.Actual_charges_Slab5" _
-            & ",TSPL_VENDOR_MASTER.Actual_charges5,TSPL_VENDOR_MASTER.Service_Charge_Per_Unit,TSPL_VENDOR_MASTER.TIP_Buffalo,TSPL_VENDOR_MASTER.TIP_Cow,TSPL_VENDOR_MASTER.TIP_Mix,TSPL_VENDOR_MASTER.DistanceKM_Head_Load 
+        & " Case when Nature='E' then Actual_charges end as payment_commision_pers,Service_Charge_Type,coalesce(Rate_Head_Load,0) as Rate_Head_Load" _
+        & " ,coalesce(Rate_Own_Asset,0) as Rate_Own_Asset,Service_Basis_Head_Load,Service_Basis_Own_Asset,TSPL_VENDOR_MASTER.EMP_Type " _
+        & " ,TSPL_VENDOR_MASTER.EMP_Fixed_Amount " _
+        & " ,TSPL_VENDOR_MASTER.Actual_charges_Slab " _
+        & " ,TSPL_VENDOR_MASTER.Actual_charges " _
+        & ",TSPL_VENDOR_MASTER.Actual_charges_Slab2" _
+        & ",TSPL_VENDOR_MASTER.Actual_charges2" _
+        & ",TSPL_VENDOR_MASTER.Actual_charges_Slab3" _
+        & ",TSPL_VENDOR_MASTER.Actual_charges3" _
+        & ",TSPL_VENDOR_MASTER.Actual_charges_Slab4" _
+        & ",TSPL_VENDOR_MASTER.Actual_charges4" _
+        & ",TSPL_VENDOR_MASTER.Actual_charges_Slab5" _
+        & ",TSPL_VENDOR_MASTER.Actual_charges5,TSPL_VENDOR_MASTER.Service_Charge_Per_Unit,TSPL_VENDOR_MASTER.TIP_Buffalo,TSPL_VENDOR_MASTER.TIP_Cow,TSPL_VENDOR_MASTER.TIP_Mix,TSPL_VENDOR_MASTER.DistanceKM_Head_Load 
             from TSPL_MILK_RECEIPT_HEAD rd 
             Inner join TSPL_MILK_RECEIPT_DETAIL rh on rh.DOC_CODE=" _
-            & " rd.DOC_CODE left join TSPL_VENDOR_MASTER on Vendor_Code=VSP_CODE where rd.DOC_CODE='" & strMilkReceiptCode & "' and rh.vlc_DOC_Code='" & objHead.VLC_DOC_CODE & "'"
+        & " rd.DOC_CODE left join TSPL_VENDOR_MASTER on Vendor_Code=VSP_CODE where rd.DOC_CODE='" & strMilkReceiptCode & "' and rh.vlc_DOC_Code='" & objHead.VLC_DOC_CODE & "'"
             Dim DtMilkReceipt As DataTable = clsDBFuncationality.GetDataTable(qry, Trans)
 
 
@@ -1919,6 +1940,9 @@ Public Class clsMilkSRNMCCDetail
     Public ACC_Qty As Decimal
     Public FAT As Decimal = 0
     Public SNF As Decimal = 0
+    Public Retesting_FAT As Decimal = 0
+    Public Retesting_SNF As Decimal = 0
+    Public Retesting_OR_Correction_Status As Integer = 0
     Public Capping_FAT As Decimal = 0
     Public Capping_SNF As Decimal = 0
     Public FAT_KG As Decimal = 0
@@ -1965,8 +1989,15 @@ Public Class clsMilkSRNMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Item_CODE", obj.Item_CODE)
                 clsCommon.AddColumnsForChange(coll, "QTY", obj.MILK_Qty)
                 clsCommon.AddColumnsForChange(coll, "ACC_QTY", obj.ACC_Qty)
-                clsCommon.AddColumnsForChange(coll, "FAT_PER", obj.FAT)
-                clsCommon.AddColumnsForChange(coll, "SNF_PER", obj.SNF)
+                If obj.Retesting_OR_Correction_Status = 1 Then
+                    clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.FAT)
+                    clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.SNF)
+                    clsCommon.AddColumnsForChange(coll, "Retesting_OR_Correction_Status", obj.Retesting_OR_Correction_Status)
+                ElseIf obj.Retesting_OR_Correction_Status = 2 Then
+                    clsCommon.AddColumnsForChange(coll, "FAT_PER", obj.FAT)
+                    clsCommon.AddColumnsForChange(coll, "SNF_PER", obj.SNF)
+                    clsCommon.AddColumnsForChange(coll, "Retesting_OR_Correction_Status", obj.Retesting_OR_Correction_Status)
+                End If
                 clsCommon.AddColumnsForChange(coll, "Capping_FAT", obj.Capping_FAT, True)
                 clsCommon.AddColumnsForChange(coll, "Capping_SNF", obj.Capping_SNF, True)
                 'clsERPFuncationality.myDclInZeroPointFive()
@@ -2010,7 +2041,7 @@ where DOC_CODE='" + clsCommon.myCstr(Against_Reject_No) + "' and SAMPLE_NO=" + c
 
                 End If
 
-                    clsCommon.AddColumnsForChange(coll, "Head_Load_Rate", obj.Head_Load_Rate)
+                clsCommon.AddColumnsForChange(coll, "Head_Load_Rate", obj.Head_Load_Rate)
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", obj.Head_Load_Amount)
 
 
