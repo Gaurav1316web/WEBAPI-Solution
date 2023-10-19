@@ -23919,6 +23919,9 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("QAT_Amt", "decimal(18,2) null")
             coll.Add("Negative_Rate", "decimal(18,3) null")
             coll.Add("Negative_Amount", "decimal(18,2) null")
+            coll.Add("Retesting_FAT", "DECIMAL(10,3)  NULL DEFAULT 0")
+            coll.Add("Retesting_SNF", "DECIMAL(10,3)  NULL DEFAULT 0")
+            coll.Add("Retesting_OR_Correction_Status", "Integer NULL DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "")
             coll.Item("DOC_CODE") = "varchar(30)  NOT NULL "
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL_SYNC", coll, "Primary Key (DOC_CODE,PK_Id)", False, False)
