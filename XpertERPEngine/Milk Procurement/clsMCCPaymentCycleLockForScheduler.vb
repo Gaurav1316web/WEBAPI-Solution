@@ -3819,7 +3819,7 @@ inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_
 inner join TSPL_DCS_ADDITION_DEDUCTION on CONVERT(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)>=TSPL_DCS_ADDITION_DEDUCTION.Start_Date
 where TSPL_DCS_ADDITION_DEDUCTION.Posted=1 and 
 isnull(TSPL_DCS_ADDITION_DEDUCTION.Inactive,0)=0
-and (2= case when ISNULL(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0) then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=1 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))>0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=2 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))<=0 then 2 else 3 end ) end ) end )
+and (2= case when ISNULL(TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC,0)=0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=1 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))>0 then 2 else (case when TSPL_DCS_ADDITION_DEDUCTION.Check_Saving_AC=2 and len(isnull(TSPL_VENDOR_MASTER.AccNo2,''))<=0 then 2 else 3 end ) end ) end )
 and (2= case when TSPL_DCS_ADDITION_DEDUCTION.End_Date is null then 2 else case when CONVERT(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)<= TSPL_DCS_ADDITION_DEDUCTION.End_Date then 2 else 3 end end) 
 and CONVERT(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)>='" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and CONVERT(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103)<='" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "' 
 and TSPL_VLC_MASTER_HEAD.VLC_Code='" + strVLCCode + "'
