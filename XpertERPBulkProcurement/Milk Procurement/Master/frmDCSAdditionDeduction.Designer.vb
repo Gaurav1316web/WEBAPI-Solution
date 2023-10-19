@@ -22,6 +22,7 @@ Partial Class frmDCSAdditionDeduction
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkSavingAC = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkIncludeShortageOwnBMC = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkSubtract = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkApplyTDS = New Telerik.WinControls.UI.RadCheckBox()
@@ -82,9 +83,12 @@ Partial Class frmDCSAdditionDeduction
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnACNotExists = New common.Controls.MyRadioButton()
+        Me.rbtnACExists = New common.Controls.MyRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkSavingAC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkIncludeShortageOwnBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSubtract, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkApplyTDS, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -139,6 +143,8 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnACNotExists, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnACExists, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -153,6 +159,9 @@ Partial Class frmDCSAdditionDeduction
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.rbtnACNotExists)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.rbtnACExists)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkSavingAC)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkIncludeShortageOwnBMC)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkSubtract)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkApplyTDS)
@@ -202,9 +211,18 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(681, 316)
-        Me.SplitContainer1.SplitterDistance = 282
+        Me.SplitContainer1.Size = New System.Drawing.Size(681, 449)
+        Me.SplitContainer1.SplitterDistance = 415
         Me.SplitContainer1.TabIndex = 0
+        '
+        'chkSavingAC
+        '
+        Me.chkSavingAC.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkSavingAC.Location = New System.Drawing.Point(7, 275)
+        Me.chkSavingAC.Name = "chkSavingAC"
+        Me.chkSavingAC.Size = New System.Drawing.Size(77, 16)
+        Me.chkSavingAC.TabIndex = 377
+        Me.chkSavingAC.Text = "Saving A/C"
         '
         'chkIncludeShortageOwnBMC
         '
@@ -1009,11 +1027,31 @@ Partial Class frmDCSAdditionDeduction
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
+        'rbtnACNotExists
+        '
+        Me.rbtnACNotExists.Location = New System.Drawing.Point(197, 276)
+        Me.rbtnACNotExists.MyLinkLable1 = Nothing
+        Me.rbtnACNotExists.MyLinkLable2 = Nothing
+        Me.rbtnACNotExists.Name = "rbtnACNotExists"
+        Me.rbtnACNotExists.Size = New System.Drawing.Size(114, 18)
+        Me.rbtnACNotExists.TabIndex = 382
+        Me.rbtnACNotExists.Text = "Account Not Exists"
+        '
+        'rbtnACExists
+        '
+        Me.rbtnACExists.Location = New System.Drawing.Point(100, 276)
+        Me.rbtnACExists.MyLinkLable1 = Nothing
+        Me.rbtnACExists.MyLinkLable2 = Nothing
+        Me.rbtnACExists.Name = "rbtnACExists"
+        Me.rbtnACExists.Size = New System.Drawing.Size(91, 18)
+        Me.rbtnACExists.TabIndex = 381
+        Me.rbtnACExists.Text = "Account Exists"
+        '
         'frmDCSAdditionDeduction
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(681, 316)
+        Me.ClientSize = New System.Drawing.Size(681, 449)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmDCSAdditionDeduction"
         '
@@ -1026,6 +1064,7 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkSavingAC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkIncludeShortageOwnBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSubtract, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkApplyTDS, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1084,6 +1123,8 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnACNotExists, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnACExists, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1149,4 +1190,7 @@ Partial Class frmDCSAdditionDeduction
     Friend WithEvents chkApplyTDS As RadCheckBox
     Friend WithEvents chkIncludeShortageOwnBMC As RadCheckBox
     Friend WithEvents chkSubtract As RadCheckBox
+    Friend WithEvents chkSavingAC As RadCheckBox
+    Friend WithEvents rbtnACNotExists As common.Controls.MyRadioButton
+    Friend WithEvents rbtnACExists As common.Controls.MyRadioButton
 End Class

@@ -22,7 +22,7 @@ Partial Class rptDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -195,11 +195,12 @@ Partial Class rptDailyQtyReport
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel5.Location = New System.Drawing.Point(51, 111)
+        Me.MyLabel5.Location = New System.Drawing.Point(36, 111)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(59, 16)
         Me.MyLabel5.TabIndex = 445
         Me.MyLabel5.Text = "Tanker No"
+        Me.MyLabel5.Visible = False
         '
         'TxtTankerNo
         '
@@ -226,6 +227,7 @@ Partial Class rptDailyQtyReport
         Me.TxtTankerNo.Size = New System.Drawing.Size(242, 18)
         Me.TxtTankerNo.TabIndex = 444
         Me.TxtTankerNo.Value = ""
+        Me.TxtTankerNo.Visible = False
         '
         'txtToleranceSNF
         '
@@ -301,7 +303,7 @@ Partial Class rptDailyQtyReport
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel4.Location = New System.Drawing.Point(50, 83)
+        Me.MyLabel4.Location = New System.Drawing.Point(40, 83)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(32, 16)
         Me.MyLabel4.TabIndex = 439
@@ -319,7 +321,7 @@ Partial Class rptDailyQtyReport
         Me.txtMCC_Code.IsSourceFromTable = False
         Me.txtMCC_Code.IsSourceFromValueList = False
         Me.txtMCC_Code.IsUnique = False
-        Me.txtMCC_Code.Location = New System.Drawing.Point(83, 83)
+        Me.txtMCC_Code.Location = New System.Drawing.Point(116, 83)
         Me.txtMCC_Code.MendatroryField = True
         Me.txtMCC_Code.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC_Code.MyLinkLable1 = Nothing
@@ -330,7 +332,7 @@ Partial Class rptDailyQtyReport
         Me.txtMCC_Code.ReferenceFieldDesc = Nothing
         Me.txtMCC_Code.ReferenceFieldName = Nothing
         Me.txtMCC_Code.ReferenceTableName = Nothing
-        Me.txtMCC_Code.Size = New System.Drawing.Size(276, 18)
+        Me.txtMCC_Code.Size = New System.Drawing.Size(243, 18)
         Me.txtMCC_Code.TabIndex = 438
         Me.txtMCC_Code.Value = ""
         Me.txtMCC_Code.Visible = False
@@ -610,7 +612,7 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True

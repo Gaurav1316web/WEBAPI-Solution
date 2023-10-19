@@ -882,9 +882,9 @@ Public Class clsMilkSRNMCC
         Return isSaved
     End Function
 
-    Public Shared Function UpdateSample(ByVal Doc_Code As String, ByVal sample_No As Integer, ByVal FAT As Double, ByVal SNF As Double, ByVal Rate As Double, ByVal Amount As Double, ByVal trans As SqlTransaction, ByVal Price_Code As String, ByVal QATRAte As Decimal, ByVal NegativeRate As Decimal) As Boolean
+    Public Shared Function UpdateSample(ByVal Doc_Code As String, ByVal sample_No As Integer, ByVal FAT As Double, ByVal SNF As Double, ByVal CLR As Double, ByVal Rate As Double, ByVal Amount As Double, ByVal trans As SqlTransaction, ByVal Price_Code As String, ByVal QATRAte As Decimal, ByVal NegativeRate As Decimal) As Boolean
         Try
-            Dim sQuery As String = "update tspl_milk_sample_detail set fat=" & FAT & " , snf=" & SNF & ",rate=" & Rate & ",Amount=" & Amount & ",QAT_Rate=" & QATRAte & ",Negative_Rate=" & NegativeRate & ""
+            Dim sQuery As String = "update tspl_milk_sample_detail set fat=" & FAT & " , snf=" & SNF & ", CLR=" & CLR & ",rate=" & Rate & ",Amount=" & Amount & ",QAT_Rate=" & QATRAte & ",Negative_Rate=" & NegativeRate & ""
             If clsCommon.myLen(Price_Code) > 0 Then
                 sQuery += " ,Price_Code='" + Price_Code + "'  "
             End If
@@ -1518,6 +1518,9 @@ Public Class clsMilkSRNMCC
             End If
             If CorrTypeSRNFATSNF Then
                 clsMilkSRNMCC.ObjList(0).FAT = Math.Truncate(dblFAT * 10) / 10
+                If isPickCLRInsteadOfSNF Then
+                    clsMilkSRNMCC.ObjList(0).CLR = clsEkoPro.getClrOnCalculation(dblFAT, dblSNF, corrFactor)
+                End If
                 If objCommonVar.MilkProcurementSNF2DecimalPlaces Then
                     clsMilkSRNMCC.ObjList(0).SNF = Math.Round(dblSNF, 2, MidpointRounding.AwayFromZero)
                 Else
@@ -1823,9 +1826,9 @@ Public Class clsMilkSRNMCC
 
             clsMilkSRNMCC.UpdateDataFromSRNFrom(objHead, clsMilkSRNMCC.ObjList, objVSPChargeList, objPriceChargeList, Trans)
             clsMilkSRNMCC.updateJournalEntryWithTran("MI-SR", objHead.DOC_CODE, Trans)
-            clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, clsMilkSRNMCC.ObjList(0).RATE, clsMilkSRNMCC.ObjList(0).AMOUNT, Trans, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).QAT_Rate, clsMilkSRNMCC.ObjList(0).Negative_Rate)
+            clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, clsMilkSRNMCC.ObjList(0).FAT, clsMilkSRNMCC.ObjList(0).SNF, clsMilkSRNMCC.ObjList(0).CLR, clsMilkSRNMCC.ObjList(0).RATE, clsMilkSRNMCC.ObjList(0).AMOUNT, Trans, clsMilkSRNMCC.ObjList(0).Price_Code, clsMilkSRNMCC.ObjList(0).QAT_Rate, clsMilkSRNMCC.ObjList(0).Negative_Rate)
 
-            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, strMilkReceiptCode, objHead.SAMPLE_NO, objHead.VLC_CODE, dblQty, strType, dblFAT, dblSNF, Trans)
+            CorrectBackDocs(CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, strMilkReceiptCode, objHead.SAMPLE_NO, objHead.VLC_CODE, dblQty, strType, dblFAT, IIf(isPickCLRInsteadOfSNF, clsMilkSRNMCC.ObjList(0).CLR, dblSNF), Trans)
             If IsCapping Then
                 qry = "Update TSPL_MILK_SRN_HEAD set Capping_Apply=1 where DOC_CODE='" + objHead.DOC_CODE + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, Trans)
