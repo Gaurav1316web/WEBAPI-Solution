@@ -161,6 +161,7 @@ Public Class frmMilkCollectionDCSMultipleDays
         txtTotPendingSNF.Text = ""
         txtTotPendingFATPer.Text = ""
         txtTotPendingSNFPer.Text = ""
+
         UsLock1.Status = ERPTransactionStatus.Pending
         LoadBlankGrid()
         gv1.Rows.AddNew()
@@ -716,6 +717,7 @@ Public Class frmMilkCollectionDCSMultipleDays
                 obj.Entered_Qty = clsCommon.myCDecimal(txtTotEnteredQty.Text)
                 obj.Entered_FATKg = clsCommon.myCDecimal(txtTotEnteredFAT.Text)
                 obj.Entered_SNFKg = clsCommon.myCDecimal(txtTotEnteredSNF.Text)
+
                 obj.FAT_SNF_Type = cboFATSNFType.SelectedValue
                 obj.Arr = GetTRData(False)
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
@@ -751,7 +753,7 @@ Public Class frmMilkCollectionDCSMultipleDays
                             Throw New Exception("Date Can not be left blank at Row No [" + clsCommon.myCstr(ii + 1) + "]")
                         End If
                         objTr.Collection_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colCollectionDate).Value)
-                        objTr.Dock_Collection_Milk_Type = clsCommon.myCDate(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
+                        objTr.Dock_Collection_Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colDocCollectionMilkType).Value)
                         objTr.Qty = clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningQty).Value)
                         objTr.FAT = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningFATPer).Value), 1, MidpointRounding.ToEven)
                         objTr.SNF = Math.Round(clsCommon.myCdbl(gv1.Rows(ii).Cells(colEveningSNFPer).Value), 2, MidpointRounding.ToEven)
@@ -840,6 +842,7 @@ Public Class frmMilkCollectionDCSMultipleDays
                 txtTotEnteredSNF.Value = obj.Entered_SNFKg
                 txtTotEnteredFATPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredFAT.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
                 txtTotEnteredSNFPer.Value = Math.Round((clsCommon.myCDivide((txtTotEnteredSNF.Value * 100), txtTotEnteredQty.Value)), 2, MidpointRounding.ToEven)
+
 
                 If isPickCLRInsteadOfSNF Then
                     txtTotEnteredSNFPer.Value = clsEkoPro.getClrOnCalculation(txtTotEnteredFATPer.Value, txtTotEnteredSNFPer.Value, corrFactor)
@@ -1629,4 +1632,5 @@ where TSPL_VLC_MASTER_HEAD.MCC not in ('" + clsCommon.myCstr(txtMCC.Tag) + "')"
             gv1.CurrentColumn = gv1.Columns(colCollectionDate)
         End If
     End Sub
+
 End Class

@@ -1577,6 +1577,10 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
                                         objTr.FATKG = clsCommon.myCDecimal(dtItemData.Rows(k)("FAT"))
                                         objTr.SNFKG = clsCommon.myCDecimal(dtItemData.Rows(k)(colSNForCLR))
                                     End If
+                                    If isPickCLRInsteadOfSNF Then
+                                        Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(objTr.FAT, objTr.SNF, corrFactor)
+                                        objTr.SNFKG = Math.Round(objTr.Qty * snfPer / 100, 3, MidpointRounding.ToEven)
+                                    End If
                                     'objTr.FAT = dblFat
                                     'objTr.SNF = dblSnf
                                     'objTr.FATKG = dblFatKg

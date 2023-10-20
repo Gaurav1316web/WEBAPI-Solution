@@ -75,7 +75,15 @@ Public Class frmCorrection
                 lblMcc.Visible = Not MultipleFinderFillAuto
                 lblMCCCode.Visible = Not MultipleFinderFillAuto
                 LoadShiftFrom()
+                chkRetesting.Checked = False
+                chkRetesting.Visible = False
+                chkCorrection.Visible = True
+                chkCorrection.Checked = True
             ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
+                chkRetesting.Visible = True
+                chkRetesting.Checked = True
+                chkCorrection.Visible = False
+                chkCorrection.Checked = False
                 txtShiftDate.Value = clsCommon.GETSERVERDATE()
                 txtBMCDate.Value = txtShiftDate.Value
                 cboShift.SelectedValue = "M"
@@ -98,7 +106,6 @@ Public Class frmCorrection
 
 
     End Sub
-
 
     Sub LoadShiftFrom()
         Dim dt As DataTable = New DataTable
@@ -278,9 +285,7 @@ Public Class frmCorrection
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
-
             ShowRemarks()
-
         Else
             SaveData()
         End If
@@ -300,8 +305,6 @@ Public Class frmCorrection
                     obj.Reason = "1"
 
                 End If
-
-
             End If
             SaveData()
         Catch ex As Exception
@@ -389,7 +392,22 @@ Public Class frmCorrection
                 If clsCommon.CompairString(clsCommon.myCstr(TxtFinder1.Tag), clsCommon.myCstr(txtVLC.Tag)) = CompairStringResult.Equal Then
                     CorrTypeSRNVLC = False
                 End If
-                clsMilkSRNMCC.Correction(lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, clsCommon.myCstr(TxtFinder1.Value))
+                'If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
+                '    If chkRetesting.Checked Then
+                '        'Dim obj As New clsMilkSRNMCCDetail()
+                '        Dim obj As New clsMilkSRNMCC()
+                '        obj.Retesting_Status = 1
+                '        obj.arrList.Add(obj)
+                '    End If
+                'ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
+                '    If chkCorrection.Checked Then
+                '        'Dim obj As New clsMilkSRNMCCDetail()
+                '        Dim obj As New clsMilkSRNMCC()
+                '        obj.Correction_Status = 2
+                '        obj.arrList.Add(obj)
+                '    End If
+                'End If
+                clsMilkSRNMCC.Correction(Form_ID, lblSRNNo.Text, CorrTypeSRNQty, CorrTypeSRNFATSNF, CorrTypeSRNVLC, txtQty.Value, clsCommon.myCstr(cboMilkType.SelectedValue), txtFAT.Value, txtSNF.Value, clsCommon.myCstr(TxtFinder1.Value))
             End If
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
         Catch ex As Exception
@@ -425,8 +443,11 @@ Public Class frmCorrection
                 txtVLC.Focus()
                 Throw New Exception("Please enter VLC")
             End If
-            Dim qry As String = "select TSPL_MILK_SRN_HEAD.DOC_CODE as SRNNo,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type as MilkType,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER from TSPL_MILK_SRN_DETAIL" + Environment.NewLine +
+            Dim qry As String = Nothing
+            qry = "select TSPL_MILK_SRN_HEAD.DOC_CODE as SRNNo,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type as MilkType,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.Retesting_FAT,TSPL_MILK_SRN_DETAIL.Retesting_SNF,TSPL_MILK_SRN_DETAIL.Retesting_OR_Correction_Status,(Case When Retesting_OR_Correction_Status=1 Then TSPL_MILK_SRN_DETAIL.Retesting_FAT Else (Case When Retesting_OR_Correction_Status=2 Then TSPL_MILK_SRN_DETAIL.FAT_PER Else TSPL_MILK_SRN_DETAIL.Retesting_FAT End)End) As FAT,
+(Case When Retesting_OR_Correction_Status=1 Then TSPL_MILK_SRN_DETAIL.Retesting_SNF Else (Case When Retesting_OR_Correction_Status=2 Then TSPL_MILK_SRN_DETAIL.SNF_PER Else TSPL_MILK_SRN_DETAIL.Retesting_SNF End) End) As SNF from TSPL_MILK_SRN_DETAIL" + Environment.NewLine +
                     "left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE"
+
             Dim whr As String = " convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,106)='" + clsCommon.GetPrintDate(txtShiftDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_SRN_HEAD.SHIFT='" + clsCommon.myCstr(cboShift.SelectedValue) + "' and TSPL_MILK_SRN_HEAD.VLC_CODE='" + clsCommon.myCstr(txtVLC.Tag) + "' and TSPL_MILK_SRN_HEAD.Against_Reject_No is null"
 
             If Not MultipleFinderFillAuto Then
@@ -451,10 +472,25 @@ Public Class frmCorrection
                 txtQty.Value = clsCommon.myCdbl(dt.Rows(0)("Qty"))
                 txtQty.Tag = clsCommon.myCdbl(dt.Rows(0)("Qty"))
                 lblUOM.Text = clsCommon.myCstr(dt.Rows(0)("UOM_Code"))
-                txtFAT.Value = clsCommon.myCdbl(dt.Rows(0)("FAT_PER"))
-                txtFAT.Tag = clsCommon.myCdbl(dt.Rows(0)("FAT_PER"))
-                txtSNF.Value = clsCommon.myCdbl(dt.Rows(0)("SNF_PER"))
-                txtSNF.Tag = clsCommon.myCdbl(dt.Rows(0)("SNF_PER"))
+
+                'If clsCommon.myCdbl(dt.Rows(0)("Retesting_OR_Correction_Status")) = 1 Then
+                '    txtFAT.Value = clsCommon.myCdbl(dt.Rows(0)("Retesting_FAT"))
+                '    txtFAT.Tag = clsCommon.myCdbl(dt.Rows(0)("Retesting_FAT"))
+                '    txtSNF.Value = clsCommon.myCdbl(dt.Rows(0)("Retesting_SNF"))
+                '    txtSNF.Tag = clsCommon.myCdbl(dt.Rows(0)("Retesting_SNF"))
+                If clsCommon.myCdbl(dt.Rows(0)("Retesting_OR_Correction_Status")) > 0 Then
+                    txtFAT.Value = clsCommon.myCdbl(dt.Rows(0)("FAT"))
+                    txtFAT.Tag = clsCommon.myCdbl(dt.Rows(0)("FAT"))
+                    txtSNF.Value = clsCommon.myCdbl(dt.Rows(0)("SNF"))
+                    txtSNF.Tag = clsCommon.myCdbl(dt.Rows(0)("SNF"))
+                Else
+                    txtFAT.Value = clsCommon.myCdbl(dt.Rows(0)("FAT_PER"))
+                    txtFAT.Tag = clsCommon.myCdbl(dt.Rows(0)("FAT_PER"))
+                    txtSNF.Value = clsCommon.myCdbl(dt.Rows(0)("SNF_PER"))
+                    txtSNF.Tag = clsCommon.myCdbl(dt.Rows(0)("SNF_PER"))
+                End If
+                'txtRetestFAT.Value = clsCommon.myCdbl(dt.Rows(0)("Retesting_FAT"))
+                'txtRetestSNF.Value = clsCommon.myCdbl(dt.Rows(0)("Retesting_FAT"))
                 cboMilkType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("MilkType"))
                 cboMilkType.Tag = clsCommon.myCstr(dt.Rows(0)("MilkType"))
                 TxtFinder1.Value = txtVLC.Value
@@ -481,9 +517,19 @@ Public Class frmCorrection
         TxtFinder1.Value = Nothing
         TxtFinder1.Tag = Nothing
         MyLabel5.Text = Nothing
-
         RadGroupBox2.Enabled = True
         RadGroupBox1.Enabled = False
+        If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
+            chkRetesting.Checked = False
+            chkRetesting.Visible = False
+            chkCorrection.Visible = True
+            chkCorrection.Checked = True
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
+            chkRetesting.Checked = True
+            chkRetesting.Visible = True
+            chkCorrection.Visible = False
+            chkCorrection.Checked = False
+        End If
     End Sub
 
     Private Sub TxtFinder1__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtFinder1._MYValidating
@@ -678,7 +724,7 @@ order by  xx.Shift desc,xx.Qty "
                                                             qry = "update TSPL_MILK_COLLECTION_DCS_DETAIL set Own_Qty= case when Own_Qty is null then Qty else Own_Qty end,Own_FAT= case when Own_FAT is null then FAT else Own_FAT end,Own_SNF= case when Own_SNF is null then SNF else Own_SNF end,Own_FATKG= case when Own_FATKG is null then FATKG else Own_FATKG end,Own_SNFKG= case when Own_SNFKG is null then SNFKG else Own_SNFKG end where PK_Id=" + clsCommon.myCstr(dtDetail.Rows(indx)("PK_Id")) + ""
                                                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-                                                            clsMilkSRNMCC.Correction(clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True)
+                                                            clsMilkSRNMCC.Correction(Form_ID, clsCommon.myCstr(dtDetail.Rows(indx)("DOC_CODE")), True, True, False, Qty, clsCommon.myCstr(dtDetail.Rows(indx)("Dock_Collection_Milk_Type")), FAT, SNF, "", False, trans, True)
                                                             Dim coll As New Hashtable()
                                                             clsCommon.AddColumnsForChange(coll, "Qty", Qty)
                                                             clsCommon.AddColumnsForChange(coll, "FAT", FAT)
