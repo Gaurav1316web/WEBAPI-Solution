@@ -22,16 +22,16 @@ Partial Class FrmAPInvoiceEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmAPInvoiceEntry))
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmAPInvoiceEntry))
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -221,6 +221,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadMenuItem8 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.chkRCM = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -389,6 +390,7 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.chkRCM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -432,7 +434,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.Attachments
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1094, 446)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -441,6 +443,7 @@ Partial Class FrmAPInvoiceEntry
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkRCM)
         Me.RadPageViewPage1.Controls.Add(Me.grpVendorBankDetails)
         Me.RadPageViewPage1.Controls.Add(Me.Panel4)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
@@ -770,10 +773,10 @@ Partial Class FrmAPInvoiceEntry
         Me.CboxITCCateogory.IsSourceFromTable = False
         Me.CboxITCCateogory.IsSourceFromValueList = False
         Me.CboxITCCateogory.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.CboxITCCateogory.Items.Add(RadListDataItem1)
-        Me.CboxITCCateogory.Items.Add(RadListDataItem2)
+        RadListDataItem7.Text = "Yes"
+        RadListDataItem8.Text = "No"
+        Me.CboxITCCateogory.Items.Add(RadListDataItem7)
+        Me.CboxITCCateogory.Items.Add(RadListDataItem8)
         Me.CboxITCCateogory.Location = New System.Drawing.Point(90, 19)
         Me.CboxITCCateogory.MendatroryField = False
         Me.CboxITCCateogory.MyLinkLable1 = Me.MyLabel12
@@ -810,10 +813,10 @@ Partial Class FrmAPInvoiceEntry
         Me.CboxITCType.IsSourceFromTable = False
         Me.CboxITCType.IsSourceFromValueList = False
         Me.CboxITCType.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.CboxITCType.Items.Add(RadListDataItem3)
-        Me.CboxITCType.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.CboxITCType.Items.Add(RadListDataItem1)
+        Me.CboxITCType.Items.Add(RadListDataItem2)
         Me.CboxITCType.Location = New System.Drawing.Point(37, 19)
         Me.CboxITCType.MendatroryField = True
         Me.CboxITCType.MyLinkLable1 = Me.MyLabel12
@@ -871,7 +874,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1452,10 +1455,10 @@ Partial Class FrmAPInvoiceEntry
         Me.ddlEmployeeType.IsSourceFromTable = False
         Me.ddlEmployeeType.IsSourceFromValueList = False
         Me.ddlEmployeeType.IsUnique = False
-        RadListDataItem5.Text = "Yes"
-        RadListDataItem6.Text = "No"
-        Me.ddlEmployeeType.Items.Add(RadListDataItem5)
-        Me.ddlEmployeeType.Items.Add(RadListDataItem6)
+        RadListDataItem3.Text = "Yes"
+        RadListDataItem4.Text = "No"
+        Me.ddlEmployeeType.Items.Add(RadListDataItem3)
+        Me.ddlEmployeeType.Items.Add(RadListDataItem4)
         Me.ddlEmployeeType.Location = New System.Drawing.Point(457, 235)
         Me.ddlEmployeeType.MendatroryField = True
         Me.ddlEmployeeType.MyLinkLable1 = Me.MyLabel13
@@ -2473,7 +2476,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowFilteringRow = False
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -2525,7 +2528,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowFilteringRow = False
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -3182,6 +3185,18 @@ Partial Class FrmAPInvoiceEntry
         Me.Panel1.Size = New System.Drawing.Size(1094, 484)
         Me.Panel1.TabIndex = 3
         '
+        'chkRCM
+        '
+        Me.chkRCM.Location = New System.Drawing.Point(574, 150)
+        Me.chkRCM.MyLinkLable1 = Nothing
+        Me.chkRCM.MyLinkLable2 = Nothing
+        Me.chkRCM.Name = "chkRCM"
+        Me.chkRCM.ReadOnly = True
+        Me.chkRCM.Size = New System.Drawing.Size(44, 18)
+        Me.chkRCM.TabIndex = 612
+        Me.chkRCM.Tag1 = Nothing
+        Me.chkRCM.Text = "RCM"
+        '
         'FrmAPInvoiceEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3378,6 +3393,7 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
+        CType(Me.chkRCM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3573,5 +3589,6 @@ Partial Class FrmAPInvoiceEntry
     Friend WithEvents txtVendor_Bank_ACNo As common.Controls.MyTextBox
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As RadButton
+    Friend WithEvents chkRCM As common.Controls.MyCheckBox
 End Class
 
