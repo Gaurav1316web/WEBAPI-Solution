@@ -1989,14 +1989,13 @@ Public Class clsMilkSRNMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Item_CODE", obj.Item_CODE)
                 clsCommon.AddColumnsForChange(coll, "QTY", obj.MILK_Qty)
                 clsCommon.AddColumnsForChange(coll, "ACC_QTY", obj.ACC_Qty)
+                clsCommon.AddColumnsForChange(coll, "FAT_PER", obj.FAT)
+                clsCommon.AddColumnsForChange(coll, "SNF_PER", obj.SNF)
+                clsCommon.AddColumnsForChange(coll, "Retesting_OR_Correction_Status", obj.Retesting_OR_Correction_Status, True)
+
                 If obj.Retesting_OR_Correction_Status = 1 Then
-                    clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.FAT)
-                    clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.SNF)
-                    clsCommon.AddColumnsForChange(coll, "Retesting_OR_Correction_Status", obj.Retesting_OR_Correction_Status)
-                ElseIf obj.Retesting_OR_Correction_Status = 2 Then
-                    clsCommon.AddColumnsForChange(coll, "FAT_PER", obj.FAT)
-                    clsCommon.AddColumnsForChange(coll, "SNF_PER", obj.SNF)
-                    clsCommon.AddColumnsForChange(coll, "Retesting_OR_Correction_Status", obj.Retesting_OR_Correction_Status)
+                    clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.FAT, True)
+                    clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.SNF, True)
                 End If
                 clsCommon.AddColumnsForChange(coll, "Capping_FAT", obj.Capping_FAT, True)
                 clsCommon.AddColumnsForChange(coll, "Capping_SNF", obj.Capping_SNF, True)
@@ -2038,7 +2037,6 @@ where DOC_CODE='" + clsCommon.myCstr(Against_Reject_No) + "' and SAMPLE_NO=" + c
                         obj.Head_Load_Rate = 0
                         obj.Head_Load_Amount = 0
                     End If
-
                 End If
 
                 clsCommon.AddColumnsForChange(coll, "Head_Load_Rate", obj.Head_Load_Rate)

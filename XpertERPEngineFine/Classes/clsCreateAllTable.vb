@@ -17849,6 +17849,7 @@ Public Class clsCreateAllTable
             coll.Add("Status", "Integer NOT NULL DEFAULT 0")
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "datetime null")
+            coll.Add("RM_Item", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_LOAD_IN", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)
