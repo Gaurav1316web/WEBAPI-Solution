@@ -950,7 +950,8 @@ Public Class clsCustomerMasterNew
 
                 '----------------------------------------------------------------------------------
 
-                If clsCustomerItemdetail.SaveData(Cust_Code, arrDBName, ArrItem, trans) Then
+                ' If clsCustomerItemdetail.SaveData(Cust_Code, arrDBName, ArrItem, trans) Then
+                If clsCustomerItemdetail.SaveData(Cust_Code, ArrItem, trans) Then
                     trans.Commit()
                 Else
                     trans.Rollback()

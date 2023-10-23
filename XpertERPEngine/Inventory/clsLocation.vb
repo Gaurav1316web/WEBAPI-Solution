@@ -753,9 +753,9 @@ Public Class clsLocationWiseTax
         qry += " where Location_Code = '" + strTransLocation + "' and Tax_Type='" + strTaxType + "'  "
         qry += " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Category in ('L')"
         qry += " )xxx"
-        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code " & _
-            "left outer join  TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code  and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' " + Environment.NewLine & _
-        " where    Tax_Code in (select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y') and 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " + Environment.NewLine + _
+        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code " &
+            "left outer join  TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code  and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' " + Environment.NewLine &
+        " where    Tax_Code in (select Tax_Code from TSPL_TAX_MASTER where Is_Mandi_Tax='Y') and 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " + Environment.NewLine +
         " ) xxxx "
         Return clsCommon.ShowSelectForm("mandiTransfer", qry, "Code", "", strCurrCode, "Code", isButtonClicked)
     End Function
@@ -769,9 +769,9 @@ Public Class clsLocationWiseTax
         qry += " where Location_Code = '" + strTransLocation + "' and Tax_Type='" + strTaxType + "'  "
         qry += " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Category in ('L')"
         qry += " )xxx"
-        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code " & _
-            "left outer join  TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code  and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' " + Environment.NewLine & _
-        " where  2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " + Environment.NewLine + _
+        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code " &
+            "left outer join  TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code  and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' " + Environment.NewLine &
+        " where  2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " + Environment.NewLine +
         " ) xxxx "
         Return clsCommon.ShowSelectForm("VSTaxGroupfnddTransfer", qry, "Code", "", strCurrCode, "Code", isButtonClicked)
 
@@ -811,7 +811,7 @@ Public Class clsLocationWiseTax
                 qry = "select case when MIN(xx.State)=MAX(xx.State) then 'L' else 'I' end as LocalOrInterState,max(Is_GST_UT)  as Is_GST_UT from  ( select x.*,TSPL_STATE_MASTER.Is_GST_UT from ( select State  from TSPL_LOCATION_MASTER where Location_Code in ('" + strFromLocation + "','" + strVendorCustomerCodeLocation + "') "
                 qry += " )x left outer join TSPL_STATE_MASTER on TSPL_STATE_MASTER.STATE_CODE=x.State)xx"
             Else
-                qry = " select case when MIN(x.State)=MAX(x.State) then 'L' else 'I' end as LocalOrInterState  from  ( " & _
+                qry = " select case when MIN(x.State)=MAX(x.State) then 'L' else 'I' end as LocalOrInterState  from  ( " &
                     "select State   from TSPL_LOCATION_MASTER where Location_Code='" + strFromLocation + "' union all   "
                 If clsCommon.CompairString("S", strTaxType) = CompairStringResult.Equal Then
                     qry += "  select   State from TSPL_CUSTOMER_MASTER where Cust_Code='" + strVendorCustomerCodeLocation + "' "
@@ -876,8 +876,8 @@ Public Class clsLocationWiseTax
         End If
         qry += " group by Tax_Group_Code"
         qry += " )xxx"
-        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code " + whrCls_taxGrp + " " + Environment.NewLine + _
-        " where 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " + Environment.NewLine + _
+        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code " + whrCls_taxGrp + " " + Environment.NewLine +
+        " where 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " + Environment.NewLine +
         " ) xxxx "
         Return clsCommon.ShowSelectForm("POTaxGroupfndd", qry, "Code", "", strCurrCode, "Code", isButtonClicked)
     End Function
@@ -885,11 +885,11 @@ Public Class clsLocationWiseTax
 
         Dim Qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
 
-        Dim WhrClause As String = "(  select count(TSPL_TAX_GROUP_DETAILS.Tax_Code)  from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_MASTER on " & _
-         " TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " & _
-         "  )=(  select count(TSPL_TAX_GROUP_DETAILS.Tax_Code)  from TSPL_TAX_GROUP_DETAILS left outer join " & _
-       " TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code where " & _
-         " TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code   ) and Tax_Group_Type='" & strTaxType & "'" & _
+        Dim WhrClause As String = "(  select count(TSPL_TAX_GROUP_DETAILS.Tax_Code)  from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_MASTER on " &
+         " TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " &
+         "  )=(  select count(TSPL_TAX_GROUP_DETAILS.Tax_Code)  from TSPL_TAX_GROUP_DETAILS left outer join " &
+       " TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code where " &
+         " TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code   ) and Tax_Group_Type='" & strTaxType & "'" &
         " and 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end)"
 
         Return clsCommon.ShowSelectForm("TaxGrpSFNDgst", Qry, "Code", WhrClause, strCurrCode, "Code", isButtonClicked)
@@ -926,14 +926,14 @@ Public Class clsLocationWiseTax
 
         Dim Qry As String = "select  distinct TSPL_TAX_GROUP_MASTER.Tax_Group_Code as Code,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER left outer join TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code"
 
-        Dim WhrClause As String = "Tax_Code in (select Tax_Code from TSPL_TAX_MASTER where Type in (" & strTaxselect & "))" & _
-        " and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" & strTaxType & "' and 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " & _
+        Dim WhrClause As String = "Tax_Code in (select Tax_Code from TSPL_TAX_MASTER where Type in (" & strTaxselect & "))" &
+        " and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" & strTaxType & "' and 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " &
         " or (TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted =1 and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" & strTaxType & "')"
 
 
         Return clsCommon.ShowSelectForm("TaxGrpSFNDgst", Qry, "Code", WhrClause, strCurrCode, "Code", isButtonClicked)
     End Function
-   
+
     Public Shared Function FinderForTaxGroupForTransfer(ByVal strTransLocation As String, ByVal strTransLocationTo As String, ByVal strTaxType As String, ByVal strCurrCode As String, ByVal isButtonClicked As Boolean) As String
         If clsCommon.myLen(strTransLocation) <= 0 Then
             Throw New Exception("Please first select Transaction From Location")
@@ -959,8 +959,8 @@ Public Class clsLocationWiseTax
         qry += " )x) "
         qry += " group by Tax_Group_Code"
         qry += " )xxx"
-        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' " + Environment.NewLine & _
-        " where 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " + Environment.NewLine + _
+        qry += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=xxx.Tax_Group_Code and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' " + Environment.NewLine &
+        " where 2=(case when (select Description from TSPL_FIXED_PARAMETER where Type='Show only Active Taxes/Rates/Groups for GST' and Code='Show only Active Taxes/Rates/Groups for GST')=1 then case when TSPL_TAX_GROUP_MASTER.Active=1 then 2 else 1 end else 2 end) " + Environment.NewLine +
         " ) xxxx "
         Return clsCommon.ShowSelectForm("POTaxGroupfnddTransfer", qry, "Code", "", strCurrCode, "Code", isButtonClicked)
 
@@ -1190,11 +1190,11 @@ Public Class clsLocationWiseTax
                 Dim dtLorI As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
                 Dim dt As DataTable
                 If dtLorI IsNot Nothing AndAlso dtLorI.Rows.Count > 0 Then
-                    qry = " Select TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code,max(TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted) as Is_Tax_Exempted" + Environment.NewLine + _
-                    " from TSPL_LOCATION_WISE_TAX_MASTER " + Environment.NewLine + _
-                    " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Type=TSPL_TAX_GROUP_MASTER.Tax_Group_Type " + Environment.NewLine + _
-                    " where TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code='" + strTaxGroup + "' and  TSPL_LOCATION_WISE_TAX_MASTER.Location_Code = '" + strTransLocation + "' and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Type='" + strTaxType + "'" + Environment.NewLine + _
-                    " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Category in ( '" + dtLorI.Rows(0)("LocalOrInterState") + "') " + Environment.NewLine + _
+                    qry = " Select TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code,max(TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted) as Is_Tax_Exempted" + Environment.NewLine +
+                    " from TSPL_LOCATION_WISE_TAX_MASTER " + Environment.NewLine +
+                    " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Type=TSPL_TAX_GROUP_MASTER.Tax_Group_Type " + Environment.NewLine +
+                    " where TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code='" + strTaxGroup + "' and  TSPL_LOCATION_WISE_TAX_MASTER.Location_Code = '" + strTransLocation + "' and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Type='" + strTaxType + "'" + Environment.NewLine +
+                    " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Category in ( '" + dtLorI.Rows(0)("LocalOrInterState") + "') " + Environment.NewLine +
                     " group by TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code"
                     dt = clsDBFuncationality.GetDataTable(qry, tran)
                     If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -1253,7 +1253,7 @@ Public Class clsLocationWiseTax
 
         If clsCommon.CompairString("T", strTaxType) = CompairStringResult.Equal Then
             qry += "  select   State from tspl_location_master where Location_Code='" + strTransToLocation + "' "
-       
+
         Else
             Throw New Exception("Please enter valid Tax Type it should be 'T'")
         End If
@@ -1323,6 +1323,7 @@ Public Class clsLocationCustomerMapping
     Public Location_Code As String = String.Empty
     Public Location_Name As String = String.Empty
     Public SequenceNo As Integer = 0
+    Public Arr As New List(Of clsLocationCustomerMapping)
 
 
 #End Region
@@ -1352,7 +1353,8 @@ Public Class clsLocationCustomerMapping
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Customer_Code", obj1.Customer_Code)
                     clsCommon.AddColumnsForChange(coll, "Customer_Name", obj1.Customer_Name)
-                    clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
+                    'clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
+                    clsCommon.AddColumnsForChange(coll, "Location_Code", obj1.Location_Code)
                     clsCommon.AddColumnsForChange(coll, "Location_Name", obj1.Location_Name)
                     clsCommon.AddColumnsForChange(coll, "SequenceNo", obj1.SequenceNo)
                     isSaved = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_LOCATION_MAPPING", OMInsertOrUpdate.Insert, "", trans)
@@ -1433,7 +1435,7 @@ Public Class clsLocationPlantDepotMapping
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Plant_Location_Code", obj.Plant_Location_Code, True)
             clsCommon.AddColumnsForChange(coll, "Depot_Location_Code", obj.Depot_Location_Code, True)
-            issaved = clsCommonFunctionality.UpdateDataTable(coll, "tspl_location_plantdepot_detail", OMInsertOrUpdate.Insert, "", trans)
+            isSaved = clsCommonFunctionality.UpdateDataTable(coll, "tspl_location_plantdepot_detail", OMInsertOrUpdate.Insert, "", trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
