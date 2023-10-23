@@ -842,7 +842,7 @@ Public Class RCDFDashboard
     Public Sub Load_Report_Finish_Goods()
         Try
             If dtFinishGoods Is Nothing OrElse dtFinishGoods.Rows.Count <= 0 Then
-                Dim sQuery As String = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(GrpName) as GrpName,MAX(SR_NO) AS SR_NO,Sum(Quantity)/1000 As Quantity from (
+                Dim sQuery As String = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(GrpName) as GrpName,MAX(SR_NO) AS SR_NO,Sum(Quantity)/100 As Quantity from (
                 select  convert(date, Document_Date,103) as GrpMonth,price_CodeNon as GrpCode,price_CodeNon as GrpName,SR_NO,Qty as Quantity   from (
                 select TSPL_SD_SALE_INVOICE_HEAD.Document_Date,
                 CASE WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOSHALA','DCS','KVSS') then TSPL_CUSTOMER_MASTER.price_CodeNon  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('MILKUNION') then 'MILK UNION'  WHEN TSPL_CUSTOMER_MASTER.price_CodeNon in ('GOVTCR') then 'GOVT' else 'OTHER' end as price_CodeNon,
@@ -1036,7 +1036,7 @@ Public Class RCDFDashboard
         Try
             If dtProduction Is Nothing OrElse dtProduction.Rows.Count <= 0 Then
                 Dim sQuery As String = "Select convert(varchar, GrpMonth,103) as GrpMonth,GrpCode,max(sr_no) as sr_no,max(GrpName) as GrpName,
-            Sum(Quantity)/1000 As Quantity from ( 
+            Sum(Quantity)/100 As Quantity from ( 
             select PROD_DATE as GrpMonth,ITEM_CODE as GrpCode,sr_no,item_desc as GrpName,FINAL_PRODUCTION_QTY as Quantity 
 						from (
             SELECT   TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,

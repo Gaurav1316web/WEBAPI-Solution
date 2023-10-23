@@ -7115,10 +7115,12 @@ Public Class frmGRN
                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                         '
                     Else
-                        If CInt(cboVisualQCStatusSecond.SelectedIndex) = 1 Then
-                            Dim qry As String = "update TSPL_GRN_HEAD SET TSPL_GRN_HEAD.IsCancel=0 where TSPL_GRN_HEAD.GRN_No='" + txtDocNo.Value + "'"
-                            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-                        End If
+                        'If CInt(cboVisualQCStatusSecond.SelectedIndex) = 1 Then
+                        '    Dim qry As String = "update TSPL_GRN_HEAD SET TSPL_GRN_HEAD.IsCancel=0 where TSPL_GRN_HEAD.GRN_No='" + txtDocNo.Value + "'"
+                        '    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                        'End If
+                        Dim qry As String = "update TSPL_GRN_HEAD SET TSPL_GRN_HEAD.IsCancel=0 where TSPL_GRN_HEAD.GRN_No='" + txtDocNo.Value + "'"
+                        clsDBFuncationality.ExecuteNonQuery(qry, trans)
                     End If
                     '
                     trans.Commit()
