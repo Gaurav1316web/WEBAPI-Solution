@@ -52,12 +52,18 @@ Public Class frmCorrectionforWrongEntry
                     txtInvoiceDate.Value = obj.InvoiceDate
                 End If
                 txtGENo.Text = obj.GENo
-                If clsCommon.myLen(obj.GEDate) > 0 Then
-                    txtGEDate.Value = obj.GEDate
-                End If
+                'If clsCommon.myLen(obj.GEDate) > 0 Then
+                '    txtGEDatee.Value = obj.GEDate
+                'End If
                 'If obj.GEDate.HasValue Then
                 '    txtGEDate.Value = obj.GEDate
+                '    txtGEDate.Checked = True
                 'End If
+                If obj.GEDate Is Nothing Then
+                    txtGEDate.Value = Nothing
+                Else
+                    txtGEDate.Value = obj.GEDate
+                End If
 
                 Dim qry As String = " Select Weighment_Code,MRN_No,SRN_No, isnull(TSPL_SRN_HEAD.SRN_Date, '') as SRN_Date,isnull(TSPL_MRN_HEAD.MRN_Date, '')  as MRN_Date,isnull(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date, '') AS Weighment_Date  from TSPL_GRN_HEAD
                                     LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No
@@ -177,6 +183,15 @@ Public Class frmCorrectionforWrongEntry
             obj.GRNo = txtGRNo.Text
             obj.GENo = txtGENo.Text
             obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
+
+            'If clsCommon.myLen(obj.GENo) > 0 Then
+            'If clsCommon.myLen(txtGENo.Text) > 0 Then
+            '    If txtGEDate.Checked = False Then
+            '        common.clsCommon.MyMessageBoxShow("Please Select Gate Entry Date.", Me.Text)
+            '        txtGEDate.Focus()
+            '    End If
+            'End If
+
             If obj.GEDate <= obj.GRN_Date Then
                 obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             Else
@@ -184,6 +199,8 @@ Public Class frmCorrectionforWrongEntry
                 txtGEDate.Focus()
                 Exit Sub
             End If
+            'End If
+
             obj.WeighmentNo = TxtWeighment.Text
             obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             obj.MRNNo = txtMRN.Text
@@ -191,6 +208,7 @@ Public Class frmCorrectionforWrongEntry
             obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             obj.PINo = txtPINo.Text
             obj.SRNDate = SRNDate.Value
+            obj.SRNNo = txtSRN.Text
             ''1
             If clsCommon.myLen(obj.WeighmentNo) > 0 Then
                 If obj.WeighmentDate >= obj.GRN_Date Then
@@ -202,7 +220,7 @@ Public Class frmCorrectionforWrongEntry
                 End If
                 ''2
                 If clsCommon.myLen(obj.SRNNo) > 0 Then
-                    If obj.WeighmentDate < obj.SRNDate Then
+                    If obj.WeighmentDate <= obj.SRNDate Then
                         obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
                     Else
                         clsCommon.MyMessageBoxShow("WeighmentDate should be less than SRNDate")
@@ -277,7 +295,9 @@ Public Class frmCorrectionforWrongEntry
         txtPenalty.Text = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtDocNo.Value = ""
-        txtGEDate.Value = clsCommon.GETSERVERDATE()
+        txtGEDate.Checked = False
+        txtGEDate.Value = txtDate.Value
+        'txtGEDate.Value = Nothing
         txtGENo.Text = ""
         txtGRNo.Text = ""
         txtItemCode.Text = ""
@@ -309,11 +329,6 @@ Public Class frmCorrectionforWrongEntry
         If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
             lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + txtBillToLocation.Value + "' "))
         End If
-        'If RadPageView1.SelectedPage.Text = "Gate Received Note" Then
-        '    btnUpdate.Enabled = True
-        'Else
-        '    btnUpdate.Enabled = False
-        'End If
     End Sub
 
     Private Sub LOCATIONRIGTHS()
@@ -864,7 +879,7 @@ Public Class frmCorrectionforWrongEntry
                     Reason = frm.strRmks
                 End If
 
-                If clsSNShipmentHead.UnpostData(TxtDispatch.Value, Me.Form_ID) Then
+                If clsSNShipmentHead.ReverseAndUnpost(TxtDispatch.Value) Then
                     Dim obj As New clsCancelLog
                     obj.Program_Code = Me.Form_ID
                     obj.DOCUMENT_NO = clsCommon.myCstr(TxtDispatch.Value)
@@ -886,60 +901,7 @@ Public Class frmCorrectionforWrongEntry
     End Sub
 
     ''SALE INVOICE
-    'Private Sub TxtSI__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtSI._MYValidating
-    '    Dim strwherecls As String = ""
-    '    strwherecls = Xtra.CustomerPermission()
-    '    Dim qry As String = "select Document_Code as Code,CONVERT(varchar(10), Document_Date,103)+' '+ CONVERT(varchar(5), Document_Date,114) as Date,Customer_Code as [Customer Code], Customer_Name as Customer,TSPL_SD_SALE_INVOICE_HEAD.Comments,Total_Amt as Amount,case when TSPL_SD_SALE_INVOICE_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],Against_Shipment_No as [Shipment No],TSPL_USER_MASTER.User_Name as [User Name] from TSPL_SD_SALE_INVOICE_HEAD left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SD_SALE_INVOICE_HEAD.Created_By"
-    '    Dim whrClas As String = ""
-    '    If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
-    '        whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and Invoice_Type in ('T','R') and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + strwherecls + ") "
-    '    ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-    '        whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and Invoice_Type in ('T','R')"
-    '    ElseIf clsCommon.myLen(strwherecls) > 0 Then
-    '        whrClas = " TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + strwherecls + ") and Invoice_Type in ('T','R')"
-    '    Else
-    '        whrClas = "  Invoice_Type in ('T','R')"
-    '    End If
-
-    '    LoadDataSI(clsCommon.ShowSelectForm("ShipmentCofndInvoice", qry, "Code", whrClas, TxtSI.Value, "Code", isButtonClicked), NavigatorType.Current)
-    'End Sub
-
-    'Sub LoadDataSI(ByVal strCode As String, ByVal NavTyep As NavigatorType)
-    '    Dim obj As New clsSNInvoiceHead()
-    '    obj = clsSNInvoiceHead.GetData(strCode, "'T','R'", NavTyep)
-    '    TxtSI.Value = obj.Document_Code
-    '    DateSI.Value = obj.Document_Date
-    '    lblSI.Text = obj.Against_Shipment_No
-    '    lblIRNSI.Text = obj.EInvoiceIRNNo
-    'End Sub
-
-    'Private Sub TxtSI__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles TxtSI._MYNavigator
-    '    Try
-    '        Dim strwherecls As String = ""
-    '        Dim qst As String = ""
-    '        Dim strcondition As String = ""
-    '        strwherecls = Xtra.CustomerPermission()
-    '        If clsCommon.myLen(strwherecls) > 0 Then
-    '            strcondition = "and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + strwherecls + ")"
-    '        End If
-    '        qst = "select count(*) from TSPL_SD_SALE_INVOICE_HEAD where Document_Code='" + TxtSI.Value + "'   and Invoice_Type in ('T','R') " + strcondition + " "
-
-    '        '-----------------------------------------------------
-    '        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qst))
-    '        If count = 0 Then
-    '            TxtSI.MyReadOnly = False
-    '        Else
-    '            TxtSI.MyReadOnly = True
-    '        End If
-    '        LoadDataSI(TxtSI.Value, NavType)
-    '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
-    '    End Try
-    'End Sub
-
-    ''SALE INVOICE
     Private Sub btnSI_Click(sender As Object, e As EventArgs) Handles btnSI.Click
-        'TxtSI.Value = Nothing
         txtSaleInvoice.Text = ""
         DateSI.Value = Nothing
         lblSI.Text = ""
@@ -977,7 +939,6 @@ Public Class frmCorrectionforWrongEntry
     End Sub
 
     Sub AddNewSI()
-        'TxtSI.Value = Nothing
         txtSaleInvoice.Text = ""
         DateSI.Value = Nothing
         lblSI.Text = ""
