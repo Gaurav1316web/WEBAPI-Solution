@@ -10665,6 +10665,7 @@ Public Class clsCreateAllTable
             coll.Add("SRN_Net_Amount", "decimal(18,2) NULL")
             coll.Add("SRN_RO_Amount", "decimal(18,2) NULL")
             coll.Add("MCC_Code", "Varchar(30) null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
+            coll.Add("TDS_Amount", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_INVOICE", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)()
@@ -45263,6 +45264,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("MP_Total_Deduction", "DECIMAL(18,2)  NULL ")
             coll.Add("Asset_Lost_Amount", "DECIMAL(18,2)  NULL ")
             coll.Add("MCC_Code", "Varchar(30) null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
+            coll.Add("TDS_Amount", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
 
