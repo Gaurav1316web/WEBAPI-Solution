@@ -1512,7 +1512,8 @@ Public Class frmVSPMaster
                 obj.GST_Registered = 1
             End If
 
-            obj.SaveData(obj, obj.ArrVisi, isNewEntry, arrDBName, trans)
+            ' obj.SaveData(obj, obj.ArrVisi, isNewEntry, arrDBName, trans)
+            obj.SaveData(obj, obj.ArrVisi, isNewEntry, trans)
 
             'Customer Vendor mapping
             Dim ii As Integer = clsDBFuncationality.getSingleValue("Select COUNT(*) from TSPL_CUSTOMER_VENDOR_MAPPING WHERE cust_code='" + fndvendorNo.Value + "'", trans)
@@ -6142,7 +6143,8 @@ Public Class frmVSPMaster
                         obj.GST_Registered = Registered
                         obj.Arr_CrateAccount = New List(Of clsCustomerCrateAccounting)
                         Dim ii2 As Integer = clsDBFuncationality.getSingleValue("select count(*) from tspl_customer_master where CUSTOMER_FORM_TYPE='VSP' and cust_code='" + strvendorNo + "'", trans)
-                        If obj.SaveData(obj, obj.ArrVisi, IIf(ii2 = 0, True, False), arrDBName, trans) = False Then
+                        ' If obj.SaveData(obj, obj.ArrVisi, IIf(ii2 = 0, True, False), arrDBName, trans) = False Then
+                        If obj.SaveData(obj, obj.ArrVisi, IIf(ii2 = 0, True, False), trans) = False Then
                             clsCommon.ProgressBarHide()
                             clsCommon.MyMessageBoxShow("Error in Create Customer,See At Line No. " + clsCommon.myCstr(counter) + "")
                             Exit Sub

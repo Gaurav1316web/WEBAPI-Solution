@@ -17849,6 +17849,7 @@ Public Class clsCreateAllTable
             coll.Add("Status", "Integer NOT NULL DEFAULT 0")
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "datetime null")
+            coll.Add("RM_Item", "Integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_LOAD_IN", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
 
             coll = New Dictionary(Of String, String)
@@ -52120,6 +52121,12 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("User_Code", "Varchar(12) null references TSPL_USER_MASTER(User_Code)")
             coll.Add("Route_No", "Varchar(12)  null references  TSPL_ROUTE_MASTER(Route_No)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_User_Route_Mapping", coll)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("User_Code", "Varchar(12) not null references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Route_No", "Varchar(30)  not null references  TSPL_Bulk_ROUTE_MASTER(ROUTE_NO)")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_USER_BULK_ROUTE_MAPPING", coll)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Line_No", "integer not null default 0")

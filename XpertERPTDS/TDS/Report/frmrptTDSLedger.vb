@@ -103,91 +103,70 @@ Public Class FrmrptTDSLedger
             LocFilter = LocFilter.Replace("'", "")
         End If
         '===============================update by richa agarwal 3 July,2018 ticket no. KDI/02/07/18-000389 pick vendor name from vendor master table instead of transaction table
-
-
-
-
-        Dim qry As String = Nothing
-        If rbtnDetail.IsChecked Then
-
-
-            qry = "  select ISNULL(FINAL.Document_Type,'') AS Document_Type, TSPL_TDS_DEDUCTION_HEAD.TDS_Section as [Section Code],TSPL_TDS_SECTION_MASTER.Description as [Section description],final.Section_Description as [Deduction Code],TSPL_TDS_DEDUCTION_HEAD.Description as [Deduction Description],final.docnumber,final.Vendor_Code,TSPL_TDS_VENDOR_DETAILS.PAN as PANNo ,TSPL_VENDOR_MASTER.Vendor_Name,final.docdate ,final.baseamount,final.Document_Amount, Convert(Decimal(18,0),final.Credit) as Credit ,Actual_Surcharge as [Surcharge] ,Actual_Edu_Cess as [Edu Cess],Actual_Sec_Educess as [Sec Edu Cess], (Convert(Decimal(18,0),final.Credit)+Actual_Surcharge+Actual_Edu_Cess+Actual_Sec_Educess) as total ,final.TDS_Per,final.DeductCode ,'" + FromdateFilter + "' as FromDate,'" + TodateFilter + "' as Todate,'" + LocFilter + "' as LocFilter,'" + SectionFilter + "' as SectionFilter,'" + NatureOfDeductionFilter + "' as Naturefilter, Case When Debit>0 Then 0 else 1 End as [OrderDrCr] ,convert(date,docdate,103) as OrderDate, final.Description,Account_Seg_Code7 ,Location_Desc,final.Document_Type,is_For_TDS, " &
+        Dim qry As String
+        qry = "  select ISNULL(FINAL.Document_Type,'') AS Document_Type, TSPL_TDS_DEDUCTION_HEAD.TDS_Section as [Section Code],TSPL_TDS_SECTION_MASTER.Description as [Section description],final.Section_Description as [Deduction Code],TSPL_TDS_DEDUCTION_HEAD.Description as [Deduction Description],final.docnumber,final.Vendor_Code,TSPL_TDS_VENDOR_DETAILS.PAN as PANNo ,TSPL_VENDOR_MASTER.Vendor_Name,final.docdate ,final.baseamount,final.Document_Amount, Convert(Decimal(18,0),final.Credit) as Credit ,Actual_Surcharge as [Surcharge] ,Actual_Edu_Cess as [Edu Cess],Actual_Sec_Educess as [Sec Edu Cess], (Convert(Decimal(18,0),final.Credit)+Actual_Surcharge+Actual_Edu_Cess+Actual_Sec_Educess) as total ,final.TDS_Per,final.DeductCode ,'" + FromdateFilter + "' as FromDate,'" + TodateFilter + "' as Todate,'" + LocFilter + "' as LocFilter,'" + SectionFilter + "' as SectionFilter,'" + NatureOfDeductionFilter + "' as Naturefilter, Case When Debit>0 Then 0 else 1 End as [OrderDrCr] ,convert(date,docdate,103) as OrderDate, final.Description,Account_Seg_Code7 ,Location_Desc,final.Document_Type,is_For_TDS, " &
             " isnull(TSPL_TDS_PAYMENT_HEADER .BSR_Code,'') as BSR_Code ,isnull(TSPL_TDS_PAYMENT_HEADER.Challan_No,'') as Challan_No ,convert(varchar,TSPL_TDS_PAYMENT_HEADER.Challan_Date,103) as Challan_Date ,case when isnull(TSPL_TDS_PAYMENT_HEADER.Challan_No,'')='' then 0 else (Convert(Decimal(18,0),final.Credit)+Actual_Surcharge+Actual_Edu_Cess+Actual_Sec_Educess) end  as Amount_Paid from ( "
-            qry += "  select TSPL_REMITTANCE.Document_Type,0 as is_For_TDS,TSPL_REMITTANCE_ENTRY.Section_Code,TSPL_REMITTANCE_ENTRY.Section_Description ,TSPL_REMITTANCE_ENTRY_DETAIL.Vendor_Code ,TSPL_REMITTANCE_ENTRY_DETAIL.Vendor_Name ,TSPL_REMITTANCE_ENTRY_DETAIL.Remittance_Code as docnumber,convert(varchar(12),Remittance_Date,103) as  docdate,TSPL_REMITTANCE_ENTRY_DETAIL.Document_No  as DN, TSPL_REMITTANCE_ENTRY_DETAIL.Actual_TDS_Base as  baseamount,TSPL_REMITTANCE.Document_Amount,TSPL_GL_ACCOUNTS.Account_Seg_Code7,case when TSPL_REMITTANCE_ENTRY_DETAIL.Document_Type  <>'D' then TSPL_REMITTANCE_ENTRY_DETAIL.Actual_Total_TDS  else null end as Debit,case when TSPL_REMITTANCE_ENTRY_DETAIL.Document_Type  = 'D' then TSPL_REMITTANCE_ENTRY_DETAIL.Actual_Total_TDS  else null end as Credit ,TSPL_REMITTANCE_ENTRY_DETAIL.Deduction_Code ,  TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2,0 as  TDS_Per ,'' as DeductCode,TSPL_REMITTANCE . Actual_Surcharge ,TSPL_REMITTANCE . Actual_Edu_Cess,TSPL_REMITTANCE . Actual_Sec_Educess, TSPL_REMITTANCE_ENTRY.Description,TSPL_GL_SEGMENT_CODE.Description as Location_Desc,''as MCC_Code from TSPL_REMITTANCE_ENTRY  " &
-                    " left outer join TSPL_REMITTANCE_ENTRY_DETAIL on TSPL_REMITTANCE_ENTRY.Remittance_Code=TSPL_REMITTANCE_ENTRY_DETAIL.Remittance_Code  " &
-                    " left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_REMITTANCE_ENTRY.Comp_Code  " &
-                    " left outer join  TSPL_REMITTANCE on TSPL_REMITTANCE .Remittance_Code =TSPL_REMITTANCE_ENTRY.Remittance_Code  " &
-                     " left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_REMITTANCE .Branch_GL_AC  " &
-                    " left join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_GL_ACCOUNTS.Account_Seg_Code7 AND Segment_name='Locations' " &
-                    " where 2=2  and (Posted is not null) "
-            If chkLocSelect.IsChecked Then
-                If cbgLocation.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select one location ")
-                    Return
-                End If
-                qry += "and TSPL_GL_ACCOUNTS.Account_Seg_Code7 in (" + clsCommon.GetMulcallString(locationArr) + ") "
+        qry += "  select TSPL_REMITTANCE.Document_Type,0 as is_For_TDS,TSPL_REMITTANCE_ENTRY.Section_Code,TSPL_REMITTANCE_ENTRY.Section_Description ,TSPL_REMITTANCE_ENTRY_DETAIL.Vendor_Code ,TSPL_REMITTANCE_ENTRY_DETAIL.Vendor_Name ,TSPL_REMITTANCE_ENTRY_DETAIL.Remittance_Code as docnumber,convert(varchar(12),Remittance_Date,103) as  docdate,TSPL_REMITTANCE_ENTRY_DETAIL.Document_No  as DN, TSPL_REMITTANCE_ENTRY_DETAIL.Actual_TDS_Base as  baseamount,TSPL_REMITTANCE.Document_Amount,TSPL_GL_ACCOUNTS.Account_Seg_Code7,case when TSPL_REMITTANCE_ENTRY_DETAIL.Document_Type  <>'D' then TSPL_REMITTANCE_ENTRY_DETAIL.Actual_Total_TDS  else null end as Debit,case when TSPL_REMITTANCE_ENTRY_DETAIL.Document_Type  = 'D' then TSPL_REMITTANCE_ENTRY_DETAIL.Actual_Total_TDS  else null end as Credit ,TSPL_REMITTANCE_ENTRY_DETAIL.Deduction_Code ,  TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2,0 as  TDS_Per ,'' as DeductCode,TSPL_REMITTANCE . Actual_Surcharge ,TSPL_REMITTANCE . Actual_Edu_Cess,TSPL_REMITTANCE . Actual_Sec_Educess, TSPL_REMITTANCE_ENTRY.Description,TSPL_GL_SEGMENT_CODE.Description as Location_Desc from TSPL_REMITTANCE_ENTRY  " &
+                " left outer join TSPL_REMITTANCE_ENTRY_DETAIL on TSPL_REMITTANCE_ENTRY.Remittance_Code=TSPL_REMITTANCE_ENTRY_DETAIL.Remittance_Code  " &
+                " left outer join  TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_REMITTANCE_ENTRY.Comp_Code  " &
+                " left outer join  TSPL_REMITTANCE on TSPL_REMITTANCE .Remittance_Code =TSPL_REMITTANCE_ENTRY.Remittance_Code  " &
+                 " left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_REMITTANCE .Branch_GL_AC  " &
+                " left join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_GL_ACCOUNTS.Account_Seg_Code7 AND Segment_name='Locations' " &
+                " where 2=2  and (Posted is not null) "
+        If chkLocSelect.IsChecked Then
+            If cbgLocation.CheckedValue.Count <= 0 Then
+                common.clsCommon.MyMessageBoxShow("Please select one location ")
+                Return
             End If
-            ' BM00000007835 Included CreditNote Entries as negative amount
-            qry += " union all  select TSPL_REMITTANCE.Document_Type,isnull(TSPL_VENDOR_INVOICE_HEAD.is_For_TDS,0) as is_For_TDS,TSPL_REMITTANCE.Section_Code  as section ,TSPL_REMITTANCE.Deduction_Code as natureofdeduction ,TSPL_REMITTANCE.Vendor_Code  as vendor,TSPL_REMITTANCE.Vendor_Name as Name,TSPL_REMITTANCE.Document_No as docnumber ,Document_Date  as docdate,TSPL_REMITTANCE.Document_No as DN, case when ISNULL(TSPL_VENDOR_INVOICE_HEAD.is_For_TDS,0)<>1 Then Actual_TDS_Base" &
-                " WHEN  ISNULL(TSPL_VENDOR_INVOICE_HEAD.RefDocType ,'')='AP' AND ISNULL(TSPL_VENDOR_INVOICE_HEAD.is_For_TDS,0)=1  THEN (SELECT ISNULL(Document_Total,0) AS Document_Total FROM TSPL_VENDOR_INVOICE_HEAD VH WHERE ISNULL(VH.Document_No ,'')=TSPL_VENDOR_INVOICE_HEAD.RefDocNo ) " &
-                " WHEN  ISNULL(TSPL_VENDOR_INVOICE_HEAD.RefDocType ,'')='A' AND ISNULL(TSPL_VENDOR_INVOICE_HEAD.is_For_TDS,0)=1  THEN (SELECT ISNULL(Payment_Amount ,0) AS Payment_Amount FROM TSPL_PAYMENT_HEADER WHERE ISNULL(TSPL_PAYMENT_HEADER.Payment_No ,'')=(SELECT ISNULL(AgainstPayment_No,'') AS AgainstPayment_No FROM TSPL_VENDOR_INVOICE_DETAIL WHERE Document_No=TSPL_REMITTANCE.Document_No)) " &
-                " Else 0 End as baseamount,TSPL_REMITTANCE.Document_Amount,TSPL_GL_ACCOUNTS.Account_Seg_Code7, 0 as Debit, case when TSPL_REMITTANCE.Document_Type = 'D' then Actual_Total_TDS* (case when TSPL_VENDOR_INVOICE_HEAD.is_For_TDS=1 then 1 else  -1 end)when TSPL_REMITTANCE.Document_Type = 'C' then Actual_Total_TDS* (case when TSPL_VENDOR_INVOICE_HEAD.is_For_TDS=1 then -1 else 1 end) else Actual_Total_TDS end as Credit, TSPL_REMITTANCE.Deduction_Code,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2, " &
-            "  Case When ISNULL(TSPL_REMITTANCE.TDS_Per,0)<>0 Then TSPL_REMITTANCE.TDS_Per Else (Select Top(1) TSPL_VENDOR_INVOICE_DETAIL.TDS_Per From TSPL_VENDOR_INVOICE_DETAIL WHERE TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No) End as TDS_Per, " &
-            " case when Select_By='C' then '01' else '02' end as DeductCode ,Actual_Surcharge ,Actual_Edu_Cess,Actual_Sec_Educess,(isnull(TSPL_VENDOR_INVOICE_HEAD.Description,'')+isnull(TSPL_PAYMENT_HEADER.Entry_Desc,'')) as Description,TSPL_GL_SEGMENT_CODE.Description as Location_Desc,''as MCC_Code from TSPL_REMITTANCE  " &
-                   " left outer join TSPL_COMPANY_MASTER on  TSPL_REMITTANCE.comp_code=TSPL_COMPANY_MASTER.Comp_Code " &
-                   " left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_REMITTANCE .Branch_GL_AC " &
-                   " left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_REMITTANCE.Document_No " &
-              " left join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_GL_ACCOUNTS.Account_Seg_Code7 AND Segment_name='Locations' " &
-              "left outer join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=TSPL_REMITTANCE.Document_No and  TSPL_PAYMENT_HEADER.Payment_Type in ('OA','AV')" &
-                    " where 2=2 and Remit_TDS in ('Y','N') "
-            qry += " union all select TSPL_REMITTANCE.Document_Type,0 as is_For_TDS,TSPL_REMITTANCE.Section_Code  as section ,TSPL_REMITTANCE.Deduction_Code as natureofdeduction ,TSPL_REMITTANCE.Vendor_Code  as vendor,TSPL_REMITTANCE.Vendor_Name as Name,TSPL_REMITTANCE.Document_No as docnumber ,Document_Date  as docdate,TSPL_REMITTANCE.Document_No as DN,Actual_TDS_Base as baseamount,TSPL_REMITTANCE.Document_Amount,TSPL_GL_ACCOUNTS.Account_Seg_Code7, " &
-                 " 0 AS Debit, " &
-                 "  case when (TSPL_PAYMENT_HEADER.Payment_No=TSPL_BANK_REVERSE.Document_No) then -1*(TSPL_BANK_REVERSE.Amount- TSPL_PAYMENT_HEADER.Payment_Amount) else null end as credit,TSPL_REMITTANCE.Deduction_Code,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_REMITTANCE.TDS_Per ,case when Select_By='C' then '01' else '02' end as DeductCode ,Actual_Surcharge ,Actual_Edu_Cess,Actual_Sec_Educess, TSPL_PAYMENT_HEADER.Entry_Desc as Description,TSPL_GL_SEGMENT_CODE.Description as Location_Desc,'' as MCC_Code from TSPL_REMITTANCE  " &
-                 " left outer join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=TSPL_REMITTANCE.Document_No   " &
-                 " inner join  TSPL_BANK_REVERSE on TSPL_PAYMENT_HEADER.Payment_No=TSPL_BANK_REVERSE.Document_No " &
-                 " left outer join TSPL_COMPANY_MASTER on  TSPL_REMITTANCE.comp_code=TSPL_COMPANY_MASTER.Comp_Code   " &
-                 "  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_REMITTANCE .Branch_GL_AC left join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_GL_ACCOUNTS.Account_Seg_Code7 AND Segment_name='Locations' where 2=2 and Remit_TDS in ('Y','N') "
-
-            qry += Environment.NewLine & " Union All " & Environment.NewLine &
-            " select 'S' as Document_Type,1 as Is_For_TDS, MAX(TSPL_TDS_DEDUCTION_HEAD.TDS_Section) as Section,  MAX(TSPL_PAYHEAD_MASTER.Deduction_Code) AS natureofDeduction, 'Employee' as Vendor,null as Name,TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE as docnumber , convert(varchar,max(TSPL_PAYPERIOD_MASTER.DATE_To),103) as DocDate, " & Environment.NewLine &
-            " null as DN,sum(TSPL_GENERATE_SALARY_PAYHEADS.PAYABLE_AMOUNT ) as baseamount,sum(TSPL_GENERATE_SALARY_PAYHEADS.PAYABLE_AMOUNT ) as DEDUCTION_AMOUNT,max(TSPL_GENERATE_SALARY.LOCATION_CODE ) as Loc_Code,0 as Debit, sum(TSPL_GENERATE_SALARY_PAYHEADS.PAYABLE_AMOUNT ) as credit,MAX(TSPL_PAYHEAD_MASTER.Deduction_Code) AS Deduction_Code,'" & objCommonVar.CurrentCompanyName & "'  as Comp,null as Logo_Img,null as Logo_img2 " & Environment.NewLine &
-            " ,null as TDS_Per,'02' as DeductCode, 0 as Actual_surcharge,0 as Actual_EduCess,0 as Actual_Sec_EduCess,max(TSPL_GENERATE_SALARY.GENERATE_REMARKS ) as Description,max(TSPL_LOCATION_MASTER.location_desc) as Location_Desc, max(TSPL_MCC_MASTER.MCC_Code) as MCC_Code " & Environment.NewLine &
-            " from TSPL_GENERATE_SALARY" & Environment.NewLine &
-            " left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE " & Environment.NewLine &
-            " left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE " & Environment.NewLine &
-            " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GENERATE_SALARY.LOCATION_CODE " & Environment.NewLine &
-            "inner join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_LOCATION_MASTER.Location_Code" & Environment.NewLine &
-            " LEFT OUTER JOIN TSPL_TDS_DEDUCTION_HEAD ON TSPL_TDS_DEDUCTION_HEAD.Deduction_Code=TSPL_PAYHEAD_MASTER.Deduction_Code " & Environment.NewLine &
-            " left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE  " & Environment.NewLine &
-            " where TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE ='TDS' and TSPL_GENERATE_SALARY.POSTED =1 group by TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE "
-
-
-            qry += "  ) final left outer join TSPL_TDS_VENDOR_DETAILS on TSPL_TDS_VENDOR_DETAILS.Vendor_Code=final.Vendor_Code   left join TSPL_TDS_DEDUCTION_HEAD on TSPL_TDS_DEDUCTION_HEAD.Deduction_Code =final.Deduction_Code "
-            qry += "  left join TSPL_TDS_SECTION_MASTER on TSPL_TDS_SECTION_MASTER.TDS_Group=TSPL_TDS_DEDUCTION_HEAD.TDS_Section" &
-            " left outer join TSPL_TDS_PAYMENT_DETAIL on TSPL_TDS_PAYMENT_DETAIL.Against_Document_No =final.docnumber " &
-            " and TSPL_TDS_PAYMENT_DETAIL.Document_No  not in (Select Against_TDS_PAYMENT_No from TSPL_PAYMENT_HEADER where Payment_No in (select Document_No  from tspl_bank_reverse where Reverse_Document ='Payments') and isnull(TSPL_PAYMENT_HEADER.Against_TDS_PAYMENT_No,'')<>'' ) " &
-            " left outer join TSPL_TDS_PAYMENT_HEADER on TSPL_TDS_PAYMENT_HEADER.Document_No  =TSPL_TDS_PAYMENT_DETAIL.Document_No " &
-            " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =final.Vendor_Code " &
-            "left outer  join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE=TSPL_VENDOR_MASTER.Vendor_Code" &
-             "left outer  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No" &
-             "left outer  join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date" &
-            " where 2=2   and convert(date,docdate,103)>=convert(date,'" + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MM/yyyy") + "',103) and convert(date,docdate,103)<=  convert(date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' ,103  ) and TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and	TSPL_PAYMENT_PROCESS_HEAD.To_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' "
-        ElseIf rbtnSummary.IsChecked Then
-            qry = "Select* from tspl_multiple_deduction_detail"
+            qry += "and TSPL_GL_ACCOUNTS.Account_Seg_Code7 in (" + clsCommon.GetMulcallString(locationArr) + ") "
         End If
+        ' BM00000007835 Included CreditNote Entries as negative amount
+        qry += " union all  select TSPL_REMITTANCE.Document_Type,isnull(TSPL_VENDOR_INVOICE_HEAD.is_For_TDS,0) as is_For_TDS,TSPL_REMITTANCE.Section_Code  as section ,TSPL_REMITTANCE.Deduction_Code as natureofdeduction ,TSPL_REMITTANCE.Vendor_Code  as vendor,TSPL_REMITTANCE.Vendor_Name as Name,TSPL_REMITTANCE.Document_No as docnumber ,Document_Date  as docdate,TSPL_REMITTANCE.Document_No as DN, case when ISNULL(TSPL_VENDOR_INVOICE_HEAD.is_For_TDS,0)<>1 Then Actual_TDS_Base" &
+            " WHEN  ISNULL(TSPL_VENDOR_INVOICE_HEAD.RefDocType ,'')='AP' AND ISNULL(TSPL_VENDOR_INVOICE_HEAD.is_For_TDS,0)=1  THEN (SELECT ISNULL(Document_Total,0) AS Document_Total FROM TSPL_VENDOR_INVOICE_HEAD VH WHERE ISNULL(VH.Document_No ,'')=TSPL_VENDOR_INVOICE_HEAD.RefDocNo ) " &
+            " WHEN  ISNULL(TSPL_VENDOR_INVOICE_HEAD.RefDocType ,'')='A' AND ISNULL(TSPL_VENDOR_INVOICE_HEAD.is_For_TDS,0)=1  THEN (SELECT ISNULL(Payment_Amount ,0) AS Payment_Amount FROM TSPL_PAYMENT_HEADER WHERE ISNULL(TSPL_PAYMENT_HEADER.Payment_No ,'')=(SELECT ISNULL(AgainstPayment_No,'') AS AgainstPayment_No FROM TSPL_VENDOR_INVOICE_DETAIL WHERE Document_No=TSPL_REMITTANCE.Document_No)) " &
+            " Else 0 End as baseamount,TSPL_REMITTANCE.Document_Amount,TSPL_GL_ACCOUNTS.Account_Seg_Code7, 0 as Debit, case when TSPL_REMITTANCE.Document_Type = 'D' then Actual_Total_TDS* (case when TSPL_VENDOR_INVOICE_HEAD.is_For_TDS=1 then 1 else  -1 end)when TSPL_REMITTANCE.Document_Type = 'C' then Actual_Total_TDS* (case when TSPL_VENDOR_INVOICE_HEAD.is_For_TDS=1 then -1 else 1 end) else Actual_Total_TDS end as Credit, TSPL_REMITTANCE.Deduction_Code,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2, " &
+        "  Case When ISNULL(TSPL_REMITTANCE.TDS_Per,0)<>0 Then TSPL_REMITTANCE.TDS_Per Else (Select Top(1) TSPL_VENDOR_INVOICE_DETAIL.TDS_Per From TSPL_VENDOR_INVOICE_DETAIL WHERE TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No) End as TDS_Per, " &
+        " case when Select_By='C' then '01' else '02' end as DeductCode ,Actual_Surcharge ,Actual_Edu_Cess,Actual_Sec_Educess,(isnull(TSPL_VENDOR_INVOICE_HEAD.Description,'')+isnull(TSPL_PAYMENT_HEADER.Entry_Desc,'')) as Description,TSPL_GL_SEGMENT_CODE.Description as Location_Desc from TSPL_REMITTANCE  " &
+               " left outer join TSPL_COMPANY_MASTER on  TSPL_REMITTANCE.comp_code=TSPL_COMPANY_MASTER.Comp_Code " &
+               " left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_REMITTANCE .Branch_GL_AC " &
+               " left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_REMITTANCE.Document_No " &
+          " left join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_GL_ACCOUNTS.Account_Seg_Code7 AND Segment_name='Locations' " &
+          "left outer join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=TSPL_REMITTANCE.Document_No and  TSPL_PAYMENT_HEADER.Payment_Type in ('OA','AV')" &
+                " where 2=2 and Remit_TDS in ('Y','N') "
+        qry += " union all select TSPL_REMITTANCE.Document_Type,0 as is_For_TDS,TSPL_REMITTANCE.Section_Code  as section ,TSPL_REMITTANCE.Deduction_Code as natureofdeduction ,TSPL_REMITTANCE.Vendor_Code  as vendor,TSPL_REMITTANCE.Vendor_Name as Name,TSPL_REMITTANCE.Document_No as docnumber ,Document_Date  as docdate,TSPL_REMITTANCE.Document_No as DN,Actual_TDS_Base as baseamount,TSPL_REMITTANCE.Document_Amount,TSPL_GL_ACCOUNTS.Account_Seg_Code7, " &
+             " 0 AS Debit, " &
+             "  case when (TSPL_PAYMENT_HEADER.Payment_No=TSPL_BANK_REVERSE.Document_No) then -1*(TSPL_BANK_REVERSE.Amount- TSPL_PAYMENT_HEADER.Payment_Amount) else null end as credit,TSPL_REMITTANCE.Deduction_Code,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_REMITTANCE.TDS_Per ,case when Select_By='C' then '01' else '02' end as DeductCode ,Actual_Surcharge ,Actual_Edu_Cess,Actual_Sec_Educess, TSPL_PAYMENT_HEADER.Entry_Desc as Description,TSPL_GL_SEGMENT_CODE.Description as Location_Desc from TSPL_REMITTANCE  " &
+             " left outer join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=TSPL_REMITTANCE.Document_No   " &
+             " inner join  TSPL_BANK_REVERSE on TSPL_PAYMENT_HEADER.Payment_No=TSPL_BANK_REVERSE.Document_No " &
+             " left outer join TSPL_COMPANY_MASTER on  TSPL_REMITTANCE.comp_code=TSPL_COMPANY_MASTER.Comp_Code   " &
+             "  left outer join TSPL_GL_ACCOUNTS on TSPL_GL_ACCOUNTS.Account_Code=TSPL_REMITTANCE .Branch_GL_AC left join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_GL_ACCOUNTS.Account_Seg_Code7 AND Segment_name='Locations' where 2=2 and Remit_TDS in ('Y','N') "
+
+        qry += Environment.NewLine & " Union All " & Environment.NewLine &
+        " select 'S' as Document_Type,1 as Is_For_TDS, MAX(TSPL_TDS_DEDUCTION_HEAD.TDS_Section) as Section,  MAX(TSPL_PAYHEAD_MASTER.Deduction_Code) AS natureofDeduction, 'Employee' as Vendor,null as Name,TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE as docnumber , convert(varchar,max(TSPL_PAYPERIOD_MASTER.DATE_To),103) as DocDate, " & Environment.NewLine &
+        " null as DN,sum(TSPL_GENERATE_SALARY_PAYHEADS.PAYABLE_AMOUNT ) as baseamount,sum(TSPL_GENERATE_SALARY_PAYHEADS.PAYABLE_AMOUNT ) as DEDUCTION_AMOUNT,max(TSPL_GENERATE_SALARY.LOCATION_CODE ) as Loc_Code,0 as Debit, sum(TSPL_GENERATE_SALARY_PAYHEADS.PAYABLE_AMOUNT ) as credit,MAX(TSPL_PAYHEAD_MASTER.Deduction_Code) AS Deduction_Code,'" & objCommonVar.CurrentCompanyName & "'  as Comp,null as Logo_Img,null as Logo_img2 " & Environment.NewLine &
+        " ,null as TDS_Per,'02' as DeductCode, 0 as Actual_surcharge,0 as Actual_EduCess,0 as Actual_Sec_EduCess,max(TSPL_GENERATE_SALARY.GENERATE_REMARKS ) as Description,max(TSPL_LOCATION_MASTER.location_desc) as Location_Desc " & Environment.NewLine &
+        " from TSPL_GENERATE_SALARY" & Environment.NewLine &
+        " left outer join TSPL_GENERATE_SALARY_PAYHEADS on TSPL_GENERATE_SALARY_PAYHEADS.SALARY_GENERATION_CODE =TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE " & Environment.NewLine &
+        " left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_GENERATE_SALARY_PAYHEADS.PAY_HEAD_CODE " & Environment.NewLine &
+        " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GENERATE_SALARY.LOCATION_CODE " & Environment.NewLine &
+        " LEFT OUTER JOIN TSPL_TDS_DEDUCTION_HEAD ON TSPL_TDS_DEDUCTION_HEAD.Deduction_Code=TSPL_PAYHEAD_MASTER.Deduction_Code " & Environment.NewLine &
+        " left outer join TSPL_PAYPERIOD_MASTER on TSPL_PAYPERIOD_MASTER.PAY_PERIOD_CODE=TSPL_GENERATE_SALARY.PAY_PERIOD_CODE  " & Environment.NewLine &
+        " where TSPL_PAYHEAD_MASTER.SUB_HEAD_TYPE ='TDS' and TSPL_GENERATE_SALARY.POSTED =1 group by TSPL_GENERATE_SALARY.SALARY_GENERATION_CODE "
+
+
+        qry += "  ) final left outer join TSPL_TDS_VENDOR_DETAILS on TSPL_TDS_VENDOR_DETAILS.Vendor_Code=final.Vendor_Code   left join TSPL_TDS_DEDUCTION_HEAD on TSPL_TDS_DEDUCTION_HEAD.Deduction_Code =final.Deduction_Code "
+        qry += "  left join TSPL_TDS_SECTION_MASTER on TSPL_TDS_SECTION_MASTER.TDS_Group=TSPL_TDS_DEDUCTION_HEAD.TDS_Section" &
+        " left outer join TSPL_TDS_PAYMENT_DETAIL on TSPL_TDS_PAYMENT_DETAIL.Against_Document_No =final.docnumber " &
+        " and TSPL_TDS_PAYMENT_DETAIL.Document_No  not in (Select Against_TDS_PAYMENT_No from TSPL_PAYMENT_HEADER where Payment_No in (select Document_No  from tspl_bank_reverse where Reverse_Document ='Payments') and isnull(TSPL_PAYMENT_HEADER.Against_TDS_PAYMENT_No,'')<>'' ) " &
+        " left outer join TSPL_TDS_PAYMENT_HEADER on TSPL_TDS_PAYMENT_HEADER.Document_No  =TSPL_TDS_PAYMENT_DETAIL.Document_No " &
+        " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =final.Vendor_Code " &
+        "   where 2=2   and convert(date,docdate,103)>=convert(date,'" + clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MM/yyyy") + "',103) and convert(date,docdate,103)<=  convert(date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' ,103  )  "
         If fndSection.Value <> "" Then
-            qry += " And  coalesce(TSPL_TDS_DEDUCTION_HEAD.TDS_Section,'')='" + fndSection.Value + "' "
+            qry += " and  coalesce(TSPL_TDS_DEDUCTION_HEAD.TDS_Section,'')='" + fndSection.Value + "' "
         End If
         If fndNatureofDeduction.Value <> "" Then
             qry += " and final.Deduction_Code='" + fndNatureofDeduction.Value + "'"
         End If
-        If fndFiscalYear.Value <> "" Then
-            qry = +" and TSPL_Fiscal_Year_Master.Fiscal_Code='" + fndFiscalYear.Value + "'"
-        End If
-        If fndmcc.Value <> "" Then
-            qry += "and final.MCC_Code='" + fndmcc.Value + "'"
-        End If
-
         If chkLocSelect.IsChecked Then
             If cbgLocation.CheckedValue.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow("Please select one location ")
@@ -531,28 +510,5 @@ Public Class FrmrptTDSLedger
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
         common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
-    End Sub
-
-    Private Sub fndFiscalYear__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndFiscalYear._MYValidating
-        Try
-            Dim qry As String = "select Fiscal_Code,Fiscal_Name,Start_Date,End_Date from TSPL_FISCAL_YEAR_MASTER"
-            fndFiscalYear.Value = clsCommon.ShowSelectForm("LRFY", qry, "Fiscal_Code", "", fndFiscalYear.Value, "", isButtonClicked)
-            txtfiscalyear.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Fiscal_Name from TSPL_FISCAL_YEAR_MASTER WHERE Fiscal_Code ='" + fndFiscalYear.Value + "'"))
-
-            'fromDate.Value = clsCommon.GETSERVERDATE()
-            'ToDate.Value = clsCommon.GETSERVERDATE()
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
-        End Try
-    End Sub
-
-    Private Sub fndmcc__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndmcc._MYValidating
-        Try
-            Dim qry As String = "select MCC_Code as Code,MCC_NAME as Name,TSPL_MCC_MASTER.plant_code as [Plant Code] from TSPL_MCC_MASTER "
-            fndmcc.Value = clsCommon.ShowSelectForm("MCC", qry, "Code", "", fndmcc.Value, "", isButtonClicked)
-            txtmcc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Mcc_Name from TSPL_MCC_MASTER where MCC_Code='" + fndmcc.Value + "'"))
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
-        End Try
     End Sub
 End Class
