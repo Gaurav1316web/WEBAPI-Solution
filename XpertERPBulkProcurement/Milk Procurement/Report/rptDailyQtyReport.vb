@@ -319,6 +319,12 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                         summaryRowItem.Add(DiffEnteredVsMCCSnfKg)
                     End If
                     If rbtnTranpoterGainLoss.Checked = True Then
+                        Dim Entered_Qty As New GridViewSummaryItem("Entered_Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(Entered_Qty)
+                        Dim Entered_FATKg As New GridViewSummaryItem("Entered_FATKg", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(Entered_FATKg)
+                        Dim Entered_SNFKg As New GridViewSummaryItem("Entered_SNFKg", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(Entered_SNFKg)
                         Dim DiffMCCVsEnteredQty As New GridViewSummaryItem("DiffMCCVsEntered_Qty", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(DiffMCCVsEnteredQty)
                         Dim DiffEnteredVsMCCFatKg As New GridViewSummaryItem("DiffMCCVsEntered_FATKG", "{0:F2}", GridAggregateFunction.Sum)

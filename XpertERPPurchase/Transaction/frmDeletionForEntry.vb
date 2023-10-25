@@ -43,7 +43,6 @@ Public Class frmDeletionForEntry
     Public Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             Addnew()
-            'isInsideLoadData = True
             Dim obj As New clsGRNHead()
             obj = clsGRNHead.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.GRN_No) > 0) Then
@@ -361,7 +360,6 @@ Public Class frmDeletionForEntry
         Try
             If (myMessages.deleteConfirm()) Then
                 clsPOWeighment.DeleteData(TxtWeighment.Text)
-                ' clsPOWeighment.DeleteData(txtCode.Value)
                 clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
                 AddnewW()
             End If
@@ -497,7 +495,6 @@ Public Class frmDeletionForEntry
             If myMessages.deleteConfirm() Then
                 If clsQualityCheckForSRNHead.DeleteData(txtWet.Text, "") Then
                     myMessages.delete()
-                    'FunReset()
                     addnewWet()
                 End If
             End If
@@ -568,7 +565,6 @@ Public Class frmDeletionForEntry
 
                 If clsSRNHead.ReverseAndUnpost(txttSRN.Text) Then
                     common.clsCommon.MyMessageBoxShow("Tansaction unposted succesffuly", Me.Text)
-                    ' LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
@@ -672,7 +668,6 @@ Public Class frmDeletionForEntry
                     saveCancelLog(Reason, "Reverse and Recreate", Nothing)
                     clsCommon.MyMessageBoxShow("Transaction unposted succesffuly", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
-                    'Unpostpi.Enabled = False
                 End If
             End If
         Catch ex As Exception
@@ -693,49 +688,4 @@ Public Class frmDeletionForEntry
         FormatGridGv2()
     End Sub
 
-
-
-    'Private Sub txtBillToLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBillToLocation._MYValidating
-    '    Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-    '    Dim WhrCls As String = " Location_Type='Physical'  "
-    '    If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-    '        WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-    '    End If
-
-
-    '    txtBillToLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, txtBillToLocation.Value, "Code", isButtonClicked)
-    '    lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
-
-
-    'End Sub
-
-    'Private Sub Gv1_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles Gv1.CellValueChanged
-    '    Try
-    '        Dim DocNo As String = Nothing
-    '        If Convert.ToBoolean(Gv1.CurrentRow.Cells(colCheck).Value) = True Then
-    '            DocNo = Gv1.CurrentRow.Cells(1).Value.ToString()
-    '        End If
-    '        'If e.Column Is Gv1.Columns(colCheck) = True Then
-    '        '    ' DocNo = Gv1.CurrentRow.Cells(colDocument_No).Value
-    '        '    DocNo = Gv1.CurrentRow.Cells(colDocument_No).Value
-    '        'End If
-    '    Catch ex As Exception
-    '    End Try
-    'End Sub
-
-    'Private Sub Gv2_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles Gv2.CellValueChanged
-    '    Try
-    '        Dim DocNoPi As String = Nothing
-    '        If Convert.ToBoolean(Gv2.CurrentRow.Cells(colCheck).Value) = True Then
-    '            DocNoPi = Gv2.CurrentRow.Cells(1).Value.ToString()
-
-    '        End If
-    '        'If e.Column Is Gv1.CurrentRow.Cells(colCheck).Value = True Then
-    '        '    ' DocNo = Gv1.CurrentRow.Cells(colDocument_No).Value
-    '        '    DocNoPi = Gv1.CurrentRow.Cells(colPI_No).Value
-    '        'End If
-    '    Catch ex As Exception
-    '    End Try
-
-    'End Sub
 End Class

@@ -183,7 +183,6 @@ Partial Class frmSNSaleInvoice
         Me.MyLabel38 = New common.Controls.MyLabel()
         Me.txtEWayBillNo = New common.Controls.MyTextBox()
         Me.btnEWaybillUpdate = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrintSgl = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnDCSPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
@@ -368,7 +367,6 @@ Partial Class frmSNSaleInvoice
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnEWaybillUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrintSgl, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDCSPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -411,7 +409,6 @@ Partial Class frmSNSaleInvoice
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintSgl)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDCSPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnInvoiceJE)
@@ -2897,15 +2894,6 @@ Partial Class frmSNSaleInvoice
         Me.btnEWaybillUpdate.TabIndex = 41
         Me.btnEWaybillUpdate.Text = "Update"
         '
-        'btnPrintSgl
-        '
-        Me.btnPrintSgl.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintSgl.Location = New System.Drawing.Point(291, 4)
-        Me.btnPrintSgl.Name = "btnPrintSgl"
-        Me.btnPrintSgl.Size = New System.Drawing.Size(69, 22)
-        Me.btnPrintSgl.TabIndex = 47
-        Me.btnPrintSgl.Text = "Print Sgl"
-        '
         'btnHistory
         '
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -3383,7 +3371,6 @@ Partial Class frmSNSaleInvoice
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnEWaybillUpdate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrintSgl, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDCSPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3597,6 +3584,5 @@ Partial Class frmSNSaleInvoice
     Friend WithEvents txtVehicleCode As common.UserControls.txtFinder
     Friend WithEvents txtAckDate As common.Controls.MyDateTimePicker
     Friend WithEvents txtEwayValidDate As common.Controls.MyDateTimePicker
-    Friend WithEvents btnPrintSgl As RadButton
 End Class
 
