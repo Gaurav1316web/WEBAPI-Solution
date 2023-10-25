@@ -52,19 +52,10 @@ Public Class frmCorrectionforWrongEntry
                     txtInvoiceDate.Value = obj.InvoiceDate
                 End If
                 txtGENo.Text = obj.GENo
-                'If clsCommon.myLen(obj.GEDate) > 0 Then
-                '    txtGEDatee.Value = obj.GEDate
-                'End If
-                'If obj.GEDate.HasValue Then
-                '    txtGEDate.Value = obj.GEDate
-                '    txtGEDate.Checked = True
-                'End If
-                If obj.GEDate Is Nothing Then
-                    txtGEDate.Value = Nothing
-                Else
+                If Not obj.GEDate = Nothing Then
                     txtGEDate.Value = obj.GEDate
+                    txtGEDate.Checked = True
                 End If
-
                 Dim qry As String = " Select Weighment_Code,MRN_No,SRN_No, isnull(TSPL_SRN_HEAD.SRN_Date, '') as SRN_Date,isnull(TSPL_MRN_HEAD.MRN_Date, '')  as MRN_Date,isnull(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date, '') AS Weighment_Date  from TSPL_GRN_HEAD
                                     LEFT OUTER JOIN TSPL_SRN_HEAD ON TSPL_SRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No
                                     LEFT OUTER JOIN TSPL_MRN_HEAD ON TSPL_MRN_HEAD.Against_GRN= TSPL_GRN_HEAD.GRN_No
@@ -164,7 +155,7 @@ Public Class frmCorrectionforWrongEntry
 
             If clsCommon.myCDate(clsDBFuncationality.getSingleValue("Select CONVERT(date, PurchaseOrder_Date,103) from TSPL_PURCHASE_ORDER_HEAD where PurchaseOrder_No ='" + txtReqNo.Text + "' and isnull(TSPL_PURCHASE_ORDER_HEAD.ISCANCEL,0)=0")) > clsCommon.myCDate(txtDate.Value) Then
                 txtDate.Focus()
-                clsCommon.MyMessageBoxShow("Date cannot be less than from PO Date")
+                Throw New Exception("Date cannot be less than from PO Date")
             End If
             obj.GRN_Date = clsCommon.myCDate(txtDate.Value, "yyyy/MMM/dd hh:mm:ss.ttt")
             obj.VehicleNo = txtVehicleNo.Text
@@ -174,71 +165,58 @@ Public Class frmCorrectionforWrongEntry
             obj.Invoiceno = txtChallanNo.Text
             obj.InvoiceDate = clsCommon.myCDate(txtInvoiceDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             If obj.InvoiceDate > clsCommon.GETSERVERDATE Then
-                clsCommon.MyMessageBoxShow("InvoiceDate should be less than Server Date")
                 txtInvoiceDate.Focus()
-                Exit Sub
+                Throw New Exception("InvoiceDate should be less than Server Date")
             Else
                 obj.InvoiceDate = clsCommon.myCDate(txtInvoiceDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             End If
             obj.GRNo = txtGRNo.Text
             obj.GENo = txtGENo.Text
-            obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
-
-            'If clsCommon.myLen(obj.GENo) > 0 Then
-            'If clsCommon.myLen(txtGENo.Text) > 0 Then
-            '    If txtGEDate.Checked = False Then
-            '        common.clsCommon.MyMessageBoxShow("Please Select Gate Entry Date.", Me.Text)
-            '        txtGEDate.Focus()
-            '    End If
-            'End If
-
-            If obj.GEDate <= obj.GRN_Date Then
+            If txtGEDate.Checked Then
                 obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
-            Else
-                clsCommon.MyMessageBoxShow("GateEntryDate should be less than or Equalto GRN Date")
-                txtGEDate.Focus()
-                Exit Sub
             End If
-            'End If
-
+            If obj.GEDate IsNot Nothing Then
+                If obj.GEDate <= obj.GRN_Date Then
+                    obj.GEDate = clsCommon.myCDate(txtGEDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
+                Else
+                    Throw New Exception("GateEntryDate should be less than or Equalto GRN Date")
+                End If
+            End If
             obj.WeighmentNo = TxtWeighment.Text
             obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             obj.MRNNo = txtMRN.Text
-            'obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
             obj.PINo = txtPINo.Text
             obj.SRNDate = SRNDate.Value
             obj.SRNNo = txtSRN.Text
+
             ''1
             If clsCommon.myLen(obj.WeighmentNo) > 0 Then
                 If obj.WeighmentDate >= obj.GRN_Date Then
                     obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
                 Else
-                    clsCommon.MyMessageBoxShow("WeighmentDate should be greater than or Equalto GRN Date")
-                    WeighmetDate.Focus()
-                    Exit Sub
+                    Throw New Exception("WeighmentDate should be greater than or Equalto GRN Date")
                 End If
+
                 ''2
                 If clsCommon.myLen(obj.SRNNo) > 0 Then
                     If obj.WeighmentDate <= obj.SRNDate Then
                         obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
                     Else
-                        clsCommon.MyMessageBoxShow("WeighmentDate should be less than SRNDate")
-                        WeighmetDate.Focus()
-                        Exit Sub
+                        Throw New Exception("WeighmentDate should be less than SRNDate")
                     End If
                 End If
+
                 ''3
                 If clsCommon.myLen(obj.SRNNo) <= 0 Then
                     If obj.WeighmentDate <= clsCommon.GETSERVERDATE() Then
                         obj.WeighmentDate = clsCommon.myCDate(WeighmetDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
                     Else
-                        clsCommon.MyMessageBoxShow("WeighmentDate cannot be greater than serverdate")
-                        WeighmetDate.Focus()
-                        Exit Sub
+                        Throw New Exception("WeighmentDate cannot be greater than serverdate")
                     End If
                 End If
             End If
+
             ''4
             If clsCommon.myLen(obj.WeighmentNo) <= 0 Then
                 MRNDate.ReadOnly = False
@@ -246,29 +224,25 @@ Public Class frmCorrectionforWrongEntry
                     If obj.MRNDate >= obj.GRN_Date Then
                         obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
                     Else
-                        clsCommon.MyMessageBoxShow("MRNDate cannot be less than GRNdate")
-                        MRNDate.Focus()
-                        Exit Sub
+                        Throw New Exception("MRNDate cannot be less than GRNdate")
                     End If
                 End If
+
                 ''5
                 If clsCommon.myLen(obj.SRNNo) > 0 Then
                     If obj.MRNDate < obj.SRNDate Then
                         obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
                     Else
-                        clsCommon.MyMessageBoxShow("MRNDate cannot be greater than SRNdate")
-                        MRNDate.Focus()
-                        Exit Sub
+                        Throw New Exception("MRNDate cannot be greater than SRNdate")
                     End If
                 End If
+
                 ''6
                 If clsCommon.myLen(obj.SRNNo) <= 0 Then
                     If obj.MRNDate <= clsCommon.GETSERVERDATE() Then
                         obj.MRNDate = clsCommon.myCDate(MRNDate.Value, "dd/MM/yyyy hh:mm:ss.ttt")
                     Else
-                        clsCommon.MyMessageBoxShow("SRNDate cannot be greater than serverdate")
-                        MRNDate.Focus()
-                        Exit Sub
+                        Throw New Exception("SRNDate cannot be greater than serverdate")
                     End If
                 End If
             End If
@@ -280,7 +254,7 @@ Public Class frmCorrectionforWrongEntry
                 common.clsCommon.MyMessageBoxShow("No Updation")
             End If
         Catch ex As Exception
-            Throw New Exception(ex.Message)
+            common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
 
@@ -290,14 +264,12 @@ Public Class frmCorrectionforWrongEntry
 
     Sub AddNew()
 
-        'txtBillToLocation.Value = ""
         txtChallanNo.Text = ""
         txtPenalty.Text = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtDocNo.Value = ""
         txtGEDate.Checked = False
         txtGEDate.Value = txtDate.Value
-        'txtGEDate.Value = Nothing
         txtGENo.Text = ""
         txtGRNo.Text = ""
         txtItemCode.Text = ""
@@ -307,7 +279,6 @@ Public Class frmCorrectionforWrongEntry
         txtRefNo.Text = ""
         txtVehicleNo.Text = ""
         txtVendorNo.Value = ""
-        'lblBillToLocation.Text = ""
         lblVendorName.Text = ""
         txtPINo.Text = ""
         txtMRN.Text = ""
@@ -337,8 +308,6 @@ Public Class frmCorrectionforWrongEntry
             obj = clsMCCCodes.GetData()
 
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
-                'txtlocationcode.Value = obj.Default_LocCode
-                'txtlocationname.Text = obj.Default_LocName
             End If
             If obj.arrLocCodes IsNot Nothing AndAlso clsCommon.myLen(obj.arrLocCodes) > 0 Then
                 arrLoc = obj.arrLocCodes
@@ -351,11 +320,15 @@ Public Class frmCorrectionforWrongEntry
 
     ''STD PRODUCTION ENTRY
     Sub LoadDataSPE(ByVal strCode As String, ByVal NavTyep As NavigatorType)
-        funReset()
-        Dim obj As New clsStanderdProductionEntry
-        obj = clsStanderdProductionEntry.GetData(strCode, arrLoc, NavTyep)
-        txtCode.Value = obj.PROD_ENTRY_CODE
-        Me.dtpDate.Value = obj.PROD_DATE
+        Try
+            funReset()
+            Dim obj As New clsStanderdProductionEntry
+            obj = clsStanderdProductionEntry.GetData(strCode, arrLoc, NavTyep)
+            txtCode.Value = obj.PROD_ENTRY_CODE
+            Me.dtpDate.Value = obj.PROD_DATE
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
     End Sub
     Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
         Dim check As Boolean = False
@@ -472,7 +445,6 @@ Public Class frmCorrectionforWrongEntry
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
                         common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
-                        'btnunpost.Visible = False
                         LoadDataSPE(txtCode.Value, NavigatorType.Current)
                     End If
                     '-----------------------------
@@ -503,8 +475,6 @@ Public Class frmCorrectionforWrongEntry
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
             TxtCodeLCF.MyReadOnly = False
-            'txtCode.Value = ""
-            '' common.clsCommon.MyMessageBoxShow("Value doesn't exist ")
         Else
             TxtCodeLCF.MyReadOnly = True
         End If
@@ -535,11 +505,15 @@ Public Class frmCorrectionforWrongEntry
         End Try
     End Sub
     Sub LoadDataLCF(ByVal strCode As String, ByVal NavTyep As NavigatorType)
-        funResetLCF()
-        Dim obj As New clsBillOfMaterial
-        obj = clsBillOfMaterial.GetData(strCode, NavTyep)
-        TxtCodeLCF.Value = obj.BOM_CODE
-        LCFDate.Value = obj.BOM_DATE
+        Try
+            funResetLCF()
+            Dim obj As New clsBillOfMaterial
+            obj = clsBillOfMaterial.GetData(strCode, NavTyep)
+            TxtCodeLCF.Value = obj.BOM_CODE
+            LCFDate.Value = obj.BOM_DATE
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
     End Sub
 
     Sub funResetLCF()
@@ -668,12 +642,21 @@ Public Class frmCorrectionforWrongEntry
     End Sub
 
     Sub LoadDataSH(ByVal strCode As String, ByVal NavTyep As NavigatorType)
-        Dim obj As New ClsScrapSaleHead()
-        obj = ClsScrapSaleHead.GetData(strCode, NavTyep)
-        txtShipment.Value = obj.shipment_No
-        dtpshipment.Value = clsCommon.myCDate(obj.shipment_Date)
-        lblInvoiceNoS.Text = obj.strInvoiceNo
-        lblIRNSale.Text = obj.EInvoiceIRNNo
+        Try
+            AddNewSH()
+            Dim obj As New ClsScrapSaleHead()
+            obj = ClsScrapSaleHead.GetData(strCode, NavTyep)
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.shipment_No) > 0) Then
+                txtShipment.Value = obj.shipment_No
+                dtpshipment.Value = clsCommon.myCDate(obj.shipment_Date)
+                lblInvoiceNoS.Text = obj.strInvoiceNo
+                lblIRNSale.Text = obj.EInvoiceIRNNo
+            Else
+                AddNewSH()
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
     End Sub
 
     Private Sub btnshipment_Click(sender As Object, e As EventArgs) Handles btnshipment.Click
@@ -757,32 +740,49 @@ Public Class frmCorrectionforWrongEntry
 
     ''DISPATCH
     Private Sub TxtDispatch__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtDispatch._MYValidating
-        Dim strwherecls As String = ""
-        strwherecls = Xtra.CustomerPermission()
-        Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Code,CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SHIPMENT_HEAD.Document_Date,114) as Date,TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceCode,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as InvoiceDate,TSPL_SD_SALE_INVOICE_HEAD.IRN_No as InvoiceNumber,TSPL_SD_SHIPMENT_HEAD.Customer_Code  as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount,case when TSPL_SD_SHIPMENT_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],TSPL_USER_MASTER.User_Name as [User Name] from TSPL_SD_SHIPMENT_HEAD
+        Try
+            Dim strwherecls As String = ""
+            strwherecls = Xtra.CustomerPermission()
+            Dim qry As String = "select TSPL_SD_SHIPMENT_HEAD.Document_Code as Code,CONVERT(varchar(10), TSPL_SD_SHIPMENT_HEAD.Document_Date,103)+' '+ CONVERT(varchar(5), TSPL_SD_SHIPMENT_HEAD.Document_Date,114) as Date,TSPL_SD_SALE_INVOICE_HEAD.Document_Code as InvoiceCode,TSPL_SD_SALE_INVOICE_HEAD.Document_Date as InvoiceDate,TSPL_SD_SALE_INVOICE_HEAD.IRN_No as InvoiceNumber,TSPL_SD_SHIPMENT_HEAD.Customer_Code  as [Customer Code], Customer_Name as Customer,TSPL_SD_SHIPMENT_HEAD.Comments,TSPL_SD_SHIPMENT_HEAD.Total_Amt as Amount,case when TSPL_SD_SHIPMENT_HEAD.Status=0 then 'Pending' else 'Approved' end as [Status],TSPL_USER_MASTER.User_Name as [User Name] from TSPL_SD_SHIPMENT_HEAD
                              left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SD_SHIPMENT_HEAD.Created_By left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code "
-        Dim whrClas As String = ""
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
-            whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") "
-        ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
-        ElseIf clsCommon.myLen(strwherecls) > 0 Then
-            whrClas = " TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ")"
-        End If
-        '-----------------------------------------------------
-        LoadDataDispatch(clsCommon.ShowSelectForm("ShipmentCode", qry, "Code", whrClas, TxtDispatch.Value, "Code", isButtonClicked), NavigatorType.Current)
+            Dim whrClas As String = ""
+            If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 And clsCommon.myLen(strwherecls) > 0 Then
+                whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ") and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ") "
+            ElseIf clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
+                whrClas = " Bill_To_Location in (" + objCommonVar.strCurrUserLocations + ")"
+            ElseIf clsCommon.myLen(strwherecls) > 0 Then
+                whrClas = " TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + strwherecls + ")"
+            End If
+            '-----------------------------------------------------
+            LoadDataDispatch(clsCommon.ShowSelectForm("ShipmentCode", qry, "Code", whrClas, TxtDispatch.Value, "Code", isButtonClicked), NavigatorType.Current)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub LoadDataDispatch(ByVal strCode As String, ByVal NavTyep As NavigatorType)
-        Dim obj As New clsSNShipmentHead()
-        obj = clsSNShipmentHead.GetData(strCode, NavTyep)
-        TxtDispatch.Value = obj.Document_Code
-        DateDispatch.Value = obj.Document_Date
-        obj.Document_Code = TxtDispatch.Value
-        txtSaleInvoice.Text = clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + obj.Document_Code + "'")
-        DateSI.Value = clsDBFuncationality.getSingleValue("select Document_Date from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + obj.Document_Code + "'")
-        lblSI.Text = clsDBFuncationality.getSingleValue("select Against_Shipment_No from TSPL_SD_SALE_INVOICE_HEAD where Against_Shipment_No='" + obj.Document_Code + "'")
-        lblIRNSI.Text = clsDBFuncationality.getSingleValue("SELECT ISNULL(IRN_No, '') AS IRN_No FROM TSPL_SD_SALE_INVOICE_HEAD WHERE Against_Shipment_No='" + obj.Document_Code + "'")
+        Try
+            AddNewDispach()
+            Dim obj As New clsSNShipmentHead()
+            obj = clsSNShipmentHead.GetData(strCode, NavTyep)
+            If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_Code) > 0) Then
+                TxtDispatch.Value = obj.Document_Code
+                DateDispatch.Value = obj.Document_Date
+                obj.Document_Code = TxtDispatch.Value
+                Dim qry As String = " select Document_Code,Document_Date,Against_Shipment_No,ISNULL(IRN_No, '') AS IRN_No FROM TSPL_SD_SALE_INVOICE_HEAD  where  Against_Shipment_No='" + obj.Document_Code + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    txtSaleInvoice.Text = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
+                    DateSI.Value = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
+                    lblSI.Text = clsCommon.myCstr(dt.Rows(0)("Against_Shipment_No"))
+                    lblIRNSI.Text = clsCommon.myCstr(dt.Rows(0)("IRN_No"))
+                End If
+            Else
+                AddNewDispach()
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
     End Sub
 
     Private Sub TxtDispatch__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles TxtDispatch._MYNavigator
@@ -812,7 +812,7 @@ Public Class frmCorrectionforWrongEntry
         TxtDispatch.Value = Nothing
         DateDispatch.Value = Nothing
         txtSaleInvoice.Text = ""
-        DateSI.Value = ""
+        DateSI.Value = Nothing
         lblSI.Text = ""
         lblIRNSI.Text = ""
     End Sub
@@ -839,7 +839,6 @@ Public Class frmCorrectionforWrongEntry
                 End If
 
                 If (clsSNShipmentHead.DeleteData(TxtDispatch.Value)) Then
-                    'saveCancelLog(Reason, "Delete", Nothing)
                     clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNewDispach()
                 End If
@@ -852,6 +851,10 @@ Public Class frmCorrectionforWrongEntry
     Sub AddNewDispach()
         TxtDispatch.Value = Nothing
         DateDispatch.Value = Nothing
+        txtSaleInvoice.Text = ""
+        DateSI.Value = Nothing
+        lblSI.Text = ""
+        lblIRNSI.Text = ""
     End Sub
     Private Sub UnpostDispatch_Click(sender As Object, e As EventArgs) Handles UnpostDispatch.Click
         Try
@@ -979,7 +982,6 @@ Public Class frmCorrectionforWrongEntry
                     obj.ACTIVITY_TYPE = Nothing
                     If clsCancelLog.SaveData(obj, True, Nothing) Then
                         common.clsCommon.MyMessageBoxShow("Successfully Unpost and Recreated", Me.Text)
-                        'LoadDataSI(txtSaleInvoice.Text, NavigatorType.Current)
                     End If
                 End If
             End If

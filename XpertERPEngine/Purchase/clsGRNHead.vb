@@ -489,8 +489,6 @@ Public Class clsGRNHead
             clsCommon.AddColumnsForChange(SRND, "SRNDATE", clsCommon.GetPrintDate(obj.SRNDate, "dd/MMM/yyyy"))
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(INVD, "TSPL_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_SRN_HEAD.Against_GRN='" + obj.GRN_No + "'", trans)
 
-
-
             Dim coll4 As New Hashtable()
             clsCommon.AddColumnsForChange(coll4, "GRNo", obj.GRNo)
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll4, "TSPL_GRN_HEAD", OMInsertOrUpdate.Update, "TSPL_GRN_HEAD.GRN_No='" + obj.GRN_No + "'", trans)
@@ -504,10 +502,12 @@ Public Class clsGRNHead
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll3, "TSPL_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_SRN_HEAD.Against_GRN='" + obj.GRN_No + "'", trans)
 
             Dim coll2 As New Hashtable()
-            clsCommon.AddColumnsForChange(coll2, "GEDate", clsCommon.GetPrintDate(obj.GEDate, "dd/MMM/yyyy"))
-            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll2, "TSPL_GRN_HEAD", OMInsertOrUpdate.Update, "TSPL_GRN_HEAD.GRN_No='" + obj.GRN_No + "'", trans)
-            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll2, "TSPL_MRN_HEAD", OMInsertOrUpdate.Update, "TSPL_MRN_HEAD.Against_GRN='" + obj.GRN_No + "'", trans)
-            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll2, "TSPL_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_SRN_HEAD.Against_GRN='" + obj.GRN_No + "'", trans)
+            If obj.GEDate IsNot Nothing Then
+                clsCommon.AddColumnsForChange(coll2, "GEDate", clsCommon.GetPrintDate(obj.GEDate, "dd/MMM/yyyy"))
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll2, "TSPL_GRN_HEAD", OMInsertOrUpdate.Update, "TSPL_GRN_HEAD.GRN_No='" + obj.GRN_No + "'", trans)
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll2, "TSPL_MRN_HEAD", OMInsertOrUpdate.Update, "TSPL_MRN_HEAD.Against_GRN='" + obj.GRN_No + "'", trans)
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll2, "TSPL_SRN_HEAD", OMInsertOrUpdate.Update, "TSPL_SRN_HEAD.Against_GRN='" + obj.GRN_No + "'", trans)
+            End If
 
             Dim coll7 As New Hashtable()
             clsCommon.AddColumnsForChange(coll7, "Weighment_Date", clsCommon.GetPrintDate(obj.WeighmentDate, "dd/MMM/yyyy hh:mm tt"))
