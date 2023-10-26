@@ -153,6 +153,7 @@ Partial Class FrmPaymentNew
         Me.lblpaymenttype = New common.Controls.MyLabel()
         Me.gvDetails = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -202,7 +203,7 @@ Partial Class FrmPaymentNew
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.chkTDSProvision = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -368,6 +369,7 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -918,6 +920,7 @@ Partial Class FrmPaymentNew
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkTDSProvision)
         Me.RadGroupBox1.Controls.Add(Me.chkSaving)
         Me.RadGroupBox1.Controls.Add(Me.chkFarmerLoanPayment)
         Me.RadGroupBox1.Controls.Add(Me.pnlMiscPayment)
@@ -1117,7 +1120,7 @@ Partial Class FrmPaymentNew
         RadListDataItem2.Text = "No"
         Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem1)
         Me.ddlEmployeeAdvanceType.Items.Add(RadListDataItem2)
-        Me.ddlEmployeeAdvanceType.Location = New System.Drawing.Point(969, 157)
+        Me.ddlEmployeeAdvanceType.Location = New System.Drawing.Point(980, 157)
         Me.ddlEmployeeAdvanceType.MendatroryField = True
         Me.ddlEmployeeAdvanceType.MyLinkLable1 = Me.MyLabel14
         Me.ddlEmployeeAdvanceType.MyLinkLable2 = Nothing
@@ -1132,7 +1135,7 @@ Partial Class FrmPaymentNew
         '
         Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(831, 159)
+        Me.MyLabel14.Location = New System.Drawing.Point(842, 159)
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(132, 16)
         Me.MyLabel14.TabIndex = 12126
@@ -1205,7 +1208,7 @@ Partial Class FrmPaymentNew
         RadListDataItem4.Text = "No"
         Me.ddlEmployeeType.Items.Add(RadListDataItem3)
         Me.ddlEmployeeType.Items.Add(RadListDataItem4)
-        Me.ddlEmployeeType.Location = New System.Drawing.Point(969, 135)
+        Me.ddlEmployeeType.Location = New System.Drawing.Point(982, 135)
         Me.ddlEmployeeType.MendatroryField = True
         Me.ddlEmployeeType.MyLinkLable1 = Me.MyLabel13
         Me.ddlEmployeeType.MyLinkLable2 = Nothing
@@ -1220,7 +1223,7 @@ Partial Class FrmPaymentNew
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(831, 137)
+        Me.MyLabel13.Location = New System.Drawing.Point(844, 137)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(132, 16)
         Me.MyLabel13.TabIndex = 12124
@@ -2370,6 +2373,14 @@ Partial Class FrmPaymentNew
         Me.pvpCustomFields.Size = New System.Drawing.Size(1115, 441)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1115, 441)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
@@ -3009,13 +3020,17 @@ Partial Class FrmPaymentNew
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
         '
-        'UcCustomFields1
+        'chkTDSProvision
         '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1115, 441)
-        Me.UcCustomFields1.TabIndex = 1
+        Me.chkTDSProvision.Location = New System.Drawing.Point(752, 159)
+        Me.chkTDSProvision.MyLinkLable1 = Nothing
+        Me.chkTDSProvision.MyLinkLable2 = Nothing
+        Me.chkTDSProvision.Name = "chkTDSProvision"
+        Me.chkTDSProvision.ReadOnly = True
+        Me.chkTDSProvision.Size = New System.Drawing.Size(89, 18)
+        Me.chkTDSProvision.TabIndex = 12137
+        Me.chkTDSProvision.Tag1 = Nothing
+        Me.chkTDSProvision.Text = "TDS Provision"
         '
         'FrmPaymentNew
         '
@@ -3210,6 +3225,7 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3387,5 +3403,6 @@ Partial Class FrmPaymentNew
     Friend WithEvents MyLabel23 As common.Controls.MyLabel
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As RadButton
     Friend WithEvents chkSaving As RadCheckBox
+    Friend WithEvents chkTDSProvision As common.Controls.MyCheckBox
 End Class
 

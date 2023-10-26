@@ -380,6 +380,7 @@ Public Class FrmPaymentNew
         txtlocation.Enabled = True
         lblApplyLoanNo.Visible = False
         fndloanNo.Visible = False
+        chkTDSProvision.Checked = False
         If clsCommon.CompairString(clsCommon.myCstr(ddlPaymentType.SelectedValue), "MI") = CompairStringResult.Equal Then
             gvDetails.Rows.AddNew()
         End If
@@ -862,6 +863,17 @@ Public Class FrmPaymentNew
         '' and m.Is_Inactive_In_Milk_Procurement=0 removed by Panch Raj on behalf of Balwinder Sir
         txtVendorCode.Value = clsCommon.ShowSelectForm("VNDRSlctr@Payment", Qry, "Code", " m.Status='N' ", txtVendorCode.Value, "Code", isButtonClicked)
         lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Vendor_Name from TSPL_VENDOR_MASTER WHERE Vendor_Code='" + txtVendorCode.Value + "'"))
+        If clsCommon.CompairString(ddlPaymentType.SelectedValue, "AV") = CompairStringResult.Equal OrElse clsCommon.CompairString(ddlPaymentType.SelectedValue, "OA") = CompairStringResult.Equal Then
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Provisional from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorCode.Value + "'")) = 1 Then
+                If common.clsCommon.MyMessageBoxShow("Do You Want to Apply TDS Provision", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                    chkTDSProvision.Checked = True
+                Else
+                    chkTDSProvision.Checked = False
+                End If
+
+            End If
+        End If
+
         '' Tax on Bank Charges
         If clsCommon.myCdbl(txtBankCharges.Text) > 0 Then
             txtChangeVendorNo()
@@ -1413,6 +1425,25 @@ Public Class FrmPaymentNew
 
 
                 ''changes done by richa agarwal 29/03/2018
+                '      Qry = "Select * from ( select Case When TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' Then 'Debit Note' Else case  When TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' Then 'Credit Note' Else 'Invoice' End End As [DocType],  " &
+                ' " TSPL_VENDOR_INVOICE_HEAD.Document_No, Case When ISNULL(Against_POInvoice_No,'')<>'' Then Against_POInvoice_No When ISNULL(Against_PurchaseReturn_No,'')<> '' Then Against_PurchaseReturn_No Else Document_No End as PurchaseInvoice," &
+                ' " Case When ISNULL(Against_POInvoice_No,'')<>'' Then (Select convert(varchar,PI_Date,103)  from TSPL_PI_HEAD where PI_No =Against_POInvoice_No)  When ISNULL(Against_PurchaseReturn_No,'')<> '' Then (Select convert(varchar,PR_Date,103) from TSPL_PR_HEAD where PR_No  =Against_PurchaseReturn_No ) Else TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date End as DocumentDate, " &
+                ' " TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date as [DocDate] ,  " &
+                ' " TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No as [VendorInvoiceNo], " &
+                ' " TSPL_VENDOR_INVOICE_HEAD.Document_Total " + strTaxRecovarableQuery + " as [OriginalAmt]  ," &
+                ' " TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount as [TDSAmt], " &
+                ' " (TSPL_VENDOR_INVOICE_HEAD.Document_Total as [NetAmount], " &  
+                ' '- case when isnull(TSPL_VENDOR_INVOICE_HEAD .is_For_TDS,0) =1 and TSPL_VENDOR_INVOICE_HEAD.Document_Type ='D' then 0 else isnull(TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount,0) end ) " + strTaxRecovarableQuery + "  as [NetAmount], " &
+                ' '" TSPL_VENDOR_INVOICE_HEAD.Document_Total - case when isnull(TSPL_VENDOR_INVOICE_HEAD .is_For_TDS,0) =1 and TSPL_VENDOR_INVOICE_HEAD.Document_Type ='D' then 0 else isnull(TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount,0) end " + strTaxRecovarableQuery + " - ISNULL((Select SUM(Applied_Amount) from TSPL_PAYMENT_DETAIL Where TSPL_PAYMENT_DETAIL.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No and not exists (select 1 from TSPL_BANK_REVERSE where TSPL_BANK_REVERSE.Reverse_Document='Payments' and TSPL_BANK_REVERSE.Document_No=TSPL_PAYMENT_DETAIL.Payment_No and isnull(TSPL_BANK_REVERSE.POST,'')='P' and Convert(Date,TSPL_BANK_REVERSE.Reversal_Date ,103)<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpPayment.Value), "dd/MMM/yyyy hh:mm tt") + "' ) ),0) " &
+                ''" -isnull((select sum(isnull(Payment_Amount,0)) from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Applied_Payment =TSPL_VENDOR_INVOICE_HEAD.Document_No and not exists (select 1 from TSPL_BANK_REVERSE where TSPL_BANK_REVERSE.Reverse_Document='Payments' and TSPL_BANK_REVERSE.Document_No=TSPL_PAYMENT_HEADER.Payment_No and isnull(TSPL_BANK_REVERSE.POST,'')='P'  and Convert(Date,TSPL_BANK_REVERSE.Reversal_Date ,103)<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpPayment.Value), "dd/MMM/yyyy hh:mm tt") + "') and TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' and isnull(TSPL_PAYMENT_HEADER.Applied_Payment ,'')<>'' ),0)  " & Environment.NewLine &
+                ''" " + strQryForRejectedAmt + " " + strQryForRejectedAmtforNonPR + " " &
+                ' '" -ISNULL((Select SUM(isnull(TSPL_PAYMENT_ADJUSTMENT_DETAIL.Amount,0)) from TSPL_PAYMENT_ADJUSTMENT_HEADER LEFT OUTER JOIN TSPL_PAYMENT_ADJUSTMENT_DETAIL on TSPL_PAYMENT_ADJUSTMENT_Header.Adjustment_No=TSPL_PAYMENT_ADJUSTMENT_DETAIL.Adjustment_No Where isnull(TSPL_PAYMENT_ADJUSTMENT_Header.Doc_No,'') = isnull(TSPL_VENDOR_INVOICE_HEAD.Document_No,'') ),0) " &
+                ' " as [PendingAmt],TSPL_VENDOR_INVOICE_HEAD.ConvRate " &
+                ' " ,isnull(( select top 1 TSPL_REVALUATION_HEAD.Currency_Rate from TSPL_REVALUATION_DETAIL left outer join TSPL_REVALUATION_HEAD on TSPL_REVALUATION_HEAD.Document_No=TSPL_REVALUATION_DETAIL.Document_No  where TSPL_REVALUATION_DETAIL.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_REVALUATION_HEAD.Status=1 and TSPL_REVALUATION_HEAD.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpPayment.Value), "dd/MMM/yyyy hh:mm tt") + "' order by TSPL_REVALUATION_HEAD.Document_Date desc),0) as ConvRateRevaluation " &
+                ' " from TSPL_VENDOR_INVOICE_HEAD " &
+                ' " Left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  " &
+                '" WHERE TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ='" + txtVendorCode.Value + "' AND Convert(Date,Invoice_Entry_Date,103)<='" + clsCommon.GetPrintDate(InvoiceDate, "dd/MMM/yyyy") + "' And ((ISNULL(RefDocNo,'')= '' or ISNULL((select VI.Document_Type from TSPL_VENDOR_INVOICE_HEAD VI where VI.Document_No =TSPL_VENDOR_INVOICE_HEAD .RefDocNo ),'') in ('I','')) AND ISNULL(Against_PurchaseReturn_No,'')= '')  and not ( ISNULL( TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No,'')<>'' and TSPL_VENDOR_INVOICE_HEAD.Document_Type='D') " &
+                '" and not ( ISNULL( TSPL_VENDOR_INVOICE_HEAD.Against_Salary_Generation_Code,'')<>'' and TSPL_VENDOR_INVOICE_HEAD.Document_Type='C') "
                 Qry = "Select * from ( select Case When TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' Then 'Debit Note' Else case  When TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' Then 'Credit Note' Else 'Invoice' End End As [DocType],  " &
            " TSPL_VENDOR_INVOICE_HEAD.Document_No, Case When ISNULL(Against_POInvoice_No,'')<>'' Then Against_POInvoice_No When ISNULL(Against_PurchaseReturn_No,'')<> '' Then Against_PurchaseReturn_No Else Document_No End as PurchaseInvoice," &
            " Case When ISNULL(Against_POInvoice_No,'')<>'' Then (Select convert(varchar,PI_Date,103)  from TSPL_PI_HEAD where PI_No =Against_POInvoice_No)  When ISNULL(Against_PurchaseReturn_No,'')<> '' Then (Select convert(varchar,PR_Date,103) from TSPL_PR_HEAD where PR_No  =Against_PurchaseReturn_No ) Else TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date End as DocumentDate, " &
@@ -1420,12 +1451,8 @@ Public Class FrmPaymentNew
            " TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_No as [VendorInvoiceNo], " &
            " TSPL_VENDOR_INVOICE_HEAD.Document_Total " + strTaxRecovarableQuery + " as [OriginalAmt]  ," &
            " TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount as [TDSAmt], " &
-           " (TSPL_VENDOR_INVOICE_HEAD.Document_Total - case when isnull(TSPL_VENDOR_INVOICE_HEAD .is_For_TDS,0) =1 and TSPL_VENDOR_INVOICE_HEAD.Document_Type ='D' then 0 else isnull(TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount,0) end ) " + strTaxRecovarableQuery + "  as [NetAmount], " &
-           " TSPL_VENDOR_INVOICE_HEAD.Document_Total - case when isnull(TSPL_VENDOR_INVOICE_HEAD .is_For_TDS,0) =1 and TSPL_VENDOR_INVOICE_HEAD.Document_Type ='D' then 0 else isnull(TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount,0) end " + strTaxRecovarableQuery + " - ISNULL((Select SUM(Applied_Amount) from TSPL_PAYMENT_DETAIL Where TSPL_PAYMENT_DETAIL.Document_No = TSPL_VENDOR_INVOICE_HEAD.Document_No and not exists (select 1 from TSPL_BANK_REVERSE where TSPL_BANK_REVERSE.Reverse_Document='Payments' and TSPL_BANK_REVERSE.Document_No=TSPL_PAYMENT_DETAIL.Payment_No and isnull(TSPL_BANK_REVERSE.POST,'')='P' and Convert(Date,TSPL_BANK_REVERSE.Reversal_Date ,103)<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpPayment.Value), "dd/MMM/yyyy hh:mm tt") + "' ) ),0) " &
-          " -isnull((select sum(isnull(Payment_Amount,0)) from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Applied_Payment =TSPL_VENDOR_INVOICE_HEAD.Document_No and not exists (select 1 from TSPL_BANK_REVERSE where TSPL_BANK_REVERSE.Reverse_Document='Payments' and TSPL_BANK_REVERSE.Document_No=TSPL_PAYMENT_HEADER.Payment_No and isnull(TSPL_BANK_REVERSE.POST,'')='P'  and Convert(Date,TSPL_BANK_REVERSE.Reversal_Date ,103)<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpPayment.Value), "dd/MMM/yyyy hh:mm tt") + "') and TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' and isnull(TSPL_PAYMENT_HEADER.Applied_Payment ,'')<>'' ),0)  " & Environment.NewLine &
-          " " + strQryForRejectedAmt + " " + strQryForRejectedAmtforNonPR + " " &
-           " -ISNULL((Select SUM(isnull(TSPL_PAYMENT_ADJUSTMENT_DETAIL.Amount,0)) from TSPL_PAYMENT_ADJUSTMENT_HEADER LEFT OUTER JOIN TSPL_PAYMENT_ADJUSTMENT_DETAIL on TSPL_PAYMENT_ADJUSTMENT_Header.Adjustment_No=TSPL_PAYMENT_ADJUSTMENT_DETAIL.Adjustment_No Where isnull(TSPL_PAYMENT_ADJUSTMENT_Header.Doc_No,'') = isnull(TSPL_VENDOR_INVOICE_HEAD.Document_No,'') ),0) " &
-           " as [PendingAmt],TSPL_VENDOR_INVOICE_HEAD.ConvRate " &
+           " TSPL_VENDOR_INVOICE_HEAD.Document_Total as [NetAmount], " &
+           " TSPL_VENDOR_INVOICE_HEAD.Document_Total as [PendingAmt],TSPL_VENDOR_INVOICE_HEAD.ConvRate " &
            " ,isnull(( select top 1 TSPL_REVALUATION_HEAD.Currency_Rate from TSPL_REVALUATION_DETAIL left outer join TSPL_REVALUATION_HEAD on TSPL_REVALUATION_HEAD.Document_No=TSPL_REVALUATION_DETAIL.Document_No  where TSPL_REVALUATION_DETAIL.AP_Invoice_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_REVALUATION_HEAD.Status=1 and TSPL_REVALUATION_HEAD.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpPayment.Value), "dd/MMM/yyyy hh:mm tt") + "' order by TSPL_REVALUATION_HEAD.Document_Date desc),0) as ConvRateRevaluation " &
            " from TSPL_VENDOR_INVOICE_HEAD " &
            " Left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  " &
@@ -1515,7 +1542,7 @@ Public Class FrmPaymentNew
                     gvDetails.CurrentRow.Cells(colDocumentDate).Value = clsCommon.myCstr(dr("DocumentDate"))
                     gvDetails.CurrentRow.Cells(colVendorInvNo).Value = clsCommon.myCstr(dr("VendorInvoiceNo"))
                     gvDetails.CurrentRow.Cells(colOriginalAmt).Value = clsCommon.myCdbl(dr("OriginalAmt"))
-                    gvDetails.CurrentRow.Cells(colTDSAmt).Value = clsCommon.myCstr(dr("TDSAmt"))
+                    'gvDetails.CurrentRow.Cells(colTDSAmt).Value = clsCommon.myCstr(dr("TDSAmt"))
                     gvDetails.CurrentRow.Cells(colNetAmt).Value = clsCommon.myCdbl(dr("NetAmount"))
                     gvDetails.CurrentRow.Cells(colPendingAmt).Value = clsCommon.myCdbl(dr("PendingAmt"))
                     gvDetails.CurrentRow.Cells(colTemp).Value = clsCommon.myCdbl(dr("PendingAmt"))
@@ -1892,6 +1919,7 @@ Public Class FrmPaymentNew
                 End If
             End If
 
+
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
@@ -1910,7 +1938,7 @@ Public Class FrmPaymentNew
             If btnsave.Text = "Update" And clsCommon.myLen(txtPaymentNo.Value) > 0 Then
                 Dim strchk As String = "select Posted from TSPL_PAYMENT_HEADER where Payment_No='" + txtPaymentNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
-                If chkpost = "1" Then
+                If clsCommon.CompairString(chkpost, "1") = CompairStringResult.Equal Then
                     clsCommon.MyMessageBoxShow("Transaction already posted")
                     Return False
                 End If
@@ -1963,6 +1991,7 @@ Public Class FrmPaymentNew
                 obj.Vendor_Code = clsCommon.myCstr(txtVendorCode.Value)
                 obj.Vendor_Name = clsCommon.myCstr(lblVendorName.Text)
                 obj.Payment_Code = clsCommon.myCstr(txtPaymentMode.Value)
+                obj.TDS_Provision = chkTDSProvision.Checked
                 '' Anubhooti 22-July-2014 BM00000003161
                 If ChkAccPayee.Checked Then
                     obj.Account_Payee = 1
@@ -2976,7 +3005,14 @@ Public Class FrmPaymentNew
                 End If
             End If
             ''---------------
+            'If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Provisional from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorCode.Value + "'")) = 1 Then
+            '    If common.clsCommon.MyMessageBoxShow("Do You Want to Apply TDS Provision", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+            '        chkTDSProvision.Checked = True
+            '    Else
+            '        chkTDSProvision.Checked = False
+            '    End If
 
+            'End If
 
             ''richa agarwal  to check bank balance
             If Not isFlag Then
@@ -3205,7 +3241,7 @@ Public Class FrmPaymentNew
                 txtVendor_Bank_ACNo.Text = obj.Vendor_Bank_ACNo
 
                 ChkAccPayee.Checked = IIf(obj.Account_Payee = 1, True, False)
-
+                chkTDSProvision.Checked = obj.TDS_Provision
                 If clsCommon.myLen(obj.Cheque_Date) > 0 Then
                     dtpChequeDate.Value = obj.Cheque_Date
                     If clsCommon.CompairString(obj.PDC_Cheque, "Y") = CompairStringResult.Equal Then
@@ -3724,11 +3760,14 @@ Public Class FrmPaymentNew
 #Region "TDS Detail"
     Private Sub btnViewTDSDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnViewTDSDetails.Click
         viewtds()
+        'If Not chkTDSProvision.Checked Then
         If objRemittance IsNot Nothing Then
-            txtTDSAmt.Text = clsCommon.myCstr(Math.Round(objRemittance.Actual_Total_TDS, 0, MidpointRounding.AwayFromZero))
-        Else
-            txtTDSAmt.Text = Nothing
-        End If
+                txtTDSAmt.Text = clsCommon.myCstr(Math.Round(objRemittance.Actual_Total_TDS, 0, MidpointRounding.AwayFromZero))
+            Else
+                txtTDSAmt.Text = Nothing
+            End If
+        'End If
+
     End Sub
 
     Public Sub viewtds()
@@ -3816,9 +3855,16 @@ Public Class FrmPaymentNew
                 SetVendorTDSDetails()
                 If objRemittance IsNot Nothing Then
                     UpdateTDSAmount()
-                    txtTDSAmt.Text = Math.Round(objRemittance.Actual_Total_TDS, 0, MidpointRounding.AwayFromZero)
                 End If
-                txtNetPayableAmt.Text = clsCommon.myCstr(clsCommon.myCdbl(txtPaymentAmt.Text) - clsCommon.myCdbl(txtTDSAmt.Text))
+                txtTDSAmt.Text = Math.Round(objRemittance.Actual_Total_TDS, 0, MidpointRounding.AwayFromZero)
+
+                If Not chkTDSProvision.Checked Then
+                    txtNetPayableAmt.Text = clsCommon.myCstr(clsCommon.myCdbl(txtPaymentAmt.Text) - clsCommon.myCdbl(txtTDSAmt.Text))
+                Else
+                    txtNetPayableAmt.Text = clsCommon.myCstr(clsCommon.myCdbl(txtPaymentAmt.Text))
+
+                End If
+
             End If
             If clsCommon.CompairString(ddlPaymentType.SelectedValue, "AV") = CompairStringResult.Equal Then
                 GSTStatus = clsERPFuncationality.GetGSTStatus(dtpPayment.Value)
@@ -3833,7 +3879,12 @@ Public Class FrmPaymentNew
             txtNetPayableAmt.Text = "0"
         End If
         ' Me.txtTotalPaymentBaseCurr.Value = (clsCommon.myCdbl(txtNetPayableAmt.Text) * clsCommon.myCdbl(txtConversionRate.Value))
-        Me.txtTotalPaymentBaseCurr.Value = (clsCommon.myCdbl(txtPaymentAmt.Text) - clsCommon.myCdbl(txtTDSAmt.Text)) * clsCommon.myCdbl(txtConversionRate.Value)
+        If Not chkTDSProvision.Checked Then
+            Me.txtTotalPaymentBaseCurr.Value = (clsCommon.myCdbl(txtPaymentAmt.Text) - clsCommon.myCdbl(txtTDSAmt.Text)) * clsCommon.myCdbl(txtConversionRate.Value)
+        Else
+            Me.txtTotalPaymentBaseCurr.Value = (clsCommon.myCdbl(txtPaymentAmt.Text) - clsCommon.myCdbl(txtTDSAmt.Text)) * clsCommon.myCdbl(txtConversionRate.Value)
+
+        End If
     End Sub
     ''richa BHA/28/08/18-000491
     Sub BankChargerasperSlabWise()
@@ -3860,7 +3911,7 @@ Public Class FrmPaymentNew
     End Sub
 
     Private Sub txtTDSAmt_TextChanged_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtTDSAmt.TextChanged
-        txtNetPayableAmt.Text = clsCommon.myCstr(clsCommon.myCdbl(txtPaymentAmt.Text) - clsCommon.myCdbl(txtTDSAmt.Text))
+        'txtNetPayableAmt.Text = clsCommon.myCstr(clsCommon.myCdbl(txtPaymentAmt.Text) - clsCommon.myCdbl(txtTDSAmt.Text))
     End Sub
 #End Region
 
