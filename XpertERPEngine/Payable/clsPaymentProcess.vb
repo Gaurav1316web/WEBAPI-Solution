@@ -2244,7 +2244,11 @@ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYM
 left outer join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
 left outer join TSPL_MULTIPLE_DEDUCTION_head on TSPL_MULTIPLE_DEDUCTION_head.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
 left outer join TSPL_DEDUCTION_MASTER  on TSPL_DEDUCTION_MASTER.Code=TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code 
-where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") 
+where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")   
+union all
+select TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE as Vendor_CODE,VSP_NAME as Vendor_NAME,'TDS' as Ded_Code,'TDS' as Ded_Desc,TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount as Amount,0 as ManAddDed
+from TSPL_PAYMENT_PROCESS_DETAIL 
+where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") and TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount>0 
 ) Final group by  final.VSP_Uploader_Code, Final.Vendor_CODE, Vendor_NAME, Final.Ded_Code "
         Dim dtDeduction As DataTable = clsDBFuncationality.GetDataTable(sQuery)
 
@@ -2361,6 +2365,7 @@ Public Class clsPaymentProcessDetail
     Public Total_EMP_Amount As Decimal = 0
     Public Total As Decimal = 0
     Public Total_Invoice_Amount As Decimal = 0
+    Public TDS_Amount As Decimal = 0
     Public Vsp_Own_System_Amount As Decimal = 0
     Public Head_Load_Amount As Decimal = 0
     Public Invoice_Deduction_Amount As Decimal = 0
@@ -2473,6 +2478,7 @@ Public Class clsPaymentProcessDetail
                     clsCommon.AddColumnsForChange(coll, "Incentive_EMP_Amount", clsCommon.myCdbl(arr.Item(i).Incentive_EMP_Amount))
                     clsCommon.AddColumnsForChange(coll, "Total_EMP_Amount", clsCommon.myCdbl(arr.Item(i).Total_EMP_Amount))
                     clsCommon.AddColumnsForChange(coll, "Total", clsCommon.myCdbl(arr.Item(i).Total))
+                    clsCommon.AddColumnsForChange(coll, "TDS_Amount", arr.Item(i).TDS_Amount, True)
                     clsCommon.AddColumnsForChange(coll, "Total_Invoice_Amount", clsCommon.myCdbl(arr.Item(i).Total_Invoice_Amount))
                     clsCommon.AddColumnsForChange(coll, "Vsp_Own_System_Amount", clsCommon.myCdbl(arr.Item(i).Vsp_Own_System_Amount))
                     clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", clsCommon.myCdbl(arr.Item(i).Head_Load_Amount))
@@ -2576,6 +2582,7 @@ Public Class clsPaymentProcessDetail
                     obj.Incentive_EMP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Incentive_EMP_Amount"))
                     obj.Total_EMP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Total_EMP_Amount"))
                     obj.Total = clsCommon.myCdbl(dtbl.Rows(i)("Total"))
+                    obj.TDS_Amount = clsCommon.myCdbl(dtbl.Rows(i)("TDS_Amount"))
                     obj.Total_Invoice_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Total_Invoice_Amount"))
                     obj.Vsp_Own_System_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Vsp_Own_System_Amount"))
                     obj.Head_Load_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Head_Load_Amount"))
@@ -2662,6 +2669,7 @@ Public Class clsPaymentProcessInvoices
     Public Inv_Incentive_Amount As Double = 0
     Public Inv_Incentive_EMP_Amount As Double = 0
     Public Gross_Amount As Double = 0
+    Public TDS_Amount As Decimal = 0
     Public Vsp_Own_System_Amount As Double = 0
     Public Head_Load_Amount As Double = 0
     Public Deduction_Amount As Double = 0
@@ -2726,6 +2734,7 @@ Public Class clsPaymentProcessInvoices
                     clsCommon.AddColumnsForChange(coll, "Inv_Incentive_Amount", clsCommon.myCdbl(arr.Item(i).Inv_Incentive_Amount))
                     clsCommon.AddColumnsForChange(coll, "Inv_Incentive_EMP_Amount", clsCommon.myCdbl(arr.Item(i).Inv_Incentive_EMP_Amount))
                     clsCommon.AddColumnsForChange(coll, "Gross_Amount", clsCommon.myCdbl(arr.Item(i).Gross_Amount))
+                    clsCommon.AddColumnsForChange(coll, "TDS_Amount", arr.Item(i).TDS_Amount, True)
                     clsCommon.AddColumnsForChange(coll, "Vsp_Own_System_Amount", clsCommon.myCdbl(arr.Item(i).Vsp_Own_System_Amount))
                     clsCommon.AddColumnsForChange(coll, "Head_Load_Amount", clsCommon.myCdbl(arr.Item(i).Head_Load_Amount))
                     clsCommon.AddColumnsForChange(coll, "Deduction_Amount", clsCommon.myCdbl(arr.Item(i).Deduction_Amount))
@@ -2793,6 +2802,7 @@ Public Class clsPaymentProcessInvoices
                     obj.Inv_Incentive_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Inv_Incentive_Amount"))
                     obj.Inv_Incentive_EMP_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Inv_Incentive_EMP_Amount"))
                     obj.Gross_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Gross_Amount"))
+                    obj.TDS_Amount = clsCommon.myCDecimal(dtbl.Rows(i)("TDS_Amount"))
                     obj.Vsp_Own_System_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Vsp_Own_System_Amount"))
                     obj.Head_Load_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Head_Load_Amount"))
                     obj.Deduction_Amount = clsCommon.myCdbl(dtbl.Rows(i)("Deduction_Amount"))

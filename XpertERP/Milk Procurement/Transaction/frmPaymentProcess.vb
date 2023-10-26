@@ -1,8 +1,6 @@
 ﻿'===================BM00000007864,BM00000007337,BM00000007744===================
-Imports common
 Imports System.Data.SqlClient
-Imports System.Linq
-Imports System.Management
+Imports common
 
 Public Class FrmPaymentProcess
     Inherits FrmMainTranScreen
@@ -57,6 +55,7 @@ Public Class FrmPaymentProcess
     Public Const colIncenAmt As String = "colIncenAmt"
     Public Const colIncenEmpAmt As String = "colIncenEmpAmt"
     Public Const colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt As String = "colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt"
+    Public Const colTDSAmt As String = "colTDSAmt"
     Public Const colVSPOwnSystemAmt As String = "colVSPOwnSystemAmt"
     Public Const colHeadLoadAmt As String = "colHeadLoadAmt"
     Public Const colInvDeduc As String = "colInvDeduc"
@@ -519,6 +518,13 @@ Public Class FrmPaymentProcess
         colDecimal.IsVisible = True
         gvInvoice.MasterTemplate.Columns.Add(colDecimal)
 
+        colDecimal = New GridViewDecimalColumn()
+        colDecimal.FormatString = ""
+        colDecimal.HeaderText = "TDS Amount"
+        colDecimal.Name = colTDSAmt
+        colDecimal.Width = 100
+        colDecimal.ReadOnly = True
+        gvInvoice.MasterTemplate.Columns.Add(colDecimal)
 
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
@@ -1417,6 +1423,14 @@ Public Class FrmPaymentProcess
 
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
+        colDecimal.HeaderText = "TDS Amount"
+        colDecimal.Name = colTDSAmt
+        colDecimal.Width = 200
+        colDecimal.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colDecimal)
+
+        colDecimal = New GridViewDecimalColumn()
+        colDecimal.FormatString = ""
         colDecimal.HeaderText = "Total Invoice Amount"
         colDecimal.Name = colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt
         colDecimal.Width = 200
@@ -1634,8 +1648,8 @@ Public Class FrmPaymentProcess
     Sub LoadInvoiceGridData()
         Try
             LoadBlankGridInvoice()
-            Dim qry As String = "    select   MAX( xxx.[AP Invoice Doc No]) as [AP Invoice Doc No] ,max(xxx.[Ap Invoice Doc Date]) as [Ap Invoice Doc Date] ,xxx.[Milk Purchase Invoice Doc No] as [Milk Purchase Invoice Doc No],max(xxx.[Milk Purchase Invoice Doc Date]) as [Milk Purchase Invoice Doc Date],max(VLC_Code) as VLC_Code,max(xxx.VLC_Name) as VLC_Name,max(xxx.Vendor_Code)  as Vendor_Code,max(xxx.Vendor_Name) as Vendor_Name,max(xxx.[Payee/Joint Name]) as [Payee/Joint Name],max(xxx.[Bank Code]) as [Bank Code],max(xxx.[Bank Name]) as  [Bank Name] , max(xxx.[Branch Code]) as [Branch Code],max(xxx.[Branch Name]) as [Branch Name],max(xxx.[IFSC Code]) as  [IFSC Code],SUM(xxx.qty) as [Total Qty]   ,max(xxx.TOTAL_basic_amount) as TOTAL_basic_amount,max(xxx.TOTAL_AMOUNT ) as TOTAL_AMOUNT,MAX(xxx.TOTAL_PaymentCOMMISSION) as TOTAL_PaymentCOMMISSION,MAX(xxx.Incentive_Head ) as Incentive_Head, MAX(xxx .IncentiveEMP_Head ) as  IncentiveEMP_Head,sum(Service_Charge_Amount) as Service_Charge_Amount,max(xxx.TOTAL_AMOUNT_Acc  ) as TOTAL_AMOUNT_Acc,max(xxx.MCC_CODE) as  MCC_CODE,max(xxx.AccountNo) as AccountNo,max(MP_Amount) as MP_Amount,max(MP_EMP) as MP_EMP,max(MP_Incentive) as MP_Incentive,max(MP_IncentiveEMP) as MP_IncentiveEMP,max(Handling_Charges_Amount) as Handling_Charges_Amount,max(SRN_Net_Amount) as SRN_Net_Amount,max(SRN_RO_Amount) as SRN_RO_Amount,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer  ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer " + Environment.NewLine +
-                " from ( 	   select  TSPL_VENDOR_INVOICE_HEAD.Document_No as [AP Invoice Doc No], TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date as [Ap Invoice Doc Date], TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as [Milk Purchase Invoice Doc No],TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE as [Milk Purchase Invoice Doc Date],coalesce(TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader,mp_vlc.vlc_code_vlc_uploader) as VLC_Code ,coalesce(TSPL_VLC_MASTER_HEAD.VLC_Name ,mp_vlc.vlc_name) as vlc_name,coalesce(TSPL_VENDOR_MASTER.Vendor_Code,mp_v.vendor_Code) as vendor_Code,coalesce(TSPL_VENDOR_MASTER.Vendor_Name,mp_v.Vendor_name) as Vendor_name , coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name) as [Payee/Joint Name], case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then ''  else ''   end as [Branch Code],case when isnull (coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(SelfBank .Bank_Name,selfBank_mp.bank_name)  else coalesce(jointBank .Bank_Name,jointBank_MP .Bank_Code)   end as [Bank Name],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(SelfBank .Bank_Code,SelfBank_MP .Bank_Code)   else coalesce(jointBank .Bank_Code,jointBank_Mp .Bank_Code)    end as [Bank Code],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .Branch_Name,MP_V .Branch_Name )   else coalesce(TSPL_VENDOR_MASTER .Joint_Branch_Name,Mp_V.Joint_Branch_Name)   end as [Branch Name],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .IFSC_Code,mp_V.IFSC_Code)   else coalesce(TSPL_VENDOR_MASTER .Joint_IFSC_Code,mp_v.Joint_IFSC_Code)   end as [IFSC Code],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .Account_No,mp_V .Account_No)    else coalesce(TSPL_VENDOR_MASTER.Joint_Account_No,mp_V.Joint_Account_No)    end as [AccountNo],TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty,TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_basic_amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_AMOUNT  , TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION, TSPL_MILK_PURCHASE_INVOICE_HEAD.Incentive_Head,TSPL_MILK_PURCHASE_INVOICE_HEAD.IncentiveEMP_Head, TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_AMOUNT_Acc ,  TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Service_Charge_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_EMP,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_Incentive,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_IncentiveEMP,TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.SRN_Net_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.SRN_RO_Amount,TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty,cast((TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty*TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER/100) as decimal(18,2)) as FATKg,cast((TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty*TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER/100)as decimal(18,2)) as SNFKg     " + Environment.NewLine +
+            Dim qry As String = "    select   MAX( xxx.[AP Invoice Doc No]) as [AP Invoice Doc No] ,max(xxx.[Ap Invoice Doc Date]) as [Ap Invoice Doc Date] ,xxx.[Milk Purchase Invoice Doc No] as [Milk Purchase Invoice Doc No],max(xxx.[Milk Purchase Invoice Doc Date]) as [Milk Purchase Invoice Doc Date],max(VLC_Code) as VLC_Code,max(xxx.VLC_Name) as VLC_Name,max(xxx.Vendor_Code)  as Vendor_Code,max(xxx.Vendor_Name) as Vendor_Name,max(xxx.[Payee/Joint Name]) as [Payee/Joint Name],max(xxx.[Bank Code]) as [Bank Code],max(xxx.[Bank Name]) as  [Bank Name] , max(xxx.[Branch Code]) as [Branch Code],max(xxx.[Branch Name]) as [Branch Name],max(xxx.[IFSC Code]) as  [IFSC Code],SUM(xxx.qty) as [Total Qty]   ,max(xxx.TOTAL_basic_amount) as TOTAL_basic_amount,max(xxx.TOTAL_AMOUNT ) as TOTAL_AMOUNT,MAX(xxx.TOTAL_PaymentCOMMISSION) as TOTAL_PaymentCOMMISSION,MAX(xxx.Incentive_Head ) as Incentive_Head, MAX(xxx .IncentiveEMP_Head ) as  IncentiveEMP_Head,sum(Service_Charge_Amount) as Service_Charge_Amount,max(xxx.TOTAL_AMOUNT_Acc  ) as TOTAL_AMOUNT_Acc,max(xxx.MCC_CODE) as  MCC_CODE,max(xxx.AccountNo) as AccountNo,max(MP_Amount) as MP_Amount,max(MP_EMP) as MP_EMP,max(MP_Incentive) as MP_Incentive,max(MP_IncentiveEMP) as MP_IncentiveEMP,max(Handling_Charges_Amount) as Handling_Charges_Amount,max(SRN_Net_Amount) as SRN_Net_Amount,max(SRN_RO_Amount) as SRN_RO_Amount,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer  ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer,max(TDS_Actual_Amount) as TDS_Actual_Amount " + Environment.NewLine +
+                " from ( 	   select  TSPL_VENDOR_INVOICE_HEAD.Document_No as [AP Invoice Doc No], TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date as [Ap Invoice Doc Date], TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as [Milk Purchase Invoice Doc No],TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE as [Milk Purchase Invoice Doc Date],coalesce(TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader,mp_vlc.vlc_code_vlc_uploader) as VLC_Code ,coalesce(TSPL_VLC_MASTER_HEAD.VLC_Name ,mp_vlc.vlc_name) as vlc_name,coalesce(TSPL_VENDOR_MASTER.Vendor_Code,mp_v.vendor_Code) as vendor_Code,coalesce(TSPL_VENDOR_MASTER.Vendor_Name,mp_v.Vendor_name) as Vendor_name , coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name) as [Payee/Joint Name], case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then ''  else ''   end as [Branch Code],case when isnull (coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(SelfBank .Bank_Name,selfBank_mp.bank_name)  else coalesce(jointBank .Bank_Name,jointBank_MP .Bank_Code)   end as [Bank Name],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(SelfBank .Bank_Code,SelfBank_MP .Bank_Code)   else coalesce(jointBank .Bank_Code,jointBank_Mp .Bank_Code)    end as [Bank Code],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .Branch_Name,MP_V .Branch_Name )   else coalesce(TSPL_VENDOR_MASTER .Joint_Branch_Name,Mp_V.Joint_Branch_Name)   end as [Branch Name],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .IFSC_Code,mp_V.IFSC_Code)   else coalesce(TSPL_VENDOR_MASTER .Joint_IFSC_Code,mp_v.Joint_IFSC_Code)   end as [IFSC Code],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .Account_No,mp_V .Account_No)    else coalesce(TSPL_VENDOR_MASTER.Joint_Account_No,mp_V.Joint_Account_No)    end as [AccountNo],TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty,TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_basic_amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_AMOUNT  , TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION, TSPL_MILK_PURCHASE_INVOICE_HEAD.Incentive_Head,TSPL_MILK_PURCHASE_INVOICE_HEAD.IncentiveEMP_Head, TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_AMOUNT_Acc ,  TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Service_Charge_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_EMP,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_Incentive,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_IncentiveEMP,TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.SRN_Net_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.SRN_RO_Amount,TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty,cast((TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty*TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER/100) as decimal(18,2)) as FATKg,cast((TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty*TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER/100)as decimal(18,2)) as SNFKg,TSPL_VENDOR_INVOICE_HEAD.TDS_Actual_Amount " + Environment.NewLine +
                 " from TSPL_VENDOR_INVOICE_HEAD  " + Environment.NewLine +
                 " left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE= TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No " + Environment.NewLine +
                 " left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE  " + Environment.NewLine +
@@ -1728,7 +1742,7 @@ Public Class FrmPaymentProcess
                     gvInvoice.Rows(i).Cells(colMPIncentiveAmount).Value = clsCommon.myFormat(clsCommon.myCdbl(dt.Rows(i)("MP_Incentive")))
                     gvInvoice.Rows(i).Cells(colMPEMPIncentiveAmount).Value = clsCommon.myFormat(clsCommon.myCdbl(dt.Rows(i)("MP_IncentiveEMP")))
                     gvInvoice.Rows(i).Cells(colMPNetAmount).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colMPAmount).Value) + clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colMPEMPAmount).Value) + clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colMPIncentiveAmount).Value) + clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colMPEMPIncentiveAmount).Value)
-
+                    gvInvoice.Rows(i).Cells(colTDSAmt).Value = clsCommon.myCDecimal(clsCommon.myCDecimal(dt.Rows(i)("TDS_Actual_Amount")))
                     gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = clsCommon.myFormat(clsCommon.myCdbl(dt.Rows(i)("TOTAL_AMOUNT_Acc")))
                     gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Value = clsCommon.myFormat(getVspOwnSystemAmount(gvInvoice.Rows(i).Cells(colPurchaseInvoiceNo).Value))
                     gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Tag = getVspOwnSystemINV(gvInvoice.Rows(i).Cells(colPurchaseInvoiceNo).Value)
@@ -3821,6 +3835,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                         objPayProInv.Inv_Amt_EMP_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colInvAndEmpAmt).Value)
                         objPayProInv.Inv_Incentive_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colIncenAmt).Value)
                         objPayProInv.Inv_Incentive_EMP_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colIncenEmpAmt).Value)
+                        objPayProInv.TDS_Amount = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colTDSAmt).Value)
                         objPayProInv.Gross_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value)
                         objPayProInv.Vsp_Own_System_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Value)
                         objPayProInv.Head_Load_Amount = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colHeadLoadAmt).Value)
@@ -4112,6 +4127,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                         objPPDetail.Incentive_EMP_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colIncenEmpAmt).Value)
                         objPPDetail.Total_EMP_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalEmp).Value)
                         objPPDetail.Total = clsCommon.myCdbl(gv.Rows(i).Cells(colInvAndEmpAmt).Value)
+                        objPPDetail.TDS_Amount = clsCommon.myCDecimal(gv.Rows(i).Cells(colTDSAmt).Value)
                         objPPDetail.Total_Invoice_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value)
                         objPPDetail.Vsp_Own_System_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colVSPOwnSystemAmt).Value)
                         objPPDetail.Head_Load_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colHeadLoadAmt).Value)
@@ -4284,6 +4300,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     gvInvoice.Rows(i).Cells(colInvAndEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Amt_EMP_Amount)
                     gvInvoice.Rows(i).Cells(colIncenAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Incentive_Amount)
                     gvInvoice.Rows(i).Cells(colIncenEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Inv_Incentive_EMP_Amount)
+                    gvInvoice.Rows(i).Cells(colTDSAmt).Value = clsCommon.myCDecimal(obj.arrClsPaymentProcessInvoices.Item(i).TDS_Amount)
                     gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = clsCommon.myCdbl(obj.arrClsPaymentProcessInvoices.Item(i).Gross_Amount)
                     gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Value = obj.arrClsPaymentProcessInvoices.Item(i).Vsp_Own_System_Amount
                     gvInvoice.Rows(i).Cells(colVSPOwnSystemAmt).Tag = obj.arrClsPaymentProcessInvoices.Item(i).Vsp_Own_System_Doc_No
@@ -4569,6 +4586,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     gv.Rows(i).Cells(colInvAmt).Value = obj.ArrPPDetail.Item(i).Milk_Amount
                     gv.Rows(i).Cells(colInvAndEmpAmt).Value = obj.ArrPPDetail.Item(i).Incentive_EMP_Amount
                     gv.Rows(i).Cells(colInvAndEmpAmt).Value = obj.ArrPPDetail.Item(i).Total
+                    gv.Rows(i).Cells(colTDSAmt).Value = obj.ArrPPDetail.Item(i).TDS_Amount
                     gv.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = obj.ArrPPDetail.Item(i).Total_Invoice_Amount
                     gv.Rows(i).Cells(colVSPOwnSystemAmt).Value = obj.ArrPPDetail.Item(i).Vsp_Own_System_Amount
                     gv.Rows(i).Cells(colHeadLoadAmt).Value = obj.ArrPPDetail.Item(i).Head_Load_Amount
@@ -5016,6 +5034,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
 
                 gv.Rows(k).Cells(colSRNROAmt).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colSRNROAmt).Value)
                 gv.Rows(k).Cells(colSRNNetAmount).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colSRNNetAmount).Value)
+                gv.Rows(k).Cells(colTDSAmt).Value = clsCommon.myCDecimal(gvInvoice.Rows(i).Cells(colTDSAmt).Value)
                 gv.Rows(k).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value = gvInvoice.Rows(i).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value
                 gv.Rows(k).Cells(colActualVSPCode).Value = gvInvoice.Rows(i).Cells(colActualVSPCode).Value
                 gv.Rows(k).Cells(colActualVSPName).Value = gvInvoice.Rows(i).Cells(colActualVSPName).Value
@@ -5034,7 +5053,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                 gv.Rows(k).Cells(colAssetLostAmount).Value = getTotalAssetLost(gv.Rows(k).Cells(colVendorCode).Value)
                 gv.Rows(k).Cells(colServiceChargeAmt).Value = clsCommon.myCdbl(gvInvoice.Rows(i).Cells(colServiceChargeAmt).Value)
 
-                gv.Rows(k).Cells(colPaybleAmt).Value = (((gv.Rows(k).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value + gv.Rows(k).Cells(colTotalCreditNoteAmount).Value + gv.Rows(k).Cells(colVSPOwnSystemAmt).Value + gv.Rows(k).Cells(colHeadLoadAmt).Value) - gv.Rows(k).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalAssetLost(gv.Rows(k).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(k).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(k).Cells(colReduceDeduc).Value) + getTotalMccSaleReturnSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalItemIssueReturnSum(gv.Rows(k).Cells(colVendorCode).Value)
+                gv.Rows(k).Cells(colPaybleAmt).Value = (((gv.Rows(k).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(k).Cells(colTDSAmt).Value + gv.Rows(k).Cells(colTotalCreditNoteAmount).Value + gv.Rows(k).Cells(colVSPOwnSystemAmt).Value + gv.Rows(k).Cells(colHeadLoadAmt).Value) - gv.Rows(k).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalAssetLost(gv.Rows(k).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(k).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(k).Cells(colReduceDeduc).Value) + getTotalMccSaleReturnSum(gv.Rows(k).Cells(colVendorCode).Value) + getTotalItemIssueReturnSum(gv.Rows(k).Cells(colVendorCode).Value)
                 CalculateAdvanceKnockOff(k)
 
                 If SettVSPHoldPaymentNotCompanyBank Then
@@ -5363,7 +5382,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value = getTotalDeductionReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalMccSaleReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalItemIssueReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value)
                     If rownummain <> -1 Then
                         gv.Rows(rownummain).Cells(colReduceDeduc).Value = gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value
-                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
+                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
                         CalculateAdvanceKnockOff(rownummain)
                         AddCompularyAmtInPaybleAmount(rownummain)
                     End If
@@ -5405,7 +5424,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value = getTotalDeductionReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalMccSaleReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalItemIssueReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value)
                     If rownummain <> -1 Then
                         gv.Rows(rownummain).Cells(colReduceDeduc).Value = gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value
-                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
+                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
                         CalculateAdvanceKnockOff(rownummain)
                         AddCompularyAmtInPaybleAmount(rownummain)
                     End If
@@ -5440,7 +5459,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                         gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value = getTotalDeductionReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalMccSaleReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalItemIssueReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value)
                         If rownummain <> -1 Then
                             gv.Rows(rownummain).Cells(colReduceDeduc).Value = gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value
-                            gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
+                            gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
                             CalculateAdvanceKnockOff(rownummain)
                             AddCompularyAmtInPaybleAmount(rownummain)
                         End If
@@ -5476,7 +5495,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
                     gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value = getTotalDeductionReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalMccSaleReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value) + getTotalItemIssueReduceDeduSum(gvInvoice.Rows(Rownum).Cells(colVendorCode).Value)
                     If rownummain <> -1 Then
                         gv.Rows(rownummain).Cells(colReduceDeduc).Value = gvInvoice.Rows(Rownum).Cells(colReduceDeduc).Value
-                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
+                        gv.Rows(rownummain).Cells(colPaybleAmt).Value = (((gv.Rows(rownummain).Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.Rows(rownummain).Cells(colTDSAmt).Value + gv.Rows(rownummain).Cells(colTotalCreditNoteAmount).Value + gv.Rows(rownummain).Cells(colVSPOwnSystemAmt).Value + gv.Rows(rownummain).Cells(colHeadLoadAmt).Value) - gv.Rows(rownummain).Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.Rows(rownummain).Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.Rows(rownummain).Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.Rows(rownummain).Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.Rows(rownummain).Cells(colVendorCode).Value)
                         CalculateAdvanceKnockOff(rownummain)
                         AddCompularyAmtInPaybleAmount(rownummain)
                     End If
@@ -5610,7 +5629,7 @@ left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=TSPL_VENDOR_
         If Not isLoad Then
             isLoad = True
             If (e.Column Is gv.Columns(colReduceDeduc) OrElse e.Column Is gv.Columns(colMccSaleTotalAmount) OrElse e.Column Is gv.Columns(colMccSaleReturnTotalAmount) OrElse e.Column Is gv.Columns(colItemIssueTotalAmount) OrElse e.Column Is gv.Columns(colItemIssueReturnTotalAmount) OrElse e.Column Is gv.Columns(colDeductionTotalAmount) OrElse e.Column Is gv.Columns(colAssetLostAmount)) AndAlso gv IsNot Nothing AndAlso gv.Rows.Count > 0 Then
-                gv.CurrentRow.Cells(colPaybleAmt).Value = (((gv.CurrentRow.Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value + gv.CurrentRow.Cells(colTotalCreditNoteAmount).Value + gv.CurrentRow.Cells(colVSPOwnSystemAmt).Value + gv.CurrentRow.Cells(colHeadLoadAmt).Value) - gv.CurrentRow.Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalAssetLost(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.CurrentRow.Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.CurrentRow.Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.CurrentRow.Cells(colVendorCode).Value)
+                gv.CurrentRow.Cells(colPaybleAmt).Value = (((gv.CurrentRow.Cells(colInvAndEMPAmtAndIncenAmtAndIncenEmpAmt).Value - gv.CurrentRow.Cells(colTDSAmt).Value + gv.CurrentRow.Cells(colTotalCreditNoteAmount).Value + gv.CurrentRow.Cells(colVSPOwnSystemAmt).Value + gv.CurrentRow.Cells(colHeadLoadAmt).Value) - gv.CurrentRow.Cells(colInvDeduc).Value) - (getTotalDeductionSum(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalAssetLost(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalItemIssueSum(gv.CurrentRow.Cells(colVendorCode).Value) + getTotalMccSaleSum(gv.CurrentRow.Cells(colVendorCode).Value))) + clsCommon.myCdbl(gv.CurrentRow.Cells(colReduceDeduc).Value) + getTotalItemIssueReturnSum(gv.CurrentRow.Cells(colVendorCode).Value)
             End If
             isLoad = False
             isLoad = True
