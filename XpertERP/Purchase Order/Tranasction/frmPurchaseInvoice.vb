@@ -3645,6 +3645,7 @@ Public Class frmPurchaseInvoice
         btnDelete.Enabled = True
         txtVehicleNo.Enabled = True
         lblVehicle.ReadOnly = False
+        chkTDSProvision.Checked = False
         txtDate.Focus()
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -3995,6 +3996,15 @@ Public Class frmPurchaseInvoice
                     End If
                 Next
             End If
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Provisional from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorNo.Value + "'")) = 1 Then
+                If common.clsCommon.MyMessageBoxShow("Do You Want to Apply TDS Provision", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                    chkTDSProvision.Checked = True
+                Else
+                    chkTDSProvision.Checked = False
+                End If
+
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
             Return False
@@ -4078,7 +4088,7 @@ Public Class frmPurchaseInvoice
                 If InvDate1.Checked Then
                     obj.Invdate = InvDate1.Value
                 End If
-
+                obj.TDS_Provision = chkTDSProvision.Checked
                 obj.PROJECT_ID = fndProject.Text
 
                 obj.TapalNo = clsCommon.myCstr(txtTapalNo.Text)
@@ -4886,6 +4896,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 txtDesc.Text = obj.Description
                 txtTaxGroup.Value = obj.Tax_Group
 
+                chkTDSProvision.Checked = obj.TDS_Provision
                 txtDept.Value = obj.Dept
                 lblDept.Text = obj.Dept_Desc
 
