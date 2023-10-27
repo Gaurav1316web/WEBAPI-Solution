@@ -23101,6 +23101,8 @@ Public Class clsCreateAllTable
             coll.Add("Reject_Type", "Varchar(30) null")
             coll.Add("Against_Milk_Collection_DCS_Detail", "integer null references TSPL_MILK_COLLECTION_DCS_DETAIL(PK_Id)")
             coll.Add("Bulk_Route_Code", "Varchar(30) null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("Manual_Weight", "Integer NULL")
+            coll.Add("Manual_Sample", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, False, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)

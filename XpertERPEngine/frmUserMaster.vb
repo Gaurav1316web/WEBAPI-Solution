@@ -1633,7 +1633,7 @@ Public Class FrmUserMaster
                     '    clsCommon.AddColumnsForChange(colll, "Zone_Code", strZoneCode, True)
                     'End If
                     clsCommon.AddColumnsForChange(colll, "User_APP_Type", grow.Cells("App User Type").Value.ToString())
-                    clsCommon.AddColumnsForChange(colll, "Vendor_Code", grow.Cells("Vendor").Value.ToString())
+                    clsCommon.AddColumnsForChange(colll, "Vendor_Code", grow.Cells("Vendor").Value.ToString(), True)
                     If clsCommon.myLen(grow.Cells("Cust_Code")) > 0 Then
                         clsCommon.AddColumnsForChange(colll, "Cust_Code", grow.Cells("Cust_Code").Value.ToString())
                     End If
