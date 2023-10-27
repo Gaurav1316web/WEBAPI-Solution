@@ -22,14 +22,21 @@ Partial Class FrmVendorService
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmVendorService))
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.txtDataAndTimeSelection = New common.Controls.MyDateTimePicker()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.txtTapalNo = New common.Controls.MyTextBox()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.lblGstinNo = New common.Controls.MyLabel()
         Me.MyLabel49 = New common.Controls.MyLabel()
@@ -170,16 +177,17 @@ Partial Class FrmVendorService
         Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.MyLabel15 = New common.Controls.MyLabel()
-        Me.txtDataAndTimeSelection = New common.Controls.MyDateTimePicker()
-        Me.MyLabel16 = New common.Controls.MyLabel()
-        Me.txtTapalNo = New common.Controls.MyTextBox()
+        Me.chkTDSProvision = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel4.SuspendLayout()
         CType(Me.lblGstinNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -303,10 +311,7 @@ Partial Class FrmVendorService
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -354,13 +359,13 @@ Partial Class FrmVendorService
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1033, 430)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkTDSProvision)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel15)
         Me.RadPageViewPage1.Controls.Add(Me.txtDataAndTimeSelection)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel16)
@@ -418,6 +423,80 @@ Partial Class FrmVendorService
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1012, 384)
         Me.RadPageViewPage1.Text = "Document"
         '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(293, 158)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(82, 16)
+        Me.MyLabel15.TabIndex = 615
+        Me.MyLabel15.Text = "Date And Time"
+        '
+        'txtDataAndTimeSelection
+        '
+        Me.txtDataAndTimeSelection.CalculationExpression = Nothing
+        Me.txtDataAndTimeSelection.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtDataAndTimeSelection.FieldCode = Nothing
+        Me.txtDataAndTimeSelection.FieldDesc = Nothing
+        Me.txtDataAndTimeSelection.FieldMaxLength = 0
+        Me.txtDataAndTimeSelection.FieldName = Nothing
+        Me.txtDataAndTimeSelection.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDataAndTimeSelection.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDataAndTimeSelection.isCalculatedField = False
+        Me.txtDataAndTimeSelection.IsSourceFromTable = False
+        Me.txtDataAndTimeSelection.IsSourceFromValueList = False
+        Me.txtDataAndTimeSelection.IsUnique = False
+        Me.txtDataAndTimeSelection.Location = New System.Drawing.Point(385, 157)
+        Me.txtDataAndTimeSelection.MendatroryField = False
+        Me.txtDataAndTimeSelection.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDataAndTimeSelection.MyLinkLable1 = Nothing
+        Me.txtDataAndTimeSelection.MyLinkLable2 = Nothing
+        Me.txtDataAndTimeSelection.Name = "txtDataAndTimeSelection"
+        Me.txtDataAndTimeSelection.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDataAndTimeSelection.ReferenceFieldDesc = Nothing
+        Me.txtDataAndTimeSelection.ReferenceFieldName = Nothing
+        Me.txtDataAndTimeSelection.ReferenceTableName = Nothing
+        Me.txtDataAndTimeSelection.ShowCheckBox = True
+        Me.txtDataAndTimeSelection.Size = New System.Drawing.Size(143, 18)
+        Me.txtDataAndTimeSelection.TabIndex = 614
+        Me.txtDataAndTimeSelection.TabStop = False
+        Me.txtDataAndTimeSelection.Text = "13/06/2011 11:29 AM"
+        Me.txtDataAndTimeSelection.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(2, 157)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(52, 16)
+        Me.MyLabel16.TabIndex = 613
+        Me.MyLabel16.Text = "Tapal No"
+        '
+        'txtTapalNo
+        '
+        Me.txtTapalNo.CalculationExpression = Nothing
+        Me.txtTapalNo.FieldCode = Nothing
+        Me.txtTapalNo.FieldDesc = Nothing
+        Me.txtTapalNo.FieldMaxLength = 0
+        Me.txtTapalNo.FieldName = Nothing
+        Me.txtTapalNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTapalNo.isCalculatedField = False
+        Me.txtTapalNo.IsSourceFromTable = False
+        Me.txtTapalNo.IsSourceFromValueList = False
+        Me.txtTapalNo.IsUnique = False
+        Me.txtTapalNo.Location = New System.Drawing.Point(89, 157)
+        Me.txtTapalNo.MendatroryField = False
+        Me.txtTapalNo.MyLinkLable1 = Nothing
+        Me.txtTapalNo.MyLinkLable2 = Nothing
+        Me.txtTapalNo.Name = "txtTapalNo"
+        Me.txtTapalNo.ReferenceFieldDesc = Nothing
+        Me.txtTapalNo.ReferenceFieldName = Nothing
+        Me.txtTapalNo.ReferenceTableName = Nothing
+        Me.txtTapalNo.Size = New System.Drawing.Size(191, 18)
+        Me.txtTapalNo.TabIndex = 612
+        '
         'Panel4
         '
         Me.Panel4.Controls.Add(Me.lblGstinNo)
@@ -435,18 +514,17 @@ Partial Class FrmVendorService
         Me.lblGstinNo.BorderVisible = True
         Me.lblGstinNo.FieldName = Nothing
         Me.lblGstinNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGstinNo.Location = New System.Drawing.Point(261, 3)
+        Me.lblGstinNo.Location = New System.Drawing.Point(261, 5)
         Me.lblGstinNo.Name = "lblGstinNo"
         Me.lblGstinNo.Size = New System.Drawing.Size(146, 19)
         Me.lblGstinNo.TabIndex = 356
-        Me.lblGstinNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblGstinNo.TextWrap = False
         '
         'MyLabel49
         '
         Me.MyLabel49.FieldName = Nothing
         Me.MyLabel49.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel49.Location = New System.Drawing.Point(160, 4)
+        Me.MyLabel49.Location = New System.Drawing.Point(160, 6)
         Me.MyLabel49.Name = "MyLabel49"
         Me.MyLabel49.Size = New System.Drawing.Size(98, 16)
         Me.MyLabel49.TabIndex = 355
@@ -456,7 +534,7 @@ Partial Class FrmVendorService
         '
         Me.MyLabel45.FieldName = Nothing
         Me.MyLabel45.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel45.Location = New System.Drawing.Point(5, 4)
+        Me.MyLabel45.Location = New System.Drawing.Point(5, 6)
         Me.MyLabel45.Name = "MyLabel45"
         Me.MyLabel45.Size = New System.Drawing.Size(46, 16)
         Me.MyLabel45.TabIndex = 76
@@ -468,11 +546,10 @@ Partial Class FrmVendorService
         Me.lblRegisterOrUnregister.BorderVisible = True
         Me.lblRegisterOrUnregister.FieldName = Nothing
         Me.lblRegisterOrUnregister.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRegisterOrUnregister.Location = New System.Drawing.Point(51, 3)
+        Me.lblRegisterOrUnregister.Location = New System.Drawing.Point(51, 5)
         Me.lblRegisterOrUnregister.Name = "lblRegisterOrUnregister"
         Me.lblRegisterOrUnregister.Size = New System.Drawing.Size(108, 19)
         Me.lblRegisterOrUnregister.TabIndex = 354
-        Me.lblRegisterOrUnregister.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRegisterOrUnregister.TextWrap = False
         '
         'chkGSTRegistered
@@ -514,6 +591,7 @@ Partial Class FrmVendorService
         Me.cboDocType.AutoCompleteDisplayMember = Nothing
         Me.cboDocType.AutoCompleteValueMember = Nothing
         Me.cboDocType.CalculationExpression = Nothing
+        Me.cboDocType.DropDownAnimationEnabled = True
         Me.cboDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDocType.FieldCode = Nothing
         Me.cboDocType.FieldDesc = Nothing
@@ -538,7 +616,7 @@ Partial Class FrmVendorService
         '
         'chkNoGSTCredit
         '
-        Me.chkNoGSTCredit.Location = New System.Drawing.Point(470, 89)
+        Me.chkNoGSTCredit.Location = New System.Drawing.Point(130, 112)
         Me.chkNoGSTCredit.MyLinkLable1 = Nothing
         Me.chkNoGSTCredit.MyLinkLable2 = Nothing
         Me.chkNoGSTCredit.Name = "chkNoGSTCredit"
@@ -551,7 +629,7 @@ Partial Class FrmVendorService
         'chkITCEligible
         '
         Me.chkITCEligible.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkITCEligible.Location = New System.Drawing.Point(565, 116)
+        Me.chkITCEligible.Location = New System.Drawing.Point(565, 118)
         Me.chkITCEligible.Name = "chkITCEligible"
         '
         '
@@ -564,7 +642,7 @@ Partial Class FrmVendorService
         '
         'chkRCM
         '
-        Me.chkRCM.Location = New System.Drawing.Point(420, 89)
+        Me.chkRCM.Location = New System.Drawing.Point(80, 112)
         Me.chkRCM.MyLinkLable1 = Nothing
         Me.chkRCM.MyLinkLable2 = Nothing
         Me.chkRCM.Name = "chkRCM"
@@ -591,6 +669,7 @@ Partial Class FrmVendorService
         Me.CboxITCCateogory.AutoCompleteDisplayMember = Nothing
         Me.CboxITCCateogory.AutoCompleteValueMember = Nothing
         Me.CboxITCCateogory.CalculationExpression = Nothing
+        Me.CboxITCCateogory.DropDownAnimationEnabled = True
         Me.CboxITCCateogory.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboxITCCateogory.FieldCode = Nothing
         Me.CboxITCCateogory.FieldDesc = Nothing
@@ -600,11 +679,11 @@ Partial Class FrmVendorService
         Me.CboxITCCateogory.IsSourceFromTable = False
         Me.CboxITCCateogory.IsSourceFromValueList = False
         Me.CboxITCCateogory.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.CboxITCCateogory.Items.Add(RadListDataItem1)
-        Me.CboxITCCateogory.Items.Add(RadListDataItem2)
-        Me.CboxITCCateogory.Location = New System.Drawing.Point(103, 4)
+        RadListDataItem5.Text = "Yes"
+        RadListDataItem6.Text = "No"
+        Me.CboxITCCateogory.Items.Add(RadListDataItem5)
+        Me.CboxITCCateogory.Items.Add(RadListDataItem6)
+        Me.CboxITCCateogory.Location = New System.Drawing.Point(103, 6)
         Me.CboxITCCateogory.MendatroryField = False
         Me.CboxITCCateogory.MyLinkLable1 = Me.MyLabel12
         Me.CboxITCCateogory.MyLinkLable2 = Nothing
@@ -619,7 +698,7 @@ Partial Class FrmVendorService
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(4, 6)
+        Me.MyLabel12.Location = New System.Drawing.Point(4, 8)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(31, 16)
         Me.MyLabel12.TabIndex = 44
@@ -630,6 +709,7 @@ Partial Class FrmVendorService
         Me.CboxITCType.AutoCompleteDisplayMember = Nothing
         Me.CboxITCType.AutoCompleteValueMember = Nothing
         Me.CboxITCType.CalculationExpression = Nothing
+        Me.CboxITCType.DropDownAnimationEnabled = True
         Me.CboxITCType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboxITCType.FieldCode = Nothing
         Me.CboxITCType.FieldDesc = Nothing
@@ -639,11 +719,11 @@ Partial Class FrmVendorService
         Me.CboxITCType.IsSourceFromTable = False
         Me.CboxITCType.IsSourceFromValueList = False
         Me.CboxITCType.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.CboxITCType.Items.Add(RadListDataItem3)
-        Me.CboxITCType.Items.Add(RadListDataItem4)
-        Me.CboxITCType.Location = New System.Drawing.Point(38, 4)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.CboxITCType.Items.Add(RadListDataItem1)
+        Me.CboxITCType.Items.Add(RadListDataItem2)
+        Me.CboxITCType.Location = New System.Drawing.Point(38, 6)
         Me.CboxITCType.MendatroryField = True
         Me.CboxITCType.MyLinkLable1 = Me.MyLabel12
         Me.CboxITCType.MyLinkLable2 = Nothing
@@ -807,7 +887,7 @@ Partial Class FrmVendorService
         '
         'chkProvision
         '
-        Me.chkProvision.Location = New System.Drawing.Point(348, 89)
+        Me.chkProvision.Location = New System.Drawing.Point(8, 112)
         Me.chkProvision.MyLinkLable1 = Nothing
         Me.chkProvision.MyLinkLable2 = Nothing
         Me.chkProvision.Name = "chkProvision"
@@ -885,10 +965,10 @@ Partial Class FrmVendorService
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 158)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 182)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1007, 211)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1007, 187)
         Me.RadGroupBox2.TabIndex = 19
         Me.RadGroupBox2.Text = "Details"
         '
@@ -902,18 +982,19 @@ Partial Class FrmVendorService
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(987, 181)
+        Me.gv1.Size = New System.Drawing.Size(987, 157)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'txtVendorInvoiceNo
         '
@@ -949,7 +1030,6 @@ Partial Class FrmVendorService
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(328, 18)
         Me.lblLocation.TabIndex = 35
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'pnlPCJ
@@ -972,7 +1052,6 @@ Partial Class FrmVendorService
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(407, 20)
         Me.lblProject.TabIndex = 1
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'MyLabel4
@@ -1151,7 +1230,6 @@ Partial Class FrmVendorService
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(329, 18)
         Me.lblVendorName.TabIndex = 7
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtRefDocNo
         '
@@ -1164,7 +1242,7 @@ Partial Class FrmVendorService
         Me.txtRefDocNo.IsSourceFromTable = False
         Me.txtRefDocNo.IsSourceFromValueList = False
         Me.txtRefDocNo.IsUnique = False
-        Me.txtRefDocNo.Location = New System.Drawing.Point(273, 114)
+        Me.txtRefDocNo.Location = New System.Drawing.Point(273, 135)
         Me.txtRefDocNo.MendatroryField = False
         Me.txtRefDocNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRefDocNo.MyLinkLable1 = Me.RadLabel15
@@ -1183,7 +1261,7 @@ Partial Class FrmVendorService
         '
         Me.RadLabel15.FieldName = Nothing
         Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel15.Location = New System.Drawing.Point(206, 115)
+        Me.RadLabel15.Location = New System.Drawing.Point(206, 136)
         Me.RadLabel15.Name = "RadLabel15"
         Me.RadLabel15.Size = New System.Drawing.Size(65, 16)
         Me.RadLabel15.TabIndex = 21
@@ -1203,7 +1281,7 @@ Partial Class FrmVendorService
         '
         Me.RadLabel14.FieldName = Nothing
         Me.RadLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel14.Location = New System.Drawing.Point(2, 115)
+        Me.RadLabel14.Location = New System.Drawing.Point(2, 136)
         Me.RadLabel14.Name = "RadLabel14"
         Me.RadLabel14.Size = New System.Drawing.Size(72, 16)
         Me.RadLabel14.TabIndex = 22
@@ -1299,6 +1377,7 @@ Partial Class FrmVendorService
         Me.cmbRefType.AutoCompleteDisplayMember = Nothing
         Me.cmbRefType.AutoCompleteValueMember = Nothing
         Me.cmbRefType.CalculationExpression = Nothing
+        Me.cmbRefType.DropDownAnimationEnabled = True
         Me.cmbRefType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbRefType.FieldCode = Nothing
         Me.cmbRefType.FieldDesc = Nothing
@@ -1309,7 +1388,7 @@ Partial Class FrmVendorService
         Me.cmbRefType.IsSourceFromTable = False
         Me.cmbRefType.IsSourceFromValueList = False
         Me.cmbRefType.IsUnique = False
-        Me.cmbRefType.Location = New System.Drawing.Point(88, 114)
+        Me.cmbRefType.Location = New System.Drawing.Point(88, 135)
         Me.cmbRefType.MendatroryField = False
         Me.cmbRefType.MyLinkLable1 = Me.RadLabel14
         Me.cmbRefType.MyLinkLable2 = Nothing
@@ -1534,7 +1613,6 @@ Partial Class FrmVendorService
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 4
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel10
         '
@@ -1613,7 +1691,6 @@ Partial Class FrmVendorService
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 4
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtDueDate
         '
@@ -1672,14 +1749,15 @@ Partial Class FrmVendorService
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(1007, 238)
         Me.gv2.TabIndex = 2
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -1719,10 +1797,12 @@ Partial Class FrmVendorService
         Me.gvAC.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAC.Location = New System.Drawing.Point(0, 0)
         '
-        'gvAC
+        '
         '
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
+        Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -1730,7 +1810,6 @@ Partial Class FrmVendorService
         Me.gvAC.Size = New System.Drawing.Size(1012, 346)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
-        Me.gvAC.Text = "RadGridView1"
         '
         'RadLabel31
         '
@@ -2251,16 +2330,12 @@ Partial Class FrmVendorService
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem8, Me.RadMenuItem9})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export"
-        Me.RadMenuItem2.AccessibleName = "Export"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem4, Me.mbtnExportApTransaction})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export"
@@ -2281,8 +2356,6 @@ Partial Class FrmVendorService
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Import"
-        Me.RadMenuItem3.AccessibleName = "Import"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem5, Me.RadMenuItem6, Me.RadMenuItem7, Me.RadMenuItem10})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Import"
@@ -2310,22 +2383,16 @@ Partial Class FrmVendorService
         '
         'RadMenuItem10
         '
-        Me.RadMenuItem10.AccessibleDescription = "AP Transaction"
-        Me.RadMenuItem10.AccessibleName = "AP Transaction"
         Me.RadMenuItem10.Name = "RadMenuItem10"
         Me.RadMenuItem10.Text = "AP Transaction"
         '
         'RadMenuItem8
         '
-        Me.RadMenuItem8.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem8.AccessibleName = "Save Layout"
         Me.RadMenuItem8.Name = "RadMenuItem8"
         Me.RadMenuItem8.Text = "Save Layout"
         '
         'RadMenuItem9
         '
-        Me.RadMenuItem9.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem9.AccessibleName = "Delete Layout"
         Me.RadMenuItem9.Name = "RadMenuItem9"
         Me.RadMenuItem9.Text = "Delete Layout"
         '
@@ -2345,81 +2412,18 @@ Partial Class FrmVendorService
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1033, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
-        'MyLabel15
+        'chkTDSProvision
         '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(293, 137)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(82, 16)
-        Me.MyLabel15.TabIndex = 615
-        Me.MyLabel15.Text = "Date And Time"
-        '
-        'txtDataAndTimeSelection
-        '
-        Me.txtDataAndTimeSelection.CalculationExpression = Nothing
-        Me.txtDataAndTimeSelection.CustomFormat = "dd/MM/yyyy hh:mm tt"
-        Me.txtDataAndTimeSelection.FieldCode = Nothing
-        Me.txtDataAndTimeSelection.FieldDesc = Nothing
-        Me.txtDataAndTimeSelection.FieldMaxLength = 0
-        Me.txtDataAndTimeSelection.FieldName = Nothing
-        Me.txtDataAndTimeSelection.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDataAndTimeSelection.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtDataAndTimeSelection.isCalculatedField = False
-        Me.txtDataAndTimeSelection.IsSourceFromTable = False
-        Me.txtDataAndTimeSelection.IsSourceFromValueList = False
-        Me.txtDataAndTimeSelection.IsUnique = False
-        Me.txtDataAndTimeSelection.Location = New System.Drawing.Point(385, 136)
-        Me.txtDataAndTimeSelection.MendatroryField = False
-        Me.txtDataAndTimeSelection.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDataAndTimeSelection.MyLinkLable1 = Nothing
-        Me.txtDataAndTimeSelection.MyLinkLable2 = Nothing
-        Me.txtDataAndTimeSelection.Name = "txtDataAndTimeSelection"
-        Me.txtDataAndTimeSelection.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDataAndTimeSelection.ReferenceFieldDesc = Nothing
-        Me.txtDataAndTimeSelection.ReferenceFieldName = Nothing
-        Me.txtDataAndTimeSelection.ReferenceTableName = Nothing
-        Me.txtDataAndTimeSelection.ShowCheckBox = True
-        Me.txtDataAndTimeSelection.Size = New System.Drawing.Size(143, 18)
-        Me.txtDataAndTimeSelection.TabIndex = 614
-        Me.txtDataAndTimeSelection.TabStop = False
-        Me.txtDataAndTimeSelection.Text = "13/06/2011 11:29 AM"
-        Me.txtDataAndTimeSelection.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(2, 136)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(52, 16)
-        Me.MyLabel16.TabIndex = 613
-        Me.MyLabel16.Text = "Tapal No"
-        '
-        'txtTapalNo
-        '
-        Me.txtTapalNo.CalculationExpression = Nothing
-        Me.txtTapalNo.FieldCode = Nothing
-        Me.txtTapalNo.FieldDesc = Nothing
-        Me.txtTapalNo.FieldMaxLength = 0
-        Me.txtTapalNo.FieldName = Nothing
-        Me.txtTapalNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTapalNo.isCalculatedField = False
-        Me.txtTapalNo.IsSourceFromTable = False
-        Me.txtTapalNo.IsSourceFromValueList = False
-        Me.txtTapalNo.IsUnique = False
-        Me.txtTapalNo.Location = New System.Drawing.Point(89, 136)
-        Me.txtTapalNo.MendatroryField = False
-        Me.txtTapalNo.MyLinkLable1 = Nothing
-        Me.txtTapalNo.MyLinkLable2 = Nothing
-        Me.txtTapalNo.Name = "txtTapalNo"
-        Me.txtTapalNo.ReferenceFieldDesc = Nothing
-        Me.txtTapalNo.ReferenceFieldName = Nothing
-        Me.txtTapalNo.ReferenceTableName = Nothing
-        Me.txtTapalNo.Size = New System.Drawing.Size(191, 18)
-        Me.txtTapalNo.TabIndex = 612
+        Me.chkTDSProvision.Location = New System.Drawing.Point(227, 113)
+        Me.chkTDSProvision.MyLinkLable1 = Nothing
+        Me.chkTDSProvision.MyLinkLable2 = Nothing
+        Me.chkTDSProvision.Name = "chkTDSProvision"
+        Me.chkTDSProvision.ReadOnly = True
+        Me.chkTDSProvision.Size = New System.Drawing.Size(89, 18)
+        Me.chkTDSProvision.TabIndex = 12139
+        Me.chkTDSProvision.Tag1 = Nothing
+        Me.chkTDSProvision.Text = "TDS Provision"
         '
         'FrmVendorService
         '
@@ -2442,6 +2446,10 @@ Partial Class FrmVendorService
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel4.ResumeLayout(False)
         Me.Panel4.PerformLayout()
         CType(Me.lblGstinNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2575,10 +2583,7 @@ Partial Class FrmVendorService
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2731,5 +2736,6 @@ Partial Class FrmVendorService
     Friend WithEvents txtDataAndTimeSelection As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents txtTapalNo As common.Controls.MyTextBox
+    Friend WithEvents chkTDSProvision As common.Controls.MyCheckBox
 End Class
 

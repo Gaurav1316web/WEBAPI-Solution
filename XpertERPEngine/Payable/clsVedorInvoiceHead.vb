@@ -295,6 +295,9 @@ Public Class clsVedorInvoiceHead
     Public ArrAssetEMI As List(Of clsAPInvoiceAssetEMIDetails)
     Public ArrAdvanceInterest As List(Of clsAPInvoiceAdvanceInterest)
     Public RCM As Boolean = False
+    Public TDS_Provision As Boolean = False
+
+
     Public No_GST_Credit As Boolean = False
     Public Purchase_Tax_Invoice As String
     Public Purchase_Tax_Invoice_Type As String
@@ -477,6 +480,9 @@ Public Class clsVedorInvoiceHead
         clsCommon.AddColumnsForChange(coll, "IRregular_loc_code", obj.Irregular_loc_code)
         '------------
         clsCommon.AddColumnsForChange(coll, "RCM", IIf(obj.RCM, 1, 0))
+        clsCommon.AddColumnsForChange(coll, "TDS_Provision", IIf(obj.TDS_Provision, 1, 0))
+
+        'clsCommon.AddColumnsForChange(coll, "TDS_Provision", clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Provisional from TSPL_VENDOR_MASTER where Vendor_Code='" + obj.Vendor_Code + "'", trans)))
         clsCommon.AddColumnsForChange(coll, "MCC_Code", obj.MCC_Code, True)
         clsCommon.AddColumnsForChange(coll, "MCC_Name", obj.MCC_Name, True)
 
@@ -1155,6 +1161,7 @@ Public Class clsVedorInvoiceHead
             obj.Against_MCC_Material_Sale = clsCommon.myCstr(dt.Rows(0)("Against_MCC_Material_Sale"))
             '--------------
             obj.RCM = IIf(clsCommon.myCdbl(dt.Rows(0)("RCM")) = 1, True, False)
+            obj.TDS_Provision = IIf(clsCommon.myCdbl(dt.Rows(0)("TDS_Provision")) = 1, True, False)
             obj.No_GST_Credit = IIf(clsCommon.myCdbl(dt.Rows(0)("No_GST_Credit")) = 1, True, False)
             ''======added by monika========================
             obj.Addition_Doc_Type = clsCommon.myCstr(dt.Rows(0)("Addition_Doc_Type"))
@@ -1686,8 +1693,12 @@ Public Class clsVedorInvoiceHead
             CreateJournalEntry(obj, FormId, strPostDate, trans, strVoucherNoRecreatedOnly, False, strasset)
         End If
         ''-----------------
+        If obj.TDS_Provision Then
+            qry = "update TSPL_REMITTANCE set Remit_TDS='N',Is_TDS_Provision='Y' where Document_No='" + strDocNo + "'"
+        Else
+            qry = "update TSPL_REMITTANCE set Remit_TDS='N',Is_TDS_Provision='N' where Document_No='" + strDocNo + "'"
 
-        qry = "update TSPL_REMITTANCE set Remit_TDS='N' where Document_No='" + strDocNo + "'"
+        End If
         clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Dim pono As String = obj.Against_POInvoice_No
         Dim amt As Decimal = obj.Document_Total
@@ -3768,7 +3779,8 @@ Public Class clsVedorInvoiceHead
         End If
 
 
-        If (obj.RemittanceObject IsNot Nothing AndAlso obj.is_For_TDS = 0) Then ''is_For_TDS Entry made by ap invoice is come in this section
+        If (obj.RemittanceObject IsNot Nothing AndAlso obj.is_For_TDS = 0) AndAlso Not obj.TDS_Provision Then ''is_For_TDS Entry made by ap invoice is come in this section
+
             If obj.TDS_Actual_Amount <> 0 Then
                 'Dim AccToInsertDR() As String = {obj.Vendor_Control_AC, obj.TDS_Actual_Amount }
                 'ArryLst.Add(AccToInsertDR)
