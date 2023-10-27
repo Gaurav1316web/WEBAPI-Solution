@@ -211,8 +211,12 @@ Public Class FrmGateEntry
             chkNetWeight.Checked = False
             chkNetWeight.Enabled = False
         ElseIf chkMccProc.IsChecked Then
+            If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                lblVendorBulk.Text = "Transpoter"
+            Else
+                lblVendorBulk.Text = "From MCC"
 
-            lblVendorBulk.Text = "From MCC"
+            End If
             If AllowJobWorkonGateEntryBulkProc = 1 Then
                 chkJobWork.Visible = True
                 chkJobWork.ReadOnly = True
@@ -329,12 +333,23 @@ Public Class FrmGateEntry
                     lblVendorNameBulk.Text = ""
                 End If
             ElseIf chkMccProc.IsChecked Then
-                fndVendorBulk.Value = clsLocation.getFinder(" Location_category='MCC' ", fndVendorBulk.Value, isButtonClicked)
-                If clsCommon.myLen(fndVendorBulk.Value) > 0 Then
-                    lblVendorNameBulk.Text = clsLocation.GetName(fndVendorBulk.Value, Nothing)
+                If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                    fndVendorBulk.Value = clsVendorMaster.getFinder(" TSPL_VENDOR_MASTER.Transporter='Y'  AND Status='N' ", fndVendorBulk.Value, isButtonClicked)
+                    If clsCommon.myLen(fndVendorBulk.Value) > 0 Then
+                        lblVendorNameBulk.Text = clsVendorMaster.GetName(fndVendorBulk.Value, Nothing)
+                    Else
+                        lblVendorNameBulk.Text = ""
+                    End If
                 Else
-                    lblVendorNameBulk.Text = ""
+                    fndVendorBulk.Value = clsLocation.getFinder(" Location_category='MCC' ", fndVendorBulk.Value, isButtonClicked)
+                    If clsCommon.myLen(fndVendorBulk.Value) > 0 Then
+                        lblVendorNameBulk.Text = clsLocation.GetName(fndVendorBulk.Value, Nothing)
+                    Else
+                        lblVendorNameBulk.Text = ""
+                    End If
+
                 End If
+
             End If
             ' done by priti BHA/21/06/18-000074 
             ' changes done for bharat based on weight BHA/31/07/18-000205
@@ -585,7 +600,7 @@ Public Class FrmGateEntry
         gvItemBulk.Columns.Add(colChamberDesc, "Chamber Desc")
         gvItemBulk.Columns(colChamberDesc).Width = 150
         gvItemBulk.Columns(colChamberDesc).ReadOnly = IIf(GateEntryChamberwisewithManualTankerEntry = 1, False, True)
-        gvItemBulk.Columns(colChamberDesc).IsVisible = False
+        gvItemBulk.Columns(colChamberDesc).IsVisible = True
 
         gvItemBulk.Columns.Add(colMilkTypeCode, "Milk Type")
         gvItemBulk.Columns(colMilkTypeCode).Width = 150
@@ -822,7 +837,7 @@ Public Class FrmGateEntry
         gvItemBulk.Columns.Add(colChamberDesc, "Chamber Desc")
         gvItemBulk.Columns(colChamberDesc).Width = 150
         gvItemBulk.Columns(colChamberDesc).ReadOnly = True
-        gvItemBulk.Columns(colChamberDesc).IsVisible = False
+        gvItemBulk.Columns(colChamberDesc).IsVisible = True
         gvItemBulk.Columns(colChamberDesc).ReadOnly = IIf(AllowBulkProcMCCwithoutTankerDispatch = 1, False, True)
 
         gvItemBulk.Columns.Add(colMilkTypeCode, "Milk Type")
@@ -2090,8 +2105,8 @@ Public Class FrmGateEntry
                 lblSupplierName.Text = clsSupplierMaster.getSupplierName(txtSupplierCode.Value, Nothing)
                 lblMilkTypeCode.Text = clsMilkTypeMaster.getMilkTypeName(txtMilktypeCode.Value, Nothing)
                 lblMilkType.Text = clsMilkTypeMaster.getMilkType(txtMilktypeCode.Value, Nothing)
-                If (MCCChamberwise = 1 AndAlso chkMccProc.IsChecked = True) Then
-                    If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                'If (MCCChamberwise = 1 AndAlso chkMccProc.IsChecked = True) Then
+                If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                         gvItemBulk.Rows.Clear()
                         For Each objTr As clsGateEntryChemberNoDetails In obj.Arr
                             gvItemBulk.Rows.AddNew()
@@ -2114,7 +2129,7 @@ Public Class FrmGateEntry
                         Next
                     End If
                     insideLoadData = False
-                End If
+                ' End If
                 If obj.isPosted = 1 Then
                     lblPending.Status = ERPTransactionStatus.Approved
                     btnSave.Enabled = False
@@ -2278,7 +2293,12 @@ Public Class FrmGateEntry
             chkNetWeight.Checked = False
             chkNetWeight.Enabled = False
         ElseIf chkMccProc.IsChecked Then
-            lblVendorBulk.Text = "From MCC"
+            If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
+                lblVendorBulk.Text = "Transpoter"
+            Else
+                lblVendorBulk.Text = "From MCC"
+
+            End If
             If AllowJobWorkonGateEntryBulkProc = 1 Then
                 chkJobWork.Visible = True
                 chkJobWork.Enabled = False
