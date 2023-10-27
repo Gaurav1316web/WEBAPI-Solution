@@ -4721,6 +4721,9 @@ Public Class MDI
                         frm = New FrmDispatchBulkSale()
                         frm.AllowModifcationByApprovalUser = IsAllowModificationByApprovalUser
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBulkSaleAcknowledgement
+                        frm = New frmBulkSaleAcknowledgement()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmInvoiceBulkSale
                         frm = New FrmInvoiceBulkSale()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

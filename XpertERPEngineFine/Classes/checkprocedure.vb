@@ -1960,7 +1960,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTradeReturn, "Bulk Dispatch Trade Return", "1.23.02.16", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
         ' Ticket No : KDI/26/04/18-000277  By prabhakar ( Tester Remarks )
         'InsertDefaultValue(clsUserMgtCode.frmsaleReturnGateEntryBulkSAle, "Sale Return Gate Entry Bulk Sale", "1.23.02.16", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
-
+        InsertDefaultValue(clsUserMgtCode.frmBulkSaleAcknowledgement, "Bulk Sale Acknowledgement", "1.23.02.17", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
         ''Report
         InsertDefaultValue(clsUserMgtCode.SubModuleBulkSaleReport, "Report", "1.23.03", clsUserMgtCode.ModuleBulkSale, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.FrmPrintBulkInvoiceStatement, "Bulk Invoice Print Statement", "1.23.03.01", clsUserMgtCode.SubModuleBulkSaleReport, 37)
