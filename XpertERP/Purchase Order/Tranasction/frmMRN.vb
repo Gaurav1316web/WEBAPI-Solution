@@ -3217,6 +3217,7 @@ Public Class frmMRN
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.PurchaseOrder_Type = clsCommon.myCstr(cboMRNType.SelectedValue)
                 obj.RGP_Type = clsCommon.myCstr(txtRGPType.Text)
+                obj.Retention = clsCommon.myCdbl(TxtRetention.Text)
                 'stuti
                 obj.IsCancel = 0
                 If txt_RoadPermitDate.Text IsNot Nothing AndAlso clsCommon.myLen(txt_RoadPermitDate.Text) > 0 AndAlso IsDate(txt_RoadPermitDate.Text) Then
@@ -3705,6 +3706,7 @@ Public Class frmMRN
                 txtRemarks.Text = obj.Remarks
                 cboMRNType.SelectedValue = obj.PurchaseOrder_Type
                 txtRGPType.Text = obj.RGP_Type
+                TxtRetention.Text = obj.Retention
 
                 'stuti
                 If obj.RoadPermit_Date IsNot Nothing AndAlso clsCommon.myLen(obj.RoadPermit_Date) > 0 AndAlso IsDate(obj.RoadPermit_Date) Then
@@ -4705,6 +4707,7 @@ Public Class frmMRN
                 txtSubLocation.Value = objReq.Sublocation_Code
                 lblSubLocation.Text = clsLocation.GetName(objReq.Sublocation_Code, Nothing)
                 txtSubLocation.Enabled = False
+                TxtRetention.Text = objReq.Retention
                 If (clsCommon.myLen(txtTermCode.Value) <= 0) Then
                     txtTermCode.Value = objReq.Terms_Code
                     lblTermName.Text = objReq.TermsName
