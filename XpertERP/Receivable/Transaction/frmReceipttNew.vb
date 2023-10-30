@@ -209,6 +209,18 @@ Public Class FrmReceipttNew
     Dim ERPStartDate As Date
     Dim RefundknockoffwithCreditNote As Boolean = False
     Dim EnableGoButtonofReceiptEntryWithoutEnteringReceiptAmt As Boolean = False
+    Dim receiptForm As Boolean = True
+    Public Check As Boolean = False
+    Public Property StringPass As String
+    Public Property StringPass1 As String
+    Public ReceiptFormOpen As Boolean = False
+    Dim rceceiptformOpens As New frmCustomer("", "")
+    Dim valueEntry As Boolean = rceceiptformOpens.ReceiptFormOpens
+    Dim strRecieptCode As String = ""
+
+
+
+
 #End Region
 
 #Region "Button Click"
@@ -353,6 +365,24 @@ Public Class FrmReceipttNew
             chkForCardSale.Visible = True
         Else
             chkForCardSale.Visible = False
+        End If
+
+        If valueEntry Then
+            ddlTransType.SelectedValue = "P"
+            chkSecurityDposit.Checked = True
+            ddlSecDepositType.SelectedValue = "S"
+            fndCustomer.Value = StringPass1
+            txtCusName.Text = StringPass
+            funFillDetails(ddlTransType.SelectedValue, NavigatorType.Current)
+        Else
+            ddlTransType.SelectedValue = "R"
+
+        End If
+
+        'Dim obj1 As New clsRcptEntryHeader()
+        If clsCommon.myLen(strRecieptCode) > 0 Then
+            fndRcptNo.Value = strRecieptCode
+            funFillDetails(fndRcptNo.Value, NavigatorType.Current)
         End If
     End Sub
     Sub SetMultiCurrencyVisibility()
@@ -8175,5 +8205,9 @@ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RCDF
             Qry = "select sum(Amount) as Amount from  TSPL_RCDF_LOAD_IN_ITEM where Document_Code='" + txtLoadIn.Value + "'"
             txtUnApplAmt.Text = clsCommon.myFormat(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(Qry)))
         End If
+    End Sub
+
+    Private Sub txtsalesmanCode_Load(sender As Object, e As EventArgs) Handles txtsalesmanCode.Load
+
     End Sub
 End Class

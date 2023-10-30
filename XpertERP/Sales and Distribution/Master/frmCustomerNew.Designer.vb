@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmCustomer
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmCustomer
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -52,18 +52,6 @@ Partial Class frmCustomer
         Dim RadListDataItem24 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem25 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem26 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewComboBoxColumn2 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
-        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim SortDescriptor1 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim SortDescriptor2 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem27 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem28 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -354,6 +342,9 @@ Partial Class frmCustomer
         Me.gvCrate = New common.UserControls.MyRadGridView()
         Me.CanAccounting = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCan = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.gvSecurity = New Telerik.WinControls.UI.RadGridView()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
@@ -631,6 +622,10 @@ Partial Class frmCustomer
         Me.CanAccounting.SuspendLayout()
         CType(Me.gvCan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCan.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage8.SuspendLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSecurity.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -791,10 +786,11 @@ Partial Class frmCustomer
         Me.pageCus.Controls.Add(Me.Attachments)
         Me.pageCus.Controls.Add(Me.CrateAccounting)
         Me.pageCus.Controls.Add(Me.CanAccounting)
+        Me.pageCus.Controls.Add(Me.RadPageViewPage8)
         Me.pageCus.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage1
+        Me.pageCus.SelectedPage = Me.RadPageViewPage3
         Me.pageCus.Size = New System.Drawing.Size(1047, 472)
         Me.pageCus.TabIndex = 12
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -872,9 +868,9 @@ Partial Class frmCustomer
         Me.RadPageViewPage1.Controls.Add(Me.fndRoute)
         Me.RadPageViewPage1.Controls.Add(Me.txtRoute)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1026, 424)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1026, 430)
         Me.RadPageViewPage1.Text = "Address"
         '
         'MultiRouteCode
@@ -5212,9 +5208,9 @@ Partial Class frmCustomer
         '
         Me.pageItems.Controls.Add(Me.gvItems)
         Me.pageItems.ItemSize = New System.Drawing.SizeF(44.0!, 28.0!)
-        Me.pageItems.Location = New System.Drawing.Point(10, 37)
+        Me.pageItems.Location = New System.Drawing.Point(10, 33)
         Me.pageItems.Name = "pageItems"
-        Me.pageItems.Size = New System.Drawing.Size(1026, 424)
+        Me.pageItems.Size = New System.Drawing.Size(1026, 430)
         Me.pageItems.Text = "Items"
         '
         'gvItems
@@ -5254,7 +5250,7 @@ Partial Class frmCustomer
         Me.gvItems.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItems.ShowGroupPanel = False
         Me.gvItems.ShowHeaderCellButtons = True
-        Me.gvItems.Size = New System.Drawing.Size(1026, 424)
+        Me.gvItems.Size = New System.Drawing.Size(1026, 430)
         Me.gvItems.TabIndex = 0
         Me.gvItems.TabStop = False
         '
@@ -5262,9 +5258,9 @@ Partial Class frmCustomer
         '
         Me.PageVisi.Controls.Add(Me.dgvVisi)
         Me.PageVisi.ItemSize = New System.Drawing.SizeF(91.0!, 28.0!)
-        Me.PageVisi.Location = New System.Drawing.Point(10, 37)
+        Me.PageVisi.Location = New System.Drawing.Point(10, 33)
         Me.PageVisi.Name = "PageVisi"
-        Me.PageVisi.Size = New System.Drawing.Size(1026, 424)
+        Me.PageVisi.Size = New System.Drawing.Size(1026, 430)
         Me.PageVisi.Text = "Defrizer / FOW"
         '
         'dgvVisi
@@ -5293,7 +5289,7 @@ Partial Class frmCustomer
         Me.dgvVisi.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvVisi.ShowGroupPanel = False
         Me.dgvVisi.ShowHeaderCellButtons = True
-        Me.dgvVisi.Size = New System.Drawing.Size(1026, 424)
+        Me.dgvVisi.Size = New System.Drawing.Size(1026, 430)
         Me.dgvVisi.TabIndex = 1
         Me.dgvVisi.TabStop = False
         '
@@ -5302,9 +5298,9 @@ Partial Class frmCustomer
         Me.RadPageViewPage7.Controls.Add(Me.gvCategory)
         Me.RadPageViewPage7.Controls.Add(Me.Panel1)
         Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(110.0!, 28.0!)
-        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
-        Me.RadPageViewPage7.Size = New System.Drawing.Size(1026, 424)
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(1026, 430)
         Me.RadPageViewPage7.Text = "Category Structure"
         '
         'gvCategory
@@ -5319,7 +5315,7 @@ Partial Class frmCustomer
         Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
-        Me.gvCategory.Size = New System.Drawing.Size(1026, 392)
+        Me.gvCategory.Size = New System.Drawing.Size(1026, 398)
         Me.gvCategory.TabIndex = 6
         Me.gvCategory.TabStop = False
         '
@@ -5383,9 +5379,9 @@ Partial Class frmCustomer
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
-        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
+        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 33)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1026, 424)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1026, 430)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'UcCustomFields1
@@ -5393,16 +5389,16 @@ Partial Class frmCustomer
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1026, 424)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1026, 430)
         Me.UcCustomFields1.TabIndex = 1
         '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
         Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
-        Me.Attachments.Location = New System.Drawing.Point(10, 37)
+        Me.Attachments.Location = New System.Drawing.Point(10, 33)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(1026, 424)
+        Me.Attachments.Size = New System.Drawing.Size(1026, 430)
         Me.Attachments.Text = "Attachment"
         '
         'UcAttachment1
@@ -5410,16 +5406,16 @@ Partial Class frmCustomer
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1026, 424)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1026, 430)
         Me.UcAttachment1.TabIndex = 1
         '
         'CrateAccounting
         '
         Me.CrateAccounting.Controls.Add(Me.gvCrate)
         Me.CrateAccounting.ItemSize = New System.Drawing.SizeF(103.0!, 28.0!)
-        Me.CrateAccounting.Location = New System.Drawing.Point(10, 37)
+        Me.CrateAccounting.Location = New System.Drawing.Point(10, 33)
         Me.CrateAccounting.Name = "CrateAccounting"
-        Me.CrateAccounting.Size = New System.Drawing.Size(1026, 407)
+        Me.CrateAccounting.Size = New System.Drawing.Size(1026, 430)
         Me.CrateAccounting.Text = "Crate Accounting"
         '
         'gvCrate
@@ -5443,7 +5439,7 @@ Partial Class frmCustomer
         Me.gvCrate.Name = "gvCrate"
         Me.gvCrate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCrate.ShowHeaderCellButtons = True
-        Me.gvCrate.Size = New System.Drawing.Size(1026, 407)
+        Me.gvCrate.Size = New System.Drawing.Size(1026, 430)
         Me.gvCrate.TabIndex = 2
         Me.gvCrate.TabStop = False
         '
@@ -5453,7 +5449,7 @@ Partial Class frmCustomer
         Me.CanAccounting.ItemSize = New System.Drawing.SizeF(95.0!, 28.0!)
         Me.CanAccounting.Location = New System.Drawing.Point(10, 37)
         Me.CanAccounting.Name = "CanAccounting"
-        Me.CanAccounting.Size = New System.Drawing.Size(1026, 407)
+        Me.CanAccounting.Size = New System.Drawing.Size(1026, 424)
         Me.CanAccounting.Text = "Can Accounting"
         '
         'gvCan
@@ -5477,9 +5473,39 @@ Partial Class frmCustomer
         Me.gvCan.Name = "gvCan"
         Me.gvCan.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCan.ShowHeaderCellButtons = True
-        Me.gvCan.Size = New System.Drawing.Size(1026, 407)
+        Me.gvCan.Size = New System.Drawing.Size(1026, 424)
         Me.gvCan.TabIndex = 3
         Me.gvCan.TabStop = False
+        '
+        'RadPageViewPage8
+        '
+        Me.RadPageViewPage8.Controls.Add(Me.RadButton1)
+        Me.RadPageViewPage8.Controls.Add(Me.gvSecurity)
+        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(56.0!, 28.0!)
+        Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage8.Name = "RadPageViewPage8"
+        Me.RadPageViewPage8.Size = New System.Drawing.Size(1026, 424)
+        Me.RadPageViewPage8.Text = "Security"
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Location = New System.Drawing.Point(3, 8)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(217, 24)
+        Me.RadButton1.TabIndex = 1
+        Me.RadButton1.Text = "Add Security"
+        '
+        'gvSecurity
+        '
+        Me.gvSecurity.Location = New System.Drawing.Point(3, 38)
+        '
+        '
+        '
+        Me.gvSecurity.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvSecurity.Name = "gvSecurity"
+        Me.gvSecurity.ReadOnly = True
+        Me.gvSecurity.Size = New System.Drawing.Size(1020, 383)
+        Me.gvSecurity.TabIndex = 0
         '
         'btnNew
         '
@@ -6275,6 +6301,10 @@ Partial Class frmCustomer
         Me.CanAccounting.ResumeLayout(False)
         CType(Me.gvCan.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCan, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage8.ResumeLayout(False)
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvSecurity.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6636,9 +6666,5 @@ Partial Class frmCustomer
     Friend WithEvents MultiRouteCode As common.UserControls.txtMultiSelectFinder
     Friend WithEvents fndRoute As common.UserControls.txtFinder
     Friend WithEvents txtRoute As common.Controls.MyTextBox
-    Friend WithEvents MyLabel45 As common.Controls.MyLabel
-    Friend WithEvents txtLocMapping As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents Txtlocation As common.UserControls.txtFinder
-    Friend WithEvents lblLocation As common.Controls.MyTextBox
 End Class
 

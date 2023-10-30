@@ -491,6 +491,7 @@ Public Class clsDocType
     '-----------------------------------------------------
     Public Const QualityCheckBulkSale As String = "Quality Check Bulk Sale"
     Public Const DispatchBulkSale As String = "Bulk Dispatch"
+    Public Const BulkSaleAcknowledgement As String = "Bulk Sale Acknowledgement"
     Public Const AcknowledgementGRN As String = "Acknowledgement of GRN"
     Public Const InvoiceBulkSale As String = "Bulk Invoice"
     Public Const ProformaInvoiceBulkSale As String = "Bulk Proforma Invoice"
