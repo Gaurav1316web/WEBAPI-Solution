@@ -116,25 +116,29 @@ Public Class frmBulkSaleAcknowledgement
 
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         Try
-            Dim obj As New clsBulkSaleAcknowledgement()
-            obj.Document_No = fndDocNo.Value
-            obj.Document_Date = txtDate.Value
-            obj.Bulk_Dispatch_Document = fndBulkSaleNo.Value
-            obj.Qty = txtQty.Value
-            obj.FAT = txtFAT.Value
-            obj.FAT_KG = txtFATKg.Text
-            obj.SNF = txtSNF.Value
-            obj.SNF_KG = txtSNFKg.Text
-            obj.FAT_Rate = txtFATRate.Value
-            obj.SNF_Rate = txtSNFRate.Value
-            obj.Amount = txtAmount.Value
-            obj.Remarks = txtRemarks.Text
-            If clsCommon.myLen(fndDocNo.Value) <= 0 Then
-                isNewEntry = True
-            End If
-            If clsBulkSaleAcknowledgement.SaveData(obj, isNewEntry) Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully.", Me.Text)
-                LoadDataBulkSaleAck(obj.Document_No, NavigatorType.Current)
+            If clsCommon.myLen(fndBulkSaleNo.Value) > 0 Then
+                Dim obj As New clsBulkSaleAcknowledgement()
+                obj.Document_No = fndDocNo.Value
+                obj.Document_Date = txtDate.Value
+                obj.Bulk_Dispatch_Document = fndBulkSaleNo.Value
+                obj.Qty = txtQty.Value
+                obj.FAT = txtFAT.Value
+                obj.FAT_KG = txtFATKg.Text
+                obj.SNF = txtSNF.Value
+                obj.SNF_KG = txtSNFKg.Text
+                obj.FAT_Rate = txtFATRate.Value
+                obj.SNF_Rate = txtSNFRate.Value
+                obj.Amount = txtAmount.Value
+                obj.Remarks = txtRemarks.Text
+                If clsCommon.myLen(fndDocNo.Value) <= 0 Then
+                    isNewEntry = True
+                End If
+                If clsBulkSaleAcknowledgement.SaveData(obj, isNewEntry) Then
+                    clsCommon.MyMessageBoxShow("Data Saved Successfully.", Me.Text)
+                    LoadDataBulkSaleAck(obj.Document_No, NavigatorType.Current)
+                End If
+            Else
+                clsCommon.MyMessageBoxShow("Bulk Sale No. can't be blank.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
