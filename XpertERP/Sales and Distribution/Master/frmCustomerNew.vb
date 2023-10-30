@@ -53,6 +53,7 @@ Public Class frmCustomer
     Dim TagMultipleRouteWithCustomer As Boolean = False
     Dim isLoadCopy As Boolean = False
     Public SuperUserCustomer As Boolean = False
+    Public OneTimeCheck As Boolean = False
 #End Region
 
     Public Sub New(ByVal user As String, ByVal company As String)
@@ -98,15 +99,17 @@ Public Class frmCustomer
         Me.Close()
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        If btnSave.Text = "Update" Then
+        If btnSave.Text = "Update" AndAlso OneTimeCheck = False Then
             Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.SIRC
             frm.strCode = clsFixedParameterCode.UpdatePassword
-
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 ShowRemarks()
+                OneTimeCheck = True
             End If
+        ElseIf btnSave.Text = "Update" AndAlso OneTimeCheck Then
+            ShowRemarks()
         Else
             SaveData()
         End If
@@ -1825,10 +1828,10 @@ Public Class frmCustomer
                 '    Throw New Exception("Customer cannot be mapped with RCDF")
                 'End If
                 common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
-                    btnSave.Text = "Update"
-                    btnDelete.Enabled = True
-                Else
-                    common.clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                btnSave.Text = "Update"
+                btnDelete.Enabled = True
+            Else
+                common.clsCommon.MyMessageBoxShow("Data Updated Successfully")
             End If
             isLoadCopy = False
             LoadData() '-Fills data
