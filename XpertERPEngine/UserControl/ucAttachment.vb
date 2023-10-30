@@ -95,7 +95,13 @@ Public Class ucAttachment
                     If clsCommon.myLen(gv1.Rows(ii).Cells(ColPath).Value) > 0 Then
                         Dim str As String
                         If RunServiceForUploadFolder Then
-                            str = UploadWithHttpRequest("http://103.122.38.34:7888/api/FileUploads/FileUpload", clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), obj.FileName)
+                            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                                str = "http://172.21.80.251:7888/api/FileUploads/FileUpload"
+                            Else
+                                str = "http://103.122.38.34:7888/api/FileUploads/FileUpload"
+                            End If
+
+                            str = UploadWithHttpRequest(str, clsCommon.myCstr(gv1.Rows(ii).Cells(ColPath).Value), obj.FileName)
                             Dim jObj As JObject = JObject.Parse(str)
                             Dim ArrJ As JArray = Nothing
                             If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then

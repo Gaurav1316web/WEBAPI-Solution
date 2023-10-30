@@ -1424,14 +1424,14 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
 
             Dim MilkProductBoth As String = Nothing
             If rbtnMilk.Checked Then
-                MilkProductBoth = "Milk"
-                whrcls += " And TSPL_ITEM_MASTER.Structure_Code='" + MilkProductBoth + "'"
+                MilkProductBoth = "'Product'"
+                whrcls += " And TSPL_ITEM_MASTER.Structure_Code NOT IN (" + MilkProductBoth + ")"
             ElseIf rbtnProduct.Checked Then
-                MilkProductBoth = "Product"
-                whrcls += " And TSPL_ITEM_MASTER.Structure_Code='" + MilkProductBoth + "'"
-            Else
-                MilkProductBoth = "'Milk','Product'"
-                whrcls += " And TSPL_ITEM_MASTER.Structure_Code IN (" + MilkProductBoth + ")"
+                MilkProductBoth = "'Milk'"
+                whrcls += " And TSPL_ITEM_MASTER.Structure_Code NOT IN (" + MilkProductBoth + ")"
+                ' Else
+                'MilkProductBoth = "'Milk','Product'"
+                'whrcls += " And TSPL_ITEM_MASTER.Structure_Code NOT IN (" + MilkProductBoth + ")"
             End If
 
 

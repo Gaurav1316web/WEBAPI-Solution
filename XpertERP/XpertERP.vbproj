@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -2251,12 +2251,6 @@
     <Compile Include="Process Production\Transaction\frmSiloMilkTransfer_JobWork.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PRODUCTION\Reports\frmCancelledTransactions_Production.Designer.vb">
-      <DependentUpon>frmCancelledTransactions_Production.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmCancelledTransactions_Production.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Purchase Order\Reports\frmDailyReceipNoteSummary.Designer.vb">
       <DependentUpon>frmDailyReceipNoteSummary.vb</DependentUpon>
     </Compile>
@@ -2359,12 +2353,6 @@
     <Compile Include="Purchase Order\Reports\rptRGPWiseJobWork.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Purchase Order\Setup\frmPopup1.Designer.vb">
-      <DependentUpon>frmPopup1.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Purchase Order\Setup\frmPopup1.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Purchase Order\Setup\frmRequisitionApproval.Designer.vb">
       <DependentUpon>frmRequisitionApproval.vb</DependentUpon>
     </Compile>
@@ -2441,6 +2429,12 @@
       <DependentUpon>FrmCostCentreConsumptionRpt.vb</DependentUpon>
     </Compile>
     <Compile Include="Purchase\Report\FrmCostCentreConsumptionRpt.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Purchase\Report\frmRptVendorLedger.Designer.vb">
+      <DependentUpon>frmRptVendorLedger.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Purchase\Report\frmRptVendorLedger.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Purchase\Report\frmRptVendorLedgerVSAgeing.Designer.vb">
@@ -2705,48 +2699,6 @@
       <DependentUpon>frmWreckage.vb</DependentUpon>
     </Compile>
     <Compile Include="Process Production\Transaction\frmWreckage.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmProductionSerializedReport.Designer.vb">
-      <DependentUpon>frmProductionSerializedReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmProductionSerializedReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmCopyBOM.Designer.vb">
-      <DependentUpon>frmCopyBOM.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmCopyBOM.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmMRP.Designer.vb">
-      <DependentUpon>frmMRP.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmMRP.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmMRPAutoMobile.Designer.vb">
-      <DependentUpon>frmMRPAutoMobile.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmMRPAutoMobile.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmMRPBasedPO.Designer.vb">
-      <DependentUpon>frmMRPBasedPO.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmMRPBasedPO.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionItemSerialReplace.Designer.vb">
-      <DependentUpon>frmProductionItemSerialReplace.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionItemSerialReplace.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionPlanningDemo.Designer.vb">
-      <DependentUpon>frmProductionPlanningDemo.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionPlanningDemo.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Purchase Order\Tranasction\FrmBulkCloser.Designer.vb">
@@ -3902,30 +3854,6 @@
     <Compile Include="Sales%28KDIL%29\Product Sale\Transaction\frmBookingProductSale.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PRODUCTION\Masters\frmSectionMaster.Designer.vb">
-      <DependentUpon>frmSectionMaster.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmSectionMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmSectionStageMapping.Designer.vb">
-      <DependentUpon>frmSectionStageMapping.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmSectionStageMapping.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmStageMaster.Designer.vb">
-      <DependentUpon>frmStageMaster.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmStageMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionReceiptDemo.Designer.vb">
-      <DependentUpon>frmProductionReceiptDemo.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionReceiptDemo.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Purchase Order\Tranasction\frmCopyPO.Designer.vb">
       <DependentUpon>frmCopyPO.vb</DependentUpon>
     </Compile>
@@ -4160,114 +4088,6 @@
     <Compile Include="MDI.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PRODUCTION\Masters\frmAccountSetting.Designer.vb">
-      <DependentUpon>frmAccountSetting.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmAccountSetting.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmAlternateItem.Designer.vb">
-      <DependentUpon>frmAlternateItem.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmAlternateItem.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmBillOfMaterial.Designer.vb">
-      <DependentUpon>frmBillOfMaterial.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmBillOfMaterial.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmBOMImport.Designer.vb">
-      <DependentUpon>frmBOMImport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmBOMImport.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmCostMaintainance.Designer.vb">
-      <DependentUpon>frmCostMaintainance.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmCostMaintainance.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmExpenseHead.Designer.vb">
-      <DependentUpon>frmExpenseHead.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmExpenseHead.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmItemProductionCategory.Designer.vb">
-      <DependentUpon>frmItemProductionCategory.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmItemProductionCategory.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmOperationMaster.Designer.vb">
-      <DependentUpon>frmOperationMaster.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmOperationMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmProcessMaster1.Designer.vb">
-      <DependentUpon>frmProcessMaster1.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmProcessMaster1.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmProductionLines.Designer.vb">
-      <DependentUpon>frmProductionLines.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmProductionLines.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmResourceMaster.Designer.vb">
-      <DependentUpon>frmResourceMaster.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmResourceMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmSettings.Designer.vb">
-      <DependentUpon>frmSettings.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmSettings.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmToolMaster.Designer.vb">
-      <DependentUpon>frmToolMaster.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmToolMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmToolType.Designer.vb">
-      <DependentUpon>frmToolType.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmToolType.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmWorkCenterMaster.Designer.vb">
-      <DependentUpon>frmWorkCenterMaster.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Masters\frmWorkCenterMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmBatchOrderReport.Designer.vb">
-      <DependentUpon>frmBatchOrderReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmBatchOrderReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmBatchReceipt.Designer.vb">
-      <DependentUpon>frmBatchReceipt.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmBatchReceipt.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmDatewiseProduction.Designer.vb">
-      <DependentUpon>frmDatewiseProduction.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmDatewiseProduction.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Business Inteligence\Production\frmGraphicalBatchOrder.Designer.vb">
       <DependentUpon>frmGraphicalBatchOrder.vb</DependentUpon>
     </Compile>
@@ -4278,162 +4098,6 @@
       <DependentUpon>frmGraphicalCategorywiseProduction.vb</DependentUpon>
     </Compile>
     <Compile Include="Business Inteligence\Production\frmGraphicalCategorywiseProduction.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmIssueReturnItemWiseReport.Designer.vb">
-      <DependentUpon>frmIssueReturnItemWiseReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmIssueReturnItemWiseReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmLineProductivity.Designer.vb">
-      <DependentUpon>frmLineProductivity.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmLineProductivity.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmListOfBOM.Designer.vb">
-      <DependentUpon>frmListOfBOM.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmListOfBOM.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmListOfProductionLines.Designer.vb">
-      <DependentUpon>frmListOfProductionLines.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmListOfProductionLines.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmListofRequisition.Designer.vb">
-      <DependentUpon>frmListofRequisition.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmListofRequisition.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmOperatorEfficiencyReport.Designer.vb">
-      <DependentUpon>frmOperatorEfficiencyReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmOperatorEfficiencyReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmProductionPlanReport.Designer.vb">
-      <DependentUpon>frmProductionPlanReport.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmProductionPlanReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmProductionVariance.Designer.vb">
-      <DependentUpon>frmProductionVariance.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\frmProductionVariance.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOf Resource.Designer.vb">
-      <DependentUpon>rptListOf Resource.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOf Resource.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfAccountSet.Designer.vb">
-      <DependentUpon>rptListOfAccountSet.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfAccountSet.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfAlternateItem.Designer.vb">
-      <DependentUpon>rptListOfAlternateItem.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfAlternateItem.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfOperations.Designer.vb">
-      <DependentUpon>rptListOfOperations.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfOperations.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfTools.Designer.vb">
-      <DependentUpon>rptListOfTools.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfTools.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfToolType.Designer.vb">
-      <DependentUpon>rptListOfToolType.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfToolType.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfWorkCenter.Designer.vb">
-      <DependentUpon>rptListOfWorkCenter.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfWorkCenter.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfItemCost.Designer.vb">
-      <DependentUpon>rptListOfItemCost.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfItemCost.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmBatchOrder.Designer.vb">
-      <DependentUpon>frmBatchOrder.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmBatchOrder.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmBillOfMaterialCosting.Designer.vb">
-      <DependentUpon>frmBillOfMaterialCosting.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmBillOfMaterialCosting.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmLabourWorkingSheet.Designer.vb">
-      <DependentUpon>frmLabourWorkingSheet.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmLabourWorkingSheet.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmManufacturingOrder.Designer.vb">
-      <DependentUpon>frmManufacturingOrder.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmManufacturingOrder.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionPlanning.Designer.vb">
-      <DependentUpon>frmProductionPlanning.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionPlanning.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmDemoProductionPlanning.Designer.vb">
-      <DependentUpon>frmDemoProductionPlanning.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmDemoProductionPlanning.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionReceipt.Designer.vb">
-      <DependentUpon>frmProductionReceipt.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionReceipt.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionRequisition.Designer.vb">
-      <DependentUpon>frmProductionRequisition.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionRequisition.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionReturn.Designer.vb">
-      <DependentUpon>frmProductionReturn.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionReturn.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmStoreIssue.Designer.vb">
-      <DependentUpon>frmStoreIssue.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmStoreIssue.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Purchase Order\Tranasction\frmPendingReqForApproval.Designer.vb">
@@ -5316,12 +4980,6 @@
       <DependentUpon>frmRptAPInvoice.vb</DependentUpon>
     </Compile>
     <Compile Include="Purchase\Report\frmRptAPInvoice.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Purchase\Report\frmRptVendorLedger.Designer.vb">
-      <DependentUpon>frmRptVendorLedger.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Purchase\Report\frmRptVendorLedger.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Purchase\Report\PurchaseReportViewer.Designer.vb">
@@ -6447,9 +6105,6 @@
     <EmbeddedResource Include="Process Production\Transaction\frmSiloMilkTransfer_JobWork.resx">
       <DependentUpon>frmSiloMilkTransfer_JobWork.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmCancelledTransactions_Production.resx">
-      <DependentUpon>frmCancelledTransactions_Production.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Reports\frmDailyReceipNoteSummary.resx">
       <DependentUpon>frmDailyReceipNoteSummary.vb</DependentUpon>
     </EmbeddedResource>
@@ -6511,10 +6166,6 @@
     <EmbeddedResource Include="Purchase Order\Reports\rptRGPWiseJobWork.resx">
       <DependentUpon>rptRGPWiseJobWork.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Purchase Order\Setup\frmPopup1.resx">
-      <DependentUpon>frmPopup1.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Setup\frmRequisitionApproval.resx">
       <DependentUpon>frmRequisitionApproval.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -6558,6 +6209,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Report\FrmCostCentreConsumptionRpt.resx">
       <DependentUpon>FrmCostCentreConsumptionRpt.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Purchase\Report\frmRptVendorLedger.resx">
+      <DependentUpon>frmRptVendorLedger.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Report\frmRptVendorLedgerVSAgeing.resx">
       <DependentUpon>frmRptVendorLedgerVSAgeing.vb</DependentUpon>
@@ -6705,33 +6359,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Process Production\Transaction\frmWreckage.resx">
       <DependentUpon>frmWreckage.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmProductionSerializedReport.resx">
-      <DependentUpon>frmProductionSerializedReport.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmCopyBOM.resx">
-      <DependentUpon>frmCopyBOM.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmMRP.resx">
-      <DependentUpon>frmMRP.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmMRPAutoMobile.resx">
-      <DependentUpon>frmMRPAutoMobile.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmMRPBasedPO.resx">
-      <DependentUpon>frmMRPBasedPO.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmProductionItemSerialReplace.resx">
-      <DependentUpon>frmProductionItemSerialReplace.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmProductionPlanningDemo.resx">
-      <DependentUpon>frmProductionPlanningDemo.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Tranasction\FrmBulkCloser.resx">
       <DependentUpon>FrmBulkCloser.vb</DependentUpon>
@@ -7440,22 +7067,6 @@
       <DependentUpon>frmBookingProductSale.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmSectionMaster.resx">
-      <DependentUpon>frmSectionMaster.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmSectionStageMapping.resx">
-      <DependentUpon>frmSectionStageMapping.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmStageMaster.resx">
-      <DependentUpon>frmStageMaster.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmProductionReceiptDemo.resx">
-      <DependentUpon>frmProductionReceiptDemo.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Tranasction\frmCopyPO.resx">
       <DependentUpon>frmCopyPO.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -7612,188 +7223,12 @@
       <DependentUpon>MDI.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmAccountSetting.resx">
-      <DependentUpon>frmAccountSetting.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmAlternateItem.resx">
-      <DependentUpon>frmAlternateItem.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmBillOfMaterial.resx">
-      <DependentUpon>frmBillOfMaterial.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmBOMImport.resx">
-      <DependentUpon>frmBOMImport.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmCostMaintainance.resx">
-      <DependentUpon>frmCostMaintainance.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmExpenseHead.resx">
-      <DependentUpon>frmExpenseHead.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmItemProductionCategory.resx">
-      <DependentUpon>frmItemProductionCategory.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmOperationMaster.resx">
-      <DependentUpon>frmOperationMaster.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmProcessMaster1.resx">
-      <DependentUpon>frmProcessMaster1.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmProductionLines.resx">
-      <DependentUpon>frmProductionLines.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmResourceMaster.resx">
-      <DependentUpon>frmResourceMaster.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmSettings.resx">
-      <DependentUpon>frmSettings.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmToolMaster.resx">
-      <DependentUpon>frmToolMaster.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmToolType.resx">
-      <DependentUpon>frmToolType.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Masters\frmWorkCenterMaster.resx">
-      <DependentUpon>frmWorkCenterMaster.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmBatchOrderReport.resx">
-      <DependentUpon>frmBatchOrderReport.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmBatchReceipt.resx">
-      <DependentUpon>frmBatchReceipt.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmDatewiseProduction.resx">
-      <DependentUpon>frmDatewiseProduction.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Business Inteligence\Production\frmGraphicalBatchOrder.resx">
       <DependentUpon>frmGraphicalBatchOrder.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Business Inteligence\Production\frmGraphicalCategorywiseProduction.resx">
       <DependentUpon>frmGraphicalCategorywiseProduction.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmIssueReturnItemWiseReport.resx">
-      <DependentUpon>frmIssueReturnItemWiseReport.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmLineProductivity.resx">
-      <DependentUpon>frmLineProductivity.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmListOfBOM.resx">
-      <DependentUpon>frmListOfBOM.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmListOfProductionLines.resx">
-      <DependentUpon>frmListOfProductionLines.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmListofRequisition.resx">
-      <DependentUpon>frmListofRequisition.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmOperatorEfficiencyReport.resx">
-      <DependentUpon>frmOperatorEfficiencyReport.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmProductionPlanReport.resx">
-      <DependentUpon>frmProductionPlanReport.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\frmProductionVariance.resx">
-      <DependentUpon>frmProductionVariance.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\rptListOf Resource.resx">
-      <DependentUpon>rptListOf Resource.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\rptListOfAccountSet.resx">
-      <DependentUpon>rptListOfAccountSet.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\rptListOfAlternateItem.resx">
-      <DependentUpon>rptListOfAlternateItem.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\rptListOfOperations.resx">
-      <DependentUpon>rptListOfOperations.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\rptListOfTools.resx">
-      <DependentUpon>rptListOfTools.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\rptListOfToolType.resx">
-      <DependentUpon>rptListOfToolType.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\rptListOfWorkCenter.resx">
-      <DependentUpon>rptListOfWorkCenter.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Reports\rptListOfItemCost.resx">
-      <DependentUpon>rptListOfItemCost.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmBatchOrder.resx">
-      <DependentUpon>frmBatchOrder.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmBillOfMaterialCosting.resx">
-      <DependentUpon>frmBillOfMaterialCosting.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmLabourWorkingSheet.resx">
-      <DependentUpon>frmLabourWorkingSheet.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmManufacturingOrder.resx">
-      <DependentUpon>frmManufacturingOrder.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmProductionPlanning.resx">
-      <DependentUpon>frmProductionPlanning.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmDemoProductionPlanning.resx">
-      <DependentUpon>frmDemoProductionPlanning.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmProductionReceipt.resx">
-      <DependentUpon>frmProductionReceipt.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmProductionRequisition.resx">
-      <DependentUpon>frmProductionRequisition.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmProductionReturn.resx">
-      <DependentUpon>frmProductionReturn.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PRODUCTION\Transactions\frmStoreIssue.resx">
-      <DependentUpon>frmStoreIssue.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Tranasction\frmPendingReqForApproval.resx">
@@ -8392,10 +7827,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Report\frmRptAPInvoice.resx">
       <DependentUpon>frmRptAPInvoice.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Purchase\Report\frmRptVendorLedger.resx">
-      <DependentUpon>frmRptVendorLedger.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase\Report\PurchaseReportViewer.resx">

@@ -88,6 +88,7 @@ Public Class FrmItemMasterRMOther
     Dim SettItemWiseQualityCheckInGeneralPurchase As Boolean = False
     Dim UpdateItemMasterConversationWithoutValidation As Boolean = False
     Dim AllowDuplicateItemShortDescriptionInItemMaster As Boolean = False
+    Dim OneTimeCheck As Boolean = False
 #End Region
     Private Sub FrmItemMasterRMOther_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         AllowDuplicateItemShortDescriptionInItemMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowDuplicateItemShortDescriptionInItemMaster, clsFixedParameterCode.AllowDuplicateItemShortDescriptionInItemMaster, Nothing)) = 1, True, False)
@@ -1329,19 +1330,20 @@ Public Class FrmItemMasterRMOther
         lblSubCategory.Text = clsDBFuncationality.getSingleValue("select Description  from TSPL_ITEM_SUB_CATEGORY where Sub_Category_Code='" + txtSubCategory.Value + "'")
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        If btnSave.Text = "Update" Then
+        If btnSave.Text = "Update" AndAlso OneTimeCheck = False Then
             Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.SIRC
             frm.strCode = clsFixedParameterCode.UpdatePassword
-
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 ShowRemarks()
+                OneTimeCheck = True
             End If
+        ElseIf btnSave.Text = "Update" AndAlso OneTimeCheck Then
+            ShowRemarks()
         Else
             Savedata()
         End If
-
     End Sub
     Sub Savedata()
         Try

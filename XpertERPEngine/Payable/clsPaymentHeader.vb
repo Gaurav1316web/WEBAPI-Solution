@@ -163,6 +163,7 @@ Public Class clsPaymentHeader
     Public TAX10_Base_Amt As Double = 0
     Public TAX10_Rate As Double = 0
     Public TAX10_Amt As Double = 0
+    Public TDS_Provision As Boolean = False
 
     '' Bank Charges 
     Public Tax_Group_BankCharges As String = String.Empty
@@ -293,6 +294,7 @@ Public Class clsPaymentHeader
             clsCommon.AddColumnsForChange(coll, "Against_TDS_PAYMENT_No", obj.Against_TDS_PAYMENT_No, True)
             clsCommon.AddColumnsForChange(coll, "Location_GL_Code", obj.Location_GL_Code, True)
             clsCommon.AddColumnsForChange(coll, "Advance_Against_Salary", obj.Advance_Against_Salary)
+            clsCommon.AddColumnsForChange(coll, "TDS_Provision", IIf(obj.TDS_Provision, 1, 0))
             If clsCommon.myLen(obj.Cheque_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Cheque_Date", clsCommon.GetPrintDate(obj.Cheque_Date, "dd/MMM/yyyy"), True)
             Else
@@ -300,13 +302,21 @@ Public Class clsPaymentHeader
             End If
             clsCommon.AddColumnsForChange(coll, "PDC_Cheque", obj.PDC_Cheque)
             If clsCommon.CompairString(obj.Payment_Type, "AV") = CompairStringResult.Equal Or clsCommon.CompairString(obj.Payment_Type, "OA") = CompairStringResult.Equal Then
-                clsCommon.AddColumnsForChange(coll, "Payment_Amount", obj.Total_Prepayment - Math.Round(obj.TDS_Amount, 0, MidpointRounding.ToEven))
+                If Not obj.TDS_Provision Then
+                    clsCommon.AddColumnsForChange(coll, "Payment_Amount", obj.Total_Prepayment - Math.Round(obj.TDS_Amount, 0, MidpointRounding.ToEven))
+                    clsCommon.AddColumnsForChange(coll, "TDS_Amount", Math.Round(obj.TDS_Amount, 0, MidpointRounding.ToEven)) '
+
+                Else
+                    clsCommon.AddColumnsForChange(coll, "Payment_Amount", obj.Total_Prepayment)
+                    clsCommon.AddColumnsForChange(coll, "TDS_Amount", 0)
+
+                End If
             Else
                 clsCommon.AddColumnsForChange(coll, "Payment_Amount", obj.Payment_Amount)
             End If
             obj.Vendor_Account_Set = clsDBFuncationality.getSingleValue("select Vendor_Account  from TSPL_VENDOR_MASTER where Vendor_Code ='" + obj.Vendor_Code + "'", trans)
             clsCommon.AddColumnsForChange(coll, "Vendor_Account_Set", obj.Vendor_Account_Set)
-            clsCommon.AddColumnsForChange(coll, "TDS_Amount", Math.Round(obj.TDS_Amount, 0, MidpointRounding.ToEven))
+            'clsCommon.AddColumnsForChange(coll, "TDS_Amount", Math.Round(obj.TDS_Amount, 0, MidpointRounding.ToEven))
             clsCommon.AddColumnsForChange(coll, "Total_Prepayment", obj.Total_Prepayment)
             clsCommon.AddColumnsForChange(coll, "Apply_By", obj.Apply_By)
             clsCommon.AddColumnsForChange(coll, "Apply_To", obj.Apply_To)
@@ -701,7 +711,7 @@ Public Class clsPaymentHeader
         " TSPL_PAYMENT_HEADER.TAX6,TSPL_PAYMENT_HEADER.TAX6_Rate,TSPL_PAYMENT_HEADER.TAX6_Amt,TSPL_PAYMENT_HEADER.TAX6_Base_Amt,TSPL_PAYMENT_HEADER.tax7, TSPL_PAYMENT_HEADER.TAX7_Rate, " &
         " TSPL_PAYMENT_HEADER.TAX7_Amt, TSPL_PAYMENT_HEADER.TAX7_Base_Amt, TSPL_PAYMENT_HEADER.TAX8, TSPL_PAYMENT_HEADER.TAX8_Rate, TSPL_PAYMENT_HEADER.TAX8_Amt," &
         " TSPL_PAYMENT_HEADER.TAX8_Base_Amt, TSPL_PAYMENT_HEADER.TAX9, TSPL_PAYMENT_HEADER.TAX9_Rate, TSPL_PAYMENT_HEADER.TAX9_Amt, TSPL_PAYMENT_HEADER.TAX9_Base_Amt, " &
-        " TSPL_PAYMENT_HEADER.TAX10, TSPL_PAYMENT_HEADER.TAX10_Rate, TSPL_PAYMENT_HEADER.TAX10_Amt, TSPL_PAYMENT_HEADER.TAX10_Base_Amt," &
+        " TSPL_PAYMENT_HEADER.TAX10, TSPL_PAYMENT_HEADER.TAX10_Rate, TSPL_PAYMENT_HEADER.TAX10_Amt, TSPL_PAYMENT_HEADER.TAX10_Base_Amt , TSPL_PAYMENT_HEADER.TDS_Provision," &
         " TSPL_PAYMENT_HEADER.PurchaseOrder_No_GST,TSPL_PAYMENT_HEADER.Tax_Group,TSPL_PAYMENT_HEADER.Tax_Amount_Advance,TSPL_PAYMENT_HEADER.PurchaseOrder_Amount,TSPL_PAYMENT_HEADER.PurchaseOrder_Add_Amount,TSPL_PAYMENT_HEADER.PO_Location_Code,TSPL_PAYMENT_HEADER.Tax_Group_BankCharges,TSPL_PAYMENT_HEADER.Bank_Charges_Tax,TSPL_PAYMENT_HEADER.isFarmerLoanPayment,TSPL_PAYMENT_HEADER.Saving " &
         " FROM TSPL_PAYMENT_HEADER " &
         " LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.Bank_Code=TSPL_PAYMENT_HEADER.Bank_Code" &
@@ -761,6 +771,7 @@ Public Class clsPaymentHeader
             obj.Against_TDS_PAYMENT_No = clsCommon.myCstr(dt.Rows(0)("Against_TDS_PAYMENT_No"))
             obj.Is_Security = clsCommon.myCdbl(dt.Rows(0)("Is_Security"))
             obj.Saving = (clsCommon.myCDecimal(dt.Rows(0)("Saving")) = 1)
+            obj.TDS_Provision = IIf(clsCommon.myCdbl(dt.Rows(0)("TDS_Provision")) = 1, True, False)
             obj.Location_GL_Code = clsCommon.myCstr(dt.Rows(0)("Location_GL_Code"))
             If IsDBNull(dt.Rows(0)("DateAndTime")) = True Then
                 obj.DateAndTime = Nothing
@@ -2257,6 +2268,7 @@ Public Class clsPaymentHeader
                 End If
 
                 objVendorInvHead.Document_Type = "C" ''For Purchase Invoice Type
+                objVendorInvHead.TDS_Provision = obj.TDS_Provision ''For TDS Provision
 
                 objVendorInvHead.On_Hold = False
                 'Dim srndate As String = ""
@@ -2799,7 +2811,7 @@ Public Class clsPaymentHeader
                 Dim InvcNo As String = ""
                 Dim BalAmt As Decimal = 0.0
                 Dim PayAmt As Decimal = drtotal
-                Dim strQ As String = "select Document_No,Due_Date ,case when fifo_balance>0 then fifo_balance else   Balance_Amt end as  Balance_Amt  from TSPL_VENDOR_INVOICE_HEAD where Balance_Amt>0  and Vendor_Code='" + obj.Vendor_Code + "' and fifo_knockoff='N'" & _
+                Dim strQ As String = "select Document_No,Due_Date ,case when fifo_balance>0 then fifo_balance else   Balance_Amt end as  Balance_Amt  from TSPL_VENDOR_INVOICE_HEAD where Balance_Amt>0  and Vendor_Code='" + obj.Vendor_Code + "' and fifo_knockoff='N'" &
                                      "order by TSPL_VENDOR_INVOICE_HEAD.Due_Date "
                 Dim Dt1 As DataTable = New DataTable()
                 Dt1 = clsDBFuncationality.GetDataTable(strQ, trans)
@@ -2826,7 +2838,7 @@ Public Class clsPaymentHeader
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_PAYMENT_HEADER set Posted = '1',Modify_By='" + objCommonVar.CurrentUserCode + "' where Payment_No = '" + strPaymentNo + "'", trans)
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_PAYMENT_DETAIL set Post = '1' where Payment_No = '" + strPaymentNo + "'", trans)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "MI") = CompairStringResult.Equal Then
-                qry = "select TSPL_PAYMENT_detail.Account_code,TSPL_PAYMENT_detail.Net_Balance,TSPL_PAYMENT_detail.Remarks,TSPL_PAYMENT_HEADER.ConvRateOld from TSPL_PAYMENT_detail inner join TSPL_PAYMENT_HEADER on " & _
+                qry = "select TSPL_PAYMENT_detail.Account_code,TSPL_PAYMENT_detail.Net_Balance,TSPL_PAYMENT_detail.Remarks,TSPL_PAYMENT_HEADER.ConvRateOld from TSPL_PAYMENT_detail inner join TSPL_PAYMENT_HEADER on " &
                 " TSPL_PAYMENT_detail.payment_no=TSPL_PAYMENT_HEADER.payment_no where TSPL_PAYMENT_detail.Payment_No='" + strPaymentNo + "'"
                 Dim dtNew As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
@@ -2839,7 +2851,14 @@ Public Class clsPaymentHeader
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_PAYMENT_HEADER set Posted = '1',Modify_By='" + objCommonVar.CurrentUserCode + "' where Payment_No = '" + strPaymentNo + "'", trans)
                 clsDBFuncationality.ExecuteNonQuery("update TSPL_PAYMENT_DETAIL set Post = '1' where Payment_No = '" + strPaymentNo + "'", trans)
             End If
-            qry = "update TSPL_REMITTANCE set Remit_TDS='N' where Document_No='" + strPaymentNo + "'"
+            If obj.TDS_Provision Then
+                qry = "update TSPL_REMITTANCE set Remit_TDS='N',Is_TDS_Provision='Y' where Document_No='" + strPaymentNo + "'"
+
+            Else
+                qry = "update TSPL_REMITTANCE set Remit_TDS='N',Is_TDS_Provision='N' where Document_No='" + strPaymentNo + "'"
+
+
+            End If
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 

@@ -3645,6 +3645,7 @@ Public Class frmPurchaseInvoice
         btnDelete.Enabled = True
         txtVehicleNo.Enabled = True
         lblVehicle.ReadOnly = False
+        chkTDSProvision.Checked = False
         txtDate.Focus()
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -3995,6 +3996,15 @@ Public Class frmPurchaseInvoice
                     End If
                 Next
             End If
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Provisional from TSPL_VENDOR_MASTER where Vendor_Code='" + txtVendorNo.Value + "'")) = 1 Then
+                If common.clsCommon.MyMessageBoxShow("Do You Want to Apply TDS Provision", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                    chkTDSProvision.Checked = True
+                Else
+                    chkTDSProvision.Checked = False
+                End If
+
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
             Return False
@@ -4078,7 +4088,7 @@ Public Class frmPurchaseInvoice
                 If InvDate1.Checked Then
                     obj.Invdate = InvDate1.Value
                 End If
-
+                obj.TDS_Provision = chkTDSProvision.Checked
                 obj.PROJECT_ID = fndProject.Text
 
                 obj.TapalNo = clsCommon.myCstr(txtTapalNo.Text)
@@ -4887,6 +4897,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 txtDesc.Text = obj.Description
                 txtTaxGroup.Value = obj.Tax_Group
 
+                chkTDSProvision.Checked = obj.TDS_Provision
                 txtDept.Value = obj.Dept
                 lblDept.Text = obj.Dept_Desc
 
@@ -8573,7 +8584,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
 					 TSPL_TENDER_SCHEDULE.Vendor_Code='" + txtVendorNo.Value + "' and
 					 TSPL_TENDER_SCHEDULE.Location_Code='" + txtBillToLocation.Value + "' GROUP BY DocumentCode) TSPL_TENDER_SCHEDULE on
 					 TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
-                    where TSPL_PI_HEAD.PI_No = '" + txtDocNo.Value + "' )ss WHERE 1=1 "
+                    where TSPL_PI_HEAD.PI_No = '" + txtDocNo.Value + "' )ss WHERE 1=1 order by convert(date,ss.GRN_Date,103) "
             Else
                 qry = " select isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as TDS,isnull (TSPL_SRN_TENDER.Penalty,0) as Penalty ,
                            isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as Ded_Amt,

@@ -140,6 +140,28 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_WISE_TAX", coll)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(30) Not Null Primary Key")
+            coll.Add("Document_Date", "datetime  Not Null")
+            coll.Add("Bulk_Dispatch_Document", "varchar(30) Not Null references TSPL_Dispatch_BulkSale(Document_No)")
+            coll.Add("Qty", "decimal(18,2) Not Null")
+            coll.Add("FAT", "decimal(18,2) Not Null")
+            coll.Add("FAT_KG", "decimal(18,3) Not Null")
+            coll.Add("SNF", "decimal(18,2) Not Null")
+            coll.Add("SNF_KG", "decimal(18,3) Not Null")
+            coll.Add("FAT_Rate", "decimal(18,2) Not Null")
+            coll.Add("SNF_Rate", "decimal(18,2) Not Null")
+            coll.Add("Amount", "decimal(18,2) Not Null")
+            coll.Add("Created_By", "varchar(12) Not Null references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Created_Date", "datetime  Null")
+            coll.Add("Modify_By", "varchar(12)  Not Null references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Modify_Date", "datetime   Null")
+            coll.Add("Posted_By", "varchar(12)  Null references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Posting_Date", "datetime  Null")
+            coll.Add("Status", "Integer Null")
+            coll.Add("Remarks", "varchar(200) Null")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", coll, "", True)
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("DCODE", "Varchar(30) Not null Primary key")
             coll.Add("SNO", "Integer null")
             coll.Add("HCODE", "Varchar(30) Not null references TSPL_ITEM_WISE_TAX(HCODE)")
@@ -10665,6 +10687,7 @@ Public Class clsCreateAllTable
             coll.Add("SRN_Net_Amount", "decimal(18,2) NULL")
             coll.Add("SRN_RO_Amount", "decimal(18,2) NULL")
             coll.Add("MCC_Code", "Varchar(30) null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
+            coll.Add("TDS_Amount", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_INVOICE", coll, Nothing, False, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
             coll = New Dictionary(Of String, String)()
@@ -13469,6 +13492,8 @@ Public Class clsCreateAllTable
             coll.Add("VIDHAN_SABHA_CODE", "Varchar(30) null references TSPL_VIDHAN_SABHA_MASTER (VIDHAN_SABHA_CODE)")
             coll.Add("IsAllowSkipPurchaseQC", "Integer not null default 0")
             coll.Add("OEM", "integer null")
+            coll.Add("Is_Provisional", "Integer not null default 0")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -22544,7 +22569,6 @@ Public Class clsCreateAllTable
             coll.Add("ChangedTCSBaseAmount", "decimal(18,2)")
             coll.Add("Total_Add_Charge_Insurance", "decimal(18,2) NULL")
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
-            coll.Add("Retention", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PI_HEAD", coll, Nothing, True, True, "", "PI_No", "PI_Date")
 
             coll = New Dictionary(Of String, String)
@@ -23102,6 +23126,8 @@ Public Class clsCreateAllTable
             coll.Add("Reject_Type", "Varchar(30) null")
             coll.Add("Against_Milk_Collection_DCS_Detail", "integer null references TSPL_MILK_COLLECTION_DCS_DETAIL(PK_Id)")
             coll.Add("Bulk_Route_Code", "Varchar(30) null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
+            coll.Add("Manual_Weight", "Integer NULL")
+            coll.Add("Manual_Sample", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, False, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
@@ -25120,6 +25146,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("is_Secondary_Transporter_Deduction", "int NOT NULL default 0")
             coll.Add("GSTRegistered", "Integer not null default 1")
             coll.Add("RCM", "Integer not null default 0")
+            coll.Add("TDS_Provision", "Integer not null default 0")
             coll.Add("Purchase_Tax_Invoice", "Varchar(30) null")
             coll.Add("Purchase_Tax_Invoice_Type", "Varchar(1) null")
             coll.Add("ITC_Elibible", "Integer not null default 0")
@@ -25143,6 +25170,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Against_VSP_Asset_Issue", "Varchar(30) null References TSPL_VSPAsset_HEAD(Doc_No)")
             coll.Add("Update_PR_APInvoice_Balance_Amt", "Integer not null default 0")
             coll.Add("Saving", "integer NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, False, "", "Document_No", "Posting_Date", True)
 
             coll = New Dictionary(Of String, String)()
@@ -25728,6 +25756,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             coll.Add("Previous_TDS_Amt", "Decimal(18,2) NULL")
             coll.Add("Is_TDS_Override", "integer Not null default 0")
+            coll.Add("Is_TDS_Provision", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_REMITTANCE", coll, "unique (Document_No)", True, False)
 
 
@@ -27160,6 +27189,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Vendor_Bank_ACNo", "varchar(50) NULL")
             coll.Add("Against_VSP_Asset_Lost", "Varchar(30) null References TSPL_VSPAsset_HEAD(Doc_No)")
             coll.Add("Saving", "INTEGER NULL")
+            coll.Add("TDS_Provision", "INTEGER not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_HEADER", coll, Nothing, True, False, "", "Payment_No", "Payment_Date", True)
             '' PJC tables ends here
 
@@ -45268,6 +45298,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("MP_Total_Deduction", "DECIMAL(18,2)  NULL ")
             coll.Add("Asset_Lost_Amount", "DECIMAL(18,2)  NULL ")
             coll.Add("MCC_Code", "Varchar(30) null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
+            coll.Add("TDS_Amount", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
 

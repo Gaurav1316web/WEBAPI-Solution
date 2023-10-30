@@ -1339,6 +1339,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptDCSFinancialEntry.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummarByRange.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryMontholyWise.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryYearlyWise.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSWiseAvgFatSnfPrint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDispatchChallan.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMCCMaterialSale.rpt" />
