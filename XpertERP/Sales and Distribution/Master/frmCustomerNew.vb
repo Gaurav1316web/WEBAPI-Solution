@@ -53,6 +53,7 @@ Public Class frmCustomer
     Dim TagMultipleRouteWithCustomer As Boolean = False
     Dim isLoadCopy As Boolean = False
     Public SuperUserCustomer As Boolean = False
+    Dim OneTimeCheck As Boolean = False
 #End Region
 
     Public Sub New(ByVal user As String, ByVal company As String)
