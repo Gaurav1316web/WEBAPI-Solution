@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Public Class frmMilkCollectionMCCQC
     Inherits FrmMainTranScreen
     Dim CorrectionApply As Boolean = False
+    Dim OneTimeCheck As Boolean = False
     Private Sub FrmPrefixImport_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtDateReport.Value = txtDate.Value
@@ -355,13 +356,17 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
 
     Private Sub btnCorrection_Click(sender As Object, e As EventArgs) Handles btnCorrection.Click
         Try
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.UpdatePassword
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
+            If OneTimeCheck = False Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.UpdatePassword
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    CorrectionApply = True
+                    OneTimeCheck = True
+                End If
+            Else
                 CorrectionApply = True
-
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

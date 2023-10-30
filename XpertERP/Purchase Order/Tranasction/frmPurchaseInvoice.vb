@@ -4193,6 +4193,7 @@ Public Class frmPurchaseInvoice
                 End If
                 obj.Total_Add_Charge_Insurance = clsCommon.myCdbl(lblAddChargesForInsurance.Text)
                 obj.Total_Item_Insurance_Amt = clsCommon.myCdbl(lblTotalInsuranceAmt.Text)
+                obj.Retention = clsCommon.myCdbl(TxtRetention.Text)
                 If rbtnTaxCalAutomatic.IsChecked Then
                     obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic
                 ElseIf rbtnTaxCalManual.IsChecked Then
@@ -4905,6 +4906,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                 txtBillToLocation.Value = obj.Bill_To_Location
                 txtSubLocation.Value = obj.Sublocation_Code
                 txtRemarks.Text = obj.Remarks
+                TxtRetention.Text = obj.Retention
 
                 If clsCommon.myLen(obj.DateAndTime) > 0 Then
                     txtDataAndTimeSelection.Value = obj.DateAndTime
@@ -6244,6 +6246,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     txtSubLocation.Value = objMRNHead.Sublocation_Code
                     txtSubLocation.Enabled = False
                     lblSubLocation.Text = objMRNHead.SubLocationName
+                    TxtRetention.Text = objMRNHead.Retention
                     'End If
 
                     txtShipToLocation.Value = objMRNHead.Ship_To_Location

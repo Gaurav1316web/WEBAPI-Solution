@@ -539,6 +539,7 @@ Public Class frmGRN
         txtTaxGroup.Value = ""
         lblTaxGrpName.Text = ""
         txtTermCode.Value = ""
+        TxtRetention.Text = ""
         lblTermName.Text = ""
         txtDueDate.Value = txtDate.Value
         txtRefNo.Text = ""
@@ -592,6 +593,7 @@ Public Class frmGRN
         lblAddChargesForInsurance.Text = ""
         lblAddChargesForInsurance1.Text = ""
         lblTotalInsuranceAmt.Text = ""
+        TxtRetention.Text = ""
     End Sub
 
     Sub LoadBlankGridAC()
@@ -3616,6 +3618,7 @@ Public Class frmGRN
                 obj.Tax_Group = txtTaxGroup.Value
                 obj.PurchaseOrder_Type = clsCommon.myCstr(cmbGRNType.SelectedValue)
                 obj.RGP_Type = clsCommon.myCstr(cmbRGPType.SelectedValue)
+                obj.Retention = clsCommon.myCdbl(TxtRetention.Text)
                 'stuti
 
                 If txt_RoadPermitDate.Text IsNot Nothing AndAlso clsCommon.myLen(txt_RoadPermitDate.Text) > 0 AndAlso IsDate(txt_RoadPermitDate.Text) Then
@@ -4148,6 +4151,7 @@ Public Class frmGRN
                 txtSubLocation.Value = obj.Sublocation_Code
                 lblShipToLocation.Text = obj.SubLocationName
                 txtRemarks.Text = obj.Remarks
+                TxtRetention.Text = obj.Retention
                 Dim objTaxGrpMaster As New clsTaxGroupMaster()
                 objTaxGrpMaster = objTaxGrpMaster.GetDataForPurchase(obj.Tax_Group)
                 If (objTaxGrpMaster IsNot Nothing) Then
@@ -5215,6 +5219,7 @@ Public Class frmGRN
                 txtSubLocation.Value = objPO.Sublocation_Code
                 lblSubLocation.Text = clsLocation.GetName(objPO.Sublocation_Code, Nothing)
                 txtSubLocation.Enabled = False
+                TxtRetention.Text = objPO.Retention
                 'End If
                 If (clsCommon.myLen(txtDesc.Text) <= 0) Then
                     txtDesc.Text = objPO.Description

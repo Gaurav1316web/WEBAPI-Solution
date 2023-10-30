@@ -1022,7 +1022,7 @@ Public Class FrmMPMaster
                     txtVSPName.Text = ""
                 End If
                 '==================================
-                
+
                 'If obj.arrBuffaloesDetail.Count > 0 Then
                 '    loadBlankDgvBuffaloes()
                 '    For i As Integer = 0 To obj.arrBuffaloesDetail.Count - 1
@@ -2417,7 +2417,7 @@ Public Class FrmMPMaster
         End If
         txtIncentiveMult.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "IncenMulSelForMP", qry, "Code", "Name", txtIncentiveMult.arrValueMember, txtIncentiveMult.arrDispalyMember)
     End Sub
-   
+
     Private Sub btnIncentiveClear_Click(sender As Object, e As EventArgs)
         txtIncentiveMult.arrValueMember = Nothing
     End Sub
