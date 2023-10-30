@@ -11,6 +11,7 @@ Public Class clsPOWeighment
     Public Posted_Date As DateTime?
     Public Is_Auto_Weighment As Boolean
     Public Arr As List(Of clsPOWeighmentDetail)
+    Public ArrGunnyBag As List(Of clsPOWeighmentGunnyBag)
 #End Region
 
     Public Function SaveData(ByVal obj As clsPOWeighment, ByVal isNewEntry As Boolean) As Boolean
@@ -29,13 +30,16 @@ Public Class clsPOWeighment
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Weighment_Code, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "TSPL_PO_WEIGHTMENT_DETAIL", "Weighment_Code", trans)
             End If
+            qry = "delete from TSPL_PO_WEIGHTMENT_GUNNY where Weighment_Code='" + obj.Weighment_Code + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             qry = "delete from TSPL_PO_WEIGHTMENT_DETAIL where Weighment_Code='" + obj.Weighment_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Weighment_Date", clsCommon.GetPrintDate(obj.Weighment_Date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Against_GRN_No", obj.Against_GRN_No)
-            clsCommon.AddColumnsForChange(coll, "Gross_Weight", obj.Gross_Weight)
+            clsCommon.AddColumnsForChange(coll, "Gross_Weight", obj.Gross_Weight)  '
             clsCommon.AddColumnsForChange(coll, "Is_Auto_Weighment", IIf(obj.Is_Auto_Weighment, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -70,8 +74,11 @@ Public Class clsPOWeighment
             Else
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PO_WEIGHTMENT_HEAD", OMInsertOrUpdate.Update, "TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code='" + obj.Weighment_Code + "'", trans)
             End If
-            If obj.arr IsNot Nothing AndAlso obj.arr.Count > 0 Then
-                obj.arr(0).SaveData(obj.Weighment_Code, obj.arr, trans)
+            If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                obj.Arr(0).SaveData(obj.Weighment_Code, obj.Arr, trans)
+            End If
+            If obj.ArrGunnyBag IsNot Nothing AndAlso obj.ArrGunnyBag.Count > 0 Then
+                clsPOWeighmentGunnyBag.SaveData(obj.Weighment_Code, obj.ArrGunnyBag, trans)
             End If
             trans.Commit()
         Catch err As Exception
@@ -116,7 +123,8 @@ Public Class clsPOWeighment
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                 obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
             End If
-            obj.arr = clsPOWeighmentDetail.GetData(obj.Weighment_Code, trans)
+            obj.Arr = clsPOWeighmentDetail.GetData(obj.Weighment_Code, trans)
+            obj.ArrGunnyBag = clsPOWeighmentGunnyBag.GetData(obj.Weighment_Code, trans)
         End If
         Return obj
     End Function
@@ -434,7 +442,7 @@ Public Class clsPOWeighment
 
             objGRN = clsGRNHead.GetData(obj.Against_GRN_No, NavigatorType.Current, trans)
         End If
-        
+
 
         If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 AndAlso ((arrMailID IsNot Nothing AndAlso arrMailID.Count > 0) Or (arrMobileNo IsNot Nothing AndAlso arrMobileNo.Count > 0)) Then
 
@@ -613,7 +621,7 @@ Public Class clsPOWeighmentDetail
     Public Net_Weight As Decimal
     Public Extra_Weight As Decimal
     Public Unload_SNo As Integer
-    Public Is_Unload_Item As Boolean
+    Public Is_Unload_Item As Integer
     Public Unload_By As String = Nothing
     Public Unload_Date As DateTime?
     Public Weight_By As String = Nothing
@@ -638,7 +646,7 @@ Public Class clsPOWeighmentDetail
                     clsCommon.AddColumnsForChange(coll, "SNo", obj.SNo)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                     clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
-                    clsCommon.AddColumnsForChange(coll, "Gross_Weight", obj.Gross_Weight)
+                    clsCommon.AddColumnsForChange(coll, "Gross_Weight", Math.Round(obj.Gross_Weight / 100), 2)  'obj.Gross_Weight)
                     clsCommon.AddColumnsForChange(coll, "Tare_Weight", obj.Tare_Weight)
                     clsCommon.AddColumnsForChange(coll, "Extra_Weight", obj.Extra_Weight)
                     clsCommon.AddColumnsForChange(coll, "Net_Weight", obj.Net_Weight)
@@ -720,6 +728,13 @@ Public Class clsPOWeighmentDetail
     Public Shared Function SaveTareWeightment(ByVal strCode As String, ByVal strTRCode As String, ByVal obj As clsPOWeighmentDetail, ByVal arrTRNoForSameItem As List(Of String)) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
+            Dim Qry_Is_Unload_Item As Integer = clsDBFuncationality.getSingleValue("select Is_Unload_Item from TSPL_PO_WEIGHTMENT_DETAIL where  Weighment_Code='" + strCode + "'", trans)
+            Dim Is_Unload_Item As Integer = 0
+            If Qry_Is_Unload_Item > 0 Then
+                Is_Unload_Item = 1
+                'Is_Unload_Item = False
+            End If
+
             If arrTRNoForSameItem IsNot Nothing AndAlso arrTRNoForSameItem.Count > 0 Then
                 arrTRNoForSameItem.Insert(0, strTRCode)
                 Dim objSaved As clsPOWeighmentDetail = clsPOWeighmentDetail.GetTRData(strCode, strTRCode, trans)
@@ -762,10 +777,16 @@ Public Class clsPOWeighmentDetail
                         End If
                     End If
                     clsCommon.AddColumnsForChange(coll, "Extra_Weight", obj.Extra_Weight)
-                    clsCommon.AddColumnsForChange(coll, "Is_Unload_Item", 0)
+
+                    clsCommon.AddColumnsForChange(coll, "Is_Unload_Item", Is_Unload_Item)
                     clsCommon.AddColumnsForChange(coll, "Weight_By", objCommonVar.CurrentUserCode)
                     clsCommon.AddColumnsForChange(coll, "Is_Auto_Weighment", IIf(obj.Is_Auto_Weighment, 1, 0))
                     clsCommon.AddColumnsForChange(coll, "Weight_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+
+                    'clsCommon.AddColumnsForChange(coll, "Weighment_Code", obj.Weighment_Code)
+                    'clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                    'clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
+                    'clsCommon.AddColumnsForChange(coll, "Qty", obj.GRN_Qty)
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PO_WEIGHTMENT_DETAIL", OMInsertOrUpdate.Update, "Weighment_Code='" + strCode + "' and TR_No='" + arrTRNoForSameItem(ii) + "'", trans)
                 Next
             Else
@@ -773,10 +794,15 @@ Public Class clsPOWeighmentDetail
                 clsCommon.AddColumnsForChange(coll, "Tare_Weight", obj.Tare_Weight)
                 clsCommon.AddColumnsForChange(coll, "Extra_Weight", obj.Extra_Weight)
                 clsCommon.AddColumnsForChange(coll, "Net_Weight", obj.Net_Weight)
-                clsCommon.AddColumnsForChange(coll, "Is_Unload_Item", 0)
+                clsCommon.AddColumnsForChange(coll, "Is_Unload_Item", Is_Unload_Item)
                 clsCommon.AddColumnsForChange(coll, "Weight_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Is_Auto_Weighment", IIf(obj.Is_Auto_Weighment, 1, 0))
                 clsCommon.AddColumnsForChange(coll, "Weight_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+
+                'clsCommon.AddColumnsForChange(coll, "Weighment_Code", obj.Weighment_Code)
+                'clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                'clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
+                'clsCommon.AddColumnsForChange(coll, "Qty", obj.GRN_Qty)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PO_WEIGHTMENT_DETAIL", OMInsertOrUpdate.Update, "Weighment_Code='" + strCode + "' and TR_No='" + strTRCode + "'", trans)
 
             End If
@@ -796,11 +822,11 @@ Public Class clsPOWeighmentDetail
         Try
             ''UDL/22/08/18-000216 by balwinder on 24/08/2018
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Is_Unload_Item", 0)
+            clsCommon.AddColumnsForChange(coll, "Is_Unload_Item", obj.Is_Unload_Item)
             clsCommon.AddColumnsForChange(coll, "Gross_Weight", 0)
-            clsCommon.AddColumnsForChange(coll, "Unload_SNo", 0)
-            clsCommon.AddColumnsForChange(coll, "Unload_By", Nothing, True)
-            clsCommon.AddColumnsForChange(coll, "Unload_Date", Nothing, True)
+            clsCommon.AddColumnsForChange(coll, "Unload_SNo", obj.Unload_SNo)
+            clsCommon.AddColumnsForChange(coll, "Unload_By", obj.Unload_By, True)
+            clsCommon.AddColumnsForChange(coll, "Unload_Date", obj.Unload_Date, True)
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PO_WEIGHTMENT_DETAIL", OMInsertOrUpdate.Update, "Weighment_Code='" + strCode + "' and Is_Unload_Item=1", trans)
 
 
@@ -961,5 +987,62 @@ Public Class clsPOWeighmentDetail
         ''Notification
 
     End Sub
+
+End Class
+
+Public Class clsPOWeighmentGunnyBag
+#Region "Variables"
+    'Public SNo As Integer
+    Public Weighment_Code As String = Nothing
+    Public Item_Code As String = Nothing
+    Public Item_Name As String = Nothing
+    Public UOM As String = Nothing
+    Public GRN_Qty As String = Nothing
+#End Region
+
+
+    Public Shared Function GetData(ByVal strDocNo As String, ByVal trans As SqlTransaction) As List(Of clsPOWeighmentGunnyBag)
+        Dim ArrGunnyBag As List(Of clsPOWeighmentGunnyBag) = Nothing
+        Dim qry As String = "select TSPL_PO_WEIGHTMENT_GUNNY.*,TSPL_ITEM_MASTER.Item_Desc from TSPL_PO_WEIGHTMENT_GUNNY left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_PO_WEIGHTMENT_GUNNY.Item_Code  where  Weighment_Code='" + strDocNo + "'"
+        qry += " order by TSPL_PO_WEIGHTMENT_GUNNY.PK_Id"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+            ArrGunnyBag = New List(Of clsPOWeighmentGunnyBag)
+            For Each dr As DataRow In dt.Rows
+                Dim obj As New clsPOWeighmentGunnyBag()
+
+                'obj.SNo = clsCommon.myCdbl(dr("SNo"))
+                obj.Weighment_Code = clsCommon.myCstr(dr("Weighment_Code"))
+                obj.Item_Code = clsCommon.myCstr(dr("Item_Code"))
+                obj.Item_Name = clsCommon.myCstr(dr("Item_Desc"))
+                obj.UOM = clsCommon.myCstr(dr("UOM"))
+                obj.GRN_Qty = clsCommon.myCdbl(dr("Qty"))
+
+                ArrGunnyBag.Add(obj)
+            Next
+        End If
+        Return ArrGunnyBag
+    End Function
+
+
+    Public Shared Function SaveData(ByVal strWeighmentCode As String, ByVal arr As List(Of clsPOWeighmentGunnyBag), ByVal trans As SqlTransaction) As Boolean
+        Try
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                For Each obj As clsPOWeighmentGunnyBag In arr
+                    Dim coll As New Hashtable()
+
+                    clsCommon.AddColumnsForChange(coll, "Weighment_Code", strWeighmentCode)
+                    clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                    clsCommon.AddColumnsForChange(coll, "UOM", obj.UOM)
+                    clsCommon.AddColumnsForChange(coll, "Qty", obj.GRN_Qty)
+
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PO_WEIGHTMENT_GUNNY", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+        Catch err As Exception
+            Throw New Exception(err.Message)
+        End Try
+        Return True
+    End Function
 
 End Class

@@ -225,6 +225,7 @@ Public Class clsCustomerMaster
 
 #Region "Variables"
     Public arrCat As New List(Of clsCustomerMaster)
+    Public Arr As New List(Of clsLocationCustomerMapping)
     Public cat_struct_code As String = Nothing
     Public cat_struct_desc As String = Nothing
     Public cat_code As String = Nothing
@@ -308,6 +309,8 @@ Public Class clsCustomerMaster
     Public Additional1 As String
     Public Additional2 As String
     Public Additional3 As String
+    Public location As String
+    ''Public locationname As String
     Public Salesman_Code As String
     Public OutLet_Commossion As Double
     Public Balance_ToDate As Double
@@ -453,7 +456,7 @@ Public Class clsCustomerMaster
                      " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
                      " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
                      " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus,Area_Code " &
-                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code from TSPL_CUSTOMER_MASTER where CUSTOMER_FORM_TYPE='ALL' and Cust_Code = '" + strCustCode + "'"
+                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code from TSPL_CUSTOMER_MASTER  where CUSTOMER_FORM_TYPE='ALL' and Cust_Code = '" + strCustCode + "'"
         Return qry
     End Function
 
@@ -499,12 +502,13 @@ Public Class clsCustomerMaster
     End Function
     '----------------End of Code For Get Finder--------------------------------------------------------------'
 
-    Public Function SaveData(ByVal obj As clsCustomerMaster, ByVal arrVisi As List(Of String), ByVal isNewEntry As Boolean, ByVal arrDBName As List(Of String)) As Boolean
+    Public Function SaveData(ByVal obj As clsCustomerMaster, ByVal arrVisi As List(Of String), ByVal isNewEntry As Boolean) As Boolean
         Dim ISSaved As Boolean = True
         Dim trans As SqlTransaction = Nothing
         Try
             trans = clsDBFuncationality.GetTransactin()
-            ISSaved = SaveData(obj, arrVisi, isNewEntry, arrDBName, trans)
+            'ISSaved = SaveData(obj, arrVisi, isNewEntry, arrDBName, trans)
+            ISSaved = SaveData(obj, arrVisi, isNewEntry, trans)
             trans.Commit()
         Catch ex As Exception
             trans.Rollback()
@@ -515,11 +519,12 @@ Public Class clsCustomerMaster
         Return ISSaved
     End Function
 
-    Public Function SaveData(ByVal obj As clsCustomerMaster, ByVal arrVisi As List(Of String), ByVal isNewEntry As Boolean, ByVal arrDBName As List(Of String), ByVal trans As SqlTransaction) As Boolean
+    Public Function SaveData(ByVal obj As clsCustomerMaster, ByVal arrVisi As List(Of String), ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
+        Dim obj2 As New clsLocation
         'Dim trans As SqlTransaction = Nothing
         Try
-            If SaveHistory(obj.Cust_Code, isNewEntry, arrDBName, trans) Then
+            If SaveHistory(obj.Cust_Code, isNewEntry, trans) Then
                 '' Anubhooti 18-July-2014
                 'trans = clsDBFuncationality.GetTransactin()
                 Dim coll As New Hashtable()
@@ -716,10 +721,11 @@ Public Class clsCustomerMaster
                     clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
                     clsCommon.AddColumnsForChange(coll, "Created_By", obj.Created_By)
                     clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-                    isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, arrDBName, "TSPL_CUSTOMER_MASTER", OMInsertOrUpdate.Insert, "", trans)
-                    'clsCustomerMaster.CreatLoginIdOfCustomer(obj.Cust_Code, obj.Customer_Name, trans)
+                    isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_MASTER", OMInsertOrUpdate.Insert, "", trans)
+                    isSaved = isSaved AndAlso clsLocationCustomerMapping.SaveData(obj2, obj.Arr, trans)
                 Else
-                    isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, arrDBName, "TSPL_CUSTOMER_MASTER", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_MASTER.Cust_Code='" + obj.Cust_Code + "'", trans)
+                    isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_MASTER", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_MASTER.Cust_Code='" + obj.Cust_Code + "'", trans)
+                    isSaved = isSaved AndAlso clsLocationCustomerMapping.SaveData(obj2, obj.Arr, trans)
                 End If
                 clsCustomerMaster.CreatLoginIdOfCustomer(obj.Cust_Code, obj.Customer_Name, trans)
                 ''added by richa agarwal
@@ -728,25 +734,25 @@ Public Class clsCustomerMaster
                 End If
                 ''=======================
                 '----------------------If Routed Customer then Ite Updates Details In These Selected Database in Array------
-                If arrDBName.Count <= 0 Then
-                    Throw New Exception("Please Select Atleast Single database")
-                ElseIf obj.isCustRouteType Then
-                    If arrDBName.Count > 1 Then
-                        Dim Msg As String = "This Customer Has Type 'Route', It can not be inserted into multiple DataBase " + Environment.NewLine + ""
-                        Msg += "Please Select only a Single DataBase"
-                        Throw New Exception(Msg)
-                    Else
-                        Dim arrDBName1 As New List(Of String)               
-                        Dim dtDb As DataTable = clsDBFuncationality.GetDataTable("Select DataBase_Name  from TSPL_COMPANY_MASTER Where DataBase_Name not in (" + clsCommon.GetMulcallString(arrDBName) + ")", trans)
-                        For Each drdb As DataRow In dtDb.Rows
-                            arrDBName1.Add(clsCommon.myCstr(drdb("DataBase_Name")))
-                        Next
-                        For ii As Integer = 0 To arrDBName1.Count - 1
-                            Dim qry As String = "update " + clsCommon.myCstr(arrDBName1(ii)) + ".dbo.TSPL_CUSTOMER_MASTER set Status='Y',Closing_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where Cust_Code='" + obj.Cust_Code + "'"
-                            clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, arrDBName1, trans)
-                        Next
-                    End If
-                End If
+                'If arrDBName.Count <= 0 Then
+                '    Throw New Exception("Please Select Atleast Single database")
+                'ElseIf obj.isCustRouteType Then
+                '    If arrDBName.Count > 1 Then
+                '        Dim Msg As String = "This Customer Has Type 'Route', It can not be inserted into multiple DataBase " + Environment.NewLine + ""
+                '        Msg += "Please Select only a Single DataBase"
+                '        Throw New Exception(Msg)
+                '    Else
+                '        Dim arrDBName1 As New List(Of String)
+                '        Dim dtDb As DataTable = clsDBFuncationality.GetDataTable("Select DataBase_Name  from TSPL_COMPANY_MASTER Where DataBase_Name not in (" + clsCommon.GetMulcallString(arrDBName) + ")", trans)
+                '        For Each drdb As DataRow In dtDb.Rows
+                '            arrDBName1.Add(clsCommon.myCstr(drdb("DataBase_Name")))
+                '        Next
+                '        For ii As Integer = 0 To arrDBName1.Count - 1
+                '            Dim qry As String = "update " + clsCommon.myCstr(arrDBName1(ii)) + ".dbo.TSPL_CUSTOMER_MASTER set Status='Y',Closing_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy") + "' where Cust_Code='" + obj.Cust_Code + "'"
+                '            clsDBFuncationality.ExecuteNonQueryInSelectedDatabase(qry, arrDBName1, trans)
+                '        Next
+                '    End If
+                'End If
                 '------------------------------------------------------------------------------------------------------------
 
                 isSaved = isSaved AndAlso clsCustomFieldValues.SaveData(obj.Form_ID, obj.Cust_Code, obj.arrCustomFields, trans)
@@ -754,15 +760,16 @@ Public Class clsCustomerMaster
                 isSaved = isSaved AndAlso clsCustomerCrateAccounting.SaveData(obj.Cust_Code, obj.Arr_CrateAccount, trans)
                 isSaved = isSaved AndAlso clsCustomerCanAccounting.SaveData(obj.Cust_Code, obj.Arr_CanAccount, trans)
                 isSaved = isSaved AndAlso clsMultRouteCustomer.SaveData(obj.Cust_Code, ArrRoute, trans)
-                If clsCustomerItemdetail.SaveData(Cust_Code, arrDBName, ArrItem, trans) Then
-                    If clsvisidetail.SaveData(Cust_Code, arrDBName, Arr_visi, trans) Then
+                If clsCustomerItemdetail.SaveData(Cust_Code, ArrItem, trans) Then
+                    If clsvisidetail.SaveData(Cust_Code, Arr_visi, trans) Then
 
                         '---------------------Visi-Detail--------------------------Update Visi Master----
                         Dim collVisi As New Hashtable()
                         clsCommon.AddColumnsForChange(collVisi, "Customer_Id", obj.Cust_Code)
                         clsCommon.AddColumnsForChange(collVisi, "Customer_name", obj.Customer_Name)
                         clsDBFuncationality.ExecuteNonQuery("Update TSPL_VISI_MASTER set Customer_Id='' , Customer_name='' Where Customer_Id='" + obj.Cust_Code + "'", trans)
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTableInSelectedDatabase(collVisi, arrDBName, "TSPL_VISI_MASTER", OMInsertOrUpdate.Update, "TSPL_VISI_MASTER.Visi_Id IN (" + clsCommon.GetMulcallString(arrVisi) + ")", trans)
+                        'isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTableInSelectedDatabase(collVisi, arrDBName, "TSPL_VISI_MASTER", OMInsertOrUpdate.Update, "TSPL_VISI_MASTER.Visi_Id IN (" + clsCommon.GetMulcallString(arrVisi) + ")", trans)
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(collVisi, "TSPL_VISI_MASTER", OMInsertOrUpdate.Update, "TSPL_VISI_MASTER.Visi_Id IN (" + clsCommon.GetMulcallString(arrVisi) + ")", trans)
                         '----------------------------------------------------------------------------------
                         If (Arr_Asset IsNot Nothing AndAlso Arr_Asset.Count > 0) Then
                             For Each objj As clsAssetInstallPullOut In obj.Arr_Asset
@@ -774,7 +781,8 @@ Public Class clsCustomerMaster
                             Next
 
                             'If Arr_Asset.Count > 0 Then
-                            clsAssetInstallPullOut.Save_Data(Arr_Asset, arrDBName, trans)
+                            'clsAssetInstallPullOut.Save_Data(Arr_Asset, arrDBName, trans)
+                            clsAssetInstallPullOut.Save_Data(Arr_Asset, trans)
                             'If clsAssetInstallPullOut.Save_Data(Arr_Asset, arrDBName, trans) Then
                             '    trans.Commit()
                             'Else
@@ -855,7 +863,7 @@ Public Class clsCustomerMaster
         End Try
     End Function
 
-    Public Shared Function SaveHistory(ByVal Cust_Code As String, ByVal isNewEntry As Boolean, ByVal arrDBName As List(Of String), ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveHistory(ByVal Cust_Code As String, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             If isNewEntry = False Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, Cust_Code, "TSPL_CUSTOMER_MASTER", "Cust_Code", "TSPL_VISI_MASTER", "Customer_Id", trans)
@@ -3671,18 +3679,20 @@ Public Class clsCustomerItemdetail
     Public valid_Upto As String
     Public Start_date As String
 
-    Public Shared Function SaveData(ByVal Cust_Code As String, ByVal arrDBName As List(Of String), ByVal Arr As List(Of clsCustomerItemdetail), ByVal trans As SqlTransaction) As Boolean
-
+    ' Public Shared Function SaveData(ByVal Cust_Code As String, ByVal arrDBName As List(Of String), ByVal Arr As List(Of clsCustomerItemdetail), ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal Cust_Code As String, ByVal Arr As List(Of clsCustomerItemdetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             'clsDBFuncationality.SaveAStorePorcedure(trans, arrDBName, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_DELETE", New SqlParameter("@Cust_Code", Cust_Code))
             Try
-                clsDBFuncationality.ExecuteNonQueryInSelectedDatabase("Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS Where Cust_Code='" + Cust_Code + "' ", arrDBName, trans)
+                ' clsDBFuncationality.ExecuteNonQueryInSelectedDatabase("Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS Where Cust_Code='" + Cust_Code + "' ", arrDBName, trans)
+                clsDBFuncationality.ExecuteNonQueryInSelectedDatabase("Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS Where Cust_Code='" + Cust_Code + "' ", Nothing, trans)
                 For Each obj As clsCustomerItemdetail In Arr
                     ''Dim dttemp As DataTable = clsDBFuncationality.GetDataTable("Select * from .TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS where Cust_Code='1009' and Item_Code='PC300BFC' and Unit_Code='FC'")
                     clsDBFuncationality.SaveAStorePorcedure(trans, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_INSERT", New SqlParameter("@Cust_Code", Cust_Code), New SqlParameter("@Item_Code", obj.Item_Code), New SqlParameter("@Unit_Code", obj.Unit_Code), New SqlParameter("@Disc_Amt", clsCommon.myCstr(obj.Disc_Amt)), New SqlParameter("@Valid_Upto", obj.valid_Upto), New SqlParameter("@Start_Date", obj.Start_date))
                     'Dim Unit As String
                     If clsCommon.CompairString(obj.Unit_Code, "FC") = CompairStringResult.Equal Then
-                        clsDBFuncationality.ExecuteNonQueryInSelectedDatabase("Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS Where Cust_Code='" + Cust_Code + "' AND Item_Code='" + obj.Item_Code + "' AND Unit_Code='FB'", arrDBName, trans)
+                        'clsDBFuncationality.ExecuteNonQueryInSelectedDatabase("Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS Where Cust_Code='" + Cust_Code + "' AND Item_Code='" + obj.Item_Code + "' AND Unit_Code='FB'", arrDBName, trans)
+                        clsDBFuncationality.ExecuteNonQueryInSelectedDatabase("Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS Where Cust_Code='" + Cust_Code + "' AND Item_Code='" + obj.Item_Code + "' AND Unit_Code='FB'", Nothing, trans)
                         Dim IsUnit As Integer = clsDBFuncationality.getSingleValue("Select COUNT(*) from TSPL_ITEM_UOM_DETAIL Where UOM_Code='FB' AND Item_Code='" + obj.Item_Code + "'", trans)
                         If IsUnit > 0 Then
                             Dim ConvFact As Double = clsDBFuncationality.getSingleValue("Select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Where Item_Code='" + obj.Item_Code + "' And UOM_Code='FB'", trans)
@@ -3798,7 +3808,8 @@ Public Class clsvisidetail
     Public Agreement_No As String = Nothing
 
 #End Region
-    Public Shared Function SaveData(ByVal Cust_Code As String, ByVal arrDBName As List(Of String), ByVal Arr As List(Of clsvisidetail), ByVal trans As SqlTransaction) As Boolean
+    ' Public Shared Function SaveData(ByVal Cust_Code As String, ByVal arrDBName As List(Of String), ByVal Arr As List(Of clsvisidetail), ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal Cust_Code As String, ByVal Arr As List(Of clsvisidetail), ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
             If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then

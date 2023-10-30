@@ -22,6 +22,12 @@ Partial Class FrmMilkTransferIn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -109,6 +115,7 @@ Partial Class FrmMilkTransferIn
         Me.txtQCNo = New common.Controls.MyTextBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.gvParam = New common.UserControls.MyRadGridView()
+        Me.btnJE = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer8 = New System.Windows.Forms.SplitContainer()
@@ -120,7 +127,6 @@ Partial Class FrmMilkTransferIn
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnJE = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -220,6 +226,7 @@ Partial Class FrmMilkTransferIn
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -236,7 +243,6 @@ Partial Class FrmMilkTransferIn
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -332,7 +338,6 @@ Partial Class FrmMilkTransferIn
         Me.lblDocumentAmt.Name = "lblDocumentAmt"
         Me.lblDocumentAmt.Size = New System.Drawing.Size(156, 21)
         Me.lblDocumentAmt.TabIndex = 341
-        Me.lblDocumentAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDocumentAmt.Visible = False
         '
         'MyLabel17
@@ -662,7 +667,6 @@ Partial Class FrmMilkTransferIn
         Me.lblMccPlantName.Name = "lblMccPlantName"
         Me.lblMccPlantName.Size = New System.Drawing.Size(285, 21)
         Me.lblMccPlantName.TabIndex = 326
-        Me.lblMccPlantName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblVendor
         '
@@ -766,10 +770,9 @@ Partial Class FrmMilkTransferIn
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1122, 328)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -871,7 +874,6 @@ Partial Class FrmMilkTransferIn
         Me.lblSubLocation.Name = "lblSubLocation"
         Me.lblSubLocation.Size = New System.Drawing.Size(174, 19)
         Me.lblSubLocation.TabIndex = 276
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkJobWork
         '
@@ -978,7 +980,6 @@ Partial Class FrmMilkTransferIn
         Me.lblDispatchFromDesc.Name = "lblDispatchFromDesc"
         Me.lblDispatchFromDesc.Size = New System.Drawing.Size(357, 21)
         Me.lblDispatchFromDesc.TabIndex = 329
-        Me.lblDispatchFromDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel14
         '
@@ -1166,15 +1167,16 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSealPaper.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvOldSealPaper.Location = New System.Drawing.Point(3, 18)
         '
-        'gvOldSealPaper
         '
+        '
+        Me.gvOldSealPaper.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOldSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSealPaper.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvOldSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvOldSealPaper.Name = "gvOldSealPaper"
         Me.gvOldSealPaper.ShowHeaderCellButtons = True
         Me.gvOldSealPaper.Size = New System.Drawing.Size(544, 161)
         Me.gvOldSealPaper.TabIndex = 203
-        Me.gvOldSealPaper.Text = "RadGridView1"
         '
         'GroupBox2
         '
@@ -1193,15 +1195,16 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSeal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvOldSeal.Location = New System.Drawing.Point(3, 18)
         '
-        'gvOldSeal
         '
+        '
+        Me.gvOldSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOldSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvOldSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvOldSeal.Name = "gvOldSeal"
         Me.gvOldSeal.ShowHeaderCellButtons = True
         Me.gvOldSeal.Size = New System.Drawing.Size(541, 161)
         Me.gvOldSeal.TabIndex = 202
-        Me.gvOldSeal.Text = "RadGridView1"
         '
         'chkNewSealNo
         '
@@ -1219,7 +1222,7 @@ Partial Class FrmMilkTransferIn
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(111.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1101, 314)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1101, 280)
         Me.RadPageViewPage2.Text = "Weighment Details"
         '
         'SplitContainer5
@@ -1251,8 +1254,8 @@ Partial Class FrmMilkTransferIn
         'SplitContainer5.Panel2
         '
         Me.SplitContainer5.Panel2.Controls.Add(Me.gvWeighment)
-        Me.SplitContainer5.Size = New System.Drawing.Size(1101, 314)
-        Me.SplitContainer5.SplitterDistance = 77
+        Me.SplitContainer5.Size = New System.Drawing.Size(1101, 280)
+        Me.SplitContainer5.SplitterDistance = 68
         Me.SplitContainer5.TabIndex = 0
         '
         'txtRcptControlSampleSNF
@@ -1540,13 +1543,14 @@ Partial Class FrmMilkTransferIn
         '
         '
         '
+        Me.gvWeighment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvWeighment.MasterTemplate.ShowFilteringRow = False
         Me.gvWeighment.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvWeighment.Name = "gvWeighment"
         Me.gvWeighment.ShowHeaderCellButtons = True
-        Me.gvWeighment.Size = New System.Drawing.Size(1101, 233)
+        Me.gvWeighment.Size = New System.Drawing.Size(1101, 208)
         Me.gvWeighment.TabIndex = 203
-        Me.gvWeighment.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -1554,7 +1558,7 @@ Partial Class FrmMilkTransferIn
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(69.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1101, 314)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1101, 280)
         Me.RadPageViewPage3.Text = "QC Details"
         '
         'SplitContainer6
@@ -1577,7 +1581,7 @@ Partial Class FrmMilkTransferIn
         'SplitContainer6.Panel2
         '
         Me.SplitContainer6.Panel2.Controls.Add(Me.gvParam)
-        Me.SplitContainer6.Size = New System.Drawing.Size(1101, 314)
+        Me.SplitContainer6.Size = New System.Drawing.Size(1101, 280)
         Me.SplitContainer6.SplitterDistance = 26
         Me.SplitContainer6.TabIndex = 0
         '
@@ -1702,13 +1706,24 @@ Partial Class FrmMilkTransferIn
         '
         '
         '
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowFilteringRow = False
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
-        Me.gvParam.Size = New System.Drawing.Size(1101, 284)
+        Me.gvParam.Size = New System.Drawing.Size(1101, 250)
         Me.gvParam.TabIndex = 203
-        Me.gvParam.Text = "RadGridView1"
+        '
+        'btnJE
+        '
+        Me.btnJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnJE.Location = New System.Drawing.Point(976, 19)
+        Me.btnJE.Name = "btnJE"
+        Me.btnJE.Size = New System.Drawing.Size(71, 18)
+        Me.btnJE.TabIndex = 345
+        Me.btnJE.Text = "Show JE"
         '
         'btnShowInventory
         '
@@ -1765,15 +1780,16 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSealPaper.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvNewSealPaper.Location = New System.Drawing.Point(3, 18)
         '
-        'gvNewSealPaper
         '
+        '
+        Me.gvNewSealPaper.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNewSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSealPaper.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvNewSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvNewSealPaper.Name = "gvNewSealPaper"
         Me.gvNewSealPaper.ShowHeaderCellButtons = True
         Me.gvNewSealPaper.Size = New System.Drawing.Size(19, 0)
         Me.gvNewSealPaper.TabIndex = 203
-        Me.gvNewSealPaper.Text = "RadGridView1"
         '
         'GroupBox4
         '
@@ -1791,15 +1807,16 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSeal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvNewSeal.Location = New System.Drawing.Point(3, 18)
         '
-        'gvNewSeal
         '
+        '
+        Me.gvNewSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNewSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvNewSeal.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvNewSeal.Name = "gvNewSeal"
         Me.gvNewSeal.ShowHeaderCellButtons = True
         Me.gvNewSeal.Size = New System.Drawing.Size(19, 0)
         Me.gvNewSeal.TabIndex = 202
-        Me.gvNewSeal.Text = "RadGridView1"
         '
         'btnClose
         '
@@ -1840,16 +1857,6 @@ Partial Class FrmMilkTransferIn
         Me.btnDelete.Size = New System.Drawing.Size(68, 18)
         Me.btnDelete.TabIndex = 4
         Me.btnDelete.Text = "Delete"
-        '
-        'btnJE
-        '
-        Me.btnJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnJE.Location = New System.Drawing.Point(976, 19)
-        Me.btnJE.Name = "btnJE"
-        Me.btnJE.Size = New System.Drawing.Size(71, 18)
-        Me.btnJE.TabIndex = 345
-        Me.btnJE.Text = "Show JE"
         '
         'FrmMilkTransferIn
         '
@@ -1969,6 +1976,7 @@ Partial Class FrmMilkTransferIn
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -1985,7 +1993,6 @@ Partial Class FrmMilkTransferIn
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(false)
 

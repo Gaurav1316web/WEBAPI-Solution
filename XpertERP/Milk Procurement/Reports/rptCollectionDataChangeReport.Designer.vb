@@ -22,6 +22,7 @@ Partial Class rptCollectionDataChangeReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -50,6 +51,9 @@ Partial Class rptCollectionDataChangeReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnRetestingData = New System.Windows.Forms.RadioButton()
+        Me.rbtnCorrectionData = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -75,6 +79,8 @@ Partial Class rptCollectionDataChangeReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -108,14 +114,14 @@ Partial Class rptCollectionDataChangeReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1029, 445)
         Me.RadPageView1.TabIndex = 2
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.txtMCC)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel16)
         Me.RadPageViewPage1.Controls.Add(Me.txtVLC)
@@ -139,7 +145,7 @@ Partial Class rptCollectionDataChangeReport
         Me.txtMCC.MyLinkLable2 = Nothing
         Me.txtMCC.MyNullText = "All"
         Me.txtMCC.Name = "txtMCC"
-        Me.txtMCC.Size = New System.Drawing.Size(371, 19)
+        Me.txtMCC.Size = New System.Drawing.Size(367, 19)
         Me.txtMCC.TabIndex = 395
         '
         'MyLabel16
@@ -162,7 +168,7 @@ Partial Class rptCollectionDataChangeReport
         Me.txtVLC.MyLinkLable2 = Nothing
         Me.txtVLC.MyNullText = "All"
         Me.txtVLC.Name = "txtVLC"
-        Me.txtVLC.Size = New System.Drawing.Size(371, 19)
+        Me.txtVLC.Size = New System.Drawing.Size(367, 19)
         Me.txtVLC.TabIndex = 393
         '
         'MyLabel15
@@ -185,7 +191,7 @@ Partial Class rptCollectionDataChangeReport
         Me.txtRoute.MyLinkLable2 = Nothing
         Me.txtRoute.MyNullText = "All"
         Me.txtRoute.Name = "txtRoute"
-        Me.txtRoute.Size = New System.Drawing.Size(371, 19)
+        Me.txtRoute.Size = New System.Drawing.Size(367, 19)
         Me.txtRoute.TabIndex = 391
         '
         'lblLocation
@@ -218,6 +224,7 @@ Partial Class rptCollectionDataChangeReport
         '
         Me.txtToShift.AutoCompleteDisplayMember = Nothing
         Me.txtToShift.AutoCompleteValueMember = Nothing
+        Me.txtToShift.DropDownAnimationEnabled = True
         Me.txtToShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.txtToShift.Location = New System.Drawing.Point(345, 11)
         Me.txtToShift.Name = "txtToShift"
@@ -228,6 +235,7 @@ Partial Class rptCollectionDataChangeReport
         '
         Me.txtFromShift.AutoCompleteDisplayMember = Nothing
         Me.txtFromShift.AutoCompleteValueMember = Nothing
+        Me.txtFromShift.DropDownAnimationEnabled = True
         Me.txtFromShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.txtFromShift.Location = New System.Drawing.Point(153, 11)
         Me.txtFromShift.Name = "txtFromShift"
@@ -329,19 +337,20 @@ Partial Class rptCollectionDataChangeReport
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1008, 397)
         Me.gv1.TabIndex = 5
-        Me.gv1.Text = "gv"
         '
         'RadMenu1
         '
@@ -350,27 +359,20 @@ Partial Class rptCollectionDataChangeReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1029, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -386,15 +388,11 @@ Partial Class rptCollectionDataChangeReport
         '
         'rmiExcel
         '
-        Me.rmiExcel.AccessibleDescription = "Excel"
-        Me.rmiExcel.AccessibleName = "Excel"
         Me.rmiExcel.Name = "rmiExcel"
         Me.rmiExcel.Text = "Excel"
         '
         'rmiPDF
         '
-        Me.rmiPDF.AccessibleDescription = "PDF"
-        Me.rmiPDF.AccessibleName = "PDF"
         Me.rmiPDF.Name = "rmiPDF"
         Me.rmiPDF.Text = "PDF"
         '
@@ -427,6 +425,40 @@ Partial Class rptCollectionDataChangeReport
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 42
         Me.btnGo.Text = ">>>"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnCorrectionData)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnRetestingData)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(408, 3)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(156, 50)
+        Me.RadGroupBox2.TabIndex = 397
+        '
+        'rbtnRetestingData
+        '
+        Me.rbtnRetestingData.AutoSize = True
+        Me.rbtnRetestingData.Location = New System.Drawing.Point(13, 5)
+        Me.rbtnRetestingData.Name = "rbtnRetestingData"
+        Me.rbtnRetestingData.Size = New System.Drawing.Size(101, 17)
+        Me.rbtnRetestingData.TabIndex = 0
+        Me.rbtnRetestingData.TabStop = True
+        Me.rbtnRetestingData.Text = "Retesting Data"
+        Me.rbtnRetestingData.UseVisualStyleBackColor = True
+        '
+        'rbtnCorrectionData
+        '
+        Me.rbtnCorrectionData.AutoSize = True
+        Me.rbtnCorrectionData.Location = New System.Drawing.Point(13, 28)
+        Me.rbtnCorrectionData.Name = "rbtnCorrectionData"
+        Me.rbtnCorrectionData.Size = New System.Drawing.Size(106, 17)
+        Me.rbtnCorrectionData.TabIndex = 1
+        Me.rbtnCorrectionData.TabStop = True
+        Me.rbtnCorrectionData.Text = "Correction Data"
+        Me.rbtnCorrectionData.UseVisualStyleBackColor = True
         '
         'rptCollectionDataChangeReport
         '
@@ -468,6 +500,9 @@ Partial Class rptCollectionDataChangeReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -500,5 +535,8 @@ Partial Class rptCollectionDataChangeReport
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnCorrectionData As RadioButton
+    Friend WithEvents rbtnRetestingData As RadioButton
 End Class
 

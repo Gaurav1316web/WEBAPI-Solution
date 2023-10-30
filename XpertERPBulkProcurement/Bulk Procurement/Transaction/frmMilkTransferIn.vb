@@ -281,35 +281,43 @@ Public Class FrmMilkTransferIn
         lblDocumentAmt.Text = clsCommon.myFormat(dblTotAmt)
     End Sub
     Sub CalculateCurrentRow(ByVal rowNo As Integer)
-        Dim FatW As Double = 0
-        Dim SNfW As Double = 0
-        Dim FATRate As Double = 0
-        Dim SNFRate As Double = 0
-        Dim FATValue As Double = 0
-        Dim SNfValue As Double = 0
-        Dim FATRatio As Double = 0
-        Dim SNFRatio As Double = 0
-        Dim StdRate As Double = 0
-        Dim fatKG As Double = 0
-        Dim snfKG As Double = 0
-        If clsCommon.myLen(fndPriceChart.Value) > 0 AndAlso clsCommon.myLen(txtTransferPrice.Value) > 0 AndAlso clsCommon.myCdbl(txtTransferPrice.Value) > 0 AndAlso (clsCommon.myCdbl(TxtFatWeightage.Text) + clsCommon.myCdbl(TxtSNFWeightage.Text)) = 100 AndAlso clsCommon.myCdbl(txtSNFPercentage.Text) > 0 AndAlso clsCommon.myCdbl(txtfatPercentage.Text) > 0 Then
+        Dim FatW As Decimal = 0
+        Dim SNfW As Decimal = 0
+        Dim FATRate As Decimal = 0
+        Dim SNFRate As Decimal = 0
+        Dim FATValue As Decimal = 0
+        Dim SNfValue As Decimal = 0
+        Dim FATRatio As Decimal = 0
+        Dim SNFRatio As Decimal = 0
+        Dim StdRate As Decimal = 0
+        Dim fatKG As Decimal = 0
+        Dim snfKG As Decimal = 0
+        Dim StandardRate As Decimal = 0
+        'If clsCommon.myLen(fndPriceChart.Value) > 0 AndAlso clsCommon.myLen(txtTransferPrice.Value) > 0 AndAlso clsCommon.myCdbl(txtTransferPrice.Value) > 0 AndAlso (clsCommon.myCdbl(TxtFatWeightage.Text) + clsCommon.myCdbl(TxtSNFWeightage.Text)) = 100 AndAlso clsCommon.myCdbl(txtSNFPercentage.Text) > 0 AndAlso clsCommon.myCdbl(txtfatPercentage.Text) > 0 Then
+        If clsCommon.myLen(fndPriceChart.Value) > 0 Then
             Try
-                FatW = clsCommon.myCdbl(TxtFatWeightage.Text)
-                SNfW = clsCommon.myCdbl(TxtSNFWeightage.Text)
-                FATRatio = clsCommon.myCdbl(txtfatPercentage.Text)
-                SNFRatio = clsCommon.myCdbl(txtSNFPercentage.Text)
-                fatKG = clsCommon.myCdbl(gvWeighment.Rows(rowNo).Cells(colFATKG).Value)
-                snfKG = clsCommon.myCdbl(gvWeighment.Rows(rowNo).Cells(colSNFKG).Value)
-                FATRate = Math.Round(clsCommon.myCdbl(txtTransferPrice.Value) * FatW / FATRatio, 2)
-                SNFRate = Math.Round(clsCommon.myCdbl(txtTransferPrice.Value) * SNfW / SNFRatio, 2)
-                FATValue = Math.Round(fatKG * FATRate, 2)
-                SNfValue = Math.Round(snfKG * SNFRate, 2)
+                Dim qry As String = "select tspl_bulk_price_detail_item_wise.Line_No,tspl_bulk_price_detail_item_wise.Item_Code,tspl_bulk_price_detail_item_wise.Fat_Weightage,tspl_bulk_price_detail_item_wise.Snf_Weightage,tspl_bulk_price_detail_item_wise.Fat_Percentage, tspl_bulk_price_detail_item_wise.Snf_Percentage,tspl_bulk_price_detail_item_wise.Standard_Rate,tspl_bulk_price_detail_item_wise.Tolerance,tspl_bulk_price_detail_item_wise.PriceType,tspl_bulk_price_detail_item_wise.TotalSolidRate,tspl_bulk_price_detail_item_wise.TotalSolidUOM from tspl_bulk_price_detail_item_wise where tspl_bulk_price_detail_item_wise.Price_Code='" + fndPriceChart.Value + "' and Item_code='" + clsCommon.myCstr(gvWeighment.Rows(rowNo).Cells(colItemCode).Value) + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    FatW = clsCommon.myCDecimal(dt.Rows(0)("Fat_Weightage"))
+                    SNfW = clsCommon.myCDecimal(dt.Rows(0)("Snf_Weightage"))
+                    FATRatio = clsCommon.myCDecimal(dt.Rows(0)("Fat_Percentage"))
+                    SNFRatio = clsCommon.myCDecimal(dt.Rows(0)("Snf_Percentage"))
+                    fatKG = clsCommon.myCdbl(gvWeighment.Rows(rowNo).Cells(colFATKG).Value)
+                    snfKG = clsCommon.myCdbl(gvWeighment.Rows(rowNo).Cells(colSNFKG).Value)
+                    StandardRate = clsCommon.myCDecimal(dt.Rows(0)("Standard_Rate"))
+                    FATRate = Math.Round(StandardRate * FatW / FATRatio, 2)
+                    SNFRate = Math.Round(StandardRate * SNfW / SNFRatio, 2)
+                    FATValue = Math.Round(fatKG * FATRate, 2)
+                    SNfValue = Math.Round(snfKG * SNFRate, 2)
 
-                gvWeighment.Rows(rowNo).Cells(colFATRate).Value = Math.Round(FATRate, 2)
-                gvWeighment.Rows(rowNo).Cells(colSNFRate).Value = Math.Round(SNFRate, 2)
-                gvWeighment.Rows(rowNo).Cells(colFATValue).Value = Math.Round(FATValue, 2)
-                gvWeighment.Rows(rowNo).Cells(colSNFValue).Value = Math.Round(SNfValue, 2)
-                gvWeighment.Rows(rowNo).Cells(colRcptAmt).Value = Math.Round(FATValue + SNfValue, 2)
+                    gvWeighment.Rows(rowNo).Cells(colFATRate).Value = Math.Round(FATRate, 2)
+                    gvWeighment.Rows(rowNo).Cells(colSNFRate).Value = Math.Round(SNFRate, 2)
+                    gvWeighment.Rows(rowNo).Cells(colFATValue).Value = Math.Round(FATValue, 2)
+                    gvWeighment.Rows(rowNo).Cells(colSNFValue).Value = Math.Round(SNfValue, 2)
+                    gvWeighment.Rows(rowNo).Cells(colRcptAmt).Value = Math.Round(FATValue + SNfValue, 2)
+                End If
+
             Catch ex As Exception
             End Try
         End If

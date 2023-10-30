@@ -319,6 +319,12 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                         summaryRowItem.Add(DiffEnteredVsMCCSnfKg)
                     End If
                     If rbtnTranpoterGainLoss.Checked = True Then
+                        Dim Entered_Qty As New GridViewSummaryItem("Entered_Qty", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(Entered_Qty)
+                        Dim Entered_FATKg As New GridViewSummaryItem("Entered_FATKg", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(Entered_FATKg)
+                        Dim Entered_SNFKg As New GridViewSummaryItem("Entered_SNFKg", "{0:F2}", GridAggregateFunction.Sum)
+                        summaryRowItem.Add(Entered_SNFKg)
                         Dim DiffMCCVsEnteredQty As New GridViewSummaryItem("DiffMCCVsEntered_Qty", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(DiffMCCVsEnteredQty)
                         Dim DiffEnteredVsMCCFatKg As New GridViewSummaryItem("DiffMCCVsEntered_FATKG", "{0:F2}", GridAggregateFunction.Sum)
@@ -1044,8 +1050,8 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
     Private Sub rbtnTranpoterGainLoss_Click(sender As Object, e As EventArgs) Handles rbtnTranpoterGainLoss.Click
         MyLabel4.Visible = False
         txtMCC_Code.Visible = False
-        'MyLabel5.Visible = True
-        'TxtTankerNo.Visible = True
+        MyLabel5.Visible = True
+        TxtTankerNo.Visible = True
         TranspoterBoxhandler(True)
     End Sub
 
@@ -1107,9 +1113,9 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                                                          from TSPL_MILK_COLLECTION_DCS_DETAIL 
                                         left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No 
                             left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No = TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
-                            where convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) >= convert(date,'21-Jun-2023',103) and convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) <= convert (date,'30-Jun-2023',103) 
+                            where convert(date, TSPL_MILK_COLLECTION_DCS.Document_Date,103) >= convert(date,'" + fromDate.Value + "',103) and convert (date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) <= convert (date,'" + dtpToDate.Value + "',103) 
                             group by TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail ) XXXDCS on XXXDCS.Against_Milk_Collection_MCC_Detail = TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
-                            where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'21-Jun-2023',103) and convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert (date,'30-Jun-2023',103)) xyz group by UploaderNo, Document_No    ) XXXFinal group by XXXFinal.Document_No )GetRateCode )GetAllGainLossRate left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=GetAllGainLossRate.GainLossCode ) XXGetAllRecords
+                            where convert(date, TSPL_MILK_COLLECTION_MCC.Document_Date,103) >= convert(date,'" + fromDate.Value + "',103) and convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) <= convert (date,'" + dtpToDate.Value + "',103)) xyz group by UploaderNo, Document_No    ) XXXFinal group by XXXFinal.Document_No )GetRateCode )GetAllGainLossRate left outer join TSPL_OWN_BMC_GAIN_LOSS_RATE on TSPL_OWN_BMC_GAIN_LOSS_RATE.Code=GetAllGainLossRate.GainLossCode ) XXGetAllRecords
     						 "
             If clsCommon.myLen(TxtTankerNo.Value) > 0 Then
                 qry += " where Tanker_No='" + TxtTankerNo.Value + "'"

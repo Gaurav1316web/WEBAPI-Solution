@@ -5252,7 +5252,7 @@ Public Class frmSNShipment
                 '=============================================
 
                 If (clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
-                    funPrint()
+                    funPrint(True)
                 End If
             End If
         Catch ex As Exception
@@ -6273,13 +6273,13 @@ Public Class frmSNShipment
         End Try
     End Sub
 
-    Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
-        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
-        Else
-            funPrint()
-        End If
-    End Sub
+    'Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    '    If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+    '        myMessages.blankValue("Invoice not found to Print")
+    '    Else
+    '        funPrint(True)
+    '    End If
+    'End Sub
 
     Private Function GetAttachQry() As String
 
@@ -6342,7 +6342,7 @@ Public Class frmSNShipment
          " case when coalesce(p_cust.P_cust_code,'')='' then Cust_State .state_Name       when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_state_Name    end as P_State_Name," &
          " case when coalesce(p_cust.P_cust_code,'')='' then     case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When   ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_CUSTOMER_MASTER.Phone2 Else'' End   when coalesce(p_cust.P_cust_code,'')<>'' then p_cust .P_Phn    end as P_Cust_Phn," &
          " case when coalesce(p_cust.P_Pan,'')='' then TSPL_CUSTOMER_MASTER  .PAN      when coalesce(p_cust.P_Pan,'')<>'' then p_cust.P_Pan   end as P_Pan," &
-         " TSPL_LOCATION_MASTER .GSTNO as Loc_GSTIN, TSPL_CUSTOMER_MASTER.GSTNO as Cust_GSTIN, TSPL_SD_SHIPMENT_HEAD.Total_Amt,TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted ," &
+         " TSPL_LOCATION_MASTER .GSTNO as Loc_GSTIN, TSPL_LOCATION_MASTER.Phone1,TSPL_CUSTOMER_MASTER.GSTNO as Cust_GSTIN, TSPL_SD_SHIPMENT_HEAD.Total_Amt,TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted ," &
          " TSPL_SD_SHIPMENT_DETAIL.line_no, TSPL_SD_SHIPMENT_head.ewaybillno, convert(varchar,TSPL_SD_SHIPMENT_head.ewaybillDate,103) as ewaybillDate, TSPL_SD_SHIPMENT_head.electronic_ref_no," &
          "   " &
         "  '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy") + "' as RunDate, TSPL_SHIP_TO_LOCATION.Ship_To_Desc as shipName, TSPL_SHIP_TO_LOCATION.add1 as ship_Add1, TSPL_SHIP_TO_LOCATION.Add2 as ship_add2 ,TSPL_SHIP_TO_LOCATION.Add3 as ship_add3  ,TSPL_SHIP_TO_LOCATION.Pin_Code,tspl_state_master.GST_STATE_Code as STATE_CODE,TSPL_SHIP_TO_LOCATION.Pan as shipPan,TSPL_SHIP_TO_LOCATION.GSTNO as shipGSTNO ,TSPL_EMPLOYEE_MASTER.Emp_Name as SalesManName,TSPL_SD_SHIPMENT_HEAD.Inv_No, TSPL_SD_SHIPMENT_HEAD.Dept_Desc , TSPL_SD_SHIPMENT_HEAD.Remarks ,  TSPL_SD_SHIPMENT_HEAD.Terms_Code,TSPL_SD_SHIPMENT_HEAD.VehicleNo , "
@@ -6397,7 +6397,7 @@ Public Class frmSNShipment
         Return Qry
 
     End Function
-    Private Sub funPrint()
+    Private Sub funPrint(ByVal isA4Size As Boolean)
 
         Try
             Dim frmCRV As New frmCrystalReportViewer()
@@ -6411,8 +6411,16 @@ Public Class frmSNShipment
             If GSTStatus Then
                 If dt1.Rows.Count > 0 Then
                     If clsCommon.myCdbl(dt1.Rows(0)("Is_Tax_Exempted")) = 1 Then
-                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_Exempted", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                        If isA4Size = True Then
+                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_Exempted", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+                        Else
+                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_ExemptedA4", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
+
+                        End If
                     Else
+
+                        ' If isA5Size = False Then
+                        ' End If
                         If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("Cust_Sate_Code")), clsCommon.myCstr(dt1.Rows(0)("Loc_Sate_Code"))) = CompairStringResult.Equal Then
                             If clsCommon.myCdbl(dt1.Rows(0)("Cust_Is_UT")) = 1 OrElse clsCommon.myCdbl(dt1.Rows(0)("Loc_Is_UT")) = 1 Then
                                 frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptShipment_IntrastateUGST", "Sale Order", clsCommon.myCDate(dt1.Rows(0)("Document_Date")), "rptCompanyAddress.rpt")
@@ -9276,18 +9284,18 @@ a:          End If
         Try
             Dim frmDCSPrint As New frmCrystalReportViewer()
             Dim qry As String = "select XX.*,(XX.Qty * XX.Packing_in_Kg) as Total_Weight, (XX.Qty * XX.Item_Cost) as Basic_Amt
-from( 
-select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Form_38_No,TSPL_SD_SHIPMENT_HEAD.Carrier,TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,TSPL_DCS_FOR_SALE.Name as DCS_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM,(select TSPL_ITEM_UOM_DETAIL.Conversion_Factor from TSPL_ITEM_UOM_DETAIL where Item_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode) and UOM_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM) ) as Packing_in_Kg,TSPL_SD_SHIPMENT_DETAIL.Item_Cost,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge
-from TSPL_SD_SHIPMENT_HEAD
-left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
-left join TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL on TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code AND
-TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode=TSPL_SD_SHIPMENT_DETAIL.Item_Code
-left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
-left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
-left join TSPL_DCS_FOR_SALE on TSPL_DCS_FOR_SALE.Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code
-left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
-where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) + "' 
-)XX"
+                            from( 
+                            select TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Document_Date,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.PK_ID,TSPL_SD_SHIPMENT_HEAD.Form_38_No,TSPL_SD_SHIPMENT_HEAD.Carrier,TSPL_SD_SHIPMENT_HEAD.LR_GR_NO,TSPL_SD_SHIPMENT_HEAD.Cust_PO_No,TSPL_DCS_FOR_SALE.Name as DCS_Name,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode,TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.Qty,TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM,(select TSPL_ITEM_UOM_DETAIL.Conversion_Factor from TSPL_ITEM_UOM_DETAIL where Item_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode) and UOM_Code in(TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.UOM) ) as Packing_in_Kg,TSPL_SD_SHIPMENT_DETAIL.Item_Cost,TSPL_LOCATION_MASTER.Location_Desc,TSPL_LOCATION_MASTER.Add1,TSPL_SD_SHIPMENT_HEAD.Total_Add_Charge
+                            from TSPL_SD_SHIPMENT_HEAD
+                            left join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_HEAD.Document_Code
+                            left join TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL on TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.Document_Code AND
+                            TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.ICode=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                            left join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                            left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                            left join TSPL_DCS_FOR_SALE on TSPL_DCS_FOR_SALE.Code=TSPL_SD_SHIPMENT_DCS_ITEM_DETAIL.DCS_Code
+                            left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location
+                            where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) + "' 
+                            )XX"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             '            Dim StrQry As String = "select max(document_code)as Document_Code,Add_Charge_Code,max(Add_Charge_Name) as Add_Charge_Name,sum(Add_Charge_Amt) as Add_Charge_Amt from(
@@ -9369,6 +9377,22 @@ where TSPL_SD_SHIPMENT_HEAD.Document_CODE='" + clsCommon.myCstr(txtDocNo.Value) 
         If clsCommon.myCDate(txtDate.Value).Date() > clsCommon.GETSERVERDATE().Date() Then
             clsCommon.MyMessageBoxShow(Me, "Cannot allow future date -  " & clsCommon.myCDate(txtDate.Value).Date())
             e.Cancel = True
+        End If
+    End Sub
+
+    Private Sub btnPrintA4_Click(sender As Object, e As EventArgs) Handles btnPrintA4.Click
+        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            myMessages.blankValue("Invoice not found to Print")
+        Else
+            funPrint(True)
+        End If
+    End Sub
+
+    Private Sub btnPrintA5_Click(sender As Object, e As EventArgs) Handles btnPrintA5.Click
+        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            myMessages.blankValue("Invoice not found to Print")
+        Else
+            funPrint(False)
         End If
     End Sub
 End Class

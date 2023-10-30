@@ -28,14 +28,14 @@ Public Class clsAssetInstallPullOut
 #End Region
     Public Shared Function SaveData(ByVal ArrAsset As List(Of clsAssetInstallPullOut), ByVal ArrDB As List(Of String)) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        If Save_Data(ArrAsset, ArrDB, trans) Then
+        If Save_Data(ArrAsset, trans) Then
             trans.Commit()
         Else
             trans.Rollback()
         End If
         Return True
     End Function
-    Public Shared Function Save_Data(ByVal ArrAsset As List(Of clsAssetInstallPullOut), ByVal ArrDB As List(Of String), Optional ByVal trans As SqlTransaction = Nothing) As Boolean
+    Public Shared Function Save_Data(ByVal ArrAsset As List(Of clsAssetInstallPullOut), Optional ByVal trans As SqlTransaction = Nothing) As Boolean
         Try
             If (ArrAsset IsNot Nothing AndAlso ArrAsset.Count > 0) Then
                 For Each obj As clsAssetInstallPullOut In ArrAsset
@@ -133,9 +133,11 @@ Public Class clsAssetInstallPullOut
                         clsCommon.AddColumnsForChange(coll, "Asset_Id", obj.Asset_Id)
                         clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                         clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-                        clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDB, "TSPL_ASSET_INSTALL_PULLOUT_NEW", OMInsertOrUpdate.Insert, "", trans)
+                        ' clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDB, "TSPL_ASSET_INSTALL_PULLOUT_NEW", OMInsertOrUpdate.Insert, "", trans)
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ASSET_INSTALL_PULLOUT_NEW", OMInsertOrUpdate.Insert, "", trans)
                     Else
-                        clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDB, "TSPL_ASSET_INSTALL_PULLOUT_NEW", OMInsertOrUpdate.Update, whrcls, trans)
+                        'clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDB, "TSPL_ASSET_INSTALL_PULLOUT_NEW", OMInsertOrUpdate.Update, whrcls, trans)
+                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_ASSET_INSTALL_PULLOUT_NEW", OMInsertOrUpdate.Update, whrcls, trans)
                     End If
                     '================Update Data in Asset Install PullOut in Install and pullout Case========
                     If clsCommon.CompairString(clsCommon.myCstr(obj.Trans_Type), "Both") = CompairStringResult.Equal Then
@@ -178,7 +180,8 @@ Public Class clsAssetInstallPullOut
                         clsCommon.AddColumnsForChange(coll1, "Pull_out_date", Nothing, True)
                     End If
 
-                    clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll1, ArrDB, "TSPL_VISI_MASTER", OMInsertOrUpdate.Update, "TSPL_VISI_MASTER.Visi_id = '" + obj.Asset_Id + "' and TSPL_VISI_MASTER.Asset_No = '" + obj.Item_Id + "'", trans)
+                    ' clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll1, ArrDB, "TSPL_VISI_MASTER", OMInsertOrUpdate.Update, "TSPL_VISI_MASTER.Visi_id = '" + obj.Asset_Id + "' and TSPL_VISI_MASTER.Asset_No = '" + obj.Item_Id + "'", trans)
+                    clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_VISI_MASTER", OMInsertOrUpdate.Update, "TSPL_VISI_MASTER.Visi_id = '" + obj.Asset_Id + "' and TSPL_VISI_MASTER.Asset_No = '" + obj.Item_Id + "'", trans)
                     '------------------------------------------------------------------------------------------------
                 Next
                 'trans.Commit()

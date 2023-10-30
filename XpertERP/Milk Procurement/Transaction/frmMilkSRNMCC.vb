@@ -211,215 +211,215 @@ Public Class frmMilkSRNMCC
     '    End Try
     'End Sub
 
-    Function SaveData()
-        If AllowToSave() = False Then
-            Return False
-            Exit Function
-        End If
-        For Each grow As GridViewRowInfo In gv1.Rows
-            If clsCommon.myCdbl(grow.Cells(COlRate).Value) <= 0 Then
-                If clsCommon.myCdbl(grow.Cells(COlRate).Value) > 0 Then
-                    clsCommon.MyMessageBoxShow("This SRN can not be Recreate.")
-                    Return False
-                    Exit Function
-                End If
-                grow.Cells(ColFatP).Value = Math.Truncate(clsCommon.myCdbl(grow.Cells(ColFatP).Value) * 10) / 10
-                grow.Cells(COlSNFP).Value = Math.Truncate(clsCommon.myCdbl(grow.Cells(COlSNFP).Value) * 10) / 10
-                grow.Cells(COlRate).Value = clsEkoPro.getRateFromUploaderShiftWise(clsCommon.myCdbl(grow.Cells(ColFatP).Value), clsCommon.myCdbl(grow.Cells(COlSNFP).Value), clsCommon.myCstr(fndMccCode.Text), clsCommon.myCstr(fndVlcCode.Text), IIf(cboShift.Text.Contains("M"), "M", "E"), clsCommon.myCDate(dtpDocDate.Value), Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
-                If clsCommon.myCdbl(grow.Cells(COlRate).Value) = 0 Then
-                    clsCommon.MyMessageBoxShow("Please fill rate first for selected vlc.")
-                    Return False
-                    Exit Function
-                End If
-                grow.Cells(ColAmount).Value = clsCommon.myCdbl(grow.Cells(COlRate).Value) * clsCommon.myCdbl(grow.Cells(ColQty).Value)
-                gv1.CurrentRow.Cells(ColPriceCode).Value = clsEkoPro.getPriceCodeFromUploaderShiftwise(clsCommon.myCdbl(gv1.CurrentRow.Cells(ColFatP).Value), clsCommon.myCdbl(gv1.CurrentRow.Cells(COlSNFP).Value), clsCommon.myCstr(fndMccCode.Text), clsCommon.myCstr(fndVlcCode.Text), IIf(cboShift.Text.Contains("M"), "M", "E"), clsCommon.myCDate(dtpDocDate.Value), Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
-            Else
-                clsCommon.MyMessageBoxShow("This SRN can not be Recreate.")
-                Return False
-                Exit Function
-            End If
-        Next
+    'Function SaveData()
+    '    If AllowToSave() = False Then
+    '        Return False
+    '        Exit Function
+    '    End If
+    '    For Each grow As GridViewRowInfo In gv1.Rows
+    '        If clsCommon.myCdbl(grow.Cells(COlRate).Value) <= 0 Then
+    '            If clsCommon.myCdbl(grow.Cells(COlRate).Value) > 0 Then
+    '                clsCommon.MyMessageBoxShow("This SRN can not be Recreate.")
+    '                Return False
+    '                Exit Function
+    '            End If
+    '            grow.Cells(ColFatP).Value = Math.Truncate(clsCommon.myCdbl(grow.Cells(ColFatP).Value) * 10) / 10
+    '            grow.Cells(COlSNFP).Value = Math.Truncate(clsCommon.myCdbl(grow.Cells(COlSNFP).Value) * 10) / 10
+    '            grow.Cells(COlRate).Value = clsEkoPro.getRateFromUploaderShiftWise(clsCommon.myCdbl(grow.Cells(ColFatP).Value), clsCommon.myCdbl(grow.Cells(COlSNFP).Value), clsCommon.myCstr(fndMccCode.Text), clsCommon.myCstr(fndVlcCode.Text), IIf(cboShift.Text.Contains("M"), "M", "E"), clsCommon.myCDate(dtpDocDate.Value), Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
+    '            If clsCommon.myCdbl(grow.Cells(COlRate).Value) = 0 Then
+    '                clsCommon.MyMessageBoxShow("Please fill rate first for selected vlc.")
+    '                Return False
+    '                Exit Function
+    '            End If
+    '            grow.Cells(ColAmount).Value = clsCommon.myCdbl(grow.Cells(COlRate).Value) * clsCommon.myCdbl(grow.Cells(ColQty).Value)
+    '            gv1.CurrentRow.Cells(ColPriceCode).Value = clsEkoPro.getPriceCodeFromUploaderShiftwise(clsCommon.myCdbl(gv1.CurrentRow.Cells(ColFatP).Value), clsCommon.myCdbl(gv1.CurrentRow.Cells(COlSNFP).Value), clsCommon.myCstr(fndMccCode.Text), clsCommon.myCstr(fndVlcCode.Text), IIf(cboShift.Text.Contains("M"), "M", "E"), clsCommon.myCDate(dtpDocDate.Value), Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
+    '        Else
+    '            clsCommon.MyMessageBoxShow("This SRN can not be Recreate.")
+    '            Return False
+    '            Exit Function
+    '        End If
+    '    Next
 
-        DtMilkReceipt = clsDBFuncationality.GetDataTable("select rd.*,rh.*,Case when Nature='C' then Actual_charges end as  commision_pers," _
-               & " Case when Nature='E' then Actual_charges end as payment_commision_pers,Service_Charge_Type,coalesce(Rate_Head_Load,0) as Rate_Head_Load" _
-               & " ,coalesce(Rate_Own_Asset,0) as Rate_Own_Asset,Service_Basis_Head_Load,Service_Basis_Own_Asset from TSPL_MILK_RECEIPT_HEAD rd Inner join TSPL_MILK_RECEIPT_DETAIL rh on rh.DOC_CODE=" _
-               & " rd.DOC_CODE left join TSPL_VENDOR_MASTER on Vendor_Code=VSP_CODE")
-        Dim DtVehicle As DataTable = clsDBFuncationality.GetDataTable("SELECT vm.* FROM  TSPL_Primary_Vehicle_Master vm ")
-        Dim DtVSPChargeDetail As DataTable = clsDBFuncationality.GetDataTable("SELECT * FROM  TSPL_MCC_VSP_ChargeCategory_MAPPING ")
-        Dim DtPriceChargeDetail As DataTable = clsDBFuncationality.GetDataTable("SELECT * FROM  TSPL_FAT_SNF_UPLOADER_Chart_Detail ")
-
-
-        Dim Milk_receipt_code As String = clsDBFuncationality.getSingleValue("select milk_receipt_code from tspl_milk_sample_Head where doc_code='" & fndMccCode.Tag & "'")
-        Dim Trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Try
-
-            '        If (AllowToSave()) Then
-            ' Trans = clsDBFuncationality.GetTransactin()
-            Dim counter As Integer = 0
-            Dim objHead As clsMilkSRNMCC
-            '' asign screen vaules in objHead
-
-            Dim objList As New List(Of clsMilkSRNMCCDetail)
-            Dim obj1 As clsMilkSRNMCCDetail
-
-            Dim objVSPChargeList As New List(Of clsMilkSRNVSpChargeDetail)
-            Dim objVSP_Charge1 As clsMilkSRNVSpChargeDetail
-
-            Dim objPriceChargeList As New List(Of clsMilkSRNPriceChargeDetail)
-            Dim objPrice_Charge1 As clsMilkSRNPriceChargeDetail
-
-            For Each grow As GridViewRowInfo In gv1.Rows
-
-                objList = New List(Of clsMilkSRNMCCDetail)
-                objVSPChargeList = New List(Of clsMilkSRNVSpChargeDetail)
-                objPriceChargeList = New List(Of clsMilkSRNPriceChargeDetail)
-
-                Dim dr() As DataRow = DtMilkReceipt.Select("DOC_CODE='" & Milk_receipt_code & "' and vlc_DOC_Code='" & clsCommon.myCstr(fndVlcCode.Tag) & "'")
-                'obj1.DOC_CODE = txtCode.Value
-
-                objHead = New clsMilkSRNMCC
-                objHead.DOC_CODE = clsCommon.myCstr(txtCode.Value)
-                objHead.DOC_DATE = clsCommon.myCDate(dtpDocDate.Value)
-                objHead.SHIFT = clsCommon.myCstr(Me.cboShift.SelectedValue)
-                objHead.MILK_SAMPLE_CODE = fndMccCode.Tag
-
-                ' objHead.COMM_PORT = clsCommon.myCstr(cboComPort.SelectedValue)
-                objHead.MCC_CODE = IIf(clsCommon.myLen(clsCommon.myCstr(dr(0)("Irregular_MCC_CODE"))) > 0, clsCommon.myCstr(dr(0)("Irregular_MCC_CODE")), clsCommon.myCstr(dr(0)("MCC_CODE"))) 'clsCommon.myCstr(dr(0)("MCC_CODE"))
-                objHead.SAMPLE_NO = clsCommon.myCdbl(txtsampleNo.Text)
-                objHead.VLC_DOC_CODE = clsCommon.myCstr(fndVlcCode.Tag)
-                objHead.VEHICLE_CODE = clsCommon.myCstr(dr(0)("VEHICLE_CODE"))
-                objHead.VLC_CODE = clsCommon.myCstr(dr(0)("VLC_CODE"))
-                objHead.ROUTE_CODE = clsCommon.myCstr(dr(0)("ROUTE_CODE"))
-                objHead.VSP_CODE = clsCommon.myCstr(fndVSPCode.Text)
-                If DtVehicle.Select("Vehicle_Code='" & dr(0)("VEHICLE_CODE") & "'").Length > 0 Then
-                    objHead.TransPorter = clsCommon.myCstr(DtVehicle.Select("Vehicle_Code='" & dr(0)("VEHICLE_CODE") & "'")(0)("Vendor_Code"))
-                End If
-                obj1 = New clsMilkSRNMCCDetail()
-                obj1.Item_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Value)
-                obj1.MILK_Qty = clsCommon.myCdbl(grow.Cells(ColQty).Value)
-                obj1.ACC_Qty = clsCommon.myCdbl(grow.Cells(ColACC_Qty).Value)
-                obj1.FAT = clsCommon.myCdbl(grow.Cells(ColFatP).Value)
-                obj1.SNF = clsCommon.myCdbl(grow.Cells(COlSNFP).Value)
-                obj1.MCC_CODE = IIf(clsCommon.myLen(clsCommon.myCstr(dr(0)("Irregular_MCC_CODE"))) > 0, clsCommon.myCstr(dr(0)("Irregular_MCC_CODE")), clsCommon.myCstr(dr(0)("MCC_CODE")))
-                obj1.Correction_Factor = 0.14
-                obj1.RATE = clsCommon.myCdbl(grow.Cells(COlRate).Value)
-                obj1.UOM = clsCommon.myCstr(grow.Cells(ColUOM).Value)
-                obj1.Price_Code = clsCommon.myCstr(grow.Cells(ColPriceCode).Value)
-                obj1.AMOUNT = clsCommon.myCdbl(grow.Cells(ColAmount).Value)
-                obj1.Commission = clsCommon.myCdbl(dr(0)("commision_pers"))
-                obj1.Head_Load_Rate = clsCommon.myCdbl(dr(0)("Rate_Head_Load"))
-                obj1.Own_Asset_Rate = clsCommon.myCdbl(dr(0)("Rate_Own_Asset"))
-                obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("payment_commision_pers"))
-                If clsCommon.myCstr(dr(0)("Service_Charge_Type")) = "%(Percentage)" Then
-                    obj1.Commission_Amount = Math.Round(obj1.AMOUNT * obj1.Commission / 100, 2)
-                    obj1.Emp_Amount = Math.Round(obj1.AMOUNT * obj1.Payment_Commission / 100, 2)
-                ElseIf clsCommon.myCstr(dr(0)("Service_Charge_Type")) = "Rate/Kg" Then
-                    obj1.Commission_Amount = Math.Round(obj1.ACC_Qty * obj1.Commission, 2)
-                    obj1.Emp_Amount = Math.Round(obj1.ACC_Qty * obj1.Payment_Commission, 2)
-                ElseIf clsCommon.myCstr(dr(0)("Service_Charge_Type")) = "Rate/Ltr" And clsCommon.myCstr(dr(0)("UOM_Code")) = "LTR" Then
-                    obj1.Commission_Amount = Math.Round(obj1.MILK_Qty * obj1.Commission, 2)
-                    obj1.Emp_Amount = Math.Round(obj1.MILK_Qty * obj1.Payment_Commission, 2)
-                End If
-                obj1.Service_Charge_Type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
-                '==================Head Load==========================
-                Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, Trans))
-                Dim dclDistanceKM As Decimal = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("DistanceKM_Head_Load"))
-                If dclDistanceKM = 0 Then
-                    dclDistanceKM = 1
-                End If
-                If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
-                    If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
-                        obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate * dclDistanceKM, 2)
-                    End If
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
-                    If clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
-                        obj1.Head_Load_Amount = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * obj1.Head_Load_Rate * dclDistanceKM, 2)
-                    End If
-                End If
-                obj1.Head_Load_Type = clsCommon.myCstr(dr(0)("Service_Basis_Head_Load"))
-                '============================================
-                '==================Own Asset==========================
-                If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then
-                    obj1.Own_Asset_Amount = Math.Round(obj1.ACC_Qty * obj1.Own_Asset_Rate, 2)
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset")), "L") = CompairStringResult.Equal Then
-                    obj1.Own_Asset_Amount = Math.Round(obj1.MILK_Qty * obj1.Own_Asset_Rate, 2)
-                End If
-                obj1.Own_Asset_Type = clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset"))
-                '============================================
-
-                'If clsCommon.myCdbl(obj1.Commission) > 0 Then
-                '    obj1.Commission_Amount = Math.Round(obj1.AMOUNT * obj1.Commission, 2)
-                'End If
-                'If clsCommon.myCdbl(obj1.Payment_Commission) > 0 Then
-                '    obj1.Emp_Amount = Math.Round(obj1.AMOUNT * obj1.Payment_Commission, 2)
-                obj1.NET_AMOUNT = Math.Round(obj1.AMOUNT + obj1.Emp_Amount, 2)
-                'Else
-                '    obj1.NET_AMOUNT = Math.Round(obj1.AMOUNT, 2)
-                'End If
-                'obj1.COMM_PORT = clsCommon.myCstr(cboComPort.SelectedValue)
-                objList.Add(obj1)
-
-                '============VSp Charge Detail=====================
-                For Each row_VSP_Charge As DataRow In DtVSPChargeDetail.Select("Vsp_Code='" & objHead.VSP_CODE & "'")
-                    objVSP_Charge1 = New clsMilkSRNVSpChargeDetail()
-                    objVSP_Charge1.Vsp_Code = clsCommon.myCstr(objHead.VSP_CODE)
-                    objVSP_Charge1.Vlc_Doc_Code = clsCommon.myCstr(fndVlcCode.Tag)
-                    objVSP_Charge1.Charge_Code = clsCommon.myCstr(row_VSP_Charge("Charge_Code"))
-                    objVSP_Charge1.Charge_Rate = clsCommon.myCstr(row_VSP_Charge("Rate"))
-                    objVSP_Charge1.Service_Type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
-                    If clsCommon.CompairString(objVSP_Charge1.Service_Type, "%(Percentage)") = CompairStringResult.Equal Then
-                        objVSP_Charge1.AMOUNT = Math.Round(obj1.AMOUNT * objVSP_Charge1.Charge_Rate / 100, 2)
-                    ElseIf clsCommon.CompairString(objVSP_Charge1.Service_Type, "Rate/Kg") = CompairStringResult.Equal Then
-                        objVSP_Charge1.AMOUNT = Math.Round(obj1.ACC_Qty * objVSP_Charge1.Charge_Rate, 2)
-                    ElseIf clsCommon.CompairString(objVSP_Charge1.Service_Type, "Rate/Ltr") = CompairStringResult.Equal And clsCommon.CompairString(dr(0)("UOM_Code"), "LTR") = CompairStringResult.Equal Then
-                        objVSP_Charge1.AMOUNT = Math.Round(obj1.MILK_Qty * objVSP_Charge1.Charge_Rate, 2)
-                    End If
-                    objVSPChargeList.Add(objVSP_Charge1)
-                Next
-                '===========================================
+    '    DtMilkReceipt = clsDBFuncationality.GetDataTable("select rd.*,rh.*,Case when Nature='C' then Actual_charges end as  commision_pers," _
+    '           & " Case when Nature='E' then Actual_charges end as payment_commision_pers,Service_Charge_Type,coalesce(Rate_Head_Load,0) as Rate_Head_Load" _
+    '           & " ,coalesce(Rate_Own_Asset,0) as Rate_Own_Asset,Service_Basis_Head_Load,Service_Basis_Own_Asset from TSPL_MILK_RECEIPT_HEAD rd Inner join TSPL_MILK_RECEIPT_DETAIL rh on rh.DOC_CODE=" _
+    '           & " rd.DOC_CODE left join TSPL_VENDOR_MASTER on Vendor_Code=VSP_CODE")
+    '    Dim DtVehicle As DataTable = clsDBFuncationality.GetDataTable("SELECT vm.* FROM  TSPL_Primary_Vehicle_Master vm ")
+    '    Dim DtVSPChargeDetail As DataTable = clsDBFuncationality.GetDataTable("SELECT * FROM  TSPL_MCC_VSP_ChargeCategory_MAPPING ")
+    '    Dim DtPriceChargeDetail As DataTable = clsDBFuncationality.GetDataTable("SELECT * FROM  TSPL_FAT_SNF_UPLOADER_Chart_Detail ")
 
 
-                '============Price Charge Detail=====================
-                For Each row_Price_Charge As DataRow In DtPriceChargeDetail.Select("Price_Code='" & obj1.Price_Code & "'")
-                    objPrice_Charge1 = New clsMilkSRNPriceChargeDetail()
-                    objPrice_Charge1.Price_Code = clsCommon.myCstr(obj1.Price_Code)
-                    objPrice_Charge1.Vlc_Doc_Code = clsCommon.myCstr(fndVlcCode.Tag)
-                    objPrice_Charge1.Charge_Code = clsCommon.myCstr(row_Price_Charge("Charge_Code"))
-                    objPrice_Charge1.Charge_Rate = clsCommon.myCstr(row_Price_Charge("Rate"))
-                    objPrice_Charge1.Service_type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
-                    If clsCommon.CompairString(objPrice_Charge1.Service_type, "%(Percentage)") = CompairStringResult.Equal Then
-                        objPrice_Charge1.AMOUNT = Math.Round(obj1.AMOUNT * objPrice_Charge1.Charge_Rate / 100, 2)
-                    ElseIf clsCommon.CompairString(objPrice_Charge1.Service_type, "Rate/Kg") = CompairStringResult.Equal Then
-                        objPrice_Charge1.AMOUNT = Math.Round(obj1.ACC_Qty * objPrice_Charge1.Charge_Rate, 2)
-                    ElseIf clsCommon.CompairString(objPrice_Charge1.Service_type, "Rate/Ltr") = CompairStringResult.Equal And clsCommon.CompairString(dr(0)("UOM_Code"), "LTR") = CompairStringResult.Equal Then
-                        objPrice_Charge1.AMOUNT = Math.Round(obj1.MILK_Qty * objPrice_Charge1.Charge_Rate, 2)
-                    End If
-                    objPriceChargeList.Add(objPrice_Charge1)
-                Next
-                '===========================================
+    '    Dim Milk_receipt_code As String = clsDBFuncationality.getSingleValue("select milk_receipt_code from tspl_milk_sample_Head where doc_code='" & fndMccCode.Tag & "'")
+    '    Dim Trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+    '    Try
 
-                If Not clsMilkSRNMCC.SaveDataFromSRNFrom(objHead, objList, objVSPChargeList, objPriceChargeList, Trans) Then
-                    Trans.Rollback()
-                    Return False
-                Else
-                    clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, objList(0).FAT, objList(0).SNF, objList(0).RATE, objList(0).AMOUNT, Trans, "", 0, 0)
-                    Trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
-                    'clsCommon.ProgressBarUpdate(counter & "/" & gv1.Rows.Count)
-                End If
-            Next
-            Return True
-            'If clsMilkSampleMCC.SaveData(objHead, objList, trans) Then
-            ' Trans.Commit()
-            'clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
-            'End If
-            '        End If
-        Catch ex As Exception
-            Trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
-            Return False
-        End Try
-    End Function
+    '        '        If (AllowToSave()) Then
+    '        ' Trans = clsDBFuncationality.GetTransactin()
+    '        Dim counter As Integer = 0
+    '        Dim objHead As clsMilkSRNMCC
+    '        '' asign screen vaules in objHead
+
+    '        Dim objList As New List(Of clsMilkSRNMCCDetail)
+    '        Dim obj1 As clsMilkSRNMCCDetail
+
+    '        Dim objVSPChargeList As New List(Of clsMilkSRNVSpChargeDetail)
+    '        Dim objVSP_Charge1 As clsMilkSRNVSpChargeDetail
+
+    '        Dim objPriceChargeList As New List(Of clsMilkSRNPriceChargeDetail)
+    '        Dim objPrice_Charge1 As clsMilkSRNPriceChargeDetail
+
+    '        For Each grow As GridViewRowInfo In gv1.Rows
+
+    '            objList = New List(Of clsMilkSRNMCCDetail)
+    '            objVSPChargeList = New List(Of clsMilkSRNVSpChargeDetail)
+    '            objPriceChargeList = New List(Of clsMilkSRNPriceChargeDetail)
+
+    '            Dim dr() As DataRow = DtMilkReceipt.Select("DOC_CODE='" & Milk_receipt_code & "' and vlc_DOC_Code='" & clsCommon.myCstr(fndVlcCode.Tag) & "'")
+    '            'obj1.DOC_CODE = txtCode.Value
+
+    '            objHead = New clsMilkSRNMCC
+    '            objHead.DOC_CODE = clsCommon.myCstr(txtCode.Value)
+    '            objHead.DOC_DATE = clsCommon.myCDate(dtpDocDate.Value)
+    '            objHead.SHIFT = clsCommon.myCstr(Me.cboShift.SelectedValue)
+    '            objHead.MILK_SAMPLE_CODE = fndMccCode.Tag
+
+    '            ' objHead.COMM_PORT = clsCommon.myCstr(cboComPort.SelectedValue)
+    '            objHead.MCC_CODE = IIf(clsCommon.myLen(clsCommon.myCstr(dr(0)("Irregular_MCC_CODE"))) > 0, clsCommon.myCstr(dr(0)("Irregular_MCC_CODE")), clsCommon.myCstr(dr(0)("MCC_CODE"))) 'clsCommon.myCstr(dr(0)("MCC_CODE"))
+    '            objHead.SAMPLE_NO = clsCommon.myCdbl(txtsampleNo.Text)
+    '            objHead.VLC_DOC_CODE = clsCommon.myCstr(fndVlcCode.Tag)
+    '            objHead.VEHICLE_CODE = clsCommon.myCstr(dr(0)("VEHICLE_CODE"))
+    '            objHead.VLC_CODE = clsCommon.myCstr(dr(0)("VLC_CODE"))
+    '            objHead.ROUTE_CODE = clsCommon.myCstr(dr(0)("ROUTE_CODE"))
+    '            objHead.VSP_CODE = clsCommon.myCstr(fndVSPCode.Text)
+    '            If DtVehicle.Select("Vehicle_Code='" & dr(0)("VEHICLE_CODE") & "'").Length > 0 Then
+    '                objHead.TransPorter = clsCommon.myCstr(DtVehicle.Select("Vehicle_Code='" & dr(0)("VEHICLE_CODE") & "'")(0)("Vendor_Code"))
+    '            End If
+    '            obj1 = New clsMilkSRNMCCDetail()
+    '            obj1.Item_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+    '            obj1.MILK_Qty = clsCommon.myCdbl(grow.Cells(ColQty).Value)
+    '            obj1.ACC_Qty = clsCommon.myCdbl(grow.Cells(ColACC_Qty).Value)
+    '            obj1.FAT = clsCommon.myCdbl(grow.Cells(ColFatP).Value)
+    '            obj1.SNF = clsCommon.myCdbl(grow.Cells(COlSNFP).Value)
+    '            obj1.MCC_CODE = IIf(clsCommon.myLen(clsCommon.myCstr(dr(0)("Irregular_MCC_CODE"))) > 0, clsCommon.myCstr(dr(0)("Irregular_MCC_CODE")), clsCommon.myCstr(dr(0)("MCC_CODE")))
+    '            obj1.Correction_Factor = 0.14
+    '            obj1.RATE = clsCommon.myCdbl(grow.Cells(COlRate).Value)
+    '            obj1.UOM = clsCommon.myCstr(grow.Cells(ColUOM).Value)
+    '            obj1.Price_Code = clsCommon.myCstr(grow.Cells(ColPriceCode).Value)
+    '            obj1.AMOUNT = clsCommon.myCdbl(grow.Cells(ColAmount).Value)
+    '            obj1.Commission = clsCommon.myCdbl(dr(0)("commision_pers"))
+    '            obj1.Head_Load_Rate = clsCommon.myCdbl(dr(0)("Rate_Head_Load"))
+    '            obj1.Own_Asset_Rate = clsCommon.myCdbl(dr(0)("Rate_Own_Asset"))
+    '            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("payment_commision_pers"))
+    '            If clsCommon.myCstr(dr(0)("Service_Charge_Type")) = "%(Percentage)" Then
+    '                obj1.Commission_Amount = Math.Round(obj1.AMOUNT * obj1.Commission / 100, 2)
+    '                obj1.Emp_Amount = Math.Round(obj1.AMOUNT * obj1.Payment_Commission / 100, 2)
+    '            ElseIf clsCommon.myCstr(dr(0)("Service_Charge_Type")) = "Rate/Kg" Then
+    '                obj1.Commission_Amount = Math.Round(obj1.ACC_Qty * obj1.Commission, 2)
+    '                obj1.Emp_Amount = Math.Round(obj1.ACC_Qty * obj1.Payment_Commission, 2)
+    '            ElseIf clsCommon.myCstr(dr(0)("Service_Charge_Type")) = "Rate/Ltr" And clsCommon.myCstr(dr(0)("UOM_Code")) = "LTR" Then
+    '                obj1.Commission_Amount = Math.Round(obj1.MILK_Qty * obj1.Commission, 2)
+    '                obj1.Emp_Amount = Math.Round(obj1.MILK_Qty * obj1.Payment_Commission, 2)
+    '            End If
+    '            obj1.Service_Charge_Type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
+    '            '==================Head Load==========================
+    '            Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, Trans))
+    '            Dim dclDistanceKM As Decimal = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("DistanceKM_Head_Load"))
+    '            If dclDistanceKM = 0 Then
+    '                dclDistanceKM = 1
+    '            End If
+    '            If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
+    '                If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
+    '                    obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate * dclDistanceKM, 2)
+    '                End If
+    '            ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
+    '                If clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
+    '                    obj1.Head_Load_Amount = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * obj1.Head_Load_Rate * dclDistanceKM, 2)
+    '                End If
+    '            End If
+    '            obj1.Head_Load_Type = clsCommon.myCstr(dr(0)("Service_Basis_Head_Load"))
+    '            '============================================
+    '            '==================Own Asset==========================
+    '            If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then
+    '                obj1.Own_Asset_Amount = Math.Round(obj1.ACC_Qty * obj1.Own_Asset_Rate, 2)
+    '            ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset")), "L") = CompairStringResult.Equal Then
+    '                obj1.Own_Asset_Amount = Math.Round(obj1.MILK_Qty * obj1.Own_Asset_Rate, 2)
+    '            End If
+    '            obj1.Own_Asset_Type = clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset"))
+    '            '============================================
+
+    '            'If clsCommon.myCdbl(obj1.Commission) > 0 Then
+    '            '    obj1.Commission_Amount = Math.Round(obj1.AMOUNT * obj1.Commission, 2)
+    '            'End If
+    '            'If clsCommon.myCdbl(obj1.Payment_Commission) > 0 Then
+    '            '    obj1.Emp_Amount = Math.Round(obj1.AMOUNT * obj1.Payment_Commission, 2)
+    '            obj1.NET_AMOUNT = Math.Round(obj1.AMOUNT + obj1.Emp_Amount, 2)
+    '            'Else
+    '            '    obj1.NET_AMOUNT = Math.Round(obj1.AMOUNT, 2)
+    '            'End If
+    '            'obj1.COMM_PORT = clsCommon.myCstr(cboComPort.SelectedValue)
+    '            objList.Add(obj1)
+
+    '            '============VSp Charge Detail=====================
+    '            For Each row_VSP_Charge As DataRow In DtVSPChargeDetail.Select("Vsp_Code='" & objHead.VSP_CODE & "'")
+    '                objVSP_Charge1 = New clsMilkSRNVSpChargeDetail()
+    '                objVSP_Charge1.Vsp_Code = clsCommon.myCstr(objHead.VSP_CODE)
+    '                objVSP_Charge1.Vlc_Doc_Code = clsCommon.myCstr(fndVlcCode.Tag)
+    '                objVSP_Charge1.Charge_Code = clsCommon.myCstr(row_VSP_Charge("Charge_Code"))
+    '                objVSP_Charge1.Charge_Rate = clsCommon.myCstr(row_VSP_Charge("Rate"))
+    '                objVSP_Charge1.Service_Type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
+    '                If clsCommon.CompairString(objVSP_Charge1.Service_Type, "%(Percentage)") = CompairStringResult.Equal Then
+    '                    objVSP_Charge1.AMOUNT = Math.Round(obj1.AMOUNT * objVSP_Charge1.Charge_Rate / 100, 2)
+    '                ElseIf clsCommon.CompairString(objVSP_Charge1.Service_Type, "Rate/Kg") = CompairStringResult.Equal Then
+    '                    objVSP_Charge1.AMOUNT = Math.Round(obj1.ACC_Qty * objVSP_Charge1.Charge_Rate, 2)
+    '                ElseIf clsCommon.CompairString(objVSP_Charge1.Service_Type, "Rate/Ltr") = CompairStringResult.Equal And clsCommon.CompairString(dr(0)("UOM_Code"), "LTR") = CompairStringResult.Equal Then
+    '                    objVSP_Charge1.AMOUNT = Math.Round(obj1.MILK_Qty * objVSP_Charge1.Charge_Rate, 2)
+    '                End If
+    '                objVSPChargeList.Add(objVSP_Charge1)
+    '            Next
+    '            '===========================================
+
+
+    '            '============Price Charge Detail=====================
+    '            For Each row_Price_Charge As DataRow In DtPriceChargeDetail.Select("Price_Code='" & obj1.Price_Code & "'")
+    '                objPrice_Charge1 = New clsMilkSRNPriceChargeDetail()
+    '                objPrice_Charge1.Price_Code = clsCommon.myCstr(obj1.Price_Code)
+    '                objPrice_Charge1.Vlc_Doc_Code = clsCommon.myCstr(fndVlcCode.Tag)
+    '                objPrice_Charge1.Charge_Code = clsCommon.myCstr(row_Price_Charge("Charge_Code"))
+    '                objPrice_Charge1.Charge_Rate = clsCommon.myCstr(row_Price_Charge("Rate"))
+    '                objPrice_Charge1.Service_type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
+    '                If clsCommon.CompairString(objPrice_Charge1.Service_type, "%(Percentage)") = CompairStringResult.Equal Then
+    '                    objPrice_Charge1.AMOUNT = Math.Round(obj1.AMOUNT * objPrice_Charge1.Charge_Rate / 100, 2)
+    '                ElseIf clsCommon.CompairString(objPrice_Charge1.Service_type, "Rate/Kg") = CompairStringResult.Equal Then
+    '                    objPrice_Charge1.AMOUNT = Math.Round(obj1.ACC_Qty * objPrice_Charge1.Charge_Rate, 2)
+    '                ElseIf clsCommon.CompairString(objPrice_Charge1.Service_type, "Rate/Ltr") = CompairStringResult.Equal And clsCommon.CompairString(dr(0)("UOM_Code"), "LTR") = CompairStringResult.Equal Then
+    '                    objPrice_Charge1.AMOUNT = Math.Round(obj1.MILK_Qty * objPrice_Charge1.Charge_Rate, 2)
+    '                End If
+    '                objPriceChargeList.Add(objPrice_Charge1)
+    '            Next
+    '            '===========================================
+
+    '            If Not clsMilkSRNMCC.SaveDataFromSRNFrom(objHead, objList, objVSPChargeList, objPriceChargeList, Trans) Then
+    '                Trans.Rollback()
+    '                Return False
+    '            Else
+    '                clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, objList(0).FAT, objList(0).SNF, objList(0).RATE, objList(0).AMOUNT, Trans, "", 0, 0)
+    '                Trans.Commit()
+    '                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+    '                'clsCommon.ProgressBarUpdate(counter & "/" & gv1.Rows.Count)
+    '            End If
+    '        Next
+    '        Return True
+    '        'If clsMilkSampleMCC.SaveData(objHead, objList, trans) Then
+    '        ' Trans.Commit()
+    '        'clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+    '        'End If
+    '        '        End If
+    '    Catch ex As Exception
+    '        Trans.Rollback()
+    '        clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+    '        Return False
+    '    End Try
+    'End Function
 
     Private Function AllowToSave() As Boolean
         Try
@@ -665,17 +665,17 @@ Public Class frmMilkSRNMCC
             If pwd.isPasswordCorrect Then
                 Panel1.Visible = True
             End If
-        ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag Then
-            If clsCommon.CompairString(objCommonVar.CurrentUserCode, "ADMIN") = CompairStringResult.Equal Then
-                Dim dbpwd As String = clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='MilkSetting' and TYPE='MCCMilkSRNRepost'")
-                Dim pwd As New FrmPWD(Nothing)
-                pwd.strCode = "MilkSetting"
-                pwd.strType = "MCCMilkSRNRepost"
-                pwd.ShowDialog()
-                If pwd.isPasswordCorrect Then
-                    SaveData()
-                End If
-            End If
+            'ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag Then
+            '    If clsCommon.CompairString(objCommonVar.CurrentUserCode, "ADMIN") = CompairStringResult.Equal Then
+            '        Dim dbpwd As String = clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='MilkSetting' and TYPE='MCCMilkSRNRepost'")
+            '        Dim pwd As New FrmPWD(Nothing)
+            '        pwd.strCode = "MilkSetting"
+            '        pwd.strType = "MCCMilkSRNRepost"
+            '        pwd.ShowDialog()
+            '        If pwd.isPasswordCorrect Then
+            '            SaveData()
+            '        End If
+            '    End If
             'ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso MyBase.isPostFlag Then
             '    PostData()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag Then
@@ -811,12 +811,13 @@ Public Class frmMilkSRNMCC
                                 If objCommonVar.DisplayTypeInMilkReceipt Then
                                     strType = clsCommon.myCstr(growImport.Cells("TYPE").Value)
                                 End If
+                                dclFAT = clsCommon.myCDecimal(growImport.Cells("FAT").Value)
                                 If isPickCLRInsteadOfSNF Then
                                     dclCLR = clsCommon.myCDecimal(growImport.Cells("CLR").Value)
+                                    dclSNF = Math.Round(clsEkoPro.getSnfOnCalculation(dclFAT, dclCLR, dclCorrectionFactor), 2, MidpointRounding.ToEven)
                                 Else
                                     dclSNF = clsCommon.myCDecimal(growImport.Cells("SNF").Value)
                                 End If
-                                dclFAT = clsCommon.myCDecimal(growImport.Cells("FAT").Value)
                             ElseIf CorrTypeSRNQty Then
                                 dclQty = clsCommon.myCDecimal(growImport.Cells("Qty").Value)
                             ElseIf CorrTypeSRNVLC Then
@@ -1673,7 +1674,7 @@ Public Class frmMilkSRNMCC
                     gv1.Rows(0).Cells(ColFatP).Value = Math.Truncate(clsCommon.myCdbl(grow.Cells("FAT").Value) * 10) / 10
                     gv1.Rows(0).Cells(COlSNFP).Value = Math.Truncate(clsCommon.myCdbl(grow.Cells("SNF").Value) * 10) / 10
                     If UpdateOnlyGl = False Then
-                        SaveDataSRN()
+                        'SaveDataSRN()
                     Else
                         clsMilkSRNMCC.updateJournalEntry("MI-SR", clsCommon.myCstr(grow.Cells("SRN No").Value), clsCommon.myCdbl(gv1.Rows(gv1.Rows.Count - 1).Cells(ColNetAmount).Value))
                     End If
@@ -1690,291 +1691,291 @@ Public Class frmMilkSRNMCC
         Me.Controls.Remove(gv)
     End Sub
 
-    Function SaveDataSRN()
-        If AllowToSave() = False Then
-            Return False
-            Exit Function
-        End If
-        For Each grow As GridViewRowInfo In gv1.Rows
+    'Function SaveDataSRN()
+    '    If AllowToSave() = False Then
+    '        Return False
+    '        Exit Function
+    '    End If
+    '    For Each grow As GridViewRowInfo In gv1.Rows
 
-            'If clsCommon.myCdbl(grow.Cells(COlRate).Value) <= 0 Then
-            grow.Cells(ColFatP).Value = Math.Truncate(clsCommon.myCdbl(grow.Cells(ColFatP).Value) * 10) / 10
-            grow.Cells(COlSNFP).Value = Math.Truncate(clsCommon.myCdbl(grow.Cells(COlSNFP).Value) * 10) / 10
-            grow.Cells(COlRate).Value = clsEkoPro.getRateFromUploaderShiftWise(clsCommon.myCdbl(grow.Cells(ColFatP).Value), clsCommon.myCdbl(grow.Cells(COlSNFP).Value), clsCommon.myCstr(fndMccCode.Text), clsCommon.myCstr(fndVlcCode.Text), IIf(cboShift.Text.Contains("M"), "M", "E"), clsCommon.myCDate(dtpDocDate.Value), Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
-            If clsCommon.myCdbl(grow.Cells(COlRate).Value) = 0 Then
-                Return False
-                Exit Function
-            End If
-            grow.Cells(ColAmount).Value = clsCommon.myCdbl(grow.Cells(COlRate).Value) * clsCommon.myCdbl(grow.Cells(ColQty).Value)
-            gv1.CurrentRow.Cells(ColPriceCode).Value = clsEkoPro.getPriceCodeFromUploaderShiftwise(clsCommon.myCdbl(gv1.CurrentRow.Cells(ColFatP).Value), clsCommon.myCdbl(gv1.CurrentRow.Cells(COlSNFP).Value), clsCommon.myCstr(fndMccCode.Text), clsCommon.myCstr(fndVlcCode.Text), IIf(cboShift.Text.Contains("M"), "M", "E"), clsCommon.myCDate(dtpDocDate.Value), Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
-             
-        Next
+    '        'If clsCommon.myCdbl(grow.Cells(COlRate).Value) <= 0 Then
+    '        grow.Cells(ColFatP).Value = Math.Truncate(clsCommon.myCdbl(grow.Cells(ColFatP).Value) * 10) / 10
+    '        grow.Cells(COlSNFP).Value = Math.Truncate(clsCommon.myCdbl(grow.Cells(COlSNFP).Value) * 10) / 10
+    '        grow.Cells(COlRate).Value = clsEkoPro.getRateFromUploaderShiftWise(clsCommon.myCdbl(grow.Cells(ColFatP).Value), clsCommon.myCdbl(grow.Cells(COlSNFP).Value), clsCommon.myCstr(fndMccCode.Text), clsCommon.myCstr(fndVlcCode.Text), IIf(cboShift.Text.Contains("M"), "M", "E"), clsCommon.myCDate(dtpDocDate.Value), Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
+    '        If clsCommon.myCdbl(grow.Cells(COlRate).Value) = 0 Then
+    '            Return False
+    '            Exit Function
+    '        End If
+    '        grow.Cells(ColAmount).Value = clsCommon.myCdbl(grow.Cells(COlRate).Value) * clsCommon.myCdbl(grow.Cells(ColQty).Value)
+    '        gv1.CurrentRow.Cells(ColPriceCode).Value = clsEkoPro.getPriceCodeFromUploaderShiftwise(clsCommon.myCdbl(gv1.CurrentRow.Cells(ColFatP).Value), clsCommon.myCdbl(gv1.CurrentRow.Cells(COlSNFP).Value), clsCommon.myCstr(fndMccCode.Text), clsCommon.myCstr(fndVlcCode.Text), IIf(cboShift.Text.Contains("M"), "M", "E"), clsCommon.myCDate(dtpDocDate.Value), Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue))
 
-         
-        Dim DtVehicle As DataTable = clsDBFuncationality.GetDataTable("SELECT vm.* FROM  TSPL_Primary_Vehicle_Master vm ")
-        Dim DtVSPChargeDetail As DataTable = clsDBFuncationality.GetDataTable("SELECT * FROM  TSPL_MCC_VSP_ChargeCategory_MAPPING ")
-        Dim DtPriceChargeDetail As DataTable = clsDBFuncationality.GetDataTable("SELECT * FROM  TSPL_FAT_SNF_UPLOADER_Chart_Detail ")
+    '    Next
 
 
-        Dim Milk_receipt_code As String = clsDBFuncationality.getSingleValue("select milk_receipt_code from tspl_milk_sample_Head where doc_code='" & fndMccCode.Tag & "'")
-        Dim Trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-        Try
-
-            '        If (AllowToSave()) Then
-            ' Trans = clsDBFuncationality.GetTransactin()
-            Dim counter As Integer = 0
-            Dim Net_amt As Double = 0
-            Dim objHead As clsMilkSRNMCC
-            '' asign screen vaules in objHead
-
-            Dim objList As New List(Of clsMilkSRNMCCDetail)
-            Dim obj1 As clsMilkSRNMCCDetail
-
-            Dim objVSPChargeList As New List(Of clsMilkSRNVSpChargeDetail)
-            Dim objVSP_Charge1 As clsMilkSRNVSpChargeDetail
-
-            Dim objPriceChargeList As New List(Of clsMilkSRNPriceChargeDetail)
-            Dim objPrice_Charge1 As clsMilkSRNPriceChargeDetail
-
-            For Each grow As GridViewRowInfo In gv1.Rows
-
-                objList = New List(Of clsMilkSRNMCCDetail)
-                objVSPChargeList = New List(Of clsMilkSRNVSpChargeDetail)
-                objPriceChargeList = New List(Of clsMilkSRNPriceChargeDetail)
-                DtMilkReceipt = clsDBFuncationality.GetDataTable("select rd.*,rh.*,Case when Nature='C' then Actual_charges end as  commision_pers," _
-                & " Case when Nature='E' then Actual_charges end as payment_commision_pers,Service_Charge_Type,coalesce(Rate_Head_Load,0) as Rate_Head_Load" _
-                & " ,coalesce(Rate_Own_Asset,0) as Rate_Own_Asset,Service_Basis_Head_Load,Service_Basis_Own_Asset,TSPL_VENDOR_MASTER.EMP_Type " _
-                & " ,TSPL_VENDOR_MASTER.EMP_Fixed_Amount " _
-                & " ,TSPL_VENDOR_MASTER.Actual_charges_Slab " _
-                & " ,TSPL_VENDOR_MASTER.Actual_charges " _
-                & ",TSPL_VENDOR_MASTER.Actual_charges_Slab2" _
-                & ",TSPL_VENDOR_MASTER.Actual_charges2" _
-                & ",TSPL_VENDOR_MASTER.Actual_charges_Slab3" _
-                & ",TSPL_VENDOR_MASTER.Actual_charges3" _
-                & ",TSPL_VENDOR_MASTER.Actual_charges_Slab4" _
-                & ",TSPL_VENDOR_MASTER.Actual_charges4" _
-                & ",TSPL_VENDOR_MASTER.Actual_charges_Slab5" _
-                & ",TSPL_VENDOR_MASTER.Actual_charges5,TSPL_VENDOR_MASTER.Service_Charge_Per_Unit,TSPL_VENDOR_MASTER.DistanceKM_Head_Load from TSPL_MILK_RECEIPT_HEAD rd Inner join TSPL_MILK_RECEIPT_DETAIL rh on rh.DOC_CODE=" _
-                & " rd.DOC_CODE left join TSPL_VENDOR_MASTER on Vendor_Code=VSP_CODE where rd.DOC_CODE='" & Milk_receipt_code & "' and rh.vlc_DOC_Code='" & clsCommon.myCstr(fndVlcCode.Tag) & "'", Trans)
-                Dim dr() As DataRow = DtMilkReceipt.Select("DOC_CODE='" & Milk_receipt_code & "' and vlc_DOC_Code='" & clsCommon.myCstr(fndVlcCode.Tag) & "'")
-                'obj1.DOC_CODE = txtCode.Value
-
-                objHead = New clsMilkSRNMCC
-                objHead.DOC_CODE = clsCommon.myCstr(txtCode.Value)
-                objHead.DOC_DATE = clsCommon.myCDate(dtpDocDate.Value)
-                objHead.SHIFT = clsCommon.myCstr(Me.cboShift.SelectedValue)
-                objHead.MILK_SAMPLE_CODE = fndMccCode.Tag
-
-                ' objHead.COMM_PORT = clsCommon.myCstr(cboComPort.SelectedValue)
-                objHead.MCC_CODE = IIf(clsCommon.myLen(clsCommon.myCstr(dr(0)("Irregular_MCC_CODE"))) > 0, clsCommon.myCstr(dr(0)("Irregular_MCC_CODE")), clsCommon.myCstr(dr(0)("MCC_CODE"))) 'clsCommon.myCstr(dr(0)("MCC_CODE"))
-                objHead.SAMPLE_NO = clsCommon.myCdbl(txtsampleNo.Text)
-                objHead.VLC_DOC_CODE = clsCommon.myCstr(fndVlcCode.Tag)
-                objHead.VEHICLE_CODE = clsCommon.myCstr(dr(0)("VEHICLE_CODE"))
-                objHead.VLC_CODE = clsCommon.myCstr(dr(0)("VLC_CODE"))
-                objHead.ROUTE_CODE = clsCommon.myCstr(dr(0)("ROUTE_CODE"))
-                objHead.VSP_CODE = clsCommon.myCstr(fndVSPCode.Text)
-                If DtVehicle.Select("Vehicle_Code='" & dr(0)("VEHICLE_CODE") & "'").Length > 0 Then
-                    objHead.TransPorter = clsCommon.myCstr(DtVehicle.Select("Vehicle_Code='" & dr(0)("VEHICLE_CODE") & "'")(0)("Vendor_Code"))
-                End If
-                obj1 = New clsMilkSRNMCCDetail()
-                obj1.Item_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Value)
-                obj1.MILK_Qty = clsCommon.myCdbl(grow.Cells(ColQty).Value)
-                obj1.ACC_Qty = clsCommon.myCdbl(grow.Cells(ColACC_Qty).Value)
-                obj1.FAT = clsCommon.myCdbl(grow.Cells(ColFatP).Value)
-                obj1.SNF = clsCommon.myCdbl(grow.Cells(COlSNFP).Value)
-                obj1.MCC_CODE = IIf(clsCommon.myLen(clsCommon.myCstr(dr(0)("Irregular_MCC_CODE"))) > 0, clsCommon.myCstr(dr(0)("Irregular_MCC_CODE")), clsCommon.myCstr(dr(0)("MCC_CODE")))
-                obj1.Correction_Factor = 0.14
-                obj1.RATE = clsCommon.myCdbl(grow.Cells(COlRate).Value)
-                obj1.UOM = clsCommon.myCstr(grow.Cells(ColUOM).Value)
-                obj1.Price_Code = clsCommon.myCstr(grow.Cells(ColPriceCode).Value)
-                obj1.AMOUNT = clsCommon.myCdbl(grow.Cells(ColAmount).Value)
-                obj1.Commission = clsCommon.myCdbl(dr(0)("commision_pers"))
-                obj1.Head_Load_Rate = clsCommon.myCdbl(dr(0)("Rate_Head_Load"))
-                obj1.Own_Asset_Rate = clsCommon.myCdbl(dr(0)("Rate_Own_Asset"))
-                obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("payment_commision_pers"))
-                If clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "FP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "FAFP") = CompairStringResult.Equal Then
-                    obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges"))
-                    If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "%(Percentage)") = CompairStringResult.Equal Then
-                        obj1.Emp_Amount = Math.Round(obj1.AMOUNT * obj1.Payment_Commission / 100, 2)
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "Rate/Kg") = CompairStringResult.Equal Then
-                        obj1.Emp_Amount = Math.Round(obj1.ACC_Qty * obj1.Payment_Commission, 2)
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "Rate/Ltr") = CompairStringResult.Equal Then
-                        obj1.Emp_Amount = Math.Round(obj1.MILK_Qty * obj1.Payment_Commission, 2)
-                    Else
-                        obj1.Emp_Amount = 0
-                        'Throw New Exception("EMP Service Basis is Not valid of VSP " + objHead.VSP_CODE)
-                    End If
-                    If clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "FAFP") = CompairStringResult.Equal Then
-                        obj1.Emp_Amount += clsCommon.myCdbl(dr(0)("EMP_Fixed_Amount"))
-                    End If
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "SWP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "FASWP") = CompairStringResult.Equal Then
-                    If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "%(Percentage)") = CompairStringResult.Equal Then
-                        If clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) > 0 AndAlso obj1.AMOUNT >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges5"))
-                        ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) > 0 AndAlso obj1.AMOUNT >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges4"))
-                        ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) > 0 AndAlso obj1.AMOUNT >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges3"))
-                        ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) > 0 AndAlso obj1.AMOUNT >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges2"))
-                        Else
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges"))
-                        End If
-                        obj1.Emp_Amount = Math.Round(obj1.AMOUNT * obj1.Payment_Commission / 100, 2)
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "Rate/Kg") = CompairStringResult.Equal Then
-                        If clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) > 0 AndAlso obj1.ACC_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges5"))
-                        ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) > 0 AndAlso obj1.ACC_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges4"))
-                        ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) > 0 AndAlso obj1.ACC_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges3"))
-                        ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) > 0 AndAlso obj1.ACC_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges2"))
-                        Else
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges"))
-                        End If
-                        obj1.Emp_Amount = Math.Round(obj1.ACC_Qty * obj1.Payment_Commission, 2)
-                    ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "Rate/Ltr") = CompairStringResult.Equal Then
-                        If clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) > 0 AndAlso obj1.MILK_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges5"))
-                        ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) > 0 AndAlso obj1.MILK_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges4"))
-                        ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) > 0 AndAlso obj1.MILK_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges3"))
-                        ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) > 0 AndAlso obj1.MILK_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) Then
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges2"))
-                        Else
-                            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges"))
-                        End If
-                        obj1.Emp_Amount = Math.Round(obj1.MILK_Qty * obj1.Payment_Commission, 2)
-                    Else
-                        obj1.Emp_Amount = 0
-                        'Throw New Exception("EMP Service Basis is Not valid of VSP " + objHead.VSP_CODE)
-                    End If
-                    If clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "FASWP") = CompairStringResult.Equal Then
-                        obj1.Emp_Amount += clsCommon.myCdbl(dr(0)("EMP_Fixed_Amount"))
-                    End If
-                Else
-                    Throw New Exception("EMP Type is Not a valid ")
-                End If
-                obj1.Service_Charge_Type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
-                '==================Head Load==========================
-                Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, Trans))
-                Dim dclDistanceKM As Decimal = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("DistanceKM_Head_Load"))
-                If dclDistanceKM = 0 Then
-                    dclDistanceKM = 1
-                End If
-                If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
-                    If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
-                        obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate * dclDistanceKM, 2)
-                    End If
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
-                    If clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
-                        obj1.Head_Load_Amount = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * obj1.Head_Load_Rate * dclDistanceKM, 2)
-                    End If
-                End If
-                obj1.Head_Load_Type = clsCommon.myCstr(dr(0)("Service_Basis_Head_Load"))
-                '============================================
-                '==================Own Asset==========================
-                If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then
-                    obj1.Own_Asset_Amount = Math.Round(obj1.ACC_Qty * obj1.Own_Asset_Rate, 2)
-                ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset")), "L") = CompairStringResult.Equal Then
-                    obj1.Own_Asset_Amount = Math.Round(obj1.MILK_Qty * obj1.Own_Asset_Rate, 2)
-                End If
-                obj1.Own_Asset_Type = clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset"))
-                '============================================
-
-                'If clsCommon.myCdbl(obj1.Commission) > 0 Then
-                '    obj1.Commission_Amount = Math.Round(obj1.AMOUNT * obj1.Commission, 2)
-                'End If
-                'If clsCommon.myCdbl(obj1.Payment_Commission) > 0 Then
-                '    obj1.Emp_Amount = Math.Round(obj1.AMOUNT * obj1.Payment_Commission, 2)
-                obj1.Service_Charge_Amount = Math.Round(obj1.MILK_Qty * clsCommon.myCdbl(dr(0)("Service_Charge_Per_Unit")), 2)
-                obj1.NET_AMOUNT = Math.Round(obj1.AMOUNT + obj1.Emp_Amount - obj1.Service_Charge_Amount, 2)
-                'Else
-                '    obj1.NET_AMOUNT = Math.Round(obj1.AMOUNT, 2)
-                'End If
-                'obj1.COMM_PORT = clsCommon.myCstr(cboComPort.SelectedValue)
-                objList.Add(obj1)
-
-                '============VSp Charge Detail=====================
-                For Each row_VSP_Charge As DataRow In DtVSPChargeDetail.Select("Vsp_Code='" & objHead.VSP_CODE & "'")
-                    objVSP_Charge1 = New clsMilkSRNVSpChargeDetail()
-                    objVSP_Charge1.Vsp_Code = clsCommon.myCstr(objHead.VSP_CODE)
-                    objVSP_Charge1.Vlc_Doc_Code = clsCommon.myCstr(fndVlcCode.Tag)
-                    objVSP_Charge1.Charge_Code = clsCommon.myCstr(row_VSP_Charge("Charge_Code"))
-                    objVSP_Charge1.Charge_Rate = clsCommon.myCstr(row_VSP_Charge("Rate"))
-                    objVSP_Charge1.Service_Type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
-                    If clsCommon.CompairString(objVSP_Charge1.Service_Type, "%(Percentage)") = CompairStringResult.Equal Then
-                        objVSP_Charge1.AMOUNT = Math.Round(obj1.AMOUNT * objVSP_Charge1.Charge_Rate / 100, 2)
-                    ElseIf clsCommon.CompairString(objVSP_Charge1.Service_Type, "Rate/Kg") = CompairStringResult.Equal Then
-                        objVSP_Charge1.AMOUNT = Math.Round(obj1.ACC_Qty * objVSP_Charge1.Charge_Rate, 2)
-                    ElseIf clsCommon.CompairString(objVSP_Charge1.Service_Type, "Rate/Ltr") = CompairStringResult.Equal And clsCommon.CompairString(dr(0)("UOM_Code"), "LTR") = CompairStringResult.Equal Then
-                        objVSP_Charge1.AMOUNT = Math.Round(obj1.MILK_Qty * objVSP_Charge1.Charge_Rate, 2)
-                    End If
-                    objVSPChargeList.Add(objVSP_Charge1)
-                Next
-                '===========================================
+    '    Dim DtVehicle As DataTable = clsDBFuncationality.GetDataTable("SELECT vm.* FROM  TSPL_Primary_Vehicle_Master vm ")
+    '    Dim DtVSPChargeDetail As DataTable = clsDBFuncationality.GetDataTable("SELECT * FROM  TSPL_MCC_VSP_ChargeCategory_MAPPING ")
+    '    Dim DtPriceChargeDetail As DataTable = clsDBFuncationality.GetDataTable("SELECT * FROM  TSPL_FAT_SNF_UPLOADER_Chart_Detail ")
 
 
-                '============Price Charge Detail=====================
-                For Each row_Price_Charge As DataRow In DtPriceChargeDetail.Select("Price_Code='" & obj1.Price_Code & "'")
-                    objPrice_Charge1 = New clsMilkSRNPriceChargeDetail()
-                    objPrice_Charge1.Price_Code = clsCommon.myCstr(obj1.Price_Code)
-                    objPrice_Charge1.Vlc_Doc_Code = clsCommon.myCstr(fndVlcCode.Tag)
-                    objPrice_Charge1.Charge_Code = clsCommon.myCstr(row_Price_Charge("Charge_Code"))
-                    objPrice_Charge1.Charge_Rate = clsCommon.myCstr(row_Price_Charge("Rate"))
-                    objPrice_Charge1.Service_type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
-                    If clsCommon.CompairString(objPrice_Charge1.Service_type, "%(Percentage)") = CompairStringResult.Equal Then
-                        objPrice_Charge1.AMOUNT = Math.Round(obj1.AMOUNT * objPrice_Charge1.Charge_Rate / 100, 2)
-                    ElseIf clsCommon.CompairString(objPrice_Charge1.Service_type, "Rate/Kg") = CompairStringResult.Equal Then
-                        objPrice_Charge1.AMOUNT = Math.Round(obj1.ACC_Qty * objPrice_Charge1.Charge_Rate, 2)
-                    ElseIf clsCommon.CompairString(objPrice_Charge1.Service_type, "Rate/Ltr") = CompairStringResult.Equal And clsCommon.CompairString(dr(0)("UOM_Code"), "LTR") = CompairStringResult.Equal Then
-                        objPrice_Charge1.AMOUNT = Math.Round(obj1.MILK_Qty * objPrice_Charge1.Charge_Rate, 2)
-                    End If
-                    objPriceChargeList.Add(objPrice_Charge1)
-                Next
-                '===========================================
+    '    Dim Milk_receipt_code As String = clsDBFuncationality.getSingleValue("select milk_receipt_code from tspl_milk_sample_Head where doc_code='" & fndMccCode.Tag & "'")
+    '    Dim Trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+    '    Try
 
-                If Not clsMilkSRNMCC.UpdateDataFromSRNFrom(objHead, objList, objVSPChargeList, objPriceChargeList, Trans) Then
-                    Trans.Rollback()
-                    Return False
-                Else
-                    clsMilkSRNMCC.updateJournalEntry("MI-SR", objHead.DOC_CODE, obj1.NET_AMOUNT, Trans)
-                    clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, objList(0).FAT, objList(0).SNF, objList(0).RATE, objList(0).AMOUNT, Trans, "", 0, 0)
-                    Trans.Commit()
-                    'clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
-                    'clsCommon.ProgressBarUpdate(counter & "/" & gv1.Rows.Count)
-                End If
-                objList = Nothing
-                objVSPChargeList = Nothing
-                objPriceChargeList = Nothing
+    '        '        If (AllowToSave()) Then
+    '        ' Trans = clsDBFuncationality.GetTransactin()
+    '        Dim counter As Integer = 0
+    '        Dim Net_amt As Double = 0
+    '        Dim objHead As clsMilkSRNMCC
+    '        '' asign screen vaules in objHead
 
-                dr = Nothing
-                'obj1.DOC_CODE = txtCode.Value
+    '        Dim objList As New List(Of clsMilkSRNMCCDetail)
+    '        Dim obj1 As clsMilkSRNMCCDetail
 
-                objHead = Nothing
-            Next
-            Return True
-            'If clsMilkSampleMCC.SaveData(objHead, objList, trans) Then
-            ' Trans.Commit()
-            'clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
-            'End If
-            '        End If
-            DtMilkReceipt = Nothing
-            DtVehicle = Nothing
-            DtVSPChargeDetail = Nothing
-            DtPriceChargeDetail = Nothing
+    '        Dim objVSPChargeList As New List(Of clsMilkSRNVSpChargeDetail)
+    '        Dim objVSP_Charge1 As clsMilkSRNVSpChargeDetail
+
+    '        Dim objPriceChargeList As New List(Of clsMilkSRNPriceChargeDetail)
+    '        Dim objPrice_Charge1 As clsMilkSRNPriceChargeDetail
+
+    '        For Each grow As GridViewRowInfo In gv1.Rows
+
+    '            objList = New List(Of clsMilkSRNMCCDetail)
+    '            objVSPChargeList = New List(Of clsMilkSRNVSpChargeDetail)
+    '            objPriceChargeList = New List(Of clsMilkSRNPriceChargeDetail)
+    '            DtMilkReceipt = clsDBFuncationality.GetDataTable("select rd.*,rh.*,Case when Nature='C' then Actual_charges end as  commision_pers," _
+    '            & " Case when Nature='E' then Actual_charges end as payment_commision_pers,Service_Charge_Type,coalesce(Rate_Head_Load,0) as Rate_Head_Load" _
+    '            & " ,coalesce(Rate_Own_Asset,0) as Rate_Own_Asset,Service_Basis_Head_Load,Service_Basis_Own_Asset,TSPL_VENDOR_MASTER.EMP_Type " _
+    '            & " ,TSPL_VENDOR_MASTER.EMP_Fixed_Amount " _
+    '            & " ,TSPL_VENDOR_MASTER.Actual_charges_Slab " _
+    '            & " ,TSPL_VENDOR_MASTER.Actual_charges " _
+    '            & ",TSPL_VENDOR_MASTER.Actual_charges_Slab2" _
+    '            & ",TSPL_VENDOR_MASTER.Actual_charges2" _
+    '            & ",TSPL_VENDOR_MASTER.Actual_charges_Slab3" _
+    '            & ",TSPL_VENDOR_MASTER.Actual_charges3" _
+    '            & ",TSPL_VENDOR_MASTER.Actual_charges_Slab4" _
+    '            & ",TSPL_VENDOR_MASTER.Actual_charges4" _
+    '            & ",TSPL_VENDOR_MASTER.Actual_charges_Slab5" _
+    '            & ",TSPL_VENDOR_MASTER.Actual_charges5,TSPL_VENDOR_MASTER.Service_Charge_Per_Unit,TSPL_VENDOR_MASTER.DistanceKM_Head_Load from TSPL_MILK_RECEIPT_HEAD rd Inner join TSPL_MILK_RECEIPT_DETAIL rh on rh.DOC_CODE=" _
+    '            & " rd.DOC_CODE left join TSPL_VENDOR_MASTER on Vendor_Code=VSP_CODE where rd.DOC_CODE='" & Milk_receipt_code & "' and rh.vlc_DOC_Code='" & clsCommon.myCstr(fndVlcCode.Tag) & "'", Trans)
+    '            Dim dr() As DataRow = DtMilkReceipt.Select("DOC_CODE='" & Milk_receipt_code & "' and vlc_DOC_Code='" & clsCommon.myCstr(fndVlcCode.Tag) & "'")
+    '            'obj1.DOC_CODE = txtCode.Value
+
+    '            objHead = New clsMilkSRNMCC
+    '            objHead.DOC_CODE = clsCommon.myCstr(txtCode.Value)
+    '            objHead.DOC_DATE = clsCommon.myCDate(dtpDocDate.Value)
+    '            objHead.SHIFT = clsCommon.myCstr(Me.cboShift.SelectedValue)
+    '            objHead.MILK_SAMPLE_CODE = fndMccCode.Tag
+
+    '            ' objHead.COMM_PORT = clsCommon.myCstr(cboComPort.SelectedValue)
+    '            objHead.MCC_CODE = IIf(clsCommon.myLen(clsCommon.myCstr(dr(0)("Irregular_MCC_CODE"))) > 0, clsCommon.myCstr(dr(0)("Irregular_MCC_CODE")), clsCommon.myCstr(dr(0)("MCC_CODE"))) 'clsCommon.myCstr(dr(0)("MCC_CODE"))
+    '            objHead.SAMPLE_NO = clsCommon.myCdbl(txtsampleNo.Text)
+    '            objHead.VLC_DOC_CODE = clsCommon.myCstr(fndVlcCode.Tag)
+    '            objHead.VEHICLE_CODE = clsCommon.myCstr(dr(0)("VEHICLE_CODE"))
+    '            objHead.VLC_CODE = clsCommon.myCstr(dr(0)("VLC_CODE"))
+    '            objHead.ROUTE_CODE = clsCommon.myCstr(dr(0)("ROUTE_CODE"))
+    '            objHead.VSP_CODE = clsCommon.myCstr(fndVSPCode.Text)
+    '            If DtVehicle.Select("Vehicle_Code='" & dr(0)("VEHICLE_CODE") & "'").Length > 0 Then
+    '                objHead.TransPorter = clsCommon.myCstr(DtVehicle.Select("Vehicle_Code='" & dr(0)("VEHICLE_CODE") & "'")(0)("Vendor_Code"))
+    '            End If
+    '            obj1 = New clsMilkSRNMCCDetail()
+    '            obj1.Item_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+    '            obj1.MILK_Qty = clsCommon.myCdbl(grow.Cells(ColQty).Value)
+    '            obj1.ACC_Qty = clsCommon.myCdbl(grow.Cells(ColACC_Qty).Value)
+    '            obj1.FAT = clsCommon.myCdbl(grow.Cells(ColFatP).Value)
+    '            obj1.SNF = clsCommon.myCdbl(grow.Cells(COlSNFP).Value)
+    '            obj1.MCC_CODE = IIf(clsCommon.myLen(clsCommon.myCstr(dr(0)("Irregular_MCC_CODE"))) > 0, clsCommon.myCstr(dr(0)("Irregular_MCC_CODE")), clsCommon.myCstr(dr(0)("MCC_CODE")))
+    '            obj1.Correction_Factor = 0.14
+    '            obj1.RATE = clsCommon.myCdbl(grow.Cells(COlRate).Value)
+    '            obj1.UOM = clsCommon.myCstr(grow.Cells(ColUOM).Value)
+    '            obj1.Price_Code = clsCommon.myCstr(grow.Cells(ColPriceCode).Value)
+    '            obj1.AMOUNT = clsCommon.myCdbl(grow.Cells(ColAmount).Value)
+    '            obj1.Commission = clsCommon.myCdbl(dr(0)("commision_pers"))
+    '            obj1.Head_Load_Rate = clsCommon.myCdbl(dr(0)("Rate_Head_Load"))
+    '            obj1.Own_Asset_Rate = clsCommon.myCdbl(dr(0)("Rate_Own_Asset"))
+    '            obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("payment_commision_pers"))
+    '            If clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "FP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "FAFP") = CompairStringResult.Equal Then
+    '                obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges"))
+    '                If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "%(Percentage)") = CompairStringResult.Equal Then
+    '                    obj1.Emp_Amount = Math.Round(obj1.AMOUNT * obj1.Payment_Commission / 100, 2)
+    '                ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "Rate/Kg") = CompairStringResult.Equal Then
+    '                    obj1.Emp_Amount = Math.Round(obj1.ACC_Qty * obj1.Payment_Commission, 2)
+    '                ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "Rate/Ltr") = CompairStringResult.Equal Then
+    '                    obj1.Emp_Amount = Math.Round(obj1.MILK_Qty * obj1.Payment_Commission, 2)
+    '                Else
+    '                    obj1.Emp_Amount = 0
+    '                    'Throw New Exception("EMP Service Basis is Not valid of VSP " + objHead.VSP_CODE)
+    '                End If
+    '                If clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "FAFP") = CompairStringResult.Equal Then
+    '                    obj1.Emp_Amount += clsCommon.myCdbl(dr(0)("EMP_Fixed_Amount"))
+    '                End If
+    '            ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "SWP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "FASWP") = CompairStringResult.Equal Then
+    '                If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "%(Percentage)") = CompairStringResult.Equal Then
+    '                    If clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) > 0 AndAlso obj1.AMOUNT >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges5"))
+    '                    ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) > 0 AndAlso obj1.AMOUNT >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges4"))
+    '                    ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) > 0 AndAlso obj1.AMOUNT >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges3"))
+    '                    ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) > 0 AndAlso obj1.AMOUNT >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges2"))
+    '                    Else
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges"))
+    '                    End If
+    '                    obj1.Emp_Amount = Math.Round(obj1.AMOUNT * obj1.Payment_Commission / 100, 2)
+    '                ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "Rate/Kg") = CompairStringResult.Equal Then
+    '                    If clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) > 0 AndAlso obj1.ACC_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges5"))
+    '                    ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) > 0 AndAlso obj1.ACC_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges4"))
+    '                    ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) > 0 AndAlso obj1.ACC_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges3"))
+    '                    ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) > 0 AndAlso obj1.ACC_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges2"))
+    '                    Else
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges"))
+    '                    End If
+    '                    obj1.Emp_Amount = Math.Round(obj1.ACC_Qty * obj1.Payment_Commission, 2)
+    '                ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Charge_Type")), "Rate/Ltr") = CompairStringResult.Equal Then
+    '                    If clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) > 0 AndAlso obj1.MILK_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab5")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges5"))
+    '                    ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) > 0 AndAlso obj1.MILK_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab4")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges4"))
+    '                    ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) > 0 AndAlso obj1.MILK_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab3")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges3"))
+    '                    ElseIf clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) > 0 AndAlso obj1.MILK_Qty >= clsCommon.myCdbl(dr(0)("Actual_charges_Slab2")) Then
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges2"))
+    '                    Else
+    '                        obj1.Payment_Commission = clsCommon.myCdbl(dr(0)("Actual_charges"))
+    '                    End If
+    '                    obj1.Emp_Amount = Math.Round(obj1.MILK_Qty * obj1.Payment_Commission, 2)
+    '                Else
+    '                    obj1.Emp_Amount = 0
+    '                    'Throw New Exception("EMP Service Basis is Not valid of VSP " + objHead.VSP_CODE)
+    '                End If
+    '                If clsCommon.CompairString(clsCommon.myCstr(dr(0)("EMP_Type")), "FASWP") = CompairStringResult.Equal Then
+    '                    obj1.Emp_Amount += clsCommon.myCdbl(dr(0)("EMP_Fixed_Amount"))
+    '                End If
+    '            Else
+    '                Throw New Exception("EMP Type is Not a valid ")
+    '            End If
+    '            obj1.Service_Charge_Type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
+    '            '==================Head Load==========================
+    '            Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, Trans))
+    '            Dim dclDistanceKM As Decimal = clsCommon.myCdbl(DtMilkReceipt.Rows(0)("DistanceKM_Head_Load"))
+    '            If dclDistanceKM = 0 Then
+    '                dclDistanceKM = 1
+    '            End If
+    '            If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "K") = CompairStringResult.Equal Then
+    '                If obj1.ACC_Qty >= MinimumQtyForHeadLoad Then
+    '                    obj1.Head_Load_Amount = Math.Round(obj1.ACC_Qty * obj1.Head_Load_Rate * dclDistanceKM, 2)
+    '                End If
+    '            ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Head_Load")), "L") = CompairStringResult.Equal Then
+    '                If clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) >= MinimumQtyForHeadLoad Then
+    '                    obj1.Head_Load_Amount = Math.Round(clsCommon.myCDecimal(dr(0)("ACC_WEIGHT_LTR")) * obj1.Head_Load_Rate * dclDistanceKM, 2)
+    '                End If
+    '            End If
+    '            obj1.Head_Load_Type = clsCommon.myCstr(dr(0)("Service_Basis_Head_Load"))
+    '            '============================================
+    '            '==================Own Asset==========================
+    '            If clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then
+    '                obj1.Own_Asset_Amount = Math.Round(obj1.ACC_Qty * obj1.Own_Asset_Rate, 2)
+    '            ElseIf clsCommon.CompairString(clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset")), "L") = CompairStringResult.Equal Then
+    '                obj1.Own_Asset_Amount = Math.Round(obj1.MILK_Qty * obj1.Own_Asset_Rate, 2)
+    '            End If
+    '            obj1.Own_Asset_Type = clsCommon.myCstr(dr(0)("Service_Basis_Own_Asset"))
+    '            '============================================
+
+    '            'If clsCommon.myCdbl(obj1.Commission) > 0 Then
+    '            '    obj1.Commission_Amount = Math.Round(obj1.AMOUNT * obj1.Commission, 2)
+    '            'End If
+    '            'If clsCommon.myCdbl(obj1.Payment_Commission) > 0 Then
+    '            '    obj1.Emp_Amount = Math.Round(obj1.AMOUNT * obj1.Payment_Commission, 2)
+    '            obj1.Service_Charge_Amount = Math.Round(obj1.MILK_Qty * clsCommon.myCdbl(dr(0)("Service_Charge_Per_Unit")), 2)
+    '            obj1.NET_AMOUNT = Math.Round(obj1.AMOUNT + obj1.Emp_Amount - obj1.Service_Charge_Amount, 2)
+    '            'Else
+    '            '    obj1.NET_AMOUNT = Math.Round(obj1.AMOUNT, 2)
+    '            'End If
+    '            'obj1.COMM_PORT = clsCommon.myCstr(cboComPort.SelectedValue)
+    '            objList.Add(obj1)
+
+    '            '============VSp Charge Detail=====================
+    '            For Each row_VSP_Charge As DataRow In DtVSPChargeDetail.Select("Vsp_Code='" & objHead.VSP_CODE & "'")
+    '                objVSP_Charge1 = New clsMilkSRNVSpChargeDetail()
+    '                objVSP_Charge1.Vsp_Code = clsCommon.myCstr(objHead.VSP_CODE)
+    '                objVSP_Charge1.Vlc_Doc_Code = clsCommon.myCstr(fndVlcCode.Tag)
+    '                objVSP_Charge1.Charge_Code = clsCommon.myCstr(row_VSP_Charge("Charge_Code"))
+    '                objVSP_Charge1.Charge_Rate = clsCommon.myCstr(row_VSP_Charge("Rate"))
+    '                objVSP_Charge1.Service_Type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
+    '                If clsCommon.CompairString(objVSP_Charge1.Service_Type, "%(Percentage)") = CompairStringResult.Equal Then
+    '                    objVSP_Charge1.AMOUNT = Math.Round(obj1.AMOUNT * objVSP_Charge1.Charge_Rate / 100, 2)
+    '                ElseIf clsCommon.CompairString(objVSP_Charge1.Service_Type, "Rate/Kg") = CompairStringResult.Equal Then
+    '                    objVSP_Charge1.AMOUNT = Math.Round(obj1.ACC_Qty * objVSP_Charge1.Charge_Rate, 2)
+    '                ElseIf clsCommon.CompairString(objVSP_Charge1.Service_Type, "Rate/Ltr") = CompairStringResult.Equal And clsCommon.CompairString(dr(0)("UOM_Code"), "LTR") = CompairStringResult.Equal Then
+    '                    objVSP_Charge1.AMOUNT = Math.Round(obj1.MILK_Qty * objVSP_Charge1.Charge_Rate, 2)
+    '                End If
+    '                objVSPChargeList.Add(objVSP_Charge1)
+    '            Next
+    '            '===========================================
 
 
-            Milk_receipt_code = String.Empty
+    '            '============Price Charge Detail=====================
+    '            For Each row_Price_Charge As DataRow In DtPriceChargeDetail.Select("Price_Code='" & obj1.Price_Code & "'")
+    '                objPrice_Charge1 = New clsMilkSRNPriceChargeDetail()
+    '                objPrice_Charge1.Price_Code = clsCommon.myCstr(obj1.Price_Code)
+    '                objPrice_Charge1.Vlc_Doc_Code = clsCommon.myCstr(fndVlcCode.Tag)
+    '                objPrice_Charge1.Charge_Code = clsCommon.myCstr(row_Price_Charge("Charge_Code"))
+    '                objPrice_Charge1.Charge_Rate = clsCommon.myCstr(row_Price_Charge("Rate"))
+    '                objPrice_Charge1.Service_type = clsCommon.myCstr(dr(0)("Service_Charge_Type"))
+    '                If clsCommon.CompairString(objPrice_Charge1.Service_type, "%(Percentage)") = CompairStringResult.Equal Then
+    '                    objPrice_Charge1.AMOUNT = Math.Round(obj1.AMOUNT * objPrice_Charge1.Charge_Rate / 100, 2)
+    '                ElseIf clsCommon.CompairString(objPrice_Charge1.Service_type, "Rate/Kg") = CompairStringResult.Equal Then
+    '                    objPrice_Charge1.AMOUNT = Math.Round(obj1.ACC_Qty * objPrice_Charge1.Charge_Rate, 2)
+    '                ElseIf clsCommon.CompairString(objPrice_Charge1.Service_type, "Rate/Ltr") = CompairStringResult.Equal And clsCommon.CompairString(dr(0)("UOM_Code"), "LTR") = CompairStringResult.Equal Then
+    '                    objPrice_Charge1.AMOUNT = Math.Round(obj1.MILK_Qty * objPrice_Charge1.Charge_Rate, 2)
+    '                End If
+    '                objPriceChargeList.Add(objPrice_Charge1)
+    '            Next
+    '            '===========================================
 
-        Catch ex As Exception
-            Trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
-            Return False
-        End Try
-    End Function
+    '            If Not clsMilkSRNMCC.UpdateDataFromSRNFrom(objHead, objList, objVSPChargeList, objPriceChargeList, Trans) Then
+    '                Trans.Rollback()
+    '                Return False
+    '            Else
+    '                clsMilkSRNMCC.updateJournalEntry("MI-SR", objHead.DOC_CODE, obj1.NET_AMOUNT, Trans)
+    '                clsMilkSRNMCC.UpdateSample(objHead.MILK_SAMPLE_CODE, objHead.SAMPLE_NO, objList(0).FAT, objList(0).SNF, objList(0).RATE, objList(0).AMOUNT, Trans, "", 0, 0)
+    '                Trans.Commit()
+    '                'clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+    '                'clsCommon.ProgressBarUpdate(counter & "/" & gv1.Rows.Count)
+    '            End If
+    '            objList = Nothing
+    '            objVSPChargeList = Nothing
+    '            objPriceChargeList = Nothing
+
+    '            dr = Nothing
+    '            'obj1.DOC_CODE = txtCode.Value
+
+    '            objHead = Nothing
+    '        Next
+    '        Return True
+    '        'If clsMilkSampleMCC.SaveData(objHead, objList, trans) Then
+    '        ' Trans.Commit()
+    '        'clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+    '        'End If
+    '        '        End If
+    '        DtMilkReceipt = Nothing
+    '        DtVehicle = Nothing
+    '        DtVSPChargeDetail = Nothing
+    '        DtPriceChargeDetail = Nothing
+
+
+    '        Milk_receipt_code = String.Empty
+
+    '    Catch ex As Exception
+    '        Trans.Rollback()
+    '        clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+    '        Return False
+    '    End Try
+    'End Function
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()

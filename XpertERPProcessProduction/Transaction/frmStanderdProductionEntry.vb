@@ -2089,7 +2089,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
            inner join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.item_code=tspl_mf_bom_head.PROD_ITEM_CODE and TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'
            WHERE isnull(TSPL_MF_BOM_HEAD.POSTED,'0')='1' and TSPL_MF_BOM_HEAD.Location_code='" + txtLocation.Value + "' and NOT EXISTS ( select TSPL_MF_BOM_HEAD.prod_item_code, max(REVISION_NO) as REVISION_NO from TSPL_MF_BOM_HEAD   where   " + whr + " AND  tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code  group by TSPL_MF_BOM_HEAD.prod_item_code ) "
 
-        qry += " UNION "
+        qry += " UNION ALL "
 
         qry += " select TSPL_MF_BOM_HEAD.bom_code as Code,TSPL_MF_BOM_HEAD.bom_date as [BOM Date],TSPL_MF_BOM_HEAD.Description,  TSPL_MF_BOM_HEAD.START_DATE as [Valid From],TSPL_MF_BOM_HEAD.END_DATE as [Valid Upto],TSPL_MF_BOM_HEAD.Status,TSPL_MF_BOM_HEAD.prod_item_code as [Main Item Code],  tspl_item_master.item_desc as [Item Description],TSPL_MF_BOM_HEAD.prod_item_unit_code as [Unit],TSPL_MF_BOM_HEAD.prod_quantity as [Quantity],TSPL_MF_BOM_HEAD.revision_no as [Revision No], TSPL_ITEM_UOM_DETAIL.Conversion_Factor,
 	             TSPL_ITEM_UOM_DETAIL.UOM_Code, (case when TSPL_MF_BOM_HEAD.POSTED='1' then 'Posted' else 'UnPosted' end) as [Post Status] from TSPL_MF_BOM_HEAD  left outer join tspl_item_master on tspl_item_master.item_code=TSPL_MF_BOM_HEAD.prod_item_code

@@ -1349,7 +1349,7 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
                     Route = clsCommon.myCstr(grow.Cells("Route").Value)
                     Late = clsCommon.myCDecimal(grow.Cells("Late").Value)
                     TankerNo = clsCommon.myCstr(grow.Cells("TankerNo").Value)
-                    VehicleNo = clsCommon.myCstr(grow.Cells("VehicleNo").Value)
+                    'VehicleNo = clsCommon.myCstr(grow.Cells("VehicleNo").Value)
                     FATSNFType = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionFATSNFType, clsFixedParameterCode.MilkCollectionFATSNFType, Nothing))
                     'MilkType = clsCommon.myCstr(grow.Cells("MilkType").Value)
                     BMCMCCCode = clsCommon.myCstr(grow.Cells("BMCMCCCode").Value)
@@ -1576,6 +1576,10 @@ case when TSPL_MILK_COLLECTION_MCC.Status=1 then 'Posted' else 'Pending' end as 
                                         objTr.SNF = dblSnf
                                         objTr.FATKG = clsCommon.myCDecimal(dtItemData.Rows(k)("FAT"))
                                         objTr.SNFKG = clsCommon.myCDecimal(dtItemData.Rows(k)(colSNForCLR))
+                                    End If
+                                    If isPickCLRInsteadOfSNF Then
+                                        Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(objTr.FAT, objTr.SNF, corrFactor)
+                                        objTr.SNFKG = Math.Round(objTr.Qty * snfPer / 100, 3, MidpointRounding.ToEven)
                                     End If
                                     'objTr.FAT = dblFat
                                     'objTr.SNF = dblSnf

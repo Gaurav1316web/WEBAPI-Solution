@@ -492,7 +492,7 @@ Public Class FrmAPInvoiceEntry
                 txtACSet.Value = clsCommon.myCstr(dt.Rows(0)("Vendor_Account"))
                 txtTaxGroup.Value = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
                 lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax_Group_Desc"))
-
+                'chkTDSProvision.Checked = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Provisional from TSPL_VENDOR_MASTER where Vendor_Code='" + TxtVendorNo.Value + "'")) = 1, True, False)
                 txtBankCode.Text = clsCommon.myCstr(dt.Rows(0)("Bank_Code"))
                 TxtBankName.Text = clsCommon.myCstr(dt.Rows(0)("Bank_Name"))
                 TxtIFSCCode.Text = clsCommon.myCstr(dt.Rows(0)("ifsc_code"))
@@ -3057,7 +3057,8 @@ Public Class FrmAPInvoiceEntry
         btnSave.Enabled = True
         btnPost.Enabled = True
         btnDelete.Enabled = True
-
+        chkRCM.Checked = False
+        chkTDSProvision.Checked = False
         gvAC.Rows.AddNew()
         cmbRefType.SelectedIndex = 1
         cmbRefType.SelectedIndex = 0
@@ -3386,7 +3387,7 @@ Public Class FrmAPInvoiceEntry
                     Return False
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "BS") = CompairStringResult.Equal Then
-                Dim qry As String = "select TSPL_Bulk_MILK_SRN.SRN_NO as Code,TSPL_Bulk_MILK_SRN.SRN_Date as Date,TSPL_Bulk_MILK_SRN.Vendor_Code as VendorCode ,TSPL_Bulk_MILK_SRN.Loc_Code as LocationCode " & _
+                Dim qry As String = "select TSPL_Bulk_MILK_SRN.SRN_NO as Code,TSPL_Bulk_MILK_SRN.SRN_Date as Date,TSPL_Bulk_MILK_SRN.Vendor_Code as VendorCode ,TSPL_Bulk_MILK_SRN.Loc_Code as LocationCode " &
                 " from TSPL_Bulk_MILK_SRN  where TSPL_Bulk_MILK_SRN.isPosted = 1 and TSPL_Bulk_MILK_SRN.SRN_NO='" + txtRefDocNo.Value + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -3487,7 +3488,26 @@ Public Class FrmAPInvoiceEntry
                 End If
             End If
 
+            Dim IsVendorRegisted As Double = clsDBFuncationality.getSingleValue("select 1 from TSPL_VENDOR_MASTER where Vendor_Code='" + TxtVendorNo.Value + "' and GSTRegistered=0 ")
+            Dim IsTaxExempted As Double = clsDBFuncationality.getSingleValue("select Is_Tax_Exempted from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" + txtTaxGroup.Value + "'")
 
+
+            If IsVendorRegisted = 1 AndAlso IsTaxExempted = 0 Then
+                If common.clsCommon.MyMessageBoxShow("Apply RCM", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                    chkRCM.Checked = True
+                Else
+                    chkRCM.Checked = False
+                End If
+
+            End If
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Provisional from TSPL_VENDOR_MASTER where Vendor_Code='" + TxtVendorNo.Value + "'")) = 1 Then
+                If common.clsCommon.MyMessageBoxShow("Do You Want to Apply TDS Provision", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                    chkTDSProvision.Checked = True
+                Else
+                    chkTDSProvision.Checked = False
+                End If
+
+            End If
 
             If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
                 UcCustomFields1.AllowToSave()
@@ -3576,6 +3596,8 @@ Public Class FrmAPInvoiceEntry
                 If txtDataAndTimeSelection.Checked Then
                     obj.DateAndTime = txtDataAndTimeSelection.Value
                 End If
+                obj.RCM = chkRCM.Checked
+                obj.TDS_Provision = chkTDSProvision.Checked
                 '' Anubhooti 06-Apr-2015 (Added two columns)
                 obj.Hirerachy_Level_Code = clsCommon.myCstr(TxtHirerachy.Value)
                 obj.Cost_Centre_Fin_Level_Code = clsCommon.myCstr(TxtCostCentre.Value)
@@ -4022,6 +4044,9 @@ Public Class FrmAPInvoiceEntry
                     btnViewTDSDetails.Enabled = False
                 End If
                 '------------------------------------------------------------------
+                chkRCM.Checked = obj.RCM
+                chkTDSProvision.Checked = obj.TDS_Provision
+
                 chkProRated.Checked = IIf(clsCommon.CompairString(obj.Is_ProRated, "Y") = CompairStringResult.Equal, True, False)
                 txtlocation.Value = obj.loc_code
                 '' Anubhooti 17-Nov-2014 BM00000004657

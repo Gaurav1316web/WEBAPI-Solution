@@ -354,6 +354,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCSADeliverySale.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCustomerOutstanding.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCustomerOutstandingErode.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\rptdailyqtyreport.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDemandBooking.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDemandBookingRouteWise.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptDispatchBulkSale.rpt" />
@@ -1338,6 +1339,7 @@
     <None Include="Crystal Reports\Milk Procurement\rptDCSFinancialEntry.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummarByRange.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryMontholyWise.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\rptDCSSummaryYearlyWise.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDCSWiseAvgFatSnfPrint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptDispatchChallan.rpt" />
     <None Include="Crystal Reports\Milk Procurement\rptMCCMaterialSale.rpt" />

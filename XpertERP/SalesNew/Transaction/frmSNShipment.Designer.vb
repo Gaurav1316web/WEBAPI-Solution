@@ -222,6 +222,9 @@ Partial Class frmSNShipment
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.btnPrnt = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnPrintA4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrintA5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnDCSPrint = New Telerik.WinControls.UI.RadSplitButton()
         Me.rbtnDCSPrint = New Telerik.WinControls.UI.RadMenuItem()
         Me.rbtnDCSSummary = New Telerik.WinControls.UI.RadMenuItem()
@@ -238,7 +241,6 @@ Partial Class frmSNShipment
         Me.chkRateDefaultSetting = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadLabel20 = New common.Controls.MyLabel()
         Me.RadLabel21 = New common.Controls.MyLabel()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -450,6 +452,7 @@ Partial Class frmSNShipment
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrnt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDCSPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -462,7 +465,6 @@ Partial Class frmSNShipment
         CType(Me.chkRateDefaultSetting, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -492,6 +494,7 @@ Partial Class frmSNShipment
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrnt)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDCSPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnAddCost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnInvoiceJE)
@@ -500,7 +503,6 @@ Partial Class frmSNShipment
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsetting)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintInvoice)
         Me.SplitContainer1.Panel2.Controls.Add(Me.chkRateUserCustomer)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -3505,11 +3507,33 @@ Partial Class frmSNShipment
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'btnPrnt
+        '
+        Me.btnPrnt.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrnt.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnPrintA4, Me.btnPrintA5})
+        Me.btnPrnt.Location = New System.Drawing.Point(218, 4)
+        Me.btnPrnt.Name = "btnPrnt"
+        Me.btnPrnt.Size = New System.Drawing.Size(86, 20)
+        Me.btnPrnt.TabIndex = 47
+        Me.btnPrnt.Text = "Print"
+        '
+        'btnPrintA4
+        '
+        Me.btnPrintA4.Name = "btnPrintA4"
+        Me.btnPrintA4.Text = "Print A4 Size"
+        Me.btnPrintA4.UseCompatibleTextRendering = False
+        '
+        'btnPrintA5
+        '
+        Me.btnPrintA5.Name = "btnPrintA5"
+        Me.btnPrintA5.Text = "Print A5 Size"
+        Me.btnPrintA5.UseCompatibleTextRendering = False
+        '
         'btnDCSPrint
         '
         Me.btnDCSPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDCSPrint.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rbtnDCSPrint, Me.rbtnDCSSummary})
-        Me.btnDCSPrint.Location = New System.Drawing.Point(291, 4)
+        Me.btnDCSPrint.Location = New System.Drawing.Point(306, 4)
         Me.btnDCSPrint.Name = "btnDCSPrint"
         Me.btnDCSPrint.Size = New System.Drawing.Size(86, 20)
         Me.btnDCSPrint.TabIndex = 46
@@ -3562,7 +3586,7 @@ Partial Class frmSNShipment
         '
         Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnHistory.Location = New System.Drawing.Point(557, 3)
+        Me.btnHistory.Location = New System.Drawing.Point(561, 4)
         Me.btnHistory.Name = "btnHistory"
         Me.btnHistory.Size = New System.Drawing.Size(87, 20)
         Me.btnHistory.TabIndex = 39
@@ -3572,7 +3596,7 @@ Partial Class frmSNShipment
         '
         Me.btnsetting.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnpreview, Me.btnsend, Me.btnSendForApproval})
-        Me.btnsetting.Location = New System.Drawing.Point(465, 4)
+        Me.btnsetting.Location = New System.Drawing.Point(473, 4)
         Me.btnsetting.Name = "btnsetting"
         Me.btnsetting.Size = New System.Drawing.Size(86, 20)
         Me.btnsetting.TabIndex = 6
@@ -3597,7 +3621,7 @@ Partial Class frmSNShipment
         '
         Me.btnPrintInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintInvoice.Location = New System.Drawing.Point(382, 4)
+        Me.btnPrintInvoice.Location = New System.Drawing.Point(394, 4)
         Me.btnPrintInvoice.Name = "btnPrintInvoice"
         Me.btnPrintInvoice.Size = New System.Drawing.Size(77, 20)
         Me.btnPrintInvoice.TabIndex = 5
@@ -3650,16 +3674,6 @@ Partial Class frmSNShipment
         Me.RadLabel21.TabIndex = 38
         Me.RadLabel21.Text = "Gate Entry No"
         Me.RadLabel21.Visible = False
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(218, 4)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(69, 20)
-        Me.btnPrint.TabIndex = 3
-        Me.btnPrint.Text = "Print"
         '
         'btnDelete
         '
@@ -4084,6 +4098,7 @@ Partial Class frmSNShipment
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrnt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDCSPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4097,7 +4112,6 @@ Partial Class frmSNShipment
         CType(Me.chkRateDefaultSetting, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4140,7 +4154,6 @@ Partial Class frmSNShipment
     Friend WithEvents txtInvNo As common.Controls.MyTextBox
     Friend WithEvents txtTaxGroup As common.UserControls.txtFinder
     Friend WithEvents txtTermCode As common.UserControls.txtFinder
-    Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtGENo As common.Controls.MyTextBox
     Friend WithEvents txtGRNo As common.Controls.MyTextBox
     Friend WithEvents txtGEDate As common.Controls.MyDateTimePicker
@@ -4345,5 +4358,8 @@ Partial Class frmSNShipment
     Friend WithEvents rbtnDCSSummary As RadMenuItem
     Friend WithEvents lbltransporter As common.Controls.MyLabel
     Friend WithEvents fndtransporter As common.UserControls.txtFinder
+    Friend WithEvents btnPrnt As RadSplitButton
+    Friend WithEvents btnPrintA4 As RadMenuItem
+    Friend WithEvents btnPrintA5 As RadMenuItem
 End Class
 

@@ -414,9 +414,9 @@ Public Class frmCustomer
                     Return False
                 End If
                 '' match tax Group currency with vendor currency
-                qry = " select TSPL_TAX_GROUP_DETAILS.Tax_Code,coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'') as CURRENCY_CODE from TSPL_TAX_GROUP_DETAILS " & _
-                      " inner join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " & _
-                      " inner join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" & clsCommon.myCstr(Me.fndTxGrp.Value) & "' " & _
+                qry = " select TSPL_TAX_GROUP_DETAILS.Tax_Code,coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'') as CURRENCY_CODE from TSPL_TAX_GROUP_DETAILS " &
+                      " inner join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " &
+                      " inner join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" & clsCommon.myCstr(Me.fndTxGrp.Value) & "' " &
                       " and coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'')<>'" & clsCommon.myCstr(Me.fndCustCurrency.Value) & "'"
                 Dim dt As DataTable
                 dt = clsDBFuncationality.GetDataTable(qry)
@@ -932,7 +932,7 @@ Public Class frmCustomer
         CmbTransaction.ValueMember = "Code"
         CmbTransaction.DisplayMember = "Name"
     End Sub
-  
+
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -1024,7 +1024,7 @@ Public Class frmCustomer
     Private Sub fnCusGrp()
 
         Try
-            Dim strCmd1 As String = " SELECT Cust_Group_Code as [Customer Gruop Code],Cust_Group_Desc as [Description]," & _
+            Dim strCmd1 As String = " SELECT Cust_Group_Code as [Customer Gruop Code],Cust_Group_Desc as [Description]," &
                            " Tax_Group as [Tax Group],Cust_Account as [Account Set],Terms_Code as [Terms Code] FROM [TSPL_CUSTOMER_GROUP_MASTER] where Cust_Group_Code='" + fndCusgrp.Value + "' "
             myDs = connectSql.RunSQLReturnDS(strCmd1)
             If myDs.Tables(0).Rows.Count > 0 Then
@@ -1287,7 +1287,7 @@ Public Class frmCustomer
         Dim strTaxGrpDesc As String
         strTaxGrpDesc = ""
         Try
-            strCmd = "SELECT [Tax_Group_Code] AS [Tax Group Code],[Tax_Group_Desc] as [Description]," & _
+            strCmd = "SELECT [Tax_Group_Code] AS [Tax Group Code],[Tax_Group_Desc] as [Description]," &
                         " (select case when [Tax_Group_Type]='S' then 'Sale' else 'Purchase' end) as [Type] FROM [TSPL_TAX_GROUP_MASTER] where Tax_Group_Code='" + strTaxGrpId + "'"
             Dim dt As DataTable
             dt = clsDBFuncationality.GetDataTable(strCmd)
@@ -1808,7 +1808,7 @@ Public Class frmCustomer
             End If
             '' ******************* Check Outstanding Amount Of customer *************
 
-            Dim issaved As Boolean = obj.SaveData(obj, obj.ArrVisi, isNewEntry, arrDBName)
+            Dim issaved As Boolean = obj.SaveData(obj, obj.ArrVisi, isNewEntry)
             UcAttachment1.SaveData(obj.Cust_Code)
 
             'Remove Inactive customer mapped in user master 
@@ -6381,7 +6381,7 @@ Public Class frmCustomer
 
     'End Sub
 
-    Private Sub gvSecurity_CellClick(sender As Object, e As GridViewCellEventArgs ) Handles gvSecurity.CellClick
+    Private Sub gvSecurity_CellClick(sender As Object, e As GridViewCellEventArgs) Handles gvSecurity.CellClick
         'Dim obj1 As New clsRcptEntryHeader()
         Dim strRecieptCode As String = Nothing
         Try

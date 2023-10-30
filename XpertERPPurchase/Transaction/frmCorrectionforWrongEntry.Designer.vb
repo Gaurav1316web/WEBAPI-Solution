@@ -25,6 +25,8 @@ Partial Class frmCorrectionforWrongEntry
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtGEDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel20 = New common.Controls.MyLabel()
         Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
         Me.MyTextBox1 = New common.Controls.MyTextBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
@@ -35,7 +37,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.txtSRN = New common.Controls.MyTextBox()
-        Me.txtGEDate = New common.Controls.MyDateTimePicker()
+        Me.txtGEDatee = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtInvoiceDate = New common.Controls.MyDateTimePicker()
         Me.txtDate = New common.Controls.MyDateTimePicker()
@@ -52,7 +54,6 @@ Partial Class frmCorrectionforWrongEntry
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtItemType = New common.Controls.MyTextBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.RadLabel20 = New common.Controls.MyLabel()
         Me.txtGENo = New common.Controls.MyTextBox()
         Me.RadLabel21 = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -147,6 +148,8 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyTextBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -157,7 +160,7 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSRN, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGEDatee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -174,7 +177,6 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -296,6 +298,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtGEDate)
         Me.RadPageViewPage1.Controls.Add(Me.btnUpdate)
         Me.RadPageViewPage1.Controls.Add(Me.MyTextBox1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel9)
@@ -306,7 +309,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel14)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel13)
         Me.RadPageViewPage1.Controls.Add(Me.txtSRN)
-        Me.RadPageViewPage1.Controls.Add(Me.txtGEDate)
+        Me.RadPageViewPage1.Controls.Add(Me.txtGEDatee)
         Me.RadPageViewPage1.Controls.Add(Me.txtInvoiceDate)
         Me.RadPageViewPage1.Controls.Add(Me.txtDate)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel12)
@@ -357,9 +360,50 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage1.Size = New System.Drawing.Size(999, 626)
         Me.RadPageViewPage1.Text = "Gate Received Note"
         '
+        'txtGEDate
+        '
+        Me.txtGEDate.CalculationExpression = Nothing
+        Me.txtGEDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtGEDate.FieldCode = Nothing
+        Me.txtGEDate.FieldDesc = Nothing
+        Me.txtGEDate.FieldMaxLength = 0
+        Me.txtGEDate.FieldName = Nothing
+        Me.txtGEDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGEDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtGEDate.isCalculatedField = False
+        Me.txtGEDate.IsSourceFromTable = False
+        Me.txtGEDate.IsSourceFromValueList = False
+        Me.txtGEDate.IsUnique = False
+        Me.txtGEDate.Location = New System.Drawing.Point(106, 351)
+        Me.txtGEDate.MendatroryField = False
+        Me.txtGEDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtGEDate.MyLinkLable1 = Me.RadLabel20
+        Me.txtGEDate.MyLinkLable2 = Nothing
+        Me.txtGEDate.Name = "txtGEDate"
+        Me.txtGEDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtGEDate.ReferenceFieldDesc = Nothing
+        Me.txtGEDate.ReferenceFieldName = Nothing
+        Me.txtGEDate.ReferenceTableName = Nothing
+        Me.txtGEDate.ShowCheckBox = True
+        Me.txtGEDate.Size = New System.Drawing.Size(150, 18)
+        Me.txtGEDate.TabIndex = 102
+        Me.txtGEDate.TabStop = False
+        Me.txtGEDate.Text = "13/06/2011"
+        Me.txtGEDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'RadLabel20
+        '
+        Me.RadLabel20.FieldName = Nothing
+        Me.RadLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel20.Location = New System.Drawing.Point(13, 351)
+        Me.RadLabel20.Name = "RadLabel20"
+        Me.RadLabel20.Size = New System.Drawing.Size(50, 16)
+        Me.RadLabel20.TabIndex = 71
+        Me.RadLabel20.Text = "GE Date"
+        '
         'btnUpdate
         '
-        Me.btnUpdate.Location = New System.Drawing.Point(13, 479)
+        Me.btnUpdate.Location = New System.Drawing.Point(13, 520)
         Me.btnUpdate.Name = "btnUpdate"
         Me.btnUpdate.Size = New System.Drawing.Size(69, 22)
         Me.btnUpdate.TabIndex = 100
@@ -379,7 +423,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.MyTextBox1.IsSourceFromTable = False
         Me.MyTextBox1.IsSourceFromValueList = False
         Me.MyTextBox1.IsUnique = False
-        Me.MyTextBox1.Location = New System.Drawing.Point(568, 98)
+        Me.MyTextBox1.Location = New System.Drawing.Point(568, 152)
         Me.MyTextBox1.MaxLength = 12
         Me.MyTextBox1.MendatroryField = False
         Me.MyTextBox1.MyLinkLable1 = Me.MyLabel15
@@ -397,7 +441,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(475, 73)
+        Me.MyLabel15.Location = New System.Drawing.Point(475, 121)
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(69, 16)
         Me.MyLabel15.TabIndex = 99
@@ -407,7 +451,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(13, 361)
+        Me.MyLabel9.Location = New System.Drawing.Point(13, 397)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(91, 16)
         Me.MyLabel9.TabIndex = 80
@@ -427,7 +471,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.WeighmetDate.IsSourceFromTable = False
         Me.WeighmetDate.IsSourceFromValueList = False
         Me.WeighmetDate.IsUnique = False
-        Me.WeighmetDate.Location = New System.Drawing.Point(106, 359)
+        Me.WeighmetDate.Location = New System.Drawing.Point(106, 396)
         Me.WeighmetDate.MendatroryField = True
         Me.WeighmetDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.WeighmetDate.MyLinkLable1 = Me.MyLabel9
@@ -439,7 +483,8 @@ Partial Class frmCorrectionforWrongEntry
         Me.WeighmetDate.Size = New System.Drawing.Size(150, 18)
         Me.WeighmetDate.TabIndex = 79
         Me.WeighmetDate.TabStop = False
-        Me.WeighmetDate.Value = New Date(CType(0, Long))
+        Me.WeighmetDate.Text = "16/10/2023 11:10:46.AM"
+        Me.WeighmetDate.Value = New Date(2023, 10, 16, 11, 10, 46, 0)
         '
         'txtPenalty
         '
@@ -455,7 +500,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtPenalty.IsSourceFromTable = False
         Me.txtPenalty.IsSourceFromValueList = False
         Me.txtPenalty.IsUnique = False
-        Me.txtPenalty.Location = New System.Drawing.Point(568, 74)
+        Me.txtPenalty.Location = New System.Drawing.Point(568, 120)
         Me.txtPenalty.MaxLength = 12
         Me.txtPenalty.MendatroryField = False
         Me.txtPenalty.MyLinkLable1 = Me.MyLabel15
@@ -471,7 +516,7 @@ Partial Class frmCorrectionforWrongEntry
         'SRNDate
         '
         Me.SRNDate.CalculationExpression = Nothing
-        Me.SRNDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.SRNDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
         Me.SRNDate.FieldCode = Nothing
         Me.SRNDate.FieldDesc = Nothing
         Me.SRNDate.FieldMaxLength = 0
@@ -482,7 +527,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.SRNDate.IsSourceFromTable = False
         Me.SRNDate.IsSourceFromValueList = False
         Me.SRNDate.IsUnique = False
-        Me.SRNDate.Location = New System.Drawing.Point(568, 28)
+        Me.SRNDate.Location = New System.Drawing.Point(568, 74)
         Me.SRNDate.MendatroryField = False
         Me.SRNDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.SRNDate.MyLinkLable1 = Me.MyLabel14
@@ -495,13 +540,14 @@ Partial Class frmCorrectionforWrongEntry
         Me.SRNDate.Size = New System.Drawing.Size(150, 18)
         Me.SRNDate.TabIndex = 96
         Me.SRNDate.TabStop = False
-        Me.SRNDate.Value = New Date(CType(0, Long))
+        Me.SRNDate.Text = "16/10/2023 11:10:59.AM"
+        Me.SRNDate.Value = New Date(2023, 10, 16, 11, 10, 59, 0)
         '
         'MyLabel14
         '
         Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(475, 27)
+        Me.MyLabel14.Location = New System.Drawing.Point(475, 75)
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(57, 16)
         Me.MyLabel14.TabIndex = 97
@@ -511,7 +557,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(475, 7)
+        Me.MyLabel13.Location = New System.Drawing.Point(475, 52)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(48, 16)
         Me.MyLabel13.TabIndex = 95
@@ -531,7 +577,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtSRN.IsSourceFromTable = False
         Me.txtSRN.IsSourceFromValueList = False
         Me.txtSRN.IsUnique = False
-        Me.txtSRN.Location = New System.Drawing.Point(568, 7)
+        Me.txtSRN.Location = New System.Drawing.Point(568, 51)
         Me.txtSRN.MaxLength = 12
         Me.txtSRN.MendatroryField = False
         Me.txtSRN.MyLinkLable1 = Me.MyLabel13
@@ -544,42 +590,41 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtSRN.Size = New System.Drawing.Size(150, 18)
         Me.txtSRN.TabIndex = 94
         '
-        'txtGEDate
+        'txtGEDatee
         '
-        Me.txtGEDate.CalculationExpression = Nothing
-        Me.txtGEDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtGEDate.FieldCode = Nothing
-        Me.txtGEDate.FieldDesc = Nothing
-        Me.txtGEDate.FieldMaxLength = 0
-        Me.txtGEDate.FieldName = Nothing
-        Me.txtGEDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtGEDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtGEDate.isCalculatedField = False
-        Me.txtGEDate.IsSourceFromTable = False
-        Me.txtGEDate.IsSourceFromValueList = False
-        Me.txtGEDate.IsUnique = False
-        Me.txtGEDate.Location = New System.Drawing.Point(568, 138)
-        Me.txtGEDate.MendatroryField = False
-        Me.txtGEDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtGEDate.MyLinkLable1 = Me.RadLabel4
-        Me.txtGEDate.MyLinkLable2 = Nothing
-        Me.txtGEDate.Name = "txtGEDate"
-        Me.txtGEDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtGEDate.ReferenceFieldDesc = Nothing
-        Me.txtGEDate.ReferenceFieldName = Nothing
-        Me.txtGEDate.ReferenceTableName = Nothing
-        Me.txtGEDate.Size = New System.Drawing.Size(150, 18)
-        Me.txtGEDate.TabIndex = 93
-        Me.txtGEDate.TabStop = False
-        Me.txtGEDate.Text = "13/06/2011"
-        Me.txtGEDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        Me.txtGEDate.Visible = False
+        Me.txtGEDatee.CalculationExpression = Nothing
+        Me.txtGEDatee.CustomFormat = "dd/MM/yyyy"
+        Me.txtGEDatee.FieldCode = Nothing
+        Me.txtGEDatee.FieldDesc = Nothing
+        Me.txtGEDatee.FieldMaxLength = 0
+        Me.txtGEDatee.FieldName = Nothing
+        Me.txtGEDatee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGEDatee.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtGEDatee.isCalculatedField = False
+        Me.txtGEDatee.IsSourceFromTable = False
+        Me.txtGEDatee.IsSourceFromValueList = False
+        Me.txtGEDatee.IsUnique = False
+        Me.txtGEDatee.Location = New System.Drawing.Point(475, 213)
+        Me.txtGEDatee.MendatroryField = False
+        Me.txtGEDatee.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtGEDatee.MyLinkLable1 = Me.RadLabel4
+        Me.txtGEDatee.MyLinkLable2 = Nothing
+        Me.txtGEDatee.Name = "txtGEDatee"
+        Me.txtGEDatee.ReferenceFieldDesc = Nothing
+        Me.txtGEDatee.ReferenceFieldName = Nothing
+        Me.txtGEDatee.ReferenceTableName = Nothing
+        Me.txtGEDatee.Size = New System.Drawing.Size(150, 18)
+        Me.txtGEDatee.TabIndex = 93
+        Me.txtGEDatee.TabStop = False
+        Me.txtGEDatee.Text = "13/06/2011"
+        Me.txtGEDatee.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtGEDatee.Visible = False
         '
         'RadLabel4
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(13, 181)
+        Me.RadLabel4.Location = New System.Drawing.Point(13, 190)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(52, 16)
         Me.RadLabel4.TabIndex = 61
@@ -599,7 +644,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtInvoiceDate.IsSourceFromTable = False
         Me.txtInvoiceDate.IsSourceFromValueList = False
         Me.txtInvoiceDate.IsUnique = False
-        Me.txtInvoiceDate.Location = New System.Drawing.Point(106, 292)
+        Me.txtInvoiceDate.Location = New System.Drawing.Point(106, 304)
         Me.txtInvoiceDate.MendatroryField = False
         Me.txtInvoiceDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtInvoiceDate.MyLinkLable1 = Me.RadLabel4
@@ -627,7 +672,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(106, 181)
+        Me.txtDate.Location = New System.Drawing.Point(106, 189)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -645,7 +690,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(475, 48)
+        Me.MyLabel12.Location = New System.Drawing.Point(475, 98)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(34, 16)
         Me.MyLabel12.TabIndex = 87
@@ -665,7 +710,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtPINo.IsSourceFromTable = False
         Me.txtPINo.IsSourceFromValueList = False
         Me.txtPINo.IsUnique = False
-        Me.txtPINo.Location = New System.Drawing.Point(568, 49)
+        Me.txtPINo.Location = New System.Drawing.Point(568, 97)
         Me.txtPINo.MaxLength = 12
         Me.txtPINo.MendatroryField = False
         Me.txtPINo.MyLinkLable1 = Me.MyLabel12
@@ -692,7 +737,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.MRNDate.IsSourceFromTable = False
         Me.MRNDate.IsSourceFromValueList = False
         Me.MRNDate.IsUnique = False
-        Me.MRNDate.Location = New System.Drawing.Point(106, 405)
+        Me.MRNDate.Location = New System.Drawing.Point(568, 28)
         Me.MRNDate.MendatroryField = True
         Me.MRNDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.MRNDate.MyLinkLable1 = Me.MyLabel11
@@ -705,13 +750,14 @@ Partial Class frmCorrectionforWrongEntry
         Me.MRNDate.Size = New System.Drawing.Size(150, 18)
         Me.MRNDate.TabIndex = 85
         Me.MRNDate.TabStop = False
-        Me.MRNDate.Value = New Date(CType(0, Long))
+        Me.MRNDate.Text = "16/10/2023 11:10:53.AM"
+        Me.MRNDate.Value = New Date(2023, 10, 16, 11, 10, 53, 0)
         '
         'MyLabel11
         '
         Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(13, 405)
+        Me.MyLabel11.Location = New System.Drawing.Point(475, 29)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(59, 16)
         Me.MyLabel11.TabIndex = 84
@@ -721,7 +767,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(13, 383)
+        Me.MyLabel10.Location = New System.Drawing.Point(475, 5)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(50, 16)
         Me.MyLabel10.TabIndex = 82
@@ -741,7 +787,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtMRN.IsSourceFromTable = False
         Me.txtMRN.IsSourceFromValueList = False
         Me.txtMRN.IsUnique = False
-        Me.txtMRN.Location = New System.Drawing.Point(106, 383)
+        Me.txtMRN.Location = New System.Drawing.Point(568, 4)
         Me.txtMRN.MaxLength = 12
         Me.txtMRN.MendatroryField = False
         Me.txtMRN.MyLinkLable1 = Me.MyLabel10
@@ -758,7 +804,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(13, 336)
+        Me.MyLabel8.Location = New System.Drawing.Point(13, 374)
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(81, 16)
         Me.MyLabel8.TabIndex = 78
@@ -778,7 +824,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.TxtWeighment.IsSourceFromTable = False
         Me.TxtWeighment.IsSourceFromValueList = False
         Me.TxtWeighment.IsUnique = False
-        Me.TxtWeighment.Location = New System.Drawing.Point(106, 336)
+        Me.TxtWeighment.Location = New System.Drawing.Point(106, 373)
         Me.TxtWeighment.MaxLength = 12
         Me.TxtWeighment.MendatroryField = False
         Me.TxtWeighment.MyLinkLable1 = Me.MyLabel8
@@ -805,7 +851,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtReqNo.IsSourceFromTable = False
         Me.txtReqNo.IsSourceFromValueList = False
         Me.txtReqNo.IsUnique = False
-        Me.txtReqNo.Location = New System.Drawing.Point(106, 160)
+        Me.txtReqNo.Location = New System.Drawing.Point(106, 166)
         Me.txtReqNo.MaxLength = 50
         Me.txtReqNo.MendatroryField = False
         Me.txtReqNo.MyLinkLable1 = Me.RadLabel26
@@ -822,7 +868,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.RadLabel26.FieldName = Nothing
         Me.RadLabel26.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel26.Location = New System.Drawing.Point(13, 160)
+        Me.RadLabel26.Location = New System.Drawing.Point(13, 167)
         Me.RadLabel26.Name = "RadLabel26"
         Me.RadLabel26.Size = New System.Drawing.Size(40, 16)
         Me.RadLabel26.TabIndex = 75
@@ -852,7 +898,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtItemType.IsSourceFromTable = False
         Me.txtItemType.IsSourceFromValueList = False
         Me.txtItemType.IsUnique = False
-        Me.txtItemType.Location = New System.Drawing.Point(106, 141)
+        Me.txtItemType.Location = New System.Drawing.Point(106, 143)
         Me.txtItemType.MaxLength = 50
         Me.txtItemType.MendatroryField = False
         Me.txtItemType.MyLinkLable1 = Me.MyLabel7
@@ -869,22 +915,11 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(13, 138)
+        Me.MyLabel7.Location = New System.Drawing.Point(13, 144)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(57, 16)
         Me.MyLabel7.TabIndex = 72
         Me.MyLabel7.Text = "Item Type"
-        '
-        'RadLabel20
-        '
-        Me.RadLabel20.FieldName = Nothing
-        Me.RadLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel20.Location = New System.Drawing.Point(475, 141)
-        Me.RadLabel20.Name = "RadLabel20"
-        Me.RadLabel20.Size = New System.Drawing.Size(50, 16)
-        Me.RadLabel20.TabIndex = 71
-        Me.RadLabel20.Text = "GE Date"
-        Me.RadLabel20.Visible = False
         '
         'txtGENo
         '
@@ -898,7 +933,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtGENo.IsSourceFromTable = False
         Me.txtGENo.IsSourceFromValueList = False
         Me.txtGENo.IsUnique = False
-        Me.txtGENo.Location = New System.Drawing.Point(106, 314)
+        Me.txtGENo.Location = New System.Drawing.Point(106, 327)
         Me.txtGENo.MaxLength = 50
         Me.txtGENo.MendatroryField = False
         Me.txtGENo.MyLinkLable1 = Me.RadLabel21
@@ -914,17 +949,17 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.RadLabel21.FieldName = Nothing
         Me.RadLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel21.Location = New System.Drawing.Point(13, 314)
+        Me.RadLabel21.Location = New System.Drawing.Point(13, 328)
         Me.RadLabel21.Name = "RadLabel21"
         Me.RadLabel21.Size = New System.Drawing.Size(78, 16)
         Me.RadLabel21.TabIndex = 69
-        Me.RadLabel21.Text = "Gate Entry No"
+        Me.RadLabel21.Text = "GE Number"
         '
         'MyLabel6
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel6.Location = New System.Drawing.Point(13, 292)
+        Me.MyLabel6.Location = New System.Drawing.Point(13, 305)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(69, 16)
         Me.MyLabel6.TabIndex = 67
@@ -942,7 +977,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtChallanNo.IsSourceFromTable = False
         Me.txtChallanNo.IsSourceFromValueList = False
         Me.txtChallanNo.IsUnique = False
-        Me.txtChallanNo.Location = New System.Drawing.Point(106, 270)
+        Me.txtChallanNo.Location = New System.Drawing.Point(106, 281)
         Me.txtChallanNo.MaxLength = 12
         Me.txtChallanNo.MendatroryField = False
         Me.txtChallanNo.MyLinkLable1 = Me.MyLabel5
@@ -958,7 +993,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(13, 270)
+        Me.MyLabel5.Location = New System.Drawing.Point(13, 282)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel5.TabIndex = 64
@@ -993,7 +1028,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(13, 248)
+        Me.MyLabel1.Location = New System.Drawing.Point(13, 259)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(38, 16)
         Me.MyLabel1.TabIndex = 47
@@ -1024,7 +1059,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtItemName.IsSourceFromTable = False
         Me.txtItemName.IsSourceFromValueList = False
         Me.txtItemName.IsUnique = False
-        Me.txtItemName.Location = New System.Drawing.Point(106, 117)
+        Me.txtItemName.Location = New System.Drawing.Point(106, 120)
         Me.txtItemName.MaxLength = 50
         Me.txtItemName.MendatroryField = False
         Me.txtItemName.MyLinkLable1 = Me.MyLabel3
@@ -1041,7 +1076,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(13, 116)
+        Me.MyLabel3.Location = New System.Drawing.Point(13, 121)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel3.TabIndex = 58
@@ -1061,7 +1096,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtItemCode.IsSourceFromTable = False
         Me.txtItemCode.IsSourceFromValueList = False
         Me.txtItemCode.IsUnique = False
-        Me.txtItemCode.Location = New System.Drawing.Point(106, 94)
+        Me.txtItemCode.Location = New System.Drawing.Point(106, 97)
         Me.txtItemCode.MaxLength = 50
         Me.txtItemCode.MendatroryField = False
         Me.txtItemCode.MyLinkLable1 = Me.MyLabel2
@@ -1078,7 +1113,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(13, 94)
+        Me.MyLabel2.Location = New System.Drawing.Point(13, 98)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(58, 16)
         Me.MyLabel2.TabIndex = 56
@@ -1095,7 +1130,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtVendorNo.IsSourceFromTable = False
         Me.txtVendorNo.IsSourceFromValueList = False
         Me.txtVendorNo.IsUnique = False
-        Me.txtVendorNo.Location = New System.Drawing.Point(106, 70)
+        Me.txtVendorNo.Location = New System.Drawing.Point(106, 74)
         Me.txtVendorNo.MendatroryField = True
         Me.txtVendorNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVendorNo.MyLinkLable1 = Me.RadLabel2
@@ -1114,7 +1149,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(13, 72)
+        Me.RadLabel2.Location = New System.Drawing.Point(13, 75)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(43, 16)
         Me.RadLabel2.TabIndex = 55
@@ -1126,7 +1161,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.lblVendorName.BorderVisible = True
         Me.lblVendorName.FieldName = Nothing
         Me.lblVendorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVendorName.Location = New System.Drawing.Point(255, 70)
+        Me.lblVendorName.Location = New System.Drawing.Point(255, 74)
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(197, 18)
         Me.lblVendorName.TabIndex = 54
@@ -1143,7 +1178,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtBillToLocation.IsSourceFromTable = False
         Me.txtBillToLocation.IsSourceFromValueList = False
         Me.txtBillToLocation.IsUnique = False
-        Me.txtBillToLocation.Location = New System.Drawing.Point(106, 48)
+        Me.txtBillToLocation.Location = New System.Drawing.Point(106, 51)
         Me.txtBillToLocation.MendatroryField = True
         Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBillToLocation.MyLinkLable1 = Me.RadLabel15
@@ -1162,7 +1197,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.RadLabel15.FieldName = Nothing
         Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel15.Location = New System.Drawing.Point(13, 50)
+        Me.RadLabel15.Location = New System.Drawing.Point(13, 52)
         Me.RadLabel15.Name = "RadLabel15"
         Me.RadLabel15.Size = New System.Drawing.Size(49, 16)
         Me.RadLabel15.TabIndex = 51
@@ -1174,7 +1209,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.lblBillToLocation.BorderVisible = True
         Me.lblBillToLocation.FieldName = Nothing
         Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBillToLocation.Location = New System.Drawing.Point(255, 48)
+        Me.lblBillToLocation.Location = New System.Drawing.Point(255, 51)
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(197, 18)
         Me.lblBillToLocation.TabIndex = 50
@@ -1211,7 +1246,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.RadLabel7.FieldName = Nothing
         Me.RadLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel7.Location = New System.Drawing.Point(13, 28)
+        Me.RadLabel7.Location = New System.Drawing.Point(13, 29)
         Me.RadLabel7.Name = "RadLabel7"
         Me.RadLabel7.Size = New System.Drawing.Size(76, 16)
         Me.RadLabel7.TabIndex = 48
@@ -1229,7 +1264,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtLRNo.IsSourceFromTable = False
         Me.txtLRNo.IsSourceFromValueList = False
         Me.txtLRNo.IsUnique = False
-        Me.txtLRNo.Location = New System.Drawing.Point(106, 248)
+        Me.txtLRNo.Location = New System.Drawing.Point(106, 258)
         Me.txtLRNo.MaxLength = 12
         Me.txtLRNo.MendatroryField = False
         Me.txtLRNo.MyLinkLable1 = Me.MyLabel1
@@ -1253,7 +1288,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtGRNo.IsSourceFromTable = False
         Me.txtGRNo.IsSourceFromValueList = False
         Me.txtGRNo.IsUnique = False
-        Me.txtGRNo.Location = New System.Drawing.Point(106, 226)
+        Me.txtGRNo.Location = New System.Drawing.Point(106, 235)
         Me.txtGRNo.MaxLength = 50
         Me.txtGRNo.MendatroryField = False
         Me.txtGRNo.MyLinkLable1 = Me.RadLabel13
@@ -1269,7 +1304,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.RadLabel13.FieldName = Nothing
         Me.RadLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel13.Location = New System.Drawing.Point(13, 226)
+        Me.RadLabel13.Location = New System.Drawing.Point(13, 236)
         Me.RadLabel13.Name = "RadLabel13"
         Me.RadLabel13.Size = New System.Drawing.Size(41, 16)
         Me.RadLabel13.TabIndex = 45
@@ -1287,7 +1322,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtVehicleNo.IsSourceFromTable = False
         Me.txtVehicleNo.IsSourceFromValueList = False
         Me.txtVehicleNo.IsUnique = False
-        Me.txtVehicleNo.Location = New System.Drawing.Point(106, 202)
+        Me.txtVehicleNo.Location = New System.Drawing.Point(106, 212)
         Me.txtVehicleNo.MaxLength = 50
         Me.txtVehicleNo.MendatroryField = False
         Me.txtVehicleNo.MyLinkLable1 = Me.RadLabel5
@@ -1303,7 +1338,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.RadLabel5.FieldName = Nothing
         Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel5.Location = New System.Drawing.Point(13, 202)
+        Me.RadLabel5.Location = New System.Drawing.Point(13, 213)
         Me.RadLabel5.Name = "RadLabel5"
         Me.RadLabel5.Size = New System.Drawing.Size(61, 16)
         Me.RadLabel5.TabIndex = 44
@@ -1313,7 +1348,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel1.Location = New System.Drawing.Point(13, 6)
+        Me.RadLabel1.Location = New System.Drawing.Point(13, 5)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(49, 16)
         Me.RadLabel1.TabIndex = 42
@@ -1329,7 +1364,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
         Me.txtDocNo.MyMaxLength = 32767
-        Me.txtDocNo.MyReadOnly = True
+        Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 19)
         Me.txtDocNo.TabIndex = 1
@@ -2107,7 +2142,7 @@ Partial Class frmCorrectionforWrongEntry
         'btnClose
         '
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(924, 18)
+        Me.btnClose.Location = New System.Drawing.Point(930, 18)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 73
@@ -2139,6 +2174,8 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyTextBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2149,7 +2186,7 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSRN, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGEDatee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2166,7 +2203,6 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2311,7 +2347,7 @@ Partial Class frmCorrectionforWrongEntry
     Friend WithEvents txtPINo As common.Controls.MyTextBox
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
     Friend WithEvents txtInvoiceDate As common.Controls.MyDateTimePicker
-    Friend WithEvents txtGEDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtGEDatee As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents txtSRN As common.Controls.MyTextBox
     Friend WithEvents SRNDate As common.Controls.MyDateTimePicker
@@ -2380,4 +2416,5 @@ Partial Class frmCorrectionforWrongEntry
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnUpdate As RadButton
     Friend WithEvents MyTextBox1 As common.Controls.MyTextBox
+    Friend WithEvents txtGEDate As common.Controls.MyDateTimePicker
 End Class
