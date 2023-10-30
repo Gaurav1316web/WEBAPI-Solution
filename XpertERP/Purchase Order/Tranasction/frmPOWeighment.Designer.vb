@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmPOWeighment
     Inherits XpertERPEngine.FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,14 +20,23 @@ Partial Class frmPOWeighment
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.IsAutoWeighment = New System.Windows.Forms.CheckBox()
         Me.lblCode = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RGBUpdate = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtNetWeight = New common.MyNumBox()
+        Me.txtExtraWeight = New common.MyNumBox()
+        Me.lblExtraWeight = New common.Controls.MyLabel()
+        Me.lblNetWeight = New common.Controls.MyLabel()
+        Me.btnUpdateToSRN = New Telerik.WinControls.UI.RadButton()
+        Me.btnUpdateWeighment = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.lbRALTender = New common.Controls.MyLabel()
         Me.txtGRNDate = New common.Controls.MyDateTimePicker()
@@ -54,20 +63,17 @@ Partial Class frmPOWeighment
         Me.txtGateEntryNo = New common.UserControls.txtFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtGrossWeight = New common.MyNumBox()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.Items = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.GunnyBag = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyRadGridView1 = New common.UserControls.MyRadGridView()
+        Me.gv2 = New common.UserControls.MyRadGridView()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.BtnPost = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.RGBUpdate = New Telerik.WinControls.UI.RadGroupBox()
-        Me.txtNetWeight = New common.MyNumBox()
-        Me.txtExtraWeight = New common.MyNumBox()
-        Me.lblExtraWeight = New common.Controls.MyLabel()
-        Me.lblNetWeight = New common.Controls.MyLabel()
-        Me.btnUpdateToSRN = New Telerik.WinControls.UI.RadButton()
-        Me.btnUpdateWeighment = New Telerik.WinControls.UI.RadButton()
         Me.UcWeighing1 = New XpertERPEngine.ucWeighing()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -78,6 +84,14 @@ Partial Class frmPOWeighment
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RGBUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RGBUpdate.SuspendLayout()
+        CType(Me.txtNetWeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtExtraWeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblExtraWeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblNetWeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdateToSRN, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdateWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbRALTender, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGRNDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,23 +115,22 @@ Partial Class frmPOWeighment
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGrossWeight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageView1.SuspendLayout()
+        Me.Items.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GunnyBag.SuspendLayout()
+        CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MyRadGridView1.SuspendLayout()
+        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RGBUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RGBUpdate.SuspendLayout()
-        CType(Me.txtNetWeight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtExtraWeight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblExtraWeight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblNetWeight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdateToSRN, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUpdateWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -141,8 +154,8 @@ Partial Class frmPOWeighment
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(922, 330)
-        Me.SplitContainer1.SplitterDistance = 291
+        Me.SplitContainer1.Size = New System.Drawing.Size(997, 471)
+        Me.SplitContainer1.SplitterDistance = 432
         Me.SplitContainer1.TabIndex = 0
         '
         'SplitContainer2
@@ -171,8 +184,8 @@ Partial Class frmPOWeighment
         '
         'SplitContainer2.Panel2
         '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(922, 291)
+        Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
+        Me.SplitContainer2.Size = New System.Drawing.Size(997, 432)
         Me.SplitContainer2.SplitterDistance = 145
         Me.SplitContainer2.TabIndex = 1040
         '
@@ -224,6 +237,117 @@ Partial Class frmPOWeighment
         Me.RadGroupBox1.Size = New System.Drawing.Size(544, 140)
         Me.RadGroupBox1.TabIndex = 5
         Me.RadGroupBox1.Text = "GRN Details"
+        '
+        'RGBUpdate
+        '
+        Me.RGBUpdate.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RGBUpdate.Controls.Add(Me.txtNetWeight)
+        Me.RGBUpdate.Controls.Add(Me.txtExtraWeight)
+        Me.RGBUpdate.Controls.Add(Me.lblExtraWeight)
+        Me.RGBUpdate.Controls.Add(Me.lblNetWeight)
+        Me.RGBUpdate.Controls.Add(Me.btnUpdateToSRN)
+        Me.RGBUpdate.Controls.Add(Me.btnUpdateWeighment)
+        Me.RGBUpdate.HeaderText = "Update"
+        Me.RGBUpdate.Location = New System.Drawing.Point(307, 4)
+        Me.RGBUpdate.Name = "RGBUpdate"
+        Me.RGBUpdate.Size = New System.Drawing.Size(252, 131)
+        Me.RGBUpdate.TabIndex = 1041
+        Me.RGBUpdate.Text = "Update"
+        Me.RGBUpdate.Visible = False
+        '
+        'txtNetWeight
+        '
+        Me.txtNetWeight.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtNetWeight.CalculationExpression = Nothing
+        Me.txtNetWeight.DecimalPlaces = 3
+        Me.txtNetWeight.FieldCode = Nothing
+        Me.txtNetWeight.FieldDesc = Nothing
+        Me.txtNetWeight.FieldMaxLength = 0
+        Me.txtNetWeight.FieldName = Nothing
+        Me.txtNetWeight.isCalculatedField = False
+        Me.txtNetWeight.IsSourceFromTable = False
+        Me.txtNetWeight.IsSourceFromValueList = False
+        Me.txtNetWeight.IsUnique = False
+        Me.txtNetWeight.Location = New System.Drawing.Point(90, 58)
+        Me.txtNetWeight.MendatroryField = True
+        Me.txtNetWeight.MyLinkLable1 = Nothing
+        Me.txtNetWeight.MyLinkLable2 = Nothing
+        Me.txtNetWeight.Name = "txtNetWeight"
+        Me.txtNetWeight.ReferenceFieldDesc = Nothing
+        Me.txtNetWeight.ReferenceFieldName = Nothing
+        Me.txtNetWeight.ReferenceTableName = Nothing
+        Me.txtNetWeight.Size = New System.Drawing.Size(146, 20)
+        Me.txtNetWeight.TabIndex = 13
+        Me.txtNetWeight.Text = "0"
+        Me.txtNetWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtNetWeight.Value = 0R
+        '
+        'txtExtraWeight
+        '
+        Me.txtExtraWeight.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtExtraWeight.CalculationExpression = Nothing
+        Me.txtExtraWeight.DecimalPlaces = 3
+        Me.txtExtraWeight.FieldCode = Nothing
+        Me.txtExtraWeight.FieldDesc = Nothing
+        Me.txtExtraWeight.FieldMaxLength = 0
+        Me.txtExtraWeight.FieldName = Nothing
+        Me.txtExtraWeight.isCalculatedField = False
+        Me.txtExtraWeight.IsSourceFromTable = False
+        Me.txtExtraWeight.IsSourceFromValueList = False
+        Me.txtExtraWeight.IsUnique = False
+        Me.txtExtraWeight.Location = New System.Drawing.Point(90, 35)
+        Me.txtExtraWeight.MendatroryField = True
+        Me.txtExtraWeight.MyLinkLable1 = Nothing
+        Me.txtExtraWeight.MyLinkLable2 = Nothing
+        Me.txtExtraWeight.Name = "txtExtraWeight"
+        Me.txtExtraWeight.ReferenceFieldDesc = Nothing
+        Me.txtExtraWeight.ReferenceFieldName = Nothing
+        Me.txtExtraWeight.ReferenceTableName = Nothing
+        Me.txtExtraWeight.Size = New System.Drawing.Size(146, 20)
+        Me.txtExtraWeight.TabIndex = 12
+        Me.txtExtraWeight.Text = "0"
+        Me.txtExtraWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtExtraWeight.Value = 0R
+        '
+        'lblExtraWeight
+        '
+        Me.lblExtraWeight.FieldName = Nothing
+        Me.lblExtraWeight.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblExtraWeight.Location = New System.Drawing.Point(18, 35)
+        Me.lblExtraWeight.Name = "lblExtraWeight"
+        Me.lblExtraWeight.Size = New System.Drawing.Size(71, 16)
+        Me.lblExtraWeight.TabIndex = 11
+        Me.lblExtraWeight.Text = "Extra Weight"
+        '
+        'lblNetWeight
+        '
+        Me.lblNetWeight.FieldName = Nothing
+        Me.lblNetWeight.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblNetWeight.Location = New System.Drawing.Point(18, 61)
+        Me.lblNetWeight.Name = "lblNetWeight"
+        Me.lblNetWeight.Size = New System.Drawing.Size(62, 16)
+        Me.lblNetWeight.TabIndex = 10
+        Me.lblNetWeight.Text = "Net Weight"
+        '
+        'btnUpdateToSRN
+        '
+        Me.btnUpdateToSRN.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdateToSRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateToSRN.Location = New System.Drawing.Point(136, 94)
+        Me.btnUpdateToSRN.Name = "btnUpdateToSRN"
+        Me.btnUpdateToSRN.Size = New System.Drawing.Size(100, 21)
+        Me.btnUpdateToSRN.TabIndex = 2
+        Me.btnUpdateToSRN.Text = "Update To SRN"
+        '
+        'btnUpdateWeighment
+        '
+        Me.btnUpdateWeighment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUpdateWeighment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUpdateWeighment.Location = New System.Drawing.Point(18, 94)
+        Me.btnUpdateWeighment.Name = "btnUpdateWeighment"
+        Me.btnUpdateWeighment.Size = New System.Drawing.Size(100, 21)
+        Me.btnUpdateWeighment.TabIndex = 1
+        Me.btnUpdateWeighment.Text = "Update"
         '
         'MyLabel2
         '
@@ -573,19 +697,25 @@ Partial Class frmPOWeighment
         Me.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtGrossWeight.Value = 0R
         '
-        'RadGroupBox2
+        'RadPageView1
         '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.gv1)
-        Me.RadGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadGroupBox2.HeaderText = "Item Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(922, 142)
-        Me.RadGroupBox2.TabIndex = 26
-        Me.RadGroupBox2.Text = "Item Details"
+        Me.RadPageView1.Controls.Add(Me.Items)
+        Me.RadPageView1.Controls.Add(Me.GunnyBag)
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.Items
+        Me.RadPageView1.Size = New System.Drawing.Size(997, 283)
+        Me.RadPageView1.TabIndex = 0
+        '
+        'Items
+        '
+        Me.Items.Controls.Add(Me.gv1)
+        Me.Items.ItemSize = New System.Drawing.SizeF(44.0!, 28.0!)
+        Me.Items.Location = New System.Drawing.Point(10, 37)
+        Me.Items.Name = "Items"
+        Me.Items.Size = New System.Drawing.Size(976, 235)
+        Me.Items.Text = "Items"
         '
         'gv1
         '
@@ -595,7 +725,7 @@ Partial Class frmPOWeighment
         Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.gv1.ForeColor = System.Drawing.Color.Black
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv1.Location = New System.Drawing.Point(10, 20)
+        Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
         '
         '
@@ -607,9 +737,67 @@ Partial Class frmPOWeighment
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(902, 112)
-        Me.gv1.TabIndex = 0
+        Me.gv1.Size = New System.Drawing.Size(976, 235)
+        Me.gv1.TabIndex = 1521
         Me.gv1.TabStop = False
+        '
+        'GunnyBag
+        '
+        Me.GunnyBag.Controls.Add(Me.MyRadGridView1)
+        Me.GunnyBag.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
+        Me.GunnyBag.Location = New System.Drawing.Point(10, 37)
+        Me.GunnyBag.Name = "GunnyBag"
+        Me.GunnyBag.Size = New System.Drawing.Size(976, 235)
+        Me.GunnyBag.Text = "GunnyBag"
+        '
+        'MyRadGridView1
+        '
+        Me.MyRadGridView1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.MyRadGridView1.Controls.Add(Me.gv2)
+        Me.MyRadGridView1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.MyRadGridView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.MyRadGridView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyRadGridView1.ForeColor = System.Drawing.Color.Black
+        Me.MyRadGridView1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.MyRadGridView1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.MyRadGridView1.MasterTemplate.AllowDeleteRow = False
+        Me.MyRadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.MyRadGridView1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.MyRadGridView1.Name = "MyRadGridView1"
+        Me.MyRadGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.MyRadGridView1.ShowGroupPanel = False
+        Me.MyRadGridView1.ShowHeaderCellButtons = True
+        Me.MyRadGridView1.Size = New System.Drawing.Size(976, 235)
+        Me.MyRadGridView1.TabIndex = 1521
+        Me.MyRadGridView1.TabStop = False
+        '
+        'gv2
+        '
+        Me.gv2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gv2.ForeColor = System.Drawing.Color.Black
+        Me.gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv2.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.Name = "gv2"
+        Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv2.ShowGroupPanel = False
+        Me.gv2.ShowHeaderCellButtons = True
+        Me.gv2.Size = New System.Drawing.Size(976, 235)
+        Me.gv2.TabIndex = 1522
+        Me.gv2.TabStop = False
         '
         'btnPrint
         '
@@ -623,7 +811,7 @@ Partial Class frmPOWeighment
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(851, 7)
+        Me.btnclose.Location = New System.Drawing.Point(926, 7)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(66, 21)
         Me.btnclose.TabIndex = 3
@@ -661,117 +849,6 @@ Partial Class frmPOWeighment
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
-        'RGBUpdate
-        '
-        Me.RGBUpdate.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RGBUpdate.Controls.Add(Me.txtNetWeight)
-        Me.RGBUpdate.Controls.Add(Me.txtExtraWeight)
-        Me.RGBUpdate.Controls.Add(Me.lblExtraWeight)
-        Me.RGBUpdate.Controls.Add(Me.lblNetWeight)
-        Me.RGBUpdate.Controls.Add(Me.btnUpdateToSRN)
-        Me.RGBUpdate.Controls.Add(Me.btnUpdateWeighment)
-        Me.RGBUpdate.HeaderText = "Update"
-        Me.RGBUpdate.Location = New System.Drawing.Point(307, 4)
-        Me.RGBUpdate.Name = "RGBUpdate"
-        Me.RGBUpdate.Size = New System.Drawing.Size(252, 131)
-        Me.RGBUpdate.TabIndex = 1041
-        Me.RGBUpdate.Text = "Update"
-        Me.RGBUpdate.Visible = False
-        '
-        'txtNetWeight
-        '
-        Me.txtNetWeight.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtNetWeight.CalculationExpression = Nothing
-        Me.txtNetWeight.DecimalPlaces = 3
-        Me.txtNetWeight.FieldCode = Nothing
-        Me.txtNetWeight.FieldDesc = Nothing
-        Me.txtNetWeight.FieldMaxLength = 0
-        Me.txtNetWeight.FieldName = Nothing
-        Me.txtNetWeight.isCalculatedField = False
-        Me.txtNetWeight.IsSourceFromTable = False
-        Me.txtNetWeight.IsSourceFromValueList = False
-        Me.txtNetWeight.IsUnique = False
-        Me.txtNetWeight.Location = New System.Drawing.Point(90, 58)
-        Me.txtNetWeight.MendatroryField = True
-        Me.txtNetWeight.MyLinkLable1 = Nothing
-        Me.txtNetWeight.MyLinkLable2 = Nothing
-        Me.txtNetWeight.Name = "txtNetWeight"
-        Me.txtNetWeight.ReferenceFieldDesc = Nothing
-        Me.txtNetWeight.ReferenceFieldName = Nothing
-        Me.txtNetWeight.ReferenceTableName = Nothing
-        Me.txtNetWeight.Size = New System.Drawing.Size(146, 20)
-        Me.txtNetWeight.TabIndex = 13
-        Me.txtNetWeight.Text = "0"
-        Me.txtNetWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNetWeight.Value = 0R
-        '
-        'txtExtraWeight
-        '
-        Me.txtExtraWeight.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtExtraWeight.CalculationExpression = Nothing
-        Me.txtExtraWeight.DecimalPlaces = 3
-        Me.txtExtraWeight.FieldCode = Nothing
-        Me.txtExtraWeight.FieldDesc = Nothing
-        Me.txtExtraWeight.FieldMaxLength = 0
-        Me.txtExtraWeight.FieldName = Nothing
-        Me.txtExtraWeight.isCalculatedField = False
-        Me.txtExtraWeight.IsSourceFromTable = False
-        Me.txtExtraWeight.IsSourceFromValueList = False
-        Me.txtExtraWeight.IsUnique = False
-        Me.txtExtraWeight.Location = New System.Drawing.Point(90, 35)
-        Me.txtExtraWeight.MendatroryField = True
-        Me.txtExtraWeight.MyLinkLable1 = Nothing
-        Me.txtExtraWeight.MyLinkLable2 = Nothing
-        Me.txtExtraWeight.Name = "txtExtraWeight"
-        Me.txtExtraWeight.ReferenceFieldDesc = Nothing
-        Me.txtExtraWeight.ReferenceFieldName = Nothing
-        Me.txtExtraWeight.ReferenceTableName = Nothing
-        Me.txtExtraWeight.Size = New System.Drawing.Size(146, 20)
-        Me.txtExtraWeight.TabIndex = 12
-        Me.txtExtraWeight.Text = "0"
-        Me.txtExtraWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtExtraWeight.Value = 0R
-        '
-        'lblExtraWeight
-        '
-        Me.lblExtraWeight.FieldName = Nothing
-        Me.lblExtraWeight.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblExtraWeight.Location = New System.Drawing.Point(18, 35)
-        Me.lblExtraWeight.Name = "lblExtraWeight"
-        Me.lblExtraWeight.Size = New System.Drawing.Size(71, 16)
-        Me.lblExtraWeight.TabIndex = 11
-        Me.lblExtraWeight.Text = "Extra Weight"
-        '
-        'lblNetWeight
-        '
-        Me.lblNetWeight.FieldName = Nothing
-        Me.lblNetWeight.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblNetWeight.Location = New System.Drawing.Point(18, 61)
-        Me.lblNetWeight.Name = "lblNetWeight"
-        Me.lblNetWeight.Size = New System.Drawing.Size(62, 16)
-        Me.lblNetWeight.TabIndex = 10
-        Me.lblNetWeight.Text = "Net Weight"
-        '
-        'btnUpdateToSRN
-        '
-        Me.btnUpdateToSRN.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateToSRN.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateToSRN.Location = New System.Drawing.Point(136, 94)
-        Me.btnUpdateToSRN.Name = "btnUpdateToSRN"
-        Me.btnUpdateToSRN.Size = New System.Drawing.Size(100, 21)
-        Me.btnUpdateToSRN.TabIndex = 2
-        Me.btnUpdateToSRN.Text = "Update To SRN"
-        '
-        'btnUpdateWeighment
-        '
-        Me.btnUpdateWeighment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUpdateWeighment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUpdateWeighment.Location = New System.Drawing.Point(18, 94)
-        Me.btnUpdateWeighment.Name = "btnUpdateWeighment"
-        Me.btnUpdateWeighment.Size = New System.Drawing.Size(100, 21)
-        Me.btnUpdateWeighment.TabIndex = 1
-        Me.btnUpdateWeighment.Text = "Update"
-        '
         'UcWeighing1
         '
         Me.UcWeighing1.Dock = System.Windows.Forms.DockStyle.Top
@@ -781,14 +858,14 @@ Partial Class frmPOWeighment
         Me.UcWeighing1.Machine = ""
         Me.UcWeighing1.Name = "UcWeighing1"
         Me.UcWeighing1.Port = ""
-        Me.UcWeighing1.Size = New System.Drawing.Size(922, 64)
+        Me.UcWeighing1.Size = New System.Drawing.Size(997, 64)
         Me.UcWeighing1.TabIndex = 1
         '
         'frmPOWeighment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(922, 394)
+        Me.ClientSize = New System.Drawing.Size(997, 535)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.UcWeighing1)
         Me.Name = "frmPOWeighment"
@@ -808,6 +885,15 @@ Partial Class frmPOWeighment
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.RGBUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RGBUpdate.ResumeLayout(False)
+        Me.RGBUpdate.PerformLayout()
+        CType(Me.txtNetWeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtExtraWeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblExtraWeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblNetWeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdateToSRN, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdateWeighment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbRALTender, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGRNDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -831,24 +917,23 @@ Partial Class frmPOWeighment
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGrossWeight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageView1.ResumeLayout(False)
+        Me.Items.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GunnyBag.ResumeLayout(False)
+        CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MyRadGridView1.ResumeLayout(False)
+        Me.MyRadGridView1.PerformLayout()
+        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RGBUpdate, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RGBUpdate.ResumeLayout(False)
-        Me.RGBUpdate.PerformLayout()
-        CType(Me.txtNetWeight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtExtraWeight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblExtraWeight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblNetWeight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdateToSRN, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUpdateWeighment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -885,8 +970,6 @@ Partial Class frmPOWeighment
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
     Friend WithEvents lblGDShipToLocation As common.Controls.MyLabel
     Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
-    Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
-    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents IsAutoWeighment As System.Windows.Forms.CheckBox
     Friend WithEvents btnPrint As Telerik.WinControls.UI.RadButton
     Friend WithEvents txtGRNDate As common.Controls.MyDateTimePicker
@@ -899,4 +982,10 @@ Partial Class frmPOWeighment
     Friend WithEvents txtExtraWeight As common.MyNumBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents lbRALTender As common.Controls.MyLabel
+    Friend WithEvents RadPageView1 As RadPageView
+    Friend WithEvents Items As RadPageViewPage
+    Friend WithEvents GunnyBag As RadPageViewPage
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents MyRadGridView1 As common.UserControls.MyRadGridView
+    Friend WithEvents gv2 As common.UserControls.MyRadGridView
 End Class

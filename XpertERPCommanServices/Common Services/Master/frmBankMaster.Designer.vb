@@ -113,6 +113,7 @@ Partial Class frmBankMaster
         Me.pageCheckPrinting = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCheckSetting1 = New XpertERPCommanServices.ucCheckSetting()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvPP = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -130,7 +131,6 @@ Partial Class frmBankMaster
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
-        Me.UcCheckSetting1 = New XpertERPCommanServices.ucCheckSetting()
         CType(Me.lblbank, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbldes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -295,7 +295,7 @@ Partial Class frmBankMaster
         Me.bankstab.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.bankstab.Location = New System.Drawing.Point(0, 24)
         Me.bankstab.Name = "bankstab"
-        Me.bankstab.SelectedPage = Me.RadPageViewPage3
+        Me.bankstab.SelectedPage = Me.bankstabprofile
         Me.bankstab.Size = New System.Drawing.Size(725, 387)
         Me.bankstab.TabIndex = 3
         CType(Me.bankstab.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1645,6 +1645,16 @@ Partial Class frmBankMaster
         Me.RadPageViewPage1.Size = New System.Drawing.Size(722, 336)
         Me.RadPageViewPage1.Text = "Check Printing Setting"
         '
+        'UcCheckSetting1
+        '
+        Me.UcCheckSetting1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCheckSetting1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCheckSetting1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.UcCheckSetting1.MinimumSize = New System.Drawing.Size(574, 305)
+        Me.UcCheckSetting1.Name = "UcCheckSetting1"
+        Me.UcCheckSetting1.Size = New System.Drawing.Size(722, 336)
+        Me.UcCheckSetting1.TabIndex = 0
+        '
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.gvPP)
@@ -1860,16 +1870,6 @@ Partial Class frmBankMaster
         Me.btnHistory.Size = New System.Drawing.Size(66, 18)
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "&History"
-        '
-        'UcCheckSetting1
-        '
-        Me.UcCheckSetting1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCheckSetting1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCheckSetting1.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.UcCheckSetting1.MinimumSize = New System.Drawing.Size(574, 305)
-        Me.UcCheckSetting1.Name = "UcCheckSetting1"
-        Me.UcCheckSetting1.Size = New System.Drawing.Size(722, 336)
-        Me.UcCheckSetting1.TabIndex = 0
         '
         'frmBankMaster
         '

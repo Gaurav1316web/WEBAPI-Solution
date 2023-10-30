@@ -20,6 +20,7 @@ Public Class rptCollectionDataChangeReport
                 txtFromDate.Focus()
                 Throw New Exception("From date can not be greater then to Date")
             End If
+
             ',UpdateData.[Milk Weight(KG)] as [Milk Weight(KG) Update], UpdateData.[Milk Weight(LTR)]  as [Milk Weight(LTR) Update]
             ',final.[Milk Weight(KG)], final.[Milk Weight(LTR)]  as [Milk Weight(LTR)]
             'Dim qry As String = "select HistData.* " & _
@@ -152,66 +153,76 @@ Public Class rptCollectionDataChangeReport
             '    "  order by HistData.[Doc Date],HistData.[Milk Receipt Code] ,HistData.[Sample No]  "
 
             '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+            Dim ColumnFAT As String = Nothing
+            Dim ColumnSNF As String = Nothing
+            If rbtnRetestingData.Checked Then
+                ColumnFAT = "TSPL_MILK_SRN_DETAIL.Retesting_FAT"
+                ColumnSNF = "TSPL_MILK_SRN_DETAIL.Retesting_SNF"
+            Else
+                ColumnFAT = "TSPL_MILK_SRN_DETAIL.FAT_PER"
+                ColumnSNF = "TSPL_MILK_SRN_DETAIL.SNF_PER"
+            End If
 
-            Dim qry As String = "select HistData.[Milk Receipt Code],HistData.[MCC Code] ,HistData.[MCC Name] ,HistData.[Doc Date] ,HistData.Shift" & _
-                ",HistData.[Vlc Uploader Code] as [Vlc Uploader Code] " & _
-               ",HistData.[Vlc Code] as [Vlc Code],HistData.[VLC Name] as [VLC Name], HistData.[Sample No] as [Sample No] " & _
-               ",HistData.[No Of Cans] as [No Of Cans],HistData.[Item Code] as [Item Code],HistData.[Item Desc] as [Item Desc] " & _
-               ",HistData.[Milk Weight] as [Milk Weight] " & _
-               ", HistData.[FAT(%)] as [FAT(%)] ,HistData.CLR as [CLR],HistData.[SNF(%)] as [SNF(%)] " & _
-               ",HistData.[FAT(KG)] as [FAT(KG)],HistData.[SNF(KG)] as [SNF(KG)] " & _
-               ",HistData.[Milk Type] as [Milk Type],HistData.[SRN No] as [SRN No],HistData.[SRN Amount] as [SRN Amount] " & _
-               ", HistData.[SRN Qty] as [SRN Qty],HistData.[SRN Rate] as [SRN Rate],HistData.[Handling Charges] as [Handling Charges] " & _
-               ",HistData.[Price Code] as [Price Code] " & _
-               "" & _
-               ",UpdateData.[Vlc Uploader Code] as [Vlc Uploader Code Update] " & _
-               ",UpdateData.[Vlc Code] as [Vlc Code Update],UpdateData.[VLC Name] as [VLC Name Update], UpdateData.[Sample No] as [Sample No Update] " & _
-               ",UpdateData.[No Of Cans] as [No Of Cans Update],UpdateData.[Item Code] as [Item Code Update],UpdateData.[Item Desc] as [Item Desc Update] " & _
-               ",UpdateData.[Milk Weight] as [Milk Weight Update] " & _
-               ", UpdateData.[FAT(%)] as [FAT(%) Update] ,UpdateData.CLR as [CLR Update],UpdateData.[SNF(%)] as [SNF(%) Update] " & _
-               ",UpdateData.[FAT(KG)] as [FAT(KG) Update],UpdateData.[SNF(KG)] as [SNF(KG) Update] " & _
-               ",UpdateData.[Milk Type] as [Milk Type Update],UpdateData.[SRN No] as [SRN No Update],UpdateData.[SRN Amount] as [SRN Amount Update] " & _
-               ", UpdateData.[SRN Qty] as [SRN Qty Update],UpdateData.[SRN Rate] as [SRN Rate Update],UpdateData.[Handling Charges] as [Handling Charges Update] " & _
-               ",UpdateData.[Price Code] as [Price Code Update] " & _
-               " ,HistData.[Modify By],HistData.[Modify Date]" & _
-                          " from " & _
-               "(Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[Doc Date] ,final.Shift  " & _
-               ",final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] , final.[Sample No] ,final.[No Of Cans] ,final.Item_Code as [Item Code],final.Item_Desc as [Item Desc],final.[Milk Weight], final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)]  " & _
-               ",final.[Milk Type],final.[SRN No],final.[SRN Amount], final.[SRN Qty],final.[SRN Rate] " & _
-               ",Handling_Charges_Amount as [Handling Charges],final.[Price Code],final.[Modify By],final.[Modify Date]  " & _
-                          " From " & _
-               "(Select TSPL_MILK_SRN_DETAIL_hist_data.Item_Code,TSPL_ITEM_MASTER.Item_Desc " & _
-               ", Case When Coalesce(TSPL_MILK_SRN_DETAIL_hist_data.FAT_PER, 0) <= 0 Then '' When Coalesce(TSPL_MILK_SRN_DETAIL_hist_data.FAT_PER, 0) <= 5 Then 'C' Else 'B' End As [Milk Type], TSPL_MILK_RECEIPT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_RECEIPT_HEAD.MCC_CODE As MCC " & _
-               " , TSPL_MCC_MASTER.MCC_NAME As [MCC Name] " & _
-               " ,  Convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_RECEIPT_DETAIL.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift " & _
-               ",TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO As [Sample No],  TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_SRN_DETAIL_hist_data.ACC_Qty As [Milk Weight], TSPL_MILK_SRN_DETAIL_hist_data.FAT_PER As [FAT(%)], TSPL_MILK_SRN_DETAIL_hist_data.SNF_PER As [SNF(%)], TSPL_MILK_SRN_DETAIL_hist_data.CLR as CLR,  Convert(decimal(18,3), TSPL_MILK_SRN_DETAIL_hist_data.FAT_PER * TSPL_MILK_SRN_DETAIL_hist_data.ACC_Qty / 100) As [FAT(KG)], Convert(decimal(18,3),TSPL_MILK_SRN_DETAIL_hist_data.SNF_PER * TSPL_MILK_SRN_DETAIL_hist_data.ACC_Qty / 100) As [SNF(KG)] " & _
-               ", TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL_hist_data.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL_hist_data.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL_hist_data.Qty As [SRN Qty] " & _
-               " ,isnull( TSPL_MILK_SRN_DETAIL_hist_data.EMP_Amount,0) as EMP_Amount " & _
-               " ,isnull(TSPL_MILK_SRN_DETAIL_hist_data.Round_Off,0) as Round_Off,isnull(TSPL_MILK_PURCHASE_INVOICE_DETAIL.Handling_Charges_Amount,0) as Handling_Charges_Amount " & _
-               " ,TSPL_MILK_SRN_DETAIL_hist_data.Price_Code as [Price Code] " & _
-               " ,TSPL_MILK_SRN_DETAIL_hist_data.Hist_By as [Modify By],TSPL_MILK_SRN_DETAIL_hist_data.Hist_On as [Modify Date] " & _
-                         "  From TSPL_MILK_RECEIPT_DETAIL " & _
-               " Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  " & _
-               " Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE " & _
-               " Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE  " & _
-               " Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO  " & _
-               " Left Outer Join TSPL_MILK_SRN_DETAIL_hist_data On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL_hist_data.DOC_CODE " & _
-               " inner join( select DOC_CODE, min(Hist_Version) id from TSPL_MILK_SRN_DETAIL_hist_data group by DOC_CODE " & _
-               " ) ss on TSPL_MILK_SRN_DETAIL_hist_data.Hist_Version = ss.id and TSPL_MILK_SRN_DETAIL_hist_data.DOC_CODE = ss.DOC_CODE " & _
-               " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL_hist_data.item_code  " & _
-               " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE " & _
-               " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  " & _
-               " Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE  " & _
-               " Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE " & _
-               " Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_RECEIPT_DETAIL.VSP_CODE " & _
-               " Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE " & _
-               " Left join (select TSPL_Primary_Vehicle_Master.vendor_code as [Transporter Code],tspl_vendor_master.vendor_name as [Transporter Name],TSPL_Primary_Vehicle_Master.mcc_code,TSPL_Primary_Vehicle_Master.vehicle_code from TSPL_Primary_Vehicle_Master left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_Primary_Vehicle_Master.vendor_code and tspl_vendor_master.form_type='PTM' left outer join tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_Primary_Vehicle_Master.mcc_code) as t1 on t1.vehicle_code=TSPL_MCC_ROUTE_MASTER.Vehicle_Code  " & _
-               " Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code  " & _
-               " Left Outer Join TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE = TSPL_MILK_RECEIPT_HEAD.MCC_CODE  " & _
-               " And convert(date,TSPL_MILK_Shift_End_HEAD.DOC_DATE,103) = convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)  " & _
-               " And TSPL_MILK_Shift_End_HEAD.SHIFT = TSPL_MILK_RECEIPT_HEAD.SHIFT  Left Outer Join TSPL_MILK_Shift_End_Route_DETAIL On TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE = TSPL_MILK_Shift_End_HEAD.DOC_CODE  And TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE = TSPL_MCC_ROUTE_MASTER.Route_Code  left outer join (select code,max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL_hist_data.Price_Code  " & _
-               " left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL_hist_data.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per  " & _
-               " left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  " & _
+
+            Dim qry As String = "select HistData.[Milk Receipt Code],HistData.[MCC Code] ,HistData.[MCC Name] ,HistData.[Doc Date] ,HistData.Shift" &
+                ",HistData.[Vlc Uploader Code] as [Vlc Uploader Code] " &
+               ",HistData.[Vlc Code] as [Vlc Code],HistData.[VLC Name] as [VLC Name], HistData.[Sample No] as [Sample No] " &
+               ",HistData.[No Of Cans] as [No Of Cans],HistData.[Item Code] as [Item Code],HistData.[Item Desc] as [Item Desc] " &
+               ",HistData.[Milk Weight] as [Milk Weight] " &
+               ", HistData.[FAT(%)] as [FAT(%)] ,HistData.CLR as [CLR],HistData.[SNF(%)] as [SNF(%)] " &
+               ",HistData.[FAT(KG)] as [FAT(KG)],HistData.[SNF(KG)] as [SNF(KG)] " &
+               ",HistData.[Milk Type] as [Milk Type],HistData.[SRN No] as [SRN No],HistData.[SRN Amount] as [SRN Amount] " &
+               ", HistData.[SRN Qty] as [SRN Qty],HistData.[SRN Rate] as [SRN Rate],HistData.[Handling Charges] as [Handling Charges] " &
+               ",HistData.[Price Code] as [Price Code] " &
+               "" &
+               ",UpdateData.[Vlc Uploader Code] as [Vlc Uploader Code Update] " &
+               ",UpdateData.[Vlc Code] as [Vlc Code Update],UpdateData.[VLC Name] as [VLC Name Update], UpdateData.[Sample No] as [Sample No Update] " &
+               ",UpdateData.[No Of Cans] as [No Of Cans Update],UpdateData.[Item Code] as [Item Code Update],UpdateData.[Item Desc] as [Item Desc Update] " &
+               ",UpdateData.[Milk Weight] as [Milk Weight Update] " &
+               ", UpdateData.[FAT(%)] as [FAT(%) Update] ,UpdateData.CLR as [CLR Update],UpdateData.[SNF(%)] as [SNF(%) Update] " &
+               ",UpdateData.[FAT(KG)] as [FAT(KG) Update],UpdateData.[SNF(KG)] as [SNF(KG) Update] " &
+               ",UpdateData.[Milk Type] as [Milk Type Update],UpdateData.[SRN No] as [SRN No Update],UpdateData.[SRN Amount] as [SRN Amount Update] " &
+               ", UpdateData.[SRN Qty] as [SRN Qty Update],UpdateData.[SRN Rate] as [SRN Rate Update],UpdateData.[Handling Charges] as [Handling Charges Update] " &
+               ",UpdateData.[Price Code] as [Price Code Update] " &
+               " ,HistData.[Modify By],HistData.[Modify Date]" &
+                          " from " &
+               "(Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[Doc Date] ,final.Shift  " &
+               ",final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] , final.[Sample No] ,final.[No Of Cans] ,final.Item_Code as [Item Code],final.Item_Desc as [Item Desc],final.[Milk Weight], final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)]  " &
+               ",final.[Milk Type],final.[SRN No],final.[SRN Amount], final.[SRN Qty],final.[SRN Rate] " &
+               ",Handling_Charges_Amount as [Handling Charges],final.[Price Code],final.[Modify By],final.[Modify Date]  " &
+                          " From " &
+               "(Select TSPL_MILK_SRN_DETAIL_hist_data.Item_Code,TSPL_ITEM_MASTER.Item_Desc " &
+               ", Case When Coalesce(TSPL_MILK_SRN_DETAIL_hist_data.FAT_PER, 0) <= 0 Then '' When Coalesce(TSPL_MILK_SRN_DETAIL_hist_data.FAT_PER, 0) <= 5 Then 'C' Else 'B' End As [Milk Type], TSPL_MILK_RECEIPT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_RECEIPT_HEAD.MCC_CODE As MCC " &
+               " , TSPL_MCC_MASTER.MCC_NAME As [MCC Name] " &
+               " ,  Convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_RECEIPT_DETAIL.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift " &
+               ",TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO As [Sample No],  TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_SRN_DETAIL_hist_data.ACC_Qty As [Milk Weight], TSPL_MILK_SRN_DETAIL_hist_data.FAT_PER As [FAT(%)], TSPL_MILK_SRN_DETAIL_hist_data.SNF_PER As [SNF(%)], TSPL_MILK_SRN_DETAIL_hist_data.CLR as CLR,  Convert(decimal(18,3), TSPL_MILK_SRN_DETAIL_hist_data.FAT_PER * TSPL_MILK_SRN_DETAIL_hist_data.ACC_Qty / 100) As [FAT(KG)], Convert(decimal(18,3),TSPL_MILK_SRN_DETAIL_hist_data.SNF_PER * TSPL_MILK_SRN_DETAIL_hist_data.ACC_Qty / 100) As [SNF(KG)] " &
+               ", TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL_hist_data.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL_hist_data.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL_hist_data.Qty As [SRN Qty] " &
+               " ,isnull( TSPL_MILK_SRN_DETAIL_hist_data.EMP_Amount,0) as EMP_Amount " &
+               " ,isnull(TSPL_MILK_SRN_DETAIL_hist_data.Round_Off,0) as Round_Off,isnull(TSPL_MILK_PURCHASE_INVOICE_DETAIL.Handling_Charges_Amount,0) as Handling_Charges_Amount " &
+               " ,TSPL_MILK_SRN_DETAIL_hist_data.Price_Code as [Price Code] " &
+               " ,TSPL_MILK_SRN_DETAIL_hist_data.Hist_By as [Modify By],TSPL_MILK_SRN_DETAIL_hist_data.Hist_On as [Modify Date] " &
+                         "  From TSPL_MILK_RECEIPT_DETAIL " &
+               " Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  " &
+               " Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE " &
+               " Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE  " &
+               " Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO  " &
+               " Left Outer Join TSPL_MILK_SRN_DETAIL_hist_data On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL_hist_data.DOC_CODE " &
+               " inner join( select DOC_CODE, min(Hist_Version) id from TSPL_MILK_SRN_DETAIL_hist_data group by DOC_CODE " &
+               " ) ss on TSPL_MILK_SRN_DETAIL_hist_data.Hist_Version = ss.id and TSPL_MILK_SRN_DETAIL_hist_data.DOC_CODE = ss.DOC_CODE " &
+               " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL_hist_data.item_code  " &
+               " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE " &
+               " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  " &
+               " Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE  " &
+               " Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE " &
+               " Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_RECEIPT_DETAIL.VSP_CODE " &
+               " Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE " &
+               " Left join (select TSPL_Primary_Vehicle_Master.vendor_code as [Transporter Code],tspl_vendor_master.vendor_name as [Transporter Name],TSPL_Primary_Vehicle_Master.mcc_code,TSPL_Primary_Vehicle_Master.vehicle_code from TSPL_Primary_Vehicle_Master left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_Primary_Vehicle_Master.vendor_code and tspl_vendor_master.form_type='PTM' left outer join tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_Primary_Vehicle_Master.mcc_code) as t1 on t1.vehicle_code=TSPL_MCC_ROUTE_MASTER.Vehicle_Code  " &
+               " Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code  " &
+               " Left Outer Join TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE = TSPL_MILK_RECEIPT_HEAD.MCC_CODE  " &
+               " And convert(date,TSPL_MILK_Shift_End_HEAD.DOC_DATE,103) = convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)  " &
+               " And TSPL_MILK_Shift_End_HEAD.SHIFT = TSPL_MILK_RECEIPT_HEAD.SHIFT  Left Outer Join TSPL_MILK_Shift_End_Route_DETAIL On TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE = TSPL_MILK_Shift_End_HEAD.DOC_CODE  And TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE = TSPL_MCC_ROUTE_MASTER.Route_Code  left outer join (select code,max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL_hist_data.Price_Code  " &
+               " left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL_hist_data.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per  " &
+               " left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  " &
                " where 2 = 2  "
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                 qry += "and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
@@ -230,44 +241,44 @@ Public Class rptCollectionDataChangeReport
                 qry += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='E' then 3 else 2 end  )"
             End If
 
-            qry += " ) As final where 2=2  " & _
-                " ) HistData " & _
-                " inner join " & _
-                " (Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name] " & _
-                 " ,final.[Doc Date] ,final.Shift  " & _
-                ",final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] , final.[Sample No] ,final.[No Of Cans] ,final.Item_Code as [Item Code],final.Item_Desc as [Item Desc],final.[Milk Weight], final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)]  " & _
-                ",final.[Milk Type],final.[SRN No],final.[SRN Amount], final.[SRN Qty],final.[SRN Rate] " & _
-                ",Handling_Charges_Amount as [Handling Charges]" & _
-                ",final.[Price Code]    " & _
-                           " From " & _
-                " (Select TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc " & _
-                ", Case When Coalesce(TSPL_MILK_SRN_DETAIL.FAT_PER, 0) <= 0 Then '' When Coalesce(TSPL_MILK_SRN_DETAIL.FAT_PER, 0) <= 5 Then 'C' Else 'B' End As [Milk Type] " & _
-                ", TSPL_MILK_RECEIPT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_RECEIPT_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name] " & _
-                 ",  Convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_RECEIPT_DETAIL.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift " & _
-                ",TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO As [Sample No],  TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_SRN_DETAIL.ACC_Qty As [Milk Weight], TSPL_MILK_SRN_DETAIL.FAT_PER As [FAT(%)], TSPL_MILK_SRN_DETAIL.SNF_PER As [SNF(%)], TSPL_MILK_SRN_DETAIL.CLR,  Convert(decimal(18,3), TSPL_MILK_SRN_DETAIL.FAT_PER * TSPL_MILK_SRN_DETAIL.ACC_Qty / 100) As [FAT(KG)], Convert(decimal(18,3),TSPL_MILK_SRN_DETAIL.SNF_PER * TSPL_MILK_SRN_DETAIL.ACC_Qty / 100) As [SNF(KG)] " & _
-                ", TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty] " & _
-                 ",isnull( TSPL_MILK_SRN_DETAIL.EMP_Amount,0) as EMP_Amount " & _
-                 ",isnull(TSPL_MILK_SRN_DETAIL.Round_Off,0) as Round_Off,isnull(TSPL_MILK_PURCHASE_INVOICE_DETAIL.Handling_Charges_Amount,0) as Handling_Charges_Amount " & _
-                 ",TSPL_MILK_SRN_DETAIL.Price_Code as [Price Code] " & _
-                 " From TSPL_MILK_RECEIPT_DETAIL  " & _
-                " Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  " & _
-                " Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE " & _
-                " Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE  " & _
-                " Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO  " & _
-                " Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE " & _
-                 " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL.item_code  " & _
-                " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE  " & _
-                " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  " & _
-                " Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE  " & _
-                " Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE " & _
-                " Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_RECEIPT_DETAIL.VSP_CODE " & _
-                " Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE " & _
-                " Left join (select TSPL_Primary_Vehicle_Master.vendor_code as [Transporter Code],tspl_vendor_master.vendor_name as [Transporter Name],TSPL_Primary_Vehicle_Master.mcc_code,TSPL_Primary_Vehicle_Master.vehicle_code from TSPL_Primary_Vehicle_Master left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_Primary_Vehicle_Master.vendor_code and tspl_vendor_master.form_type='PTM' left outer join tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_Primary_Vehicle_Master.mcc_code) as t1 on t1.vehicle_code=TSPL_MCC_ROUTE_MASTER.Vehicle_Code  " & _
-                " Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code  " & _
-                " Left Outer Join TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE = TSPL_MILK_RECEIPT_HEAD.MCC_CODE  " & _
-                " And convert(date,TSPL_MILK_Shift_End_HEAD.DOC_DATE,103) = convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)  " & _
-                " And TSPL_MILK_Shift_End_HEAD.SHIFT = TSPL_MILK_RECEIPT_HEAD.SHIFT  Left Outer Join TSPL_MILK_Shift_End_Route_DETAIL On TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE = TSPL_MILK_Shift_End_HEAD.DOC_CODE  And TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE = TSPL_MCC_ROUTE_MASTER.Route_Code  left outer join (select code,max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code  " & _
-                " left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per  " & _
+            qry += " ) As final where 2=2  " &
+                " ) HistData " &
+                " inner join " &
+                " (Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name] " &
+                 " ,final.[Doc Date] ,final.Shift  " &
+                ",final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] , final.[Sample No] ,final.[No Of Cans] ,final.Item_Code as [Item Code],final.Item_Desc as [Item Desc],final.[Milk Weight], final.[FAT(%)]  ,final.CLR,final.[SNF(%)] ,final.[FAT(KG)],final.[SNF(KG)]  " &
+                ",final.[Milk Type],final.[SRN No],final.[SRN Amount], final.[SRN Qty],final.[SRN Rate] " &
+                ",Handling_Charges_Amount as [Handling Charges]" &
+                ",final.[Price Code]    " &
+                           " From " &
+                " (Select TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc " &
+                ", Case When Coalesce(" + ColumnFAT + ", 0) <= 0 Then '' When Coalesce(" + ColumnFAT + ", 0) <= 5 Then 'C' Else 'B' End As [Milk Type] " &
+                ", TSPL_MILK_RECEIPT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_RECEIPT_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name] " &
+                 ",  Convert(varchar,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_RECEIPT_DETAIL.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift " &
+                ",TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO As [Sample No],  TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_SRN_DETAIL.ACC_Qty As [Milk Weight], " + ColumnFAT + " As [FAT(%)], " + ColumnSNF + " As [SNF(%)], TSPL_MILK_SRN_DETAIL.CLR,  Convert(decimal(18,3), " + ColumnFAT + " * TSPL_MILK_SRN_DETAIL.ACC_Qty / 100) As [FAT(KG)], Convert(decimal(18,3)," + ColumnSNF + " * TSPL_MILK_SRN_DETAIL.ACC_Qty / 100) As [SNF(KG)] " &
+                ", TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty] " &
+                 ",isnull( TSPL_MILK_SRN_DETAIL.EMP_Amount,0) as EMP_Amount " &
+                 ",isnull(TSPL_MILK_SRN_DETAIL.Round_Off,0) as Round_Off,isnull(TSPL_MILK_PURCHASE_INVOICE_DETAIL.Handling_Charges_Amount,0) as Handling_Charges_Amount " &
+                 ",TSPL_MILK_SRN_DETAIL.Price_Code as [Price Code] " &
+                 " From TSPL_MILK_RECEIPT_DETAIL  " &
+                " Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE  " &
+                " Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE " &
+                " Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE  " &
+                " Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO  " &
+                " Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE " &
+                 " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_MILK_SRN_DETAIL.item_code  " &
+                " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_DETAIL On TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE  " &
+                " Left Outer Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  " &
+                " Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_RECEIPT_HEAD.MCC_CODE  " &
+                " Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE " &
+                " Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_RECEIPT_DETAIL.VSP_CODE " &
+                " Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MCC_ROUTE_MASTER.Route_Code = TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE " &
+                " Left join (select TSPL_Primary_Vehicle_Master.vendor_code as [Transporter Code],tspl_vendor_master.vendor_name as [Transporter Name],TSPL_Primary_Vehicle_Master.mcc_code,TSPL_Primary_Vehicle_Master.vehicle_code from TSPL_Primary_Vehicle_Master left outer join tspl_vendor_master on tspl_vendor_master.vendor_code=TSPL_Primary_Vehicle_Master.vendor_code and tspl_vendor_master.form_type='PTM' left outer join tspl_mcc_master on tspl_mcc_master.mcc_code=TSPL_Primary_Vehicle_Master.mcc_code) as t1 on t1.vehicle_code=TSPL_MCC_ROUTE_MASTER.Vehicle_Code  " &
+                " Left Outer Join TSPL_Primary_Vehicle_Master On TSPL_Primary_Vehicle_Master.Vehicle_Code = TSPL_MCC_ROUTE_MASTER.Vehicle_Code  " &
+                " Left Outer Join TSPL_MILK_Shift_End_HEAD On TSPL_MILK_Shift_End_HEAD.MCC_CODE = TSPL_MILK_RECEIPT_HEAD.MCC_CODE  " &
+                " And convert(date,TSPL_MILK_Shift_End_HEAD.DOC_DATE,103) = convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)  " &
+                " And TSPL_MILK_Shift_End_HEAD.SHIFT = TSPL_MILK_RECEIPT_HEAD.SHIFT  Left Outer Join TSPL_MILK_Shift_End_Route_DETAIL On TSPL_MILK_Shift_End_Route_DETAIL.DOC_CODE = TSPL_MILK_Shift_End_HEAD.DOC_CODE  And TSPL_MILK_Shift_End_Route_DETAIL.Route_CODE = TSPL_MCC_ROUTE_MASTER.Route_Code  left outer join (select code,max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code  " &
+                " left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per  " &
                 " left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  where 2 = 2  "
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                 qry += "and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
@@ -285,13 +296,20 @@ Public Class rptCollectionDataChangeReport
             If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
                 qry += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='E' then 3 else 2 end  )"
             End If
-            qry += " ) As final where 2=2 " & _
-                " )UpdateData " & _
-                " on UpdateData.[Milk Receipt Code]=HistData.[Milk Receipt Code] " & _
-                " and UpdateData.[MCC Code]=HistData.[MCC Code] " & _
-                " and UpdateData.[Doc Date]=HistData.[Doc Date] " & _
-                " and UpdateData.Shift=HistData.Shift " & _
-                "  and UpdateData.[SRN No]=HistData.[SRN No]	 " & _
+            If rbtnRetestingData.Checked Then
+                qry += " and TSPL_MILK_SRN_DETAIL.Retesting_FAT>0 And TSPL_MILK_SRN_DETAIL.Retesting_SNF>0 And Retesting_OR_Correction_Status>0 "
+            ElseIf rbtnCorrectionData.Checked Then
+                qry += " and TSPL_MILK_SRN_DETAIL.Retesting_OR_Correction_Status=2"
+            Else
+                qry += " and IsNull(TSPL_MILK_SRN_DETAIL.Retesting_OR_Correction_Status,0)=0 "
+            End If
+            qry += ") As final where 2=2 " &
+                " )UpdateData " &
+                " on UpdateData.[Milk Receipt Code]=HistData.[Milk Receipt Code] " &
+                " and UpdateData.[MCC Code]=HistData.[MCC Code] " &
+                " and UpdateData.[Doc Date]=HistData.[Doc Date] " &
+                " and UpdateData.Shift=HistData.Shift " &
+                "  and UpdateData.[SRN No]=HistData.[SRN No]	 " &
                 "  order by HistData.[Doc Date],HistData.[Milk Receipt Code] ,HistData.[Sample No]  "
 
 
@@ -311,7 +329,7 @@ Public Class rptCollectionDataChangeReport
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
                 clsCommon.MyMessageBoxShow("No Data Found")
-                End If
+            End If
 
             gv1.DataSource = dt
             SetGridFormationOFGV1()
@@ -323,7 +341,7 @@ Public Class rptCollectionDataChangeReport
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    
+
 
     Sub SetGridFormationOFGV1()
         gv1.TableElement.TableHeaderHeight = 40
@@ -504,7 +522,7 @@ Public Class rptCollectionDataChangeReport
             gv1.ViewDefinition = view
         End If
     End Sub
-    
+
 
 
     Sub Reset()
@@ -515,6 +533,8 @@ Public Class rptCollectionDataChangeReport
         txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
         gv1.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
+        rbtnCorrectionData.Checked = False
+        rbtnRetestingData.Checked = False
     End Sub
 
     Sub LoadShiftFrom()
@@ -768,7 +788,7 @@ Public Class rptCollectionDataChangeReport
     Private Sub gv1_CellDoubleClick(sender As Object, e As GridViewCellEventArgs) Handles gv1.CellDoubleClick
         Try
             If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells("SRN No").Value)) > 0 Then
-                clsERPFuncationalityold.ShowTransHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("SRN No").Value), "DOC_CODE", "TSPL_MILK_SRN_HEAD", "TSPL_MILK_SRN_DETAIL")
+                clsERPFuncationalityOLD.ShowTransHistoryData(clsCommon.myCstr(gv1.CurrentRow.Cells("SRN No").Value), "DOC_CODE", "TSPL_MILK_SRN_HEAD", "TSPL_MILK_SRN_DETAIL")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)

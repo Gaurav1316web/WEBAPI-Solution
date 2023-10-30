@@ -2888,6 +2888,7 @@ Public Class FrmVendorService
         btnPrintJV.Visible = True
         btnPrintInvoice.Visible = True
         chkRCM.Checked = False
+        chkTDSProvision.Checked = False
         chkNoGSTCredit.Checked = False
         If ApplyNoGSTCreditIndependentlyOnVendorServiceCharge = True Then
             chkNoGSTCredit.Visible = True
@@ -3127,7 +3128,14 @@ Public Class FrmVendorService
                 End If
             End If
 
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Is_Provisional from TSPL_VENDOR_MASTER where Vendor_Code='" + TxtVendorNo.Value + "'")) = 1 Then
+                If common.clsCommon.MyMessageBoxShow("Do You Want to Apply TDS Provision", "", MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
+                    chkTDSProvision.Checked = True
+                Else
+                    chkTDSProvision.Checked = False
+                End If
 
+            End If
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
             Return True
@@ -3159,6 +3167,7 @@ Public Class FrmVendorService
                 '---------added by  usha
                 obj.loc_code = txtlocation.Value
                 obj.RCM = chkRCM.Checked
+                obj.TDS_Provision = chkTDSProvision.Checked
                 obj.No_GST_Credit = chkNoGSTCredit.Checked
                 '---------end
                 ''added by priti
@@ -3630,6 +3639,7 @@ Public Class FrmVendorService
                 arrProvDocNo = obj.arrProvDocNo
                 ''---------------------
                 chkRCM.Checked = obj.RCM
+                chkTDSProvision.Checked = obj.TDS_Provision
                 obj.GSTRegistered = chkGSTRegistered.Checked
                 chkNoGSTCredit.Checked = obj.No_GST_Credit
                 txtlocation.Value = obj.loc_code

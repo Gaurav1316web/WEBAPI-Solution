@@ -947,6 +947,18 @@ Public Class frmMilkCollectionDCS
         Next
     End Sub
     Private Sub RadButton2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
+        'If isPickCLRInsteadOfSNF Then
+        '    Dim qry As String = "select PK_Id,FAT,SNF,Qty from TSPL_MILK_COLLECTION_DCS_DETAIL where (SNFKG -( Qty*SNF/100))=0 and SNF>10"
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+        '        For Each dr As DataRow In dt.Rows
+        '            Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(dr("FAT")), clsCommon.myCdbl(dr("SNF")), corrFactor)
+        '            Dim snfKG As Decimal = clsCommon.myCDecimal(dr("Qty")) * snfPer / 100
+        '            qry = "Update TSPL_MILK_COLLECTION_DCS_DETAIL set SNFKG='" + clsCommon.myCstr(snfKG) + "' where PK_Id=" + clsCommon.myCstr(dr("PK_Id")) + " "
+        '            clsDBFuncationality.ExecuteNonQuery(qry)
+        '        Next
+        '    End If
+        'End If
         CancelPressed()
     End Sub
 
@@ -1557,7 +1569,10 @@ where 2=2 "
                                         objTr.SNFKG = clsCommon.myCDecimal(dtItem.Rows(j)(colSNForCLR))
 
                                     End If
-
+                                    If isPickCLRInsteadOfSNF Then
+                                        Dim snfPer As Decimal = clsEkoPro.getSnfOnCalculation(objTr.FAT, objTr.SNF, corrFactor)
+                                        objTr.SNFKG = Math.Round(objTr.Qty * snfPer / 100, 3, MidpointRounding.ToEven)
+                                    End If
 
                                     obj.Arr.Add(objTr)
                                 Next

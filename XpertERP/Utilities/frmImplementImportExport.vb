@@ -11290,9 +11290,11 @@ ExitLOOP:
                                 sql1 = "select count(*) from TSPL_CUSTOMER_MASTER where cust_code ='" + StrVdrNo + "' and CUSTOMER_FORM_TYPE='VSP'"
                                 i2 = CInt(connectSql.RunScalar(trans, sql1))
                                 If (i2 = 0) Then
-                                    objCustomer.SaveData(objCustomer, objCustomer.ArrVisi, True, arrDBName, trans)
+                                    ' objCustomer.SaveData(objCustomer, objCustomer.ArrVisi, True, arrDBName, trans)
+                                    objCustomer.SaveData(objCustomer, objCustomer.ArrVisi, True, trans)
                                 Else
-                                    objCustomer.SaveData(objCustomer, objCustomer.ArrVisi, False, arrDBName, trans)
+                                    ' objCustomer.SaveData(objCustomer, objCustomer.ArrVisi, False, arrDBName, trans)
+                                    objCustomer.SaveData(objCustomer, objCustomer.ArrVisi, False, trans)
                                 End If
 
                                 'Customer Vendor mapping

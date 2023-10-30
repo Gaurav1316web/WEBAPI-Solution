@@ -7136,4 +7136,5 @@ left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=XFinal.Loca
             e.Cancel = True
         End If
     End Sub
+
 End Class

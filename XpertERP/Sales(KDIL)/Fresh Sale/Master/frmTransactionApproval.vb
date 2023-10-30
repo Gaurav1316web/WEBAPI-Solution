@@ -102,7 +102,7 @@ Public Class FrmTransactionApproval
     End Sub
     Sub LoadScreenName()
         isInsideLoadData = True
-        Dim qry As String = "select 'Select' as [Code],'Select' as [Name] union all select Program_Code as [Code] ,Program_Name as [Name]   from TSPL_PROGRAM_MASTER where  Program_Code in ('DEL-NOTE-FS','DEL-ORD-PS','DISPATCH-BS','M-Material','VSP-Item','SHIPMENT-PS','CSA-INV-TRN','M-SRN-B','M-RECEIPT','M-QC','LC-CREATION','BOOK-DS','" + clsUserMgtCode.frmCSADeliveryOrder + "','" + clsUserMgtCode.mbtnPurchaseInvoice + "','" + clsUserMgtCode.ProcessProductionStandardizationFinalQC + "')"
+        Dim qry As String = "select 'Select' as [Code],'Select' as [Name] union all select Program_Code as [Code] ,Program_Name as [Name]   from TSPL_PROGRAM_MASTER where  Program_Code in ('DEL-NOTE-FS','DEL-ORD-PS','DISPATCH-BS','M-Material','VSP-Item','SHIPMENT-PS','CSA-INV-TRN','M-SRN-B','M-RECEIPT','M-QC','LC-CREATION','BOOK-DS','" + clsUserMgtCode.frmCSADeliveryOrder + "','" + clsUserMgtCode.mbtnPurchaseInvoice + "','" + clsUserMgtCode.ProcessProductionStandardizationFinalQC + "','" + clsUserMgtCode.frmDemandBooking + "')"
         cmbScreenName.DataSource = clsDBFuncationality.GetDataTable(qry)
         cmbScreenName.ValueMember = "Code"
         cmbScreenName.DisplayMember = "Name"
@@ -325,6 +325,9 @@ Public Class FrmTransactionApproval
             End If
             If clsCommon.CompairString(clsUserMgtCode.frmDeliveryNoteFreshSale, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                 qry = " select TSPL_TRANSACTION_APPROVAL.Document_No,TSPL_TRANSACTION_APPROVAL.Approval_type ,TSPL_TRANSACTION_APPROVAL.Doc_Date,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code as CustCode ,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.location_code as LocCode,TSPL_CUSTOMER_MASTER.Customer_Name as CustName,TSPL_LOCATION_MASTER.Location_Desc as LocDesc   from TSPL_TRANSACTION_APPROVAL left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.document_no=TSPL_TRANSACTION_APPROVAL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.location_code  where  TSPL_TRANSACTION_APPROVAL.approve=0 and   TSPL_TRANSACTION_APPROVAL.program_code='DEL-NOTE-FS'"
+            End If
+            If clsCommon.CompairString(clsUserMgtCode.frmDemandBooking, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                qry = "select TSPL_TRANSACTION_APPROVAL.Document_No, TSPL_TRANSACTION_APPROVAL.Approval_type, TSPL_TRANSACTION_APPROVAL.Doc_Date, TSPL_TRANSACTION_APPROVAL.Cust_Code as CustCode, TSPL_DEMAND_BOOKING_MASTER.Location_Code as LocCode, TSPL_CUSTOMER_MASTER.Customer_Name as CustName, TSPL_LOCATION_MASTER.Location_Desc as LocDesc from TSPL_TRANSACTION_APPROVAL left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_TRANSACTION_APPROVAL.Document_No left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_TRANSACTION_APPROVAL.cust_code left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_DEMAND_BOOKING_MASTER.Location_Code where TSPL_TRANSACTION_APPROVAL.approve = 0 and TSPL_TRANSACTION_APPROVAL.program_code = '" + clsUserMgtCode.frmDemandBooking + "'"
             End If
             If clsCommon.CompairString(clsUserMgtCode.frmbookingdairy, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                 Dim chkCustCategoryMappInUserMaster As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select count ( distinct CUSTOMER_CATEGORY) as CUSTOMER_CATEGORY from TSPL_CUSTOMER_MASTER where TSPL_CUSTOMER_MASTER.CUSTOMER_CATEGORY in (select Customer_Category from TSPL_USER_CUSTOMER_CATEGORY where USER_Code = '" + objCommonVar.CurrentUserCode + "')"))
@@ -674,7 +677,40 @@ Public Class FrmTransactionApproval
                 End If
                 Exit Sub
             End If
+            If clsCommon.CompairString(clsUserMgtCode.frmDemandBooking, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                Dim obj1 As ClsTransactionApproval
+                If Gv1.Rows.Count > 0 Then
+                    For i As Integer = 0 To Gv1.Rows.Count - 1
+                        If Gv1.Rows(i).Cells(colSelect).Value = True Then
+                            obj1 = New ClsTransactionApproval
+                            obj1.Screen_Name = cmbScreenName.Text
+                            obj1.Program_Code = cmbScreenName.SelectedValue
+                            obj1.Document_No = Gv1.Rows(i).Cells(colDocNo).Value
+                            obj1.Cust_Code = Gv1.Rows(i).Cells(colVendorCode).Value
+                            obj1.Doc_Date = clsCommon.GetPrintDate(Gv1.Rows(i).Cells(colDocDate).Value, "dd/MMM/yyyy")
+                            obj1.Approval_Type = Gv1.Rows(i).Cells(colApprovalType).Value
+                            Dim qry1 As Integer = clsDBFuncationality.getSingleValue("select count(Document_No) from TSPL_TRANSACTION_APPROVAL where Document_No='" + obj1.Document_No + "'")
+                            If (qry1 = 0) Then
+                                isnewentry = True
+                            Else
+                                isnewentry = False
+                            End If
+                            If (ClsTransactionApproval.SaveData(obj1, isnewentry)) Then
+                                If clsCommon.CompairString(clsUserMgtCode.frmDemandBooking, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_MASTER set Posted=1 where Document_No='" + obj1.Document_No + "' ")
+                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSACTION_APPROVAL set Approve='1' where Document_No='" + obj1.Document_No + "'")
+                                End If
 
+                            End If
+                        End If
+                    Next
+                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    AddNew()
+                Else
+                    clsCommon.MyMessageBoxShow("No Document Found To Approve", Me.Text)
+                End If
+                Exit Sub
+            End If
             Dim obj As New ClsTransactionApproval()
             obj.Screen_Name = cmbScreenName.Text
             obj.Program_Code = cmbScreenName.SelectedValue
@@ -772,6 +808,15 @@ Public Class FrmTransactionApproval
                                 'ElseIf clsCommon.CompairString(clsUserMgtCode.frmVSPItemIssue, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                                 obj1.Document_No = Gv1.Rows(i).Cells(colDocNo).Value
                                 obj1.Doc_Date = clsCommon.GetPrintDate(Gv1.Rows(i).Cells(colDocDate).Value, "dd/MMM/yyyy")
+                            ElseIf clsCommon.CompairString(clsUserMgtCode.frmDemandBooking, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                                obj1.Screen_Name = cmbScreenName.Text
+                                obj1.Program_Code = cmbScreenName.SelectedValue
+                                obj1.Document_No = Gv1.Rows(i).Cells(colDocNo).Value
+                                obj1.Cust_Code = Gv1.Rows(i).Cells(colVendorCode).Value
+                                obj1.Doc_Date = clsCommon.GetPrintDate(Gv1.Rows(i).Cells(colDocDate).Value, "dd/MMM/yyyy")
+                                obj1.Approval_Type = Gv1.Rows(i).Cells(colApprovalType).Value
+
+
                             End If
 
                             obj1.Approval_Type = ddApprovalType.Text
@@ -884,6 +929,10 @@ Public Class FrmTransactionApproval
                                     clsDBFuncationality.ExecuteNonQuery("update TSPL_SD_SHIPMENT_HEAD set Is_Advance_Approved=2 where Document_Code='" + obj1.Document_No + "'", trans)
                                     'ElseIf clsCommon.CompairString(clsUserMgtCode.frmVSPItemIssue, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                                     clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSACTION_APPROVAL set Approve='2' where Document_No='" + obj1.Document_No + "'", trans)
+                                ElseIf clsCommon.CompairString(clsUserMgtCode.frmDemandBooking, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_TRANSACTION_APPROVAL set Approve='2' where Document_No='" + obj1.Document_No + "'", trans)
+                                    clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_MASTER set Posted=2 where Document_No='" + obj1.Document_No + "'", trans)
+
                                 End If
 
                             End If
@@ -964,6 +1013,11 @@ Public Class FrmTransactionApproval
                 isInsideLoadData = False
                 If clsCommon.CompairString(clsUserMgtCode.frmbookingdairy, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
                 End If
+                Exit Sub
+            ElseIf clsCommon.CompairString(clsUserMgtCode.frmDemandBooking, cmbScreenName.SelectedValue) = CompairStringResult.Equal Then
+                isInsideLoadData = True
+                loadGridDataAll()
+                isInsideLoadData = False
                 Exit Sub
             Else
                 FndDocumnetNo.Value = ""

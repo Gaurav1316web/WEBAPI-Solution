@@ -61,7 +61,7 @@ Public Class frmFATSNFDiffReport
             If rbtnDetails.IsChecked Then
                 Qry = BaseQry + " order by Document_Date, MCC_NAME "
             ElseIf rbtnMCCWise.IsChecked Then
-                Qry = "select MCC_Code,max(MCC_NAME) as MCC_NAME,sum(MCCQty) as MCCQty,sum(MCCFATKG) as MCCFATKG,CAST(ISNULL(sum(MCCQty), 0) * ((ISNULL(sum(MCCSNFKG), 0) / NULLIF(sum(MCCQty), 0)) * 100 / 4 +0.2 * (ISNULL(sum(MCCFATKG), 0) / NULLIF(sum(MCCQty), 0)) * 100+ 0.66) / 100 AS DECIMAL(18, 2)) AS MCCSNFKG,sum(DCSQty) as DCSQty,sum(DCSFATKG) as DCSFATKG,sum(DCSSNFKG) as DCSSNFKG,sum(DiffFATKG) as DiffFATKG,sum(DiffSNFKG) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt from ( " + BaseQry + ")XX group by MCC_Code  order by MCC_NAME"
+                Qry = "select MCC_Code,max(MCC_NAME) as MCC_NAME,sum(MCCQty) as MCCQty,sum(MCCFATKG) as MCCFATKG,sum(MCCSNFKG) AS MCCSNFKG,sum(DCSQty) as DCSQty,sum(DCSFATKG) as DCSFATKG,sum(DCSSNFKG) as DCSSNFKG,sum(DiffFATKG) as DiffFATKG,sum(DiffSNFKG) as DiffSNFKG,sum(FatAmt) as FatAmt,sum(SNFAmt) as SNFAmt,sum(Amt) as Amt from ( " + BaseQry + ")XX group by MCC_Code  order by MCC_NAME"
             Else
                 Throw New Exception("Wrong Method")
             End If

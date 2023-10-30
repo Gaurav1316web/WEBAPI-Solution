@@ -35,6 +35,8 @@ Partial Class FrmAPInvoiceEntry
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkTDSProvision = New common.Controls.MyCheckBox()
+        Me.chkRCM = New common.Controls.MyCheckBox()
         Me.grpVendorBankDetails = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtVendor_Bank_ACNo = New common.Controls.MyTextBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
@@ -227,6 +229,8 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkRCM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grpVendorBankDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpVendorBankDetails.SuspendLayout()
         CType(Me.txtVendor_Bank_ACNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -432,7 +436,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.Attachments
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1094, 446)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -441,6 +445,8 @@ Partial Class FrmAPInvoiceEntry
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkTDSProvision)
+        Me.RadPageViewPage1.Controls.Add(Me.chkRCM)
         Me.RadPageViewPage1.Controls.Add(Me.grpVendorBankDetails)
         Me.RadPageViewPage1.Controls.Add(Me.Panel4)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox4)
@@ -517,6 +523,30 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1073, 400)
         Me.RadPageViewPage1.Text = "Document"
         '
+        'chkTDSProvision
+        '
+        Me.chkTDSProvision.Location = New System.Drawing.Point(621, 149)
+        Me.chkTDSProvision.MyLinkLable1 = Nothing
+        Me.chkTDSProvision.MyLinkLable2 = Nothing
+        Me.chkTDSProvision.Name = "chkTDSProvision"
+        Me.chkTDSProvision.ReadOnly = True
+        Me.chkTDSProvision.Size = New System.Drawing.Size(89, 18)
+        Me.chkTDSProvision.TabIndex = 613
+        Me.chkTDSProvision.Tag1 = Nothing
+        Me.chkTDSProvision.Text = "TDS Provision"
+        '
+        'chkRCM
+        '
+        Me.chkRCM.Location = New System.Drawing.Point(574, 150)
+        Me.chkRCM.MyLinkLable1 = Nothing
+        Me.chkRCM.MyLinkLable2 = Nothing
+        Me.chkRCM.Name = "chkRCM"
+        Me.chkRCM.ReadOnly = True
+        Me.chkRCM.Size = New System.Drawing.Size(44, 18)
+        Me.chkRCM.TabIndex = 612
+        Me.chkRCM.Tag1 = Nothing
+        Me.chkRCM.Text = "RCM"
+        '
         'grpVendorBankDetails
         '
         Me.grpVendorBankDetails.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -529,7 +559,7 @@ Partial Class FrmAPInvoiceEntry
         Me.grpVendorBankDetails.Controls.Add(Me.TxtBankName)
         Me.grpVendorBankDetails.Controls.Add(Me.MyLabel23)
         Me.grpVendorBankDetails.HeaderText = "Vendor Bank Details"
-        Me.grpVendorBankDetails.Location = New System.Drawing.Point(680, 160)
+        Me.grpVendorBankDetails.Location = New System.Drawing.Point(680, 165)
         Me.grpVendorBankDetails.Name = "grpVendorBankDetails"
         Me.grpVendorBankDetails.Size = New System.Drawing.Size(385, 93)
         Me.grpVendorBankDetails.TabIndex = 611
@@ -3203,6 +3233,8 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkRCM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grpVendorBankDetails, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpVendorBankDetails.ResumeLayout(False)
         Me.grpVendorBankDetails.PerformLayout()
@@ -3573,5 +3605,7 @@ Partial Class FrmAPInvoiceEntry
     Friend WithEvents txtVendor_Bank_ACNo As common.Controls.MyTextBox
     Friend WithEvents MyLabel17 As common.Controls.MyLabel
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As RadButton
+    Friend WithEvents chkRCM As common.Controls.MyCheckBox
+    Friend WithEvents chkTDSProvision As common.Controls.MyCheckBox
 End Class
 

@@ -1165,6 +1165,8 @@ Public Class clsMilkProcurementUploaderDetail
     Public Reject_Defaulter As String
     Public Against_Milk_Collection_DCS_Detail As Integer
     Public Dock_Collection_Milk_Type_Auto As Boolean = True
+    Public Retesting_FAT As Decimal
+    Public Retesting_SNF As Decimal
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal strMCCCode As String, ByVal Arr As List(Of clsMilkProcurementUploaderDetail), ByVal trans As SqlTransaction) As Boolean

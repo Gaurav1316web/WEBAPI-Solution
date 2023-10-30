@@ -24,6 +24,7 @@ Public Class clsPurchaseInvoiceHead
     Public ShipToLocationName As String = Nothing
     Public Tax_Group As String = Nothing
     Public TaxGroupName As String = Nothing 'Not a table field
+    Public TDS_Provision As Boolean = False
     Public TAX1 As String = Nothing
     Public TAX1_Rate As Double = 0
     Public TAX1_Base_Amt As Double = 0
@@ -280,6 +281,7 @@ Public Class clsPurchaseInvoiceHead
             clsCommon.AddColumnsForChange(coll, "PI_Total_Amt", obj.PI_Total_Amt)
             clsCommon.AddColumnsForChange(coll, "Comments", obj.Comments)
             clsCommon.AddColumnsForChange(coll, "Item_Type", obj.Item_Type)
+            clsCommon.AddColumnsForChange(coll, "TDS_Provision", IIf(obj.TDS_Provision, 1, 0))
 
             clsCommon.AddColumnsForChange(coll, "RoundOffAmt", obj.RoundOffAmt)
             clsCommon.AddColumnsForChange(coll, "Against_Requisition", obj.Against_Requisition, True)
@@ -548,6 +550,8 @@ Public Class clsPurchaseInvoiceHead
             obj.Ship_To_Location = clsCommon.myCstr(dt.Rows(0)("Ship_To_Location"))
             obj.Sublocation_Code = clsCommon.myCstr(dt.Rows(0)("Sublocation_Code"))
             obj.Tax_Group = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
+            obj.TDS_Provision = IIf(clsCommon.myCdbl(dt.Rows(0)("TDS_Provision")) = 1, True, False)
+
             obj.TAX1 = clsCommon.myCstr(dt.Rows(0)("TAX1"))
             obj.TAX1_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX1_Rate"))
             obj.TAX1_Base_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX1_Base_Amt"))
@@ -1031,6 +1035,8 @@ Public Class clsPurchaseInvoiceHead
             End If
 
             objVendorInvHead.Document_Type = "I" ''For Purchase Invoice Type
+            objVendorInvHead.TDS_Provision = obj.TDS_Provision ''For Purchase Invoice Type
+
             ''objVendorInvHead.PO_Number = obj.p
 
             '' ''added by priti
