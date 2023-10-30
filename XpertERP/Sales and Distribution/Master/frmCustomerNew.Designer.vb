@@ -23,50 +23,50 @@ Partial Class frmCustomer
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem29 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem30 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem31 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewComboBoxColumn1 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim GridViewTextBoxColumn16 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewComboBoxColumn11 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
-        Dim TableViewDefinition41 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem35 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem36 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem37 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem19 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem20 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem21 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem22 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem23 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem24 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition42 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim GridViewTextBoxColumn17 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn18 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewComboBoxColumn12 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
-        Dim GridViewDecimalColumn6 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim SortDescriptor11 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
-        Dim TableViewDefinition43 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim SortDescriptor12 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
-        Dim TableViewDefinition44 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition45 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition46 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition47 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition48 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem25 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem26 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewComboBoxColumn2 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim SortDescriptor1 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim SortDescriptor2 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem27 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem28 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnucustbesic_Import_profile = New Telerik.WinControls.UI.RadMenuItem()
@@ -352,6 +352,7 @@ Partial Class frmCustomer
         Me.CanAccounting = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCan = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage8 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.gvSecurity = New Telerik.WinControls.UI.RadGridView()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -629,6 +630,7 @@ Partial Class frmCustomer
         CType(Me.gvCan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCan.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage8.SuspendLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvSecurity.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -873,9 +875,9 @@ Partial Class frmCustomer
         Me.RadPageViewPage1.Controls.Add(Me.fndRoute)
         Me.RadPageViewPage1.Controls.Add(Me.txtRoute)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1026, 424)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1026, 430)
         Me.RadPageViewPage1.Text = "Address"
         '
         'MultiRouteCode
@@ -972,18 +974,18 @@ Partial Class frmCustomer
         Me.CboCustomerStatus.IsSourceFromTable = False
         Me.CboCustomerStatus.IsSourceFromValueList = False
         Me.CboCustomerStatus.IsUnique = False
-        RadListDataItem5.Text = "Select"
-        RadListDataItem6.Text = "Temporary"
-        RadListDataItem7.Text = "Legal"
-        RadListDataItem29.Text = "Balance Followup"
-        RadListDataItem30.Text = "Asset Followup"
-        RadListDataItem31.Text = "Closed"
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Temporary"
+        RadListDataItem3.Text = "Legal"
+        RadListDataItem4.Text = "Balance Followup"
+        RadListDataItem5.Text = "Asset Followup"
+        RadListDataItem6.Text = "Closed"
+        Me.CboCustomerStatus.Items.Add(RadListDataItem1)
+        Me.CboCustomerStatus.Items.Add(RadListDataItem2)
+        Me.CboCustomerStatus.Items.Add(RadListDataItem3)
+        Me.CboCustomerStatus.Items.Add(RadListDataItem4)
         Me.CboCustomerStatus.Items.Add(RadListDataItem5)
         Me.CboCustomerStatus.Items.Add(RadListDataItem6)
-        Me.CboCustomerStatus.Items.Add(RadListDataItem7)
-        Me.CboCustomerStatus.Items.Add(RadListDataItem29)
-        Me.CboCustomerStatus.Items.Add(RadListDataItem30)
-        Me.CboCustomerStatus.Items.Add(RadListDataItem31)
         Me.CboCustomerStatus.Location = New System.Drawing.Point(496, 38)
         Me.CboCustomerStatus.MendatroryField = True
         Me.CboCustomerStatus.MyLinkLable1 = Me.MyLabel4
@@ -2348,12 +2350,12 @@ Partial Class frmCustomer
         Me.CboMaritalStatus.IsSourceFromTable = False
         Me.CboMaritalStatus.IsSourceFromValueList = False
         Me.CboMaritalStatus.IsUnique = False
-        RadListDataItem8.Text = "Select"
-        RadListDataItem9.Text = "Unmarried"
-        RadListDataItem10.Text = "Married"
+        RadListDataItem7.Text = "Select"
+        RadListDataItem8.Text = "Unmarried"
+        RadListDataItem9.Text = "Married"
+        Me.CboMaritalStatus.Items.Add(RadListDataItem7)
         Me.CboMaritalStatus.Items.Add(RadListDataItem8)
         Me.CboMaritalStatus.Items.Add(RadListDataItem9)
-        Me.CboMaritalStatus.Items.Add(RadListDataItem10)
         Me.CboMaritalStatus.Location = New System.Drawing.Point(555, 29)
         Me.CboMaritalStatus.MendatroryField = True
         Me.CboMaritalStatus.MyLinkLable1 = Me.MyLabel4
@@ -3476,10 +3478,10 @@ Partial Class frmCustomer
         Me.drpformtype.AutoCompleteDisplayMember = Nothing
         Me.drpformtype.AutoCompleteValueMember = Nothing
         Me.drpformtype.DropDownAnimationEnabled = True
-        RadListDataItem11.Text = "Form C"
-        RadListDataItem12.Text = "Form F"
+        RadListDataItem10.Text = "Form C"
+        RadListDataItem11.Text = "Form F"
+        Me.drpformtype.Items.Add(RadListDataItem10)
         Me.drpformtype.Items.Add(RadListDataItem11)
-        Me.drpformtype.Items.Add(RadListDataItem12)
         Me.drpformtype.Location = New System.Drawing.Point(116, 133)
         Me.drpformtype.Name = "drpformtype"
         Me.drpformtype.Size = New System.Drawing.Size(109, 20)
@@ -3752,18 +3754,18 @@ Partial Class frmCustomer
         '
         '
         Me.grdTax.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn16.HeaderText = "Tax Authority"
-        GridViewTextBoxColumn16.Name = "gdTxAuth"
-        GridViewTextBoxColumn16.ReadOnly = True
-        GridViewTextBoxColumn16.Width = 350
-        GridViewComboBoxColumn11.HeaderText = "Tax Rate"
-        GridViewComboBoxColumn11.Name = "gdTxRate"
-        GridViewComboBoxColumn11.Width = 300
-        Me.grdTax.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn16, GridViewComboBoxColumn11})
+        GridViewTextBoxColumn1.HeaderText = "Tax Authority"
+        GridViewTextBoxColumn1.Name = "gdTxAuth"
+        GridViewTextBoxColumn1.ReadOnly = True
+        GridViewTextBoxColumn1.Width = 350
+        GridViewComboBoxColumn1.HeaderText = "Tax Rate"
+        GridViewComboBoxColumn1.Name = "gdTxRate"
+        GridViewComboBoxColumn1.Width = 300
+        Me.grdTax.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewComboBoxColumn1})
         Me.grdTax.MasterTemplate.EnableGrouping = False
         Me.grdTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdTax.MasterTemplate.ShowHeaderCellButtons = True
-        Me.grdTax.MasterTemplate.ViewDefinition = TableViewDefinition41
+        Me.grdTax.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.grdTax.Name = "grdTax"
         Me.grdTax.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdTax.ShowHeaderCellButtons = True
@@ -4124,24 +4126,24 @@ Partial Class frmCustomer
         Me.cmbCustomerCategory.IsSourceFromTable = False
         Me.cmbCustomerCategory.IsSourceFromValueList = False
         Me.cmbCustomerCategory.IsUnique = False
-        RadListDataItem13.Text = "Select"
-        RadListDataItem14.Text = "Vendor"
-        RadListDataItem15.Text = "Institution CR"
-        RadListDataItem16.Text = "Institution SO"
-        RadListDataItem17.Text = "Distributor"
-        RadListDataItem18.Text = "Others"
-        RadListDataItem35.Text = "UP COUNTRY"
-        RadListDataItem36.Text = "FORENOON"
-        RadListDataItem37.Text = "PARLOR SALES"
+        RadListDataItem12.Text = "Select"
+        RadListDataItem13.Text = "Vendor"
+        RadListDataItem14.Text = "Institution CR"
+        RadListDataItem15.Text = "Institution SO"
+        RadListDataItem16.Text = "Distributor"
+        RadListDataItem17.Text = "Others"
+        RadListDataItem18.Text = "UP COUNTRY"
+        RadListDataItem19.Text = "FORENOON"
+        RadListDataItem20.Text = "PARLOR SALES"
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem12)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem13)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem14)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem15)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem16)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem17)
         Me.cmbCustomerCategory.Items.Add(RadListDataItem18)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem35)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem36)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem37)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem19)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem20)
         Me.cmbCustomerCategory.Location = New System.Drawing.Point(695, 217)
         Me.cmbCustomerCategory.MendatroryField = False
         Me.cmbCustomerCategory.MyLinkLable1 = Nothing
@@ -4178,18 +4180,18 @@ Partial Class frmCustomer
         Me.cmbBookingType.IsSourceFromTable = False
         Me.cmbBookingType.IsSourceFromValueList = False
         Me.cmbBookingType.IsUnique = False
-        RadListDataItem19.Text = "Select"
-        RadListDataItem20.Text = "CD"
-        RadListDataItem21.Text = "CR"
-        RadListDataItem22.Text = "SO"
-        RadListDataItem23.Text = "Cash"
-        RadListDataItem24.Text = "Festive Offer"
-        Me.cmbBookingType.Items.Add(RadListDataItem19)
-        Me.cmbBookingType.Items.Add(RadListDataItem20)
+        RadListDataItem21.Text = "Select"
+        RadListDataItem22.Text = "CD"
+        RadListDataItem23.Text = "CR"
+        RadListDataItem24.Text = "SO"
+        RadListDataItem25.Text = "Cash"
+        RadListDataItem26.Text = "Festive Offer"
         Me.cmbBookingType.Items.Add(RadListDataItem21)
         Me.cmbBookingType.Items.Add(RadListDataItem22)
         Me.cmbBookingType.Items.Add(RadListDataItem23)
         Me.cmbBookingType.Items.Add(RadListDataItem24)
+        Me.cmbBookingType.Items.Add(RadListDataItem25)
+        Me.cmbBookingType.Items.Add(RadListDataItem26)
         Me.cmbBookingType.Location = New System.Drawing.Point(388, 217)
         Me.cmbBookingType.MendatroryField = False
         Me.cmbBookingType.MyLinkLable1 = Nothing
@@ -4957,7 +4959,7 @@ Partial Class frmCustomer
         Me.gvDB.MasterTemplate.AllowAddNewRow = False
         Me.gvDB.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDB.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition42
+        Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
         Me.gvDB.ShowHeaderCellButtons = True
@@ -5134,9 +5136,9 @@ Partial Class frmCustomer
         '
         Me.pageItems.Controls.Add(Me.gvItems)
         Me.pageItems.ItemSize = New System.Drawing.SizeF(44.0!, 28.0!)
-        Me.pageItems.Location = New System.Drawing.Point(10, 37)
+        Me.pageItems.Location = New System.Drawing.Point(10, 33)
         Me.pageItems.Name = "pageItems"
-        Me.pageItems.Size = New System.Drawing.Size(1026, 424)
+        Me.pageItems.Size = New System.Drawing.Size(1026, 430)
         Me.pageItems.Text = "Items"
         '
         'gvItems
@@ -5152,31 +5154,31 @@ Partial Class frmCustomer
         '
         '
         Me.gvItems.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn17.HeaderText = "Item Code"
-        GridViewTextBoxColumn17.Name = "itemCode"
-        GridViewTextBoxColumn17.Width = 123
-        GridViewTextBoxColumn18.HeaderText = "Description"
-        GridViewTextBoxColumn18.Name = "itemName"
-        GridViewTextBoxColumn18.ReadOnly = True
-        GridViewTextBoxColumn18.Width = 271
-        GridViewComboBoxColumn12.HeaderText = "Unit Code"
-        GridViewComboBoxColumn12.Name = "unitCode"
-        GridViewComboBoxColumn12.Width = 118
-        GridViewDecimalColumn6.HeaderText = "Discount Amount"
-        GridViewDecimalColumn6.Name = "amount"
-        GridViewDecimalColumn6.Width = 164
-        Me.gvItems.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn17, GridViewTextBoxColumn18, GridViewComboBoxColumn12, GridViewDecimalColumn6})
+        GridViewTextBoxColumn2.HeaderText = "Item Code"
+        GridViewTextBoxColumn2.Name = "itemCode"
+        GridViewTextBoxColumn2.Width = 123
+        GridViewTextBoxColumn3.HeaderText = "Description"
+        GridViewTextBoxColumn3.Name = "itemName"
+        GridViewTextBoxColumn3.ReadOnly = True
+        GridViewTextBoxColumn3.Width = 271
+        GridViewComboBoxColumn2.HeaderText = "Unit Code"
+        GridViewComboBoxColumn2.Name = "unitCode"
+        GridViewComboBoxColumn2.Width = 118
+        GridViewDecimalColumn1.HeaderText = "Discount Amount"
+        GridViewDecimalColumn1.Name = "amount"
+        GridViewDecimalColumn1.Width = 164
+        Me.gvItems.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn2, GridViewTextBoxColumn3, GridViewComboBoxColumn2, GridViewDecimalColumn1})
         Me.gvItems.MasterTemplate.EnableGrouping = False
         Me.gvItems.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItems.MasterTemplate.ShowHeaderCellButtons = True
-        SortDescriptor11.PropertyName = "column2"
-        Me.gvItems.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor11})
-        Me.gvItems.MasterTemplate.ViewDefinition = TableViewDefinition43
+        SortDescriptor1.PropertyName = "column2"
+        Me.gvItems.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor1})
+        Me.gvItems.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvItems.Name = "gvItems"
         Me.gvItems.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItems.ShowGroupPanel = False
         Me.gvItems.ShowHeaderCellButtons = True
-        Me.gvItems.Size = New System.Drawing.Size(1026, 424)
+        Me.gvItems.Size = New System.Drawing.Size(1026, 430)
         Me.gvItems.TabIndex = 0
         Me.gvItems.TabStop = False
         '
@@ -5184,9 +5186,9 @@ Partial Class frmCustomer
         '
         Me.PageVisi.Controls.Add(Me.dgvVisi)
         Me.PageVisi.ItemSize = New System.Drawing.SizeF(91.0!, 28.0!)
-        Me.PageVisi.Location = New System.Drawing.Point(10, 37)
+        Me.PageVisi.Location = New System.Drawing.Point(10, 33)
         Me.PageVisi.Name = "PageVisi"
-        Me.PageVisi.Size = New System.Drawing.Size(1026, 424)
+        Me.PageVisi.Size = New System.Drawing.Size(1026, 430)
         Me.PageVisi.Text = "Defrizer / FOW"
         '
         'dgvVisi
@@ -5208,14 +5210,14 @@ Partial Class frmCustomer
         Me.dgvVisi.MasterTemplate.EnableGrouping = False
         Me.dgvVisi.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvVisi.MasterTemplate.ShowHeaderCellButtons = True
-        SortDescriptor12.PropertyName = "column2"
-        Me.dgvVisi.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor12})
-        Me.dgvVisi.MasterTemplate.ViewDefinition = TableViewDefinition44
+        SortDescriptor2.PropertyName = "column2"
+        Me.dgvVisi.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor2})
+        Me.dgvVisi.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.dgvVisi.Name = "dgvVisi"
         Me.dgvVisi.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvVisi.ShowGroupPanel = False
         Me.dgvVisi.ShowHeaderCellButtons = True
-        Me.dgvVisi.Size = New System.Drawing.Size(1026, 424)
+        Me.dgvVisi.Size = New System.Drawing.Size(1026, 430)
         Me.dgvVisi.TabIndex = 1
         Me.dgvVisi.TabStop = False
         '
@@ -5224,9 +5226,9 @@ Partial Class frmCustomer
         Me.RadPageViewPage7.Controls.Add(Me.gvCategory)
         Me.RadPageViewPage7.Controls.Add(Me.Panel1)
         Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(110.0!, 28.0!)
-        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
-        Me.RadPageViewPage7.Size = New System.Drawing.Size(1026, 424)
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(1026, 430)
         Me.RadPageViewPage7.Text = "Category Structure"
         '
         'gvCategory
@@ -5238,10 +5240,10 @@ Partial Class frmCustomer
         '
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition45
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
-        Me.gvCategory.Size = New System.Drawing.Size(1026, 392)
+        Me.gvCategory.Size = New System.Drawing.Size(1026, 398)
         Me.gvCategory.TabIndex = 6
         Me.gvCategory.TabStop = False
         '
@@ -5305,9 +5307,9 @@ Partial Class frmCustomer
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
-        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
+        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 33)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1026, 424)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1026, 430)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'UcCustomFields1
@@ -5315,16 +5317,16 @@ Partial Class frmCustomer
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1026, 424)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1026, 430)
         Me.UcCustomFields1.TabIndex = 1
         '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
         Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
-        Me.Attachments.Location = New System.Drawing.Point(10, 37)
+        Me.Attachments.Location = New System.Drawing.Point(10, 33)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(1026, 424)
+        Me.Attachments.Size = New System.Drawing.Size(1026, 430)
         Me.Attachments.Text = "Attachment"
         '
         'UcAttachment1
@@ -5332,16 +5334,16 @@ Partial Class frmCustomer
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1026, 424)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1026, 430)
         Me.UcAttachment1.TabIndex = 1
         '
         'CrateAccounting
         '
         Me.CrateAccounting.Controls.Add(Me.gvCrate)
         Me.CrateAccounting.ItemSize = New System.Drawing.SizeF(103.0!, 28.0!)
-        Me.CrateAccounting.Location = New System.Drawing.Point(10, 37)
+        Me.CrateAccounting.Location = New System.Drawing.Point(10, 33)
         Me.CrateAccounting.Name = "CrateAccounting"
-        Me.CrateAccounting.Size = New System.Drawing.Size(1026, 424)
+        Me.CrateAccounting.Size = New System.Drawing.Size(1026, 430)
         Me.CrateAccounting.Text = "Crate Accounting"
         '
         'gvCrate
@@ -5361,11 +5363,11 @@ Partial Class frmCustomer
         Me.gvCrate.MasterTemplate.AllowDeleteRow = False
         Me.gvCrate.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCrate.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCrate.MasterTemplate.ViewDefinition = TableViewDefinition46
+        Me.gvCrate.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvCrate.Name = "gvCrate"
         Me.gvCrate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCrate.ShowHeaderCellButtons = True
-        Me.gvCrate.Size = New System.Drawing.Size(1026, 424)
+        Me.gvCrate.Size = New System.Drawing.Size(1026, 430)
         Me.gvCrate.TabIndex = 2
         Me.gvCrate.TabStop = False
         '
@@ -5395,7 +5397,7 @@ Partial Class frmCustomer
         Me.gvCan.MasterTemplate.AllowDeleteRow = False
         Me.gvCan.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCan.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCan.MasterTemplate.ViewDefinition = TableViewDefinition47
+        Me.gvCan.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvCan.Name = "gvCan"
         Me.gvCan.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCan.ShowHeaderCellButtons = True
@@ -5405,6 +5407,7 @@ Partial Class frmCustomer
         '
         'RadPageViewPage8
         '
+        Me.RadPageViewPage8.Controls.Add(Me.RadButton1)
         Me.RadPageViewPage8.Controls.Add(Me.gvSecurity)
         Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(56.0!, 28.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
@@ -5412,15 +5415,24 @@ Partial Class frmCustomer
         Me.RadPageViewPage8.Size = New System.Drawing.Size(1026, 424)
         Me.RadPageViewPage8.Text = "Security"
         '
+        'RadButton1
+        '
+        Me.RadButton1.Location = New System.Drawing.Point(3, 8)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(217, 24)
+        Me.RadButton1.TabIndex = 1
+        Me.RadButton1.Text = "Add Security"
+        '
         'gvSecurity
         '
-        Me.gvSecurity.Location = New System.Drawing.Point(2, 3)
+        Me.gvSecurity.Location = New System.Drawing.Point(3, 38)
         '
         '
         '
-        Me.gvSecurity.MasterTemplate.ViewDefinition = TableViewDefinition48
+        Me.gvSecurity.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvSecurity.Name = "gvSecurity"
-        Me.gvSecurity.Size = New System.Drawing.Size(1023, 418)
+        Me.gvSecurity.ReadOnly = True
+        Me.gvSecurity.Size = New System.Drawing.Size(1020, 383)
         Me.gvSecurity.TabIndex = 0
         '
         'btnNew
@@ -5559,10 +5571,10 @@ Partial Class frmCustomer
         Me.CmbTransaction.IsSourceFromTable = False
         Me.CmbTransaction.IsSourceFromValueList = False
         Me.CmbTransaction.IsUnique = False
-        RadListDataItem1.Text = "Retail"
-        RadListDataItem2.Text = "Tax"
-        Me.CmbTransaction.Items.Add(RadListDataItem1)
-        Me.CmbTransaction.Items.Add(RadListDataItem2)
+        RadListDataItem27.Text = "Retail"
+        RadListDataItem28.Text = "Tax"
+        Me.CmbTransaction.Items.Add(RadListDataItem27)
+        Me.CmbTransaction.Items.Add(RadListDataItem28)
         Me.CmbTransaction.Location = New System.Drawing.Point(501, 49)
         Me.CmbTransaction.MendatroryField = True
         Me.CmbTransaction.MyLinkLable1 = Me.lblTransaction
@@ -6216,6 +6228,7 @@ Partial Class frmCustomer
         CType(Me.gvCan.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCan, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage8.ResumeLayout(False)
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSecurity.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6581,5 +6594,6 @@ Partial Class frmCustomer
     Friend WithEvents txtRoute As common.Controls.MyTextBox
     Friend WithEvents RadPageViewPage8 As RadPageViewPage
     Friend WithEvents gvSecurity As RadGridView
+    Friend WithEvents RadButton1 As RadButton
 End Class
 
