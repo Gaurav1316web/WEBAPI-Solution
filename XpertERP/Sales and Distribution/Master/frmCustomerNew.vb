@@ -53,15 +53,6 @@ Public Class frmCustomer
     Dim TagMultipleRouteWithCustomer As Boolean = False
     Dim isLoadCopy As Boolean = False
     Public SuperUserCustomer As Boolean = False
-
-    Public Property Name1 As String = Nothing
-    Public txtsalesmanCode As String = Nothing
-    Public txtCusName As Integer = 0
-    Public ReceiptFormOpens As Boolean = True
-    Public strRecieptCode As String = ""
-
-
-
 #End Region
 
     Public Sub New(ByVal user As String, ByVal company As String)
@@ -217,13 +208,6 @@ Public Class frmCustomer
                 Return False
 
             End If
-            'If clsCommon.CompairString(obj.location, "RCDF") = CompairStringResult.Equal Then
-            If Txtlocation.Value = "RCDF" Then
-                common.clsCommon.MyMessageBoxShow("Customer cannot be mapped with RCDF")
-                pageCus.SelectedPage = RadPageViewPage5
-                Txtlocation.Focus()
-                Return False
-            End If
             ' BM00000007799 Non-Manadatory (Customer Type,Route)
             'If clsCommon.myLen(fndCusType.Value) <= 0 Then
             '    common.clsCommon.MyMessageBoxShow("Customer type can not be blank")
@@ -261,6 +245,26 @@ Public Class frmCustomer
                 End If
             End If
 
+            Dim arrChecked As List(Of String) = New List(Of String)
+            For jj As Integer = 0 To gvDB.Rows.Count - 1
+                If (clsCommon.myCBool(gvDB.Rows(jj).Cells(colSelect).Value)) Then
+                    arrChecked.Add(clsCommon.myCstr(gvDB.Rows(jj).Cells(colDataBaseName).Value))
+                End If
+            Next
+
+            If arrChecked Is Nothing OrElse arrChecked.Count = 0 Then
+                common.clsCommon.MyMessageBoxShow("Please select at least one Company Under Additional Info Tab")
+                pageCus.SelectedPage = RadPageViewPage5
+                Return False
+            End If
+
+            If isCustomerOfRouteType() Then
+                If arrChecked.Count <> 1 Then
+                    common.clsCommon.MyMessageBoxShow("Please select only one Company (Under Additional Info. Tab).Because the Customer information type is Route")
+                    pageCus.SelectedPage = RadPageViewPage5
+                    Return False
+                End If
+            End If
 
             If Chkparntcutmr.Checked = False AndAlso clsCommon.myLen(txtParentCstNo.Value) > 0 And clsCommon.myCdbl(txtCredit.Text) > 0 Then
                 Dim dblParentCreditLimit As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Credit_Limit from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtParentCstNo.Value & "'"))
@@ -622,7 +626,6 @@ Public Class frmCustomer
         EnableTCSRateValidityFrom01July2021 = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableTCSRateValidityFrom01July2021, clsFixedParameterCode.EnableTCSRateValidityFrom01July2021, Nothing)) = 0, False, True)
         SuperUserCustomer = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SuperUserCustomer, clsFixedParameterCode.SuperUserCustomer, Nothing)) = 0, False, True)
         txtCustomerName.MaxLength = 200
-        'txtLocMapping.arrValueMember = objCommonVar.CurrentUserCode
         LoadVisi()
         SetUserMgmtNew()
         Threading.Thread.CurrentThread.CurrentCulture = New CultureInfo("en-GB")
@@ -642,6 +645,7 @@ Public Class frmCustomer
 
         dtClosing.Value = connectSql.serverDate()
         LoadCustomerType()
+        SetDataBaseGrid()
         LoadBlankGrid()
         LoadCanBlankGrid()
         gvCrate.Rows.AddNew()
@@ -795,10 +799,6 @@ Public Class frmCustomer
         dtpAggClose.Value = clsCommon.GETSERVERDATE()
         txtDOB.Value = clsCommon.GETSERVERDATE()
         funNew()
-        Txtlocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
-        If clsCommon.myLen(Txtlocation.Value) > 0 Then
-            lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_Location_Master where Location_Code='" + Txtlocation.Value + "' "))
-        End If
         createTable()
     End Sub
     Private Sub createTable()
@@ -1502,32 +1502,6 @@ Public Class frmCustomer
             obj.Additional1 = clsCommon.myCstr(txtAddInfo1.Text)
             obj.Additional2 = clsCommon.myCstr(txtAddInfo2.Text)
             obj.Additional3 = clsCommon.myCstr(txtAddInfo3.Text)
-            obj.location = clsCommon.myCstr(Txtlocation.Value)
-
-            If clsCommon.myLen(obj.location) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Select Location For Mapping")
-                pageCus.SelectedPage = RadPageViewPage5
-                Txtlocation.Focus()
-                Exit Sub
-            End If
-
-            If isNewEntry = False Then
-                Dim count As Integer = clsDBFuncationality.getSingleValue(" select count(*) from TSPL_CUSTOMER_LOCATION_MAPPING where Location_Code='" + obj.location + "' and Customer_Code='" + obj.Cust_Code + "' ")
-                If count > 0 AndAlso objCommonVar.strCurrUserLocations IsNot Nothing Then
-                    common.clsCommon.MyMessageBoxShow("Customer is already mapped Contact Tecxpert for Mapping")
-                    Exit Sub
-                End If
-            End If
-            obj.Arr = New List(Of clsLocationCustomerMapping)
-            Dim maxSequenceNo As Integer = clsDBFuncationality.getSingleValue(" select max(SequenceNo) from TSPL_CUSTOMER_LOCATION_MAPPING where Location_Code='" + obj.location + "' and Location_Code='" + obj.location + "'  ")
-            Dim obj1 As New clsLocationCustomerMapping
-            obj1.Location_Code = obj.location
-            obj1.Location_Name = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER WHERE Location_Code = '" + obj1.Location_Code + "'")
-            obj1.Customer_Code = fndCustomer.Value
-            obj1.Customer_Name = txtCustomerName.Text
-            obj1.SequenceNo = maxSequenceNo + 1
-            obj.Arr.Add(obj1)
-
             obj.Salesman_Code = clsCommon.myCstr(fndSalePerson.Value)
             obj.OutLet_Commossion = clsCommon.myCdbl(0) '--default 0
             obj.Balance_ToDate = 0                      '--Default 0
@@ -1628,6 +1602,12 @@ Public Class frmCustomer
             '==================================================
             '--------------------------------------------------------------------------Pass dataBase Name in Array
             obj.isCustRouteType = isCustomerOfRouteType()
+            Dim arrDBName As New List(Of String)
+            For ii As Integer = 0 To gvDB.Rows.Count - 1
+                If (clsCommon.myCBool(gvDB.Rows(ii).Cells(colSelect).Value)) Then
+                    arrDBName.Add(clsCommon.myCstr(gvDB.Rows(ii).Cells(colDataBaseName).Value))
+                End If
+            Next
             '---------------------------------------------------------------------------------------
 
             '-----------------------------Visi Detail-------
@@ -1830,14 +1810,11 @@ Public Class frmCustomer
             End If
 
             If btnSave.Text = "Save" Then
-                'If clsCommon.CompairString(obj.location, "RCDF") = CompairStringResult.Equal Then
-                '    Throw New Exception("Customer cannot be mapped with RCDF")
-                'End If
                 common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
-                    btnSave.Text = "Update"
-                    btnDelete.Enabled = True
-                Else
-                    common.clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                btnSave.Text = "Update"
+                btnDelete.Enabled = True
+            Else
+                common.clsCommon.MyMessageBoxShow("Data Updated Successfully")
             End If
             isLoadCopy = False
             LoadData() '-Fills data
@@ -1889,8 +1866,14 @@ Public Class frmCustomer
             Return
         ElseIf myMessages.deleteConfirm Then
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+            Dim arrDBName As New List(Of String)
             Dim isSaved As Boolean = False
 
+            For ii As Integer = 0 To gvDB.Rows.Count - 1
+                If (clsCommon.myCBool(gvDB.Rows(ii).Cells(colSelect).Value)) Then
+                    arrDBName.Add(clsCommon.myCstr(gvDB.Rows(ii).Cells(colDataBaseName).Value))
+                End If
+            Next
             Try
                 isSaved = clsDBFuncationality.ExecuteNonQuery("delete FROM TSPL_CUSTOMER_ROUTE_MASTER WHERE Cust_Code='" + Me.fndCustomer.Value + "'", trans)
                 isSaved = clsDBFuncationality.SaveAStorePorcedure(trans, "sp_TSPL_CUSTOMER_MASTER_DELETE", New SqlParameter("@Cust_Code", Me.fndCustomer.Value), New SqlParameter("@CUSTOMER_FORM_TYPE", "ALL"))
@@ -2054,20 +2037,14 @@ Public Class frmCustomer
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Description from tspl_fixed_parameter where type='" & clsFixedParameterType.ShowVisiDetail & "' and code ='" & clsFixedParameterCode.ShowVisiDetail & "' ")), "1") = CompairStringResult.Equal Then
                 LoadVisiDetail()
             End If
-
             strCmd = clsCustomerMaster.getFillDataQueryForCustomerMaster(fndCustomer.Value)
-
-            Dim qry As String = "SELECT Location_Code,Location_Name FROM TSPL_CUSTOMER_LOCATION_MAPPING WHERE Customer_Code = '" + fndCustomer.Value + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Txtlocation.Value = clsCommon.myCstr((dt.Rows(0)("Location_Code")))
-                lblLocation.Text = clsCommon.myCstr((dt.Rows(0)("Location_Name")))
-                Txtlocation.Enabled = False
-                lblLocation.Enabled = False
-            Else
-                Txtlocation.Enabled = True
-                lblLocation.Enabled = True
-            End If
+            For ii As Integer = 0 To gvDB.Rows.Count - 1
+                If clsCommon.CompairString(clsCommon.myCstr(gvDB.Rows(ii).Cells(colCompCode).Value), objCommonVar.CurrentCompanyCode) = CompairStringResult.Equal Then
+                    gvDB.Rows(ii).Cells(colSelect).Value = True
+                Else
+                    gvDB.Rows(ii).Cells(colSelect).Value = False
+                End If
+            Next
 
             If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
                 UcCustomFields1.BlankAllControls()
@@ -2193,8 +2170,6 @@ Public Class frmCustomer
                 Me.txtAddInfo1.Text = myDr(57).ToString
                 Me.txtAddInfo2.Text = myDr(58).ToString
                 Me.txtAddInfo3.Text = myDr(59).ToString
-
-                ' Me.txtLocMapping.arrValueMember = clscommon.mycstr(clsDBFuncationality.getSingleValue(""))
                 Me.fndSalePerson.Value = myDr(60).ToString
                 Me.fndVisi.Value = myDr(61).ToString
                 'Me.txtOutletComm.Text = myDr(62).ToString
@@ -2371,7 +2346,6 @@ Public Class frmCustomer
                 '===============
                 LoadCus()
                 GetItemDetails(fndCustomer.Value)
-                GetSecurityDetails(fndCustomer.Value)
                 Dim strcredit As String = myDr(75).ToString
                 If strcredit = "N" Or strcredit = "" Then
                     chkcredit.Checked = False
@@ -2549,172 +2523,13 @@ Public Class frmCustomer
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    'Private Sub FormatgvSecurity()
-    '    gvSecurity.AllowAddNewRow = False
-    '    gvSecurity.TableElement.TableHeaderHeight = 40
-    '    gvSecurity.MasterTemplate.ShowRowHeaderColumn = False
-
-
-
-
-    '    gvSecurity.Columns("Receipt No").IsVisible = True
-    '    gvSecurity.Columns("Receipt No").Width = 100
-    '    gvSecurity.Columns("Receipt No").HeaderText = "Receipt No"
-
-    '    gvSecurity.Columns("Receipt Date").IsVisible = True
-    '    gvSecurity.Columns("Receipt Date").Width = 100
-    '    gvSecurity.Columns("Receipt Date").HeaderText = "Receipt Date"
-
-    '    gvSecurity.Columns("Receipt Type").IsVisible = True
-    '    gvSecurity.Columns("Receipt Type").Width = 100
-    '    gvSecurity.Columns("Receipt Type").HeaderText = "Receipt Type"
-
-    '    gvSecurity.Columns("Receipt Amount").IsVisible = True
-    '    gvSecurity.Columns("Receipt Amount").Width = 100
-    '    gvSecurity.Columns("Receipt Amount").HeaderText = "Refund Amount"
-
-    '    'gvSecurity.Columns("OpeningBal").IsVisible = True
-    '    'gvSecurity.Columns("OpeningBal").Width = 150
-    '    'gvSecurity.Columns("OpeningBal").HeaderText = "Opening Balance"
-    '    For ii As Integer = 0 To gvSecurity.Columns.Count - 1
-    '        gvSecurity.Columns(ii).ReadOnly = True
-    '        gvSecurity.Columns(ii).BestFit()
-    '    Next
-    '    Dim summaryRowItem As New GridViewSummaryRowItem()
-    '    Dim Receipt_Amount As New GridViewSummaryItem("Receipt_Amount", "{0:F2}", GridAggregateFunction.Sum)
-    '    summaryRowItem.Add(Receipt_Amount)
-    '    gvSecurity.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
-
-    'End Sub
-    'Private Sub gvSecurity_CellValueNeeded(sender As Object, e As GridViewCellValueEventArgs) Handles gvSecurity.CellValueNeeded
-    '    If e.Column.Name = "Amount" Then
-    '        ' Assuming you have a data source where "Original_Amount" is available
-    '        Dim originalAmount As Double = 0.0
-
-    '        ' Your logic to retrieve the "Original_Amount" value based on the specific row's data
-    '        ' Replace this with your actual logic to access the original data
-    '        ' For example, if you're binding to a DataTable:
-    '        If TypeOf e.Row.DataBoundItem Is DataRowView Then
-    '            Dim dataRow As DataRowView = DirectCast(e.Row.DataBoundItem, DataRowView)
-    '            If dataRow.Row.Table.Columns.Contains("Amount") Then
-    '                originalAmount = CDbl(dataRow("Amount"))
-    '            End If
-    '        End If
-
-    '        e.Value = -originalAmount ' Display the negated value in the "Amount" column
-    '    End If
-    'End Sub
-    'Private Sub gvSecurity_RowDataBound(sender As Object, e As GridViewRowEventArgs) Handles gvSecurity.RowDataBound
-    '    If TypeOf e.Row.DataBoundItem Is DataRowView Then
-    '        Dim dataRow As DataRowView = DirectCast(e.Row.DataBoundItem, DataRowView)
-    '        ' Now, you have access to the original data in the row
-    '        ' You can use it or modify it as needed
-    '        If dataRow.Row.Table.Columns.Contains("Original_Amount") Then
-    '            Dim originalAmount As Double = CDbl(dataRow("Original_Amount"))
-    '            ' Use the original amount in your logic
-    '        End If
-    '    End If
-    'End Sub
-
-    'Private Sub gvSecurity_SummaryEvaluate(sender As Object, e As GroupSummaryEvaluationEventArgs) Handles gvSecurity.GroupSummaryEvaluate
-    '    If e.SummaryItem.Name = "Amount" Then
-    '        ' Check if the event argument provides access to the data source
-    '        If TypeOf e.Row.DataBoundItem Is DataRowView Then
-    '            Dim dataRow As DataRowView = DirectCast(e.Row.DataBoundItem, DataRowView)
-    '            ' Check if the column exists in the data source
-    '            If dataRow.Row.Table.Columns.Contains("Amount") Then
-    '                Dim originalAmount As Double = CDbl(dataRow("Amount"))
-    '                e.Value = -originalAmount ' Display the negated value in the summary row for the "Amount" column
-    '            End If
-    '        End If
-    '    End If
-    'End Sub
-    Private Sub GetSecurityDetails(ByVal customer As String)
-        'gvSecurity.DataSource = Nothing
-        'gvSecurity.Rows.Clear()
-        ' Dim whrCls As String = " and  "
-        'Dim sql1 As String = "select Receipt_No as [Receipt No], CONVERT(varchar, Receipt_Date, 103) as [Receipt Date],Receipt_Type as [Receipt Type], Receipt_Amount as [Receipt Amount] from TSPL_RECEIPT_HEADER where Receipt_Type ='F' and SecurityDeposit='Y' And Cust_Code='" + fndCustomer.Value + "'"
-
-        Dim sql1 As String = "Select Receipt_No As [Receipt No], CONVERT(varchar, Receipt_Date, 103) As [Receipt Date], Receipt_Type As [Receipt Type],
-            (Receipt_Amount * (case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then -1 ELSE 1 END)) AS Amount 						
-        From TSPL_RECEIPT_HEADER Where SecurityDeposit ='Y' And Cust_Code='" + fndCustomer.Value + "' "
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(sql1)
-
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            gvSecurity.DataSource = Nothing
-            gvSecurity.Rows.Clear()
-            gvSecurity.Columns.Clear()
-            gvSecurity.GroupDescriptors.Clear()
-            gvSecurity.MasterTemplate.SummaryRowsBottom.Clear()
-            gvSecurity.MasterView.Refresh()
-            gvSecurity.DataSource = dt
-            gvSecurity.AutoExpandGroups = False
-            gvSecurity.ShowGroupPanel = False
-            gvSecurity.ShowRowHeaderColumn = False
-            gvSecurity.AllowAddNewRow = False
-            gvSecurity.AllowDeleteRow = False
-            gvSecurity.EnableFiltering = True
-            gvSecurity.ShowFilteringRow = True
-            gvSecurity.AutoSizeRows = True
-            'FormatgvSecurity()
-            For ii As Integer = 0 To gvSecurity.Columns.Count - 1
-                gvSecurity.Columns(ii).ReadOnly = True
-                gvSecurity.Columns(ii).BestFit()
-            Next
-            Dim summaryRowItem As New GridViewSummaryRowItem()
-            'Dim summaryRowItem As New GridViewSummaryRowItem()
-            Dim Receipt_Amount As New GridViewSummaryItem("Amount", "{0:n2}", GridAggregateFunction.Sum)
-            summaryRowItem.Add(Receipt_Amount)
-            gvSecurity.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-            'gvSecurity.SummaryRowsTop.Add(summaryRowItem)
-            'gvSecurity.SummaryRowsBottom.Add(summaryRowItem)
-            'Dim customSummary As Double = CalculateCustomSummary() ' Implement your custom logic here
-
-
-            'Dim customSummaryValue As Double = CalculateCustomSummary() ' Implement your custom logic here
-
-            '' Create a new summary item
-            'Dim customSummaryItem As New GridViewSummaryItem("Amount", customSummaryValue.ToString(), GridAggregateFunction.None)
-
-            '' Add the custom summary item to the grid
-            'gvSecurity.MasterTemplate.SummaryRowsBottom.Add(customSummaryItem)
-
-
-
-
-        End If
-    End Sub
-    Private Function CalculateCustomSummary() As Double
-        ' Your custom logic to calculate the summary value goes here
-        Dim summaryValue As Double = 0.0
-
-        ' For example, if you have a list of values in a collection, you can sum them up
-        Dim values As List(Of Double) = GetValuesFromDataSource()
-        If values IsNot Nothing AndAlso values.Count > 0 Then
-            summaryValue = values.Sum()
-        End If
-
-        Return summaryValue
-    End Function
-
-    Private Function GetValuesFromDataSource() As List(Of Double)
-        ' Your logic to fetch data from your data source and return a list of values
-        ' For example, query your database and retrieve the necessary data
-        ' Then, create a list of values and return it
-        Dim values As New List(Of Double)
-
-        ' Your data retrieval logic here
-
-        Return values
-    End Function
 
 
     Private Sub GetItemDetails(ByVal customer As String)
         gvItems.DataSource = Nothing
         gvItems.Rows.Clear()
-        Dim sql As String = "select CID.Item_Code, CID.Unit_Code,CID.Disc_Amt,IM.Item_Desc,CID.Valid_Upto ,CID.Start_Date from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS CID " &
-        " INNER JOIN TSPL_ITEM_MASTER IM On CID.Item_Code=IM.Item_Code WHERE Cust_Code='" + customer + "'"
+        Dim sql As String = "select CID.Item_Code,CID.Unit_Code,CID.Disc_Amt,IM.Item_Desc,CID.Valid_Upto ,CID.Start_Date from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS CID " &
+        " INNER JOIN TSPL_ITEM_MASTER IM ON CID.Item_Code=IM.Item_Code WHERE Cust_Code='" + customer + "'"
         Dim itemDS As DataSet = connectSql.RunSQLReturnDS(sql)
         If itemDS.Tables(0).Rows.Count > 0 Then
             For Each drow As DataRow In itemDS.Tables(0).Rows
@@ -2763,10 +2578,6 @@ Public Class frmCustomer
         chkTCSGreaterthan50K.Checked = False
         chkTurnoverMorethan10CR.Checked = False
         chkTCSnotApplicable.Enabled = True
-        Txtlocation.Enabled = True
-        Txtlocation.Value = objCommonVar.strCurrUserLocations
-        lblLocation.Enabled = True
-        lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code=' + Txtlocation.Value +' "))
         LoadBlankGridCat()
         LoadBlankGrid()
         LoadCanBlankGrid()
@@ -2886,7 +2697,7 @@ Public Class frmCustomer
         CmbTransaction.SelectedValue = ""
         cboxPriorityLevel.Text = ""
 
-        '--23/07/2012--Added by Pankaj-Because while adding a new record after filling a record database grid does not refreshed
+        SetDataBaseGrid() '--23/07/2012--Added by Pankaj-Because while adding a new record after filling a record database grid does not refreshed
         LoadVisi()
         ''ShowCustomerInfo() ''Hide @BM00000001218
         ''added by richa agarwal
@@ -3070,12 +2881,6 @@ Public Class frmCustomer
                 txtAddInfo1.Text = obj.Additional1
                 txtAddInfo2.Text = obj.Additional2
                 txtAddInfo3.Text = obj.Additional3
-                'Dim arrLocMapping As New ArrayList
-
-                'For i As Integer = 0 To obj.Arr.Count - 1
-                '    arrLocMapping.Add(obj.Arr(i).Login_Type)
-                'Next
-                'txtLocMapping.arrValueMember = arrLocMapping
                 txtCredit.Text = clsCommon.myCdbl(obj.Credit_Limit)
                 txtcst.Text = obj.CST
                 txtecc.Text = obj.ECC
@@ -3198,8 +3003,6 @@ Public Class frmCustomer
         Me.txtAddInfo1.Text = ""
         Me.txtAddInfo2.Text = ""
         Me.txtAddInfo3.Text = ""
-        'Me.txtLocMapping.arrValueMember = Nothing
-        'Me.txtLocMapping.arrDispalyMember = Nothing
         'Me.txtOutletComm.Text = "0.00"
         'Me.txtBaltoDate.Text = "0.00"
         Me.txtCredit.Text = "0.00"
@@ -4246,8 +4049,6 @@ Public Class frmCustomer
 
     End Sub
     Sub LoadData()
-        gvSecurity.DataSource = Nothing
-        gvSecurity.Refresh()
         Dim strId As String
         strCmd = "select Cust_Code from tspl_customer_master where CUSTOMER_FORM_TYPE='ALL' and Cust_Code='" + fndCustomer.Value + "'"
         strId = clsDBFuncationality.getSingleValue(strCmd)
@@ -4450,6 +4251,56 @@ Public Class frmCustomer
 
 
 
+    Sub SetDataBaseGrid()
+        gvDB.Rows.Clear()
+        gvDB.Columns.Clear()
+
+        Dim repoSelect As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoSelect.FormatString = ""
+        repoSelect.HeaderText = "Select"
+        repoSelect.Name = colSelect
+        repoSelect.Width = 50
+        repoSelect.ReadOnly = False
+        repoSelect.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvDB.MasterTemplate.Columns.Add(repoSelect)
+
+        Dim repoCompCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoCompCode.FormatString = ""
+        repoCompCode.HeaderText = "Company Code"
+        repoCompCode.Name = colCompCode
+        repoCompCode.Width = 150
+        repoCompCode.ReadOnly = True
+        gvDB.MasterTemplate.Columns.Add(repoCompCode)
+
+        Dim repoCompName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoCompName.FormatString = ""
+        repoCompName.HeaderText = "Company Name"
+        repoCompName.Name = colCompName
+        repoCompName.Width = 150
+        repoCompName.ReadOnly = True
+        gvDB.MasterTemplate.Columns.Add(repoCompName)
+
+        Dim repoDB As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoDB.FormatString = ""
+        repoDB.HeaderText = "Database Name"
+        repoDB.Name = colDataBaseName
+        repoDB.Width = 100
+        repoDB.IsVisible = True
+        repoDB.ReadOnly = True
+        gvDB.MasterTemplate.Columns.Add(repoDB)
+
+        Dim qry As String = "SELECT Comp_Code,Comp_Name,DataBase_Name from TSPL_COMPANY_MASTER where len(isnull(DataBase_Name,''))>0"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            For Each dr As DataRow In dt.Rows
+                gvDB.Rows.AddNew()
+                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colSelect).Value = True
+                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colCompCode).Value = clsCommon.myCstr(dr("Comp_Code"))
+                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colCompName).Value = clsCommon.myCstr(dr("Comp_Name"))
+                gvDB.Rows(gvDB.Rows.Count - 1).Cells(colDataBaseName).Value = clsCommon.myCstr(dr("DataBase_Name"))
+            Next
+        End If
+    End Sub
 
     Private Sub fndstate_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'Dim qry As String = "select state_code as [State Code],state_name as [State Name] from TSPL_TDS_STATE_MASTER"
@@ -4484,7 +4335,9 @@ Public Class frmCustomer
         'If e.Column.Name = "itemCode" Then
         '    gvItems.CurrentRow.Cells("itemName").Value = connectSql.RunScalar("select Item_Desc  from TSPL_ITEM_MASTER  where Item_Code = '" + gvItems.CurrentRow.Cells("itemCode").Value + "'")
         'End If
+
         Try
+
             If Not isCellValueChangedOpen Then
                 isCellValueChangedOpen = True
                 If e.Column Is gvItems.Columns(colitemno) Then
@@ -4991,9 +4844,9 @@ Public Class frmCustomer
                         'objTr.Cheque_No = StrCheque_No
                         'objTr.Agreement_No = StrAgreement_No
                         'objTr.Cheque_Date = StrCheque_Date
-                        'Dim arrDBName As New List(Of String)
-                        'arrDBName.Add(objCommonVar.CurrDatabase)
-                        'clsAssetInstallPullOut.SaveData(Arr, arrDBName)
+                        Dim arrDBName As New List(Of String)
+                        arrDBName.Add(objCommonVar.CurrDatabase)
+                        clsAssetInstallPullOut.SaveData(Arr, arrDBName)
                         'obj.Arr_visi.Add(objTr)
 
                         'clsDBFuncationality.ExecuteNonQuery("Update TSPL_VISI_MASTER set tag_No='" & StrTag.ToString & "' Where visi_Id='" & strVisiId.ToString & "'")
@@ -6340,107 +6193,6 @@ Public Class frmCustomer
         TxtVidhanSabha.Value = clsCommon.ShowSelectForm("fndDistC", qry, "Code", "", TxtVidhanSabha.Value, "", isButtonClicked)
         lblVidhanSabha.Text = clsDBFuncationality.getSingleValue("SELECT VIDHAN_SABHA_NAME FROM TSPL_VIDHAN_SABHA_MASTER where  VIDHAN_SABHA_CODE='" + TxtVidhanSabha.Value + "' ")
     End Sub
-    'Sub OpenSecurity(ByVal isButtonClick As Boolean)
-
-
-    '    'Dim whrCls As String = "Receipt_Type=' Refund' and SecurityDeposit='Checked'  "
-    '    gvSecurity.CurrentRow.Cells(CustId).Value = clsRcptEntryHeader.GetData(fndCustomer.Value, NavigatorType.Current)
-    '    gvSecurity.CurrentRow.Cells(Custname).Value = clsDBFuncationality.getSingleValue("select Receipt_No,Receipt_Date,Receipt_Type,Receipt_Amount from TSPL_RECEIPT_HEADER where Salesman_Code='" & gvSecurity.CurrentRow.Cells(colCompCode).Value & "'")
-    '    'If CheckDupicateLocationForCan() = False Then
-    '    'Exit Sub
-    '    'End If
-    'End Sub
-    'Private Sub gvSecurity_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvSecurity.CellValueChanged
-    '    '
-
-    '    Dim qry As String = "select Receipt_No as [Receipt No] from TSPL_RECEIPT_HEADER where Receipt_Type ='F' and SecurityDeposit='Y' And Cust_Code='" + fndCustomer.Value + ""
-    '    fndCustomer.Value = clsCommon.ShowSelectForm("fndDistC", qry, "Code", "", TxtVidhanSabha.Value, "", "")
-    '    fndCustomer.Text = clsDBFuncationality.getSingleValue("SELECT TSPL_RECEIPT_HEADER FROM TSPL_RECEIPT_HEADER where  Receipt_No='" + fndCustomer.Value + "' ")
-
-    'End Sub
-
-    Private Sub gvSecurity_CellClick(sender As Object, e As GridViewCellEventArgs) Handles gvSecurity.CellClick
-        'Dim obj1 As New clsRcptEntryHeader()
-        Dim strRecieptCode As String = Nothing
-        Try
-            Dim strDocNo As String = gvSecurity.Rows(e.RowIndex).Cells(0).Value
-            If (clsCommon.myLen(gvSecurity.Rows(e.RowIndex).Cells(e.ColumnIndex).Value) > 0) Then
-                strRecieptCode = clsCommon.myCstr(gvSecurity.Rows(e.RowIndex).Cells(e.ColumnIndex).Value)
-                Dim frm As New FrmReceipttNew()
-
-
-                Dim strProgramName As String = ""
-                Dim strProgramCode As String = clsUserMgtCode.ReceiptEntry
-                If MDI.setCountertoblockforOpenForm(strProgramCode) = True Then
-                    If MDI.IsOriginalName = True Then
-                        strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Program_Name as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
-                    Else
-                        strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when LEN(ISNULL(Re_Name,''))>0 then Re_Name else Program_Name end as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
-                    End If
-
-                    MDI.formShow(frm, strProgramCode, strProgramName, True, strDocNo, True)
-                End If
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
-    End Sub
-
-    Private Sub btnAddSecurity(sender As Object, e As EventArgs) Handles RadButton1.Click
-        'Dim objJ As New clsRcptEntryHeader()
-        'Dim strRecieptCode1 As Boolean = True
-        'Dim strRecieptCust As String = Nothing
-        'Dim strRecieptNum As String = ""
-        Dim ReceiptFormOpens As Boolean = True
-
-        Try
-
-            Dim frm As New FrmReceipttNew()
-            'frm.Check = fndCustomer.Value
-            frm.StringPass1 = fndCustomer.Value
-            frm.StringPass = txtCustomerName.Text
-
-            Dim strProgramName As String = ""
-            Dim strProgramCode As String = clsUserMgtCode.ReceiptEntry
-            If MDI.setCountertoblockforOpenForm(strProgramCode) = True Then
-                If MDI.IsOriginalName = True Then
-                    strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Program_Name as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
-                Else
-                    strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when LEN(ISNULL(Re_Name,''))>0 then Re_Name else Program_Name end as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
-                End If
-
-                MDI.formShow(frm, strProgramCode, strProgramName, True, ReceiptFormOpens, True)
-                'MDI.formShow(frm, strProgramCode, strProgramName, True, strRecieptCode1, True)
-
-            End If
-
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
-    End Sub
-
-    'Private Sub txtLocMapping__My_Click(sender As Object, e As EventArgs) Handles txtLocMapping._My_Click
-    '    Try
-    '        Dim qry As String = " SELECT Location_Code,Location_Desc from TSPL_LOCATION_MASTER"
-    '        txtLocMapping.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeM", qry, "Location_Code", "", txtLocMapping.arrValueMember, Nothing)
-    '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-    '    End Try
-
-    'End Sub
-
-    Private Sub Txtlocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles Txtlocation._MYValidating
-        Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
-        Dim WhrCls As String = " Location_Type='Physical'  "
-        If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
-        End If
-
-        Txtlocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, Txtlocation.Value, "Code", isButtonClicked)
-        lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + Txtlocation.Value + "'"))
-
-    End Sub
-
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog

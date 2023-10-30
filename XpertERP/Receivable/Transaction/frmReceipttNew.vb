@@ -214,8 +214,8 @@ Public Class FrmReceipttNew
     Public Property StringPass As String
     Public Property StringPass1 As String
     Public ReceiptFormOpen As Boolean = False
-    Dim rceceiptformOpens As New frmCustomer("", "")
-    Dim valueEntry As Boolean = rceceiptformOpens.ReceiptFormOpens
+    'Dim rceceiptformOpens As New frmCustomer("", "")
+    Dim valueEntry As Boolean = False ''rceceiptformOpens.ReceiptFormOpens
     Dim strRecieptCode As String = ""
 
 
