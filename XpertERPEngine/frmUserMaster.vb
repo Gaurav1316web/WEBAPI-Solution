@@ -5,10 +5,7 @@
 'End Date -
 '' work done agaist ticket no KDI/07/06/18-000347 
 'Add Mobile No
-Imports System.Data
 Imports System.Data.SqlClient
-Imports Telerik.WinControls.UI
-Imports common
 Public Class FrmUserMaster
     Inherits FrmMainTranScreen
     Dim ButtonToolTip As ToolTip = New ToolTip()
@@ -133,7 +130,7 @@ Public Class FrmUserMaster
             LoadType()
             fndCustCode.MyReadOnly = False
             fndDisRetailerCode.MyReadOnly = False
-            lblDisRetailer.Text = "Distributer"
+            lblDisRetailer.Text = "Distributor"
             CmbLoginType.SelectedValue = ""
             RadPanel1.Visible = True
         ElseIf isCheckCustomerType = True Then
@@ -395,7 +392,7 @@ Public Class FrmUserMaster
                     lblCustCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustCode.Value + "'")
                 End If
 
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
 
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
                     lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
@@ -421,7 +418,7 @@ Public Class FrmUserMaster
                     lblRetailerCode.Text = ""
                 End If
 
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
 
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
                     lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
@@ -646,7 +643,7 @@ Public Class FrmUserMaster
                 'Prabhakar Ticket : BM00000009802' 
                 'If PanelCNF = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or
-                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Driver") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal) Then
@@ -654,7 +651,7 @@ Public Class FrmUserMaster
                 '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
                 '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 '    End If
-                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
                 '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
                 '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 '    End If
@@ -895,13 +892,13 @@ Public Class FrmUserMaster
                 'Prabhakar Ticket : BM00000009802' 
                 'If PanelCNF = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or
-                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
                 '    If (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
                 '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
                 '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 '    End If
-                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
                 '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
                 '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 '    End If
@@ -1010,7 +1007,7 @@ Public Class FrmUserMaster
         cboEntryUOM.SelectedValue = "0"
         'Add By : Prabhakar Ticket : BM00000009802'
         If PanelCNF = True Then
-            lblDisRetailer.Text = "Distributer"
+            lblDisRetailer.Text = "Distributor"
             CmbLoginType.SelectedValue = ""
             fndCustCode.Value = ""
             lblCustCode.Text = ""
@@ -1174,10 +1171,10 @@ Public Class FrmUserMaster
                     End If
                 End If
 
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
                     If clsCommon.myLen(fndDisRetailerCode.Value) <= 0 Then
                         fndDisRetailerCode.Focus()
-                        Throw New Exception("Distributer Code cannot be left blank.")
+                        Throw New Exception("Distributor Code cannot be left blank.")
                     End If
 
                 End If
@@ -1929,25 +1926,20 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
+        dr("Code") = "Crate"
+        dr("Name") = "Crate"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
         dr("Code") = "CNF"
         dr("Name") = "CNF"
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
-        dr("Code") = "Distributer"
-        dr("Name") = "Distributer"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "Retailer"
-        dr("Name") = "Retailer"
+        dr("Code") = "Distributor"
+        dr("Name") = "Distributor"
         dt.Rows.Add(dr)
         If ChkSuperUser = True Then
-            dr = dt.NewRow()
-            dr("Code") = "SuperUser"
-            dr("Name") = "Super User"
-            dt.Rows.Add(dr)
-
             dr = dt.NewRow()
             dr("Code") = "Driver"
             dr("Name") = "Driver"
@@ -1960,9 +1952,16 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
-        dr("Code") = "Crate"
-        dr("Name") = "Crate"
+        dr("Code") = "Retailer"
+        dr("Name") = "Retailer"
         dt.Rows.Add(dr)
+
+        If ChkSuperUser = True Then
+            dr = dt.NewRow()
+            dr("Code") = "SuperUser"
+            dr("Name") = "Super User"
+            dt.Rows.Add(dr)
+        End If
 
         CmbLoginType.DataSource = dt
         CmbLoginType.ValueMember = "Code"
@@ -1980,14 +1979,14 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 fndDisRetailerCode.MyReadOnly = False
             End If
             If PanelCNF = True Then
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF")=CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = True
                     fndDisRetailerCode.MyReadOnly = False
                 End If
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = False
                     fndDisRetailerCode.MyReadOnly = True
-                    lblDisRetailer.Text = "Distributer"
+                    lblDisRetailer.Text = "Distributor"
                 End If
 
                 If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retail") = CompairStringResult.Equal Then
@@ -1999,7 +1998,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 If ChkSuperUser = True Then
                     fndCustCode.MyReadOnly = True
                     fndDisRetailerCode.MyReadOnly = True
-                    lblDisRetailer.Text = "Distributer"
+                    lblDisRetailer.Text = "Distributor"
                 End If
 
                 If ChkSuperUser = True AndAlso PanelCNF = True Then
@@ -2024,7 +2023,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
     End Sub
 
     Private Sub fndDisRetailerCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDisRetailerCode._MYValidating
-        If PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+        If PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
             clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
             Try
                 Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_SECONDARY_CUSTOMER_MASTER "
@@ -2038,7 +2037,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             Catch ex As Exception
                 clsCommon.MyMessageBoxShow(ex.Message)
             End Try
-        ElseIf isCheckCustomerType = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+        ElseIf isCheckCustomerType = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
             clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
             Try
                 Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_SECONDARY_CUSTOMER_MASTER "
@@ -2056,7 +2055,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
     End Sub
 
     Private Sub fndCustCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustCode._MYValidating
-        If (PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal)) OrElse (isCheckCustomerType AndAlso MatchLevel() = 1) Then
+        If (PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal)) OrElse
+            (isCheckCustomerType AndAlso MatchLevel() = 1) Then
             Try
                 Dim Sqlqry As String = "select Cust_Code from TSPL_USER_MASTER where Login_Type = 'CNF' and InActive = 'N'"
                 Dim whrcls As String = ""
@@ -2081,13 +2081,14 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                     Else
                         whrcls += "STATUS='N' and Cust_Code NOT IN ('" & cust_Codes & "')"
                     End If
-
+                End If
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
+                    whrcls += "  and isnull(TSPL_CUSTOMER_MASTER.IsDistributor,'')='Y' "
                 End If
                 fndCustCode.Value = clsCommon.ShowSelectForm("CustomerFndr", qry, "Code", whrcls, fndCustCode.Value, "Code", isButtonClicked)
                 If clsCommon.myLen(fndCustCode.Value) > 0 Then
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(" Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustCode.Value + "' ")
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-
                         lblCustCode.Text = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
                     End If
                 End If
@@ -2113,10 +2114,10 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                     fndCustCode.MyReadOnly = False
                     fndDisRetailerCode.MyReadOnly = True
                 End If
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = True
                     fndDisRetailerCode.MyReadOnly = False
-                    lblDisRetailer.Text = "Distributer"
+                    lblDisRetailer.Text = "Distributor"
                 End If
 
                 If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retail") = CompairStringResult.Equal Then
