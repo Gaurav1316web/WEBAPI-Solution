@@ -1895,7 +1895,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 ") XXXE WHERE RowNo=1  "
                             dt = clsDBFuncationality.GetDataTable(qry)
                             If dt.Rows.Count > 0 Then
-                                dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+                                dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
                                 If dblRate = 0 Then
                                     Throw New Exception("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(obj1.ShortDesc) & Environment.NewLine)
                                 End If

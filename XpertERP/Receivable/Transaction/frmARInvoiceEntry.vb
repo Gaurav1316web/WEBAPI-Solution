@@ -5227,5 +5227,128 @@ Public Class FrmARInvoiceEntry
         End Try
 
     End Sub
+
+    Public Sub Import()
+        Try
+            Dim gv As New RadGridView()
+            Me.Controls.Add(gv)
+            Dim obj As New List(Of clsOPInvoiceForTCS)
+            Dim currentdate As Date = Date.Today
+
+            If transportSql.importExcel(gv, "FINANCIAL YEAR CODE", "CUSTOMER CODE", "SALE AMT") Then
+
+                'Dim trans As SqlTransaction = Nothing
+                Dim linno As Integer = 0
+                Dim TempNewRecord As Boolean = False
+                Try
+                    'trans = clsDBFuncationality.GetTransactin()
+                    clsCommon.ProgressBarShow()
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        Dim Arr As New clsOPInvoiceForTCS()
+                        linno += 1
+                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("FINANCIAL YEAR CODE").Value))) Then
+                            Continue For
+                        Else
+                            Arr.FINANCIAL_YEAR_CODE = clsCommon.myCstr(grow.Cells("FINANCIAL YEAR CODE").Value)
+
+                        End If
+                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("CUSTOMER CODE").Value))) Then
+                            Continue For
+                        Else
+                            Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("CUSTOMER CODE").Value) + "'"))
+                            If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("CUSTOMER CODE").Value)) = CompairStringResult.Equal Then
+                                If (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_OP_invoice_for_TCS where Customer_Code='" + clsCommon.myCstr(grow.Cells("CUSTOMER CODE").Value) + "'"))) > 0 Then
+                                    Continue For
+
+                                Else
+                                    Arr.CUSTOMER_CODE = clsCommon.myCstr(grow.Cells("CUSTOMER CODE").Value)
+
+                                End If
+                            Else
+                                Continue For
+                            End If
+                        End If
+
+                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("SALE AMT").Value))) Then
+                            Continue For
+                        Else
+                            Arr.SALE_AMT = clsCommon.myCDecimal(grow.Cells("SALE AMT").Value)
+                        End If
+                        obj.Add(Arr)
+                    Next
+
+                    Dim duplicatesRoute As New List(Of clsOPInvoiceForTCS)
+                    duplicatesRoute = obj.GroupBy(Function(x) x.CUSTOMER_CODE).Where(Function(group) group.Count() > 1).SelectMany(Function(group) group).ToList
+                    Dim strDRoute As String = String.Empty
+                    For Each duplicate As clsOPInvoiceForTCS In duplicatesRoute
+                        strDRoute += "[" + duplicate.CUSTOMER_CODE + "] "
+                    Next
+
+                    clsCommon.ProgressBarHide()
+                    If clsCommon.MyMessageBoxShow(Me, "Total Correct Document [" + clsCommon.myCstr(obj.Count) + "] out of [" + clsCommon.myCstr(linno) + "] Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                        Dim isNewEntry As Boolean = True
+                        If obj IsNot Nothing AndAlso obj.Count > 0 Then
+                            For Each items As clsOPInvoiceForTCS In obj
+                                Try
+                                    Dim ObjTCS As New clsOPInvoiceForTCS()
+                                    ObjTCS.FINANCIAL_YEAR_CODE = items.FINANCIAL_YEAR_CODE
+                                    ObjTCS.CUSTOMER_CODE = items.CUSTOMER_CODE
+                                    ObjTCS.SALE_AMT = items.SALE_AMT
+
+                                    ObjTCS.SaveData(ObjTCS, isNewEntry)
+
+
+
+                                Catch ex As Exception
+                                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                                End Try
+                            Next
+                            common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                        Else
+                            common.clsCommon.MyMessageBoxShow("Data Not Found", Me.Text, MessageBoxButtons.OK)
+
+                        End If
+
+                    Else
+                        common.clsCommon.MyMessageBoxShow("Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
+                    End If
+
+                    clsCommon.ProgressBarHide()
+
+                Catch ex As Exception
+                    clsCommon.ProgressBarHide()
+                    clsCommon.MyMessageBoxShow(ex.Message)
+                End Try
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
+
+            End If
+
+            'clsCommon.ProgressBarHide()
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            'clsCommon.ProgressBarHide()
+            clsCommon.MyMessageBoxShow(ex.Message)
+
+        End Try
+    End Sub
+    Public Sub Export()
+        Try
+            Dim str As String = "select FINANCIAL_YEAR_CODE as [FINANCIAL YEAR CODE],CUSTOMER_CODE as [CUSTOMER CODE],SALE_AMT as [SALE AMT] from TSPL_OP_INVOICE_FOR_TCS"
+            Dim whrCls As String = ""
+            ListImpExpColumnsMandatory = New List(Of String)({"FINANCIAL YEAR CODE", "CUSTOMER CODE", "SALE AMT"})
+            transportSql.ExporttoExcel(str, whrCls, Me)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rmiOPInvoiceForTCS_Click(sender As Object, e As EventArgs) Handles rmiOPInvoiceForTCS.Click
+        Import()
+    End Sub
+
+    Private Sub rmiExportOPInvoiceForTCS_Click(sender As Object, e As EventArgs) Handles rmiExportOPInvoiceForTCS.Click
+        Export()
+    End Sub
 End Class
 

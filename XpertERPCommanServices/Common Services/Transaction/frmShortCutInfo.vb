@@ -58,6 +58,11 @@ Public Class frmShortCutInfo
         dr("Description") = "Template"
         dt.Rows.Add(dr)
 
+        dr = dt.NewRow()
+        dr("ShortCut Key") = "Alt+E"
+        dr("Description") = "Export on grid"
+        dt.Rows.Add(dr)
+
         grdLoginInfo.DataSource = dt
 
         grdLoginInfo.Columns(0).Width = 100
