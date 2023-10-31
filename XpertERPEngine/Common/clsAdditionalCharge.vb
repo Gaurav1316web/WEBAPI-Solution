@@ -1714,11 +1714,14 @@ Public Class clsCustomerMaster
     End Function
     Public Shared Function GetCustomerOutstandingForTCSTaxApplicableOnPreviousFY(ByVal strCustomer As String, ByVal strDocumentDate As Date, ByVal strWrcls_ParentChild_CommonPAN As String, Optional ByVal trans As SqlTransaction = Nothing) As String
         Dim balanceAmt As Double = 0
+        Dim OPInvoice_Sale_Amt As Double = 0
+        Dim CurrFinYR As String = String.Empty
         Try
             Dim FinancialYear As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT CASE WHEN DatePart(Month, '" + clsCommon.GetPrintDate(strDocumentDate, "dd/MMM/yyyy") + "') >= 4 THEN DatePart(Year, '" + clsCommon.GetPrintDate(strDocumentDate, "dd/MMM/yyyy") + "') + 1 ELSE DatePart(Year, '" + clsCommon.GetPrintDate(strDocumentDate, "dd/MMM/yyyy") + "') END AS Fiscal_Year", trans))
             Dim strStartDate As Date = "01/Apr/" + clsCommon.myCstr(clsCommon.myCdbl(FinancialYear - 1))
             Dim strEndDate As Date = "31/Mar/" + FinancialYear
             Dim strwhrcls As String = String.Empty
+            CurrFinYR = clsCommon.myCstr(clsCommon.myCdbl(FinancialYear - 1)) + "-" + FinancialYear
             Dim DonotConsiderDirectARInvoiceinCustomerOutTCS As Boolean = IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.DonotConsiderDirectARInvoiceinCustomerOutTCS, clsFixedParameterCode.DonotConsiderDirectARInvoiceinCustomerOutTCS, trans)) = "1", True, False)
             If DonotConsiderDirectARInvoiceinCustomerOutTCS = True Then
                 strwhrcls += "and (isnull(TSPL_Customer_Invoice_Head.AgainstScrapReturn,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_Return_No,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_MCC_Material_Sale_Return,'')<>'' or isnull(TSPL_Customer_Invoice_Head.Against_Asset_Disposal,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>'' or isnull(TSPL_Customer_Invoice_Head.Against_Service_Visit_Code,'')<>'' or ISNULL (TSPL_Customer_Invoice_Head.Against_Subsidy_No,'')<>''  or ISNULL (TSPL_Customer_Invoice_Head.AgainstScrap,'')<>'' ) "
@@ -1733,8 +1736,8 @@ Public Class clsCustomerMaster
  " And convert(date,TSPL_Customer_Invoice_Head.Document_Date ,103)  >= '" + clsCommon.GetPrintDate(strStartDate, "dd/MMM/yyyy") + "'  and  convert(date,TSPL_Customer_Invoice_Head.Document_Date ,103)  <='" + clsCommon.GetPrintDate(strEndDate, "dd/MMM/yyyy") + "' " & strwhrcls & " )final "
 
             balanceAmt = clsDBFuncationality.getSingleValue(strqry, trans)
-
-            Return balanceAmt
+            OPInvoice_Sale_Amt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Sale_amt from TSPL_OP_INVOICE_FOR_TCS where Customer_Code='" + clsCommon.myCstr(strCustomer) + "' and Financial_Year_Code='" + clsCommon.myCstr(CurrFinYR) + "'", trans))
+            Return (balanceAmt + OPInvoice_Sale_Amt)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
