@@ -758,7 +758,7 @@ Partial Class frmPurchaseOrder
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(2, 2)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1101, 437)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -855,9 +855,9 @@ Partial Class frmPurchaseOrder
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(96.0!, 26.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1080, 395)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1080, 391)
         Me.RadPageViewPage1.Text = "Purchase Order"
         '
         'MyLabel59
@@ -1370,7 +1370,7 @@ Partial Class frmPurchaseOrder
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox2)
         Me.SplitContainer2.Panel2.Padding = New System.Windows.Forms.Padding(2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1077, 106)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1077, 102)
         Me.SplitContainer2.SplitterDistance = 49
         Me.SplitContainer2.TabIndex = 71
         '
@@ -1603,7 +1603,7 @@ Partial Class frmPurchaseOrder
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 2)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1073, 49)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1073, 45)
         Me.RadGroupBox2.TabIndex = 0
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1627,7 +1627,7 @@ Partial Class frmPurchaseOrder
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1053, 19)
+        Me.gv1.Size = New System.Drawing.Size(1053, 15)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -1975,7 +1975,7 @@ Partial Class frmPurchaseOrder
         Me.MyLabel5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(858, 329)
+        Me.MyLabel5.Location = New System.Drawing.Point(858, 325)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(100, 16)
         Me.MyLabel5.TabIndex = 27
@@ -1988,7 +1988,7 @@ Partial Class frmPurchaseOrder
         Me.lblTotRAmtCopy.BorderVisible = True
         Me.lblTotRAmtCopy.FieldName = Nothing
         Me.lblTotRAmtCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmtCopy.Location = New System.Drawing.Point(960, 328)
+        Me.lblTotRAmtCopy.Location = New System.Drawing.Point(960, 324)
         Me.lblTotRAmtCopy.Name = "lblTotRAmtCopy"
         Me.lblTotRAmtCopy.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmtCopy.TabIndex = 26
@@ -2000,7 +2000,7 @@ Partial Class frmPurchaseOrder
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(819, 382)
+        Me.RadLabel12.Location = New System.Drawing.Point(819, 378)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(261, 13)
         Me.RadLabel12.TabIndex = 25
@@ -2014,7 +2014,7 @@ Partial Class frmPurchaseOrder
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 325)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 321)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
