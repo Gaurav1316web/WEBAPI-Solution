@@ -60,6 +60,8 @@ Public Class clsBookingEntryDairySale
     Public BPL_Remark As String = String.Empty
     Public BPL_Category As String = String.Empty
     Public BPL_Coupon_Date As Date? = Nothing
+    Public TCSAmount As Double = 0
+    Public Is_Credit_Customer As String = String.Empty
 
 
     Public arrBookingDetailDairySalePaymentMode As List(Of clsBookingDetailDairySalePaymentMode) = Nothing
@@ -209,6 +211,8 @@ Public Class clsBookingEntryDairySale
             Else
                 clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Date", clsCommon.GetPrintDate(obj.BPL_Coupon_Date, "dd/MMM/yyyy"))
             End If
+            clsCommon.AddColumnsForChange(coll, "TCSAmount", obj.TCSAmount, True)
+            clsCommon.AddColumnsForChange(coll, "Is_Credit_Customer", obj.Is_Credit_Customer, True)
 
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Document_No", obj.Document_No)
