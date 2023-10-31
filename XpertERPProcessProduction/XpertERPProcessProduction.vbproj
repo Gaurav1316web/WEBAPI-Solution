@@ -174,28 +174,28 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>My Project\SharedAssemblyInfo.vb</Link>
     </Compile>
-    <Compile Include="Master\frmBreakDownMaster.Designer.vb">
+    <Compile Include="ProcessProduction\Master\frmBreakDownMaster.Designer.vb">
       <DependentUpon>frmBreakDownMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBreakDownMaster.vb">
+    <Compile Include="ProcessProduction\Master\frmBreakDownMaster.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Master\frmLineMaster.Designer.vb">
+    <Compile Include="ProcessProduction\Master\frmLineMaster.Designer.vb">
       <DependentUpon>frmLineMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmLineMaster.vb">
+    <Compile Include="ProcessProduction\Master\frmLineMaster.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Master\frmPPLogSheetMaster.Designer.vb">
+    <Compile Include="ProcessProduction\Master\frmPPLogSheetMaster.Designer.vb">
       <DependentUpon>frmPPLogSheetMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmPPLogSheetMaster.vb">
+    <Compile Include="ProcessProduction\Master\frmPPLogSheetMaster.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Master\frmProcessProductionLogSheet.Designer.vb">
+    <Compile Include="ProcessProduction\Master\frmProcessProductionLogSheet.Designer.vb">
       <DependentUpon>frmProcessProductionLogSheet.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmProcessProductionLogSheet.vb">
+    <Compile Include="ProcessProduction\Master\frmProcessProductionLogSheet.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PRODUCTION\Masters\frmAccountSetting.Designer.vb">
@@ -534,28 +534,28 @@
     <Compile Include="PRODUCTION\Transactions\frmStoreIssue.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\ProductionReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\ProductionReport.Designer.vb">
       <DependentUpon>ProductionReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\ProductionReport.vb">
+    <Compile Include="ProcessProduction\Reports\ProductionReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\QualitySummaryReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\QualitySummaryReport.Designer.vb">
       <DependentUpon>QualitySummaryReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\QualitySummaryReport.vb">
+    <Compile Include="ProcessProduction\Reports\QualitySummaryReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptPerformanceReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptPerformanceReport.Designer.vb">
       <DependentUpon>rptPerformanceReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptPerformanceReport.vb">
+    <Compile Include="ProcessProduction\Reports\rptPerformanceReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Transaction\frmStanderdProductionEntry.designer.vb">
+    <Compile Include="ProcessProduction\Transaction\frmStanderdProductionEntry.designer.vb">
       <DependentUpon>frmStanderdProductionEntry.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmStanderdProductionEntry.vb">
+    <Compile Include="ProcessProduction\Transaction\frmStanderdProductionEntry.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\Application.Designer.vb">
@@ -572,138 +572,138 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Reports\FrmProductionAndSaleReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\FrmProductionAndSaleReport.Designer.vb">
       <DependentUpon>FrmProductionAndSaleReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\FrmProductionAndSaleReport.vb">
+    <Compile Include="ProcessProduction\Reports\FrmProductionAndSaleReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\frmProductionUtilityCost.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\frmProductionUtilityCost.Designer.vb">
       <DependentUpon>frmProductionUtilityCost.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\frmProductionUtilityCost.vb">
+    <Compile Include="ProcessProduction\Reports\frmProductionUtilityCost.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptAvailableQtyForProduction.designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptAvailableQtyForProduction.designer.vb">
       <DependentUpon>rptAvailableQtyForProduction.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptAvailableQtyForProduction.vb">
+    <Compile Include="ProcessProduction\Reports\rptAvailableQtyForProduction.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptBatchStatusReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptBatchStatusReport.Designer.vb">
       <DependentUpon>rptBatchStatusReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptBatchStatusReport.vb">
+    <Compile Include="ProcessProduction\Reports\rptBatchStatusReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptIssueWIPConsumptionReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptIssueWIPConsumptionReport.Designer.vb">
       <DependentUpon>rptIssueWIPConsumptionReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptIssueWIPConsumptionReport.vb">
+    <Compile Include="ProcessProduction\Reports\rptIssueWIPConsumptionReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptItemConsumptionReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptItemConsumptionReport.Designer.vb">
       <DependentUpon>rptItemConsumptionReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptItemConsumptionReport.vb">
+    <Compile Include="ProcessProduction\Reports\rptItemConsumptionReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptJobWorkProduction.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptJobWorkProduction.Designer.vb">
       <DependentUpon>rptJobWorkProduction.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptJobWorkProduction.vb">
+    <Compile Include="ProcessProduction\Reports\rptJobWorkProduction.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptProcessGainLossReport.designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptProcessGainLossReport.designer.vb">
       <DependentUpon>rptProcessGainLossReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptProcessGainLossReport.vb">
+    <Compile Include="ProcessProduction\Reports\rptProcessGainLossReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptproductionEntryReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptproductionEntryReport.Designer.vb">
       <DependentUpon>rptproductionEntryReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptproductionEntryReport.vb">
+    <Compile Include="ProcessProduction\Reports\rptproductionEntryReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptProductionIssueStatus.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptProductionIssueStatus.Designer.vb">
       <DependentUpon>rptProductionIssueStatus.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptProductionIssueStatus.vb">
+    <Compile Include="ProcessProduction\Reports\rptProductionIssueStatus.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\RptProductionQCReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\RptProductionQCReport.Designer.vb">
       <DependentUpon>RptProductionQCReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\RptProductionQCReport.vb">
+    <Compile Include="ProcessProduction\Reports\RptProductionQCReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptProductionStatusReport.designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptProductionStatusReport.designer.vb">
       <DependentUpon>rptProductionStatusReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptProductionStatusReport.vb">
+    <Compile Include="ProcessProduction\Reports\rptProductionStatusReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptProductionWiseStockReco.designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptProductionWiseStockReco.designer.vb">
       <DependentUpon>rptProductionWiseStockReco.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptProductionWiseStockReco.vb">
+    <Compile Include="ProcessProduction\Reports\rptProductionWiseStockReco.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptSectionWiseStockReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptSectionWiseStockReport.Designer.vb">
       <DependentUpon>rptSectionWiseStockReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptSectionWiseStockReport.vb">
+    <Compile Include="ProcessProduction\Reports\rptSectionWiseStockReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptSPItemConsumptionReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptSPItemConsumptionReport.Designer.vb">
       <DependentUpon>rptSPItemConsumptionReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptSPItemConsumptionReport.vb">
+    <Compile Include="ProcessProduction\Reports\rptSPItemConsumptionReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\RptStandardActualConsumption.designer.vb">
+    <Compile Include="ProcessProduction\Reports\RptStandardActualConsumption.designer.vb">
       <DependentUpon>RptStandardActualConsumption.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\RptStandardActualConsumption.vb">
+    <Compile Include="ProcessProduction\Reports\RptStandardActualConsumption.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\RptStandardQCReport.designer.vb">
+    <Compile Include="ProcessProduction\Reports\RptStandardQCReport.designer.vb">
       <DependentUpon>RptStandardQCReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\RptStandardQCReport.vb">
+    <Compile Include="ProcessProduction\Reports\RptStandardQCReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\rptWIPReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\rptWIPReport.Designer.vb">
       <DependentUpon>rptWIPReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\rptWIPReport.vb">
+    <Compile Include="ProcessProduction\Reports\rptWIPReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports\RptWreckageReport.Designer.vb">
+    <Compile Include="ProcessProduction\Reports\RptWreckageReport.Designer.vb">
       <DependentUpon>RptWreckageReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Reports\RptWreckageReport.vb">
+    <Compile Include="ProcessProduction\Reports\RptWreckageReport.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Transaction\frmBreakDownEntry.Designer.vb">
+    <Compile Include="ProcessProduction\Transaction\frmBreakDownEntry.Designer.vb">
       <DependentUpon>frmBreakDownEntry.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmBreakDownEntry.vb">
+    <Compile Include="ProcessProduction\Transaction\frmBreakDownEntry.vb">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Master\frmBreakDownMaster.resx">
+    <EmbeddedResource Include="ProcessProduction\Master\frmBreakDownMaster.resx">
       <DependentUpon>frmBreakDownMaster.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Master\frmLineMaster.resx">
+    <EmbeddedResource Include="ProcessProduction\Master\frmLineMaster.resx">
       <DependentUpon>frmLineMaster.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Master\frmPPLogSheetMaster.resx">
+    <EmbeddedResource Include="ProcessProduction\Master\frmPPLogSheetMaster.resx">
       <DependentUpon>frmPPLogSheetMaster.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Master\frmProcessProductionLogSheet.resx">
+    <EmbeddedResource Include="ProcessProduction\Master\frmProcessProductionLogSheet.resx">
       <DependentUpon>frmProcessProductionLogSheet.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PRODUCTION\Masters\frmAccountSetting.resx">
@@ -928,16 +928,16 @@
       <DependentUpon>frmStoreIssue.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\ProductionReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\ProductionReport.resx">
       <DependentUpon>ProductionReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\QualitySummaryReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\QualitySummaryReport.resx">
       <DependentUpon>QualitySummaryReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptPerformanceReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptPerformanceReport.resx">
       <DependentUpon>rptPerformanceReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Transaction\frmStanderdProductionEntry.resx">
+    <EmbeddedResource Include="ProcessProduction\Transaction\frmStanderdProductionEntry.resx">
       <DependentUpon>frmStanderdProductionEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\licenses.licx" />
@@ -947,64 +947,64 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\FrmProductionAndSaleReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\FrmProductionAndSaleReport.resx">
       <DependentUpon>FrmProductionAndSaleReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\frmProductionUtilityCost.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\frmProductionUtilityCost.resx">
       <DependentUpon>frmProductionUtilityCost.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptAvailableQtyForProduction.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptAvailableQtyForProduction.resx">
       <DependentUpon>rptAvailableQtyForProduction.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptBatchStatusReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptBatchStatusReport.resx">
       <DependentUpon>rptBatchStatusReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptIssueWIPConsumptionReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptIssueWIPConsumptionReport.resx">
       <DependentUpon>rptIssueWIPConsumptionReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptItemConsumptionReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptItemConsumptionReport.resx">
       <DependentUpon>rptItemConsumptionReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptJobWorkProduction.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptJobWorkProduction.resx">
       <DependentUpon>rptJobWorkProduction.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptProcessGainLossReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptProcessGainLossReport.resx">
       <DependentUpon>rptProcessGainLossReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptproductionEntryReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptproductionEntryReport.resx">
       <DependentUpon>rptproductionEntryReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptProductionIssueStatus.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptProductionIssueStatus.resx">
       <DependentUpon>rptProductionIssueStatus.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\RptProductionQCReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\RptProductionQCReport.resx">
       <DependentUpon>RptProductionQCReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptProductionStatusReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptProductionStatusReport.resx">
       <DependentUpon>rptProductionStatusReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptProductionWiseStockReco.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptProductionWiseStockReco.resx">
       <DependentUpon>rptProductionWiseStockReco.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptSectionWiseStockReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptSectionWiseStockReport.resx">
       <DependentUpon>rptSectionWiseStockReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptSPItemConsumptionReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptSPItemConsumptionReport.resx">
       <DependentUpon>rptSPItemConsumptionReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\RptStandardActualConsumption.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\RptStandardActualConsumption.resx">
       <DependentUpon>RptStandardActualConsumption.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\RptStandardQCReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\RptStandardQCReport.resx">
       <DependentUpon>RptStandardQCReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\rptWIPReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\rptWIPReport.resx">
       <DependentUpon>rptWIPReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\RptWreckageReport.resx">
+    <EmbeddedResource Include="ProcessProduction\Reports\RptWreckageReport.resx">
       <DependentUpon>RptWreckageReport.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Transaction\frmBreakDownEntry.resx">
+    <EmbeddedResource Include="ProcessProduction\Transaction\frmBreakDownEntry.resx">
       <DependentUpon>frmBreakDownEntry.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -1045,6 +1045,9 @@
       <Project>{3A4383C1-9242-4FE0-90AA-9AF743991104}</Project>
       <Name>XpertERPFixedAssets</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RCDFProduction\Transaction\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
