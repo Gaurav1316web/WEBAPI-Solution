@@ -35,6 +35,7 @@ Partial Class frmPurchaseInvoice
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkTDSProvision = New common.Controls.MyCheckBox()
         Me.MyLabel22 = New common.Controls.MyLabel()
         Me.txtDataAndTimeSelection = New common.Controls.MyDateTimePicker()
         Me.MyLabel23 = New common.Controls.MyLabel()
@@ -148,8 +149,6 @@ Partial Class frmPurchaseInvoice
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadLabel10 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.MyLabel62 = New common.Controls.MyLabel()
-        Me.TxtRetention = New common.Controls.MyTextBox()
         Me.txtTermCode = New common.UserControls.txtFinder()
         Me.RadLabel16 = New common.Controls.MyLabel()
         Me.lblTermName = New common.Controls.MyLabel()
@@ -241,13 +240,13 @@ Partial Class frmPurchaseInvoice
         Me.SaveLayoutrb = New Telerik.WinControls.UI.RadMenuItem()
         Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkTDSProvision = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -355,8 +354,6 @@ Partial Class frmPurchaseInvoice
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -444,7 +441,6 @@ Partial Class frmPurchaseInvoice
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -584,6 +580,18 @@ Partial Class frmPurchaseInvoice
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(953, 438)
         Me.RadPageViewPage1.Text = "Purchase Invoice"
+        '
+        'chkTDSProvision
+        '
+        Me.chkTDSProvision.Location = New System.Drawing.Point(822, 124)
+        Me.chkTDSProvision.MyLinkLable1 = Nothing
+        Me.chkTDSProvision.MyLinkLable2 = Nothing
+        Me.chkTDSProvision.Name = "chkTDSProvision"
+        Me.chkTDSProvision.ReadOnly = True
+        Me.chkTDSProvision.Size = New System.Drawing.Size(89, 18)
+        Me.chkTDSProvision.TabIndex = 12138
+        Me.chkTDSProvision.Tag1 = Nothing
+        Me.chkTDSProvision.Text = "TDS Provision"
         '
         'MyLabel22
         '
@@ -2396,8 +2404,6 @@ Partial Class frmPurchaseInvoice
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel62)
-        Me.RadGroupBox1.Controls.Add(Me.TxtRetention)
         Me.RadGroupBox1.Controls.Add(Me.txtTermCode)
         Me.RadGroupBox1.Controls.Add(Me.RadLabel16)
         Me.RadGroupBox1.Controls.Add(Me.txtDueDate)
@@ -2411,42 +2417,6 @@ Partial Class frmPurchaseInvoice
         Me.RadGroupBox1.Size = New System.Drawing.Size(953, 87)
         Me.RadGroupBox1.TabIndex = 3
         Me.RadGroupBox1.Text = "Terms"
-        '
-        'MyLabel62
-        '
-        Me.MyLabel62.AutoSize = False
-        Me.MyLabel62.FieldName = Nothing
-        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel62.Location = New System.Drawing.Point(220, 52)
-        Me.MyLabel62.Name = "MyLabel62"
-        Me.MyLabel62.Size = New System.Drawing.Size(72, 29)
-        Me.MyLabel62.TabIndex = 42
-        Me.MyLabel62.Text = "Retention"
-        '
-        'TxtRetention
-        '
-        Me.TxtRetention.CalculationExpression = Nothing
-        Me.TxtRetention.FieldCode = Nothing
-        Me.TxtRetention.FieldDesc = Nothing
-        Me.TxtRetention.FieldMaxLength = 0
-        Me.TxtRetention.FieldName = Nothing
-        Me.TxtRetention.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtRetention.isCalculatedField = False
-        Me.TxtRetention.IsSourceFromTable = False
-        Me.TxtRetention.IsSourceFromValueList = False
-        Me.TxtRetention.IsUnique = False
-        Me.TxtRetention.Location = New System.Drawing.Point(298, 57)
-        Me.TxtRetention.MaxLength = 200
-        Me.TxtRetention.MendatroryField = False
-        Me.TxtRetention.MyLinkLable1 = Me.MyLabel62
-        Me.TxtRetention.MyLinkLable2 = Nothing
-        Me.TxtRetention.Name = "TxtRetention"
-        Me.TxtRetention.ReadOnly = True
-        Me.TxtRetention.ReferenceFieldDesc = Nothing
-        Me.TxtRetention.ReferenceFieldName = Nothing
-        Me.TxtRetention.ReferenceTableName = Nothing
-        Me.TxtRetention.Size = New System.Drawing.Size(84, 18)
-        Me.TxtRetention.TabIndex = 41
         '
         'txtTermCode
         '
@@ -3573,18 +3543,6 @@ Partial Class frmPurchaseInvoice
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Email/SMS Setting"
         '
-        'chkTDSProvision
-        '
-        Me.chkTDSProvision.Location = New System.Drawing.Point(822, 124)
-        Me.chkTDSProvision.MyLinkLable1 = Nothing
-        Me.chkTDSProvision.MyLinkLable2 = Nothing
-        Me.chkTDSProvision.Name = "chkTDSProvision"
-        Me.chkTDSProvision.ReadOnly = True
-        Me.chkTDSProvision.Size = New System.Drawing.Size(89, 18)
-        Me.chkTDSProvision.TabIndex = 12138
-        Me.chkTDSProvision.Tag1 = Nothing
-        Me.chkTDSProvision.Text = "TDS Provision"
-        '
         'frmPurchaseInvoice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3606,6 +3564,7 @@ Partial Class frmPurchaseInvoice
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3721,8 +3680,6 @@ Partial Class frmPurchaseInvoice
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3814,7 +3771,6 @@ Partial Class frmPurchaseInvoice
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4027,5 +3983,6 @@ Partial Class frmPurchaseInvoice
     Friend WithEvents TabDedDetail As RadPageViewPage
     Friend WithEvents gvDeduction As common.UserControls.MyRadGridView
     Friend WithEvents btnPrintInv As RadButton
+    Friend WithEvents chkTDSProvision As common.Controls.MyCheckBox
 End Class
 

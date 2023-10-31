@@ -2191,6 +2191,24 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Process Production\Transaction\frmAssembliesDisAssemblies.Designer.vb">
+      <DependentUpon>frmAssembliesDisAssemblies.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmAssembliesDisAssemblies.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmBOM.Designer.vb">
+      <DependentUpon>frmBOM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmBOM.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmChildBOScreen.Designer.vb">
+      <DependentUpon>frmChildBOScreen.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmChildBOScreen.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Process Production\Transaction\frmDairyProductionUploader.Designer.vb">
       <DependentUpon>frmDairyProductionUploader.vb</DependentUpon>
     </Compile>
@@ -2203,16 +2221,76 @@
     <Compile Include="Process Production\Transaction\frmMRPForProduction.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Process Production\Transaction\frmPPIssueChildScrren.Designer.vb">
+      <DependentUpon>frmPPIssueChildScrren.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmPPIssueChildScrren.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmPPQCCheckHistory.Designer.vb">
+      <DependentUpon>frmPPQCCheckHistory.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmPPQCCheckHistory.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmPPStageProcessQCLogSheet.Designer.vb">
+      <DependentUpon>frmPPStageProcessQCLogSheet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmPPStageProcessQCLogSheet.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmPrductionReturn.designer.vb">
+      <DependentUpon>frmPrductionReturn.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmPrductionReturn.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProcessBatchOrder.Designer.vb">
+      <DependentUpon>frmProcessBatchOrder.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProcessBatchOrder.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProcessProductionIssueEntry.Designer.vb">
+      <DependentUpon>frmProcessProductionIssueEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProcessProductionIssueEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProcessProductionPlanning.Designer.vb">
+      <DependentUpon>frmProcessProductionPlanning.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProcessProductionPlanning.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Process Production\Transaction\frmProcessProductionReturn.designer.vb">
       <DependentUpon>frmProcessProductionReturn.vb</DependentUpon>
     </Compile>
     <Compile Include="Process Production\Transaction\frmProcessProductionReturn.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Process Production\Transaction\frmProcessProductionStageProcess.Designer.vb">
+      <DependentUpon>frmProcessProductionStageProcess.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProcessProductionStageProcess.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProcessProductionStandardization.Designer.vb">
+      <DependentUpon>frmProcessProductionStandardization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProcessProductionStandardization.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Process Production\Transaction\frmProcessProductionStandardizationFinalQC.Designer.vb">
       <DependentUpon>frmProcessProductionStandardizationFinalQC.vb</DependentUpon>
     </Compile>
     <Compile Include="Process Production\Transaction\frmProcessProductionStandardizationFinalQC.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProductionEntry.Designer.vb">
+      <DependentUpon>frmProductionEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmProductionEntry.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Process Production\Transaction\frmProductionEntryFinalQC.Designer.vb">
@@ -2249,6 +2327,12 @@
       <DependentUpon>frmSiloMilkTransfer_JobWork.vb</DependentUpon>
     </Compile>
     <Compile Include="Process Production\Transaction\frmSiloMilkTransfer_JobWork.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmWreckage.Designer.vb">
+      <DependentUpon>frmWreckage.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Process Production\Transaction\frmWreckage.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Purchase Order\Reports\frmDailyReceipNoteSummary.Designer.vb">
@@ -2664,42 +2748,6 @@
     </Compile>
     <Compile Include="User Controls\ucVendorItemDetail.vb">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmAssembliesDisAssemblies.Designer.vb">
-      <DependentUpon>frmAssembliesDisAssemblies.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmAssembliesDisAssemblies.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmChildBOScreen.Designer.vb">
-      <DependentUpon>frmChildBOScreen.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmChildBOScreen.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmPPStageProcessQCLogSheet.Designer.vb">
-      <DependentUpon>frmPPStageProcessQCLogSheet.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmPPStageProcessQCLogSheet.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessProductionStageProcess.Designer.vb">
-      <DependentUpon>frmProcessProductionStageProcess.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessProductionStageProcess.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProductionEntry.Designer.vb">
-      <DependentUpon>frmProductionEntry.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProductionEntry.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmWreckage.Designer.vb">
-      <DependentUpon>frmWreckage.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmWreckage.vb">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Purchase Order\Tranasction\FrmBulkCloser.Designer.vb">
       <DependentUpon>FrmBulkCloser.vb</DependentUpon>
@@ -3768,36 +3816,6 @@
       <DependentUpon>frmVlcDataUploadar.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmVlcDataUploadar.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmBOM.Designer.vb">
-      <DependentUpon>frmBOM.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmBOM.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessBatchOrder.Designer.vb">
-      <DependentUpon>frmProcessBatchOrder.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessBatchOrder.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessProductionIssueEntry.Designer.vb">
-      <DependentUpon>frmProcessProductionIssueEntry.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessProductionIssueEntry.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessProductionPlanning.Designer.vb">
-      <DependentUpon>frmProcessProductionPlanning.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessProductionPlanning.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessProductionStandardization.Designer.vb">
-      <DependentUpon>frmProcessProductionStandardization.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Process Production\Transaction\frmProcessProductionStandardization.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Sales%28KDIL%29\Fresh Sale\Transaction\frmPendingSaleInvoiceFS.Designer.vb">
@@ -6075,17 +6093,66 @@
     <EmbeddedResource Include="Modules\TabSchemeProvider.resx">
       <DependentUpon>TabSchemeProvider.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmAssembliesDisAssemblies.resx">
+      <DependentUpon>frmAssembliesDisAssemblies.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmBOM.resx">
+      <DependentUpon>frmBOM.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmChildBOScreen.resx">
+      <DependentUpon>frmChildBOScreen.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Process Production\Transaction\frmDairyProductionUploader.resx">
       <DependentUpon>frmDairyProductionUploader.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Process Production\Transaction\frmMRPForProduction.resx">
       <DependentUpon>frmMRPForProduction.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmPPIssueChildScrren.resx">
+      <DependentUpon>frmPPIssueChildScrren.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmPPQCCheckHistory.resx">
+      <DependentUpon>frmPPQCCheckHistory.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmPPStageProcessQCLogSheet.resx">
+      <DependentUpon>frmPPStageProcessQCLogSheet.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmPrductionReturn.resx">
+      <DependentUpon>frmPrductionReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmProcessBatchOrder.resx">
+      <DependentUpon>frmProcessBatchOrder.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmProcessProductionIssueEntry.resx">
+      <DependentUpon>frmProcessProductionIssueEntry.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmProcessProductionPlanning.resx">
+      <DependentUpon>frmProcessProductionPlanning.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Process Production\Transaction\frmProcessProductionReturn.resx">
       <DependentUpon>frmProcessProductionReturn.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmProcessProductionStageProcess.resx">
+      <DependentUpon>frmProcessProductionStageProcess.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmProcessProductionStandardization.resx">
+      <DependentUpon>frmProcessProductionStandardization.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Process Production\Transaction\frmProcessProductionStandardizationFinalQC.resx">
       <DependentUpon>frmProcessProductionStandardizationFinalQC.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmProductionEntry.resx">
+      <DependentUpon>frmProductionEntry.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Process Production\Transaction\frmProductionEntryFinalQC.resx">
       <DependentUpon>frmProductionEntryFinalQC.vb</DependentUpon>
@@ -6104,6 +6171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Process Production\Transaction\frmSiloMilkTransfer_JobWork.resx">
       <DependentUpon>frmSiloMilkTransfer_JobWork.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Process Production\Transaction\frmWreckage.resx">
+      <DependentUpon>frmWreckage.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Reports\frmDailyReceipNoteSummary.resx">
       <DependentUpon>frmDailyReceipNoteSummary.vb</DependentUpon>
@@ -6337,29 +6407,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\licenses.licx" />
-    <EmbeddedResource Include="Process Production\Transaction\frmAssembliesDisAssemblies.resx">
-      <DependentUpon>frmAssembliesDisAssemblies.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process Production\Transaction\frmChildBOScreen.resx">
-      <DependentUpon>frmChildBOScreen.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process Production\Transaction\frmPPStageProcessQCLogSheet.resx">
-      <DependentUpon>frmPPStageProcessQCLogSheet.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process Production\Transaction\frmProcessProductionStageProcess.resx">
-      <DependentUpon>frmProcessProductionStageProcess.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process Production\Transaction\frmProductionEntry.resx">
-      <DependentUpon>frmProductionEntry.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process Production\Transaction\frmWreckage.resx">
-      <DependentUpon>frmWreckage.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Purchase Order\Tranasction\FrmBulkCloser.resx">
       <DependentUpon>FrmBulkCloser.vb</DependentUpon>
     </EmbeddedResource>
@@ -7012,26 +7059,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmVlcDataUploadar.resx">
       <DependentUpon>frmVlcDataUploadar.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process Production\Transaction\frmBOM.resx">
-      <DependentUpon>frmBOM.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process Production\Transaction\frmProcessBatchOrder.resx">
-      <DependentUpon>frmProcessBatchOrder.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process Production\Transaction\frmProcessProductionIssueEntry.resx">
-      <DependentUpon>frmProcessProductionIssueEntry.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process Production\Transaction\frmProcessProductionPlanning.resx">
-      <DependentUpon>frmProcessProductionPlanning.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Process Production\Transaction\frmProcessProductionStandardization.resx">
-      <DependentUpon>frmProcessProductionStandardization.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Sales%28KDIL%29\Fresh Sale\Transaction\frmPendingSaleInvoiceFS.resx">
