@@ -990,6 +990,7 @@ Public Class frmPurchaseOrder
         txtBillToLocation.Enabled = True
         txtInsurance.Text = ""
         txtPackingForward.Text = ""
+        TxtRetention.Text = ""
         txtFreight.Text = ""
 
 
@@ -4162,6 +4163,7 @@ Public Class frmPurchaseOrder
         txtDate.Focus()
         txtRefTendorNo.Text = ""
         txtTenderNo.Value = ""
+        TxtRetention.ReadOnly = False
         txtTenderNo.Tag = Nothing
         lblVendorQuotationNo.Text = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
@@ -5523,6 +5525,14 @@ Public Class frmPurchaseOrder
                 obj.Insurance = clsCommon.myCstr(txtInsurance.Text)
                 obj.Packing_Forward = clsCommon.myCstr(txtPackingForward.Text)
                 obj.Freight = clsCommon.myCstr(txtFreight.Text)
+                obj.Retention = clsCommon.myCdbl(TxtRetention.Text)
+                If obj.Retention >= 0 AndAlso obj.Retention <= 100 Then
+                    obj.Retention = clsCommon.myCdbl(TxtRetention.Text)
+                Else
+                    clsCommon.MyMessageBoxShow("Please enter a value between 0 and 100.")
+                    TxtRetention.Focus()
+                    TxtRetention.Text = ""
+                End If
 
 
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
@@ -5853,7 +5863,7 @@ Public Class frmPurchaseOrder
 
                 Dim isSaved As Boolean = True
                 If dtpRenewal.Checked AndAlso dtpRenewal.Enabled = True Then
-                    '===if document is renewed,then first time it is enabled and 2nd time diabled,so first time create new document,otherwise not
+                    '===if document is renewed,then first time it is enabled and 2nd time disabled,so first time create new document,otherwise not
                     isSaved = isSaved AndAlso PORenewal(obj)
                 Else
                     isSaved = isSaved AndAlso obj.SaveData(obj, isNewEntry, isDoAbandomentNo)
@@ -5929,6 +5939,7 @@ Public Class frmPurchaseOrder
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
+                    TxtRetention.ReadOnly = True
                     btnAmendment.Enabled = True
                     If ShowPOCancelButton AndAlso Not clsPurchaseOrderHead.CheckPOUsedInSRNorGRN(clsCommon.myCstr(obj.PurchaseOrder_No), Nothing) Then
                         btn_cancel.Visible = True
@@ -6027,6 +6038,7 @@ Public Class frmPurchaseOrder
                 txtShipToLocation.Value = obj.Ship_To_Location
                 txtBillToLocation.Value = obj.Bill_To_Location
                 txtSubLocation.Value = obj.Sublocation_Code
+                TxtRetention.Text = obj.Retention
                 chkJobWorkOutward.Checked = obj.isJobWorkOutward
                 If chkJobWorkOutward.Checked = True Then
                     txtSubLocation.Enabled = False
@@ -6513,6 +6525,7 @@ Public Class frmPurchaseOrder
                 txtInsurance.Text = obj.Insurance
                 txtPackingForward.Text = obj.Packing_Forward
                 txtFreight.Text = obj.Freight
+                TxtRetention.Text = obj.Retention
 
                 If obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic Then
                     rbtnTaxCalAutomatic.IsChecked = True

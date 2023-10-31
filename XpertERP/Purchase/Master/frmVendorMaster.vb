@@ -45,6 +45,7 @@ Public Class frmVendorMaster
     Dim EnableBankFromMaster As Boolean = False
     Dim SettEnableTDSforServiceVendorSeparately As Boolean = False
     Dim DoNotCheckAnyValidationOnVendorInactive As Boolean = False
+    Dim OneTimeCheck As Boolean = False
 
     Public Sub New(ByVal user As String, ByVal company As String)
         InitializeComponent()
@@ -3915,15 +3916,17 @@ Public Class frmVendorMaster
 
 
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click
-        If btnsave.Text = "Update" Then
+        If btnsave.Text = "Update" AndAlso OneTimeCheck = False Then
             Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.SIRC
             frm.strCode = clsFixedParameterCode.UpdatePassword
-
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 ShowRemarks()
+                OneTimeCheck = True
             End If
+        ElseIf btnsave.Text = "Update" AndAlso OneTimeCheck Then
+            ShowRemarks()
         Else
             SaveData()
         End If

@@ -140,6 +140,28 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_WISE_TAX", coll)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(30) Not Null Primary Key")
+            coll.Add("Document_Date", "datetime  Not Null")
+            coll.Add("Bulk_Dispatch_Document", "varchar(30) Not Null references TSPL_Dispatch_BulkSale(Document_No)")
+            coll.Add("Qty", "decimal(18,2) Not Null")
+            coll.Add("FAT", "decimal(18,2) Not Null")
+            coll.Add("FAT_KG", "decimal(18,3) Not Null")
+            coll.Add("SNF", "decimal(18,2) Not Null")
+            coll.Add("SNF_KG", "decimal(18,3) Not Null")
+            coll.Add("FAT_Rate", "decimal(18,2) Not Null")
+            coll.Add("SNF_Rate", "decimal(18,2) Not Null")
+            coll.Add("Amount", "decimal(18,2) Not Null")
+            coll.Add("Created_By", "varchar(12) Not Null references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Created_Date", "datetime  Null")
+            coll.Add("Modify_By", "varchar(12)  Not Null references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Modify_Date", "datetime   Null")
+            coll.Add("Posted_By", "varchar(12)  Null references TSPL_USER_MASTER(User_Code)")
+            coll.Add("Posting_Date", "datetime  Null")
+            coll.Add("Status", "Integer Null")
+            coll.Add("Remarks", "varchar(200) Null")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_SALE_ACKNOWLEDGEMENT", coll, "", True)
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("DCODE", "Varchar(30) Not null Primary key")
             coll.Add("SNO", "Integer null")
             coll.Add("HCODE", "Varchar(30) Not null references TSPL_ITEM_WISE_TAX(HCODE)")
@@ -19610,6 +19632,7 @@ Public Class clsCreateAllTable
             coll.Add("From_Screen_Code", "Varchar(30) not null default 'PO-ODR'")
             coll.Add("Total_Add_Charge_Insurance", "decimal(18,2) NULL")
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
+            coll.Add("Retention", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PURCHASE_ORDER_HEAD", coll, Nothing, True, False, "", "PurchaseOrder_No", "PurchaseOrder_Date")
 
             Try
@@ -20982,6 +21005,7 @@ Public Class clsCreateAllTable
             coll.Add("VisualQCRemarksSecond", "varchar(200) null")
             coll.Add("VisualQCUpdatedBySecond", "varchar(12) NULL")
             coll.Add("VisualQCUpdatedDateSecond", "Date NULL")
+            coll.Add("Retention", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GRN_HEAD", coll, Nothing, False, True, "", "GRN_No", "GRN_Date")
 
             coll = New Dictionary(Of String, String)
@@ -21244,6 +21268,7 @@ Public Class clsCreateAllTable
             coll.Add("Total_Add_Charge_Insurance", "decimal(18,2) NULL")
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("NIR_QC", "integer NULL")
+            coll.Add("Retention", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_HEAD", coll, Nothing, False, True, "", "MRN_No", "MRN_Date")
 
 
@@ -21828,6 +21853,7 @@ Public Class clsCreateAllTable
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("Confirmatory_PO", "integer NUll")
             coll.Add("IsExemptSecurityDedution", "Integer not null default 0")
+            coll.Add("Retention", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_HEAD", coll, Nothing, True, True, "", "SRN_No", "SRN_Date")
 
             coll = New Dictionary(Of String, String)

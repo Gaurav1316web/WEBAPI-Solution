@@ -140,6 +140,15 @@ Public Class clsRcptEntryHeader
     Public Set_Off_Date As Date?
     Public SetOffSkipJE As Boolean
     Public From_Bank As String
+    'Public strRecieptCode As String = ""
+    Public strRecieptCode1 As Boolean = True
+    Public strRecieptCust As String = ""
+    Public strRecieptNum As String = Nothing
+    Public Property Name1 As String = Nothing
+
+
+
+
 
 #End Region
     ''To be Uncomment
@@ -169,7 +178,7 @@ Public Class clsRcptEntryHeader
         Return True
     End Function
 
-    
+
     Public Function SaveData(ByVal obj As clsRcptEntryHeader, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction, Optional ByVal CreateNewDocumentNoWithExistingDocumentNo As String = Nothing) As Boolean
 
         Dim isSaved As Boolean = True
@@ -832,7 +841,7 @@ Public Class clsRcptEntryHeader
         Dim isCustomerFinderLocationWiseARReceipt As Boolean = False
         Dim strJointCond As String = ""
 
-        Dim qry As String = "SELECT TSPL_RECEIPT_HEADER.Against_RCDF_Loadin, TSPL_RECEIPT_HEADER.isCardSale,TSPL_RECEIPT_HEADER.TapalNo,TSPL_RECEIPT_HEADER.DateAndTime,TSPL_RECEIPT_HEADER.AC_Payee,TSPL_RECEIPT_HEADER.cheque_in_favour_of,TSPL_RECEIPT_HEADER.ReceiptAgainstSO_DO,TSPL_RECEIPT_HEADER.SO_Location_Code,TSPL_RECEIPT_HEADER.Booking_Code,TSPL_RECEIPT_HEADER.Against_CSA_Transfer_Code,TSPL_RECEIPT_HEADER.SecurityDepositType,TSPL_RECEIPT_HEADER. memorandum_amt,TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, TSPL_RECEIPT_HEADER.Receipt_Post_Date,  TSPL_RECEIPT_HEADER.Entry_Desc, TSPL_RECEIPT_HEADER.Bank_Code,TSPL_RECEIPT_HEADER. Receipt_Type, TSPL_RECEIPT_HEADER.Cust_Code," &
+        Dim qry As String = "SELECT TSPL_RECEIPT_HEADER.Against_RCDF_Loadin, TSPL_RECEIPT_HEADER.isCardSale,TSPL_RECEIPT_HEADER.TapalNo,TSPL_RECEIPT_HEADER.DateAndTime,TSPL_RECEIPT_HEADER.AC_Payee,TSPL_RECEIPT_HEADER.cheque_in_favour_of,TSPL_RECEIPT_HEADER.ReceiptAgainstSO_DO,TSPL_RECEIPT_HEADER.SO_Location_Code,TSPL_RECEIPT_HEADER.Booking_Code,TSPL_RECEIPT_HEADER.Against_CSA_Transfer_Code,TSPL_RECEIPT_HEADER.SecurityDepositType,TSPL_RECEIPT_HEADER. memorandum_amt,TSPL_RECEIPT_HEADER.Receipt_No, TSPL_RECEIPT_HEADER.Receipt_Date, TSPL_RECEIPT_HEADER.Receipt_Post_Date,  TSPL_RECEIPT_HEADER.Entry_Desc, TSPL_RECEIPT_HEADER.Bank_Code,TSPL_RECEIPT_HEADER. Receipt_Type,TSPL_RECEIPT_HEADER.SecurityDepositType, TSPL_RECEIPT_HEADER.Cust_Code," &
         " TSPL_RECEIPT_HEADER.Customer_Name, TSPL_RECEIPT_HEADER.Reference, TSPL_RECEIPT_HEADER.Narration   , TSPL_RECEIPT_HEADER.Payment_Code, TSPL_RECEIPT_HEADER.Cheque_No, TSPL_RECEIPT_HEADER.Cheque_Date, TSPL_RECEIPT_HEADER.Cheque_From, TSPL_RECEIPT_HEADER.From_Branch, TSPL_RECEIPT_HEADER.Receipt_Amount," &
         " TSPL_RECEIPT_HEADER.Cust_Account, TSPL_RECEIPT_HEADER.Apply_By, TSPL_RECEIPT_HEADER.Apply_To, TSPL_RECEIPT_HEADER.Posted,TSPL_RECEIPT_HEADER.Foreign_Bank_Charges_Amt ,TSPL_RECEIPT_HEADER.Bank_Charges_Amt," &
         " TSPL_RECEIPT_HEADER.Level1_User_code, TSPL_RECEIPT_HEADER.Level2_User_code, TSPL_RECEIPT_HEADER.Level3_User_code, TSPL_RECEIPT_HEADER.Level4_User_code, TSPL_RECEIPT_HEADER.Level5_User_code," &
@@ -4695,6 +4704,7 @@ Public Class clsReceiptDettail
     Public Cost_Center_Fin_Name As String = Nothing ''Not a table column
     Public Hirerachy_Level_Code As String = Nothing
     Public Hirerachy_Level_Name As String = Nothing ''Not a table column
+    Public strRecieptCode As String = ""
 #End Region
 
     Public Shared Function SaveData(ByVal strReceiptNo As String, ByVal Arr As List(Of clsReceiptDettail), ByVal ReceiptType As String, ByVal trans As SqlTransaction) As Boolean
@@ -5189,6 +5199,7 @@ Public Class clsReceiptDetail_Refund
     Public Cost_Center_Fin_Name As String = Nothing ''Not a table column
     Public Hirerachy_Level_Code As String = Nothing
     Public Hirerachy_Level_Name As String = Nothing ''Not a table column
+
 #End Region
 
     Public Shared Function SaveData(ByVal strReceiptNo As String, ByVal Arr As List(Of clsReceiptDetail_Refund), ByVal ReceiptType As String, ByVal trans As SqlTransaction) As Boolean

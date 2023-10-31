@@ -400,6 +400,12 @@
     <Compile Include="Bulk Sale\Transaction\FrmBulkDispatchReturnSale.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmBulkSaleAcknowledgement.Designer.vb">
+      <DependentUpon>frmBulkSaleAcknowledgement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bulk Sale\Transaction\frmBulkSaleAcknowledgement.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Bulk Sale\Transaction\FrmBulkSaleReturn.Designer.vb">
       <DependentUpon>FrmBulkSaleReturn.vb</DependentUpon>
     </Compile>
@@ -1902,6 +1908,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Sale\Transaction\FrmBulkDispatchReturnSale.resx">
       <DependentUpon>FrmBulkDispatchReturnSale.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\frmBulkSaleAcknowledgement.resx">
+      <DependentUpon>frmBulkSaleAcknowledgement.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Sale\Transaction\FrmBulkSaleReturn.resx">
       <DependentUpon>FrmBulkSaleReturn.vb</DependentUpon>
