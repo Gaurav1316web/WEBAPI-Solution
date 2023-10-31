@@ -2092,6 +2092,14 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 End If
             End If
         End If
+        If e.RowElement.RowInfo.IsCurrent Then
+            e.RowElement.DrawFill = True
+            e.RowElement.BackColor = Color.Orange
+
+        Else
+            e.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
+            e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+        End If
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         PostData()
@@ -3133,6 +3141,26 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     gv1.CurrentRow.Cells(e.ColumnIndex).ReadOnly = True
                 End If
                 e.CellElement.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            End If
+
+            If e.Column.Index >= 7 AndAlso gv1.Rows.Count > 0 Then
+
+                If e.Column.IsCurrent Then
+                    e.CellElement.DrawFill = True
+                    e.CellElement.BackColor = Color.Orange
+                Else
+                    e.CellElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
+                    e.CellElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+
+                End If
+
+                If e.CellElement.RowInfo.IsCurrent Then
+                    e.CellElement.RowElement.BackColor = Color.Orange
+                    e.CellElement.RowElement.DrawFill = True
+                Else
+                    e.CellElement.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
+                    e.CellElement.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+                End If
             End If
         Catch ex As Exception
         End Try
