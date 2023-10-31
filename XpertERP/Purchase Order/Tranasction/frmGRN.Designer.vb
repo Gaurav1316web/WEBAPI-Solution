@@ -125,6 +125,8 @@ Partial Class frmGRN
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadLabel10 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel62 = New common.Controls.MyLabel()
+        Me.TxtRetention = New common.Controls.MyTextBox()
         Me.txtTermCode = New common.UserControls.txtFinder()
         Me.RadLabel16 = New common.Controls.MyLabel()
         Me.lblTermName = New common.Controls.MyLabel()
@@ -304,6 +306,8 @@ Partial Class frmGRN
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -443,7 +447,7 @@ Partial Class frmGRN
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1013, 429)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1877,6 +1881,8 @@ Partial Class frmGRN
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel62)
+        Me.RadGroupBox1.Controls.Add(Me.TxtRetention)
         Me.RadGroupBox1.Controls.Add(Me.txtTermCode)
         Me.RadGroupBox1.Controls.Add(Me.RadLabel16)
         Me.RadGroupBox1.Controls.Add(Me.txtDueDate)
@@ -1890,6 +1896,42 @@ Partial Class frmGRN
         Me.RadGroupBox1.Size = New System.Drawing.Size(992, 87)
         Me.RadGroupBox1.TabIndex = 3
         Me.RadGroupBox1.Text = "Terms"
+        '
+        'MyLabel62
+        '
+        Me.MyLabel62.AutoSize = False
+        Me.MyLabel62.FieldName = Nothing
+        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel62.Location = New System.Drawing.Point(194, 54)
+        Me.MyLabel62.Name = "MyLabel62"
+        Me.MyLabel62.Size = New System.Drawing.Size(72, 29)
+        Me.MyLabel62.TabIndex = 40
+        Me.MyLabel62.Text = "Retention"
+        '
+        'TxtRetention
+        '
+        Me.TxtRetention.CalculationExpression = Nothing
+        Me.TxtRetention.FieldCode = Nothing
+        Me.TxtRetention.FieldDesc = Nothing
+        Me.TxtRetention.FieldMaxLength = 0
+        Me.TxtRetention.FieldName = Nothing
+        Me.TxtRetention.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtRetention.isCalculatedField = False
+        Me.TxtRetention.IsSourceFromTable = False
+        Me.TxtRetention.IsSourceFromValueList = False
+        Me.TxtRetention.IsUnique = False
+        Me.TxtRetention.Location = New System.Drawing.Point(272, 59)
+        Me.TxtRetention.MaxLength = 200
+        Me.TxtRetention.MendatroryField = False
+        Me.TxtRetention.MyLinkLable1 = Me.MyLabel62
+        Me.TxtRetention.MyLinkLable2 = Nothing
+        Me.TxtRetention.Name = "TxtRetention"
+        Me.TxtRetention.ReadOnly = True
+        Me.TxtRetention.ReferenceFieldDesc = Nothing
+        Me.TxtRetention.ReferenceFieldName = Nothing
+        Me.TxtRetention.ReferenceTableName = Nothing
+        Me.TxtRetention.Size = New System.Drawing.Size(84, 18)
+        Me.TxtRetention.TabIndex = 39
         '
         'txtTermCode
         '
@@ -3308,6 +3350,8 @@ Partial Class frmGRN
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3594,5 +3638,7 @@ Partial Class frmGRN
     Friend WithEvents MyLabel23 As common.Controls.MyLabel
     Friend WithEvents MyLabel24 As common.Controls.MyLabel
     Friend WithEvents MyLabel25 As common.Controls.MyLabel
+    Friend WithEvents MyLabel62 As common.Controls.MyLabel
+    Friend WithEvents TxtRetention As common.Controls.MyTextBox
 End Class
 

@@ -78,7 +78,7 @@ Public Class clsMRNHead
     Public TermsName As String = Nothing
     Public Due_Date As String = Nothing
     Public Posting_Date As String = Nothing
-
+    Public Retention As Decimal = 0
     Public Carrier As String = Nothing
     Public VehicleNo As String = Nothing
     Public GRNo As String = Nothing
@@ -383,6 +383,7 @@ Public Class clsMRNHead
             End If
             clsCommon.AddColumnsForChange(coll, "Total_Add_Charge_Insurance", obj.Total_Add_Charge_Insurance)
             clsCommon.AddColumnsForChange(coll, "Total_Item_Insurance_Amt", obj.Total_Item_Insurance_Amt)
+            clsCommon.AddColumnsForChange(coll, "Retention", obj.Retention)
             '=======end here===========
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "MRN_No", obj.MRN_No)
@@ -521,6 +522,7 @@ Public Class clsMRNHead
             obj.SubLocationName = clsCommon.myCstr(dt.Rows(0)("SubLocationName"))
             obj.TaxGroupName = clsCommon.myCstr(dt.Rows(0)("TaxGroupName"))
             obj.TermsName = clsCommon.myCstr(dt.Rows(0)("TermsName"))
+            obj.Retention = clsCommon.myCdbl(dt.Rows(0)("Retention"))
             If clsCommon.myLen(dt.Rows(0)("Posting_Date")) > 0 Then
                 obj.Posting_Date = clsCommon.myCstr(dt.Rows(0)("Posting_Date"))
             End If

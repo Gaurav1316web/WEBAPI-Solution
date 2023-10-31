@@ -310,6 +310,7 @@ Public Class clsCustomerMaster
     Public Additional2 As String
     Public Additional3 As String
     Public location As String
+    Public Sequence As Double
     ''Public locationname As String
     Public Salesman_Code As String
     Public OutLet_Commossion As Double

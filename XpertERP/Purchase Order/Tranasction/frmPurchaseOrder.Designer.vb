@@ -28,9 +28,9 @@ Partial Class frmPurchaseOrder
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -173,6 +173,8 @@ Partial Class frmPurchaseOrder
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadLabel10 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel62 = New common.Controls.MyLabel()
+        Me.TxtRetention = New common.Controls.MyTextBox()
         Me.MyLabel54 = New common.Controls.MyLabel()
         Me.lblConfirmatory_PO_SRN_No = New common.Controls.MyLabel()
         Me.txtFreight = New common.Controls.MyTextBox()
@@ -328,6 +330,13 @@ Partial Class frmPurchaseOrder
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvSchedule = New common.UserControls.MyRadGridView()
+        Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.txtScheduleStartDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel60 = New common.Controls.MyLabel()
+        Me.MyLabel61 = New common.Controls.MyLabel()
         Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
         Me.lblWAddress = New common.Controls.MyTextBox()
@@ -343,13 +352,6 @@ Partial Class frmPurchaseOrder
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
         Me.gvTermsCdtion = New common.UserControls.MyRadGridView()
         Me.SplitPanel2 = New Telerik.WinControls.UI.SplitPanel()
-        Me.RadPageViewPage7 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.gvSchedule = New common.UserControls.MyRadGridView()
-        Me.Panel5 = New System.Windows.Forms.Panel()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.txtScheduleStartDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel60 = New common.Controls.MyLabel()
-        Me.MyLabel61 = New common.Controls.MyLabel()
         Me.btnNewHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnViewTDSDetails = New Telerik.WinControls.UI.RadButton()
         Me.btn_cancel = New Telerik.WinControls.UI.RadButton()
@@ -510,6 +512,8 @@ Partial Class frmPurchaseOrder
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblConfirmatory_PO_SRN_No, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFreight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -655,6 +659,14 @@ Partial Class frmPurchaseOrder
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage7.SuspendLayout()
+        CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel5.SuspendLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtScheduleStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage6.SuspendLayout()
         Me.SplitContainer4.Panel1.SuspendLayout()
         Me.SplitContainer4.Panel2.SuspendLayout()
@@ -678,14 +690,6 @@ Partial Class frmPurchaseOrder
         CType(Me.gvTermsCdtion, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvTermsCdtion.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage7.SuspendLayout()
-        CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel5.SuspendLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtScheduleStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_cancel, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -754,7 +758,7 @@ Partial Class frmPurchaseOrder
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(2, 2)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage7
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1101, 437)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2939,6 +2943,8 @@ Partial Class frmPurchaseOrder
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel62)
+        Me.RadGroupBox1.Controls.Add(Me.TxtRetention)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel54)
         Me.RadGroupBox1.Controls.Add(Me.lblConfirmatory_PO_SRN_No)
         Me.RadGroupBox1.Controls.Add(Me.txtFreight)
@@ -2969,6 +2975,41 @@ Partial Class frmPurchaseOrder
         Me.RadGroupBox1.Size = New System.Drawing.Size(1079, 144)
         Me.RadGroupBox1.TabIndex = 3
         Me.RadGroupBox1.Text = "Terms"
+        '
+        'MyLabel62
+        '
+        Me.MyLabel62.AutoSize = False
+        Me.MyLabel62.FieldName = Nothing
+        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel62.Location = New System.Drawing.Point(864, 104)
+        Me.MyLabel62.Name = "MyLabel62"
+        Me.MyLabel62.Size = New System.Drawing.Size(72, 29)
+        Me.MyLabel62.TabIndex = 38
+        Me.MyLabel62.Text = "Retention"
+        '
+        'TxtRetention
+        '
+        Me.TxtRetention.CalculationExpression = Nothing
+        Me.TxtRetention.FieldCode = Nothing
+        Me.TxtRetention.FieldDesc = Nothing
+        Me.TxtRetention.FieldMaxLength = 0
+        Me.TxtRetention.FieldName = Nothing
+        Me.TxtRetention.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtRetention.isCalculatedField = False
+        Me.TxtRetention.IsSourceFromTable = False
+        Me.TxtRetention.IsSourceFromValueList = False
+        Me.TxtRetention.IsUnique = False
+        Me.TxtRetention.Location = New System.Drawing.Point(942, 109)
+        Me.TxtRetention.MaxLength = 200
+        Me.TxtRetention.MendatroryField = False
+        Me.TxtRetention.MyLinkLable1 = Me.MyLabel62
+        Me.TxtRetention.MyLinkLable2 = Nothing
+        Me.TxtRetention.Name = "TxtRetention"
+        Me.TxtRetention.ReferenceFieldDesc = Nothing
+        Me.TxtRetention.ReferenceFieldName = Nothing
+        Me.TxtRetention.ReferenceTableName = Nothing
+        Me.TxtRetention.Size = New System.Drawing.Size(84, 18)
+        Me.TxtRetention.TabIndex = 37
         '
         'MyLabel54
         '
@@ -3015,7 +3056,7 @@ Partial Class frmPurchaseOrder
         Me.txtFreight.ReferenceFieldDesc = Nothing
         Me.txtFreight.ReferenceFieldName = Nothing
         Me.txtFreight.ReferenceTableName = Nothing
-        Me.txtFreight.Size = New System.Drawing.Size(415, 37)
+        Me.txtFreight.Size = New System.Drawing.Size(262, 37)
         Me.txtFreight.TabIndex = 10
         '
         'MyLabel15
@@ -3054,7 +3095,7 @@ Partial Class frmPurchaseOrder
         Me.MyLabel48.AutoSize = False
         Me.MyLabel48.FieldName = Nothing
         Me.MyLabel48.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel48.Location = New System.Drawing.Point(6, 115)
+        Me.MyLabel48.Location = New System.Drawing.Point(6, 110)
         Me.MyLabel48.Name = "MyLabel48"
         Me.MyLabel48.Size = New System.Drawing.Size(80, 26)
         Me.MyLabel48.TabIndex = 30
@@ -3179,7 +3220,7 @@ Partial Class frmPurchaseOrder
         Me.txtInsuranceTerms.ReferenceFieldDesc = Nothing
         Me.txtInsuranceTerms.ReferenceFieldName = Nothing
         Me.txtInsuranceTerms.ReferenceTableName = Nothing
-        Me.txtInsuranceTerms.Size = New System.Drawing.Size(415, 37)
+        Me.txtInsuranceTerms.Size = New System.Drawing.Size(262, 37)
         Me.txtInsuranceTerms.TabIndex = 9
         '
         'txtPaymentTerm
@@ -3205,7 +3246,7 @@ Partial Class frmPurchaseOrder
         Me.txtPaymentTerm.ReferenceFieldDesc = Nothing
         Me.txtPaymentTerm.ReferenceFieldName = Nothing
         Me.txtPaymentTerm.ReferenceTableName = Nothing
-        Me.txtPaymentTerm.Size = New System.Drawing.Size(415, 35)
+        Me.txtPaymentTerm.Size = New System.Drawing.Size(262, 35)
         Me.txtPaymentTerm.TabIndex = 8
         '
         'MyLabel14
@@ -5440,6 +5481,114 @@ Partial Class frmPurchaseOrder
         Me.RadLabel19.TabIndex = 14
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'RadPageViewPage7
+        '
+        Me.RadPageViewPage7.Controls.Add(Me.gvSchedule)
+        Me.RadPageViewPage7.Controls.Add(Me.Panel5)
+        Me.RadPageViewPage7.Controls.Add(Me.MyLabel61)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(84.0!, 26.0!)
+        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage7.Name = "RadPageViewPage7"
+        Me.RadPageViewPage7.Size = New System.Drawing.Size(1080, 391)
+        Me.RadPageViewPage7.Text = "Set Schedule"
+        '
+        'gvSchedule
+        '
+        Me.gvSchedule.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvSchedule.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvSchedule.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvSchedule.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvSchedule.ForeColor = System.Drawing.Color.Black
+        Me.gvSchedule.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvSchedule.Location = New System.Drawing.Point(0, 28)
+        '
+        '
+        '
+        Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
+        Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvSchedule.Name = "gvSchedule"
+        Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvSchedule.ShowGroupPanel = False
+        Me.gvSchedule.ShowHeaderCellButtons = True
+        Me.gvSchedule.Size = New System.Drawing.Size(1080, 350)
+        Me.gvSchedule.TabIndex = 20
+        Me.gvSchedule.TabStop = False
+        '
+        'Panel5
+        '
+        Me.Panel5.Controls.Add(Me.RadButton1)
+        Me.Panel5.Controls.Add(Me.txtScheduleStartDate)
+        Me.Panel5.Controls.Add(Me.MyLabel60)
+        Me.Panel5.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel5.Location = New System.Drawing.Point(0, 0)
+        Me.Panel5.Name = "Panel5"
+        Me.Panel5.Size = New System.Drawing.Size(1080, 28)
+        Me.Panel5.TabIndex = 19
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Anchor = System.Windows.Forms.AnchorStyles.Left
+        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton1.Location = New System.Drawing.Point(202, 5)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(55, 18)
+        Me.RadButton1.TabIndex = 1520
+        Me.RadButton1.Text = ">>"
+        '
+        'txtScheduleStartDate
+        '
+        Me.txtScheduleStartDate.CalculationExpression = Nothing
+        Me.txtScheduleStartDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtScheduleStartDate.FieldCode = Nothing
+        Me.txtScheduleStartDate.FieldDesc = Nothing
+        Me.txtScheduleStartDate.FieldMaxLength = 0
+        Me.txtScheduleStartDate.FieldName = Nothing
+        Me.txtScheduleStartDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtScheduleStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtScheduleStartDate.isCalculatedField = False
+        Me.txtScheduleStartDate.IsSourceFromTable = False
+        Me.txtScheduleStartDate.IsSourceFromValueList = False
+        Me.txtScheduleStartDate.IsUnique = False
+        Me.txtScheduleStartDate.Location = New System.Drawing.Point(120, 5)
+        Me.txtScheduleStartDate.MendatroryField = False
+        Me.txtScheduleStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtScheduleStartDate.MyLinkLable1 = Me.MyLabel60
+        Me.txtScheduleStartDate.MyLinkLable2 = Nothing
+        Me.txtScheduleStartDate.Name = "txtScheduleStartDate"
+        Me.txtScheduleStartDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtScheduleStartDate.ReferenceFieldDesc = Nothing
+        Me.txtScheduleStartDate.ReferenceFieldName = Nothing
+        Me.txtScheduleStartDate.ReferenceTableName = Nothing
+        Me.txtScheduleStartDate.Size = New System.Drawing.Size(79, 18)
+        Me.txtScheduleStartDate.TabIndex = 1518
+        Me.txtScheduleStartDate.TabStop = False
+        Me.txtScheduleStartDate.Text = "13/06/2011"
+        Me.txtScheduleStartDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel60
+        '
+        Me.MyLabel60.FieldName = Nothing
+        Me.MyLabel60.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel60.Location = New System.Drawing.Point(5, 6)
+        Me.MyLabel60.Name = "MyLabel60"
+        Me.MyLabel60.Size = New System.Drawing.Size(108, 16)
+        Me.MyLabel60.TabIndex = 1519
+        Me.MyLabel60.Text = "Schedule Start Date"
+        '
+        'MyLabel61
+        '
+        Me.MyLabel61.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel61.FieldName = Nothing
+        Me.MyLabel61.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel61.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel61.Location = New System.Drawing.Point(0, 378)
+        Me.MyLabel61.Name = "MyLabel61"
+        Me.MyLabel61.Size = New System.Drawing.Size(1080, 13)
+        Me.MyLabel61.TabIndex = 1522
+        Me.MyLabel61.Text = "Press F5 To View Penelty Details"
+        '
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.SplitContainer4)
@@ -5701,114 +5850,6 @@ Partial Class frmPurchaseOrder
         Me.SplitPanel2.TabIndex = 1
         Me.SplitPanel2.TabStop = False
         Me.SplitPanel2.Text = "SplitPanel2"
-        '
-        'RadPageViewPage7
-        '
-        Me.RadPageViewPage7.Controls.Add(Me.gvSchedule)
-        Me.RadPageViewPage7.Controls.Add(Me.Panel5)
-        Me.RadPageViewPage7.Controls.Add(Me.MyLabel61)
-        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(84.0!, 26.0!)
-        Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 35)
-        Me.RadPageViewPage7.Name = "RadPageViewPage7"
-        Me.RadPageViewPage7.Size = New System.Drawing.Size(1080, 391)
-        Me.RadPageViewPage7.Text = "Set Schedule"
-        '
-        'gvSchedule
-        '
-        Me.gvSchedule.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gvSchedule.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gvSchedule.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvSchedule.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gvSchedule.ForeColor = System.Drawing.Color.Black
-        Me.gvSchedule.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvSchedule.Location = New System.Drawing.Point(0, 28)
-        '
-        '
-        '
-        Me.gvSchedule.MasterTemplate.AllowDeleteRow = False
-        Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition7
-        Me.gvSchedule.Name = "gvSchedule"
-        Me.gvSchedule.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gvSchedule.ShowGroupPanel = False
-        Me.gvSchedule.ShowHeaderCellButtons = True
-        Me.gvSchedule.Size = New System.Drawing.Size(1080, 350)
-        Me.gvSchedule.TabIndex = 20
-        Me.gvSchedule.TabStop = False
-        '
-        'Panel5
-        '
-        Me.Panel5.Controls.Add(Me.RadButton1)
-        Me.Panel5.Controls.Add(Me.txtScheduleStartDate)
-        Me.Panel5.Controls.Add(Me.MyLabel60)
-        Me.Panel5.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel5.Location = New System.Drawing.Point(0, 0)
-        Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(1080, 28)
-        Me.Panel5.TabIndex = 19
-        '
-        'RadButton1
-        '
-        Me.RadButton1.Anchor = System.Windows.Forms.AnchorStyles.Left
-        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(202, 5)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(55, 18)
-        Me.RadButton1.TabIndex = 1520
-        Me.RadButton1.Text = ">>"
-        '
-        'txtScheduleStartDate
-        '
-        Me.txtScheduleStartDate.CalculationExpression = Nothing
-        Me.txtScheduleStartDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtScheduleStartDate.FieldCode = Nothing
-        Me.txtScheduleStartDate.FieldDesc = Nothing
-        Me.txtScheduleStartDate.FieldMaxLength = 0
-        Me.txtScheduleStartDate.FieldName = Nothing
-        Me.txtScheduleStartDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtScheduleStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtScheduleStartDate.isCalculatedField = False
-        Me.txtScheduleStartDate.IsSourceFromTable = False
-        Me.txtScheduleStartDate.IsSourceFromValueList = False
-        Me.txtScheduleStartDate.IsUnique = False
-        Me.txtScheduleStartDate.Location = New System.Drawing.Point(120, 5)
-        Me.txtScheduleStartDate.MendatroryField = False
-        Me.txtScheduleStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtScheduleStartDate.MyLinkLable1 = Me.MyLabel60
-        Me.txtScheduleStartDate.MyLinkLable2 = Nothing
-        Me.txtScheduleStartDate.Name = "txtScheduleStartDate"
-        Me.txtScheduleStartDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtScheduleStartDate.ReferenceFieldDesc = Nothing
-        Me.txtScheduleStartDate.ReferenceFieldName = Nothing
-        Me.txtScheduleStartDate.ReferenceTableName = Nothing
-        Me.txtScheduleStartDate.Size = New System.Drawing.Size(79, 18)
-        Me.txtScheduleStartDate.TabIndex = 1518
-        Me.txtScheduleStartDate.TabStop = False
-        Me.txtScheduleStartDate.Text = "13/06/2011"
-        Me.txtScheduleStartDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel60
-        '
-        Me.MyLabel60.FieldName = Nothing
-        Me.MyLabel60.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel60.Location = New System.Drawing.Point(5, 6)
-        Me.MyLabel60.Name = "MyLabel60"
-        Me.MyLabel60.Size = New System.Drawing.Size(108, 16)
-        Me.MyLabel60.TabIndex = 1519
-        Me.MyLabel60.Text = "Schedule Start Date"
-        '
-        'MyLabel61
-        '
-        Me.MyLabel61.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.MyLabel61.FieldName = Nothing
-        Me.MyLabel61.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel61.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel61.Location = New System.Drawing.Point(0, 378)
-        Me.MyLabel61.Name = "MyLabel61"
-        Me.MyLabel61.Size = New System.Drawing.Size(1080, 13)
-        Me.MyLabel61.TabIndex = 1522
-        Me.MyLabel61.Text = "Press F5 To View Penelty Details"
         '
         'btnNewHistory
         '
@@ -6156,6 +6197,8 @@ Partial Class frmPurchaseOrder
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblConfirmatory_PO_SRN_No, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFreight, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6308,6 +6351,16 @@ Partial Class frmPurchaseOrder
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage7.ResumeLayout(False)
+        Me.RadPageViewPage7.PerformLayout()
+        CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel5.ResumeLayout(False)
+        Me.Panel5.PerformLayout()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtScheduleStartDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage6.ResumeLayout(False)
         Me.SplitContainer4.Panel1.ResumeLayout(False)
         Me.SplitContainer4.Panel1.PerformLayout()
@@ -6332,16 +6385,6 @@ Partial Class frmPurchaseOrder
         CType(Me.gvTermsCdtion.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvTermsCdtion, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.SplitPanel2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage7.ResumeLayout(False)
-        Me.RadPageViewPage7.PerformLayout()
-        CType(Me.gvSchedule.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvSchedule, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel5.ResumeLayout(False)
-        Me.Panel5.PerformLayout()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtScheduleStartDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_cancel, System.ComponentModel.ISupportInitialize).EndInit()
@@ -6701,5 +6744,7 @@ Partial Class frmPurchaseOrder
     Friend WithEvents txtScheduleStartDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel60 As common.Controls.MyLabel
     Friend WithEvents MyLabel61 As common.Controls.MyLabel
+    Friend WithEvents MyLabel62 As common.Controls.MyLabel
+    Friend WithEvents TxtRetention As common.Controls.MyTextBox
 End Class
 

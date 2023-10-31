@@ -180,6 +180,7 @@ Public Class clsSRNHead
 
     Public Total_Item_Insurance_Amt As Decimal = 0
     Public Total_Add_Charge_Insurance As Decimal = 0
+    Public Retention As Decimal = 0
     Public Arr_ACInsurance As List(Of clsSRNAdditionChargeInsurance) = Nothing
     Public TenderNo As String = Nothing
     Public GRN_Date As Date? = Nothing
@@ -487,6 +488,7 @@ Public Class clsSRNHead
             clsCommon.AddColumnsForChange(coll, "IsAbatementPO", obj.IsAbatementPO)
             clsCommon.AddColumnsForChange(coll, "Issue_Road_Permit", obj.against_roadpermit)
             clsCommon.AddColumnsForChange(coll, "Issue_C_Form", obj.agnst_cform)
+            clsCommon.AddColumnsForChange(coll, "Retention", obj.Retention)
 
             clsCommon.AddColumnsForChange(coll, "Against_QC_Code", obj.Against_QC_Code)
             clsCommon.AddColumnsForChange(coll, "Against_QC_Date", obj.Against_QC_Date)
@@ -733,6 +735,7 @@ Public Class clsSRNHead
             obj.SubLocationName = clsCommon.myCstr(dt.Rows(0)("SubLocationName"))
             obj.TaxGroupName = clsCommon.myCstr(dt.Rows(0)("TaxGroupName"))
             obj.TermsName = clsCommon.myCstr(dt.Rows(0)("TermsName"))
+            obj.Retention = clsCommon.myCdbl(dt.Rows(0)("Retention"))
             If clsCommon.myLen(dt.Rows(0)("Posting_Date")) > 0 Then
                 obj.Posting_Date = clsCommon.myCstr(dt.Rows(0)("Posting_Date"))
             End If
