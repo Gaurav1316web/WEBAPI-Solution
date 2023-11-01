@@ -4779,7 +4779,7 @@ Public Class clsCustomerInvoiceDetail
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsCustomerInvoiceDetail), ByVal trans As SqlTransaction) As Boolean
-       If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
+        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsCustomerInvoiceDetail In Arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
@@ -4846,6 +4846,58 @@ Public Class clsCustomerInvoiceDetail
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Customer_Invoice_Detail", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
+        Return True
+    End Function
+
+End Class
+
+Public Class clsOPInvoiceForTCS
+
+#Region "Variables"
+    Public FINANCIAL_YEAR_CODE As String = Nothing
+    Public CUSTOMER_CODE As String = Nothing
+    Public SALE_AMT As Decimal = 0
+
+#End Region
+    Public Function SaveData(ByVal obj As clsOPInvoiceForTCS, ByVal isNewEntry As Boolean) As Boolean
+        Dim isSaved As Boolean = False
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            isSaved = obj.SaveData(obj, isNewEntry, trans)
+            If (isSaved) Then
+                trans.Commit()
+            Else
+                trans.Rollback()
+            End If
+        Catch err As Exception
+            trans.Rollback()
+            Throw New Exception(err.Message)
+        End Try
+        Return isSaved
+    End Function
+    Public Function SaveData(ByVal obj As clsOPInvoiceForTCS, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Dim isSaved As Boolean = True
+        Try
+
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "FINANCIAL_YEAR_CODE", obj.FINANCIAL_YEAR_CODE)
+            clsCommon.AddColumnsForChange(coll, "CUSTOMER_CODE", obj.CUSTOMER_CODE)
+            clsCommon.AddColumnsForChange(coll, "SALE_AMT", obj.SALE_AMT)
+
+            clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+            If isNewEntry Then
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_OP_invoice_for_TCS", OMInsertOrUpdate.Insert, "", trans)
+            Else
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_OP_invoice_for_TCS", OMInsertOrUpdate.Update, "CUSTOMER_CODE='" + obj.CUSTOMER_CODE + "'", trans)
+
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
         Return True
     End Function
 

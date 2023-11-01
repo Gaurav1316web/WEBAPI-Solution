@@ -8135,6 +8135,9 @@ Public Class clsCreateAllTable
             coll.Add("BPL_Coupon_Date", "Date NULL")
             coll.Add("Is_Distributor", "Integer Default 0")
             coll.Add("BPL_Category", "varchar(50) NULL")
+            coll.Add("TCSAmount", "decimal(18,2) null")
+            coll.Add("Is_Credit_Customer", "char(1) null")
+            coll.Add("LastCollectionDate", "Date NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
@@ -9758,6 +9761,7 @@ Public Class clsCreateAllTable
             coll.Add("Snf_Percentage", "float not null default 0")
             coll.Add("Standard_Rate", "float not null default 0")
             coll.Add("Tolerance", "float not null default 0")
+            coll.Add("Remarks", "varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "tspl_bulk_price_detail", coll, "", False, False, "TSPL_BULK_PRICE_MASTER", "Price_Code", "")
 
             coll = New Dictionary(Of String, String)()
@@ -15206,6 +15210,7 @@ Public Class clsCreateAllTable
             coll.Add("Modified_By", "varchar(12) NOT NULL")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAILY_ATTENDANCE", coll, Nothing, False, False)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("LVALLOTMENT_CODE", "VARCHAR(30) NOT NULL PRIMARY KEY")
@@ -22569,6 +22574,7 @@ Public Class clsCreateAllTable
             coll.Add("ChangedTCSBaseAmount", "decimal(18,2)")
             coll.Add("Total_Add_Charge_Insurance", "decimal(18,2) NULL")
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
+            coll.Add("TDS_Provision", "INTEGER not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PI_HEAD", coll, Nothing, True, True, "", "PI_No", "PI_Date")
 
             coll = New Dictionary(Of String, String)
@@ -49104,6 +49110,19 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("IsForAR", "INT NOT NULL DEFAULT 0")
             coll.Add("IsForJE", "INT NOT NULL DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_CONTROL_ACC_MAPPING", coll)
+
+            '''' Table for TCS Opening Amt
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL  identity NOT FOR REPLICATION")
+            coll.Add("FINANCIAL_YEAR_CODE", "Varchar(30) not null")
+            coll.Add("CUSTOMER_CODE", "VARCHAR(12) not null Unique REFERENCES TSPL_CUSTOMER_MASTER(CUST_CODE)")
+            coll.Add("SALE_AMT", "decimal(18, 2) NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_OP_INVOICE_FOR_TCS", coll)
 
 
             '' production without batch

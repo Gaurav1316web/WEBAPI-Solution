@@ -23,6 +23,9 @@ Partial Class FrmARInvoiceEntry
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmARInvoiceEntry))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -127,6 +130,7 @@ Partial Class FrmARInvoiceEntry
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.butCostCenterAndHirerachy_Update_AfterPost = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintServiceInvoice = New Telerik.WinControls.UI.RadButton()
         Me.btnsetting = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnsend = New Telerik.WinControls.UI.RadMenuItem()
@@ -153,7 +157,8 @@ Partial Class FrmARInvoiceEntry
         Me.mnuARInvoiceImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.butCostCenterAndHirerachy_Update_AfterPost = New Telerik.WinControls.UI.RadButton()
+        Me.rmiOPInvoiceForTCS = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiExportOPInvoiceForTCS = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -255,6 +260,7 @@ Partial Class FrmARInvoiceEntry
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintServiceInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -264,7 +270,6 @@ Partial Class FrmARInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -309,7 +314,6 @@ Partial Class FrmARInvoiceEntry
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1070, 416)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -617,6 +621,7 @@ Partial Class FrmARInvoiceEntry
         Me.ddlSecDepositType.AutoCompleteDisplayMember = Nothing
         Me.ddlSecDepositType.AutoCompleteValueMember = Nothing
         Me.ddlSecDepositType.CalculationExpression = Nothing
+        Me.ddlSecDepositType.DropDownAnimationEnabled = True
         Me.ddlSecDepositType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlSecDepositType.FieldCode = Nothing
         Me.ddlSecDepositType.FieldDesc = Nothing
@@ -665,7 +670,6 @@ Partial Class FrmARInvoiceEntry
         Me.LblLocDesp.Name = "LblLocDesp"
         Me.LblLocDesp.Size = New System.Drawing.Size(492, 18)
         Me.LblLocDesp.TabIndex = 160
-        Me.LblLocDesp.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblLocDesp.TextWrap = False
         '
         'MyLabel6
@@ -705,6 +709,7 @@ Partial Class FrmARInvoiceEntry
         Me.ddlReturnType.AutoCompleteDisplayMember = Nothing
         Me.ddlReturnType.AutoCompleteValueMember = Nothing
         Me.ddlReturnType.CalculationExpression = Nothing
+        Me.ddlReturnType.DropDownAnimationEnabled = True
         Me.ddlReturnType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlReturnType.Enabled = False
         Me.ddlReturnType.FieldCode = Nothing
@@ -783,7 +788,6 @@ Partial Class FrmARInvoiceEntry
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(264, 18)
         Me.lblProject.TabIndex = 1
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'MyLabel1
@@ -986,10 +990,12 @@ Partial Class FrmARInvoiceEntry
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -997,7 +1003,6 @@ Partial Class FrmARInvoiceEntry
         Me.gv1.Size = New System.Drawing.Size(1027, 160)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel8
         '
@@ -1058,7 +1063,6 @@ Partial Class FrmARInvoiceEntry
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(492, 18)
         Me.lblVendorName.TabIndex = 8
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel2
         '
@@ -1137,6 +1141,7 @@ Partial Class FrmARInvoiceEntry
         Me.cboDocType.AutoCompleteDisplayMember = Nothing
         Me.cboDocType.AutoCompleteValueMember = Nothing
         Me.cboDocType.CalculationExpression = Nothing
+        Me.cboDocType.DropDownAnimationEnabled = True
         Me.cboDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDocType.FieldCode = Nothing
         Me.cboDocType.FieldDesc = Nothing
@@ -1402,7 +1407,6 @@ Partial Class FrmARInvoiceEntry
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 1
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'gv2
         '
@@ -1421,14 +1425,15 @@ Partial Class FrmARInvoiceEntry
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(1044, 224)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'lblTaxGrpName
         '
@@ -1440,7 +1445,6 @@ Partial Class FrmARInvoiceEntry
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 1
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel11
         '
@@ -1490,10 +1494,12 @@ Partial Class FrmARInvoiceEntry
         Me.gvAC.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAC.Location = New System.Drawing.Point(0, 0)
         '
-        'gvAC
+        '
         '
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
+        Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -1501,7 +1507,6 @@ Partial Class FrmARInvoiceEntry
         Me.gvAC.Size = New System.Drawing.Size(1049, 333)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
-        Me.gvAC.Text = "RadGridView1"
         '
         'RadLabel31
         '
@@ -1872,6 +1877,15 @@ Partial Class FrmARInvoiceEntry
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'butCostCenterAndHirerachy_Update_AfterPost
+        '
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(506, 6)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Name = "butCostCenterAndHirerachy_Update_AfterPost"
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Size = New System.Drawing.Size(186, 22)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.TabIndex = 9
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Text = "Update Cost Center And Hirerachy"
+        '
         'btnPrintServiceInvoice
         '
         Me.btnPrintServiceInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1899,8 +1913,6 @@ Partial Class FrmARInvoiceEntry
         '
         'btnSendForApproval
         '
-        Me.btnSendForApproval.AccessibleDescription = "Send For Approval"
-        Me.btnSendForApproval.AccessibleName = "Send For Approval"
         Me.btnSendForApproval.Name = "btnSendForApproval"
         Me.btnSendForApproval.Text = "Send For Approval"
         '
@@ -1952,31 +1964,23 @@ Partial Class FrmARInvoiceEntry
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export"
-        Me.RadMenuItem2.AccessibleName = "Export"
-        Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem4, Me.mnuExportARInvoiceTrans, Me.mnuExportCN, Me.mnuExportDN, Me.mnuExportOpeningCredit, Me.mnuExortOpeningDebit})
+        Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem4, Me.mnuExportARInvoiceTrans, Me.mnuExportCN, Me.mnuExportDN, Me.mnuExportOpeningCredit, Me.mnuExortOpeningDebit, Me.rmiExportOPInvoiceForTCS})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Opening Balance ( Blank Sheet )"
-        Me.RadMenuItem4.AccessibleName = "Opening Balance ( Blank Sheet )"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Opening Balance ( Blank Sheet )"
         '
         'mnuExportARInvoiceTrans
         '
-        Me.mnuExportARInvoiceTrans.AccessibleDescription = "AR Invoice Transaction"
-        Me.mnuExportARInvoiceTrans.AccessibleName = "AR Invoice Transaction"
         Me.mnuExportARInvoiceTrans.Name = "mnuExportARInvoiceTrans"
         Me.mnuExportARInvoiceTrans.Text = "AR Invoice Transaction"
         '
@@ -1996,8 +2000,6 @@ Partial Class FrmARInvoiceEntry
         '
         'mnuExportOpeningCredit
         '
-        Me.mnuExportOpeningCredit.AccessibleDescription = "Opening Export[Credit Note]"
-        Me.mnuExportOpeningCredit.AccessibleName = "Opening Export[Credit Note]"
         Me.mnuExportOpeningCredit.Name = "mnuExportOpeningCredit"
         Me.mnuExportOpeningCredit.Text = "Opening Export[Credit Note]"
         '
@@ -2010,16 +2012,12 @@ Partial Class FrmARInvoiceEntry
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Import"
-        Me.RadMenuItem3.AccessibleName = "Import"
-        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem5, Me.RadMenuItem6, Me.RadMenuItem7, Me.mnuImportCR, Me.mnuImportDN, Me.mnuARInvoiceImport})
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem5, Me.RadMenuItem6, Me.RadMenuItem7, Me.mnuImportCR, Me.mnuImportDN, Me.mnuARInvoiceImport, Me.rmiOPInvoiceForTCS})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Import"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "Opening Balance"
-        Me.RadMenuItem5.AccessibleName = "Opening Balance"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Opening Balance"
         '
@@ -2039,22 +2037,16 @@ Partial Class FrmARInvoiceEntry
         '
         'mnuImportCR
         '
-        Me.mnuImportCR.AccessibleDescription = "Import[Credit Note]"
-        Me.mnuImportCR.AccessibleName = "Import[Credit Note]"
         Me.mnuImportCR.Name = "mnuImportCR"
         Me.mnuImportCR.Text = "Import[Credit Note]"
         '
         'mnuImportDN
         '
-        Me.mnuImportDN.AccessibleDescription = "Import[Debit Note]"
-        Me.mnuImportDN.AccessibleName = "Import[Debit Note]"
         Me.mnuImportDN.Name = "mnuImportDN"
         Me.mnuImportDN.Text = "Import[Debit Note]"
         '
         'mnuARInvoiceImport
         '
-        Me.mnuARInvoiceImport.AccessibleDescription = "Import AR Invoice"
-        Me.mnuARInvoiceImport.AccessibleName = "Import AR Invoice"
         Me.mnuARInvoiceImport.Name = "mnuARInvoiceImport"
         Me.mnuARInvoiceImport.Text = "Import AR Invoice"
         '
@@ -2074,16 +2066,16 @@ Partial Class FrmARInvoiceEntry
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1070, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
-        'butCostCenterAndHirerachy_Update_AfterPost
+        'rmiOPInvoiceForTCS
         '
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(506, 6)
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Name = "butCostCenterAndHirerachy_Update_AfterPost"
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Size = New System.Drawing.Size(186, 22)
-        Me.butCostCenterAndHirerachy_Update_AfterPost.TabIndex = 9
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Text = "Update Cost Center And Hirerachy"
+        Me.rmiOPInvoiceForTCS.Name = "rmiOPInvoiceForTCS"
+        Me.rmiOPInvoiceForTCS.Text = "Import OP Invoice For TCS"
+        '
+        'rmiExportOPInvoiceForTCS
+        '
+        Me.rmiExportOPInvoiceForTCS.Name = "rmiExportOPInvoiceForTCS"
+        Me.rmiExportOPInvoiceForTCS.Text = "Export OP Invoice For TCS"
         '
         'FrmARInvoiceEntry
         '
@@ -2209,6 +2201,7 @@ Partial Class FrmARInvoiceEntry
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintServiceInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2218,7 +2211,6 @@ Partial Class FrmARInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2355,5 +2347,7 @@ Partial Class FrmARInvoiceEntry
     Friend WithEvents txtTapalNo As common.Controls.MyTextBox
     Friend WithEvents btnCancel As RadButton
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As RadButton
+    Friend WithEvents rmiOPInvoiceForTCS As RadMenuItem
+    Friend WithEvents rmiExportOPInvoiceForTCS As RadMenuItem
 End Class
 
