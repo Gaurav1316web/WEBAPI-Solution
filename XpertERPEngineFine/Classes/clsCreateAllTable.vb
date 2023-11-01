@@ -22575,6 +22575,7 @@ Public Class clsCreateAllTable
             coll.Add("Total_Add_Charge_Insurance", "decimal(18,2) NULL")
             coll.Add("Total_Item_Insurance_Amt", "decimal(18,2) NULL")
             coll.Add("TDS_Provision", "INTEGER not null default 0")
+            coll.Add("Retention", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PI_HEAD", coll, Nothing, True, True, "", "PI_No", "PI_Date")
 
             coll = New Dictionary(Of String, String)
