@@ -692,6 +692,12 @@
     <Compile Include="ProcessProduction\Transaction\frmBreakDownEntry.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RCDFProduction\Transaction\frmRCDFStandardization.Designer.vb">
+      <DependentUpon>frmRCDFStandardization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RCDFProduction\Transaction\frmRCDFStandardization.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProcessProduction\Master\frmBreakDownMaster.resx">
@@ -1007,6 +1013,9 @@
     <EmbeddedResource Include="ProcessProduction\Transaction\frmBreakDownEntry.resx">
       <DependentUpon>frmBreakDownEntry.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RCDFProduction\Transaction\frmRCDFStandardization.resx">
+      <DependentUpon>frmRCDFStandardization.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="My Project\Application.myapp">
@@ -1046,9 +1055,7 @@
       <Name>XpertERPFixedAssets</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RCDFProduction\Transaction\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

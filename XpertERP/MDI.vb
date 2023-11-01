@@ -6970,8 +6970,15 @@ Public Class MDI
                         frm = New frmMRPForProduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmProcessProductionStandardization
-                        frm = New frmProcessProductionStandardization
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        Dim ActivateProductionWithoutBatch As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ActivateProductionWithoutBatch, clsFixedParameterCode.ActivateProductionWithoutBatch, Nothing))
+                        If ActivateProductionWithoutBatch > 0 Then
+                            frm = New frmProductionEntryWithoutBatch
+                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        Else
+                            frm = New frmProcessProductionStandardization
+                            formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        End If
+                        ActivateProductionWithoutBatch = Nothing
                     Case clsUserMgtCode.ProcessProductionStandardizationFinalQC
                         frm = New frmProcessProductionStandardizationFinalQC
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -6982,8 +6989,8 @@ Public Class MDI
                     '     frm = New RptDairyProductionWreckageReport
                     '    formShow(frm,strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.frmProductionEntry
-                        Dim ActivateProductionWithoutBatch As String = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ActivateProductionWithoutBatch, clsFixedParameterCode.ActivateProductionWithoutBatch, Nothing))
-                        If clsCommon.CompairString(ActivateProductionWithoutBatch, "1") = CompairStringResult.Equal Then
+                        Dim ActivateProductionWithoutBatch As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ActivateProductionWithoutBatch, clsFixedParameterCode.ActivateProductionWithoutBatch, Nothing))
+                        If ActivateProductionWithoutBatch > 0 Then
                             frm = New frmProductionEntryWithoutBatch
                             formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         Else

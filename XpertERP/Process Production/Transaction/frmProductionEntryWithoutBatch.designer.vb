@@ -22,6 +22,9 @@ Partial Class frmProductionEntryWithoutBatch
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -239,7 +242,6 @@ Partial Class frmProductionEntryWithoutBatch
         Me.lblConsmLocOtherDesc.Name = "lblConsmLocOtherDesc"
         Me.lblConsmLocOtherDesc.Size = New System.Drawing.Size(201, 20)
         Me.lblConsmLocOtherDesc.TabIndex = 63
-        Me.lblConsmLocOtherDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtConsmLocOther
         '
@@ -287,7 +289,6 @@ Partial Class frmProductionEntryWithoutBatch
         Me.lblConsmLocMilkDesc.Name = "lblConsmLocMilkDesc"
         Me.lblConsmLocMilkDesc.Size = New System.Drawing.Size(202, 20)
         Me.lblConsmLocMilkDesc.TabIndex = 60
-        Me.lblConsmLocMilkDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtConsmLocMilk
         '
@@ -334,7 +335,6 @@ Partial Class frmProductionEntryWithoutBatch
         Me.TxtCategory.Name = "TxtCategory"
         Me.TxtCategory.Size = New System.Drawing.Size(202, 19)
         Me.TxtCategory.TabIndex = 57
-        Me.TxtCategory.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel3
         '
@@ -589,7 +589,6 @@ Partial Class frmProductionEntryWithoutBatch
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(202, 20)
         Me.lblLocation.TabIndex = 14
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtCode
         '
@@ -666,7 +665,6 @@ Partial Class frmProductionEntryWithoutBatch
         Me.RadPageView1.SelectedPage = Me.pageBatchProduction
         Me.RadPageView1.Size = New System.Drawing.Size(1036, 312)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -707,10 +705,12 @@ Partial Class frmProductionEntryWithoutBatch
         Me.gvBatch.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvBatch.Location = New System.Drawing.Point(10, 20)
         '
-        'gvBatch
+        '
         '
         Me.gvBatch.MasterTemplate.AllowAddNewRow = False
+        Me.gvBatch.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBatch.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvBatch.Name = "gvBatch"
         Me.gvBatch.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBatch.ShowGroupPanel = False
@@ -718,7 +718,6 @@ Partial Class frmProductionEntryWithoutBatch
         Me.gvBatch.Size = New System.Drawing.Size(995, 236)
         Me.gvBatch.TabIndex = 0
         Me.gvBatch.TabStop = False
-        Me.gvBatch.Text = "RadGridView1"
         '
         'pageConsumption
         '
@@ -753,11 +752,13 @@ Partial Class frmProductionEntryWithoutBatch
         Me.gvConsumption.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvConsumption.Location = New System.Drawing.Point(10, 20)
         '
-        'gvConsumption
+        '
         '
         Me.gvConsumption.MasterTemplate.AllowAddNewRow = False
         Me.gvConsumption.MasterTemplate.AllowDeleteRow = False
+        Me.gvConsumption.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvConsumption.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvConsumption.Name = "gvConsumption"
         Me.gvConsumption.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvConsumption.ShowGroupPanel = False
@@ -765,7 +766,6 @@ Partial Class frmProductionEntryWithoutBatch
         Me.gvConsumption.Size = New System.Drawing.Size(995, 236)
         Me.gvConsumption.TabIndex = 0
         Me.gvConsumption.TabStop = False
-        Me.gvConsumption.Text = "RadGridView1"
         '
         'pageProductionCost
         '
@@ -773,7 +773,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.pageProductionCost.ItemSize = New System.Drawing.SizeF(97.0!, 26.0!)
         Me.pageProductionCost.Location = New System.Drawing.Point(10, 35)
         Me.pageProductionCost.Name = "pageProductionCost"
-        Me.pageProductionCost.Size = New System.Drawing.Size(1015, 327)
+        Me.pageProductionCost.Size = New System.Drawing.Size(1015, 266)
         Me.pageProductionCost.Text = "Production Cost"
         '
         'RadGroupBox3
@@ -786,7 +786,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox3.Size = New System.Drawing.Size(1015, 327)
+        Me.RadGroupBox3.Size = New System.Drawing.Size(1015, 266)
         Me.RadGroupBox3.TabIndex = 10
         Me.RadGroupBox3.Text = "Production Cost details"
         '
@@ -804,15 +804,16 @@ Partial Class frmProductionEntryWithoutBatch
         '
         Me.gvProductionCost.MasterTemplate.AllowAddNewRow = False
         Me.gvProductionCost.MasterTemplate.AllowDeleteRow = False
+        Me.gvProductionCost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProductionCost.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvProductionCost.Name = "gvProductionCost"
         Me.gvProductionCost.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProductionCost.ShowGroupPanel = False
         Me.gvProductionCost.ShowHeaderCellButtons = True
-        Me.gvProductionCost.Size = New System.Drawing.Size(995, 297)
+        Me.gvProductionCost.Size = New System.Drawing.Size(995, 236)
         Me.gvProductionCost.TabIndex = 0
         Me.gvProductionCost.TabStop = False
-        Me.gvProductionCost.Text = "RadGridView1"
         '
         'RadPageViewPage1
         '
@@ -820,7 +821,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1015, 305)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1015, 266)
         Me.RadPageViewPage1.Text = "Attachments"
         '
         'UcAttachment1
@@ -828,7 +829,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1015, 305)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1015, 266)
         Me.UcAttachment1.TabIndex = 2
         '
         'btnGo
@@ -904,27 +905,20 @@ Partial Class frmProductionEntryWithoutBatch
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1036, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export"
-        Me.RadMenuItem2.AccessibleName = "Export"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Import"
-        Me.RadMenuItem3.AccessibleName = "Import"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Import"
         '

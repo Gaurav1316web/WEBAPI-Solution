@@ -236,6 +236,8 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.lblLastCollectionDate = New common.Controls.MyLabel()
+        Me.txtLastCollectionDate = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -436,6 +438,8 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLastCollectionDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLastCollectionDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -472,7 +476,7 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadPanel2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadPanel1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1098, 523)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1378, 523)
         Me.SplitContainer1.SplitterDistance = 455
         Me.SplitContainer1.TabIndex = 1
         '
@@ -488,7 +492,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1098, 455)
+        Me.RadPageView1.Size = New System.Drawing.Size(1378, 455)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -496,6 +500,8 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblLastCollectionDate)
+        Me.RadPageViewPage1.Controls.Add(Me.txtLastCollectionDate)
         Me.RadPageViewPage1.Controls.Add(Me.txtCategory)
         Me.RadPageViewPage1.Controls.Add(Me.lblCategory)
         Me.RadPageViewPage1.Controls.Add(Me.chkDistributor)
@@ -556,7 +562,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1077, 409)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1357, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
         '
         'txtCategory
@@ -1309,10 +1315,10 @@ Partial Class frmDairyBookingCustomer
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Item Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 131)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 139)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1072, 270)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1352, 262)
         Me.RadGroupBox2.TabIndex = 28
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1336,7 +1342,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1052, 240)
+        Me.gv1.Size = New System.Drawing.Size(1332, 232)
         Me.gv1.TabIndex = 17
         Me.gv1.TabStop = False
         '
@@ -2872,7 +2878,7 @@ Partial Class frmDairyBookingCustomer
         Me.pnlTCS.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.pnlTCS.Controls.Add(Me.MyLabel17)
         Me.pnlTCS.Controls.Add(Me.lblTCSAmount)
-        Me.pnlTCS.Location = New System.Drawing.Point(361, 0)
+        Me.pnlTCS.Location = New System.Drawing.Point(641, 0)
         Me.pnlTCS.Name = "pnlTCS"
         Me.pnlTCS.Size = New System.Drawing.Size(191, 32)
         Me.pnlTCS.TabIndex = 1486
@@ -2925,7 +2931,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPanel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadPanel3.Controls.Add(Me.MyLabel11)
         Me.RadPanel3.Controls.Add(Me.lblTotalDocAmt)
-        Me.RadPanel3.Location = New System.Drawing.Point(785, 0)
+        Me.RadPanel3.Location = New System.Drawing.Point(1065, 0)
         Me.RadPanel3.Name = "RadPanel3"
         Me.RadPanel3.Size = New System.Drawing.Size(260, 32)
         Me.RadPanel3.TabIndex = 1484
@@ -2958,7 +2964,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(780, 21)
+        Me.RadLabel10.Location = New System.Drawing.Point(1060, 21)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(158, 16)
         Me.RadLabel10.TabIndex = 1485
@@ -3020,7 +3026,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(1012, 36)
+        Me.btnClose.Location = New System.Drawing.Point(1292, 36)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(42, 22)
         Me.btnClose.TabIndex = 10
@@ -3045,7 +3051,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPanel2.Controls.Add(Me.txtCrate)
         Me.RadPanel2.Controls.Add(Me.lblCan)
         Me.RadPanel2.Controls.Add(Me.txtCan)
-        Me.RadPanel2.Location = New System.Drawing.Point(19, 0)
+        Me.RadPanel2.Location = New System.Drawing.Point(299, 0)
         Me.RadPanel2.Name = "RadPanel2"
         Me.RadPanel2.Size = New System.Drawing.Size(294, 32)
         Me.RadPanel2.TabIndex = 1450
@@ -3121,7 +3127,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPanel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadPanel1.Controls.Add(Me.MyLabel5)
         Me.RadPanel1.Controls.Add(Me.lblTotRAmt1)
-        Me.RadPanel1.Location = New System.Drawing.Point(555, 0)
+        Me.RadPanel1.Location = New System.Drawing.Point(835, 0)
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(227, 32)
         Me.RadPanel1.TabIndex = 159
@@ -3154,7 +3160,7 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel2.Location = New System.Drawing.Point(0, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(1098, 25)
+        Me.Panel2.Size = New System.Drawing.Size(1378, 25)
         Me.Panel2.TabIndex = 5
         '
         'RadMenu1
@@ -3162,7 +3168,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1098, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1378, 20)
         Me.RadMenu1.TabIndex = 0
         '
         'RadMenuItem2
@@ -3195,11 +3201,31 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
+        'lblLastCollectionDate
+        '
+        Me.lblLastCollectionDate.FieldName = Nothing
+        Me.lblLastCollectionDate.Location = New System.Drawing.Point(1074, 85)
+        Me.lblLastCollectionDate.Name = "lblLastCollectionDate"
+        Me.lblLastCollectionDate.Size = New System.Drawing.Size(106, 18)
+        Me.lblLastCollectionDate.TabIndex = 1541
+        Me.lblLastCollectionDate.Text = "Last Collection Date"
+        '
+        'txtLastCollectionDate
+        '
+        Me.txtLastCollectionDate.AutoSize = False
+        Me.txtLastCollectionDate.BorderVisible = True
+        Me.txtLastCollectionDate.FieldName = Nothing
+        Me.txtLastCollectionDate.Location = New System.Drawing.Point(1188, 84)
+        Me.txtLastCollectionDate.Name = "txtLastCollectionDate"
+        Me.txtLastCollectionDate.Size = New System.Drawing.Size(126, 19)
+        Me.txtLastCollectionDate.TabIndex = 1542
+        Me.txtLastCollectionDate.TextWrap = False
+        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1098, 548)
+        Me.ClientSize = New System.Drawing.Size(1378, 548)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.Panel2)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
@@ -3426,6 +3452,8 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLastCollectionDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLastCollectionDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3638,5 +3666,7 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents chkDistributor As RadCheckBox
     Friend WithEvents txtCategory As common.UserControls.txtFinder
     Friend WithEvents lblCategory As common.Controls.MyLabel
+    Friend WithEvents lblLastCollectionDate As common.Controls.MyLabel
+    Friend WithEvents txtLastCollectionDate As common.Controls.MyLabel
 End Class
 
