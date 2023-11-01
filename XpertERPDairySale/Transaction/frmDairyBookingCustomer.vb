@@ -1854,8 +1854,10 @@ Public Class frmDairyBookingCustomer
                 If chkDCS.Checked Then
                     obj.Is_DCS = 1
                     obj.Booking_Type = cmbcashcredit.Text
+                    obj.LastCollectionDate = txtLastCollectionDate.Text
                 Else
                     obj.Booking_Type = ""
+                    obj.LastCollectionDate = Nothing
                 End If
                 If clsCommon.CompairString(cmbGatePassType.Text, "Select") = CompairStringResult.Equal Then
                     obj.GatePass_Type = ""
@@ -2467,11 +2469,12 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     txtCouponDate.Value = obj.BPL_Coupon_Date
                     txtCategory.Value = obj.BPL_Category
                 End If
-                'If chkDCS.Checked Then
-                '    GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
-                'Else
-                '    CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
-                'End If
+                If chkDCS.Checked Then
+                    'GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
+                    txtLastCollectionDate.Text = obj.LastCollectionDate
+                    'Else
+                    'CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
+                End If
                 txtLocation.Enabled = False
                 txtVendorNo.Enabled = False
                 txtDocNo.Value = obj.Document_No
@@ -3206,6 +3209,9 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             txtVendorNo.Value = clsCommon.ShowSelectForm("CustomerFnder1", qry, "Code", WhrCls, txtVendorNo.Value, "Code", isButtonClicked)
             lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"))
             lblBoothStation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(Zone_Code,'') +  case when len(oldname )>0 then ', ' +isnull(oldname,'') else '' end from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"))
+            If chkDCS.Checked Then
+                txtLastCollectionDate.Text = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select top 1 DOC_DATE from TSPL_MILK_SRN_HEAD where VSP_CODE='" + txtVendorNo.Value + "' order by TSPL_MILK_SRN_HEAD.DOC_DATE desc"))
+            End If
             setRouteDetail(txtVendorNo.Value, txtRouteNo.Value)
             gv1.DataSource = Nothing
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
@@ -5751,12 +5757,16 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             chkBPL.Enabled = False
             chkDistributor.Checked = False
             chkDistributor.Enabled = False
+            txtLastCollectionDate.Visible = True
+            lblLastCollectionDate.Visible = True
         Else
             lblCredit.Visible = False
             cmbcashcredit.Visible = False
             chkBPL.Enabled = True
             chkDistributor.Checked = True
             chkDistributor.Enabled = True
+            txtLastCollectionDate.Visible = False
+            lblLastCollectionDate.Visible = False
         End If
     End Sub
     Public Sub GetUnbilledAmt(ByVal dtDoc As DateTime, ByVal VendorNo As String)

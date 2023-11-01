@@ -22,11 +22,14 @@ Partial Class FrmProcessBatchOrder
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmProcessBatchOrder))
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -194,10 +197,9 @@ Partial Class FrmProcessBatchOrder
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(3, 3)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(985, 462)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -288,7 +290,6 @@ Partial Class FrmProcessBatchOrder
         Me.lblCostCenterName.Name = "lblCostCenterName"
         Me.lblCostCenterName.Size = New System.Drawing.Size(389, 19)
         Me.lblCostCenterName.TabIndex = 72
-        Me.lblCostCenterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel8
         '
@@ -408,7 +409,6 @@ Partial Class FrmProcessBatchOrder
         Me.lblProfitCenterName.Name = "lblProfitCenterName"
         Me.lblProfitCenterName.Size = New System.Drawing.Size(389, 19)
         Me.lblProfitCenterName.TabIndex = 68
-        Me.lblProfitCenterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtManualBatchNo
         '
@@ -452,7 +452,6 @@ Partial Class FrmProcessBatchOrder
         Me.txtSectionName.Name = "txtSectionName"
         Me.txtSectionName.Size = New System.Drawing.Size(385, 19)
         Me.txtSectionName.TabIndex = 57
-        Me.txtSectionName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtSectionCode
         '
@@ -463,7 +462,6 @@ Partial Class FrmProcessBatchOrder
         Me.txtSectionCode.Name = "txtSectionCode"
         Me.txtSectionCode.Size = New System.Drawing.Size(154, 19)
         Me.txtSectionCode.TabIndex = 56
-        Me.txtSectionCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel6
         '
@@ -520,7 +518,6 @@ Partial Class FrmProcessBatchOrder
         Me.txtplan_desc.Name = "txtplan_desc"
         Me.txtplan_desc.Size = New System.Drawing.Size(385, 19)
         Me.txtplan_desc.TabIndex = 53
-        Me.txtplan_desc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtdesc
         '
@@ -609,7 +606,6 @@ Partial Class FrmProcessBatchOrder
         Me.txtitemcategory_name.Name = "txtitemcategory_name"
         Me.txtitemcategory_name.Size = New System.Drawing.Size(385, 19)
         Me.txtitemcategory_name.TabIndex = 49
-        Me.txtitemcategory_name.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtmain_batch
         '
@@ -620,7 +616,6 @@ Partial Class FrmProcessBatchOrder
         Me.txtmain_batch.Name = "txtmain_batch"
         Me.txtmain_batch.Size = New System.Drawing.Size(154, 19)
         Me.txtmain_batch.TabIndex = 45
-        Me.txtmain_batch.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel2
         '
@@ -713,7 +708,6 @@ Partial Class FrmProcessBatchOrder
         Me.txtlocationname.Name = "txtlocationname"
         Me.txtlocationname.Size = New System.Drawing.Size(385, 19)
         Me.txtlocationname.TabIndex = 37
-        Me.txtlocationname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'UsLock1
         '
@@ -741,6 +735,7 @@ Partial Class FrmProcessBatchOrder
         Me.cboBOMStatus.AutoCompleteDisplayMember = Nothing
         Me.cboBOMStatus.AutoCompleteValueMember = Nothing
         Me.cboBOMStatus.CalculationExpression = Nothing
+        Me.cboBOMStatus.DropDownAnimationEnabled = True
         Me.cboBOMStatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboBOMStatus.FieldCode = Nothing
         Me.cboBOMStatus.FieldDesc = Nothing
@@ -751,14 +746,14 @@ Partial Class FrmProcessBatchOrder
         Me.cboBOMStatus.IsSourceFromTable = False
         Me.cboBOMStatus.IsSourceFromValueList = False
         Me.cboBOMStatus.IsUnique = False
-        RadListDataItem1.Text = "Open"
-        RadListDataItem2.Text = "Approved"
-        RadListDataItem3.Text = "On Hold"
-        RadListDataItem4.Text = "In-Active"
-        Me.cboBOMStatus.Items.Add(RadListDataItem1)
-        Me.cboBOMStatus.Items.Add(RadListDataItem2)
-        Me.cboBOMStatus.Items.Add(RadListDataItem3)
-        Me.cboBOMStatus.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Open"
+        RadListDataItem6.Text = "Approved"
+        RadListDataItem7.Text = "On Hold"
+        RadListDataItem8.Text = "In-Active"
+        Me.cboBOMStatus.Items.Add(RadListDataItem5)
+        Me.cboBOMStatus.Items.Add(RadListDataItem6)
+        Me.cboBOMStatus.Items.Add(RadListDataItem7)
+        Me.cboBOMStatus.Items.Add(RadListDataItem8)
         Me.cboBOMStatus.Location = New System.Drawing.Point(467, 20)
         Me.cboBOMStatus.MendatroryField = True
         Me.cboBOMStatus.MyLinkLable1 = Me.lblBOMStatus
@@ -863,18 +858,19 @@ Partial Class FrmProcessBatchOrder
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(2, 18)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowDragToGroup = False
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.EnableGrouping = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv.Name = "gv"
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(954, 72)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -912,18 +908,19 @@ Partial Class FrmProcessBatchOrder
         Me.gvraw.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvraw.Location = New System.Drawing.Point(0, 0)
         '
-        'gvraw
+        '
         '
         Me.gvraw.MasterTemplate.AllowDragToGroup = False
         Me.gvraw.MasterTemplate.EnableFiltering = True
         Me.gvraw.MasterTemplate.EnableGrouping = False
+        Me.gvraw.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvraw.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvraw.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvraw.Name = "gvraw"
         Me.gvraw.ShowGroupPanel = False
         Me.gvraw.ShowHeaderCellButtons = True
         Me.gvraw.Size = New System.Drawing.Size(964, 414)
         Me.gvraw.TabIndex = 1
-        Me.gvraw.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -959,13 +956,14 @@ Partial Class FrmProcessBatchOrder
         '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(964, 414)
         Me.gv1.TabIndex = 6
-        Me.gv1.Text = "RadGridView1"
         '
         'btnCancel
         '
@@ -1008,16 +1006,12 @@ Partial Class FrmProcessBatchOrder
         '
         'btnExcel
         '
-        Me.btnExcel.AccessibleDescription = "Excel"
-        Me.btnExcel.AccessibleName = "Excel"
         Me.btnExcel.Image = Global.ERP.My.Resources.Resources.MSE
         Me.btnExcel.Name = "btnExcel"
         Me.btnExcel.Text = "Excel"
         '
         'btnpdf
         '
-        Me.btnpdf.AccessibleDescription = "PDF"
-        Me.btnpdf.AccessibleName = "PDF"
         Me.btnpdf.Image = Global.ERP.My.Resources.Resources.pdf
         Me.btnpdf.Name = "btnpdf"
         Me.btnpdf.Text = "PDF"
