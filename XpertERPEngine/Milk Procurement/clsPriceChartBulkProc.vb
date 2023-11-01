@@ -224,6 +224,8 @@ Public Class clspriceCodeBulkProcDetail
     Public Snf_Percentage As Double = 0
     Public Standard_Rate As Double = 0
     Public Tolerance As Double = 0
+    Public Remarks As String = Nothing
+
 
 #End Region
 
@@ -242,6 +244,7 @@ Public Class clspriceCodeBulkProcDetail
                 clsCommon.AddColumnsForChange(coll, "Snf_Percentage", obj.Snf_Percentage)
                 clsCommon.AddColumnsForChange(coll, "Standard_Rate", obj.Standard_Rate)
                 clsCommon.AddColumnsForChange(coll, "Tolerance", obj.Tolerance)
+                clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks, True)
                 clsCommonFunctionality.UpdateDataTable(coll, "tspl_bulk_price_detail", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
@@ -251,8 +254,8 @@ Public Class clspriceCodeBulkProcDetail
     Public Shared Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As List(Of clspriceCodeBulkProcDetail)
         Dim arr As List(Of clspriceCodeBulkProcDetail) = Nothing
         Dim qry As String
-        qry = "select tspl_bulk_price_detail.Line_No,tspl_bulk_price_detail.Milk_Grade_code,tspl_bulk_price_detail.Fat_Weightage,tspl_bulk_price_detail.Snf_Weightage,tspl_bulk_price_detail.Fat_Percentage, " & _
-            "tspl_bulk_price_detail.Snf_Percentage,tspl_bulk_price_detail.Standard_Rate,tspl_bulk_price_detail.Tolerance from " & _
+        qry = "select tspl_bulk_price_detail.Line_No,tspl_bulk_price_detail.Milk_Grade_code,tspl_bulk_price_detail.Fat_Weightage,tspl_bulk_price_detail.Snf_Weightage,tspl_bulk_price_detail.Fat_Percentage, " &
+            "tspl_bulk_price_detail.Snf_Percentage,tspl_bulk_price_detail.Standard_Rate,tspl_bulk_price_detail.Tolerance,tspl_bulk_price_detail.Remarks from " &
             "tspl_bulk_price_detail where tspl_bulk_price_detail.Price_Code='" + strCode + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -268,6 +271,7 @@ Public Class clspriceCodeBulkProcDetail
                 obj.Snf_Percentage = clsCommon.myCdbl(dr("Snf_Percentage"))
                 obj.Standard_Rate = clsCommon.myCdbl(dr("Standard_Rate"))
                 obj.Tolerance = clsCommon.myCdbl(dr("Tolerance"))
+                obj.Remarks = clsCommon.myCstr(dr("Remarks"))
                 arr.Add(obj)
             Next
         End If

@@ -525,7 +525,7 @@ Partial Class frmSNShipment
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1255, 537)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -624,9 +624,9 @@ Partial Class frmSNShipment
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(107.0!, 22.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1234, 495)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1234, 491)
         Me.RadPageViewPage1.Text = "Shipment/Dispatch"
         '
         'lbltransporter
@@ -1512,7 +1512,7 @@ Partial Class frmSNShipment
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel5.Location = New System.Drawing.Point(1034, 465)
+        Me.MyLabel5.Location = New System.Drawing.Point(1034, 461)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(197, 16)
         Me.MyLabel5.TabIndex = 56
@@ -1582,7 +1582,7 @@ Partial Class frmSNShipment
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(915, 426)
+        Me.RadLabel12.Location = New System.Drawing.Point(915, 422)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(318, 16)
         Me.RadLabel12.TabIndex = 24
@@ -1596,7 +1596,7 @@ Partial Class frmSNShipment
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 426)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 422)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
@@ -1753,7 +1753,7 @@ Partial Class frmSNShipment
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.ForeColor = System.Drawing.Color.Blue
-        Me.MyLabel2.Location = New System.Drawing.Point(-1, 482)
+        Me.MyLabel2.Location = New System.Drawing.Point(-1, 478)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(438, 16)
         Me.MyLabel2.TabIndex = 25
@@ -1980,7 +1980,7 @@ Partial Class frmSNShipment
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 219)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1229, 205)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1229, 201)
         Me.RadGroupBox2.TabIndex = 40
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -2008,7 +2008,7 @@ Partial Class frmSNShipment
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1209, 175)
+        Me.gv1.Size = New System.Drawing.Size(1209, 171)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -2346,9 +2346,9 @@ Partial Class frmSNShipment
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1234, 491)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1234, 495)
         Me.RadPageViewPage2.Text = "Taxes"
         '
         'GroupBox1
@@ -2436,7 +2436,7 @@ Partial Class frmSNShipment
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(1076, 387)
+        Me.RadLabel10.Location = New System.Drawing.Point(1076, 391)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 4
@@ -2454,7 +2454,7 @@ Partial Class frmSNShipment
         Me.RadGroupBox1.Controls.Add(Me.lblTermName)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 400)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 404)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(1234, 87)
@@ -2572,7 +2572,7 @@ Partial Class frmSNShipment
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1229, 349)
+        Me.gv2.Size = New System.Drawing.Size(1229, 353)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
         '
@@ -2713,9 +2713,9 @@ Partial Class frmSNShipment
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
-        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1234, 491)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1234, 495)
         Me.RadPageViewPage4.Text = "Total"
         '
         'txtTCSTaxRate
@@ -3056,7 +3056,7 @@ Partial Class frmSNShipment
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(963, 473)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(963, 477)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
         Me.btnReverseAndUnpost.Size = New System.Drawing.Size(268, 18)
         Me.btnReverseAndUnpost.TabIndex = 9

@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmStandardization
+Partial Class frmRCDFStandardization
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
@@ -22,12 +22,19 @@ Partial Class frmStandardization
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmStandardization))
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmRCDFStandardization))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtRemarks = New common.Controls.MyTextBox()
+        Me.MyLabel9 = New common.Controls.MyLabel()
+        Me.txtComment = New common.Controls.MyTextBox()
+        Me.txtLocation = New common.UserControls.txtFinder()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.lblLocation = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
         Me.lblCode = New common.Controls.MyLabel()
         Me.lblBomDate = New common.Controls.MyLabel()
@@ -39,6 +46,7 @@ Partial Class frmStandardization
         Me.gvProduce = New common.UserControls.MyRadGridView()
         Me.pageIssueDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvIssue = New common.UserControls.MyRadGridView()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.pageAddRemoveDetail = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvAddRemove = New common.UserControls.MyRadGridView()
         Me.pageAttachment = New Telerik.WinControls.UI.RadPageViewPage()
@@ -96,6 +104,12 @@ Partial Class frmStandardization
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBomDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -108,6 +122,7 @@ Partial Class frmStandardization
         Me.pageIssueDetail.SuspendLayout()
         CType(Me.gvIssue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvIssue.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageAddRemoveDetail.SuspendLayout()
         CType(Me.gvAddRemove, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvAddRemove.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -200,6 +215,13 @@ Partial Class frmStandardization
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtRemarks)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel9)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtComment)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtLocation)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel5)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblLocation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.UsLock1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblCode)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblBomDate)
@@ -212,16 +234,128 @@ Partial Class frmStandardization
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
         Me.SplitContainer2.Panel2.Padding = New System.Windows.Forms.Padding(3)
         Me.SplitContainer2.Size = New System.Drawing.Size(824, 459)
-        Me.SplitContainer2.SplitterDistance = 45
+        Me.SplitContainer2.SplitterDistance = 95
         Me.SplitContainer2.TabIndex = 0
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(4, 73)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(51, 16)
+        Me.MyLabel1.TabIndex = 58
+        Me.MyLabel1.Text = "Remarks"
+        '
+        'txtRemarks
+        '
+        Me.txtRemarks.CalculationExpression = Nothing
+        Me.txtRemarks.FieldCode = Nothing
+        Me.txtRemarks.FieldDesc = Nothing
+        Me.txtRemarks.FieldMaxLength = 0
+        Me.txtRemarks.FieldName = Nothing
+        Me.txtRemarks.isCalculatedField = False
+        Me.txtRemarks.IsSourceFromTable = False
+        Me.txtRemarks.IsSourceFromValueList = False
+        Me.txtRemarks.IsUnique = False
+        Me.txtRemarks.Location = New System.Drawing.Point(85, 71)
+        Me.txtRemarks.MaxLength = 200
+        Me.txtRemarks.MendatroryField = False
+        Me.txtRemarks.MyLinkLable1 = Me.MyLabel1
+        Me.txtRemarks.MyLinkLable2 = Nothing
+        Me.txtRemarks.Name = "txtRemarks"
+        Me.txtRemarks.ReferenceFieldDesc = Nothing
+        Me.txtRemarks.ReferenceFieldName = Nothing
+        Me.txtRemarks.ReferenceTableName = Nothing
+        Me.txtRemarks.Size = New System.Drawing.Size(695, 20)
+        Me.txtRemarks.TabIndex = 57
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(4, 51)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel9.TabIndex = 56
+        Me.MyLabel9.Text = "Comment"
+        '
+        'txtComment
+        '
+        Me.txtComment.CalculationExpression = Nothing
+        Me.txtComment.FieldCode = Nothing
+        Me.txtComment.FieldDesc = Nothing
+        Me.txtComment.FieldMaxLength = 0
+        Me.txtComment.FieldName = Nothing
+        Me.txtComment.isCalculatedField = False
+        Me.txtComment.IsSourceFromTable = False
+        Me.txtComment.IsSourceFromValueList = False
+        Me.txtComment.IsUnique = False
+        Me.txtComment.Location = New System.Drawing.Point(85, 49)
+        Me.txtComment.MaxLength = 200
+        Me.txtComment.MendatroryField = False
+        Me.txtComment.MyLinkLable1 = Me.MyLabel9
+        Me.txtComment.MyLinkLable2 = Nothing
+        Me.txtComment.Name = "txtComment"
+        Me.txtComment.ReferenceFieldDesc = Nothing
+        Me.txtComment.ReferenceFieldName = Nothing
+        Me.txtComment.ReferenceTableName = Nothing
+        Me.txtComment.Size = New System.Drawing.Size(695, 20)
+        Me.txtComment.TabIndex = 54
+        '
+        'txtLocation
+        '
+        Me.txtLocation.CalculationExpression = Nothing
+        Me.txtLocation.FieldCode = Nothing
+        Me.txtLocation.FieldDesc = Nothing
+        Me.txtLocation.FieldMaxLength = 0
+        Me.txtLocation.FieldName = Nothing
+        Me.txtLocation.isCalculatedField = False
+        Me.txtLocation.IsSourceFromTable = False
+        Me.txtLocation.IsSourceFromValueList = False
+        Me.txtLocation.IsUnique = False
+        Me.txtLocation.Location = New System.Drawing.Point(85, 28)
+        Me.txtLocation.MendatroryField = True
+        Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation.MyLinkLable1 = Me.MyLabel5
+        Me.txtLocation.MyLinkLable2 = Me.lblLocation
+        Me.txtLocation.MyReadOnly = False
+        Me.txtLocation.MyShowMasterFormButton = False
+        Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.ReferenceFieldDesc = Nothing
+        Me.txtLocation.ReferenceFieldName = Nothing
+        Me.txtLocation.ReferenceTableName = Nothing
+        Me.txtLocation.Size = New System.Drawing.Size(262, 19)
+        Me.txtLocation.TabIndex = 55
+        Me.txtLocation.Value = ""
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(4, 29)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel5.TabIndex = 57
+        Me.MyLabel5.Text = "Location"
+        '
+        'lblLocation
+        '
+        Me.lblLocation.AutoSize = False
+        Me.lblLocation.BorderVisible = True
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Location = New System.Drawing.Point(351, 28)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(429, 19)
+        Me.lblLocation.TabIndex = 58
         '
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(596, 13)
+        Me.UsLock1.Location = New System.Drawing.Point(477, 5)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(188, 20)
+        Me.UsLock1.Size = New System.Drawing.Size(85, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 46
         '
@@ -229,7 +363,7 @@ Partial Class frmStandardization
         '
         Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCode.Location = New System.Drawing.Point(9, 15)
+        Me.lblCode.Location = New System.Drawing.Point(4, 7)
         Me.lblCode.Name = "lblCode"
         Me.lblCode.Size = New System.Drawing.Size(75, 16)
         Me.lblCode.TabIndex = 4
@@ -239,7 +373,7 @@ Partial Class frmStandardization
         '
         Me.lblBomDate.FieldName = Nothing
         Me.lblBomDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBomDate.Location = New System.Drawing.Point(471, 15)
+        Me.lblBomDate.Location = New System.Drawing.Point(351, 7)
         Me.lblBomDate.Name = "lblBomDate"
         Me.lblBomDate.Size = New System.Drawing.Size(30, 16)
         Me.lblBomDate.TabIndex = 5
@@ -259,7 +393,7 @@ Partial Class frmStandardization
         Me.dtpDate.IsSourceFromTable = False
         Me.dtpDate.IsSourceFromValueList = False
         Me.dtpDate.IsUnique = False
-        Me.dtpDate.Location = New System.Drawing.Point(504, 14)
+        Me.dtpDate.Location = New System.Drawing.Point(385, 6)
         Me.dtpDate.MendatroryField = True
         Me.dtpDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpDate.MyLinkLable1 = Me.lblBomDate
@@ -279,7 +413,7 @@ Partial Class frmStandardization
         '
         Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
         Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnNew.Location = New System.Drawing.Point(446, 13)
+        Me.btnNew.Location = New System.Drawing.Point(326, 5)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(20, 21)
         Me.btnNew.TabIndex = 0
@@ -288,7 +422,7 @@ Partial Class frmStandardization
         'txtCode
         '
         Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(89, 13)
+        Me.txtCode.Location = New System.Drawing.Point(85, 5)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -297,7 +431,7 @@ Partial Class frmStandardization
         Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(357, 21)
+        Me.txtCode.Size = New System.Drawing.Size(242, 21)
         Me.txtCode.TabIndex = 3
         Me.txtCode.Value = ""
         '
@@ -311,8 +445,8 @@ Partial Class frmStandardization
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(3, 3)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(818, 404)
+        Me.RadPageView1.SelectedPage = Me.pageAddRemoveDetail
+        Me.RadPageView1.Size = New System.Drawing.Size(818, 354)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -322,7 +456,7 @@ Partial Class frmStandardization
         Me.pageBatchDetail.ItemSize = New System.Drawing.SizeF(129.0!, 28.0!)
         Me.pageBatchDetail.Location = New System.Drawing.Point(10, 37)
         Me.pageBatchDetail.Name = "pageBatchDetail"
-        Me.pageBatchDetail.Size = New System.Drawing.Size(797, 356)
+        Me.pageBatchDetail.Size = New System.Drawing.Size(797, 306)
         Me.pageBatchDetail.Text = "Production Item Detail"
         '
         'gvProduce
@@ -343,21 +477,22 @@ Partial Class frmStandardization
         Me.gvProduce.MasterTemplate.EnableGrouping = False
         Me.gvProduce.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProduce.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProduce.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvProduce.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvProduce.Name = "gvProduce"
         Me.gvProduce.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProduce.ShowHeaderCellButtons = True
-        Me.gvProduce.Size = New System.Drawing.Size(797, 356)
+        Me.gvProduce.Size = New System.Drawing.Size(797, 306)
         Me.gvProduce.TabIndex = 0
         Me.gvProduce.TabStop = False
         '
         'pageIssueDetail
         '
         Me.pageIssueDetail.Controls.Add(Me.gvIssue)
+        Me.pageIssueDetail.Controls.Add(Me.MyLabel2)
         Me.pageIssueDetail.ItemSize = New System.Drawing.SizeF(99.0!, 28.0!)
         Me.pageIssueDetail.Location = New System.Drawing.Point(10, 37)
         Me.pageIssueDetail.Name = "pageIssueDetail"
-        Me.pageIssueDetail.Size = New System.Drawing.Size(797, 356)
+        Me.pageIssueDetail.Size = New System.Drawing.Size(797, 306)
         Me.pageIssueDetail.Text = "Issue Item Detail"
         '
         'gvIssue
@@ -378,13 +513,25 @@ Partial Class frmStandardization
         Me.gvIssue.MasterTemplate.EnableGrouping = False
         Me.gvIssue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvIssue.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvIssue.Name = "gvIssue"
         Me.gvIssue.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvIssue.ShowHeaderCellButtons = True
-        Me.gvIssue.Size = New System.Drawing.Size(797, 356)
+        Me.gvIssue.Size = New System.Drawing.Size(797, 293)
         Me.gvIssue.TabIndex = 1
         Me.gvIssue.TabStop = False
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel2.Location = New System.Drawing.Point(0, 293)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(797, 13)
+        Me.MyLabel2.TabIndex = 32
+        Me.MyLabel2.Text = "Ctrl+Insert To Add Same item"
         '
         'pageAddRemoveDetail
         '
@@ -392,7 +539,7 @@ Partial Class frmStandardization
         Me.pageAddRemoveDetail.ItemSize = New System.Drawing.SizeF(159.0!, 28.0!)
         Me.pageAddRemoveDetail.Location = New System.Drawing.Point(10, 37)
         Me.pageAddRemoveDetail.Name = "pageAddRemoveDetail"
-        Me.pageAddRemoveDetail.Size = New System.Drawing.Size(797, 356)
+        Me.pageAddRemoveDetail.Size = New System.Drawing.Size(797, 306)
         Me.pageAddRemoveDetail.Text = "Added/Removed Item Detail"
         '
         'gvAddRemove
@@ -413,11 +560,11 @@ Partial Class frmStandardization
         Me.gvAddRemove.MasterTemplate.EnableGrouping = False
         Me.gvAddRemove.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAddRemove.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAddRemove.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAddRemove.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvAddRemove.Name = "gvAddRemove"
         Me.gvAddRemove.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAddRemove.ShowHeaderCellButtons = True
-        Me.gvAddRemove.Size = New System.Drawing.Size(797, 356)
+        Me.gvAddRemove.Size = New System.Drawing.Size(797, 306)
         Me.gvAddRemove.TabIndex = 1
         Me.gvAddRemove.TabStop = False
         '
@@ -427,7 +574,7 @@ Partial Class frmStandardization
         Me.pageAttachment.ItemSize = New System.Drawing.SizeF(75.0!, 28.0!)
         Me.pageAttachment.Location = New System.Drawing.Point(10, 37)
         Me.pageAttachment.Name = "pageAttachment"
-        Me.pageAttachment.Size = New System.Drawing.Size(797, 356)
+        Me.pageAttachment.Size = New System.Drawing.Size(797, 306)
         Me.pageAttachment.Text = "Attahcment"
         '
         'UcAttachment1
@@ -435,7 +582,7 @@ Partial Class frmStandardization
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(797, 356)
+        Me.UcAttachment1.Size = New System.Drawing.Size(797, 306)
         Me.UcAttachment1.TabIndex = 5
         '
         'RadPageViewPage1
@@ -481,7 +628,7 @@ Partial Class frmStandardization
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(797, 356)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(797, 306)
         Me.RadPageViewPage1.Text = "Total"
         '
         'MyLabel32
@@ -971,13 +1118,13 @@ Partial Class frmStandardization
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
-        'frmStandardization
+        'frmRCDFStandardization
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(830, 503)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmStandardization"
+        Me.Name = "frmRCDFStandardization"
         '
         '
         '
@@ -990,6 +1137,12 @@ Partial Class frmStandardization
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBomDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1000,8 +1153,10 @@ Partial Class frmStandardization
         CType(Me.gvProduce.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvProduce, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageIssueDetail.ResumeLayout(False)
+        Me.pageIssueDetail.PerformLayout()
         CType(Me.gvIssue.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvIssue, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageAddRemoveDetail.ResumeLayout(False)
         CType(Me.gvAddRemove.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvAddRemove, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1122,5 +1277,13 @@ Partial Class frmStandardization
     Friend WithEvents lblTotAddedQty As common.Controls.MyLabel
     Friend WithEvents MyLabel23 As common.Controls.MyLabel
     Friend WithEvents btnHistory As Telerik.WinControls.UI.RadButton
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtRemarks As common.Controls.MyTextBox
+    Friend WithEvents MyLabel9 As common.Controls.MyLabel
+    Friend WithEvents txtComment As common.Controls.MyTextBox
+    Friend WithEvents txtLocation As common.UserControls.txtFinder
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
 End Class
 
