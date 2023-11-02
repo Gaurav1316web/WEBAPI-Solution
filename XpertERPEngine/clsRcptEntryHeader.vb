@@ -3,6 +3,7 @@ Imports System.Data.SqlClient
 Imports common
 Public Class clsRcptEntryHeader
 
+
 #Region "Variables"
     Public Booking_Code As String = Nothing
     Public CSATransfer_No As String = Nothing

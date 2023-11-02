@@ -159,6 +159,7 @@ Public Class clsGRNHead
     Public SRNNo As String = Nothing
     Public SRNDate As Date? = Nothing
     Public penalty As String = Nothing
+    Public Retention As Decimal = 0
 #End Region
     Public Function SaveData(ByVal obj As clsGRNHead, ByVal isNewEntry As Boolean, Optional ByVal isamendment As Boolean = False) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -374,6 +375,7 @@ Public Class clsGRNHead
 
             clsCommon.AddColumnsForChange(coll, "Total_Add_Charge_Insurance", obj.Total_Add_Charge_Insurance)
             clsCommon.AddColumnsForChange(coll, "Total_Item_Insurance_Amt", obj.Total_Item_Insurance_Amt)
+            clsCommon.AddColumnsForChange(coll, "Retention", obj.Retention)
             If isamendment Then
                 Dim AmendmentCode As String = Nothing
                 AmendmentCode = obj.GRN_No + "$" + clsCommon.myCstr(obj.Amendment_No + 1)
@@ -807,6 +809,7 @@ Public Class clsGRNHead
                 ''
                 obj.Total_Add_Charge_Insurance = clsCommon.myCdbl(dt.Rows(0)("Total_Add_Charge_Insurance"))
                 obj.Total_Item_Insurance_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Item_Insurance_Amt"))
+                obj.Retention = clsCommon.myCdbl(dt.Rows(0)("Retention"))
                 obj.Arr_ACInsurance = clsGRNAdditionChargeInsurance.GetData(obj.GRN_No, trans)
                 qry = "SELECT TSPL_GRN_DETAIL.*,TSPL_LOCATION_MASTER.Location_Desc as LocationName,(case when len(isnull(TSPL_GRN_DETAIL.PO_Id,''))>0 then (select MAX(PurchaseOrder_Qty) from TSPL_PURCHASE_ORDER_DETAIL where TSPL_PURCHASE_ORDER_DETAIL.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id and TSPL_PURCHASE_ORDER_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code and TSPL_PURCHASE_ORDER_DETAIL.Unit_code=TSPL_GRN_DETAIL.Unit_code and ISNULL(TSPL_PURCHASE_ORDER_DETAIL.MRP,0)=isnull(TSPL_GRN_DETAIL.MRP,0) and isnull(TSPL_PURCHASE_ORDER_DETAIL.Assessable,0)=isnull(TSPL_GRN_DETAIL.Assessable,0))  else 0 end) as OriginalROQty FROM TSPL_GRN_DETAIL left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_GRN_DETAIL.Location where TSPL_GRN_DETAIL.GRN_No='" + obj.GRN_No + "' ORDER BY TSPL_GRN_DETAIL.Line_No"
                 dt = New DataTable()

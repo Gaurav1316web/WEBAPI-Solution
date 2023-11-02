@@ -2043,6 +2043,7 @@ Public Class clsVedorInvoiceHead
         Return qry
     End Function
 
+
     Public Shared Sub CreatePrimaryTransporterDebitNoteOfSecurityDeduction(ByVal obj As clsVedorInvoiceHead, ByVal strPostDate As Date, ByVal trans As SqlTransaction)
         If clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal Then
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Security_Amount,Security_Deduction_Amount from TSPL_VENDOR_MASTER where Form_Type='PTM' and Vendor_Code='" + obj.Vendor_Code + "'", trans)

@@ -54,6 +54,9 @@ Public Class frmCustomer
     Dim isLoadCopy As Boolean = False
     Public SuperUserCustomer As Boolean = False
     Dim OneTimeCheck As Boolean = False
+    Public CustomerFormOpens As Boolean = False
+
+
 #End Region
 
     Public Sub New(ByVal user As String, ByVal company As String)
