@@ -528,7 +528,7 @@ Public Class frmRCDFStandardization
         repoNum.Width = 100
         repoNum.HeaderText = "Required FAT %"
         repoNum.DecimalPlaces = DecimalPointFatSNFPer
-        repoNum.FormatString = "{0:n" & clsCommon.myC   str(DecimalPointFatSNFPer) & "}"
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
         repoNum.ReadOnly = True
         gvIssue.MasterTemplate.Columns.Add(repoNum)
 
