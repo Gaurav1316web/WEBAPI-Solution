@@ -23,9 +23,9 @@ Partial Class frmRCDFStandardization
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmRCDFStandardization))
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -453,11 +453,11 @@ Partial Class frmRCDFStandardization
         'pageBatchDetail
         '
         Me.pageBatchDetail.Controls.Add(Me.gvProduce)
-        Me.pageBatchDetail.ItemSize = New System.Drawing.SizeF(129.0!, 28.0!)
+        Me.pageBatchDetail.ItemSize = New System.Drawing.SizeF(97.0!, 28.0!)
         Me.pageBatchDetail.Location = New System.Drawing.Point(10, 37)
         Me.pageBatchDetail.Name = "pageBatchDetail"
         Me.pageBatchDetail.Size = New System.Drawing.Size(797, 306)
-        Me.pageBatchDetail.Text = "Production Item Detail"
+        Me.pageBatchDetail.Text = "Production Item"
         '
         'gvProduce
         '
@@ -477,7 +477,7 @@ Partial Class frmRCDFStandardization
         Me.gvProduce.MasterTemplate.EnableGrouping = False
         Me.gvProduce.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProduce.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProduce.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvProduce.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvProduce.Name = "gvProduce"
         Me.gvProduce.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProduce.ShowHeaderCellButtons = True
@@ -489,11 +489,11 @@ Partial Class frmRCDFStandardization
         '
         Me.pageIssueDetail.Controls.Add(Me.gvIssue)
         Me.pageIssueDetail.Controls.Add(Me.MyLabel2)
-        Me.pageIssueDetail.ItemSize = New System.Drawing.SizeF(99.0!, 28.0!)
+        Me.pageIssueDetail.ItemSize = New System.Drawing.SizeF(72.0!, 28.0!)
         Me.pageIssueDetail.Location = New System.Drawing.Point(10, 37)
         Me.pageIssueDetail.Name = "pageIssueDetail"
         Me.pageIssueDetail.Size = New System.Drawing.Size(797, 306)
-        Me.pageIssueDetail.Text = "Issue Item Detail"
+        Me.pageIssueDetail.Text = "Issue Items"
         '
         'gvIssue
         '
@@ -513,7 +513,7 @@ Partial Class frmRCDFStandardization
         Me.gvIssue.MasterTemplate.EnableGrouping = False
         Me.gvIssue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvIssue.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvIssue.Name = "gvIssue"
         Me.gvIssue.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvIssue.ShowHeaderCellButtons = True
@@ -536,11 +536,11 @@ Partial Class frmRCDFStandardization
         'pageAddRemoveDetail
         '
         Me.pageAddRemoveDetail.Controls.Add(Me.gvAddRemove)
-        Me.pageAddRemoveDetail.ItemSize = New System.Drawing.SizeF(159.0!, 28.0!)
+        Me.pageAddRemoveDetail.ItemSize = New System.Drawing.SizeF(131.0!, 28.0!)
         Me.pageAddRemoveDetail.Location = New System.Drawing.Point(10, 37)
         Me.pageAddRemoveDetail.Name = "pageAddRemoveDetail"
         Me.pageAddRemoveDetail.Size = New System.Drawing.Size(797, 306)
-        Me.pageAddRemoveDetail.Text = "Added/Removed Item Detail"
+        Me.pageAddRemoveDetail.Text = "Added/Removed Items"
         '
         'gvAddRemove
         '
@@ -560,7 +560,7 @@ Partial Class frmRCDFStandardization
         Me.gvAddRemove.MasterTemplate.EnableGrouping = False
         Me.gvAddRemove.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAddRemove.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAddRemove.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAddRemove.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvAddRemove.Name = "gvAddRemove"
         Me.gvAddRemove.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAddRemove.ShowHeaderCellButtons = True

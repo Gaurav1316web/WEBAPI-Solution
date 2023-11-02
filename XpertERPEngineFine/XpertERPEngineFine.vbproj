@@ -95,6 +95,7 @@
     <Compile Include="Classes\connectSql.vb" />
     <Compile Include="Classes\objCommonVar.vb" />
     <Compile Include="Notification\ClsNotification.vb" />
+    <Compile Include="RCDFProduction\clsRCDFStanardization.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleAcknowledgement.vb" />
     <Compile Include="Sales Distribution\ClsDCSforSale.vb" />
     <Compile Include="clsTenderPenalty.vb" />
