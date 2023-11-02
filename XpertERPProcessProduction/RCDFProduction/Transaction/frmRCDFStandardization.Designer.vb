@@ -23,9 +23,9 @@ Partial Class frmRCDFStandardization
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmRCDFStandardization))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -445,7 +445,7 @@ Partial Class frmRCDFStandardization
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(3, 3)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.pageAddRemoveDetail
+        Me.RadPageView1.SelectedPage = Me.pageBatchDetail
         Me.RadPageView1.Size = New System.Drawing.Size(818, 354)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -477,7 +477,7 @@ Partial Class frmRCDFStandardization
         Me.gvProduce.MasterTemplate.EnableGrouping = False
         Me.gvProduce.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProduce.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProduce.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvProduce.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvProduce.Name = "gvProduce"
         Me.gvProduce.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProduce.ShowHeaderCellButtons = True
@@ -513,7 +513,7 @@ Partial Class frmRCDFStandardization
         Me.gvIssue.MasterTemplate.EnableGrouping = False
         Me.gvIssue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvIssue.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvIssue.Name = "gvIssue"
         Me.gvIssue.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvIssue.ShowHeaderCellButtons = True
@@ -560,7 +560,7 @@ Partial Class frmRCDFStandardization
         Me.gvAddRemove.MasterTemplate.EnableGrouping = False
         Me.gvAddRemove.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAddRemove.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAddRemove.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAddRemove.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvAddRemove.Name = "gvAddRemove"
         Me.gvAddRemove.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAddRemove.ShowHeaderCellButtons = True

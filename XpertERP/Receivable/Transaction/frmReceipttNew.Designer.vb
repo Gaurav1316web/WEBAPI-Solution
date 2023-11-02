@@ -1959,7 +1959,7 @@ Partial Class FrmReceipttNew
         Me.txtsalesmanCode.MyLinkLable1 = Me.lblcustomer
         Me.txtsalesmanCode.MyLinkLable2 = Nothing
         Me.txtsalesmanCode.MyReadOnly = False
-        Me.txtsalesmanCode.MyShowMasterFormButton = False
+        Me.txtsalesmanCode.MyShowMasterFormButton = True
         Me.txtsalesmanCode.Name = "txtsalesmanCode"
         Me.txtsalesmanCode.ReferenceFieldDesc = Nothing
         Me.txtsalesmanCode.ReferenceFieldName = Nothing
@@ -2132,7 +2132,7 @@ Partial Class FrmReceipttNew
         Me.fndCustomer.MyLinkLable1 = Me.lblcustomer
         Me.fndCustomer.MyLinkLable2 = Nothing
         Me.fndCustomer.MyReadOnly = False
-        Me.fndCustomer.MyShowMasterFormButton = False
+        Me.fndCustomer.MyShowMasterFormButton = True
         Me.fndCustomer.Name = "fndCustomer"
         Me.fndCustomer.ReferenceFieldDesc = Nothing
         Me.fndCustomer.ReferenceFieldName = Nothing

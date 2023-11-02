@@ -2245,6 +2245,7 @@ Public Class clsCreateAllTable
             coll.Add("RAL", "integer NUll")
             coll.Add("FG_for_CF", "integer not null default 0")
             coll.Add("Is_DisplayDemand", "integer not NULL default 0")
+            coll.Add("Is_ExcludeAPP", "integer not NULL default 0")
             coll.Add("NIR_QC", "integer NULL")
             coll.Add("BuyBackType", "integer null default 0")
             coll.Add("BuyBackValue", "Decimal(18,2) null")
@@ -13253,6 +13254,7 @@ Public Class clsCreateAllTable
             coll.Add("ROUTE_NAME_HINDI", "nvarchar(300) NULL")
             coll.Add("IsDefault", "integer not null default 0")
             coll.Add("Tanker_No", "varchar(20) NULL  References TSPL_TANKER_MASTER(Tanker_No)")
+            coll.Add("CuttOff_Time", "dateTime Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_ROUTE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -24169,6 +24171,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Total_Head_Load_RO_Amount", "decimal(18,2) null")
             coll.Add("RoundOffAmount", "decimal(18,2) null")
             coll.Add("No_Of_Asset", "integer null")
+            coll.Add("FILE_INFO", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", coll, Nothing, True, False, "", "DOC_CODE", "DOC_DATE")
 
             'done by stuti on 07/11/2016 against udl points

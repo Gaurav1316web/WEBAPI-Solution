@@ -28,6 +28,8 @@ Partial Class FrmBulkRoutMaster
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtcuttofftime = New common.Controls.MyDateTimePicker()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtVehicleNo = New common.Controls.MyLabel()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.txtTankerNo = New common.UserControls.txtFinder()
@@ -53,15 +55,17 @@ Partial Class FrmBulkRoutMaster
         Me.txtRate = New common.MyNumBox()
         Me.txtDistance = New common.MyNumBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtRouteName = New common.Controls.MyTextBox()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
+        Me.CuttOffTime = New common.Controls.MyLabel()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtcuttofftime, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDefault, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,11 +87,11 @@ Partial Class FrmBulkRoutMaster
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDistance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRouteName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.CuttOffTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -133,6 +137,8 @@ Partial Class FrmBulkRoutMaster
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.CuttOffTime)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtcuttofftime)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtVehicleNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel7)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtTankerNo)
@@ -169,6 +175,46 @@ Partial Class FrmBulkRoutMaster
         Me.SplitContainer1.Size = New System.Drawing.Size(659, 335)
         Me.SplitContainer1.SplitterDistance = 304
         Me.SplitContainer1.TabIndex = 3
+        '
+        'txtcuttofftime
+        '
+        Me.txtcuttofftime.CalculationExpression = Nothing
+        Me.txtcuttofftime.CustomFormat = "dd/MM/yyyy"
+        Me.txtcuttofftime.FieldCode = Nothing
+        Me.txtcuttofftime.FieldDesc = Nothing
+        Me.txtcuttofftime.FieldMaxLength = 0
+        Me.txtcuttofftime.FieldName = Nothing
+        Me.txtcuttofftime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtcuttofftime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtcuttofftime.isCalculatedField = False
+        Me.txtcuttofftime.IsSourceFromTable = False
+        Me.txtcuttofftime.IsSourceFromValueList = False
+        Me.txtcuttofftime.IsUnique = False
+        Me.txtcuttofftime.Location = New System.Drawing.Point(446, 52)
+        Me.txtcuttofftime.MendatroryField = False
+        Me.txtcuttofftime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtcuttofftime.MyLinkLable1 = Me.CuttOffTime
+        Me.txtcuttofftime.MyLinkLable2 = Nothing
+        Me.txtcuttofftime.Name = "txtcuttofftime"
+        Me.txtcuttofftime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtcuttofftime.ReferenceFieldDesc = Nothing
+        Me.txtcuttofftime.ReferenceFieldName = Nothing
+        Me.txtcuttofftime.ReferenceTableName = Nothing
+        Me.txtcuttofftime.Size = New System.Drawing.Size(81, 18)
+        Me.txtcuttofftime.TabIndex = 12144
+        Me.txtcuttofftime.TabStop = False
+        Me.txtcuttofftime.Text = "17/05/2011"
+        Me.txtcuttofftime.Value = New Date(2011, 5, 17, 15, 2, 19, 281)
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(9, 50)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(50, 16)
+        Me.MyLabel1.TabIndex = 1422
+        Me.MyLabel1.Text = "Distance"
         '
         'txtVehicleNo
         '
@@ -276,7 +322,7 @@ Partial Class FrmBulkRoutMaster
         Me.txtTollAmount.IsUnique = False
         Me.txtTollAmount.Location = New System.Drawing.Point(92, 210)
         Me.txtTollAmount.MendatroryField = False
-        Me.txtTollAmount.MyLinkLable1 = Nothing
+        Me.txtTollAmount.MyLinkLable1 = Me.MyLabel6
         Me.txtTollAmount.MyLinkLable2 = Nothing
         Me.txtTollAmount.Name = "txtTollAmount"
         Me.txtTollAmount.ReferenceFieldDesc = Nothing
@@ -412,7 +458,7 @@ Partial Class FrmBulkRoutMaster
         Me.txtWeight.IsUnique = False
         Me.txtWeight.Location = New System.Drawing.Point(92, 94)
         Me.txtWeight.MendatroryField = False
-        Me.txtWeight.MyLinkLable1 = Nothing
+        Me.txtWeight.MyLinkLable1 = Me.MyLabel4
         Me.txtWeight.MyLinkLable2 = Nothing
         Me.txtWeight.Name = "txtWeight"
         Me.txtWeight.ReferenceFieldDesc = Nothing
@@ -497,7 +543,7 @@ Partial Class FrmBulkRoutMaster
         Me.txtRate.IsUnique = False
         Me.txtRate.Location = New System.Drawing.Point(92, 70)
         Me.txtRate.MendatroryField = False
-        Me.txtRate.MyLinkLable1 = Nothing
+        Me.txtRate.MyLinkLable1 = Me.MyLabel2
         Me.txtRate.MyLinkLable2 = Nothing
         Me.txtRate.Name = "txtRate"
         Me.txtRate.ReferenceFieldDesc = Nothing
@@ -524,7 +570,7 @@ Partial Class FrmBulkRoutMaster
         Me.txtDistance.IsUnique = False
         Me.txtDistance.Location = New System.Drawing.Point(92, 48)
         Me.txtDistance.MendatroryField = False
-        Me.txtDistance.MyLinkLable1 = Nothing
+        Me.txtDistance.MyLinkLable1 = Me.MyLabel1
         Me.txtDistance.MyLinkLable2 = Nothing
         Me.txtDistance.Name = "txtDistance"
         Me.txtDistance.ReferenceFieldDesc = Nothing
@@ -545,16 +591,6 @@ Partial Class FrmBulkRoutMaster
         Me.MyLabel2.Size = New System.Drawing.Size(30, 16)
         Me.MyLabel2.TabIndex = 1423
         Me.MyLabel2.Text = "Rate"
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(9, 50)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(50, 16)
-        Me.MyLabel1.TabIndex = 1422
-        Me.MyLabel1.Text = "Distance"
         '
         'txtRouteName
         '
@@ -607,6 +643,16 @@ Partial Class FrmBulkRoutMaster
         Me.rdbtndelete.TabIndex = 3
         Me.rdbtndelete.Text = "Delete"
         '
+        'CuttOffTime
+        '
+        Me.CuttOffTime.FieldName = Nothing
+        Me.CuttOffTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CuttOffTime.Location = New System.Drawing.Point(370, 52)
+        Me.CuttOffTime.Name = "CuttOffTime"
+        Me.CuttOffTime.Size = New System.Drawing.Size(74, 16)
+        Me.CuttOffTime.TabIndex = 12145
+        Me.CuttOffTime.Text = "Cutt Off Time"
+        '
         'FrmBulkRoutMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -625,6 +671,8 @@ Partial Class FrmBulkRoutMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtcuttofftime, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDefault, System.ComponentModel.ISupportInitialize).EndInit()
@@ -646,11 +694,11 @@ Partial Class FrmBulkRoutMaster
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDistance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRouteName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.CuttOffTime, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -692,5 +740,7 @@ Partial Class FrmBulkRoutMaster
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
     Friend WithEvents txtTankerNo As common.UserControls.txtFinder
     Friend WithEvents txtVehicleNo As common.Controls.MyLabel
+    Friend WithEvents txtcuttofftime As common.Controls.MyDateTimePicker
+    Friend WithEvents CuttOffTime As common.Controls.MyLabel
 End Class
 

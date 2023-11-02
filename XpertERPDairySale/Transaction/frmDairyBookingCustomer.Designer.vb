@@ -31,6 +31,8 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblLastCollectionDate = New common.Controls.MyLabel()
+        Me.txtLastCollectionDate = New common.Controls.MyLabel()
         Me.txtCategory = New common.UserControls.txtFinder()
         Me.lblRouteNo = New common.Controls.MyLabel()
         Me.lblCategory = New common.Controls.MyLabel()
@@ -236,14 +238,14 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblLastCollectionDate = New common.Controls.MyLabel()
-        Me.txtLastCollectionDate = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblLastCollectionDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLastCollectionDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCategory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -438,8 +440,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLastCollectionDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtLastCollectionDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -476,7 +476,7 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadPanel2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadPanel1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1378, 523)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1246, 523)
         Me.SplitContainer1.SplitterDistance = 455
         Me.SplitContainer1.TabIndex = 1
         '
@@ -492,7 +492,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1378, 455)
+        Me.RadPageView1.Size = New System.Drawing.Size(1246, 455)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -562,8 +562,28 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1357, 409)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1225, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'lblLastCollectionDate
+        '
+        Me.lblLastCollectionDate.FieldName = Nothing
+        Me.lblLastCollectionDate.Location = New System.Drawing.Point(1026, 85)
+        Me.lblLastCollectionDate.Name = "lblLastCollectionDate"
+        Me.lblLastCollectionDate.Size = New System.Drawing.Size(106, 18)
+        Me.lblLastCollectionDate.TabIndex = 1541
+        Me.lblLastCollectionDate.Text = "Last Collection Date"
+        '
+        'txtLastCollectionDate
+        '
+        Me.txtLastCollectionDate.AutoSize = False
+        Me.txtLastCollectionDate.BorderVisible = True
+        Me.txtLastCollectionDate.FieldName = Nothing
+        Me.txtLastCollectionDate.Location = New System.Drawing.Point(1136, 84)
+        Me.txtLastCollectionDate.Name = "txtLastCollectionDate"
+        Me.txtLastCollectionDate.Size = New System.Drawing.Size(86, 19)
+        Me.txtLastCollectionDate.TabIndex = 1542
+        Me.txtLastCollectionDate.TextWrap = False
         '
         'txtCategory
         '
@@ -829,7 +849,7 @@ Partial Class frmDairyBookingCustomer
         Me.rgbItemType.Controls.Add(Me.rbtnNonTax)
         Me.rgbItemType.Controls.Add(Me.rbtnTaxable)
         Me.rgbItemType.HeaderText = "Item Type"
-        Me.rgbItemType.Location = New System.Drawing.Point(944, 1)
+        Me.rgbItemType.Location = New System.Drawing.Point(923, 1)
         Me.rgbItemType.Name = "rgbItemType"
         Me.rgbItemType.Size = New System.Drawing.Size(100, 75)
         Me.rgbItemType.TabIndex = 1534
@@ -955,7 +975,7 @@ Partial Class frmDairyBookingCustomer
         'lblReceiptAmt
         '
         Me.lblReceiptAmt.FieldName = Nothing
-        Me.lblReceiptAmt.Location = New System.Drawing.Point(834, 109)
+        Me.lblReceiptAmt.Location = New System.Drawing.Point(821, 109)
         Me.lblReceiptAmt.Name = "lblReceiptAmt"
         Me.lblReceiptAmt.Size = New System.Drawing.Size(67, 18)
         Me.lblReceiptAmt.TabIndex = 1527
@@ -966,16 +986,16 @@ Partial Class frmDairyBookingCustomer
         Me.lblReceiptAmtDesc.AutoSize = False
         Me.lblReceiptAmtDesc.BorderVisible = True
         Me.lblReceiptAmtDesc.FieldName = Nothing
-        Me.lblReceiptAmtDesc.Location = New System.Drawing.Point(944, 109)
+        Me.lblReceiptAmtDesc.Location = New System.Drawing.Point(923, 109)
         Me.lblReceiptAmtDesc.Name = "lblReceiptAmtDesc"
-        Me.lblReceiptAmtDesc.Size = New System.Drawing.Size(126, 19)
+        Me.lblReceiptAmtDesc.Size = New System.Drawing.Size(101, 19)
         Me.lblReceiptAmtDesc.TabIndex = 1528
         Me.lblReceiptAmtDesc.TextWrap = False
         '
         'lblUnbilledMilk
         '
         Me.lblUnbilledMilk.FieldName = Nothing
-        Me.lblUnbilledMilk.Location = New System.Drawing.Point(834, 85)
+        Me.lblUnbilledMilk.Location = New System.Drawing.Point(821, 85)
         Me.lblUnbilledMilk.Name = "lblUnbilledMilk"
         Me.lblUnbilledMilk.Size = New System.Drawing.Size(96, 18)
         Me.lblUnbilledMilk.TabIndex = 1525
@@ -986,9 +1006,9 @@ Partial Class frmDairyBookingCustomer
         Me.lblUnbilledMilkAmt.AutoSize = False
         Me.lblUnbilledMilkAmt.BorderVisible = True
         Me.lblUnbilledMilkAmt.FieldName = Nothing
-        Me.lblUnbilledMilkAmt.Location = New System.Drawing.Point(944, 85)
+        Me.lblUnbilledMilkAmt.Location = New System.Drawing.Point(923, 85)
         Me.lblUnbilledMilkAmt.Name = "lblUnbilledMilkAmt"
-        Me.lblUnbilledMilkAmt.Size = New System.Drawing.Size(126, 19)
+        Me.lblUnbilledMilkAmt.Size = New System.Drawing.Size(101, 19)
         Me.lblUnbilledMilkAmt.TabIndex = 1526
         Me.lblUnbilledMilkAmt.TextWrap = False
         '
@@ -3160,7 +3180,7 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel2.Location = New System.Drawing.Point(0, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(1378, 25)
+        Me.Panel2.Size = New System.Drawing.Size(1246, 25)
         Me.Panel2.TabIndex = 5
         '
         'RadMenu1
@@ -3168,7 +3188,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1378, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1246, 20)
         Me.RadMenu1.TabIndex = 0
         '
         'RadMenuItem2
@@ -3201,26 +3221,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'lblLastCollectionDate
-        '
-        Me.lblLastCollectionDate.FieldName = Nothing
-        Me.lblLastCollectionDate.Location = New System.Drawing.Point(1074, 85)
-        Me.lblLastCollectionDate.Name = "lblLastCollectionDate"
-        Me.lblLastCollectionDate.Size = New System.Drawing.Size(106, 18)
-        Me.lblLastCollectionDate.TabIndex = 1541
-        Me.lblLastCollectionDate.Text = "Last Collection Date"
-        '
-        'txtLastCollectionDate
-        '
-        Me.txtLastCollectionDate.AutoSize = False
-        Me.txtLastCollectionDate.BorderVisible = True
-        Me.txtLastCollectionDate.FieldName = Nothing
-        Me.txtLastCollectionDate.Location = New System.Drawing.Point(1188, 84)
-        Me.txtLastCollectionDate.Name = "txtLastCollectionDate"
-        Me.txtLastCollectionDate.Size = New System.Drawing.Size(126, 19)
-        Me.txtLastCollectionDate.TabIndex = 1542
-        Me.txtLastCollectionDate.TextWrap = False
-        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3243,6 +3243,8 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblLastCollectionDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLastCollectionDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCategory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3452,8 +3454,6 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLastCollectionDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtLastCollectionDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
