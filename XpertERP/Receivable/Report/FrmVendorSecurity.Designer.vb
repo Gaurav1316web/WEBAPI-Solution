@@ -22,10 +22,14 @@ Partial Class FrmVendorSecurity
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnretention = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnSecurity = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnSaving = New Telerik.WinControls.UI.RadRadioButton()
         Me.txtVendorGroupMult = New common.UserControls.txtMultiSelectFinder()
         Me.txtLocationMult = New common.UserControls.txtMultiSelectFinder()
         Me.lblVendorGroup = New common.Controls.MyLabel()
@@ -56,15 +60,17 @@ Partial Class FrmVendorSecurity
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnSecurity = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnSaving = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox4.SuspendLayout()
+        CType(Me.rbtnretention, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSaving, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorGroup, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,10 +97,6 @@ Partial Class FrmVendorSecurity
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox4.SuspendLayout()
-        CType(Me.rbtnSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnSaving, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -150,6 +152,47 @@ Partial Class FrmVendorSecurity
         Me.RadPageViewPage1.Size = New System.Drawing.Size(748, 332)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.rbtnretention)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnSecurity)
+        Me.RadGroupBox4.Controls.Add(Me.rbtnSaving)
+        Me.RadGroupBox4.HeaderText = ""
+        Me.RadGroupBox4.Location = New System.Drawing.Point(265, 10)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox4.Size = New System.Drawing.Size(198, 33)
+        Me.RadGroupBox4.TabIndex = 308
+        '
+        'rbtnretention
+        '
+        Me.rbtnretention.Location = New System.Drawing.Point(119, 7)
+        Me.rbtnretention.Name = "rbtnretention"
+        Me.rbtnretention.Size = New System.Drawing.Size(69, 18)
+        Me.rbtnretention.TabIndex = 308
+        Me.rbtnretention.TabStop = False
+        Me.rbtnretention.Text = "Retention"
+        '
+        'rbtnSecurity
+        '
+        Me.rbtnSecurity.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnSecurity.Location = New System.Drawing.Point(5, 7)
+        Me.rbtnSecurity.Name = "rbtnSecurity"
+        Me.rbtnSecurity.Size = New System.Drawing.Size(60, 18)
+        Me.rbtnSecurity.TabIndex = 306
+        Me.rbtnSecurity.Text = "Security"
+        Me.rbtnSecurity.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnSaving
+        '
+        Me.rbtnSaving.Location = New System.Drawing.Point(66, 7)
+        Me.rbtnSaving.Name = "rbtnSaving"
+        Me.rbtnSaving.Size = New System.Drawing.Size(53, 18)
+        Me.rbtnSaving.TabIndex = 307
+        Me.rbtnSaving.TabStop = False
+        Me.rbtnSaving.Text = "Saving"
+        '
         'txtVendorGroupMult
         '
         Me.txtVendorGroupMult.arrDispalyMember = Nothing
@@ -200,7 +243,7 @@ Partial Class FrmVendorSecurity
         Me.RadGroupBox2.Controls.Add(Me.rdbSummary)
         Me.RadGroupBox2.Controls.Add(Me.rdbDetail)
         Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(393, 10)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(467, 10)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(132, 33)
@@ -216,7 +259,7 @@ Partial Class FrmVendorSecurity
         '
         'rdbDetail
         '
-        Me.rdbDetail.Location = New System.Drawing.Point(79, 9)
+        Me.rdbDetail.Location = New System.Drawing.Point(79, 8)
         Me.rdbDetail.Name = "rdbDetail"
         Me.rdbDetail.Size = New System.Drawing.Size(49, 18)
         Me.rdbDetail.TabIndex = 307
@@ -361,7 +404,7 @@ Partial Class FrmVendorSecurity
         Me.Gv1.MasterTemplate.EnableFiltering = True
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(748, 296)
@@ -450,37 +493,6 @@ Partial Class FrmVendorSecurity
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
-        'RadGroupBox4
-        '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Controls.Add(Me.rbtnSecurity)
-        Me.RadGroupBox4.Controls.Add(Me.rbtnSaving)
-        Me.RadGroupBox4.HeaderText = ""
-        Me.RadGroupBox4.Location = New System.Drawing.Point(265, 10)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox4.Size = New System.Drawing.Size(125, 33)
-        Me.RadGroupBox4.TabIndex = 308
-        '
-        'rbtnSecurity
-        '
-        Me.rbtnSecurity.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnSecurity.Location = New System.Drawing.Point(5, 7)
-        Me.rbtnSecurity.Name = "rbtnSecurity"
-        Me.rbtnSecurity.Size = New System.Drawing.Size(60, 18)
-        Me.rbtnSecurity.TabIndex = 306
-        Me.rbtnSecurity.Text = "Security"
-        Me.rbtnSecurity.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'rbtnSaving
-        '
-        Me.rbtnSaving.Location = New System.Drawing.Point(66, 7)
-        Me.rbtnSaving.Name = "rbtnSaving"
-        Me.rbtnSaving.Size = New System.Drawing.Size(53, 18)
-        Me.rbtnSaving.TabIndex = 307
-        Me.rbtnSaving.TabStop = False
-        Me.rbtnSaving.Text = "Saving"
-        '
         'FrmVendorSecurity
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -501,6 +513,12 @@ Partial Class FrmVendorSecurity
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox4.ResumeLayout(False)
+        Me.RadGroupBox4.PerformLayout()
+        CType(Me.rbtnretention, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSecurity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSaving, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorGroup, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -530,11 +548,6 @@ Partial Class FrmVendorSecurity
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox4.ResumeLayout(False)
-        Me.RadGroupBox4.PerformLayout()
-        CType(Me.rbtnSecurity, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnSaving, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -576,4 +589,5 @@ Partial Class FrmVendorSecurity
     Friend WithEvents RadGroupBox4 As RadGroupBox
     Friend WithEvents rbtnSecurity As RadRadioButton
     Friend WithEvents rbtnSaving As RadRadioButton
+    Friend WithEvents rbtnretention As RadRadioButton
 End Class
