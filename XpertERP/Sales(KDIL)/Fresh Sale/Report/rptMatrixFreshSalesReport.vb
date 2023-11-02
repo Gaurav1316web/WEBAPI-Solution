@@ -1538,4 +1538,32 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
         txtCustMultFnd.arrValueMember = clsCommon.ShowMultipleSelectForm("TransTypeMulSel", strQry, "Code", "Name", txtCustMultFnd.arrValueMember, txtCustMultFnd.arrDispalyMember)
 
     End Sub
+
+    Private Sub btnCreditPrint_Click(sender As Object, e As EventArgs) Handles btnCreditPrint.Click
+        Try
+            Dim Qry As String = Nothing
+            Dim dt As DataTable = Nothing
+            If clsCommon.myLen(txtCreditDateFrom.Value) <= 0 AndAlso clsCommon.myLen(txtCreditDateTo.Value) <= 0 Then
+                Throw New Exception("Date Can't be blanck.")
+            End If
+
+            Dim Item As String = Nothing
+
+
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(Qry)
+            If dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptTaxNonTaxableCustomerCreditReport", "Customer Credit Report")
+                frmCRV = Nothing
+            Else
+                clsCommon.MyMessageBoxShow("Data not found.", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+
 End Class

@@ -18,11 +18,14 @@ Public Class frmCorrection
     Dim SettMilkCollectionFATSNFType As Integer
     Dim SettFATSNFNoDecimalMCC As Boolean
     Dim SettShowAllMCC As Boolean
+    Dim corrFactor As Decimal = 0
+    Dim isPickCLRInsteadOfSNF As Boolean = False
 #End Region
 
     Private Sub frmMilkGateEntryIn_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim id As String = Form_ID
         Try
+            CreateTable()
             If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
                 If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
                     chkAddMissingSample.Visible = False
@@ -79,9 +82,19 @@ Public Class frmCorrection
                 chkRetesting.Visible = False
                 chkCorrection.Visible = True
                 chkCorrection.Checked = True
+                RadPageView1.SelectedPage = RadPageViewPage1
             ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
-                chkRetesting.Visible = True
-                chkRetesting.Checked = True
+                corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
+                isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
+                If isPickCLRInsteadOfSNF Then
+                    txtRetestingCLR.Visible = True
+                    MyLabel22.Visible = True
+                Else
+                    txtRetestingCLR.Visible = False
+                    MyLabel22.Visible = False
+                End If
+                chkRetesting.Visible = False
+                chkRetesting.Checked = False
                 chkCorrection.Visible = False
                 chkCorrection.Checked = False
                 txtShiftDate.Value = clsCommon.GETSERVERDATE()
@@ -91,15 +104,20 @@ Public Class frmCorrection
                 RadGroupBox2.Enabled = True
                 txtShiftDate.Focus()
                 LoadShift()
+                LoadMilkTypeBMC()
                 chkAddMissingSample.Visible = False
                 RadPageViewPage1.Text = "Milk Retesting"
                 RadGroupBox1.HeaderText = "Milk Retesting"
+                RadPageView1.Pages("RadPageViewPage1").Item.Visibility = ElementVisibility.Collapsed
                 RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
                 RadPageView1.Pages("RadPageViewPage3").Item.Visibility = ElementVisibility.Collapsed
-                RadPageView1.Pages("RadPageViewPage4").Item.Visibility = ElementVisibility.Collapsed
+                'RadPageView1.Pages("RadPageViewPage4").Item.Visibility = ElementVisibility.Collapsed
                 RadPageView1.Pages("RadPageViewPage5").Item.Visibility = ElementVisibility.Collapsed
+                RadPageViewPage4.Text = "BMC Milk Retesting"
+                RadGroupBox4.HeaderText = "Retesting"
+                RadPageView1.SelectedPage = RadPageViewPage4
             End If
-            RadPageView1.SelectedPage = RadPageViewPage1
+            'RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
         End Try
@@ -107,6 +125,37 @@ Public Class frmCorrection
 
     End Sub
 
+    Private Sub CreateTable()
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)
+        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_No", "Varchar(30) not null references TSPL_MILK_COLLECTION_MCC(Document_No)")
+        coll.Add("SNo", "Integer NULL")
+        coll.Add("MCC_Code", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_Code)")
+        coll.Add("Milk_Type", "char(5) NOT NULL Default 'M'")
+        coll.Add("Qty", "Decimal(18,2) null")
+        coll.Add("FAT", "Decimal(18,2) null")
+        coll.Add("SNF", "Decimal(18,2) null")
+        coll.Add("FATKG", "Decimal(18,3) null")
+        coll.Add("SNFKG", "Decimal(18,3) null")
+        coll.Add("Gaze_Reading", "Decimal(18,1) null")
+        coll.Add("Silo_Capacity", "integer null")
+        coll.Add("Temp", "Decimal(18,2) null")
+        coll.Add("Sample_No", "integer null")
+        coll.Add("Gaze_Reading_Code", "Varchar(30) null REFERENCES TSPL_GAZE_READING(Code)")
+        coll.Add("IsUpdatedFromCorrection", "Integer NOT NULL DEFAULT 0")
+        coll.Add("Against_Multiple_Days", "integer NULL references TSPL_MILK_COLLECTION_MCC_MULTIPLE_DAYS_DETAIL(PK_Id)")
+        coll.Add("REF_PK_ID_BMCDCS_TRIP", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS_TRIP(PK_ID)")
+        coll.Add("Machine_FAT", "Decimal(18,2) null")
+        coll.Add("Machine_SNF", "Decimal(18,2) null")
+        coll.Add("Retesting_FAT", "Decimal(18,2) null")
+        coll.Add("Retesting_SNF", "Decimal(18,2) null")
+        coll.Add("Retesting_CLR", "Decimal(18,2) null")
+        coll.Add("Retesting_OR_Correction", "integer null")
+        coll.Add("Correction_FAT", "Decimal(18,2) null")
+        coll.Add("Correction_SNF", "Decimal(18,2) null")
+        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
+    End Sub
     Sub LoadShiftFrom()
         Dim dt As DataTable = New DataTable
         dt.Columns.Add("Code")
@@ -279,6 +328,20 @@ Public Class frmCorrection
             Else
                 RadPageView1.Pages("RadPageViewPage2").Item.Visibility = ElementVisibility.Collapsed
                 RadPageView1.SelectedPage = RadPageViewPage1
+            End If
+        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F7 Then
+            Dim pwd As New FrmPWD(Nothing)
+            pwd.strCode = clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF
+            pwd.strType = clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF
+            pwd.ShowDialog()
+            If pwd.isPasswordCorrect Then
+                Dim frm As New frmSetting
+                frm.strFormID = Me.Form_ID
+                frm.ShowDialog()
+                If frm.isDataSaved Then
+                    clsCommon.MyMessageBoxShow("Setting saved successfully." + Environment.NewLine + Me.Text + " will close automatic For apply new settings")
+                    clsERPFuncationality.closeForm(Me)
+                End If
             End If
         End If
     End Sub
@@ -890,7 +953,8 @@ where TSPL_MILK_SRN_HEAD.Against_Reject_No is null and TSPL_MILK_SRN_HEAD.MCC_CO
             End If
 
             Dim qry As String = "select TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_MCC.Document_Date,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as MCC, TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code,TSPL_MCC_MASTER.MCC_NAME,TSPL_MILK_COLLECTION_MCC_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.SNo,TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
-,TSPL_MILK_COLLECTION_MCC_DETAIL.IsUpdatedFromCorrection
+,TSPL_MILK_COLLECTION_MCC_DETAIL.IsUpdatedFromCorrection,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_OR_Correction,
+TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_CLR
 from TSPL_MILK_COLLECTION_MCC_DETAIL
 left outer join  TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code"
@@ -917,6 +981,9 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
                 txtBMCCorrQty.Value = clsCommon.myCdbl(dt.Rows(0)("Qty"))
                 txtBMCCorrFAT.Value = clsCommon.myCdbl(dt.Rows(0)("FAT"))
                 txtBMCCorrSNF.Value = clsCommon.myCdbl(dt.Rows(0)("SNF"))
+                If isPickCLRInsteadOfSNF Then
+                    txtRetestingCLR.Value = clsEkoPro.getClrOnCalculation(txtBMCCorrFAT.Value, txtBMCCorrSNF.Value, corrFactor)
+                End If
                 cboBMCCorrMilkType.SelectedValue = clsCommon.myCstr(dt.Rows(0)("Milk_Type"))
                 txtBMCCorrBMC.Value = txtBMCBMC.Value
                 txtBMCCorrBMC.Tag = txtBMCBMC.Tag
@@ -941,7 +1008,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
             If clsCommon.myLen(txtBMCCorrBMC.Value) <= 0 Then
                 Throw New Exception("Please select " + txtBMCCorrBMC.MyLinkLable1.Text)
             End If
-            If clsCommon.myLen(cboBMCCorrMilkType.SelectedValue) <= 0 Then
+            If clsCommon.myLen(cboBMCCorrMilkType.SelectedItem.Text) <= 0 Then
                 Throw New Exception("Please select " + cboBMCCorrMilkType.MyLinkLable1.Text)
             End If
             If txtBMCCorrQty.Value < 0 Then
@@ -975,18 +1042,25 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 Throw New Exception("Milk Purchase Invoice Generated [" + clsCommon.myCstr(dt.Rows(0)("DOC_CODE")) + "]")
             End If
-
             Arr(0).MCC_Code = txtBMCCorrBMC.Tag
             Arr(0).Milk_Type = (cboBMCCorrMilkType.SelectedValue)
             Arr(0).Qty = txtBMCCorrQty.Value
+            If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
+                Arr(0).Retesting_FAT = txtBMCCorrFAT.Value
+                Arr(0).Retesting_SNF = txtBMCCorrSNF.Value
+                Arr(0).Retesting_CLR = txtRetestingCLR.Value
+                Arr(0).Retesting_OR_Correction = 1
+            Else
+                Arr(0).Correction_FAT = txtBMCCorrFAT.Value
+                Arr(0).Correction_SNF = txtBMCCorrSNF.Value
+                Arr(0).Retesting_OR_Correction = 2
+            End If
             Arr(0).FAT = txtBMCCorrFAT.Value
             Arr(0).SNF = txtBMCCorrSNF.Value
             Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
             Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
             clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, Nothing)
-
             clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1143,5 +1217,45 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
         End Try
     End Sub
 
+    Private Sub txtBMCCorrSNF_Validated(sender As Object, e As EventArgs) Handles txtBMCCorrSNF.Validated
+        Try
+            If isPickCLRInsteadOfSNF AndAlso clsCommon.myCdbl(txtBMCCorrFAT.Value) > 0 AndAlso clsCommon.myCdbl(txtBMCCorrSNF.Value) > 0 Then
+                txtRetestingCLR.Value = clsEkoPro.getClrOnCalculation(txtBMCCorrFAT.Value, txtBMCCorrSNF.Value, corrFactor)
+            Else
+                txtRetestingCLR.Value = 0
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 
+    Private Sub txtRetestingCLR_Validated(sender As Object, e As EventArgs) Handles txtRetestingCLR.Validated
+        Try
+            If isPickCLRInsteadOfSNF AndAlso clsCommon.myCdbl(txtBMCCorrFAT.Value) > 0 AndAlso clsCommon.myCdbl(txtRetestingCLR.Value) > 0 Then
+                txtBMCCorrSNF.Value = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(txtBMCCorrFAT.Value), clsCommon.myCdbl(txtRetestingCLR.Value), corrFactor)
+            Else
+                txtBMCCorrSNF.Value = 0
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtBMCCorrFAT_Validated(sender As Object, e As EventArgs) Handles txtBMCCorrFAT.Validated
+        Try
+            If isPickCLRInsteadOfSNF AndAlso clsCommon.myCdbl(txtBMCCorrFAT.Value) > 0 AndAlso clsCommon.myCdbl(txtRetestingCLR.Value) > 0 Then
+                txtBMCCorrSNF.Value = clsEkoPro.getSnfOnCalculation(clsCommon.myCdbl(txtBMCCorrFAT.Value), clsCommon.myCdbl(txtRetestingCLR.Value), corrFactor)
+            Else
+                txtBMCCorrSNF.Value = 0
+            End If
+
+            If isPickCLRInsteadOfSNF AndAlso clsCommon.myCdbl(txtBMCCorrFAT.Value) > 0 AndAlso clsCommon.myCdbl(txtBMCCorrSNF.Value) > 0 Then
+                txtRetestingCLR.Value = clsEkoPro.getClrOnCalculation(txtBMCCorrFAT.Value, txtBMCCorrSNF.Value, corrFactor)
+            Else
+                txtRetestingCLR.Value = 0
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
