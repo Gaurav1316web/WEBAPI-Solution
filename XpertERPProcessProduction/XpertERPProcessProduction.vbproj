@@ -140,6 +140,10 @@
     <Reference Include="XpertERPEngineFine">
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
+    <Reference Include="XpertERPFixedAssets, Version=7.1.0.92, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\XpertERP\XpertERPFixedAssets\bin\Debug\XpertERPFixedAssets.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -1048,12 +1052,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\search4.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XpertERPFixedAssets\XpertERPFixedAssets.vbproj">
-      <Project>{3A4383C1-9242-4FE0-90AA-9AF743991104}</Project>
-      <Name>XpertERPFixedAssets</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

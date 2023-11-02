@@ -153,191 +153,192 @@ Public Class frmRCDFStandardization
         gvProduce.Rows.Clear()
         gvProduce.Columns.Clear()
 
-        Dim reposno As GridViewDecimalColumn = New GridViewDecimalColumn()
-        reposno.FormatString = ""
-        reposno.Name = colProduceSNo
-        reposno.Width = 60
-        reposno.DecimalPlaces = 0
-        reposno.HeaderText = "SNo."
-        reposno.ReadOnly = True
-        gvProduce.MasterTemplate.Columns.Add(reposno)
+        Dim repoNum As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceSNo
+        repoNum.Width = 60
+        repoNum.DecimalPlaces = 0
+        repoNum.HeaderText = "SNo."
+        repoNum.ReadOnly = True
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoicode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoicode.FormatString = ""
-        repoicode.Name = colProduceItemCode
-        repoicode.Width = 100
-        repoicode.HeaderText = "Item Code"
-        repoicode.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
-        repoicode.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoicode.ReadOnly = False
-        gvProduce.MasterTemplate.Columns.Add(repoicode)
+        Dim repoTxt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colProduceItemCode
+        repoTxt.Width = 100
+        repoTxt.HeaderText = "Item Code"
+        repoTxt.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
+        repoTxt.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTxt.ReadOnly = False
+        gvProduce.MasterTemplate.Columns.Add(repoTxt)
 
-        Dim repoiname As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoiname.FormatString = ""
-        repoiname.Name = colProduceItem
-        repoiname.Width = 150
-        repoiname.HeaderText = "Item Description"
-        repoiname.ReadOnly = True
-        gvProduce.MasterTemplate.Columns.Add(repoiname)
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colProduceItem
+        repoTxt.Width = 150
+        repoTxt.HeaderText = "Item Description"
+        repoTxt.ReadOnly = True
+        gvProduce.MasterTemplate.Columns.Add(repoTxt)
 
-        Dim repobomcode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repobomcode.FormatString = ""
-        repobomcode.Name = colProduceBOMCode
-        repobomcode.Width = 100
-        repobomcode.HeaderText = "BOM Code"
-        repobomcode.ReadOnly = False
-        repobomcode.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
-        repobomcode.TextImageRelation = TextImageRelation.TextBeforeImage
-        gvProduce.MasterTemplate.Columns.Add(repobomcode)
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colProduceBOMCode
+        repoTxt.Width = 100
+        repoTxt.HeaderText = "BOM Code"
+        repoTxt.ReadOnly = False
+        repoTxt.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
+        repoTxt.TextImageRelation = TextImageRelation.TextBeforeImage
+        gvProduce.MasterTemplate.Columns.Add(repoTxt)
 
-        Dim repoBOMDesc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoBOMDesc.FormatString = ""
-        repoBOMDesc.Name = colProduceBOM
-        repoBOMDesc.Width = 150
-        repoBOMDesc.HeaderText = "BOM Description"
-        repoBOMDesc.ReadOnly = True
-        gvProduce.MasterTemplate.Columns.Add(repoBOMDesc)
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colProduceBOM
+        repoTxt.Width = 150
+        repoTxt.HeaderText = "BOM Description"
+        repoTxt.ReadOnly = True
+        gvProduce.MasterTemplate.Columns.Add(repoTxt)
 
-        Dim repoPtype As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoPtype.FormatString = ""
-        repoPtype.Name = colProduceItemProductType
-        repoPtype.Width = 100
-        repoPtype.HeaderText = "Product Type"
-        repoPtype.ReadOnly = True
-        repoPtype.IsVisible = False
-        gvProduce.MasterTemplate.Columns.Add(repoPtype)
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colProduceItemProductType
+        repoTxt.Width = 100
+        repoTxt.HeaderText = "Product Type"
+        repoTxt.ReadOnly = True
+        repoTxt.IsVisible = False
+        gvProduce.MasterTemplate.Columns.Add(repoTxt)
 
-        Dim repoQuantity As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoQuantity.FormatString = ""
-        repoQuantity.Name = colProduceReqQty
-        repoQuantity.Width = 100
-        repoQuantity.HeaderText = "Required Quantity"
-        repoQuantity.DecimalPlaces = DecimalPointQty
-        repoQuantity.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoQuantity.ReadOnly = True
-        repoQuantity.IsVisible = False
-        gvProduce.MasterTemplate.Columns.Add(repoQuantity)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceReqQty
+        repoNum.Width = 100
+        repoNum.HeaderText = "Required Quantity"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        repoNum.IsVisible = False
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoRequirFat As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoRequirFat.FormatString = ""
-        repoRequirFat.Name = colProduceReqFAT
-        repoRequirFat.Width = 100
-        repoRequirFat.HeaderText = "Required FAT%"
-        repoRequirFat.DecimalPlaces = DecimalPointFatSNFPer
-        repoRequirFat.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoRequirFat.ReadOnly = True
-        repoRequirFat.IsVisible = False
-        gvProduce.MasterTemplate.Columns.Add(repoRequirFat)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceReqFAT
+        repoNum.Width = 100
+        repoNum.HeaderText = "Required FAT%"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        repoNum.IsVisible = False
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoRequirFatKG As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoRequirFatKG.FormatString = ""
-        repoRequirFatKG.Name = colProduceReqFATKG
-        repoRequirFatKG.Width = 150
-        repoRequirFatKG.HeaderText = "Required FAT KG"
-        repoRequirFatKG.DecimalPlaces = DecimalPointQty
-        repoRequirFatKG.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoRequirFatKG.ReadOnly = True
-        repoRequirFatKG.IsVisible = False
-        gvProduce.MasterTemplate.Columns.Add(repoRequirFatKG)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceReqFATKG
+        repoNum.Width = 150
+        repoNum.HeaderText = "Required FAT KG"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        repoNum.IsVisible = False
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoRequirSnf As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoRequirSnf.FormatString = ""
-        repoRequirSnf.Name = colProduceReqSNF
-        repoRequirSnf.Width = 150
-        repoRequirSnf.HeaderText = "Required SNF%"
-        repoRequirSnf.DecimalPlaces = DecimalPointFatSNFPer
-        repoRequirSnf.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoRequirSnf.ReadOnly = True
-        repoRequirSnf.IsVisible = False
-        gvProduce.MasterTemplate.Columns.Add(repoRequirSnf)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceReqSNF
+        repoNum.Width = 150
+        repoNum.HeaderText = "Required SNF%"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        repoNum.IsVisible = False
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoRequirSnfKG As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoRequirSnfKG.FormatString = ""
-        repoRequirSnfKG.Name = colProduceReqSNFKG
-        repoRequirSnfKG.Width = 150
-        repoRequirSnfKG.HeaderText = "Required SNF KG"
-        repoRequirSnfKG.DecimalPlaces = DecimalPointQty
-        repoRequirSnfKG.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoRequirSnfKG.ReadOnly = True
-        repoRequirSnfKG.IsVisible = False
-        gvProduce.MasterTemplate.Columns.Add(repoRequirSnfKG)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceReqSNFKG
+        repoNum.Width = 150
+        repoNum.HeaderText = "Required SNF KG"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        repoNum.IsVisible = False
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoProduced_Qty As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoProduced_Qty.FormatString = ""
-        repoProduced_Qty.Name = colProduceQty
-        repoProduced_Qty.Width = 100
-        repoProduced_Qty.HeaderText = "Quantity"
-        repoProduced_Qty.DecimalPlaces = DecimalPointQty
-        repoProduced_Qty.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        gvProduce.MasterTemplate.Columns.Add(repoProduced_Qty)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceQty
+        repoNum.Width = 100
+        repoNum.HeaderText = "Quantity"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repouom As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repouom.FormatString = ""
-        repouom.Name = colProduceUOM
-        repouom.Width = 80
-        repouom.HeaderText = "UOM"
-        repouom.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
-        repouom.TextImageRelation = TextImageRelation.TextBeforeImage
-        repouom.ReadOnly = True
-        repouom.IsVisible = True
-        gvProduce.MasterTemplate.Columns.Add(repouom)
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colProduceUOM
+        repoTxt.Width = 80
+        repoTxt.HeaderText = "UOM"
+        repoTxt.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
+        repoTxt.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTxt.ReadOnly = True
+        repoTxt.IsVisible = True
+        gvProduce.MasterTemplate.Columns.Add(repoTxt)
 
-        Dim repoProducedFat As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoProducedFat.FormatString = ""
-        repoProducedFat.Name = colProduceFAT
-        repoProducedFat.Width = 100
-        repoProducedFat.HeaderText = "FAT %"
-        repoProducedFat.DecimalPlaces = DecimalPointFatSNFPer
-        repoProducedFat.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoProducedFat.ReadOnly = True
-        gvProduce.MasterTemplate.Columns.Add(repoProducedFat)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceFAT
+        repoNum.Width = 100
+        repoNum.HeaderText = "FAT %"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoProduced_FAT_KG As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoProduced_FAT_KG.FormatString = ""
-        repoProduced_FAT_KG.Name = colProduceFATKG
-        repoProduced_FAT_KG.Width = 150
-        repoProduced_FAT_KG.HeaderText = "FAT KG"
-        repoProduced_FAT_KG.DecimalPlaces = DecimalPointQty
-        repoProduced_FAT_KG.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoProduced_FAT_KG.ReadOnly = True
-        gvProduce.MasterTemplate.Columns.Add(repoProduced_FAT_KG)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceFATKG
+        repoNum.Width = 150
+        repoNum.HeaderText = "FAT KG"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoProducedSnf As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoProducedSnf.FormatString = ""
-        repoProducedSnf.Name = colProduceSNF
-        repoProducedSnf.Width = 150
-        repoProducedSnf.HeaderText = "SNF %"
-        repoProducedSnf.DecimalPlaces = DecimalPointFatSNFPer
-        repoProducedSnf.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoProducedSnf.ReadOnly = True
-        gvProduce.MasterTemplate.Columns.Add(repoProducedSnf)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceSNF
+        repoNum.Width = 150
+        repoNum.HeaderText = "SNF %"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoProduced_SNF_KG As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoProduced_SNF_KG.FormatString = ""
-        repoProduced_SNF_KG.Name = colProduceSNFKG
-        repoProduced_SNF_KG.Width = 150
-        repoProduced_SNF_KG.HeaderText = "SNF KG"
-        repoProduced_SNF_KG.DecimalPlaces = DecimalPointQty
-        repoProduced_SNF_KG.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoProduced_SNF_KG.ReadOnly = True
-        gvProduce.MasterTemplate.Columns.Add(repoProduced_SNF_KG)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colProduceSNFKG
+        repoNum.Width = 150
+        repoNum.HeaderText = "SNF KG"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        gvProduce.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoSTD_Location_Code As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoSTD_Location_Code.FormatString = ""
-        repoSTD_Location_Code.Name = colProduceStdInLocation
-        repoSTD_Location_Code.Width = 100
-        repoSTD_Location_Code.HeaderText = "Location"
-        repoSTD_Location_Code.ReadOnly = False
-        repoSTD_Location_Code.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
-        gvProduce.MasterTemplate.Columns.Add(repoSTD_Location_Code)
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colProduceStdInLocation
+        repoTxt.Width = 100
+        repoTxt.HeaderText = "Location"
+        repoTxt.ReadOnly = False
+        repoTxt.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
+        repoTxt.TextImageRelation = TextImageRelation.TextBeforeImage
+        gvProduce.MasterTemplate.Columns.Add(repoTxt)
 
-        Dim repoSTD_Location_Desc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoSTD_Location_Desc.FormatString = ""
-        repoSTD_Location_Desc.Name = colProduceStdInLocationName
-        repoSTD_Location_Desc.Width = 150
-        repoSTD_Location_Desc.HeaderText = "Location Description"
-        repoSTD_Location_Desc.ReadOnly = True
-        gvProduce.MasterTemplate.Columns.Add(repoSTD_Location_Desc)
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colProduceStdInLocationName
+        repoTxt.Width = 150
+        repoTxt.HeaderText = "Location Description"
+        repoTxt.ReadOnly = True
+        gvProduce.MasterTemplate.Columns.Add(repoTxt)
         '-------------------------------------------------
 
         gvProduce.AllowDeleteRow = False
@@ -350,245 +351,246 @@ Public Class frmRCDFStandardization
         gvProduce.MasterTemplate.ShowRowHeaderColumn = False
         gvProduce.EnableFiltering = False
         gvProduce.Rows.AddNew()
+        gvProduce.Rows(0).Cells(colProduceSNo).Value = 1
     End Sub
     Private Sub LoadBlankGridIssue()
         gvIssue.Rows.Clear()
         gvIssue.Columns.Clear()
 
-        Dim reposno As GridViewDecimalColumn = New GridViewDecimalColumn()
-        reposno.FormatString = ""
-        reposno.Name = colIssueSNo
-        reposno.Width = 60
-        reposno.DecimalPlaces = 0
-        reposno.HeaderText = "SNo."
-        reposno.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(reposno)
+        Dim repoNum As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueSNo
+        repoNum.Width = 60
+        repoNum.DecimalPlaces = 0
+        repoNum.HeaderText = "SNo."
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoicode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoicode.FormatString = ""
-        repoicode.Name = colIssueItemCode
-        repoicode.Width = 100
-        repoicode.HeaderText = "Item Code"
-        repoicode.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
-        repoicode.TextImageRelation = TextImageRelation.TextBeforeImage
-        repoicode.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoicode)
+        Dim repoTxt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colIssueItemCode
+        repoTxt.Width = 100
+        repoTxt.HeaderText = "Item Code"
+        repoTxt.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
+        repoTxt.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTxt.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoTxt)
 
-        Dim repoiname As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoiname.FormatString = ""
-        repoiname.Name = colIssueItemName
-        repoiname.Width = 150
-        repoiname.HeaderText = "Item Description"
-        repoiname.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoiname)
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colIssueItemName
+        repoTxt.Width = 150
+        repoTxt.HeaderText = "Item Description"
+        repoTxt.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoTxt)
 
-        Dim repoPtype As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoPtype.FormatString = ""
-        repoPtype.Name = colIssueItemProductType
-        repoPtype.Width = 100
-        repoPtype.HeaderText = "Product Type"
-        repoPtype.ReadOnly = True
-        repoPtype.IsVisible = False
-        gvIssue.MasterTemplate.Columns.Add(repoPtype)
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colIssueLocationCode
+        repoTxt.Width = 100
+        repoTxt.MaxLength = 100
+        repoTxt.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
+        repoTxt.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTxt.HeaderText = "Location Code"
+        repoTxt.ReadOnly = False
+        gvIssue.MasterTemplate.Columns.Add(repoTxt)
+
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colIssueLocation
+        repoTxt.Width = 100
+        repoTxt.MaxLength = 200
+        repoTxt.HeaderText = "Location Desc"
+        repoTxt.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoTxt)
+
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colIssueItemProductType
+        repoTxt.Width = 100
+        repoTxt.HeaderText = "Product Type"
+        repoTxt.ReadOnly = True
+        repoTxt.IsVisible = False
+        gvIssue.MasterTemplate.Columns.Add(repoTxt)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueAvailQty
+        repoNum.Width = 100
+        repoNum.HeaderText = "Available Quantity"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueQty
+        repoNum.Width = 100
+        repoNum.HeaderText = "Quantity"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = False
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colIssueUOM
+        repoTxt.Width = 100
+        repoTxt.HeaderText = "UOM"
+        repoTxt.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
+        repoTxt.TextImageRelation = TextImageRelation.TextBeforeImage
+        repoTxt.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoTxt)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueAvailFAT
+        repoNum.Width = 100
+        repoNum.HeaderText = "Available FAT %"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueFAT
+        repoNum.Width = 100
+        repoNum.HeaderText = "FAT %"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueAvailFATKG
+        repoNum.Width = 100
+        repoNum.HeaderText = "Available FAT KG"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueFATKG
+        repoNum.Width = 100
+        repoNum.HeaderText = "FAT KG"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueAvailSNF
+        repoNum.Width = 100
+        repoNum.HeaderText = "Available SNF %"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueSNF
+        repoNum.Width = 100
+        repoNum.HeaderText = "SNF %"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueAvailSNFKG
+        repoNum.Width = 100
+        repoNum.HeaderText = "Available SNF KG"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueSNFKG
+        repoNum.Width = 100
+        repoNum.HeaderText = "SNF KG"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.Name = colIssueReqFAT
+        repoNum.Width = 100
+        repoNum.HeaderText = "Required FAT %"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myC   str(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
+
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueReqSNF
+        repoNum.Width = 100
+        repoNum.HeaderText = "Required SNF %"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
 
 
-        Dim repoAvail_Qty As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoAvail_Qty.FormatString = ""
-        repoAvail_Qty.Name = colIssueQty
-        repoAvail_Qty.Width = 120
-        repoAvail_Qty.HeaderText = "Quantity"
-        repoAvail_Qty.DecimalPlaces = DecimalPointQty
-        repoAvail_Qty.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoAvail_Qty.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_Qty)
 
-        Dim repouom As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repouom.FormatString = ""
-        repouom.Name = colIssueUOM
-        repouom.Width = 100
-        repouom.HeaderText = "UOM"
-        repouom.HeaderImage = Global.XpertERPProcessProduction.My.Resources.Resources.search4
-        repouom.TextImageRelation = TextImageRelation.TextBeforeImage
-        repouom.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repouom)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueDiffFAT
+        repoNum.Width = 100
+        repoNum.HeaderText = "Diff. FAT %"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoAvail_FAT_Per As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoAvail_FAT_Per.FormatString = ""
-        repoAvail_FAT_Per.Name = colIssueFAT
-        repoAvail_FAT_Per.Width = 120
-        repoAvail_FAT_Per.HeaderText = "FAT %"
-        repoAvail_FAT_Per.DecimalPlaces = DecimalPointFatSNFPer
-        repoAvail_FAT_Per.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoAvail_FAT_Per.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_FAT_Per)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueDiffFATKG
+        repoNum.Width = 120
+        repoNum.HeaderText = "Diff. FAT KG"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoAvail_FAT_KG As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoAvail_FAT_KG.FormatString = ""
-        repoAvail_FAT_KG.Name = colIssueFATKG
-        repoAvail_FAT_KG.Width = 120
-        repoAvail_FAT_KG.HeaderText = "FAT KG"
-        repoAvail_FAT_KG.DecimalPlaces = DecimalPointQty
-        repoAvail_FAT_KG.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoAvail_FAT_KG.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_FAT_KG)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueDiffSNF
+        repoNum.Width = 120
+        repoNum.HeaderText = "Diff. SNF %"
+        repoNum.DecimalPlaces = DecimalPointFatSNFPer
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoAvail_SNF_Per As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoAvail_SNF_Per.FormatString = ""
-        repoAvail_SNF_Per.Name = colIssueSNF
-        repoAvail_SNF_Per.Width = 120
-        repoAvail_SNF_Per.HeaderText = "SNF %"
-        repoAvail_SNF_Per.DecimalPlaces = DecimalPointFatSNFPer
-        repoAvail_SNF_Per.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoAvail_SNF_Per.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_SNF_Per)
+        repoNum = New GridViewDecimalColumn()
+        repoNum.FormatString = ""
+        repoNum.Name = colIssueDiffSNFKG
+        repoNum.Width = 120
+        repoNum.HeaderText = "Diff. SNF KG"
+        repoNum.DecimalPlaces = DecimalPointQty
+        repoNum.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoNum.ReadOnly = True
+        gvIssue.MasterTemplate.Columns.Add(repoNum)
 
-        Dim repoAvail_SNF_KG As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoAvail_SNF_KG.FormatString = ""
-        repoAvail_SNF_KG.Name = colIssueSNFKG
-        repoAvail_SNF_KG.Width = 120
-        repoAvail_SNF_KG.HeaderText = "SNF KG"
-        repoAvail_SNF_KG.DecimalPlaces = DecimalPointQty
-        repoAvail_SNF_KG.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoAvail_SNF_KG.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_SNF_KG)
-
-        Dim repoTo_Loc_Code As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoTo_Loc_Code.FormatString = ""
-        repoTo_Loc_Code.Name = colIssueLocationCode
-        repoTo_Loc_Code.Width = 100
-        repoTo_Loc_Code.MaxLength = 100
-        repoTo_Loc_Code.HeaderText = "Location Code"
-        repoTo_Loc_Code.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoTo_Loc_Code)
-
-        Dim repoTo_Loc_Desc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoTo_Loc_Desc.FormatString = ""
-        repoTo_Loc_Desc.Name = colIssueLocation
-        repoTo_Loc_Desc.Width = 100
-        repoTo_Loc_Desc.MaxLength = 200
-        repoTo_Loc_Desc.HeaderText = "Location Desc"
-        repoTo_Loc_Desc.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoTo_Loc_Desc)
-
-        repoAvail_Qty = New GridViewDecimalColumn()
-        repoAvail_Qty.FormatString = ""
-        repoAvail_Qty.Name = colIssueAvailQty
-        repoAvail_Qty.Width = 120
-        repoAvail_Qty.HeaderText = "Available Quantity"
-        repoAvail_Qty.DecimalPlaces = DecimalPointQty
-        repoAvail_Qty.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoAvail_Qty.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_Qty)
-
-        repoAvail_FAT_Per = New GridViewDecimalColumn()
-        repoAvail_FAT_Per.FormatString = ""
-        repoAvail_FAT_Per.Name = colIssueAvailFAT
-        repoAvail_FAT_Per.Width = 120
-        repoAvail_FAT_Per.HeaderText = "Available FAT %"
-        repoAvail_FAT_Per.DecimalPlaces = DecimalPointFatSNFPer
-        repoAvail_FAT_Per.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoAvail_FAT_Per.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_FAT_Per)
-
-        repoAvail_FAT_KG = New GridViewDecimalColumn()
-        repoAvail_FAT_KG.FormatString = ""
-        repoAvail_FAT_KG.Name = colIssueAvailFATKG
-        repoAvail_FAT_KG.Width = 120
-        repoAvail_FAT_KG.HeaderText = "Available FAT KG"
-        repoAvail_FAT_KG.DecimalPlaces = DecimalPointQty
-        repoAvail_FAT_KG.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoAvail_FAT_KG.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_FAT_KG)
-
-        repoAvail_SNF_Per = New GridViewDecimalColumn()
-        repoAvail_SNF_Per.FormatString = ""
-        repoAvail_SNF_Per.Name = colIssueAvailSNF
-        repoAvail_SNF_Per.Width = 120
-        repoAvail_SNF_Per.HeaderText = "Available SNF %"
-        repoAvail_SNF_Per.DecimalPlaces = DecimalPointFatSNFPer
-        repoAvail_SNF_Per.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoAvail_SNF_Per.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_SNF_Per)
-
-        repoAvail_SNF_KG = New GridViewDecimalColumn()
-        repoAvail_SNF_KG.FormatString = ""
-        repoAvail_SNF_KG.Name = colIssueAvailSNFKG
-        repoAvail_SNF_KG.Width = 120
-        repoAvail_SNF_KG.HeaderText = "Available SNF KG"
-        repoAvail_SNF_KG.DecimalPlaces = DecimalPointQty
-        repoAvail_SNF_KG.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoAvail_SNF_KG.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_SNF_KG)
-
-
-        repoAvail_FAT_Per = New GridViewDecimalColumn()
-        repoAvail_FAT_Per.Name = colIssueReqFAT
-        repoAvail_FAT_Per.Width = 120
-        repoAvail_FAT_Per.HeaderText = "Required FAT%"
-        repoAvail_FAT_Per.DecimalPlaces = DecimalPointFatSNFPer
-        repoAvail_FAT_Per.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoAvail_FAT_Per.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_FAT_Per)
-
-        repoAvail_FAT_Per = New GridViewDecimalColumn()
-        repoAvail_FAT_Per.FormatString = ""
-        repoAvail_FAT_Per.Name = colIssueReqSNF
-        repoAvail_FAT_Per.Width = 120
-        repoAvail_FAT_Per.HeaderText = "Required SNF%"
-        repoAvail_FAT_Per.DecimalPlaces = DecimalPointFatSNFPer
-        repoAvail_FAT_Per.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoAvail_FAT_Per.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoAvail_FAT_Per)
-
-
-
-        Dim repoDiff_FAT_Per As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoDiff_FAT_Per.FormatString = ""
-        repoDiff_FAT_Per.Name = colIssueDiffFAT
-        repoDiff_FAT_Per.Width = 120
-        repoDiff_FAT_Per.HeaderText = "Diff. FAT %"
-        repoDiff_FAT_Per.DecimalPlaces = DecimalPointFatSNFPer
-        repoDiff_FAT_Per.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoDiff_FAT_Per.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoDiff_FAT_Per)
-
-        Dim repoDiff_FAT_KG As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoDiff_FAT_KG.FormatString = ""
-        repoDiff_FAT_KG.Name = colIssueDiffFATKG
-        repoDiff_FAT_KG.Width = 120
-        repoDiff_FAT_KG.HeaderText = "Diff. FAT KG"
-        repoDiff_FAT_KG.DecimalPlaces = DecimalPointQty
-        repoDiff_FAT_KG.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoDiff_FAT_KG.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoDiff_FAT_KG)
-
-        Dim repoDiff_SNF_Per As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoDiff_SNF_Per.FormatString = ""
-        repoDiff_SNF_Per.Name = colIssueDiffSNF
-        repoDiff_SNF_Per.Width = 120
-        repoDiff_SNF_Per.HeaderText = "Diff. SNF %"
-        repoDiff_SNF_Per.DecimalPlaces = DecimalPointFatSNFPer
-        repoDiff_SNF_Per.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointFatSNFPer) & "}"
-        repoDiff_SNF_Per.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoDiff_SNF_Per)
-
-        Dim repoDiff_SNF_KG As GridViewDecimalColumn = New GridViewDecimalColumn()
-        repoDiff_SNF_KG.FormatString = ""
-        repoDiff_SNF_KG.Name = colIssueDiffSNFKG
-        repoDiff_SNF_KG.Width = 120
-        repoDiff_SNF_KG.HeaderText = "Diff. SNF KG"
-        repoDiff_SNF_KG.DecimalPlaces = DecimalPointQty
-        repoDiff_SNF_KG.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
-        repoDiff_SNF_KG.ReadOnly = True
-        gvIssue.MasterTemplate.Columns.Add(repoDiff_SNF_KG)
-
-        Dim repoIssueRemarks As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoIssueRemarks.FormatString = ""
-        repoIssueRemarks.Name = colIssueRemark
-        repoIssueRemarks.Width = 120
-        repoIssueRemarks.MaxLength = 200
-        repoIssueRemarks.HeaderText = "Remarks"
-        gvIssue.MasterTemplate.Columns.Add(repoIssueRemarks)
+        repoTxt = New GridViewTextBoxColumn()
+        repoTxt.FormatString = ""
+        repoTxt.Name = colIssueRemark
+        repoTxt.Width = 200
+        repoTxt.MaxLength = 200
+        repoTxt.HeaderText = "Remarks"
+        gvIssue.MasterTemplate.Columns.Add(repoTxt)
 
         gvIssue.AllowDeleteRow = True
         gvIssue.AllowAddNewRow = False
@@ -792,15 +794,15 @@ Public Class frmRCDFStandardization
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-    Private Sub gv_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvProduce.CellValueChanged
+    Private Sub gvProduce_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvProduce.CellValueChanged
         If Not isInsideLoadData Then
             If Not isCellValueChangedProduce Then
-                If e.Column Is gvProduce.Columns(colProduceBOM) OrElse e.Column Is gvProduce.Columns(colProduceItem) OrElse e.Column Is gvProduce.Columns(colProduceQty) OrElse e.Column Is gvProduce.Columns(colProduceStdInLocation) Then
+                If e.Column Is gvProduce.Columns(colProduceItemCode) OrElse e.Column Is gvProduce.Columns(colProduceBOMCode) OrElse e.Column Is gvProduce.Columns(colProduceQty) OrElse e.Column Is gvProduce.Columns(colProduceStdInLocation) Then
                     isCellValueChangedProduce = True
-                    If e.Column Is gvProduce.Columns(colProduceBOM) Then
+                    If (e.Column Is gvProduce.Columns(colProduceItemCode)) Then
                         ProduceOpenBOMItemCode(False)
                         FillRawItemFromBOM()
-                    ElseIf (e.Column Is gvProduce.Columns(colProduceItem)) Then
+                    ElseIf e.Column Is gvProduce.Columns(colProduceBOMCode) Then
                         ProduceOpenBOMCode(False)
                         FillRawItemFromBOM()
                     ElseIf (e.Column Is gvProduce.Columns(colProduceQty)) Then
@@ -816,13 +818,13 @@ Public Class frmRCDFStandardization
     End Sub
     Sub ProduceOpenBOMCode(ByVal isButtonClicked As Boolean)
         Dim whrCls As String = ""
-        Dim icode As String = clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceItem).Value)
+        Dim icode As String = clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceItemCode).Value)
         If clsCommon.myLen(icode) > 0 Then
             whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)<>1 and TSPL_PP_BOM_HEAD.prod_item_code='" + icode + "'   and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1'   "
         Else
             whrCls = " isnull(TSPL_PP_BOM_HEAD.is_osp,0)<>1 and and tspl_item_master.item_type in ('S') and isnull(TSPL_PP_BOM_HEAD.is_post,'0')='1'  "
         End If
-        Dim oldbomcode As String = clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceBOM).Value)
+        Dim oldbomcode As String = clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceBOMCode).Value)
         Dim bomcode As String = clsBOM.GetBOMFinderWithValidityCheck(whrCls, oldbomcode, dtpDate.Value, isButtonClicked)
         If clsCommon.myLen(bomcode) > 0 Then
             gvProduce.CurrentRow.Cells(colProduceBOMCode).Value = bomcode
@@ -872,10 +874,14 @@ Public Class frmRCDFStandardization
             gvProduce.CurrentRow.Cells(colProduceItem).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_desc from tspl_item_master where item_code='" + icode + "'"))
             gvProduce.CurrentRow.Cells(colProduceItemProductType).Value = ItemType(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_type from tspl_item_master where item_code='" + icode + "'")))
             gvProduce.CurrentRow.Cells(colProduceUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select prod_item_unit_code from tspl_pp_bom_head where bom_code='" + bomcode + "'"))
-            gvProduce.CurrentRow.Cells(colProduceReqFAT).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + icode + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
-            gvProduce.CurrentRow.Cells(colProduceReqSNF).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + icode + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
-            gvProduce.CurrentRow.Cells(colProduceReqFATKG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceItemCode).Value), clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceUOM).Value), clsCommon.myCdbl(gvProduce.CurrentRow.Cells(colProduceReqQty).Value), clsCommon.myCdbl(gvProduce.CurrentRow.Cells(colProduceReqFAT).Value), Nothing)
-            gvProduce.CurrentRow.Cells(colProduceReqSNFKG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceItemCode).Value), clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceUOM).Value), clsCommon.myCdbl(gvProduce.CurrentRow.Cells(colProduceReqQty).Value), clsCommon.myCdbl(gvProduce.CurrentRow.Cells(colProduceReqSNF).Value), Nothing)
+            gvProduce.CurrentRow.Cells(colProduceFAT).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + icode + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
+            gvProduce.CurrentRow.Cells(colProduceSNF).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + icode + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
+
+
+            gvProduce.CurrentRow.Cells(colProduceReqFAT).Value = gvProduce.CurrentRow.Cells(colProduceFAT).Value
+            gvProduce.CurrentRow.Cells(colProduceReqSNF).Value = gvProduce.CurrentRow.Cells(colProduceSNF).Value
+            gvProduce.CurrentRow.Cells(colProduceReqFATKG).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + icode + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
+            gvProduce.CurrentRow.Cells(colProduceReqSNFKG).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + icode + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
         Else
             gvProduce.CurrentRow.Cells(colProduceItemCode).Value = ""
             gvProduce.CurrentRow.Cells(colProduceItem).Value = ""
@@ -904,6 +910,9 @@ Public Class frmRCDFStandardization
         gvProduce.CurrentRow.Cells(colProduceStdInLocationName).Value = clsLocation.GetName(gvProduce.CurrentRow.Cells(colProduceStdInLocation).Value, Nothing)
     End Sub
     Sub FillRawItemFromBOM()
+        gvProduce.CurrentRow.Cells(colProduceFATKG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceItemCode).Value), clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceUOM).Value), clsCommon.myCdbl(gvProduce.CurrentRow.Cells(colProduceQty).Value), clsCommon.myCdbl(gvProduce.CurrentRow.Cells(colProduceFAT).Value), Nothing)
+        gvProduce.CurrentRow.Cells(colProduceSNFKG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceItemCode).Value), clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceUOM).Value), clsCommon.myCdbl(gvProduce.CurrentRow.Cells(colProduceQty).Value), clsCommon.myCdbl(gvProduce.CurrentRow.Cells(colProduceSNF).Value), Nothing)
+
         Dim objlist As New List(Of clsRecursiveitems)
         Dim BOMList As New List(Of String)
         gvIssue.Rows.Clear()
@@ -1096,8 +1105,7 @@ Public Class frmRCDFStandardization
 
         UcAttachment1.Form_ID = Me.Form_ID
         UcAttachment1.BlankAllControls()
-        'fndChildBatchNo.Enabled = True
-        'fndChildBatchNo.Enabled = True
+
 
         btnsave.Enabled = True
         btndelete.Enabled = False
@@ -1115,16 +1123,16 @@ Public Class frmRCDFStandardization
         isCellValueChangedProduce = False
     End Sub
     Sub DisableAllTabPages()
-        For Each page As RadPageViewPage In RadPageView1.Pages
-            page.Enabled = False
-        Next
+        'For Each page As RadPageViewPage In RadPageView1.Pages
+        '    page.Enabled = False
+        'Next
         pageAttachment.Enabled = True
         RadPageViewPage1.Enabled = True
     End Sub
     Sub EnableAllTabPages()
-        For Each page As RadPageViewPage In RadPageView1.Pages
-            page.Enabled = True
-        Next
+        'For Each page As RadPageViewPage In RadPageView1.Pages
+        '    page.Enabled = True
+        'Next
     End Sub
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmProcessProductionStandardization)
@@ -2865,5 +2873,15 @@ Public Class frmRCDFStandardization
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
+    End Sub
+
+    Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
+        If clsCommon.myLen(arrLoc) <= 0 Then
+            clsCommon.MyMessageBoxShow("No location rights.")
+            Exit Sub
+        End If
+
+        txtLocation.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y'", txtLocation.Value, isButtonClicked)
+        lblLocation.Text = clsLocation.GetName(txtLocation.Value, Nothing)
     End Sub
 End Class
