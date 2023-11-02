@@ -23349,6 +23349,12 @@ Public Class clsCreateAllTable
             coll.Add("REF_PK_ID_BMCDCS_TRIP", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS_TRIP(PK_ID)")
             coll.Add("Machine_FAT", "Decimal(18,2) null")
             coll.Add("Machine_SNF", "Decimal(18,2) null")
+            coll.Add("Retesting_FAT", "Decimal(18,2) null")
+            coll.Add("Retesting_SNF", "Decimal(18,2) null")
+            coll.Add("Retesting_CLR", "Decimal(18,2) null")
+            coll.Add("Retesting_OR_Correction", "integer null")
+            coll.Add("Correction_FAT", "Decimal(18,2) null")
+            coll.Add("Correction_SNF", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
