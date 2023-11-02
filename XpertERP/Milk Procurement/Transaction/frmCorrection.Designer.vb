@@ -22,10 +22,10 @@ Partial Class frmCorrection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -45,6 +45,7 @@ Partial Class frmCorrection
         Me.txtVLC = New common.UserControls.txtFinder()
         Me.lblVLC = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkCorrection = New common.Controls.MyCheckBox()
         Me.chkRetesting = New common.Controls.MyCheckBox()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -108,6 +109,8 @@ Partial Class frmCorrection
         Me.lblBMCBMC = New common.Controls.MyLabel()
         Me.txtBMCRouteNo = New common.UserControls.txtFinder()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtRetestingCLR = New common.MyNumBox()
+        Me.MyLabel22 = New common.Controls.MyLabel()
         Me.lblBMCStatus = New common.Controls.MyLabel()
         Me.MyLabel19 = New common.Controls.MyLabel()
         Me.lblBMCDetailNo = New common.Controls.MyLabel()
@@ -155,7 +158,6 @@ Partial Class frmCorrection
         Me.MyLabel45 = New common.Controls.MyLabel()
         Me.txtBMCTankerFAT = New common.MyNumBox()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.chkCorrection = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -176,6 +178,7 @@ Partial Class frmCorrection
         CType(Me.lblVLC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkCorrection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkRetesting, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -235,6 +238,8 @@ Partial Class frmCorrection
         CType(Me.lblBMCBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
+        CType(Me.txtRetestingCLR, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBMCStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBMCDetailNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -282,7 +287,6 @@ Partial Class frmCorrection
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkCorrection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -317,7 +321,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -401,10 +405,10 @@ Partial Class frmCorrection
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem3)
-        Me.cboShift.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "M"
+        RadListDataItem6.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem5)
+        Me.cboShift.Items.Add(RadListDataItem6)
         Me.cboShift.Location = New System.Drawing.Point(273, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -580,6 +584,21 @@ Partial Class frmCorrection
         Me.RadGroupBox1.TabIndex = 1
         Me.RadGroupBox1.Text = "Correction"
         '
+        'chkCorrection
+        '
+        Me.chkCorrection.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkCorrection.Enabled = False
+        Me.chkCorrection.Location = New System.Drawing.Point(358, 22)
+        Me.chkCorrection.MyLinkLable1 = Nothing
+        Me.chkCorrection.MyLinkLable2 = Nothing
+        Me.chkCorrection.Name = "chkCorrection"
+        Me.chkCorrection.Size = New System.Drawing.Size(72, 18)
+        Me.chkCorrection.TabIndex = 371
+        Me.chkCorrection.Tag1 = Nothing
+        Me.chkCorrection.Text = "Correction"
+        Me.chkCorrection.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        Me.chkCorrection.Visible = False
+        '
         'chkRetesting
         '
         Me.chkRetesting.CheckState = System.Windows.Forms.CheckState.Checked
@@ -670,10 +689,10 @@ Partial Class frmCorrection
         Me.cboMilkType.IsSourceFromTable = False
         Me.cboMilkType.IsSourceFromValueList = False
         Me.cboMilkType.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboMilkType.Items.Add(RadListDataItem5)
-        Me.cboMilkType.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboMilkType.Items.Add(RadListDataItem1)
+        Me.cboMilkType.Items.Add(RadListDataItem2)
         Me.cboMilkType.Location = New System.Drawing.Point(71, 92)
         Me.cboMilkType.MendatroryField = True
         Me.cboMilkType.MyLinkLable1 = Me.MyLabel4
@@ -1506,6 +1525,8 @@ Partial Class frmCorrection
         'RadGroupBox4
         '
         Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.txtRetestingCLR)
+        Me.RadGroupBox4.Controls.Add(Me.MyLabel22)
         Me.RadGroupBox4.Controls.Add(Me.lblBMCStatus)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel19)
         Me.RadGroupBox4.Controls.Add(Me.lblBMCDetailNo)
@@ -1533,6 +1554,46 @@ Partial Class frmCorrection
         Me.RadGroupBox4.Size = New System.Drawing.Size(459, 197)
         Me.RadGroupBox4.TabIndex = 3
         Me.RadGroupBox4.Text = "Correction"
+        '
+        'txtRetestingCLR
+        '
+        Me.txtRetestingCLR.BackColor = System.Drawing.Color.White
+        Me.txtRetestingCLR.CalculationExpression = Nothing
+        Me.txtRetestingCLR.DecimalPlaces = 2
+        Me.txtRetestingCLR.FieldCode = Nothing
+        Me.txtRetestingCLR.FieldDesc = Nothing
+        Me.txtRetestingCLR.FieldMaxLength = 0
+        Me.txtRetestingCLR.FieldName = Nothing
+        Me.txtRetestingCLR.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtRetestingCLR.isCalculatedField = False
+        Me.txtRetestingCLR.IsSourceFromTable = False
+        Me.txtRetestingCLR.IsSourceFromValueList = False
+        Me.txtRetestingCLR.IsUnique = False
+        Me.txtRetestingCLR.Location = New System.Drawing.Point(352, 67)
+        Me.txtRetestingCLR.MendatroryField = False
+        Me.txtRetestingCLR.MyLinkLable1 = Me.MyLabel22
+        Me.txtRetestingCLR.MyLinkLable2 = Nothing
+        Me.txtRetestingCLR.Name = "txtRetestingCLR"
+        Me.txtRetestingCLR.ReferenceFieldDesc = Nothing
+        Me.txtRetestingCLR.ReferenceFieldName = Nothing
+        Me.txtRetestingCLR.ReferenceTableName = Nothing
+        Me.txtRetestingCLR.Size = New System.Drawing.Size(102, 20)
+        Me.txtRetestingCLR.TabIndex = 23
+        Me.txtRetestingCLR.Text = "0"
+        Me.txtRetestingCLR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtRetestingCLR.Value = 0R
+        Me.txtRetestingCLR.Visible = False
+        '
+        'MyLabel22
+        '
+        Me.MyLabel22.FieldName = Nothing
+        Me.MyLabel22.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel22.Location = New System.Drawing.Point(320, 69)
+        Me.MyLabel22.Name = "MyLabel22"
+        Me.MyLabel22.Size = New System.Drawing.Size(29, 16)
+        Me.MyLabel22.TabIndex = 24
+        Me.MyLabel22.Text = "CLR"
+        Me.MyLabel22.Visible = False
         '
         'lblBMCStatus
         '
@@ -2213,21 +2274,6 @@ Partial Class frmCorrection
         Me.btnclose.TabIndex = 0
         Me.btnclose.Text = "Close"
         '
-        'chkCorrection
-        '
-        Me.chkCorrection.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chkCorrection.Enabled = False
-        Me.chkCorrection.Location = New System.Drawing.Point(358, 22)
-        Me.chkCorrection.MyLinkLable1 = Nothing
-        Me.chkCorrection.MyLinkLable2 = Nothing
-        Me.chkCorrection.Name = "chkCorrection"
-        Me.chkCorrection.Size = New System.Drawing.Size(72, 18)
-        Me.chkCorrection.TabIndex = 371
-        Me.chkCorrection.Tag1 = Nothing
-        Me.chkCorrection.Text = "Correction"
-        Me.chkCorrection.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        Me.chkCorrection.Visible = False
-        '
         'frmCorrection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2262,6 +2308,7 @@ Partial Class frmCorrection
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkCorrection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkRetesting, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2326,6 +2373,8 @@ Partial Class frmCorrection
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
+        CType(Me.txtRetestingCLR, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBMCStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBMCDetailNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2375,7 +2424,6 @@ Partial Class frmCorrection
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkCorrection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2508,4 +2556,6 @@ Partial Class frmCorrection
     Friend WithEvents lblBMCTankerFATKG As common.Controls.MyLabel
     Friend WithEvents chkRetesting As common.Controls.MyCheckBox
     Friend WithEvents chkCorrection As common.Controls.MyCheckBox
+    Friend WithEvents txtRetestingCLR As common.MyNumBox
+    Friend WithEvents MyLabel22 As common.Controls.MyLabel
 End Class

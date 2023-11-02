@@ -140,10 +140,6 @@
     <Reference Include="XpertERPEngineFine">
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPFixedAssets, Version=7.1.0.92, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\XpertERP\XpertERPFixedAssets\bin\Debug\XpertERPFixedAssets.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />

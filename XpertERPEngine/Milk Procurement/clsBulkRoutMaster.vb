@@ -15,6 +15,7 @@ Public Class clsBulkRoutMaster
     Public ROUTE_NAME_HINDI As String = Nothing
     Public Tanker_No As String = Nothing
     Public arrMCC As ArrayList
+    Public CuttOff_Time As DateTime
 #End Region
     Public Shared Function SaveData(ByVal obj As clsBulkRoutMaster) As Boolean
         Dim qry As String = ""
@@ -48,6 +49,7 @@ Public Class clsBulkRoutMaster
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
+            clsCommon.AddColumnsForChange(coll, "CuttOff_Time", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -100,7 +102,7 @@ Public Class clsBulkRoutMaster
             obj.IsContractor = clsCommon.myCdbl(dt.Rows(0)("IsContractor"))
             obj.IsDefault = clsCommon.myCdbl(dt.Rows(0)("IsDefault"))
             obj.arrMCC = clsBulkRoutMasterMCC.GetData(obj.ROUTE_NO)
-
+            obj.CuttOff_Time = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm:ss tt")
         End If
         Return obj
     End Function

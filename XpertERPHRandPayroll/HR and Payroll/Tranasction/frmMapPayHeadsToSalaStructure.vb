@@ -39,43 +39,46 @@ Public Class frmMapPayHeadsToSalaStructure
     End Sub
 
     Public Sub Save()
-        If AllowToSave() Then
-            Dim obj As clsMapPayHeadsToSalaStructure = Nothing
-            ObjList = New List(Of clsMapPayHeadsToSalaStructure)
-            For Each grow As GridViewRowInfo In gv1.Rows
-                If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colPayHeadCode).Value)) > 0 Then
-                    obj = New clsMapPayHeadsToSalaStructure()
+        Try
+            If AllowToSave() Then
+                Dim obj As clsMapPayHeadsToSalaStructure = Nothing
+                ObjList = New List(Of clsMapPayHeadsToSalaStructure)
+                For Each grow As GridViewRowInfo In gv1.Rows
+                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colPayHeadCode).Value)) > 0 Then
+                        obj = New clsMapPayHeadsToSalaStructure()
 
-                    obj.SALARY_STRUCTURE_CODE = txtCode.Value
-                    obj.Location_Code = fndLocation.Value
-                    obj.LINE_NO = Convert.ToInt16(grow.Cells(colLineNo).Value)
-                    obj.PAY_HEAD_CODE = clsCommon.myCstr(grow.Cells(colPayHeadCode).Value)
-                    obj.HEAD_TYPE = clsCommon.myCstr(grow.Cells(colPayHeadType).Value)
-                    obj.SUB_HEAD_TYPE = clsCommon.myCstr(grow.Cells(colPayHeadCategory).Value)
-                    obj.CALC_BASIS = clsCommon.myCstr(grow.Cells(colCalculationBasis).Value)
-                    obj.RATE_AMOUNT = clsCommon.myCdbl(grow.Cells(colRate).Value)
-                    obj.PAYHEAD_FORMULA = clsCommon.myCstr(grow.Cells(colFormula).Value)
-                    obj.DESCRIPTION = clsCommon.myCstr(grow.Cells(colDescription).Value)
-                    obj.IsHiddenComponent = clsCommon.myCBool(grow.Cells(colHiddenComponent).Value)
-                    If clsCommon.myLen(grow.Cells(colVilidFrom).Value) > 0 Then
-                        obj.VALID_FROM = clsCommon.GetPrintDate(grow.Cells(colVilidFrom).Value, "dd/MMM/yyyy")
-                    Else
-                        obj.VALID_FROM = Nothing
+                        obj.SALARY_STRUCTURE_CODE = txtCode.Value
+                        obj.Location_Code = fndLocation.Value
+                        obj.LINE_NO = Convert.ToInt16(grow.Cells(colLineNo).Value)
+                        obj.PAY_HEAD_CODE = clsCommon.myCstr(grow.Cells(colPayHeadCode).Value)
+                        obj.HEAD_TYPE = clsCommon.myCstr(grow.Cells(colPayHeadType).Value)
+                        obj.SUB_HEAD_TYPE = clsCommon.myCstr(grow.Cells(colPayHeadCategory).Value)
+                        obj.CALC_BASIS = clsCommon.myCstr(grow.Cells(colCalculationBasis).Value)
+                        obj.RATE_AMOUNT = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                        obj.PAYHEAD_FORMULA = clsCommon.myCstr(grow.Cells(colFormula).Value)
+                        obj.DESCRIPTION = clsCommon.myCstr(grow.Cells(colDescription).Value)
+                        obj.IsHiddenComponent = clsCommon.myCBool(grow.Cells(colHiddenComponent).Value)
+                        If clsCommon.myLen(grow.Cells(colVilidFrom).Value) > 0 Then
+                            obj.VALID_FROM = clsCommon.GetPrintDate(grow.Cells(colVilidFrom).Value, "dd/MMM/yyyy")
+                        Else
+                            obj.VALID_FROM = Nothing
+                        End If
+                        If clsCommon.myLen(grow.Cells(colVilidTo).Value) > 0 Then
+                            obj.VALID_TO = clsCommon.GetPrintDate(grow.Cells(colVilidTo).Value, "dd/MMM/yyyy")
+                        Else
+                            obj.VALID_TO = Nothing
+                        End If
+                        ObjList.Add(obj)
                     End If
-                    If clsCommon.myLen(grow.Cells(colVilidTo).Value) > 0 Then
-                        obj.VALID_TO = clsCommon.GetPrintDate(grow.Cells(colVilidTo).Value, "dd/MMM/yyyy")
-                    Else
-                        obj.VALID_TO = Nothing
-                    End If
-                    ObjList.Add(obj)
+                Next
+                If (obj.SaveData(txtCode.Value, ObjList)) Then
+                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
                 End If
-            Next
-            If (obj.SaveData(txtCode.Value, ObjList)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                LoadData(obj.SALARY_STRUCTURE_CODE, NavigatorType.Current)
             End If
-            LoadData(obj.SALARY_STRUCTURE_CODE, NavigatorType.Current)
-
-        End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
     End Sub
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -132,7 +135,6 @@ Public Class frmMapPayHeadsToSalaStructure
     End Sub
 
     Function AllowToSave() As Boolean
-
         If clsCommon.myLen(txtCode.Value) <= 0 Then
             myMessages.blankValue("Code")
             txtCode.Focus()
