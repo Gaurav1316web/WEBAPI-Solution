@@ -3867,7 +3867,7 @@ Public Class clsPurchaseInvoiceHead
                 Next
             End If
 
-            qry = "select Document_No From TSPL_VENDOR_INVOICE_HEAD where RefDocType in('QC-DED','SEC-DED','SCH-PNT') and RefDocNo='" + strDocNo + "'"
+            qry = "select Document_No From TSPL_VENDOR_INVOICE_HEAD where RefDocType in('QC-DED','SEC-DED','SCH-PNT','RE-TEN') and RefDocNo='" + strDocNo + "'"
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows

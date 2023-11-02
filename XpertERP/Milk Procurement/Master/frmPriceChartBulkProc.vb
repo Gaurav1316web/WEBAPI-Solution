@@ -23,6 +23,7 @@ Public Class frmPriceChartBulkProc
     Const colFillDeduction As String = "colFillDeduction"
     Const colStandardRate As String = "colStandardRate"
     Const colTolerance As String = "colTolerance"
+    Const colRemarks As String = "colRemarks"
     Const colTotalSolidRate As String = "colTotalSolidRate"
     Const colTotalSolidUOM As String = "colTotalSolidUOM"
     Const colRowType As String = "colRowType"
@@ -32,6 +33,7 @@ Public Class frmPriceChartBulkProc
     Dim isItemWise As Integer = 0
     Dim SettBulkProcurementApplyTotalSoidRate As Boolean = False
     Dim SettApplyCalculateWeightInLtr As Boolean = False
+    Dim ApplyTolerance As Boolean = False
     Dim ApplyBothtsrateAndFatRateinBulkProcurement As Boolean = False
     Dim repoRowType As GridViewComboBoxColumn = New GridViewComboBoxColumn()
     Private IsInsideLoadData As Boolean = False
@@ -51,6 +53,7 @@ Public Class frmPriceChartBulkProc
         SettBulkProcurementApplyTotalSoidRate = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.BulkProcurementApplyTotalSoidRate, clsFixedParameterCode.BulkProcurementApplyTotalSoidRate, Nothing)) > 0)
         SettApplyCalculateWeightInLtr = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCalculateWeightInLtr, clsFixedParameterCode.ApplyCalculateWeightInLtr, Nothing)) > 0)
         ApplyBothtsrateAndFatRateinBulkProcurement = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBothtsrateAndFatRateinBulkProcurement, clsFixedParameterCode.ApplyBothtsrateAndFatRateinBulkProcurement, Nothing)) = 1, True, False)
+        ApplyTolerance = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyTolerance, clsFixedParameterCode.ApplyTolerance, Nothing)) = 1, True, False)
         SetUserMgmtNew()
         Reset()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction")
@@ -250,7 +253,7 @@ Public Class frmPriceChartBulkProc
         repoStandardRate.Name = colStandardRate
         repoStandardRate.Width = 100
         repoStandardRate.HeaderText = "Standard Rate"
-        repoStandardRate.FormatString = "{0:n2}"
+        repoStandardRate.FormatString = ""
         repoStandardRate.ReadOnly = False
         repoStandardRate.DecimalPlaces = 2
         gvPriceChart.MasterTemplate.Columns.Add(repoStandardRate)
@@ -263,6 +266,14 @@ Public Class frmPriceChartBulkProc
         repoTolerance.ReadOnly = False
         repoTolerance.DecimalPlaces = 2
         gvPriceChart.MasterTemplate.Columns.Add(repoTolerance)
+        Dim repoRemarks As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoRemarks.Name = colRemarks
+        repoRemarks.Width = 100
+        repoRemarks.HeaderText = "Remark"
+        repoRemarks.FormatString = "{0:n2}"
+        repoRemarks.ReadOnly = False
+        repoRemarks.IsVisible = False
+        gvPriceChart.MasterTemplate.Columns.Add(repoRemarks)
 
         If ApplyBothtsrateAndFatRateinBulkProcurement = True Then
             Dim repoTSRate As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -372,6 +383,7 @@ Public Class frmPriceChartBulkProc
                         objTr.Fat_Percentage = clsCommon.myCdbl(grow.Cells(colFatPercentage).Value)
                         objTr.Standard_Rate = clsCommon.myCdbl(grow.Cells(colStandardRate).Value)
                         objTr.Tolerance = clsCommon.myCdbl(grow.Cells(colTolerance).Value)
+                        objTr.Remarks = clsCommon.myCdbl(grow.Cells(colRemarks).Value)
 
                         If (clsCommon.myLen(objTr.Milk_Grade_code) > 0) Then
                             obj.Arr.Add(objTr)
@@ -659,6 +671,7 @@ Public Class frmPriceChartBulkProc
                         gvPriceChart.Rows(gvPriceChart.Rows.Count - 1).Cells(colFatPercentage).Value = objTr.Fat_Percentage
                         gvPriceChart.Rows(gvPriceChart.Rows.Count - 1).Cells(colStandardRate).Value = objTr.Standard_Rate
                         gvPriceChart.Rows(gvPriceChart.Rows.Count - 1).Cells(colTolerance).Value = objTr.Tolerance
+                        gvPriceChart.Rows(gvPriceChart.Rows.Count - 1).Cells(colRemarks).Value = objTr.Remarks
                     Next
                 End If
             ElseIf IsItemMilkType = 1 AndAlso AllowCreateBulkProcPriceChartItemWise = 1 OrElse (ApplyBothtsrateAndFatRateinBulkProcurement = True AndAlso AllowCreateBulkProcPriceChartItemWise = 1) Then
@@ -1160,6 +1173,33 @@ Public Class frmPriceChartBulkProc
                     gvPriceChart.CurrentRow.Cells(colMilkGradeCode).Value = clsMilkGradeMaster.getFinder("", gvPriceChart.CurrentRow.Cells(colMilkGradeCode).Value, False)
                     gvPriceChart.CurrentRow.Cells(colMilkGradeType).Value = clsMilkGradeMaster.getMilkGradeType(clsCommon.myCstr(gvPriceChart.CurrentRow.Cells(colMilkGradeCode).Value), Nothing)
                 End If
+            ElseIf e.Column Is gvPriceChart.Columns(colTolerance) Then
+                If ApplyTolerance Then
+                    Dim StandardRate As Decimal = 0
+                    Dim PerVal As Decimal = 0
+
+                    StandardRate = gvPriceChart.CurrentRow.Cells(colStandardRate).Value
+                    PerVal = StandardRate * (5 / 100)
+                    If gvPriceChart.CurrentRow.Cells(colTolerance).Value > PerVal Then
+                        If clsCommon.MyMessageBoxShow(Me, "Tolerance is greater then 5% of Standard Rate, Do You want to Continue?", Me.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                            Dim Reason As String = ""
+                            Dim frm As New FrmFreeTxtBox1
+                            frm.Text = "Remarks for Tolerance"
+                            frm.ShowDialog()
+                            If clsCommon.myLen(frm.strRmks) <= 0 Then
+                                Exit Sub
+                            Else
+                                Reason = frm.strRmks
+                            End If
+                            gvPriceChart.CurrentRow.Cells(colRemarks).Value = Reason
+                        Else
+                            gvPriceChart.CurrentRow.Cells(colTolerance).Value = 0
+                        End If
+                    End If
+
+                End If
+
+
             ElseIf e.Column Is gvPriceChart.Columns(colRowType) Then
                 If (ApplyBothtsrateAndFatRateinBulkProcurement = True AndAlso AllowCreateBulkProcPriceChartItemWise = 1) Then
                     If clsCommon.CompairString(clsCommon.myCstr(gvPriceChart.CurrentRow.Cells(colRowType).Value), "Total Solid") = CompairStringResult.Equal Then

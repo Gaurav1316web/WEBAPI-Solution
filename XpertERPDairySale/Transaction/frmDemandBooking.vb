@@ -1108,10 +1108,10 @@ Public Class frmDemandBooking
     End Sub
     Private Sub txtDocNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
-            Dim qry As String = "select TSPL_DEMAND_BOOKING_MASTER.Document_No as DocumentNo,convert(varchar(12),TSPL_DEMAND_BOOKING_MASTER.Document_date,103) as Document_date,TSPL_DEMAND_BOOKING_MASTER.ShiftType,TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DEMAND_BOOKING_MASTER.Location_Code as [Location Code],TSPL_DEMAND_BOOKING_MASTER.City_Code as [City Code],TripNo AS [Trip No],case when Posted=1 then 'posted' else 'Unposted' end as Posted from TSPL_DEMAND_BOOKING_MASTER"
+            Dim qry As String = "select TSPL_DEMAND_BOOKING_MASTER.Document_No as DocumentNo,convert(varchar(12),TSPL_DEMAND_BOOKING_MASTER.Document_date,103) as DocumentDate,TSPL_DEMAND_BOOKING_MASTER.ShiftType,TSPL_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DEMAND_BOOKING_MASTER.Location_Code as [Location Code],TSPL_DEMAND_BOOKING_MASTER.City_Code as [City Code],TripNo AS [Trip No],case when Posted=1 then 'posted' else 'Unposted' end as Posted from TSPL_DEMAND_BOOKING_MASTER "
             'Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
             Reset()
-            LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentNo", "", txtDocNo.Value, "DocumentNo", isButtonClicked), NavigatorType.Current)
+            LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentNo", "", txtDocNo.Value, "Document_date", isButtonClicked), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1335,6 +1335,10 @@ Public Class frmDemandBooking
             lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
             If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 Then
                 setRouteVehicleCityDetail()
+            End If
+            Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and  CONVERT(varchar, CAST(Document_Date AS datetime), 103) ='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "'"))
+            If clsCommon.myLen(DocNo) > 0 Then
+                LoadData(DocNo, NavigatorType.Current)
             End If
             SetRouteColumns()
             RefreshFormName()
@@ -1895,7 +1899,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 ") XXXE WHERE RowNo=1  "
                             dt = clsDBFuncationality.GetDataTable(qry)
                             If dt.Rows.Count > 0 Then
-                                dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Selling_Price"))
+                                dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
                                 If dblRate = 0 Then
                                     Throw New Exception("Please Fill Selling Price for Location " & txtLocation.Value & "  for item " & clsCommon.myCstr(obj1.ShortDesc) & Environment.NewLine)
                                 End If
@@ -2091,6 +2095,14 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     'e.RowElement.BackColor = Color.Black
                 End If
             End If
+        End If
+        If e.RowElement.RowInfo.IsCurrent Then
+            e.RowElement.DrawFill = True
+            e.RowElement.BackColor = Color.Orange
+
+        Else
+            e.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
+            e.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
         End If
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
@@ -3133,6 +3145,26 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     gv1.CurrentRow.Cells(e.ColumnIndex).ReadOnly = True
                 End If
                 e.CellElement.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+            End If
+
+            If e.Column.Index >= 7 AndAlso gv1.Rows.Count > 0 Then
+
+                If e.Column.IsCurrent Then
+                    e.CellElement.DrawFill = True
+                    e.CellElement.BackColor = Color.Orange
+                Else
+                    e.CellElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
+                    e.CellElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+
+                End If
+
+                If e.CellElement.RowInfo.IsCurrent Then
+                    e.CellElement.RowElement.BackColor = Color.Orange
+                    e.CellElement.RowElement.DrawFill = True
+                Else
+                    e.CellElement.RowElement.ResetValue(LightVisualElement.DrawFillProperty, ValueResetFlags.Local)
+                    e.CellElement.RowElement.ResetValue(LightVisualElement.BackColorProperty, ValueResetFlags.Local)
+                End If
             End If
         Catch ex As Exception
         End Try

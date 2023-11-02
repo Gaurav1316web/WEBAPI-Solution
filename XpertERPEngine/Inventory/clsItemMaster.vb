@@ -61,6 +61,7 @@ Public Class clsItemMaster
     Public Tax_Exempted As Integer = 0
     Public Sku_Seq As Int64 = 0
     Public Is_DisplayDemand As Boolean = False
+    Public Is_ExcludeAPP As Boolean = False
     Public shelflife As String = Nothing
     Public Min_shelf_life As String = Nothing
     Public RemainingQtyToPurchase As Double = 0
@@ -1453,6 +1454,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             clsCommon.AddColumnsForChange(coll, "AlternativeItem", obj.AlternativeItem)
             clsCommon.AddColumnsForChange(coll, "Sku_Seq", clsCommon.myCdbl(obj.Sku_Seq))
             clsCommon.AddColumnsForChange(coll, "Is_DisplayDemand", clsCommon.myCdbl(obj.Is_DisplayDemand))
+            clsCommon.AddColumnsForChange(coll, "Is_ExcludeAPP", clsCommon.myCdbl(obj.Is_ExcludeAPP))
             clsCommon.AddColumnsForChange(coll, "ItemSpecification", obj.ItemSpecification)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -1706,6 +1708,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Weight_Value = clsCommon.myCdbl(dt.Rows(0)("Weight_Value"))
                 obj.Sku_Seq = clsCommon.myCdbl(dt.Rows(0)("Sku_Seq"))
                 obj.Is_DisplayDemand = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_DisplayDemand")) = 1, True, False)
+                obj.Is_ExcludeAPP = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_ExcludeAPP")) = 1, True, False)
                 obj.BuyBackType = clsCommon.myCdbl(dt.Rows(0)("BuyBackType"))
                 obj.BuyBackValue = clsCommon.myCdbl(dt.Rows(0)("BuyBackValue"))
                 obj.ITFCode = clsCommon.myCstr(dt.Rows(0)("ITF_CODE"))

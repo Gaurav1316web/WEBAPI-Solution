@@ -140,6 +140,10 @@
     <Reference Include="XpertERPEngineFine">
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
+    <Reference Include="XpertERPFixedAssets, Version=7.1.0.92, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\XpertERP\XpertERPFixedAssets\bin\Debug\XpertERPFixedAssets.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -692,6 +696,12 @@
     <Compile Include="ProcessProduction\Transaction\frmBreakDownEntry.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RCDFProduction\Transaction\frmRCDFStandardization.Designer.vb">
+      <DependentUpon>frmRCDFStandardization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RCDFProduction\Transaction\frmRCDFStandardization.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProcessProduction\Master\frmBreakDownMaster.resx">
@@ -1007,6 +1017,9 @@
     <EmbeddedResource Include="ProcessProduction\Transaction\frmBreakDownEntry.resx">
       <DependentUpon>frmBreakDownEntry.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RCDFProduction\Transaction\frmRCDFStandardization.resx">
+      <DependentUpon>frmRCDFStandardization.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="My Project\Application.myapp">
@@ -1040,15 +1053,7 @@
   <ItemGroup>
     <None Include="Resources\search4.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XpertERPFixedAssets\XpertERPFixedAssets.vbproj">
-      <Project>{3A4383C1-9242-4FE0-90AA-9AF743991104}</Project>
-      <Name>XpertERPFixedAssets</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RCDFProduction\Transaction\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
