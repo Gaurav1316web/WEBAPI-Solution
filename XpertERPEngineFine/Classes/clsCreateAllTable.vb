@@ -13249,6 +13249,7 @@ Public Class clsCreateAllTable
             coll.Add("ROUTE_NAME_HINDI", "nvarchar(300) NULL")
             coll.Add("IsDefault", "integer not null default 0")
             coll.Add("Tanker_No", "varchar(20) NULL  References TSPL_TANKER_MASTER(Tanker_No)")
+            coll.Add("CuttOff_Time", "dateTime Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_ROUTE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
