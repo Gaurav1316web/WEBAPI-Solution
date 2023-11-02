@@ -24168,6 +24168,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Total_Head_Load_RO_Amount", "decimal(18,2) null")
             coll.Add("RoundOffAmount", "decimal(18,2) null")
             coll.Add("No_Of_Asset", "integer null")
+            coll.Add("FILE_INFO", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", coll, Nothing, True, False, "", "DOC_CODE", "DOC_DATE")
 
             'done by stuti on 07/11/2016 against udl points
