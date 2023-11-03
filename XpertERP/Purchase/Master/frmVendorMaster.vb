@@ -997,8 +997,8 @@ Public Class frmVendorMaster
 
 
     'For inserting the data in the database
-    Public Sub funinsert()
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+    Public Sub funinsert(ByVal trans As SqlTransaction)
+        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
 
             Dim strStatus As String = ""
@@ -1228,24 +1228,25 @@ Public Class frmVendorMaster
 
 
 
-            trans.Commit()
+
             If clsCommon.myLen(txtCategoryStructureCode.Value) > 0 Then
                 SaveVendorCategory()
             End If
-            myMessages.insert()
+            'myMessages.insert()
             btnsave.Text = "Update"
             btndelete.Enabled = True
 
-            UcAttachment1.SaveData(fndvendorNo.Value)
+            UcAttachment1.SaveData(fndvendorNo.Value, False, trans)
             'If userCode <> "ADMIN" Then
             '    If funSetUserAccess() = False Then Exit Sub
             'End If
             isLoadCopy = False
             '' Anubhooti 01-Sep-2014 Call LoadData
-            fndvendorNo_text_changed(AutoVendorCode)
+            'fndvendorNo_text_changed(AutoVendorCode)
         Catch ex As Exception
-            trans.Rollback()
-            myMessages.myExceptions(ex)
+
+            'myMessages.myExceptions(ex)
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 
@@ -1276,10 +1277,10 @@ Public Class frmVendorMaster
         End Try
     End Sub
     'This function for updation
-    Public Sub funupdate()
-        Dim trans As SqlTransaction = Nothing
+    Public Sub funupdate(ByVal trans As SqlTransaction)
+        'Dim trans As SqlTransaction = Nothing
         Try
-            trans = clsDBFuncationality.GetTransactin()
+            'trans = clsDBFuncationality.GetTransactin()
             '' Anubhooti 17-Nov-2014 BM00000004655
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndvendorNo.Value, "TSPL_VENDOR_MASTER", "Vendor_Code", trans)
 
@@ -1492,20 +1493,21 @@ Public Class frmVendorMaster
 
 
 
-            trans.Commit()
+            'trans.Commit()
 
             If clsCommon.myLen(txtCategoryStructureCode.Value) > 0 Then
                 SaveVendorCategory()
             End If
 
-            myMessages.update()
+            'myMessages.update()
 
-            UcAttachment1.SaveData(fndvendorNo.Value)
+            UcAttachment1.SaveData(fndvendorNo.Value, False, trans)
             isLoadCopy = False
-            fndvendorNo_text_changed(fndvendorNo.Value)
+            ' fndvendorNo_text_changed(fndvendorNo.Value)
         Catch ex As Exception
-            trans.Rollback()
-            myMessages.myExceptions(ex)
+            'trans.Rollback()
+            'myMessages.myExceptions(ex)
+            Throw New Exception(ex.Message)
         End Try
     End Sub
 
@@ -3933,6 +3935,8 @@ Public Class frmVendorMaster
 
     End Sub
     Sub SaveData()
+        Dim trans As SqlTransaction = Nothing
+
         Try
 
             '' Anubhooti 01-Sep-2014
@@ -4208,20 +4212,27 @@ Public Class frmVendorMaster
 
                 End If
 
+                trans = clsDBFuncationality.GetTransactin()
+
                 If btnsave.Text = "Save" Then
-                    funinsert()
+                    funinsert(trans)
                 ElseIf btnsave.Text = "Update" Then
-                    funupdate()
+                    funupdate(trans)
                 End If
 
 
             End If
             If chktrarns.Checked Then
-                Save_Transport_Data(Nothing)
+                Save_Transport_Data(trans)
             End If
+            trans.Commit()
+            clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+            fndvendorNo_text_changed(fndvendorNo.Value)
 
         Catch ex As Exception
-            myMessages.myExceptions(ex)
+            'trans.Rollback()
+            ' myMessages.myExceptions(ex)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndelete.Click
@@ -5105,10 +5116,27 @@ Public Class frmVendorMaster
     Public Sub funinsertTransport(ByVal trans As SqlTransaction)
         Try
 
-            connectSql.RunSpTransaction(trans, "sp_transportmaster_insert", New SqlParameter("@transid", fndvendorNo.Value), New SqlParameter("@transname", txtvendorname.Text.ToString()), New SqlParameter("@city", txtCity.Text.ToString()), New SqlParameter("@state", LblState.Text.ToString()), New SqlParameter("@pincode", txtPinCode.Text.ToString()), New SqlParameter("@panno", txtpan.Text.ToString()), New SqlParameter("@phone", txtPhone1.Text.ToString()), New SqlParameter("@add1", txtAdd1.Text.ToString()), New SqlParameter("@add2", txtAdd2.Text.ToString()), New SqlParameter("@email", txtEmail.Text.ToString()), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", companyCode))
+
+            'connectSql.RunSpTransaction(trans, "sp_transportmaster_insert", New SqlParameter("@transid", fndvendorNo.Value), New SqlParameter("@transname", txtvendorname.Text.ToString()), New SqlParameter("@city", txtCity.Text.ToString()), New SqlParameter("@state", LblState.Text.ToString()), New SqlParameter("@pincode", txtPinCode.Text.ToString()), New SqlParameter("@panno", txtpan.Text.ToString()), New SqlParameter("@phone", txtPhone1.Text.ToString()), New SqlParameter("@add1", txtAdd1.Text.ToString()), New SqlParameter("@add2", txtAdd2.Text.ToString()), New SqlParameter("@email", txtEmail.Text.ToString()), New SqlParameter("@createdby", userCode), New SqlParameter("@createddate", connectSql.serverDate()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", companyCode))
             ' myMessages.insert()
-            btnsave.Text = "Update"
-            btndelete.Enabled = True
+            Dim obj As New clsTRANSPORT_MASTER
+            obj.Transport_Id = fndvendorNo.Value
+            obj.Transporter_Name = txtvendorname.Text
+            obj.city = clsCommon.myCstr(txtCity.Text)
+            obj.state = clsCommon.myCstr(txtState.Text)
+            obj.pincode = clsCommon.myCstr(txtPinCode.Text)
+            obj.panno = clsCommon.myCstr(txtpan.Text)
+            obj.Phone = clsCommon.myCstr(txtPhone1.Text)
+            obj.Add1 = clsCommon.myCstr(txtAdd1.Text)
+            obj.Add2 = clsCommon.myCstr(txtAdd2.Text)
+            obj.Email = clsCommon.myCstr(txtEmail.Text)
+            If clsTRANSPORT_MASTER.SaveData(obj, True, trans) Then
+                SaveasCustomer(trans, True)
+                btnsave.Text = "Update"
+                btndelete.Enabled = True
+            End If
+
+
             'If userCode <> "ADMIN" Then
             '    If funSetUserAccess() = False Then Exit Sub
             'End If
@@ -5120,8 +5148,24 @@ Public Class frmVendorMaster
     'Funtion for updation  of data
     Public Sub funupdateTransport(ByVal trans As SqlTransaction)
         Try
-            Dim currentdate As Date = Date.Today
-            connectSql.RunSpTransaction(trans, "sp_transportmaster_update", New SqlParameter("@transid", fndvendorNo.Value), New SqlParameter("@transname", txtvendorname.Text.ToString()), New SqlParameter("@city", txtCity.Text.ToString()), New SqlParameter("@state", LblState.Text.ToString()), New SqlParameter("@pincode", txtPinCode.Text.ToString()), New SqlParameter("@panno", txtpan.Text.ToString()), New SqlParameter("@phone", txtPhone1.Text.ToString()), New SqlParameter("@add1", txtAdd1.Text.ToString()), New SqlParameter("@add2", txtAdd2.Text.ToString()), New SqlParameter("@email", txtEmail.Text.ToString()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", companyCode))
+            'Dim currentdate As Date = Date.Today
+            'connectSql.RunSpTransaction(trans, "sp_transportmaster_update", New SqlParameter("@transid", fndvendorNo.Value), New SqlParameter("@transname", txtvendorname.Text.ToString()), New SqlParameter("@city", txtCity.Text.ToString()), New SqlParameter("@state", LblState.Text.ToString()), New SqlParameter("@pincode", txtPinCode.Text.ToString()), New SqlParameter("@panno", txtpan.Text.ToString()), New SqlParameter("@phone", txtPhone1.Text.ToString()), New SqlParameter("@add1", txtAdd1.Text.ToString()), New SqlParameter("@add2", txtAdd2.Text.ToString()), New SqlParameter("@email", txtEmail.Text.ToString()), New SqlParameter("@modifiedby", userCode), New SqlParameter("@modifieddate", connectSql.serverDate(trans)), New SqlParameter("@compcode", companyCode))
+            Dim obj As New clsTRANSPORT_MASTER
+            obj.Transport_Id = fndvendorNo.Value
+            obj.Transporter_Name = txtvendorname.Text
+            obj.city = clsCommon.myCstr(txtCity.Text)
+            obj.state = clsCommon.myCstr(txtState.Text)
+            obj.pincode = clsCommon.myCstr(txtPinCode.Text)
+            obj.panno = clsCommon.myCstr(txtpan.Text)
+            obj.Phone = clsCommon.myCstr(txtPhone1.Text)
+            obj.Add1 = clsCommon.myCstr(txtAdd1.Text)
+            obj.Add2 = clsCommon.myCstr(txtAdd2.Text)
+            obj.Email = clsCommon.myCstr(txtEmail.Text)
+            If clsTRANSPORT_MASTER.SaveData(obj, False, trans) Then
+                SaveasCustomer(trans, False)
+
+            End If
+            'SaveasCustomer(trans, False)
             ' myMessages.update()
         Catch ex As Exception
             myMessages.myExceptions(ex)
@@ -5284,4 +5328,115 @@ Public Class frmVendorMaster
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
+    Public Sub SaveasCustomer(ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean)
+        Try
+            Dim obj As New clsCustomerMaster()
+            obj.Cust_Code = fndvendorNo.Value
+            obj.Customer_Name = txtvendorname.Text
+            obj.Alies_Name = clsCommon.myCstr(txtAliesName.Text)
+            If isNewEntry = True Then
+                obj.Created_By = objCommonVar.CurrentUserCode
+            Else
+                obj.Modify_By = objCommonVar.CurrentUserCode
+            End If
+            obj.Form_Type = "TPT"
+            obj.Add1 = clsCommon.myCstr(txtAdd1.Text)
+            obj.Add2 = clsCommon.myCstr(txtAdd2.Text)
+            obj.Add3 = clsCommon.myCstr(txtAdd3.Text)
+            obj.City_Code = clsCommon.myCstr(fndCity.Value)
+            obj.State = clsCommon.myCstr(txtState.Value)
+            obj.Country = clsCommon.myCstr(txtcountrycode.Value)
+            obj.PIN_NO = clsCommon.myCstr(txtPinCode.Text)
+
+            If chkTCSNotApplicable.Checked = True Then
+                obj.IsTCSnotApplicable = 1
+            Else
+                obj.IsTCSnotApplicable = 0
+            End If
+            obj.Phone1 = clsCommon.myCstr(txtPhone1.Text)
+            obj.Phone2 = clsCommon.myCstr(txtPhone2.Text)
+            obj.Fax = clsCommon.myCstr(txtfax.Text)
+            obj.Email = clsCommon.myCstr(txtEmail.Text)
+            obj.WebSite = clsCommon.myCstr(txtWeb.Text)
+            obj.Contact_Person_Name = clsCommon.myCstr(txtContactName.Text)
+            obj.Contact_Person_Phone = clsCommon.myCstr(txtContPhone.Text)
+            obj.Contact_Person_Fax = clsCommon.myCstr(txtContactFax.Text)
+            obj.Contact_Person_Email = clsCommon.myCstr(txtContactEmail.Text)
+            obj.Contact_Person_Website = clsCommon.myCstr(txtContactWeb.Text)
+
+            obj.Terms_Code = clsCommon.myCstr(fndTrmsCode.Value)
+            obj.Cust_Account = clsCommon.myCstr(fndAccntSet.Value)
+            obj.Tax_Group = clsCommon.myCstr(fndTxGrp.Value)
+            If (grdTax.Rows.Count > 0) Then
+                obj.TAX1 = clsCommon.myCstr(grdTax.Rows(0).Cells(0).Value)
+                obj.TAX1_Rate = clsCommon.myCdbl(grdTax.Rows(0).Cells(1).Value)
+            End If
+            If (grdTax.Rows.Count > 1) Then
+                obj.TAX2 = clsCommon.myCstr(grdTax.Rows(1).Cells(0).Value)
+                obj.TAX2_Rate = clsCommon.myCdbl(grdTax.Rows(1).Cells(1).Value)
+            End If
+            If (grdTax.Rows.Count > 2) Then
+                obj.TAX3 = clsCommon.myCstr(grdTax.Rows(2).Cells(0).Value)
+                obj.TAX3_Rate = clsCommon.myCdbl(grdTax.Rows(2).Cells(1).Value)
+            End If
+            If (grdTax.Rows.Count > 3) Then
+                obj.TAX4 = clsCommon.myCstr(grdTax.Rows(3).Cells(0).Value)
+                obj.TAX4_Rate = clsCommon.myCdbl(grdTax.Rows(3).Cells(1).Value)
+            End If
+            If (grdTax.Rows.Count > 4) Then
+                obj.TAX5 = clsCommon.myCstr(grdTax.Rows(4).Cells(0).Value)
+                obj.TAX5_Rate = clsCommon.myCdbl(grdTax.Rows(4).Cells(1).Value)
+            End If
+            If (grdTax.Rows.Count > 5) Then
+                obj.TAX6 = clsCommon.myCstr(grdTax.Rows(5).Cells(0).Value)
+                obj.TAX6_Rate = clsCommon.myCdbl(grdTax.Rows(5).Cells(1).Value)
+            End If
+            If (grdTax.Rows.Count > 6) Then
+                obj.TAX7 = clsCommon.myCstr(grdTax.Rows(6).Cells(0).Value)
+                obj.TAX7_Rate = clsCommon.myCdbl(grdTax.Rows(6).Cells(1).Value)
+            End If
+            If (grdTax.Rows.Count > 7) Then
+                obj.TAX8 = clsCommon.myCstr(grdTax.Rows(7).Cells(0).Value)
+                obj.TAX8_Rate = clsCommon.myCdbl(grdTax.Rows(7).Cells(1).Value)
+            End If
+            If (grdTax.Rows.Count > 8) Then
+                obj.TAX9 = clsCommon.myCstr(grdTax.Rows(8).Cells(0).Value)
+                obj.TAX9_Rate = clsCommon.myCdbl(grdTax.Rows(8).Cells(1).Value)
+            End If
+            If (grdTax.Rows.Count > 9) Then
+                obj.TAX10 = clsCommon.myCstr(grdTax.Rows(9).Cells(0).Value)
+                obj.TAX10_Rate = clsCommon.myCdbl(grdTax.Rows(9).Cells(1).Value)
+            End If
+            obj.Payment_Code = clsCommon.myCstr(fndPayCode.Value)
+            obj.Service_Tax_No = clsCommon.myCstr(txtStaxNo.Text)
+            obj.Tin_No = clsCommon.myCstr(txtTinNo.Text)
+            obj.Lst_No = clsCommon.myCstr(txtLstNo.Text)
+            '============
+            obj.Remarks1 = clsCommon.myCstr(txtRemarks1.Text)
+            obj.Remarks2 = clsCommon.myCstr(txtRemarks2.Text)
+            obj.Additional1 = clsCommon.myCstr(txtAddInfo1.Text)
+            obj.Additional2 = clsCommon.myCstr(txtAddInfo2.Text)
+            obj.Additional3 = clsCommon.myCstr(txtAddInfo3.Text)
+            obj.OutLet_Commossion = clsCommon.myCdbl(0) '--default 0
+            obj.Balance_ToDate = 0                      '--Default 0
+            obj.Credit_Limit = clsCommon.myCdbl(txtCredit.Text)
+            obj.CST = clsCommon.myCstr(txtcst.Text)
+            obj.ECC = clsCommon.myCstr(txtecc.Text)
+            obj.Range = clsCommon.myCstr(txtrange.Text)
+            obj.Collectorate = clsCommon.myCstr(txtcollect.Text)
+            obj.PAN = clsCommon.myCstr(txtpan.Text)
+            obj.Cust_Group_Code = clsCommon.myCstr(fndgroupcode.Value)
+            Dim IsSave As Boolean = obj.SaveData(obj, Nothing, isNewEntry, trans)
+            If isNewEntry AndAlso IsSave Then
+                Dim qry As String = "insert into TSPL_CUSTOMER_VENDOR_MAPPING values('" + clsCommon.myCstr(fndvendorNo.Value) + "','" + clsCommon.myCstr(fndvendorNo.Value) + "')"
+
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+    End Sub
 End Class

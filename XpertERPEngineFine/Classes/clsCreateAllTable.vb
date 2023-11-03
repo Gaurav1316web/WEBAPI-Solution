@@ -28574,6 +28574,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Start_Date", "Date NOT NULL")
             coll.Add("End_Date", "Date NULL")
             coll.Add("Remarks", "Varchar(100) null")
+            coll.Add("IS_Transpoter", "integer not null default 0")
             coll.Add("Status", "integer NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")
