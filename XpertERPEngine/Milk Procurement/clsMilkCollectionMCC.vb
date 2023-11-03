@@ -322,6 +322,12 @@ Public Class clsMilkCollectionMCCDetail
     Public Qty As Decimal
     Public FAT As Decimal
     Public SNF As Decimal
+    Public Retesting_FAT As Decimal
+    Public Retesting_SNF As Decimal
+    Public Retesting_CLR As Decimal
+    Public Retesting_OR_Correction As Integer
+    Public Correction_FAT As Decimal
+    Public Correction_SNF As Decimal
     Public Machine_FAT As Decimal
     Public Machine_SNF As Decimal
     Public FATKG As Decimal
@@ -367,6 +373,15 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
                 clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
+                If obj.Retesting_OR_Correction = 1 Then
+                    clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.Retesting_FAT)
+                    clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.Retesting_SNF)
+                    clsCommon.AddColumnsForChange(coll, "Retesting_CLR", obj.Retesting_CLR)
+                ElseIf obj.Retesting_OR_Correction = 2 Then
+                    clsCommon.AddColumnsForChange(coll, "Correction_FAT", obj.Correction_FAT)
+                    clsCommon.AddColumnsForChange(coll, "Correction_SNF", obj.Correction_SNF)
+                End If
+                clsCommon.AddColumnsForChange(coll, "Retesting_OR_Correction", obj.Retesting_OR_Correction)
                 clsCommon.AddColumnsForChange(coll, "Temp", obj.Temp)
                 clsCommon.AddColumnsForChange(coll, "Gaze_Reading", obj.Gaze_Reading)
                 clsCommon.AddColumnsForChange(coll, "Gaze_Reading_Code", obj.Gaze_Reading_Code, True)

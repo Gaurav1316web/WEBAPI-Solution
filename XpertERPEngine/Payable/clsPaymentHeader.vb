@@ -100,6 +100,7 @@ Public Class clsPaymentHeader
     Public Account_Payee As Integer = 0
     Public Advance_Against_Salary As Integer = 0
     Public Is_Security As Integer = 0
+    Public Is_Retention As Integer = 0
     Public Saving As Boolean = False
     Public Account_Payee_Name As String = Nothing
     '' Anubhooti 21-Aug-2014
@@ -285,6 +286,7 @@ Public Class clsPaymentHeader
 
             clsCommon.AddColumnsForChange(coll, "Account_Payee", obj.Account_Payee)
             clsCommon.AddColumnsForChange(coll, "Is_Security", obj.Is_Security)
+            clsCommon.AddColumnsForChange(coll, "Is_Retention", obj.Is_Retention)
             clsCommon.AddColumnsForChange(coll, "Saving", IIf(obj.Saving, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Account_Payee_Name", obj.Account_Payee_Name)
             clsCommon.AddColumnsForChange(coll, "PurchaseOrder_No", obj.PurchaseOrder_No, True)
@@ -431,6 +433,18 @@ Public Class clsPaymentHeader
                     obj.Debit_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Debit_Account, obj.Location_GL_Code, True, trans)
                     '=======================================================
                 End If
+
+                If (clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "RC") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "SR") = CompairStringResult.Equal) AndAlso clsCommon.myCdbl(obj.Is_Retention) = 1 Then
+                    obj.Debit_Account = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select ISNULL(s.RETENTION_ACCOUNT,'') AS RETENTION_ACCOUNT from TSPL_VENDOR_MASTER m join TSPL_VENDOR_ACCOUNT_SET s on m.Vendor_Account =s.Acct_Set_Code where m.Vendor_Code = '" + obj.Vendor_Code + "' ", trans))
+                    If clsCommon.myLen(obj.Debit_Account) <= 0 Then
+                        Throw New Exception("Please fill Retention account on vendor account set.")
+                    End If
+                Else
+                    '============Add By Rohit After Talked with Anubhuti and Amit Sir(09-Jul-2015)=====
+                    obj.Debit_Account = clsERPFuncationality.ChangeGLAccountLocationSegment(obj.Debit_Account, obj.Location_GL_Code, True, trans)
+                    '=======================================================
+                End If
+
             End If
             '' richa agarwal changes done against ticket no KDI/18/04/18-000263 on 19 Apr,2018
             If clsCommon.CompairString(obj.Payment_Type, "AD") = CompairStringResult.Equal Then
@@ -692,8 +706,14 @@ Public Class clsPaymentHeader
         Dim obj As New clsPaymentHeader()
 
 
-        Dim qry As String = "SELECT TSPL_PAYMENT_HEADER.ConvRateOld,TSPL_PAYMENT_HEADER.Vendor_Bank_Code, TSPL_PAYMENT_HEADER.Vendor_IFSC_Code, TSPL_PAYMENT_HEADER.Vendor_Bank_Name, TSPL_PAYMENT_HEADER.Vendor_Branch_Name, TSPL_PAYMENT_HEADER.Vendor_Bank_ACNo,isnull (TSPL_PAYMENT_HEADER.isReceipt,0) as isReceipt,  TSPL_PAYMENT_HEADER.TapalNo,TSPL_PAYMENT_HEADER.DateAndTime,TSPL_PAYMENT_HEADER.Against_Salary_Generation_Code, isnull(TSPL_PAYMENT_HEADER.WaveOFFBankCharges,'N') as WaveOFFBankCharges,TSPL_PAYMENT_HEADER.Employee_Advance_Type,TSPL_PAYMENT_HEADER.Employee_Type,TSPL_PAYMENT_HEADER.GSTRegistered,TSPL_PAYMENT_HEADER.Interest_Rate,TSPL_PAYMENT_HEADER.No_Of_EMI,TSPL_PAYMENT_HEADER.memorandum_amt,TSPL_PAYMENT_HEADER.Payment_No,  TSPL_PAYMENT_HEADER.Payment_Date,  TSPL_PAYMENT_HEADER.Payment_Post_Date,  " &
-        " TSPL_PAYMENT_HEADER.Bank_Code, TSPL_PAYMENT_HEADER.Payment_Type, TSPL_PAYMENT_HEADER.Vendor_Code, TSPL_PAYMENT_HEADER.Vendor_Name, " &
+        Dim qry As String = "SELECT TSPL_PAYMENT_HEADER.ConvRateOld,TSPL_PAYMENT_HEADER.Vendor_Bank_Code, TSPL_PAYMENT_HEADER.Vendor_IFSC_Code,
+                             TSPL_PAYMENT_HEADER.Vendor_Bank_Name, TSPL_PAYMENT_HEADER.Vendor_Branch_Name, TSPL_PAYMENT_HEADER.Vendor_Bank_ACNo,
+                             isnull (TSPL_PAYMENT_HEADER.isReceipt,0) as isReceipt,  TSPL_PAYMENT_HEADER.TapalNo,TSPL_PAYMENT_HEADER.DateAndTime,
+                             TSPL_PAYMENT_HEADER.Against_Salary_Generation_Code, isnull(TSPL_PAYMENT_HEADER.WaveOFFBankCharges,'N') as WaveOFFBankCharges,
+                             TSPL_PAYMENT_HEADER.Employee_Advance_Type,TSPL_PAYMENT_HEADER.Employee_Type,TSPL_PAYMENT_HEADER.GSTRegistered,
+                             TSPL_PAYMENT_HEADER.Interest_Rate,TSPL_PAYMENT_HEADER.No_Of_EMI,TSPL_PAYMENT_HEADER.memorandum_amt,
+                             TSPL_PAYMENT_HEADER.Payment_No,  TSPL_PAYMENT_HEADER.Payment_Date,  TSPL_PAYMENT_HEADER.Payment_Post_Date," &
+        " TSPL_PAYMENT_HEADER.Bank_Code, TSPL_PAYMENT_HEADER.Payment_Type, TSPL_PAYMENT_HEADER.Vendor_Code, TSPL_PAYMENT_HEADER.Vendor_Name,        " &
         " TSPL_PAYMENT_HEADER.Remit_To, TSPL_PAYMENT_HEADER.Entry_Desc, TSPL_PAYMENT_HEADER.Reference, TSPL_PAYMENT_HEADER.Narration, " &
         " TSPL_PAYMENT_HEADER.Payment_Code, TSPL_PAYMENT_HEADER.Cheque_No, TSPL_PAYMENT_HEADER.Cheque_Date, TSPL_PAYMENT_HEADER.PDC_Cheque, TSPL_PAYMENT_HEADER.Payment_Amount, " &
         " TSPL_PAYMENT_HEADER.Vendor_Account_Set, TSPL_PAYMENT_HEADER.TDS_Amount, TSPL_PAYMENT_HEADER.Total_Prepayment, " &
@@ -703,8 +723,13 @@ Public Class clsPaymentHeader
         " TSPL_PAYMENT_HEADER.Balance_Amt, TSPL_PAYMENT_HEADER.Total_Applied_Amount, TSPL_PAYMENT_HEADER.Total_Security_Amount, TSPL_PAYMENT_HEADER.Transport_Id, TSPL_PAYMENT_HEADER.FIFO_Balance, " &
         " TSPL_PAYMENT_HEADER.QuickEntryNo, TSPL_PAYMENT_HEADER.LoadOutNo, TSPL_PAYMENT_HEADER.Salesman_Code, TSPL_PAYMENT_HEADER.Salesman_Name, " &
         " TSPL_PAYMENT_HEADER.Route_NO, TSPL_PAYMENT_HEADER.Route_Description, TSPL_PAYMENT_HEADER.Location_Code, " &
-        " TSPL_PAYMENT_HEADER.Location_Description, TSPL_PAYMENT_HEADER.IsRecoCleared, TSPL_PAYMENT_HEADER.IsChkReverse,Loadout_No,TSPL_PAYMENT_HEADER.MP_Code_For_Advance, TSPL_PAYMENT_HEADER.Bank_Charges, TSPL_PAYMENT_HEADER.Bank_Charges_Ac,CFormRecd,CForm_InvoiceNo,TSPL_PAYMENT_HEADER.CURRENCY_CODE,TSPL_PAYMENT_HEADER.CONVRATE,TSPL_PAYMENT_HEADER.APPLICABLEFROM, " &
-        " TSPL_PAYMENT_HEADER.PAYMENT_AMOUNT_BASE_CURRENCY,EMP_CODE,PROJECT_CODE,TSPL_PAYMENT_HEADER.CHECK_PRINT,TSPL_PAYMENT_HEADER.CHECK_CODE, TSPL_PAYMENT_HEADER.Applied_Payment,TSPL_PAYMENT_HEADER.Against_VSP_Asset_Lost,TSPL_PAYMENT_HEADER.Account_Payee,TSPL_PAYMENT_HEADER.PurchaseOrder_No,TSPL_PAYMENT_HEADER.Loan_Code,ISNULL(TSPL_PAYMENT_HEADER.Location_GL_Code,'') As Location_GL_Code,TSPL_PAYMENT_HEADER.Is_Security,TSPL_PAYMENT_HEADER.Account_Payee_Name,ISNULL(TSPL_PAYMENT_HEADER.Advance_Against_Salary,0) AS Advance_Against_Salary,TSPL_PAYMENT_HEADER.is_Opening,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_AMT,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_AMT,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_ACCOUNT,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_ACCOUNT,TSPL_PAYMENT_HEADER.Against_PP_Detail_No,TSPL_PAYMENT_HEADER.Against_PP_Detail_No_Advance_Payment,TSPL_PAYMENT_HEADER.Against_TDS_PAYMENT_No, " &
+        " TSPL_PAYMENT_HEADER.Location_Description, TSPL_PAYMENT_HEADER.IsRecoCleared, TSPL_PAYMENT_HEADER.IsChkReverse,Loadout_No,
+          TSPL_PAYMENT_HEADER.MP_Code_For_Advance, TSPL_PAYMENT_HEADER.Bank_Charges, TSPL_PAYMENT_HEADER.Bank_Charges_Ac,CFormRecd,
+          CForm_InvoiceNo,TSPL_PAYMENT_HEADER.CURRENCY_CODE,TSPL_PAYMENT_HEADER.CONVRATE,TSPL_PAYMENT_HEADER.APPLICABLEFROM, " &
+        " TSPL_PAYMENT_HEADER.PAYMENT_AMOUNT_BASE_CURRENCY,EMP_CODE,PROJECT_CODE,TSPL_PAYMENT_HEADER.CHECK_PRINT,TSPL_PAYMENT_HEADER.CHECK_CODE,
+          TSPL_PAYMENT_HEADER.Applied_Payment,TSPL_PAYMENT_HEADER.Against_VSP_Asset_Lost,TSPL_PAYMENT_HEADER.Account_Payee,
+          TSPL_PAYMENT_HEADER.PurchaseOrder_No,TSPL_PAYMENT_HEADER.Loan_Code,ISNULL(TSPL_PAYMENT_HEADER.Location_GL_Code,'') As Location_GL_Code,
+          TSPL_PAYMENT_HEADER.Is_Security,TSPL_PAYMENT_HEADER.Is_Retention,TSPL_PAYMENT_HEADER.Account_Payee_Name,ISNULL(TSPL_PAYMENT_HEADER.Advance_Against_Salary,0) AS Advance_Against_Salary,TSPL_PAYMENT_HEADER.is_Opening,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_AMT,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_AMT,TSPL_PAYMENT_HEADER.EXCHANGE_LOSS_ACCOUNT,TSPL_PAYMENT_HEADER.EXCHANGE_GAIN_ACCOUNT,TSPL_PAYMENT_HEADER.Against_PP_Detail_No,TSPL_PAYMENT_HEADER.Against_PP_Detail_No_Advance_Payment,TSPL_PAYMENT_HEADER.Against_TDS_PAYMENT_No, " &
         " TSPL_PAYMENT_HEADER.TAX1,TSPL_PAYMENT_HEADER.TAX1_Rate,TSPL_PAYMENT_HEADER.TAX1_Amt,TSPL_PAYMENT_HEADER.TAX1_Base_Amt,TSPL_PAYMENT_HEADER.TAX2,TSPL_PAYMENT_HEADER.TAX2_Rate,TSPL_PAYMENT_HEADER.TAX2_Amt,TSPL_PAYMENT_HEADER.TAX2_Base_Amt," &
         " TSPL_PAYMENT_HEADER.TAX3,TSPL_PAYMENT_HEADER.TAX3_Rate,TSPL_PAYMENT_HEADER.TAX3_Amt,TSPL_PAYMENT_HEADER.TAX3_Base_Amt,TSPL_PAYMENT_HEADER.TAX4,TSPL_PAYMENT_HEADER.TAX4_Rate," &
         " TSPL_PAYMENT_HEADER.TAX4_Amt,TSPL_PAYMENT_HEADER.TAX4_Base_Amt,TSPL_PAYMENT_HEADER.TAX5,TSPL_PAYMENT_HEADER.TAX5_Rate,TSPL_PAYMENT_HEADER.TAX5_Amt,TSPL_PAYMENT_HEADER.TAX5_Base_Amt," &
@@ -770,6 +795,7 @@ Public Class clsPaymentHeader
             obj.Loan_Code = clsCommon.myCstr(dt.Rows(0)("Loan_Code"))
             obj.Against_TDS_PAYMENT_No = clsCommon.myCstr(dt.Rows(0)("Against_TDS_PAYMENT_No"))
             obj.Is_Security = clsCommon.myCdbl(dt.Rows(0)("Is_Security"))
+            obj.Is_Retention = clsCommon.myCdbl(dt.Rows(0)("Is_Retention"))
             obj.Saving = (clsCommon.myCDecimal(dt.Rows(0)("Saving")) = 1)
             obj.TDS_Provision = IIf(clsCommon.myCdbl(dt.Rows(0)("TDS_Provision")) = 1, True, False)
             obj.Location_GL_Code = clsCommon.myCstr(dt.Rows(0)("Location_GL_Code"))
