@@ -53587,6 +53587,30 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Status", "integer null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_SHARE_ALLOTMENT", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_No", "varchar(30) Not NULL Primary Key")
+            coll.Add("Description", "Varchar(100) NULL ")
+            coll.Add("Document_date", "DateTime Not NULL")
+            coll.Add("Start_Date", "DATE Not NULL ")
+            coll.Add("Status", "int not null default 0")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "DateTime  Not NULL")
+            coll.Add("Modified_By", "varchar(12)  Not NULL")
+            coll.Add("Modified_Date", "datetime  Not NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "datetime NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "Integer Not NULL identity (1,1) primary key")
+            coll.Add("Document_No", "VARCHAR(30) Not NULL REFERENCES TSPL_Head_Load(Document_No)")
+            coll.Add("VLC_CODE", "VARCHAR(30) Not NULL REFERENCES TSPL_VLC_MASTER_HEAD(VLC_CODE)")
+            coll.Add("Head_Load_Basis", "varchar(1) NULL")
+            coll.Add("Head_Load_Rate", "Decimal(18,2) NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load_DCS", coll)
+
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
             Throw New Exception(ex.Message)
