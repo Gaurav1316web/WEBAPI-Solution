@@ -6972,7 +6972,7 @@ Public Class MDI
                     Case clsUserMgtCode.frmProcessProductionStandardization
                         Dim ActivateProductionWithoutBatch As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ActivateProductionWithoutBatch, clsFixedParameterCode.ActivateProductionWithoutBatch, Nothing))
                         If ActivateProductionWithoutBatch > 0 Then
-                            frm = New frmProductionEntryWithoutBatch
+                            frm = New frmRCDFStandardization
                             formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         Else
                             frm = New frmProcessProductionStandardization

@@ -23,11 +23,13 @@ Partial Class frmRCDFStandardization
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmRCDFStandardization))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtBatchNo = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtRemarks = New common.Controls.MyTextBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -104,6 +106,8 @@ Partial Class frmRCDFStandardization
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBatchNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -215,6 +219,8 @@ Partial Class frmRCDFStandardization
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel3)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtBatchNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtRemarks)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel9)
@@ -236,6 +242,39 @@ Partial Class frmRCDFStandardization
         Me.SplitContainer2.Size = New System.Drawing.Size(824, 459)
         Me.SplitContainer2.SplitterDistance = 95
         Me.SplitContainer2.TabIndex = 0
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(567, 29)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(53, 16)
+        Me.MyLabel3.TabIndex = 60
+        Me.MyLabel3.Text = "Batch No"
+        '
+        'txtBatchNo
+        '
+        Me.txtBatchNo.CalculationExpression = Nothing
+        Me.txtBatchNo.FieldCode = Nothing
+        Me.txtBatchNo.FieldDesc = Nothing
+        Me.txtBatchNo.FieldMaxLength = 0
+        Me.txtBatchNo.FieldName = Nothing
+        Me.txtBatchNo.isCalculatedField = False
+        Me.txtBatchNo.IsSourceFromTable = False
+        Me.txtBatchNo.IsSourceFromValueList = False
+        Me.txtBatchNo.IsUnique = False
+        Me.txtBatchNo.Location = New System.Drawing.Point(626, 27)
+        Me.txtBatchNo.MaxLength = 200
+        Me.txtBatchNo.MendatroryField = False
+        Me.txtBatchNo.MyLinkLable1 = Me.MyLabel3
+        Me.txtBatchNo.MyLinkLable2 = Nothing
+        Me.txtBatchNo.Name = "txtBatchNo"
+        Me.txtBatchNo.ReferenceFieldDesc = Nothing
+        Me.txtBatchNo.ReferenceFieldName = Nothing
+        Me.txtBatchNo.ReferenceTableName = Nothing
+        Me.txtBatchNo.Size = New System.Drawing.Size(192, 20)
+        Me.txtBatchNo.TabIndex = 59
         '
         'MyLabel1
         '
@@ -267,7 +306,7 @@ Partial Class frmRCDFStandardization
         Me.txtRemarks.ReferenceFieldDesc = Nothing
         Me.txtRemarks.ReferenceFieldName = Nothing
         Me.txtRemarks.ReferenceTableName = Nothing
-        Me.txtRemarks.Size = New System.Drawing.Size(695, 20)
+        Me.txtRemarks.Size = New System.Drawing.Size(733, 20)
         Me.txtRemarks.TabIndex = 57
         '
         'MyLabel9
@@ -300,7 +339,7 @@ Partial Class frmRCDFStandardization
         Me.txtComment.ReferenceFieldDesc = Nothing
         Me.txtComment.ReferenceFieldName = Nothing
         Me.txtComment.ReferenceTableName = Nothing
-        Me.txtComment.Size = New System.Drawing.Size(695, 20)
+        Me.txtComment.Size = New System.Drawing.Size(733, 20)
         Me.txtComment.TabIndex = 54
         '
         'txtLocation
@@ -346,7 +385,7 @@ Partial Class frmRCDFStandardization
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Location = New System.Drawing.Point(351, 28)
         Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(429, 19)
+        Me.lblLocation.Size = New System.Drawing.Size(211, 19)
         Me.lblLocation.TabIndex = 58
         '
         'UsLock1
@@ -445,7 +484,7 @@ Partial Class frmRCDFStandardization
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(3, 3)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.pageAddRemoveDetail
+        Me.RadPageView1.SelectedPage = Me.pageIssueDetail
         Me.RadPageView1.Size = New System.Drawing.Size(818, 354)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -453,11 +492,11 @@ Partial Class frmRCDFStandardization
         'pageBatchDetail
         '
         Me.pageBatchDetail.Controls.Add(Me.gvProduce)
-        Me.pageBatchDetail.ItemSize = New System.Drawing.SizeF(129.0!, 28.0!)
+        Me.pageBatchDetail.ItemSize = New System.Drawing.SizeF(97.0!, 28.0!)
         Me.pageBatchDetail.Location = New System.Drawing.Point(10, 37)
         Me.pageBatchDetail.Name = "pageBatchDetail"
         Me.pageBatchDetail.Size = New System.Drawing.Size(797, 306)
-        Me.pageBatchDetail.Text = "Production Item Detail"
+        Me.pageBatchDetail.Text = "Production Item"
         '
         'gvProduce
         '
@@ -477,7 +516,7 @@ Partial Class frmRCDFStandardization
         Me.gvProduce.MasterTemplate.EnableGrouping = False
         Me.gvProduce.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProduce.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProduce.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvProduce.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvProduce.Name = "gvProduce"
         Me.gvProduce.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProduce.ShowHeaderCellButtons = True
@@ -489,11 +528,11 @@ Partial Class frmRCDFStandardization
         '
         Me.pageIssueDetail.Controls.Add(Me.gvIssue)
         Me.pageIssueDetail.Controls.Add(Me.MyLabel2)
-        Me.pageIssueDetail.ItemSize = New System.Drawing.SizeF(99.0!, 28.0!)
+        Me.pageIssueDetail.ItemSize = New System.Drawing.SizeF(72.0!, 28.0!)
         Me.pageIssueDetail.Location = New System.Drawing.Point(10, 37)
         Me.pageIssueDetail.Name = "pageIssueDetail"
         Me.pageIssueDetail.Size = New System.Drawing.Size(797, 306)
-        Me.pageIssueDetail.Text = "Issue Item Detail"
+        Me.pageIssueDetail.Text = "Issue Items"
         '
         'gvIssue
         '
@@ -513,7 +552,7 @@ Partial Class frmRCDFStandardization
         Me.gvIssue.MasterTemplate.EnableGrouping = False
         Me.gvIssue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvIssue.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gvIssue.Name = "gvIssue"
         Me.gvIssue.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvIssue.ShowHeaderCellButtons = True
@@ -536,11 +575,11 @@ Partial Class frmRCDFStandardization
         'pageAddRemoveDetail
         '
         Me.pageAddRemoveDetail.Controls.Add(Me.gvAddRemove)
-        Me.pageAddRemoveDetail.ItemSize = New System.Drawing.SizeF(159.0!, 28.0!)
+        Me.pageAddRemoveDetail.ItemSize = New System.Drawing.SizeF(131.0!, 28.0!)
         Me.pageAddRemoveDetail.Location = New System.Drawing.Point(10, 37)
         Me.pageAddRemoveDetail.Name = "pageAddRemoveDetail"
         Me.pageAddRemoveDetail.Size = New System.Drawing.Size(797, 306)
-        Me.pageAddRemoveDetail.Text = "Added/Removed Item Detail"
+        Me.pageAddRemoveDetail.Text = "Added/Removed Items"
         '
         'gvAddRemove
         '
@@ -560,7 +599,7 @@ Partial Class frmRCDFStandardization
         Me.gvAddRemove.MasterTemplate.EnableGrouping = False
         Me.gvAddRemove.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAddRemove.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAddRemove.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAddRemove.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gvAddRemove.Name = "gvAddRemove"
         Me.gvAddRemove.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAddRemove.ShowHeaderCellButtons = True
@@ -1137,6 +1176,8 @@ Partial Class frmRCDFStandardization
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBatchNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1285,5 +1326,7 @@ Partial Class frmRCDFStandardization
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents lblLocation As common.Controls.MyLabel
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents txtBatchNo As common.Controls.MyTextBox
 End Class
 

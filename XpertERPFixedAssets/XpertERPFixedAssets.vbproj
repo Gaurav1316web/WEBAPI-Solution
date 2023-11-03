@@ -477,12 +477,6 @@
     <Compile Include="frmPOItemTaxDetails.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSerializeItemOutCheckBox.Designer.vb">
-      <DependentUpon>frmSerializeItemOutCheckBox.vb</DependentUpon>
-    </Compile>
-    <Compile Include="frmSerializeItemOutCheckBox.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
@@ -633,10 +627,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmPOItemTaxDetails.resx">
       <DependentUpon>frmPOItemTaxDetails.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmSerializeItemOutCheckBox.resx">
-      <DependentUpon>frmSerializeItemOutCheckBox.vb</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\licenses.licx" />
     <EmbeddedResource Include="My Project\Resources.resx">
