@@ -175,63 +175,43 @@
     <Compile Include="Master\frmCustCategoryWiseDefaultItemUomMaster.Designer.vb">
       <DependentUpon>frmCustCategoryWiseDefaultItemUomMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmCustCategoryWiseDefaultItemUomMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Master\frmCustCategoryWiseDefaultItemUomMaster.vb" />
     <Compile Include="Master\frmCustomerDeduction.Designer.vb">
       <DependentUpon>frmCustomerDeduction.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmCustomerDeduction.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Master\frmCustomerDeduction.vb" />
     <Compile Include="Master\frmDistributorRouteTagging.Designer.vb">
       <DependentUpon>frmDistributorRouteTagging.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmDistributorRouteTagging.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Master\frmDistributorRouteTagging.vb" />
     <Compile Include="Master\frmDistributorCommission.designer.vb">
       <DependentUpon>frmDistributorCommission.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmDistributorCommission.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Master\frmDistributorCommission.vb" />
     <Compile Include="Master\frmItemSublocationMapping.Designer.vb">
       <DependentUpon>frmItemSublocationMapping.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmItemSublocationMapping.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Master\frmItemSublocationMapping.vb" />
     <Compile Include="Master\frmMultipleCustomerforDo.Designer.vb">
       <DependentUpon>frmMultipleCustomerforDo.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmMultipleCustomerforDo.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Master\frmMultipleCustomerforDo.vb" />
     <Compile Include="Master\frmSaleIncentiveMaster.designer.vb">
       <DependentUpon>frmSaleIncentiveMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmSaleIncentiveMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Master\frmSaleIncentiveMaster.vb" />
     <Compile Include="Master\CardSale.Designer.vb">
       <DependentUpon>CardSale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\CardSale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Master\CardSale.vb" />
     <Compile Include="Master\frmTranspoterDeductionMaster2.designer.vb">
       <DependentUpon>frmTranspoterDeductionMaster2.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmTranspoterDeductionMaster2.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Master\frmTranspoterDeductionMaster2.vb" />
     <Compile Include="Master\rptLocationItemMappingDS.Designer.vb">
       <DependentUpon>rptLocationItemMappingDS.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\rptLocationItemMappingDS.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Master\rptLocationItemMappingDS.vb" />
     <Compile Include="Modules\globalFunc.vb" />
     <Compile Include="Modules\modUserMgt.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -251,231 +231,155 @@
     <Compile Include="Report\frmCancelledTransactions_DairySale.Designer.vb">
       <DependentUpon>frmCancelledTransactions_DairySale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\frmCancelledTransactions_DairySale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\frmCancelledTransactions_DairySale.vb" />
     <Compile Include="Report\frmCrateJaliReport.Designer.vb">
       <DependentUpon>frmCrateJaliReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\frmCrateJaliReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\frmCrateJaliReport.vb" />
     <Compile Include="Report\FrmDairySaleSchemeReport.Designer.vb">
       <DependentUpon>FrmDairySaleSchemeReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\FrmDairySaleSchemeReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\FrmDairySaleSchemeReport.vb" />
     <Compile Include="Report\FrmZoneWiseSKUReport.Designer.vb">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\FrmZoneWiseSKUReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\FrmZoneWiseSKUReport.vb" />
     <Compile Include="Report\rptAbsentBooth.Designer.vb">
       <DependentUpon>rptAbsentBooth.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptAbsentBooth.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptAbsentBooth.vb" />
     <Compile Include="Report\rptBankDetailsWithVendorMargin.Designer.vb">
       <DependentUpon>rptBankDetailsWithVendorMargin.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptBankDetailsWithVendorMargin.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptBankDetailsWithVendorMargin.vb" />
     <Compile Include="Report\rptBookingQtyAmtReport.Designer.vb">
       <DependentUpon>rptBookingQtyAmtReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptBookingQtyAmtReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptBookingQtyAmtReport.vb" />
     <Compile Include="Report\rptBookingReport.Designer.vb">
       <DependentUpon>rptBookingReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptBookingReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptBookingReport.vb" />
     <Compile Include="Report\rptBookingWiseRegister.Designer.vb">
       <DependentUpon>rptBookingWiseRegister.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptBookingWiseRegister.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptBookingWiseRegister.vb" />
     <Compile Include="Report\rptCustomerIncentiveEntry.Designer.vb">
       <DependentUpon>rptCustomerIncentiveEntry.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptCustomerIncentiveEntry.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptCustomerIncentiveEntry.vb" />
     <Compile Include="Report\rptCustomerWiseSalesReport.Designer.vb">
       <DependentUpon>rptCustomerWiseSalesReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptCustomerWiseSalesReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptCustomerWiseSalesReport.vb" />
     <Compile Include="Report\rptDailyLeakageReplacementReport.Designer.vb">
       <DependentUpon>rptDailyLeakageReplacementReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptDailyLeakageReplacementReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptDailyLeakageReplacementReport.vb" />
     <Compile Include="Report\rptDailyReceiptReport.designer.vb">
       <DependentUpon>rptDailyReceiptReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptDailyReceiptReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptDailyReceiptReport.vb" />
     <Compile Include="Report\rptDetailedCardReport.designer.vb">
       <DependentUpon>rptDetailedCardReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptDetailedCardReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptDetailedCardReport.vb" />
     <Compile Include="Report\rptInvoiceDetailReport.designer.vb">
       <DependentUpon>rptInvoiceDetailReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptInvoiceDetailReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptInvoiceDetailReport.vb" />
     <Compile Include="Report\rptProvisionChart.Designer.vb">
       <DependentUpon>rptProvisionChart.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptProvisionChart.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptProvisionChart.vb" />
     <Compile Include="Report\RptRouteWiseSaleRegister.Designer.vb">
       <DependentUpon>RptRouteWiseSaleRegister.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\RptRouteWiseSaleRegister.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\RptRouteWiseSaleRegister.vb" />
     <Compile Include="Report\InvoicePriceWiseReport.Designer.vb">
       <DependentUpon>InvoicePriceWiseReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\InvoicePriceWiseReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\InvoicePriceWiseReport.vb" />
     <Compile Include="Report\frmCrateCanReceivingReport.Designer.vb">
       <DependentUpon>frmCrateCanReceivingReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\frmCrateCanReceivingReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\frmCrateCanReceivingReport.vb" />
     <Compile Include="Report\FrmCustomerZoneReport.Designer.vb">
       <DependentUpon>FrmCustomerZoneReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\FrmCustomerZoneReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\FrmCustomerZoneReport.vb" />
     <Compile Include="Report\frmDistributerLedgerReport.designer.vb">
       <DependentUpon>frmDistributerLedgerReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\frmDistributerLedgerReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\frmDistributerLedgerReport.vb" />
     <Compile Include="Report\FrmPendingBookingReport.Designer.vb">
       <DependentUpon>FrmPendingBookingReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\FrmPendingBookingReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\FrmPendingBookingReport.vb" />
     <Compile Include="Report\FrmPrintDistributerInvoiceStatement.designer.vb">
       <DependentUpon>FrmPrintDistributerInvoiceStatement.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\FrmPrintDistributerInvoiceStatement.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\FrmPrintDistributerInvoiceStatement.vb" />
     <Compile Include="Report\FrmSaleVsReceipReport.Designer.vb">
       <DependentUpon>FrmSaleVsReceipReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\FrmSaleVsReceipReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\FrmSaleVsReceipReport.vb" />
     <Compile Include="Report\rptCrateJalliBoxTransferDS.Designer.vb">
       <DependentUpon>rptCrateJalliBoxTransferDS.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptCrateJalliBoxTransferDS.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptCrateJalliBoxTransferDS.vb" />
     <Compile Include="Report\rptCustomerEffective_ItemRate.Designer.vb">
       <DependentUpon>rptCustomerEffective_ItemRate.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptCustomerEffective_ItemRate.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptCustomerEffective_ItemRate.vb" />
     <Compile Include="Report\rptDairyBookingDistributorReport.Designer.vb">
       <DependentUpon>rptDairyBookingDistributorReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptDairyBookingDistributorReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptDairyBookingDistributorReport.vb" />
     <Compile Include="Report\rptDairySaleRegisterReport.Designer.vb">
       <DependentUpon>rptDairySaleRegisterReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptDairySaleRegisterReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptDairySaleRegisterReport.vb" />
     <Compile Include="Report\rptDairyTruckSheetReport.Designer.vb">
       <DependentUpon>rptDairyTruckSheetReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptDairyTruckSheetReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptDairyTruckSheetReport.vb" />
     <Compile Include="Report\rptDeliveryOrderReport1.Designer.vb">
       <DependentUpon>rptDeliveryOrderReport1.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptDeliveryOrderReport1.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptDeliveryOrderReport1.vb" />
     <Compile Include="Report\rptDemandForSingleBranch.Designer.vb">
       <DependentUpon>rptDemandForSingleBranch.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptDemandForSingleBranch.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptDemandForSingleBranch.vb" />
     <Compile Include="Report\RptEffectiveRateReport1.Designer.vb">
       <DependentUpon>RptEffectiveRateReport1.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\RptEffectiveRateReport1.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\RptEffectiveRateReport1.vb" />
     <Compile Include="Report\rptPlantCustomerDemandReport.Designer.vb">
       <DependentUpon>rptPlantCustomerDemandReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptPlantCustomerDemandReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptPlantCustomerDemandReport.vb" />
     <Compile Include="Report\rptSaleRegisterDetail.Designer.vb">
       <DependentUpon>rptSaleRegisterDetail.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptSaleRegisterDetail.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptSaleRegisterDetail.vb" />
     <Compile Include="Report\rptSalesVehicleReport.Designer.vb">
       <DependentUpon>rptSalesVehicleReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptSalesVehicleReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptSalesVehicleReport.vb" />
     <Compile Include="Report\rptTransporterWiseReport.Designer.vb">
       <DependentUpon>rptTransporterWiseReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptTransporterWiseReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptTransporterWiseReport.vb" />
     <Compile Include="Report\rptUnpostedDocumentReport.Designer.vb">
       <DependentUpon>rptUnpostedDocumentReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="Report\rptUnpostedDocumentReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Report\rptUnpostedDocumentReport.vb" />
     <Compile Include="Transaction\FrmAcknowledgeOfGRN.Designer.vb">
       <DependentUpon>FrmAcknowledgeOfGRN.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\FrmAcknowledgeOfGRN.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\FrmAcknowledgeOfGRN.vb" />
     <Compile Include="Transaction\frmAssessmentGrid.Designer.vb">
       <DependentUpon>frmAssessmentGrid.vb</DependentUpon>
     </Compile>
@@ -485,261 +389,175 @@
     <Compile Include="Transaction\frmBookingDairy.Designer.vb">
       <DependentUpon>frmBookingDairy.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmBookingDairy.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmBookingDairy.vb" />
     <Compile Include="Transaction\frmBookingDairyMultipleCustomer.Designer.vb">
       <DependentUpon>frmBookingDairyMultipleCustomer.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmBookingDairyMultipleCustomer.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmBookingDairyMultipleCustomer.vb" />
     <Compile Include="Transaction\frmBookingDairyMultipleDistributor.Designer.vb">
       <DependentUpon>frmBookingDairyMultipleDistributor.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmBookingDairyMultipleDistributor.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmBookingDairyMultipleDistributor.vb" />
     <Compile Include="Transaction\FrmCashIndentBookingMobApp.Designer.vb">
       <DependentUpon>FrmCashIndentBookingMobApp.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\FrmCashIndentBookingMobApp.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\FrmCashIndentBookingMobApp.vb" />
     <Compile Include="Transaction\frmCreateReceivedCustomerDairySale.Designer.vb">
       <DependentUpon>frmCreateReceivedCustomerDairySale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmCreateReceivedCustomerDairySale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmCreateReceivedCustomerDairySale.vb" />
     <Compile Include="Transaction\frmCreateReceivedDairySale.Designer.vb">
       <DependentUpon>frmCreateReceivedDairySale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmCreateReceivedDairySale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmCreateReceivedDairySale.vb" />
     <Compile Include="Transaction\frmCustomerAdvanceAgainstBooking.Designer.vb">
       <DependentUpon>frmCustomerAdvanceAgainstBooking.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmCustomerAdvanceAgainstBooking.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmCustomerAdvanceAgainstBooking.vb" />
     <Compile Include="Transaction\frmCustomerComplain.Designer.vb">
       <DependentUpon>frmCustomerComplain.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmCustomerComplain.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmCustomerComplain.vb" />
     <Compile Include="Transaction\frmCustomerIncetiveEntry.Designer.vb">
       <DependentUpon>frmCustomerIncetiveEntry.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmCustomerIncetiveEntry.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmCustomerIncetiveEntry.vb" />
     <Compile Include="Transaction\frmDairyBookingCustomer.Designer.vb">
       <DependentUpon>frmDairyBookingCustomer.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmDairyBookingCustomer.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmDairyBookingCustomer.vb" />
     <Compile Include="Transaction\frmDairyBookingCustomer_FreshSale.Designer.vb">
       <DependentUpon>frmDairyBookingCustomer_FreshSale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmDairyBookingCustomer_FreshSale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmDairyBookingCustomer_FreshSale.vb" />
     <Compile Include="Transaction\frmDairyBookingUploader.Designer.vb">
       <DependentUpon>frmDairyBookingUploader.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmDairyBookingUploader.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmDairyBookingUploader.vb" />
     <Compile Include="Transaction\frmDairyFreshDispatchMultiple.designer.vb">
       <DependentUpon>frmDairyFreshDispatchMultiple.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmDairyFreshDispatchMultiple.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmDairyFreshDispatchMultiple.vb" />
     <Compile Include="Transaction\frmDairyGatePass.Designer.vb">
       <DependentUpon>frmDairyGatePass.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmDairyGatePass.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmDairyGatePass.vb" />
     <Compile Include="Transaction\frmDeliveryNoteDairySale.Designer.vb">
       <DependentUpon>frmDeliveryNoteDairySale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmDeliveryNoteDairySale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmDeliveryNoteDairySale.vb" />
     <Compile Include="Transaction\frmDemandAdjustment.Designer.vb">
       <DependentUpon>frmDemandAdjustment.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmDemandAdjustment.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmDemandAdjustment.vb" />
     <Compile Include="Transaction\frmDemandApproval.Designer.vb">
       <DependentUpon>frmDemandApproval.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmDemandApproval.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmDemandApproval.vb" />
     <Compile Include="Transaction\frmDemandBooking.Designer.vb">
       <DependentUpon>frmDemandBooking.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmDemandBooking.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmDemandBooking.vb" />
     <Compile Include="Transaction\frmEInvoiceHead.Designer.vb">
       <DependentUpon>frmEInvoiceHead.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmEInvoiceHead.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmEInvoiceHead.vb" />
     <Compile Include="Transaction\frmGatePassDairySale.Designer.vb">
       <DependentUpon>frmGatePassDairySale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmGatePassDairySale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmGatePassDairySale.vb" />
     <Compile Include="Transaction\frmGenerateFreshBooking.Designer.vb">
       <DependentUpon>frmGenerateFreshBooking.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmGenerateFreshBooking.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmGenerateFreshBooking.vb" />
     <Compile Include="Transaction\frmItemProjection.Designer.vb">
       <DependentUpon>frmItemProjection.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmItemProjection.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmItemProjection.vb" />
     <Compile Include="Transaction\frmLeakageReplacementUploader.Designer.vb">
       <DependentUpon>frmLeakageReplacementUploader.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmLeakageReplacementUploader.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmLeakageReplacementUploader.vb" />
     <Compile Include="Transaction\frmNotepadFileMatching.Designer.vb">
       <DependentUpon>frmNotepadFileMatching.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmNotepadFileMatching.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmNotepadFileMatching.vb" />
     <Compile Include="Transaction\frmPendingBookingDairySale.Designer.vb">
       <DependentUpon>frmPendingBookingDairySale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmPendingBookingDairySale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmPendingBookingDairySale.vb" />
     <Compile Include="Transaction\frmPendingDeliveryDairySale.Designer.vb">
       <DependentUpon>frmPendingDeliveryDairySale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmPendingDeliveryDairySale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmPendingDeliveryDairySale.vb" />
     <Compile Include="Transaction\frmPendingDeliveryForGatePass.Designer.vb">
       <DependentUpon>frmPendingDeliveryForGatePass.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmPendingDeliveryForGatePass.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmPendingDeliveryForGatePass.vb" />
     <Compile Include="Transaction\frmPendingGatePassDairySale.Designer.vb">
       <DependentUpon>frmPendingGatePassDairySale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmPendingGatePassDairySale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmPendingGatePassDairySale.vb" />
     <Compile Include="Transaction\frmPendingSaleInvoiceDairy.Designer.vb">
       <DependentUpon>frmPendingSaleInvoiceDairy.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmPendingSaleInvoiceDairy.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmPendingSaleInvoiceDairy.vb" />
     <Compile Include="Transaction\frmPendingSaleOrderDairy.Designer.vb">
       <DependentUpon>frmPendingSaleOrderDairy.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmPendingSaleOrderDairy.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmPendingSaleOrderDairy.vb" />
     <Compile Include="Transaction\frmPendingShipmentDairy.Designer.vb">
       <DependentUpon>frmPendingShipmentDairy.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmPendingShipmentDairy.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmPendingShipmentDairy.vb" />
     <Compile Include="Transaction\frmPerformaInvoiceDairy.Designer.vb">
       <DependentUpon>frmPerformaInvoiceDairy.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmPerformaInvoiceDairy.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmPerformaInvoiceDairy.vb" />
     <Compile Include="Transaction\frmPOSBookingDairyMultipleCustomer.Designer.vb">
       <DependentUpon>frmPOSBookingDairyMultipleCustomer.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmPOSBookingDairyMultipleCustomer.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmPOSBookingDairyMultipleCustomer.vb" />
     <Compile Include="Transaction\frmPOSBookingDairyMultipleDistributor.Designer.vb">
       <DependentUpon>frmPOSBookingDairyMultipleDistributor.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmPOSBookingDairyMultipleDistributor.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmPOSBookingDairyMultipleDistributor.vb" />
     <Compile Include="Transaction\frmSaleInvoiceDairy.Designer.vb">
       <DependentUpon>frmSaleInvoiceDairy.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmSaleInvoiceDairy.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmSaleInvoiceDairy.vb" />
     <Compile Include="Transaction\frmSaleOrderDairy.Designer.vb">
       <DependentUpon>frmSaleOrderDairy.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmSaleOrderDairy.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmSaleOrderDairy.vb" />
     <Compile Include="Transaction\frmSaleReturnDairy.Designer.vb">
       <DependentUpon>frmSaleReturnDairy.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmSaleReturnDairy.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmSaleReturnDairy.vb" />
     <Compile Include="Transaction\frmShipmentDairy.Designer.vb">
       <DependentUpon>frmShipmentDairy.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmShipmentDairy.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmShipmentDairy.vb" />
     <Compile Include="Transaction\FrmShortCloseDODairy.Designer.vb">
       <DependentUpon>FrmShortCloseDODairy.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\FrmShortCloseDODairy.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\FrmShortCloseDODairy.vb" />
     <Compile Include="Transaction\frmTranspoterDeduction.Designer.vb">
       <DependentUpon>frmTranspoterDeduction.vb</DependentUpon>
     </Compile>
-    <Compile Include="Transaction\frmTranspoterDeduction.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Transaction\frmTranspoterDeduction.vb" />
     <Compile Include="Visual Reports\rptZoneWiseMilkSaleVisual.Designer.vb">
       <DependentUpon>rptZoneWiseMilkSaleVisual.vb</DependentUpon>
     </Compile>
-    <Compile Include="Visual Reports\rptZoneWiseMilkSaleVisual.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Visual Reports\rptZoneWiseMilkSaleVisual.vb" />
     <Compile Include="Visual Reports\VisualReportSale.Designer.vb">
       <DependentUpon>VisualReportSale.vb</DependentUpon>
     </Compile>
-    <Compile Include="Visual Reports\VisualReportSale.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Visual Reports\VisualReportSale.vb" />
     <Compile Include="Visual Reports\VisualReportSaleNew.Designer.vb">
       <DependentUpon>VisualReportSaleNew.vb</DependentUpon>
     </Compile>
-    <Compile Include="Visual Reports\VisualReportSaleNew.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Visual Reports\VisualReportSaleNew.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Master\frmCustCategoryWiseDefaultItemUomMaster.resx">
@@ -1057,12 +875,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PIE.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\XpertERPEngine\XpertERPEngine.vbproj">
-      <Project>{fa619d1e-c09f-4d15-9dfa-63c256017d35}</Project>
-      <Name>XpertERPEngine</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
