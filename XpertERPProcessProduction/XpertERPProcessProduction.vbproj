@@ -135,14 +135,13 @@
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngine">
-      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+      <HintPath>..\..\XpertMilkCollection\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineFine">
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPFixedAssets, Version=7.1.0.92, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\XpertERP\XpertERPFixedAssets\bin\Debug\XpertERPFixedAssets.dll</HintPath>
+    <Reference Include="XpertERPFixedAssets">
+      <HintPath>..\..\XpertMilkCollection\bin\Debug\XpertERPFixedAssets.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -181,15 +180,11 @@
     <Compile Include="ProcessProduction\Master\frmBreakDownMaster.Designer.vb">
       <DependentUpon>frmBreakDownMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="ProcessProduction\Master\frmBreakDownMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ProcessProduction\Master\frmBreakDownMaster.vb" />
     <Compile Include="ProcessProduction\Master\frmLineMaster.Designer.vb">
       <DependentUpon>frmLineMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="ProcessProduction\Master\frmLineMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ProcessProduction\Master\frmLineMaster.vb" />
     <Compile Include="ProcessProduction\Master\frmPPLogSheetMaster.Designer.vb">
       <DependentUpon>frmPPLogSheetMaster.vb</DependentUpon>
     </Compile>
@@ -229,9 +224,7 @@
     <Compile Include="PRODUCTION\Masters\frmCostMaintainance.Designer.vb">
       <DependentUpon>frmCostMaintainance.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Masters\frmCostMaintainance.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Masters\frmCostMaintainance.vb" />
     <Compile Include="PRODUCTION\Masters\frmExpenseHead.Designer.vb">
       <DependentUpon>frmExpenseHead.vb</DependentUpon>
     </Compile>
@@ -301,9 +294,7 @@
     <Compile Include="PRODUCTION\Masters\frmToolType.Designer.vb">
       <DependentUpon>frmToolType.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Masters\frmToolType.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Masters\frmToolType.vb" />
     <Compile Include="PRODUCTION\Masters\frmWorkCenterMaster.Designer.vb">
       <DependentUpon>frmWorkCenterMaster.vb</DependentUpon>
     </Compile>
@@ -343,9 +334,7 @@
     <Compile Include="PRODUCTION\Reports\frmLineProductivity.Designer.vb">
       <DependentUpon>frmLineProductivity.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Reports\frmLineProductivity.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Reports\frmLineProductivity.vb" />
     <Compile Include="PRODUCTION\Reports\frmListOfBOM.Designer.vb">
       <DependentUpon>frmListOfBOM.vb</DependentUpon>
     </Compile>
@@ -367,9 +356,7 @@
     <Compile Include="PRODUCTION\Reports\frmOperatorEfficiencyReport.Designer.vb">
       <DependentUpon>frmOperatorEfficiencyReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Reports\frmOperatorEfficiencyReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Reports\frmOperatorEfficiencyReport.vb" />
     <Compile Include="PRODUCTION\Reports\frmProductionPlanReport.Designer.vb">
       <DependentUpon>frmProductionPlanReport.vb</DependentUpon>
     </Compile>
@@ -409,21 +396,15 @@
     <Compile Include="PRODUCTION\Reports\rptListOfItemCost.Designer.vb">
       <DependentUpon>rptListOfItemCost.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfItemCost.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Reports\rptListOfItemCost.vb" />
     <Compile Include="PRODUCTION\Reports\rptListOfOperations.Designer.vb">
       <DependentUpon>rptListOfOperations.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfOperations.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Reports\rptListOfOperations.vb" />
     <Compile Include="PRODUCTION\Reports\rptListOfTools.Designer.vb">
       <DependentUpon>rptListOfTools.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfTools.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Reports\rptListOfTools.vb" />
     <Compile Include="PRODUCTION\Reports\rptListOfToolType.Designer.vb">
       <DependentUpon>rptListOfToolType.vb</DependentUpon>
     </Compile>
@@ -433,9 +414,7 @@
     <Compile Include="PRODUCTION\Reports\rptListOfWorkCenter.Designer.vb">
       <DependentUpon>rptListOfWorkCenter.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Reports\rptListOfWorkCenter.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Reports\rptListOfWorkCenter.vb" />
     <Compile Include="PRODUCTION\Transactions\frmBatchOrder.Designer.vb">
       <DependentUpon>frmBatchOrder.vb</DependentUpon>
     </Compile>
@@ -469,9 +448,7 @@
     <Compile Include="PRODUCTION\Transactions\frmManufacturingOrder.Designer.vb">
       <DependentUpon>frmManufacturingOrder.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmManufacturingOrder.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Transactions\frmManufacturingOrder.vb" />
     <Compile Include="PRODUCTION\Transactions\frmMRP.Designer.vb">
       <DependentUpon>frmMRP.vb</DependentUpon>
     </Compile>
@@ -493,21 +470,15 @@
     <Compile Include="PRODUCTION\Transactions\frmProductionItemSerialReplace.Designer.vb">
       <DependentUpon>frmProductionItemSerialReplace.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionItemSerialReplace.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Transactions\frmProductionItemSerialReplace.vb" />
     <Compile Include="PRODUCTION\Transactions\frmProductionPlanning.Designer.vb">
       <DependentUpon>frmProductionPlanning.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionPlanning.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Transactions\frmProductionPlanning.vb" />
     <Compile Include="PRODUCTION\Transactions\frmProductionPlanningDemo.Designer.vb">
       <DependentUpon>frmProductionPlanningDemo.vb</DependentUpon>
     </Compile>
-    <Compile Include="PRODUCTION\Transactions\frmProductionPlanningDemo.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="PRODUCTION\Transactions\frmProductionPlanningDemo.vb" />
     <Compile Include="PRODUCTION\Transactions\frmProductionReceipt.Designer.vb">
       <DependentUpon>frmProductionReceipt.vb</DependentUpon>
     </Compile>
@@ -615,9 +586,7 @@
     <Compile Include="ProcessProduction\Reports\rptJobWorkProduction.Designer.vb">
       <DependentUpon>rptJobWorkProduction.vb</DependentUpon>
     </Compile>
-    <Compile Include="ProcessProduction\Reports\rptJobWorkProduction.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ProcessProduction\Reports\rptJobWorkProduction.vb" />
     <Compile Include="ProcessProduction\Reports\rptProcessGainLossReport.designer.vb">
       <DependentUpon>rptProcessGainLossReport.vb</DependentUpon>
     </Compile>
@@ -627,15 +596,11 @@
     <Compile Include="ProcessProduction\Reports\rptproductionEntryReport.Designer.vb">
       <DependentUpon>rptproductionEntryReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="ProcessProduction\Reports\rptproductionEntryReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ProcessProduction\Reports\rptproductionEntryReport.vb" />
     <Compile Include="ProcessProduction\Reports\rptProductionIssueStatus.Designer.vb">
       <DependentUpon>rptProductionIssueStatus.vb</DependentUpon>
     </Compile>
-    <Compile Include="ProcessProduction\Reports\rptProductionIssueStatus.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ProcessProduction\Reports\rptProductionIssueStatus.vb" />
     <Compile Include="ProcessProduction\Reports\RptProductionQCReport.Designer.vb">
       <DependentUpon>RptProductionQCReport.vb</DependentUpon>
     </Compile>
@@ -651,9 +616,7 @@
     <Compile Include="ProcessProduction\Reports\rptProductionWiseStockReco.designer.vb">
       <DependentUpon>rptProductionWiseStockReco.vb</DependentUpon>
     </Compile>
-    <Compile Include="ProcessProduction\Reports\rptProductionWiseStockReco.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ProcessProduction\Reports\rptProductionWiseStockReco.vb" />
     <Compile Include="ProcessProduction\Reports\rptSectionWiseStockReport.Designer.vb">
       <DependentUpon>rptSectionWiseStockReport.vb</DependentUpon>
     </Compile>
@@ -687,15 +650,11 @@
     <Compile Include="ProcessProduction\Reports\RptWreckageReport.Designer.vb">
       <DependentUpon>RptWreckageReport.vb</DependentUpon>
     </Compile>
-    <Compile Include="ProcessProduction\Reports\RptWreckageReport.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ProcessProduction\Reports\RptWreckageReport.vb" />
     <Compile Include="ProcessProduction\Transaction\frmBreakDownEntry.Designer.vb">
       <DependentUpon>frmBreakDownEntry.vb</DependentUpon>
     </Compile>
-    <Compile Include="ProcessProduction\Transaction\frmBreakDownEntry.vb">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ProcessProduction\Transaction\frmBreakDownEntry.vb" />
     <Compile Include="RCDFProduction\Transaction\frmRCDFStandardization.Designer.vb">
       <DependentUpon>frmRCDFStandardization.vb</DependentUpon>
     </Compile>
