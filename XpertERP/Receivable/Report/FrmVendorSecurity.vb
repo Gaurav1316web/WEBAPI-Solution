@@ -44,7 +44,7 @@ Public Class FrmVendorSecurity
             ElseIf rbtnSaving.IsChecked Then
                 ShowSaving()
             Else
-                ShowRetention()
+                ShowRetention(IsPrint)
             End If
 
             'If rbtnSecurity.IsChecked Then
@@ -58,78 +58,6 @@ Public Class FrmVendorSecurity
     End Sub
 
 
-    Private Sub ShowRetention()
-        Dim BaseQry As String = "select  TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,TSPL_VENDOR_MASTER.Vendor_Name,RefDocType,RefDocNo,Account_Set, 'Debit Note'  as Document_Type,Retention,Document_Total
-                                 from TSPL_VENDOR_INVOICE_HEAD 
-                                 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_VENDOR_INVOICE_DETAIL.Detail_Line_No=1 
-                                 LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_INVOICE_HEAD.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code 
-                                 LEFT OUTER JOIN TSPL_PI_HEAD ON TSPL_PI_HEAD.PI_No=TSPL_VENDOR_INVOICE_HEAD.RefDocNo
-                                 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code 
-                                 where 2=2 and TSPL_VENDOR_INVOICE_HEAD.RefDocType='RE-TEN' "
-        If txtLocationMult.arrValueMember IsNot Nothing AndAlso txtLocationMult.arrValueMember.Count > 0 Then
-            BaseQry += " and TSPL_VENDOR_INVOICE_HEAD.Loc_Code in (" + clsCommon.GetMulcallString(txtLocationMult.arrValueMember) + ")"
-        End If
-        If ChkVendorSelect.IsChecked Then
-            BaseQry += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code  in (" + clsCommon.GetMulcallString(cbgVendor.CheckedValue) + ")"
-        End If
-        Dim qry As String = ""
-        If rdbSummary.IsChecked Then
-            qry = "select x.Vendor_Code,max(x.Vendor_Name) as Vendor_Name  ,max (x.Account_Set) as Account_Set  ,max (x.Document_Type) as Document_Type ,sum (x.Document_Total) as Document_Total  from  (" + BaseQry + ")x group by x.Vendor_Code"
-        Else
-            qry = "select x.Vendor_Code,x.Vendor_Name,x.RefDocNo,x.RefDocType ,x.Account_Set ,x.Document_Type,x.Retention ,x.Document_Total  from  (" + BaseQry + ")x order by x.Vendor_Code"
-            'qry = BaseQry + " order by x.Document_Date "
-        End If
-        Dim dtgv As DataTable = clsDBFuncationality.GetDataTable(qry)
-        If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
-            Gv1.DataSource = Nothing
-
-            Gv1.Rows.Clear()
-            Gv1.Columns.Clear()
-            Gv1.DataSource = dtgv
-
-            Gv1.GroupDescriptors.Clear()
-            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
-
-            'FormatGridSavingDetails()
-            FormatGridRetention()
-
-            If rdbSummary.IsChecked Then
-                Gv1.Tag = "Summary"
-            Else
-                Gv1.Tag = "Details"
-            End If
-
-            RadPageView1.SelectedPage = RadPageViewPage2
-            ReStoreGridLayout()
-            Gv1.MasterTemplate.AllowAddNewRow = False
-
-
-            Dim arrHeader As List(Of String) = New List(Of String)()
-            Dim strTemp As String = ""
-            arrHeader.Add("From Date : " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + " ")
-            arrHeader.Add("Company : " + objCommonVar.CurrentCompanyName)
-            If ChkVendorSelect.IsChecked Then
-                Dim strLocationName As String = ""
-                For Each StrName As String In cbgVendor.CheckedDisplayMember
-                    If clsCommon.myLen(strLocationName) > 0 Then
-                        strLocationName += ", "
-                    End If
-                    strLocationName += StrName
-                Next
-                Dim strLocationCode As String = ""
-                For Each StrCode As String In cbgVendor.CheckedValue
-                    If clsCommon.myLen(strLocationCode) > 0 Then
-                        strLocationCode += ", "
-                    End If
-                    strLocationCode += StrCode
-                Next
-                arrHeader.Add(("Vendor: " + strLocationName + " "))
-            End If
-
-        Else
-            clsCommon.MyMessageBoxShow("No Data Found")
-        End If
-    End Sub
 
     Private Sub ShowSaving()
         'clsVedorInvoiceHead.GetVendorSecurity(rdbDetail.IsChecked, fromDate.Value, ToDate.Value, IIf(ChkVendorSelect.IsChecked, cbgVendor.CheckedValue, Nothing), txtVendorGroupMult.arrValueMember, txtLocationMult.arrValueMember)
@@ -220,6 +148,64 @@ where 2=2 "
         End If
     End Sub
 
+    Private Sub ShowRetention(ByVal IsPrint As Exporter)
+        Dim qry As String = clsVedorInvoiceHead.GetVendorRetention(rdbDetail.IsChecked, fromDate.Value, ToDate.Value, IIf(ChkVendorSelect.IsChecked, cbgVendor.CheckedValue, Nothing), txtVendorGroupMult.arrValueMember, txtLocationMult.arrValueMember)
+        Dim dtgv As DataTable = clsDBFuncationality.GetDataTable(qry)
+        If dtgv IsNot Nothing And dtgv.Rows.Count > 0 Then
+            Gv1.DataSource = Nothing
+
+            Gv1.Rows.Clear()
+            Gv1.Columns.Clear()
+            Gv1.DataSource = dtgv
+
+            Gv1.GroupDescriptors.Clear()
+            Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+
+            'FormatGridDetails()
+            FormatGridRetention()
+
+            If rdbSummary.IsChecked Then
+                Gv1.Tag = "Summary"
+            Else
+                Gv1.Tag = "Details"
+            End If
+            '===============added by shivani against ticket[BM00000008613]  Ticket No : KDI/03/01/19-000447 By Prabhakar add Summary rpt File
+            RadPageView1.SelectedPage = RadPageViewPage2
+            ReStoreGridLayout()
+            Gv1.MasterTemplate.AllowAddNewRow = False
+
+
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            Dim strTemp As String = ""
+            arrHeader.Add("From Date : " + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(ToDate.Value, "dd/MM/yyyy") + " ")
+            arrHeader.Add("Company : " + objCommonVar.CurrentCompanyName)
+            If ChkVendorSelect.IsChecked Then
+                Dim strLocationName As String = ""
+                For Each StrName As String In cbgVendor.CheckedDisplayMember
+                    If clsCommon.myLen(strLocationName) > 0 Then
+                        strLocationName += ", "
+                    End If
+                    strLocationName += StrName
+                Next
+                Dim strLocationCode As String = ""
+                For Each StrCode As String In cbgVendor.CheckedValue
+                    If clsCommon.myLen(strLocationCode) > 0 Then
+                        strLocationCode += ", "
+                    End If
+                    strLocationCode += StrCode
+                Next
+                arrHeader.Add(("Vendor: " + strLocationName + " "))
+            End If
+            If IsPrint = Exporter.Excel Then
+                clsCommon.MyExportToExcelGrid("Vendor Security Report" + IIf(rdbDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, Me.Text)
+            ElseIf IsPrint = Exporter.PDF Then
+                clsCommon.MyExportToPDF("Vendor Security Report" + IIf(rdbDetail.IsChecked, "( Detail )", "( Summary )"), Gv1, arrHeader, "Security Level", True)
+            End If
+        Else
+            clsCommon.MyMessageBoxShow("No Data Found")
+        End If
+    End Sub
+
     Private Sub ShowSecurity(ByVal IsPrint As Exporter)
         Dim qry As String = clsVedorInvoiceHead.GetVendorSecurity(rdbDetail.IsChecked, fromDate.Value, ToDate.Value, IIf(ChkVendorSelect.IsChecked, cbgVendor.CheckedValue, Nothing), txtVendorGroupMult.arrValueMember, txtLocationMult.arrValueMember)
         Dim dtgv As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -287,6 +273,7 @@ where 2=2 "
     End Sub
 
     Sub FormatGridRetention()
+
         Gv1.TableElement.TableHeaderHeight = 20
         Gv1.MasterTemplate.ShowRowHeaderColumn = False
         For ii As Integer = 0 To Gv1.Columns.Count - 1
@@ -294,6 +281,25 @@ where 2=2 "
             Gv1.Columns(ii).IsVisible = False
         Next
         If rdbDetail.IsChecked Then
+            Gv1.Columns("RowNo").IsVisible = True
+            Gv1.Columns("RowNo").Width = 30
+            Gv1.Columns("RowNo").HeaderText = "S No."
+
+            Gv1.Columns("DocDate").IsVisible = True
+            Gv1.Columns("DocDate").Width = 100
+            Gv1.Columns("DocDate").HeaderText = "Doc Date"
+
+            Gv1.Columns("Document_No").IsVisible = True
+            Gv1.Columns("Document_No").Width = 100
+            Gv1.Columns("Document_No").HeaderText = "Doc No"
+
+            Gv1.Columns("Document_Type").IsVisible = False
+            Gv1.Columns("Document_Type").Width = 100
+            Gv1.Columns("Document_Type").HeaderText = "Doc Type"
+
+            Gv1.Columns("Is_Retention").IsVisible = True
+            Gv1.Columns("Is_Retention").Width = 100
+            Gv1.Columns("Is_Retention").HeaderText = "Retention Type"
 
             Gv1.Columns("Vendor_Code").IsVisible = True
             Gv1.Columns("Vendor_Code").Width = 100
@@ -301,32 +307,47 @@ where 2=2 "
 
             Gv1.Columns("Vendor_Name").IsVisible = True
             Gv1.Columns("Vendor_Name").Width = 200
-            Gv1.Columns("Vendor_Name").HeaderText = " DCS Name"
+            Gv1.Columns("Vendor_Name").HeaderText = " Vendor Name"
 
-            Gv1.Columns("RefDocNo").IsVisible = True
-            Gv1.Columns("RefDocNo").Width = 175
-            Gv1.Columns("RefDocNo").HeaderText = "RefDocNo"
+            Gv1.Columns("Opening").IsVisible = True
+            Gv1.Columns("Opening").Width = 100
+            Gv1.Columns("Opening").HeaderText = "Opening Balance"
 
-            Gv1.Columns("RefDocType").IsVisible = True
-            Gv1.Columns("RefDocType").Width = 100
-            Gv1.Columns("RefDocType").HeaderText = "RefDocType"
+            Gv1.Columns("DrAmt").IsVisible = True
+            Gv1.Columns("DrAmt").Width = 150
+            Gv1.Columns("DrAmt").HeaderText = "Debit"
 
-            Gv1.Columns("Account_Set").IsVisible = True
-            Gv1.Columns("Account_Set").Width = 100
-            Gv1.Columns("Account_Set").HeaderText = "Account Set"
+            Gv1.Columns("CrAmt").IsVisible = True
+            Gv1.Columns("CrAmt").Width = 100
+            Gv1.Columns("CrAmt").HeaderText = "Credit"
 
-            Gv1.Columns("Document_Type").IsVisible = True
-            Gv1.Columns("Document_Type").Width = 100
-            Gv1.Columns("Document_Type").HeaderText = "Document Type"
+            Gv1.Columns("Closing").IsVisible = True
+            Gv1.Columns("Closing").Width = 100
+            Gv1.Columns("Closing").HeaderText = "Closing Balance"
 
-            Gv1.Columns("Retention").IsVisible = True
-            Gv1.Columns("Retention").Width = 100
-            Gv1.Columns("Retention").HeaderText = "Retention"
+            Gv1.Columns("Loc_Code").IsVisible = True
+            Gv1.Columns("Loc_Code").Width = 100
+            Gv1.Columns("Loc_Code").HeaderText = "Location Code"
 
-            Gv1.Columns("Document_Total").IsVisible = True
-            Gv1.Columns("Document_Total").Width = 150
-            Gv1.Columns("Document_Total").HeaderText = "Amount"
+            Gv1.Columns("Description").IsVisible = True
+            Gv1.Columns("Description").Width = 100
+            Gv1.Columns("Description").HeaderText = "Location Name"
 
+            Gv1.Columns("Vendor_Group_Code").IsVisible = True
+            Gv1.Columns("Vendor_Group_Code").Width = 100
+            Gv1.Columns("Vendor_Group_Code").HeaderText = "Vendor Group Code"
+
+            Gv1.Columns("Group_Desc").IsVisible = True
+            Gv1.Columns("Group_Desc").Width = 100
+            Gv1.Columns("Group_Desc").HeaderText = "Vendor Group Name"
+
+            'Gv1.Columns("SecurityDepositType").IsVisible = False
+            'Gv1.Columns("SecurityDepositType").Width = 100
+            'Gv1.Columns("SecurityDepositType").HeaderText = "Security Type"
+
+            'Gv1.Columns("Narration").IsVisible = True
+            'Gv1.Columns("Narration").Width = 100
+            'Gv1.Columns("Narration").HeaderText = "Narration"
         ElseIf rdbSummary.IsChecked Then
 
             Gv1.Columns("Vendor_Code").IsVisible = True
@@ -335,29 +356,51 @@ where 2=2 "
 
             Gv1.Columns("Vendor_Name").IsVisible = True
             Gv1.Columns("Vendor_Name").Width = 200
-            Gv1.Columns("Vendor_Name").HeaderText = " DCS Name"
+            Gv1.Columns("Vendor_Name").HeaderText = " Vendor Name"
 
-            Gv1.Columns("Account_Set").IsVisible = True
-            Gv1.Columns("Account_Set").Width = 100
-            Gv1.Columns("Account_Set").HeaderText = "Account Set"
+            Gv1.Columns("Opening").IsVisible = True
+            Gv1.Columns("Opening").Width = 100
+            Gv1.Columns("Opening").HeaderText = "Opening Balance"
 
-            Gv1.Columns("Document_Type").IsVisible = True
-            Gv1.Columns("Document_Type").Width = 100
-            Gv1.Columns("Document_Type").HeaderText = "Document Type"
+            Gv1.Columns("DrAmt").IsVisible = True
+            Gv1.Columns("DrAmt").Width = 150
+            Gv1.Columns("DrAmt").HeaderText = "Debit"
 
-            Gv1.Columns("Document_Total").IsVisible = True
-            Gv1.Columns("Document_Total").Width = 150
-            Gv1.Columns("Document_Total").HeaderText = "Amount"
+            Gv1.Columns("CrAmt").IsVisible = True
+            Gv1.Columns("CrAmt").Width = 100
+            Gv1.Columns("CrAmt").HeaderText = "Credit"
+
+            Gv1.Columns("Closing").IsVisible = True
+            Gv1.Columns("Closing").Width = 100
+            Gv1.Columns("Closing").HeaderText = "Closing Balance"
+
+            Gv1.Columns("Vendor_Group_Code").IsVisible = True
+            Gv1.Columns("Vendor_Group_Code").Width = 100
+            Gv1.Columns("Vendor_Group_Code").HeaderText = "Vendor Group Code"
+
+            Gv1.Columns("Group_Desc").IsVisible = True
+            Gv1.Columns("Group_Desc").Width = 100
+            Gv1.Columns("Group_Desc").HeaderText = "Vendor Group Name"
+
         End If
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim intCount As Integer = 0
-        'Changed By : Prabhakar ' 
-        Dim item1 As New GridViewSummaryItem("Document_Total", "{0:F2}", GridAggregateFunction.Sum)
+        Dim item1 As New GridViewSummaryItem("Opening", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
+        Dim item2 As New GridViewSummaryItem("DrAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item2)
+        Dim item3 As New GridViewSummaryItem("CrAmt", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+        Dim TotalClosing As New GridViewSummaryItem()
+        TotalClosing.FormatString = "{0:F2}"
+        TotalClosing.Name = "Closing"
+        TotalClosing.AggregateExpression = "sum(Opening) + sum(CrAmt) - sum(DrAmt)"
+        summaryRowItem.Add(TotalClosing)
 
         Gv1.ShowGroupPanel = False
         Gv1.MasterTemplate.AutoExpandGroups = True
+
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
     End Sub
 
@@ -469,10 +512,6 @@ where 2=2 "
             Gv1.Columns("Vendor_Code").Width = 100
             Gv1.Columns("Vendor_Code").HeaderText = "Vendor Code"
 
-
-
-
-
             Gv1.Columns("Vendor_Name").IsVisible = True
             Gv1.Columns("Vendor_Name").Width = 200
             Gv1.Columns("Vendor_Name").HeaderText = " Vendor Name"
@@ -481,19 +520,13 @@ where 2=2 "
             Gv1.Columns("Opening").Width = 100
             Gv1.Columns("Opening").HeaderText = "Opening Balance"
 
-
-
-
-
             Gv1.Columns("DrAmt").IsVisible = True
             Gv1.Columns("DrAmt").Width = 150
             Gv1.Columns("DrAmt").HeaderText = "Debit"
 
-
             Gv1.Columns("CrAmt").IsVisible = True
             Gv1.Columns("CrAmt").Width = 100
             Gv1.Columns("CrAmt").HeaderText = "Credit"
-
 
             Gv1.Columns("Closing").IsVisible = True
             Gv1.Columns("Closing").Width = 100
@@ -515,9 +548,6 @@ where 2=2 "
             Gv1.Columns("Group_Desc").Width = 100
             Gv1.Columns("Group_Desc").HeaderText = "Vendor Group Name"
 
-
-
-
             'Gv1.Columns("SecurityDepositType").IsVisible = False
             'Gv1.Columns("SecurityDepositType").Width = 100
             'Gv1.Columns("SecurityDepositType").HeaderText = "Security Type"
@@ -531,10 +561,6 @@ where 2=2 "
             Gv1.Columns("Vendor_Code").Width = 100
             Gv1.Columns("Vendor_Code").HeaderText = "Vendor Code"
 
-
-
-
-
             Gv1.Columns("Vendor_Name").IsVisible = True
             Gv1.Columns("Vendor_Name").Width = 200
             Gv1.Columns("Vendor_Name").HeaderText = " Vendor Name"
@@ -543,25 +569,17 @@ where 2=2 "
             Gv1.Columns("Opening").Width = 100
             Gv1.Columns("Opening").HeaderText = "Opening Balance"
 
-
-
-
-
             Gv1.Columns("DrAmt").IsVisible = True
             Gv1.Columns("DrAmt").Width = 150
             Gv1.Columns("DrAmt").HeaderText = "Debit"
-
 
             Gv1.Columns("CrAmt").IsVisible = True
             Gv1.Columns("CrAmt").Width = 100
             Gv1.Columns("CrAmt").HeaderText = "Credit"
 
-
             Gv1.Columns("Closing").IsVisible = True
             Gv1.Columns("Closing").Width = 100
             Gv1.Columns("Closing").HeaderText = "Closing Balance"
-
-
 
             Gv1.Columns("Vendor_Group_Code").IsVisible = True
             Gv1.Columns("Vendor_Group_Code").Width = 100
@@ -571,11 +589,7 @@ where 2=2 "
             Gv1.Columns("Group_Desc").Width = 100
             Gv1.Columns("Group_Desc").HeaderText = "Vendor Group Name"
 
-
-
         End If
-
-
 
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim intCount As Integer = 0
@@ -605,14 +619,10 @@ where 2=2 "
         'gv.GroupDescriptors.Add(New GridGroupByExpression("DOC_DATE as Item format ""{0}: {1}"" Group By DOC_DATE"))
         'gv.GroupDescriptors.Add(New GridGroupByExpression("VLC_CODE as Item format ""{0}: {1}"" Group By VLC_CODE"))
 
-
         Gv1.ShowGroupPanel = False
         Gv1.MasterTemplate.AutoExpandGroups = True
 
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
-
-
     End Sub
     Sub Reset()
         ToDate.Value = clsCommon.GETSERVERDATE()

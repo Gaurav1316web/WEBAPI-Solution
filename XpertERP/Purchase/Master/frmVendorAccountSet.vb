@@ -133,6 +133,7 @@ Public Class frmvendoraccountset
         clsCommon.AddColumnsForChange(coll, "Commission_ACCOUNT", Me.FndCommission.Value, True)
         clsCommon.AddColumnsForChange(coll, "Incentive_ACCOUNT", Me.FndIncentive.Value, True)
         clsCommon.AddColumnsForChange(coll, "Security_ACCOUNT", Me.FndSecurity.Value, True)
+        clsCommon.AddColumnsForChange(coll, "Retention_ACCOUNT", Me.txtRetention.Value, True)
         clsCommon.AddColumnsForChange(coll, "Own_Asset_ACCOUNT", Me.FndOwnAsset.Value, True)
         clsCommon.AddColumnsForChange(coll, "Head_Load_ACCOUNT", Me.FndHeadLoad.Value, True)
         clsCommon.AddColumnsForChange(coll, "Deduction_ACCOUNT", Me.FndDeduction.Value, True)
@@ -180,7 +181,7 @@ Public Class frmvendoraccountset
             " TSPL_VENDOR_ACCOUNT_SET.CURRENCY_CODE,TSPL_VENDOR_ACCOUNT_SET.EXCHANGE_LOSS_ACCOUNT, " &
             " TSPL_CURRENCY_MASTER.currency_name,gl1.description as EXCHANGE_LOSS_ACCOUNT_Name,gl2.description as EXCHANGE_GAIN_ACCOUNT_Name" _
             & " ,TSPL_VENDOR_ACCOUNT_SET.EXCHANGE_GAIN_ACCOUNT,TSPL_VENDOR_ACCOUNT_SET.Commission_ACCOUNT,TSPL_VENDOR_ACCOUNT_SET.Incentive_ACCOUNT " _
-            & " ,gl3.description as Commission_Name,gl4.description as Incentive_Name,Security_Account,gl5.description as Security_Name " _
+            & " ,gl3.description as Commission_Name,gl4.description as Incentive_Name,Security_Account,gl5.description as Security_Name,RETENTION_ACCOUNT,gl13.description as Retention_Name " _
             & " ,Own_Asset_Account,gl6.description as Own_Asset_Account_Name,Head_Load_Account,gl7.description as Head_Load_Account_Name,Deduction_Account,gl8.description as Deduction_Account_Name ,gl9.description as Advance_Against_Salary_Name,tspl_vendor_account_set.Advance_Against_Salary,tspl_vendor_account_set.Employee_Salary,gl10.description as Employee_Salary_Name,tspl_vendor_account_set.Advance_Against_Travelling,gl11.description as Advance_Against_Travelling_Name,tspl_vendor_account_set.Advance_Against_Imprest ,gl12.description as Advance_Against_Imprest_Name,TSPL_VENDOR_ACCOUNT_SET.Freight_Provision,glFreight_account.description as Freight_Provision_Desc,TSPL_VENDOR_ACCOUNT_SET.Handling_Charges,TabGLHandlingCharge.description as Handling_Charges_Desc,TSPL_VENDOR_ACCOUNT_SET.Round_Off,TabRoundOff.description as Round_Off_Dess,TSPL_VENDOR_ACCOUNT_SET.Short_Excess,TabShortExcess.description as Short_Excess_Dess,TSPL_VENDOR_ACCOUNT_SET.Opening_Clearing,TabOpeningClearing.description as Opening_Clearing_Desc  , TSPL_VENDOR_ACCOUNT_SET .Security_Opening_Clearing ,TabSecurityOpeningClearing.description as Security_Opening_Clearing_Desc ,TSPL_VENDOR_ACCOUNT_SET.Monthly_Rent_Account ,TabMonthlyRentAccountName.description as Monthly_Rent_AccountName,TSPL_VENDOR_ACCOUNT_SET.Profit_Loss_Account ,Table_Profit_Loss_AccountName.description as Profit_Loss_AccountName,TSPL_VENDOR_ACCOUNT_SET.PRO_DATA_ACCOUNT,Table_PRO_DATA_ACCOUNTName.description as PRO_DATA_ACCOUNTName,TSPL_VENDOR_ACCOUNT_SET.IsFarmer,TSPL_VENDOR_ACCOUNT_SET.Arrear_Account,Table_ArrearName.description as Arrear_AccountName  from TSPL_VENDOR_ACCOUNT_SET " &
             " left join TSPL_CURRENCY_MASTER on TSPL_VENDOR_ACCOUNT_SET.currency_code=TSPL_CURRENCY_MASTER.currency_code " &
             " left join TSPL_GL_ACCOUNTS gl1 on TSPL_VENDOR_ACCOUNT_SET.EXCHANGE_LOSS_ACCOUNT=gl1.account_code " &
@@ -195,6 +196,7 @@ Public Class frmvendoraccountset
             " left join TSPL_GL_ACCOUNTS gl10 on TSPL_VENDOR_ACCOUNT_SET.Employee_Salary=gl10.account_code" &
             " left join TSPL_GL_ACCOUNTS gl11 on TSPL_VENDOR_ACCOUNT_SET.Advance_Against_Travelling=gl11.account_code" &
             " left join TSPL_GL_ACCOUNTS gl12 on TSPL_VENDOR_ACCOUNT_SET.Advance_Against_Imprest=gl12.account_code" &
+            " left join TSPL_GL_ACCOUNTS gl13 on TSPL_VENDOR_ACCOUNT_SET.RETENTION_ACCOUNT=gl13.account_code" &
             " left join TSPL_GL_ACCOUNTS glFreight_account on TSPL_VENDOR_ACCOUNT_SET.Freight_Provision=glFreight_account.account_code " &
             " left join TSPL_GL_ACCOUNTS TabGLHandlingCharge on TSPL_VENDOR_ACCOUNT_SET.Handling_Charges=TabGLHandlingCharge.account_code " &
             " left join TSPL_GL_ACCOUNTS TabRoundOff on TSPL_VENDOR_ACCOUNT_SET.Round_Off=TabRoundOff.account_code " &
@@ -229,9 +231,11 @@ Public Class frmvendoraccountset
             FndCommission.Value = Convert.ToString(dr("Commission_ACCOUNT"))
             FndIncentive.Value = Convert.ToString(dr("Incentive_ACCOUNT"))
             FndSecurity.Value = Convert.ToString(dr("Security_ACCOUNT"))
+            txtRetention.Value = Convert.ToString(dr("Retention_ACCOUNT"))
             TxtCommission.Text = Convert.ToString(dr("Commission_name"))
             TxtIncentive.Text = Convert.ToString(dr("Incentive_Name"))
             LblSecurity.Text = Convert.ToString(dr("Security_Name"))
+            lblRetention.Text = Convert.ToString(dr("Retention_Name"))
 
             FndOwnAsset.Value = Convert.ToString(dr("Own_Asset_ACCOUNT"))
             LblOwnAsset.Text = Convert.ToString(dr("Own_Asset_ACCOUNT_Name"))
@@ -328,6 +332,8 @@ Public Class frmvendoraccountset
         FndIncentive.Value = Nothing
         TxtIncentive.Text = ""
         FndSecurity.Value = Nothing
+        txtRetention.Value = Nothing
+        lblRetention.Text = ""
         LblSecurity.Text = ""
 
         FndOwnAsset.Value = Nothing
@@ -422,6 +428,9 @@ Public Class frmvendoraccountset
             Exit Sub
         ElseIf CheckControlAccount("Security", FndSecurity.Value) = False Then
             FndSecurity.Focus()
+            Exit Sub
+        ElseIf CheckControlAccount("Retention", txtRetention.Value) = False Then
+            txtRetention.Focus()
             Exit Sub
         ElseIf CheckControlAccount("Head Load", FndHeadLoad.Value) = False Then
             FndHeadLoad.Focus()
@@ -1289,6 +1298,12 @@ Public Class frmvendoraccountset
         txtArrear.Value = clsCommon.ShowSelectForm("ProfitAndLossAccFndr", qry, "AccountCode", " ControlAccount ='Y' ", txtArrear.Value, "", isButtonClicked)
         lblArrear.Text = clsDBFuncationality.getSingleValue("select description from tspl_gl_accounts where account_code='" + txtArrear.Value + "' ")
 
+    End Sub
+
+    Private Sub txtRetention__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRetention._MYValidating
+        Dim qry As String = "select account_code as [AccountCode],description as [Description] from tspl_gl_accounts "
+        txtRetention.Value = clsCommon.ShowSelectForm("REC_CONfnd", qry, "AccountCode", " ControlAccount ='Y' ", txtRetention.Value, "", isButtonClicked)
+        lblRetention.Text = clsDBFuncationality.getSingleValue("select description from tspl_gl_accounts where account_code='" + txtRetention.Value + "' ")
     End Sub
 
     Private Sub txtProData__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtProData._MYValidating

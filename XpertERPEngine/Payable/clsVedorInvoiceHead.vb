@@ -1988,6 +1988,92 @@ Public Class clsVedorInvoiceHead
 
     End Function
 
+    Public Shared Function GetVendorRetention(ByVal rdbDetail As Boolean, ByVal fromDate As DateTime, ByVal ToDate As DateTime, ByVal cbgVendor As ArrayList, ByVal txtVendorGroupMult As ArrayList, ByVal txtLocationMult As ArrayList) As String
+        Dim qry As String = ""
+        Dim strWhrClause As String = ""
+        If cbgVendor IsNot Nothing Then
+            If cbgVendor.Count > 0 Then
+                strWhrClause += "and xxx.Vendor_Code  IN (" + clsCommon.GetMulcallString(cbgVendor) + ") "
+            End If
+        End If
+        If txtLocationMult IsNot Nothing AndAlso txtLocationMult.Count > 0 Then
+            strWhrClause += " and xxx.Loc_Code in (" + clsCommon.GetMulcallString(txtLocationMult) + ") " + Environment.NewLine
+        End If
+        If txtVendorGroupMult IsNot Nothing AndAlso txtVendorGroupMult.Count > 0 Then
+            strWhrClause += " and Vendor_Group_Code in (" + clsCommon.GetMulcallString(txtVendorGroupMult) + ") " + Environment.NewLine
+        End If
+
+        Dim squery As String
+        Dim query As String
+        Dim companyname As String = objCommonVar.CurrentCompanyName
+        query = " select TSPL_VENDOR_INVOICE_HEAD.Document_No,TSPL_VENDOR_INVOICE_HEAD.Description as Comments, 
+                  TSPL_VENDOR_INVOICE_HEAD.Posting_Date as DocDate, 'AP Invoice' as Document_Type ,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code,
+                  Loc_Code ,TSPL_GL_SEGMENT_CODE.Description,TSPL_DEDUCTION_MASTER.Description as Is_Retention,
+                  case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='C' Then Amount Else 0 End as DrAmt,
+                  case when TSPL_VENDOR_INVOICE_HEAD.Document_Type='D' Then Amount Else 0 End as CrAmt  from TSPL_VENDOR_INVOICE_HEAD   left join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No =TSPL_VENDOR_INVOICE_HEAD.Document_No "
+        query += " left join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER .Code =TSPL_VENDOR_INVOICE_DETAIL.DeductionCode 
+                   left join TSPL_GL_SEGMENT_CODE on TSPL_VENDOR_INVOICE_HEAD.Loc_Code=TSPL_GL_SEGMENT_CODE.Segment_code 
+                   where TSPL_VENDOR_INVOICE_HEAD.Document_Type in ('D','C') AND Is_Retention =1"
+        query += " union all"
+        query += " select TSPL_PAYMENT_HEADER.Payment_No,TSPL_PAYMENT_HEADER.Entry_Desc as Comments ,
+                   TSPL_PAYMENT_HEADER.Payment_Date  ,'Payment Entry' as Payment_Type ,TSPL_PAYMENT_HEADER.Vendor_Code,
+                   TSPL_PAYMENT_HEADER.Location_GL_Code as Loc_Code, TSPL_GL_SEGMENT_CODE.Description,'Retention' as Is_Retention,
+                   (case when TSPL_PAYMENT_HEADER.Payment_Type='SR' then Payment_Amount else 0 end) as DrAmt,
+                   (case when TSPL_PAYMENT_HEADER.Payment_Type='RC' then Payment_Amount else 0 end)  as CrAmt   from TSPL_PAYMENT_HEADER 
+                   left join TSPL_GL_SEGMENT_CODE on TSPL_PAYMENT_HEADER.Location_GL_Code =TSPL_GL_SEGMENT_CODE.Segment_code 
+                   where TSPL_PAYMENT_HEADER.Payment_Type IN ('RC','SR') and Is_Retention =1"
+        query += " union all"
+        query += " select TSPL_BANK_REVERSE.Reverse_Code,TSPL_BANK_REVERSE.Reason as Comments ,TSPL_BANK_REVERSE.Reversal_Date,
+                   'Bank Reverse' as Payment_Type,TSPL_PAYMENT_HEADER.Vendor_Code,TSPL_PAYMENT_HEADER.Location_GL_Code as Loc_Code,
+                   TSPL_GL_SEGMENT_CODE.Description, 'Retention' as Is_Retention, TSPL_PAYMENT_HEADER.Payment_Amount as DrAmt,
+                   0 as CrAmt  from TSPL_BANK_REVERSE"
+        query += " left join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No =TSPL_BANK_REVERSE.Document_No
+                   left join TSPL_GL_SEGMENT_CODE on TSPL_PAYMENT_HEADER.Location_GL_Code =TSPL_GL_SEGMENT_CODE.Segment_code"
+        query += " where Reverse_Document ='Payments' and TSPL_PAYMENT_HEADER.Is_Retention =1"
+
+
+        squery = "select '" & companyname & "' as companyname,'" & clsCommon.GetPrintDate(fromDate, "dd/MM/yyyy") & "'  as fromDate,
+                 '" & clsCommon.GetPrintDate(ToDate, "dd/MM/yyyy") & "'  as Todate ,ROW_NUMBER() OVER ( ORDER BY final.Vendor_Code) as RowNo,
+                 convert(varchar,DocDate,103) as DocDate, Document_No,Comments, Document_Type, Vendor_Code, Vendor_Name,Loc_Code,
+                 Description,Vendor_Group_Code,Group_Desc,Is_Retention, Opening ,DrAmt,CrAmt,SUM(TempClosing) OVER (Partition BY final.Vendor_Code ORDER BY RowNo) as Closing   from (Select *,Opening-DrAmt+CrAmt as TempClosing, ROW_NUMBER() OVER (Partition BY Vendor_Code ORDER BY Vendor_Code, DocDate) as RowNo from ("
+        squery += " Select XXX.Vendor_Code, MAX(TSPL_VENDOR_MASTER.Vendor_Name) as Vendor_Name,Loc_Code ,max(xxx.Description ) as Description,
+                    (TSPL_VENDOR_MASTER.Vendor_Group_Code) as Vendor_Group_Code ,max(TSPL_VENDOR_GROUP.Group_Desc) as Group_Desc,
+                    '' as Document_No,'' as Comments, NULL as DocDate, 'Opening' as Document_Type, SUM(CrAmt)-SUM(DrAmt) as Opening,
+                    0 as DrAmt, 0 as CrAmt,(Is_Retention ) as Is_Retention  from ( "
+        squery += " " + query + " "
+        squery += " )XXX LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=XXX.Vendor_Code
+                    left join TSPL_VENDOR_GROUP on TSPL_VENDOR_GROUP.Ven_Group_Code =TSPL_VENDOR_MASTER.Vendor_Group_Code
+                    WHERE 2=2 and CONVERT(Date,DocDate,103)< CONVERT(Date,'" + fromDate + "',103) "
+        squery += " " + strWhrClause + " "
+        squery += "  Group By XXX.Vendor_Code,xxx.Loc_Code,TSPL_VENDOR_MASTER.Vendor_Group_Code,Is_Retention"
+        squery += " union all "
+        squery += " Select XXX.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Name,xxx.Loc_Code,xxx.Description,Vendor_Group_Code,
+                    Group_Desc, Document_No,Comments, DocDate, Document_Type, 0 as Opening, DrAmt, CrAmt,Is_Retention from ("
+        squery += " " + query + " "
+        squery += " ) XXX LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code=XXX.Vendor_Code 
+                    left join TSPL_VENDOR_GROUP on TSPL_VENDOR_GROUP.Ven_Group_Code =TSPL_VENDOR_MASTER.Vendor_Group_Code
+                    WHERE 2=2 and CONVERT(Date,DocDate,103)>=CONVERT(Date,'" + fromDate + "',103)
+                    AND CONVERT(Date,DocDate,103)<=CONVERT(Date,'" + ToDate + "',103)"
+        squery += " " + strWhrClause + " "
+        squery += ") YYY )final"
+        If rdbDetail Then
+            squery += " ORDER BY Vendor_Code "
+        End If
+
+        If rdbDetail Then
+            qry = "" + squery + ""
+        Else
+            qry = "select Vendor_Code ,max(Vendor_Name ) as Vendor_Name,max(companyname) as companyname, max(fromDate) as fromDate,
+            max(Todate) as Todate,max(Is_Retention) as Is_Retention  ,Loc_Code,max(Description) as Description,Vendor_Group_Code,
+            max(Group_Desc) as Group_Desc,sum(Opening ) as Opening, sum(DrAmt) as DrAmt,sum(CrAmt) as CrAmt,
+            SUM(Opening)-SUM(DrAmt)+SUM(CrAmt) as Closing from ("
+            qry += "" & squery & ""
+
+            qry += " ) summary group by summary.Vendor_Code,summary .Loc_Code,summary .Vendor_Group_Code "
+        End If
+        Return qry
+    End Function
+
     Public Shared Function GetVendorSecurity(ByVal rdbDetail As Boolean, ByVal fromDate As DateTime, ByVal ToDate As DateTime, ByVal cbgVendor As ArrayList, ByVal txtVendorGroupMult As ArrayList, ByVal txtLocationMult As ArrayList) As String
         Dim qry As String = ""
         Dim strWhrClause As String = ""
