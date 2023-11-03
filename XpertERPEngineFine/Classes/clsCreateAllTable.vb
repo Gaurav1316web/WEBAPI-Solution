@@ -2245,6 +2245,7 @@ Public Class clsCreateAllTable
             coll.Add("RAL", "integer NUll")
             coll.Add("FG_for_CF", "integer not null default 0")
             coll.Add("Is_DisplayDemand", "integer not NULL default 0")
+            coll.Add("Is_ExcludeAPP", "integer not NULL default 0")
             coll.Add("NIR_QC", "integer NULL")
             coll.Add("BuyBackType", "integer null default 0")
             coll.Add("BuyBackValue", "Decimal(18,2) null")
@@ -13253,6 +13254,7 @@ Public Class clsCreateAllTable
             coll.Add("ROUTE_NAME_HINDI", "nvarchar(300) NULL")
             coll.Add("IsDefault", "integer not null default 0")
             coll.Add("Tanker_No", "varchar(20) NULL  References TSPL_TANKER_MASTER(Tanker_No)")
+            coll.Add("CuttOff_Time", "dateTime Null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_BULK_ROUTE_MASTER", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
@@ -18261,6 +18263,7 @@ Public Class clsCreateAllTable
             coll.Add("EXCHANGE_LOSS_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("EXCHANGE_GAIN_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("SECURITY_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
+            coll.Add("RETENTION_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("Head_Load_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("Own_Asset_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
             coll.Add("Deduction_ACCOUNT", "Varchar(50) null References TSPL_GL_ACCOUNTS(Account_Code)")
@@ -23347,6 +23350,12 @@ Public Class clsCreateAllTable
             coll.Add("REF_PK_ID_BMCDCS_TRIP", "integer NULL references TSPL_MILK_COLLECTION_BMCDCS_TRIP(PK_ID)")
             coll.Add("Machine_FAT", "Decimal(18,2) null")
             coll.Add("Machine_SNF", "Decimal(18,2) null")
+            coll.Add("Retesting_FAT", "Decimal(18,2) null")
+            coll.Add("Retesting_SNF", "Decimal(18,2) null")
+            coll.Add("Retesting_CLR", "Decimal(18,2) null")
+            coll.Add("Retesting_OR_Correction", "integer null")
+            coll.Add("Correction_FAT", "Decimal(18,2) null")
+            coll.Add("Correction_SNF", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_COLLECTION_MCC_DETAIL", coll, Nothing, True, False, "TSPL_MILK_COLLECTION_MCC", "Document_No", "")
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -24168,6 +24177,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Total_Head_Load_RO_Amount", "decimal(18,2) null")
             coll.Add("RoundOffAmount", "decimal(18,2) null")
             coll.Add("No_Of_Asset", "integer null")
+            coll.Add("FILE_INFO", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", coll, Nothing, True, False, "", "DOC_CODE", "DOC_DATE")
 
             'done by stuti on 07/11/2016 against udl points
@@ -25052,6 +25062,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Against_VSPItemIssue_No", "Varchar(30) null References TSPL_VSPItem_HEAD(Doc_No)")
             coll.Add("RoundOffAmount", "decimal(18, 2) not NULL default 0")
             coll.Add("Is_Security", "Integer not null default 0")
+            coll.Add("Is_Retention", "INTEGER NOT NULL DEFAULT 0")
             coll.Add("is_For_Provision", "integer not null default 0")
             coll.Add("Prov_From_Date", "DATE NULL")
             coll.Add("Prov_To_Date", "DATE NULL")
@@ -27089,6 +27100,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Account_Payee", "BIT NOT NULL DEFAULT 0")
             coll.Add("PurchaseOrder_No", "Varchar(30) null References TSPL_PURCHASE_ORDER_HEAD(PurchaseOrder_No)")
             coll.Add("Is_Security", "INTEGER NOT NULL DEFAULT 0")
+            coll.Add("Is_Retention", "INTEGER NOT NULL DEFAULT 0")
             coll.Add("Account_Payee_Name", "varchar(200) Null ")
             coll.Add("Total_Security_Amount", "Decimal(18,2) NOT NULL DEFAULT 0")
             coll.Add("Location_GL_Code", "varchar(12) NULL")
@@ -28571,6 +28583,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Start_Date", "Date NOT NULL")
             coll.Add("End_Date", "Date NULL")
             coll.Add("Remarks", "Varchar(100) null")
+            coll.Add("IS_Transpoter", "integer not null default 0")
             coll.Add("Status", "integer NULL")
             coll.Add("Created_By", "varchar(12) NOT NULL")
             coll.Add("Created_Date", "Datetime NOT NULL")

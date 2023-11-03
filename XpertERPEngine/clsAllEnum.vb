@@ -670,6 +670,7 @@ Public Class clsOpenTransactionForm
                     Else
                         StrclsUserMgtCode = clsUserMgtCode.frmSNSaleInvoice
                     End If
+
             End Select
 
 

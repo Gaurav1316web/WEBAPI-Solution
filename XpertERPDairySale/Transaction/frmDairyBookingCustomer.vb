@@ -2469,7 +2469,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     txtCouponDate.Value = obj.BPL_Coupon_Date
                     txtCategory.Value = obj.BPL_Category
                 End If
-                If chkDCS.Checked Then
+                If chkDCS.Checked AndAlso obj.LastCollectionDate IsNot Nothing Then
                     'GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
                     txtLastCollectionDate.Text = obj.LastCollectionDate
                     'Else

@@ -465,7 +465,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 obj.BPL_Coupon_Date = clsCommon.myCDate(dt.Rows(0)("BPL_Coupon_Date"))
             End If
             If dt.Rows(0)("LastCollectionDate") IsNot DBNull.Value Then
-                obj.BPL_Coupon_Date = clsCommon.myCDate(dt.Rows(0)("LastCollectionDate"))
+                obj.LastCollectionDate = clsCommon.myCDate(dt.Rows(0)("LastCollectionDate"))
             End If
 
 

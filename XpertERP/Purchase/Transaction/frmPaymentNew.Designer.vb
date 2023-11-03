@@ -62,6 +62,8 @@ Partial Class FrmPaymentNew
         Me.lblCurrency = New common.Controls.MyLabel()
         Me.lblConvRate = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ChkRetention = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkTDSProvision = New common.Controls.MyCheckBox()
         Me.chkSaving = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkFarmerLoanPayment = New Telerik.WinControls.UI.RadCheckBox()
         Me.pnlMiscPayment = New System.Windows.Forms.Panel()
@@ -153,7 +155,6 @@ Partial Class FrmPaymentNew
         Me.lblpaymenttype = New common.Controls.MyLabel()
         Me.gvDetails = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -203,7 +204,7 @@ Partial Class FrmPaymentNew
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.chkTDSProvision = New common.Controls.MyCheckBox()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -240,6 +241,8 @@ Partial Class FrmPaymentNew
         CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.ChkRetention, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSaving, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFarmerLoanPayment, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlMiscPayment.SuspendLayout()
@@ -369,7 +372,6 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -424,10 +426,10 @@ Partial Class FrmPaymentNew
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(60.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1113, 441)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1113, 445)
         Me.RadPageViewPage1.Text = "Payment"
         '
         'SplitContainer2
@@ -440,6 +442,7 @@ Partial Class FrmPaymentNew
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.ChkRetention)
         Me.SplitContainer2.Panel1.Controls.Add(Me.grpVendorBankDetails)
         Me.SplitContainer2.Panel1.Controls.Add(Me.LblLocDesp)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtlocation)
@@ -451,7 +454,7 @@ Partial Class FrmPaymentNew
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvDetails)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1113, 441)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1113, 445)
         Me.SplitContainer2.SplitterDistance = 290
         Me.SplitContainer2.TabIndex = 0
         '
@@ -467,7 +470,7 @@ Partial Class FrmPaymentNew
         Me.grpVendorBankDetails.Controls.Add(Me.TxtVendor_BankName)
         Me.grpVendorBankDetails.Controls.Add(Me.MyLabel23)
         Me.grpVendorBankDetails.HeaderText = "Vendor Bank Details"
-        Me.grpVendorBankDetails.Location = New System.Drawing.Point(660, 208)
+        Me.grpVendorBankDetails.Location = New System.Drawing.Point(711, 208)
         Me.grpVendorBankDetails.Name = "grpVendorBankDetails"
         Me.grpVendorBankDetails.Size = New System.Drawing.Size(385, 80)
         Me.grpVendorBankDetails.TabIndex = 612
@@ -981,6 +984,27 @@ Partial Class FrmPaymentNew
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(1110, 205)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'ChkRetention
+        '
+        Me.ChkRetention.CheckAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.ChkRetention.Location = New System.Drawing.Point(595, 235)
+        Me.ChkRetention.Name = "ChkRetention"
+        Me.ChkRetention.Size = New System.Drawing.Size(69, 18)
+        Me.ChkRetention.TabIndex = 12138
+        Me.ChkRetention.Text = "Retention"
+        '
+        'chkTDSProvision
+        '
+        Me.chkTDSProvision.Location = New System.Drawing.Point(752, 159)
+        Me.chkTDSProvision.MyLinkLable1 = Nothing
+        Me.chkTDSProvision.MyLinkLable2 = Nothing
+        Me.chkTDSProvision.Name = "chkTDSProvision"
+        Me.chkTDSProvision.ReadOnly = True
+        Me.chkTDSProvision.Size = New System.Drawing.Size(89, 18)
+        Me.chkTDSProvision.TabIndex = 12137
+        Me.chkTDSProvision.Tag1 = Nothing
+        Me.chkTDSProvision.Text = "TDS Provision"
         '
         'chkSaving
         '
@@ -2360,31 +2384,23 @@ Partial Class FrmPaymentNew
         Me.gvDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDetails.ShowGroupPanel = False
         Me.gvDetails.ShowHeaderCellButtons = True
-        Me.gvDetails.Size = New System.Drawing.Size(1113, 147)
+        Me.gvDetails.Size = New System.Drawing.Size(1113, 151)
         Me.gvDetails.TabIndex = 0
         Me.gvDetails.TabStop = False
         '
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1115, 441)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1115, 441)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1115, 441)
@@ -2401,7 +2417,7 @@ Partial Class FrmPaymentNew
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
-        Me.TabForGST.ItemSize = New System.Drawing.SizeF(36.0!, 28.0!)
+        Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
         Me.TabForGST.Location = New System.Drawing.Point(10, 37)
         Me.TabForGST.Name = "TabForGST"
         Me.TabForGST.Size = New System.Drawing.Size(1115, 441)
@@ -2715,7 +2731,7 @@ Partial Class FrmPaymentNew
         Me.TabBankChargesTax.Controls.Add(Me.RadLabel10)
         Me.TabBankChargesTax.Controls.Add(Me.gv2)
         Me.TabBankChargesTax.Controls.Add(Me.MyLabel12)
-        Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(120.0!, 28.0!)
+        Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(116.0!, 24.0!)
         Me.TabBankChargesTax.Location = New System.Drawing.Point(10, 37)
         Me.TabBankChargesTax.Name = "TabBankChargesTax"
         Me.TabBankChargesTax.Size = New System.Drawing.Size(1113, 441)
@@ -3020,17 +3036,13 @@ Partial Class FrmPaymentNew
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
         '
-        'chkTDSProvision
+        'UcCustomFields1
         '
-        Me.chkTDSProvision.Location = New System.Drawing.Point(752, 159)
-        Me.chkTDSProvision.MyLinkLable1 = Nothing
-        Me.chkTDSProvision.MyLinkLable2 = Nothing
-        Me.chkTDSProvision.Name = "chkTDSProvision"
-        Me.chkTDSProvision.ReadOnly = True
-        Me.chkTDSProvision.Size = New System.Drawing.Size(89, 18)
-        Me.chkTDSProvision.TabIndex = 12137
-        Me.chkTDSProvision.Tag1 = Nothing
-        Me.chkTDSProvision.Text = "TDS Provision"
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1115, 441)
+        Me.UcCustomFields1.TabIndex = 1
         '
         'FrmPaymentNew
         '
@@ -3086,6 +3098,8 @@ Partial Class FrmPaymentNew
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.ChkRetention, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSaving, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFarmerLoanPayment, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlMiscPayment.ResumeLayout(False)
@@ -3225,7 +3239,6 @@ Partial Class FrmPaymentNew
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3404,5 +3417,6 @@ Partial Class FrmPaymentNew
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As RadButton
     Friend WithEvents chkSaving As RadCheckBox
     Friend WithEvents chkTDSProvision As common.Controls.MyCheckBox
+    Friend WithEvents ChkRetention As RadCheckBox
 End Class
 

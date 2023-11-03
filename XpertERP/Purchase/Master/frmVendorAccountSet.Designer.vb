@@ -119,6 +119,9 @@ Partial Class frmvendoraccountset
         Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem()
+        Me.txtRetention = New common.UserControls.txtFinder()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.lblRetention = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -190,6 +193,8 @@ Partial Class frmvendoraccountset
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -256,6 +261,9 @@ Partial Class frmvendoraccountset
         'RadScrollablePanel2.PanelContainer
         '
         Me.RadScrollablePanel2.PanelContainer.BackColor = System.Drawing.Color.Transparent
+        Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.txtRetention)
+        Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.lblRetention)
+        Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.MyLabel15)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.txtArrear)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.txtProData)
         Me.RadScrollablePanel2.PanelContainer.Controls.Add(Me.lblArrear)
@@ -335,7 +343,6 @@ Partial Class frmvendoraccountset
         Me.RadScrollablePanel2.PanelContainer.Size = New System.Drawing.Size(640, 346)
         Me.RadScrollablePanel2.Size = New System.Drawing.Size(659, 348)
         Me.RadScrollablePanel2.TabIndex = 363
-        Me.RadScrollablePanel2.Text = "RadScrollablePanel2"
         '
         'txtArrear
         '
@@ -348,7 +355,7 @@ Partial Class frmvendoraccountset
         Me.txtArrear.IsSourceFromTable = False
         Me.txtArrear.IsSourceFromValueList = False
         Me.txtArrear.IsUnique = False
-        Me.txtArrear.Location = New System.Drawing.Point(149, 533)
+        Me.txtArrear.Location = New System.Drawing.Point(149, 551)
         Me.txtArrear.MendatroryField = False
         Me.txtArrear.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtArrear.MyLinkLable1 = Nothing
@@ -366,7 +373,7 @@ Partial Class frmvendoraccountset
         'MyLabel14
         '
         Me.MyLabel14.FieldName = Nothing
-        Me.MyLabel14.Location = New System.Drawing.Point(2, 533)
+        Me.MyLabel14.Location = New System.Drawing.Point(2, 551)
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(37, 18)
         Me.MyLabel14.TabIndex = 374
@@ -412,7 +419,7 @@ Partial Class frmvendoraccountset
         Me.lblArrear.AutoSize = False
         Me.lblArrear.BorderVisible = True
         Me.lblArrear.FieldName = Nothing
-        Me.lblArrear.Location = New System.Drawing.Point(338, 533)
+        Me.lblArrear.Location = New System.Drawing.Point(338, 551)
         Me.lblArrear.Name = "lblArrear"
         Me.lblArrear.Size = New System.Drawing.Size(301, 19)
         Me.lblArrear.TabIndex = 372
@@ -1643,11 +1650,9 @@ Partial Class frmvendoraccountset
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(674, 20)
         Me.RadMenu1.TabIndex = 9
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
         Me.RadMenuItem1.AccessibleName = "radfilemenu"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenuimport, Me.rdmenuexport, Me.rdmenuexit})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -1662,17 +1667,59 @@ Partial Class frmvendoraccountset
         '
         'rdmenuexport
         '
-        Me.rdmenuexport.AccessibleDescription = "Export"
         Me.rdmenuexport.AccessibleName = "rdexport"
         Me.rdmenuexport.Name = "rdmenuexport"
         Me.rdmenuexport.Text = "Export"
         '
         'rdmenuexit
         '
-        Me.rdmenuexit.AccessibleDescription = "Exit"
-        Me.rdmenuexit.AccessibleName = "Exit"
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
+        '
+        'txtRetention
+        '
+        Me.txtRetention.CalculationExpression = Nothing
+        Me.txtRetention.FieldCode = Nothing
+        Me.txtRetention.FieldDesc = Nothing
+        Me.txtRetention.FieldMaxLength = 0
+        Me.txtRetention.FieldName = Nothing
+        Me.txtRetention.isCalculatedField = False
+        Me.txtRetention.IsSourceFromTable = False
+        Me.txtRetention.IsSourceFromValueList = False
+        Me.txtRetention.IsUnique = False
+        Me.txtRetention.Location = New System.Drawing.Point(149, 531)
+        Me.txtRetention.MendatroryField = False
+        Me.txtRetention.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRetention.MyLinkLable1 = Nothing
+        Me.txtRetention.MyLinkLable2 = Me.MyLabel15
+        Me.txtRetention.MyReadOnly = False
+        Me.txtRetention.MyShowMasterFormButton = False
+        Me.txtRetention.Name = "txtRetention"
+        Me.txtRetention.ReferenceFieldDesc = Nothing
+        Me.txtRetention.ReferenceFieldName = Nothing
+        Me.txtRetention.ReferenceTableName = Nothing
+        Me.txtRetention.Size = New System.Drawing.Size(188, 19)
+        Me.txtRetention.TabIndex = 376
+        Me.txtRetention.Value = ""
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Location = New System.Drawing.Point(2, 531)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(55, 18)
+        Me.MyLabel15.TabIndex = 377
+        Me.MyLabel15.Text = "Retention"
+        '
+        'lblRetention
+        '
+        Me.lblRetention.AutoSize = False
+        Me.lblRetention.BorderVisible = True
+        Me.lblRetention.FieldName = Nothing
+        Me.lblRetention.Location = New System.Drawing.Point(338, 531)
+        Me.lblRetention.Name = "lblRetention"
+        Me.lblRetention.Size = New System.Drawing.Size(301, 19)
+        Me.lblRetention.TabIndex = 375
         '
         'frmvendoraccountset
         '
@@ -1760,6 +1807,8 @@ Partial Class frmvendoraccountset
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1862,5 +1911,8 @@ Partial Class frmvendoraccountset
     Friend WithEvents txtArrear As common.UserControls.txtFinder
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
     Friend WithEvents lblArrear As common.Controls.MyLabel
+    Friend WithEvents txtRetention As common.UserControls.txtFinder
+    Friend WithEvents MyLabel15 As common.Controls.MyLabel
+    Friend WithEvents lblRetention As common.Controls.MyLabel
 End Class
 
