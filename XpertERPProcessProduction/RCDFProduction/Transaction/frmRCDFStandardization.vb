@@ -1,5 +1,6 @@
 ﻿Imports common
 Imports System.Data.SqlClient
+Imports Telerik
 
 Public Class frmRCDFStandardization
     Inherits FrmMainTranScreen
@@ -792,19 +793,24 @@ Public Class frmRCDFStandardization
             If Not isCellValueChangedProduce Then
                 If e.Column Is gvProduce.Columns(colProduceItemCode) OrElse e.Column Is gvProduce.Columns(colProduceBOMCode) OrElse e.Column Is gvProduce.Columns(colProduceQty) OrElse e.Column Is gvProduce.Columns(colProduceStdInLocation) Then
                     isCellValueChangedProduce = True
-                    If (e.Column Is gvProduce.Columns(colProduceItemCode)) Then
-                        ProduceOpenBOMItemCode(False)
-                        FillRawItemFromBOM()
-                    ElseIf e.Column Is gvProduce.Columns(colProduceBOMCode) Then
-                        ProduceOpenBOMCode(False)
-                        FillRawItemFromBOM()
-                    ElseIf (e.Column Is gvProduce.Columns(colProduceQty)) Then
-                        FillRawItemFromBOM()
-                        calculateProduceFATSNFKG(gvProduce.CurrentRow.Index)
-                    ElseIf e.Column Is gvProduce.Columns(colProduceStdInLocation) Then
-                        ProduceOpenLocation(False)
-                    End If
-                    isCellValueChangedProduce = False
+                    Try
+                        If (e.Column Is gvProduce.Columns(colProduceItemCode)) Then
+                            ProduceOpenBOMItemCode(False)
+                            FillRawItemFromBOM()
+                        ElseIf e.Column Is gvProduce.Columns(colProduceBOMCode) Then
+                            ProduceOpenBOMCode(False)
+                            FillRawItemFromBOM()
+                        ElseIf (e.Column Is gvProduce.Columns(colProduceQty)) Then
+                            FillRawItemFromBOM()
+                            calculateProduceFATSNFKG(gvProduce.CurrentRow.Index)
+                        ElseIf e.Column Is gvProduce.Columns(colProduceStdInLocation) Then
+                            ProduceOpenLocation(False)
+                        End If
+                        isCellValueChangedProduce = False
+                    Catch ex As Exception
+                        isCellValueChangedProduce = False
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                    End Try
                 End If
             End If
         End If
@@ -851,6 +857,10 @@ Public Class frmRCDFStandardization
         End If
     End Sub
     Sub ProduceOpenBOMItemCode(ByVal isButtonClicked As Boolean)
+        If clsCommon.myLen(txtLocation.Value) <= 0 Then
+            txtLocation.Focus()
+            Throw New Exception("Please select location")
+        End If
         Dim icode As String = ""
         Dim whrCls As String = ""
         Dim bomcode As String = clsCommon.myCstr(gvProduce.CurrentRow.Cells(colProduceBOMCode).Value)
@@ -1080,6 +1090,7 @@ Public Class frmRCDFStandardization
         lblTotNetSNFKG.Text = ""
 
         txtLocation.Value = ""
+        txtBatchNo.Text = ""
         lblLocation.Text = ""
         txtComment.Text = ""
         txtRemarks.Text = ""
@@ -1147,7 +1158,7 @@ Public Class frmRCDFStandardization
             PostData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             'ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-            '                         "TSPL_PP_STANDARDIZATION_HEAD " + Environment.NewLine +
+            '                         "TSPL_RCDF_STD " + Environment.NewLine +
             '                         "TSPL_RCDF_STD_PRODUCE " + Environment.NewLine +
             '                         "TSPL_PP_STD_ISSUE_ITEM_DETAIL " + Environment.NewLine +
             '                         "TSPL_PP_STD_ADD_REMOVE_ITEM_DETAIL " + Environment.NewLine +
@@ -1286,7 +1297,7 @@ Public Class frmRCDFStandardization
             '    End If
             'Next
 
-            'Dim strBatchORderExistIntPIE As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Doc_Code from TSPL_PP_STANDARDIZATION_HEAD where TSPL_PP_STANDARDIZATION_HEAD.Main_Batch_Code='" + fndMainBatchNo.Value + "' and TSPL_PP_STANDARDIZATION_HEAD.Doc_Code not in ('" + txtCode.Value + "')"))
+            'Dim strBatchORderExistIntPIE As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Doc_Code from TSPL_RCDF_STD where TSPL_RCDF_STD.Main_Batch_Code='" + fndMainBatchNo.Value + "' and TSPL_RCDF_STD.Doc_Code not in ('" + txtCode.Value + "')"))
             'If clsCommon.myLen(clsCommon.myCstr(strBatchORderExistIntPIE)) > 0 Then
             '    Throw New Exception("Please select different Batch Order, Same Batch exists with Production Standardization " & strBatchORderExistIntPIE & "  ")
             'End If
@@ -1646,7 +1657,7 @@ Public Class frmRCDFStandardization
 
 
                 obj.Location_Code = txtLocation.Value
-                'obj.Batch_No=
+                obj.Batch_No = txtBatchNo.Text
                 obj.Comment = txtComment.Text
                 obj.Remarks = txtRemarks.Text
 
@@ -1791,7 +1802,7 @@ Public Class frmRCDFStandardization
                 Throw New Exception("Select Document Code to delete.")
             End If
 
-            qry = "select count(*) from TSPL_PP_STANDARDIZATION_HEAD where comp_code='" + objCommonVar.CurrentCompanyCode + "' and Doc_Code='" + txtCode.Value + "'"
+            qry = "select count(*) from TSPL_RCDF_STD where Doc_Code='" + txtCode.Value + "'"
             check = clsDBFuncationality.getSingleValue(qry, trans)
 
             If check <= 0 Then
@@ -1827,7 +1838,7 @@ Public Class frmRCDFStandardization
                 Throw New Exception("Select Document Code for posting.")
             End If
 
-            qry = "select count(*) from TSPL_PP_STANDARDIZATION_HEAD where comp_code='" + objCommonVar.CurrentCompanyCode + "' and Doc_Code='" + txtCode.Value + "'"
+            qry = "select count(*) from TSPL_RCDF_STD where   Doc_Code='" + txtCode.Value + "'"
             check = clsDBFuncationality.getSingleValue(qry)
 
             If check <= 0 Then
@@ -1887,7 +1898,7 @@ Public Class frmRCDFStandardization
         LoadData(txtCode.Value, NavType)
     End Sub
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
-        qry = "select count(*) from TSPL_PP_STANDARDIZATION_HEAD where comp_code='" + objCommonVar.CurrentCompanyCode + "' and Doc_Code='" + txtCode.Value + "'"
+        qry = "select count(*) from TSPL_RCDF_STD where Doc_Code='" + txtCode.Value + "'"
         check = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
@@ -1897,7 +1908,7 @@ Public Class frmRCDFStandardization
         End If
 
         If txtCode.MyReadOnly Or isButtonClicked Then
-            txtCode.Value = clsCommon.myCstr(clsRCDFStanardization.GetFinder(" TSPL_PP_BATCH_ORDER_HEAD.Location_Code in (" + arrLoc + ")", txtCode.Value, isButtonClicked))
+            txtCode.Value = clsCommon.myCstr(clsRCDFStanardization.GetFinder(" TSPL_RCDF_STD.Location_Code in (" + arrLoc + ")", txtCode.Value, isButtonClicked))
             LoadData(txtCode.Value, NavigatorType.Current)
         Else
             FunReset()
@@ -1955,13 +1966,12 @@ Public Class frmRCDFStandardization
                 lblTotNetFATKG.Text = clsCommon.myFormat(obj.Tot_Net_FATKG)
                 lblTotNetSNFKG.Text = clsCommon.myFormat(obj.Tot_Net_SNFKG)
                 txtLocation.Value = obj.Location_Code
-                'obj.Batch_No=
+                txtBatchNo.Text = obj.Batch_No
                 txtComment.Text = obj.Comment
                 txtRemarks.Text = obj.Remarks
-
+                LoadBlankGridProduce()
+                LoadBlankGridIssue()
                 LoadBlankGridAR()
-                gvProduce.Rows.Clear()
-
                 gvIssue.Rows.Clear()
                 gvAddRemove.Rows.Clear()
 
@@ -1983,74 +1993,44 @@ Public Class frmRCDFStandardization
                         gvProduce.Rows(0).Cells(colProduceItemProductType).Value = IIf(clsCommon.myLen(objtr.Product_Type) <= 0, "Others", objtr.Product_Type)
                         gvProduce.Rows(0).Cells(colProduceUOM).Value = objtr.Unit_Code
                         gvProduce.Rows(0).Cells(colProduceQty).Value = objtr.Qty
-                        'gvProduce.Rows(0).Cells(colProduceReqFATKG).Value = objtr.Requir_FAT_KG
-                        'gvProduce.Rows(0).Cells(colProduceReqFAT).Value = objtr.Requir_FAT_per
-                        'gvProduce.Rows(0).Cells(colProduceReqSNFKG).Value = objtr.Requir_SNF_KG
-                        'gvProduce.Rows(0).Cells(colProduceReqSNF).Value = objtr.Requir_SNF_Per
-                        'gvProduce.Rows(0).Cells(colProduceReqQty).Value = objtr.Quantity
-
                         gvProduce.Rows(0).Cells(colProduceFAT).Value = objtr.FAT
                         gvProduce.Rows(0).Cells(colProduceSNF).Value = objtr.SNF
-
                         gvProduce.Rows(0).Cells(colProduceFATKG).Value = objtr.FAT_KG
                         gvProduce.Rows(0).Cells(colProduceQty).Value = objtr.Qty
                         gvProduce.Rows(0).Cells(colProduceSNFKG).Value = objtr.SNF_KG
-
-
-
                         gvProduce.Rows(0).Cells(colProduceStdInLocation).Value = objtr.Location_Code
                         gvProduce.Rows(0).Cells(colProduceStdInLocationName).Value = objtr.Location_Desc
-
                         If clsCommon.myLen(objtr.Item_Code) > 0 AndAlso Not arr_BatchIcode.Contains(objtr.Item_Code) Then
                             arr_BatchIcode.Add(objtr.Item_Code)
                         End If
-                        '' new columns
-                        'gv.Rows(gv.Rows.Count - 1).Cells(colNO_SAMPLE_QC).Value = objtr.NO_SAMPLE_QC
-                        'gv.Rows(gv.Rows.Count - 1).Cells(colDAMAGE_Qty).Value = objtr.DAMAGE_Qty
-                        'gv.Rows(gv.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value = objtr.FINAL_PROD_Qty
                     Next
                 End If
 
-                '' load issue item grid
                 If obj.ArrIssue IsNot Nothing AndAlso obj.ArrIssue.Count > 0 Then
                     For Each objtr As clsRCDFStanardizationIssue In obj.ArrIssue
                         gvIssue.Rows.AddNew()
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueSNo).Value = objtr.SNO
-
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueItemCode).Value = objtr.Item_Code
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueItemName).Value = objtr.Item_Desc
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueItemProductType).Value = ProductType(objtr.Product_Type) 'objtr.Product_Type
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueItemProductType).Tag = objtr.Product_Type
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueUOM).Value = objtr.Unit_Code
-
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueFATKG).Value = objtr.FAT_KG
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueFAT).Value = objtr.FAT
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueQty).Value = objtr.Qty
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueSNFKG).Value = objtr.SNF_KG
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueSNF).Value = objtr.SNF
-
-                        'gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueReqFAT).Value = objtr.Requir_FAT_Per
-                        'gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueReqSNF).Value = objtr.Requir_SNF_Per
-
-                        'gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueDiffFATKG).Value = objtr.Diff_FAT_KG
-
-                        'gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueDiffFAT).Value = objtr.Diff_FAT_Per
-                        ''gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colDiff_Qty).Value = objtr.Diff_Qty
-                        'gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueDiffSNFKG).Value = objtr.Diff_SNF_KG
-                        'gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueDiffSNF).Value = objtr.Diff_SNF_Per
-                        'gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueRemark).Value = objtr.Remarks
-
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueLocationCode).Value = objtr.Location_Code
                         gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueLocation).Value = objtr.Location_Desc
+                        FillAvail_Stock(gvIssue.Rows.Count - 1, objtr.Item_Code, txtLocation.Value, objtr.Location_Code, ProductType(objtr.Product_Type), objtr.Unit_Code, 1)
                     Next
                 End If
+                gvIssue.Rows.AddNew()
 
-                '' load Added/Removed item grid
                 If obj.ArrARItem IsNot Nothing AndAlso obj.ArrARItem.Count > 0 Then
                     For Each objtr As clsRCDFStanardizationAddRemove In obj.ArrARItem
                         gvAddRemove.Rows.AddNew()
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colARSno).Value = objtr.SNO
-
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colARItemCode).Value = objtr.Item_Code
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colARItemName).Value = objtr.Item_Desc
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colARIsBatchItem).Value = clsItemMaster.IsBatchItem(objtr.Item_Code)
@@ -2061,7 +2041,6 @@ Public Class frmRCDFStandardization
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colARLocCode).Value = objtr.Location_Code
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colARLocDesc).Value = objtr.Location_Desc
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colARRemarks).Value = objtr.Remarks
-
                         Dim loc_type As Integer = 0
                         qry = "select case when (isnull(is_section,'N')='N' and isnull(is_sub_location,'N')='N') then 'MAIN' when (isnull(is_section,'N')='Y' and isnull(is_sub_location,'N')='N') then 'SEC' when (isnull(is_section,'N')='N' and isnull(is_sub_location,'Y')='Y') then 'SUB' else'MAIN' end as [type] from tspl_location_master where location_code='" + clsCommon.myCstr(gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colARLocCode).Value) + "'"
                         If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry)), "MAIN") = CompairStringResult.Equal Then
@@ -2077,15 +2056,11 @@ Public Class frmRCDFStandardization
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colARAvailQty).Value = clsCommon.myCdbl(dt.Rows(0)("qty"))
                         End If
-
-
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colARItemProductType).Value = IIf(clsCommon.myLen(objtr.Product_Type) <= 0, "Others", objtr.Product_Type)
-
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colAR_FAT_Per).Value = objtr.FAT
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colAR_FAT_KG).Value = objtr.FAT_KG
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colAR_SNF_Per).Value = objtr.SNF
                         gvAddRemove.Rows(gvAddRemove.Rows.Count - 1).Cells(colAR_SNF_KG).Value = objtr.SNF_KG
-
                         If clsCommon.myLen(objtr.Item_Code) > 0 AndAlso Not arr_ARIcode.Contains(objtr.Item_Code) Then
                             arr_ARIcode.Add(objtr.Item_Code)
                         End If
@@ -2321,15 +2296,7 @@ Public Class frmRCDFStandardization
         If Not isInsideLoadData Then
             If Not isCellValueChangedAddRemove Then
                 If e.Column Is gvAddRemove.Columns(colARItemCode) Then
-                    'If clsCommon.myLen(fndChildBatchNo.Value) <= 0 Then
-                    '    clsCommon.MyMessageBoxShow("Select Child Batch Order Detail", Me.Text)
-                    '    fndChildBatchNo.Select()
-                    '    fndChildBatchNo.Focus()
-                    '    Return
-                    'End If
-
                     isCellValueChangedAddRemove = True
-                    '' filter for item_used_asapplied by Panch Raj on 10-07-2019 against ticket no:ERO/12/06/18-000342
                     gvAddRemove.CurrentRow.Cells(colARItemCode).Value = clsItemMaster.getFinder(If(ShowOnlyProdItemsOnAddRemove = True, " Item_Used_as='P' ", ""), gvAddRemove.CurrentRow.Cells(colARItemCode).Value, False)
                     Dim objItem As clsItemMaster = clsItemMaster.GetDataRMOther(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, NavigatorType.Current)
                     If Not objItem Is Nothing Then
@@ -2342,9 +2309,6 @@ Public Class frmRCDFStandardization
                         gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = Nothing
                         gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value = Nothing
                         gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = Nothing
-                        'If clsCommon.CompairString(objItem.Product_Type, "MI") = CompairStringResult.Equal Or clsCommon.CompairString(objItem.Product_Type, "MP") = CompairStringResult.Equal Then
-                        '    FillQCGrid(gvAddRemove.CurrentRow.Index, True, gvAddRemove.CurrentRow.Cells(colARItemCode).Value)
-                        'End If
                         SetARBalance()
                     End If
                     isCellValueChangedAddRemove = False
@@ -2379,35 +2343,11 @@ Public Class frmRCDFStandardization
                     isCellValueChangedAddRemove = False
                 ElseIf e.Column Is gvAddRemove.Columns(colAR_FAT_Per) Then
                     isCellValueChangedAddRemove = True
-                    'For ii As Integer = 0 To gv_qc.Rows.Count - 1
-                    '    If (gv_qc.Rows(ii).Cells(colQCParentLineNo).Value) = gvAddRemove.CurrentRow.Index Then
-                    '        If clsCommon.CompairString(clsCommon.myCstr(gv_qc.Rows(ii).Cells(colQCType).Value), "Add/Remove") = CompairStringResult.Equal Then
-                    '            If clsCommon.CompairString(clsCommon.myCstr(gv_qc.Rows(ii).Cells(colQCparam_type).Value), "FAT") = CompairStringResult.Equal Then
-                    '                gv_qc.CurrentColumn = gv_qc.Columns(colActual_Range)
-                    '                gv_qc.CurrentRow = gv_qc.Rows(ii)
-                    '                gv_qc.Rows(ii).Cells(colActual_Range).Value = clsCommon.myCdbl(gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value)
-                    '                Exit For
-                    '            End If
-                    '        End If
-                    '    End If
-                    'Next
                     gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
                     calculateALL()
                     isCellValueChangedAddRemove = False
                 ElseIf e.Column Is gvAddRemove.Columns(colAR_SNF_Per) Then
                     isCellValueChangedAddRemove = True
-                    'For ii As Integer = 0 To gv_qc.Rows.Count - 1
-                    '    If (gv_qc.Rows(ii).Cells(colQCParentLineNo).Value) = gvAddRemove.CurrentRow.Index Then
-                    '        If clsCommon.CompairString(clsCommon.myCstr(gv_qc.Rows(ii).Cells(colQCType).Value), "Add/Remove") = CompairStringResult.Equal Then
-                    '            If clsCommon.CompairString(clsCommon.myCstr(gv_qc.Rows(ii).Cells(colQCparam_type).Value), "SNF") = CompairStringResult.Equal Then
-                    '                gv_qc.CurrentColumn = gv_qc.Columns(colActual_Range)
-                    '                gv_qc.CurrentRow = gv_qc.Rows(ii)
-                    '                gv_qc.Rows(ii).Cells(colActual_Range).Value = clsCommon.myCdbl(gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value)
-                    '                Exit For
-                    '            End If
-                    '        End If
-                    '    End If
-                    'Next
                     gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
                     calculateALL()
                     isCellValueChangedAddRemove = False
@@ -2474,18 +2414,6 @@ Public Class frmRCDFStandardization
                 Dim dblSNFPer As Decimal = clsBOM.GetFatSNFPercentage_AfterConversion(clsCommon.myCstr(gvAddRemove.CurrentRow.Cells(colARItemCode).Value), clsCommon.myCstr(gvAddRemove.CurrentRow.Cells(colARUom).Value), clsCommon.myCdbl(dt.Rows(0)("qty")), clsCommon.myCdbl(dt.Rows(0)("snf_kg")), Nothing, settTankerDispatchAvgFATSNFPer)
                 gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value = dblFATPer
                 gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value = dblSNFPer
-                'For ii As Integer = 0 To gv_qc.Rows.Count - 1
-                '    If clsCommon.CompairString(clsCommon.myCstr(gv_qc.Rows(ii).Cells(colQCItemCode).Value), clsCommon.myCstr(gvAddRemove.CurrentRow.Cells(colARItemCode).Value)) = CompairStringResult.Equal Then
-                '        If clsCommon.myCdbl(gv_qc.Rows(ii).Cells(colQCParentLineNo).Value) = gvAddRemove.CurrentRow.Index Then
-                '            gv_qc.CurrentColumn = gv_qc.Columns(colActual_Range)
-                '            If clsCommon.CompairString(clsCommon.myCstr(gv_qc.Rows(ii).Cells(colQCparam_type).Value), "FAT") = CompairStringResult.Equal Then
-                '                gv_qc.Rows(ii).Cells(colActual_Range).Value = dblFATPer
-                '            ElseIf clsCommon.CompairString(clsCommon.myCstr(gv_qc.Rows(ii).Cells(colQCparam_type).Value), "SNF") = CompairStringResult.Equal Then
-                '                gv_qc.Rows(ii).Cells(colActual_Range).Value = dblSNFPer
-                '            End If
-                '        End If
-                '    End If
-                'Next
             End If
         End If
     End Sub
@@ -2818,7 +2746,7 @@ Public Class frmRCDFStandardization
                 clsCommon.MyMessageBoxShow("Select Code")
                 Exit Sub
             End If
-            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Doc_Code", "TSPL_PP_STANDARDIZATION_HEAD", "TSPL_PP_STD_ISSUE_ITEM_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Doc_Code", "TSPL_RCDF_STD", "TSPL_PP_BATCH_ITEM_PRODUCTION_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -2831,5 +2759,26 @@ Public Class frmRCDFStandardization
 
         txtLocation.Value = clsLocation.getFinder(" tspl_location_master.location_code in (" + arrLoc + ") and isnull(csa_type,'N')<>'Y' and isnull(Is_Section,'N')<>'Y' and isnull(Is_Sub_Location,'N')<>'Y'", txtLocation.Value, isButtonClicked)
         lblLocation.Text = clsLocation.GetName(txtLocation.Value, Nothing)
+    End Sub
+
+    Private Sub gvIssue_KeyDown(sender As Object, e As KeyEventArgs) Handles gvIssue.KeyDown
+        If e.Control And e.KeyCode = Keys.Insert Then
+            If clsCommon.myLen(gvIssue.CurrentRow.Cells(colIssueItemCode).Value) > 0 Then
+                If clsCommon.MyMessageBoxShow("Insert the selected Item " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    Try
+                        isCellValueChangedIssue = True
+                        gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueItemCode).Value = clsCommon.myCstr(gvIssue.CurrentRow.Cells(colIssueItemCode).Value)
+                        gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueItemName).Value = clsCommon.myCstr(gvIssue.CurrentRow.Cells(colIssueItemName).Value)
+                        gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueItemProductType).Value = clsCommon.myCstr(gvIssue.CurrentRow.Cells(colIssueItemProductType).Value)
+                        gvIssue.Rows(gvIssue.Rows.Count - 1).Cells(colIssueUOM).Value = clsCommon.myCstr(gvIssue.CurrentRow.Cells(colIssueUOM).Value)
+                        gvIssue.Rows.AddNew()
+                        isCellValueChangedIssue = False
+                    Catch ex As Exception
+                        isCellValueChangedIssue = False
+                    End Try
+
+                End If
+            End If
+        End If
     End Sub
 End Class

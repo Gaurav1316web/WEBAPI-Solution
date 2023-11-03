@@ -129,15 +129,15 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
             qry += " where 2=2 "
             Select Case NavType
                 Case NavigatorType.Current
-                    qry += " and TSPL_RCDF_STD.and Doc_Code='" + strCode + "'"
+                    qry += " and TSPL_RCDF_STD.Doc_Code='" + strCode + "'"
                 Case NavigatorType.First
-                    qry += " and TSPL_RCDF_STD.and Doc_Code in (select min(Doc_Code) from TSPL_RCDF_STD " + LocCond + " )"
+                    qry += " and TSPL_RCDF_STD.Doc_Code in (select min(Doc_Code) from TSPL_RCDF_STD " + LocCond + " )"
                 Case NavigatorType.Last
-                    qry += " and TSPL_RCDF_STD.and Doc_Code in (select max(Doc_Code) from TSPL_RCDF_STD " + LocCond + " )"
+                    qry += " and TSPL_RCDF_STD.Doc_Code in (select max(Doc_Code) from TSPL_RCDF_STD " + LocCond + " )"
                 Case NavigatorType.Next
-                    qry += " and TSPL_RCDF_STD.and Doc_Code in (select min(Doc_Code) from TSPL_RCDF_STD " + LocCond + " and Doc_Code>'" + strCode + "' )"
+                    qry += " and TSPL_RCDF_STD.Doc_Code in (select min(Doc_Code) from TSPL_RCDF_STD " + LocCond + " and Doc_Code>'" + strCode + "' )"
                 Case NavigatorType.Previous
-                    qry += " and TSPL_RCDF_STD.and Doc_Code in (select max(Doc_Code) from TSPL_RCDF_STD " + LocCond + " and Doc_Code<'" + strCode + "' )"
+                    qry += " and TSPL_RCDF_STD.Doc_Code in (select max(Doc_Code) from TSPL_RCDF_STD " + LocCond + " and Doc_Code<'" + strCode + "' )"
             End Select
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
@@ -146,33 +146,33 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
                 obj.Doc_Code = clsCommon.myCstr(dt.Rows(0)("Doc_Code"))
                 obj.Doc_Date = clsCommon.myCDate(dt.Rows(0)("Doc_Date"))
 
-                obj.Location_Code = clsCommon.myCDate(dt.Rows(0)("Location_Code"))
-                obj.Location_Desc = clsCommon.myCDate(dt.Rows(0)("Location_Desc"))
+                obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
+                obj.Location_Desc = clsCommon.myCstr(dt.Rows(0)("Location_Desc"))
                 obj.Batch_No = clsCommon.myCstr(dt.Rows(0)("Batch_No"))
                 obj.Comment = clsCommon.myCstr(dt.Rows(0)("Comment"))
                 obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
-                obj.Tot_Produce_Qty = clsCommon.myCdbl(dt.Rows(0)("Tot_Produce_Qty"))
-                obj.Tot_Produce_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Produce_FATKG"))
-                obj.Tot_Produce_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Produce_SNFKG"))
-                obj.Tot_Issue_Qty = clsCommon.myCdbl(dt.Rows(0)("Tot_Issue_Qty"))
-                obj.Tot_Issue_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Issue_FATKG"))
-                obj.Tot_Issue_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Issue_SNFKG"))
-                obj.Tot_Difference_Qty = clsCommon.myCdbl(dt.Rows(0)("Tot_Difference_Qty"))
-                obj.Tot_Difference_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Difference_FATKG"))
-                obj.Tot_Difference_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Difference_SNFKG"))
-                obj.Tot_Added_Qty = clsCommon.myCdbl(dt.Rows(0)("Tot_Added_Qty"))
-                obj.Tot_Added_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Added_FATKG"))
-                obj.Tot_Added_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Added_SNFKG"))
-                obj.Tot_Removed_Qty = clsCommon.myCdbl(dt.Rows(0)("Tot_Removed_Qty"))
-                obj.Tot_Removed_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Removed_FATKG"))
-                obj.Tot_Removed_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Removed_SNFKG"))
-                obj.Tot_AddRemove_Qty = clsCommon.myCdbl(dt.Rows(0)("Tot_AddRemove_Qty"))
-                obj.Tot_AddRemove_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_AddRemove_FATKG"))
-                obj.Tot_AddRemove_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_AddRemove_SNFKG"))
-                obj.Tot_Net_Qty = clsCommon.myCdbl(dt.Rows(0)("Tot_Net_Qty"))
-                obj.Tot_Net_FATKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Net_FATKG"))
-                obj.Tot_Net_SNFKG = clsCommon.myCdbl(dt.Rows(0)("Tot_Net_SNFKG"))
-                obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
+                obj.Tot_Produce_Qty = clsCommon.myCDecimal(dt.Rows(0)("Tot_Produce_Qty"))
+                obj.Tot_Produce_FATKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Produce_FATKG"))
+                obj.Tot_Produce_SNFKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Produce_SNFKG"))
+                obj.Tot_Issue_Qty = clsCommon.myCDecimal(dt.Rows(0)("Tot_Issue_Qty"))
+                obj.Tot_Issue_FATKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Issue_FATKG"))
+                obj.Tot_Issue_SNFKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Issue_SNFKG"))
+                obj.Tot_Difference_Qty = clsCommon.myCDecimal(dt.Rows(0)("Tot_Difference_Qty"))
+                obj.Tot_Difference_FATKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Difference_FATKG"))
+                obj.Tot_Difference_SNFKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Difference_SNFKG"))
+                obj.Tot_Added_Qty = clsCommon.myCDecimal(dt.Rows(0)("Tot_Added_Qty"))
+                obj.Tot_Added_FATKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Added_FATKG"))
+                obj.Tot_Added_SNFKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Added_SNFKG"))
+                obj.Tot_Removed_Qty = clsCommon.myCDecimal(dt.Rows(0)("Tot_Removed_Qty"))
+                obj.Tot_Removed_FATKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Removed_FATKG"))
+                obj.Tot_Removed_SNFKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Removed_SNFKG"))
+                obj.Tot_AddRemove_Qty = clsCommon.myCDecimal(dt.Rows(0)("Tot_AddRemove_Qty"))
+                obj.Tot_AddRemove_FATKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_AddRemove_FATKG"))
+                obj.Tot_AddRemove_SNFKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_AddRemove_SNFKG"))
+                obj.Tot_Net_Qty = clsCommon.myCDecimal(dt.Rows(0)("Tot_Net_Qty"))
+                obj.Tot_Net_FATKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Net_FATKG"))
+                obj.Tot_Net_SNFKG = clsCommon.myCDecimal(dt.Rows(0)("Tot_Net_SNFKG"))
+                obj.Status = IIf(clsCommon.myCDecimal(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 obj.ArrProduce = clsRCDFStanardizationProduce.GetData(obj.Doc_Code, trans)
                 obj.ArrIssue = clsRCDFStanardizationIssue.GetData(obj.Doc_Code, trans)
                 obj.ArrARItem = clsRCDFStanardizationAddRemove.GetData(obj.Doc_Code, trans)
@@ -191,16 +191,16 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
 
             HistoryUpdate(strCode, trans)
 
-            Dim qry As String = "delete from TSPL_RCDF_STD_PRODUCE where and Doc_Code='" + strCode + "'"
+            Dim qry As String = "delete from TSPL_RCDF_STD_PRODUCE where Doc_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_RCDF_STD_ISSUE where and Doc_Code='" + strCode + "'"
+            qry = "delete from TSPL_RCDF_STD_ISSUE where Doc_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_RCDF_STD_ADD_REMOVE where and Doc_Code='" + strCode + "'"
+            qry = "delete from TSPL_RCDF_STD_ADD_REMOVE where Doc_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_RCDF_STD where and Doc_Code='" + strCode + "'"
+            qry = "delete from TSPL_RCDF_STD where Doc_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         Catch ex As Exception
@@ -209,7 +209,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
         Return True
     End Function
     Public Shared Function GetFinder(ByVal whrCls As String, ByVal currCode As String, ByVal isButtonClicked As Boolean) As String
-        Dim qry As String = "select TSPL_RCDF_STD.Doc_Code as Code,TSPL_RCDF_STD.Doc_Date as [Doc Date],  [Item Description],TSPL_RCDF_STD.Created_By as [Created By],TSPL_RCDF_STD.Created_Date as [Created Date],TSPL_RCDF_STD.Modified_By as [Modified By],TSPL_RCDF_STD.Modified_Date as [Modified Date],case when isnull(TSPL_RCDF_STD.Posted,0)=1 then 'Approved' else 'Pending' end as [Status] " &
+        Dim qry As String = "select TSPL_RCDF_STD.Doc_Code as Code,TSPL_RCDF_STD.Doc_Date as [Doc Date],  [Item Description],TSPL_RCDF_STD.Created_By as [Created By],TSPL_RCDF_STD.Created_Date as [Created Date],TSPL_RCDF_STD.Modified_By as [Modified By],TSPL_RCDF_STD.Modified_Date as [Modified Date],case when isnull(TSPL_RCDF_STD.Status,0)=1 then 'Approved' else 'Pending' end as [Status] " &
         " from TSPL_RCDF_STD 
           left join (select * from (   select ROW_NUMBER()  over(partition by Doc_Code order by Product_Type desc, TSPL_RCDF_STD_PRODUCE.Item_Code) as S_no ,Doc_Code as STD_Main,  TSPL_RCDF_STD_PRODUCE.Item_Code as [Main Item Code],Item_Desc as [Item Description],Product_Type as [Product Type]  from TSPL_RCDF_STD_PRODUCE left join TSPL_ITEM_MASTER on TSPL_RCDF_STD_PRODUCE.Item_Code=TSPL_ITEM_MASTER.Item_Code  ) as M_Inner where S_no=1 ) as Main on TSPL_RCDF_STD.Doc_Code=Main.STD_Main"
         Dim str As String = ""
@@ -239,7 +239,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
 
             End If
             HistoryUpdate(strCode, trans)
-            Dim qry As String = "update TSPL_RCDF_STD set Posted='1',Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where and Doc_Code='" + strCode + "'"
+            Dim qry As String = "update TSPL_RCDF_STD set Posted='1',Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where Doc_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             'PostInventoryMovementANDJE(Form_Id, strCode, arrLoc, trans, VoucherNo)
         Catch ex As Exception
@@ -270,7 +270,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProcessProductionStandardization, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
 
             End If
-            Dim qry As String = "select count(*) from TSPL_RCDF_STD where Posted='0' and Doc_Code='" + strCode + "'"
+            Dim qry As String = "select count(*) from TSPL_RCDF_STD where Posted='0' Doc_Code='" + strCode + "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
             If check > 0 Then
                 Throw New Exception("Current document [" + strCode + "] is not posted.")
@@ -305,8 +305,8 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     End Function
 
     'Public Shared Function PostInventoryMovementANDJE(ByVal Form_Id As String, ByVal strCode As String, ByVal arrLoc As String, ByVal trans As SqlTransaction, ByVal VoucherNo As String)
-    '    Dim settAllowNegativeStockInDairyProduction As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowNegativeStockInDairyProduction, clsFixedParameterCode.AllowNegativeStockInDairyProduction, trans)) > 0)
-    '    If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RequiredFinalQCofstandardization, clsFixedParameterCode.RequiredFinalQCofstandardization, trans)) > 0) Then
+    '    Dim settAllowNegativeStockInDairyProduction As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AllowNegativeStockInDairyProduction, clsFixedParameterCode.AllowNegativeStockInDairyProduction, trans)) > 0)
+    '    If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RequiredFinalQCofstandardization, clsFixedParameterCode.RequiredFinalQCofstandardization, trans)) > 0) Then
     '        Dim objRec As clsRCDFStanardization = clsRCDFStanardization.GetData(strCode, arrLoc, NavigatorType.Current, trans)
     '        For Each objtr As clsRCDFStanardizationAddRemove In objRec.ArrARItem
     '            If Not settAllowNegativeStockInDairyProduction Then
@@ -328,9 +328,9 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '                    End If
     '                    Dim dt As DataTable = clsProcessProductionPlanning.GetMilkAndALLItemStockBalance_With_FATSNFKG(objtr.Item_Code, objRec.Location_Code, objtr.Location_Code, IIf(CheckStockServerDate = True, clsCommon.GETSERVERDATE(trans), objRec.Doc_Date), trans, objtr.Unit_Code, loc_type, False)
     '                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-    '                        If objtr.Qty > clsCommon.myCdbl(dt.Rows(0)("qty")) Then
-    '                            If Math.Abs(objtr.Qty - clsCommon.myCdbl(dt.Rows(0)("qty"))) > 0.01 Then
-    '                                Throw New Exception("Item [" + objtr.Item_Code + "] Location [" + objtr.Location_Code + "] Added Qty [" + clsCommon.myCstr(objtr.Qty) + "] is more than Balance Qty [" + clsCommon.myCstr(clsCommon.myCdbl(dt.Rows(0)("qty"))) + "]")
+    '                        If objtr.Qty > clsCommon.myCDecimal(dt.Rows(0)("qty")) Then
+    '                            If Math.Abs(objtr.Qty - clsCommon.myCDecimal(dt.Rows(0)("qty"))) > 0.01 Then
+    '                                Throw New Exception("Item [" + objtr.Item_Code + "] Location [" + objtr.Location_Code + "] Added Qty [" + clsCommon.myCstr(objtr.Qty) + "] is more than Balance Qty [" + clsCommon.myCstr(clsCommon.myCDecimal(dt.Rows(0)("qty"))) + "]")
     '                            End If
     '                        End If
     '                    End If
@@ -339,12 +339,12 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '        Next
 
     '        If Not objRec.Is_Job_Work_Inward Then
-    '            If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickProductCostFromItemUOMDetail, clsFixedParameterCode.PickProductCostFromItemUOMDetail, trans)) > 0) Then
+    '            If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickProductCostFromItemUOMDetail, clsFixedParameterCode.PickProductCostFromItemUOMDetail, trans)) > 0) Then
     '                clsStandardizationRM.UpdateCost(objRec.Doc_Code, objRec.Doc_Date, objRec.ArrProduce, trans, objRec.Is_Job_Work_Inward)
     '                Dim ArrProdItem As List(Of clsRCDFStanardizationProduce) = clsRCDFStanardizationProduce.GetPPSTDBatchDetail(objRec.Doc_Code, trans)
     '                If ArrProdItem IsNot Nothing AndAlso ArrProdItem.Count > 0 Then
-    '                    Dim SettTollFATRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ProductionFATRateTollerance, clsFixedParameterCode.ProductionFATRateTollerance, trans))
-    '                    Dim SettTollSNFRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ProductionSNFRateTollerance, clsFixedParameterCode.ProductionSNFRateTollerance, trans))
+    '                    Dim SettTollFATRate As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionFATRateTollerance, clsFixedParameterCode.ProductionFATRateTollerance, trans))
+    '                    Dim SettTollSNFRate As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionSNFRateTollerance, clsFixedParameterCode.ProductionSNFRateTollerance, trans))
     '                    For Each obj As clsRCDFStanardizationProduce In ArrProdItem
     '                        Dim objIMQCP As clsItemMasterQCParameter = clsItemMasterQCParameter.GetStandardFATSNFRate(obj.Item_Code, trans)
     '                        If Math.Round(obj.Fat_Rate, 2, MidpointRounding.ToEven) > Math.Round(objIMQCP.FATRate + SettTollFATRate, 2, MidpointRounding.ToEven) OrElse Math.Round(obj.Fat_Rate, 2, MidpointRounding.ToEven) < Math.Round(objIMQCP.FATRate - SettTollFATRate, 2, MidpointRounding.ToEven) Then
@@ -769,7 +769,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     'End Function
 
     'Public Shared Function GetFinder_PendingBatchQuantity(ByVal whrCls As String, ByVal strCurrCode As String, ByVal isButtonClicked As Boolean, ByVal strStdCode As String) As String
-    '    Dim ProductionOrStandAccordingToItemType As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ProductionOrStandAccordingToItemType, clsFixedParameterCode.ProductionOrStandAccordingToItemType, Nothing))
+    '    Dim ProductionOrStandAccordingToItemType As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionOrStandAccordingToItemType, clsFixedParameterCode.ProductionOrStandAccordingToItemType, Nothing))
     '    Dim qry As String = " select TSPL_PP_BATCH_ORDER_HEAD.batch_code as Code,TSPL_PP_BATCH_ORDER_HEAD.batch_date as [Date], " &
     '        " TSPL_PP_BATCH_ORDER_HEAD.Description,  TSPL_PP_BATCH_ORDER_HEAD.Status,(case when TSPL_PP_BATCH_ORDER_HEAD.is_post='1' then 'Posted' else 'UnPosted' end) as [Post Status], " &
     '        " TSPL_PP_BATCH_ORDER_HEAD.location_code as [Location Code],tspl_location_master.Location_Desc as [Location],  TSPL_PP_BATCH_ORDER_HEAD.structure_code as [Production Structure], " &
@@ -815,8 +815,8 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     'Public Shared Function GetKG_AfterConversion(ByVal Item_Code As String, ByVal Unit_Code As String, ByVal Qty As Decimal, ByVal trans As SqlTransaction) As Decimal
     '    Dim Kg_Value As Decimal = 0
     '    Dim Wt_uom As String = clsCommon.myCstr(clsItemMaster.GetItemWeightUnit(Item_Code, trans))
-    '    Dim Wt_Value As Decimal = clsCommon.myCdbl(clsItemMaster.GetItemWeightValue(Item_Code, trans))
-    '    Dim Cnvsrn_Factr As Decimal = clsCommon.myCdbl(clsItemMaster.GetConvertionFactor(Item_Code, Unit_Code, trans))
+    '    Dim Wt_Value As Decimal = clsCommon.myCDecimal(clsItemMaster.GetItemWeightValue(Item_Code, trans))
+    '    Dim Cnvsrn_Factr As Decimal = clsCommon.myCDecimal(clsItemMaster.GetConvertionFactor(Item_Code, Unit_Code, trans))
     '    Dim Weight_KG_Unit As String = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ProductionFATSNF_KG_Unit, clsFixedParameterCode.ProductionFATSNF_KG_Unit, trans))
     '    Dim KG_Cnvrsn_Value As Decimal = Nothing
     '    Dim qry As String = ""
@@ -826,7 +826,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '        ''richa agarwal TEC/28/03/19-000462 add item structure on setting based
     '        Dim ItemStructureMandatoryOnWeightConversion As Boolean = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ItemStructureMandatoryOnWeightConversion, clsFixedParameterCode.ItemStructureMandatoryOnWeightConversion, trans)) = 1, True, False))
     '        qry = "select top 1 CF from (Select (case when (Container_UOM='" & Wt_uom & "' and Contained_UOM='" & Weight_KG_Unit & "') then round(Contained_Qty/Container_Qty,4) else case when (Container_UOM='" & Weight_KG_Unit & "' and Contained_UOM='" & Wt_uom & "') then round(Container_Qty/Contained_Qty,4) end end) as CF,product_type from TSPL_WEIGHT_CONVERSION where product_type in ('ALL','" + clsItemMaster.GetItemProductType(Item_Code, trans) + "')  " & IIf(ItemStructureMandatoryOnWeightConversion = True, " and isnull(Structure_Code,'') =(select Structure_Code  from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(Item_Code) & "')", "") & " )aa where isnull(cast(CF as float),0)<>0 order by Product_Type desc"
-    '        KG_Cnvrsn_Value = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+    '        KG_Cnvrsn_Value = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
     '    End If
 
     '    If KG_Cnvrsn_Value > 0 Then
@@ -851,7 +851,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '    qry += " where TSPL_INVENTORY_MOVEMENT.Qty<>0 and TSPL_INVENTORY_MOVEMENT.Item_Code='" + icode + "' " 'and TSPL_INVENTORY_MOVEMENT.location_code='" + strLocation + "' 
     '    qry += " and ((case when tspl_location_master.is_section<>'Y' and tspl_location_master.is_sub_location<>'Y' then tspl_location_master.location_code else tspl_location_master.main_location_code end)='" + strLocation + "') " ' and tspl_location_master.location_code='" + strLocation + "'
 
-    '    Dim intSettingType As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsConsiderOutTypeDocForBalance, clsFixedParameterCode.IsConsiderOutTypeDocForBalance, trans))
+    '    Dim intSettingType As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.IsConsiderOutTypeDocForBalance, clsFixedParameterCode.IsConsiderOutTypeDocForBalance, trans))
     '    If intSettingType = 1 Then
     '        qry += " and 2=(case when TSPL_INVENTORY_MOVEMENT.InOut='O' then 2 else case when TSPL_INVENTORY_MOVEMENT.InOut='I' and TSPL_INVENTORY_MOVEMENT.Punching_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(clsCommon.GETSERVERDATE(trans)), "dd/MMM/yyyy hh:mm tt") + "' then 2 else 0 end end) "
     '    ElseIf intSettingType = 0 Then
@@ -1075,7 +1075,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '    dr("Code") = "1"
     '    dr("Name") = "Complete"
     '    dt.Rows.Add(dr)
-    '    If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowToSkipStageQLLogSheetInProd, clsFixedParameterCode.AllowToSkipStageQLLogSheetInProd, Nothing)) > 0) Then
+    '    If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AllowToSkipStageQLLogSheetInProd, clsFixedParameterCode.AllowToSkipStageQLLogSheetInProd, Nothing)) > 0) Then
     '        dr = dt.NewRow()
     '        dr("Code") = "2"
     '        dr("Name") = "Skip"
@@ -1118,7 +1118,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '    '    qry += " and TSPL_INVENTORY_MOVEMENT_NEW.MRP='" + clsCommon.myCstr(dblMRP) + "'"
     '    'End If
 
-    '    Dim intSettingType As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsConsiderOutTypeDocForBalance, clsFixedParameterCode.IsConsiderOutTypeDocForBalance, trans))
+    '    Dim intSettingType As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.IsConsiderOutTypeDocForBalance, clsFixedParameterCode.IsConsiderOutTypeDocForBalance, trans))
     '    If intSettingType = 1 Then
     '        qry += " and 2=(case when TSPL_INVENTORY_MOVEMENT_NEW.InOut='O' then 2 else case when TSPL_INVENTORY_MOVEMENT_NEW.InOut='I' and TSPL_INVENTORY_MOVEMENT_NEW.Punching_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtDocumentDate), "dd/MMM/yyyy hh:mm tt") + "' then 2 else 0 end end) "
     '    ElseIf intSettingType = 0 Then
@@ -1295,11 +1295,11 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '            End If
     '            Dim CreditAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("CreditAccount")), obj.Location_Code, trans)
     '            If clsCommon.myLen(CreditAcc) > 0 Then
-    '                Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '                Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '                ArryLstGLAC.Add(Acc2)
     '            End If
 
-    '            TotalCreditAmt = TotalCreditAmt + clsCommon.myCdbl(grow.Item("Avg_Cost"))
+    '            TotalCreditAmt = TotalCreditAmt + clsCommon.myCDecimal(grow.Item("Avg_Cost"))
     '        Next
 
     '        qry = " select FE.Item_Code as CONSM_ITEM_CODE,TSPL_ITEM_MASTER.Item_Desc,TSPL_PURCHASE_ACCOUNTS.WIP_Account as CreditAccount,FE.Cost as Avg_Cost from ( " &
@@ -1318,11 +1318,11 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '            End If
     '            Dim CreditAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("CreditAccount")), obj.Location_Code, trans)
     '            If clsCommon.myLen(CreditAcc) > 0 Then
-    '                Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '                Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '                ArryLstGLAC.Add(Acc2)
     '            End If
 
-    '            TotalCreditAmt = TotalCreditAmt + clsCommon.myCdbl(grow.Item("Avg_Cost"))
+    '            TotalCreditAmt = TotalCreditAmt + clsCommon.myCDecimal(grow.Item("Avg_Cost"))
     '        Next
 
     '        ' '' credit wip account of overhead cost
@@ -1338,11 +1338,11 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '        '    End If
     '        '    Dim CreditAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("CreditAccount")), obj.Location_Code, trans)
     '        '    If clsCommon.myLen(CreditAcc) > 0 Then
-    '        '        Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '        '        Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '        '        ArryLstGLAC.Add(Acc2)
     '        '    End If
 
-    '        '    TotalCreditAmt = TotalCreditAmt + clsCommon.myCdbl(grow.Item("Avg_Cost"))
+    '        '    TotalCreditAmt = TotalCreditAmt + clsCommon.myCDecimal(grow.Item("Avg_Cost"))
     '        'Next
 
     '        '' credit wip account of production items
@@ -1359,11 +1359,11 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '            End If
     '            Dim DebitAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("DebitAccount")), obj.Location_Code, trans)
     '            If clsCommon.myLen(DebitAcc) > 0 Then
-    '                Dim Acc2() As String = {DebitAcc, 1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '                Dim Acc2() As String = {DebitAcc, 1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '                ArryLstGLAC.Add(Acc2)
     '            End If
 
-    '            TotalDebitAmt = TotalDebitAmt + clsCommon.myCdbl(grow.Item("Avg_Cost"))
+    '            TotalDebitAmt = TotalDebitAmt + clsCommon.myCDecimal(grow.Item("Avg_Cost"))
     '        Next
 
     '        Dim GLDesc As String = "Journal Entry Against Production Standardization- Doc No." & obj.Doc_Code & " "
@@ -1421,11 +1421,11 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '        '    End If
     '        '    Dim CreditAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("CreditAccount")), obj.Location_Code, trans)
     '        '    If clsCommon.myLen(CreditAcc) > 0 Then
-    '        '        Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '        '        Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '        '        ArryLstGLAC.Add(Acc2)
     '        '    End If
 
-    '        '    TotalCreditAmt = TotalCreditAmt + clsCommon.myCdbl(grow.Item("Avg_Cost"))
+    '        '    TotalCreditAmt = TotalCreditAmt + clsCommon.myCDecimal(grow.Item("Avg_Cost"))
     '        'Next
 
     '        qry = " select FE.Item_Code as CONSM_ITEM_CODE,TSPL_ITEM_MASTER.Item_Desc,TSPL_PURCHASE_ACCOUNTS.Inv_Control_Account as CreditAccount,TSPL_PURCHASE_ACCOUNTS.WIP_Account as DebitAccount,FE.Cost as Avg_Cost from ( " &
@@ -1447,17 +1447,17 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '            End If
     '            Dim CreditAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("CreditAccount")), obj.Location_Code, trans)
     '            If clsCommon.myLen(CreditAcc) > 0 Then
-    '                Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '                Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '                ArryLstGLAC.Add(Acc2)
     '            End If
 
     '            Dim DebitAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("DebitAccount")), obj.Location_Code, trans)
     '            If clsCommon.myLen(DebitAcc) > 0 Then
-    '                Dim Acc2() As String = {DebitAcc, 1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '                Dim Acc2() As String = {DebitAcc, 1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '                ArryLstGLAC.Add(Acc2)
     '            End If
-    '            TotalDebitAmt = TotalDebitAmt + clsCommon.myCdbl(grow.Item("Avg_Cost"))
-    '            TotalCreditAmt = TotalCreditAmt + clsCommon.myCdbl(grow.Item("Avg_Cost"))
+    '            TotalDebitAmt = TotalDebitAmt + clsCommon.myCDecimal(grow.Item("Avg_Cost"))
+    '            TotalCreditAmt = TotalCreditAmt + clsCommon.myCDecimal(grow.Item("Avg_Cost"))
     '        Next
 
     '        ' '' credit wip account of overhead cost
@@ -1473,11 +1473,11 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '        '    End If
     '        '    Dim CreditAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("CreditAccount")), obj.Location_Code, trans)
     '        '    If clsCommon.myLen(CreditAcc) > 0 Then
-    '        '        Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '        '        Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '        '        ArryLstGLAC.Add(Acc2)
     '        '    End If
 
-    '        '    TotalCreditAmt = TotalCreditAmt + clsCommon.myCdbl(grow.Item("Avg_Cost"))
+    '        '    TotalCreditAmt = TotalCreditAmt + clsCommon.myCDecimal(grow.Item("Avg_Cost"))
     '        'Next
 
     '        ' '' credit wip account of production items
@@ -1494,11 +1494,11 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '        '    End If
     '        '    Dim DebitAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("DebitAccount")), obj.Location_Code, trans)
     '        '    If clsCommon.myLen(DebitAcc) > 0 Then
-    '        '        Dim Acc2() As String = {DebitAcc, 1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '        '        Dim Acc2() As String = {DebitAcc, 1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '        '        ArryLstGLAC.Add(Acc2)
     '        '    End If
 
-    '        '    TotalDebitAmt = TotalDebitAmt + clsCommon.myCdbl(grow.Item("Avg_Cost"))
+    '        '    TotalDebitAmt = TotalDebitAmt + clsCommon.myCDecimal(grow.Item("Avg_Cost"))
     '        'Next
 
     '        Dim GLDesc As String = "Journal Entry Against Production Standardization- Doc No." & obj.Doc_Code & " "
@@ -1557,11 +1557,11 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '            End If
     '            Dim CreditAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("CreditAccount")), obj.Location_Code, trans)
     '            If clsCommon.myLen(CreditAcc) > 0 Then
-    '                If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 1 Then
-    '                    Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '                If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 1 Then
+    '                    Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '                    ArryLstGLAC.Add(Acc2)
     '                Else
-    '                    Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCdbl(grow("Avg_Cost")), "", "", "", "", "", "", "I"}
+    '                    Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCDecimal(grow("Avg_Cost")), "", "", "", "", "", "", "I"}
     '                    ArryLstGLAC.Add(Acc2)
 
     '                    ''BHA/27/11/18-000724 by Balwinder on 18/01/2019
@@ -1591,16 +1591,16 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '            End If
     '            Dim CreditAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("CreditAccount")), obj.Location_Code, trans)
     '            If clsCommon.myLen(CreditAcc) > 0 Then
-    '                Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '                Dim Acc2() As String = {CreditAcc, -1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '                ArryLstGLAC.Add(Acc2)
     '            End If
-    '            If clsCommon.myCdbl(grow("IsConsumeItem")) = 1 Then
+    '            If clsCommon.myCDecimal(grow("IsConsumeItem")) = 1 Then
     '                If clsCommon.myLen(grow.Item("WIP_Account")) <= 0 Then
     '                    Throw New Exception("WIP Account not found for Item " & grow.Item("CONSM_ITEM_CODE") & "")
     '                End If
     '                CreditAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("WIP_Account")), obj.Location_Code, trans)
 
-    '                Dim Acc2() As String = {CreditAcc, clsCommon.myCdbl(grow("Avg_Cost"))}
+    '                Dim Acc2() As String = {CreditAcc, clsCommon.myCDecimal(grow("Avg_Cost"))}
     '                ArryLstGLAC.Add(Acc2)
     '            End If
     '        Next
@@ -1617,11 +1617,11 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '            End If
     '            Dim DebitAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(grow.Item("DebitAccount")), obj.Location_Code, trans)
     '            If clsCommon.myLen(DebitAcc) > 0 Then
-    '                If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 1 Then
-    '                    Dim Acc2() As String = {DebitAcc, 1 * clsCommon.myCdbl(grow("Avg_Cost"))}
+    '                If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 1 Then
+    '                    Dim Acc2() As String = {DebitAcc, 1 * clsCommon.myCDecimal(grow("Avg_Cost"))}
     '                    ArryLstGLAC.Add(Acc2)
     '                Else
-    '                    Dim Acc2() As String = {DebitAcc, 1 * clsCommon.myCdbl(grow("Avg_Cost")), "", "", "", "", "", "", "I"}
+    '                    Dim Acc2() As String = {DebitAcc, 1 * clsCommon.myCDecimal(grow("Avg_Cost")), "", "", "", "", "", "", "I"}
     '                    ArryLstGLAC.Add(Acc2)
 
     '                    ''BHA/27/11/18-000724 by Balwinder on 18/01/2019
@@ -1722,7 +1722,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '            Throw New Exception("Cannot cancel document [" + strFutureDoc + "].It is used in Std. Final QC.")
     '        End If
 
-    '        If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RequiredFinalQCofstandardization, clsFixedParameterCode.RequiredFinalQCofstandardization, trans)) = 0) Then
+    '        If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RequiredFinalQCofstandardization, clsFixedParameterCode.RequiredFinalQCofstandardization, trans)) = 0) Then
     '            clsItemLocationDetails.CheckCancelInventoryBalance(Form_Id, Doc_No, trans)
     '        End If
 
@@ -1804,7 +1804,7 @@ End Class
 Public Class clsRCDFStanardizationProduce
 #Region "Variables"
     Public Doc_Code As String = Nothing
-    Public SNO As String = Nothing
+    Public SNO As Integer
     Public Item_Code As String = Nothing
     Public Item_Desc As String = Nothing ''not a table field
     Public BOM_Code As String = Nothing
@@ -1824,7 +1824,7 @@ Public Class clsRCDFStanardizationProduce
 
     Public Shared Function SaveData(ByVal Doc_Code As String, ByVal obj As clsRCDFStanardization, ByVal arr As List(Of clsRCDFStanardizationProduce), ByVal trans As SqlTransaction) As Boolean
         Try
-            Dim qry As String = "delete from TSPL_RCDF_STD_PRODUCE where and Doc_Code='" + Doc_Code + "'"
+            Dim qry As String = "delete from TSPL_RCDF_STD_PRODUCE where   Doc_Code='" + Doc_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim coll As New Hashtable()
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -1851,11 +1851,11 @@ Public Class clsRCDFStanardizationProduce
 
     Public Shared Function GetData(ByVal Doc_Code As String, ByVal trans As SqlTransaction) As List(Of clsRCDFStanardizationProduce)
         Dim objIssueList As New List(Of clsRCDFStanardizationProduce)
-        Dim qry As String = "select TSPL_RCDF_STD_PRODUCE.*,TSPL_ITEM_MASTER.ITEM_DESC,TSPL_ITEM_MASTER.Product_Type from TSPL_RCDF_STD_PRODUCE " &
+        Dim qry As String = "select TSPL_RCDF_STD_PRODUCE.*,TSPL_ITEM_MASTER.ITEM_DESC,TSPL_ITEM_MASTER.Product_Type,TSPL_PP_BOM_HEAD.Description,TSPL_LOCATION_MASTER.Location_Desc from TSPL_RCDF_STD_PRODUCE " &
         " left join TSPL_ITEM_MASTER on TSPL_RCDF_STD_PRODUCE.ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE  " &
         " left join TSPL_PP_BOM_HEAD on TSPL_RCDF_STD_PRODUCE.BOM_Code=TSPL_PP_BOM_HEAD.BOM_CODE " &
-        " left join TSPL_LOCATION_MASTER on TSPL_RCDF_STD_PRODUCE.In_LocationCode=TSPL_LOCATION_MASTER.Location_Code " &
-        " where TSPL_RCDF_STD_PRODUCE.and Doc_Code='" + Doc_Code + "' order by TSPL_RCDF_STD_PRODUCE.PK_ID"
+        " left join TSPL_LOCATION_MASTER on TSPL_RCDF_STD_PRODUCE.Location_Code=TSPL_LOCATION_MASTER.Location_Code " &
+        " where TSPL_RCDF_STD_PRODUCE.Doc_Code='" + Doc_Code + "' order by TSPL_RCDF_STD_PRODUCE.PK_ID"
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
             Dim sno As Integer = 0
@@ -1867,13 +1867,13 @@ Public Class clsRCDFStanardizationProduce
                 objtr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                 objtr.Item_Desc = clsCommon.myCstr(dr("Item_Desc"))
                 objtr.BOM_Code = clsCommon.myCstr(dr("BOM_Code"))
-                objtr.BOM_Desc = clsCommon.myCstr(dr("BOM_Desc"))
+                objtr.BOM_Desc = clsCommon.myCstr(dr("Description"))
                 objtr.Unit_Code = clsCommon.myCstr(dr("Unit_Code"))
-                objtr.Qty = clsCommon.myCdbl(dr("Qty"))
-                objtr.FAT = clsCommon.myCdbl(dr("FAT"))
-                objtr.FAT_KG = clsCommon.myCdbl(dr("FAT_KG"))
-                objtr.SNF = clsCommon.myCdbl(dr("SNF"))
-                objtr.SNF_KG = clsCommon.myCdbl(dr("SNF_KG"))
+                objtr.Qty = clsCommon.myCDecimal(dr("Qty"))
+                objtr.FAT = clsCommon.myCDecimal(dr("FAT"))
+                objtr.FAT_KG = clsCommon.myCDecimal(dr("FAT_KG"))
+                objtr.SNF = clsCommon.myCDecimal(dr("SNF"))
+                objtr.SNF_KG = clsCommon.myCDecimal(dr("SNF_KG"))
                 objtr.Product_Type = clsCommon.myCstr(dr("Product_Type"))
                 objtr.Location_Code = clsCommon.myCstr(dr("Location_Code"))
                 objtr.Location_Desc = clsCommon.myCstr(dr("Location_Desc"))
@@ -1903,7 +1903,7 @@ Public Class clsRCDFStanardizationIssue
 
     Public Shared Function SaveData(ByVal Doc_Code As String, ByVal obj As clsRCDFStanardization, ByVal arr As List(Of clsRCDFStanardizationIssue), ByVal trans As SqlTransaction) As Boolean
         Try
-            Dim qry As String = "delete from TSPL_RCDF_STD_ISSUE where and Doc_Code='" + Doc_Code + "'"
+            Dim qry As String = "delete from TSPL_RCDF_STD_ISSUE where Doc_Code='" + Doc_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
@@ -1930,10 +1930,11 @@ Public Class clsRCDFStanardizationIssue
     End Function
     Public Shared Function GetData(ByVal Doc_Code As String, ByVal trans As SqlTransaction) As List(Of clsRCDFStanardizationIssue)
         Dim objIssueList As New List(Of clsRCDFStanardizationIssue)
-        Dim qry As String = "select TSPL_RCDF_STD_ISSUE.*,TSPL_ITEM_MASTER.ITEM_DESC,TSPL_ITEM_MASTER.Product_Type from TSPL_RCDF_STD_ISSUE " &
+        Dim qry As String = "select TSPL_RCDF_STD_ISSUE.*,TSPL_ITEM_MASTER.ITEM_DESC,TSPL_ITEM_MASTER.Product_Type,TSPL_LOCATION_MASTER.Location_Desc 
+from TSPL_RCDF_STD_ISSUE " &
         " left join TSPL_ITEM_MASTER on TSPL_RCDF_STD_ISSUE.ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE  " &
         " left join TSPL_LOCATION_MASTER on TSPL_RCDF_STD_ISSUE.Location_Code=TSPL_LOCATION_MASTER.Location_Code " &
-        " where TSPL_RCDF_STD_ISSUE.and Doc_Code='" + Doc_Code + "' order by TSPL_RCDF_STD_ISSUE.PK_ID"
+        " where TSPL_RCDF_STD_ISSUE.Doc_Code='" + Doc_Code + "' order by TSPL_RCDF_STD_ISSUE.PK_ID"
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
         If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
@@ -1947,11 +1948,11 @@ Public Class clsRCDFStanardizationIssue
                 objtr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                 objtr.Item_Desc = clsCommon.myCstr(dr("Item_Desc"))
                 objtr.Unit_Code = clsCommon.myCstr(dr("Unit_Code"))
-                objtr.Qty = clsCommon.myCdbl(dr("Qty"))
-                objtr.FAT = clsCommon.myCdbl(dr("FAT"))
-                objtr.FAT_KG = clsCommon.myCdbl(dr("FAT_KG"))
-                objtr.SNF = clsCommon.myCdbl(dr("SNF"))
-                objtr.SNF_KG = clsCommon.myCdbl(dr("SNF_KG"))
+                objtr.Qty = clsCommon.myCDecimal(dr("Qty"))
+                objtr.FAT = clsCommon.myCDecimal(dr("FAT"))
+                objtr.FAT_KG = clsCommon.myCDecimal(dr("FAT_KG"))
+                objtr.SNF = clsCommon.myCDecimal(dr("SNF"))
+                objtr.SNF_KG = clsCommon.myCDecimal(dr("SNF_KG"))
                 objtr.Product_Type = clsCommon.myCstr(dr("Product_Type"))
                 objtr.Location_Code = clsCommon.myCstr(dr("Location_Code"))
                 objtr.Location_Desc = clsCommon.myCstr(dr("Location_Desc"))
@@ -1987,7 +1988,7 @@ Public Class clsRCDFStanardizationAddRemove
 
     Public Shared Function SaveData(ByVal objStd As clsRCDFStanardization, ByVal trans As SqlTransaction) As Boolean
         Try
-            Dim qry As String = "delete from TSPL_RCDF_STD_ADD_REMOVE where and Doc_Code='" + objStd.Doc_Code + "'"
+            Dim qry As String = "delete from TSPL_RCDF_STD_ADD_REMOVE where Doc_Code='" + objStd.Doc_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
             Dim coll As New Hashtable()
             If objStd.ArrARItem IsNot Nothing AndAlso objStd.ArrARItem.Count > 0 Then
@@ -2020,7 +2021,7 @@ Public Class clsRCDFStanardizationAddRemove
         Dim qry As String = "select TSPL_RCDF_STD_ADD_REMOVE.*,TSPL_ITEM_MASTER.ITEM_DESC,TSPL_ITEM_MASTER.Product_Type,TSPL_LOCATION_MASTER.Location_Desc from TSPL_RCDF_STD_ADD_REMOVE " &
         " left join TSPL_ITEM_MASTER on TSPL_RCDF_STD_ADD_REMOVE.ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE  " &
         " left join TSPL_LOCATION_MASTER on TSPL_RCDF_STD_ADD_REMOVE.Location_Code=TSPL_LOCATION_MASTER.Location_Code  " &
-        " where TSPL_RCDF_STD_ADD_REMOVE.and Doc_Code='" + Doc_Code + "' order by sno"
+        " where TSPL_RCDF_STD_ADD_REMOVE.Doc_Code='" + Doc_Code + "' order by TSPL_RCDF_STD_ADD_REMOVE.PK_ID"
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
             Dim sno As Integer = 0
@@ -2034,11 +2035,11 @@ Public Class clsRCDFStanardizationAddRemove
                 objtr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                 objtr.Item_Desc = clsCommon.myCstr(dr("Item_Desc"))
                 objtr.Unit_Code = clsCommon.myCstr(dr("Unit_Code"))
-                objtr.Qty = clsCommon.myCdbl(dr("Qty"))
-                objtr.FAT = clsCommon.myCdbl(dr("FAT"))
-                objtr.FAT_KG = clsCommon.myCdbl(dr("FAT_KG"))
-                objtr.SNF = clsCommon.myCdbl(dr("SNF"))
-                objtr.SNF_KG = clsCommon.myCdbl(dr("SNF_KG"))
+                objtr.Qty = clsCommon.myCDecimal(dr("Qty"))
+                objtr.FAT = clsCommon.myCDecimal(dr("FAT"))
+                objtr.FAT_KG = clsCommon.myCDecimal(dr("FAT_KG"))
+                objtr.SNF = clsCommon.myCDecimal(dr("SNF"))
+                objtr.SNF_KG = clsCommon.myCDecimal(dr("SNF_KG"))
                 objtr.Product_Type = clsCommon.myCstr(dr("Product_Type"))
                 objtr.Location_Code = clsCommon.myCstr(dr("Location_Code"))
                 objtr.Location_Desc = clsCommon.myCstr(dr("Location_Desc"))
