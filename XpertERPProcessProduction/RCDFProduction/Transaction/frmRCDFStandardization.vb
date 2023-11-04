@@ -1859,7 +1859,7 @@ Public Class frmRCDFStandardization
                 Exit Sub
             End If
             'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-            If clsRCDFStanardization.PostData(Me.Form_ID, txtCode.Value, arrLoc) Then
+            If clsRCDFStanardizationTemp.PostData(txtCode.Value, arrLoc, "") Then
                 clsCommon.MyMessageBoxShow("Data Posted Successfully", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
