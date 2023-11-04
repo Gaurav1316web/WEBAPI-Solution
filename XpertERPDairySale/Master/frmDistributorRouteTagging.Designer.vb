@@ -23,7 +23,7 @@ Partial Class frmDistributorRouteTagging
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtEndDate = New common.Controls.MyDateTimePicker()
         Me.UsLock1 = New common.usLock()
@@ -46,6 +46,8 @@ Partial Class frmDistributorRouteTagging
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnTPT = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnDistributor = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -63,6 +65,8 @@ Partial Class frmDistributorRouteTagging
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnTPT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -75,6 +79,8 @@ Partial Class frmDistributorRouteTagging
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.rbtnTPT)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.rbtnDistributor)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtEndDate)
         Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadButton1)
@@ -238,7 +244,7 @@ Partial Class frmDistributorRouteTagging
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -378,6 +384,22 @@ Partial Class frmDistributorRouteTagging
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
+        'rbtnTPT
+        '
+        Me.rbtnTPT.Location = New System.Drawing.Point(575, 12)
+        Me.rbtnTPT.Name = "rbtnTPT"
+        Me.rbtnTPT.Size = New System.Drawing.Size(38, 18)
+        Me.rbtnTPT.TabIndex = 73
+        Me.rbtnTPT.Text = "TPT"
+        '
+        'rbtnDistributor
+        '
+        Me.rbtnDistributor.Location = New System.Drawing.Point(526, 12)
+        Me.rbtnDistributor.Name = "rbtnDistributor"
+        Me.rbtnDistributor.Size = New System.Drawing.Size(43, 18)
+        Me.rbtnDistributor.TabIndex = 72
+        Me.rbtnDistributor.Text = "DIST"
+        '
         'frmDistributorRouteTagging
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -408,6 +430,8 @@ Partial Class frmDistributorRouteTagging
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnTPT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -435,4 +459,6 @@ Partial Class frmDistributorRouteTagging
     Friend WithEvents rmiImport As RadMenuItem
     Friend WithEvents rmiExport As RadMenuItem
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents rbtnTPT As RadRadioButton
+    Friend WithEvents rbtnDistributor As RadRadioButton
 End Class

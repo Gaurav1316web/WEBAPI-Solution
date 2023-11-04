@@ -135,10 +135,13 @@
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngine">
-      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+      <HintPath>..\..\XpertMilkCollection\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineFine">
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertERPFixedAssets">
+      <HintPath>..\..\XpertMilkCollection\bin\Debug\XpertERPFixedAssets.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
