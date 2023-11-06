@@ -1218,7 +1218,7 @@ Public Class frmRCDFStandardization
             If clsCommon.myCDecimal(gvProduce.Rows(0).Cells(colProduceQty).Value) <= 0 Then
                 Throw New Exception("Please select Qty of Produce item")
             End If
-            If clsCommon.myCDecimal(gvProduce.Rows(0).Cells(colProduceStdInLocation).Value) <= 0 Then
+            If clsCommon.myLen(gvProduce.Rows(0).Cells(colProduceStdInLocation).Value) <= 0 Then
                 Throw New Exception("Please select In location of Produce item")
             End If
 
