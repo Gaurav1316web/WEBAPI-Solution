@@ -23,6 +23,38 @@ Public Class clsHeadLoadMaster
         End Try
         Return True
     End Function
+
+    Sub SaveAutoData()
+        Try
+            Dim obj As New clsHeadLoadMaster()
+            obj.Description = "Auto generated"
+            obj.Document_date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt")
+            obj.Start_Date = clsCommon.GetPrintDate("2023-10-01", "dd/MMM/yyyy")
+            obj.Arr = New List(Of clsHeadLoadDCS)
+
+            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code ,TSPL_VENDOR_MASTER.Service_Basis_Head_Load , TSPL_VENDOR_MASTER.Rate_Head_Load  from TSPL_VLC_MASTER_HEAD
+            left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code where TSPL_VLC_MASTER_HEAD.isOwnBMC = 0"
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    Dim objTr As New clsHeadLoadDCS()
+                    objTr.VLC_CODE = clsCommon.myCstr(dr("VLC_Code"))
+                    objTr.Head_Load_Basis = clsCommon.myCstr(dr("Service_Basis_Head_Load"))
+                    objTr.Head_Load_Rate = clsCommon.myCDecimal(dr("Rate_Head_Load"))
+                    obj.Arr.Add(objTr)
+                Next
+            End If
+
+            If (obj.SaveData(obj, True, Nothing)) Then
+                obj.PostData(clsUserMgtCode.frmHeadLoadMaster, obj.Document_No)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
     Public Function SaveData(ByVal obj As clsHeadLoadMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
@@ -31,7 +63,7 @@ Public Class clsHeadLoadMaster
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Description", obj.Description)
-            clsCommon.AddColumnsForChange(coll, "Document_date", clsCommon.GetPrintDate(obj.Document_date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Document_date", clsCommon.GetPrintDate(obj.Document_date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Start_Date", clsCommon.GetPrintDate(obj.Start_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))

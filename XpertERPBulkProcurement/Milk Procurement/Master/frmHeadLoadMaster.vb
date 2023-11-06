@@ -29,7 +29,14 @@ Public Class frmHeadLoadMaster
         If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
             LoadData(clsCommon.myCstr(txtDocumentNo.Value), NavigatorType.Current)
         End If
+        Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD")
+        If isRecordExist = 0 Then
+            Dim obj As New clsHeadLoadMaster
+            obj.SaveAutoData()
+        End If
     End Sub
+
+
 
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         Addnew()
@@ -365,8 +372,8 @@ Public Class frmHeadLoadMaster
         Dim str As String = ""
         If isLoadData = True Then
             str = "select TSPL_HEAD_LOAD_DCS.Document_No as Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_CODE as [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] ,
-        TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name] , 
-        TSPL_HEAD_LOAD_DCS.Head_Load_Rate as [Head Load Rate]  from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_HEAD_LOAD_DCS.VLC_CODE
+        TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name]
+          from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_HEAD_LOAD_DCS.VLC_CODE
          left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_HEAD_LOAD_DCS.Document_No = '" + txtDocumentNo.Value + "' order by Document_No "
         Else
 
@@ -415,29 +422,30 @@ Public Class frmHeadLoadMaster
         repoHeadLoadBasis.ValueMember = "Name"
         repoHeadLoadBasis.ReadOnly = False
 
+        Dim repoHeadLoadRate As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoHeadLoadRate.HeaderText = "Head Load Rate"
+        repoHeadLoadRate.Name = "Head Load Rate"
+        repoHeadLoadRate.Width = 130
+        repoHeadLoadRate.ReadOnly = False
+        repoHeadLoadRate.ShowUpDownButtons = False
+        repoHeadLoadRate.FormatString = ""
+
         If isLoadData = False Then
             gv1.MasterTemplate.Columns.Insert(6, repoHeadLoadBasis)
-
-            Dim repoHeadLoadRate As GridViewDecimalColumn = New GridViewDecimalColumn()
-            repoHeadLoadRate.FormatString = ""
-            repoHeadLoadRate.HeaderText = "Head Load Rate"
-            repoHeadLoadRate.Name = "Head Load Rate"
-            repoHeadLoadRate.Width = 130
-            repoHeadLoadRate.ReadOnly = False
-            repoHeadLoadRate.ShowUpDownButtons = False
 
             gv1.MasterTemplate.Columns.Insert(7, repoHeadLoadRate)
         Else
             gv1.MasterTemplate.Columns.Insert(7, repoHeadLoadBasis)
-
+            gv1.MasterTemplate.Columns.Insert(8, repoHeadLoadRate)
         End If
 
 
         If isLoadData = True Then
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select case when Head_Load_Basis = 'K' then 'Rate/Kg' else 'Rate/Ltr' end as Head_Load_Basis from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select case when Head_Load_Basis = 'K' then 'Rate/Kg' else 'Rate/Ltr' end as Head_Load_Basis, Head_Load_Rate as [Head Load Rate] from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
             For ii As Integer = 0 To gv1.Rows.Count - 1
 
                 gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(dt.Rows(ii)("Head_Load_Basis"))
+                gv1.Rows(ii).Cells("Head Load Rate").Value = clsCommon.myCstr(dt.Rows(ii)("Head Load Rate"))
             Next
         Else
             For ii As Integer = 0 To gv1.Rows.Count - 1
@@ -539,6 +547,8 @@ Public Class frmHeadLoadMaster
         End If
         Me.Controls.Remove(gvImport)
     End Sub
+
+
 End Class
 
 
