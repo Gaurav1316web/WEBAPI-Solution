@@ -134,14 +134,8 @@
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngine">
-      <HintPath>..\..\XpertMilkCollection\bin\Debug\XpertERPEngine.dll</HintPath>
-    </Reference>
     <Reference Include="XpertERPEngineFine">
       <HintPath>..\XpertERPEngineFine\bin\Debug\XpertERPEngineFine.dll</HintPath>
-    </Reference>
-    <Reference Include="XpertERPFixedAssets">
-      <HintPath>..\..\XpertMilkCollection\bin\Debug\XpertERPFixedAssets.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -1052,7 +1046,12 @@
   <ItemGroup>
     <None Include="Resources\search4.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\XpertERPEngine\XpertERPEngine.vbproj">
+      <Project>{fa619d1e-c09f-4d15-9dfa-63c256017d35}</Project>
+      <Name>XpertERPEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
