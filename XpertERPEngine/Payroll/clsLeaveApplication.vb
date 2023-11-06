@@ -48,7 +48,7 @@ Public Class clsLeaveApplication
         Dim StrWhere As String = ""
         Dim whrQry As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrQry = " and tspl_user_master.Default_Location=" + objCommonVar.strCurrUserLocations + ""
+            whrQry = " and tspl_user_master.Default_Location in (" + objCommonVar.strCurrUserLocations + ")"
         End If
 
         If objCommonVar.IsLoginUserHRAdmin = True Then
