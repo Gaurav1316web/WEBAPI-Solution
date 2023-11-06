@@ -49,7 +49,7 @@ Public Class clsMapPayHeadsToSalaStructure
         Dim objtr As New clsMapPayHeadsToSalaStructure()
         Dim whrQry As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrQry = " and Location_Code=" + objCommonVar.strCurrUserLocations + ""
+            whrQry = " and Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
         ObjList = New List(Of clsMapPayHeadsToSalaStructure)
 

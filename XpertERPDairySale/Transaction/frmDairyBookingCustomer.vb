@@ -1854,7 +1854,12 @@ Public Class frmDairyBookingCustomer
                 If chkDCS.Checked Then
                     obj.Is_DCS = 1
                     obj.Booking_Type = cmbcashcredit.Text
-                    obj.LastCollectionDate = txtLastCollectionDate.Text
+                    If clsCommon.myLen(txtLastCollectionDate.Text) > 0 Then
+                        obj.LastCollectionDate = txtLastCollectionDate.Text
+                    Else
+                        obj.LastCollectionDate = Nothing
+
+                    End If
                 Else
                     obj.Booking_Type = ""
                     obj.LastCollectionDate = Nothing
