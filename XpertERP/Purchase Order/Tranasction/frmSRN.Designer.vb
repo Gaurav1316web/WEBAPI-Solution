@@ -142,6 +142,8 @@ Partial Class frmSRN
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadLabel10 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel62 = New common.Controls.MyLabel()
+        Me.TxtRetention = New common.Controls.MyTextBox()
         Me.btnUpdateRoadPermit = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.txt_RoadPermitDate = New common.Controls.MyDateTimePicker()
@@ -166,6 +168,7 @@ Partial Class frmSRN
         Me.MyLabel56 = New common.Controls.MyLabel()
         Me.lblAddChargesForInsurance = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -237,7 +240,6 @@ Partial Class frmSRN
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -350,6 +352,8 @@ Partial Class frmSRN
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdateRoadPermit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txt_RoadPermitDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -586,10 +590,10 @@ Partial Class frmSRN
         Me.RadPageViewPage1.Controls.Add(Me.txtDesc)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(117.0!, 22.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(121.0!, 26.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1105, 498)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1105, 494)
         Me.RadPageViewPage1.Text = "Store Received Note"
         '
         'txttender
@@ -976,7 +980,7 @@ Partial Class frmSRN
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(1106, 178)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1106, 174)
         Me.SplitContainer3.SplitterDistance = 96
         Me.SplitContainer3.TabIndex = 58
         '
@@ -1028,7 +1032,7 @@ Partial Class frmSRN
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1106, 78)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1106, 74)
         Me.RadGroupBox2.TabIndex = 0
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1052,7 +1056,7 @@ Partial Class frmSRN
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1086, 48)
+        Me.gv1.Size = New System.Drawing.Size(1086, 44)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -1061,7 +1065,7 @@ Partial Class frmSRN
         Me.lblDocAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.lblDocAmount.FieldName = Nothing
         Me.lblDocAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocAmount.Location = New System.Drawing.Point(734, 423)
+        Me.lblDocAmount.Location = New System.Drawing.Point(734, 419)
         Me.lblDocAmount.Name = "lblDocAmount"
         Me.lblDocAmount.Size = New System.Drawing.Size(100, 16)
         Me.lblDocAmount.TabIndex = 30
@@ -1074,7 +1078,7 @@ Partial Class frmSRN
         Me.lblAmount.BorderVisible = True
         Me.lblAmount.FieldName = Nothing
         Me.lblAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAmount.Location = New System.Drawing.Point(836, 422)
+        Me.lblAmount.Location = New System.Drawing.Point(836, 418)
         Me.lblAmount.Name = "lblAmount"
         Me.lblAmount.Size = New System.Drawing.Size(110, 18)
         Me.lblAmount.TabIndex = 29
@@ -1121,7 +1125,7 @@ Partial Class frmSRN
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel5.Location = New System.Drawing.Point(365, 488)
+        Me.MyLabel5.Location = New System.Drawing.Point(365, 484)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(523, 13)
         Me.MyLabel5.TabIndex = 30
@@ -1136,7 +1140,7 @@ Partial Class frmSRN
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 412)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 408)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
@@ -1270,7 +1274,7 @@ Partial Class frmSRN
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.ForeColor = System.Drawing.Color.Blue
-        Me.MyLabel2.Location = New System.Drawing.Point(-1, 488)
+        Me.MyLabel2.Location = New System.Drawing.Point(-1, 484)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(360, 13)
         Me.MyLabel2.TabIndex = 25
@@ -2078,7 +2082,7 @@ Partial Class frmSRN
         Me.RadPageViewPage5.Controls.Add(Me.chk_c_form)
         Me.RadPageViewPage5.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage5.Controls.Add(Me.Chkroadpermit)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(84.0!, 22.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(88.0!, 26.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(1105, 494)
@@ -2184,7 +2188,7 @@ Partial Class frmSRN
         Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1105, 494)
@@ -2295,6 +2299,8 @@ Partial Class frmSRN
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel62)
+        Me.RadGroupBox1.Controls.Add(Me.TxtRetention)
         Me.RadGroupBox1.Controls.Add(Me.btnUpdateRoadPermit)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel12)
         Me.RadGroupBox1.Controls.Add(Me.txt_RoadPermitDate)
@@ -2313,6 +2319,42 @@ Partial Class frmSRN
         Me.RadGroupBox1.Size = New System.Drawing.Size(1105, 87)
         Me.RadGroupBox1.TabIndex = 3
         Me.RadGroupBox1.Text = "Terms"
+        '
+        'MyLabel62
+        '
+        Me.MyLabel62.AutoSize = False
+        Me.MyLabel62.FieldName = Nothing
+        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel62.Location = New System.Drawing.Point(568, 14)
+        Me.MyLabel62.Name = "MyLabel62"
+        Me.MyLabel62.Size = New System.Drawing.Size(72, 29)
+        Me.MyLabel62.TabIndex = 157
+        Me.MyLabel62.Text = "Retention"
+        '
+        'TxtRetention
+        '
+        Me.TxtRetention.CalculationExpression = Nothing
+        Me.TxtRetention.FieldCode = Nothing
+        Me.TxtRetention.FieldDesc = Nothing
+        Me.TxtRetention.FieldMaxLength = 0
+        Me.TxtRetention.FieldName = Nothing
+        Me.TxtRetention.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtRetention.isCalculatedField = False
+        Me.TxtRetention.IsSourceFromTable = False
+        Me.TxtRetention.IsSourceFromValueList = False
+        Me.TxtRetention.IsUnique = False
+        Me.TxtRetention.Location = New System.Drawing.Point(646, 19)
+        Me.TxtRetention.MaxLength = 200
+        Me.TxtRetention.MendatroryField = False
+        Me.TxtRetention.MyLinkLable1 = Me.MyLabel62
+        Me.TxtRetention.MyLinkLable2 = Nothing
+        Me.TxtRetention.Name = "TxtRetention"
+        Me.TxtRetention.ReadOnly = True
+        Me.TxtRetention.ReferenceFieldDesc = Nothing
+        Me.TxtRetention.ReferenceFieldName = Nothing
+        Me.TxtRetention.ReferenceTableName = Nothing
+        Me.TxtRetention.Size = New System.Drawing.Size(84, 18)
+        Me.TxtRetention.TabIndex = 156
         '
         'btnUpdateRoadPermit
         '
@@ -2516,7 +2558,7 @@ Partial Class frmSRN
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1105, 494)
@@ -2682,16 +2724,24 @@ Partial Class frmSRN
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1105, 494)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1105, 494)
+        Me.UcCustomFields1.TabIndex = 2
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1105, 494)
@@ -2744,7 +2794,7 @@ Partial Class frmSRN
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1105, 494)
@@ -3495,14 +3545,6 @@ Partial Class frmSRN
         WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
         Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1105, 494)
-        Me.UcCustomFields1.TabIndex = 2
-        '
         'frmSRN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3635,6 +3677,8 @@ Partial Class frmSRN
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdateRoadPermit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txt_RoadPermitDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3942,5 +3986,7 @@ Partial Class frmSRN
     Friend WithEvents MyDateTimePicker1 As common.Controls.MyDateTimePicker
     Friend WithEvents txttender As common.Controls.MyTextBox
     Friend WithEvents labtender As common.Controls.MyLabel
+    Friend WithEvents MyLabel62 As common.Controls.MyLabel
+    Friend WithEvents TxtRetention As common.Controls.MyTextBox
 End Class
 

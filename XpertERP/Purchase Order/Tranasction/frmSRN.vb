@@ -5052,6 +5052,7 @@ Public Class frmSRN
                 obj.Form_38 = txtForm38.Text
                 obj.Is_Internal = chkInternal.Checked
                 obj.Confirmatory_PO = chkConfirmatoryPO.Checked
+                obj.Retention = clsCommon.myCdbl(TxtRetention.Text)
                 'stuti
                 If txt_RoadPermitDate.Text IsNot Nothing AndAlso clsCommon.myLen(txt_RoadPermitDate.Text) > 0 AndAlso IsDate(txt_RoadPermitDate.Text) Then
                     obj.RoadPermit_Date = clsCommon.myCDate(txt_RoadPermitDate.Text)
@@ -5705,6 +5706,7 @@ Public Class frmSRN
                 lblLeakAmt.Text = clsCommon.myFormat(obj.Total_Leak_Amount)
                 lblBurstAmt.Text = clsCommon.myFormat(obj.Total_Burst_Amount)
                 chkShorategeIncludeInLandedCost.Checked = obj.Is_Shortage_Include_In_Landed_Cost
+                TxtRetention.Text = obj.Retention
 
 
                 Dim objTaxGrpMaster As New clsTaxGroupMaster()
@@ -7094,6 +7096,7 @@ Public Class frmSRN
                     txtSubLocation.Value = objMRNHead.Sublocation_Code
                     lblSubLocation.Text = clsLocation.GetName(objMRNHead.Sublocation_Code, Nothing)
                     txtSubLocation.Enabled = False
+                    TxtRetention.Text = objMRNHead.Retention
                     If (clsCommon.myLen(cboItemType.SelectedValue) <= 0) Then
                         cboItemType.SelectedValue = objMRNHead.Item_Type
                     End If
@@ -7468,7 +7471,7 @@ Public Class frmSRN
                         txt_RoadPermitNo.Text = objMRNHead.RoadPermit_No
                     End If
                     '=======end here=====
-
+                    TxtRetention.Text = objMRNHead.Retention
                     chkJobWorkOutward.Checked = IIf(objMRNHead.isJobWorkOutward = 1, True, False)
                     If clsCommon.myLen(txtCarrier.Text) <= 0 Then
                         txtCarrier.Text = objMRNHead.Carrier

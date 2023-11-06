@@ -48,7 +48,11 @@ Public Class frmDistributorCommission
         GV1.MasterTemplate.Columns.Add(repoRouteName)
         Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustCode.FormatString = ""
-        repoCustCode.HeaderText = "Distributor Code"
+        If rbtnCommission.IsChecked Then
+            repoCustCode.HeaderText = "Distributor Code"
+        Else
+            repoCustCode.HeaderText = "Transpoter Code"
+        End If
         repoCustCode.Name = colCustCode
         repoCustCode.Width = 150
         repoCustCode.IsVisible = True
@@ -58,7 +62,11 @@ Public Class frmDistributorCommission
         GV1.MasterTemplate.Columns.Add(repoCustCode)
         Dim repoCustName = New GridViewTextBoxColumn()
         repoCustName.FormatString = ""
-        repoCustName.HeaderText = "Distributor Name"
+        If rbtnCommission.IsChecked Then
+            repoCustName.HeaderText = "Distributor Name"
+        Else
+            repoCustName.HeaderText = "Transpoter Name"
+        End If
         repoCustName.Name = colCustName
         repoCustName.Width = 200
         repoCustName.IsVisible = True
@@ -98,7 +106,9 @@ Public Class frmDistributorCommission
         lblStatus.Status = ERPTransactionStatus.Pending
         txtDocNo.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
-        txtApplicableDate.Value = clsCommon.GETSERVERDATE()
+        txtApplicableDate.Value = txtDate.Value
+        rbtnCommission.IsChecked = True
+        rbtnTranspotation.IsChecked = False
         txtDistributorTagging.Value = ""
         txtItems.arrValueMember = Nothing
         txtItems.arrDispalyMember = Nothing
@@ -532,5 +542,17 @@ group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DIST
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub rbtnCommission_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnCommission.CheckStateChanged
+        If rbtnCommission.IsChecked Then
+            rbtnTranspotation.IsChecked = False
+        End If
+    End Sub
+
+    Private Sub rbtnTranspotation_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnTranspotation.CheckStateChanged
+        If rbtnTranspotation.IsChecked Then
+            rbtnCommission.IsChecked = False
+        End If
     End Sub
 End Class

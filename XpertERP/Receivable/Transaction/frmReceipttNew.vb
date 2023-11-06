@@ -209,6 +209,26 @@ Public Class FrmReceipttNew
     Dim ERPStartDate As Date
     Dim RefundknockoffwithCreditNote As Boolean = False
     Dim EnableGoButtonofReceiptEntryWithoutEnteringReceiptAmt As Boolean = False
+    Dim receiptForm As Boolean = True
+    Public Check As Boolean = False
+    Public Property StringPass As String
+    Public Property StringPass1 As String
+    Public ReceiptFormOpen As Boolean = False
+    'Dim rceceiptformOpens As New frmCustomer("", "")
+    'Dim valueEntry As Boolean = rceceiptformOpens.ReceiptFormOpens
+    Dim strRecieptCode As String = ""
+    Dim valueEntry As Boolean = True
+    'Dim frm As New frmCustomer("", "")
+    'Public Event _MYOpenMasterForm As EventHandler
+    'Dim frm1 As New frmCustomer("user", "company")
+
+
+
+
+
+
+
+
 #End Region
 
 #Region "Button Click"
@@ -353,6 +373,24 @@ Public Class FrmReceipttNew
             chkForCardSale.Visible = True
         Else
             chkForCardSale.Visible = False
+        End If
+
+        If valueEntry Then
+            ddlTransType.SelectedValue = "P"
+            chkSecurityDposit.Checked = True
+            ddlSecDepositType.SelectedValue = "S"
+            fndCustomer.Value = StringPass1
+            txtCusName.Text = StringPass
+            funFillDetails(ddlTransType.SelectedValue, NavigatorType.Current)
+        Else
+            ddlTransType.SelectedValue = "R"
+
+        End If
+
+        'Dim obj1 As New clsRcptEntryHeader()
+        If clsCommon.myLen(strRecieptCode) > 0 Then
+            fndRcptNo.Value = strRecieptCode
+            funFillDetails(fndRcptNo.Value, NavigatorType.Current)
         End If
     End Sub
     Sub SetMultiCurrencyVisibility()
@@ -8164,6 +8202,60 @@ Public Class FrmReceipttNew
         clsOpenBankCashBook.ShowBankCashBookDatails(fndRcptNo.Value)
     End Sub
 
+    'Public Sub txtsalesmanCode_MYOpenMasterForm(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtsalesmanCode._MYOpenMasterForm
+    '    ' Replace "MasterForm" with your actual master form class name.
+    '    customerform.Show()
+
+    'End Sub
+
+    'Private Sub txtsalesmanCode_Click(sender As Object, e As EventArgs) Handles txtsalesmanCode.Click
+    '    RaiseEvent _MYOpenMasterForm(Me, EventArgs.Empty)
+
+    'End Sub
+
+    Public Sub fndCustomer_MYOpenMaterForm(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustomer._MYOpenMasterForm
+        'Application.OpenForms("MDI").Controls("__txtDocNo").Text = "10003"
+        'Application.OpenForms("MDI").Controls("__txtScreenID").Text = clsUserMgtCode.CustomerMaster
+        Dim strCode As String = Nothing
+
+        Try
+            Dim frm As New frmCustomer("", "")
+
+            Dim strProgramName As String = ""
+            Dim strProgramCode As String = clsUserMgtCode.CustomerMaster
+            If MDI.setCountertoblockforOpenForm(strProgramCode) = True Then
+                If MDI.IsOriginalName = True Then
+                    strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Program_Name as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
+                Else
+                    strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when LEN(ISNULL(Re_Name,''))>0 then Re_Name else Program_Name end as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
+                End If
+
+                MDI.formShow(frm, strProgramCode, strProgramName, True, strCode, True)
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+
+    End Sub
+
+
+    'Private Sub fndCustomer_Click(sender As Object, e As EventArgs) Handles fndCustomer.Click
+    '    RaiseEvent _MYOpenMasterForm(Me, EventArgs.Empty)
+
+    'End Sub
+
+
+    'Private Sub txtsalesmanCode_Click(sender As Object, e As EventArgs) Handles txtsalesmanCode.Click
+    '    OpenCustomerFormFromReceiptForm()
+
+    'End Sub
+
+    'Private Sub OpenCustomerFormFromReceiptForm()
+    '    Dim customerForm As New frmCustomer()
+    '    customerForm.Show()
+    'End Sub
+
     Private Sub txtLoadIn__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtLoadIn._MYValidating
         Dim Qry As String = "select TSPL_RCDF_LOAD_IN.Document_Code,TSPL_RCDF_LOAD_IN.Document_Date,TSPL_RCDF_LOAD_IN.Location_Code,TSPL_RCDF_LOAD_IN.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_RCDF_LOAD_IN.Vehicle_No 
 from TSPL_RCDF_LOAD_IN
@@ -8176,4 +8268,7 @@ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_RCDF
             txtUnApplAmt.Text = clsCommon.myFormat(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(Qry)))
         End If
     End Sub
+
+
+
 End Class

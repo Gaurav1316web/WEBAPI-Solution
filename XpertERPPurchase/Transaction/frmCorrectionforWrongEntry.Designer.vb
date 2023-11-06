@@ -25,6 +25,8 @@ Partial Class frmCorrectionforWrongEntry
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtGEDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel20 = New common.Controls.MyLabel()
         Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
         Me.MyTextBox1 = New common.Controls.MyTextBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
@@ -35,7 +37,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.MyLabel13 = New common.Controls.MyLabel()
         Me.txtSRN = New common.Controls.MyTextBox()
-        Me.txtGEDate = New common.Controls.MyDateTimePicker()
+        Me.txtGEDatee = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtInvoiceDate = New common.Controls.MyDateTimePicker()
         Me.txtDate = New common.Controls.MyDateTimePicker()
@@ -52,7 +54,6 @@ Partial Class frmCorrectionforWrongEntry
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtItemType = New common.Controls.MyTextBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.RadLabel20 = New common.Controls.MyLabel()
         Me.txtGENo = New common.Controls.MyTextBox()
         Me.RadLabel21 = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -147,6 +148,8 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyTextBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -157,7 +160,7 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSRN, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGEDatee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -174,7 +177,6 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtItemType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -296,6 +298,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtGEDate)
         Me.RadPageViewPage1.Controls.Add(Me.btnUpdate)
         Me.RadPageViewPage1.Controls.Add(Me.MyTextBox1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel9)
@@ -306,7 +309,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel14)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel13)
         Me.RadPageViewPage1.Controls.Add(Me.txtSRN)
-        Me.RadPageViewPage1.Controls.Add(Me.txtGEDate)
+        Me.RadPageViewPage1.Controls.Add(Me.txtGEDatee)
         Me.RadPageViewPage1.Controls.Add(Me.txtInvoiceDate)
         Me.RadPageViewPage1.Controls.Add(Me.txtDate)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel12)
@@ -357,9 +360,50 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageViewPage1.Size = New System.Drawing.Size(999, 626)
         Me.RadPageViewPage1.Text = "Gate Received Note"
         '
+        'txtGEDate
+        '
+        Me.txtGEDate.CalculationExpression = Nothing
+        Me.txtGEDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtGEDate.FieldCode = Nothing
+        Me.txtGEDate.FieldDesc = Nothing
+        Me.txtGEDate.FieldMaxLength = 0
+        Me.txtGEDate.FieldName = Nothing
+        Me.txtGEDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGEDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtGEDate.isCalculatedField = False
+        Me.txtGEDate.IsSourceFromTable = False
+        Me.txtGEDate.IsSourceFromValueList = False
+        Me.txtGEDate.IsUnique = False
+        Me.txtGEDate.Location = New System.Drawing.Point(106, 351)
+        Me.txtGEDate.MendatroryField = False
+        Me.txtGEDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtGEDate.MyLinkLable1 = Me.RadLabel20
+        Me.txtGEDate.MyLinkLable2 = Nothing
+        Me.txtGEDate.Name = "txtGEDate"
+        Me.txtGEDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtGEDate.ReferenceFieldDesc = Nothing
+        Me.txtGEDate.ReferenceFieldName = Nothing
+        Me.txtGEDate.ReferenceTableName = Nothing
+        Me.txtGEDate.ShowCheckBox = True
+        Me.txtGEDate.Size = New System.Drawing.Size(150, 18)
+        Me.txtGEDate.TabIndex = 102
+        Me.txtGEDate.TabStop = False
+        Me.txtGEDate.Text = "13/06/2011"
+        Me.txtGEDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'RadLabel20
+        '
+        Me.RadLabel20.FieldName = Nothing
+        Me.RadLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel20.Location = New System.Drawing.Point(13, 351)
+        Me.RadLabel20.Name = "RadLabel20"
+        Me.RadLabel20.Size = New System.Drawing.Size(50, 16)
+        Me.RadLabel20.TabIndex = 71
+        Me.RadLabel20.Text = "GE Date"
+        '
         'btnUpdate
         '
-        Me.btnUpdate.Location = New System.Drawing.Point(13, 479)
+        Me.btnUpdate.Location = New System.Drawing.Point(13, 520)
         Me.btnUpdate.Name = "btnUpdate"
         Me.btnUpdate.Size = New System.Drawing.Size(69, 22)
         Me.btnUpdate.TabIndex = 100
@@ -472,7 +516,7 @@ Partial Class frmCorrectionforWrongEntry
         'SRNDate
         '
         Me.SRNDate.CalculationExpression = Nothing
-        Me.SRNDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.SRNDate.CustomFormat = "dd/MM/yyyy hh:mm:ss.ttt"
         Me.SRNDate.FieldCode = Nothing
         Me.SRNDate.FieldDesc = Nothing
         Me.SRNDate.FieldMaxLength = 0
@@ -496,7 +540,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.SRNDate.Size = New System.Drawing.Size(150, 18)
         Me.SRNDate.TabIndex = 96
         Me.SRNDate.TabStop = False
-        Me.SRNDate.Text = "16/10/2023 11:10 AM"
+        Me.SRNDate.Text = "16/10/2023 11:10:59.AM"
         Me.SRNDate.Value = New Date(2023, 10, 16, 11, 10, 59, 0)
         '
         'MyLabel14
@@ -546,35 +590,35 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtSRN.Size = New System.Drawing.Size(150, 18)
         Me.txtSRN.TabIndex = 94
         '
-        'txtGEDate
+        'txtGEDatee
         '
-        Me.txtGEDate.CalculationExpression = Nothing
-        Me.txtGEDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtGEDate.FieldCode = Nothing
-        Me.txtGEDate.FieldDesc = Nothing
-        Me.txtGEDate.FieldMaxLength = 0
-        Me.txtGEDate.FieldName = Nothing
-        Me.txtGEDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtGEDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtGEDate.isCalculatedField = False
-        Me.txtGEDate.IsSourceFromTable = False
-        Me.txtGEDate.IsSourceFromValueList = False
-        Me.txtGEDate.IsUnique = False
-        Me.txtGEDate.Location = New System.Drawing.Point(106, 350)
-        Me.txtGEDate.MendatroryField = False
-        Me.txtGEDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtGEDate.MyLinkLable1 = Me.RadLabel4
-        Me.txtGEDate.MyLinkLable2 = Nothing
-        Me.txtGEDate.Name = "txtGEDate"
-        Me.txtGEDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtGEDate.ReferenceFieldDesc = Nothing
-        Me.txtGEDate.ReferenceFieldName = Nothing
-        Me.txtGEDate.ReferenceTableName = Nothing
-        Me.txtGEDate.Size = New System.Drawing.Size(150, 18)
-        Me.txtGEDate.TabIndex = 93
-        Me.txtGEDate.TabStop = False
-        Me.txtGEDate.Text = "13/06/2011"
-        Me.txtGEDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtGEDatee.CalculationExpression = Nothing
+        Me.txtGEDatee.CustomFormat = "dd/MM/yyyy"
+        Me.txtGEDatee.FieldCode = Nothing
+        Me.txtGEDatee.FieldDesc = Nothing
+        Me.txtGEDatee.FieldMaxLength = 0
+        Me.txtGEDatee.FieldName = Nothing
+        Me.txtGEDatee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGEDatee.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtGEDatee.isCalculatedField = False
+        Me.txtGEDatee.IsSourceFromTable = False
+        Me.txtGEDatee.IsSourceFromValueList = False
+        Me.txtGEDatee.IsUnique = False
+        Me.txtGEDatee.Location = New System.Drawing.Point(475, 213)
+        Me.txtGEDatee.MendatroryField = False
+        Me.txtGEDatee.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtGEDatee.MyLinkLable1 = Me.RadLabel4
+        Me.txtGEDatee.MyLinkLable2 = Nothing
+        Me.txtGEDatee.Name = "txtGEDatee"
+        Me.txtGEDatee.ReferenceFieldDesc = Nothing
+        Me.txtGEDatee.ReferenceFieldName = Nothing
+        Me.txtGEDatee.ReferenceTableName = Nothing
+        Me.txtGEDatee.Size = New System.Drawing.Size(150, 18)
+        Me.txtGEDatee.TabIndex = 93
+        Me.txtGEDatee.TabStop = False
+        Me.txtGEDatee.Text = "13/06/2011"
+        Me.txtGEDatee.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        Me.txtGEDatee.Visible = False
         '
         'RadLabel4
         '
@@ -877,16 +921,6 @@ Partial Class frmCorrectionforWrongEntry
         Me.MyLabel7.TabIndex = 72
         Me.MyLabel7.Text = "Item Type"
         '
-        'RadLabel20
-        '
-        Me.RadLabel20.FieldName = Nothing
-        Me.RadLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel20.Location = New System.Drawing.Point(13, 351)
-        Me.RadLabel20.Name = "RadLabel20"
-        Me.RadLabel20.Size = New System.Drawing.Size(50, 16)
-        Me.RadLabel20.TabIndex = 71
-        Me.RadLabel20.Text = "GE Date"
-        '
         'txtGENo
         '
         Me.txtGENo.CalculationExpression = Nothing
@@ -919,7 +953,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadLabel21.Name = "RadLabel21"
         Me.RadLabel21.Size = New System.Drawing.Size(78, 16)
         Me.RadLabel21.TabIndex = 69
-        Me.RadLabel21.Text = "Gate Entry No"
+        Me.RadLabel21.Text = "GE Number"
         '
         'MyLabel6
         '
@@ -2108,7 +2142,7 @@ Partial Class frmCorrectionforWrongEntry
         'btnClose
         '
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(924, 18)
+        Me.btnClose.Location = New System.Drawing.Point(930, 18)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 73
@@ -2140,6 +2174,8 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyTextBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2150,7 +2186,7 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSRN, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGEDatee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2167,7 +2203,6 @@ Partial Class frmCorrectionforWrongEntry
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtItemType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2312,7 +2347,7 @@ Partial Class frmCorrectionforWrongEntry
     Friend WithEvents txtPINo As common.Controls.MyTextBox
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
     Friend WithEvents txtInvoiceDate As common.Controls.MyDateTimePicker
-    Friend WithEvents txtGEDate As common.Controls.MyDateTimePicker
+    Friend WithEvents txtGEDatee As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel13 As common.Controls.MyLabel
     Friend WithEvents txtSRN As common.Controls.MyTextBox
     Friend WithEvents SRNDate As common.Controls.MyDateTimePicker
@@ -2381,4 +2416,5 @@ Partial Class frmCorrectionforWrongEntry
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnUpdate As RadButton
     Friend WithEvents MyTextBox1 As common.Controls.MyTextBox
+    Friend WithEvents txtGEDate As common.Controls.MyDateTimePicker
 End Class

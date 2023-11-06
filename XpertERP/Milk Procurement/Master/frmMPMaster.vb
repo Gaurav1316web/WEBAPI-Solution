@@ -800,19 +800,23 @@ Public Class FrmMPMaster
                 obj.arrAnimalDetail.Add(objAnimal)
             Next
             obj.PayeeName = clsCommon.myCstr(txtPayeeName.Text)
+            Dim IFSCText As String
             If EnableBankFromMaster = True Then
                 obj.BankName = clsCommon.myCstr(txtBankCode.Value)
                 obj.BankBranch = clsCommon.myCstr(txtBankBranch.Value)
                 obj.BankCityCode = clsCommon.myCstr(fndBankCity.Value)
                 obj.BankStateCode = clsCommon.myCstr(fndBankState.Value)
+                IFSCText = txtIFCICode.Text
                 obj.IFCICode = clsCommon.myCstr(txtIFCICode.Text)
             Else
                 obj.BankName = clsCommon.myCstr(txtNameOfBank_M.Text)
                 obj.BankBranch = clsCommon.myCstr(txtBankBranch_M.Text)
                 obj.BankCityCode = clsCommon.myCstr(txtBankCity_M.Text)
                 obj.BankStateCode = clsCommon.myCstr(txtBankState_M.Text)
-                obj.IFCICode = clsCommon.myCstr(txtBankIFSC_M.Text)
+                IFSCText = txtBankIFSC_M.Text
             End If
+            IFSCText = IFSCText.ToUpper()
+            obj.IFCICode = clsCommon.myCstr(IFSCText)
 
             obj.AccountNO = clsCommon.myCstr(txtAccountNo.Text)
             obj.Account_Type = clsCommon.myCstr(cmbAccount_Type.Text)
@@ -1022,7 +1026,7 @@ Public Class FrmMPMaster
                     txtVSPName.Text = ""
                 End If
                 '==================================
-                
+
                 'If obj.arrBuffaloesDetail.Count > 0 Then
                 '    loadBlankDgvBuffaloes()
                 '    For i As Integer = 0 To obj.arrBuffaloesDetail.Count - 1
@@ -1675,6 +1679,12 @@ Public Class FrmMPMaster
                     If clsCommon.myLen(strData) <= 0 Then
                         Throw New Exception("MP Name Can Not Be Left Blank")
                     End If
+                    Dim pattern As String = "[^a-zA-Z\s]"
+                    Dim regex As New Regex(pattern)
+
+                    If regex.IsMatch(strData) Then
+                        Throw New Exception("Special Characters And Numbers Are Not Allowed In MP Name")
+                    End If
                     If clsCommon.myLen(strData) > 50 Then
                         Throw New Exception("MP Name Can Not Be Larger Then 50 Charachter")
                     End If
@@ -1781,6 +1791,9 @@ Public Class FrmMPMaster
                     obj.Milk_Home_consumption = clsCommon.myCdbl(grow.Cells("Milk For Self Consumption").Value)
                     obj.Milk_For_sale = clsCommon.myCdbl(grow.Cells("Milk For Sale").Value)
                     obj.Milk_For_sale = clsCommon.myCdbl(grow.Cells("Milk For Sale").Value)
+                    If regex.IsMatch(clsCommon.myCstr(grow.Cells("Payee Name").Value)) Then
+                        Throw New Exception("Special Characters And Numbers Are Not Allowed In Payee Name")
+                    End If
                     obj.PayeeName = clsCommon.myCstr(grow.Cells("Payee Name").Value)
 
                     '' Panch Raj: adding cust acc set ad vendor acc set 
@@ -1906,7 +1919,7 @@ Public Class FrmMPMaster
                                 obj.BankBranch = clsCommon.myCstr(dt.Rows(0)("BRANCH"))
                                 obj.BankStateCode = clsCommon.myCstr(dt.Rows(0)("STATE"))
                                 obj.BankCityCode = clsCommon.myCstr(dt.Rows(0)("CITY"))
-                                obj.IFCICode = clsCommon.myCstr(dt.Rows(0)("IFSC"))
+                                obj.IFCICode = clsCommon.myCstr(dt.Rows(0)("IFSC")).ToUpper()
                                 If clsCommon.myCstr(grow.Cells("Account No").Value).Contains("E+") OrElse clsCommon.myCstr(grow.Cells("Account No").Value).Contains("E-") Then
                                     obj.AccountNO = Decimal.Parse(clsCommon.myCstr(grow.Cells("Account No").Value), System.Globalization.NumberStyles.Float)
                                 Else
@@ -1929,7 +1942,7 @@ Public Class FrmMPMaster
                             End If
 
                             obj.BankBranch = clsCommon.myCstr(grow.Cells("Bank Branch").Value)
-                            obj.IFCICode = clsCommon.myCstr(grow.Cells("IFSC Code").Value)
+                            obj.IFCICode = clsCommon.myCstr(grow.Cells("IFSC Code").Value).ToUpper()
                             If clsCommon.myLen(obj.IFCICode) > 0 Then
                                 qqq = "select Bank_IFSC_Code from TSPL_Vendor_Bank_Branch_Details where Bank_code ='" & grow.Cells("Bank Code").Value & "' and Bank_IFSC_Code = '" & grow.Cells("IFSC Code").Value & "' "
                                 Dim checkCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qqq, trans))
@@ -2417,7 +2430,7 @@ Public Class FrmMPMaster
         End If
         txtIncentiveMult.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "IncenMulSelForMP", qry, "Code", "Name", txtIncentiveMult.arrValueMember, txtIncentiveMult.arrDispalyMember)
     End Sub
-   
+
     Private Sub btnIncentiveClear_Click(sender As Object, e As EventArgs)
         txtIncentiveMult.arrValueMember = Nothing
     End Sub
@@ -2682,4 +2695,17 @@ Public Class FrmMPMaster
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
+
+    Private Sub txtMPName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtMPName.KeyPress
+        If Char.IsControl(e.KeyChar) = False And Char.IsSeparator(e.KeyChar) = False And Char.IsLetter(e.KeyChar) = False Then
+            e.Handled = True
+        End If
+    End Sub
+
+    Private Sub txtPayeeName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPayeeName.KeyPress
+
+        If Char.IsControl(e.KeyChar) = False And Char.IsSeparator(e.KeyChar) = False And Char.IsLetter(e.KeyChar) = False Then
+            e.Handled = True
+        End If
+    End Sub
 End Class

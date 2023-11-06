@@ -293,6 +293,7 @@ Partial Class FrmItemMasterRMOther
         Me.rmiClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.chkExcludeInApp = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -517,6 +518,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkExcludeInApp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -565,6 +567,7 @@ Partial Class FrmItemMasterRMOther
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkExcludeInApp)
         Me.RadPageViewPage1.Controls.Add(Me.txtBmBdQty)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabelL)
         Me.RadPageViewPage1.Controls.Add(Me.gbBuyBack)
@@ -4242,6 +4245,17 @@ Partial Class FrmItemMasterRMOther
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         Me.OpenFileDialog1.Filter = "Image Files(*.BMP;*.JPG;*.JEPG;*.GIF)|*.BMP;*.JPG;*.JEPG;*.GIF"
         '
+        'chkExcludeInApp
+        '
+        Me.chkExcludeInApp.Location = New System.Drawing.Point(855, 206)
+        Me.chkExcludeInApp.MyLinkLable1 = Nothing
+        Me.chkExcludeInApp.MyLinkLable2 = Nothing
+        Me.chkExcludeInApp.Name = "chkExcludeInApp"
+        Me.chkExcludeInApp.Size = New System.Drawing.Size(94, 18)
+        Me.chkExcludeInApp.TabIndex = 206
+        Me.chkExcludeInApp.Tag1 = Nothing
+        Me.chkExcludeInApp.Text = "Exculde In APP"
+        '
         'FrmItemMasterRMOther
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4492,6 +4506,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkExcludeInApp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4745,5 +4760,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents txtBBValue As MyNumBox
     Friend WithEvents txtBmBdQty As Controls.MyTextBox
     Friend WithEvents MyLabelL As Controls.MyLabel
+    Friend WithEvents chkExcludeInApp As Controls.MyCheckBox
 End Class
 

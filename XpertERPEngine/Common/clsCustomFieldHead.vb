@@ -988,3 +988,563 @@ Public Class clsCustomFieldMappingValueList
     End Function
 
 End Class
+
+Public Class clsRCDFStanardizationTemp
+
+    Public Shared Function PostData(ByVal strCode As String, ByVal arrLoc As String, ByVal VoucherNo As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Doc_Date,Location_Code from TSPL_RCDF_STD where Doc_Code='" + strCode + "'", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProcessProductionStandardization, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
+            End If
+
+            CreateInventoryMovement(strCode, trans, VoucherNo)
+            CreateJE(strCode, trans, VoucherNo)
+            Dim qry As String = "update TSPL_RCDF_STD set Status='1',Posted_By='" + objCommonVar.CurrentUserCode + "',Posted_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where Doc_Code='" + strCode + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception("Production Stdardization No [" + strCode + "]" + ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function CreateInventoryMovement(ByVal strCode As String, ByVal trans As SqlTransaction, ByVal VoucherNo As String)
+        Dim obj As clsRCDFStanardization = clsRCDFStanardization.GetData(strCode, "", NavigatorType.Current, trans)
+        If obj Is Nothing AndAlso clsCommon.myLen(obj.Doc_Code) <= 0 Then
+            Throw New Exception("Invalid docuemnt  [" + strCode + "]")
+        End If
+        If obj.Status = ERPTransactionStatus.Approved Then
+            Throw New Exception("Posted docuemnt  [" + obj.Doc_Code + "]")
+        End If
+        Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
+        Dim ArrInventoryMovementNew As List(Of clsInventoryMovementNew) = New List(Of clsInventoryMovementNew)
+
+        Dim objIMMilk As clsInventoryMovementNew
+        Dim objIM As clsInventoryMovement
+
+
+        Dim objCost As New MIlkComponentType
+        Dim strItemType As String
+
+        Dim AvgAmt As Decimal = 0
+        Dim AvgFATPart As Decimal = 0
+        Dim AvgSNFPart As Decimal = 0
+        Dim AvgFATKGPart As Decimal = 0
+        Dim AvgSNFKGPart As Decimal = 0
+
+        Dim InFATPart As Decimal = 0
+        Dim InSNFPart As Decimal = 0
+
+        If (obj.ArrIssue IsNot Nothing AndAlso obj.ArrIssue.Count > 0) Then
+            For Each objIssue As clsRCDFStanardizationIssue In obj.ArrIssue
+                If clsCommon.CompairString(objIssue.Product_Type, "MI") = CompairStringResult.Equal Then
+                    objIMMilk = New clsInventoryMovementNew
+                    objIMMilk.InOut = "O"
+                    objIMMilk.Location_Code = objIssue.Location_Code
+                    objIMMilk.main_location = obj.Location_Code
+                    objIMMilk.Item_Code = objIssue.Item_Code
+                    objIMMilk.Item_Desc = clsItemMaster.GetItemName(objIssue.Item_Code, trans)
+                    objIMMilk.Qty = objIssue.Qty
+                    objIMMilk.UOM = objIssue.Unit_Code
+                    objIMMilk.Source_Doc_No = obj.Doc_Code
+                    objIMMilk.Source_Doc_Date = obj.Doc_Date
+
+                    objIMMilk.CalculateAvgCost = False
+                    objIMMilk.DonNotCalculateAvgFATSNFCost = True
+
+                    objCost = clsInventoryMovementNew.GetAvgCost(objIssue.Product_Type, objIssue.Item_Code, objIssue.Location_Code, objIssue.Qty, objIssue.Unit_Code, objIssue.FAT_KG, objIssue.SNF_KG, obj.Doc_Date, clsCommon.GETSERVERDATE(trans), False, trans)
+                    objIMMilk.Avg_Cost = objCost.FAT_Cost + objCost.SNF_Cost
+                    objIMMilk.FIFO_Cost = objIMMilk.Avg_Cost
+                    objIMMilk.LIFO_Cost = objIMMilk.Avg_Cost
+
+                    objIMMilk.FAT_Per = objIssue.FAT
+                    objIMMilk.SNF_Per = objIssue.SNF
+                    objIMMilk.FAT_KG = objIssue.FAT_KG
+                    objIMMilk.SNF_KG = objIssue.SNF_KG
+
+
+
+                    '' UPDATE PRODUCTION COST
+                    objIMMilk.Fat_Rate = clsCommon.myCDivide(objCost.FAT_Cost, objIssue.FAT_KG)
+                    objIMMilk.SNF_Rate = clsCommon.myCDivide(objCost.SNF_Cost, objIssue.SNF_KG)
+                    objIMMilk.Fat_Amt = objCost.FAT_Cost
+                    objIMMilk.SNF_Amt = objCost.SNF_Cost
+
+
+                    If clsCommon.CompairString(objIMMilk.InOut, "I") = CompairStringResult.Equal Then
+                        objIMMilk.Basic_Cost = clsCommon.myCDivide(objIMMilk.Avg_Cost, objIssue.Qty)
+                        objIMMilk.Net_Cost = objIMMilk.Avg_Cost
+                    End If
+
+                    strItemType = clsItemMaster.GetItemType(objIssue.Item_Code, trans)
+                    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                        objIMMilk.ItemType = "RM"
+                    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                        objIMMilk.ItemType = "OT"
+                    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                        objIMMilk.ItemType = "FT"
+                    Else
+                        objIMMilk.ItemType = strItemType
+                    End If
+
+                    objIMMilk.Batch_No = "Issue"
+                    objIMMilk.MRP = 0
+                    objIMMilk.Add_Cost = 0
+                    objIMMilk.MRP = 0
+                    objIMMilk.MFG_Date = obj.Doc_Date
+
+                    ArrInventoryMovementNew.Add(objIMMilk)
+
+                    AvgFATPart += objCost.FAT_Cost
+                    AvgSNFPart += objCost.SNF_Cost
+                    AvgFATKGPart += objIssue.FAT_KG
+                    AvgSNFKGPart += objIssue.SNF_KG
+                    AvgAmt += (objCost.FAT_Cost + objCost.SNF_Cost)
+                Else
+                    objIM = New clsInventoryMovement
+                    objIM.Trans_Type = ""
+                    objIM.InOut = "O"
+                    objIM.Location_Code = objIssue.Location_Code
+                    objIM.Item_Code = objIssue.Item_Code
+                    objIM.Item_Desc = clsItemMaster.GetItemName(objIssue.Item_Code, trans)
+                    objIM.Qty = objIssue.Qty
+                    objIM.UOM = objIssue.Unit_Code
+                    objIM.Source_Doc_No = obj.Doc_Code
+                    objIM.Source_Doc_Date = obj.Doc_Date
+                    objIM.CalculateAvgCost = False
+
+                    objIM.FAT_Per = objIssue.FAT
+                    objIM.SNF_Per = objIssue.SNF
+                    objIM.FAT_KG = objIssue.FAT_KG
+                    objIM.SNF_KG = objIssue.SNF_KG
+
+                    objCost = clsInventoryMovementNew.GetAvgCost(objIssue.Product_Type, objIssue.Item_Code, objIssue.Location_Code, objIssue.Qty, objIssue.Unit_Code, objIssue.FAT_KG, objIssue.SNF_KG, obj.Doc_Date, clsCommon.GETSERVERDATE(trans), False, trans)
+
+                    objIM.Avg_Cost = objCost.FAT_Cost + objCost.SNF_Cost
+                    objIM.FIFO_Cost = objIM.Avg_Cost
+                    objIM.LIFO_Cost = objIM.Avg_Cost
+
+                    objIM.Fat_Rate = clsCommon.myCDivide(objCost.FAT_Cost, objIssue.FAT_KG)
+                    objIM.SNF_Rate = clsCommon.myCDivide(objCost.SNF_Cost, objIssue.SNF_KG)
+
+                    objIM.Fat_Amt = objCost.FAT_Cost
+                    objIM.SNF_Amt = objCost.SNF_Cost
+
+
+
+                    If clsCommon.CompairString(objIM.InOut, "I") = CompairStringResult.Equal Then
+                        objIM.Basic_Cost = clsCommon.myCDivide(objIM.Avg_Cost, objIssue.Qty)
+                        objIM.Net_Cost = objIM.Avg_Cost
+                    End If
+                    strItemType = clsItemMaster.GetItemType(objIssue.Item_Code, trans)
+                    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                        objIM.ItemType = "RM"
+                    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                        objIM.ItemType = "OT"
+                    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                        objIM.ItemType = "FT"
+                    Else
+                        objIM.ItemType = strItemType
+                    End If
+                    objIM.Batch_No = "Issue"
+                    objIM.MRP = 0
+                    objIM.Add_Cost = 0
+                    objIM.MRP = 0
+                    objIM.MFG_Date = obj.Doc_Date
+                    ArrInventoryMovement.Add(objIM)
+
+                    AvgFATPart += objCost.FAT_Cost
+                    AvgSNFPart += objCost.SNF_Cost
+                    AvgFATKGPart += objIssue.FAT_KG
+                    AvgSNFKGPart += objIssue.SNF_KG
+                    AvgAmt += (objCost.FAT_Cost + objCost.SNF_Cost)
+                End If
+            Next
+        End If
+        InFATPart = AvgFATPart
+        InSNFPart = AvgSNFPart
+
+        If obj.ArrARItem IsNot Nothing AndAlso obj.ArrARItem.Count > 0 Then
+            For Each objAR As clsRCDFStanardizationAddRemove In obj.ArrARItem
+                If clsCommon.CompairString(objAR.ADD_REMOVE_TYPE, "Add") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objAR.Product_Type, "MI") = CompairStringResult.Equal Then
+                        objIMMilk = New clsInventoryMovementNew
+                        If clsCommon.CompairString(objAR.ADD_REMOVE_TYPE, "Add") = CompairStringResult.Equal Then
+                            objIMMilk.InOut = "O"
+                        Else
+                            objIMMilk.InOut = "I"
+                        End If
+
+                        objIMMilk.Location_Code = objAR.Location_Code
+                        objIMMilk.Item_Code = objAR.Item_Code
+                        objIMMilk.Item_Desc = objAR.Item_Desc
+                        objIMMilk.Qty = objAR.Qty
+                        objIMMilk.UOM = objAR.Unit_Code
+                        objIMMilk.MRP = Nothing
+                        objIMMilk.Add_Cost = Nothing
+                        objIMMilk.Net_Cost = Nothing
+
+                        objIMMilk.FAT_Per = objAR.FAT
+                        objIMMilk.FAT_KG = objAR.FAT_KG
+                        objIMMilk.SNF_KG = objAR.SNF_KG
+                        objIMMilk.SNF_Per = objAR.SNF
+
+
+                        objCost = clsInventoryMovementNew.GetAvgCost(objAR.Product_Type, objAR.Item_Code, objAR.Location_Code, objAR.Qty, objAR.Unit_Code, objAR.FAT_KG, objAR.SNF_KG, obj.Doc_Date, clsCommon.GETSERVERDATE(trans), False, trans)
+                        objIMMilk.Avg_Cost = objCost.FAT_Cost + objCost.SNF_Cost
+                        objIMMilk.FIFO_Cost = objIMMilk.Avg_Cost
+                        objIMMilk.LIFO_Cost = objIMMilk.Avg_Cost
+
+                        objIMMilk.FAT_Per = objAR.FAT
+                        objIMMilk.SNF_Per = objAR.SNF
+                        objIMMilk.FAT_KG = objAR.FAT_KG
+                        objIMMilk.SNF_KG = objAR.SNF_KG
+
+                        strItemType = clsItemMaster.GetItemType(objAR.Item_Code, trans)
+                        If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                            objIMMilk.ItemType = "RM"
+                        ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                            objIMMilk.ItemType = "OT"
+                        ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                            objIMMilk.ItemType = "FT"
+                        Else
+                            objIMMilk.ItemType = strItemType
+                        End If
+
+
+                        objIMMilk.Batch_No = "Add"
+                        objIMMilk.MFG_Date = Nothing
+                        objIMMilk.Expiry_Date = Nothing
+                        ArrInventoryMovementNew.Add(objIMMilk)
+
+                        AvgFATPart += objCost.FAT_Cost
+                        AvgSNFPart += objCost.SNF_Cost
+                        AvgFATKGPart += objAR.FAT_KG
+                        AvgSNFKGPart += objAR.SNF_KG
+                        AvgAmt += (objCost.FAT_Cost + objCost.SNF_Cost)
+                    Else
+                        objIM = New clsInventoryMovement
+                        If clsCommon.CompairString(objAR.ADD_REMOVE_TYPE, "Add") = CompairStringResult.Equal Then
+                            objIM.InOut = "O"
+                        Else
+                            objIM.InOut = "I"
+                        End If
+
+                        objIM.Location_Code = objAR.Location_Code
+                        objIM.Item_Code = objAR.Item_Code
+                        objIM.Item_Desc = objAR.Item_Desc
+                        objIM.Qty = objAR.Qty
+                        objIM.UOM = objAR.Unit_Code
+                        objIM.MRP = Nothing
+                        objIM.Add_Cost = Nothing
+
+                        objIM.FAT_Per = objAR.FAT
+                        objIM.FAT_KG = objAR.FAT_KG
+                        objIM.SNF_KG = objAR.SNF_KG
+                        objIM.SNF_Per = objAR.SNF
+
+                        objCost = clsInventoryMovementNew.GetAvgCost(objAR.Product_Type, objAR.Item_Code, objAR.Location_Code, objAR.Qty, objAR.Unit_Code, objAR.FAT_KG, objAR.SNF_KG, obj.Doc_Date, clsCommon.GETSERVERDATE(trans), False, trans)
+
+                        objIM.Avg_Cost = objCost.FAT_Cost + objCost.SNF_Cost
+                        objIM.FIFO_Cost = objIM.Avg_Cost
+                        objIM.LIFO_Cost = objIM.Avg_Cost
+
+                        objIM.Fat_Rate = clsCommon.myCDivide(objCost.FAT_Cost, objAR.FAT_KG)
+                        objIM.SNF_Rate = clsCommon.myCDivide(objCost.SNF_Cost, objAR.SNF_KG)
+
+                        objIM.Fat_Amt = objCost.FAT_Cost
+                        objIM.SNF_Amt = objCost.SNF_Cost
+
+                        If clsCommon.CompairString(objIM.InOut, "I") = CompairStringResult.Equal Then
+                            objIM.Basic_Cost = clsCommon.myCDivide(objIM.Avg_Cost, objAR.Qty)
+                            objIM.Net_Cost = objIM.Avg_Cost
+                        End If
+                        strItemType = clsItemMaster.GetItemType(objAR.Item_Code, trans)
+                        If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                            objIM.ItemType = "RM"
+                        ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                            objIM.ItemType = "OT"
+                        ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                            objIM.ItemType = "FT"
+                        Else
+                            objIM.ItemType = strItemType
+                        End If
+                        objIM.Batch_No = "Add"
+                        objIM.MRP = 0
+                        objIM.Add_Cost = 0
+                        objIM.MRP = 0
+                        objIM.MFG_Date = obj.Doc_Date
+                        ArrInventoryMovement.Add(objIM)
+
+                        AvgFATPart += objCost.FAT_Cost
+                        AvgSNFPart += objCost.SNF_Cost
+                        AvgFATKGPart += objAR.FAT_KG
+                        AvgSNFKGPart += objAR.SNF_KG
+                        AvgAmt += (objCost.FAT_Cost + objCost.SNF_Cost)
+                    End If
+                End If
+            Next
+
+            InFATPart = AvgFATPart
+            InSNFPart = AvgSNFPart
+
+            For Each objAR As clsRCDFStanardizationAddRemove In obj.ArrARItem
+                Dim AvgFATRate As Decimal = clsCommon.myCDivide(AvgFATPart, AvgFATKGPart)
+                Dim AvgSNFRate As Decimal = clsCommon.myCDivide(AvgSNFPart, AvgSNFKGPart)
+
+                If clsCommon.CompairString(objAR.ADD_REMOVE_TYPE, "Remove") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objAR.Product_Type, "MI") = CompairStringResult.Equal Then
+                        objIMMilk = New clsInventoryMovementNew
+                        If clsCommon.CompairString(objAR.ADD_REMOVE_TYPE, "Add") = CompairStringResult.Equal Then
+                            objIMMilk.InOut = "O"
+                        Else
+                            objIMMilk.InOut = "I"
+                        End If
+
+                        objIMMilk.Location_Code = objAR.Location_Code
+                        objIMMilk.Item_Code = objAR.Item_Code
+                        objIMMilk.Item_Desc = objAR.Item_Desc
+                        objIMMilk.Qty = objAR.Qty
+                        objIMMilk.UOM = objAR.Unit_Code
+                        objIMMilk.MRP = Nothing
+                        objIMMilk.Add_Cost = Nothing
+                        objIMMilk.Net_Cost = Nothing
+
+                        objIMMilk.FAT_Per = objAR.FAT
+                        objIMMilk.FAT_KG = objAR.FAT_KG
+                        objIMMilk.SNF_Per = objAR.SNF
+                        objIMMilk.SNF_KG = objAR.SNF_KG
+
+
+                        objIMMilk.Fat_Rate = AvgFATRate
+                        objIMMilk.SNF_Rate = AvgSNFRate
+                        objIMMilk.Fat_Amt = AvgFATRate * objAR.FAT_KG
+                        objIMMilk.SNF_Amt = AvgSNFRate * objAR.SNF_KG
+
+
+                        objIMMilk.Avg_Cost = objIMMilk.Fat_Amt + objIMMilk.SNF_Amt
+                        objIMMilk.FIFO_Cost = objIMMilk.Avg_Cost
+                        objIMMilk.LIFO_Cost = objIMMilk.Avg_Cost
+
+                        objIMMilk.FAT_Per = objAR.FAT
+                        objIMMilk.SNF_Per = objAR.SNF
+                        objIMMilk.FAT_KG = objAR.FAT_KG
+                        objIMMilk.SNF_KG = objAR.SNF_KG
+
+                        strItemType = clsItemMaster.GetItemType(objAR.Item_Code, trans)
+                        If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                            objIMMilk.ItemType = "RM"
+                        ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                            objIMMilk.ItemType = "OT"
+                        ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                            objIMMilk.ItemType = "FT"
+                        Else
+                            objIMMilk.ItemType = strItemType
+                        End If
+
+
+                        objIMMilk.Batch_No = "Remove"
+                        objIMMilk.MFG_Date = Nothing
+                        objIMMilk.Expiry_Date = Nothing
+                        ArrInventoryMovementNew.Add(objIMMilk)
+
+                        InFATPart -= objIMMilk.Fat_Amt
+                        InSNFPart -= objIMMilk.SNF_Amt
+                    Else
+                        objIM = New clsInventoryMovement
+                        If clsCommon.CompairString(objAR.ADD_REMOVE_TYPE, "Add") = CompairStringResult.Equal Then
+                            objIM.InOut = "O"
+                        Else
+                            objIM.InOut = "I"
+                        End If
+
+                        objIM.Location_Code = objAR.Location_Code
+                        objIM.Item_Code = objAR.Item_Code
+                        objIM.Item_Desc = objAR.Item_Desc
+                        objIM.Qty = objAR.Qty
+                        objIM.UOM = objAR.Unit_Code
+                        objIM.MRP = Nothing
+                        objIM.Add_Cost = Nothing
+
+                        objIM.FAT_Per = objAR.FAT
+                        objIM.FAT_KG = objAR.FAT_KG
+                        objIM.SNF_KG = objAR.SNF_KG
+                        objIM.SNF_Per = objAR.SNF
+
+                        objIM.Fat_Rate = AvgFATRate
+                        objIM.SNF_Rate = AvgSNFRate
+                        objIM.Fat_Amt = AvgFATRate * objAR.FAT_KG
+                        objIM.SNF_Amt = AvgSNFRate * objAR.SNF_KG
+
+
+                        objIM.Avg_Cost = objIM.Fat_Amt + objIM.SNF_Amt
+                        objIM.FIFO_Cost = objIM.Avg_Cost
+                        objIM.LIFO_Cost = objIM.Avg_Cost
+
+                        objIM.FAT_Per = objAR.FAT
+                        objIM.SNF_Per = objAR.SNF
+                        objIM.FAT_KG = objAR.FAT_KG
+                        objIM.SNF_KG = objAR.SNF_KG
+
+                        If clsCommon.CompairString(objIM.InOut, "I") = CompairStringResult.Equal Then
+                            objIM.Basic_Cost = clsCommon.myCDivide(objIM.Avg_Cost, objAR.Qty)
+                            objIM.Net_Cost = objIM.Avg_Cost
+                        End If
+                        strItemType = clsItemMaster.GetItemType(objAR.Item_Code, trans)
+                        If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                            objIM.ItemType = "RM"
+                        ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                            objIM.ItemType = "OT"
+                        ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                            objIM.ItemType = "FT"
+                        Else
+                            objIM.ItemType = strItemType
+                        End If
+                        objIM.Batch_No = "Remove"
+                        objIM.MRP = 0
+                        objIM.Add_Cost = 0
+                        objIM.MRP = 0
+                        objIM.MFG_Date = obj.Doc_Date
+                        ArrInventoryMovement.Add(objIM)
+
+                        InFATPart -= objIM.Fat_Amt
+                        InSNFPart -= objIM.SNF_Amt
+
+                    End If
+                End If
+            Next
+
+
+        End If
+        If (obj.ArrProduce IsNot Nothing AndAlso obj.ArrProduce.Count > 0) Then
+            For Each objProduce As clsRCDFStanardizationProduce In obj.ArrProduce
+                objIMMilk = New clsInventoryMovementNew
+                objIMMilk.InOut = "I"
+                objIMMilk.Location_Code = objProduce.Location_Code
+                objIMMilk.main_location = obj.Location_Code
+                objIMMilk.Item_Code = objProduce.Item_Code
+                objIMMilk.Item_Desc = clsItemMaster.GetItemName(objProduce.Item_Code, trans)
+                objIMMilk.Qty = objProduce.Qty
+                objIMMilk.UOM = objProduce.Unit_Code
+                objIMMilk.Source_Doc_No = obj.Doc_Code
+                objIMMilk.Source_Doc_Date = obj.Doc_Date
+
+                objIMMilk.CalculateAvgCost = False
+                objIMMilk.DonNotCalculateAvgFATSNFCost = True
+
+                objIMMilk.Avg_Cost = InFATPart + InSNFPart
+                objIMMilk.FIFO_Cost = objIMMilk.Avg_Cost
+                objIMMilk.LIFO_Cost = objIMMilk.Avg_Cost
+
+                objIMMilk.FAT_Per = objProduce.FAT
+                objIMMilk.SNF_Per = objProduce.SNF
+                objIMMilk.FAT_KG = objProduce.FAT_KG
+                objIMMilk.SNF_KG = objProduce.SNF_KG
+
+
+
+                '' UPDATE PRODUCTION COST
+                objIMMilk.Fat_Rate = clsCommon.myCDivide(InFATPart, objProduce.FAT_KG)
+                objIMMilk.SNF_Rate = clsCommon.myCDivide(InSNFPart, objProduce.SNF_KG)
+                objIMMilk.Fat_Amt = InFATPart
+                objIMMilk.SNF_Amt = InSNFPart
+
+
+                If clsCommon.CompairString(objIMMilk.InOut, "I") = CompairStringResult.Equal Then
+                    objIMMilk.Basic_Cost = clsCommon.myCDivide(objIMMilk.Avg_Cost, objProduce.Qty)
+                    objIMMilk.Net_Cost = objIMMilk.Avg_Cost
+                End If
+
+                strItemType = clsItemMaster.GetItemType(objProduce.Item_Code, trans)
+                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                    objIMMilk.ItemType = "RM"
+                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                    objIMMilk.ItemType = "OT"
+                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                    objIMMilk.ItemType = "FT"
+                Else
+                    objIMMilk.ItemType = strItemType
+                End If
+
+                objIMMilk.Batch_No = "Produce"
+                objIMMilk.MRP = 0
+                objIMMilk.Add_Cost = 0
+                objIMMilk.MRP = 0
+                objIMMilk.MFG_Date = obj.Doc_Date
+
+                ArrInventoryMovementNew.Add(objIMMilk)
+            Next
+        End If
+
+
+        If ArrInventoryMovement.Count > 0 Then
+            clsInventoryMovement.SaveData("RP-SZ", obj.Doc_Code, obj.Doc_Date, clsCommon.GetPrintDate(obj.Doc_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+        End If
+
+        If ArrInventoryMovementNew.Count > 0 Then
+            clsInventoryMovementNew.SaveData("RP-SZ", obj.Doc_Code, obj.Doc_Date, clsCommon.GetPrintDate(obj.Doc_Date, "dd/MM/yyyy"), ArrInventoryMovementNew, trans)
+        End If
+        Return True
+    End Function
+
+    Public Shared Function CreateJE(ByVal Doc_Code As String, ByVal trans As SqlTransaction, Optional ByVal strVourcherNoForRecreateOnly As String = "") As Boolean
+        Try
+            Dim obj As clsRCDFStanardization = clsRCDFStanardization.GetData(Doc_Code, "", NavigatorType.Current, trans)
+            Dim VoucherNo As String = ""
+            If clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
+                VoucherNo = strVourcherNoForRecreateOnly
+            Else
+                VoucherNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='RP-SZ' and Source_Doc_No='" & obj.Doc_Code & "'", trans))
+            End If
+
+            Dim Count As Integer = 0
+            Dim qry As String
+
+            Dim ArryLstGLAC As ArrayList = New ArrayList()
+            Dim VoucherDesc As String = "Financial Entry for Production Standardization -" & obj.Doc_Code & " "
+            Dim SourceDocDesc As String = "Production Standardization in Bulk"
+            Dim SourceDocNo As String = obj.Doc_Code
+            Dim Comments As String = VoucherDesc
+            Dim Remarks As String = VoucherDesc
+
+            qry = "select xx.*,TSPL_PURCHASE_ACCOUNTS.Inv_Control_Account from (
+select Item_Code,InOut,Avg_Cost from TSPL_INVENTORY_MOVEMENT where Trans_Type='RP-SZ' and Source_Doc_No='" + obj.Doc_Code + "'
+union all
+select Item_Code,InOut,Avg_Cost from TSPL_INVENTORY_MOVEMENT_NEW  where Trans_Type='RP-SZ' and  Source_Doc_No='" + obj.Doc_Code + "'
+)xx
+left join TSPL_ITEM_MASTER on xx.Item_Code=TSPL_ITEM_MASTER.Item_Code
+left join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each dr As DataRow In dt.Rows
+                    If clsCommon.myLen(dr("Inv_Control_Account")) <= 0 Then
+                        Throw New Exception("Inventory Control Account not found for Item " & clsCommon.myCstr(dr("Item_Code")) & "")
+                    End If
+                    Dim Acc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(clsCommon.myCstr(dr("Inv_Control_Account")), obj.Location_Code, trans)
+                    If clsCommon.myLen(Acc) > 0 Then
+                        If clsCommon.CompairString(clsCommon.myCstr(dr("InOut")), "O") Then
+                            Dim Acc2() As String = {Acc, -1 * clsCommon.myCDecimal(dr("Avg_Cost"))}
+                            ArryLstGLAC.Add(Acc2)
+                        Else
+                            Dim Acc2() As String = {Acc, clsCommon.myCDecimal(dr("Avg_Cost"))}
+                            ArryLstGLAC.Add(Acc2)
+                        End If
+                    End If
+                Next
+            End If
+            Dim GLDesc As String = "Journal Entry Against Production Standardization- Doc No." & obj.Doc_Code & " "
+            If clsCommon.myLen(VoucherNo) > 0 Then
+                transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+            Else
+                transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+End Class

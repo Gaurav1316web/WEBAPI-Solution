@@ -182,6 +182,7 @@ Public Class clsPurchaseOrderHead
     Public Insurance As String = Nothing
     Public Packing_Forward As String = Nothing
     Public Freight As String = ""
+    Public Retention As Decimal = 0
 
     Public Against_Requisition As String = Nothing
 
@@ -821,6 +822,7 @@ Public Class clsPurchaseOrderHead
 
             clsCommon.AddColumnsForChange(coll, "Total_Add_Charge_Insurance", obj.Total_Add_Charge_Insurance)
             clsCommon.AddColumnsForChange(coll, "Total_Item_Insurance_Amt", obj.Total_Item_Insurance_Amt)
+            clsCommon.AddColumnsForChange(coll, "Retention", obj.Retention)
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "PurchaseOrder_No", obj.PurchaseOrder_No)
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
@@ -1217,6 +1219,7 @@ Public Class clsPurchaseOrderHead
 
             obj.Insurance = clsCommon.myCstr(dt.Rows(0)("Insurance"))
             obj.Packing_Forward = clsCommon.myCstr(dt.Rows(0)("Packing_Forward"))
+            obj.Retention = clsCommon.myCdbl(dt.Rows(0)("Retention"))
             obj.Freight = clsCommon.myCstr(dt.Rows(0)("Freight"))
             obj.RefTendorNo = clsCommon.myCstr(dt.Rows(0)("RefTendorNo"))
             obj.Against_WorkEstimation_Id = clsCommon.myCstr(dt.Rows(0)("Against_WorkEstimation_Id"))

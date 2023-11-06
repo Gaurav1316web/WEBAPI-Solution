@@ -170,6 +170,12 @@
     <Compile Include="Bulk Procurement\Master\frmNewDCSScreen.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmHeadLoadMaster.Designer.vb">
+      <DependentUpon>frmHeadLoadMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmHeadLoadMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\FrmOwnBmcExpanse.Designer.vb">
       <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>
     </Compile>
@@ -653,6 +659,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Procurement\Master\frmNewDCSScreen.resx">
       <DependentUpon>frmNewDCSScreen.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmHeadLoadMaster.resx">
+      <DependentUpon>frmHeadLoadMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\FrmOwnBmcExpanse.resx">
       <DependentUpon>FrmOwnBmcExpanse.vb</DependentUpon>

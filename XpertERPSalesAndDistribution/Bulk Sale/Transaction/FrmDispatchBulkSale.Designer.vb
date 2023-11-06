@@ -21,6 +21,8 @@ Partial Class FrmDispatchBulkSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -265,7 +267,6 @@ Partial Class FrmDispatchBulkSale
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1009, 491)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -669,7 +670,6 @@ Partial Class FrmDispatchBulkSale
         Me.LblQCCode.Name = "LblQCCode"
         Me.LblQCCode.Size = New System.Drawing.Size(146, 20)
         Me.LblQCCode.TabIndex = 340
-        Me.LblQCCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCustomerCode
         '
@@ -681,7 +681,6 @@ Partial Class FrmDispatchBulkSale
         Me.lblCustomerCode.Name = "lblCustomerCode"
         Me.lblCustomerCode.Size = New System.Drawing.Size(146, 20)
         Me.lblCustomerCode.TabIndex = 339
-        Me.lblCustomerCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndCustomerNo
         '
@@ -1065,7 +1064,6 @@ Partial Class FrmDispatchBulkSale
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(291, 20)
         Me.lblCustomerName.TabIndex = 335
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'UsLock1
         '
@@ -1335,7 +1333,6 @@ Partial Class FrmDispatchBulkSale
         Me.LblLocationName.Name = "LblLocationName"
         Me.LblLocationName.Size = New System.Drawing.Size(291, 20)
         Me.LblLocationName.TabIndex = 312
-        Me.LblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'LblTankerName
         '
@@ -1346,7 +1343,6 @@ Partial Class FrmDispatchBulkSale
         Me.LblTankerName.Name = "LblTankerName"
         Me.LblTankerName.Size = New System.Drawing.Size(291, 20)
         Me.LblTankerName.TabIndex = 310
-        Me.LblTankerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblTankerName.Visible = False
         '
         'lblLocationCode
@@ -1358,7 +1354,6 @@ Partial Class FrmDispatchBulkSale
         Me.lblLocationCode.Name = "lblLocationCode"
         Me.lblLocationCode.Size = New System.Drawing.Size(146, 20)
         Me.lblLocationCode.TabIndex = 311
-        Me.lblLocationCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -1446,10 +1441,12 @@ Partial Class FrmDispatchBulkSale
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1457,7 +1454,6 @@ Partial Class FrmDispatchBulkSale
         Me.gv1.Size = New System.Drawing.Size(963, 187)
         Me.gv1.TabIndex = 13
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel1
         '
@@ -1516,7 +1512,7 @@ Partial Class FrmDispatchBulkSale
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = XpertERPSalesAndDistribution.My.Resources.Resources._new
+        Me.btnAddNew.Image = Global.XpertERPSalesAndDistribution.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(346, 0)
         Me.btnAddNew.Name = "btnAddNew"
@@ -1613,7 +1609,6 @@ Partial Class FrmDispatchBulkSale
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 7
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'gv2
@@ -1633,14 +1628,15 @@ Partial Class FrmDispatchBulkSale
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(981, 395)
         Me.gv2.TabIndex = 9
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'Attachments
         '
@@ -1666,34 +1662,25 @@ Partial Class FrmDispatchBulkSale
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1009, 20)
         Me.RadMenu1.TabIndex = 10
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RDSaveLayout, Me.RDDeleteLayout, Me.EmailSmsSetting})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RDSaveLayout
         '
-        Me.RDSaveLayout.AccessibleDescription = "Save Layout"
-        Me.RDSaveLayout.AccessibleName = "Save Layout"
         Me.RDSaveLayout.Name = "RDSaveLayout"
         Me.RDSaveLayout.Text = "Save Layout"
         '
         'RDDeleteLayout
         '
-        Me.RDDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.RDDeleteLayout.AccessibleName = "Delete Layout"
         Me.RDDeleteLayout.Name = "RDDeleteLayout"
         Me.RDDeleteLayout.Text = "Delete Layout"
         '
         'EmailSmsSetting
         '
-        Me.EmailSmsSetting.AccessibleDescription = "Email/SMS Setting"
-        Me.EmailSmsSetting.AccessibleName = "Email/SMS Setting"
         Me.EmailSmsSetting.Name = "EmailSmsSetting"
         Me.EmailSmsSetting.Text = "Email/SMS Setting"
         '
@@ -1701,9 +1688,9 @@ Partial Class FrmDispatchBulkSale
         '
         Me.btnReverseAndUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverseAndUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(792, 6)
+        Me.btnReverseAndUnpost.Location = New System.Drawing.Point(792, 4)
         Me.btnReverseAndUnpost.Name = "btnReverseAndUnpost"
-        Me.btnReverseAndUnpost.Size = New System.Drawing.Size(122, 18)
+        Me.btnReverseAndUnpost.Size = New System.Drawing.Size(122, 20)
         Me.btnReverseAndUnpost.TabIndex = 10
         Me.btnReverseAndUnpost.Text = "Reverse and Unpost"
         Me.btnReverseAndUnpost.Visible = False
@@ -1751,22 +1738,16 @@ Partial Class FrmDispatchBulkSale
         '
         'btnPreview
         '
-        Me.btnPreview.AccessibleDescription = "Preview"
-        Me.btnPreview.AccessibleName = "Preview"
         Me.btnPreview.Name = "btnPreview"
         Me.btnPreview.Text = "Preview"
         '
         'btnSend
         '
-        Me.btnSend.AccessibleDescription = "Send Mail/Sms"
-        Me.btnSend.AccessibleName = "Send Mail/Sms"
         Me.btnSend.Name = "btnSend"
         Me.btnSend.Text = "Send Mail/Sms"
         '
         'btnSendforApproval
         '
-        Me.btnSendforApproval.AccessibleDescription = "Send Mail For Approval"
-        Me.btnSendforApproval.AccessibleName = "Send Mail For Approval"
         Me.btnSendforApproval.Name = "btnSendforApproval"
         Me.btnSendforApproval.Text = "Send Mail For Approval"
         '

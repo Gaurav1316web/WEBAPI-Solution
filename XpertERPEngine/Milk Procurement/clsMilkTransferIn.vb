@@ -627,6 +627,8 @@ Public Class clsMilkTransferIn
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProc, clsFixedParameterCode.CreateTransferInGL, trans)) = 1 Then
                 If AllowBulkProcMCCwithoutTankerDispatch = 0 Then
                     clsMilkTransferIn.CreateTransferInJE(obj, strVoucherNoForRecreateOnly, trans)
+                Else
+                    clsMilkTransferIn.CreateTransferInJERCDF(obj, strVoucherNoForRecreateOnly, trans)
                 End If
             End If
 
@@ -720,6 +722,77 @@ Public Class clsMilkTransferIn
             dtItem = Nothing
         End Try
 
+        Return True
+    End Function
+
+    Public Shared Function CreateTransferInJERCDF(obj As clsMilkTransferIn, strVoucherNoForRecreateOnly As String, trans As SqlTransaction) As Boolean
+        Try
+            Dim isSkipCogsGL As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SkipCogsEntry, clsFixedParameterCode.SkipCogsEntry, trans)) = 0, False, True)
+            Dim SettAllowPurchaseAccounting As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 1, True, False)
+            Dim P_Or_I As String = "P"
+            If Not SettAllowPurchaseAccounting Then
+                P_Or_I = "I"
+            End If
+            Dim Inventory_Control_Ac As String = String.Empty
+            Dim Non_Stock_Clearing_Ac As String
+            Dim CostingMethod As Integer = 0
+            Dim CostOfItem As Double = 0
+            Dim dt As Date = clsCommon.GETSERVERDATE(trans)
+            If obj.isPosted = 1 Then
+                dt = obj.Posting_Date
+            End If
+            Dim ToLocationSegment As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_segment_code from tspl_location_master where Location_Code='" & obj.location_code & "'", trans))
+            Dim qry As String = ""
+            Dim objW As clsWeighment = clsWeighment.getData(obj.Weighment_No, NavigatorType.Current, False, trans)
+            Dim ArryLst As ArrayList = New ArrayList()
+            If objW.Arr IsNot Nothing AndAlso objW.Arr.Count > 0 Then
+
+                CostingMethod = clsInventoryMovementNew.getCostingMethod(objW.Item_Code, trans)
+                    qry = " select " & IIf(CostingMethod = 1, "avg_cost", IIf(CostingMethod = 2, "FIFO_Cost", IIf(CostingMethod = 3, "LIFO_Cost", " 0 "))) & " from tspl_inventory_movement_new where source_doc_no='" & obj.Receipt_Challan_No & "' and Item_Code='" & objW.Item_Code & "' "
+                    CostOfItem = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+
+                For Each objTr As clsWeighmentChemberNoDetails In objW.Arr
+                    Dim Item_Desc = clsIntimation.getItemName(objTr.Item_Code, trans)
+                    qry = "select Inv_Control_Account,Non_Stock_Clearing from  tspl_purchase_accounts where purchase_class_code=(select purchase_class_code  from tspl_item_master where Item_Code='" & objTr.Item_Code & "') "
+                    Dim dtAccount As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dtAccount IsNot Nothing AndAlso dtAccount.Rows.Count > 0 Then
+                        Inventory_Control_Ac = clsCommon.myCstr(dtAccount.Rows(0)("Inv_Control_Account"))
+                        If clsCommon.myLen(Inventory_Control_Ac) <= 0 Then
+                            Throw New Exception("Please Map Inventory Control A/C in Purchase Account Set For Item : " & objTr.Item_Code & " (" & Item_Desc & ")")
+                        End If
+                        Inventory_Control_Ac = clsERPFuncationality.ChangeGLAccountLocationSegment(Inventory_Control_Ac, ToLocationSegment, True, trans)
+
+                        Non_Stock_Clearing_Ac = clsCommon.myCstr(dtAccount.Rows(0)("Non_Stock_Clearing"))
+                        If clsCommon.myLen(Non_Stock_Clearing_Ac) <= 0 Then
+                            Throw New Exception("Please BMC Milk Purchase A/C in Purchase Account Set For Item : " & objTr.Item_Code & " (" & Item_Desc & ")")
+                        End If
+                        Non_Stock_Clearing_Ac = clsERPFuncationality.ChangeGLAccountLocationSegment(Non_Stock_Clearing_Ac, ToLocationSegment, True, trans)
+
+                        If clsCommon.CompairString(Inventory_Control_Ac, Non_Stock_Clearing_Ac) = CompairStringResult.Equal Then
+                            Throw New Exception("Please [Inventory Control A/C] and [BMC Milk Purchase A/C] should be different in Purchase Account Set For Item : " & objTr.Item_Code & " (" & Item_Desc & ")")
+                        End If
+                    Else
+                        Throw New Exception("Please set Purchase Account Set For Item : " & objTr.Item_Code & " (" & Item_Desc & ")")
+                    End If
+                    ArryLst.Add(New String() {Inventory_Control_Ac, CostOfItem})
+                    ArryLst.Add(New String() {Non_Stock_Clearing_Ac, -1 * CostOfItem, "", "", "", "", "", "", P_Or_I})
+                    If clsCommon.CompairString(P_Or_I, "I") = CompairStringResult.Equal Then
+                        clsInventoryMovement.UpdateInvControlAccount(obj.Receipt_Challan_No, "MilkTransferIn", objTr.Item_Code, Inventory_Control_Ac, "", "", trans)
+                    End If
+                Next
+            End If
+
+            Dim GLDesc As String = "Journal Entry Against Milk Transfer In- Doc No." & obj.Receipt_Challan_No & " "
+            Dim Remarks As String = "Journal Entry against Milk Transfer In  For Doc No. " & obj.Receipt_Challan_No & ", Transfer Out Doc No: " & obj.Dispatch_Challan_No
+
+            If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
+                transportSql.FunGrnlEntryWithTrans(obj.location_code, False, strVoucherNoForRecreateOnly, trans, obj.Receipt_Challan_Date, GLDesc, "MT-IN", "Milk Transfer In", obj.Receipt_Challan_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, objW.Challan_No)
+            Else
+                transportSql.FunGrnlEntryWithTrans(obj.location_code, False, trans, obj.Receipt_Challan_Date, GLDesc, "MT-IN", "Milk Transfer In", obj.Receipt_Challan_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, objW.Challan_No)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
         Return True
     End Function
 

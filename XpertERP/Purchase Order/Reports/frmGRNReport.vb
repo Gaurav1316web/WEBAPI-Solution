@@ -163,9 +163,12 @@ Public Class FrmGRNReport
 				when TSPL_GRN_HEAD.VisualQCStatus='4' then 'On Hold' else 'Pending' end) as [Visual QC Status]
                 ,TSPL_GRN_HEAD.VisualQCRemarks as [Visual QC Remarks]
                 ,convert(varchar, TSPL_GRN_HEAD.VisualQCUpdatedDateSecond,103) as [Visual QC Date Second]
-                ,case when TSPL_GRN_HEAD.VisualQCUpdatedDateSecond is not null then (case when TSPL_GRN_HEAD.VisualQCStatusSecond=5 then 'Not Applicable' when TSPL_GRN_HEAD.VisualQCStatusSecond=1 then 'Ok' 
-                when TSPL_GRN_HEAD.VisualQCStatusSecond='2' then 'Not Ok' when TSPL_GRN_HEAD.VisualQCStatusSecond='3' then 'Partial Ok'  
-                when TSPL_GRN_HEAD.VisualQCStatusSecond='4' then 'On Hold' else 'Pending' end) else '' end as [Visual QC Status Second]
+
+
+                ,(case when TSPL_GRN_HEAD.VisualQCStatusSecond=5 then 'Not Applicable' when TSPL_GRN_HEAD.VisualQCStatusSecond=1 then 'Ok' 
+				when TSPL_GRN_HEAD.VisualQCStatusSecond='2' then 'Not Ok' when TSPL_GRN_HEAD.VisualQCStatusSecond='3' then 'Partial Ok'  
+				when TSPL_GRN_HEAD.VisualQCStatusSecond='4' then 'On Hold' else '' end) as [Visual QC Status Second]
+
                 ,VisualQCRemarksSecond as [Visual QC Remarks Second]
                 ,convert(varchar, TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date,103) as [PO Date],TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No as [PO No]
                 ,convert(varchar, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as [Weighment Date],TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as [Weighment No]

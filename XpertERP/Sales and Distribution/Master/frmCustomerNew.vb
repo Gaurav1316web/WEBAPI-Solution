@@ -53,6 +53,10 @@ Public Class frmCustomer
     Dim TagMultipleRouteWithCustomer As Boolean = False
     Dim isLoadCopy As Boolean = False
     Public SuperUserCustomer As Boolean = False
+    Dim OneTimeCheck As Boolean = False
+    Public CustomerFormOpens As Boolean = False
+
+
 #End Region
 
     Public Sub New(ByVal user As String, ByVal company As String)
@@ -98,15 +102,17 @@ Public Class frmCustomer
         Me.Close()
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        If btnSave.Text = "Update" Then
+        If btnSave.Text = "Update" AndAlso OneTimeCheck = False Then
             Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.SIRC
             frm.strCode = clsFixedParameterCode.UpdatePassword
-
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 ShowRemarks()
+                OneTimeCheck = True
             End If
+        ElseIf btnSave.Text = "Update" AndAlso OneTimeCheck Then
+            ShowRemarks()
         Else
             SaveData()
         End If
@@ -405,9 +411,9 @@ Public Class frmCustomer
                     Return False
                 End If
                 '' match tax Group currency with vendor currency
-                qry = " select TSPL_TAX_GROUP_DETAILS.Tax_Code,coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'') as CURRENCY_CODE from TSPL_TAX_GROUP_DETAILS " & _
-                      " inner join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " & _
-                      " inner join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" & clsCommon.myCstr(Me.fndTxGrp.Value) & "' " & _
+                qry = " select TSPL_TAX_GROUP_DETAILS.Tax_Code,coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'') as CURRENCY_CODE from TSPL_TAX_GROUP_DETAILS " &
+                      " inner join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " &
+                      " inner join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" & clsCommon.myCstr(Me.fndTxGrp.Value) & "' " &
                       " and coalesce(TSPL_TAX_MASTER.CURRENCY_CODE,'')<>'" & clsCommon.myCstr(Me.fndCustCurrency.Value) & "'"
                 Dim dt As DataTable
                 dt = clsDBFuncationality.GetDataTable(qry)
@@ -923,7 +929,7 @@ Public Class frmCustomer
         CmbTransaction.ValueMember = "Code"
         CmbTransaction.DisplayMember = "Name"
     End Sub
-  
+
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -1015,7 +1021,7 @@ Public Class frmCustomer
     Private Sub fnCusGrp()
 
         Try
-            Dim strCmd1 As String = " SELECT Cust_Group_Code as [Customer Gruop Code],Cust_Group_Desc as [Description]," & _
+            Dim strCmd1 As String = " SELECT Cust_Group_Code as [Customer Gruop Code],Cust_Group_Desc as [Description]," &
                            " Tax_Group as [Tax Group],Cust_Account as [Account Set],Terms_Code as [Terms Code] FROM [TSPL_CUSTOMER_GROUP_MASTER] where Cust_Group_Code='" + fndCusgrp.Value + "' "
             myDs = connectSql.RunSQLReturnDS(strCmd1)
             If myDs.Tables(0).Rows.Count > 0 Then
@@ -1278,7 +1284,7 @@ Public Class frmCustomer
         Dim strTaxGrpDesc As String
         strTaxGrpDesc = ""
         Try
-            strCmd = "SELECT [Tax_Group_Code] AS [Tax Group Code],[Tax_Group_Desc] as [Description]," & _
+            strCmd = "SELECT [Tax_Group_Code] AS [Tax Group Code],[Tax_Group_Desc] as [Description]," &
                         " (select case when [Tax_Group_Type]='S' then 'Sale' else 'Purchase' end) as [Type] FROM [TSPL_TAX_GROUP_MASTER] where Tax_Group_Code='" + strTaxGrpId + "'"
             Dim dt As DataTable
             dt = clsDBFuncationality.GetDataTable(strCmd)
@@ -1799,7 +1805,7 @@ Public Class frmCustomer
             End If
             '' ******************* Check Outstanding Amount Of customer *************
 
-            Dim issaved As Boolean = obj.SaveData(obj, obj.ArrVisi, isNewEntry, arrDBName)
+            Dim issaved As Boolean = obj.SaveData(obj, obj.ArrVisi, isNewEntry)
             UcAttachment1.SaveData(obj.Cust_Code)
 
             'Remove Inactive customer mapped in user master 
@@ -2346,6 +2352,7 @@ Public Class frmCustomer
                 '===============
                 LoadCus()
                 GetItemDetails(fndCustomer.Value)
+                GetSecurityDetails(fndCustomer.Value)
                 Dim strcredit As String = myDr(75).ToString
                 If strcredit = "N" Or strcredit = "" Then
                     chkcredit.Checked = False
@@ -6194,7 +6201,99 @@ Public Class frmCustomer
         lblVidhanSabha.Text = clsDBFuncationality.getSingleValue("SELECT VIDHAN_SABHA_NAME FROM TSPL_VIDHAN_SABHA_MASTER where  VIDHAN_SABHA_CODE='" + TxtVidhanSabha.Value + "' ")
     End Sub
 
+    Private Sub gvSecurity_CellClick(sender As Object, e As GridViewCellEventArgs) Handles gvSecurity.CellClick
+        Dim strRecieptCode As String = Nothing
+        Try
+            Dim strDocNo As String = gvSecurity.Rows(e.RowIndex).Cells(0).Value
+            If (clsCommon.myLen(gvSecurity.Rows(e.RowIndex).Cells(e.ColumnIndex).Value) > 0) Then
+                strRecieptCode = clsCommon.myCstr(gvSecurity.Rows(e.RowIndex).Cells(e.ColumnIndex).Value)
+                Dim frm As New FrmReceipttNew()
 
+
+                Dim strProgramName As String = ""
+                Dim strProgramCode As String = clsUserMgtCode.ReceiptEntry
+                If MDI.setCountertoblockforOpenForm(strProgramCode) = True Then
+                    If MDI.IsOriginalName = True Then
+                        strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Program_Name as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
+                    Else
+                        strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when LEN(ISNULL(Re_Name,''))>0 then Re_Name else Program_Name end as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
+                    End If
+
+                    MDI.formShow(frm, strProgramCode, strProgramName, True, strDocNo, True)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnAddSecurity_Click(sender As Object, e As EventArgs) Handles btnAddSecurity.Click
+        Dim ReceiptFormOpens As Boolean = True
+        Try
+            Dim frm As New FrmReceipttNew()
+            frm.Check = fndCustomer.Value
+            frm.StringPass1 = fndCustomer.Value
+            frm.StringPass = txtCustomerName.Text
+            Dim strProgramName As String = ""
+            Dim strProgramCode As String = clsUserMgtCode.ReceiptEntry
+            If MDI.setCountertoblockforOpenForm(strProgramCode) = True Then
+                If MDI.IsOriginalName = True Then
+                    strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Program_Name as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
+                Else
+                    strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when LEN(ISNULL(Re_Name,''))>0 then Re_Name else Program_Name end as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
+                End If
+
+                MDI.formShow(frm, strProgramCode, strProgramName, True, ReceiptFormOpens, True)
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+    Private Sub GetSecurityDetails(ByVal customer As String)
+        'gvSecurity.DataSource = Nothing
+        'gvSecurity.Rows.Clear()
+        ' Dim whrCls As String = " and  "
+        'Dim sql1 As String = "select Receipt_No as [Receipt No], CONVERT(varchar, Receipt_Date, 103) as [Receipt Date],Receipt_Type as [Receipt Type], Receipt_Amount as [Receipt Amount] from TSPL_RECEIPT_HEADER where Receipt_Type ='F' and SecurityDeposit='Y' And Cust_Code='" + fndCustomer.Value + "'"
+
+        Dim sql1 As String = "Select Receipt_No As [Receipt No], CONVERT(varchar, Receipt_Date, 103) As [Receipt Date], Receipt_Type As [Receipt Type],
+            (Receipt_Amount * (case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then -1 ELSE 1 END)) AS Amount 						
+        From TSPL_RECEIPT_HEADER Where SecurityDeposit ='Y' And Cust_Code='" + fndCustomer.Value + "' "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(sql1)
+
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            gvSecurity.DataSource = Nothing
+            gvSecurity.Rows.Clear()
+            gvSecurity.Columns.Clear()
+            gvSecurity.GroupDescriptors.Clear()
+            gvSecurity.MasterTemplate.SummaryRowsBottom.Clear()
+            gvSecurity.MasterView.Refresh()
+            gvSecurity.DataSource = dt
+            gvSecurity.AutoExpandGroups = False
+            gvSecurity.ShowGroupPanel = False
+            gvSecurity.ShowRowHeaderColumn = False
+            gvSecurity.AllowAddNewRow = False
+            gvSecurity.AllowDeleteRow = False
+            gvSecurity.EnableFiltering = True
+            gvSecurity.ShowFilteringRow = True
+            gvSecurity.AutoSizeRows = True
+            'FormatgvSecurity()
+            For ii As Integer = 0 To gvSecurity.Columns.Count - 1
+                gvSecurity.Columns(ii).ReadOnly = True
+                gvSecurity.Columns(ii).BestFit()
+            Next
+            Dim summaryRowItem As New GridViewSummaryRowItem()
+            'Dim summaryRowItem As New GridViewSummaryRowItem()
+            Dim Receipt_Amount As New GridViewSummaryItem("Amount", "{0:n2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(Receipt_Amount)
+            gvSecurity.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+
+        End If
+    End Sub
+
+    Private Sub UcAttachment1_Load(sender As Object, e As EventArgs) Handles UcAttachment1.Load
+
+    End Sub
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog

@@ -88,6 +88,7 @@ Public Class FrmItemMasterRMOther
     Dim SettItemWiseQualityCheckInGeneralPurchase As Boolean = False
     Dim UpdateItemMasterConversationWithoutValidation As Boolean = False
     Dim AllowDuplicateItemShortDescriptionInItemMaster As Boolean = False
+    Dim OneTimeCheck As Boolean = False
 #End Region
     Private Sub FrmItemMasterRMOther_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         AllowDuplicateItemShortDescriptionInItemMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowDuplicateItemShortDescriptionInItemMaster, clsFixedParameterCode.AllowDuplicateItemShortDescriptionInItemMaster, Nothing)) = 1, True, False)
@@ -1242,6 +1243,7 @@ Public Class FrmItemMasterRMOther
         chkQCSNFBssed.Checked = False
         chkAdvanceRequired.Checked = False
         chkIsDisplayDemad.Checked = False
+        chkExcludeInApp.Checked = False
         If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.INDUSTRYTYPE, clsFixedParameterCode.INDUSTRYTYPE, Nothing)), "A") = CompairStringResult.Equal Then
             CmbWarrApp.Visible = True
             LblWarrDate.Visible = True
@@ -1329,19 +1331,20 @@ Public Class FrmItemMasterRMOther
         lblSubCategory.Text = clsDBFuncationality.getSingleValue("select Description  from TSPL_ITEM_SUB_CATEGORY where Sub_Category_Code='" + txtSubCategory.Value + "'")
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
-        If btnSave.Text = "Update" Then
+        If btnSave.Text = "Update" AndAlso OneTimeCheck = False Then
             Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.SIRC
             frm.strCode = clsFixedParameterCode.UpdatePassword
-
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 ShowRemarks()
+                OneTimeCheck = True
             End If
+        ElseIf btnSave.Text = "Update" AndAlso OneTimeCheck Then
+            ShowRemarks()
         Else
             Savedata()
         End If
-
     End Sub
     Sub Savedata()
         Try
@@ -1401,6 +1404,7 @@ Public Class FrmItemMasterRMOther
                 obj.Item_Category_Struct_Code = txtCategoryStructureCode.Value
                 obj.Sku_Seq = clsCommon.myCdbl(txtSeqNo.Text)
                 obj.Is_DisplayDemand = chkIsDisplayDemad.Checked
+                obj.Is_ExcludeAPP = chkExcludeInApp.Checked
                 obj.Marketing_Seq = clsCommon.myCdbl(txtMarSeqNo.Text)
                 obj.ApplyRoundingInStdProd = chkApplyRounding.Checked
                 obj.Visual_QC = chkApplyVisualQC.Checked
@@ -2531,6 +2535,7 @@ Public Class FrmItemMasterRMOther
                 txtITFCode.Text = obj.ITFCode
                 chkMRP.Checked = obj.Is_MRP
                 chkIsDisplayDemad.Checked = obj.Is_DisplayDemand
+                chkExcludeInApp.Checked = obj.Is_ExcludeAPP
                 txtRackNo.Text = obj.Rack_No
                 chkFresh.Checked = obj.Is_FreshItem
                 chkChangeRate.Checked = IIf(obj.Is_Rate_Change_OnDairyDispatch = 1, True, False)

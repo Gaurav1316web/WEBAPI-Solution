@@ -34,6 +34,9 @@ Partial Class frmPurcahseAccountSetCode
         Me.fndaccountsetcode = New common.UserControls.txtNavigator()
         Me.rdlblaccountsetcode = New common.Controls.MyLabel()
         Me.rdgrpbxgeneralledgeraccounts = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblItemOpeningClearing = New Telerik.WinControls.UI.RadTextBox()
+        Me.fndItemOpeningClearing = New common.UserControls.txtFinder()
+        Me.MyLabel20 = New common.Controls.MyLabel()
         Me.fndWrekageAccount = New common.UserControls.txtFinder()
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.txtWrekageAccount = New Telerik.WinControls.UI.RadTextBox()
@@ -148,9 +151,6 @@ Partial Class frmPurcahseAccountSetCode
         Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem()
         Me.Bsws1 = New ERP.BSWS.BSWS()
-        Me.MyLabel20 = New common.Controls.MyLabel()
-        Me.fndItemOpeningClearing = New common.UserControls.txtFinder()
-        Me.lblItemOpeningClearing = New Telerik.WinControls.UI.RadTextBox()
         CType(Me.rdtxtdescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdlbldescription, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -165,6 +165,8 @@ Partial Class frmPurcahseAccountSetCode
         CType(Me.rdlblaccountsetcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdgrpbxgeneralledgeraccounts, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rdgrpbxgeneralledgeraccounts.SuspendLayout()
+        CType(Me.lblItemOpeningClearing, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtWrekageAccount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -239,8 +241,6 @@ Partial Class frmPurcahseAccountSetCode
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblItemOpeningClearing, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -357,6 +357,7 @@ Partial Class frmPurcahseAccountSetCode
         Me.cboCostingMethod.AutoCompleteDisplayMember = Nothing
         Me.cboCostingMethod.AutoCompleteValueMember = Nothing
         Me.cboCostingMethod.CalculationExpression = Nothing
+        Me.cboCostingMethod.DropDownAnimationEnabled = True
         Me.cboCostingMethod.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboCostingMethod.FieldCode = Nothing
         Me.cboCostingMethod.FieldDesc = Nothing
@@ -537,6 +538,50 @@ Partial Class frmPurcahseAccountSetCode
         Me.rdgrpbxgeneralledgeraccounts.Size = New System.Drawing.Size(946, 391)
         Me.rdgrpbxgeneralledgeraccounts.TabIndex = 4
         Me.rdgrpbxgeneralledgeraccounts.Text = "General Ledger accounts"
+        '
+        'lblItemOpeningClearing
+        '
+        Me.lblItemOpeningClearing.Location = New System.Drawing.Point(239, 362)
+        Me.lblItemOpeningClearing.Name = "lblItemOpeningClearing"
+        Me.lblItemOpeningClearing.ReadOnly = True
+        Me.lblItemOpeningClearing.Size = New System.Drawing.Size(225, 20)
+        Me.lblItemOpeningClearing.TabIndex = 101
+        Me.lblItemOpeningClearing.TabStop = False
+        '
+        'fndItemOpeningClearing
+        '
+        Me.fndItemOpeningClearing.CalculationExpression = Nothing
+        Me.fndItemOpeningClearing.FieldCode = Nothing
+        Me.fndItemOpeningClearing.FieldDesc = Nothing
+        Me.fndItemOpeningClearing.FieldMaxLength = 0
+        Me.fndItemOpeningClearing.FieldName = Nothing
+        Me.fndItemOpeningClearing.isCalculatedField = False
+        Me.fndItemOpeningClearing.IsSourceFromTable = False
+        Me.fndItemOpeningClearing.IsSourceFromValueList = False
+        Me.fndItemOpeningClearing.IsUnique = False
+        Me.fndItemOpeningClearing.Location = New System.Drawing.Point(130, 362)
+        Me.fndItemOpeningClearing.MendatroryField = False
+        Me.fndItemOpeningClearing.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndItemOpeningClearing.MyLinkLable1 = Nothing
+        Me.fndItemOpeningClearing.MyLinkLable2 = Nothing
+        Me.fndItemOpeningClearing.MyReadOnly = False
+        Me.fndItemOpeningClearing.MyShowMasterFormButton = False
+        Me.fndItemOpeningClearing.Name = "fndItemOpeningClearing"
+        Me.fndItemOpeningClearing.ReferenceFieldDesc = Nothing
+        Me.fndItemOpeningClearing.ReferenceFieldName = Nothing
+        Me.fndItemOpeningClearing.ReferenceTableName = Nothing
+        Me.fndItemOpeningClearing.Size = New System.Drawing.Size(107, 19)
+        Me.fndItemOpeningClearing.TabIndex = 100
+        Me.fndItemOpeningClearing.Value = ""
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Location = New System.Drawing.Point(6, 363)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(119, 18)
+        Me.MyLabel20.TabIndex = 98
+        Me.MyLabel20.Text = "Item Opening Clearing"
         '
         'fndWrekageAccount
         '
@@ -2204,9 +2249,9 @@ Partial Class frmPurcahseAccountSetCode
         Me.rdlblnonstockclearing.FieldName = Nothing
         Me.rdlblnonstockclearing.Location = New System.Drawing.Point(5, 96)
         Me.rdlblnonstockclearing.Name = "rdlblnonstockclearing"
-        Me.rdlblnonstockclearing.Size = New System.Drawing.Size(106, 18)
+        Me.rdlblnonstockclearing.Size = New System.Drawing.Size(102, 18)
         Me.rdlblnonstockclearing.TabIndex = 19
-        Me.rdlblnonstockclearing.Text = "Inv. Control Empties"
+        Me.rdlblnonstockclearing.Text = "BMC Milk Purchase"
         '
         'rdlblassamblycostcredit
         '
@@ -2300,20 +2345,15 @@ Partial Class frmPurcahseAccountSetCode
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(960, 20)
         Me.rdmenufile.TabIndex = 1
-        Me.rdmenufile.Text = "FILE"
         '
         'radmenu
         '
-        Me.radmenu.AccessibleDescription = "File"
-        Me.radmenu.AccessibleName = "File"
         Me.radmenu.Items.AddRange(New Telerik.WinControls.RadItem() {Me.menuimport, Me.rdmenuexport, Me.rdmenuexit})
         Me.radmenu.Name = "radmenu"
         Me.radmenu.Text = "File"
         '
         'menuimport
         '
-        Me.menuimport.AccessibleDescription = "Import"
-        Me.menuimport.AccessibleName = "Import"
         Me.menuimport.Name = "menuimport"
         Me.menuimport.Text = "Import"
         '
@@ -2326,8 +2366,6 @@ Partial Class frmPurcahseAccountSetCode
         '
         'rdmenuexit
         '
-        Me.rdmenuexit.AccessibleDescription = "Exit"
-        Me.rdmenuexit.AccessibleName = "Exit"
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
         '
@@ -2336,50 +2374,6 @@ Partial Class frmPurcahseAccountSetCode
         Me.Bsws1.Credentials = Nothing
         Me.Bsws1.Url = "http://www.businesssms.co.in/WebService/BSWS.asmx"
         Me.Bsws1.UseDefaultCredentials = False
-        '
-        'MyLabel20
-        '
-        Me.MyLabel20.FieldName = Nothing
-        Me.MyLabel20.Location = New System.Drawing.Point(6, 363)
-        Me.MyLabel20.Name = "MyLabel20"
-        Me.MyLabel20.Size = New System.Drawing.Size(119, 18)
-        Me.MyLabel20.TabIndex = 98
-        Me.MyLabel20.Text = "Item Opening Clearing"
-        '
-        'fndItemOpeningClearing
-        '
-        Me.fndItemOpeningClearing.CalculationExpression = Nothing
-        Me.fndItemOpeningClearing.FieldCode = Nothing
-        Me.fndItemOpeningClearing.FieldDesc = Nothing
-        Me.fndItemOpeningClearing.FieldMaxLength = 0
-        Me.fndItemOpeningClearing.FieldName = Nothing
-        Me.fndItemOpeningClearing.isCalculatedField = False
-        Me.fndItemOpeningClearing.IsSourceFromTable = False
-        Me.fndItemOpeningClearing.IsSourceFromValueList = False
-        Me.fndItemOpeningClearing.IsUnique = False
-        Me.fndItemOpeningClearing.Location = New System.Drawing.Point(130, 362)
-        Me.fndItemOpeningClearing.MendatroryField = False
-        Me.fndItemOpeningClearing.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndItemOpeningClearing.MyLinkLable1 = Nothing
-        Me.fndItemOpeningClearing.MyLinkLable2 = Nothing
-        Me.fndItemOpeningClearing.MyReadOnly = False
-        Me.fndItemOpeningClearing.MyShowMasterFormButton = False
-        Me.fndItemOpeningClearing.Name = "fndItemOpeningClearing"
-        Me.fndItemOpeningClearing.ReferenceFieldDesc = Nothing
-        Me.fndItemOpeningClearing.ReferenceFieldName = Nothing
-        Me.fndItemOpeningClearing.ReferenceTableName = Nothing
-        Me.fndItemOpeningClearing.Size = New System.Drawing.Size(107, 19)
-        Me.fndItemOpeningClearing.TabIndex = 100
-        Me.fndItemOpeningClearing.Value = ""
-        '
-        'lblItemOpeningClearing
-        '
-        Me.lblItemOpeningClearing.Location = New System.Drawing.Point(239, 362)
-        Me.lblItemOpeningClearing.Name = "lblItemOpeningClearing"
-        Me.lblItemOpeningClearing.ReadOnly = True
-        Me.lblItemOpeningClearing.Size = New System.Drawing.Size(225, 20)
-        Me.lblItemOpeningClearing.TabIndex = 101
-        Me.lblItemOpeningClearing.TabStop = False
         '
         'frmPurcahseAccountSetCode
         '
@@ -2411,6 +2405,8 @@ Partial Class frmPurcahseAccountSetCode
         CType(Me.rdgrpbxgeneralledgeraccounts, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rdgrpbxgeneralledgeraccounts.ResumeLayout(False)
         Me.rdgrpbxgeneralledgeraccounts.PerformLayout()
+        CType(Me.lblItemOpeningClearing, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtWrekageAccount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2485,8 +2481,6 @@ Partial Class frmPurcahseAccountSetCode
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblItemOpeningClearing, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

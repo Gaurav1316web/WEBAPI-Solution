@@ -1372,6 +1372,11 @@ Public Class frmDairyBookingCustomer
         txtCan.Text = Math.Round(clsCommon.myCdbl(TotalCan), 2)
         txtBox.Text = Math.Round(clsCommon.myCdbl(TotalBox), 2)
         txtCrate.Text = Math.Round(clsCommon.myCdbl(TotalCrate), 2)
+        Try
+            lblTCSAmount.Text = Math.Round(Math.Round(clsCommon.myCdbl(dblTotalDocAmt), 2) * GetTCSRate(txtVendorNo.Value) / 100, 2)
+        Catch ex As Exception
+
+        End Try
     End Sub
     'Private Function GetBaseOtherTaxableAmount(ByVal intEndCol As Integer) As Double
     ''Dim dblRetVal As Double = 0
@@ -1849,8 +1854,15 @@ Public Class frmDairyBookingCustomer
                 If chkDCS.Checked Then
                     obj.Is_DCS = 1
                     obj.Booking_Type = cmbcashcredit.Text
+                    If clsCommon.myLen(txtLastCollectionDate.Text) > 0 Then
+                        obj.LastCollectionDate = txtLastCollectionDate.Text
+                    Else
+                        obj.LastCollectionDate = Nothing
+
+                    End If
                 Else
                     obj.Booking_Type = ""
+                    obj.LastCollectionDate = Nothing
                 End If
                 If clsCommon.CompairString(cmbGatePassType.Text, "Select") = CompairStringResult.Equal Then
                     obj.GatePass_Type = ""
@@ -1863,6 +1875,8 @@ Public Class frmDairyBookingCustomer
                 If clsCommon.myLen(lblLoginUserZone.Text) > 0 Then
                     obj.Login_User_Zone_Code = lblLoginUserZone.Text
                 End If
+                obj.TCSAmount = lblTCSAmount.Text
+                obj.Is_Credit_Customer = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Credit_Customer from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "'"))
                 obj.Arr = New List(Of clsBookingDetailDairySale)
                 ''richa 4 Aug,2021 optimization related
                 Dim dblBooking_Status As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select  Booking_Status from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'  and Cust_Code='" & txtVendorNo.Value & "'"))
@@ -2460,11 +2474,12 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     txtCouponDate.Value = obj.BPL_Coupon_Date
                     txtCategory.Value = obj.BPL_Category
                 End If
-                'If chkDCS.Checked Then
-                '    GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
-                'Else
-                '    CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
-                'End If
+                If chkDCS.Checked AndAlso obj.LastCollectionDate IsNot Nothing Then
+                    'GetOutStandingBal(txtVendorNo.Value, txtDate.Value)
+                    txtLastCollectionDate.Text = obj.LastCollectionDate
+                    'Else
+                    'CustomerOutstandingAmount(txtVendorNo.Value, Nothing)
+                End If
                 txtLocation.Enabled = False
                 txtVendorNo.Enabled = False
                 txtDocNo.Value = obj.Document_No
@@ -3164,7 +3179,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             gv1.DataSource = Nothing
         Else
             If chkDCS.Checked Then
-                qry = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as Code,TSPL_CUSTOMER_MASTER.Cust_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_CUSTOMER_MASTER.Alies_Name as [Short Name],TSPL_CUSTOMER_MASTER.Route_No"
+                qry = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [Uploader Code],TSPL_CUSTOMER_MASTER.Cust_Code as Code,TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_CUSTOMER_MASTER.Alies_Name as [Short Name],TSPL_CUSTOMER_MASTER.Route_No"
             Else
                 qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,TSPL_CUSTOMER_MASTER.Customer_Name as [Customer Name],TSPL_CUSTOMER_MASTER.Alies_Name as [Short Name],TSPL_CUSTOMER_MASTER.Route_No"
 
@@ -3199,6 +3214,9 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             txtVendorNo.Value = clsCommon.ShowSelectForm("CustomerFnder1", qry, "Code", WhrCls, txtVendorNo.Value, "Code", isButtonClicked)
             lblVendorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"))
             lblBoothStation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  isnull(Zone_Code,'') +  case when len(oldname )>0 then ', ' +isnull(oldname,'') else '' end from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"))
+            If chkDCS.Checked Then
+                txtLastCollectionDate.Text = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select top 1 DOC_DATE from TSPL_MILK_SRN_HEAD where VSP_CODE='" + txtVendorNo.Value + "' order by TSPL_MILK_SRN_HEAD.DOC_DATE desc"))
+            End If
             setRouteDetail(txtVendorNo.Value, txtRouteNo.Value)
             gv1.DataSource = Nothing
             If clsCommon.myLen(txtVendorNo.Value) > 0 Then
@@ -5744,12 +5762,16 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             chkBPL.Enabled = False
             chkDistributor.Checked = False
             chkDistributor.Enabled = False
+            txtLastCollectionDate.Visible = True
+            lblLastCollectionDate.Visible = True
         Else
             lblCredit.Visible = False
             cmbcashcredit.Visible = False
             chkBPL.Enabled = True
             chkDistributor.Checked = True
             chkDistributor.Enabled = True
+            txtLastCollectionDate.Visible = False
+            lblLastCollectionDate.Visible = False
         End If
     End Sub
     Public Sub GetUnbilledAmt(ByVal dtDoc As DateTime, ByVal VendorNo As String)

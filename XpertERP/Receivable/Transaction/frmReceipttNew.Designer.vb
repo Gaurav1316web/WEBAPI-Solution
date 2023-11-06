@@ -22,10 +22,10 @@ Partial Class FrmReceipttNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.MyLabel14 = New common.Controls.MyLabel()
@@ -147,6 +147,7 @@ Partial Class FrmReceipttNew
         Me.lblUnApplyAmt = New common.Controls.MyLabel()
         Me.dtPost = New common.Controls.MyDateTimePicker()
         Me.ddlTransType = New common.Controls.MyComboBox()
+        Me.lblnarration = New common.Controls.MyLabel()
         Me.txtCusName = New common.Controls.MyTextBox()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -160,7 +161,6 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt = New common.UserControls.MyRadGridView()
         Me.dgvmiscpayment = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -191,7 +191,6 @@ Partial Class FrmReceipttNew
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnAdjment = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.lblnarration = New common.Controls.MyLabel()
         Me.txtNarration = New common.Controls.MyTextBox()
         Me.txtremitto = New Telerik.WinControls.UI.RadTextBox()
         Me.txtreference = New common.Controls.MyTextBox()
@@ -203,6 +202,7 @@ Partial Class FrmReceipttNew
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -313,6 +313,7 @@ Partial Class FrmReceipttNew
         CType(Me.lblUnApplyAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlTransType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblnarration, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCusName, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.txtCusName.SuspendLayout()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -361,7 +362,6 @@ Partial Class FrmReceipttNew
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAdjment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblnarration, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNarration, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtremitto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtreference, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -574,10 +574,10 @@ Partial Class FrmReceipttNew
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(53.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(49.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1212, 413)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1212, 417)
         Me.RadPageViewPage1.Text = "Receipt"
         '
         'SplitContainer1
@@ -668,7 +668,7 @@ Partial Class FrmReceipttNew
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.dgvReceipt)
         Me.SplitContainer1.Panel2.Controls.Add(Me.dgvmiscpayment)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1212, 413)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1212, 417)
         Me.SplitContainer1.SplitterDistance = 281
         Me.SplitContainer1.TabIndex = 0
         '
@@ -1959,7 +1959,7 @@ Partial Class FrmReceipttNew
         Me.txtsalesmanCode.MyLinkLable1 = Me.lblcustomer
         Me.txtsalesmanCode.MyLinkLable2 = Nothing
         Me.txtsalesmanCode.MyReadOnly = False
-        Me.txtsalesmanCode.MyShowMasterFormButton = False
+        Me.txtsalesmanCode.MyShowMasterFormButton = True
         Me.txtsalesmanCode.Name = "txtsalesmanCode"
         Me.txtsalesmanCode.ReferenceFieldDesc = Nothing
         Me.txtsalesmanCode.ReferenceFieldName = Nothing
@@ -2132,7 +2132,7 @@ Partial Class FrmReceipttNew
         Me.fndCustomer.MyLinkLable1 = Me.lblcustomer
         Me.fndCustomer.MyLinkLable2 = Nothing
         Me.fndCustomer.MyReadOnly = False
-        Me.fndCustomer.MyShowMasterFormButton = False
+        Me.fndCustomer.MyShowMasterFormButton = True
         Me.fndCustomer.Name = "fndCustomer"
         Me.fndCustomer.ReferenceFieldDesc = Nothing
         Me.fndCustomer.ReferenceFieldName = Nothing
@@ -2387,7 +2387,7 @@ Partial Class FrmReceipttNew
         Me.ddlTransType.IsUnique = False
         Me.ddlTransType.Location = New System.Drawing.Point(115, 49)
         Me.ddlTransType.MendatroryField = False
-        Me.ddlTransType.MyLinkLable1 = Me.lblpaymenttype
+        Me.ddlTransType.MyLinkLable1 = Me.lblnarration
         Me.ddlTransType.MyLinkLable2 = Nothing
         Me.ddlTransType.Name = "ddlTransType"
         Me.ddlTransType.ReferenceFieldDesc = Nothing
@@ -2395,6 +2395,18 @@ Partial Class FrmReceipttNew
         Me.ddlTransType.ReferenceTableName = Nothing
         Me.ddlTransType.Size = New System.Drawing.Size(154, 20)
         Me.ddlTransType.TabIndex = 11
+        '
+        'lblnarration
+        '
+        Me.lblnarration.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.lblnarration.FieldName = Nothing
+        Me.lblnarration.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblnarration.Location = New System.Drawing.Point(604, 5)
+        Me.lblnarration.Name = "lblnarration"
+        Me.lblnarration.Size = New System.Drawing.Size(53, 16)
+        Me.lblnarration.TabIndex = 7
+        Me.lblnarration.Text = "Narration"
+        Me.lblnarration.Visible = False
         '
         'txtCusName
         '
@@ -2534,12 +2546,12 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt.MasterTemplate.EnableFiltering = True
         Me.dgvReceipt.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvReceipt.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.dgvReceipt.Name = "dgvReceipt"
         Me.dgvReceipt.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvReceipt.ShowGroupPanel = False
         Me.dgvReceipt.ShowHeaderCellButtons = True
-        Me.dgvReceipt.Size = New System.Drawing.Size(1212, 128)
+        Me.dgvReceipt.Size = New System.Drawing.Size(1212, 132)
         Me.dgvReceipt.TabIndex = 2
         Me.dgvReceipt.TabStop = False
         '
@@ -2559,34 +2571,26 @@ Partial Class FrmReceipttNew
         Me.dgvmiscpayment.MasterTemplate.EnableGrouping = False
         Me.dgvmiscpayment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvmiscpayment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.dgvmiscpayment.Name = "dgvmiscpayment"
         Me.dgvmiscpayment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvmiscpayment.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 128)
+        Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 132)
         Me.dgvmiscpayment.TabIndex = 4
         '
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1004, 433)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1004, 433)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(967, 415)
@@ -2603,7 +2607,7 @@ Partial Class FrmReceipttNew
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
-        Me.TabForGST.ItemSize = New System.Drawing.SizeF(36.0!, 28.0!)
+        Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
         Me.TabForGST.Location = New System.Drawing.Point(10, 37)
         Me.TabForGST.Name = "TabForGST"
         Me.TabForGST.Size = New System.Drawing.Size(1004, 413)
@@ -2904,7 +2908,7 @@ Partial Class FrmReceipttNew
         Me.gvTaxDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTaxDetail.ShowHeaderCellButtons = True
@@ -2929,7 +2933,7 @@ Partial Class FrmReceipttNew
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItem.ShowHeaderCellButtons = True
@@ -3007,18 +3011,6 @@ Partial Class FrmReceipttNew
         Me.btnSave.Size = New System.Drawing.Size(68, 24)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
-        '
-        'lblnarration
-        '
-        Me.lblnarration.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.lblnarration.FieldName = Nothing
-        Me.lblnarration.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblnarration.Location = New System.Drawing.Point(604, 5)
-        Me.lblnarration.Name = "lblnarration"
-        Me.lblnarration.Size = New System.Drawing.Size(53, 16)
-        Me.lblnarration.TabIndex = 7
-        Me.lblnarration.Text = "Narration"
-        Me.lblnarration.Visible = False
         '
         'txtNarration
         '
@@ -3155,6 +3147,14 @@ Partial Class FrmReceipttNew
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1004, 433)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'FrmReceipttNew
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3287,6 +3287,7 @@ Partial Class FrmReceipttNew
         CType(Me.lblUnApplyAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlTransType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblnarration, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCusName, System.ComponentModel.ISupportInitialize).EndInit()
         Me.txtCusName.ResumeLayout(False)
         Me.txtCusName.PerformLayout()
@@ -3337,7 +3338,6 @@ Partial Class FrmReceipttNew
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAdjment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblnarration, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNarration, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtremitto, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtreference, System.ComponentModel.ISupportInitialize).EndInit()

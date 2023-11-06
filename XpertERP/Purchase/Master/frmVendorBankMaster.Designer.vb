@@ -22,6 +22,7 @@ Partial Class FrmVendorBankMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmVendorBankMaster))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -136,7 +137,6 @@ Partial Class FrmVendorBankMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(703, 433)
         Me.RadPageView1.TabIndex = 3
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -198,10 +198,12 @@ Partial Class FrmVendorBankMaster
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -209,7 +211,6 @@ Partial Class FrmVendorBankMaster
         Me.gv1.Size = New System.Drawing.Size(658, 100)
         Me.gv1.TabIndex = 13
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'txtIFSCCode
         '
@@ -325,7 +326,6 @@ Partial Class FrmVendorBankMaster
         Me.txtcityName.Name = "txtcityName"
         Me.txtcityName.Size = New System.Drawing.Size(411, 19)
         Me.txtcityName.TabIndex = 1366
-        Me.txtcityName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtstateName
         '
@@ -336,7 +336,6 @@ Partial Class FrmVendorBankMaster
         Me.txtstateName.Name = "txtstateName"
         Me.txtstateName.Size = New System.Drawing.Size(411, 19)
         Me.txtstateName.TabIndex = 1366
-        Me.txtstateName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtcountryName
         '
@@ -347,7 +346,6 @@ Partial Class FrmVendorBankMaster
         Me.txtcountryName.Name = "txtcountryName"
         Me.txtcountryName.Size = New System.Drawing.Size(411, 19)
         Me.txtcountryName.TabIndex = 1365
-        Me.txtcountryName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndCountry
         '
@@ -628,7 +626,6 @@ Partial Class FrmVendorBankMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(703, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'rdmenufile
         '
@@ -641,8 +638,6 @@ Partial Class FrmVendorBankMaster
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RDImportBankDetail, Me.RDImportBranchDetail})
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
@@ -663,8 +658,6 @@ Partial Class FrmVendorBankMaster
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RDExportBankDetails, Me.RDExportBranchDetails})
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"

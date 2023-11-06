@@ -179,6 +179,7 @@ Public Class FrmBulkRoutMaster
             chkForContractor.Checked = IIf(obj.IsContractor = 1, True, False)
             chkDefault.Checked = IIf(obj.IsDefault = 1, True, False)
             txtMCC.arrValueMember = obj.arrMCC
+            txtcuttofftime.Value = obj.CuttOff_Time
         End If
     End Sub
     'ROUTE_NAME as [Route Name],Distance,Rate,Amount 
@@ -216,6 +217,7 @@ Public Class FrmBulkRoutMaster
                 obj.IsDefault = IIf(chkDefault.Checked = True, 1, 0)
                 obj.Tanker_No = txtTankerNo.Value
                 obj.arrMCC = txtMCC.arrValueMember
+                obj.CuttOff_Time = txtcuttofftime.Value
                 If (clsBulkRoutMaster.SaveData(obj)) Then
                     common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
                     LoadData(obj.ROUTE_NO, NavigatorType.Current)

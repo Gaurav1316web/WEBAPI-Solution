@@ -5,10 +5,7 @@
 'End Date -
 '' work done agaist ticket no KDI/07/06/18-000347 
 'Add Mobile No
-Imports System.Data
 Imports System.Data.SqlClient
-Imports Telerik.WinControls.UI
-Imports common
 Public Class FrmUserMaster
     Inherits FrmMainTranScreen
     Dim ButtonToolTip As ToolTip = New ToolTip()
@@ -18,9 +15,9 @@ Public Class FrmUserMaster
     Dim isCheckCustomerType As Boolean = False
     Public PasswordRules As Boolean = Nothing
     Public CheckPassword As Boolean = Nothing
-    Public arrZone As ArrayList
-    Public arrCustomerCategory As ArrayList
-    Public arrRoute As ArrayList
+    'Public arrZone As ArrayList
+    'Public arrCustomerCategory As ArrayList
+    'Public arrRoute As ArrayList
     Dim UserWiseRouteMapping As Boolean = False
 #Region "Constructor"
     Public Sub New(ByVal user As String, ByVal company As String)
@@ -133,7 +130,7 @@ Public Class FrmUserMaster
             LoadType()
             fndCustCode.MyReadOnly = False
             fndDisRetailerCode.MyReadOnly = False
-            lblDisRetailer.Text = "Distributer"
+            lblDisRetailer.Text = "Distributor"
             CmbLoginType.SelectedValue = ""
             RadPanel1.Visible = True
         ElseIf isCheckCustomerType = True Then
@@ -294,6 +291,7 @@ Public Class FrmUserMaster
                 mulZone.arrValueMember = Nothing
                 mulCustomerCategory.arrValueMember = Nothing
                 txtRoute.arrValueMember = Nothing
+                txtBulkRoute.arrValueMember = Nothing
                 btnSave.Text = "Save"
                 btnDelete.Enabled = False
                 If isCheckCustomerType = True Then
@@ -394,7 +392,7 @@ Public Class FrmUserMaster
                     lblCustCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustCode.Value + "'")
                 End If
 
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
 
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
                     lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
@@ -420,7 +418,7 @@ Public Class FrmUserMaster
                     lblRetailerCode.Text = ""
                 End If
 
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
 
                     fndDisRetailerCode.Value = row("Distributor_Retailer_Code").ToString()
                     lblRetailerCode.Text = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_SECONDARY_CUSTOMER_MASTER where Cust_Code='" + fndDisRetailerCode.Value + "'")
@@ -503,6 +501,17 @@ Public Class FrmUserMaster
         txtRoute.arrValueMember = arrRoute1
 
         '==========================
+
+        Dim arrBulkRoute1 As ArrayList = Nothing
+        qry = "select TSPL_USER_BULK_ROUTE_MAPPING.Route_No from TSPL_USER_BULK_ROUTE_MAPPING where TSPL_USER_BULK_ROUTE_MAPPING.User_Code='" + fndUserCode.Value + "'"
+        dt3 = clsDBFuncationality.GetDataTable(qry)
+        If dt3 IsNot Nothing AndAlso dt3.Rows.Count > 0 Then
+            arrBulkRoute1 = New ArrayList()
+            For Each drRoute As DataRow In dt3.Rows
+                arrBulkRoute1.Add(clsCommon.myCstr(drRoute("Route_No")))
+            Next
+        End If
+        txtBulkRoute.arrValueMember = arrBulkRoute1
     End Sub
 
     Private Sub funInsert()
@@ -634,7 +643,7 @@ Public Class FrmUserMaster
                 'Prabhakar Ticket : BM00000009802' 
                 'If PanelCNF = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or
-                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Driver") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Super User") = CompairStringResult.Equal) Then
@@ -642,7 +651,7 @@ Public Class FrmUserMaster
                 '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
                 '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 '    End If
-                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
                 '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
                 '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 '    End If
@@ -674,48 +683,7 @@ Public Class FrmUserMaster
 
 
 
-            '===============================================
-            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_ZONE  where User_Code ='" + fndUserCode.Value + "' ")
-            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_CATEGORY  where User_Code ='" + fndUserCode.Value + "' ")
-            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_User_Route_Mapping  where User_Code ='" + fndUserCode.Value + "' ")
-            arrZone = mulZone.arrValueMember
-            If (arrZone IsNot Nothing AndAlso arrZone.Count > 0) Then
-                For Each strZoneCode As String In arrZone
-                    Dim collZone As New Hashtable()
-                    Dim strTRCode As String = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"), clsDocType.Detail, clsDocTransactionType.Detail, "")
-                    clsCommon.AddColumnsForChange(collZone, "TR_Code", strTRCode)
-                    clsCommon.AddColumnsForChange(collZone, "User_Code", fndUserCode.Value)
-                    clsCommon.AddColumnsForChange(collZone, "Zone_Code", strZoneCode)
-                    clsCommonFunctionality.UpdateDataTable(collZone, "TSPL_USER_CUSTOMER_ZONE", OMInsertOrUpdate.Insert, "")
-                Next
-            End If
 
-            arrCustomerCategory = mulCustomerCategory.arrValueMember
-            If (arrCustomerCategory IsNot Nothing AndAlso arrCustomerCategory.Count > 0) Then
-                For Each strCustomerCategory As String In arrCustomerCategory
-                    Dim collCustCategory As New Hashtable()
-                    Dim strTRCode As String = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"), clsDocType.Detail, clsDocTransactionType.Detail, "")
-                    clsCommon.AddColumnsForChange(collCustCategory, "TR_Code", strTRCode)
-                    clsCommon.AddColumnsForChange(collCustCategory, "User_Code", fndUserCode.Value)
-                    clsCommon.AddColumnsForChange(collCustCategory, "Customer_Category", strCustomerCategory)
-                    clsCommonFunctionality.UpdateDataTable(collCustCategory, "TSPL_USER_CUSTOMER_CATEGORY", OMInsertOrUpdate.Insert, "")
-                Next
-            End If
-
-            arrRoute = txtRoute.arrValueMember
-            If (arrRoute IsNot Nothing AndAlso arrRoute.Count > 0) Then
-                For Each strRouteCode As String In arrRoute
-                    Dim collRoute As New Hashtable()
-                    Dim strTRCode As String = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"), clsDocType.Detail, clsDocTransactionType.Detail, "")
-                    clsCommon.AddColumnsForChange(collRoute, "TR_Code", strTRCode)
-                    clsCommon.AddColumnsForChange(collRoute, "User_Code", fndUserCode.Value)
-                    clsCommon.AddColumnsForChange(collRoute, "Route_No", strRouteCode)
-                    clsCommonFunctionality.UpdateDataTable(collRoute, "TSPL_User_Route_Mapping", OMInsertOrUpdate.Insert, "")
-                Next
-            End If
-
-
-            '===============================================
 
             myMessages.insert()
 
@@ -924,13 +892,13 @@ Public Class FrmUserMaster
                 'Prabhakar Ticket : BM00000009802' 
                 'If PanelCNF = True AndAlso (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or
-                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
                 '    clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
                 '    If (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or
                 '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal) Then
                 '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Cust_Code='" + fndCustCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 '    End If
-                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+                '    If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
                 '        clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal Then
                 '        clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + clsCommon.myCstr(CmbLoginType.SelectedValue) + "',Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "' where User_Code ='" + fndUserCode.Value + "'")
                 '    End If
@@ -964,44 +932,7 @@ Public Class FrmUserMaster
                 '    clsDBFuncationality.ExecuteNonQuery(" update TSPL_USER_MASTER set Login_Type = '" + CmbLoginType.SelectedValue + "' ,Cust_Code='" + fndCustCode.Value + "', Distributor_Retailer_Code='" + fndDisRetailerCode.Value + "'  where User_Code ='" + fndUserCode.Value + "'")
                 'End If
                 '===============================================
-                clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_ZONE  where User_Code ='" + fndUserCode.Value + "' ")
-                clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_CATEGORY  where User_Code ='" + fndUserCode.Value + "' ")
-                clsDBFuncationality.ExecuteNonQuery("delete from TSPL_User_Route_Mapping  where User_Code ='" + fndUserCode.Value + "' ")
-                arrZone = mulZone.arrValueMember
-                If (arrZone IsNot Nothing AndAlso arrZone.Count > 0) Then
-                    For Each strZoneCode As String In arrZone
-                        Dim collZone As New Hashtable()
-                        Dim strTRCode As String = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"), clsDocType.Detail, clsDocTransactionType.Detail, "")
-                        clsCommon.AddColumnsForChange(collZone, "TR_Code", strTRCode)
-                        clsCommon.AddColumnsForChange(collZone, "User_Code", fndUserCode.Value)
-                        clsCommon.AddColumnsForChange(collZone, "Zone_Code", strZoneCode)
-                        clsCommonFunctionality.UpdateDataTable(collZone, "TSPL_USER_CUSTOMER_ZONE", OMInsertOrUpdate.Insert, "")
-                    Next
-                End If
 
-                arrCustomerCategory = mulCustomerCategory.arrValueMember
-                If (arrCustomerCategory IsNot Nothing AndAlso arrCustomerCategory.Count > 0) Then
-                    For Each strCustomerCategory As String In arrCustomerCategory
-                        Dim collCustCategory As New Hashtable()
-                        Dim strTRCode As String = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"), clsDocType.Detail, clsDocTransactionType.Detail, "")
-                        clsCommon.AddColumnsForChange(collCustCategory, "TR_Code", strTRCode)
-                        clsCommon.AddColumnsForChange(collCustCategory, "User_Code", fndUserCode.Value)
-                        clsCommon.AddColumnsForChange(collCustCategory, "Customer_Category", strCustomerCategory)
-                        clsCommonFunctionality.UpdateDataTable(collCustCategory, "TSPL_USER_CUSTOMER_CATEGORY", OMInsertOrUpdate.Insert, "")
-                    Next
-                End If
-
-                arrRoute = txtRoute.arrValueMember
-                If (arrRoute IsNot Nothing AndAlso arrRoute.Count > 0) Then
-                    For Each strRouteCode As String In arrRoute
-                        Dim collRoute As New Hashtable()
-                        Dim strTRCode As String = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"), clsDocType.Detail, clsDocTransactionType.Detail, "")
-                        clsCommon.AddColumnsForChange(collRoute, "TR_Code", strTRCode)
-                        clsCommon.AddColumnsForChange(collRoute, "User_Code", fndUserCode.Value)
-                        clsCommon.AddColumnsForChange(collRoute, "Route_No", strRouteCode)
-                        clsCommonFunctionality.UpdateDataTable(collRoute, "TSPL_User_Route_Mapping", OMInsertOrUpdate.Insert, "")
-                    Next
-                End If
 
                 '===============================================
                 myMessages.update()
@@ -1021,6 +952,8 @@ Public Class FrmUserMaster
     End Function
 
     Private Sub funDelete()
+        clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_USER_BULK_ROUTE_MAPPING where User_Code ='" & clsCommon.myCstr(fndUserCode.Value) & "'")
+        clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_USER_ROUTE_MAPPING where User_Code ='" & clsCommon.myCstr(fndUserCode.Value) & "'")
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_USER_CUSTOMER_CATEGORY where User_Code ='" & clsCommon.myCstr(fndUserCode.Value) & "'")
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_USER_CUSTOMER_ZONE where User_Code ='" & clsCommon.myCstr(fndUserCode.Value) & "'")
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_USER_MAPPING_DETAIL where User_Code ='" & clsCommon.myCstr(fndUserCode.Value) & "'")
@@ -1074,7 +1007,7 @@ Public Class FrmUserMaster
         cboEntryUOM.SelectedValue = "0"
         'Add By : Prabhakar Ticket : BM00000009802'
         If PanelCNF = True Then
-            lblDisRetailer.Text = "Distributer"
+            lblDisRetailer.Text = "Distributor"
             CmbLoginType.SelectedValue = ""
             fndCustCode.Value = ""
             lblCustCode.Text = ""
@@ -1238,10 +1171,10 @@ Public Class FrmUserMaster
                     End If
                 End If
 
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
                     If clsCommon.myLen(fndDisRetailerCode.Value) <= 0 Then
                         fndDisRetailerCode.Focus()
-                        Throw New Exception("Distributer Code cannot be left blank.")
+                        Throw New Exception("Distributor Code cannot be left blank.")
                     End If
 
                 End If
@@ -1697,7 +1630,7 @@ Public Class FrmUserMaster
                     '    clsCommon.AddColumnsForChange(colll, "Zone_Code", strZoneCode, True)
                     'End If
                     clsCommon.AddColumnsForChange(colll, "User_APP_Type", grow.Cells("App User Type").Value.ToString())
-                    clsCommon.AddColumnsForChange(colll, "Vendor_Code", grow.Cells("Vendor").Value.ToString())
+                    clsCommon.AddColumnsForChange(colll, "Vendor_Code", grow.Cells("Vendor").Value.ToString(), True)
                     If clsCommon.myLen(grow.Cells("Cust_Code")) > 0 Then
                         clsCommon.AddColumnsForChange(colll, "Cust_Code", grow.Cells("Cust_Code").Value.ToString())
                     End If
@@ -1736,11 +1669,11 @@ Public Class FrmUserMaster
 
         dt.Rows.Add("", "Select")
         dt.Rows.Add("A", "Admin")
+        dt.Rows.Add("B", "BMC Transporter")
         dt.Rows.Add("M", "MCC")
+        dt.Rows.Add("F", "Milk Producer")
         dt.Rows.Add("R", "RP")
         dt.Rows.Add("V", "VSP")
-        dt.Rows.Add("F", "Milk Producer")
-
 
         CboAppUserType.DataSource = dt
         CboAppUserType.ValueMember = "Code"
@@ -1993,25 +1926,20 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
+        dr("Code") = "Crate"
+        dr("Name") = "Crate"
+        dt.Rows.Add(dr)
+
+        dr = dt.NewRow()
         dr("Code") = "CNF"
         dr("Name") = "CNF"
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
-        dr("Code") = "Distributer"
-        dr("Name") = "Distributer"
-        dt.Rows.Add(dr)
-
-        dr = dt.NewRow()
-        dr("Code") = "Retailer"
-        dr("Name") = "Retailer"
+        dr("Code") = "Distributor"
+        dr("Name") = "Distributor"
         dt.Rows.Add(dr)
         If ChkSuperUser = True Then
-            dr = dt.NewRow()
-            dr("Code") = "SuperUser"
-            dr("Name") = "Super User"
-            dt.Rows.Add(dr)
-
             dr = dt.NewRow()
             dr("Code") = "Driver"
             dr("Name") = "Driver"
@@ -2024,9 +1952,16 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
-        dr("Code") = "Crate"
-        dr("Name") = "Crate"
+        dr("Code") = "Retailer"
+        dr("Name") = "Retailer"
         dt.Rows.Add(dr)
+
+        If ChkSuperUser = True Then
+            dr = dt.NewRow()
+            dr("Code") = "SuperUser"
+            dr("Name") = "Super User"
+            dt.Rows.Add(dr)
+        End If
 
         CmbLoginType.DataSource = dt
         CmbLoginType.ValueMember = "Code"
@@ -2044,14 +1979,14 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 fndDisRetailerCode.MyReadOnly = False
             End If
             If PanelCNF = True Then
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF")=CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = True
                     fndDisRetailerCode.MyReadOnly = False
                 End If
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = False
                     fndDisRetailerCode.MyReadOnly = True
-                    lblDisRetailer.Text = "Distributer"
+                    lblDisRetailer.Text = "Distributor"
                 End If
 
                 If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retail") = CompairStringResult.Equal Then
@@ -2063,7 +1998,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                 If ChkSuperUser = True Then
                     fndCustCode.MyReadOnly = True
                     fndDisRetailerCode.MyReadOnly = True
-                    lblDisRetailer.Text = "Distributer"
+                    lblDisRetailer.Text = "Distributor"
                 End If
 
                 If ChkSuperUser = True AndAlso PanelCNF = True Then
@@ -2088,7 +2023,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
     End Sub
 
     Private Sub fndDisRetailerCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndDisRetailerCode._MYValidating
-        If PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+        If PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
             clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
             Try
                 Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_SECONDARY_CUSTOMER_MASTER "
@@ -2102,7 +2037,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
             Catch ex As Exception
                 clsCommon.MyMessageBoxShow(ex.Message)
             End Try
-        ElseIf isCheckCustomerType = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Or
+        ElseIf isCheckCustomerType = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Or
             clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retailer") = CompairStringResult.Equal) Then
             Try
                 Dim qry As String = " select Cust_Code as Code, Customer_Name as Name from TSPL_SECONDARY_CUSTOMER_MASTER "
@@ -2120,7 +2055,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
     End Sub
 
     Private Sub fndCustCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustCode._MYValidating
-        If (PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal)) OrElse (isCheckCustomerType AndAlso MatchLevel() = 1) Then
+        If (PanelCNF = True And (clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "CNF") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Parlor") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal)) OrElse
+            (isCheckCustomerType AndAlso MatchLevel() = 1) Then
             Try
                 Dim Sqlqry As String = "select Cust_Code from TSPL_USER_MASTER where Login_Type = 'CNF' and InActive = 'N'"
                 Dim whrcls As String = ""
@@ -2145,13 +2081,14 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                     Else
                         whrcls += "STATUS='N' and Cust_Code NOT IN ('" & cust_Codes & "')"
                     End If
-
+                End If
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
+                    whrcls += "  and isnull(TSPL_CUSTOMER_MASTER.IsDistributor,'')='Y' "
                 End If
                 fndCustCode.Value = clsCommon.ShowSelectForm("CustomerFndr", qry, "Code", whrcls, fndCustCode.Value, "Code", isButtonClicked)
                 If clsCommon.myLen(fndCustCode.Value) > 0 Then
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(" Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" + fndCustCode.Value + "' ")
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-
                         lblCustCode.Text = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
                     End If
                 End If
@@ -2177,10 +2114,10 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD
                     fndCustCode.MyReadOnly = False
                     fndDisRetailerCode.MyReadOnly = True
                 End If
-                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributer") = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Distributor") = CompairStringResult.Equal Then
                     fndCustCode.MyReadOnly = True
                     fndDisRetailerCode.MyReadOnly = False
-                    lblDisRetailer.Text = "Distributer"
+                    lblDisRetailer.Text = "Distributor"
                 End If
 
                 If clsCommon.CompairString(clsCommon.myCstr(CmbLoginType.SelectedValue), "Retail") = CompairStringResult.Equal Then
@@ -2856,9 +2793,20 @@ order by LEVEL"
         lblMP.Text = clsMpMaster.GetName(txtMP.Value, Nothing)
     End Sub
 
+    Private Sub txtBulkRoute__My_Click(sender As Object, e As EventArgs) Handles txtBulkRoute._My_Click
+        Dim StrQry As String = "select ROUTE_NO as Code,ROUTE_NAME as Name from TSPL_Bulk_ROUTE_MASTER"
+        txtBulkRoute.arrValueMember = clsCommon.ShowMultipleSelectForm("mBuR@UMtr", StrQry, "Code", "Code", txtBulkRoute.arrValueMember, txtBulkRoute.arrDispalyMember)
+
+    End Sub
+
     Private Sub SaveUserMapping()
         Try
-            clsDBFuncationality.ExecuteNonQuery(" delete from TSPL_USER_MAPPING_DETAIL where User_Code = '" + fndUserCode.Value + "' ")
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_MAPPING_DETAIL where User_Code = '" + fndUserCode.Value + "' ")
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_ZONE  where User_Code ='" + fndUserCode.Value + "' ")
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_CATEGORY  where User_Code ='" + fndUserCode.Value + "' ")
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_User_Route_Mapping  where User_Code ='" + fndUserCode.Value + "' ")
+            clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_BULK_ROUTE_MAPPING  where User_Code ='" + fndUserCode.Value + "' ")
+
             For Each grow As GridViewRowInfo In gvUser.Rows
                 If IsDBNull(grow.Cells(colSelectUser).Value) = False Then
                     If grow.Cells(colSelectUser).Value = True Then
@@ -2872,14 +2820,55 @@ order by LEVEL"
                         If iSelect Then
                             clsDBFuncationality.ExecuteNonQuery(" insert into TSPL_USER_MAPPING_detail (User_Code,Mapped_UserCode) values ( '" + UserCode + "', '" + MappedUserCode + "' ) ")
                         End If
-
                     End If
                 End If
-
             Next
-        Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            If (mulZone.arrValueMember IsNot Nothing AndAlso mulZone.arrValueMember.Count > 0) Then
+                For Each strZoneCode As String In mulZone.arrValueMember
+                    Dim collZone As New Hashtable()
+                    Dim strTRCode As String = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"), clsDocType.Detail, clsDocTransactionType.Detail, "")
+                    clsCommon.AddColumnsForChange(collZone, "TR_Code", strTRCode)
+                    clsCommon.AddColumnsForChange(collZone, "User_Code", fndUserCode.Value)
+                    clsCommon.AddColumnsForChange(collZone, "Zone_Code", strZoneCode)
+                    clsCommonFunctionality.UpdateDataTable(collZone, "TSPL_USER_CUSTOMER_ZONE", OMInsertOrUpdate.Insert, "")
+                Next
+            End If
+
+
+            If (mulCustomerCategory.arrValueMember IsNot Nothing AndAlso mulCustomerCategory.arrValueMember.Count > 0) Then
+                For Each strCustomerCategory As String In mulCustomerCategory.arrValueMember
+                    Dim collCustCategory As New Hashtable()
+                    Dim strTRCode As String = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"), clsDocType.Detail, clsDocTransactionType.Detail, "")
+                    clsCommon.AddColumnsForChange(collCustCategory, "TR_Code", strTRCode)
+                    clsCommon.AddColumnsForChange(collCustCategory, "User_Code", fndUserCode.Value)
+                    clsCommon.AddColumnsForChange(collCustCategory, "Customer_Category", strCustomerCategory)
+                    clsCommonFunctionality.UpdateDataTable(collCustCategory, "TSPL_USER_CUSTOMER_CATEGORY", OMInsertOrUpdate.Insert, "")
+                Next
+            End If
+
+
+            If (txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0) Then
+                For Each strRouteCode As String In txtRoute.arrValueMember
+                    Dim collRoute As New Hashtable()
+                    Dim strTRCode As String = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"), clsDocType.Detail, clsDocTransactionType.Detail, "")
+                    clsCommon.AddColumnsForChange(collRoute, "TR_Code", strTRCode)
+                    clsCommon.AddColumnsForChange(collRoute, "User_Code", fndUserCode.Value)
+                    clsCommon.AddColumnsForChange(collRoute, "Route_No", strRouteCode)
+                    clsCommonFunctionality.UpdateDataTable(collRoute, "TSPL_User_Route_Mapping", OMInsertOrUpdate.Insert, "")
+                Next
+            End If
+
+            If (txtBulkRoute.arrValueMember IsNot Nothing AndAlso txtBulkRoute.arrValueMember.Count > 0) Then
+                For Each strRouteCode As String In txtBulkRoute.arrValueMember
+                    Dim collRoute As New Hashtable()
+                    clsCommon.AddColumnsForChange(collRoute, "User_Code", fndUserCode.Value)
+                    clsCommon.AddColumnsForChange(collRoute, "Route_No", strRouteCode)
+                    clsCommonFunctionality.UpdateDataTable(collRoute, "TSPL_USER_BULK_ROUTE_MAPPING", OMInsertOrUpdate.Insert, "")
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
         End Try
 
     End Sub

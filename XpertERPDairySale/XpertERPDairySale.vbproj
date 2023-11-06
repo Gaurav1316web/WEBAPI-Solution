@@ -144,7 +144,8 @@
     <Reference Include="XpertCommon">
       <HintPath>..\XpertERP\bin\Debug\XpertCommon.dll</HintPath>
     </Reference>
-    <Reference Include="XpertERPEngine">
+    <Reference Include="XpertERPEngine, Version=7.1.0.94, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineFine">

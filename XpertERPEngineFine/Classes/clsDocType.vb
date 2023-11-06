@@ -388,6 +388,7 @@ Public Class clsDocType
     Public Const MilkCollectionMCCMuliple As String = "Milk Collection MCC Multiple"
     Public Const MilkCollectionDCS As String = "Milk Collection DCS"
     Public Const MilkCollectionDCSMuliple As String = "Milk Collection DCS Multiple"
+    Public Const HeadLoadDCS As String = "Head Load DCS"
     Public Const VSPMASTER As String = "VSP Master"
     Public Const PTMMASTER As String = "PTM Master"
     Public Const TTMMASTER As String = "TTM Master"
@@ -491,6 +492,7 @@ Public Class clsDocType
     '-----------------------------------------------------
     Public Const QualityCheckBulkSale As String = "Quality Check Bulk Sale"
     Public Const DispatchBulkSale As String = "Bulk Dispatch"
+    Public Const BulkSaleAcknowledgement As String = "Bulk Sale Acknowledgement"
     Public Const AcknowledgementGRN As String = "Acknowledgement of GRN"
     Public Const InvoiceBulkSale As String = "Bulk Invoice"
     Public Const ProformaInvoiceBulkSale As String = "Bulk Proforma Invoice"
