@@ -53611,6 +53611,12 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Head_Load_Rate", "Decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load_DCS", coll)
 
+            Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD")
+            If isRecordExist = 0 Then
+                Dim obj As New clsHeadLoadMaster
+                obj.SaveAutoData()
+            End If
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_Code", "varchar(30) NOT NULL Primary Key")
             coll.Add("Doc_Date", "Datetime NOT NULL")
