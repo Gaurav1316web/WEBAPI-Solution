@@ -48,7 +48,11 @@ Public Class frmDistributorCommission
         GV1.MasterTemplate.Columns.Add(repoRouteName)
         Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustCode.FormatString = ""
-        repoCustCode.HeaderText = "Distributor Code"
+        If rbtnCommission.IsChecked Then
+            repoCustCode.HeaderText = "Distributor Code"
+        Else
+            repoCustCode.HeaderText = "Transpoter Code"
+        End If
         repoCustCode.Name = colCustCode
         repoCustCode.Width = 150
         repoCustCode.IsVisible = True
@@ -58,7 +62,11 @@ Public Class frmDistributorCommission
         GV1.MasterTemplate.Columns.Add(repoCustCode)
         Dim repoCustName = New GridViewTextBoxColumn()
         repoCustName.FormatString = ""
-        repoCustName.HeaderText = "Distributor Name"
+        If rbtnCommission.IsChecked Then
+            repoCustName.HeaderText = "Distributor Name"
+        Else
+            repoCustName.HeaderText = "Transpoter Name"
+        End If
         repoCustName.Name = colCustName
         repoCustName.Width = 200
         repoCustName.IsVisible = True
@@ -98,7 +106,9 @@ Public Class frmDistributorCommission
         lblStatus.Status = ERPTransactionStatus.Pending
         txtDocNo.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
-        txtApplicableDate.Value = clsCommon.GETSERVERDATE()
+        txtApplicableDate.Value = txtDate.Value
+        rbtnCommission.IsChecked = True
+        rbtnTranspotation.IsChecked = False
         txtDistributorTagging.Value = ""
         txtItems.arrValueMember = Nothing
         txtItems.arrDispalyMember = Nothing
@@ -187,7 +197,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             Dim currentdate As Date = Date.Today
             If clsCommon.myLen(txtUOM.Value) > 0 Then
 
-                If transportSql.importExcel(gv, "Route Code", "Distributor Code", "Rate") Then
+                If transportSql.importExcel(gv, "Route Code", "Distributor Code", "Is Transpotation", "Rate") Then
 
                     'Dim trans As SqlTransaction = Nothing
                     Dim linno As Integer = 0
@@ -208,18 +218,25 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                                     Continue For
                                 End If
                             End If
-                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Distributor Code").Value))) Then
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Distributor Code").Value))) Or (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Is Transpotation").Value))) Then
                                 Continue For
                             Else
-                                Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and IsDistributor='Y'"))
+                                Dim str As String = String.Empty
+                                If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Is Transpotation").Value), "1") = CompairStringResult.Equal Then
+                                    str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and Form_Type='TPT'"))
+
+                                Else
+                                    str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and IsDistributor='Y'"))
+
+                                End If
                                 If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Distributor Code").Value)) = CompairStringResult.Equal Then
                                     Arr.Distributor_Code = clsCommon.myCstr(grow.Cells("Distributor Code").Value)
                                 Else
                                     Continue For
+                                    End If
                                 End If
-                            End If
 
-                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Rate").Value))) Then
+                                If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Rate").Value))) Then
                                 Continue For
                             Else
                                 Arr.Rate = clsCommon.myCDecimal(grow.Cells("Rate").Value)
@@ -344,6 +361,11 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 txtApplicableDate.Value = obj.Applicable_Date
                 txtUOM.Value = obj.Commision_UOM
                 txtDistributorTagging.Value = obj.Distributor_Tagging_Code
+                If obj.IS_Transpotation Then
+                    rbtnTranspotation.IsChecked = True
+                Else
+                    rbtnCommission.IsChecked = True
+                End If
                 txtItems.arrValueMember = obj.Items
                 Dim sl As Integer = 1
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
@@ -406,6 +428,11 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 Else
                     obj.Items = txtItems.arrValueMember
 
+                End If
+                If rbtnTranspotation.IsChecked Then
+                    obj.IS_Transpotation = True
+                ElseIf rbtnCommission.IsChecked Then
+                    obj.IS_Transpotation = False
                 End If
                 obj.Applicable_Date = txtApplicableDate.Value
                 obj.Commision_UOM = txtUOM.Value
@@ -498,8 +525,14 @@ from(
 select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,count(distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No) as NoOfRoute,count(distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as NoOfDistributor
 from TSPL_DISTRIBUTOR_ROUTE
 left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
-where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Distributor_Tagging_Code =TSPL_DISTRIBUTOR_ROUTE.Code) and TSPL_DISTRIBUTOR_ROUTE.Status=1
-group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
+where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Distributor_Tagging_Code =TSPL_DISTRIBUTOR_ROUTE.Code) and TSPL_DISTRIBUTOR_ROUTE.Status=1"
+            If rbtnCommission.IsChecked Then
+                qry += " and IS_Transpoter=0 "
+            ElseIf rbtnTranspotation.IsChecked Then
+                qry += " and IS_Transpoter=1 "
+            End If
+
+            qry += " Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
 ) X"
             txtDistributorTagging.Value = clsCommon.ShowSelectForm("DistributorTaggingFinder", qry, "Code", "", txtDistributorTagging.Value, "Code", isButtonClicked)
         Catch ex As Exception
@@ -532,5 +565,17 @@ group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DIST
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub rbtnCommission_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnCommission.CheckStateChanged
+        If rbtnCommission.IsChecked Then
+            rbtnTranspotation.IsChecked = False
+        End If
+    End Sub
+
+    Private Sub rbtnTranspotation_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnTranspotation.CheckStateChanged
+        If rbtnTranspotation.IsChecked Then
+            rbtnCommission.IsChecked = False
+        End If
     End Sub
 End Class

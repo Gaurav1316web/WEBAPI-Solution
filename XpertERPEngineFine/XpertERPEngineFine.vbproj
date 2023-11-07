@@ -94,6 +94,7 @@
     <Compile Include="Comman Services\clsBankGroupMaster.vb" />
     <Compile Include="Classes\connectSql.vb" />
     <Compile Include="Classes\objCommonVar.vb" />
+    <Compile Include="HeadLoad\clsHeadLoadMaster.vb" />
     <Compile Include="Notification\ClsNotification.vb" />
     <Compile Include="RCDFProduction\clsRCDFStanardization.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleAcknowledgement.vb" />

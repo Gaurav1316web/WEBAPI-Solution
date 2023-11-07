@@ -95,87 +95,6 @@ Public Class frmRCDFStandardization
 #End Region
 
     Private Sub frmProcessProductionStandardization_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll = New Dictionary(Of String, String)()
-        coll.Add("Doc_Code", "varchar(30) NOT NULL Primary Key")
-        coll.Add("Doc_Date", "Datetime NOT NULL")
-        coll.Add("Location_Code", "varchar(12) NOT NULL References TSPL_LOCATION_MASTER(location_code)")
-        coll.Add("Batch_No", "varchar(50) NULL")
-        coll.Add("Comment", "varchar(200) NULL")
-        coll.Add("Remarks", "varchar(200) NULL")
-        coll.Add("Tot_Produce_Qty", "decimal (18,2) NULL")
-        coll.Add("Tot_Produce_FATKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Produce_SNFKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Issue_Qty", "decimal (18,2) NULL")
-        coll.Add("Tot_Issue_FATKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Issue_SNFKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Difference_Qty", "decimal (18,2) NULL")
-        coll.Add("Tot_Difference_FATKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Difference_SNFKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Added_Qty", "decimal (18,2) NULL")
-        coll.Add("Tot_Added_FATKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Added_SNFKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Removed_Qty", "decimal (18,2) NULL")
-        coll.Add("Tot_Removed_FATKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Removed_SNFKG", "decimal (18,3) NULL")
-        coll.Add("Tot_AddRemove_Qty", "decimal (18,2) NULL")
-        coll.Add("Tot_AddRemove_FATKG", "decimal (18,3) NULL")
-        coll.Add("Tot_AddRemove_SNFKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Net_Qty", "decimal (18,2) NULL")
-        coll.Add("Tot_Net_FATKG", "decimal (18,3) NULL")
-        coll.Add("Tot_Net_SNFKG", "decimal (18,3) NULL")
-        coll.Add("Status", "int null")
-        coll.Add("Created_By", "varchar(12) not null references tspl_user_master(user_code)")
-        coll.Add("Created_Date", "Datetime not null")
-        coll.Add("Modified_By", "varchar(12) not null references tspl_user_master(user_code)")
-        coll.Add("Modified_Date", "Datetime not null")
-        coll.Add("Posted_By", "varchar(12) null references tspl_user_master(user_code)")
-        coll.Add("Posted_Date", "Datetime null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_STD", coll, "", True, True, "", "Doc_Code", "Doc_Date", True)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Doc_Code", "varchar(30) not NULL References TSPL_RCDF_STD(Doc_Code)")
-        coll.Add("Item_Code", "varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("BOM_Code", "varchar(30) not NULL References TSPL_PP_BOM_HEAD(BOM_CODE)")
-        coll.Add("Unit_Code", "varchar(12) not NULL References TSPL_UNIT_MASTER(Unit_Code)")
-        coll.Add("Qty", "decimal(18,2) null")
-        coll.Add("FAT", "decimal(18,6) null")
-        coll.Add("FAT_KG", "decimal(18,3) null")
-        coll.Add("SNF", "decimal(18,6) null")
-        coll.Add("SNF_KG", "decimal(18,3) null")
-        coll.Add("Location_Code", "varchar(12) Not NULL References tspl_location_master(location_code)")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_STD_PRODUCE", coll, "", True, True, "TSPL_RCDF_STD", "Doc_Code", "")
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Doc_Code", "varchar(30) not NULL References TSPL_RCDF_STD(Doc_Code)")
-        coll.Add("Item_Code", "varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Location_Code", "varchar(12) not  NULL References tspl_location_master(location_code)")
-        coll.Add("Unit_Code", "varchar(12) not NULL References TSPL_UNIT_MASTER(Unit_Code)")
-        coll.Add("Qty", "decimal(18,2) null")
-        coll.Add("FAT", "decimal(18,6) null")
-        coll.Add("FAT_KG", "decimal(18,3) null")
-        coll.Add("SNF", "decimal(18,6) null")
-        coll.Add("SNF_KG", "decimal(18,3) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_STD_ISSUE", coll, "", True, True, "TSPL_RCDF_STD", "Doc_Code", "")
-
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-        coll.Add("Doc_Code", "varchar(30) not NULL References TSPL_RCDF_STD(Doc_Code)")
-        coll.Add("ADD_REMOVE_TYPE", "varchar(6) not NULL")
-        coll.Add("Location_Code", "varchar(12) not  NULL References tspl_location_master(location_code)")
-        coll.Add("Item_Code", "varchar(50) not NULL References TSPL_ITEM_MASTER(Item_Code)")
-        coll.Add("Unit_Code", "varchar(12) not NULL References TSPL_UNIT_MASTER(Unit_Code)")
-        coll.Add("Qty", "decimal(18,2) null")
-        coll.Add("FAT", "decimal(18,6) null")
-        coll.Add("FAT_KG", "decimal(18,3) null")
-        coll.Add("SNF", "decimal(18,6) null")
-        coll.Add("SNF_KG", "decimal(18,3) null")
-        coll.Add("Remarks", "varchar(200) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RCDF_STD_ADD_REMOVE", coll, "", True, True, "TSPL_RCDF_STD", "Doc_Code", "")
-
-
         settTankerDispatchAvgFATSNFPer = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TankerDispatchAvgFATSNFPer, clsFixedParameterCode.TankerDispatchAvgFATSNFPer, Nothing)) = 1)
         settProductionRemoveFATSNFKgTollerance = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ProductionRemoveFATSNFKgTollerance, clsFixedParameterCode.ProductionRemoveFATSNFKgTollerance, Nothing))
         settCheckNetFatKg = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ProductionCheckFATKg, clsFixedParameterCode.ProductionCheckFATKg, Nothing))
@@ -806,6 +725,7 @@ Public Class frmRCDFStandardization
                         ElseIf e.Column Is gvProduce.Columns(colProduceStdInLocation) Then
                             ProduceOpenLocation(False)
                         End If
+                        calculateALL()
                         isCellValueChangedProduce = False
                     Catch ex As Exception
                         isCellValueChangedProduce = False
@@ -949,15 +869,21 @@ Public Class frmRCDFStandardization
     Private Sub gvIssue_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvIssue.CellValueChanged
         If Not isInsideLoadData Then
             If Not isCellValueChangedIssue Then
-                If e.Column Is gvIssue.Columns(colIssueLocationCode) OrElse e.Column Is gvIssue.Columns(colIssueQty) Then
-                    isCellValueChangedIssue = True
-                    If (e.Column Is gvIssue.Columns(colIssueLocationCode)) Then
-                        IssueOpenLocation()
-                    ElseIf (e.Column Is gvIssue.Columns(colIssueQty)) Then
-                        IssueCal_FATSNF()
+                Try
+                    If e.Column Is gvIssue.Columns(colIssueLocationCode) OrElse e.Column Is gvIssue.Columns(colIssueQty) Then
+                        isCellValueChangedIssue = True
+                        If (e.Column Is gvIssue.Columns(colIssueLocationCode)) Then
+                            IssueOpenLocation()
+                        ElseIf (e.Column Is gvIssue.Columns(colIssueQty)) Then
+                            IssueCal_FATSNF()
+                            calculateALL()
+                        End If
+                        isCellValueChangedIssue = False
                     End If
+                Catch ex As Exception
                     isCellValueChangedIssue = False
-                End If
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
             End If
         End If
     End Sub
@@ -983,7 +909,7 @@ Public Class frmRCDFStandardization
                 gvIssue.Rows(ii).Cells(colIssueLocationCode).Value = Loc_Code
                 gvIssue.Rows(ii).Cells(colIssueLocation).Value = clsLocation.GetName(Loc_Code, Nothing)
 
-                FillAvail_Stock(ii, clsCommon.myCstr(gvIssue.Rows(ii).Cells(colIssueItemCode).Value), clsCommon.myCstr(txtLocation.Value), clsCommon.myCstr(gvIssue.Rows(ii).Cells(colIssueLocation).Value), clsCommon.myCstr(gvIssue.Rows(ii).Cells(colIssueItemProductType).Value), clsCommon.myCstr(gvIssue.Rows(ii).Cells(colIssueUOM).Value), 1)
+                FillAvail_Stock(ii, clsCommon.myCstr(gvIssue.Rows(ii).Cells(colIssueItemCode).Value), clsCommon.myCstr(txtLocation.Value), clsCommon.myCstr(gvIssue.Rows(ii).Cells(colIssueLocationCode).Value), clsCommon.myCstr(gvIssue.Rows(ii).Cells(colIssueItemProductType).Value), clsCommon.myCstr(gvIssue.Rows(ii).Cells(colIssueUOM).Value), 1)
 
                 gvIssue.Rows(ii).Cells(colIssueFAT).Value = gvIssue.Rows(ii).Cells(colIssueAvailFAT).Value
                 gvIssue.Rows(ii).Cells(colIssueSNF).Value = gvIssue.Rows(ii).Cells(colIssueAvailSNF).Value
@@ -1282,7 +1208,21 @@ Public Class frmRCDFStandardization
             If AllowFutureDateTransaction(dtpDate.Value, Nothing) = False Then
                 Return False
             End If
-
+            If gvProduce.Rows.Count <= 0 Then
+                Throw New Exception("Please provide Produce item details")
+            End If
+            If clsCommon.myLen(gvProduce.Rows(0).Cells(colProduceItemCode).Value) <= 0 Then
+                Throw New Exception("Please select Produce item")
+            End If
+            If clsCommon.myLen(gvProduce.Rows(0).Cells(colProduceBOM).Value) <= 0 Then
+                Throw New Exception("Please select BOM of Produce item")
+            End If
+            If clsCommon.myCDecimal(gvProduce.Rows(0).Cells(colProduceQty).Value) <= 0 Then
+                Throw New Exception("Please select Qty of Produce item")
+            End If
+            If clsCommon.myLen(gvProduce.Rows(0).Cells(colProduceStdInLocation).Value) <= 0 Then
+                Throw New Exception("Please select In location of Produce item")
+            End If
 
             If ProductionOrStandAccordingToItemType = 1 Then
                 Dim strItemType = clsDBFuncationality.getSingleValue("select item_type from TSPL_ITEM_MASTER  where item_code='" & clsCommon.myCstr(gvProduce.Rows(0).Cells(colProduceItemCode).Value) & "' ")
@@ -1859,7 +1799,7 @@ Public Class frmRCDFStandardization
                 Exit Sub
             End If
             'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-            If clsRCDFStanardization.PostData(Me.Form_ID, txtCode.Value, arrLoc) Then
+            If clsRCDFStanardizationTemp.PostData(txtCode.Value, arrLoc, "") Then
                 clsCommon.MyMessageBoxShow("Data Posted Successfully", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
@@ -2295,81 +2235,61 @@ Public Class frmRCDFStandardization
     Private Sub gvARDetail_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvAddRemove.CellValueChanged
         If Not isInsideLoadData Then
             If Not isCellValueChangedAddRemove Then
-                If e.Column Is gvAddRemove.Columns(colARItemCode) Then
-                    isCellValueChangedAddRemove = True
-                    gvAddRemove.CurrentRow.Cells(colARItemCode).Value = clsItemMaster.getFinder(If(ShowOnlyProdItemsOnAddRemove = True, " Item_Used_as='P' ", ""), gvAddRemove.CurrentRow.Cells(colARItemCode).Value, False)
-                    Dim objItem As clsItemMaster = clsItemMaster.GetDataRMOther(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, NavigatorType.Current)
-                    If Not objItem Is Nothing Then
-                        gvAddRemove.CurrentRow.Cells(colARItemName).Value = objItem.Item_Desc
-                        gvAddRemove.CurrentRow.Cells(colARItemProductType).Value = IIf(clsCommon.myLen(objItem.Product_Type) <= 0, "Others", objItem.Product_Type)
-                        gvAddRemove.CurrentRow.Cells(colARItemProductType).Tag = objItem.Product_Type
-                        gvAddRemove.CurrentRow.Cells(colARIsBatchItem).Value = objItem.Is_Batch_Item
-                        gvAddRemove.CurrentRow.Cells(colARUom).Value = objItem.Unit_Code
-                        gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value = Nothing
-                        gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = Nothing
-                        gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value = Nothing
-                        gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = Nothing
-                        SetARBalance()
-                    End If
-                    isCellValueChangedAddRemove = False
-                End If
-                If e.Column Is gvAddRemove.Columns(colARUom) Then
-                    isCellValueChangedAddRemove = True
-                    OpenUOM(False)
-                    If clsCommon.myLen(gvAddRemove.CurrentRow.Cells(colARUom).Value) > 0 Then
-                        gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
-                        gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
+                Try
+                    If e.Column Is gvAddRemove.Columns(colARItemCode) OrElse e.Column Is gvAddRemove.Columns(colARUom) OrElse e.Column Is gvAddRemove.Columns(colARLocCode) OrElse e.Column Is gvAddRemove.Columns(colARQty) OrElse e.Column Is gvAddRemove.Columns(colAR_FAT_Per) OrElse e.Column Is gvAddRemove.Columns(colAR_SNF_Per) OrElse e.Column Is gvAddRemove.Columns(colAR_FAT_KG) OrElse e.Column Is gvAddRemove.Columns(colAR_SNF_KG) Then
+                        isCellValueChangedAddRemove = True
+                        If e.Column Is gvAddRemove.Columns(colARItemCode) Then
+                            gvAddRemove.CurrentRow.Cells(colARItemCode).Value = clsItemMaster.getFinder(If(ShowOnlyProdItemsOnAddRemove = True, " Item_Used_as='P' ", ""), gvAddRemove.CurrentRow.Cells(colARItemCode).Value, False)
+                            Dim objItem As clsItemMaster = clsItemMaster.GetDataRMOther(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, NavigatorType.Current)
+                            If Not objItem Is Nothing Then
+                                gvAddRemove.CurrentRow.Cells(colARItemName).Value = objItem.Item_Desc
+                                gvAddRemove.CurrentRow.Cells(colARItemProductType).Value = IIf(clsCommon.myLen(objItem.Product_Type) <= 0, "Others", objItem.Product_Type)
+                                gvAddRemove.CurrentRow.Cells(colARItemProductType).Tag = objItem.Product_Type
+                                gvAddRemove.CurrentRow.Cells(colARIsBatchItem).Value = objItem.Is_Batch_Item
+                                gvAddRemove.CurrentRow.Cells(colARUom).Value = objItem.Unit_Code
+                                gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value = Nothing
+                                gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = Nothing
+                                gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value = Nothing
+                                gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = Nothing
+                                SetARBalance()
+                            End If
+                        ElseIf e.Column Is gvAddRemove.Columns(colARUom) Then
+                            OpenUOM(False)
+                            If clsCommon.myLen(gvAddRemove.CurrentRow.Cells(colARUom).Value) > 0 Then
+                                gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
+                                gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
+                            End If
+                        ElseIf e.Column Is gvAddRemove.Columns(colARLocCode) Then
+                            OpenARLocationCode(False)
+                        ElseIf e.Column Is gvAddRemove.Columns(colARQty) AndAlso AutoCalcQtyAddRem = False Then
+                            gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
+                            gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
+                            OpenBatchItem()
+                        ElseIf e.Column Is gvAddRemove.Columns(colAR_FAT_Per) Then
+                            gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
+                        ElseIf e.Column Is gvAddRemove.Columns(colAR_SNF_Per) Then
+                            gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
+                        ElseIf e.Column Is gvAddRemove.Columns(colAR_FAT_KG) AndAlso AutoCalcQtyAddRem = True Then
+                            If clsCommon.myCdbl(gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value) > 0 Then
+                                Dim conFat As Decimal = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, 1, 100, Nothing)
+                                gvAddRemove.CurrentRow.Cells(colARQty).Value = gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value * 100 / (gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value * IIf(conFat = 0, 1, conFat))
+                            End If
+                            gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
+                        ElseIf e.Column Is gvAddRemove.Columns(colAR_SNF_KG) AndAlso AutoCalcQtyAddRem = True Then
+                            If clsCommon.myCdbl(gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value) > 0 Then
+                                Dim conFat As Decimal = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, 1, 100, Nothing)
+                                gvAddRemove.CurrentRow.Cells(colARQty).Value = gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value * 100 / (gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value * IIf(conFat = 0, 1, conFat))
+                            End If
+                            gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
+                        End If
                         calculateALL()
+                        isCellValueChangedAddRemove = False
                     End If
+
+                Catch ex As Exception
                     isCellValueChangedAddRemove = False
-                End If
-                If e.Column Is gvAddRemove.Columns(colARLocCode) Then
-                    isCellValueChangedAddRemove = True
-                    OpenARLocationCode(False)
-                    isCellValueChangedAddRemove = False
-                End If
-                If e.Column Is gvAddRemove.Columns(colARType) Then
-                    isCellValueChangedAddRemove = True
-                    calculateALL()
-                    isCellValueChangedAddRemove = False
-                End If
-                If e.Column Is gvAddRemove.Columns(colARQty) AndAlso AutoCalcQtyAddRem = False Then
-                    'BHA/10/08/18-000411 by balwinder on 09/08/2017
-                    isCellValueChangedAddRemove = True
-                    gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
-                    gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
-                    calculateALL()
-                    OpenBatchItem()
-                    isCellValueChangedAddRemove = False
-                ElseIf e.Column Is gvAddRemove.Columns(colAR_FAT_Per) Then
-                    isCellValueChangedAddRemove = True
-                    gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
-                    calculateALL()
-                    isCellValueChangedAddRemove = False
-                ElseIf e.Column Is gvAddRemove.Columns(colAR_SNF_Per) Then
-                    isCellValueChangedAddRemove = True
-                    gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
-                    calculateALL()
-                    isCellValueChangedAddRemove = False
-                ElseIf e.Column Is gvAddRemove.Columns(colAR_FAT_KG) AndAlso AutoCalcQtyAddRem = True Then
-                    isCellValueChangedAddRemove = True
-                    If clsCommon.myCdbl(gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value) > 0 Then
-                        Dim conFat As Decimal = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, 1, 100, Nothing)
-                        gvAddRemove.CurrentRow.Cells(colARQty).Value = gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value * 100 / (gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value * IIf(conFat = 0, 1, conFat))
-                    End If
-                    gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
-                    calculateALL()
-                    isCellValueChangedAddRemove = False
-                ElseIf e.Column Is gvAddRemove.Columns(colAR_SNF_KG) AndAlso AutoCalcQtyAddRem = True Then
-                    isCellValueChangedAddRemove = True
-                    If clsCommon.myCdbl(gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value) > 0 Then
-                        Dim conFat As Decimal = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, 1, 100, Nothing)
-                        gvAddRemove.CurrentRow.Cells(colARQty).Value = gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value * 100 / (gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value * IIf(conFat = 0, 1, conFat))
-                    End If
-                    gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
-                    calculateALL()
-                    isCellValueChangedAddRemove = False
-                End If
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                End Try
             End If
         End If
     End Sub

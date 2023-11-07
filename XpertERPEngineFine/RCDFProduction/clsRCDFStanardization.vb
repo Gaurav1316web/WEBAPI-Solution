@@ -270,7 +270,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmProcessProductionStandardization, clsCommon.myCstr(dt.Rows(0)("Location_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
 
             End If
-            Dim qry As String = "select count(*) from TSPL_RCDF_STD where Posted='0' Doc_Code='" + strCode + "'"
+            Dim qry As String = "select count(*) from TSPL_RCDF_STD where isnull(Status,0)=0 and Doc_Code='" + strCode + "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
             If check > 0 Then
                 Throw New Exception("Current document [" + strCode + "] is not posted.")
@@ -279,25 +279,20 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
             HistoryUpdate(strCode, trans)
 
 
-            qry = "delete  from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from tspl_journal_master where Source_Doc_No='" & strCode & "' and Source_Code='PR-ER')"
+            qry = "delete  from TSPL_JOURNAL_DETAILS where Voucher_No in (select Voucher_No from tspl_journal_master where Source_Doc_No='" & strCode & "' and Source_Code='RP-SZ')"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete  from tspl_journal_master where Source_Doc_No='" & strCode & "' and Source_Code='PR-ER'"
+            qry = "delete  from tspl_journal_master where Source_Doc_No='" & strCode & "' and Source_Code='RP-SZ'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from tspl_inventory_movement where trans_type='" + FormId + "' and source_doc_no='" + strCode + "'"
+            qry = "delete from tspl_inventory_movement where trans_type='RP-SZ' and source_doc_no='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from tspl_inventory_movement_new where trans_type='" + FormId + "' and source_doc_no='" + strCode + "'"
+            qry = "delete from tspl_inventory_movement_new where trans_type='RP-SZ' and source_doc_no='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_PP_PRODUCTION_CONSUMPTION_DETAIL where Doc_Code='" & strCode & "'"
+            qry = "update TSPL_RCDF_STD set Status='0',Posted_By=null,Posted_Date=null where Doc_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-            qry = "update TSPL_RCDF_STD set Posted='0',Modified_By='" + objCommonVar.CurrentUserCode + "',Modified_Date='" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt") + "' where Doc_Code='" + strCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -1524,7 +1519,7 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
     '        If clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
     '            VoucherNo = strVourcherNoForRecreateOnly
     '        Else
-    '            VoucherNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PR-ER' and Source_Doc_No='" & obj.Doc_Code & "'", trans))
+    '            VoucherNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='RP-SZ' and Source_Doc_No='" & obj.Doc_Code & "'", trans))
     '        End If
     '        If obj.Is_Job_Work_Inward Then
     '            If clsCommon.myLen(VoucherNo) > 0 Then
@@ -1633,9 +1628,9 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
 
     '        Dim GLDesc As String = "Journal Entry Against Production Standardization- Doc No." & obj.Doc_Code & " "
     '        If clsCommon.myLen(VoucherNo) > 0 Then
-    '            transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "PR-ER", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+    '            transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
     '        Else
-    '            transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "PR-ER", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+    '            transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
     '        End If
     '    Catch ex As Exception
     '        Throw New Exception(ex.Message)

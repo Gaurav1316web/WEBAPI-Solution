@@ -21,7 +21,7 @@ Partial Class frmDistributorCommission
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.txtDistributorTagging = New common.UserControls.txtFinder()
@@ -40,13 +40,15 @@ Partial Class frmDistributorCommission
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.lblDate = New common.Controls.MyLabel()
         Me.GV1 = New Telerik.WinControls.UI.RadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnTranspotation = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnCommission = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -65,11 +67,13 @@ Partial Class frmDistributorCommission
         CType(Me.lblDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GV1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GV1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnTranspotation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnCommission, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -108,6 +112,8 @@ Partial Class frmDistributorCommission
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.rbtnTranspotation)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.rbtnCommission)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDistributorTagging)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblDistributorTagging)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblStatus)
@@ -314,7 +320,7 @@ Partial Class frmDistributorCommission
         '
         'btnGo
         '
-        Me.btnGo.Location = New System.Drawing.Point(422, 61)
+        Me.btnGo.Location = New System.Drawing.Point(374, 83)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(115, 18)
         Me.btnGo.TabIndex = 162
@@ -367,10 +373,19 @@ Partial Class frmDistributorCommission
         '
         '
         '
-        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.GV1.Name = "GV1"
         Me.GV1.Size = New System.Drawing.Size(800, 283)
         Me.GV1.TabIndex = 0
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(278, 7)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(86, 24)
+        Me.btnPrint.TabIndex = 2
+        Me.btnPrint.Text = "Print"
         '
         'btnImport
         '
@@ -421,14 +436,21 @@ Partial Class frmDistributorCommission
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'btnPrint
+        'rbtnTranspotation
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(278, 7)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(86, 24)
-        Me.btnPrint.TabIndex = 2
-        Me.btnPrint.Text = "Print"
+        Me.rbtnTranspotation.Location = New System.Drawing.Point(493, 58)
+        Me.rbtnTranspotation.Name = "rbtnTranspotation"
+        Me.rbtnTranspotation.Size = New System.Drawing.Size(109, 18)
+        Me.rbtnTranspotation.TabIndex = 1525
+        Me.rbtnTranspotation.Text = "TRANSPOTATION"
+        '
+        'rbtnCommission
+        '
+        Me.rbtnCommission.Location = New System.Drawing.Point(398, 59)
+        Me.rbtnCommission.Name = "rbtnCommission"
+        Me.rbtnCommission.Size = New System.Drawing.Size(91, 18)
+        Me.rbtnCommission.TabIndex = 1524
+        Me.rbtnCommission.Text = "COMMISSION"
         '
         'frmDistributorCommission
         '
@@ -461,11 +483,13 @@ Partial Class frmDistributorCommission
         CType(Me.lblDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GV1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GV1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnTranspotation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnCommission, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -496,4 +520,6 @@ Partial Class frmDistributorCommission
     Friend WithEvents txtDistributorTagging As common.UserControls.txtFinder
     Friend WithEvents lblDistributorTagging As common.Controls.MyLabel
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents rbtnTranspotation As RadRadioButton
+    Friend WithEvents rbtnCommission As RadRadioButton
 End Class

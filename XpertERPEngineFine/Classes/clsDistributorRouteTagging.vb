@@ -5,6 +5,7 @@ Public Class clsDistributorRouteTagging
     Public Start_Date As Date
     Public End_Date As Date? = Nothing
     Public Remarks As String
+    Public IS_Transpoter As Boolean = False
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Created_By As String = Nothing
     Public Created_Date As DateTime
@@ -34,6 +35,7 @@ Public Class clsDistributorRouteTagging
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
+            clsCommon.AddColumnsForChange(coll, "IS_Transpoter", IIf(obj.IS_Transpoter, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Start_Date", clsCommon.GetPrintDate(obj.Start_Date, "dd/MMM/yyyy"))
@@ -65,7 +67,7 @@ Public Class clsDistributorRouteTagging
         Dim obj As clsDistributorRouteTagging = Nothing
 
         Try
-            Dim strQry As String = "SELECT Code,Start_Date,End_Date,Remarks,Status FROM TSPL_DISTRIBUTOR_ROUTE where 1=1 "
+            Dim strQry As String = "SELECT Code,Start_Date,End_Date,Remarks,Status,IS_Transpoter FROM TSPL_DISTRIBUTOR_ROUTE where 1=1 "
             Select Case NavType
                 Case NavigatorType.First
                     strQry += " and Code = (select MIN(Code) from TSPL_DISTRIBUTOR_ROUTE where 1=1  )"
@@ -88,6 +90,7 @@ Public Class clsDistributorRouteTagging
 
                 End If
                 obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
+                obj.IS_Transpoter = IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Transpoter")) = 1, True, False)
                 obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 obj.Arr = clsDistributorRouteTaggingDetail.GetData(obj.Code, trans)
             End If
@@ -137,7 +140,7 @@ Public Class clsDistributorRouteTagging
     End Function
     Public Shared Function getFinder(ByVal whrcls As String, ByVal curcode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        whrcls = "  IsDistributor='Y' "
+        'whrcls = "  IsDistributor='Y' "
         Dim qry As String = "select Cust_Code as [Code] ,Customer_Name as [Customer Name] ,Add1 as [Address1] ,Add2 as [Address2] ,Add3 as [Address3] ,City_Code as [City Code] ,State as [State] ,Country as [Country] ,Phone1 as [Phone1] ,Phone2 as [Phone2] ,Fax as [Fax] ,Email as [Email] ,WebSite as [Website] ,Credit_Limit as [Credit Limit] ,CURRENCY_CODE as [Currency Code] ,Status as [Status] ,Created_By as [Created By] ,Created_Date as [Created Date] ,Modify_By as [Modified By] ,Modify_Date as [Modified Date] ,Comp_Code as [Company Code]  From TSPL_CUSTOMER_MASTER "
         str = clsCommon.ShowSelectForm("SECCUSTFIND", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str

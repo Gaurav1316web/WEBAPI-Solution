@@ -378,3 +378,48 @@ Public Class clsVendorRegCustDetail
     End Function
 
 End Class
+
+Public Class clsTRANSPORT_MASTER
+#Region "Veriable"
+    Public Transport_Id As String = String.Empty
+    Public Transporter_Name As String = String.Empty
+    Public city As String = String.Empty
+    Public state As String = String.Empty
+    Public pincode As String = String.Empty
+    Public panno As String = String.Empty
+    Public Phone As String = String.Empty
+    Public Add1 As String = String.Empty
+    Public Add2 As String = String.Empty
+    Public Email As String = String.Empty
+
+
+#End Region
+    Public Shared Function SaveData(ByVal obj As clsTRANSPORT_MASTER, ByVal IsNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Transporter_Name", obj.Transporter_Name)
+            clsCommon.AddColumnsForChange(coll, "city", obj.city)
+            clsCommon.AddColumnsForChange(coll, "state", obj.state)
+            clsCommon.AddColumnsForChange(coll, "pincode", obj.pincode)
+            clsCommon.AddColumnsForChange(coll, "panno", obj.panno)
+            clsCommon.AddColumnsForChange(coll, "Phone", obj.Phone)
+            clsCommon.AddColumnsForChange(coll, "Add1", obj.Add1)
+            clsCommon.AddColumnsForChange(coll, "Add2", obj.Add2)
+            clsCommon.AddColumnsForChange(coll, "Email", obj.Email)
+            clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
+            clsCommon.AddColumnsForChange(coll, "Modify_Date", connectSql.serverDate(trans))
+            clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
+            If IsNewEntry Then
+                clsCommon.AddColumnsForChange(coll, "Transport_Id", obj.Transport_Id)
+                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+                clsCommon.AddColumnsForChange(coll, "Created_Date", connectSql.serverDate(trans))
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TRANSPORT_MASTER", OMInsertOrUpdate.Insert, "", trans)
+            Else
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_TRANSPORT_MASTER", OMInsertOrUpdate.Update, "TSPL_TRANSPORT_MASTER.Transport_Id='" + obj.Transport_Id + "'", trans)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+End Class

@@ -1470,6 +1470,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmVSP_VLCMaster, "VSP/VLC Master", "1.18.01.37", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.DCSAdditionDeduction, "DCS Addition/Deduction", "1.18.01.38", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.GazeReading, "Gaze Reading", "1.18.01.39", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmHeadLoadMaster, "Head Load Master", "1.18.01.40", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
 
         InsertDefaultValue(clsUserMgtCode.frmMilkReasonMaster, "Mcc Reason Master", "1.17.01.32", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.GenratePaymentCycle, "Generate Payment Cycle", "1.17.01.33", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
