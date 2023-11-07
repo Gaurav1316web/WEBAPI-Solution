@@ -102,11 +102,14 @@ Public Class frmHeadLoadMaster
 
         gv1.MasterTemplate.Columns.Add(repoBMCName)
 
-        Dim repoHeadLoadBasis As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        Dim repoHeadLoadBasis As GridViewComboBoxColumn = New GridViewComboBoxColumn()
         repoHeadLoadBasis.FormatString = ""
         repoHeadLoadBasis.HeaderText = "Head Load Basis"
-        repoHeadLoadBasis.Name = colHeadLoadBasis
+        repoHeadLoadBasis.Name = "Head Load Basis"
         repoHeadLoadBasis.Width = 130
+        repoHeadLoadBasis.DataSource = loadHeadLoadBasis()
+        repoHeadLoadBasis.DisplayMember = "Name"
+        repoHeadLoadBasis.ValueMember = "Name"
         repoHeadLoadBasis.ReadOnly = False
 
         gv1.MasterTemplate.Columns.Add(repoHeadLoadBasis)
@@ -171,7 +174,7 @@ Public Class frmHeadLoadMaster
                 obj.Document_No = txtDocumentNo.Value
                 obj.Description = txtDescription.Text
                 obj.Document_date = clsCommon.myCDate(txtDate.Value)
-                obj.Start_Date = clsCommon.myCDate(txtDate.Value)
+                obj.Start_Date = clsCommon.myCDate(txtstartDate.Value)
                 obj.Arr = New List(Of clsHeadLoadDCS)
 
                 For Each grow As GridViewRowInfo In gv1.Rows
@@ -183,10 +186,13 @@ Public Class frmHeadLoadMaster
                     Else
                         objTr.Head_Load_Basis = "L"
                     End If
-
                     objTr.Head_Load_Rate = clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value))
 
-                    obj.Arr.Add(objTr)
+                    If clsCommon.myCDecimal((grow.Cells("Head Load Rate").Value)) > 0 Then
+                        obj.Arr.Add(objTr)
+
+                    End If
+
                 Next
 
                 If (obj.SaveData(obj, isNewEntry, Nothing)) Then
@@ -348,7 +354,7 @@ Public Class frmHeadLoadMaster
 
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        If HeadLoadBasis Is Nothing Then
+        If cmbHeadLoadBasis.Text = "" Then
             clsCommon.MyMessageBoxShow(Me, "Please Select Head Load Basis", Me.Text)
             Exit Sub
         End If
@@ -365,14 +371,19 @@ Public Class frmHeadLoadMaster
         gv1.ShowGroupPanel = False
         gv1.EnableFiltering = True
         Dim str As String = ""
+
         If isLoadData = True Then
+            If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
+                LoadBlankGrid()
+                Exit Sub
+            End If
             str = "select TSPL_HEAD_LOAD_DCS.Document_No as Document_No, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_CODE as [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name as [DCS Name] ,
         TSPL_MCC_MASTER.MCC_Code_VLC_Uploader as [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code as [BMC Code] , TSPL_MCC_MASTER.MCC_NAME as [BMC Name]
           from TSPL_HEAD_LOAD_DCS  left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_CODE = TSPL_HEAD_LOAD_DCS.VLC_CODE
          left  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_HEAD_LOAD_DCS.Document_No = '" + txtDocumentNo.Value + "' order by Document_No "
         Else
 
-            str = "Select  TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_Code As [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],
+            str = "Select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Uploader No], TSPL_VLC_MASTER_HEAD.VLC_Code As [DCS Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [DCS Name],
     TSPL_MCC_MASTER.MCC_Code_VLC_Uploader As [BMC Uploader No] ,TSPL_MCC_MASTER.MCC_Code As [BMC Code] , TSPL_MCC_MASTER.MCC_NAME As [BMC Name]  From TSPL_VLC_MASTER_HEAD
      Left  Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC where TSPL_VLC_MASTER_HEAD.isOwnBMC = 0"
         End If
@@ -402,7 +413,7 @@ Public Class frmHeadLoadMaster
         End If
         gv1.Columns("BMC Code").IsVisible = False
 
-        For ii As Integer = 0 To gv1.Columns.Count - 2
+        For ii As Integer = 0 To gv1.Columns.Count - 1
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).Width = 140
         Next
@@ -435,13 +446,24 @@ Public Class frmHeadLoadMaster
         End If
 
 
-        If isLoadData = True Then
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select case when Head_Load_Basis = 'K' then 'Rate/Kg' else 'Rate/Ltr' end as Head_Load_Basis, Head_Load_Rate as [Head Load Rate] from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
+        'If isLoadData = True Then
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable("select case when Head_Load_Basis = 'K' then 'Rate/Kg' else 'Rate/Ltr' end as Head_Load_Basis, Head_Load_Rate as [Head Load Rate] ,VLC_CODE from TSPL_HEAD_LOAD_DCS where Document_No = '" & txtDocumentNo.Value & "'")
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             For ii As Integer = 0 To gv1.Rows.Count - 1
+                For jj As Integer = 0 To dt.Rows.Count - 1
+                    If clsCommon.CompairString(gv1.Rows(ii).Cells("DCS Code").Value, dt.Rows(jj)("VLC_CODE")) = CompairStringResult.Equal Then
+                        gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(dt.Rows(jj)("Head_Load_Basis"))
+                        gv1.Rows(ii).Cells("Head Load Rate").Value = clsCommon.myCstr(dt.Rows(jj)("Head Load Rate"))
+                        Exit For
+                    Else
 
-                gv1.Rows(ii).Cells("Head Load Basis").Value = clsCommon.myCstr(dt.Rows(ii)("Head_Load_Basis"))
-                gv1.Rows(ii).Cells("Head Load Rate").Value = clsCommon.myCstr(dt.Rows(ii)("Head Load Rate"))
+                        gv1.Rows(ii).Cells("Head Load Basis").Value = cmbHeadLoadBasis.Text
+                        gv1.Rows(ii).Cells("Head Load Rate").Value = "0.00"
+
+                    End If
+                Next
             Next
+            ' End If
         Else
             For ii As Integer = 0 To gv1.Rows.Count - 1
 
@@ -544,7 +566,9 @@ Public Class frmHeadLoadMaster
     End Sub
 
 
+
 End Class
+
 
 
 

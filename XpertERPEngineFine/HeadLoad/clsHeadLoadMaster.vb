@@ -129,7 +129,7 @@ Public Class clsHeadLoadMaster
 
     Public Shared Function getFinder(ByVal whrcls As String, ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim sql As String = "select Document_No as DocumentNo ,Description,Start_Date AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_HEAD_LOAD"
+        Dim sql As String = "select Document_No as DocumentNo ,Description,convert(varchar(12),Start_Date,103) AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_HEAD_LOAD"
         str = clsCommon.ShowSelectForm("HeadLoad", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked)
         Return str
     End Function
