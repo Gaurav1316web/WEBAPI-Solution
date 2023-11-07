@@ -31,7 +31,7 @@ Public Class clsHeadLoadMaster
             obj.Description = "Auto generated"
             obj.Document_date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt")
             obj.Start_Date = clsCommon.GetPrintDate("2023-10-01", "dd/MMM/yyyy")
-            objCommonVar.CurrentUserCode = "Admin"
+            objCommonVar.CurrentUserCode = "ADMIN"
             obj.Arr = New List(Of clsHeadLoadDCS)
 
             Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code ,TSPL_VENDOR_MASTER.Service_Basis_Head_Load , TSPL_VENDOR_MASTER.Rate_Head_Load  from TSPL_VLC_MASTER_HEAD
@@ -49,7 +49,7 @@ Public Class clsHeadLoadMaster
                 Next
             End If
 
-            If (obj.SaveData(obj, False, Nothing)) Then
+            If (obj.SaveData(obj, True, Nothing)) Then
                 obj.PostData(clsUserMgtCode.frmHeadLoadMaster, obj.Document_No)
                 objCommonVar.CurrentUserCode = ""
             End If
@@ -71,7 +71,10 @@ Public Class clsHeadLoadMaster
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_date, clsDocType.HeadLoadDCS, "", "")
+                Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD", trans)
+                If isRecordExist > 0 Then
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_date, clsDocType.HeadLoadDCS, "", "")
+                End If
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then
                     Throw New Exception("Error in Document Code Generation")
                 End If
