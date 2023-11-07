@@ -725,6 +725,7 @@ Public Class frmRCDFStandardization
                         ElseIf e.Column Is gvProduce.Columns(colProduceStdInLocation) Then
                             ProduceOpenLocation(False)
                         End If
+                        calculateALL()
                         isCellValueChangedProduce = False
                     Catch ex As Exception
                         isCellValueChangedProduce = False
@@ -875,6 +876,7 @@ Public Class frmRCDFStandardization
                             IssueOpenLocation()
                         ElseIf (e.Column Is gvIssue.Columns(colIssueQty)) Then
                             IssueCal_FATSNF()
+                            calculateALL()
                         End If
                         isCellValueChangedIssue = False
                     End If
@@ -2234,81 +2236,56 @@ Public Class frmRCDFStandardization
         If Not isInsideLoadData Then
             If Not isCellValueChangedAddRemove Then
                 Try
-                    If e.Column Is gvAddRemove.Columns(colARItemCode) Then
+                    If e.Column Is gvAddRemove.Columns(colARItemCode) OrElse e.Column Is gvAddRemove.Columns(colARUom) OrElse e.Column Is gvAddRemove.Columns(colARLocCode) OrElse e.Column Is gvAddRemove.Columns(colARQty) OrElse e.Column Is gvAddRemove.Columns(colAR_FAT_Per) OrElse e.Column Is gvAddRemove.Columns(colAR_SNF_Per) OrElse e.Column Is gvAddRemove.Columns(colAR_FAT_KG) OrElse e.Column Is gvAddRemove.Columns(colAR_SNF_KG) Then
                         isCellValueChangedAddRemove = True
-                        gvAddRemove.CurrentRow.Cells(colARItemCode).Value = clsItemMaster.getFinder(If(ShowOnlyProdItemsOnAddRemove = True, " Item_Used_as='P' ", ""), gvAddRemove.CurrentRow.Cells(colARItemCode).Value, False)
-                        Dim objItem As clsItemMaster = clsItemMaster.GetDataRMOther(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, NavigatorType.Current)
-                        If Not objItem Is Nothing Then
-                            gvAddRemove.CurrentRow.Cells(colARItemName).Value = objItem.Item_Desc
-                            gvAddRemove.CurrentRow.Cells(colARItemProductType).Value = IIf(clsCommon.myLen(objItem.Product_Type) <= 0, "Others", objItem.Product_Type)
-                            gvAddRemove.CurrentRow.Cells(colARItemProductType).Tag = objItem.Product_Type
-                            gvAddRemove.CurrentRow.Cells(colARIsBatchItem).Value = objItem.Is_Batch_Item
-                            gvAddRemove.CurrentRow.Cells(colARUom).Value = objItem.Unit_Code
-                            gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value = Nothing
-                            gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = Nothing
-                            gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value = Nothing
-                            gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = Nothing
-                            SetARBalance()
-                        End If
-                        isCellValueChangedAddRemove = False
-                    End If
-                    If e.Column Is gvAddRemove.Columns(colARUom) Then
-                        isCellValueChangedAddRemove = True
-                        OpenUOM(False)
-                        If clsCommon.myLen(gvAddRemove.CurrentRow.Cells(colARUom).Value) > 0 Then
+                        If e.Column Is gvAddRemove.Columns(colARItemCode) Then
+                            gvAddRemove.CurrentRow.Cells(colARItemCode).Value = clsItemMaster.getFinder(If(ShowOnlyProdItemsOnAddRemove = True, " Item_Used_as='P' ", ""), gvAddRemove.CurrentRow.Cells(colARItemCode).Value, False)
+                            Dim objItem As clsItemMaster = clsItemMaster.GetDataRMOther(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, NavigatorType.Current)
+                            If Not objItem Is Nothing Then
+                                gvAddRemove.CurrentRow.Cells(colARItemName).Value = objItem.Item_Desc
+                                gvAddRemove.CurrentRow.Cells(colARItemProductType).Value = IIf(clsCommon.myLen(objItem.Product_Type) <= 0, "Others", objItem.Product_Type)
+                                gvAddRemove.CurrentRow.Cells(colARItemProductType).Tag = objItem.Product_Type
+                                gvAddRemove.CurrentRow.Cells(colARIsBatchItem).Value = objItem.Is_Batch_Item
+                                gvAddRemove.CurrentRow.Cells(colARUom).Value = objItem.Unit_Code
+                                gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value = Nothing
+                                gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = Nothing
+                                gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value = Nothing
+                                gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = Nothing
+                                SetARBalance()
+                            End If
+                        ElseIf e.Column Is gvAddRemove.Columns(colARUom) Then
+                            OpenUOM(False)
+                            If clsCommon.myLen(gvAddRemove.CurrentRow.Cells(colARUom).Value) > 0 Then
+                                gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
+                                gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
+                            End If
+                        ElseIf e.Column Is gvAddRemove.Columns(colARLocCode) Then
+                            OpenARLocationCode(False)
+                        ElseIf e.Column Is gvAddRemove.Columns(colARQty) AndAlso AutoCalcQtyAddRem = False Then
                             gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
                             gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
-                            calculateALL()
+                            OpenBatchItem()
+                        ElseIf e.Column Is gvAddRemove.Columns(colAR_FAT_Per) Then
+                            gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
+                        ElseIf e.Column Is gvAddRemove.Columns(colAR_SNF_Per) Then
+                            gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
+                        ElseIf e.Column Is gvAddRemove.Columns(colAR_FAT_KG) AndAlso AutoCalcQtyAddRem = True Then
+                            If clsCommon.myCdbl(gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value) > 0 Then
+                                Dim conFat As Decimal = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, 1, 100, Nothing)
+                                gvAddRemove.CurrentRow.Cells(colARQty).Value = gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value * 100 / (gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value * IIf(conFat = 0, 1, conFat))
+                            End If
+                            gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
+                        ElseIf e.Column Is gvAddRemove.Columns(colAR_SNF_KG) AndAlso AutoCalcQtyAddRem = True Then
+                            If clsCommon.myCdbl(gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value) > 0 Then
+                                Dim conFat As Decimal = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, 1, 100, Nothing)
+                                gvAddRemove.CurrentRow.Cells(colARQty).Value = gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value * 100 / (gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value * IIf(conFat = 0, 1, conFat))
+                            End If
+                            gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
                         End If
-                        isCellValueChangedAddRemove = False
-                    End If
-                    If e.Column Is gvAddRemove.Columns(colARLocCode) Then
-                        isCellValueChangedAddRemove = True
-                        OpenARLocationCode(False)
-                        isCellValueChangedAddRemove = False
-                    End If
-                    If e.Column Is gvAddRemove.Columns(colARType) Then
-                        isCellValueChangedAddRemove = True
                         calculateALL()
                         isCellValueChangedAddRemove = False
                     End If
-                    If e.Column Is gvAddRemove.Columns(colARQty) AndAlso AutoCalcQtyAddRem = False Then
-                        'BHA/10/08/18-000411 by balwinder on 09/08/2017
-                        isCellValueChangedAddRemove = True
-                        gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
-                        gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
-                        calculateALL()
-                        OpenBatchItem()
-                        isCellValueChangedAddRemove = False
-                    ElseIf e.Column Is gvAddRemove.Columns(colAR_FAT_Per) Then
-                        isCellValueChangedAddRemove = True
-                        gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
-                        calculateALL()
-                        isCellValueChangedAddRemove = False
-                    ElseIf e.Column Is gvAddRemove.Columns(colAR_SNF_Per) Then
-                        isCellValueChangedAddRemove = True
-                        gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
-                        calculateALL()
-                        isCellValueChangedAddRemove = False
-                    ElseIf e.Column Is gvAddRemove.Columns(colAR_FAT_KG) AndAlso AutoCalcQtyAddRem = True Then
-                        isCellValueChangedAddRemove = True
-                        If clsCommon.myCdbl(gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value) > 0 Then
-                            Dim conFat As Decimal = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, 1, 100, Nothing)
-                            gvAddRemove.CurrentRow.Cells(colARQty).Value = gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value * 100 / (gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value * IIf(conFat = 0, 1, conFat))
-                        End If
-                        gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value, Nothing)
-                        calculateALL()
-                        isCellValueChangedAddRemove = False
-                    ElseIf e.Column Is gvAddRemove.Columns(colAR_SNF_KG) AndAlso AutoCalcQtyAddRem = True Then
-                        isCellValueChangedAddRemove = True
-                        If clsCommon.myCdbl(gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value) > 0 Then
-                            Dim conFat As Decimal = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, 1, 100, Nothing)
-                            gvAddRemove.CurrentRow.Cells(colARQty).Value = gvAddRemove.CurrentRow.Cells(colAR_SNF_KG).Value * 100 / (gvAddRemove.CurrentRow.Cells(colAR_SNF_Per).Value * IIf(conFat = 0, 1, conFat))
-                        End If
-                        gvAddRemove.CurrentRow.Cells(colAR_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(gvAddRemove.CurrentRow.Cells(colARItemCode).Value, gvAddRemove.CurrentRow.Cells(colARUom).Value, gvAddRemove.CurrentRow.Cells(colARQty).Value, gvAddRemove.CurrentRow.Cells(colAR_FAT_Per).Value, Nothing)
-                        calculateALL()
-                        isCellValueChangedAddRemove = False
-                    End If
+
                 Catch ex As Exception
                     isCellValueChangedAddRemove = False
                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
