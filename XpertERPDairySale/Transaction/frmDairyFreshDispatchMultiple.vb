@@ -295,6 +295,16 @@ Public Class frmDairyFreshDispatchMultiple
     Const colMainIQty As String = "MainIQty"
     Const colMainIUOM As String = "MainIUOM"
 
+    Const ColDCApplicableDate As String = "ColDCApplicableDate"
+    Const ColDCUOM As String = "ColDCUOM"
+    Const ColDCRate As String = "ColDCRate"
+    Const ColDCRateWithTax As String = "ColDCRateWithTax"
+    Const ColDCUnitCF As String = "ColDCUnitCF"
+    Const ColDCQtyinSU As String = "ColDCQtyinSU"
+    Const ColDCCFUOM As String = "ColDCCFUOM"
+    Const ColDCAmt As String = "ColDCAmt"
+    Const ColDCPKID As String = "ColDCPKID"
+
     Private ConvFactMsg As Boolean = False
     Dim atchqry As String = ""
     Public IsDataImported As Boolean = False
@@ -2494,6 +2504,88 @@ Public Class frmDairyFreshDispatchMultiple
         repoShipToLocation.Width = 100
         gv1.MasterTemplate.Columns.Add(repoShipToLocation)
 
+        Dim DC_PKID As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_PKID.FormatString = ""
+        DC_PKID.HeaderText = "Distributor PKID"
+        DC_PKID.Name = ColDCPKID
+        DC_PKID.Width = 100
+        DC_PKID.ReadOnly = True
+        DC_PKID.IsVisible = True
+        DC_PKID.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_PKID)
+        Dim DC_ApplicableDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_ApplicableDate.FormatString = ""
+        DC_ApplicableDate.HeaderText = "Applicable Date"
+        DC_ApplicableDate.Name = ColDCApplicableDate
+        DC_ApplicableDate.Width = 100
+        DC_ApplicableDate.ReadOnly = True
+        DC_ApplicableDate.IsVisible = True
+        DC_ApplicableDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_ApplicableDate)
+        Dim DC_UOM As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_UOM.FormatString = ""
+        DC_UOM.HeaderText = "Commission UOM"
+        DC_UOM.Name = ColDCUOM
+        DC_UOM.Width = 100
+        DC_UOM.ReadOnly = True
+        DC_UOM.IsVisible = True
+        DC_UOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_UOM)
+        Dim DC_Rate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_Rate.FormatString = ""
+        DC_Rate.HeaderText = "Commission Rate"
+        DC_Rate.Name = ColDCRate
+        DC_Rate.Width = 100
+        DC_Rate.ReadOnly = True
+        DC_Rate.IsVisible = True
+        DC_Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_Rate)
+        Dim DC_RateWithTax As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_RateWithTax.FormatString = ""
+        DC_RateWithTax.HeaderText = "Commission Rate Wtih TAx"
+        DC_RateWithTax.Name = ColDCRateWithTax
+        DC_RateWithTax.Width = 100
+        DC_RateWithTax.ReadOnly = True
+        DC_RateWithTax.IsVisible = True
+        DC_RateWithTax.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_RateWithTax)
+        Dim DC_UnitCF As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_UnitCF.FormatString = ""
+        DC_UnitCF.HeaderText = "Conversion Factor"
+        DC_UnitCF.Name = ColDCUnitCF
+        DC_UnitCF.Width = 100
+        DC_UnitCF.ReadOnly = True
+        DC_UnitCF.IsVisible = True
+        DC_UnitCF.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_UnitCF)
+        Dim DC_QtyInSU As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_QtyInSU.FormatString = ""
+        DC_QtyInSU.HeaderText = "Qty in Stocking Unit"
+        DC_QtyInSU.Name = ColDCQtyinSU
+        DC_QtyInSU.Width = 100
+        DC_QtyInSU.ReadOnly = True
+        DC_QtyInSU.IsVisible = True
+        DC_QtyInSU.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_QtyInSU)
+        Dim DC_CFUOM As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_CFUOM.FormatString = ""
+        DC_CFUOM.HeaderText = "Commission Conversion Factor"
+        DC_CFUOM.Name = ColDCCFUOM
+        DC_CFUOM.Width = 100
+        DC_CFUOM.ReadOnly = True
+        DC_CFUOM.IsVisible = True
+        DC_CFUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_CFUOM)
+        Dim DC_Amt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_Amt.FormatString = ""
+        DC_Amt.HeaderText = "Distributor Commission Amt"
+        DC_Amt.Name = ColDCAmt
+        DC_Amt.Width = 100
+        DC_Amt.ReadOnly = True
+        DC_Amt.IsVisible = True
+        DC_Amt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_Amt)
+
         clsCustomFieldGrid.LoadBlankGrid(gv1, MyBase.ArrDetailFields)
 
         gv1.AllowAddNewRow = False
@@ -4480,6 +4572,11 @@ Public Class frmDairyFreshDispatchMultiple
                             obj.Booking_Date = dtServerDate
                         Else
                             obj.Booking_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colDODate).Value)
+                        End If
+                        If rbtnMorning.IsChecked Then
+                            obj.Shift_Type = "M"
+                        ElseIf rbtnEvening.IsChecked Then
+                            obj.Shift_Type = "E"
                         End If
 
 

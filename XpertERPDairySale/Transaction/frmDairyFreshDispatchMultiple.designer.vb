@@ -22,13 +22,13 @@ Partial Class frmDairyFreshDispatchMultiple
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -259,6 +259,9 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rgbShiftType = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnEvening = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnMorning = New Telerik.WinControls.UI.RadRadioButton()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -471,6 +474,10 @@ Partial Class frmDairyFreshDispatchMultiple
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rgbShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbShiftType.SuspendLayout()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -501,9 +508,9 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -570,6 +577,7 @@ Partial Class frmDairyFreshDispatchMultiple
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rgbShiftType)
         Me.RadPageViewPage1.Controls.Add(Me.lblPendingDoc)
         Me.RadPageViewPage1.Controls.Add(Me.lblSubLocation)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel60)
@@ -716,12 +724,12 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.cmbDepartment.IsSourceFromTable = False
         Me.cmbDepartment.IsSourceFromValueList = False
         Me.cmbDepartment.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "LMS"
-        RadListDataItem6.Text = "Marketing"
-        Me.cmbDepartment.Items.Add(RadListDataItem4)
-        Me.cmbDepartment.Items.Add(RadListDataItem5)
-        Me.cmbDepartment.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "LMS"
+        RadListDataItem3.Text = "Marketing"
+        Me.cmbDepartment.Items.Add(RadListDataItem1)
+        Me.cmbDepartment.Items.Add(RadListDataItem2)
+        Me.cmbDepartment.Items.Add(RadListDataItem3)
         Me.cmbDepartment.Location = New System.Drawing.Point(924, 68)
         Me.cmbDepartment.MendatroryField = False
         Me.cmbDepartment.MyLinkLable1 = Nothing
@@ -1811,7 +1819,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -3200,7 +3208,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -3263,7 +3271,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.gv_dispatchchecklist.MasterTemplate.AllowDeleteRow = False
         Me.gv_dispatchchecklist.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_dispatchchecklist.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_dispatchchecklist.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv_dispatchchecklist.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv_dispatchchecklist.Name = "gv_dispatchchecklist"
         Me.gv_dispatchchecklist.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_dispatchchecklist.ShowHeaderCellButtons = True
@@ -4141,6 +4149,37 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
+        'rgbShiftType
+        '
+        Me.rgbShiftType.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbShiftType.Controls.Add(Me.rbtnEvening)
+        Me.rgbShiftType.Controls.Add(Me.rbtnMorning)
+        Me.rgbShiftType.HeaderText = "Shift Type"
+        Me.rgbShiftType.Location = New System.Drawing.Point(970, -1)
+        Me.rgbShiftType.Name = "rgbShiftType"
+        Me.rgbShiftType.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.rgbShiftType.Size = New System.Drawing.Size(112, 66)
+        Me.rgbShiftType.TabIndex = 1474
+        Me.rgbShiftType.Text = "Shift Type"
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.Location = New System.Drawing.Point(3, 35)
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.rbtnEvening.TabIndex = 1
+        Me.rbtnEvening.Text = "Evening"
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMorning.Location = New System.Drawing.Point(3, 15)
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnMorning.TabIndex = 1
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
         'frmDairyFreshDispatchMultiple
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4382,6 +4421,11 @@ Partial Class frmDairyFreshDispatchMultiple
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rgbShiftType, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbShiftType.ResumeLayout(False)
+        Me.rgbShiftType.PerformLayout()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4618,5 +4662,8 @@ Partial Class frmDairyFreshDispatchMultiple
     Friend WithEvents lblActualTCSTaxBaseAmt As common.Controls.MyLabel
     Friend WithEvents MyLabel58 As common.Controls.MyLabel
     Friend WithEvents txttcstaxbaseamount As common.MyNumBox
+    Friend WithEvents rgbShiftType As RadGroupBox
+    Friend WithEvents rbtnEvening As RadRadioButton
+    Friend WithEvents rbtnMorning As RadRadioButton
 End Class
 
