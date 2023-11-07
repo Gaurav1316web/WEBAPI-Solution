@@ -1243,6 +1243,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptProvistionChartPrint.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptSaleReturn.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptTaxNonTaxableCustomerCreditReport.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\CSATransfer.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\CSATransfer_Challan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\DispatchChallanFresh.rpt" />
