@@ -28919,7 +28919,6 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("SHIP_TO_DELIVERY_AT", "Varchar(100) null")
             coll.Add("Order_Qty", "decimal(18,2) null")
             coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
-            coll.Add("Shift_Type", "char(1) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")
