@@ -29,11 +29,6 @@ Public Class frmHeadLoadMaster
         If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
             LoadData(clsCommon.myCstr(txtDocumentNo.Value), NavigatorType.Current)
         End If
-        Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD")
-        If isRecordExist = 0 Then
-            Dim obj As New clsHeadLoadMaster
-            obj.SaveAutoData()
-        End If
     End Sub
 
 
@@ -112,7 +107,7 @@ Public Class frmHeadLoadMaster
         repoHeadLoadBasis.HeaderText = "Head Load Basis"
         repoHeadLoadBasis.Name = colHeadLoadBasis
         repoHeadLoadBasis.Width = 130
-        repoHeadLoadBasis.ReadOnly = True
+        repoHeadLoadBasis.ReadOnly = False
 
         gv1.MasterTemplate.Columns.Add(repoHeadLoadBasis)
 

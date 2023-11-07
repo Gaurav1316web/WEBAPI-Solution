@@ -27,9 +27,11 @@ Public Class clsHeadLoadMaster
     Sub SaveAutoData()
         Try
             Dim obj As New clsHeadLoadMaster()
+            obj.Document_No = "Default"
             obj.Description = "Auto generated"
             obj.Document_date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt")
             obj.Start_Date = clsCommon.GetPrintDate("2023-10-01", "dd/MMM/yyyy")
+            objCommonVar.CurrentUserCode = "Admin"
             obj.Arr = New List(Of clsHeadLoadDCS)
 
             Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code ,TSPL_VENDOR_MASTER.Service_Basis_Head_Load , TSPL_VENDOR_MASTER.Rate_Head_Load  from TSPL_VLC_MASTER_HEAD
@@ -47,8 +49,9 @@ Public Class clsHeadLoadMaster
                 Next
             End If
 
-            If (obj.SaveData(obj, True, Nothing)) Then
+            If (obj.SaveData(obj, False, Nothing)) Then
                 obj.PostData(clsUserMgtCode.frmHeadLoadMaster, obj.Document_No)
+                objCommonVar.CurrentUserCode = ""
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
