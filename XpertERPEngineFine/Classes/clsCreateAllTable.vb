@@ -23138,6 +23138,8 @@ Public Class clsCreateAllTable
             coll.Add("Bulk_Route_Code", "Varchar(30) null references TSPL_BULK_ROUTE_MASTER(ROUTE_NO)")
             coll.Add("Manual_Weight", "Integer NULL")
             coll.Add("Manual_Sample", "Integer NULL")
+            coll.Add("Empty_Sample", "Integer NULL")
+            coll.Add("Page_No", "Integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", coll, Nothing, False, False, "TSPL_MILK_PROCUREMENT_UPLOADER_HEAD", "Document_No", "")
             coll.Item("Document_No") = "Varchar(30) not null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL_SYNC", coll, Nothing, False, False)
@@ -28604,6 +28606,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Applicable_Date", "datetime null")
             coll.Add("Commision_UOM", "varchar(12) null references TSPL_UNIT_MASTER(Unit_Code)")
             coll.Add("Distributor_Tagging_Code", "varchar(30) NULL Unique references TSPL_DISTRIBUTOR_ROUTE(code)")
+            coll.Add("IS_Transpotation", "integer not null default 0")
             coll.Add("IsPosted", "integer NOT NULL DEFAULT 0")
             coll.Add("Created_By", "varchar(12)  Not NULL")
             coll.Add("Created_Date", "datetime  Not NULL")
@@ -53609,6 +53612,12 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Head_Load_Basis", "varchar(1) NULL")
             coll.Add("Head_Load_Rate", "Decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_Head_Load_DCS", coll)
+
+            Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD")
+            If isRecordExist = 0 Then
+                Dim obj As New clsHeadLoadMaster
+                obj.SaveAutoData()
+            End If
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_Code", "varchar(30) NOT NULL Primary Key")

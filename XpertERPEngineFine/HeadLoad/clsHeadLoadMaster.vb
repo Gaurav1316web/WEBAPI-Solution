@@ -27,9 +27,11 @@ Public Class clsHeadLoadMaster
     Sub SaveAutoData()
         Try
             Dim obj As New clsHeadLoadMaster()
+            obj.Document_No = "Default"
             obj.Description = "Auto generated"
             obj.Document_date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy hh:mm tt")
             obj.Start_Date = clsCommon.GetPrintDate("2023-10-01", "dd/MMM/yyyy")
+            objCommonVar.CurrentUserCode = "ADMIN"
             obj.Arr = New List(Of clsHeadLoadDCS)
 
             Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code ,TSPL_VENDOR_MASTER.Service_Basis_Head_Load , TSPL_VENDOR_MASTER.Rate_Head_Load  from TSPL_VLC_MASTER_HEAD
@@ -49,6 +51,7 @@ Public Class clsHeadLoadMaster
 
             If (obj.SaveData(obj, True, Nothing)) Then
                 obj.PostData(clsUserMgtCode.frmHeadLoadMaster, obj.Document_No)
+                objCommonVar.CurrentUserCode = ""
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -68,7 +71,10 @@ Public Class clsHeadLoadMaster
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
-                obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_date, clsDocType.HeadLoadDCS, "", "")
+                Dim isRecordExist As Integer = clsDBFuncationality.getSingleValue("select count(1) from TSPL_HEAD_LOAD", trans)
+                If isRecordExist > 0 Then
+                    obj.Document_No = clsERPFuncationality.GetNextCode(trans, obj.Document_date, clsDocType.HeadLoadDCS, "", "")
+                End If
                 If (clsCommon.myLen(obj.Document_No) <= 0) Then
                     Throw New Exception("Error in Document Code Generation")
                 End If
@@ -123,7 +129,7 @@ Public Class clsHeadLoadMaster
 
     Public Shared Function getFinder(ByVal whrcls As String, ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim sql As String = "select Document_No as DocumentNo ,Description,Start_Date AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_HEAD_LOAD"
+        Dim sql As String = "select Document_No as DocumentNo ,Description,convert(varchar(12),Start_Date,103) AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'posted' else 'Unposted' end as Posted from TSPL_HEAD_LOAD"
         str = clsCommon.ShowSelectForm("HeadLoad", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked)
         Return str
     End Function

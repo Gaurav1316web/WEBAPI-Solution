@@ -1033,7 +1033,7 @@ Public Class frmVSP_VLCMaster
                     HeadLoadBasis = "L"
                 End If
             End If
-            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "1", "0") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked = True, "T", "F") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
 
             updateMultipleIncentive(fndvendorNo.Value, trans)
@@ -1907,7 +1907,7 @@ Public Class frmVSP_VLCMaster
                     HeadLoadBasis = "L"
                 End If
             End If
-            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "1", "0") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
+            Dim qryHeadLoad As String = " Update TSPL_VENDOR_MASTER set Is_Head_Load ='" & IIf(ChkHeadLoad.Checked, "T", "F") & "',Rate_Head_Load='" & clsCommon.myCDecimal(txtRateHeadLoad.Text) & "',Service_Basis_Head_Load='" & clsCommon.myCstr(HeadLoadBasis) & "' where Vendor_Code='" + fndvendorNo.Value + "'"
             clsDBFuncationality.ExecuteNonQuery(qryHeadLoad, trans)
             'VLC 
             If clsCommon.myLen(fndvlccode.Text) > 0 Then
