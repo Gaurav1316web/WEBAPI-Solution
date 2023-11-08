@@ -1336,7 +1336,13 @@ Public Class frmDemandBooking
             If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 Then
                 setRouteVehicleCityDetail()
             End If
-            Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and  CONVERT(varchar, CAST(Document_Date AS datetime), 103) ='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "'"))
+            Dim shiftType As String = ""
+            If rbtnMorning.IsChecked Then
+                shiftType = "Morning"
+            Else
+                shiftType = "Evening"
+            End If
+            Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and  CONVERT(varchar, CAST(Document_Date AS datetime), 103) ='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' and ShiftType = '" & shiftType & "'"))
             If clsCommon.myLen(DocNo) > 0 Then
                 LoadData(DocNo, NavigatorType.Current)
             End If
