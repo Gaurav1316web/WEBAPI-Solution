@@ -26,15 +26,18 @@ Partial Class frmDairyFreshDispatchMultiple
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.rgbShiftType = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnEvening = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnMorning = New Telerik.WinControls.UI.RadRadioButton()
         Me.lblPendingDoc = New common.Controls.MyLabel()
         Me.lblSubLocation = New common.Controls.MyLabel()
         Me.MyLabel60 = New common.Controls.MyLabel()
@@ -44,7 +47,9 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.RadGroupBox5 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnTaxable = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnNonTaxable = New Telerik.WinControls.UI.RadRadioButton()
+        Me.txtCrateQty = New common.MyNumBox()
         Me.MyLabel32 = New common.Controls.MyLabel()
+        Me.lblTotalCrate = New common.Controls.MyLabel()
         Me.txtSalesmanName = New common.Controls.MyTextBox()
         Me.MyLabel31 = New common.Controls.MyLabel()
         Me.txtDriverName = New common.Controls.MyTextBox()
@@ -110,8 +115,6 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.RadLabel13 = New common.Controls.MyLabel()
         Me.MyLabel24 = New common.Controls.MyLabel()
         Me.txtGRNo = New common.Controls.MyTextBox()
-        Me.txtCrateQty = New common.MyNumBox()
-        Me.MyLabel19 = New common.Controls.MyLabel()
         Me.lblTotalWeight = New common.Controls.MyLabel()
         Me.RadLabel7 = New common.Controls.MyLabel()
         Me.txtRefNo = New common.Controls.MyTextBox()
@@ -259,9 +262,6 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rgbShiftType = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnEvening = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnMorning = New Telerik.WinControls.UI.RadRadioButton()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -270,6 +270,10 @@ Partial Class frmDairyFreshDispatchMultiple
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.rgbShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbShiftType.SuspendLayout()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPendingDoc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -279,7 +283,9 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.RadGroupBox5.SuspendLayout()
         CType(Me.rbtnTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnNonTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalCrate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSalesmanName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -343,8 +349,6 @@ Partial Class frmDairyFreshDispatchMultiple
         CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtGRNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalWeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRefNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -474,10 +478,6 @@ Partial Class frmDairyFreshDispatchMultiple
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rgbShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.rgbShiftType.SuspendLayout()
-        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -585,7 +585,9 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.RadPageViewPage1.Controls.Add(Me.cmbDepartment)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel33)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox5)
+        Me.RadPageViewPage1.Controls.Add(Me.txtCrateQty)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel32)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTotalCrate)
         Me.RadPageViewPage1.Controls.Add(Me.txtSalesmanName)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel31)
         Me.RadPageViewPage1.Controls.Add(Me.txtDriverName)
@@ -650,6 +652,37 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1093, 491)
         Me.RadPageViewPage1.Text = "Dispatch"
+        '
+        'rgbShiftType
+        '
+        Me.rgbShiftType.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbShiftType.Controls.Add(Me.rbtnEvening)
+        Me.rgbShiftType.Controls.Add(Me.rbtnMorning)
+        Me.rgbShiftType.HeaderText = "Shift Type"
+        Me.rgbShiftType.Location = New System.Drawing.Point(970, -1)
+        Me.rgbShiftType.Name = "rgbShiftType"
+        Me.rgbShiftType.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.rgbShiftType.Size = New System.Drawing.Size(112, 66)
+        Me.rgbShiftType.TabIndex = 1474
+        Me.rgbShiftType.Text = "Shift Type"
+        '
+        'rbtnEvening
+        '
+        Me.rbtnEvening.Location = New System.Drawing.Point(3, 35)
+        Me.rbtnEvening.Name = "rbtnEvening"
+        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
+        Me.rbtnEvening.TabIndex = 1
+        Me.rbtnEvening.Text = "Evening"
+        '
+        'rbtnMorning
+        '
+        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnMorning.Location = New System.Drawing.Point(3, 15)
+        Me.rbtnMorning.Name = "rbtnMorning"
+        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
+        Me.rbtnMorning.TabIndex = 1
+        Me.rbtnMorning.Text = "Morning"
+        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'lblPendingDoc
         '
@@ -782,6 +815,34 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.rbtnNonTaxable.Text = "Non Taxable"
         Me.rbtnNonTaxable.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
+        'txtCrateQty
+        '
+        Me.txtCrateQty.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtCrateQty.CalculationExpression = Nothing
+        Me.txtCrateQty.DecimalPlaces = 5
+        Me.txtCrateQty.FieldCode = Nothing
+        Me.txtCrateQty.FieldDesc = Nothing
+        Me.txtCrateQty.FieldMaxLength = 0
+        Me.txtCrateQty.FieldName = Nothing
+        Me.txtCrateQty.isCalculatedField = False
+        Me.txtCrateQty.IsSourceFromTable = False
+        Me.txtCrateQty.IsSourceFromValueList = False
+        Me.txtCrateQty.IsUnique = False
+        Me.txtCrateQty.Location = New System.Drawing.Point(927, 91)
+        Me.txtCrateQty.MendatroryField = False
+        Me.txtCrateQty.MyLinkLable1 = Nothing
+        Me.txtCrateQty.MyLinkLable2 = Nothing
+        Me.txtCrateQty.Name = "txtCrateQty"
+        Me.txtCrateQty.ReadOnly = True
+        Me.txtCrateQty.ReferenceFieldDesc = Nothing
+        Me.txtCrateQty.ReferenceFieldName = Nothing
+        Me.txtCrateQty.ReferenceTableName = Nothing
+        Me.txtCrateQty.Size = New System.Drawing.Size(77, 20)
+        Me.txtCrateQty.TabIndex = 156
+        Me.txtCrateQty.Text = "0"
+        Me.txtCrateQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtCrateQty.Value = 0R
+        '
         'MyLabel32
         '
         Me.MyLabel32.FieldName = Nothing
@@ -791,6 +852,16 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.MyLabel32.Size = New System.Drawing.Size(57, 16)
         Me.MyLabel32.TabIndex = 1421
         Me.MyLabel32.Text = "Salesman"
+        '
+        'lblTotalCrate
+        '
+        Me.lblTotalCrate.FieldName = Nothing
+        Me.lblTotalCrate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalCrate.Location = New System.Drawing.Point(840, 92)
+        Me.lblTotalCrate.Name = "lblTotalCrate"
+        Me.lblTotalCrate.Size = New System.Drawing.Size(83, 16)
+        Me.lblTotalCrate.TabIndex = 155
+        Me.lblTotalCrate.Text = "Total Crate Qty"
         '
         'txtSalesmanName
         '
@@ -1755,8 +1826,6 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.gv1.Controls.Add(Me.RadLabel13)
         Me.gv1.Controls.Add(Me.MyLabel24)
         Me.gv1.Controls.Add(Me.txtGRNo)
-        Me.gv1.Controls.Add(Me.txtCrateQty)
-        Me.gv1.Controls.Add(Me.MyLabel19)
         Me.gv1.Controls.Add(Me.lblTotalWeight)
         Me.gv1.Controls.Add(Me.RadLabel7)
         Me.gv1.Controls.Add(Me.txtRefNo)
@@ -1819,7 +1888,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1954,46 +2023,6 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.txtGRNo.Size = New System.Drawing.Size(114, 18)
         Me.txtGRNo.TabIndex = 0
         Me.txtGRNo.Visible = False
-        '
-        'txtCrateQty
-        '
-        Me.txtCrateQty.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtCrateQty.CalculationExpression = Nothing
-        Me.txtCrateQty.DecimalPlaces = 5
-        Me.txtCrateQty.FieldCode = Nothing
-        Me.txtCrateQty.FieldDesc = Nothing
-        Me.txtCrateQty.FieldMaxLength = 0
-        Me.txtCrateQty.FieldName = Nothing
-        Me.txtCrateQty.isCalculatedField = False
-        Me.txtCrateQty.IsSourceFromTable = False
-        Me.txtCrateQty.IsSourceFromValueList = False
-        Me.txtCrateQty.IsUnique = False
-        Me.txtCrateQty.Location = New System.Drawing.Point(100, 1)
-        Me.txtCrateQty.MendatroryField = False
-        Me.txtCrateQty.MyLinkLable1 = Nothing
-        Me.txtCrateQty.MyLinkLable2 = Nothing
-        Me.txtCrateQty.Name = "txtCrateQty"
-        Me.txtCrateQty.ReadOnly = True
-        Me.txtCrateQty.ReferenceFieldDesc = Nothing
-        Me.txtCrateQty.ReferenceFieldName = Nothing
-        Me.txtCrateQty.ReferenceTableName = Nothing
-        Me.txtCrateQty.Size = New System.Drawing.Size(106, 20)
-        Me.txtCrateQty.TabIndex = 156
-        Me.txtCrateQty.Text = "0"
-        Me.txtCrateQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCrateQty.Value = 0R
-        Me.txtCrateQty.Visible = False
-        '
-        'MyLabel19
-        '
-        Me.MyLabel19.FieldName = Nothing
-        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel19.Location = New System.Drawing.Point(3, 3)
-        Me.MyLabel19.Name = "MyLabel19"
-        Me.MyLabel19.Size = New System.Drawing.Size(55, 16)
-        Me.MyLabel19.TabIndex = 155
-        Me.MyLabel19.Text = "Crate Qty"
-        Me.MyLabel19.Visible = False
         '
         'lblTotalWeight
         '
@@ -3208,7 +3237,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition8
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -3271,7 +3300,7 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.gv_dispatchchecklist.MasterTemplate.AllowDeleteRow = False
         Me.gv_dispatchchecklist.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_dispatchchecklist.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_dispatchchecklist.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv_dispatchchecklist.MasterTemplate.ViewDefinition = TableViewDefinition9
         Me.gv_dispatchchecklist.Name = "gv_dispatchchecklist"
         Me.gv_dispatchchecklist.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_dispatchchecklist.ShowHeaderCellButtons = True
@@ -4149,37 +4178,6 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'rgbShiftType
-        '
-        Me.rgbShiftType.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.rgbShiftType.Controls.Add(Me.rbtnEvening)
-        Me.rgbShiftType.Controls.Add(Me.rbtnMorning)
-        Me.rgbShiftType.HeaderText = "Shift Type"
-        Me.rgbShiftType.Location = New System.Drawing.Point(970, -1)
-        Me.rgbShiftType.Name = "rgbShiftType"
-        Me.rgbShiftType.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.rgbShiftType.Size = New System.Drawing.Size(112, 66)
-        Me.rgbShiftType.TabIndex = 1474
-        Me.rgbShiftType.Text = "Shift Type"
-        '
-        'rbtnEvening
-        '
-        Me.rbtnEvening.Location = New System.Drawing.Point(3, 35)
-        Me.rbtnEvening.Name = "rbtnEvening"
-        Me.rbtnEvening.Size = New System.Drawing.Size(59, 18)
-        Me.rbtnEvening.TabIndex = 1
-        Me.rbtnEvening.Text = "Evening"
-        '
-        'rbtnMorning
-        '
-        Me.rbtnMorning.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnMorning.Location = New System.Drawing.Point(3, 15)
-        Me.rbtnMorning.Name = "rbtnMorning"
-        Me.rbtnMorning.Size = New System.Drawing.Size(63, 18)
-        Me.rbtnMorning.TabIndex = 1
-        Me.rbtnMorning.Text = "Morning"
-        Me.rbtnMorning.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
         'frmDairyFreshDispatchMultiple
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4204,6 +4202,11 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.rgbShiftType, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbShiftType.ResumeLayout(False)
+        Me.rgbShiftType.PerformLayout()
+        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPendingDoc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4214,7 +4217,9 @@ Partial Class frmDairyFreshDispatchMultiple
         Me.RadGroupBox5.PerformLayout()
         CType(Me.rbtnTaxable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnNonTaxable, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalCrate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSalesmanName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4282,8 +4287,6 @@ Partial Class frmDairyFreshDispatchMultiple
         CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtGRNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalWeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRefNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4421,11 +4424,6 @@ Partial Class frmDairyFreshDispatchMultiple
         CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rgbShiftType, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.rgbShiftType.ResumeLayout(False)
-        Me.rgbShiftType.PerformLayout()
-        CType(Me.rbtnEvening, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnMorning, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4604,7 +4602,7 @@ Partial Class frmDairyFreshDispatchMultiple
     Friend WithEvents MyLabel18 As common.Controls.MyLabel
     Friend WithEvents ddlFreight As common.Controls.MyComboBox
     Friend WithEvents txtCrateQty As common.MyNumBox
-    Friend WithEvents MyLabel19 As common.Controls.MyLabel
+    Friend WithEvents lblTotalCrate As common.Controls.MyLabel
     Friend WithEvents txtRoadPermitNo As common.Controls.MyTextBox
     Friend WithEvents MyLabel20 As common.Controls.MyLabel
     Friend WithEvents MyLabel22 As common.Controls.MyLabel

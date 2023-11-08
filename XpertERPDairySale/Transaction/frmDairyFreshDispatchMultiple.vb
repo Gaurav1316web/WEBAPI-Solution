@@ -8308,19 +8308,19 @@ Public Class frmDairyFreshDispatchMultiple
             "Unit as Unit_Code,Sampling,MAX(Rate) as Rate,0 as Amount,max(IName) as Item_Desc,MAX(MRP) as MRP,MAX(Conv_Factor) as Conv_Factor, " &
             "MAX(final.Price_Code) as Price_Code,MAX(Price_Date) as Price_Date,MAX(Rate) as OrgRate,max(FOC_Item) as FOC_Item, " &
             "(scheme_item) as scheme_item,max(scheme_code) as scheme_code,max(Scheme_Item_Code) as Scheme_Item_Code,max(Scheme_Item_UOM) as Scheme_Item_UOM,max(Scheme_Type) as Scheme_Type,max(Structure_Code) as Structure_Code,max(Cust_PO_No) as Cust_PO_No,max(cust_po_date) as cust_po_date,max(Ship_To_Location) as Ship_To_Location from (  " &
-            "select TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ITEM_MASTER.HSN_Code as HSN_Code,Sku_Seq, (case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling else TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Sampling end) Sampling,Document_Date,TSPL_DELIVERY_NOTE_master_FRESHSALE.Lorry_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Line_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No as Code, " &
+            "select TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ITEM_MASTER.HSN_Code as HSN_Code,Sku_Seq, (case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling else TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Sampling end) Sampling,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date,TSPL_DELIVERY_NOTE_master_FRESHSALE.Lorry_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Line_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No as Code, " &
             "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code as Vendor, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code as ICode, " &
             "TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_ITEM_MASTER.Is_Batch_Item, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty  as Qty, 0 as Unapproved, " &
             "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_Code as Unit,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code as Location, " &
-            "1 as RI,case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then 0 else  TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Rate end  as Rate,1 as Chk,Document_Date as TransDate, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Price_code, " &
+            "1 as RI,case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then 0 else  TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Rate end  as Rate,1 as Chk,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date as TransDate, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Price_code, " &
             "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Price_Date,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Conv_Factor,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.MRP , " &
             "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.FOC_Item,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.scheme_item,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.scheme_code,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Item_Code,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Item_UOM,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Type,TSPL_ITEM_MASTER.Structure_Code " &
             " ,isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.CustPO_No,'') as Cust_PO_No,ISNULL(CONVERT(VARCHAR,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.custpo_date,103),'') as cust_po_date,isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Ship_To_Location,'') as Ship_To_Location " &
             " from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on " &
             "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No   left outer join  " &
             "TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code " &
-            " left join TSPL_ROUTE_MASTER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No=TSPL_ROUTE_MASTER.Route_No where " &
-            "TSPL_DELIVERY_NOTE_master_FRESHSALE.Posted=1  and TSPL_DELIVERY_NOTE_master_FRESHSALE.Short_Close='N'  and  " &
+            " left join TSPL_ROUTE_MASTER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No=TSPL_ROUTE_MASTER.Route_No  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No where " &
+            "TSPL_DELIVERY_NOTE_master_FRESHSALE.Posted=1 and TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(IIf(rbtnMorning.IsChecked, "AM", "PM")) + "'  and TSPL_DELIVERY_NOTE_master_FRESHSALE.Short_Close='N'  and  " &
             "TSPL_DELIVERY_NOTE_master_FRESHSALE.OnHold='N' "
             If Not GenerateInvoiceWithTaxableAndNonTaxableItems Then
                 qry += " and isnull(tspl_item_master.IsTaxable,0)=" & IsTaxable & " And ISNULL(Is_FreshItem,0)=" & IsFreshItem & "  "
@@ -8336,7 +8336,7 @@ Public Class frmDairyFreshDispatchMultiple
             "from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_Head on TSPL_SD_SHIPMENT_Head.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code " &
             "left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code   " &
             "left join TSPL_ROUTE_MASTER on TSPL_SD_SHIPMENT_HEAD.Route_No=TSPL_ROUTE_MASTER.Route_No " &
-            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code where TSPL_SD_SHIPMENT_Head.Status=1 "
+            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No where TSPL_SD_SHIPMENT_Head.Status=1 and TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(IIf(rbtnMorning.IsChecked, "AM", "PM")) + "' "
 
             If CreateCommonDairyDispatchforFreshAmbient = False Then
                 qry += " and TSPL_SD_SHIPMENT_Head.Trans_Type='" & strTransType & "' "
@@ -8358,8 +8358,8 @@ Public Class frmDairyFreshDispatchMultiple
             "TSPL_SD_SHIPMENT_Head.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code " &
             "left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code   " &
             "left join TSPL_ROUTE_MASTER on TSPL_SD_SHIPMENT_HEAD.Route_No=TSPL_ROUTE_MASTER.Route_No " &
-            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code " &
-            "where TSPL_SD_SHIPMENT_Head.Status=0  "
+            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No " &
+            "where TSPL_SD_SHIPMENT_Head.Status=0  and TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(IIf(rbtnMorning.IsChecked, "AM", "PM")) + "' "
 
             If CreateCommonDairyDispatchforFreshAmbient = False Then
                 qry += " and TSPL_SD_SHIPMENT_Head.Trans_Type='" & strTransType & "' "
@@ -8757,6 +8757,7 @@ Public Class frmDairyFreshDispatchMultiple
 
             Dim dtAllData As DataTable
             dtAllData = clsDBFuncationality.GetDataTable(qry)
+            Dim TotalCrateQty As Decimal = 0
             If dtAllData.Rows.Count > 0 Then
                 isInsideLoadData = True
                 For Each dr As DataRow In dtAllData.Rows
@@ -9597,6 +9598,10 @@ Public Class frmDairyFreshDispatchMultiple
     End Function
 
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub txtCrateQty_TextChanged(sender As Object, e As EventArgs) Handles txtCrateQty.TextChanged
 
     End Sub
 End Class
