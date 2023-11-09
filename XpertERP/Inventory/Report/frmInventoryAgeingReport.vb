@@ -103,7 +103,7 @@ Public Class FrmInventoryAgeingReport
         Try
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnQuickExport_Click(sender As Object, e As EventArgs) Handles btnExport.Click
@@ -129,7 +129,7 @@ Public Class FrmInventoryAgeingReport
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
@@ -141,7 +141,7 @@ Public Class FrmInventoryAgeingReport
         Try
 
             If txtFromDate.Value > txtToDate.Value Then
-                clsCommon.MyMessageBoxShow("Cuttoff Date cant be greater than As on date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Cuttoff Date cant be greater than As on date", Me.Text)
                 Return
             End If
             Dim dtLoc As New DataTable()
@@ -265,11 +265,11 @@ Public Class FrmInventoryAgeingReport
                 gv1.Rows.Clear()
                 gv1.Columns.Clear()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found")
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -279,7 +279,7 @@ Public Class FrmInventoryAgeingReport
 
 
             If txtFromDate.Value > txtToDate.Value Then
-                clsCommon.MyMessageBoxShow("Cuttoff Date cant be greater than As on date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Cuttoff Date cant be greater than As on date", Me.Text)
                 Return
             End If
 
@@ -510,11 +510,11 @@ Public Class FrmInventoryAgeingReport
                 gv1.Rows.Clear()
                 gv1.Columns.Clear()
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found")
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -541,10 +541,10 @@ Public Class FrmInventoryAgeingReport
             End If
 
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Data exported successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data exported successfully")
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try

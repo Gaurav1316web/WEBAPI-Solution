@@ -43,7 +43,7 @@ Public Class FrmItemTypeMaster
         obj.TolerancePer = IIf(chkFixedTolerance.Checked = True, clsCommon.myCdbl(txtTolerancePer.Value), 0)
 
         If (clsItemType.SaveData(obj, isNewEntry) = True) Then
-            clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
             LoadData(obj.ITEM_TYPE_CODE, NavigatorType.Current)
             isNewEntry = False
             btnsave.Text = "Update"
@@ -144,7 +144,7 @@ Public Class FrmItemTypeMaster
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         Try
             If clsCommon.myLen(fndItemType.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Item Type for deletion.")
+                clsCommon.MyMessageBoxShow(Me, "Select Item Type for deletion.")
                 fndItemType.Focus()
                 fndItemType.Select()
                 ErrorControl.SetError(fndItemType, "Select Item Type for deletion.")
@@ -161,7 +161,7 @@ Public Class FrmItemTypeMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 End Class

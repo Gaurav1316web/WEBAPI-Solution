@@ -95,7 +95,7 @@ Public Class FrmExpiredItemDetails
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 gv1.DataSource = dt

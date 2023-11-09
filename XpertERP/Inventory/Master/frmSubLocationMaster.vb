@@ -76,7 +76,7 @@ Public Class frmSubLocationMaster
         Try
             LoadData(fndSubLocid.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -175,20 +175,20 @@ Public Class frmSubLocationMaster
         'End If
 
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Location Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Location Code")
             txtLocation.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtSubLoc.Text) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Sub Location Name")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Sub Location Name")
             txtLocation.Focus()
             Return False
         End If
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select * From TSPL_SUB_LOCATION_MASTER Where Sub_Location_code='" + fndSubLocid.Value + "'")
         If dt.Rows.Count > 0 And isNewEntry Then
-            common.clsCommon.MyMessageBoxShow("This Code has been already added")
+            common.clsCommon.MyMessageBoxShow(Me, "This Code has been already added")
             fndSubLocid.Focus()
             Return False
         End If
@@ -210,15 +210,15 @@ Public Class frmSubLocationMaster
                 obj.Description = txtSubLoc.Text
                 obj.Location_Code = txtLocation.Value
                 If (obj.SaveData(obj, isNewEntry)) And btnsave.Text = "Save" Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                     LoadData(obj.Sub_Location_code, NavigatorType.Current)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Record Updated Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Record Updated Successfully")
                     LoadData(obj.Sub_Location_code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -226,12 +226,12 @@ Public Class frmSubLocationMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsSubLocation.DeleteData(fndSubLocid.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -256,7 +256,7 @@ Public Class frmSubLocationMaster
                 lblLoc.Visible = True
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isInsideLoadData = False
         End Try
@@ -320,7 +320,7 @@ Public Class frmSubLocationMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

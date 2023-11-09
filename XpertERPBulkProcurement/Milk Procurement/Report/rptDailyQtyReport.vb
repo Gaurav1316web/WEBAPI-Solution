@@ -1,10 +1,5 @@
-﻿Imports CrystalDecisions.CrystalReports.Engine
-Imports CrystalDecisions.Shared
-Imports CrystalDecisions.Windows.Forms
+﻿Imports System.IO
 Imports common
-Imports System.IO
-Imports XpertERPEngine
-Imports Telerik.WinControls.UI
 
 Public Class rptDailyQtyReport
     Inherits FrmMainTranScreen

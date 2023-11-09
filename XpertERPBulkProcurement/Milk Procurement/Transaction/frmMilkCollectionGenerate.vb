@@ -99,6 +99,7 @@ Public Class frmMilkCollectionGenerate
         '    Throw New Exception(ex.Message)
         'End Try
         'Return True
+        Return False
     End Function
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SaveData(False)

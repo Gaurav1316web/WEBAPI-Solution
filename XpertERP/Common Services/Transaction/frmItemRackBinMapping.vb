@@ -124,20 +124,20 @@ Public Class frmItemRackBinMapping
 
             Next
             If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                 Return False
             End If
             Dim isSaved As Boolean = True
             isSaved = isSaved AndAlso obj.SaveData(txtDocNo.Value, obj.Arr)
 
             If isSaved = True Then
-                clsCommon.MyMessageBoxShow("Data Saved", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved", Me.Text)
             End If
         End If
     End Function
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please fill Location")
+            clsCommon.MyMessageBoxShow(Me, "Please fill Location", Me.Text)
             Return False
         End If
         If gv1.RowCount > 0 AndAlso gv1.ColumnCount > 0 Then
@@ -149,15 +149,15 @@ Public Class frmItemRackBinMapping
                 Dim strRackCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colRackCode).Value)
                 Dim strBinCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colBinCode).Value)
                 If clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) < 0 Then
-                    clsCommon.MyMessageBoxShow("Please fill Item Code")
+                    clsCommon.MyMessageBoxShow(Me, "Please fill Item Code", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(gv1.Rows(ii).Cells(colBinCode).Value) < 0 Then
-                    clsCommon.MyMessageBoxShow("Please fill Bin Code")
+                    clsCommon.MyMessageBoxShow(Me, "Please fill Bin Code", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(gv1.Rows(ii).Cells(colRackCode).Value) < 0 Then
-                    clsCommon.MyMessageBoxShow("Please fill Rack Code")
+                    clsCommon.MyMessageBoxShow(Me, "Please fill Rack Code", Me.Text)
                     Return False
                 End If
             Next
@@ -208,7 +208,7 @@ Public Class frmItemRackBinMapping
     End Sub
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Location First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select Location First", Me.Text)
         End If
         Dim qry As String = "select * from tspl_item_master "
         gv1.CurrentRow.Cells(colICode).Value = clsCommon.ShowSelectForm("ItCode", qry, "Item_Code", "", gv1.CurrentRow.Cells(colICode).Value, "Item_Code", isButtonClick)
@@ -217,7 +217,7 @@ Public Class frmItemRackBinMapping
     End Sub
     Sub OpenBinList(ByVal isButtonClick As Boolean)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Select Location First", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select Location First", Me.Text)
         End If
         Dim qry As String = "select Bin_Code as Code,Description as Name,Location from TSPL_Bin_MASTER "
         gv1.CurrentRow.Cells(colBinCode).Value = clsCommon.ShowSelectForm("BinCode", qry, "Code", "Location='" & txtDocNo.Value & "' ", gv1.CurrentRow.Cells(colBinCode).Value, "Code", isButtonClick)
@@ -250,7 +250,7 @@ Public Class frmItemRackBinMapping
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
    
@@ -335,7 +335,7 @@ Public Class frmItemRackBinMapping
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()

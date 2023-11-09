@@ -84,7 +84,7 @@ Public Class RptSecurityMatrix
                 RadPageView1.SelectedPage = RadPageViewPage2
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -107,7 +107,7 @@ Public Class RptSecurityMatrix
         Try
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtMultUser__My_Click(sender As Object, e As EventArgs) Handles txtMultUser._My_Click
@@ -115,7 +115,7 @@ Public Class RptSecurityMatrix
             Dim qry As String = "select User_Code as Code,User_Name as Name from TSPL_USER_MASTER"
             txtMultUser.arrValueMember = clsCommon.ShowMultipleSelectForm("LocatMast", qry, "Code", "Name", txtMultUser.arrValueMember, txtMultUser.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -124,7 +124,7 @@ Public Class RptSecurityMatrix
             Dim qry As String = "select program_code as [Code],program_name as [Screen Name] from TSPL_PROGRAM_MASTER"
             txtMultScreen.arrValueMember = clsCommon.ShowMultipleSelectForm("LocatMast", qry, "Code", "Screen Name", txtMultScreen.arrValueMember, txtMultScreen.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub UserScreenWiseEnable()
@@ -177,7 +177,7 @@ Public Class RptSecurityMatrix
             transportSql.BulkExport("RptSecurityMatrix", qry, "", "xls", "")
            
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

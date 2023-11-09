@@ -142,7 +142,7 @@ Public Class Frmpacktype
             myMessages.insert()
         Catch ex As Exception
             ' If common.clsCommon.MyMessageBoxShow(ex.Message.ToString()) Then
-            common.clsCommon.MyMessageBoxShow("Record Already Exist")
+            common.clsCommon.MyMessageBoxShow(Me, "Record Already Exist")
             ' End If
         End Try
     End Sub
@@ -152,7 +152,7 @@ Public Class Frmpacktype
             connectSql.RunSp("sp_TSPL_PACKTYPE_MASTER_delete", New SqlParameter("@classtype", fndclasstype.Value), New SqlParameter("@finishedgood", ddlfinishedgood.Text))
             myMessages.delete()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
         End Try
     End Sub
     ''To update the data according to the Class type 
@@ -163,7 +163,7 @@ Public Class Frmpacktype
             connectSql.RunSp("sp_TSPL_PACKTYPE_MASTER_update", New SqlParameter("@class_type", fndclasstype.Value), New SqlParameter("@finishedgood", ddlfinishedgood.Text), New SqlParameter("@mothercode", ddlmothercode.Text), New SqlParameter("@fathercode", ddlfathercode.Text), New SqlParameter("@created_by", userCode), New SqlParameter("@created_date", currentdate), New SqlParameter("@modify_by", userCode), New SqlParameter("@modify_date", modify_date), New SqlParameter("@compcode", companyCode))
             myMessages.update()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
         End Try
     End Sub
     '' To reset all the field of the pack type screen
@@ -191,7 +191,7 @@ Public Class Frmpacktype
             btnsave.Text = "Save"
             btndelete.Enabled = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
         End Try
     End Sub
     'Private Sub fndclasstype_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -271,10 +271,10 @@ Public Class Frmpacktype
             End If
         Else
             If fndclasstype.Value = "" Then
-                common.clsCommon.MyMessageBoxShow("Please select the Class Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select the Class Type")
                 fndclasstype.Focus()
             ElseIf ddlfinishedgood.Text = "Select" Then
-                common.clsCommon.MyMessageBoxShow("Please select the finished good")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select the finished good")
             Else
                 If btnsave.Text = "Save" Then
                     funinsert()
@@ -373,7 +373,7 @@ Public Class Frmpacktype
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

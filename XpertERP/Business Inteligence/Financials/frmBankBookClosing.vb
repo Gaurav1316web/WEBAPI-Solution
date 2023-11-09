@@ -78,7 +78,7 @@ Public Class FrmBankBookClosing
             dt = clsDBFuncationality.GetDataTable(GetBankClosingQry(clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"), cmbFigure.SelectedValue, False, cbgBanks.CheckedValue))
             SnDUtility.GenerateExcelChart(dt, EnuChartType.Bar, "", "Bank", "ClosingBal")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -173,7 +173,7 @@ Public Class FrmBankBookClosing
         Try
             LoadData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -204,7 +204,7 @@ Public Class FrmBankBookClosing
                 LoadDetails(BankCode, strToDate)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -284,7 +284,7 @@ Public Class FrmBankBookClosing
                 LoadData()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

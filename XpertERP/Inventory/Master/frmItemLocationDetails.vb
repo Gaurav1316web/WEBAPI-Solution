@@ -160,7 +160,7 @@ Public Class frmItemLocationDetails
             'End If
             If strvalue <> "" Then
             Else : strUser_Code = ""
-                common.clsCommon.MyMessageBoxShow("Item Code does not exist in Master Table")
+                common.clsCommon.MyMessageBoxShow(Me, "Item Code does not exist in Master Table", Me.Text)
                 grdv.DataSource = Nothing
                 grdv.Rows.Clear()
                 txtDescription.Text = ""
@@ -404,7 +404,7 @@ Public Class frmItemLocationDetails
             query = "N"
         Catch ex As Exception
             query = "N"
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

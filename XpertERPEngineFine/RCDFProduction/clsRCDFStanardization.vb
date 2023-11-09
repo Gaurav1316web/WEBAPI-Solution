@@ -1,7 +1,4 @@
-﻿Imports common
-Imports System.Data.SqlClient
-Imports System.Windows.Forms
-Imports Telerik.WinControls
+﻿Imports System.Data.SqlClient
 
 Public Class clsRCDFStanardization
 #Region "Variables"

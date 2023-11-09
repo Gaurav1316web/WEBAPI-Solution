@@ -874,7 +874,7 @@ Public Class frmAdjProductionEntry
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1074,7 +1074,7 @@ Public Class frmAdjProductionEntry
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
         Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
         If clsCommon.myLen(strICode) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Item Code")
             Exit Sub
         End If
 
@@ -1372,7 +1372,7 @@ Public Class frmAdjProductionEntry
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -1769,7 +1769,7 @@ Public Class frmAdjProductionEntry
                 End If
 
                 If clsCommon.myCBool(gv1.Rows(ii).Cells(colisMRPMandatory).Value) AndAlso clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please enter MRP for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
+                    common.clsCommon.MyMessageBoxShow(Me, "Please enter MRP for " + strICode + ". At Line No" + clsCommon.myCstr(ii + 1))
                     Return False
                 End If
             End If
@@ -2102,7 +2102,7 @@ Public Class frmAdjProductionEntry
                 chkJobWork.Enabled = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isInsideLoadData = False
         End Try
@@ -2267,7 +2267,7 @@ Public Class frmAdjProductionEntry
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             isFlag = False
         End Try
@@ -2294,7 +2294,7 @@ Public Class frmAdjProductionEntry
                 End If
                 If (ClsAdjustments.DeleteData(txtAdjustmentNo.Value, AdjustmentEnum.strCostTransaction)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
                     AddNew()
                 End If
             End If
@@ -2323,7 +2323,7 @@ Public Class frmAdjProductionEntry
             End If
             LoadData(txtAdjustmentNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -2868,7 +2868,7 @@ Public Class frmAdjProductionEntry
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Dim trans As SqlTransaction = Nothing
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
                 Dim Qry As String = "select distinct Adjustment_No from TSPL_ADJUSTMENT_HEADER_QC where Production_Entry ='" + txtAdjustmentNo.Value + "'"
                 Dim dt As DataTable
@@ -2880,7 +2880,7 @@ Public Class frmAdjProductionEntry
                         Qry += Environment.NewLine + clsCommon.myCstr(dr("Adjustment_No"))
                     Next
                     Qry += Environment.NewLine + "Can't unpost it"
-                    common.clsCommon.MyMessageBoxShow(Qry, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, Qry, Me.Text)
                     Exit Sub
                 End If
 
@@ -2898,7 +2898,7 @@ Public Class frmAdjProductionEntry
                 If ClsAdjustments.ReverseAndUnpost(txtAdjustmentNo.Value, trans, True) Then
                     saveCancelLog(Reason, "Reverse And Recreate", trans)
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtAdjustmentNo.Value, NavigatorType.Current)
                 End If
             End If

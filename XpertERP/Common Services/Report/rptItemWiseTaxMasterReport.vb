@@ -90,7 +90,7 @@ Public Class rptItemWiseTaxMasterReport
             Gv1.Rows.Clear()
 
             If dtgv Is Nothing OrElse dtgv.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
 
             Else
@@ -146,7 +146,7 @@ Public Class rptItemWiseTaxMasterReport
             Next
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -194,7 +194,7 @@ Public Class rptItemWiseTaxMasterReport
                 Me.Close()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -422,7 +422,7 @@ Public Class rptItemWiseTaxMasterReport
             Gv1.MasterTemplate.AllowAddNewRow = False
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -441,7 +441,7 @@ Public Class rptItemWiseTaxMasterReport
             ddlTransType.SelectedValue = "All"
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -468,7 +468,7 @@ Public Class rptItemWiseTaxMasterReport
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -481,7 +481,7 @@ Public Class rptItemWiseTaxMasterReport
                 clsCommon.MyExportToPDF("Item Wise Tax Master Report", Gv1, arrHeader, "Item Wise Tax Master Report")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -500,7 +500,7 @@ Public Class rptItemWiseTaxMasterReport
             obj.GridColumns = Gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             obj.GridLayout.Close()
@@ -511,7 +511,7 @@ Public Class rptItemWiseTaxMasterReport
 
     Private Sub RbtnDeleteLayout_Click(sender As Object, e As EventArgs) Handles RbtnDeleteLayout.Click
         If clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode) AndAlso RadPageViewPage2.Item.Visibility = ElementVisibility.Visible Then
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         End If
     End Sub
 
@@ -528,7 +528,7 @@ Public Class rptItemWiseTaxMasterReport
                 clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.FrmItemMasterRMOther, itemcode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -554,7 +554,7 @@ Public Class rptItemWiseTaxMasterReport
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Item Wise Tax Master Report", Gv1, arrHeader, "Item Wise Tax Master Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

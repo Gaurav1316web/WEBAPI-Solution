@@ -519,7 +519,7 @@ Public Class FrmWeighment
                 End If
                 If clsCommon.myLen(obj.Weighment_No) <= 0 Then
                     clsCommon.MyMessageBoxShow("Error In Weighment No Genertion")
-                    Exit Function
+                    'Exit Function
                 End If
             Else
                 obj.Weighment_No = clsCommon.myCstr(fndDocNO.Value)
@@ -663,7 +663,7 @@ Public Class FrmWeighment
                 'btnSave.Text = "Update"
                 'fndDocNO.MyReadOnly = True
                 'loadData(obj.Weighment_No, IIf(chkBulkMilkProc.IsChecked, "BulkProc", "MccProc"), NavigatorType.Current)
-                Exit Function
+                'Exit Function
             End If
             'clsCommon.MyMessageBoxShow("Data Not Saved ")
             'btnSave.Text = "Save"
@@ -672,13 +672,12 @@ Public Class FrmWeighment
             'btnPost.Enabled = False
             'fndDocNO.MyReadOnly = False
             'trans.Rollback()
-            'Return False
+            Return True
         Catch ex As Exception
             trans.Rollback()
             clsCommon.MyMessageBoxShow(ex.Message)
-            Return False
         End Try
-        Return False
+        Return True
     End Function
     Sub deleteData()
         Try

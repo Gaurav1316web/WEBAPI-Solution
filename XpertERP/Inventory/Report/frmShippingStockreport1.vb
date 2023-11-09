@@ -169,7 +169,7 @@ Public Class FrmShippingStockreport1
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             gv1.DataSource = dt
@@ -180,12 +180,12 @@ Public Class FrmShippingStockreport1
     End Sub
     Private Function LoadQuery(ByVal strColumn As String, ByVal strLocDetail As String, ByVal strItemDetail As String, ByVal strMRP As Integer)
         If chkItemSelect.IsChecked AndAlso cbgItem.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item")
             Return False
             Exit Function
         End If
         If chkLocationSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location")
             Return False
             Exit Function
         End If
@@ -2029,7 +2029,7 @@ Public Class FrmShippingStockreport1
 
             clsCommon.MyExportToExcel("Stock Reco ", gv1, arrHeader, Me.Text)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -2163,7 +2163,7 @@ Public Class FrmShippingStockreport1
         If gv1.Rows.Count > 0 Then
             ExportToExcel()
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
     End Sub
 

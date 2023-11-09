@@ -576,104 +576,106 @@ Public Class frmBatchOrder
     Public Function Save() As Boolean
         Try
 
-       
-        If AllowToSave() Then
-            Dim obj As New clsBatchOrder
-            obj.BO_CODE = Me.txtCode.Value
-            obj.DESCRIPTION = Me.txtDescription.Text
-            obj.BO_DATE = Me.dtpBODate.Value
-            obj.locationcode = fndLocation.Value
+
+            If AllowToSave() Then
+                Dim obj As New clsBatchOrder
+                obj.BO_CODE = Me.txtCode.Value
+                obj.DESCRIPTION = Me.txtDescription.Text
+                obj.BO_DATE = Me.dtpBODate.Value
+                obj.locationcode = fndLocation.Value
                 obj.Manual_Batch_No = txtManualBatchNo.Text
                 obj.CREATED_BY = Me.lblCreatedBy.Text
-            'obj.APPROVED_BY = Me.lblApprovedBy.Text
+                'obj.APPROVED_BY = Me.lblApprovedBy.Text
 
-            Dim obj1 As clsBatchOrder
-            ObjList = New List(Of clsBatchOrder)
-            For Each grow As GridViewRowInfo In gvPP.Rows
-                If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colItemCode).Tag)) > 0 Then
-                    obj1 = New clsBatchOrder()
+                Dim obj1 As clsBatchOrder
+                ObjList = New List(Of clsBatchOrder)
+                For Each grow As GridViewRowInfo In gvPP.Rows
+                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colItemCode).Tag)) > 0 Then
+                        obj1 = New clsBatchOrder()
 
                         obj1.BO_CODE = txtCode.Value
                         'If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colProductionLineCode).Value)) > 0 Then
                         obj1.PRODUCTION_LINE_CODE = clsCommon.myCstr(grow.Cells(colProductionLineCode).Value)
                         'End If
                         obj1.PROD_PLAN_CODE = clsCommon.myCstr(grow.Cells(colPPCode).Value)
-                            obj1.BOM_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Tag)
-                            obj1.BOM_REVISION_NO = clsCommon.myCstr(grow.Cells(colBOMCode).Tag)
-                            obj1.ITEM_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Value)
-                            obj1.ITEM_DESCRIPTION = clsCommon.myCstr(grow.Cells(colitemDesc).Value)
-                            obj1.MIN_QUANTITY = clsCommon.myCdbl(grow.Cells(colMinQty).Value)
-                            obj1.MAX_QUANTITY = clsCommon.myCdbl(grow.Cells(colMaxQty).Value)
-                            obj1.UNIT_CODE = clsCommon.myCstr(grow.Cells(colMaxQty).Tag)
-                            obj1.REMARKS = clsCommon.myCdbl(grow.Cells(colRemarks).Value)
+                        obj1.BOM_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Tag)
+                        obj1.BOM_REVISION_NO = clsCommon.myCstr(grow.Cells(colBOMCode).Tag)
+                        obj1.ITEM_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+                        obj1.ITEM_DESCRIPTION = clsCommon.myCstr(grow.Cells(colitemDesc).Value)
+                        obj1.MIN_QUANTITY = clsCommon.myCdbl(grow.Cells(colMinQty).Value)
+                        obj1.MAX_QUANTITY = clsCommon.myCdbl(grow.Cells(colMaxQty).Value)
+                        obj1.UNIT_CODE = clsCommon.myCstr(grow.Cells(colMaxQty).Tag)
+                        obj1.REMARKS = clsCommon.myCdbl(grow.Cells(colRemarks).Value)
 
-                            obj1.BATCH_QTY = clsCommon.myCdbl(grow.Cells(colBatchQty).Value)
-                            If clsCommon.myLen(grow.Cells(colStartTime).Value) > 0 Then
-                                obj1.START_TIME = clsCommon.myCDate(grow.Cells(colStartTime).Value)
-                            Else
-                                obj1.START_TIME = Nothing
-                            End If
-
-                            If clsCommon.myLen(grow.Cells(colEndTime).Value) > 0 Then
-                                obj1.END_TIME = clsCommon.myCDate(grow.Cells(colEndTime).Value)
-                            Else
-                                obj1.END_TIME = Nothing
-                            End If
-
-
-                            obj1.HOURS = clsCommon.myCdbl(grow.Cells(colHours).Value)
-                            obj1.SPEED = clsCommon.myCdbl(grow.Cells(colSpeed).Value)
-                            obj1.REASON = clsCommon.myCstr(grow.Cells(colReason).Value)
-                            obj1.MF_DATE = clsCommon.myCDate(grow.Cells(colmfgDate).Value)
-                            If clsCommon.myLen(grow.Cells(coLExpDate).Value) > 0 Then
-                                obj1.EXP_DATE = clsCommon.myCDate(grow.Cells(coLExpDate).Value)
-                            Else
-                                obj1.EXP_DATE = Nothing
-                            End If
-
-                            ObjList.Add(obj1)
+                        obj1.BATCH_QTY = clsCommon.myCdbl(grow.Cells(colBatchQty).Value)
+                        If clsCommon.myLen(grow.Cells(colStartTime).Value) > 0 Then
+                            obj1.START_TIME = clsCommon.myCDate(grow.Cells(colStartTime).Value)
+                        Else
+                            obj1.START_TIME = Nothing
                         End If
-            Next
 
-            '' saving raw material
-            ObjList2 = New List(Of clsBatchOrder)
-            For Each grow As GridViewRowInfo In gvRM.Rows
-                If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colRMItemCode).Value)) > 0 Then
-                    obj1 = New clsBatchOrder()
+                        If clsCommon.myLen(grow.Cells(colEndTime).Value) > 0 Then
+                            obj1.END_TIME = clsCommon.myCDate(grow.Cells(colEndTime).Value)
+                        Else
+                            obj1.END_TIME = Nothing
+                        End If
 
-                    obj1.BO_CODE = txtCode.Value
-                    obj1.PROD_PLAN_CODE = clsCommon.myCstr(grow.Cells(colRMPPCode).Value)
-                    obj1.PRODUCTION_LINE_CODE = clsCommon.myCstr(grow.Cells(colRMProdLineCode).Value)
-                    obj1.BOM_CODE = clsCommon.myCstr(grow.Cells(colRMBOMCode).Value)
 
-                    obj1.RM_ITEM_CODE = clsCommon.myCstr(grow.Cells(colRMItemCode).Value)
-                    obj1.RM_UNIT_CODE = clsCommon.myCstr(grow.Cells(colRMUOM).Value)
-                    obj1.RM_QTY = clsCommon.myCstr(grow.Cells(colRMQty).Value)
-                    obj1.RM_ACTUAL_REQ_QTY = clsCommon.myCdbl(grow.Cells(colRMActualReq).Tag)
-                    obj1.ISSUE_QTY = clsCommon.myCstr(grow.Cells(colRMIssue).Value)
-                    obj1.RETURN_QTY = clsCommon.myCstr(grow.Cells(colRMReturn).Value)
-                    obj1.BREAKAGE_QTY = clsCommon.myCdbl(grow.Cells(colRMBreakage).Value)
-                    obj1.REJ_QTY = clsCommon.myCdbl(grow.Cells(colRMRejection).Value)
-                    obj1.CONSM_QTY = clsCommon.myCstr(grow.Cells(colRMConsumed).Value)
+                        obj1.HOURS = clsCommon.myCdbl(grow.Cells(colHours).Value)
+                        obj1.SPEED = clsCommon.myCdbl(grow.Cells(colSpeed).Value)
+                        obj1.REASON = clsCommon.myCstr(grow.Cells(colReason).Value)
+                        obj1.MF_DATE = clsCommon.myCDate(grow.Cells(colmfgDate).Value)
+                        If clsCommon.myLen(grow.Cells(coLExpDate).Value) > 0 Then
+                            obj1.EXP_DATE = clsCommon.myCDate(grow.Cells(coLExpDate).Value)
+                        Else
+                            obj1.EXP_DATE = Nothing
+                        End If
 
-                    ObjList2.Add(obj1)
+                        ObjList.Add(obj1)
+                    End If
+                Next
+
+                '' saving raw material
+                ObjList2 = New List(Of clsBatchOrder)
+                For Each grow As GridViewRowInfo In gvRM.Rows
+                    If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colRMItemCode).Value)) > 0 Then
+                        obj1 = New clsBatchOrder()
+
+                        obj1.BO_CODE = txtCode.Value
+                        obj1.PROD_PLAN_CODE = clsCommon.myCstr(grow.Cells(colRMPPCode).Value)
+                        obj1.PRODUCTION_LINE_CODE = clsCommon.myCstr(grow.Cells(colRMProdLineCode).Value)
+                        obj1.BOM_CODE = clsCommon.myCstr(grow.Cells(colRMBOMCode).Value)
+
+                        obj1.RM_ITEM_CODE = clsCommon.myCstr(grow.Cells(colRMItemCode).Value)
+                        obj1.RM_UNIT_CODE = clsCommon.myCstr(grow.Cells(colRMUOM).Value)
+                        obj1.RM_QTY = clsCommon.myCstr(grow.Cells(colRMQty).Value)
+                        obj1.RM_ACTUAL_REQ_QTY = clsCommon.myCdbl(grow.Cells(colRMActualReq).Tag)
+                        obj1.ISSUE_QTY = clsCommon.myCstr(grow.Cells(colRMIssue).Value)
+                        obj1.RETURN_QTY = clsCommon.myCstr(grow.Cells(colRMReturn).Value)
+                        obj1.BREAKAGE_QTY = clsCommon.myCdbl(grow.Cells(colRMBreakage).Value)
+                        obj1.REJ_QTY = clsCommon.myCdbl(grow.Cells(colRMRejection).Value)
+                        obj1.CONSM_QTY = clsCommon.myCstr(grow.Cells(colRMConsumed).Value)
+
+                        ObjList2.Add(obj1)
+                    End If
+                Next
+
+                Dim issaved As Boolean = False
+                issaved = obj.SaveData(obj, ObjList, ObjList2, isNewEntry, clsCommon.myCstr(txtCode.Value))
+
+                If issaved = True Then
+                    'clsCommon.MyMessageBoxShow("Document Save Successfully.")
+                    LoadData(obj.BO_CODE, NavigatorType.Current)
+                    Return True
                 End If
-            Next
 
-            Dim issaved As Boolean = False
-            issaved = obj.SaveData(obj, ObjList, ObjList2, isNewEntry, clsCommon.myCstr(txtCode.Value))
-
-            If issaved = True Then
-                'clsCommon.MyMessageBoxShow("Document Save Successfully.")
-                LoadData(obj.BO_CODE, NavigatorType.Current)
-                Return True
-            End If
-
-            Return False
+                'Return False
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+
         End Try
+        Return False
     End Function
     Function AllowToSave() As Boolean
         '===================Added by preeti Gupta==============

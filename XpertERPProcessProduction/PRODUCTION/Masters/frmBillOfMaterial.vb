@@ -394,8 +394,9 @@ Public Class frmBillOfMaterial
             '    Return True
             '    '  common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
             'End If
-            Return False
+            'Return False
         End If
+        Return False
     End Function
     Function AllowToSave() As Boolean
 

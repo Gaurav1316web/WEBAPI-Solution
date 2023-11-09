@@ -43,7 +43,7 @@ Public Class FrmItemMsterRM_Others
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.FrmItemMasterRMOther)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -327,7 +327,7 @@ Public Class FrmItemMsterRM_Others
             If isSaved Then
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Imported Successfully ...")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Imported Successfully ...", Me.Text)
             Else
                 trans.Rollback()
                 Throw New Exception("Error in Import")
@@ -335,7 +335,7 @@ Public Class FrmItemMsterRM_Others
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             Me.Controls.Remove(gv)
             Me.Controls.Remove(gv1)
@@ -461,7 +461,7 @@ Public Class FrmItemMsterRM_Others
         Else
             Exit Sub
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow("No Data Found")
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
 
         'xlWorkSheet.Cells(1, 1) = dataGrd.Item(1, 0).Value 
@@ -595,7 +595,7 @@ Public Class FrmItemMsterRM_Others
             releaseObject(xlWorkSheetBiLLS)
 
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow("Data Exported Successfully ...")
+            common.clsCommon.MyMessageBoxShow(Me, "Data Exported Successfully ...", Me.Text)
         Else
             MsgBox("No Record")
         End If
