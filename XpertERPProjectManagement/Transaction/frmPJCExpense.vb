@@ -409,7 +409,7 @@ Public Class FrmPJCExpense
                     objTr.Billing = IIf(clsCommon.myCBool(grow.Cells(colBilling).Value), "Y", "N")
                     objTr.Cost = clsCommon.myCdbl(grow.Cells(colCost).Value)
                     objTr.Comments = clsCommon.myCstr(grow.Cells(colRemarks).Value)
-                   
+
                     If isFirstTime Then
                         isFirstTime = False
                     End If
@@ -433,7 +433,9 @@ Public Class FrmPJCExpense
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
+        Return False
     End Function
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try

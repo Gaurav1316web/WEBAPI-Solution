@@ -182,7 +182,7 @@ Public Class frmBITopExpence
             dt = clsDBFuncationality.GetDataTable(GetQry(txtFromDate.Value, txtToDate.Value, clsCommon.myCdbl(cboFigure.SelectedValue), clsCommon.myCdbl(cboTop.SelectedValue)))
             SnDUtility.GenerateExcelChart(dt, cboType.SelectedValue, "", "Customer_Name", "Amount")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

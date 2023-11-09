@@ -635,7 +635,7 @@ Public Class FrmAssetRegister
                 clsCommon.MyExportToPDF("Asset Register" + IIf(rdbDetail.IsChecked, " ( Detail ) ", " ( Summary ) "), GV1, arrHeader, "Asset Register Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

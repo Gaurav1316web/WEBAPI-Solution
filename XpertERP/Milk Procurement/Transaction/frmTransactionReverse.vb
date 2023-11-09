@@ -143,7 +143,7 @@ Public Class frmTransactionReverse
             Gv1.TableElement.TableHeaderHeight = 20
             Gv1.EnableFiltering = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadDATA()
@@ -208,7 +208,7 @@ Public Class frmTransactionReverse
             End If
             Gv1.BestFitColumns()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -243,7 +243,7 @@ Public Class frmTransactionReverse
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Function
@@ -282,7 +282,7 @@ Public Class frmTransactionReverse
             End If
             LoadDATA()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -450,7 +450,7 @@ Public Class frmTransactionReverse
             End If
             If isSaved Then
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Deleted Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Deleted Successfully.", Me.Text)
                 btnGO.PerformClick()
             Else
                 trans.Rollback()
@@ -461,7 +461,7 @@ Public Class frmTransactionReverse
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isWeighmentHistoryBulkSaleDelete = False
 
@@ -519,7 +519,7 @@ Public Class frmTransactionReverse
             End If
             If isSaved Then
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Reversed Successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Reversed Successfully.", Me.Text)
                 btnGO.PerformClick()
             Else
                 trans.Rollback()
@@ -530,7 +530,7 @@ Public Class frmTransactionReverse
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

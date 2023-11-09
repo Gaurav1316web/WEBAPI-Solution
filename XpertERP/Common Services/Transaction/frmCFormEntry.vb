@@ -355,7 +355,7 @@ Public Class FrmCFormEntry
             End If
             '  isCellValueChangedOpen = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -456,7 +456,7 @@ Public Class FrmCFormEntry
             IsCellFormatting = True
             gv1.BestFitColumns()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "CForm Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "CForm Entry", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -594,11 +594,11 @@ Public Class FrmCFormEntry
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Document")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Document", Me.Text)
                     Return
                 End If
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Document_No, NavigatorType.Current)
                 End If
 
@@ -606,7 +606,7 @@ Public Class FrmCFormEntry
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -621,7 +621,7 @@ Public Class FrmCFormEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -655,7 +655,7 @@ Public Class FrmCFormEntry
                             If clsCommon.myLen(txtFormCode.Value) > 0 Then
                                 gv1.CurrentRow.Cells(ColFormNo).Value = ClsCFormDetails.FinderForm_No(txtFormCode.Value, True)
                             Else
-                                clsCommon.MyMessageBoxShow("Please select form type.")
+                                clsCommon.MyMessageBoxShow(Me, "Please select form type.", Me.Text)
                                 isCellValueChangedOpen = False
                                 gv1.CurrentRow.Cells(ColFormNo).Value = ""
                                 Exit Sub
@@ -669,7 +669,7 @@ Public Class FrmCFormEntry
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Private Sub gv1_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellValueChanged
@@ -753,7 +753,7 @@ Public Class FrmCFormEntry
                 End If
                 If (clsCForm.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If

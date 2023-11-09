@@ -26,7 +26,7 @@ Public Class frmRMDemandApproval
     Public isDeleteTheAttachment As Boolean = True
     Public MandatoryPDFFile As Boolean = False
     Public settAutoAttachment As Boolean = False
-    Public Form_ID As String = ""
+    Public Shadows Form_ID As String = ""
     Public Transaction_ID As String = ""
 #End Region
     Public Sub SetUserMgmtNew()

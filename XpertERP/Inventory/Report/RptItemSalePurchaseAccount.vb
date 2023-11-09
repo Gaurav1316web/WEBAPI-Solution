@@ -192,7 +192,7 @@ Public Class RptItemSalePurchaseAccount
                 End If
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
             Return False
         End Try
         Return True
@@ -243,11 +243,11 @@ Public Class RptItemSalePurchaseAccount
                     End If
                 Next
                 If (obj.ItemArrTr Is Nothing OrElse obj.ItemArrTr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
                     Return
                 End If
                 If (obj.Update(obj)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Update Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Update Successfully")
                     FunReset()
                 End If
             End If
@@ -308,7 +308,7 @@ Public Class RptItemSalePurchaseAccount
                 gv.Columns.Clear()
 
                 If dt IsNot Nothing AndAlso dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found")
                 ElseIf IsPrint = Exporter.Print Then
 
                 Else
@@ -823,7 +823,7 @@ Public Class RptItemSalePurchaseAccount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
 
             ''richa agarwal regarding memory leakage
@@ -837,7 +837,7 @@ Public Class RptItemSalePurchaseAccount
         Dim TempFormId As String = ""
         TempFormId = Form_ID
         clsGridLayout.DeleteData(TempFormId, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
         Try

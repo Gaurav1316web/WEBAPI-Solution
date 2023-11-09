@@ -186,7 +186,7 @@ Public Class FrmPortSettings
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -251,9 +251,9 @@ Public Class FrmPortSettings
             If clsPortSetting.SaveData(obj, trans) Then
                 trans.Commit()
                 If clsCommon.CompairString(btnSave.Text, "Save") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Data Updated Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                 End If
                 reset()
                 Exit Sub
@@ -263,7 +263,7 @@ Public Class FrmPortSettings
             btnSave.Text = "Save"
             btnDelete.Enabled = False
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -289,12 +289,12 @@ Public Class FrmPortSettings
                 '    whrCls = "E"
                 'End If
                 If clsPortSetting.deleteData(IIf(chkEkoProMachine.IsChecked, 0, 1), whrCls) Then
-                    clsCommon.MyMessageBoxShow("Deleted Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Deleted Successfully", Me.Text)
                     reset()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

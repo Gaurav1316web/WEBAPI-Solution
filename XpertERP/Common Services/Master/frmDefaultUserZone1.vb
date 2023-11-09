@@ -16,7 +16,7 @@ Public Class frmDefaultUserZone1
             If clsCommon.myLen(cboZone.Text) > 0 AndAlso clsCommon.CompairString(cboZone.Text, "Select") <> CompairStringResult.Equal Then
                 Dim isSave As Boolean = clsDBFuncationality.ExecuteNonQuery("update tspl_user_master set Default_Zone_Code = '" + cboZone.Text + "' where user_code = '" + objCommonVar.CurrentUserCode + "' ")
             Else
-                clsCommon.MyMessageBoxShow("Please Select Login Zone", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select Login Zone", Me.Text)
                 Return
             End If
             Me.Close()

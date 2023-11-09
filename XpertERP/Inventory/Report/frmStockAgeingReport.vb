@@ -126,7 +126,7 @@ Public Class frmStockAgeingReport
         Try
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub print(ByVal exporter As EnumExportTo)
@@ -161,7 +161,7 @@ Public Class frmStockAgeingReport
                 clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
@@ -171,11 +171,11 @@ Public Class frmStockAgeingReport
     Public Sub GetData()
         Try
             If txtFromDate.Value > txtToDate.Value Then
-                clsCommon.MyMessageBoxShow("Cuttoff Date can't be greater than As on date")
+                clsCommon.MyMessageBoxShow(Me, "Cuttoff Date can't be greater than As on date")
                 Exit Sub
             End If
             If DateDiff(DateInterval.Day, txtFromDate.Value, txtToDate.Value) < clsCommon.myCdbl(txtOver.Text) Then
-                clsCommon.MyMessageBoxShow("Minimum difference between Cutoff Date and As on Date should be " & clsCommon.myCdbl(txtOver.Text) & "")
+                clsCommon.MyMessageBoxShow(Me, "Minimum difference between Cutoff Date and As on Date should be " & clsCommon.myCdbl(txtOver.Text) & "")
                 Exit Sub
             End If
             clsCommon.ProgressBarShow()
@@ -273,7 +273,7 @@ Public Class frmStockAgeingReport
                 gv1.Rows.Clear()
                 gv1.Columns.Clear()
                 'clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data Not Found")
+                clsCommon.MyMessageBoxShow(Me, "Data Not Found")
             End If
             gv1.Tag = cboType.SelectedValue & cboAgeingColumns.SelectedValue
             FindAndRestoreGridLayout(Me, gv1)
@@ -282,7 +282,7 @@ Public Class frmStockAgeingReport
             IsDrillDown = False
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -340,7 +340,7 @@ Public Class frmStockAgeingReport
             End If
 
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Data exported successfully")
+            clsCommon.MyMessageBoxShow(Me, "Data exported successfully")
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(ex.Message)
@@ -868,7 +868,7 @@ Public Class frmStockAgeingReport
                 BackProcess = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DrillDown()
@@ -980,7 +980,7 @@ Public Class frmStockAgeingReport
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

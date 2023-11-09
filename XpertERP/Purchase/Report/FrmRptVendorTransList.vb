@@ -397,7 +397,7 @@ Public Class FrmRptVendorTransList
                     dtMain = clsDBFuncationality.GetDataTable(DocQry)
 
             If dtMain.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Data not found")
+                clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                 gv.DataSource = Nothing
                 Exit Sub
             End If
@@ -420,7 +420,7 @@ Public Class FrmRptVendorTransList
                     RadPageView1.SelectedPage = RadPageViewPage2
                     RadGroupBox1.Enabled = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub SetGridFormat(ByVal IsFromDrillDown As Boolean)
@@ -616,7 +616,7 @@ Public Class FrmRptVendorTransList
 
     Private Sub btnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         If ChkSummary.Checked = False AndAlso rbtnVenWise.Checked = True Then
-            clsCommon.MyMessageBoxShow("Please tick Summary option with Customer wise option")
+            clsCommon.MyMessageBoxShow(Me, "Please tick Summary option with Customer wise option", Me.Text)
             Exit Sub
         End If
         blnRefresh = True
@@ -660,7 +660,7 @@ Public Class FrmRptVendorTransList
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             obj.GridLayout.Close()
@@ -687,7 +687,7 @@ Public Class FrmRptVendorTransList
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -718,10 +718,10 @@ Public Class FrmRptVendorTransList
             transportSql.applyExportTemplate(gv, PageSetupReport_ID)
             clsCommon.MyExportToExcelGrid("Vendor Transaction Report ", gv, arrHeader, Me.Text)
             'transportSql.exportdataChilRows(gv, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
-            common.clsCommon.MyMessageBoxShow("Exported Successfully.")
+            common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
             ' Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -758,7 +758,7 @@ Public Class FrmRptVendorTransList
             transportSql.applyExportTemplate(gv, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Vendor Transaction Report", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Ticket No-ERO/21/11/19-001127
@@ -794,7 +794,7 @@ Public Class FrmRptVendorTransList
            
             clsCommon.MyExportToExcelGrid("Vendor Transaction Report", gv, arrHeader, Me.Text, True)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -812,7 +812,7 @@ Public Class FrmRptVendorTransList
             pdfExporter.RunExport(FilePath)
             System.Diagnostics.Process.Start(FilePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -181,7 +181,7 @@ Public Class frmSaleAccountSetCode
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_SALES_ACCOUNTS set Suspence_Account='" + txtSalesSuspenceAC.Value + "',Gain_Loss_Account ='" + FndGainLossaccount.Value + "',Stock_Transfer_AC ='" + fndStockTransferAc.Value + "',COGT_AC ='" + fndCostOfGoodsTranfer.Value + "',DisplayPurpose_Account='" + clsCommon.myCstr(fnddisplaypurposeacct.Value) + "',Cost_Of_Goods_Scheme = (case when " & clsCommon.myLen(txtCostOfGoodsScheme.Value) & ">0 then '" + clsCommon.myCstr(txtCostOfGoodsScheme.Value) + "' else null end) where Sales_Class_Code='" + fndaccountsetcode.Value + "'")
             myMessages.insert()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'This function is used to Update data.
@@ -202,7 +202,7 @@ Public Class frmSaleAccountSetCode
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'This function is used to reset all controls.
@@ -323,7 +323,7 @@ Public Class frmSaleAccountSetCode
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + AccountCode + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled " + AccountType + " (" & AccountCode & ") must be control account.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Filled " + AccountType + " (" & AccountCode & ") must be control account.", Me.Text)
                     'Throw New Exception("Filled " + AccountType + " (" & AccountCode & ") must be control account.")
                     Return False
                 End If
@@ -837,7 +837,7 @@ Public Class frmSaleAccountSetCode
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -1243,7 +1243,7 @@ Public Class frmSaleAccountSetCode
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndaccountsetcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Account Set", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Account Set", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndaccountsetcode.Value, "Sales_Class_Code", "TSPL_sales_ACCOUNTS")

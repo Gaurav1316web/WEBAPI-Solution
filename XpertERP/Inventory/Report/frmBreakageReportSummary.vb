@@ -103,7 +103,7 @@ Public Class FrmBreakageReportSummary
         Try
             Dim str As String
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location")
                 Return
             End If
 
@@ -145,7 +145,7 @@ Public Class FrmBreakageReportSummary
             'InventryViewer.funreport(dt, "BreakageReportSummary", "Breakage Summary Report")
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub btnreset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnreset.Click
@@ -183,7 +183,7 @@ Public Class FrmBreakageReportSummary
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Str)
 
         If dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No data found")
+            common.clsCommon.MyMessageBoxShow(Me, "No data found")
             Exit Sub
         End If
 

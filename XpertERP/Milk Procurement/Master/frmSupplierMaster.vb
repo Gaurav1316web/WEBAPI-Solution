@@ -40,7 +40,7 @@ Public Class frmSupplierMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -55,7 +55,7 @@ Public Class frmSupplierMaster
             ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub Reset()
@@ -111,7 +111,7 @@ Public Class frmSupplierMaster
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Function
     Sub saveData()
@@ -139,7 +139,7 @@ Public Class frmSupplierMaster
                 common.clsCommon.MyMessageBoxShow("Data Could Not Saved")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -158,7 +158,7 @@ Public Class frmSupplierMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Function
@@ -176,7 +176,7 @@ Public Class frmSupplierMaster
                 lblVendor.Text = clsDBFuncationality.getSingleValue("select Vendor_Name from tspl_vendor_master where Vendor_Code='" & txtVendorCode.Value & "'")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -210,7 +210,7 @@ Public Class frmSupplierMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -245,7 +245,7 @@ Public Class frmSupplierMaster
             str = "select SUPPLIER_CODE as 'Supplier Code' ,Description, Vendor_Code as 'Vendor Code' from   TSPL_SUPPLIER_MASTER "
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

@@ -215,7 +215,7 @@ Public Class RptUnpostingTransItemQty
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -225,7 +225,7 @@ Public Class RptUnpostingTransItemQty
 
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles RadMenuItem3.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
 
     Public Function getBaseQryForItemBalanceDuringTransaction(ByVal _ICode As String, ByVal _UOM As String, ByVal _LCode As String, ByVal _TransDate As Date, ByVal _TransNo As String, ByVal _IsMRPMandatory As Boolean, ByVal _MRP As Decimal, ByVal trans As SqlTransaction) As String
@@ -1079,7 +1079,7 @@ Public Class RptUnpostingTransItemQty
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -1168,7 +1168,7 @@ Public Class RptUnpostingTransItemQty
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

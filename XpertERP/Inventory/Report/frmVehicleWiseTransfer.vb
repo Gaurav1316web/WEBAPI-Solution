@@ -47,7 +47,7 @@ Public Class frmVehicleWiseTransfe
 
     Sub PrintData()
         If clsCommon.myLen(txtVehicleNo.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Vehicle No", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Vehicle No", Me.Text)
             Exit Sub
         End If
 

@@ -184,7 +184,7 @@ Public Class frmPurcahseAccountSetCode
             myMessages.insert()
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'This function is used to update data.
@@ -196,7 +196,7 @@ Public Class frmPurcahseAccountSetCode
             myMessages.update()
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -206,7 +206,7 @@ Public Class frmPurcahseAccountSetCode
             connectSql.RunSp("purchase_account_delete", New SqlParameter("@acc", fndaccountsetcode.Value))
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -219,7 +219,7 @@ Public Class frmPurcahseAccountSetCode
                 Dim qry1 As String = "select count(*) from TSPL_GL_ACCOUNTS where Account_Code='" + AccountCode + "' AND ControlAccount ='Y'"
                 Dim check1 As Integer = clsDBFuncationality.getSingleValue(qry1)
                 If check1 <= 0 Then
-                    clsCommon.MyMessageBoxShow("Filled " + AccountType + " (" & AccountCode & ") must be control account.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Filled " + AccountType + " (" & AccountCode & ") must be control account.", Me.Text)
                     'Throw New Exception("Filled " + AccountType + " (" & AccountCode & ") must be control account.")
                     Return False
                 End If
@@ -1560,7 +1560,7 @@ Public Class frmPurcahseAccountSetCode
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -1931,7 +1931,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtinventrycontrol.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Inventory Control Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Inventory Control Account does not exist")
                     fndInventoryControl.Text = ""
 
 
@@ -1964,7 +1964,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtpayableclearing.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Payble Clearing Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Payble Clearing Account does not exist")
                     fndpayableclearing.Text = ""
 
 
@@ -1997,7 +1997,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtadjustmentwriteoff.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Adjust Write Offs Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Adjust Write Offs Account does not exist")
                     fndadjustmentwriteoff.Text = ""
 
 
@@ -2031,7 +2031,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtassamblycostcredit.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This FG Shortage  Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This FG Shortage  Account does not exist")
                     fndassamblycostoff.Value = ""
 
 
@@ -2064,7 +2064,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtnonstockclearing.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Inventory Control Empties Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Inventory Control Empties Account does not exist")
                     fndnonstockclearing.Text = ""
 
 
@@ -2097,7 +2097,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxttransferclearing.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Transfer Clearing Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Transfer Clearing Account does not exist")
                     fndtransferclearing.Text = ""
 
 
@@ -2131,7 +2131,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtshipmentexpense.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Shipment Clearing Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Shipment Clearing Account does not exist")
                     fndshipmentclearing.Text = ""
 
 
@@ -2164,7 +2164,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtdisassamblyexpense.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Dissambly Expence Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Dissambly Expence Account does not exist")
                     fnddisassamblyexpense.Text = ""
 
 
@@ -2197,7 +2197,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtphysicalinventryadj.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Physicaly Inventory Adjustment Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Physicaly Inventory Adjustment Account does not exist")
                     fndphysicalinventrycontrol.Text = ""
 
 
@@ -2230,7 +2230,7 @@ Public Class frmPurcahseAccountSetCode
                 Else : str = ""
 
                     rdtxtcreditdebitnoteclr.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Credit Debit Note Clr Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Credit Debit Note Clr Account does not exist")
                     fndcreditdebitnoteclr.Text = ""
 
 
@@ -2253,7 +2253,7 @@ Public Class frmPurcahseAccountSetCode
                 If strvalue <> "" Then
                 Else : str = ""
                     rdtxtWIPAcc.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This WIP Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This WIP Account does not exist")
                     fndWIPAcc.Text = ""
                 End If
             Catch ex As Exception
@@ -2271,7 +2271,7 @@ Public Class frmPurcahseAccountSetCode
                 If strvalue <> "" Then
                 Else : str = ""
                     rdtxtRMCons.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This RM Consumption Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This RM Consumption Account does not exist")
                     fndRMCons.Text = ""
                 End If
             Catch ex As Exception
@@ -2289,7 +2289,7 @@ Public Class frmPurcahseAccountSetCode
                 If strvalue <> "" Then
                 Else : str = ""
                     rdtxtOther1.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Other 1 Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Other 1 Account does not exist")
                     fndOther1.Text = ""
                 End If
             Catch ex As Exception
@@ -2307,7 +2307,7 @@ Public Class frmPurcahseAccountSetCode
                 If strvalue <> "" Then
                 Else : str = ""
                     rdtxtOther2.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Other 2 Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Other 2 Account does not exist")
                     fndOther2.Text = ""
                 End If
             Catch ex As Exception
@@ -2819,7 +2819,7 @@ Public Class frmPurcahseAccountSetCode
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndaccountsetcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Account Set", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Account Set", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndaccountsetcode.Value, "Purchase_Class_Code", "TSPL_PURCHASE_ACCOUNTS")
