@@ -417,6 +417,7 @@ Public Class FrmProcessProductionLogSheet
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
     Private Sub btnsave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnsave.Click

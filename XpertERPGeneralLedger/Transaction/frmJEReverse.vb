@@ -105,10 +105,11 @@ Public Class FrmJEReverse
             End If
             trans.Commit()
             LoadData()
-
+            Return True
         Catch ex As Exception
             trans.Rollback()
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
 

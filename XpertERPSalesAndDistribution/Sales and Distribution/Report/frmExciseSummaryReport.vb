@@ -48,7 +48,7 @@ Public Class FrmExciseSummaryReport
     Private Function funSetUserAccess() As Boolean
         Try
 
-            Dim strRights As String
+            Dim strRights As String = ""
             Dim strTemp() As String
             Dim strProgCode =
             strRights = enuUserRights.enuRead & "," & enuUserRights.enuModify & "," & enuUserRights.enuDelete & "," & enuUserRights.enuAuthorised

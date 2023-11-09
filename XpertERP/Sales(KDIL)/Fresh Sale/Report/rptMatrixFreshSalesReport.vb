@@ -1518,6 +1518,8 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
         fromDate.Value = clsCommon.GETSERVERDATE()
         txtPTSDateFrom.Value = clsCommon.GETSERVERDATE()
         txtPTSDateTo.Value = clsCommon.GETSERVERDATE()
+        txtCreditDateFrom.Value = clsCommon.GETSERVERDATE()
+        txtCreditDateTo.Value = clsCommon.GETSERVERDATE()
         'fromDate.Value = ToDate.Value.AddMonths(-1)
         isSchemeItem = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowSchemeItemQty, clsFixedParameterCode.AllowSchemeItemQty, Nothing)) = 1, True, False)
         If isSchemeItem = True Then
@@ -1588,6 +1590,10 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
         ToDate.Value = clsCommon.GETSERVERDATE()
         txtPTSDateFrom.Value = clsCommon.GETSERVERDATE()
         txtPTSDateTo.Value = clsCommon.GETSERVERDATE()
+        txtCreditDateFrom.Value = clsCommon.GETSERVERDATE()
+        txtCreditDateTo.Value = clsCommon.GETSERVERDATE()
+        rbtnTaxable.Checked = True
+        fndCustomer.Value = Nothing
         If clsCommon.myLen(cboShift.Text) > 0 Then
             cboShift.Text = "Both"
         End If
@@ -1985,16 +1991,93 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
     Private Sub btnCreditPrint_Click(sender As Object, e As EventArgs) Handles btnCreditPrint.Click
         Try
             Dim Qry As String = Nothing
+            Dim BaseQry As String = Nothing
+            Dim Item As String = Nothing
+            Dim Item_LtrQty As String = Nothing
+            Dim Item_Amount As String = Nothing
             Dim dt As DataTable = Nothing
             If clsCommon.myLen(txtCreditDateFrom.Value) <= 0 AndAlso clsCommon.myLen(txtCreditDateTo.Value) <= 0 Then
-                Throw New Exception("Date Can't be blanck.")
+                Throw New Exception("Date Can't be blank.")
             End If
+            If clsCommon.myLen(fndCustomer.Value) <= 0 Then
+                Throw New Exception("Customer Can't be blank.")
+            End If
+            BaseQry = "(Select *,(Convert(decimal(18,2),(Qty*ConversionFactor)/CF)) As QtyInLtr,
+                        Convert(decimal(18,2),(valueInRs/((Qty*ConversionFactor)/CF))) As RateLtr
+                        from 
+                        (Select TSPL_SD_SALE_INVOICE_HEAD.Document_Code As Invoice_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Date As Invoice_Date,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,ItemConvertLTR.Conversion_Factor As CF,TSPL_ITEM_MASTER.HSN_Code,TSPL_ITEM_MASTER.Structure_Code,TSPL_ITEM_MASTER.Item_Code,TSPL_ITEM_MASTER.Item_Desc,
+                        (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else (convert(Decimal(18,2), TSPL_SD_sale_invoice_DETAIL.Qty ))end) as Qty,TSPL_SD_sale_invoice_DETAIL.Unit_code,
+                        (CASE when TSPL_SD_SALE_INVOICE_DETAIL.Scheme_Item='Y' then 0 else ((case when TSPL_SD_sale_invoice_DETAIL.Sampling=1 then 0 else  TSPL_SD_sale_invoice_DETAIL.Amt_Less_Discount end)) end)  as valueInRs,
+                        TSPL_SD_SHIPMENT_HEAD.DO_Item_Type As TaxableNonTaxable,TSPL_CUSTOMER_MASTER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,(TSPL_CUSTOMER_MASTER.Add1+','+TSPL_CUSTOMER_MASTER.Add2+','+TSPL_CUSTOMER_MASTER.Add3) As CustAddress,
+                        TSPL_CUSTOMER_MASTER.City_Code As Cust_City_Code,TSPL_STATE_MASTER.STATE_CODE As Cust_STATE_CODE,TSPL_STATE_MASTER.STATE_NAME As Cust_STATE_NAME,
+                        TSPL_CUSTOMER_MASTER.Pin_Code As Cust_PinCode,(case when isnull(TSPL_CUSTOMER_MASTER.Phone1,'')<>'' then TSPL_CUSTOMER_MASTER.Phone1  when  isnull(TSPL_CUSTOMER_MASTER.Phone2,'')<>'' then + ', '+ TSPL_CUSTOMER_MASTER.Phone2 end) as Cust_Phone,TSPL_CUSTOMER_MASTER.GSTNO As Cust_GstNo,TSPL_SD_SALE_INVOICE_HEAD.Comp_Code,TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE,TSPL_ROUTE_MASTER.Route_Desc,TSPL_BOOKING_MATSER.Is_Credit_Customer
+                        from TSPL_SD_sale_invoice_DETAIL
+                        Left Outer Join TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE
+                        left outer join TSPL_SD_SHIPMENT_HEAD ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No
+                        Left Outer Join TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SHIPMENT_HEAD.Customer_Code
+                        left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location
+                        left outer join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_CUSTOMER_MASTER.State 
+                        left outer join TSPL_ITEM_UOM_DETAIL ON TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code And  TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code 
+                        Left Outer Join TSPL_DEPARTMENT_MASTER On TSPL_DEPARTMENT_MASTER.comp_code=TSPL_SD_SALE_INVOICE_HEAD.Comp_Code
+                        Left Outer Join TSPL_ROUTE_MASTER On TSPL_ROUTE_MASTER.Route_No=TSPL_SD_SALE_INVOICE_HEAD.Route_No
+                        Left Outer Join TSPL_DEMAND_BOOKING_MASTER On TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+                        Left Outer Join TSPL_BOOKING_MATSER On TSPL_BOOKING_MATSER.Against_DemandBooking_No=TSPL_DEMAND_BOOKING_MASTER.Document_No 
+                        Left Outer Join TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code And TSPL_ITEM_MASTER.Structure_Code=TSPL_SD_sale_invoice_DETAIL.Structure_Code 
+                        left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConvertLTR on ItemConvertLTR.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code  
+                        ) As abc
+                        where Is_Credit_Customer='N' And Invoice_Date>=Convert(Date,'" + txtCreditDateFrom.Value + "',103) And Invoice_Date<=Convert(Date,'" + txtCreditDateTo.Value + "',103) And Cust_Code='" + clsCommon.myCstr(fndCustomer.Value) + "'"
+            If rbtnTaxable.Checked Then
+                BaseQry += " And TaxableNonTaxable='T' "
+            Else
+                BaseQry += " And TaxableNonTaxable='NT' "
+            End If
+            BaseQry += ")"
 
-            Dim Item As String = Nothing
-
-
-            dt = Nothing
+            Qry = "select Item_Code from " + BaseQry + "xxxx group by Item_Code Order by Item_Code"
             dt = clsDBFuncationality.GetDataTable(Qry)
+            If dt.Rows.Count > 5 Then
+                Throw New Exception("Items can't be more than 5.")
+            Else
+                If dt.Rows.Count > 0 Then
+                    For i As Integer = 0 To dt.Rows.Count - 1
+                        If clsCommon.myLen(Item) > 0 Then
+                            Item += " Max(Case When Item_Code='" + clsCommon.myCstr(dt.Rows(i)("Item_Code")) + "' Then Item_Desc End) As Item" + clsCommon.myCstr(i + 1) + ","
+                            Item += " Sum(Case When Item_Code='" + clsCommon.myCstr(dt.Rows(i)("Item_Code")) + "' Then  QtyInLtr Else 0 End) As Item" + clsCommon.myCstr(i + 1) + "_QtyInLtr,"
+                            Item += " Max(Case When Item_Code='" + clsCommon.myCstr(dt.Rows(i)("Item_Code")) + "' Then RateLtr Else 0 End) As Item" + clsCommon.myCstr(i + 1) + "_RateLtr,"
+                            Item_LtrQty += "+ Item" + clsCommon.myCstr(i + 1) + "_QtyInLtr"
+                            Item_Amount += "+ Item" + clsCommon.myCstr(i + 1) + "_QtyInLtr*Item" + clsCommon.myCstr(i + 1) + "_RateLtr"
+                        Else
+                            Item = " Max(Case When Item_Code='" + clsCommon.myCstr(dt.Rows(i)("Item_Code")) + "' Then Item_Desc End) As Item" + clsCommon.myCstr(i + 1) + ","
+                            Item += " Sum(Case When Item_Code='" + clsCommon.myCstr(dt.Rows(i)("Item_Code")) + "' Then QtyInLtr Else 0 End) As Item" + clsCommon.myCstr(i + 1) + "_QtyInLtr,"
+                            Item += " Max(Case When Item_Code='" + clsCommon.myCstr(dt.Rows(i)("Item_Code")) + "' Then RateLtr Else 0 End) As Item" + clsCommon.myCstr(i + 1) + "_RateLtr,"
+                            Item_LtrQty = "Item" + clsCommon.myCstr(i + 1) + "_QtyInLtr"
+                            Item_Amount = "Item" + clsCommon.myCstr(i + 1) + "_QtyInLtr*Item" + clsCommon.myCstr(i + 1) + "_RateLtr"
+                        End If
+                    Next
+
+                    Qry = Nothing
+                    dt = Nothing
+                    Qry = "Select '" + clsCommon.GetPrintDate(txtCreditDateFrom.Value, "dd-MMM-yyyy") + "' As FromDate,'" + clsCommon.GetPrintDate(txtCreditDateTo.Value, "dd-MMM-yyyy") + "' As ToDate,Main.*, 
+                    convert(Decimal(18,2),(" + Item_LtrQty + ")) As TotalMilk,
+                    convert(Decimal(18,2),(" + Item_Amount + ")) As TotalAmount,
+                    TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.add1,TSPL_COMPANY_MASTER.add2,TSPL_COMPANY_MASTER.add3,TSPL_COMPANY_MASTER.Email,
+                    TSPL_COMPANY_MASTER.City_Code As Comp_CityCode,TSPL_COMPANY_MASTER.State As Comp_StateCode,TSPL_COMPANY_MASTER.Pincode As Comp_PinCode,TSPL_STATE_MASTER.STATE_NAME As Comp_StateNme,
+                    case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone,TSPL_COMPANY_MASTER.GSTReg_No
+                    from 
+                    (Select Max(Invoice_No)Invoice_No,FORMAT((Invoice_Date),'dd-MMM-yyyy')Date,FORMAT(Max(Invoice_Date),'MMM-yyyy')MonthDate, 
+                    Max(Cust_Code)Cust_Code,Max(Customer_Name)Customer_Name,Max(CustAddress)CustAddress,Max(Cust_City_Code)Cust_City_Code,Max(Cust_STATE_CODE)Cust_STATE_CODE,Max(Cust_State_Name)Cust_State_Name,Max(Cust_PinCode)Cust_PinCode,
+                    Max(Cust_Phone)Cust_Phone,Max(Cust_GstNo)Cust_GstNo,
+                    Max(TaxableNonTaxable)TaxableNonTaxable,Max(Structure_Code)Structure_Code,Max(Item_Code)Item_Code,Max(Item_Desc)Item_Desc,Max(HSN_Code)HSN_Code,
+                " + Item + "   
+                    Max(Comp_Code)Comp_Code,Max(DEPARTMENT_CODE)DEPARTMENT_CODE,Max(Route_Desc)Route_Desc,Max(Is_Credit_Customer)Is_Credit_Customer
+                    from " + BaseQry + " As xyz    Group By FORMAT((Invoice_Date),'dd-MMM-yyyy')) As Main 
+                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =Main.Comp_Code 
+                    Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_COMPANY_MASTER.State
+                    Where convert(Decimal(18,2),(" + Item_LtrQty + "))>0 "
+                    Qry += " Order By Invoice_No"
+                    dt = clsDBFuncationality.GetDataTable(Qry)
+                End If
+            End If
             If dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptTaxNonTaxableCustomerCreditReport", "Customer Credit Report")
@@ -2172,5 +2255,13 @@ FOR ItemDescNew IN (" + strItmeHeadingScheme + ")) AS pivot_table )xx "
                 RadGroupBox7.Visible = False
             End If
         End If
+    End Sub
+    Private Sub fndCustomer__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustomer._MYValidating
+        Try
+            Dim qry As String = " select Cust_Code as [code],Customer_Name as [Name] from TSPL_CUSTOMER_MASTER "
+            fndCustomer.Value = clsCommon.ShowSelectForm("@Customer", qry, "Code", "", fndCustomer.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

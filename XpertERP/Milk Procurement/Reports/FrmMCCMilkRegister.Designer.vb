@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FrmMCCMilkRegister
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,9 +20,9 @@ Partial Class FrmMCCMilkRegister
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -484,6 +484,7 @@ Partial Class FrmMCCMilkRegister
         Me.rdbPlantWisePaymentSummary.TabStop = True
         Me.rdbPlantWisePaymentSummary.Text = "Plant Wise Payment Summary"
         Me.rdbPlantWisePaymentSummary.UseVisualStyleBackColor = True
+        Me.rdbPlantWisePaymentSummary.Visible = False
         '
         'rdoVLCWisePaymentSummary
         '
@@ -495,6 +496,7 @@ Partial Class FrmMCCMilkRegister
         Me.rdoVLCWisePaymentSummary.TabStop = True
         Me.rdoVLCWisePaymentSummary.Text = "VLC Wise Payment Summary"
         Me.rdoVLCWisePaymentSummary.UseVisualStyleBackColor = True
+        Me.rdoVLCWisePaymentSummary.Visible = False
         '
         'chkVLCWisePayable
         '
@@ -702,7 +704,7 @@ Partial Class FrmMCCMilkRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False

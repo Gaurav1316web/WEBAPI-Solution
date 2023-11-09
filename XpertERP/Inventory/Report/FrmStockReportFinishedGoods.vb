@@ -86,7 +86,7 @@ Public Class FrmStockReportFinishedGoods
             frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "StockReportFinishGoods", " Stock Report For Finish Goods")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
 
     End Sub
@@ -216,7 +216,7 @@ Public Class FrmStockReportFinishedGoods
             reset()
             RefreshData()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -224,11 +224,11 @@ Public Class FrmStockReportFinishedGoods
         Try
            
             If chkselect.IsChecked AndAlso cgvitems.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Item")
                 Return
             End If
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location")
                 Return
             End If
 
@@ -304,7 +304,7 @@ Public Class FrmStockReportFinishedGoods
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
 
         End Try
     End Sub
@@ -388,7 +388,7 @@ Public Class FrmStockReportFinishedGoods
             End If
             ExportToExcelGV()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -439,7 +439,7 @@ Public Class FrmStockReportFinishedGoods
             clsCommon.MyExportToExcel("Stock Report For FInished Goods ( " + ReportType + ")", gvReport, arrHeader, Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             clsCommon.ProgressBarHide()
         End Try

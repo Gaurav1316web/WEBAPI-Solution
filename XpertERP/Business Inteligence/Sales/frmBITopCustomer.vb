@@ -167,7 +167,7 @@ Public Class frmBITopCustomer
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetQuery(txtFromDate.Value, txtToDate.Value, cmbFigure.SelectedValue, clsCommon.myCdbl(cboTop.SelectedValue)))
             SnDUtility.GenerateExcelChart(dt, cboType.SelectedValue, "", "Customer_Name", "Amount")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

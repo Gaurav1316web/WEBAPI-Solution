@@ -90,7 +90,7 @@ Public Class frmCreateBIFilter
             objReader.Close()
             objReader.Dispose()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         MssqlMetadataProvider1.Connection = New SqlConnection(ConnString)
@@ -126,7 +126,7 @@ Public Class frmCreateBIFilter
             ' Report error
             MessageBox.Show(ex.Message, "Parsing error")
         Catch ex1 As Exception
-            clsCommon.MyMessageBoxShow(ex1.Message)
+            clsCommon.MyMessageBoxShow(Me, ex1.Message, Me.Text)
         End Try
     End Sub
 
@@ -203,7 +203,7 @@ Public Class frmCreateBIFilter
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -314,7 +314,7 @@ Public Class frmCreateBIFilter
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -355,11 +355,11 @@ Public Class frmCreateBIFilter
                     obj.arr.Add(objtr)
                 Next
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -380,7 +380,7 @@ Public Class frmCreateBIFilter
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -415,7 +415,7 @@ Public Class frmCreateBIFilter
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

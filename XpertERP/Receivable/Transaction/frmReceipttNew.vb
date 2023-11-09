@@ -217,7 +217,7 @@ Public Class FrmReceipttNew
     'Dim rceceiptformOpens As New frmCustomer("", "")
     'Dim valueEntry As Boolean = rceceiptformOpens.ReceiptFormOpens
     Dim strRecieptCode As String = ""
-    Dim valueEntry As Boolean = True
+    'Private valueEntryforreciept As Boolean = True
     'Dim frm As New frmCustomer("", "")
     'Public Event _MYOpenMasterForm As EventHandler
     'Dim frm1 As New frmCustomer("user", "company")
@@ -375,15 +375,13 @@ Public Class FrmReceipttNew
             chkForCardSale.Visible = False
         End If
 
-        If valueEntry Then
+        If frmCustomer.valueEntry = True Then
             ddlTransType.SelectedValue = "P"
             chkSecurityDposit.Checked = True
             ddlSecDepositType.SelectedValue = "S"
             fndCustomer.Value = StringPass1
             txtCusName.Text = StringPass
             funFillDetails(ddlTransType.SelectedValue, NavigatorType.Current)
-        Else
-            ddlTransType.SelectedValue = "R"
 
         End If
 
@@ -430,7 +428,7 @@ Public Class FrmReceipttNew
                     Me.txtApplicableFrom.Text = ""
                     Me.txtConversionRate.ReadOnly = True
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
                     Exit Sub
                 End If
             Else
@@ -778,10 +776,10 @@ Public Class FrmReceipttNew
     Public Sub SaveDataF()
         Try
             If savedata() Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -790,7 +788,7 @@ Public Class FrmReceipttNew
         '        clsCommon.MyMessageBoxShow("Data saved successfully.")
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message)
         'End Try
         SaveDataF()
     End Sub
@@ -804,7 +802,7 @@ Public Class FrmReceipttNew
             'End If 
             '=================Added by Richa AGARWAL 8 nOV,2019
             If clsCommon.myLen(txtEntrDesc.Text) <= 0 AndAlso clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("Description can't be blank.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Description can't be blank.", Me.Text)
                 txtEntrDesc.Focus()
                 Return False
             End If
@@ -851,7 +849,7 @@ Public Class FrmReceipttNew
                 If clsCommon.myCDate(dtRcpt.Value, "dd/MM/yyyy") <= clsCommon.GetPrintDate(dtERPStartDate, "dd/MM/yyyy") Then
                     If (clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal AndAlso chkSecurityDposit.Checked = True) Or clsCommon.CompairString(ddlTransType.SelectedValue, "M") = CompairStringResult.Equal Then
                     Else
-                        common.clsCommon.MyMessageBoxShow("Document Date should be Greater Than ERP Start Date " & clsCommon.GetPrintDate(dtERPStartDate, "dd/MM/yyyy") & "", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Document Date should be Greater Than ERP Start Date " & clsCommon.GetPrintDate(dtERPStartDate, "dd/MM/yyyy") & "", Me.Text)
                         ddlTransType.Focus()
                         Return False
                     End If
@@ -945,16 +943,16 @@ Public Class FrmReceipttNew
             '---------------------------------------------------------------------
             Dim RcptAmt As Decimal = clsCommon.myCdbl(txtUnApplAmt.Text)
             If chkmemorndm.Checked = False AndAlso RcptAmt <= 0 AndAlso clsCommon.CompairString(ddlTransType.SelectedValue, "K") <> CompairStringResult.Equal Then
-                common.clsCommon.MyMessageBoxShow("Fill Up Receipt Amount!", "Receipt Entry", MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Fill Up Receipt Amount!", "Receipt Entry", MessageBoxButtons.OK)
                 Return False
             End If
             If clsCommon.CompairString(ddlTransType.SelectedValue, "K") = CompairStringResult.Equal Then
                 If RcptAmt <> 0 Then
-                    common.clsCommon.MyMessageBoxShow("Receipt Amount should be 0", "Receipt Entry", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Receipt Amount should be 0", "Receipt Entry", MessageBoxButtons.OK)
                     Return False
                 End If
                 If clsCommon.myCdbl(txtRcptAmt.Text) <> 0 Then
-                    common.clsCommon.MyMessageBoxShow("Applied Amount should be 0", "Receipt Entry", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Applied Amount should be 0", "Receipt Entry", MessageBoxButtons.OK)
                     Return False
                 End If
             End If
@@ -1011,7 +1009,7 @@ Public Class FrmReceipttNew
             If clsCommon.CompairString(ddlTransType.SelectedValue, "R") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "A") = CompairStringResult.Equal Or (RefundknockoffwithCreditNote = True AndAlso clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal) Then
                 If clsCommon.CompairString(ddlTransType.SelectedValue, "A") = CompairStringResult.Equal Then
                     If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please select Applied document.", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Please select Applied document.", Me.Text)
                         txtDocumentNo.Focus()
                         Return False
                     End If
@@ -1079,12 +1077,12 @@ Public Class FrmReceipttNew
                 End If
                 If clsCommon.CompairString(ddlTransType.SelectedValue, "R") = CompairStringResult.Equal Or (RefundknockoffwithCreditNote = True AndAlso clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal) Then
                     If EnteredAmt - TotalAmt > 0.1 Then
-                        common.clsCommon.MyMessageBoxShow("Applied Amount " + clsCommon.myCstr(EnteredAmt) + " Receipt Amount " + clsCommon.myCstr(TotalAmt), Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Applied Amount " + clsCommon.myCstr(EnteredAmt) + " Receipt Amount " + clsCommon.myCstr(TotalAmt), Me.Text)
                         Return False
                     End If
                 Else
                     If EnteredAmt - clsCommon.myCdbl(lblBalAmt.Text) > 0.1 Then
-                        common.clsCommon.MyMessageBoxShow("Applied Amount " + clsCommon.myCstr(EnteredAmt) + " Receipt Amount " + clsCommon.myCstr(TotalAmt), Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Applied Amount " + clsCommon.myCstr(EnteredAmt) + " Receipt Amount " + clsCommon.myCstr(TotalAmt), Me.Text)
                         Return False
                     End If
                 End If
@@ -1108,7 +1106,7 @@ Public Class FrmReceipttNew
                 End If
 
                 If clsCommon.myCdbl(txtUnAppliedBal.Text) > 0 Then
-                    common.clsCommon.MyMessageBoxShow("Receipt Amount Should Be Equal to Applied Amount", "Recepit Entry", MessageBoxButtons.OK, RadMessageIcon.Info)
+                    common.clsCommon.MyMessageBoxShow(Me, "Receipt Amount Should Be Equal to Applied Amount", "Recepit Entry", MessageBoxButtons.OK, RadMessageIcon.Info)
                     Return False
                 End If
 
@@ -1130,26 +1128,26 @@ Public Class FrmReceipttNew
             ElseIf clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Then
                 If chkCForm.Checked = True Then
                     If clsCommon.myLen(txtCFormInvNo.Value) <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("Please Select Invoice No for applying C Form.")
+                        common.clsCommon.MyMessageBoxShow(Me, "Please Select Invoice No for applying C Form.")
                         Return False
                     End If
                 End If
             End If
             If clsCommon.CompairString(clsCommon.myCstr(fndPayType.Value), "Cash", False) = CompairStringResult.Equal And chkAutoGeneBT.Checked And (clsCommon.CompairString(ddlTransType.SelectedValue, "R") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "M") = CompairStringResult.Equal) Then
                 If clsCommon.myLen(txtToBank.Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Select To Bank for Auto Bank Transfer.")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Select To Bank for Auto Bank Transfer.")
                     Return False
                 End If
             End If
 
             If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Then '------------in advance and memorandum case---
                 If chkmemorndm.Checked = True AndAlso clsCommon.myCdbl(txtmemoamt.Text) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill Memorandum Amount")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill Memorandum Amount")
                     Return False
                 End If
 
                 If chkmemorndm.Checked = True AndAlso clsCommon.myCdbl(txtUnApplAmt.Text) > 0 AndAlso clsCommon.myCdbl(txtUnApplAmt.Text) <> clsCommon.myCdbl(txtmemoamt.Text) Then
-                    common.clsCommon.MyMessageBoxShow("Receipt Amount Should Be Equal To Memorandum Amount")
+                    common.clsCommon.MyMessageBoxShow(Me, "Receipt Amount Should Be Equal To Memorandum Amount")
                     Return False
                 End If
             End If
@@ -1984,7 +1982,7 @@ Public Class FrmReceipttNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -2023,7 +2021,7 @@ Public Class FrmReceipttNew
                         'funReset()
                     End If
                 Catch ex As Exception
-                    common.clsCommon.MyMessageBoxShow(ex.Message, "Receipt Entry", MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Receipt Entry", MessageBoxButtons.OK)
                 Finally
                     isFlag = False
                 End Try
@@ -2031,7 +2029,7 @@ Public Class FrmReceipttNew
         End If
         IsNewEntry = False
     End Sub
-    
+
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         ChequeNo = txtChkNo.Text
         ChequeDate = dtCheque.Value
@@ -2071,7 +2069,7 @@ Public Class FrmReceipttNew
             'IsNewEntry = True
             dgvReceipt.Select()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             inSideLoadData = False
         End Try
@@ -2177,7 +2175,7 @@ Public Class FrmReceipttNew
             End If
             funFillDetails(fndRcptNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -2325,7 +2323,7 @@ Public Class FrmReceipttNew
                 txttransfer_no.Visible = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -2341,7 +2339,7 @@ Public Class FrmReceipttNew
                 Next
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Receipt Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Receipt Entry", MessageBoxButtons.OK)
         End Try
         Return strName
     End Function
@@ -2387,7 +2385,7 @@ Public Class FrmReceipttNew
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Receipt Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Receipt Entry", MessageBoxButtons.OK)
         End Try
         Return strAmt
     End Function
@@ -2421,7 +2419,7 @@ Public Class FrmReceipttNew
                 txtchangedpayType()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Receipt Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Receipt Entry", MessageBoxButtons.OK)
         End Try
     End Sub
 
@@ -2969,7 +2967,7 @@ Public Class FrmReceipttNew
                             fndBankCode.Enabled = True
                         End If
                     Next
-                  
+
                 End If
 
                 Me.txtCurrencyCode.Value = obj.CURRENCY_CODE
@@ -3335,7 +3333,7 @@ Public Class FrmReceipttNew
             MyBase.ReStoreGridLayoutMain(dgvmiscpayment)
             MyBase.ReStoreGridLayoutMain(gvItem)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Receipt Entry", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Receipt Entry", MessageBoxButtons.OK)
         Finally
             inSideLoadData = False
         End Try
@@ -3665,7 +3663,7 @@ Public Class FrmReceipttNew
             End If
         Catch ex As Exception
             IsCellValueChanged = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -3773,7 +3771,7 @@ Public Class FrmReceipttNew
     '        End If
     '    Catch ex As Exception
     '        IsCellValueChanged = True
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message)
     '    End Try
     'End Sub
 
@@ -3878,34 +3876,34 @@ Public Class FrmReceipttNew
             If frm.isPasswordCorrect Then
                 btnReverse.Visible = True
             End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                           "========Table Name=========" + Environment.NewLine + _
-                           "TSPL_RECEIPT_HEADER,TSPL_RECEIPT_DETAIL " + Environment.NewLine + _
-                           "TSPL_RECEIPT_DETAIL_GST , TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine + _
-                           "TSPL_SD_SALE_INVOICE_HEAD ,TSPL_Customer_Invoice_Head, " + Environment.NewLine + _
-                           "Tspl_bank_transfer(For Bank transfer Post)" + Environment.NewLine + _
-                           "tspl_BankReco_Head & tspl_BankReco_Detail ( For Outstanding Entry) " + Environment.NewLine + _
-                           "=========Setting Name======" + Environment.NewLine + _
-                           "AllowBranchAcconReceiptPrint" + Environment.NewLine + _
-                           "AllowDefaultBankCodeforCreditNote" + Environment.NewLine + _
-                           "Apply Document Date" + Environment.NewLine + _
-                           "Auto Receipt Payment" + Environment.NewLine + _
-                           "Customer master finder location-wise on AR Receipt" + Environment.NewLine + _
-                           "Default Bank for Cash Payment" + Environment.NewLine + _
-                           "Default Location for Cash Payment" + Environment.NewLine + _
-                           "SecurityDocumentKnockOffonReceipt" + Environment.NewLine + _
-                           "AllowToUseSubAccount" + Environment.NewLine + _
-                           "AllowtoSkipJournalEntryofPaymentandReceiptforAD " + Environment.NewLine + _
-                           "AllowUseApplyDocSeriesForReceipt" + Environment.NewLine + _
-                           "ApplyBrachAccounting" + Environment.NewLine + _
-                           "StopNegativeBankBalance" + Environment.NewLine + _
-                           "AllowReceiptThroughSO" + Environment.NewLine + _
-                           "ShowTaxRateColumnOnTransaction" + Environment.NewLine + _
-                           "ERPStartDate" + Environment.NewLine + _
-                           "ShowHierarchyAndCostCenterInARInvoiceEntry" + Environment.NewLine + _
-                           "DOTaggingForDairySaleModule" + Environment.NewLine + _
-                           "AllowtoSetReceiptAmountForCashTransaction" + Environment.NewLine + _
-                           "=========Function======" + Environment.NewLine + _
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                           "========Table Name=========" + Environment.NewLine +
+                           "TSPL_RECEIPT_HEADER,TSPL_RECEIPT_DETAIL " + Environment.NewLine +
+                           "TSPL_RECEIPT_DETAIL_GST , TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
+                           "TSPL_SD_SALE_INVOICE_HEAD ,TSPL_Customer_Invoice_Head, " + Environment.NewLine +
+                           "Tspl_bank_transfer(For Bank transfer Post)" + Environment.NewLine +
+                           "tspl_BankReco_Head & tspl_BankReco_Detail ( For Outstanding Entry) " + Environment.NewLine +
+                           "=========Setting Name======" + Environment.NewLine +
+                           "AllowBranchAcconReceiptPrint" + Environment.NewLine +
+                           "AllowDefaultBankCodeforCreditNote" + Environment.NewLine +
+                           "Apply Document Date" + Environment.NewLine +
+                           "Auto Receipt Payment" + Environment.NewLine +
+                           "Customer master finder location-wise on AR Receipt" + Environment.NewLine +
+                           "Default Bank for Cash Payment" + Environment.NewLine +
+                           "Default Location for Cash Payment" + Environment.NewLine +
+                           "SecurityDocumentKnockOffonReceipt" + Environment.NewLine +
+                           "AllowToUseSubAccount" + Environment.NewLine +
+                           "AllowtoSkipJournalEntryofPaymentandReceiptforAD " + Environment.NewLine +
+                           "AllowUseApplyDocSeriesForReceipt" + Environment.NewLine +
+                           "ApplyBrachAccounting" + Environment.NewLine +
+                           "StopNegativeBankBalance" + Environment.NewLine +
+                           "AllowReceiptThroughSO" + Environment.NewLine +
+                           "ShowTaxRateColumnOnTransaction" + Environment.NewLine +
+                           "ERPStartDate" + Environment.NewLine +
+                           "ShowHierarchyAndCostCenterInARInvoiceEntry" + Environment.NewLine +
+                           "DOTaggingForDairySaleModule" + Environment.NewLine +
+                           "AllowtoSetReceiptAmountForCashTransaction" + Environment.NewLine +
+                           "=========Function======" + Environment.NewLine +
                            "Journal Entry (On Post Button)  ")
 
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F10 Then
@@ -3983,13 +3981,13 @@ Public Class FrmReceipttNew
 
 
         'richa 17 SEp,2019 TEC/03/07/19-000927
-        Dim strqry As String = " Select Account_Code,Description from (" & qry & " where " & whrCls & Environment.NewLine & _
-            " UNION All " & Environment.NewLine & _
-            " select Account_Code , Description  from TSPL_GL_ACCOUNTS " & Environment.NewLine & _
-" left outer join (select TSPL_GL_SEGMENT_CODE.Account_Code as AccCode from TSPL_GL_SEGMENT_CODE where TSPL_GL_SEGMENT_CODE.Seg_No='7' " & Environment.NewLine & _
-" and len(isnull(TSPL_GL_SEGMENT_CODE.Account_Code,''))>0 ) as segTable  on segTable.AccCode=TSPL_GL_ACCOUNTS.Account_Code " & Environment.NewLine & _
-    " inner join TSPL_GL_STRUCTURE on TSPL_GL_ACCOUNTS .Str_Code=TSPL_GL_STRUCTURE.Str_Code where ( 2=2  and TSPL_GL_ACCOUNTS.Status='Y' and ( segTable.AccCode is null  ))" & Environment.NewLine & _
-    " and 1<>(isnull(Seg_No1,0) +isnull(Seg_No2,0) +isnull(Seg_No3,0) +isnull(Seg_No4,0) +isnull(Seg_No5,0) +isnull(Seg_No6,0) +isnull(Seg_No7,0) +isnull(Seg_No8,0) +isnull(Seg_No9,0) +isnull(Seg_No10,0) ) " & Environment.NewLine & _
+        Dim strqry As String = " Select Account_Code,Description from (" & qry & " where " & whrCls & Environment.NewLine &
+            " UNION All " & Environment.NewLine &
+            " select Account_Code , Description  from TSPL_GL_ACCOUNTS " & Environment.NewLine &
+" left outer join (select TSPL_GL_SEGMENT_CODE.Account_Code as AccCode from TSPL_GL_SEGMENT_CODE where TSPL_GL_SEGMENT_CODE.Seg_No='7' " & Environment.NewLine &
+" and len(isnull(TSPL_GL_SEGMENT_CODE.Account_Code,''))>0 ) as segTable  on segTable.AccCode=TSPL_GL_ACCOUNTS.Account_Code " & Environment.NewLine &
+    " inner join TSPL_GL_STRUCTURE on TSPL_GL_ACCOUNTS .Str_Code=TSPL_GL_STRUCTURE.Str_Code where ( 2=2  and TSPL_GL_ACCOUNTS.Status='Y' and ( segTable.AccCode is null  ))" & Environment.NewLine &
+    " and 1<>(isnull(Seg_No1,0) +isnull(Seg_No2,0) +isnull(Seg_No3,0) +isnull(Seg_No4,0) +isnull(Seg_No5,0) +isnull(Seg_No6,0) +isnull(Seg_No7,0) +isnull(Seg_No8,0) +isnull(Seg_No9,0) +isnull(Seg_No10,0) ) " & Environment.NewLine &
     " and TSPL_GL_ACCOUNTS.Account_Code in (select TSPL_CONTROL_ACC_MAPPING.Account_Code  from TSPL_CONTROL_ACC_MAPPING where IsForReceipt =1) "
         If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, Nothing)) = 0 Then
             strqry += "   and TSPL_GL_ACCOUNTS.Account_Seg_Code7='" + val + "'"
@@ -4099,7 +4097,7 @@ Public Class FrmReceipttNew
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -4384,16 +4382,16 @@ Public Class FrmReceipttNew
                     Next
                 End If
                 Dim StrQuery As String = Nothing
-                StrQuery = "select  isnull(TSPL_SD_SALES_ORDER_HEAD.Document_Code,'') as SO_Code,isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code,'') as DO_Code, isnull(TSPL_RECEIPT_HEADER.Applied_Receipt,'') as Applied_Receipt,convert(varchar,Against_Receipt_Header.Receipt_Date,103) as Against_ReceiptDate,TSPL_STATE_MASTER.STATE_NAME as CustomerStateName, TSPL_STATE_MASTER.Is_GST_UT, " & _
-                    " (case when isnull(Sales_Order_Location.state,'')<>'' then Sales_Order_Location.state when isnull(TSPL_LOCATION_MASTER.state,'')<>'' then TSPL_LOCATION_MASTER.state else NormalLocation.State end )as Location_State ," & _
-                    " (case when isnull(Sales_Order_State.GST_STATE_Code,'')<>'' then Sales_Order_State.GST_STATE_Code when  isnull(tspl_state_master_for_location_state.GST_STATE_Code,'')<>'' then tspl_state_master_for_location_state.GST_STATE_Code else Normal_loc_gstState.GST_STATE_Code end ) as LOC_GST_State_Code," & _
-                    " (case when ISNULL(Sales_Order_Location.GSTNO,'')<>'' then Sales_Order_Location.GSTNO when ISNULL(TSPL_LOCATION_MASTER.GSTNO,'')<>'' then TSPL_LOCATION_MASTER.GSTNO else NormalLocation.GSTNO  end) as Comp_GSTIN_NO, " & _
-                    " TSPL_CUSTOMER_MASTER.state AS Customer_State, tspl_company_master.state as Comp_State, TSPL_CITY_MASTER.City_Name as Customer_city," & _
-                    " TSPL_RECeIPT_HEADER.Delivery_Code_PS,'' AS Electronic_Ref_No,TSPL_CUSTOMER_MASTER.Customer_Name,(CASE WHEN  ISNULL(TSPL_CUSTOMER_MASTER.Add1,'')<>'' THEN TSPL_CUSTOMER_MASTER.Add1   WHEN ISNULL(TSPL_CUSTOMER_MASTER.Add2,'')<>'' THEN ','+TSPL_CUSTOMER_MASTER.Add2  WHEN ISNULL(TSPL_CUSTOMER_MASTER.Add3,'')<>'' THEN ','+TSPL_CUSTOMER_MASTER.Add3  END ) AS Cust_Address,TSPL_STATE_MASTER.STATE_NAME as Customer_State,TSPL_STATE_MASTER.GST_STATE_Code as Cust_GST_StateCode,TSPL_CUSTOMER_MASTER.GSTNO as Cust_GSTIN_NO, " & _
-                    " TSPL_COMPANY_MASTER.Comp_Name,COMP_Address=TSPL_COMPANY_MASTER.Add1 + CASE WHEN ISNULL(TSPL_COMPANY_MASTER.Add2,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add2 WHEN ISNULL(TSPL_COMPANY_MASTER.Add3,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add3  END ," & _
-                    " SO_Address=Sales_Order_Location.Add1 + CASE WHEN ISNULL(Sales_Order_Location.Add2,'')<>'' THEN ','+Sales_Order_Location.Add2 WHEN ISNULL(Sales_Order_Location.Add3,'')<>'' THEN ','+Sales_Order_Location.Add3  END ," & _
-                    " DO_Address=(case when isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code,'')<>'' then TSPL_LOCATION_MASTER.Add1 + CASE WHEN ISNULL(TSPL_LOCATION_MASTER.Add2,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add2 WHEN ISNULL(TSPL_LOCATION_MASTER.Add3,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add3 END  else  NormalLocation.Add1 + CASE WHEN ISNULL(NormalLocation.Add2,'')<>'' THEN ','+NormalLocation.Add2 WHEN ISNULL(NormalLocation.Add3,'')<>'' THEN ','+NormalLocation.Add3 end end )  ," & _
-                    " TSPL_COMPANY_MASTER.Pan_No as Comp_PanNo,TSPL_RECEIPT_HEADER.Receipt_Amount,TSPL_RECEIPT_HEADER.Receipt_No," & _
+                StrQuery = "select  isnull(TSPL_SD_SALES_ORDER_HEAD.Document_Code,'') as SO_Code,isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code,'') as DO_Code, isnull(TSPL_RECEIPT_HEADER.Applied_Receipt,'') as Applied_Receipt,convert(varchar,Against_Receipt_Header.Receipt_Date,103) as Against_ReceiptDate,TSPL_STATE_MASTER.STATE_NAME as CustomerStateName, TSPL_STATE_MASTER.Is_GST_UT, " &
+                    " (case when isnull(Sales_Order_Location.state,'')<>'' then Sales_Order_Location.state when isnull(TSPL_LOCATION_MASTER.state,'')<>'' then TSPL_LOCATION_MASTER.state else NormalLocation.State end )as Location_State ," &
+                    " (case when isnull(Sales_Order_State.GST_STATE_Code,'')<>'' then Sales_Order_State.GST_STATE_Code when  isnull(tspl_state_master_for_location_state.GST_STATE_Code,'')<>'' then tspl_state_master_for_location_state.GST_STATE_Code else Normal_loc_gstState.GST_STATE_Code end ) as LOC_GST_State_Code," &
+                    " (case when ISNULL(Sales_Order_Location.GSTNO,'')<>'' then Sales_Order_Location.GSTNO when ISNULL(TSPL_LOCATION_MASTER.GSTNO,'')<>'' then TSPL_LOCATION_MASTER.GSTNO else NormalLocation.GSTNO  end) as Comp_GSTIN_NO, " &
+                    " TSPL_CUSTOMER_MASTER.state AS Customer_State, tspl_company_master.state as Comp_State, TSPL_CITY_MASTER.City_Name as Customer_city," &
+                    " TSPL_RECeIPT_HEADER.Delivery_Code_PS,'' AS Electronic_Ref_No,TSPL_CUSTOMER_MASTER.Customer_Name,(CASE WHEN  ISNULL(TSPL_CUSTOMER_MASTER.Add1,'')<>'' THEN TSPL_CUSTOMER_MASTER.Add1   WHEN ISNULL(TSPL_CUSTOMER_MASTER.Add2,'')<>'' THEN ','+TSPL_CUSTOMER_MASTER.Add2  WHEN ISNULL(TSPL_CUSTOMER_MASTER.Add3,'')<>'' THEN ','+TSPL_CUSTOMER_MASTER.Add3  END ) AS Cust_Address,TSPL_STATE_MASTER.STATE_NAME as Customer_State,TSPL_STATE_MASTER.GST_STATE_Code as Cust_GST_StateCode,TSPL_CUSTOMER_MASTER.GSTNO as Cust_GSTIN_NO, " &
+                    " TSPL_COMPANY_MASTER.Comp_Name,COMP_Address=TSPL_COMPANY_MASTER.Add1 + CASE WHEN ISNULL(TSPL_COMPANY_MASTER.Add2,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add2 WHEN ISNULL(TSPL_COMPANY_MASTER.Add3,'')<>'' THEN ','+TSPL_COMPANY_MASTER.Add3  END ," &
+                    " SO_Address=Sales_Order_Location.Add1 + CASE WHEN ISNULL(Sales_Order_Location.Add2,'')<>'' THEN ','+Sales_Order_Location.Add2 WHEN ISNULL(Sales_Order_Location.Add3,'')<>'' THEN ','+Sales_Order_Location.Add3  END ," &
+                    " DO_Address=(case when isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code,'')<>'' then TSPL_LOCATION_MASTER.Add1 + CASE WHEN ISNULL(TSPL_LOCATION_MASTER.Add2,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add2 WHEN ISNULL(TSPL_LOCATION_MASTER.Add3,'')<>'' THEN ','+TSPL_LOCATION_MASTER.Add3 END  else  NormalLocation.Add1 + CASE WHEN ISNULL(NormalLocation.Add2,'')<>'' THEN ','+NormalLocation.Add2 WHEN ISNULL(NormalLocation.Add3,'')<>'' THEN ','+NormalLocation.Add3 end end )  ," &
+                    " TSPL_COMPANY_MASTER.Pan_No as Comp_PanNo,TSPL_RECEIPT_HEADER.Receipt_Amount,TSPL_RECEIPT_HEADER.Receipt_No," &
                     " CONVERT(VARCHAR,TSPL_RECEIPT_HEADER.Receipt_Date,103) AS Receipt_Date, TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,TSPL_RECEIPT_DETAIL_GST.Qty,TSPL_RECEIPT_DETAIL_GST.Unit_code,TSPL_RECEIPT_DETAIL_GST.Item_Cost,TSPL_RECEIPT_DETAIL_GST.Amount,TSPL_RECEIPT_DETAIL_GST.ReceiptAdvance,TSPL_RECEIPT_DETAIL_GST.ReceiptTotalTax,TSPL_RECEIPT_DETAIL_GST.ReceiptTotalAdvanceAmt,TSPL_RECEIPT_HEADER.Receipt_Type, "
 
                 If (clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal) AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0 Then
@@ -4406,52 +4404,52 @@ Public Class FrmReceipttNew
                     StrQuery += " ,'Receiving location' as Caption,TSPL_RECEIPT_HEADER.Location_GL_Code as Location,NormalLocation.Location_Code,NormalLocation.Location_Desc,NormalLocation.Add1,NormalLocation.Add2,NormalLocation.Add3,NormalLocation.Add4 "
                 End If
 
-                StrQuery += " ,tax1.Type as TAX1,tax2.Type as TAX2,tax3.Type as TAX3,tax4.Type as TAX4,tax5.Type as TAX5,tax6.Type as TAX6,tax7.Type as TAX7,tax8.Type as TAX8,tax9.Type as TAX9,tax10.Type as TAX10 " & _
-                " from TSPL_RECEIPT_HEADER  LEFT OUTER JOIN TSPL_RECEIPT_DETAIL_GST ON TSPL_RECEIPT_HEADER.Receipt_No=TSPL_RECEIPT_DETAIL_GST.Receipt_No " & _
-                " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_RECEIPT_HEADER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " & _
-                " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_RECEIPT_HEADER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code " & _
-                " left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State=TSPL_STATE_MASTER.STATE_CODE " & _
-                "  left outer join TSPL_CITY_MASTER on TSPL_CUSTOMER_MASTER.City_Code =TSPL_CITY_MASTER.City_Code " & _
-                " LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_RECEIPT_DETAIL_GST.Item_Code=TSPL_ITEM_MASTER.Item_Code " & _
-                " left join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_RECEIPT_HEADER.Delivery_Code_PS=TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " & _
-                " left join TSPL_LOCATION_MASTER ON TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code " & _
+                StrQuery += " ,tax1.Type as TAX1,tax2.Type as TAX2,tax3.Type as TAX3,tax4.Type as TAX4,tax5.Type as TAX5,tax6.Type as TAX6,tax7.Type as TAX7,tax8.Type as TAX8,tax9.Type as TAX9,tax10.Type as TAX10 " &
+                " from TSPL_RECEIPT_HEADER  LEFT OUTER JOIN TSPL_RECEIPT_DETAIL_GST ON TSPL_RECEIPT_HEADER.Receipt_No=TSPL_RECEIPT_DETAIL_GST.Receipt_No " &
+                " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_RECEIPT_HEADER.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code " &
+                " LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_RECEIPT_HEADER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code " &
+                " left outer join TSPL_STATE_MASTER on TSPL_CUSTOMER_MASTER.State=TSPL_STATE_MASTER.STATE_CODE " &
+                "  left outer join TSPL_CITY_MASTER on TSPL_CUSTOMER_MASTER.City_Code =TSPL_CITY_MASTER.City_Code " &
+                " LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_RECEIPT_DETAIL_GST.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
+                " left join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_RECEIPT_HEADER.Delivery_Code_PS=TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " &
+                " left join TSPL_LOCATION_MASTER ON TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Bill_To_Location=TSPL_LOCATION_MASTER.Location_Code " &
                 " left outer join tspl_state_master as tspl_state_master_for_location_state on  tspl_state_master_for_location_state.state_code=tspl_location_master.state "
 
                 If (clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal) AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 AndAlso clsCommon.myLen(txtDONo.Value) <= 0 Then
-                    StrQuery += " left join TSPL_TAX_MASTER as tax1 on TSPL_RECEIPT_HEADER.tax1=tax1.Tax_Code " & _
-    " left join TSPL_TAX_MASTER as tax2 on TSPL_RECEIPT_HEADER.tax2=tax2.Tax_Code " & _
-    " left join TSPL_TAX_MASTER as tax3 on TSPL_RECEIPT_HEADER.tax3=tax3.Tax_Code " & _
-    " left join TSPL_TAX_MASTER as tax4 on TSPL_RECEIPT_HEADER.tax4=tax4.Tax_Code " & _
-    " left join TSPL_TAX_MASTER as tax5 on TSPL_RECEIPT_HEADER.tax5=tax5.Tax_Code " & _
-    " left join TSPL_TAX_MASTER as tax6 on TSPL_RECEIPT_HEADER.tax6=tax6.Tax_Code " & _
-    " left join TSPL_TAX_MASTER as tax7 on TSPL_RECEIPT_HEADER.tax7=tax7.Tax_Code " & _
-    " left join TSPL_TAX_MASTER as tax8 on TSPL_RECEIPT_HEADER.tax8=tax8.Tax_Code " & _
-    " left join TSPL_TAX_MASTER as tax9 on TSPL_RECEIPT_HEADER.tax9=tax9.Tax_Code " & _
+                    StrQuery += " left join TSPL_TAX_MASTER as tax1 on TSPL_RECEIPT_HEADER.tax1=tax1.Tax_Code " &
+    " left join TSPL_TAX_MASTER as tax2 on TSPL_RECEIPT_HEADER.tax2=tax2.Tax_Code " &
+    " left join TSPL_TAX_MASTER as tax3 on TSPL_RECEIPT_HEADER.tax3=tax3.Tax_Code " &
+    " left join TSPL_TAX_MASTER as tax4 on TSPL_RECEIPT_HEADER.tax4=tax4.Tax_Code " &
+    " left join TSPL_TAX_MASTER as tax5 on TSPL_RECEIPT_HEADER.tax5=tax5.Tax_Code " &
+    " left join TSPL_TAX_MASTER as tax6 on TSPL_RECEIPT_HEADER.tax6=tax6.Tax_Code " &
+    " left join TSPL_TAX_MASTER as tax7 on TSPL_RECEIPT_HEADER.tax7=tax7.Tax_Code " &
+    " left join TSPL_TAX_MASTER as tax8 on TSPL_RECEIPT_HEADER.tax8=tax8.Tax_Code " &
+    " left join TSPL_TAX_MASTER as tax9 on TSPL_RECEIPT_HEADER.tax9=tax9.Tax_Code " &
     " left join TSPL_TAX_MASTER as tax10 on TSPL_RECEIPT_HEADER.tax10=tax10.Tax_Code "
 
                 Else
-                    StrQuery += " left join TSPL_TAX_MASTER as tax1 on TSPL_RECEIPT_DETAIL_GST.tax1=tax1.Tax_Code " & _
-              " left join TSPL_TAX_MASTER as tax2 on TSPL_RECEIPT_DETAIL_GST.tax2=tax2.Tax_Code" & _
-              " left join TSPL_TAX_MASTER as tax3 on TSPL_RECEIPT_DETAIL_GST.tax3=tax3.Tax_Code" & _
-              " left join TSPL_TAX_MASTER as tax4 on TSPL_RECEIPT_DETAIL_GST.tax4=tax4.Tax_Code" & _
-              " left join TSPL_TAX_MASTER as tax5 on TSPL_RECEIPT_DETAIL_GST.tax5=tax5.Tax_Code" & _
-              " left join TSPL_TAX_MASTER as tax6 on TSPL_RECEIPT_DETAIL_GST.tax6=tax6.Tax_Code" & _
-              " left join TSPL_TAX_MASTER as tax7 on TSPL_RECEIPT_DETAIL_GST.tax7=tax7.Tax_Code" & _
-              " left join TSPL_TAX_MASTER as tax8 on TSPL_RECEIPT_DETAIL_GST.tax8=tax8.Tax_Code" & _
-              " left join TSPL_TAX_MASTER as tax9 on TSPL_RECEIPT_DETAIL_GST.tax9=tax9.Tax_Code" & _
+                    StrQuery += " left join TSPL_TAX_MASTER as tax1 on TSPL_RECEIPT_DETAIL_GST.tax1=tax1.Tax_Code " &
+              " left join TSPL_TAX_MASTER as tax2 on TSPL_RECEIPT_DETAIL_GST.tax2=tax2.Tax_Code" &
+              " left join TSPL_TAX_MASTER as tax3 on TSPL_RECEIPT_DETAIL_GST.tax3=tax3.Tax_Code" &
+              " left join TSPL_TAX_MASTER as tax4 on TSPL_RECEIPT_DETAIL_GST.tax4=tax4.Tax_Code" &
+              " left join TSPL_TAX_MASTER as tax5 on TSPL_RECEIPT_DETAIL_GST.tax5=tax5.Tax_Code" &
+              " left join TSPL_TAX_MASTER as tax6 on TSPL_RECEIPT_DETAIL_GST.tax6=tax6.Tax_Code" &
+              " left join TSPL_TAX_MASTER as tax7 on TSPL_RECEIPT_DETAIL_GST.tax7=tax7.Tax_Code" &
+              " left join TSPL_TAX_MASTER as tax8 on TSPL_RECEIPT_DETAIL_GST.tax8=tax8.Tax_Code" &
+              " left join TSPL_TAX_MASTER as tax9 on TSPL_RECEIPT_DETAIL_GST.tax9=tax9.Tax_Code" &
               " left join TSPL_TAX_MASTER as tax10 on TSPL_RECEIPT_DETAIL_GST.tax10=tax10.Tax_Code"
 
                 End If
 
                 ' If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal AndAlso clsCommon.myLen(txtTaxGroup.Value) > 0 Then
-                StrQuery += " left join (select top 1 * from TSPL_LOCATION_MASTER where Loc_Segment_Code='" + txtlocation.Value + "') as NormalLocation on NormalLocation.Loc_Segment_Code=TSPL_RECEIPT_HEADER.Location_GL_Code " & _
+                StrQuery += " left join (select top 1 * from TSPL_LOCATION_MASTER where Loc_Segment_Code='" + txtlocation.Value + "') as NormalLocation on NormalLocation.Loc_Segment_Code=TSPL_RECEIPT_HEADER.Location_GL_Code " &
                     " 	left join TSPL_STATE_MASTER as Normal_loc_gstState on Normal_loc_gstState.STATE_CODE=NormalLocation.State "
                 'End If
 
                 StrQuery += " left join TSPL_RECEIPT_HEADER  as Against_Receipt_Header on TSPL_RECEIPT_HEADER.Applied_Receipt=Against_Receipt_Header.Receipt_No  " &
-                " left outer join TSPL_SD_SALES_ORDER_HEAD on TSPL_RECEIPT_HEADER.Delivery_Code_PS=TSPL_SD_SALES_ORDER_HEAD.Document_Code" & _
-                " left outer join TSPL_LOCATION_MASTER as Sales_Order_Location on TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location = Sales_Order_Location.location_Code " & _
-                " left outer join TSPL_STATE_MASTER as Sales_Order_State on Sales_Order_Location.State =Sales_Order_State.STATE_CODE " & _
+                " left outer join TSPL_SD_SALES_ORDER_HEAD on TSPL_RECEIPT_HEADER.Delivery_Code_PS=TSPL_SD_SALES_ORDER_HEAD.Document_Code" &
+                " left outer join TSPL_LOCATION_MASTER as Sales_Order_Location on TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location = Sales_Order_Location.location_Code " &
+                " left outer join TSPL_STATE_MASTER as Sales_Order_State on Sales_Order_Location.State =Sales_Order_State.STATE_CODE " &
                                 " where TSPL_RECEIPT_HEADER.Receipt_No='" + fndRcptNo.Value + "'"
 
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQuery)
@@ -4482,7 +4480,7 @@ Public Class FrmReceipttNew
                 Frmreceiptvoucher2.PrintData(Nothing, Nothing, Nothing, arrreceipt, Nothing, Nothing, Nothing, Nothing)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -4495,7 +4493,7 @@ Public Class FrmReceipttNew
             End If
             inSideLoadData = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
             inSideLoadData = False
         End Try
     End Sub
@@ -4594,7 +4592,7 @@ Public Class FrmReceipttNew
                         btnGo.Enabled = True
                     End If
                 End If
-              
+
             End If
         End If
     End Sub
@@ -4760,12 +4758,12 @@ Public Class FrmReceipttNew
 
                 If clsRcptEntryHeader.ReverseAndUnpost(fndRcptNo.Value) Then
                     saveCancelLog(Reason, "Reverse and Recreate", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     funFillDetails(fndRcptNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4976,7 +4974,7 @@ Public Class FrmReceipttNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -4989,7 +4987,7 @@ Public Class FrmReceipttNew
             txttransfer_no.Value = clsCommon.ShowSelectForm("TRNSFND", qry, "Code", whrcls, txttransfer_no.Value, "Code", isButtonClicked)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -5009,7 +5007,7 @@ Public Class FrmReceipttNew
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -5044,7 +5042,7 @@ Public Class FrmReceipttNew
                 LblLocDesp.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -5054,14 +5052,14 @@ Public Class FrmReceipttNew
             Qry = "Select '' as [Receipt Date], '' as [Description], '' as [Customer Code], '' as [Bank Code], '' as [Receipt Type(P/O/F)], '' as [Payment Mode], '' as [Cheque No], '' as [Cheque Date], 0 as Amount,'' as [Location Code],'N' as [Security Deposit],'' as [Security Deposit Type],0 as [Bank Charges],0 as [Foreign Bank Charges],1 as [Conv Rate],'' as [Distributer Code]"
             transportSql.ExporttoExcel(Qry, "", Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         Try
             funImport(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -5226,7 +5224,7 @@ Public Class FrmReceipttNew
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
@@ -5329,7 +5327,7 @@ Public Class FrmReceipttNew
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             inSideLoadData = False
         End Try
@@ -5348,38 +5346,38 @@ Public Class FrmReceipttNew
 
             If DOTaggingForDairySaleModule = True Then
 
-                Qry = "Select Final.* from (Select zz.Document_No as Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt from  (" & Environment.NewLine & _
-                 " SELECT TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No ,Customer_Code ,Total_Amt as delieveryAmt " & Environment.NewLine & _
-                 " ,0 as Receiptamt  FROM TSPL_DELIVERY_NOTE_MASTER_FRESHSALE " & Environment.NewLine & _
-                 " left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code =TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No " & Environment.NewLine & _
-                 " where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Posted = 1 " & Environment.NewLine & _
-                 " and   isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,'') <>TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No " & Environment.NewLine & _
-                 " AND TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date >=convert(date,'" & gstdate & "',103) " & Environment.NewLine & _
-                 " UNION ALL " & Environment.NewLine & _
-                 " SELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt  FROM TSPL_RECEIPT_HEADER where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz " & Environment.NewLine & _
+                Qry = "Select Final.* from (Select zz.Document_No as Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt from  (" & Environment.NewLine &
+                 " SELECT TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No ,Customer_Code ,Total_Amt as delieveryAmt " & Environment.NewLine &
+                 " ,0 as Receiptamt  FROM TSPL_DELIVERY_NOTE_MASTER_FRESHSALE " & Environment.NewLine &
+                 " left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code =TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No " & Environment.NewLine &
+                 " where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Posted = 1 " & Environment.NewLine &
+                 " and   isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,'') <>TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No " & Environment.NewLine &
+                 " AND TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date >=convert(date,'" & gstdate & "',103) " & Environment.NewLine &
+                 " UNION ALL " & Environment.NewLine &
+                 " SELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt  FROM TSPL_RECEIPT_HEADER where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz " & Environment.NewLine &
                  " group by Document_No) Final "
 
             Else
 
                 If clsCommon.CompairString(strreceiptrhroughSo, "0") = CompairStringResult.Equal Then
-                    Qry = " Select Final.* from (Select zz.Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt from  (" & Environment.NewLine & _
-                    " sELECT TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code ,Customer_Code ,Total_Amt as delieveryAmt,0 as Receiptamt  FROM TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE " & Environment.NewLine & _
-                    " left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS =TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " & Environment.NewLine & _
-                    " where TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Posted=1 and  isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Short_Close,'N')='N' and TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.close_yn='N'" & Environment.NewLine & _
-                    " and   isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,'') <>TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " & Environment.NewLine & _
-                    " AND TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Date >=convert(date,'" & gstdate & "',103)" & Environment.NewLine & _
-                    " UNION ALL" & Environment.NewLine & _
-                    " sELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt  FROM TSPL_RECEIPT_HEADER where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz" & Environment.NewLine & _
+                    Qry = " Select Final.* from (Select zz.Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt from  (" & Environment.NewLine &
+                    " sELECT TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code ,Customer_Code ,Total_Amt as delieveryAmt,0 as Receiptamt  FROM TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE " & Environment.NewLine &
+                    " left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS =TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " & Environment.NewLine &
+                    " where TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Posted=1 and  isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Short_Close,'N')='N' and TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.close_yn='N'" & Environment.NewLine &
+                    " and   isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,'') <>TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " & Environment.NewLine &
+                    " AND TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Date >=convert(date,'" & gstdate & "',103)" & Environment.NewLine &
+                    " UNION ALL" & Environment.NewLine &
+                    " sELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt  FROM TSPL_RECEIPT_HEADER where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz" & Environment.NewLine &
                     " group by Document_Code) Final "
                 Else
-                    Qry = " Select Final.* from (Select zz.Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt from  (" & Environment.NewLine & _
-                    " sELECT TSPL_SD_SALES_ORDER_HEAD.Document_Code ,Customer_Code ,Total_Amt as delieveryAmt,0 as Receiptamt  FROM TSPL_SD_SALES_ORDER_HEAD " & Environment.NewLine & _
-                    " left outer join TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE  on TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Against_Sales_Order =TSPL_SD_SALES_ORDER_HEAD.Document_Code " & Environment.NewLine & _
-                    " where TSPL_SD_SALES_ORDER_HEAD.Status =1 and TSPL_SD_SALES_ORDER_HEAD.close_yn='N' " & Environment.NewLine & _
-                    " and isnull(TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Against_Sales_Order ,'') <>TSPL_SD_SALES_ORDER_HEAD.Document_Code " & Environment.NewLine & _
-                    " AND TSPL_SD_SALES_ORDER_HEAD.Document_Date >=convert(date,'" & gstdate & "',103) AND Trans_Type='PS' " & Environment.NewLine & _
-                    " UNION ALL" & Environment.NewLine & _
-                    " sELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt  FROM TSPL_RECEIPT_HEADER where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz" & Environment.NewLine & _
+                    Qry = " Select Final.* from (Select zz.Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt from  (" & Environment.NewLine &
+                    " sELECT TSPL_SD_SALES_ORDER_HEAD.Document_Code ,Customer_Code ,Total_Amt as delieveryAmt,0 as Receiptamt  FROM TSPL_SD_SALES_ORDER_HEAD " & Environment.NewLine &
+                    " left outer join TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE  on TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Against_Sales_Order =TSPL_SD_SALES_ORDER_HEAD.Document_Code " & Environment.NewLine &
+                    " where TSPL_SD_SALES_ORDER_HEAD.Status =1 and TSPL_SD_SALES_ORDER_HEAD.close_yn='N' " & Environment.NewLine &
+                    " and isnull(TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Against_Sales_Order ,'') <>TSPL_SD_SALES_ORDER_HEAD.Document_Code " & Environment.NewLine &
+                    " AND TSPL_SD_SALES_ORDER_HEAD.Document_Date >=convert(date,'" & gstdate & "',103) AND Trans_Type='PS' " & Environment.NewLine &
+                    " UNION ALL" & Environment.NewLine &
+                    " sELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt  FROM TSPL_RECEIPT_HEADER where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz" & Environment.NewLine &
                     " group by Document_Code) Final "
                 End If
             End If
@@ -5434,55 +5432,55 @@ Public Class FrmReceipttNew
 
             If DOTaggingForDairySaleModule = True Then
 
-                Qry = "   Select Final.* from (Select zz.Document_no as Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt, max(zz.Tax_Group )as Tax_Group,max(zz.Tax_Group_Desc )as Tax_Group_Desc " & Environment.NewLine & _
-                     ",sum(AddCharge) as AddCharge,max(zz.Bill_To_Location )as Bill_To_Location  " & Environment.NewLine & _
-                     " from  (SELECT TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No ,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code ,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Total_Amt as delieveryAmt,0 as Receiptamt,TSPL_SD_SHIPMENT_HEAD.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,(TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt1 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt2 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt3  +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt4 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt5 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt6 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt7 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt8 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt9 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt10) as AddCharge,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location  " & Environment.NewLine & _
-                     " FROM TSPL_DELIVERY_NOTE_MASTER_FRESHSALE  " & Environment.NewLine & _
-                    " left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code =TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No  " & Environment.NewLine & _
-                     " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  " & Environment.NewLine & _
-                     " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_SD_SHIPMENT_HEAD.Tax_Group  " & Environment.NewLine & _
-                     " and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S'  " & Environment.NewLine & _
-                    " where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Posted=1 and  isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N'  " & Environment.NewLine & _
-                    " and   isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,'') <>TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No  " & Environment.NewLine & _
-                    " AND TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No ='" & clsCommon.myCstr(txtDONo.Value) & "'   " & Environment.NewLine & _
-                     " UNION ALL  " & Environment.NewLine & _
-                    " SELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt,TSPL_RECEIPT_HEADER.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc " & Environment.NewLine & _
-                    " , 0 as AddCharge,isnull(TSPL_RECEIPT_HEADER.SO_Location_Code,'') as Bill_To_Location " & Environment.NewLine & _
-                      " FROM TSPL_RECEIPT_HEADER   " & Environment.NewLine & _
-                     " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_RECEIPT_HEADER.Tax_Group and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S'  " & Environment.NewLine & _
-                     " where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')='" & clsCommon.myCstr(txtDONo.Value) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz  " & Environment.NewLine & _
+                Qry = "   Select Final.* from (Select zz.Document_no as Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt, max(zz.Tax_Group )as Tax_Group,max(zz.Tax_Group_Desc )as Tax_Group_Desc " & Environment.NewLine &
+                     ",sum(AddCharge) as AddCharge,max(zz.Bill_To_Location )as Bill_To_Location  " & Environment.NewLine &
+                     " from  (SELECT TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No ,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code ,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Total_Amt as delieveryAmt,0 as Receiptamt,TSPL_SD_SHIPMENT_HEAD.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,(TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt1 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt2 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt3  +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt4 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt5 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt6 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt7 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt8 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt9 +TSPL_SD_SHIPMENT_HEAD.Add_Charge_Amt10) as AddCharge,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location  " & Environment.NewLine &
+                     " FROM TSPL_DELIVERY_NOTE_MASTER_FRESHSALE  " & Environment.NewLine &
+                    " left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code =TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No  " & Environment.NewLine &
+                     " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  " & Environment.NewLine &
+                     " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_SD_SHIPMENT_HEAD.Tax_Group  " & Environment.NewLine &
+                     " and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S'  " & Environment.NewLine &
+                    " where TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Posted=1 and  isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N'  " & Environment.NewLine &
+                    " and   isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,'') <>TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No  " & Environment.NewLine &
+                    " AND TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No ='" & clsCommon.myCstr(txtDONo.Value) & "'   " & Environment.NewLine &
+                     " UNION ALL  " & Environment.NewLine &
+                    " SELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt,TSPL_RECEIPT_HEADER.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc " & Environment.NewLine &
+                    " , 0 as AddCharge,isnull(TSPL_RECEIPT_HEADER.SO_Location_Code,'') as Bill_To_Location " & Environment.NewLine &
+                      " FROM TSPL_RECEIPT_HEADER   " & Environment.NewLine &
+                     " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_RECEIPT_HEADER.Tax_Group and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S'  " & Environment.NewLine &
+                     " where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')='" & clsCommon.myCstr(txtDONo.Value) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz  " & Environment.NewLine &
                      " group by Document_no) Final where (Final.delieveryAmt - Final.Receiptamt) > 0  "
 
                 lblReceiptThroughSO.Text = "DO"
             Else
 
                 If clsCommon.CompairString(strreceiptrhroughSo, "0") = CompairStringResult.Equal Then
-                    Qry = " Select Final.* from (Select zz.Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt, max(zz.Tax_Group )as Tax_Group,max(zz.Tax_Group_Desc )as Tax_Group_Desc,sum(AddCharge) as AddCharge,max(zz.Bill_To_Location )as Bill_To_Location from  (" & Environment.NewLine & _
-                    " sELECT TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code ,Customer_Code ,Total_Amt as delieveryAmt,0 as Receiptamt,TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Total_Add_Charge,0) as AddCharge,TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Bill_To_Location  FROM TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE " & Environment.NewLine & _
-                    " left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS =TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " & Environment.NewLine & _
-                    " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Tax_Group and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S' " & Environment.NewLine & _
-                    " where TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Posted=1 and  isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Short_Close,'N')='N' and TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.close_yn='N'" & Environment.NewLine & _
-                    " and   isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,'') <>TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " & Environment.NewLine & _
-                    " AND TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code ='" & clsCommon.myCstr(txtDONo.Value) & "'  " & Environment.NewLine & _
-                    " UNION ALL" & Environment.NewLine & _
-                    " sELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt,TSPL_RECEIPT_HEADER.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc, 0 as AddCharge,isnull(TSPL_RECEIPT_HEADER.SO_Location_Code,'') as Bill_To_Location  FROM TSPL_RECEIPT_HEADER  " & Environment.NewLine & _
-                    " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_RECEIPT_HEADER.Tax_Group and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S' " & Environment.NewLine & _
-                    " where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')='" & clsCommon.myCstr(txtDONo.Value) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz" & Environment.NewLine & _
+                    Qry = " Select Final.* from (Select zz.Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt, max(zz.Tax_Group )as Tax_Group,max(zz.Tax_Group_Desc )as Tax_Group_Desc,sum(AddCharge) as AddCharge,max(zz.Bill_To_Location )as Bill_To_Location from  (" & Environment.NewLine &
+                    " sELECT TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code ,Customer_Code ,Total_Amt as delieveryAmt,0 as Receiptamt,TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Total_Add_Charge,0) as AddCharge,TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Bill_To_Location  FROM TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE " & Environment.NewLine &
+                    " left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS =TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " & Environment.NewLine &
+                    " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Tax_Group and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S' " & Environment.NewLine &
+                    " where TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Posted=1 and  isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Short_Close,'N')='N' and TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.close_yn='N'" & Environment.NewLine &
+                    " and   isnull(TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS,'') <>TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code " & Environment.NewLine &
+                    " AND TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code ='" & clsCommon.myCstr(txtDONo.Value) & "'  " & Environment.NewLine &
+                    " UNION ALL" & Environment.NewLine &
+                    " sELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt,TSPL_RECEIPT_HEADER.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc, 0 as AddCharge,isnull(TSPL_RECEIPT_HEADER.SO_Location_Code,'') as Bill_To_Location  FROM TSPL_RECEIPT_HEADER  " & Environment.NewLine &
+                    " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_RECEIPT_HEADER.Tax_Group and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S' " & Environment.NewLine &
+                    " where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')='" & clsCommon.myCstr(txtDONo.Value) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz" & Environment.NewLine &
                     " group by Document_Code) Final where (Final.delieveryAmt - Final.Receiptamt) > 0"
                     lblReceiptThroughSO.Text = "DO"
                 Else
-                    Qry = " Select Final.* from (Select zz.Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt, max(zz.Tax_Group )as Tax_Group,max(zz.Tax_Group_Desc )as Tax_Group_Desc,sum(AddCharge) as AddCharge,max(zz.Bill_To_Location )as Bill_To_Location from  (" & Environment.NewLine & _
-                    " sELECT TSPL_SD_SALES_ORDER_HEAD.Document_Code ,Customer_Code ,Total_Amt as delieveryAmt,0 as Receiptamt, " & Environment.NewLine & _
-                    " TSPL_SD_SALES_ORDER_HEAD.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,isnull(TSPL_SD_SALES_ORDER_HEAD.Total_Add_Charge,0) as AddCharge,TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location " & Environment.NewLine & _
-                    " FROM TSPL_SD_SALES_ORDER_HEAD " & Environment.NewLine & _
-                    " left outer join TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE  on TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Against_Sales_Order =TSPL_SD_SALES_ORDER_HEAD.Document_Code " & Environment.NewLine & _
-                    " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_SD_SALES_ORDER_HEAD.Tax_Group and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S' " & Environment.NewLine & _
-                    " where TSPL_SD_SALES_ORDER_HEAD.Status =1 and TSPL_SD_SALES_ORDER_HEAD.close_yn='N' and isnull(TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Against_Sales_Order ,'') <>TSPL_SD_SALES_ORDER_HEAD.Document_Code " & Environment.NewLine & _
-                    " AND TSPL_SD_SALES_ORDER_HEAD.Document_Code ='" & clsCommon.myCstr(txtDONo.Value) & "' AND TSPL_SD_SALES_ORDER_HEAD.Trans_Type='PS'  " & Environment.NewLine & _
-                    " UNION ALL" & Environment.NewLine & _
-                    " sELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt,TSPL_RECEIPT_HEADER.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc, 0 as AddCharge,isnull(TSPL_RECEIPT_HEADER.SO_Location_Code,'') as Bill_To_Location  FROM TSPL_RECEIPT_HEADER  " & Environment.NewLine & _
-                    " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_RECEIPT_HEADER.Tax_Group and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S' " & Environment.NewLine & _
-                    " where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')='" & clsCommon.myCstr(txtDONo.Value) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz" & Environment.NewLine & _
+                    Qry = " Select Final.* from (Select zz.Document_Code,max(zz.Customer_Code)as Customer_Code ,sum(isnull(zz.delieveryAmt ,0)) as delieveryAmt,sum(isnull(zz.Receiptamt ,0)) as Receiptamt, max(zz.Tax_Group )as Tax_Group,max(zz.Tax_Group_Desc )as Tax_Group_Desc,sum(AddCharge) as AddCharge,max(zz.Bill_To_Location )as Bill_To_Location from  (" & Environment.NewLine &
+                    " sELECT TSPL_SD_SALES_ORDER_HEAD.Document_Code ,Customer_Code ,Total_Amt as delieveryAmt,0 as Receiptamt, " & Environment.NewLine &
+                    " TSPL_SD_SALES_ORDER_HEAD.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,isnull(TSPL_SD_SALES_ORDER_HEAD.Total_Add_Charge,0) as AddCharge,TSPL_SD_SALES_ORDER_HEAD.Bill_To_Location " & Environment.NewLine &
+                    " FROM TSPL_SD_SALES_ORDER_HEAD " & Environment.NewLine &
+                    " left outer join TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE  on TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Against_Sales_Order =TSPL_SD_SALES_ORDER_HEAD.Document_Code " & Environment.NewLine &
+                    " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_SD_SALES_ORDER_HEAD.Tax_Group and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S' " & Environment.NewLine &
+                    " where TSPL_SD_SALES_ORDER_HEAD.Status =1 and TSPL_SD_SALES_ORDER_HEAD.close_yn='N' and isnull(TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Against_Sales_Order ,'') <>TSPL_SD_SALES_ORDER_HEAD.Document_Code " & Environment.NewLine &
+                    " AND TSPL_SD_SALES_ORDER_HEAD.Document_Code ='" & clsCommon.myCstr(txtDONo.Value) & "' AND TSPL_SD_SALES_ORDER_HEAD.Trans_Type='PS'  " & Environment.NewLine &
+                    " UNION ALL" & Environment.NewLine &
+                    " sELECT Delivery_Code_PS as Document_Code,Cust_Code as Customer_Code ,0 as delieveryAmt,Receipt_Amount as Receiptamt,TSPL_RECEIPT_HEADER.Tax_Group,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc, 0 as AddCharge,isnull(TSPL_RECEIPT_HEADER.SO_Location_Code,'') as Bill_To_Location  FROM TSPL_RECEIPT_HEADER  " & Environment.NewLine &
+                    " Left Outer Join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code =TSPL_RECEIPT_HEADER.Tax_Group and isnull(TSPL_TAX_GROUP_MASTER.Tax_Group_Type,'')='S' " & Environment.NewLine &
+                    " where isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')<>'' and Receipt_Type ='P' and isnull(TSPL_RECEIPT_HEADER. Delivery_Code_PS,'')='" & clsCommon.myCstr(txtDONo.Value) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' ) zz" & Environment.NewLine &
                     " group by Document_Code) Final where (Final.delieveryAmt - Final.Receiptamt) > 0"
                     lblReceiptThroughSO.Text = "SO"
                 End If
@@ -5503,29 +5501,29 @@ Public Class FrmReceipttNew
 
                 If DOTaggingForDairySaleModule = True Then
 
-                    Qry = "select Document_Code ,Line_No ,Row_Type ,Item_Code ,Qty ,Balance_Qty ,Unit_code,Item_Cost ,TAX1 ,TAX1_Amt ,TAX1_Base_Amt ,TAX1_Rate , " & _
-                       " tax2,TAX2_Base_Amt,TAX2_Rate,TAX2_Amt,TAX3,TAX3_Base_Amt,TAX3_Rate,TAX3_Amt,TAX4,TAX4_Base_Amt,TAX4_Rate,TAX4_Amt,TAX5,TAX5_Base_Amt,TAX5_Rate," & _
-                       " TAX5_Amt,TAX6,TAX6_Base_Amt,TAX6_Rate,TAX6_Amt,TAX7,TAX7_Base_Amt,TAX7_Rate,TAX7_Amt,TAX8," & _
-                       " TAX8_Base_Amt,TAX8_Rate,TAX8_Amt,TAX9,TAX9_Base_Amt,TAX9_Rate,TAX9_Amt,TAX10,TAX10_Base_Amt,TAX10_Rate,TAX10_Amt,Amount," & _
-                       " Disc_Per,Disc_Amt,Amt_Less_Discount,Total_Tax_Amt,Item_Net_Amt,MRP,Abatement_Per,Abatement_Amt,Scheme_Code,Scheme_Applicable,Scheme_Item," & _
-                       " FOC_Item,Item_Tax,Total_MRP_Amt,Total_Basic_Amt,Total_Disc_Amt,ActualRate,Conv_Factor,TotalItem_Weight,Landing_Cost " & _
+                    Qry = "select Document_Code ,Line_No ,Row_Type ,Item_Code ,Qty ,Balance_Qty ,Unit_code,Item_Cost ,TAX1 ,TAX1_Amt ,TAX1_Base_Amt ,TAX1_Rate , " &
+                       " tax2,TAX2_Base_Amt,TAX2_Rate,TAX2_Amt,TAX3,TAX3_Base_Amt,TAX3_Rate,TAX3_Amt,TAX4,TAX4_Base_Amt,TAX4_Rate,TAX4_Amt,TAX5,TAX5_Base_Amt,TAX5_Rate," &
+                       " TAX5_Amt,TAX6,TAX6_Base_Amt,TAX6_Rate,TAX6_Amt,TAX7,TAX7_Base_Amt,TAX7_Rate,TAX7_Amt,TAX8," &
+                       " TAX8_Base_Amt,TAX8_Rate,TAX8_Amt,TAX9,TAX9_Base_Amt,TAX9_Rate,TAX9_Amt,TAX10,TAX10_Base_Amt,TAX10_Rate,TAX10_Amt,Amount," &
+                       " Disc_Per,Disc_Amt,Amt_Less_Discount,Total_Tax_Amt,Item_Net_Amt,MRP,Abatement_Per,Abatement_Amt,Scheme_Code,Scheme_Applicable,Scheme_Item," &
+                       " FOC_Item,Item_Tax,Total_MRP_Amt,Total_Basic_Amt,Total_Disc_Amt,ActualRate,Conv_Factor,TotalItem_Weight,Landing_Cost " &
                        " from TSPL_SD_SHIPMENT_DETAIL where TSPL_SD_SHIPMENT_DETAIL.DELIVERY_CODE ='" & clsCommon.myCstr(txtDONo.Value) & "'"
                 Else
                     If clsCommon.CompairString(strreceiptrhroughSo, "0") = CompairStringResult.Equal Then
-                        Qry = "select Document_Code ,Line_No ,Row_Type ,Item_Code ,Qty ,Balance_Qty ,Unit_code,Item_Cost ,TAX1 ,TAX1_Amt ,TAX1_Base_Amt ,TAX1_Rate , " & _
-                        " tax2,TAX2_Base_Amt,TAX2_Rate,TAX2_Amt,TAX3,TAX3_Base_Amt,TAX3_Rate,TAX3_Amt,TAX4,TAX4_Base_Amt,TAX4_Rate,TAX4_Amt,TAX5,TAX5_Base_Amt,TAX5_Rate," & _
-                        " TAX5_Amt,TAX6,TAX6_Base_Amt,TAX6_Rate,TAX6_Amt,TAX7,TAX7_Base_Amt,TAX7_Rate,TAX7_Amt,TAX8," & _
-                        " TAX8_Base_Amt,TAX8_Rate,TAX8_Amt,TAX9,TAX9_Base_Amt,TAX9_Rate,TAX9_Amt,TAX10,TAX10_Base_Amt,TAX10_Rate,TAX10_Amt,Amount," & _
-                        " Disc_Per,Disc_Amt,Amt_Less_Discount,Total_Tax_Amt,Item_Net_Amt,MRP,Abatement_Per,Abatement_Amt,Scheme_Code,Scheme_Applicable,Scheme_Item," & _
-                        " FOC_Item,Item_Tax,Total_MRP_Amt,Total_Basic_Amt,Total_Disc_Amt,ActualRate,Conv_Factor,TotalItem_Weight,Landing_Cost " & _
+                        Qry = "select Document_Code ,Line_No ,Row_Type ,Item_Code ,Qty ,Balance_Qty ,Unit_code,Item_Cost ,TAX1 ,TAX1_Amt ,TAX1_Base_Amt ,TAX1_Rate , " &
+                        " tax2,TAX2_Base_Amt,TAX2_Rate,TAX2_Amt,TAX3,TAX3_Base_Amt,TAX3_Rate,TAX3_Amt,TAX4,TAX4_Base_Amt,TAX4_Rate,TAX4_Amt,TAX5,TAX5_Base_Amt,TAX5_Rate," &
+                        " TAX5_Amt,TAX6,TAX6_Base_Amt,TAX6_Rate,TAX6_Amt,TAX7,TAX7_Base_Amt,TAX7_Rate,TAX7_Amt,TAX8," &
+                        " TAX8_Base_Amt,TAX8_Rate,TAX8_Amt,TAX9,TAX9_Base_Amt,TAX9_Rate,TAX9_Amt,TAX10,TAX10_Base_Amt,TAX10_Rate,TAX10_Amt,Amount," &
+                        " Disc_Per,Disc_Amt,Amt_Less_Discount,Total_Tax_Amt,Item_Net_Amt,MRP,Abatement_Per,Abatement_Amt,Scheme_Code,Scheme_Applicable,Scheme_Item," &
+                        " FOC_Item,Item_Tax,Total_MRP_Amt,Total_Basic_Amt,Total_Disc_Amt,ActualRate,Conv_Factor,TotalItem_Weight,Landing_Cost " &
                         " from TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE where TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Document_Code ='" & clsCommon.myCstr(txtDONo.Value) & "'"
                     Else
-                        Qry = "select Document_Code ,Line_No ,Row_Type ,Item_Code ,Qty ,Balance_Qty ,Unit_code,Item_Cost ,TAX1 ,TAX1_Amt ,TAX1_Base_Amt ,TAX1_Rate , " & _
-                        " tax2,TAX2_Base_Amt,TAX2_Rate,TAX2_Amt,TAX3,TAX3_Base_Amt,TAX3_Rate,TAX3_Amt,TAX4,TAX4_Base_Amt,TAX4_Rate,TAX4_Amt,TAX5,TAX5_Base_Amt,TAX5_Rate," & _
-                        " TAX5_Amt,TAX6,TAX6_Base_Amt,TAX6_Rate,TAX6_Amt,TAX7,TAX7_Base_Amt,TAX7_Rate,TAX7_Amt,TAX8," & _
-                        " TAX8_Base_Amt,TAX8_Rate,TAX8_Amt,TAX9,TAX9_Base_Amt,TAX9_Rate,TAX9_Amt,TAX10,TAX10_Base_Amt,TAX10_Rate,TAX10_Amt,Amount," & _
-                        " Disc_Per,Disc_Amt,Amt_Less_Discount,Total_Tax_Amt,Item_Net_Amt,MRP,Abatement_Per,Abatement_Amt,Scheme_Code,Scheme_Applicable,Scheme_Item," & _
-                        " FOC_Item,Item_Tax,Total_MRP_Amt,Total_Basic_Amt,Total_Disc_Amt,ActualRate,Conv_Factor,TotalItem_Weight,Landing_Cost " & _
+                        Qry = "select Document_Code ,Line_No ,Row_Type ,Item_Code ,Qty ,Balance_Qty ,Unit_code,Item_Cost ,TAX1 ,TAX1_Amt ,TAX1_Base_Amt ,TAX1_Rate , " &
+                        " tax2,TAX2_Base_Amt,TAX2_Rate,TAX2_Amt,TAX3,TAX3_Base_Amt,TAX3_Rate,TAX3_Amt,TAX4,TAX4_Base_Amt,TAX4_Rate,TAX4_Amt,TAX5,TAX5_Base_Amt,TAX5_Rate," &
+                        " TAX5_Amt,TAX6,TAX6_Base_Amt,TAX6_Rate,TAX6_Amt,TAX7,TAX7_Base_Amt,TAX7_Rate,TAX7_Amt,TAX8," &
+                        " TAX8_Base_Amt,TAX8_Rate,TAX8_Amt,TAX9,TAX9_Base_Amt,TAX9_Rate,TAX9_Amt,TAX10,TAX10_Base_Amt,TAX10_Rate,TAX10_Amt,Amount," &
+                        " Disc_Per,Disc_Amt,Amt_Less_Discount,Total_Tax_Amt,Item_Net_Amt,MRP,Abatement_Per,Abatement_Amt,Scheme_Code,Scheme_Applicable,Scheme_Item," &
+                        " FOC_Item,Item_Tax,Total_MRP_Amt,Total_Basic_Amt,Total_Disc_Amt,ActualRate,Conv_Factor,TotalItem_Weight,Landing_Cost " &
                         " from TSPL_SD_SALES_ORDER_DETAIL where TSPL_SD_SALES_ORDER_DETAIL.Document_Code ='" & clsCommon.myCstr(txtDONo.Value) & "'"
                     End If
                 End If
@@ -5604,25 +5602,25 @@ Public Class FrmReceipttNew
 
                     If DOTaggingForDairySaleModule = True Then
 
-                        Qry = " Select sum(amount) as Item_Net_Amt  from " & Environment.NewLine & _
-                                " (select Document_NO ,Line_No ,'Item' as Row_Type,Item_Code ,AMOUNT  from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_NO ='" & clsCommon.myCstr(txtDONo.Value) & "' " & Environment.NewLine & _
-                                " and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "' " & Environment.NewLine & _
-                               " union all  " & Environment.NewLine & _
-                             " select Document_Code ,Line_No ,Row_Type ,Item_Code , ReceiptTotalAdvanceAmt * -1  from TSPL_RECEIPT_DETAIL_GST Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL_GST.Receipt_No  where isnull(TSPL_RECEIPT_HEADER.Delivery_Code_PS,'')  ='" & clsCommon.myCstr(txtDONo.Value) & "' and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' )zz  " & Environment.NewLine & _
+                        Qry = " Select sum(amount) as Item_Net_Amt  from " & Environment.NewLine &
+                                " (select Document_NO ,Line_No ,'Item' as Row_Type,Item_Code ,AMOUNT  from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE where Document_NO ='" & clsCommon.myCstr(txtDONo.Value) & "' " & Environment.NewLine &
+                                " and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "' " & Environment.NewLine &
+                               " union all  " & Environment.NewLine &
+                             " select Document_Code ,Line_No ,Row_Type ,Item_Code , ReceiptTotalAdvanceAmt * -1  from TSPL_RECEIPT_DETAIL_GST Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL_GST.Receipt_No  where isnull(TSPL_RECEIPT_HEADER.Delivery_Code_PS,'')  ='" & clsCommon.myCstr(txtDONo.Value) & "' and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' )zz  " & Environment.NewLine &
                                " group by zz.Document_no ,zz.Item_Code,Line_No  order by Line_No  "
 
                     Else
                         If clsCommon.CompairString(strreceiptrhroughSo, "0") = CompairStringResult.Equal Then
-                            Qry = " Select sum(Item_Net_Amt) as Item_Net_Amt  from " & Environment.NewLine & _
-                            "(select Document_Code ,Line_No ,Row_Type ,Item_Code ,Item_Net_Amt  from TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE where Document_Code ='" & clsCommon.myCstr(txtDONo.Value) & "' and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "' " & Environment.NewLine & _
-                            " union all" & Environment.NewLine & _
-                            " select Document_Code ,Line_No ,Row_Type ,Item_Code , ReceiptTotalAdvanceAmt * -1  from TSPL_RECEIPT_DETAIL_GST Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL_GST.Receipt_No  where isnull(TSPL_RECEIPT_HEADER.Delivery_Code_PS,'')  ='" & clsCommon.myCstr(txtDONo.Value) & "' and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' )zz " & Environment.NewLine & _
+                            Qry = " Select sum(Item_Net_Amt) as Item_Net_Amt  from " & Environment.NewLine &
+                            "(select Document_Code ,Line_No ,Row_Type ,Item_Code ,Item_Net_Amt  from TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE where Document_Code ='" & clsCommon.myCstr(txtDONo.Value) & "' and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "' " & Environment.NewLine &
+                            " union all" & Environment.NewLine &
+                            " select Document_Code ,Line_No ,Row_Type ,Item_Code , ReceiptTotalAdvanceAmt * -1  from TSPL_RECEIPT_DETAIL_GST Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL_GST.Receipt_No  where isnull(TSPL_RECEIPT_HEADER.Delivery_Code_PS,'')  ='" & clsCommon.myCstr(txtDONo.Value) & "' and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' )zz " & Environment.NewLine &
                             "group by zz.Document_Code ,zz.Item_Code,Line_No  order by Line_No "
                         Else
-                            Qry = " Select sum(Item_Net_Amt) as Item_Net_Amt  from " & Environment.NewLine & _
-                            "(select Document_Code ,Line_No ,Row_Type ,Item_Code ,Item_Net_Amt  from TSPL_SD_SALES_ORDER_DETAIL where Document_Code ='" & clsCommon.myCstr(txtDONo.Value) & "' and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "' " & Environment.NewLine & _
-                            " union all" & Environment.NewLine & _
-                            " select Document_Code ,Line_No ,Row_Type ,Item_Code , ReceiptTotalAdvanceAmt * -1  from TSPL_RECEIPT_DETAIL_GST Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL_GST.Receipt_No  where isnull(TSPL_RECEIPT_HEADER.Delivery_Code_PS,'')  ='" & clsCommon.myCstr(txtDONo.Value) & "' and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' )zz " & Environment.NewLine & _
+                            Qry = " Select sum(Item_Net_Amt) as Item_Net_Amt  from " & Environment.NewLine &
+                            "(select Document_Code ,Line_No ,Row_Type ,Item_Code ,Item_Net_Amt  from TSPL_SD_SALES_ORDER_DETAIL where Document_Code ='" & clsCommon.myCstr(txtDONo.Value) & "' and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "' " & Environment.NewLine &
+                            " union all" & Environment.NewLine &
+                            " select Document_Code ,Line_No ,Row_Type ,Item_Code , ReceiptTotalAdvanceAmt * -1  from TSPL_RECEIPT_DETAIL_GST Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =TSPL_RECEIPT_DETAIL_GST.Receipt_No  where isnull(TSPL_RECEIPT_HEADER.Delivery_Code_PS,'')  ='" & clsCommon.myCstr(txtDONo.Value) & "' and Item_Code ='" & clsCommon.myCstr(dt.Rows(i)("Item_Code")) & "'  and TSPL_RECEIPT_HEADER.Receipt_No<>'" & clsCommon.myCstr(fndRcptNo.Value) & "' and isnull(TSPL_RECEIPT_HEADER. IsChkReverse,'') ='N' )zz " & Environment.NewLine &
                             "group by zz.Document_Code ,zz.Item_Code,Line_No  order by Line_No "
                         End If
                     End If
@@ -5837,7 +5835,7 @@ Public Class FrmReceipttNew
             Next
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -7332,7 +7330,7 @@ Public Class FrmReceipttNew
 
             Return dblrate
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
         'Try
         '    Dim arrTaxableAuth As New List(Of String)
@@ -7394,7 +7392,7 @@ Public Class FrmReceipttNew
         '    'Dim dblAmtAfterTax As Double = dblAmtAfterDis + dblTotTaxAmt
 
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message)
         'End Try
 
     End Function
@@ -7415,7 +7413,7 @@ Public Class FrmReceipttNew
             Next
             Return dblrate
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Function
@@ -7697,7 +7695,7 @@ Public Class FrmReceipttNew
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -8093,7 +8091,7 @@ Public Class FrmReceipttNew
                 lblItemName.Visible = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub txtitem__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtitem._MYValidating
@@ -8102,7 +8100,7 @@ Public Class FrmReceipttNew
             txtitem.Value = clsCommon.ShowSelectForm("ReceipItemfndd", qry, "Code", "", txtitem.Value, "Code", isButtonClicked)
             lblItemName.Text = clsDBFuncationality.getSingleValue("select Item_Desc from tspl_item_master where item_code='" & txtitem.Value & "'")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -8185,7 +8183,7 @@ Public Class FrmReceipttNew
                 CalculateTaxwithoutDO()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -8234,7 +8232,7 @@ Public Class FrmReceipttNew
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub

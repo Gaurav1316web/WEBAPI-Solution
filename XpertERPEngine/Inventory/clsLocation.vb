@@ -976,7 +976,7 @@ Public Class clsLocationWiseTax
             Else
                 Throw New Exception("Please enter valid Tax Type it should be 'P' or 'S'")
             End If
-            qry = "  select Tax_Rate  from TSPL_TAX_RATES where  Tax_Code='" & strTaxCode & "' and Tax_Type='P'"
+            qry = "  select Tax_Rate  from TSPL_TAX_RATES where  Tax_Code='" & strTaxCode & "' and Tax_Type='P' and TAX_Code not in('TCS')"
             qry = "select Tax_Rate as Rate from (" & qry & " ) a"
         Else
             Dim whrCls As String = " and Tax_Type='" + strTaxType + "' "
@@ -988,7 +988,7 @@ Public Class clsLocationWiseTax
 
             qry = "select Tax_Rate as [Rate]  from ( Select Tax_Rate "
             qry += " from TSPL_LOCATION_WISE_TAX_MASTER "
-            qry += " where Tax_Group_Code='" + strTaxGroup + "' and Tax_Code='" + strTaxCode + "' and  Location_Code = '" + strTransLocation + "' " + whrCls + "  "
+            qry += " where Tax_Group_Code='" + strTaxGroup + "' and Tax_Code='" + strTaxCode + "' and TAX_Code not in('TCS') and  Location_Code = '" + strTransLocation + "' " + whrCls + "  "
             If Not Without_State_Condition Then
                 qry += " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Category in (select case when MIN(x.State)=MAX(x.State) then 'L' else 'I' end  from  (select State   from TSPL_LOCATION_MASTER where Location_Code='" + strTransLocation + "' union all   "
 

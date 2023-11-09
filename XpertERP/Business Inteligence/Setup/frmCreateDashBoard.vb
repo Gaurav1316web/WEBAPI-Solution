@@ -94,7 +94,7 @@ Public Class FrmCreateDashBoard
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -145,19 +145,19 @@ Public Class FrmCreateDashBoard
                     End If
                 Next
                 If (obj.arr Is Nothing OrElse obj.arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one report")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one report", Me.Text)
                     Return False
                 End If
 
                 If obj.SaveData(obj, isNewEntry) Then
-                    clsCommon.MyMessageBoxShow("Data saved Successfully")
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                     MDI.LoadImageList()
                     MDI.LoadMenu()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             obj = Nothing
             objTr = Nothing
@@ -187,7 +187,7 @@ Public Class FrmCreateDashBoard
             End If
             gv1.Rows.AddNew()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -218,7 +218,7 @@ Public Class FrmCreateDashBoard
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If (myMessages.deleteConfirm()) Then
                     If (clsCreateDashboard.DeleteData(txtDocNo.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                         AddNew()
                         MDI.LoadImageList()
                         MDI.LoadMenu()
@@ -242,7 +242,7 @@ Public Class FrmCreateDashBoard
             Dim WhrCls As String = " tspl_Module_Permission.IsAvailable=1 and TSPL_PROGRAM_MASTER.Type='SM' and TSPL_PROGRAM_MASTER.PROGRAM_NAME like '%Report%'  "
             txtReportModule.Value = clsCommon.ShowSelectForm("ReportModule1", qry, "ReportModule", WhrCls, txtReportModule.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -262,7 +262,7 @@ Public Class FrmCreateDashBoard
         Try
             LoadData(txtDocNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -35,9 +35,11 @@ Public Class frmDistributorRouteTagging
         txtCode.MyReadOnly = False
         txtCode.Value = Nothing
         txtStartDate.Value = clsCommon.GETSERVERDATE()
-        txtEndDate.Value = clsCommon.GETSERVERDATE()
+        txtEndDate.Value = txtStartDate.Value
         txtCode.Focus()
         txtRemark.Text = ""
+        rbtnDistributor.IsChecked = True
+        rbtnTPT.IsChecked = False
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = True
@@ -68,6 +70,11 @@ Public Class frmDistributorRouteTagging
                     txtEndDate.Value = Nothing
                 End If
                 txtRemark.Text = obj.Remarks
+                If obj.IS_Transpoter Then
+                    rbtnTPT.IsChecked = True
+                Else
+                    rbtnDistributor.IsChecked = True
+                End If
                 Dim sno As Integer = 1
                 If obj.Arr IsNot Nothing Then
                     For Each objrow As clsDistributorRouteTaggingDetail In obj.Arr
@@ -132,7 +139,11 @@ Public Class frmDistributorRouteTagging
         gv1.MasterTemplate.Columns.Add(repoRouteName)
         Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustCode.FormatString = ""
-        repoCustCode.HeaderText = "Distributer Code"
+        If rbtnDistributor.IsChecked Then
+            repoCustCode.HeaderText = "Distributer Code"
+        Else
+            repoCustCode.HeaderText = "Transpoter Code"
+        End If
         repoCustCode.Name = colCustomerCode
         repoCustCode.HeaderImage = My.Resources.search4
         repoCustCode.TextImageRelation = TextImageRelation.TextBeforeImage
@@ -141,7 +152,11 @@ Public Class frmDistributorRouteTagging
         gv1.MasterTemplate.Columns.Add(repoCustCode)
         Dim repoCustName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustName.FormatString = ""
-        repoCustName.HeaderText = "Distributer Name"
+        If rbtnDistributor.IsChecked Then
+            repoCustName.HeaderText = "Distributer Name"
+        Else
+            repoCustName.HeaderText = "Transpoter Name"
+        End If
         repoCustName.Name = colCustomerName
         repoCustName.Width = 150
         repoCustName.IsVisible = True
@@ -216,6 +231,11 @@ Public Class frmDistributorRouteTagging
                     obj.End_Date = txtEndDate.Value
                 End If
                 obj.Remarks = txtRemark.Text
+                If rbtnDistributor.IsChecked Then
+                    obj.IS_Transpoter = False
+                Else
+                    obj.IS_Transpoter = True
+                End If
                 obj.Arr = New List(Of clsDistributorRouteTaggingDetail)
                 For Each row As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsDistributorRouteTaggingDetail()
@@ -242,9 +262,15 @@ Public Class frmDistributorRouteTagging
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
                     If e.Column Is gv1.Columns(colCustomerCode) Then
-                        Dim strCustCode As String = clsDistributorRouteTagging.getFinder("", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustomerCode).Value), False)
+                        Dim strCustCode As String = String.Empty
+                        If rbtnDistributor.IsChecked Then
+                            strCustCode = clsDistributorRouteTagging.getFinder(" IsDistributor='Y' ", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustomerCode).Value), False)
+                        Else
+                            strCustCode = clsDistributorRouteTagging.getFinder(" form_type='TPT'", clsCommon.myCstr(gv1.CurrentRow.Cells(colCustomerCode).Value), False)
+                        End If
                         gv1.CurrentRow.Cells(colCustomerCode).Value = strCustCode
                         gv1.CurrentRow.Cells(colCustomerName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" & strCustCode & "' ")
+
                     ElseIf e.Column Is gv1.Columns(colRouteNumber) Then
                         Dim strRouteCode As String = clsDistributorRouteTagging.getRouteFinder("", clsCommon.myCstr(gv1.CurrentRow.Cells(colRouteNumber).Value), False)
                         gv1.CurrentRow.Cells(colRouteNumber).Value = strRouteCode
@@ -366,7 +392,7 @@ Public Class frmDistributorRouteTagging
             Me.Controls.Add(gv)
             Dim obj As New List(Of clsDistributorRouteTaggingDetail)
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gv, "Route Code", "Distributor Code") Then
+            If transportSql.importExcel(gv, "Route Code", "Distributor Code", "IS Transpoter") Then
                 'Dim trans As SqlTransaction = Nothing
                 Dim linno As Integer = 0
                 Dim TempNewRecord As Boolean = False
@@ -386,16 +412,23 @@ Public Class frmDistributorRouteTagging
                                 Continue For
                             End If
                         End If
-                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Distributor Code").Value))) Then
+                        If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Distributor Code").Value)) AndAlso String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("IS Transpoter").Value))) Then
                             Continue For
                         Else
-                            Dim str As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and IsDistributor='Y'"))
+                            Dim str As String = String.Empty
+                            If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("IS Transpoter").Value), "True") = CompairStringResult.Equal Then
+                                str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and Form_Type='TPT'"))
+                            Else
+                                str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and IsDistributor='Y'"))
+
+                            End If
                             If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Distributor Code").Value)) = CompairStringResult.Equal Then
                                 Arr.Cust_Code = clsCommon.myCstr(grow.Cells("Distributor Code").Value)
                             Else
                                 Continue For
                             End If
                         End If
+
                         obj.Add(Arr)
                     Next
 
@@ -449,9 +482,9 @@ Public Class frmDistributorRouteTagging
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select Route_No as [Route Code],Cust_Code as [Distributor Code] from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
+            Dim str As String = "select Route_No as [Route Code],Cust_Code as [Distributor Code],IS_Transpoter as [IS Transpoter] from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
             Dim whrCls As String = ""
-            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code"})
+            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "IS Transpoter"})
             transportSql.ExporttoExcel(str, whrCls, Me)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -477,6 +510,10 @@ FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
       Left Join tspl_Customer_Master on tspl_Customer_Master.Cust_Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code
   left join tspl_Company_master on tspl_Company_master.Comp_Code=.TSPL_ROUTE_MASTER.Comp_Code
    WHERE TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code ='" & txtCode.Value & "'"
+            If rbtnTPT.IsChecked Then
+                sqlqry += " and IS_Transpoter=1"
+
+            End If
             Dim dtItem As DataTable
             dtItem = clsDBFuncationality.GetDataTable(sqlqry)
             If dtItem.Rows.Count > 0 Then
@@ -489,5 +526,18 @@ FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
+    End Sub
+
+    Private Sub rbtnDistributor_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnDistributor.CheckStateChanged
+        If rbtnDistributor.IsChecked Then
+            rbtnTPT.IsChecked = False
+        End If
+    End Sub
+
+    Private Sub rbtnTPT_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnTPT.CheckStateChanged
+        If rbtnTPT.IsChecked Then
+            rbtnDistributor.IsChecked = False
+            LoadBlankGrid()
+        End If
     End Sub
 End Class

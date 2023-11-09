@@ -270,7 +270,7 @@ Public Class frmLocationMaster
         Try
             If allowToSave() Then SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            clsCommon.MyMessageBoxShow(Me, ex.Message.ToString())
         End Try
     End Sub
 
@@ -296,7 +296,7 @@ Public Class frmLocationMaster
         End If
         If PlantDepotMappingMandatory Then
             If TxtMultiLocation.arrValueMember Is Nothing AndAlso TxtMultiLocation.arrValueMember.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("Select depot type location to map with plant type ", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select depot type location to map with plant type ", Me.Text)
                 Return False
             End If
         End If
@@ -304,7 +304,7 @@ Public Class frmLocationMaster
         If TxtMultiLocation.arrValueMember IsNot Nothing AndAlso TxtMultiLocation.arrValueMember.Count > 0 Then
             Dim strcode = clsDBFuncationality.getSingleValue("select depot_location_code from tspl_location_plantdepot_detail where depot_location_code in (" + clsCommon.GetMulcallString(TxtMultiLocation.arrValueMember) + ")")
             If clsCommon.myLen(strcode) > 0 Then
-                clsCommon.MyMessageBoxShow("Depot type location already mapped with another plant type", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Depot type location already mapped with another plant type", Me.Text)
                 Return False
             End If
             Dim strc1 = clsDBFuncationality.getSingleValue("select location_code from tspl_location_master where location_code='" + clsCommon.myCstr(fndLocation.Value) + "'")
@@ -312,7 +312,7 @@ Public Class frmLocationMaster
                 Dim strce = clsDBFuncationality.getSingleValue("select location_code from TSPL_LOCATION_MASTER where Type ='Plant' and ((GIT_Type='N') or ISNULL(GIT_Type,'')='') and ((CSA_Type='N') or ISNULL(CSA_Type,'')='') and ((Is_Section='N') or ISNULL(Is_Section,'')='') and ((Is_Sub_Location = 'N') or ISNULL(Is_Sub_Location,'')='') and location_code='" + clsCommon.myCstr(fndLocation.Value) + "'")
                 If clsCommon.myLen(strce) > 0 Then
                 Else
-                    clsCommon.MyMessageBoxShow("Location should not GIT,CSA,Section and Sub location but must be of plant type.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Location should not GIT,CSA,Section and Sub location but must be of plant type.", Me.Text)
                     Return False
                 End If
             End If
@@ -325,14 +325,14 @@ Public Class frmLocationMaster
                 Dim strCode = clsDBFuncationality.getSingleValue("select  top 1 TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE from TSPL_SD_SHIPMENT_HEAD left outer join  TSPL_SD_SHIPMENT_DETAIL on " &
                  "TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE  where Delivery_Code <> '' and Bill_To_Location='" & fndLocation.Value & "' ")
                 If clsCommon.myLen(strCode) > 0 Then
-                    clsCommon.MyMessageBoxShow("Dispatch From DO, Cannot change this setting. Location is already in use", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Dispatch From DO, Cannot change this setting. Location is already in use", Me.Text)
                     Return False
                 End If
             ElseIf clsCommon.CompairString(strDispatchRef, "G") = CompairStringResult.Equal AndAlso rbtnDispatchFromGAtepass.IsChecked = False Then
                 Dim strCode = clsDBFuncationality.getSingleValue("select top 1 TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE from TSPL_SD_SHIPMENT_HEAD left outer join  TSPL_SD_SHIPMENT_DETAIL on " &
                  "TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.GatePass_No  <> '' and Bill_To_Location='" & fndLocation.Value & "'")
                 If clsCommon.myLen(strCode) > 0 Then
-                    clsCommon.MyMessageBoxShow("Dispatch From Gatepass, Cannot change setting. Location is already in use", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Dispatch From Gatepass, Cannot change setting. Location is already in use", Me.Text)
                     Return False
                 End If
             End If
@@ -343,7 +343,7 @@ Public Class frmLocationMaster
             If chkconsumption.Checked And clsCommon.myLen(TxtSection.Value) > 0 And clsCommon.myLen(TxtMainLoc.Value) > 0 Then
                 Dim qry As String = clsDBFuncationality.getSingleValue(clsCommon.myCstr("Select count(*)  from TSPL_LOCATION_MASTER where Is_Consumption_Location=1 and Section_Code='" & TxtSection.Value & "' and Main_Location_Code='" & TxtMainLoc.Value & "' and Location_code<> '" & fndLocation.Value & "'"))
                 If qry > 0 Then
-                    common.clsCommon.MyMessageBoxShow("One Consumption location is already made for this section code and main location")
+                    common.clsCommon.MyMessageBoxShow(Me, "One Consumption location is already made for this section code and main location")
                     Return False
                 End If
             End If
@@ -363,7 +363,7 @@ Public Class frmLocationMaster
             Return False
         ElseIf (clsCommon.CompairString(clsCommon.myCstr(ddlLocationType.Text), "Logical") = CompairStringResult.Equal And chkExcisable.Checked = True) Then
             RadPageView1.SelectedPage = Details
-            common.clsCommon.MyMessageBoxShow("Excisable can not be checked with location type logical")
+            common.clsCommon.MyMessageBoxShow(Me, "Excisable can not be checked with location type logical")
             Return False
         ElseIf chkExcisable.Checked = True Then
             If clsCommon.myLen(txtEccNumber.Text) <= 0 Then
@@ -373,7 +373,7 @@ Public Class frmLocationMaster
                 Return False
             ElseIf clsCommon.myLen(txtEccNumber.Text) < 15 Then
                 RadPageView1.SelectedPage = Details
-                common.clsCommon.MyMessageBoxShow("ECC number must have minimum of 15 character")
+                common.clsCommon.MyMessageBoxShow(Me, "ECC number must have minimum of 15 character")
                 Return False
             End If
         ElseIf chkInsurance.Checked = True Then
@@ -383,7 +383,7 @@ Public Class frmLocationMaster
                 Return False
             End If
             If txtFromDate.Value.Date > txtToDate.Value.Date Then
-                common.clsCommon.MyMessageBoxShow("Insurance To date can not be before than from date.")
+                common.clsCommon.MyMessageBoxShow(Me, "Insurance To date can not be before than from date.")
                 txtToDate.Focus()
                 Return False
             End If
@@ -401,7 +401,7 @@ Public Class frmLocationMaster
         Dim check As Match = Regex.Match(txtEmail.Text, "\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*")
         If check.Success = False And txtEmail.Text <> "" Then
             RadPageView1.SelectedPage = Details
-            common.clsCommon.MyMessageBoxShow("Please insert the proper format of e-mail address", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please insert the proper format of e-mail address", Me.Text)
             txtEmail.Text = ""
             txtEmail.Focus()
             Return False
@@ -411,21 +411,21 @@ Public Class frmLocationMaster
 
         If chkthirdparty.Checked AndAlso clsCommon.myLen(txtvndrcode.Value) <= 0 Then
             RadPageView1.SelectedPage = Details
-            common.clsCommon.MyMessageBoxShow("Please select vendor for third party location", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select vendor for third party location", Me.Text)
             txtvndrcode.Focus()
             txtvndrcode.Select()
             Return False
         End If
         If clsCommon.CompairString(cmbloc_cate.Text, "MCC") = CompairStringResult.Equal AndAlso clsCommon.CompairString(ddlType.Text, "PLANT") = CompairStringResult.Equal Then
             RadPageView1.SelectedPage = Details
-            common.clsCommon.MyMessageBoxShow("The Location Of Category MCC can Not Have Type PLANT", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "The Location Of Category MCC can Not Have Type PLANT", Me.Text)
             ddlType.Text = ""
             Return False
         End If
         If clsCommon.myLen(txtZipPostalCode.Text) > 0 Then
             If clsCommon.myLen(txtZipPostalCode.Text) <> 6 Then
                 RadPageView1.SelectedPage = Details
-                common.clsCommon.MyMessageBoxShow("Invalid Zip/Postal Code.Please Enter Zip/Postal Code 6 Digit.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Invalid Zip/Postal Code.Please Enter Zip/Postal Code 6 Digit.", Me.Text)
                 txtZipPostalCode.Focus()
                 txtZipPostalCode.Select()
                 Return False
@@ -434,7 +434,7 @@ Public Class frmLocationMaster
         If clsCommon.myLen(txtCategoryStructureCode.Value) > 0 Then
             If clsCommon.myLen(gvCategory.Rows(0).Cells(0).Value) <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage4
-                clsCommon.MyMessageBoxShow("First mapped Location category values with Location category structure", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "First mapped Location category values with Location category structure", Me.Text)
                 gvCategory.Focus()
                 gvCategory.Select()
                 Return False
@@ -443,7 +443,7 @@ Public Class frmLocationMaster
             For Each grow As GridViewRowInfo In gvCategory.Rows
                 If clsCommon.myLen(grow.Cells(CatcolCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(CatcolValue).Value) <= 0 Then
                     RadPageView1.SelectedPage = RadPageViewPage4
-                    clsCommon.MyMessageBoxShow("Please select category values", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please select category values", Me.Text)
                     gvCategory.Focus()
                     gvCategory.Select()
                     Return False
@@ -459,7 +459,7 @@ Public Class frmLocationMaster
         End If
         If rdbbtnSubLoc.IsChecked = True AndAlso clsCommon.myLen(TxtMainLoc.Value) <= 0 Then
             RadPageView1.SelectedPage = Details
-            common.clsCommon.MyMessageBoxShow("Main Location can not be left blank", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Main Location can not be left blank", Me.Text)
             TxtMainLoc.Focus()
             TxtMainLoc.Select()
             Return False
@@ -476,19 +476,19 @@ Public Class frmLocationMaster
             If ChkIsJobwork.Checked = True Then
                 If clsCommon.CompairString(clsCommon.myCstr(fndLocationSegmentCode.Value), MainLocSegmentCode) = CompairStringResult.Equal Then
                     RadPageView1.SelectedPage = Details
-                    common.clsCommon.MyMessageBoxShow("Please check ! Main location segment code and location segment code should not be same", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please check ! Main location segment code and location segment code should not be same", Me.Text)
                     TxtMainLoc.Focus()
                     TxtMainLoc.Select()
                     Return False
                 End If
                 If clsCommon.CompairString(SubLocVendorState, SubLocState) <> CompairStringResult.Equal Then
-                    common.clsCommon.MyMessageBoxShow("Please check ! Job Work Vendor State and State/Provience should be same.", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please check ! Job Work Vendor State and State/Provience should be same.", Me.Text)
                     Return False
                 End If
             Else
                 If clsCommon.CompairString(clsCommon.myCstr(fndLocationSegmentCode.Value), MainLocSegmentCode) <> CompairStringResult.Equal Then
                     RadPageView1.SelectedPage = Details
-                    common.clsCommon.MyMessageBoxShow("Please check ! Main location segment code and location segment code should  be same", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please check ! Main location segment code and location segment code should  be same", Me.Text)
                     TxtMainLoc.Focus()
                     TxtMainLoc.Select()
                     Return False
@@ -496,7 +496,7 @@ Public Class frmLocationMaster
             End If
             If clsCommon.CompairString(clsCommon.myCstr(fndLocation.Value), clsCommon.myCstr(TxtMainLoc.Value)) = CompairStringResult.Equal Then
                 RadPageView1.SelectedPage = Details
-                common.clsCommon.MyMessageBoxShow("Please check ! Main location code and location code can not be same", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please check ! Main location code and location code can not be same", Me.Text)
                 TxtMainLoc.Focus()
                 TxtMainLoc.Select()
                 Return False
@@ -505,7 +505,7 @@ Public Class frmLocationMaster
                 Dim strVirualLoc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from tspl_location_master where  isnull(is_sub_location,'N')='Y' and  Main_Location_Code='" & clsCommon.myCstr(TxtMainLoc.Value) & "' and Location_Type='Virtual' and UseInJobWork=1  and Location_Code <> '" & clsCommon.myCstr(fndLocation.Value) & "'"))
                 If clsCommon.myLen(strVirualLoc) > 0 Then
                     RadPageView1.SelectedPage = Details
-                    common.clsCommon.MyMessageBoxShow("Please check ! " & strVirualLoc & " Virtual location already exits for main location " & clsCommon.myCstr(TxtMainLoc.Value) & " Job Type and use in Job work is On.", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please check ! " & strVirualLoc & " Virtual location already exits for main location " & clsCommon.myCstr(TxtMainLoc.Value) & " Job Type and use in Job work is On.", Me.Text)
                     TxtMainLoc.Focus()
                     TxtMainLoc.Select()
                     Return False
@@ -523,28 +523,28 @@ Public Class frmLocationMaster
         End If
         If chkCSA.Checked AndAlso checkCommissonReq.Checked AndAlso clsCommon.myCdbl(txtcsa_commision.Text) <= 0 Then
             RadPageView1.SelectedPage = Details
-            clsCommon.MyMessageBoxShow("Fill commission rate for CSA", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Fill commission rate for CSA", Me.Text)
             txtcsa_commision.Focus()
             txtcsa_commision.Select()
             Return False
         End If
         If chkCSA.Checked AndAlso checkCommissonReq.Checked AndAlso clsCommon.myLen(txtcsa_comm_type.Text) <= 0 Then
             RadPageView1.SelectedPage = Details
-            clsCommon.MyMessageBoxShow("Set RT unit in Unit of Measurement for CSA commission rate per unit", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Set RT unit in Unit of Measurement for CSA commission rate per unit", Me.Text)
             txtcsa_comm_type.Focus()
             txtcsa_comm_type.Select()
             Return False
         End If
         If chkCSA.Checked AndAlso checkCommissonReq.Checked AndAlso clsCommon.myLen(cmbComm_Type.SelectedValue) <= 0 Then
             RadPageView1.SelectedPage = Details
-            clsCommon.MyMessageBoxShow("Select commission rate type for CSA", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select commission rate type for CSA", Me.Text)
             cmbComm_Type.Select()
             Return False
         End If
 
         If chkCSA.Checked AndAlso clsCommon.myLen(txtvndrcode.Value) <= 0 Then
             RadPageView1.SelectedPage = Details
-            clsCommon.MyMessageBoxShow("Select vendor detail for CSA", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select vendor detail for CSA", Me.Text)
             txtvndrcode.Focus()
             txtvndrcode.Select()
             Return False
@@ -552,7 +552,7 @@ Public Class frmLocationMaster
 
         If chkCSA.Checked AndAlso clsCommon.myLen(txtcommsn_code.Value) <= 0 AndAlso txtcommsn_code.MendatroryField = True Then
             RadPageView1.SelectedPage = Details
-            clsCommon.MyMessageBoxShow("Select Commission A/c Detail For CSA", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Select Commission A/c Detail For CSA", Me.Text)
             txtcommsn_code.Focus()
             txtcommsn_code.Select()
             Return False
@@ -560,7 +560,7 @@ Public Class frmLocationMaster
 
         If chkconsumption.Checked AndAlso clsCommon.myLen(TxtSection.Value) <= 0 Then
             RadPageView1.SelectedPage = Details
-            clsCommon.MyMessageBoxShow("Select section for consumption location.")
+            clsCommon.MyMessageBoxShow(Me, "Select section for consumption location.")
             TxtSection.Focus()
             TxtSection.Select()
             Return False
@@ -575,14 +575,14 @@ Public Class frmLocationMaster
             'End If
             If gvItem.CheckedValue.Count <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage12
-                clsCommon.MyMessageBoxShow("Select Jobwork Item ")
+                clsCommon.MyMessageBoxShow(Me, "Select Jobwork Item ")
                 gvItem.Focus()
                 gvItem.Select()
                 Return False
             End If
             If clsCommon.myLen(clsCommon.myCstr(FndJobworkVendor.Value)) <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage12
-                clsCommon.MyMessageBoxShow("Select Jobwork Vendor")
+                clsCommon.MyMessageBoxShow(Me, "Select Jobwork Vendor")
                 FndJobworkVendor.Focus()
                 FndJobworkVendor.Select()
                 Return False
@@ -592,7 +592,7 @@ Public Class frmLocationMaster
         If objCommonVar.GSTApplicable = True Then
             Dim GSTFinal As String = ""
             If chkregistered.Checked = True AndAlso clsCommon.myLen(txtGSTEntityNo.Text) = 0 Then
-                clsCommon.MyMessageBoxShow("Please Enter Valid GST No.")
+                clsCommon.MyMessageBoxShow(Me, "Please Enter Valid GST No.")
                 Return False
             End If
             If clsCommon.myLen(txtGSTEntityNo.Text) > 0 Then
@@ -648,7 +648,7 @@ Public Class frmLocationMaster
             End If
         Next
         If IsSelectAtLeastOneGrp Then
-            clsCommon.MyMessageBoxShow("Please select at least one default tax group for " + strGridName)
+            clsCommon.MyMessageBoxShow(Me, "Please select at least one default tax group for " + strGridName)
         End If
 
         Return IIf(IsSelectAtLeastOneGrp, False, True)
@@ -1018,7 +1018,7 @@ Public Class frmLocationMaster
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
     Private Sub SetUserMgmtNew()
@@ -1679,25 +1679,25 @@ Public Class frmLocationMaster
             qst = "select From_Location,To_Location from tspl_transfer_head where (From_Location  ='" + fndLocation.Value + "' or To_Location ='" + fndLocation.Value + "')"
             dpt = clsDBFuncationality.getSingleValue(qst)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
                 Return
             End If
             qst = "select Bill_To_Location from TSPL_SRN_HEAD where Bill_To_Location ='" + fndLocation.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
                 Return
             End If
             qst = "select Location from TSPL_PR_DETAIL where Location ='" + fndLocation.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
                 Return
             End If
             qst = "select Loc_Code from TSPL_SCRAPINVOICE_HEAD where Loc_Code ='" + fndLocation.Value + "'"
             dpt = clsDBFuncationality.getSingleValue(qst)
             If clsCommon.myLen(dpt) > 0 AndAlso dpt IsNot Nothing Then
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "This is already in Process")
                 Return
             End If
             qst = "select Location_Code from TSPL_ADJUSTMENT_DETAIL where Location_Code ='" + fndLocation.Value + "'"
@@ -1719,7 +1719,7 @@ Public Class frmLocationMaster
         Catch ex As Exception
             'MessageBox.Show(ex.Message.ToString())
             '' Anubhooti 06-Oct-2014 BM00000004189 
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 #Region "KeyPress Event"
@@ -1815,7 +1815,7 @@ Public Class frmLocationMaster
             strvalue = clsDBFuncationality.getSingleValue(str)
             If strvalue <> "" Then
             Else : str = ""
-                common.clsCommon.MyMessageBoxShow("Segment code does not exist in Master Table")
+                common.clsCommon.MyMessageBoxShow(Me, "Segment code does not exist in Master Table")
                 fndLocationSegmentCode.Value = ""
                 fndLocationSegmentCode.Focus()
             End If
@@ -2012,7 +2012,7 @@ Public Class frmLocationMaster
             Dim strvalue As String = clsDBFuncationality.getSingleValue(str)
             If strvalue <> "" Then
             Else : str = ""
-                common.clsCommon.MyMessageBoxShow("Segment code does not exist in Master Table")
+                common.clsCommon.MyMessageBoxShow(Me, "Segment code does not exist in Master Table")
                 fndLocationSegmentCode.Value = ""
                 fndLocationSegmentCode.Focus()
             End If
@@ -2208,7 +2208,7 @@ Public Class frmLocationMaster
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -3642,7 +3642,7 @@ Public Class frmLocationMaster
                 End If
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -3717,7 +3717,7 @@ Public Class frmLocationMaster
 
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -3804,7 +3804,7 @@ Public Class frmLocationMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndLocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Location")
+                clsCommon.MyMessageBoxShow(Me, "Select Location")
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndLocation.Value, "Location_Code", "TSPL_Location_MASTER")
@@ -3816,7 +3816,7 @@ Public Class frmLocationMaster
     Private Sub txtPANNo_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtPANNo.Validating
         If clsCommon.myLen(txtPANNo.Text) > 0 Then
             If clsCommon.myLen(txtPANNo.Text) < 10 Then
-                clsCommon.MyMessageBoxShow("PAN number should have max. 10 length.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "PAN number should have max. 10 length.", Me.Text)
                 txtPANNo.Focus()
                 txtPANNo.Select()
                 Return
@@ -3826,7 +3826,7 @@ Public Class frmLocationMaster
             If checkPan.IsMatch(panNumber) Then
                 txtGSTPANNO.Text = txtPANNo.Text
             Else
-                clsCommon.MyMessageBoxShow("Please enter valid PAN No.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please enter valid PAN No.", Me.Text)
             End If
         End If
     End Sub

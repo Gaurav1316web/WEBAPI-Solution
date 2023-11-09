@@ -1165,8 +1165,13 @@ Public Class clsMilkProcurementUploaderDetail
     Public Reject_Defaulter As String
     Public Against_Milk_Collection_DCS_Detail As Integer
     Public Dock_Collection_Milk_Type_Auto As Boolean = True
-    Public Retesting_FAT As Decimal
-    Public Retesting_SNF As Decimal
+
+    Public Manual_Weight As Integer
+    Public Manual_Sample As Integer
+    Public Empty_Sample As Integer
+    Public Page_No As Integer
+    'Public Retesting_FAT As Decimal
+    'Public Retesting_SNF As Decimal
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal strMCCCode As String, ByVal Arr As List(Of clsMilkProcurementUploaderDetail), ByVal trans As SqlTransaction) As Boolean
@@ -1218,6 +1223,12 @@ Public Class clsMilkProcurementUploaderDetail
                     End If
                 End If
                 clsCommon.AddColumnsForChange(coll, "Dock_Collection_Milk_Type", obj.Dock_Collection_Milk_Type)
+
+                clsCommon.AddColumnsForChange(coll, "Manual_Weight", obj.Manual_Weight, True)
+                clsCommon.AddColumnsForChange(coll, "Manual_Sample", obj.Manual_Sample, True)
+                clsCommon.AddColumnsForChange(coll, "Empty_Sample", obj.Empty_Sample, True)
+                clsCommon.AddColumnsForChange(coll, "Page_No", obj.Page_No, True)
+
                 If clsCommon.myLen(strTR_No) > 0 Then
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL", OMInsertOrUpdate.Update, "TR_No='" + strTR_No + "'", trans)
                 Else
@@ -1262,6 +1273,12 @@ Public Class clsMilkProcurementUploaderDetail
                 objTr.Reject_Defaulter = clsCommon.myCstr(dr("Reject_Defaulter"))
                 objTr.Uploader_Code = clsCommon.myCstr(dr("Uploader_Code"))
                 objTr.Bulk_Route_Code = clsCommon.myCstr(dr("Bulk_Route_Code"))
+
+                objTr.Manual_Weight = clsCommon.myCDecimal(dr("Manual_Weight"))
+                objTr.Manual_Sample = clsCommon.myCDecimal(dr("Manual_Sample"))
+                objTr.Empty_Sample = clsCommon.myCDecimal(dr("Empty_Sample"))
+                objTr.Page_No = clsCommon.myCDecimal(dr("Page_No"))
+
                 arr.Add(objTr)
             Next
         End If

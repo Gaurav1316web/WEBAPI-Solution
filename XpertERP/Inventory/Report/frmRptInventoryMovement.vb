@@ -132,9 +132,9 @@ Public Class frmRptInventoryMovement
             Dim StrQuery As String
             Dim strItemtype As String = ""
             If chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Location")
             ElseIf chkItemSelect.IsChecked AndAlso cbgItem.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Item")
             End If
 
             If rdbFinish.IsChecked = True Then
@@ -337,7 +337,7 @@ Public Class frmRptInventoryMovement
                 gv1.EnableFiltering = True
 
                 If dtFinal Is Nothing OrElse dtFinal.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 Else
                     gv1.DataSource = dtFinal
@@ -371,7 +371,7 @@ Public Class frmRptInventoryMovement
             'Else
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

@@ -445,6 +445,7 @@ Public Class FrmCattleMaster
             Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            Return False
         End Try
     End Function
 
