@@ -344,7 +344,7 @@ Public Class FrmPendingIndentTransferReport
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         Else
             gv1.DataSource = dt
@@ -418,7 +418,7 @@ Public Class FrmPendingIndentTransferReport
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub

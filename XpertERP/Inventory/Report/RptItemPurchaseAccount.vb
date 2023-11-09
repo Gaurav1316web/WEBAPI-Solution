@@ -329,7 +329,7 @@ Public Class RptItemPurchaseAccount
 
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
             Return False
         End Try
         Return True
@@ -389,11 +389,11 @@ Public Class RptItemPurchaseAccount
                     End If
                 Next
                 If (obj.PurchaseMasterArr Is Nothing OrElse obj.PurchaseMasterArr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item")
                     Return
                 End If
                 If (obj.PurchaseUpdate(obj)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Update Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Update Successfully")
                     FunReset()
                 End If
             End If
@@ -565,7 +565,7 @@ Public Class RptItemPurchaseAccount
                 gv.Columns.Clear()
 
                 If dt IsNot Nothing AndAlso dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found")
                 ElseIf IsPrint = Exporter.Print Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "crptItemPurchase", "Item Purchase Account Set Report", clsCommon.GETSERVERDATE())
@@ -2119,7 +2119,7 @@ Public Class RptItemPurchaseAccount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
 
             ''richa agarwal regarding memory leakage
@@ -2133,7 +2133,7 @@ Public Class RptItemPurchaseAccount
         Dim TempFormId As String = PageSetupReport_ID
         TempFormId = Form_ID
         clsGridLayout.DeleteData(TempFormId, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
     End Sub
     ' Ticket No : TEC/02/05/19-000470 by prabhakar
     Private Sub chkOnlyview_CheckedChanged(sender As Object, e As EventArgs) Handles chkOnlyview.CheckedChanged

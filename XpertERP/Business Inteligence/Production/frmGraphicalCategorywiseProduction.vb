@@ -79,7 +79,7 @@ Public Class frmGraphicalCategorywiseProduction
             dtMst = clsProductionReceipt.GetCategorywiseProduction(dtpFromdate1.Value, dtpToDate.Value, cmbFigure.SelectedValue).Copy()
             SnDUtility.GenerateExcelChart(dtMst, cboType.SelectedValue, "", "Category", "Produced Qty", "Rejected Qty", "Break Qty")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -172,7 +172,7 @@ Public Class frmGraphicalCategorywiseProduction
                 clsCommon.MyExportToPDF(str, gv, arr, "Categorywise Production Report", False)
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("No Record Found to print.")
+            common.clsCommon.MyMessageBoxShow(Me, "No Record Found to print.", Me.Text)
         End If
     End Sub
 

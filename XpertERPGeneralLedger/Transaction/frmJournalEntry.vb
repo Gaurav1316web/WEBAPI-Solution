@@ -1936,6 +1936,7 @@ Public Class frmJournalEntry
         Catch ex As Exception
 
             clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
 
 

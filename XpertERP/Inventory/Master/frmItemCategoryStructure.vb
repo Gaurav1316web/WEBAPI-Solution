@@ -121,7 +121,7 @@ Public Class frmItemCategoryStructure
         End If
         
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Description", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Fill Description", Me.Text)
             txtDescription.Focus()
             txtDescription.Select()
             Errorcontrol.SetError(txtDescription, "Fill Description")
@@ -165,7 +165,7 @@ Public Class frmItemCategoryStructure
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         'Dim discCode As String
@@ -184,7 +184,7 @@ Public Class frmItemCategoryStructure
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsItemCategoryStructure.DeleteData(txtCode.Value, FormType)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -301,7 +301,7 @@ Public Class frmItemCategoryStructure
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -284,7 +284,7 @@ Public Class ReportTransfer
                     Dim isSettingOn As Boolean = IIf(clsCommon.CompairString("Y", clsFixedParameter.GetData(clsFixedParameterType.PrintVerify, clsFixedParameterCode.Transfer, Nothing)) = CompairStringResult.Equal, True, False)
                     Dim isCorrect As String = "N"
                     If isSettingOn Then
-                        If (common.clsCommon.MyMessageBoxShow("Have you checked and verified  Properly ? ", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                        If (common.clsCommon.MyMessageBoxShow(Me, "Have you checked and verified  Properly ? ", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                             isCorrect = "Y"
                         End If
                     Else
@@ -295,13 +295,13 @@ Public Class ReportTransfer
                 End If
 
             Else
-                common.clsCommon.MyMessageBoxShow("Please select TRANSFER NO.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select TRANSFER NO.")
                 Return False
             End If
             frmCRV = Nothing
             Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
             Return False
         End Try
     End Function

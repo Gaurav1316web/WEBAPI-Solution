@@ -126,7 +126,7 @@ Public Class RptInventoryMovement
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -138,7 +138,7 @@ Public Class RptInventoryMovement
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
 
@@ -189,10 +189,10 @@ Public Class RptInventoryMovement
                     clsCommon.MyExportToPDF("Inventory Movement Report", Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -207,7 +207,7 @@ Public Class RptInventoryMovement
                 DrillDown()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DrillDown()
@@ -321,7 +321,7 @@ Public Class RptInventoryMovement
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -494,13 +494,13 @@ Public Class RptInventoryMovement
                 Gv1.BestFitColumns()
                 Gv1.EnableFiltering = True
             Else
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             PageSetupReport_ID = Getreport_id()
             ReStoreGridLayout()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

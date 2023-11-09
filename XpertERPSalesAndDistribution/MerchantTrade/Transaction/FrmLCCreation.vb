@@ -348,6 +348,7 @@ Public Class FrmLCCreation
 
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
+            Return False
         End Try
     End Function
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)

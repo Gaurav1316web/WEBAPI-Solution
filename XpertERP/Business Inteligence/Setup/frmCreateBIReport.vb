@@ -238,7 +238,7 @@ Public Class frmCreateBIReport
             objReader.Close()
             objReader.Dispose()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         MssqlMetadataProvider1.Connection = New SqlConnection(ConnString)
@@ -279,7 +279,7 @@ Public Class frmCreateBIReport
             ' Report error
             MessageBox.Show(ex.Message, "Parsing error")
         Catch ex1 As Exception
-            clsCommon.MyMessageBoxShow(ex1.Message)
+            clsCommon.MyMessageBoxShow(Me, ex1.Message, Me.Text)
         End Try
     End Sub
 
@@ -397,7 +397,7 @@ Public Class frmCreateBIReport
                 'cboSeries.SelectedValue = strOldSeries
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -932,7 +932,7 @@ Public Class frmCreateBIReport
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         isInsideLoadData = False
     End Sub
@@ -1044,7 +1044,7 @@ Public Class frmCreateBIReport
                 Next
 
                 obj.SaveData(obj, isNewEntry)
-                clsCommon.MyMessageBoxShow("Data saved successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
                 MDI.LoadImageList()
                 MDI.LoadMenu()
@@ -1053,7 +1053,7 @@ Public Class frmCreateBIReport
                 obj.Layout.Dispose()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1095,7 +1095,7 @@ Public Class frmCreateBIReport
             'End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1130,7 +1130,7 @@ Public Class frmCreateBIReport
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1222,7 +1222,7 @@ Public Class frmCreateBIReport
             Dim WhrCls As String = " tspl_Module_Permission.IsAvailable=1 and TSPL_PROGRAM_MASTER.Type='SM' and TSPL_PROGRAM_MASTER.PROGRAM_NAME like '%Report%'  "
             txtReportModule.Value = clsCommon.ShowSelectForm("ReportModule", qry, "ReportModule", WhrCls, txtReportModule.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1385,7 +1385,7 @@ Public Class frmCreateBIReport
             'RadChartView2.Refresh()
             'RadChartView2.Refresh()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1720,7 +1720,7 @@ Public Class frmCreateBIReport
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1794,7 +1794,7 @@ Public Class frmCreateBIReport
             'chkShowLables.Checked = False
             ShoChartsData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1807,7 +1807,7 @@ Public Class frmCreateBIReport
             'chkShowLables.Checked = False
             ShoChartsData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1820,7 +1820,7 @@ Public Class frmCreateBIReport
             'chkShowLables.Checked = False
             ShoChartsData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1870,7 +1870,7 @@ Public Class frmCreateBIReport
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1899,7 +1899,7 @@ Public Class frmCreateBIReport
             txtDrilldownReport.Value = clsCommon.ShowSelectForm("DrillReport", qry, "Code", WhrCls, txtDrilldownReport.Value, "", isButtonClicked)
             txtDrilldownFilter.Value = ""
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1913,7 +1913,7 @@ Public Class frmCreateBIReport
             Dim WhrCls As String = "Against_Filter is not null and len(Against_Filter)>0 and TSPL_CREATE_BI_REPORT_FILTERS.Code='" + txtDrilldownReport.Value + "'"
             txtDrilldownFilter.Value = clsCommon.ShowSelectForm("Drillfilter", qry, "Code", WhrCls, txtDrilldownFilter.Value, "", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1966,7 +1966,7 @@ Public Class frmCreateBIReport
                 isValueChangeEvenrun = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

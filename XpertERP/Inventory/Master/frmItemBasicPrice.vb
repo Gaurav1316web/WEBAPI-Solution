@@ -51,18 +51,18 @@ Public Class FrmItemBasicPrice
     Function AllowToSave() As Boolean
 
         If clsCommon.myLen(fndItemCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter Item Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter Item Code")
             TxtSubCategoryCode.Focus()
             Return False
         End If
 
         If clsCommon.myLen(fndMRPCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select MRP Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select MRP Code")
             txtCategory.Focus()
             Return False
         End If
         If clsCommon.myLen(txtCost) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter the Item Cost")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter the Item Cost")
             txtCategory.Focus()
             Return False
         End If
@@ -78,11 +78,11 @@ Public Class FrmItemBasicPrice
                 obj.MRP = clsCommon.myCdbl(fndMRPCode.Value)
 
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully")
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -93,12 +93,12 @@ Public Class FrmItemBasicPrice
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsItemBasicPrice.DeleteData(fndItemCode.Value, fndMRPCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnclose1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click

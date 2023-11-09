@@ -61,7 +61,7 @@ Public Class RptApprovalReport
         'Ticket No-UDL/18/10/18-000233   sum(xxx.[Document Amount]) -> max(xxx.[Document Amount])
         Try
             If fromDate.Value > ToDate.Value Then
-                common.clsCommon.MyMessageBoxShow("From date can not be greater then to Date")
+                common.clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
                 fromDate.Focus()
                 Exit Sub
             End If
@@ -157,12 +157,12 @@ Public Class RptApprovalReport
                 ReStoreGridLayout()
             Else
                 gv.DataSource = Nothing
-                clsCommon.MyMessageBoxShow("No data found")
+                clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
                 RadPageView1.SelectedPage = RadPageViewPage1
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RptPendingDocumentList_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -214,7 +214,7 @@ Public Class RptApprovalReport
                 clsCommon.MyExportToPDF("Document Approval Status", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -353,7 +353,7 @@ Public Class RptApprovalReport
             cboTransaction.ValueMember = "Code"
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -423,7 +423,7 @@ Public Class RptApprovalReport
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -432,6 +432,6 @@ Public Class RptApprovalReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 End Class

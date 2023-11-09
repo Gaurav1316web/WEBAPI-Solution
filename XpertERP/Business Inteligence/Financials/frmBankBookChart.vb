@@ -66,7 +66,7 @@ Public Class FrmBankBookChart
             dt = clsDBFuncationality.GetDataTable(GetQry(BankCode, strFromDate, strToDate))
             SnDUtility.GenerateExcelChart(dt, cboType.SelectedValue, "", "Type", "Amount")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -201,7 +201,7 @@ Public Class FrmBankBookChart
         Try
             LoadData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -213,7 +213,7 @@ Public Class FrmBankBookChart
         Try
             RadPageView2.SelectedPage = RadPageViewPage5
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -222,7 +222,7 @@ Public Class FrmBankBookChart
             RadChart1.Skin = clsCommon.myCstr(cboSkin.SelectedValue)
             RadChart1.Update()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -254,7 +254,7 @@ Public Class FrmBankBookChart
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -264,7 +264,7 @@ Public Class FrmBankBookChart
                 LoadData()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

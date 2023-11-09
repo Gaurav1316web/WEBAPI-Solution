@@ -274,7 +274,7 @@ Public Class FrmStockRecoBatch
             PageSetupReport_ID = GetReportID()
             LoadData(0)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -291,7 +291,7 @@ Public Class FrmStockRecoBatch
             gv1.EnableFiltering = True
 
             If clsCommon.GetDateWithEndTime(txtToDate.Value) < clsCommon.GetDateWithStartTime(txtFromDate.Value) Then
-                clsCommon.MyMessageBoxShow("To Date cant be less than from date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "To Date cant be less than from date", Me.Text)
                 Exit Sub
             End If
             clsCommon.ProgressBarShow()
@@ -727,7 +727,7 @@ Public Class FrmStockRecoBatch
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
 
@@ -3136,7 +3136,7 @@ Public Class FrmStockRecoBatch
                 End If
             End If
         Catch err As Exception
-            common.clsCommon.MyMessageBoxShow(err.Message)
+            common.clsCommon.MyMessageBoxShow(Me, err.Message)
         End Try
     End Sub
 
@@ -3189,10 +3189,10 @@ Public Class FrmStockRecoBatch
                     clsCommon.MyExportToPDF("Stock Reco (" + cboType.Text + ")", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
 
     End Sub
@@ -3288,7 +3288,7 @@ Public Class FrmStockRecoBatch
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -3457,7 +3457,7 @@ Public Class FrmStockRecoBatch
             End If
             PageSetupReport_ID = GetReportID()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3626,7 +3626,7 @@ Public Class FrmStockRecoBatch
             End If
             PageSetupReport_ID = GetReportID()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3644,7 +3644,7 @@ Public Class FrmStockRecoBatch
         Try
             LoadData(1)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3652,7 +3652,7 @@ Public Class FrmStockRecoBatch
         Try
             LoadData(2)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

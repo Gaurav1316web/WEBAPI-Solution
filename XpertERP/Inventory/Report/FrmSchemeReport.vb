@@ -108,15 +108,15 @@ Public Class FrmSchemeReport
     Sub PrintData()
         Try
             If chkmainselect.IsChecked AndAlso cgvmainitem.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Main Item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Main Item")
                 Return
             End If
             If chkcateselect.IsChecked AndAlso cgvCustCategory.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Category")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Category")
                 Return
             End If
             If chkschemeselect.IsChecked AndAlso cgvschemeitem.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Scheme ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Scheme ")
                 Return
             End If
             Dim IsActive As String = ""
@@ -153,7 +153,7 @@ Public Class FrmSchemeReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 

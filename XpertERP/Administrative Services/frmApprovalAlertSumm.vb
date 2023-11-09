@@ -91,7 +91,7 @@ Public Class FrmApprovalAlertSumm
                 btnRefresh.PerformClick()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -439,7 +439,7 @@ Public Class FrmApprovalAlertSumm
             obj.GridColumns = gv_Alert.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''richa agarwal regarding memory leakage
             obj.GridLayout.Close()
@@ -457,7 +457,7 @@ Public Class FrmApprovalAlertSumm
             obj.GridColumns = gv_Doc.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''richa agarwal regarding memory leakage
             obj.GridLayout.Close()
@@ -468,10 +468,10 @@ Public Class FrmApprovalAlertSumm
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click ''delete layout
         If clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode) AndAlso RadPageViewPage1.Item.Visibility = ElementVisibility.Visible Then
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         End If
         If clsGridLayout.DeleteData(MyBase.Form_ID + "DOC", objCommonVar.CurrentUserCode) AndAlso RadPageViewPage2.Item.Visibility = ElementVisibility.Visible Then
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         End If
     End Sub
 
@@ -498,7 +498,7 @@ Public Class FrmApprovalAlertSumm
                 Throw New Exception("no record found.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -510,7 +510,7 @@ Public Class FrmApprovalAlertSumm
                 Throw New Exception("no record found.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -522,7 +522,7 @@ Public Class FrmApprovalAlertSumm
                 Throw New Exception("no record found.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -534,7 +534,7 @@ Public Class FrmApprovalAlertSumm
                 Throw New Exception("no record found.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -578,7 +578,7 @@ Public Class FrmApprovalAlertSumm
                 gv_Alert.Rows.Clear()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -626,14 +626,14 @@ Public Class FrmApprovalAlertSumm
                 RadPageViewPage2.Item.Visibility = ElementVisibility.Visible
                 RadPageView1.SelectedPage = RadPageViewPage2
             Else
-                clsCommon.MyMessageBoxShow("No " & cboType.SelectedValue & " record found")
+                clsCommon.MyMessageBoxShow(Me, "No " & cboType.SelectedValue & " record found")
                 RadPageViewPage1.Item.Visibility = ElementVisibility.Collapsed
                 RadPageViewPage2.Item.Visibility = ElementVisibility.Visible
                 RadPageView1.SelectedPage = RadPageViewPage2
                 'cboType.SelectedValue = "Pending"
             End If ''end dt
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -654,7 +654,7 @@ Public Class FrmApprovalAlertSumm
                 End If ''end scrn cond
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -684,7 +684,7 @@ Public Class FrmApprovalAlertSumm
                 LoadDocData(screenCode)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

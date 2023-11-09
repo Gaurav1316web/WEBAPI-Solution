@@ -174,7 +174,7 @@ Public Class FrmWeightCoversion
                 gv.Rows.AddNew()
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         Finally
             IsLoadData = False
         End Try
@@ -207,11 +207,11 @@ Public Class FrmWeightCoversion
                 End If
             Next
             If clsWeightConversionInfo.SaveData(arr) Then
-                clsCommon.MyMessageBoxShow("Data saved successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data saved successfully.")
             End If
             LoadData()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
     End Sub
 
@@ -229,12 +229,12 @@ Public Class FrmWeightCoversion
                 Dim oldItemstruct As String = clsCommon.myCstr(gv.Rows(jj).Cells(colItemStructure).Value)
                 If ItemStructureMandatory = 0 Then
                     If clsCommon.myLen(Containeduom) > 0 AndAlso clsCommon.myLen(Containeruom) > 0 AndAlso clsCommon.CompairString(Containeduom, oldContaineduom) = CompairStringResult.Equal AndAlso clsCommon.CompairString(Containeruom, oldContaineruom) = CompairStringResult.Equal AndAlso clsCommon.CompairString(product_type, oldproduct_type) = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Duplicate value at row no. " + clsCommon.myCstr(jj + 1) + "", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Duplicate value at row no. " + clsCommon.myCstr(jj + 1) + "", Me.Text)
                         Return False
                     End If
                 Else
                     If clsCommon.myLen(Containeduom) > 0 AndAlso clsCommon.myLen(Containeruom) > 0 AndAlso clsCommon.CompairString(Containeduom, oldContaineduom) = CompairStringResult.Equal AndAlso clsCommon.CompairString(Containeruom, oldContaineruom) = CompairStringResult.Equal AndAlso clsCommon.CompairString(Itemstruct, oldItemstruct) = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Duplicate value at row no. " + clsCommon.myCstr(jj + 1) + "", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Duplicate value at row no. " + clsCommon.myCstr(jj + 1) + "", Me.Text)
                         Return False
                     End If
                 End If
@@ -243,7 +243,7 @@ Public Class FrmWeightCoversion
             'Sanjay Ticket No  BHA/27/08/18-000483
             If ItemStructureMandatory = True Then
                 If clsCommon.myLen(gv.Rows(ii).Cells(colCOntainerUOM).Value) > 0 AndAlso clsCommon.myLen(gv.Rows(ii).Cells(colItemStructure).Value) = 0 Then
-                    clsCommon.MyMessageBoxShow("Select Item Structure at row no. " + clsCommon.myCstr(ii + 1) + "", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Select Item Structure at row no. " + clsCommon.myCstr(ii + 1) + "", Me.Text)
                     Return False
                 End If
             End If
@@ -254,7 +254,7 @@ Public Class FrmWeightCoversion
                 Dim oldItemStructure As String = clsCommon.myCstr(gv.Rows(jj).Cells(colItemStructure).Value)
 
                 If clsCommon.myLen(Containeduom) > 0 AndAlso clsCommon.myLen(Containeruom) > 0 AndAlso clsCommon.CompairString(Containeduom, oldContaineduom) = CompairStringResult.Equal AndAlso clsCommon.CompairString(Containeruom, oldContaineruom) = CompairStringResult.Equal AndAlso clsCommon.CompairString(ItemStructure, oldItemStructure) = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Duplicate value at row no. " + clsCommon.myCstr(jj + 1) + "", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Duplicate value at row no. " + clsCommon.myCstr(jj + 1) + "", Me.Text)
                     Return False
                 End If
             Next
@@ -465,7 +465,7 @@ Public Class FrmWeightCoversion
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

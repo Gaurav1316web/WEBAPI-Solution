@@ -195,6 +195,8 @@ Public Class clsDispatchNoteFreshSale
     Public Manual_Driver_Name As String = Nothing
     Public Manual_Salesman_Name As String = Nothing
     Public Is_Taxable As Integer = 0
+    Public Distributor_Commission_TotalAmt As Decimal = 0
+
 #End Region
 
     Public Function SaveData(ByVal obj As clsDispatchNoteFreshSale, ByVal isNewEntry As Boolean) As Boolean
@@ -554,6 +556,8 @@ Public Class clsDispatchNoteFreshSale
             clsCommon.AddColumnsForChange(coll, "Manual_Driver_Name", obj.Manual_Driver_Name)
             clsCommon.AddColumnsForChange(coll, "Manual_Salesman_Name", obj.Manual_Salesman_Name)
             clsCommon.AddColumnsForChange(coll, "Shift_Type", obj.Shift_Type, True)
+            clsCommon.AddColumnsForChange(coll, "Distributor_Commission_TotalAmt", obj.Distributor_Commission_TotalAmt)
+
 
             If isNewEntry Then
                 clsCommon.AddColumnsForChange(coll, "Booking_No", obj.Booking_No, True)
@@ -2244,6 +2248,10 @@ Public Class clsDispatchNoteFreshSaleDetail
     '' Anubhooti 12-Sep-2014 BM00000003847
     Public Crate As Double = 0
     Public ItemLeakageAmount As Decimal = 0
+    Public Distributor_Commission_PKID As String = ""
+    Public Distributor_Commission_Rate As Decimal = 0
+    Public Distributor_Commission_RateWithTax As Decimal = 0
+    Public Distributor_Commission_Amt As Decimal = 0
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsDispatchNoteFreshSaleDetail), ByVal trans As SqlTransaction, ByVal DocDate As DateTime, ByVal strLocation As String, ByVal objShipment As clsDispatchNoteFreshSale) As Boolean
@@ -2451,6 +2459,10 @@ Public Class clsDispatchNoteFreshSaleDetail
                 clsCommon.AddColumnsForChange(coll, "Bin_No", obj.Bin_No)
                 clsCommon.AddColumnsForChange(coll, "HeadDiscPer", obj.HeadDiscPer)
                 clsCommon.AddColumnsForChange(coll, "HeadDiscPerAmt", obj.HeadDiscPerAmt)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_PKID", obj.Distributor_Commission_PKID, True)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Rate", obj.Distributor_Commission_Rate, True)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_RateWithTax", obj.Distributor_Commission_RateWithTax, True)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Amt", obj.Distributor_Commission_Amt, True)
                 'clsCommon.AddColumnsForChange(coll, "Unit_Cogs", clsItemLocationDetails.GetUnitCogs(obj.Item_Code, obj.Location, trans))
                 '' Anubhooti 12-Sep-2014 BM00000003847
                 clsCommon.AddColumnsForChange(coll, "Crate", obj.Crate)

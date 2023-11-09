@@ -3534,50 +3534,50 @@ Public Class frmScrapSale
     End Sub
 
     Private Sub txtTaxGroup__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTaxGroup._MYValidating
-        Dim qry As String = "select Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER "
-        Dim WhrCls As String = "Tax_Group_Type='S'"
-        If chkTaxable.Checked Then
-            WhrCls += " and Is_Tax_Exempted=0"
-        Else
-            WhrCls += " and Is_Tax_Exempted=1"
-        End If
-        'If chkExcisable.Checked Then
-        '    WhrCls += " and Excisable='Y'"
-        'End If
-        ''richa agarwal 
-        txtTaxGroup.Value = clsCommon.ShowSelectForm("POTaxGroupfndd", qry, "Code", WhrCls, txtTaxGroup.Value, "Code", isButtonClicked)
-        Dim strItemcode As String = String.Empty
-        Dim count As Double = 0
-        For i As Integer = 0 To gv1.Rows.Count - 1
-            If clsCommon.myLen(gv1.Rows(i).Cells(colICode).Value) > 0 Then
-                strItemcode = clsCommon.myCstr(gv1.Rows(i).Cells(colICode).Value)
 
-                If clsDBFuncationality.getSingleValue("Select Count(*) from TSPL_item_master where Is_Tax_Exempted =2 and Item_Code = ('" & strItemcode & "')") = 1 Then
-                    count = count + 1
-                Else
-                    count = 0
-                End If
-            End If
-        Next
-        If ddlInvoiceType.SelectedValue = "E" And count <> 0 Then
-            WhrCls += " and Excisable='Y'"
-        End If
-        Dim strCustomer As String = ""
-
-        If clsCommon.myLen(strCustomer) <= 0 Then
-            strCustomer = fndcustNo.Value
-        End If
-        'txtTaxGroup.Value = clsLocationWiseTax.FinderForTaxGroup(fndLocation.Value, strCustomer, "S", txtTaxGroup.Value, isButtonClicked)
         Try
-            SetTaxDetails()
-            If clsCommon.myCdbl(txttcstaxbaseamount.Value) <= 0 Then
-                txttcstaxbaseamount.Value = 1
-                txttcstaxbaseamount.Value = 0
+            If clsCommon.myLen(fndLocation.Value) <= 0 Then
+                Throw New Exception("Please first select Transaction location")
             End If
+            If clsCommon.myLen(fndcustNo.Value) <= 0 Then
+                Throw New Exception("Please first select Vendor / Customer ")
+            End If
+            Dim Without_State_Condition As Boolean = False
+            Dim strLocationQry As String = "select State from TSPL_LOCATION_MASTER where Location_Code='" + fndLocation.Value + "'"
+            Dim strCustLocationQry As String = "select State from TSPL_CUSTOMER_MASTER where cust_code='" + fndcustNo.Value + "'"
+            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue(strLocationQry)), clsCommon.myCstr(clsDBFuncationality.getSingleValue(strCustLocationQry))) = CompairStringResult.Equal Then
+                Without_State_Condition = True
+            End If
+            Dim qry As String = "select Distinct TSPL_TAX_GROUP_MASTER.Tax_Group_Code as Code,Tax_Group_Desc as Description from TSPL_TAX_GROUP_MASTER 
+left join TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code
+left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code "
+            Dim WhrCls As String = " TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'"
+            If chkTaxable.Checked Then
+                WhrCls += " and TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted=0 "
+                If Without_State_Condition Then
+                    WhrCls += " and TSPL_TAX_MASTER.Type='SGST'"
+                Else
+                    WhrCls += " and TSPL_TAX_MASTER.Type='IGST'"
+
+                End If
+
+            Else
+                WhrCls += " and TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted=1 "
+            End If
+            'If chkExcisable.Checked Then
+            '    WhrCls += " and Excisable='Y'"
+            'End If
+            '''richa agarwal 
+            txtTaxGroup.Value = clsCommon.ShowSelectForm("POTaxGroupfndd", qry, "Code", WhrCls, txtTaxGroup.Value, "Code", isButtonClicked)
+
+
             SetTaxDetails()
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+
         End Try
+
 
     End Sub
 
@@ -3586,9 +3586,14 @@ Public Class frmScrapSale
         Dim intCount As Integer = 0
         LoadBlankGridTax()
 
-
+        Dim Without_State_Condition As Boolean = False
+        Dim strLocationQry As String = "select State from TSPL_LOCATION_MASTER where Location_Code='" + fndLocation.Value + "'"
+        Dim strCustLocationQry As String = "select State from TSPL_CUSTOMER_MASTER where cust_code='" + fndcustNo.Value + "'"
+        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue(strLocationQry)), clsCommon.myCstr(clsDBFuncationality.getSingleValue(strCustLocationQry))) = CompairStringResult.Equal Then
+            Without_State_Condition = True
+        End If
         'Dim qry As String = "select TSPL_TAX_GROUP_DETAILS.Tax_Group_Code ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,Tax_Code,Tax_Code_Desc,Surtax,Surtax_Tax_Code,(select Tax_Rate from TSPL_TAX_RATES WHERE Tax_Rate_Code=1 AND Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code and TSPL_TAX_RATES.Tax_Type='s') AS TaxRate,Taxable from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" + txtTaxGroup.Value + "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='s' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='s' order by Trans_Code"
-        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "S", fndcustNo.Value, fndLocation.Value)
+        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "S", fndcustNo.Value, fndLocation.Value, Without_State_Condition)
         'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             If (dt.Rows.Count > 10) Then
@@ -4037,6 +4042,7 @@ Public Class frmScrapSale
         Dim dblNetWeight As Double = 0
 
         Dim dblTaxTotAmt As Double = 0
+        Dim dblTCSTotAmt As Double = 0
         Dim dblNetAmt As Double = 0
         For ii As Integer = 0 To gv1.Rows.Count - 1
             If (clsCommon.myLen(gv1.Rows(ii).Cells(colICode).Value) > 0) Then
@@ -4094,7 +4100,7 @@ Public Class frmScrapSale
                             'dblTaxBaseAmt1 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             dblTaxBaseAmt1 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt1 = (dblTaxBaseAmt1 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                            dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt1
+                            dblTCSTotAmt = dblTCSTotAmt + dblTaxAmt1
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt1, 2)
                         Else
@@ -4114,7 +4120,7 @@ Public Class frmScrapSale
                             'dblTaxBaseAmt2 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             dblTaxBaseAmt2 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt2 = (dblTaxBaseAmt2 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                            dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt2
+                            dblTCSTotAmt = dblTCSTotAmt + dblTaxAmt2
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt2, 2)
                         Else
@@ -4133,7 +4139,7 @@ Public Class frmScrapSale
                             'dblTaxBaseAmt3 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             dblTaxBaseAmt3 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt3 = (dblTaxBaseAmt3 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                            dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt3
+                            dblTCSTotAmt = dblTCSTotAmt + dblTaxAmt3
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt3, 2)
                         Else
@@ -4152,7 +4158,7 @@ Public Class frmScrapSale
                             'dblTaxBaseAmt4 = clsCommon.myCdbl(txttcstaxbaseamount.Value)
                             dblTaxBaseAmt4 = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
                             dblTaxAmt4 = (dblTaxBaseAmt4 * clsCommon.myCdbl(gv2.Rows(gv2.Rows.Count - 1).Cells(colTTaxRate).Value)) / 100
-                            dblTaxTotAmt = dblTaxTotAmt + dblTaxAmt4
+                            dblTCSTotAmt = dblTCSTotAmt + dblTaxAmt4
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt4, 2)
                         Else
@@ -4219,9 +4225,9 @@ Public Class frmScrapSale
         lblAmtWithDiscount.Text = clsCommon.myFormat(dblTotAmt)
         lblDiscountAmt.Text = clsCommon.myFormat(dblTotDisAmt)
         lblAmtAfterDiscount.Text = clsCommon.myFormat(dblAmtAfterDis)
-        lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt)
+        lblTaxAmt.Text = clsCommon.myFormat(dblTaxTotAmt + dblTCSTotAmt)
         If rbtnTaxCalAutomatic.IsChecked Then
-            lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt + clsCommon.myCdbl(lblTaxAmt.Text))
+            lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt + dblTCSTotAmt)
         ElseIf rbtnTaxCalManual.IsChecked Then
             lblTotRAmt.Text = clsCommon.myFormat(dblNetAmt)
         End If
