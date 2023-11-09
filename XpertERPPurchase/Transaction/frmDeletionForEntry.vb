@@ -368,6 +368,9 @@ Public Class frmDeletionForEntry
         End Try
     End Sub
 
+    Private Sub btnweighmentopen_Click(sender As Object, e As EventArgs) Handles btnweighmentopen.Click
+        clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.POWeighment, TxtWeighment.Text)
+    End Sub
     Sub AddnewW()
         TxtWeighment.Text = ""
         WeighmetDate.Value = Nothing
@@ -687,5 +690,6 @@ Public Class frmDeletionForEntry
         FormatGrid()
         FormatGridGv2()
     End Sub
+
 
 End Class

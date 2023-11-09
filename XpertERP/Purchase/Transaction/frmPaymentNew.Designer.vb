@@ -34,6 +34,7 @@ Partial Class FrmPaymentNew
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.ChkRetention = New Telerik.WinControls.UI.RadCheckBox()
         Me.grpVendorBankDetails = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtVendor_Bank_ACNo = New common.Controls.MyTextBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
@@ -62,7 +63,6 @@ Partial Class FrmPaymentNew
         Me.lblCurrency = New common.Controls.MyLabel()
         Me.lblConvRate = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.ChkRetention = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkTDSProvision = New common.Controls.MyCheckBox()
         Me.chkSaving = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkFarmerLoanPayment = New Telerik.WinControls.UI.RadCheckBox()
@@ -214,6 +214,7 @@ Partial Class FrmPaymentNew
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.ChkRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grpVendorBankDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpVendorBankDetails.SuspendLayout()
         CType(Me.txtVendor_Bank_ACNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -241,7 +242,6 @@ Partial Class FrmPaymentNew
         CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
-        CType(Me.ChkRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSaving, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFarmerLoanPayment, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -457,6 +457,15 @@ Partial Class FrmPaymentNew
         Me.SplitContainer2.Size = New System.Drawing.Size(1113, 445)
         Me.SplitContainer2.SplitterDistance = 290
         Me.SplitContainer2.TabIndex = 0
+        '
+        'ChkRetention
+        '
+        Me.ChkRetention.CheckAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.ChkRetention.Location = New System.Drawing.Point(595, 235)
+        Me.ChkRetention.Name = "ChkRetention"
+        Me.ChkRetention.Size = New System.Drawing.Size(69, 18)
+        Me.ChkRetention.TabIndex = 12138
+        Me.ChkRetention.Text = "Retention"
         '
         'grpVendorBankDetails
         '
@@ -984,15 +993,6 @@ Partial Class FrmPaymentNew
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(1110, 205)
         Me.RadGroupBox1.TabIndex = 0
-        '
-        'ChkRetention
-        '
-        Me.ChkRetention.CheckAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.ChkRetention.Location = New System.Drawing.Point(595, 235)
-        Me.ChkRetention.Name = "ChkRetention"
-        Me.ChkRetention.Size = New System.Drawing.Size(69, 18)
-        Me.ChkRetention.TabIndex = 12138
-        Me.ChkRetention.Text = "Retention"
         '
         'chkTDSProvision
         '
@@ -3067,6 +3067,7 @@ Partial Class FrmPaymentNew
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.ChkRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grpVendorBankDetails, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpVendorBankDetails.ResumeLayout(False)
         Me.grpVendorBankDetails.PerformLayout()
@@ -3098,7 +3099,6 @@ Partial Class FrmPaymentNew
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
-        CType(Me.ChkRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSaving, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFarmerLoanPayment, System.ComponentModel.ISupportInitialize).EndInit()
