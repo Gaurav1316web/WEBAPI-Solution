@@ -111,7 +111,7 @@ Public Class clsEmployeeSalary
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As clsEmployeeSalary
         Dim whrQry As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrQry = " And TAV.Location_Code='" + objCommonVar.strCurrUserLocations + "'"
+            whrQry = " And TAV.Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
         Dim obj As New clsEmployeeSalary()
         Dim objtr As New clsEmpSalaryPayHeadDetails()

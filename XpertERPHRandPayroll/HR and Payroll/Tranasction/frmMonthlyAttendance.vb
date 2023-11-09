@@ -681,7 +681,7 @@ Public Class frmMonthlyAttendance
     Private Sub findEnteredBy__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findEnteredBy._MYValidating
         Dim whrcls As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " LOCATION_CODE=" + objCommonVar.strCurrUserLocations + ""
+            whrcls = " LOCATION_CODE in (" + objCommonVar.strCurrUserLocations + ")"
         End If
         Dim qry As String = "SELECT EMP_CODE AS 'Code',EMP_Name as 'Employee Name' FROM TSPL_EMPLOYEE_MASTER "
         findEnteredBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", whrcls, findEnteredBy.Value, "", isButtonClicked)

@@ -295,6 +295,16 @@ Public Class frmDairyFreshDispatchMultiple
     Const colMainIQty As String = "MainIQty"
     Const colMainIUOM As String = "MainIUOM"
 
+    Const ColDCApplicableDate As String = "ColDCApplicableDate"
+    Const ColDCUOM As String = "ColDCUOM"
+    Const ColDCRate As String = "ColDCRate"
+    Const ColDCRateWithTax As String = "ColDCRateWithTax"
+    Const ColDCUnitCF As String = "ColDCUnitCF"
+    Const ColDCQtyinSU As String = "ColDCQtyinSU"
+    Const ColDCCFUOM As String = "ColDCCFUOM"
+    Const ColDCAmt As String = "ColDCAmt"
+    Const ColDCPKID As String = "ColDCPKID"
+
     Private ConvFactMsg As Boolean = False
     Dim atchqry As String = ""
     Public IsDataImported As Boolean = False
@@ -2494,6 +2504,88 @@ Public Class frmDairyFreshDispatchMultiple
         repoShipToLocation.Width = 100
         gv1.MasterTemplate.Columns.Add(repoShipToLocation)
 
+        Dim DC_PKID As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_PKID.FormatString = ""
+        DC_PKID.HeaderText = "Distributor PKID"
+        DC_PKID.Name = ColDCPKID
+        DC_PKID.Width = 100
+        DC_PKID.ReadOnly = True
+        DC_PKID.IsVisible = True
+        DC_PKID.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_PKID)
+        Dim DC_ApplicableDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_ApplicableDate.FormatString = ""
+        DC_ApplicableDate.HeaderText = "Applicable Date"
+        DC_ApplicableDate.Name = ColDCApplicableDate
+        DC_ApplicableDate.Width = 100
+        DC_ApplicableDate.ReadOnly = True
+        DC_ApplicableDate.IsVisible = True
+        DC_ApplicableDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_ApplicableDate)
+        Dim DC_UOM As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_UOM.FormatString = ""
+        DC_UOM.HeaderText = "Commission UOM"
+        DC_UOM.Name = ColDCUOM
+        DC_UOM.Width = 100
+        DC_UOM.ReadOnly = True
+        DC_UOM.IsVisible = True
+        DC_UOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_UOM)
+        Dim DC_Rate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_Rate.FormatString = ""
+        DC_Rate.HeaderText = "Commission Rate"
+        DC_Rate.Name = ColDCRate
+        DC_Rate.Width = 100
+        DC_Rate.ReadOnly = True
+        DC_Rate.IsVisible = True
+        DC_Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_Rate)
+        Dim DC_RateWithTax As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_RateWithTax.FormatString = ""
+        DC_RateWithTax.HeaderText = "Commission Rate Wtih TAx"
+        DC_RateWithTax.Name = ColDCRateWithTax
+        DC_RateWithTax.Width = 100
+        DC_RateWithTax.ReadOnly = True
+        DC_RateWithTax.IsVisible = True
+        DC_RateWithTax.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_RateWithTax)
+        Dim DC_UnitCF As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_UnitCF.FormatString = ""
+        DC_UnitCF.HeaderText = "Conversion Factor"
+        DC_UnitCF.Name = ColDCUnitCF
+        DC_UnitCF.Width = 100
+        DC_UnitCF.ReadOnly = True
+        DC_UnitCF.IsVisible = True
+        DC_UnitCF.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_UnitCF)
+        Dim DC_QtyInSU As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_QtyInSU.FormatString = ""
+        DC_QtyInSU.HeaderText = "Qty in Stocking Unit"
+        DC_QtyInSU.Name = ColDCQtyinSU
+        DC_QtyInSU.Width = 100
+        DC_QtyInSU.ReadOnly = True
+        DC_QtyInSU.IsVisible = True
+        DC_QtyInSU.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_QtyInSU)
+        Dim DC_CFUOM As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_CFUOM.FormatString = ""
+        DC_CFUOM.HeaderText = "Commission Conversion Factor"
+        DC_CFUOM.Name = ColDCCFUOM
+        DC_CFUOM.Width = 100
+        DC_CFUOM.ReadOnly = True
+        DC_CFUOM.IsVisible = True
+        DC_CFUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_CFUOM)
+        Dim DC_Amt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        DC_Amt.FormatString = ""
+        DC_Amt.HeaderText = "Distributor Commission Amt"
+        DC_Amt.Name = ColDCAmt
+        DC_Amt.Width = 100
+        DC_Amt.ReadOnly = True
+        DC_Amt.IsVisible = True
+        DC_Amt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(DC_Amt)
+
         clsCustomFieldGrid.LoadBlankGrid(gv1, MyBase.ArrDetailFields)
 
         gv1.AllowAddNewRow = False
@@ -4480,6 +4572,11 @@ Public Class frmDairyFreshDispatchMultiple
                             obj.Booking_Date = dtServerDate
                         Else
                             obj.Booking_Date = clsCommon.myCDate(gv1.Rows(ii).Cells(colDODate).Value)
+                        End If
+                        If rbtnMorning.IsChecked Then
+                            obj.Shift_Type = "M"
+                        ElseIf rbtnEvening.IsChecked Then
+                            obj.Shift_Type = "E"
                         End If
 
 
@@ -8211,19 +8308,19 @@ Public Class frmDairyFreshDispatchMultiple
             "Unit as Unit_Code,Sampling,MAX(Rate) as Rate,0 as Amount,max(IName) as Item_Desc,MAX(MRP) as MRP,MAX(Conv_Factor) as Conv_Factor, " &
             "MAX(final.Price_Code) as Price_Code,MAX(Price_Date) as Price_Date,MAX(Rate) as OrgRate,max(FOC_Item) as FOC_Item, " &
             "(scheme_item) as scheme_item,max(scheme_code) as scheme_code,max(Scheme_Item_Code) as Scheme_Item_Code,max(Scheme_Item_UOM) as Scheme_Item_UOM,max(Scheme_Type) as Scheme_Type,max(Structure_Code) as Structure_Code,max(Cust_PO_No) as Cust_PO_No,max(cust_po_date) as cust_po_date,max(Ship_To_Location) as Ship_To_Location from (  " &
-            "select TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ITEM_MASTER.HSN_Code as HSN_Code,Sku_Seq, (case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling else TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Sampling end) Sampling,Document_Date,TSPL_DELIVERY_NOTE_master_FRESHSALE.Lorry_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Line_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No as Code, " &
+            "select TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ITEM_MASTER.HSN_Code as HSN_Code,Sku_Seq, (case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling else TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Sampling end) Sampling,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date,TSPL_DELIVERY_NOTE_master_FRESHSALE.Lorry_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Line_No,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No as Code, " &
             "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Customer_Code as Vendor, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code as ICode, " &
             "TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_ITEM_MASTER.Is_Batch_Item, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty  as Qty, 0 as Unapproved, " &
             "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Unit_Code as Unit,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Location_Code as Location, " &
-            "1 as RI,case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then 0 else  TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Rate end  as Rate,1 as Chk,Document_Date as TransDate, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Price_code, " &
+            "1 as RI,case when TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Sampling=1 then 0 else  TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Rate end  as Rate,1 as Chk,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_Date as TransDate, TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Price_code, " &
             "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Price_Date,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Conv_Factor,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.MRP , " &
             "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.FOC_Item,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.scheme_item,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.scheme_code,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Item_Code,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Item_UOM,TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Type,TSPL_ITEM_MASTER.Structure_Code " &
             " ,isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.CustPO_No,'') as Cust_PO_No,ISNULL(CONVERT(VARCHAR,TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.custpo_date,103),'') as cust_po_date,isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Ship_To_Location,'') as Ship_To_Location " &
             " from TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on " &
             "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No   left outer join  " &
             "TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code " &
-            " left join TSPL_ROUTE_MASTER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No=TSPL_ROUTE_MASTER.Route_No where " &
-            "TSPL_DELIVERY_NOTE_master_FRESHSALE.Posted=1  and TSPL_DELIVERY_NOTE_master_FRESHSALE.Short_Close='N'  and  " &
+            " left join TSPL_ROUTE_MASTER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No=TSPL_ROUTE_MASTER.Route_No  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No where " &
+            "TSPL_DELIVERY_NOTE_master_FRESHSALE.Posted=1 and TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(IIf(rbtnMorning.IsChecked, "AM", "PM")) + "'  and TSPL_DELIVERY_NOTE_master_FRESHSALE.Short_Close='N'  and  " &
             "TSPL_DELIVERY_NOTE_master_FRESHSALE.OnHold='N' "
             If Not GenerateInvoiceWithTaxableAndNonTaxableItems Then
                 qry += " and isnull(tspl_item_master.IsTaxable,0)=" & IsTaxable & " And ISNULL(Is_FreshItem,0)=" & IsFreshItem & "  "
@@ -8239,7 +8336,7 @@ Public Class frmDairyFreshDispatchMultiple
             "from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_Head on TSPL_SD_SHIPMENT_Head.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code " &
             "left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code   " &
             "left join TSPL_ROUTE_MASTER on TSPL_SD_SHIPMENT_HEAD.Route_No=TSPL_ROUTE_MASTER.Route_No " &
-            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code where TSPL_SD_SHIPMENT_Head.Status=1 "
+            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No where TSPL_SD_SHIPMENT_Head.Status=1 and TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(IIf(rbtnMorning.IsChecked, "AM", "PM")) + "' "
 
             If CreateCommonDairyDispatchforFreshAmbient = False Then
                 qry += " and TSPL_SD_SHIPMENT_Head.Trans_Type='" & strTransType & "' "
@@ -8261,8 +8358,8 @@ Public Class frmDairyFreshDispatchMultiple
             "TSPL_SD_SHIPMENT_Head.Document_Code=TSPL_SD_SHIPMENT_DETAIL.Document_Code " &
             "left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No=TSPL_SD_SHIPMENT_DETAIL.Delivery_Code   " &
             "left join TSPL_ROUTE_MASTER on TSPL_SD_SHIPMENT_HEAD.Route_No=TSPL_ROUTE_MASTER.Route_No " &
-            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code " &
-            "where TSPL_SD_SHIPMENT_Head.Status=0  "
+            " left outer join  TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No " &
+            "where TSPL_SD_SHIPMENT_Head.Status=0  and TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(IIf(rbtnMorning.IsChecked, "AM", "PM")) + "' "
 
             If CreateCommonDairyDispatchforFreshAmbient = False Then
                 qry += " and TSPL_SD_SHIPMENT_Head.Trans_Type='" & strTransType & "' "
@@ -8660,6 +8757,7 @@ Public Class frmDairyFreshDispatchMultiple
 
             Dim dtAllData As DataTable
             dtAllData = clsDBFuncationality.GetDataTable(qry)
+            Dim TotalCrateQty As Decimal = 0
             If dtAllData.Rows.Count > 0 Then
                 isInsideLoadData = True
                 For Each dr As DataRow In dtAllData.Rows
@@ -9500,6 +9598,10 @@ Public Class frmDairyFreshDispatchMultiple
     End Function
 
     Private Sub btnUpdate_Click(sender As Object, e As EventArgs)
+
+    End Sub
+
+    Private Sub txtCrateQty_TextChanged(sender As Object, e As EventArgs) Handles txtCrateQty.TextChanged
 
     End Sub
 End Class

@@ -20,6 +20,12 @@ Public Class frmMilkProcurementUploader
     Const colSNFPer As String = "colSNFPer"
     Const colRejectRejectType As String = "colRejectRejectType"
     Const colRejectDefaulter As String = "colRejectDefaulter"
+
+    Const colManualWeight As String = "colManualWeight"
+    Const colManualSample As String = "colManualSample"
+    Const colEmptySample As String = "colEmptySample"
+    Const colPageNo As String = "colPageNo"
+
     Const ReportID As String = "BatchInvIn"
 
     Dim isInsideLoadData As Boolean = False
@@ -267,6 +273,39 @@ Public Class frmMilkProcurementUploader
         repoComboBox.DisplayMember = "Name"
         repoComboBox.IsVisible = False
         gv1.MasterTemplate.Columns.Add(repoComboBox)
+
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Manual Weight"
+        repoNumBox.Name = colManualWeight
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Manual Sample"
+        repoNumBox.Name = colManualSample
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Empty Sample"
+        repoNumBox.Name = colEmptySample
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.HeaderText = "Page No"
+        repoNumBox.Name = colPageNo
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
 
         loadBlankParameterGrid()
 
@@ -708,6 +747,12 @@ Public Class frmMilkProcurementUploader
                         End If
                         objTr.Reject_Defaulter = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectDefaulter).Value)
                         objTr.Reject_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colRejectRejectType).Value)
+
+                        objTr.Manual_Weight = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colManualWeight).Value)
+                        objTr.Manual_Sample = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colManualSample).Value)
+                        objTr.Empty_Sample = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colEmptySample).Value)
+                        objTr.Page_No = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colPageNo).Value)
+
                         objTr.arrQCParameter = GetParamCollection(ii)
                         obj.Arr.Add(objTr)
                     End If
@@ -792,6 +837,13 @@ Public Class frmMilkProcurementUploader
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRejectRejectType).Value = objTr.Reject_Type
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRejectDefaulter).Value = objTr.Reject_Defaulter
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUploaderCode).Value = objTr.Uploader_Code
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colManualWeight).Value = objTr.Manual_Weight
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colManualSample).Value = objTr.Manual_Sample
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colEmptySample).Value = objTr.Empty_Sample
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colPageNo).Value = objTr.Page_No
+
+
                         TotQty += clsCommon.myCdbl(objTr.Milk_Weight)
                     Next
                     txtTotalQty.Value = TotQty

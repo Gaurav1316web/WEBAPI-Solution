@@ -46,7 +46,7 @@ Public Class clsLeaveAdjustment
         Dim obj As clsLeaveAdjustment = Nothing
         Dim whrcls As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " And Location_Code=" + objCommonVar.strCurrUserLocations + ""
+            whrcls = " And Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
         Dim qry As String = "select * from TSPL_LEAVE_ADJUSTMENT where 2=2" + whrcls
         Select Case NavType

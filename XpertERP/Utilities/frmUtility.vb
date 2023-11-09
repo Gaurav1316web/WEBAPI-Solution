@@ -17475,7 +17475,7 @@ line1:
             " left join TSPL_JOURNAL_MASTER as ShipJVNo on ShipJVNo.Source_Doc_No=TSPL_SD_SHIPMENT_HEAD.Document_Code" + Environment.NewLine +
             " left join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code" + Environment.NewLine +
             " left join TSPL_JOURNAL_MASTER as ARJVNo on ARJVNo.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No" + Environment.NewLine +
-            " where TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('PS') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='' and TSPL_SD_SHIPMENT_HEAD.Status=1" + Environment.NewLine +
+            " where TSPL_SD_SHIPMENT_HEAD.Trans_Type IN ('PS','ALL') and TSPL_SD_SHIPMENT_HEAD.Screen_Type='' and TSPL_SD_SHIPMENT_HEAD.Status=1" + Environment.NewLine +
             " and not exists(select 1 from TSPL_RECEIPT_DETAIL where TSPL_RECEIPT_DETAIL.Document_No=TSPL_Customer_Invoice_Head.Document_No) "
             Dim QryInsert As String = ""
             Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm(False, "tcrdashi", qry, "ShipmentNo", "", Nothing, Nothing)
